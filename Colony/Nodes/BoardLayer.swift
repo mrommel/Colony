@@ -19,6 +19,10 @@ class BoardLayer: SKNode {
         super.init()
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func populate(with map: HexagonTileMap) {
         
         for index0 in 0..<map.tiles.columns {
@@ -36,16 +40,10 @@ class BoardLayer: SKNode {
     
     func placeTileHex(tile: Tile, and calderaName: String, at position: CGPoint) {
         
-        // add board (but only on caldera)
-        
-        let calderaSprite = SKSpriteNode(imageNamed: calderaName)
-        calderaSprite.position = position
-        calderaSprite.zPosition = GameSceneConstants.ZLevels.caldera
-        calderaSprite.anchorPoint = CGPoint(x: 0, y: 0.09)
-        self.addChild(calderaSprite)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        let boardSprite = SKSpriteNode(imageNamed: calderaName)
+        boardSprite.position = position
+        boardSprite.zPosition = GameScene.Constants.ZLevels.caldera
+        boardSprite.anchorPoint = CGPoint(x: 0, y: 0.09)
+        self.addChild(boardSprite)
     }
 }

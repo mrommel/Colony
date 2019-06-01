@@ -9,29 +9,29 @@
 import SpriteKit
 import GameplayKit
 
-struct GameSceneConstants {
-    
-    struct ZLevels {
-        static let terrain: CGFloat = 1.0
-        static let caldera: CGFloat = 1.5
-        static let area: CGFloat = 2.0
-        static let focus: CGFloat = 3.0
-        static let feature: CGFloat = 4.0
-        static let road: CGFloat = 4.1
-        static let river: CGFloat = 4.2
-        static let featureUpper: CGFloat = 4.5
-        static let staticSprite: CGFloat = 5.0
-        static let sprite: CGFloat = 6.0
-        static let labels: CGFloat = 50.0
-    }
-}
-
 protocol GameDelegate {
     
     func select(object: GameObject?)
 }
 
 class GameScene: SKScene {
+    
+    struct Constants {
+        
+        struct ZLevels {
+            static let terrain: CGFloat = 1.0
+            static let caldera: CGFloat = 1.5
+            static let area: CGFloat = 2.0
+            static let focus: CGFloat = 3.0
+            static let feature: CGFloat = 4.0
+            static let road: CGFloat = 4.1
+            static let river: CGFloat = 4.2
+            static let featureUpper: CGFloat = 4.5
+            static let staticSprite: CGFloat = 5.0
+            static let sprite: CGFloat = 6.0
+            static let labels: CGFloat = 50.0
+        }
+    }
 
     var mapNode: MapNode?
     let viewHex: SKSpriteNode
@@ -56,6 +56,17 @@ class GameScene: SKScene {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        print("Deallocating GameScene")
+        
+        self.removeAllActions()
+        self.removeAllChildren()
+        self.removeFromParent()
+        
+        self.mapNode = nil
+        self.focus = nil
     }
     
     override func didMove(to view: SKView) {
@@ -87,20 +98,37 @@ class GameScene: SKScene {
         // position the camera on the gamescene.
         self.cameraNode.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         
+        // exit node
+        let exitButton = MenuButtonNode(titled: "Exit", buttonAction: {
+            self.addMessageBox()
+        })
+        exitButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        exitButton.zPosition = 200
+        exitButton.setScale(0.2)
+        self.addChild(exitButton)
+        
         // debug
         self.positionLabel.text = String("0, 0")
         self.positionLabel.fontSize = 10
         self.positionLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        self.positionLabel.zPosition = GameSceneConstants.ZLevels.labels
+        self.positionLabel.zPosition = GameScene.Constants.ZLevels.labels
         
         self.cameraNode.addChild(self.positionLabel)
+    }
+    
+    func addMessageBox() {
+        let messageBox = MessageBoxNode(titled: "Really")
+        messageBox.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        messageBox.zPosition = 201
+        messageBox.setScale(0.2)
+        self.addChild(messageBox)
     }
     
     func placeFocusHex() {
         
         self.focus = SKSpriteNode(imageNamed: "hex_cursor")
         self.focus?.position = mapDisplay.toScreen(hex: HexPoint(x: 0, y: 0))
-        self.focus?.zPosition = GameSceneConstants.ZLevels.focus
+        self.focus?.zPosition = GameScene.Constants.ZLevels.focus
         self.focus?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         self.focus?.xScale = 1.0
         self.focus?.yScale = 1.0

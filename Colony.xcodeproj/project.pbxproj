@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* MenuScene.swift */; };
+		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
+		C9763EAB22A2FB9B00F31126 /* SpriteButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */; };
+		C9763EAD22A2FEE300F31126 /* MessageBoxNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EAC22A2FEE300F31126 /* MessageBoxNode.swift */; };
 		C97E96D322A073A500D594F3 /* GameObjectAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D222A073A500D594F3 /* GameObjectAtlas.swift */; };
 		C97E96D522A073E900D594F3 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D422A073E900D594F3 /* GameObject.swift */; };
 		C97E96D722A1C21600D594F3 /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D622A1C21600D594F3 /* Ship.swift */; };
@@ -59,6 +63,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C91A4F3222A260DD000BF647 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
+		C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteButtonNode.swift; sourceTree = "<group>"; };
+		C9763EAC22A2FEE300F31126 /* MessageBoxNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxNode.swift; sourceTree = "<group>"; };
 		C97E96D222A073A500D594F3 /* GameObjectAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObjectAtlas.swift; sourceTree = "<group>"; };
 		C97E96D422A073E900D594F3 /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		C97E96D622A1C21600D594F3 /* Ship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ship.swift; sourceTree = "<group>"; };
@@ -85,7 +93,7 @@
 		C9C7F105229EBDE700A775B2 /* RiverEdge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiverEdge.swift; sourceTree = "<group>"; };
 		C9C7F109229EBE3100A775B2 /* IntegerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerExtension.swift; sourceTree = "<group>"; };
 		C9C7F10A229EBE3100A775B2 /* Array2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array2D.swift; sourceTree = "<group>"; };
-		C9C7F10B229EBE3100A775B2 /* AStarPathFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AStarPathFinder.swift; sourceTree = "<group>"; };
+		C9C7F10B229EBE3100A775B2 /* AStarPathFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AStarPathFinder.swift; path = ../../Utils/AStarPathFinder.swift; sourceTree = "<group>"; };
 		C9C7F10C229EBE3100A775B2 /* FloatExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatExtension.swift; sourceTree = "<group>"; };
 		C9C7F10D229EBE3100A775B2 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		C9C7F10E229EBE3100A775B2 /* BitArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BitArray.swift; sourceTree = "<group>"; };
@@ -137,6 +145,7 @@
 		C97E96D822A1CB5600D594F3 /* PathFinding */ = {
 			isa = PBXGroup;
 			children = (
+				C9C7F10B229EBE3100A775B2 /* AStarPathFinder.swift */,
 				C97E96D922A1CB7B00D594F3 /* OceanPathfinderDataSource.swift */,
 			);
 			path = PathFinding;
@@ -195,6 +204,9 @@
 				C9C7F139229F203200A775B2 /* TerrainLayer.swift */,
 				C9C7F13B229F204900A775B2 /* FeatureLayer.swift */,
 				C9C7F13D229F206000A775B2 /* BoardLayer.swift */,
+				C91A4F3422A26585000BF647 /* MenuButtonNode.swift */,
+				C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */,
+				C9763EAC22A2FEE300F31126 /* MessageBoxNode.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -202,6 +214,7 @@
 		C9C7F0F4229EAB4D00A775B2 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				C91A4F3222A260DD000BF647 /* MenuScene.swift */,
 				C9C7F0CE229B193400A775B2 /* GameScene.swift */,
 			);
 			path = Scenes;
@@ -234,7 +247,6 @@
 			children = (
 				C9C7F10A229EBE3100A775B2 /* Array2D.swift */,
 				C9C7F110229EBE3100A775B2 /* ArrayExtension.swift */,
-				C9C7F10B229EBE3100A775B2 /* AStarPathFinder.swift */,
 				C9C7F10E229EBE3100A775B2 /* BitArray.swift */,
 				C9C7F10F229EBE3100A775B2 /* CGPointExtension.swift */,
 				C9C7F10C229EBE3100A775B2 /* FloatExtension.swift */,
@@ -339,10 +351,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9763EAB22A2FB9B00F31126 /* SpriteButtonNode.swift in Sources */,
 				C97E96D522A073E900D594F3 /* GameObject.swift in Sources */,
 				C9C7F103229EBD9500A775B2 /* Feature.swift in Sources */,
 				C9C7F13A229F203200A775B2 /* TerrainLayer.swift in Sources */,
 				C9C7F0CF229B193400A775B2 /* GameScene.swift in Sources */,
+				C9763EAD22A2FEE300F31126 /* MessageBoxNode.swift in Sources */,
 				C97E96D722A1C21600D594F3 /* Ship.swift in Sources */,
 				C9C7F137229EC0D700A775B2 /* HexLayout.swift in Sources */,
 				C97E96D322A073A500D594F3 /* GameObjectAtlas.swift in Sources */,
@@ -366,6 +380,7 @@
 				C9C7F0FB229EBD1800A775B2 /* HexagonTileMap.swift in Sources */,
 				C9C7F116229EBE3100A775B2 /* BitArray.swift in Sources */,
 				C9C7F0F3229EA73300A775B2 /* MapNode.swift in Sources */,
+				C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */,
 				C9C7F113229EBE3100A775B2 /* AStarPathFinder.swift in Sources */,
 				C9C7F0F6229EAB9000A775B2 /* SKNode+Extension.swift in Sources */,
 				C9C7F111229EBE3100A775B2 /* IntegerExtension.swift in Sources */,
@@ -382,6 +397,7 @@
 				C9C7F12E229EBF8700A775B2 /* ContinentFinder.swift in Sources */,
 				C9C7F124229EBE5C00A775B2 /* MapGenerator.swift in Sources */,
 				C9C7F117229EBE3100A775B2 /* CGPointExtension.swift in Sources */,
+				C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */,
 				C9C7F118229EBE3100A775B2 /* ArrayExtension.swift in Sources */,
 				C9C7F12B229EBF5200A775B2 /* AreaSprites.swift in Sources */,
 				C9C7F123229EBE5C00A775B2 /* HexPointWithCorner.swift in Sources */,

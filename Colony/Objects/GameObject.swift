@@ -39,7 +39,7 @@ class GameObject {
         self.position = point
         self.sprite = SKSpriteNode(imageNamed: sprite)
         self.sprite.position = mapDisplay.toScreen(hex: self.position)
-        self.sprite.zPosition = GameSceneConstants.ZLevels.sprite
+        self.sprite.zPosition = GameScene.Constants.ZLevels.sprite
         self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.25)
     }
     

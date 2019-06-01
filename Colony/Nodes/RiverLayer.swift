@@ -41,7 +41,7 @@ class RiverLayer: SKNode {
         
         let riverFlowSprite = SKSpriteNode(imageNamed: flowTextureName)
         riverFlowSprite.position = position
-        riverFlowSprite.zPosition = GameSceneConstants.ZLevels.river
+        riverFlowSprite.zPosition = GameScene.Constants.ZLevels.river
         riverFlowSprite.anchorPoint = CGPoint(x: 0, y: 0)
         self.addChild(riverFlowSprite)
         

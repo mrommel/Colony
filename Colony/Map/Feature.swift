@@ -56,17 +56,17 @@ enum Feature {
 	var zLevel: CGFloat {
 		switch self {
 		case .forestMixed:
-			return GameSceneConstants.ZLevels.featureUpper
+			return GameScene.Constants.ZLevels.featureUpper
 		case .forestPine:
-			return GameSceneConstants.ZLevels.featureUpper
+			return GameScene.Constants.ZLevels.featureUpper
 		case .forestRain:
-			return GameSceneConstants.ZLevels.featureUpper
+			return GameScene.Constants.ZLevels.featureUpper
 		case .oasis:
-			return GameSceneConstants.ZLevels.feature
+			return GameScene.Constants.ZLevels.feature
 		case .hill:
-			return GameSceneConstants.ZLevels.feature
+			return GameScene.Constants.ZLevels.feature
 		case .mountain:
-			return GameSceneConstants.ZLevels.feature
+			return GameScene.Constants.ZLevels.feature
 		}
 	}
 }

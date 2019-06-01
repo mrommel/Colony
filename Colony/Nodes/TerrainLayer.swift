@@ -43,7 +43,7 @@ class TerrainLayer: SKNode {
         
         let terrainSprite = SKSpriteNode(imageNamed: textureName)
         terrainSprite.position = position
-        terrainSprite.zPosition = GameSceneConstants.ZLevels.terrain
+        terrainSprite.zPosition = GameScene.Constants.ZLevels.terrain
         terrainSprite.anchorPoint = CGPoint(x: 0, y: 0)
         self.addChild(terrainSprite)
         

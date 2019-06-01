@@ -77,7 +77,7 @@ class AreaSprites: SKNode {
 				let textureName = self.texture(for: point, in: points)
 				let sprite = SKSpriteNode(imageNamed: textureName)
 				sprite.position = position
-				sprite.zPosition = GameSceneConstants.ZLevels.area
+				sprite.zPosition = GameScene.Constants.ZLevels.area
 				sprite.anchorPoint = CGPoint(x: 0, y: 0)
 				self.addChild(sprite)
 

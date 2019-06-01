@@ -28,8 +28,8 @@ class GameViewController: UIViewController {
 
         self.scene = GameScene(size: view.bounds.size)
 
-        scene?.scaleMode = .resizeFill
-        scene?.gameDelegate = self
+        self.scene?.scaleMode = .resizeFill
+        self.scene?.gameDelegate = self
 
         view.presentScene(scene)
         view.ignoresSiblingOrder = true
@@ -41,6 +41,18 @@ class GameViewController: UIViewController {
             view.showsFPS = true
             view.showsNodeCount = true
         #endif
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        guard let view = self.view as! SKView? else {
+            fatalError("View not loaded")
+        }
+        
+        self.scene = nil
+        view.presentScene(nil)
+        
+        super.viewWillDisappear(animated)
     }
 
     @objc func updateScale(sender: UIPinchGestureRecognizer) {
