@@ -24,18 +24,12 @@ class MapNode: SKNode {
     // MARK: map
 
     let mapDisplay = HexMapDisplay()
-    let map: HexagonTileMap
+    private var map: HexagonTileMap?
 
-    init(with size: CGSize) {
+    init(with size: CGSize, map: HexagonTileMap?) {
 
-        //self.map = HexagonTileMap(with: size)
-        //self.map.set(terrain: .grass, at: HexPoint(x: 1, y: 1))
-
-        let options = MapGeneratorOptions(withSize: .standard, zone: .earth, waterPercentage: 0.30, rivers: 4)
-
-        let generator = MapGenerator(width: Int(size.width), height: Int(size.height))
-        self.map = generator.generate(with: options)!
-
+        self.map = map
+        
         self.terrainLayer = TerrainLayer(with: size, and: mapDisplay)
         self.terrainLayer.populate(with: self.map)
 
@@ -79,9 +73,9 @@ class MapNode: SKNode {
     
     func findPathFrom(from: HexPoint, to: HexPoint) -> [HexPoint]? {
         
-        if self.map.valid(point: to) {
+        if self.map?.valid(point: to) ?? false {
             let pathFinder = AStarPathfinder()
-            pathFinder.dataSource = map.oceanPathfinderDataSource
+            pathFinder.dataSource = map?.oceanPathfinderDataSource
             return pathFinder.shortestPath(fromTileCoord: from, toTileCoord: to)
         } else {
             return nil

@@ -14,7 +14,8 @@ import GameplayKit
 class GameViewController: UIViewController {
 
     var pinchGestureRecognizer: UIPinchGestureRecognizer?
-    var scene: GameScene?
+    var mapGenerationScene: MapGenerationScene?
+    var gameScene: GameScene?
 
     /** The current zoom scale of the camera. */
     private var zoomScale: CGFloat = 1.0
@@ -25,41 +26,55 @@ class GameViewController: UIViewController {
         guard let view = self.view as! SKView? else {
             fatalError("View not loaded")
         }
-
-        self.scene = GameScene(size: view.bounds.size)
-
-        self.scene?.scaleMode = .resizeFill
-        self.scene?.gameDelegate = self
-
-        view.presentScene(scene)
+        
+        self.mapGenerationScene = MapGenerationScene(size: view.bounds.size)
+        self.mapGenerationScene?.scaleMode = .resizeFill
+        self.mapGenerationScene?.mapGenerationDelegate = self
+        
+        view.presentScene(self.mapGenerationScene)
         view.ignoresSiblingOrder = true
-
-        self.pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(GameViewController.updateScale(sender:)))
-        self.view.addGestureRecognizer(pinchGestureRecognizer!)
-
+        
         #if DEBUG
             view.showsFPS = true
             view.showsNodeCount = true
         #endif
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         
         guard let view = self.view as! SKView? else {
             fatalError("View not loaded")
         }
         
-        self.scene = nil
+        self.gameScene = nil
         view.presentScene(nil)
         
         print("-- Game dismissed --")
         
         super.viewWillDisappear(animated)
     }
+    
+    func startGameWith(map: HexagonTileMap) {
+        
+        guard let view = self.view as! SKView? else {
+            fatalError("View not loaded")
+        }
+        
+        self.gameScene = GameScene(size: view.bounds.size)
+        self.gameScene?.map = map
+        self.gameScene?.scaleMode = .resizeFill
+        self.gameScene?.gameDelegate = self
+        
+        view.presentScene(self.gameScene)
+        view.ignoresSiblingOrder = true
+        
+        self.pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(GameViewController.updateScale(sender:)))
+        self.view.addGestureRecognizer(pinchGestureRecognizer!)
+    }
 
     @objc func updateScale(sender: UIPinchGestureRecognizer) {
 
-        guard let scene = self.scene else { return }
+        guard let scene = self.gameScene else { return }
         guard let recognizer = self.pinchGestureRecognizer else { return }
 
         if recognizer.state == .changed {
@@ -84,6 +99,13 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+}
+
+extension GameViewController: MapGenerationDelegate {
+    
+    func generated(map: HexagonTileMap) {
+        self.startGameWith(map: map)
     }
 }
 

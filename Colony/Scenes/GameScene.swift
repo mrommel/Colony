@@ -33,7 +33,8 @@ class GameScene: SKScene {
             static let labels: CGFloat = 50.0
         }
     }
-
+    
+    var map: HexagonTileMap? = nil
     var mapNode: MapNode?
     let viewHex: SKSpriteNode
     
@@ -74,8 +75,8 @@ class GameScene: SKScene {
 
         let deviceScale = self.size.width / 667
         
-        let mapSize = CGSize(width: 20, height: 20)
-        self.mapNode = MapNode(with: mapSize)
+        let mapSize = CGSize(width: self.map?.tiles.columns ?? 1, height: self.map?.tiles.rows ?? 1)
+        self.mapNode = MapNode(with: mapSize, map: self.map)
         self.mapNode?.xScale = 1.0
         self.mapNode?.yScale = 1.0
         

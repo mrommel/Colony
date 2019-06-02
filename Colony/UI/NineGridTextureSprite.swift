@@ -10,8 +10,8 @@ import SpriteKit
 
 class NineGridTextureSprite: SKSpriteNode {
     
-    init(imageNamed name: String, size: CGSize) {
-        let texture = SKTexture.init(imageNamed: name)
+    init(imageNamed imageName: String, size: CGSize) {
+        let texture = SKTexture.init(imageNamed: imageName)
         super.init(texture: texture, color: UIColor.black, size: size)
         
         setupNineGrid()
@@ -29,11 +29,10 @@ class NineGridTextureSprite: SKSpriteNode {
     
     func setupNineGrid() {
         
-        if let textureSize = self.texture?.size() {
-            let dx = 0.3333
-            let dy = 0.3333
-            
-            self.centerRect = CGRect.init(x: dx, y: dy, width: dx, height: dy)
+        guard self.texture != nil else {
+            return
         }
+
+        self.centerRect = CGRect.init(x: 0.3333, y: 0.3333, width: 0.3333, height: 0.3333)
     }
 }

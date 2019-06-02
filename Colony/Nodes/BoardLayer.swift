@@ -23,7 +23,11 @@ class BoardLayer: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func populate(with map: HexagonTileMap) {
+    func populate(with map: HexagonTileMap?) {
+        
+        guard let map = map else {
+            return
+        }
         
         for index0 in 0..<map.tiles.columns {
             for index1 in 0..<map.tiles.rows {

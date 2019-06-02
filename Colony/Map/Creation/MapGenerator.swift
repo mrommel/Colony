@@ -79,6 +79,8 @@ class MapGenerator {
 		if let completionHandler = self.completionHandler {
 			completionHandler(0.2)
 		}
+        
+        sleep(1)
 
 		// 1st step: land / water
 		self.fillFromElevation(withWaterPercentage: options.waterPercentage, on: heightMap)
@@ -86,6 +88,8 @@ class MapGenerator {
 		if let completionHandler = self.completionHandler {
 			completionHandler(0.4)
 		}
+        
+        sleep(1)
 
 		// 2nd step: climate
 		switch options.climateZoneOption {
@@ -102,10 +106,12 @@ class MapGenerator {
 		case .tropicOnly:
 			self.setClimateZones(with: .tropic)
 		}
-
+        
 		if let completionHandler = self.completionHandler {
 			completionHandler(0.45)
 		}
+        
+        sleep(1)
 
 		// 2.1nd step: refine climate based on cost distance
 		self.prepareDistanceToCoast()
@@ -114,13 +120,17 @@ class MapGenerator {
 		if let completionHandler = self.completionHandler {
 			completionHandler(0.5)
 		}
+        
+        sleep(1)
 
 		// 3rd step: refine terrain
 		self.refineTerrain(on: grid, with: heightMap, and: moistureMap)
 
 		if let completionHandler = self.completionHandler {
-			completionHandler(0.8)
+			completionHandler(0.65)
 		}
+        
+        sleep(1)
 
 		// 4th step: rivers
 		self.identifySpringLocations(on: heightMap)
@@ -128,8 +138,19 @@ class MapGenerator {
 		self.put(rivers: rivers, onto: grid)
 
 		if let completionHandler = self.completionHandler {
-			completionHandler(1.0)
+			completionHandler(0.8)
 		}
+        
+        sleep(1)
+        
+        // 5th step: continents
+        self.identifyContinents(on: grid)
+        
+        if let completionHandler = self.completionHandler {
+            completionHandler(1.0)
+        }
+        
+        sleep(1)
 
 		return grid
 	}
@@ -512,4 +533,16 @@ class MapGenerator {
 			grid?.add(river: river)
 		}
 	}
+    
+    // MARK: 5th continents
+    
+    func identifyContinents(on grid: HexagonTileMap?) {
+        
+        guard let grid = grid else {
+            return
+        }
+        
+        let finder = ContinentFinder(width: grid.tiles.columns, height: grid.tiles.rows)
+        finder.execute(on: grid)
+    }
 }
