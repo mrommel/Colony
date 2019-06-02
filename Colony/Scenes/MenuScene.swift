@@ -11,7 +11,9 @@ import SpriteKit
 
 protocol MenuDelegate {
     
-    func gotoGame()
+    func startGame()
+    func startOptions()
+    func startCredits()
 }
 
 class MenuScene: SKScene {
@@ -37,16 +39,18 @@ class MenuScene: SKScene {
         
         let monsterButton = MenuButtonNode(titled: "Seeungeheuer", buttonAction: {
             
-            self.menuDelegate?.gotoGame()
+            self.menuDelegate?.startGame()
         })
         monsterButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+        monsterButton.zPosition = 1
         self.addChild(monsterButton)
         
         let optionButton = MenuButtonNode(titled: "Optionen", buttonAction: {
             
             //self.menuDelegate.gotoGame()
         })
-        optionButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 100)
+        optionButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 80)
+        optionButton.zPosition = 1
         self.addChild(optionButton)
     }
 }

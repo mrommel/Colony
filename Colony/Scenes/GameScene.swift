@@ -9,9 +9,10 @@
 import SpriteKit
 import GameplayKit
 
-protocol GameDelegate {
+protocol GameDelegate: class {
     
     func select(object: GameObject?)
+    func quitGame()
 }
 
 class GameScene: SKScene {
@@ -44,7 +45,7 @@ class GameScene: SKScene {
     
     let mapDisplay = HexMapDisplay()
     
-    var gameDelegate: GameDelegate?
+    weak var gameDelegate: GameDelegate?
     
     override init(size: CGSize) {
         
@@ -99,13 +100,13 @@ class GameScene: SKScene {
         self.cameraNode.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         
         // exit node
-        let exitButton = MenuButtonNode(titled: "Exit", buttonAction: {
+        let exitButton = MessageBoxButtonNode(titled: "Cancel", buttonAction: {
             self.addMessageBox()
         })
         exitButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         exitButton.zPosition = 200
-        exitButton.setScale(0.2)
-        self.addChild(exitButton)
+        //exitButton.setScale(0.2)
+        self.cameraNode.addChild(exitButton)
         
         // debug
         self.positionLabel.text = String("0, 0")
@@ -117,11 +118,17 @@ class GameScene: SKScene {
     }
     
     func addMessageBox() {
-        let messageBox = MessageBoxNode(titled: "Really")
+        let messageBox = MessageBoxNode(titled: "Cancel", message: "Do you really want to quit?")
         messageBox.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        messageBox.zPosition = 201
-        messageBox.setScale(0.2)
-        self.addChild(messageBox)
+        messageBox.zPosition = 250
+        messageBox.addAction(MessageBoxAction(title: "Cancel", type: .left, handler: {
+            messageBox.dismiss()
+        }))
+        messageBox.addAction(MessageBoxAction(title: "Okay", type: .right, handler: {
+            self.gameDelegate?.quitGame()
+            messageBox.dismiss()
+        }))
+        self.cameraNode.addChild(messageBox)
     }
     
     func placeFocusHex() {

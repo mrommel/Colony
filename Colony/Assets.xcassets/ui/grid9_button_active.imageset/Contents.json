@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "messagebox.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "grid9_button_active.png",
       "scale" : "2x"
     },
     {

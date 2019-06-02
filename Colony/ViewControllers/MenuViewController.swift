@@ -36,8 +36,16 @@ class MenuViewController: UIViewController {
 }
 
 extension MenuViewController: MenuDelegate {
-    
-    func gotoGame() {
+
+    func startGame() {
         self.performSegue(withIdentifier: "gotoGame", sender: nil)
+    }
+    
+    func startOptions() {
+        
+    }
+    
+    func startCredits() {
+        
     }
 }

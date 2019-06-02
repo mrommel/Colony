@@ -15,15 +15,15 @@ class SpriteButtonNode: SKNode {
     var buttonLabel: SKLabelNode
     var action: () -> Void
     
-    init(titled title: String, defaultButtonImage: String, activeButtonImage: String, buttonAction: @escaping () -> Void) {
+    init(titled title: String, defaultButtonImage: String, activeButtonImage: String, size: CGSize, buttonAction: @escaping () -> Void) {
         
         // default button state
-        self.defaultButton = SKSpriteNode(imageNamed: defaultButtonImage)
-        self.defaultButton.zPosition = 25
+        self.defaultButton = NineGridTextureSprite(imageNamed: defaultButtonImage)
+        self.defaultButton.size = size
         
         // active button state
-        self.activeButton = SKSpriteNode(imageNamed: activeButtonImage)
-        self.activeButton.zPosition = 25
+        self.activeButton = NineGridTextureSprite(imageNamed: activeButtonImage)
+        self.activeButton.size = size
         self.activeButton.isHidden = true
         
         self.action = buttonAction
@@ -32,16 +32,21 @@ class SpriteButtonNode: SKNode {
         self.buttonLabel.fontColor = UIColor.white
         self.buttonLabel.position = CGPoint(x: 0, y: 0)
         self.buttonLabel.fontSize = 18
-        self.buttonLabel.zPosition = 30
         self.buttonLabel.fontName = "Helvetica-Bold"
-        self.buttonLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
+        self.buttonLabel.verticalAlignmentMode = .center
         self.buttonLabel.name = "buttonLabel"
         
         super.init()
         
         self.isUserInteractionEnabled = true
+        
+        self.defaultButton.zPosition = self.zPosition
         self.addChild(self.defaultButton)
+        
+        self.activeButton.zPosition = self.zPosition
         self.addChild(self.activeButton)
+        
+        self.buttonLabel.zPosition = self.zPosition + 1
         self.addChild(self.buttonLabel)
     }
     

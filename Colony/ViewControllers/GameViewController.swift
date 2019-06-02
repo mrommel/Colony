@@ -52,6 +52,8 @@ class GameViewController: UIViewController {
         self.scene = nil
         view.presentScene(nil)
         
+        print("-- Game dismissed --")
+        
         super.viewWillDisappear(animated)
     }
 
@@ -86,7 +88,11 @@ class GameViewController: UIViewController {
 }
 
 extension GameViewController: GameDelegate {
-
+    
+    func quitGame() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     func select(object: GameObject?) {
 
         let alert = UIAlertController(title: "Ship", message: "Please Select an Option", preferredStyle: .actionSheet)
