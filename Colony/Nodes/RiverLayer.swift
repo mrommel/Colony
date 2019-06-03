@@ -75,7 +75,7 @@ class RiverLayer: SKNode {
     
     func clearTileHex(at pt: HexPoint) {
         
-        /*guard let map = self.map else {
+        guard let map = self.map else {
             fatalError("map not set")
         }
         
@@ -83,7 +83,7 @@ class RiverLayer: SKNode {
             if let terrainSprite = tile.terrainSprite {
                 self.removeChildren(in: [terrainSprite])
             }
-        }*/
+        }
     }
 }
 

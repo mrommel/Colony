@@ -163,7 +163,7 @@ class FogManager {
     }
 
     func discovered(at point: HexPoint) -> Bool {
-
+        return true
         return self.fog(at: point) == .discovered
     }
 
