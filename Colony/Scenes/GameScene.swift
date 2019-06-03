@@ -35,6 +35,7 @@ class GameScene: SKScene {
     }
     
     var map: HexagonTileMap? = nil
+    
     var mapNode: MapNode?
     let viewHex: SKSpriteNode
     
@@ -89,7 +90,6 @@ class GameScene: SKScene {
         self.placeFocusHex()
         
         // camera
-        
         self.cameraNode = SKCameraNode() //initialize and assign an instance of SKCameraNode to the cam variable.
         self.cameraNode.xScale = 0.25
         self.cameraNode.yScale = 0.25 //the scale sets the zoom level of the camera on the given position

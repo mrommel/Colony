@@ -27,6 +27,8 @@ class GameViewController: UIViewController {
             fatalError("View not loaded")
         }
         
+        self.gameScene = nil
+        
         self.mapGenerationScene = MapGenerationScene(size: view.bounds.size)
         self.mapGenerationScene?.scaleMode = .resizeFill
         self.mapGenerationScene?.mapGenerationDelegate = self
@@ -59,6 +61,8 @@ class GameViewController: UIViewController {
         guard let view = self.view as! SKView? else {
             fatalError("View not loaded")
         }
+        
+        self.mapGenerationScene = nil
         
         self.gameScene = GameScene(size: view.bounds.size)
         self.gameScene?.map = map

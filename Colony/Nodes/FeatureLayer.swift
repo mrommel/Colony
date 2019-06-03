@@ -9,50 +9,105 @@
 import SpriteKit
 
 class FeatureLayer: SKNode {
-    
+
+    let fogManager: FogManager?
+    weak var map: HexagonTileMap?
     let mapDisplay: HexMapDisplay
-    
-    init(with size: CGSize, and mapDisplay: HexMapDisplay) {
-        
+
+    init(with size: CGSize, and mapDisplay: HexMapDisplay, fogManager: FogManager?) {
+
+        self.fogManager = fogManager
         self.mapDisplay = mapDisplay
-        
+
         super.init()
-    }
-    
-    func populate(with map: HexagonTileMap?) {
-        
-        guard let map = map else {
-            return
-        }
-        
-        for index0 in 0..<map.tiles.columns {
-            for index1 in 0..<map.tiles.rows {
-                if let tile = map.tiles[index0, index1] {
-                    let screenPoint = self.mapDisplay.toScreen(hex: HexPoint(x: index0, y: index1))
-                    self.placeTileHex(tile: tile, at: screenPoint)
-                }
-            }
-        }
-    }
-    
-    func placeTileHex(tile: Tile, at position: CGPoint) {
-        
-        // place forests etc
-        for feature in tile.features {
-            
-            let textureName = feature.textureNamesHex.randomItem()
-            
-            let featureSprite = SKSpriteNode(imageNamed: textureName)
-            featureSprite.position = position
-            featureSprite.zPosition = feature.zLevel // GameSceneConstants.ZLevels.feature // maybe need to come from feature itself
-            featureSprite.anchorPoint = CGPoint(x: 0, y: 0)
-            self.addChild(featureSprite)
-            
-            tile.featureSprites.append(featureSprite)
-        }
+
+        self.fogManager?.delegates.addDelegate(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func populate(with map: HexagonTileMap?) {
+
+        self.map = map
+
+        guard let map = self.map else {
+            fatalError("map not set")
+        }
+
+        guard let fogManager = self.fogManager else {
+            fatalError("fogManager not set")
+        }
+
+        for x in 0..<map.tiles.columns {
+            for y in 0..<map.tiles.rows {
+
+                let pt = HexPoint(x: x, y: y)
+                
+                if let tile = map.tiles[pt] {
+                    let screenPoint = self.mapDisplay.toScreen(hex: pt)
+                    if fogManager.discovered(at: pt) {
+                        self.placeTileHex(tile: tile, at: screenPoint, alpha: 0.5)
+                    } else if fogManager.currentlyVisible(at: pt) {
+                        self.placeTileHex(tile: tile, at: screenPoint, alpha: 1.0)
+                    }
+                }
+            }
+        }
+    }
+
+    func placeTileHex(tile: Tile, at position: CGPoint, alpha: CGFloat) {
+
+        // place forests etc
+        for feature in tile.features {
+
+            let textureName = feature.textureNamesHex.randomItem()
+
+            let featureSprite = SKSpriteNode(imageNamed: textureName)
+            featureSprite.position = position
+            featureSprite.zPosition = feature.zLevel // GameSceneConstants.ZLevels.feature // maybe need to come from feature itself
+            featureSprite.anchorPoint = CGPoint(x: 0, y: 0)
+            featureSprite.alpha = alpha
+            self.addChild(featureSprite)
+
+            tile.featureSprites.append(featureSprite)
+        }
+    }
+
+    func clearTileHex(at pt: HexPoint) {
+        
+        guard let map = self.map else {
+            fatalError("map not set")
+        }
+        
+        if let tile = map.tiles[pt] {
+            self.removeChildren(in: tile.featureSprites)
+        }
+    }
+}
+
+extension FeatureLayer: FogStateChangedDelegate {
+
+    func changed(to newState: FogState, at pt: HexPoint) {
+
+        guard let map = self.map else {
+            fatalError("map not set")
+        }
+
+        guard let fogManager = self.fogManager else {
+            fatalError("fogManager not set")
+        }
+        
+        self.clearTileHex(at: pt)
+
+        if let tile = map.tiles[pt] {
+            let screenPoint = self.mapDisplay.toScreen(hex: pt)
+            if fogManager.discovered(at: pt) {
+                self.placeTileHex(tile: tile, at: screenPoint, alpha: 0.5)
+            } else if fogManager.currentlyVisible(at: pt) {
+                self.placeTileHex(tile: tile, at: screenPoint, alpha: 1.0)
+            }
+        }
     }
 }

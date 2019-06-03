@@ -121,6 +121,33 @@ class HexagonTileMap: HexagonMap<Tile> {
         return texture
     }
     
+    func riverTexture(at point: HexPoint) -> String? {
+        
+        guard let tile = self.tile(at: point) else {
+            return nil
+            
+        }
+        
+        if !tile.isRiver() {
+            return nil
+        }
+        
+        
+        var texture = "river" // "river-n-ne-se-s-sw-nw"
+        for flow in FlowDirection.all {
+            
+            if tile.isRiverIn(flow: flow) {
+                texture += ("-" + flow.short)
+            }
+        }
+        
+        if texture == "river" {
+            return nil
+        }
+        
+        return texture
+    }
+    
     /// MARK: roads
     
     func roadTexture(at point: HexPoint) -> String? {

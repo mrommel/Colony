@@ -10,6 +10,10 @@ import SpriteKit
 
 class MapNode: SKNode {
 
+    //
+    
+    var fogManager: FogManager? = nil
+    
     // MARK: layer
 
     var terrainLayer: TerrainLayer
@@ -29,21 +33,25 @@ class MapNode: SKNode {
     init(with size: CGSize, map: HexagonTileMap?) {
 
         self.map = map
-        
-        self.terrainLayer = TerrainLayer(with: size, and: mapDisplay)
-        self.terrainLayer.populate(with: self.map)
-
-        self.featureLayer = FeatureLayer(with: size, and: mapDisplay)
-        self.featureLayer.populate(with: self.map)
-
-        self.boardLayer = BoardLayer(with: size, and: mapDisplay)
-        self.boardLayer.populate(with: self.map)
-        
-        self.riverLayer = RiverLayer(with: size, and: mapDisplay)
-        self.riverLayer.populate(with: self.map)
+        self.fogManager = FogManager(map: self.map)
         
         self.monster = Monster(with: "monster", at: HexPoint(x: 1, y: 1), mapDisplay: self.mapDisplay)
         self.ship = Ship(with: "ship", at: HexPoint(x: 4, y: 3), mapDisplay: self.mapDisplay)
+        self.ship.fogManager = self.fogManager
+        
+        //self.fogManager?.addSight(at: HexPoint(x: 4, y: 3), with: 2)
+        
+        self.terrainLayer = TerrainLayer(with: size, and: mapDisplay, fogManager: self.fogManager)
+        self.terrainLayer.populate(with: self.map)
+
+        self.featureLayer = FeatureLayer(with: size, and: mapDisplay, fogManager: self.fogManager)
+        self.featureLayer.populate(with: self.map)
+
+        self.boardLayer = BoardLayer(with: size, and: mapDisplay, fogManager: self.fogManager)
+        self.boardLayer.populate(with: self.map)
+        
+        self.riverLayer = RiverLayer(with: size, and: mapDisplay, fogManager: self.fogManager)
+        self.riverLayer.populate(with: self.map)
 
         super.init()
 

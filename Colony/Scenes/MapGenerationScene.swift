@@ -21,7 +21,6 @@ class MapGenerationScene: SKScene {
     override init(size: CGSize) {
 
         super.init(size: size)
-        //self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
     }
     
     required init?(coder aDecoder: NSCoder) {

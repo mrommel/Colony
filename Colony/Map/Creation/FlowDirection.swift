@@ -25,6 +25,10 @@ enum FlowDirection: String {
 	case northEast = "ne"
 	case southWest = "sw"
 
+    static var all: [FlowDirection] {
+        return [.west, .east, .northWest, .southEast, .northEast, .southWest]
+    }
+    
 	public static func enumFrom(string: String) -> FlowDirection {
 		switch string {
 		case "west":
@@ -69,6 +73,26 @@ enum FlowDirection: String {
 			return "---"
 		}
 	}
+    
+    public var short: String {
+        
+        switch self {
+        case .west:
+            return "n"
+        case .east:
+            return "n"
+        case .northWest:
+            return "ne"
+        case .southEast:
+            return "ne"
+        case .northEast:
+            return "se"
+        case .southWest:
+            return "se"
+        default:
+            fatalError("value \(self) does not have a short value")
+        }
+    }
 }
 
 enum FlowDirectionError: Error, Equatable {

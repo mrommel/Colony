@@ -142,6 +142,11 @@ extension Tile {
         }
     }
     
+    public func isRiverIn(flow: FlowDirection) -> Bool {
+        
+        return self.riverFlowNorth == flow || self.riverFlowNorthEast == flow || self.riverFlowSouthEast == flow
+    }
+    
     // river in north can flow from east or west direction
     public func isRiverInNorth() -> Bool {
         return self.riverFlowNorth == .east || self.riverFlowNorth == .west

@@ -31,6 +31,12 @@ class GameObject {
     var atlasRight: GameObjectAtlas?
     var atlasLeft: GameObjectAtlas?
     
+    weak var fogManager: FogManager? {
+        didSet {
+            fogManager?.add(unit: self)
+        }
+    }
+    
     var lastTime: CFTimeInterval = 0
     
     init(with identifier: String, at point: HexPoint, sprite: String, mapDisplay: HexMapDisplay) {
@@ -90,6 +96,7 @@ class GameObject {
             let pathWithoutFirst = Array(path.suffix(from: 1))
             
             self.walk(from: self.position, to: point, completion: {
+                self.fogManager?.move(unit: self)
                 self.walk(on: pathWithoutFirst)
             })
         }
@@ -106,5 +113,17 @@ class GameObject {
             
             self.sprite.run(idleAnimation, withKey: idleActionKey, completion: {})
         }
+    }
+}
+
+extension GameObject: FogUnit {
+    
+    func location() -> HexPoint {
+        return position
+    }
+    
+    func sight() -> Int {
+        //fatalError("must be overwritten")
+        return 2
     }
 }
