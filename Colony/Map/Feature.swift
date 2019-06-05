@@ -43,7 +43,7 @@ enum Feature {
 		case .forestPine:
 			return ["hex_forest_pine_summer1", "hex_forest_pine_summer2", "hex_forest_pine_summer3"]
 		case .forestRain:
-			return ["hex_forest_rain"]
+			return ["hex_forest_rain", "hex_forest_rain2"]
 		case .oasis:
 			return ["hex_oasis"]
 		case .hill:

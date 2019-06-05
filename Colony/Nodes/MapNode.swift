@@ -35,8 +35,12 @@ class MapNode: SKNode {
         self.map = map
         self.fogManager = FogManager(map: self.map)
         
-        self.monster = Monster(with: "monster", at: HexPoint(x: 1, y: 1), mapDisplay: self.mapDisplay)
-        self.ship = Ship(with: "ship", at: HexPoint(x: 4, y: 3), mapDisplay: self.mapDisplay)
+        let startPositionFinder = StartPositionFinder(map: self.map)
+        let startPositions = startPositionFinder.identifyStartPositions()
+        
+        self.monster = Monster(with: "monster", at: startPositions.monsterPosition, mapDisplay: self.mapDisplay)
+        
+        self.ship = Ship(with: "ship", at: startPositions.playerPosition, mapDisplay: self.mapDisplay)
         self.ship.fogManager = self.fogManager
         
         //self.fogManager?.addSight(at: HexPoint(x: 4, y: 3), with: 2)
@@ -67,7 +71,7 @@ class MapNode: SKNode {
         self.ship.idle()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) { // Change `2.0` to the desired number of seconds.
-            let path = [HexPoint(x: 1, y: 2), HexPoint(x: 2, y: 2), HexPoint(x: 2, y: 3), HexPoint(x: 1, y: 3), HexPoint(x: 0, y: 2), HexPoint(x: 1, y: 1)]
+            let path = startPositionFinder.findPatrolPath(from: startPositions.monsterPosition)
             self.monster.walk(on: path)
         }
     }

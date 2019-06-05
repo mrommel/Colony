@@ -53,23 +53,25 @@ class RiverLayer: SKNode {
                     let screenPoint = self.mapDisplay.toScreen(hex: pt)
                     
                     if fogManager.discovered(at: pt) {
-                        self.placeTileHex(riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 1.0)
+                        self.placeTileHex(tile: tile, riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 1.0)
                     } else if fogManager.currentlyVisible(at: pt) {
-                        self.placeTileHex(riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 0.5)
+                        self.placeTileHex(tile: tile, riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 0.5)
                     }
                 }
             }
         }
     }
     
-    func placeTileHex(riverTextureName: String?, at position: CGPoint, alpha: CGFloat) {
+    func placeTileHex(tile: Tile, riverTextureName: String?, at position: CGPoint, alpha: CGFloat) {
         
         if let riverTextureName = riverTextureName {
-            let riverFlowSprite = SKSpriteNode(imageNamed: riverTextureName)
-            riverFlowSprite.position = position
-            riverFlowSprite.zPosition = GameScene.Constants.ZLevels.river
-            riverFlowSprite.anchorPoint = CGPoint(x: 0, y: 0)
-            self.addChild(riverFlowSprite)
+            let riverSprite = SKSpriteNode(imageNamed: riverTextureName)
+            riverSprite.position = position
+            riverSprite.zPosition = GameScene.Constants.ZLevels.river
+            riverSprite.anchorPoint = CGPoint(x: 0, y: 0)
+            self.addChild(riverSprite)
+            
+            tile.riverSprite = riverSprite
         }
     }
     
@@ -80,8 +82,8 @@ class RiverLayer: SKNode {
         }
         
         if let tile = map.tiles[pt] {
-            if let terrainSprite = tile.terrainSprite {
-                self.removeChildren(in: [terrainSprite])
+            if let riverSprite = tile.riverSprite {
+                self.removeChildren(in: [riverSprite])
             }
         }
     }
@@ -110,9 +112,9 @@ extension RiverLayer: FogStateChangedDelegate {
             let screenPoint = self.mapDisplay.toScreen(hex: pt)
             
             if fogManager.discovered(at: pt) {
-                self.placeTileHex(riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 1.0)
+                self.placeTileHex(tile: tile, riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 1.0)
             } else if fogManager.currentlyVisible(at: pt) {
-                self.placeTileHex(riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 0.5)
+                self.placeTileHex(tile: tile, riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 0.5)
             }
         }
     }

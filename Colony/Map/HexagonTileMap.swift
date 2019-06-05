@@ -191,7 +191,7 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
-    /// MARK: continent
+    // MARK: continent
     
     func set(continent: Continent?, at hex: HexPoint) {
         if let tile = self.tile(at: hex) {
@@ -199,7 +199,7 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
-    /// MARK: building
+    // MARK: building
     
     func set(building: Building, at hex: HexPoint) {
         if let tile = self.tile(at: hex) {
@@ -207,7 +207,17 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
+    // MARK: pathfinding
+    
+    func path(from: HexPoint, to: HexPoint) -> [HexPoint]? {
+        
+        let pathFinder = AStarPathfinder()
+        pathFinder.dataSource = self.oceanPathfinderDataSource
+        return pathFinder.shortestPath(fromTileCoord: from, toTileCoord: to)
+    }
+    
     // MARK: river
+    
     func flows(at position: HexPoint) -> [FlowDirection] {
         
         // check bounds

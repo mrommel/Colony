@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */; };
 		C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* MenuScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
 		C9763EAB22A2FB9B00F31126 /* SpriteButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */; };
@@ -71,6 +72,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPositionFinder.swift; sourceTree = "<group>"; };
 		C91A4F3222A260DD000BF647 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
 		C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteButtonNode.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				C9C7F130229EBF9400A775B2 /* Building.swift */,
 				C97B283122A5349A00112532 /* FogManager.swift */,
 				C97B283522A54AE600112532 /* HexArea.swift */,
+				C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				C9C7F125229EBE5C00A775B2 /* ClimateZone.swift in Sources */,
 				C9C7F112229EBE3100A775B2 /* Array2D.swift in Sources */,
 				C9C7F115229EBE3100A775B2 /* Random.swift in Sources */,
+				C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */,
 				C9C7F106229EBDE700A775B2 /* River.swift in Sources */,
 				C97E96DA22A1CB7B00D594F3 /* OceanPathfinderDataSource.swift in Sources */,
 				C9C7F102229EBD9500A775B2 /* Terrain.swift in Sources */,

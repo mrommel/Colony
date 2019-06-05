@@ -32,6 +32,11 @@ class GameScene: SKScene {
             static let sprite: CGFloat = 6.0
             static let labels: CGFloat = 50.0
         }
+        
+        struct Visibility {
+            static let currently: CGFloat = 1.0
+            static let discovered: CGFloat = 0.5
+        }
     }
     
     var map: HexagonTileMap? = nil
@@ -44,6 +49,7 @@ class GameScene: SKScene {
     
     var cameraNode: SKCameraNode!
     let positionLabel = SKLabelNode(fontNamed: "Chalkduster")
+    var hasMoved = false
     
     let mapDisplay = HexMapDisplay()
     
@@ -104,7 +110,7 @@ class GameScene: SKScene {
         let exitButton = MessageBoxButtonNode(titled: "Cancel", buttonAction: {
             self.addMessageBox()
         })
-        exitButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        exitButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 20)
         exitButton.zPosition = 200
         //exitButton.setScale(0.2)
         self.cameraNode.addChild(exitButton)
@@ -142,6 +148,11 @@ class GameScene: SKScene {
         self.focus?.yScale = 1.0
         viewHex.addChild(self.focus!)
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        self.hasMoved = false
+    }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -155,7 +166,9 @@ class GameScene: SKScene {
         let position = HexPoint(cube: mapDisplay.toHexCube(screen: touchLocation))
         self.positionLabel.text = "\(position)"
         
-        self.moveFocus(to: position)
+        if !self.hasMoved {
+            self.moveFocus(to: position)
+        }
     }
     
     // moving the map around
@@ -167,6 +180,10 @@ class GameScene: SKScene {
             
             let deltaX = (location.x) - (previousLocation.x)
             let deltaY = (location.y) - (previousLocation.y)
+            
+            if abs(deltaX) > 0.1 || abs(deltaY) > 0.1 {
+                self.hasMoved = true
+            }
             
             self.cameraNode.position.x -= deltaX * 0.5
             self.cameraNode.position.y -= deltaY * 0.5
@@ -188,37 +205,13 @@ class GameScene: SKScene {
         self.focus?.position = mapDisplay.toScreen(hex: hex)
         
         self.mapNode?.moveShip(to: hex)
-        
-        
-        
+
         if hex == self.lastFocusPoint {
             
             if self.mapNode?.ship.position == hex {
                 self.gameDelegate?.select(object: self.mapNode?.ship)
             }
         }
-        
-        /*if let currentFocusedObject = self.engine?.focusedObject {
-            if currentFocusedObject.state == GameObjectActions.walk {
-                
-                if let path = self.findPathFrom(from: currentFocusedObject.position, to: hex) {
-                    currentFocusedObject.walk(on: path)
-                    return
-                }
-            }
-        }
-        
-        if let focusedObject = self.engine?.object(at: hex) {
-            
-            if focusedObject != self.engine?.focusedObject {
-                self.engine?.focusedObject = focusedObject
-                print("new focused object: \(focusedObject.identifier)")
-            } else {
-                if let actions = self.engine?.focusedObject?.actions() {
-                    showActionPicker(for: (self.engine?.focusedObject!)!, with: actions)
-                }
-            }
-        }*/
         
         self.lastFocusPoint = hex
     }
