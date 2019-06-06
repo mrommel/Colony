@@ -122,8 +122,8 @@ extension GameObject: FogUnit {
         return position
     }
     
-    func sight() -> Int {
+    @objc func sight() -> Int {
         //fatalError("must be overwritten")
-        return 2
+        return 1
     }
 }

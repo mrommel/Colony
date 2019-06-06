@@ -22,4 +22,8 @@ class Ship: GameObject {
         
         self.sprite.anchorPoint = CGPoint(x: -0.3, y: 0.0)
     }
+    
+    override func sight() -> Int {
+        return 2
+    }
 }

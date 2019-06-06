@@ -36,10 +36,6 @@ class BoardLayer: SKNode {
             fatalError("map not set")
         }
 
-        guard let fogManager = self.fogManager else {
-            fatalError("fogManager not set")
-        }
-
         for x in 0..<map.tiles.columns {
             for y in 0..<map.tiles.rows {
                 if let tile = map.tiles[x, y] {
