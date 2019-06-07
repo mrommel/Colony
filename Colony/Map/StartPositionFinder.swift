@@ -29,7 +29,7 @@ class StartPositionFinder {
         }
         
         let maximalDistance = HexPoint(x: 0, y: 0).distance(to: HexPoint(x: map.tiles.columns - 1, y: map.tiles.rows - 1))
-        let optimalDistance = maximalDistance * 4 / 5
+        var optimalDistance = maximalDistance * 4 / 5
         
         var possiblePoints: [HexPoint] = []
         
@@ -48,6 +48,7 @@ class StartPositionFinder {
             randomItem = possiblePoints.randomItem()
         
             trial = possiblePoints.filter { $0.distance(to: randomItem) > optimalDistance && map.path(from: $0, to: randomItem) != nil }
+            optimalDistance = optimalDistance - 1
         } while trial.count == 0
         
         return StartPositions(monsterPosition: randomItem, playerPosition: trial.randomItem())

@@ -20,7 +20,7 @@ class Ship: GameObject {
         self.atlasLeft = GameObjectAtlas(atlasName: "ship", textures: ["ship060", "ship061", "ship062"])
         self.atlasRight = GameObjectAtlas(atlasName: "ship", textures: ["ship072", "ship073", "ship074"])
         
-        self.sprite.anchorPoint = CGPoint(x: -0.3, y: 0.0)
+        self.sprite.anchorPoint = CGPoint(x: -0.3, y: -0.1)
     }
     
     override func sight() -> Int {

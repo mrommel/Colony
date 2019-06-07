@@ -22,4 +22,21 @@ class Monster: GameObject {
         
         self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.3)
     }
+    
+    override func handlePositionUpdate() {
+        
+        guard let fogManager = self.fogManager else {
+            return
+        }
+        
+        if fogManager.currentlyVisible(at: self.position) {
+            self.sprite.alpha = 1.0
+        } else {
+            self.sprite.alpha = 0.1
+        }
+    }
+    
+    override func sight() -> Int {
+        return 1
+    }
 }

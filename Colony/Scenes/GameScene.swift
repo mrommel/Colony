@@ -122,6 +122,18 @@ class GameScene: SKScene {
         self.positionLabel.zPosition = GameScene.Constants.ZLevels.labels
         
         self.cameraNode.addChild(self.positionLabel)
+        
+        // focus on ship
+        if let mapNode = self.mapNode {
+            let shipPosition = mapDisplay.toScreen(hex: mapNode.ship.position)
+            var newCameraFocus = cameraNode.convert(shipPosition, to: self.viewHex)
+            
+            // FIXME: hm, not sure why this is needed
+            newCameraFocus.x = newCameraFocus.x + 2.0
+            newCameraFocus.y = newCameraFocus.y + 80.0
+            
+            self.cameraNode.position = newCameraFocus
+        }
     }
     
     func addMessageBox() {
@@ -187,11 +199,13 @@ class GameScene: SKScene {
             
             self.cameraNode.position.x -= deltaX * 0.5
             self.cameraNode.position.y -= deltaY * 0.5
+            
+            print(self.cameraNode.position)
         }
     }
     
     func zoom(to zoomScale: CGFloat) {
-        let zoomInAction = SKAction.scale(to: zoomScale, duration: 0.3)
+        let zoomInAction = SKAction.scale(to: zoomScale, duration: 0.1)
         self.cameraNode.run(zoomInAction)
     }
 

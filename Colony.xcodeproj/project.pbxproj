@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */; };
+		C90A134F22A99F130003BBDE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C90A134E22A99F130003BBDE /* README.md */; };
 		C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* MenuScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
 		C9763EAB22A2FB9B00F31126 /* SpriteButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */; };
@@ -73,6 +74,7 @@
 
 /* Begin PBXFileReference section */
 		C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPositionFinder.swift; sourceTree = "<group>"; };
+		C90A134E22A99F130003BBDE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C91A4F3222A260DD000BF647 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
 		C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteButtonNode.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 		C9C7F0BC229B193400A775B2 = {
 			isa = PBXGroup;
 			children = (
+				C90A134E22A99F130003BBDE /* README.md */,
 				C9C7F0C7229B193400A775B2 /* Colony */,
 				C9C7F0C6229B193400A775B2 /* Products */,
 			);
@@ -375,6 +378,7 @@
 			files = (
 				C9C7F0D4229B193400A775B2 /* Main.storyboard in Resources */,
 				C9C7F0D6229B193A00A775B2 /* Assets.xcassets in Resources */,
+				C90A134F22A99F130003BBDE /* README.md in Resources */,
 				C9C7F0D9229B193A00A775B2 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -39,6 +39,7 @@ class MapNode: SKNode {
         let startPositions = startPositionFinder.identifyStartPositions()
         
         self.monster = Monster(with: "monster", at: startPositions.monsterPosition, mapDisplay: self.mapDisplay)
+        self.monster.fogManager = self.fogManager
         
         self.ship = Ship(with: "ship", at: startPositions.playerPosition, mapDisplay: self.mapDisplay)
         self.ship.fogManager = self.fogManager

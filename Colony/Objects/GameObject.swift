@@ -19,7 +19,11 @@ class GameObject {
     
     let identifier: String
     
-    var position: HexPoint
+    var position: HexPoint {
+        didSet {
+            self.handlePositionUpdate()
+        }
+    }
     var state: GameObjectState = .idle
     
     var sprite: SKSpriteNode
@@ -46,7 +50,7 @@ class GameObject {
         self.sprite = SKSpriteNode(imageNamed: sprite)
         self.sprite.position = mapDisplay.toScreen(hex: self.position)
         self.sprite.zPosition = GameScene.Constants.ZLevels.sprite
-        self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.25)
+        self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.50)
     }
     
     private func animate(to hex: HexPoint, on atlas: GameObjectAtlas?, completion block: @escaping () -> Swift.Void) {
@@ -114,6 +118,10 @@ class GameObject {
             self.sprite.run(idleAnimation, withKey: idleActionKey, completion: {})
         }
     }
+    
+    func handlePositionUpdate() {
+        // can be overriden in subclass
+    }
 }
 
 extension GameObject: FogUnit {
@@ -123,7 +131,6 @@ extension GameObject: FogUnit {
     }
     
     @objc func sight() -> Int {
-        //fatalError("must be overwritten")
-        return 1
+        fatalError("must be overwritten")
     }
 }
