@@ -156,6 +156,10 @@ extension HexPoint {
         return neighboring
     }
     
+    func areaWith(radius: Int) -> HexArea {
+        return HexArea(center: self, radius: radius)
+    }
+    
     func distance(to hex: HexPoint) -> Int {
         let selfCube = HexCube(hex: self)
         let hexCube = HexCube(hex: hex)

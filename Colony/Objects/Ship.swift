@@ -10,8 +10,8 @@ import SpriteKit
 
 class Ship: GameObject {
     
-    init(with identifier: String, at point: HexPoint, mapDisplay: HexMapDisplay) {
-        super.init(with: identifier, at: point, sprite: "ship060", mapDisplay: mapDisplay)
+    init(with identifier: String, at point: HexPoint, mapDisplay: HexMapDisplay, tribe: GameObjectTribe) {
+        super.init(with: identifier, at: point, spriteName: "ship060", mapDisplay: mapDisplay, tribe: tribe)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "ship", textures: ["ship060", "ship061", "ship062"])
         

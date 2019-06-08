@@ -200,7 +200,7 @@ class GameScene: SKScene {
             self.cameraNode.position.x -= deltaX * 0.5
             self.cameraNode.position.y -= deltaY * 0.5
             
-            print(self.cameraNode.position)
+            //print(self.cameraNode.position)
         }
     }
     

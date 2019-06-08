@@ -13,6 +13,11 @@ enum GameObjectState {
     case walking
 }
 
+enum GameObjectTribe {
+    case player
+    case enemy
+}
+
 class GameObject {
     
     let idleActionKey: String = "idleActionKey"
@@ -21,10 +26,11 @@ class GameObject {
     
     var position: HexPoint {
         didSet {
-            self.handlePositionUpdate()
+            self.delegate?.moved(object: self)
         }
     }
     var state: GameObjectState = .idle
+    var tribe: GameObjectTribe
     
     var sprite: SKSpriteNode
     let mapDisplay: HexMapDisplay
@@ -35,19 +41,17 @@ class GameObject {
     var atlasRight: GameObjectAtlas?
     var atlasLeft: GameObjectAtlas?
     
-    weak var fogManager: FogManager? {
-        didSet {
-            fogManager?.add(unit: self)
-        }
-    }
+    var delegate: GameObjectDelegate?
     
     var lastTime: CFTimeInterval = 0
     
-    init(with identifier: String, at point: HexPoint, sprite: String, mapDisplay: HexMapDisplay) {
+    init(with identifier: String, at point: HexPoint, spriteName: String, mapDisplay: HexMapDisplay, tribe: GameObjectTribe) {
         self.identifier = identifier
         self.mapDisplay = mapDisplay
         self.position = point
-        self.sprite = SKSpriteNode(imageNamed: sprite)
+        self.tribe = tribe
+        
+        self.sprite = SKSpriteNode(imageNamed: spriteName)
         self.sprite.position = mapDisplay.toScreen(hex: self.position)
         self.sprite.zPosition = GameScene.Constants.ZLevels.sprite
         self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.50)
@@ -100,7 +104,6 @@ class GameObject {
             let pathWithoutFirst = Array(path.suffix(from: 1))
             
             self.walk(from: self.position, to: point, completion: {
-                self.fogManager?.move(unit: self)
                 self.walk(on: pathWithoutFirst)
             })
         }
@@ -117,10 +120,6 @@ class GameObject {
             
             self.sprite.run(idleAnimation, withKey: idleActionKey, completion: {})
         }
-    }
-    
-    func handlePositionUpdate() {
-        // can be overriden in subclass
     }
 }
 

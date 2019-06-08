@@ -10,18 +10,14 @@ import SpriteKit
 
 class TerrainLayer: SKNode {
     
-    let fogManager: FogManager?
     weak var map: HexagonTileMap?
     let mapDisplay: HexMapDisplay
     
-    init(with size: CGSize, and mapDisplay: HexMapDisplay, fogManager: FogManager?) {
+    init(with size: CGSize, and mapDisplay: HexMapDisplay) {
         
         self.mapDisplay = mapDisplay
-        self.fogManager = fogManager
         
         super.init()
-    
-        self.fogManager?.delegates.addDelegate(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -31,12 +27,14 @@ class TerrainLayer: SKNode {
     func populate(with map: HexagonTileMap?) {
         
         self.map = map
-        
+
         guard let map = self.map else {
             fatalError("map not set")
         }
         
-        guard let fogManager = self.fogManager else {
+        map.fogManager?.delegates.addDelegate(self)
+        
+        guard let fogManager = self.map?.fogManager else {
             fatalError("fogManager not set")
         }
         
@@ -98,7 +96,7 @@ extension TerrainLayer: FogStateChangedDelegate {
             fatalError("map not set")
         }
         
-        guard let fogManager = self.fogManager else {
+        guard let fogManager = self.map?.fogManager else {
             fatalError("fogManager not set")
         }
         

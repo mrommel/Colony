@@ -11,6 +11,8 @@ import CoreGraphics
 
 class HexagonTileMap: HexagonMap<Tile> {
     
+    // MARK: constructors
+    
     override init(with size: CGSize) {
         super.init(width: Int(size.width), height: Int(size.height))
         
@@ -20,6 +22,8 @@ class HexagonTileMap: HexagonMap<Tile> {
                 self.set(tile: Tile(at: point, with: .ocean), at: point)
             }
         }
+        
+        self.fogManager = FogManager(map: self)
     }
     
     override init(width: Int, height: Int) {
@@ -31,12 +35,16 @@ class HexagonTileMap: HexagonMap<Tile> {
                 self.set(tile: Tile(at: point, with: .ocean), at: point)
             }
         }
+        
+        self.fogManager = FogManager(map: self)
     }
     
-    // own properties
-    var rivers: [River] = []
+    // MARK: own properties
     
-    /// MARK: caldera
+    var rivers: [River] = []
+    var fogManager: FogManager? = nil
+    
+    // MARK: caldera
     
     func calderaSouth(at hex: HexPoint) -> Bool {
         return hex.y == self.tiles.rows - 1
@@ -61,7 +69,7 @@ class HexagonTileMap: HexagonMap<Tile> {
         return nil
     }
     
-    /// MARK: terrain
+    // MARK: terrain
     
     func set(terrain: Terrain, at hex: HexPoint) {
         if let tile = self.tile(at: hex) {
@@ -69,7 +77,17 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
-    /// MARK: coast
+    // MARK: convineience
+    
+    func isWater(at point: HexPoint) -> Bool {
+        if let tile = self.tile(at: point) {
+            return tile.water
+        }
+        
+        return false
+    }
+    
+    // MARK: coast
     
     func isCoast(at point: HexPoint) -> Bool {
         

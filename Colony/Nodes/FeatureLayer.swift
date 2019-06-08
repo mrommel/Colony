@@ -10,18 +10,14 @@ import SpriteKit
 
 class FeatureLayer: SKNode {
 
-    let fogManager: FogManager?
     weak var map: HexagonTileMap?
     let mapDisplay: HexMapDisplay
 
-    init(with size: CGSize, and mapDisplay: HexMapDisplay, fogManager: FogManager?) {
+    init(with size: CGSize, and mapDisplay: HexMapDisplay) {
 
-        self.fogManager = fogManager
         self.mapDisplay = mapDisplay
 
         super.init()
-
-        self.fogManager?.delegates.addDelegate(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -35,8 +31,10 @@ class FeatureLayer: SKNode {
         guard let map = self.map else {
             fatalError("map not set")
         }
+        
+        map.fogManager?.delegates.addDelegate(self)
 
-        guard let fogManager = self.fogManager else {
+        guard let fogManager = self.map?.fogManager else {
             fatalError("fogManager not set")
         }
 
@@ -95,7 +93,7 @@ extension FeatureLayer: FogStateChangedDelegate {
             fatalError("map not set")
         }
 
-        guard let fogManager = self.fogManager else {
+        guard let fogManager = self.map?.fogManager else {
             fatalError("fogManager not set")
         }
         

@@ -1,18 +1,22 @@
 # Colony
 
 ## Todo
-- hide monster when not in sight
-- add harbor as game object
-- harbor as goal in game near monster
+- harbor as goal in game
 - make game fail when monster catches boat
 - add beach-se-sw-nw texture
 - add game UI frame
+- save and load games
+- style splash screen
 
 ## Bugs
-- monster also reveals fog
-- monster not hidden / revealed based on ship sight
+- monster not hidden / revealed based on player sight
 
 ## Done
+- path finding only when path is discovered (fog manager part of map)
+- add harbor as game object near monster
+- [Defect] monster also reveals fog
+- hide monster when not in sight
+- game object manager
 - map centered on ship
 - ship smaller
 - add beach-ne-nw texture

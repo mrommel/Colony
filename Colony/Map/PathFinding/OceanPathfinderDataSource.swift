@@ -22,8 +22,12 @@ class OceanPathfinderDataSource: PathfinderDataSource {
         
         for direction in HexDirection.all {
             let neighbor = coord.neighbor(in: direction)
-            if map.valid(point: neighbor) && (map.tile(at: neighbor)?.terrain == .ocean || map.tile(at: neighbor)?.terrain == .shore) {
-                walkableCoords.append(neighbor)
+            if map.valid(point: neighbor) {
+                
+                let fogState = map.fogManager?.fog(at: neighbor)
+                if map.isWater(at: neighbor) && (fogState == .discovered || fogState == .sighted) {
+                    walkableCoords.append(neighbor)
+                }
             }
         }
         

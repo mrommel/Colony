@@ -12,16 +12,12 @@ class RiverLayer: SKNode {
     
     let mapDisplay: HexMapDisplay
     weak var map: HexagonTileMap?
-    let fogManager: FogManager?
     
-    init(with size: CGSize, and mapDisplay: HexMapDisplay, fogManager: FogManager?) {
+    init(with size: CGSize, and mapDisplay: HexMapDisplay) {
         
         self.mapDisplay = mapDisplay
-        self.fogManager = fogManager
         
         super.init()
-        
-        self.fogManager?.delegates.addDelegate(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -36,7 +32,9 @@ class RiverLayer: SKNode {
             fatalError("map not set")
         }
         
-        guard let fogManager = self.fogManager else {
+        map.fogManager?.delegates.addDelegate(self)
+        
+        guard let fogManager = self.map?.fogManager else {
             fatalError("fogManager not set")
         }
         
@@ -97,7 +95,7 @@ extension RiverLayer: FogStateChangedDelegate {
             fatalError("map not set")
         }
         
-        guard let fogManager = self.fogManager else {
+        guard let fogManager = self.map?.fogManager else {
             fatalError("fogManager not set")
         }
         

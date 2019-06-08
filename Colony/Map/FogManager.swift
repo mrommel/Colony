@@ -69,7 +69,7 @@ class FogManager {
         self.fog.addSight(at: unit.location(), with: unit.sight(), on: self.map)
     }
 
-    func move(unit: FogUnit) {
+    func update() {
 
         // create tmp fog map
         let tmpFog = FogArray2D(columns: self.map?.tiles.columns ?? 1, rows: self.map?.tiles.rows ?? 1)

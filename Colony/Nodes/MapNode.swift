@@ -9,10 +9,6 @@
 import SpriteKit
 
 class MapNode: SKNode {
-
-    //
-    
-    var fogManager: FogManager? = nil
     
     // MARK: layer
 
@@ -24,38 +20,42 @@ class MapNode: SKNode {
     // MARK: objects
     var monster: Monster
     var ship: Ship
+    var village: Village
 
     // MARK: map
 
     let mapDisplay = HexMapDisplay()
     private var map: HexagonTileMap?
+    private var gameObjectManager: GameObjectManager
 
     init(with size: CGSize, map: HexagonTileMap?) {
 
         self.map = map
-        self.fogManager = FogManager(map: self.map)
         
         let startPositionFinder = StartPositionFinder(map: self.map)
         let startPositions = startPositionFinder.identifyStartPositions()
         
-        self.monster = Monster(with: "monster", at: startPositions.monsterPosition, mapDisplay: self.mapDisplay)
-        self.monster.fogManager = self.fogManager
+        self.gameObjectManager = GameObjectManager(on: self.map)
         
-        self.ship = Ship(with: "ship", at: startPositions.playerPosition, mapDisplay: self.mapDisplay)
-        self.ship.fogManager = self.fogManager
+        self.monster = Monster(with: "monster", at: startPositions.monsterPosition, mapDisplay: self.mapDisplay, tribe: .enemy)
+        self.gameObjectManager.add(object: self.monster)
         
-        //self.fogManager?.addSight(at: HexPoint(x: 4, y: 3), with: 2)
+        self.ship = Ship(with: "ship", at: startPositions.playerPosition, mapDisplay: self.mapDisplay, tribe: .player)
+        self.gameObjectManager.add(object: self.ship)
         
-        self.terrainLayer = TerrainLayer(with: size, and: mapDisplay, fogManager: self.fogManager)
+        self.village = Village(with: "village", at: startPositions.villagePosition, mapDisplay: self.mapDisplay, tribe: .player)
+        self.gameObjectManager.add(object: self.village)
+
+        self.terrainLayer = TerrainLayer(with: size, and: mapDisplay)
         self.terrainLayer.populate(with: self.map)
 
-        self.featureLayer = FeatureLayer(with: size, and: mapDisplay, fogManager: self.fogManager)
+        self.featureLayer = FeatureLayer(with: size, and: mapDisplay)
         self.featureLayer.populate(with: self.map)
 
-        self.boardLayer = BoardLayer(with: size, and: mapDisplay, fogManager: self.fogManager)
+        self.boardLayer = BoardLayer(with: size, and: mapDisplay)
         self.boardLayer.populate(with: self.map)
         
-        self.riverLayer = RiverLayer(with: size, and: mapDisplay, fogManager: self.fogManager)
+        self.riverLayer = RiverLayer(with: size, and: mapDisplay)
         self.riverLayer.populate(with: self.map)
 
         super.init()
@@ -70,6 +70,9 @@ class MapNode: SKNode {
         
         self.addChild(self.ship.sprite)
         self.ship.idle()
+        
+        self.addChild(self.village.sprite)
+        self.village.idle()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) { // Change `2.0` to the desired number of seconds.
             let path = startPositionFinder.findPatrolPath(from: startPositions.monsterPosition)

@@ -10,18 +10,14 @@ import SpriteKit
 
 class BoardLayer: SKNode {
 
-    let fogManager: FogManager?
     weak var map: HexagonTileMap?
     let mapDisplay: HexMapDisplay
 
-    init(with size: CGSize, and mapDisplay: HexMapDisplay, fogManager: FogManager?) {
+    init(with size: CGSize, and mapDisplay: HexMapDisplay) {
 
-        self.fogManager = fogManager
         self.mapDisplay = mapDisplay
 
         super.init()
-
-        self.fogManager?.delegates.addDelegate(self)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -35,6 +31,8 @@ class BoardLayer: SKNode {
         guard let map = self.map else {
             fatalError("map not set")
         }
+        
+        map.fogManager?.delegates.addDelegate(self)
 
         for x in 0..<map.tiles.columns {
             for y in 0..<map.tiles.rows {
@@ -50,8 +48,8 @@ class BoardLayer: SKNode {
         guard let map = self.map else {
             fatalError("map not set")
         }
-        
-        guard let fogManager = self.fogManager else {
+
+        guard let fogManager = self.map?.fogManager else {
             fatalError("fogManager not set")
         }
         

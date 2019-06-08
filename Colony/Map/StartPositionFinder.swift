@@ -12,6 +12,7 @@ struct StartPositions {
     
     let monsterPosition: HexPoint
     let playerPosition: HexPoint
+    let villagePosition: HexPoint
 }
 
 class StartPositionFinder {
@@ -45,13 +46,26 @@ class StartPositionFinder {
         var trial: [HexPoint]
         
         repeat {
+            print("trail to find start positions ...")
             randomItem = possiblePoints.randomItem()
         
             trial = possiblePoints.filter { $0.distance(to: randomItem) > optimalDistance && map.path(from: $0, to: randomItem) != nil }
-            optimalDistance = optimalDistance - 1
+            optimalDistance = optimalDistance - 1 // reduce distance each time we fail
         } while trial.count == 0
         
-        return StartPositions(monsterPosition: randomItem, playerPosition: trial.randomItem())
+        // find next non water tile next to monster
+        var villagePosition: HexPoint
+        var circleSize: Int = 2
+        var areaToCheck: [HexPoint]
+        
+        repeat {
+            areaToCheck = randomItem.areaWith(radius: circleSize).points.filter { map.valid(point: $0) && !map.isWater(at: $0) }
+            circleSize = circleSize + 1
+        } while areaToCheck.count == 0
+        
+        villagePosition = areaToCheck.randomItem()
+            
+        return StartPositions(monsterPosition: randomItem, playerPosition: trial.randomItem(), villagePosition: villagePosition)
     }
     
     func findPatrolPath(from point: HexPoint) -> [HexPoint] {
