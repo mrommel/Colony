@@ -13,6 +13,7 @@
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
 		C972CCBE22AA7E71008DB8CB /* GameObjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */; };
 		C972CCC022AAA4AE008DB8CB /* Village.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCBF22AAA4AE008DB8CB /* Village.swift */; };
+		C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */; };
 		C9763EAB22A2FB9B00F31126 /* SpriteButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */; };
 		C9763EAD22A2FEE300F31126 /* MessageBoxNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EAC22A2FEE300F31126 /* MessageBoxNode.swift */; };
 		C9763EB122A316C300F31126 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EB022A316C300F31126 /* ColorExtension.swift */; };
@@ -81,6 +82,7 @@
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
 		C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObjectManager.swift; sourceTree = "<group>"; };
 		C972CCBF22AAA4AE008DB8CB /* Village.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Village.swift; sourceTree = "<group>"; };
+		C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
 		C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteButtonNode.swift; sourceTree = "<group>"; };
 		C9763EAC22A2FEE300F31126 /* MessageBoxNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxNode.swift; sourceTree = "<group>"; };
 		C9763EB022A316C300F31126 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				C9C7F10D229EBE3100A775B2 /* Random.swift */,
 				C9763EB022A316C300F31126 /* ColorExtension.swift */,
 				C97B283322A53D0F00112532 /* MulticastDelegate.swift */,
+				C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				C9C7F13C229F204900A775B2 /* FeatureLayer.swift in Sources */,
 				C9C7F122229EBE5C00A775B2 /* MapSize.swift in Sources */,
 				C9C7F135229EC0C300A775B2 /* HexMapDisplay.swift in Sources */,
+				C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */,
 				C97B283622A54AE600112532 /* HexArea.swift in Sources */,
 				C9C7F120229EBE5C00A775B2 /* HexPointCorner.swift in Sources */,
 				C9C7F13E229F206000A775B2 /* BoardLayer.swift in Sources */,

@@ -31,18 +31,25 @@ class MenuScene: SKScene {
     
     override func didMove(to view: SKView) {
         
+        var viewSize = (self.view?.bounds.size)!
+        
         let background = SKSpriteNode(imageNamed: "menu")
         background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
         background.zPosition = 0
-        background.size = (self.view?.bounds.size)!
+        background.size = viewSize
         self.addChild(background)
+        
+        let frame = NineGridTextureSprite(imageNamed: "grid9_frame", size: viewSize.reduce(dx: 40, dy: 80))
+        frame.position = CGPoint(x: frame.size.width / 2 + 20, y: frame.size.height / 2 + 40)
+        frame.zPosition = 1
+        self.addChild(frame)
         
         let monsterButton = MenuButtonNode(titled: "Seeungeheuer", buttonAction: {
             
             self.menuDelegate?.startGame()
         })
         monsterButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
-        monsterButton.zPosition = 1
+        monsterButton.zPosition = 2
         self.addChild(monsterButton)
         
         let optionButton = MenuButtonNode(titled: "Optionen", buttonAction: {
@@ -50,7 +57,7 @@ class MenuScene: SKScene {
             //self.menuDelegate.gotoGame()
         })
         optionButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 80)
-        optionButton.zPosition = 1
+        optionButton.zPosition = 2
         self.addChild(optionButton)
     }
 }
