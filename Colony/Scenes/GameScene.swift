@@ -109,7 +109,7 @@ class GameScene: SKScene {
         
         // exit node
         let exitButton = MessageBoxButtonNode(titled: "Cancel", buttonAction: {
-            self.addMessageBox()
+            self.showQuitConfirmationDialog()
         })
         exitButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 20)
         exitButton.zPosition = 200
@@ -137,18 +137,23 @@ class GameScene: SKScene {
         }
     }
     
-    func addMessageBox() {
-        let messageBox = MessageBoxNode(titled: "Cancel", message: "Do you really want to quit?")
-        messageBox.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        messageBox.zPosition = 250
-        messageBox.addAction(MessageBoxAction(title: "Cancel", type: .left, handler: {
-            messageBox.dismiss()
-        }))
-        messageBox.addAction(MessageBoxAction(title: "Okay", type: .right, handler: {
-            self.gameDelegate?.quitGame()
-            messageBox.dismiss()
-        }))
-        self.cameraNode.addChild(messageBox)
+    func showQuitConfirmationDialog() {
+        
+        if let quitConfirmationDialog = UI.quitConfirmationDialog() {
+            
+            quitConfirmationDialog.zPosition = 250
+            
+            quitConfirmationDialog.addOkayAction(handler: {
+                quitConfirmationDialog.close()
+                self.gameDelegate?.quitGame()
+            })
+            
+            quitConfirmationDialog.addCancelAction(handler: {
+                quitConfirmationDialog.close()
+            })
+            
+            self.cameraNode.addChild(quitConfirmationDialog)
+        }
     }
     
     func placeFocusHex() {
@@ -200,8 +205,6 @@ class GameScene: SKScene {
             
             self.cameraNode.position.x -= deltaX * 0.5
             self.cameraNode.position.y -= deltaY * 0.5
-            
-            //print(self.cameraNode.position)
         }
     }
     
@@ -237,25 +240,26 @@ extension GameScene: GameConditionDelegate {
     func won(with type: GameConditionType) {
         print("--- won ---")
         
-        let messageBox = MessageBoxNode(imageNamed: "victory", title: "Victory", message: "You won!")
-        messageBox.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        messageBox.zPosition = 250
-        messageBox.addAction(MessageBoxAction(title: "Okay", type: .center, handler: {
-            self.gameDelegate?.quitGame()
-        }))
-        self.cameraNode.addChild(messageBox)
+        if let victoryDialog = UI.victoryDialog() {
+            
+            victoryDialog.addOkayAction(handler: {
+                self.gameDelegate?.quitGame()
+            })
+            
+            self.cameraNode.addChild(victoryDialog)
+        }
     }
     
     func lost(with type: GameConditionType) {
         print("--- lost ---")
         
-        let messageBox = MessageBoxNode(imageNamed: "defeat", title: "Defeat", message: "You lost!")
-        messageBox.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        messageBox.zPosition = 250
-        messageBox.addAction(MessageBoxAction(title: "Okay", type: .center, handler: {
-            self.gameDelegate?.quitGame()
-        }))
-        self.cameraNode.addChild(messageBox)
-        
+        if let defeatDialog = UI.defeatDialog() {
+            
+            defeatDialog.addOkayAction(handler: {
+                self.gameDelegate?.quitGame()
+            })
+            
+            self.cameraNode.addChild(defeatDialog)
+        }
     }
 }

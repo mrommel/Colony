@@ -19,4 +19,24 @@ class UI {
         
         return nil
     }
+    
+    static func victoryDialog() -> Dialog? {
+        
+        let uiParser = UIParser()
+        if let victoryDialogConfiguration = uiParser.parse(from: "VictoryDialog") {
+            return Dialog(from: victoryDialogConfiguration)
+        }
+        
+        return nil
+    }
+    
+    static func quitConfirmationDialog() -> Dialog? {
+        
+        let uiParser = UIParser()
+        if let quitConfirmationDialogConfiguration = uiParser.parse(from: "QuitConfirmationDialog") {
+            return Dialog(from: quitConfirmationDialogConfiguration)
+        }
+        
+        return nil
+    }
 }

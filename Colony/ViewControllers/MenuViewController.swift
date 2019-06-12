@@ -47,6 +47,7 @@ extension MenuViewController: MenuDelegate {
             
             defeatDialog.addOkayAction(handler: {
                 print("okay")
+                defeatDialog.close()
             })
             
             scene?.addChild(defeatDialog)

@@ -28,11 +28,10 @@ class Dialog: NineGridTextureSprite {
         self.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         
         // items
-        for item in configuration.items {
+        for item in configuration.items.item {
 
             if item.type == .button {
                 let buttonItem = MessageBoxButtonNode(titled: item.title, buttonAction: { [weak self] in
-                    print("button pressed")
                     switch item.result {
                     case .okay:
                         if let handler = self?.okayHandler {
@@ -80,5 +79,10 @@ class Dialog: NineGridTextureSprite {
     
     func addCancelAction(handler: @escaping () -> Void) {
         self.cancelHandler = handler
+    }
+    
+    func close() {
+        
+        self.parent?.removeChildren(in: [self])
     }
 }

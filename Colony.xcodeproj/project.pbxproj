@@ -17,6 +17,8 @@
 		C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* MenuScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
 		C956078922B0F22800AA69E9 /* DialogConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956078822B0F22800AA69E9 /* DialogConfiguration.swift */; };
+		C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078C22B1291700AA69E9 /* VictoryDialog.xml */; };
+		C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */; };
 		C972CCBE22AA7E71008DB8CB /* GameObjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */; };
 		C972CCC022AAA4AE008DB8CB /* Village.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCBF22AAA4AE008DB8CB /* Village.swift */; };
 		C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */; };
@@ -94,6 +96,8 @@
 		C91A4F3222A260DD000BF647 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
 		C956078822B0F22800AA69E9 /* DialogConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogConfiguration.swift; sourceTree = "<group>"; };
+		C956078C22B1291700AA69E9 /* VictoryDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = VictoryDialog.xml; sourceTree = "<group>"; };
+		C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = QuitConfirmationDialog.xml; sourceTree = "<group>"; };
 		C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObjectManager.swift; sourceTree = "<group>"; };
 		C972CCBF22AAA4AE008DB8CB /* Village.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Village.swift; sourceTree = "<group>"; };
 		C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
@@ -181,6 +185,28 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C956078A22B1241B00AA69E9 /* Ressources */ = {
+			isa = PBXGroup;
+			children = (
+				C956078B22B1245400AA69E9 /* UI */,
+				C9C7F0D2229B193400A775B2 /* Main.storyboard */,
+				C9C7F0D5229B193A00A775B2 /* Assets.xcassets */,
+				C9C7F0D7229B193A00A775B2 /* LaunchScreen.storyboard */,
+				C9C7F0DA229B193A00A775B2 /* Info.plist */,
+			);
+			path = Ressources;
+			sourceTree = "<group>";
+		};
+		C956078B22B1245400AA69E9 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				C900654122AEE8DC0004C963 /* DefeatDialog.xml */,
+				C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */,
+				C956078C22B1291700AA69E9 /* VictoryDialog.xml */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		C9763EB222A317C600F31126 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -249,12 +275,8 @@
 				C9C7F0F1229EA71500A775B2 /* Nodes */,
 				C9C7F0F4229EAB4D00A775B2 /* Scenes */,
 				C9C7F0EE229E992100A775B2 /* ViewControllers */,
+				C956078A22B1241B00AA69E9 /* Ressources */,
 				C9C7F0C8229B193400A775B2 /* AppDelegate.swift */,
-				C9C7F0D2229B193400A775B2 /* Main.storyboard */,
-				C9C7F0D5229B193A00A775B2 /* Assets.xcassets */,
-				C9C7F0D7229B193A00A775B2 /* LaunchScreen.storyboard */,
-				C9C7F0DA229B193A00A775B2 /* Info.plist */,
-				C900654122AEE8DC0004C963 /* DefeatDialog.xml */,
 			);
 			path = Colony;
 			sourceTree = "<group>";
@@ -427,7 +449,9 @@
 			files = (
 				C9C7F0D4229B193400A775B2 /* Main.storyboard in Resources */,
 				C9C7F0D6229B193A00A775B2 /* Assets.xcassets in Resources */,
+				C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */,
 				C90A134F22A99F130003BBDE /* README.md in Resources */,
+				C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */,
 				C9C7F0D9229B193A00A775B2 /* LaunchScreen.storyboard in Resources */,
 				C900654222AEE8DC0004C963 /* DefeatDialog.xml in Resources */,
 			);
@@ -679,7 +703,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3XR2XX99JT;
-				INFOPLIST_FILE = Colony/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Colony/Ressources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -698,7 +722,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3XR2XX99JT;
-				INFOPLIST_FILE = Colony/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Colony/Ressources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

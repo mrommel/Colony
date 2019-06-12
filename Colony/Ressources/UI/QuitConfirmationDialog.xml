@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>center</anchory>
+    <offsetx>-150</offsetx>
+    <offsety>0</offsety>
+    <width>300</width>
+    <height>300</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        <item>
+            <type>image</type>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>70</offsety>
+            <width>120</width>
+            <height>80</height>
+            <image>questionmark</image>
+        </item>
+        <item>
+            <type>label</type>
+            <title>Do you really want to quit?.</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-10</offsety>
+            <width>200</width>
+            <height>50</height>
+        </item>
+        <item>
+            <type>button</type>
+            <result>CANCEL</result>
+            <title>No</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-60</offsetx>
+            <offsety>-100</offsety>
+            <width>100</width>
+            <height>42</height>
+        </item>
+        <item>
+            <type>button</type>
+            <title>Yes</title>
+            <result>OKAY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>60</offsetx>
+            <offsety>-100</offsety>
+            <width>100</width>
+            <height>42</height>
+        </item>
+    </items>
+</context>

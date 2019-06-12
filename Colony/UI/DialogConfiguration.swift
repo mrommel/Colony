@@ -145,7 +145,10 @@ struct DialogConfiguration: Decodable {
     var height: Int
     var background: String
     
-    var items: [DialogItem] = []
+    struct Items: Codable {
+        var item: [DialogItem] = []
+    }
+    var items: Items = Items()
     
     init(offsetx: Int, offsety: Int, anchorx: DialogAnchor, anchory: DialogAnchor, width: Int, height: Int, background: String) {
         
@@ -172,13 +175,11 @@ struct DialogConfiguration: Decodable {
         
         self.init(offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, background: background)
         
-        self.items = try values.decode([DialogItem].self, forKey: .items)
+        self.items = try values.decode(Items.self, forKey: .items)
     }
     
     enum CodingKeys: String, CodingKey {
-        case type, offsetx, offsety, anchorx, anchory, width, height, background
-        
-        case items = "item"
+        case type, offsetx, offsety, anchorx, anchory, width, height, background, items
     }
     
     var positionx: CGFloat {
