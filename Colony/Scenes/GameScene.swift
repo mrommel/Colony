@@ -86,6 +86,7 @@ class GameScene: SKScene {
         self.mapNode = MapNode(with: mapSize, map: self.map)
         self.mapNode?.xScale = 1.0
         self.mapNode?.yScale = 1.0
+        self.mapNode?.gameObjectManager.conditionDelegate = self
         
         viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.25)
         viewHex.xScale = deviceScale
@@ -228,5 +229,33 @@ class GameScene: SKScene {
         }
         
         self.lastFocusPoint = hex
+    }
+}
+
+extension GameScene: GameConditionDelegate {
+    
+    func won(with type: GameConditionType) {
+        print("--- won ---")
+        
+        let messageBox = MessageBoxNode(imageNamed: "victory", title: "Victory", message: "You won!")
+        messageBox.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        messageBox.zPosition = 250
+        messageBox.addAction(MessageBoxAction(title: "Okay", type: .center, handler: {
+            self.gameDelegate?.quitGame()
+        }))
+        self.cameraNode.addChild(messageBox)
+    }
+    
+    func lost(with type: GameConditionType) {
+        print("--- lost ---")
+        
+        let messageBox = MessageBoxNode(imageNamed: "defeat", title: "Defeat", message: "You lost!")
+        messageBox.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        messageBox.zPosition = 250
+        messageBox.addAction(MessageBoxAction(title: "Okay", type: .center, handler: {
+            self.gameDelegate?.quitGame()
+        }))
+        self.cameraNode.addChild(messageBox)
+        
     }
 }

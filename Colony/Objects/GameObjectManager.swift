@@ -13,10 +13,41 @@ protocol GameObjectDelegate {
     func moved(object: GameObject?)
 }
 
+public protocol GameConditionType {
+}
+
+extension GameConditionType {
+}
+
+extension GameConditionType where Self : RawRepresentable, Self.RawValue : FixedWidthInteger {
+}
+
+protocol GameConditionDelegate {
+    
+    func won(with type: GameConditionType)
+    func lost(with type: GameConditionType)
+}
+
+protocol GameConditionCheck {
+    
+    var gameObjectManager: GameObjectManager? { get set }
+    
+    func isWon() -> GameConditionType?
+    func isLost() -> GameConditionType?
+}
+
 class GameObjectManager {
 
     weak var map: HexagonTileMap?
     var objects: [GameObject?]
+    
+    // game condition
+    var conditionCheck: GameConditionCheck? {
+        didSet {
+            conditionCheck?.gameObjectManager = self
+        }
+    }
+    var conditionDelegate: GameConditionDelegate?
 
     init(on map: HexagonTileMap?) {
         self.objects = []
@@ -36,11 +67,25 @@ class GameObjectManager {
 
         object.delegate = self
         self.objects.append(object)
+        
+        // check if already won / lost the game
+        self.checkCondition()
     }
 
     func unitsOf(tribe: GameObjectTribe) -> [GameObject?] {
 
         return self.objects.filter { $0?.tribe == tribe }
+    }
+    
+    func checkCondition() {
+        
+        if let type = self.conditionCheck?.isWon() {
+            self.conditionDelegate?.won(with: type)
+        }
+        
+        if let type = self.conditionCheck?.isLost() {
+            self.conditionDelegate?.lost(with: type)
+        }
     }
 }
 
@@ -69,10 +114,21 @@ extension GameObjectManager: GameObjectDelegate {
                     if fogAtEnemy == .sighted {
                         enemyUnit?.sprite.alpha = 1.0
                     } else {
-                        enemyUnit?.sprite.alpha = 0.5
+                        enemyUnit?.sprite.alpha = 0.1
                     }
                 }
             }
+        } else if object.tribe == .enemy {
+            
+            let fogAtEnemy = fogManager.fog(at: object.position)
+            if fogAtEnemy == .sighted {
+                object.sprite.alpha = 1.0
+            } else {
+                object.sprite.alpha = 0.1 // TODO: make completely invisible
+            }
         }
+        
+        // check if won / lost the game
+        self.checkCondition()
     }
 }

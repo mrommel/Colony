@@ -54,7 +54,7 @@ class MenuScene: SKScene {
         
         let optionButton = MenuButtonNode(titled: "Optionen", buttonAction: {
             
-            //self.menuDelegate.gotoGame()
+            self.menuDelegate?.startOptions()
         })
         optionButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 80)
         optionButton.zPosition = 2

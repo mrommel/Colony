@@ -7,10 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE0CBA9E74F8CE33C69E57B3 /* libPods-Colony.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74D966AB103078B030C04933 /* libPods-Colony.a */; };
+		C900654022AEE3BA0004C963 /* UIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900653F22AEE3BA0004C963 /* UIParser.swift */; };
+		C900654222AEE8DC0004C963 /* DefeatDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C900654122AEE8DC0004C963 /* DefeatDialog.xml */; };
+		C900654422AF96A00004C963 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900654322AF96A00004C963 /* Dialog.swift */; };
+		C900654622AFA21D0004C963 /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900654522AFA21D0004C963 /* UI.swift */; };
 		C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */; };
 		C90A134F22A99F130003BBDE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C90A134E22A99F130003BBDE /* README.md */; };
 		C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* MenuScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
+		C956078922B0F22800AA69E9 /* DialogConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956078822B0F22800AA69E9 /* DialogConfiguration.swift */; };
 		C972CCBE22AA7E71008DB8CB /* GameObjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */; };
 		C972CCC022AAA4AE008DB8CB /* Village.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCBF22AAA4AE008DB8CB /* Village.swift */; };
 		C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */; };
@@ -76,10 +82,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		210F580901715505DF5F00A6 /* Pods-Colony.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Colony.debug.xcconfig"; path = "Target Support Files/Pods-Colony/Pods-Colony.debug.xcconfig"; sourceTree = "<group>"; };
+		74D966AB103078B030C04933 /* libPods-Colony.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Colony.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACE7A2BA698D9042467C8F93 /* Pods-Colony.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Colony.release.xcconfig"; path = "Target Support Files/Pods-Colony/Pods-Colony.release.xcconfig"; sourceTree = "<group>"; };
+		C900653F22AEE3BA0004C963 /* UIParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIParser.swift; sourceTree = "<group>"; };
+		C900654122AEE8DC0004C963 /* DefeatDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = DefeatDialog.xml; sourceTree = "<group>"; };
+		C900654322AF96A00004C963 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
+		C900654522AFA21D0004C963 /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPositionFinder.swift; sourceTree = "<group>"; };
 		C90A134E22A99F130003BBDE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C91A4F3222A260DD000BF647 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
+		C956078822B0F22800AA69E9 /* DialogConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogConfiguration.swift; sourceTree = "<group>"; };
 		C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObjectManager.swift; sourceTree = "<group>"; };
 		C972CCBF22AAA4AE008DB8CB /* Village.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Village.swift; sourceTree = "<group>"; };
 		C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
@@ -151,12 +165,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE0CBA9E74F8CE33C69E57B3 /* libPods-Colony.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B71A40321D86AF7564AF884F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				210F580901715505DF5F00A6 /* Pods-Colony.debug.xcconfig */,
+				ACE7A2BA698D9042467C8F93 /* Pods-Colony.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		C9763EB222A317C600F31126 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,6 +190,10 @@
 				C97B282922A3F72100112532 /* MessageBoxButtonNode.swift */,
 				C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */,
 				C97B282B22A427A800112532 /* ProgressBarNode.swift */,
+				C900653F22AEE3BA0004C963 /* UIParser.swift */,
+				C900654322AF96A00004C963 /* Dialog.swift */,
+				C956078822B0F22800AA69E9 /* DialogConfiguration.swift */,
+				C900654522AFA21D0004C963 /* UI.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -198,6 +226,8 @@
 				C90A134E22A99F130003BBDE /* README.md */,
 				C9C7F0C7229B193400A775B2 /* Colony */,
 				C9C7F0C6229B193400A775B2 /* Products */,
+				B71A40321D86AF7564AF884F /* Pods */,
+				F9D941C07E4738AC5B6E4F0C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -224,6 +254,7 @@
 				C9C7F0D5229B193A00A775B2 /* Assets.xcassets */,
 				C9C7F0D7229B193A00A775B2 /* LaunchScreen.storyboard */,
 				C9C7F0DA229B193A00A775B2 /* Info.plist */,
+				C900654122AEE8DC0004C963 /* DefeatDialog.xml */,
 			);
 			path = Colony;
 			sourceTree = "<group>";
@@ -327,6 +358,14 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
+		F9D941C07E4738AC5B6E4F0C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				74D966AB103078B030C04933 /* libPods-Colony.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -334,6 +373,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9C7F0DD229B193A00A775B2 /* Build configuration list for PBXNativeTarget "Colony" */;
 			buildPhases = (
+				AE72828580C659482B7501FB /* [CP] Check Pods Manifest.lock */,
 				C9C7F0C1229B193400A775B2 /* Sources */,
 				C9C7F0C2229B193400A775B2 /* Frameworks */,
 				C9C7F0C3229B193400A775B2 /* Resources */,
@@ -389,10 +429,36 @@
 				C9C7F0D6229B193A00A775B2 /* Assets.xcassets in Resources */,
 				C90A134F22A99F130003BBDE /* README.md in Resources */,
 				C9C7F0D9229B193A00A775B2 /* LaunchScreen.storyboard in Resources */,
+				C900654222AEE8DC0004C963 /* DefeatDialog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AE72828580C659482B7501FB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Colony-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C9C7F0C1229B193400A775B2 /* Sources */ = {
@@ -433,6 +499,7 @@
 				C9C7F0FB229EBD1800A775B2 /* HexagonTileMap.swift in Sources */,
 				C9C7F116229EBE3100A775B2 /* BitArray.swift in Sources */,
 				C9C7F0F3229EA73300A775B2 /* MapNode.swift in Sources */,
+				C956078922B0F22800AA69E9 /* DialogConfiguration.swift in Sources */,
 				C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */,
 				C9C7F113229EBE3100A775B2 /* AStarPathFinder.swift in Sources */,
 				C9C7F0F6229EAB9000A775B2 /* SKNode+Extension.swift in Sources */,
@@ -441,11 +508,13 @@
 				C972CCBE22AA7E71008DB8CB /* GameObjectManager.swift in Sources */,
 				C9C7F125229EBE5C00A775B2 /* ClimateZone.swift in Sources */,
 				C9C7F112229EBE3100A775B2 /* Array2D.swift in Sources */,
+				C900654022AEE3BA0004C963 /* UIParser.swift in Sources */,
 				C9C7F115229EBE3100A775B2 /* Random.swift in Sources */,
 				C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */,
 				C972CCC022AAA4AE008DB8CB /* Village.swift in Sources */,
 				C9C7F106229EBDE700A775B2 /* River.swift in Sources */,
 				C97E96DA22A1CB7B00D594F3 /* OceanPathfinderDataSource.swift in Sources */,
+				C900654622AFA21D0004C963 /* UI.swift in Sources */,
 				C9C7F102229EBD9500A775B2 /* Terrain.swift in Sources */,
 				C9C7F129229EBEDD00A775B2 /* HexDirection.swift in Sources */,
 				C9C7F133229EBFA400A775B2 /* PerlinGenerator.swift in Sources */,
@@ -453,6 +522,7 @@
 				C9C7F12F229EBF8700A775B2 /* Continent.swift in Sources */,
 				C9C7F12E229EBF8700A775B2 /* ContinentFinder.swift in Sources */,
 				C9C7F124229EBE5C00A775B2 /* MapGenerator.swift in Sources */,
+				C900654422AF96A00004C963 /* Dialog.swift in Sources */,
 				C9C7F117229EBE3100A775B2 /* CGPointExtension.swift in Sources */,
 				C97B283422A53D0F00112532 /* MulticastDelegate.swift in Sources */,
 				C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */,
@@ -604,6 +674,7 @@
 		};
 		C9C7F0DE229B193A00A775B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 210F580901715505DF5F00A6 /* Pods-Colony.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -622,6 +693,7 @@
 		};
 		C9C7F0DF229B193A00A775B2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACE7A2BA698D9042467C8F93 /* Pods-Colony.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

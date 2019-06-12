@@ -43,6 +43,14 @@ extension MenuViewController: MenuDelegate {
     
     func startOptions() {
         
+        if let defeatDialog = UI.defeatDialog() {
+            
+            defeatDialog.addOkayAction(handler: {
+                print("okay")
+            })
+            
+            scene?.addChild(defeatDialog)
+        }
     }
     
     func startCredits() {
