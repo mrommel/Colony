@@ -80,7 +80,7 @@ class MapGenerator {
 			completionHandler(0.2)
 		}
         
-        usleep(500000) // will sleep for 500 milliseconds
+        usleep(100000) // will sleep for 100 milliseconds
 
 		// 1st step: land / water
 		self.fillFromElevation(withWaterPercentage: options.waterPercentage, on: heightMap)
@@ -89,7 +89,7 @@ class MapGenerator {
 			completionHandler(0.4)
 		}
         
-        usleep(500000) // will sleep for 500 milliseconds
+        usleep(100000) // will sleep for 100 milliseconds
 
 		// 2nd step: climate
 		switch options.climateZoneOption {
@@ -111,7 +111,7 @@ class MapGenerator {
 			completionHandler(0.45)
 		}
         
-        usleep(500000) // will sleep for 500 milliseconds
+        usleep(100000) // will sleep for 100 milliseconds
 
 		// 2.1nd step: refine climate based on cost distance
 		self.prepareDistanceToCoast()
@@ -121,7 +121,7 @@ class MapGenerator {
 			completionHandler(0.5)
 		}
         
-        usleep(500000) // will sleep for 500 milliseconds
+        usleep(100000) // will sleep for 100 milliseconds
 
 		// 3rd step: refine terrain
 		self.refineTerrain(on: grid, with: heightMap, and: moistureMap)
@@ -130,7 +130,7 @@ class MapGenerator {
 			completionHandler(0.65)
 		}
         
-        usleep(500000) // will sleep for 500 milliseconds
+        usleep(100000) // will sleep for 100 milliseconds
 
 		// 4th step: rivers
 		self.identifySpringLocations(on: heightMap)
@@ -141,7 +141,7 @@ class MapGenerator {
 			completionHandler(0.8)
 		}
         
-        usleep(500000) // will sleep for 500 milliseconds
+        usleep(100000) // will sleep for 100 milliseconds
         
         // 5th step: continents
         self.identifyContinents(on: grid)
@@ -150,7 +150,7 @@ class MapGenerator {
             completionHandler(1.0)
         }
         
-        usleep(500000) // will sleep for 500 milliseconds
+        usleep(100000) // will sleep for 100 milliseconds
 
 		return grid
 	}

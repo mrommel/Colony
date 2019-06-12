@@ -142,7 +142,9 @@ class GameScene: SKScene {
         if let quitConfirmationDialog = UI.quitConfirmationDialog() {
             
             quitConfirmationDialog.zPosition = 250
-            
+            print(quitConfirmationDialog.position)
+            //quitConfirmationDialog.position = CGPoint(x: -150, y: 0)
+
             quitConfirmationDialog.addOkayAction(handler: {
                 quitConfirmationDialog.close()
                 self.gameDelegate?.quitGame()
