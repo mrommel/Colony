@@ -9,7 +9,7 @@
 import Foundation
 import SceneKit
 
-enum Feature {
+enum Feature: String, Codable {
 
 	case forestMixed
 	case forestPine

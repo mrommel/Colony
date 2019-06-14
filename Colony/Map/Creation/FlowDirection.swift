@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum FlowDirection: String {
+enum FlowDirection: String, Codable {
 
 	case none = ""
 	case any = "*"

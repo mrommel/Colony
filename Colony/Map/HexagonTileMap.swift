@@ -11,6 +11,16 @@ import CoreGraphics
 
 class HexagonTileMap: HexagonMap<Tile> {
     
+    // MARK: properties
+    
+    var rivers: [River] = []
+    var fogManager: FogManager? = nil
+    
+    enum CodingKeys: String, CodingKey {
+        case rivers
+        case fogManager
+    }
+    
     // MARK: constructors
     
     override init(with size: CGSize) {
@@ -39,10 +49,23 @@ class HexagonTileMap: HexagonMap<Tile> {
         self.fogManager = FogManager(map: self)
     }
     
-    // MARK: own properties
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.rivers = try values.decode([River].self, forKey: .rivers)
+        self.fogManager = try values.decode(FogManager.self, forKey: .fogManager)
+    }
     
-    var rivers: [River] = []
-    var fogManager: FogManager? = nil
+    override func encode(to encoder: Encoder) throws {
+        
+        try super.encode(to: encoder)
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.rivers, forKey: .rivers)
+        try container.encode(self.fogManager, forKey: .fogManager)
+    }
     
     // MARK: caldera
     
@@ -217,20 +240,12 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
-    // MARK: building
-    
-    func set(building: Building, at hex: HexPoint) {
-        if let tile = self.tile(at: hex) {
-            tile.building = building
-        }
-    }
-    
     // MARK: pathfinding
     
     func path(from: HexPoint, to: HexPoint) -> [HexPoint]? {
         
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = self.oceanPathfinderDataSource
+        pathFinder.dataSource = self.oceanPathfinderDataSourceIgnoreSight
         return pathFinder.shortestPath(fromTileCoord: from, toTileCoord: to)
     }
     
@@ -271,8 +286,12 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
-    var oceanPathfinderDataSource: OceanPathfinderDataSource {
+    var oceanPathfinderDataSource: PathfinderDataSource {
         return OceanPathfinderDataSource(map: self)
+    }
+    
+    var oceanPathfinderDataSourceIgnoreSight: PathfinderDataSource {
+        return OceanPathfinderDataSourceIgnoreSight(map: self)
     }
 }
 

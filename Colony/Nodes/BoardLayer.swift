@@ -11,15 +11,12 @@ import SpriteKit
 class BoardLayer: SKNode {
 
     weak var map: HexagonTileMap?
-    let mapDisplay: HexMapDisplay
 
-    init(with size: CGSize, and mapDisplay: HexMapDisplay) {
-
-        self.mapDisplay = mapDisplay
-
+    override init() {
+        
         super.init()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -54,7 +51,7 @@ class BoardLayer: SKNode {
         }
         
         if let pt = tile.point {
-            let screenPoint = self.mapDisplay.toScreen(hex: pt)
+            let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
 
             if let calderaName = map.caldera(at: pt) {
                 if fogManager.currentlyVisible(at: pt) {

@@ -10,8 +10,8 @@ import SpriteKit
 
 class Monster: GameObject {
     
-    init(with identifier: String, at point: HexPoint, mapDisplay: HexMapDisplay, tribe: GameObjectTribe) {
-        super.init(with: identifier, at: point, spriteName: "tile004", mapDisplay: mapDisplay, tribe: tribe)
+    init(with identifier: String, at point: HexPoint, tribe: GameObjectTribe) {
+        super.init(with: identifier, at: point, spriteName: "tile004", tribe: tribe, sight: 1)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "monster", textures: ["tile004", "tile005", "tile006", "tile007"])
         
@@ -23,20 +23,7 @@ class Monster: GameObject {
         self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.3)
     }
     
-    /*override func handlePositionUpdate() {
-        
-        guard let fogManager = self.fogManager else {
-            return
-        }
-        
-        if fogManager.currentlyVisible(at: self.position) {
-            self.sprite.alpha = 1.0
-        } else {
-            self.sprite.alpha = 0.1
-        }
-    }*/
-    
-    override func sight() -> Int {
-        return 1
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
     }
 }

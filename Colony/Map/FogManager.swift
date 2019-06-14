@@ -10,11 +10,11 @@ import Foundation
 
 protocol FogUnit {
 
-    func location() -> HexPoint
-    func sight() -> Int
+    var position: HexPoint { get }
+    var sight: Int { get }
 }
 
-enum FogState {
+enum FogState: String, Codable {
 
     case never
     case discovered
@@ -49,13 +49,17 @@ class FogArray2D: Array2D<FogState> {
     }
 }
 
-class FogManager {
+class FogManager: Codable {
 
     var fog: FogArray2D
     weak var map: HexagonTileMap?
     var units: [FogUnit] = []
     var delegates = MulticastDelegate<FogStateChangedDelegate>()
 
+    enum CodingKeys: String, CodingKey {
+        case fog
+    }
+    
     init(map: HexagonTileMap?) {
 
         self.map = map
@@ -66,7 +70,7 @@ class FogManager {
     func add(unit: FogUnit) {
         self.units.append(unit)
         
-        self.fog.addSight(at: unit.location(), with: unit.sight(), on: self.map)
+        self.fog.addSight(at: unit.position, with: unit.sight, on: self.map)
     }
 
     func update() {
@@ -86,7 +90,8 @@ class FogManager {
 
         // add unit sight
         for unit in self.units {
-            tmpFog.addSight(at: unit.location(), with: unit.sight(), on: self.map)
+            // FIXME: only player units?
+            tmpFog.addSight(at: unit.position, with: unit.sight, on: self.map)
         }
 
         // handle changes

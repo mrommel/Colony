@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Array2D<T: Equatable> {
+public class Array2D<T: Equatable & Codable>: Codable {
 	public let columns: Int
 	public let rows: Int
 	fileprivate var array: [T?] = [T?]()

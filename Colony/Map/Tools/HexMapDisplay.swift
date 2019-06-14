@@ -11,9 +11,11 @@ import SpriteKit
 
 class HexMapDisplay {
 
+    static let shared = HexMapDisplay()
+    
 	let layout: HexLayout
 
-	init() {
+	private init() {
 		layout = HexLayout(orientation: HexOrientation.flat, size: CGSize(width: 24, height: 18), origin: CGPoint.zero)
 	}
 

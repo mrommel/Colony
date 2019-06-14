@@ -9,7 +9,7 @@
 import Foundation
 
 /// a `RiverEdge` is one part of a `River` defined by his location and relative flow
-class RiverEdge {
+class RiverEdge: Codable {
 
 	var point: HexPoint
 	var flowDirection: FlowDirection

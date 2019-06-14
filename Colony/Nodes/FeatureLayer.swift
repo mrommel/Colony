@@ -11,12 +11,9 @@ import SpriteKit
 class FeatureLayer: SKNode {
 
     weak var map: HexagonTileMap?
-    let mapDisplay: HexMapDisplay
 
-    init(with size: CGSize, and mapDisplay: HexMapDisplay) {
-
-        self.mapDisplay = mapDisplay
-
+    override init() {
+        
         super.init()
     }
     
@@ -44,7 +41,7 @@ class FeatureLayer: SKNode {
                 let pt = HexPoint(x: x, y: y)
                 
                 if let tile = map.tiles[pt] {
-                    let screenPoint = self.mapDisplay.toScreen(hex: pt)
+                    let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
                     if fogManager.discovered(at: pt) {
                         self.placeTileHex(tile: tile, at: screenPoint, alpha: 0.5)
                     } else if fogManager.currentlyVisible(at: pt) {
@@ -100,7 +97,7 @@ extension FeatureLayer: FogStateChangedDelegate {
         self.clearTileHex(at: pt)
 
         if let tile = map.tiles[pt] {
-            let screenPoint = self.mapDisplay.toScreen(hex: pt)
+            let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
             if fogManager.discovered(at: pt) {
                 self.placeTileHex(tile: tile, at: screenPoint, alpha: 0.5)
             } else if fogManager.currentlyVisible(at: pt) {

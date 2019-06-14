@@ -10,12 +10,9 @@ import SpriteKit
 
 class RiverLayer: SKNode {
     
-    let mapDisplay: HexMapDisplay
     weak var map: HexagonTileMap?
     
-    init(with size: CGSize, and mapDisplay: HexMapDisplay) {
-        
-        self.mapDisplay = mapDisplay
+    override init() {
         
         super.init()
     }
@@ -48,7 +45,7 @@ class RiverLayer: SKNode {
                         continue
                     }
                     
-                    let screenPoint = self.mapDisplay.toScreen(hex: pt)
+                    let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
                     
                     if fogManager.discovered(at: pt) {
                         self.placeTileHex(tile: tile, riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 1.0)
@@ -107,7 +104,7 @@ extension RiverLayer: FogStateChangedDelegate {
                 return
             }
             
-            let screenPoint = self.mapDisplay.toScreen(hex: pt)
+            let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
             
             if fogManager.discovered(at: pt) {
                 self.placeTileHex(tile: tile, riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 1.0)

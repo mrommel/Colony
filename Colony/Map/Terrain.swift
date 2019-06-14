@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Terrain {
+enum Terrain: String, Codable {
 
 	case plain
 	case grass

@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class Tile {
+class Tile: Decodable {
     
     var point: HexPoint?
     var terrain: Terrain
@@ -19,9 +19,8 @@ class Tile {
     var featureSprites: [SKSpriteNode] = []
     
     var continent: Continent?
-    var building: Building
     
-    var river: River?
+    var riverName: String?
     var riverFlowNorth: FlowDirection = .none
     var riverFlowNorthEast: FlowDirection = .none
     var riverFlowSouthEast: FlowDirection = .none
@@ -32,11 +31,36 @@ class Tile {
     
     var boardSprite: SKSpriteNode?
     
+    enum CodingKeys: String, CodingKey {
+        case point
+        case terrain
+        case features
+
+        case riverName
+        case riverFlowNorth
+        case riverFlowNorthEast
+        case riverFlowSouthEast
+        case road
+    }
+    
     init(at point: HexPoint, with terrain: Terrain) {
         self.point = point
         self.terrain = terrain
         self.features = []
-        self.building = .none
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.point = try values.decode(HexPoint.self, forKey: .point)
+        self.terrain = try values.decode(Terrain.self, forKey: .terrain)
+        self.features = try values.decode([Feature].self, forKey: .features)
+
+        self.riverName = try values.decodeIfPresent(String.self, forKey: .riverName)
+        self.riverFlowNorth = try values.decode(FlowDirection.self, forKey: .riverFlowNorth)
+        self.riverFlowNorthEast = try values.decode(FlowDirection.self, forKey: .riverFlowNorthEast)
+        self.riverFlowSouthEast = try values.decode(FlowDirection.self, forKey: .riverFlowSouthEast)
+        self.road = try values.decode(Bool.self, forKey: .road)
     }
     
     func set(feature: Feature) {
@@ -73,6 +97,22 @@ extension Tile: Equatable {
     }
 }
 
+extension Tile: Encodable {
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.point, forKey: .point)
+        try container.encode(self.terrain, forKey: .terrain)
+        try container.encode(self.features, forKey: .features)
+        try container.encodeIfPresent(self.riverName, forKey: .riverName)
+        
+        try container.encode(self.riverFlowNorth, forKey: .riverFlowNorth)
+        try container.encode(self.riverFlowNorthEast, forKey: .riverFlowNorthEast)
+        try container.encode(self.riverFlowSouthEast, forKey: .riverFlowSouthEast)
+        try container.encode(self.road, forKey: .road)
+    }
+}
+
 extension Tile {
     
     var water: Bool {
@@ -87,14 +127,14 @@ extension Tile {
 extension Tile {
     
     func set(river: River?, with flow: FlowDirection) throws {
-        self.river = river
+        self.riverName = river?.name
         
         try setRiver(flow: flow)
     }
     
     func isRiver() -> Bool {
         
-        return self.river != nil && (self.isRiverInNorth() || self.isRiverInNorthEast() || self.isRiverInSouthEast())
+        return self.riverName != nil && (self.isRiverInNorth() || self.isRiverInNorthEast() || self.isRiverInSouthEast())
     }
     
     public func isRiverIn(direction: HexDirection) throws -> Bool {

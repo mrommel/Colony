@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GameObjectAtlas {
+class GameObjectAtlas: Codable {
     
     let atlasName: String
     let textures: [String]

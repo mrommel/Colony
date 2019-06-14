@@ -9,7 +9,7 @@
 import Foundation
 
 /// climate zone a `Tile` can be in
-enum ClimateZone: Int {
+enum ClimateZone: Int, Codable {
 
 	case polar
 	case subpolar

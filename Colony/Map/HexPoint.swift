@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HexPoint {
+class HexPoint: Codable {
     let x: Int
     let y: Int
     

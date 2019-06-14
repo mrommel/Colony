@@ -19,39 +19,43 @@ public protocol GameConditionType {
 extension GameConditionType {
 }
 
-extension GameConditionType where Self : RawRepresentable, Self.RawValue : FixedWidthInteger {
+extension GameConditionType where Self: RawRepresentable, Self.RawValue: FixedWidthInteger {
 }
 
 protocol GameConditionDelegate {
-    
+
     func won(with type: GameConditionType)
     func lost(with type: GameConditionType)
 }
 
-protocol GameConditionCheck {
-    
-    var gameObjectManager: GameObjectManager? { get set }
-    
-    func isWon() -> GameConditionType?
-    func isLost() -> GameConditionType?
-}
-
-class GameObjectManager {
+class GameObjectManager: Codable {
 
     weak var map: HexagonTileMap?
     var objects: [GameObject?]
-    
+
     // game condition
-    var conditionCheck: GameConditionCheck? {
-        didSet {
-            conditionCheck?.gameObjectManager = self
-        }
+    private var conditionChecks: [GameConditionCheck] = []
+    var conditionCheckIdentifiers: [String] {
+        return self.conditionChecks.map { $0.identifier }
     }
+    
     var conditionDelegate: GameConditionDelegate?
+
+    enum CodingKeys: String, CodingKey {
+        case objects
+    }
+
+    // MARK: constrcutor
 
     init(on map: HexagonTileMap?) {
         self.objects = []
         self.map = map
+    }
+
+    func add(conditionCheck: GameConditionCheck) {
+
+        conditionCheck.gameObjectManager = self
+        conditionChecks.append(conditionCheck)
     }
 
     func add(object: GameObject?) {
@@ -67,24 +71,35 @@ class GameObjectManager {
 
         object.delegate = self
         self.objects.append(object)
-        
+
         // check if already won / lost the game
         self.checkCondition()
+    }
+    
+    func unitBy(identifier: String) -> GameObject? {
+        
+        if let object = self.objects.first(where: { $0?.identifier == identifier }) {
+            return object
+        }
+        
+        return nil
     }
 
     func unitsOf(tribe: GameObjectTribe) -> [GameObject?] {
 
         return self.objects.filter { $0?.tribe == tribe }
     }
-    
+
     func checkCondition() {
-        
-        if let type = self.conditionCheck?.isWon() {
-            self.conditionDelegate?.won(with: type)
-        }
-        
-        if let type = self.conditionCheck?.isLost() {
-            self.conditionDelegate?.lost(with: type)
+
+        for conditionCheck in self.conditionChecks {
+            if let type = conditionCheck.isWon() {
+                self.conditionDelegate?.won(with: type)
+            }
+
+            if let type = conditionCheck.isLost() {
+                self.conditionDelegate?.lost(with: type)
+            }
         }
     }
 }
@@ -119,7 +134,7 @@ extension GameObjectManager: GameObjectDelegate {
                 }
             }
         } else if object.tribe == .enemy {
-            
+
             let fogAtEnemy = fogManager.fog(at: object.position)
             if fogAtEnemy == .sighted {
                 object.sprite.alpha = 1.0
@@ -127,7 +142,7 @@ extension GameObjectManager: GameObjectDelegate {
                 object.sprite.alpha = 0.1 // TODO: make completely invisible
             }
         }
-        
+
         // check if won / lost the game
         self.checkCondition()
     }

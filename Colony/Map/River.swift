@@ -15,7 +15,7 @@ import Foundation
 let riverNames = ["Amazon", "Nile", "Yangtze", "Mississippi", "Yenisei", "Huang He", "Ob", "Río de la Plata", "Congo", "Amur", "Lena", "Mekong", "Mackenzie", "Niger", "Murray", "Tocantins", "Volga", "Euphrates", "Madeira", "Purús", "Yukon", "Indus", "São Francisco", "Syr Darya", "Salween", "Saint Lawrence", "Rio Grande", "Lower Tunguska", "Brahmaputra", "Donau"]
 
 /// a `River` holds the complete list of `RiverEdge`s and his name
-class River {
+class River: Codable {
 
 	var name: String = ""
 	var points: [RiverEdge] = []

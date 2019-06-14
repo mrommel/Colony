@@ -10,8 +10,8 @@ import SpriteKit
 
 class Ship: GameObject {
     
-    init(with identifier: String, at point: HexPoint, mapDisplay: HexMapDisplay, tribe: GameObjectTribe) {
-        super.init(with: identifier, at: point, spriteName: "ship060", mapDisplay: mapDisplay, tribe: tribe)
+    init(with identifier: String, at point: HexPoint, tribe: GameObjectTribe) {
+        super.init(with: identifier, at: point, spriteName: "ship060", tribe: tribe, sight: 2)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "ship", textures: ["ship060", "ship061", "ship062"])
         
@@ -23,7 +23,7 @@ class Ship: GameObject {
         self.sprite.anchorPoint = CGPoint(x: -0.3, y: -0.1)
     }
     
-    override func sight() -> Int {
-        return 2
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
     }
 }

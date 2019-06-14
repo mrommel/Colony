@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct StartPositions {
+struct StartPositions: Codable {
     
     let monsterPosition: HexPoint
     let playerPosition: HexPoint
@@ -46,7 +46,7 @@ class StartPositionFinder {
         var trial: [HexPoint]
         
         repeat {
-            print("trail to find start positions ...")
+            print("try to find start positions ...")
             randomItem = possiblePoints.randomItem()
         
             trial = possiblePoints.filter { $0.distance(to: randomItem) > optimalDistance && map.path(from: $0, to: randomItem) != nil }

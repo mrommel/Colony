@@ -25,7 +25,11 @@ class HeightMap: Array2D<Float> {
 		self.generate(withOctaves: octaves, zoom: zoom, andPersistence: persistence)
 		self.normalize()
 	}
-
+    
+    required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+    
 	/**
 	generates the heightmap based on the input parameters
 	

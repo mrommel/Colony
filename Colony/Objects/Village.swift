@@ -10,9 +10,9 @@ import SpriteKit
 
 class Village: GameObject {
     
-    init(with identifier: String, at point: HexPoint, mapDisplay: HexMapDisplay, tribe: GameObjectTribe) {
+    init(with identifier: String, at point: HexPoint, tribe: GameObjectTribe) {
         
-        super.init(with: identifier, at: point, spriteName: "village0", mapDisplay: mapDisplay, tribe: tribe)
+        super.init(with: identifier, at: point, spriteName: "village0", tribe: tribe, sight: 2)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "village", textures: ["village0"])
         
@@ -24,7 +24,7 @@ class Village: GameObject {
         self.sprite.anchorPoint = CGPoint(x: -0.0, y: -0.0)
     }
     
-    override func sight() -> Int {
-        return 2
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
     }
 }

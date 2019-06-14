@@ -9,7 +9,7 @@
 import Foundation
 import CoreGraphics
 
-class HexagonMap<T: Equatable> {
+class HexagonMap<T: Equatable & Codable>: Codable {
     
     var tiles: Array2D<T>
     

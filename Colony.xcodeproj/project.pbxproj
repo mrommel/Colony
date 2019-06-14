@@ -19,6 +19,10 @@
 		C956078922B0F22800AA69E9 /* DialogConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956078822B0F22800AA69E9 /* DialogConfiguration.swift */; };
 		C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078C22B1291700AA69E9 /* VictoryDialog.xml */; };
 		C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */; };
+		C956079422B1426500AA69E9 /* LevelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079322B1426500AA69E9 /* LevelManager.swift */; };
+		C956079622B23FD800AA69E9 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079522B23FD800AA69E9 /* Level.swift */; };
+		C956079822B2426400AA69E9 /* GameConditionCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */; };
+		C956079A22B2435100AA69E9 /* MonsterCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079922B2435100AA69E9 /* MonsterCheck.swift */; };
 		C972CCBE22AA7E71008DB8CB /* GameObjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */; };
 		C972CCC022AAA4AE008DB8CB /* Village.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCBF22AAA4AE008DB8CB /* Village.swift */; };
 		C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */; };
@@ -36,6 +40,8 @@
 		C97E96D722A1C21600D594F3 /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D622A1C21600D594F3 /* Ship.swift */; };
 		C97E96DA22A1CB7B00D594F3 /* OceanPathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D922A1CB7B00D594F3 /* OceanPathfinderDataSource.swift */; };
 		C992ABEB22A32042001C5E7C /* NineGridTextureSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */; };
+		C9A32B4822B29F3100AFC70D /* level0001.lvl in Resources */ = {isa = PBXBuildFile; fileRef = C9A32B4722B29F3100AFC70D /* level0001.lvl */; };
+		C9A32B4A22B29F7B00AFC70D /* level0002.lvl in Resources */ = {isa = PBXBuildFile; fileRef = C9A32B4922B29F7B00AFC70D /* level0002.lvl */; };
 		C9AB425C22A062E3000E5397 /* Monster.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB425B22A062E3000E5397 /* Monster.swift */; };
 		C9C7F0C9229B193400A775B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F0C8229B193400A775B2 /* AppDelegate.swift */; };
 		C9C7F0CF229B193400A775B2 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F0CE229B193400A775B2 /* GameScene.swift */; };
@@ -73,7 +79,6 @@
 		C9C7F12B229EBF5200A775B2 /* AreaSprites.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F12A229EBF5200A775B2 /* AreaSprites.swift */; };
 		C9C7F12E229EBF8700A775B2 /* ContinentFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F12C229EBF8700A775B2 /* ContinentFinder.swift */; };
 		C9C7F12F229EBF8700A775B2 /* Continent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F12D229EBF8700A775B2 /* Continent.swift */; };
-		C9C7F131229EBF9400A775B2 /* Building.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F130229EBF9400A775B2 /* Building.swift */; };
 		C9C7F133229EBFA400A775B2 /* PerlinGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F132229EBFA400A775B2 /* PerlinGenerator.swift */; };
 		C9C7F135229EC0C300A775B2 /* HexMapDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F134229EC0C300A775B2 /* HexMapDisplay.swift */; };
 		C9C7F137229EC0D700A775B2 /* HexLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F136229EC0D700A775B2 /* HexLayout.swift */; };
@@ -98,6 +103,10 @@
 		C956078822B0F22800AA69E9 /* DialogConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogConfiguration.swift; sourceTree = "<group>"; };
 		C956078C22B1291700AA69E9 /* VictoryDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = VictoryDialog.xml; sourceTree = "<group>"; };
 		C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = QuitConfirmationDialog.xml; sourceTree = "<group>"; };
+		C956079322B1426500AA69E9 /* LevelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelManager.swift; sourceTree = "<group>"; };
+		C956079522B23FD800AA69E9 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
+		C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConditionCheckManager.swift; sourceTree = "<group>"; };
+		C956079922B2435100AA69E9 /* MonsterCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterCheck.swift; sourceTree = "<group>"; };
 		C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObjectManager.swift; sourceTree = "<group>"; };
 		C972CCBF22AAA4AE008DB8CB /* Village.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Village.swift; sourceTree = "<group>"; };
 		C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
@@ -115,6 +124,8 @@
 		C97E96D622A1C21600D594F3 /* Ship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ship.swift; sourceTree = "<group>"; };
 		C97E96D922A1CB7B00D594F3 /* OceanPathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OceanPathfinderDataSource.swift; sourceTree = "<group>"; };
 		C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineGridTextureSprite.swift; sourceTree = "<group>"; };
+		C9A32B4722B29F3100AFC70D /* level0001.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0001.lvl; sourceTree = "<group>"; };
+		C9A32B4922B29F7B00AFC70D /* level0002.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0002.lvl; sourceTree = "<group>"; };
 		C9AB425B22A062E3000E5397 /* Monster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monster.swift; sourceTree = "<group>"; };
 		C9C7F0C5229B193400A775B2 /* Colony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9C7F0C8229B193400A775B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -154,7 +165,6 @@
 		C9C7F12A229EBF5200A775B2 /* AreaSprites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaSprites.swift; sourceTree = "<group>"; };
 		C9C7F12C229EBF8700A775B2 /* ContinentFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinentFinder.swift; sourceTree = "<group>"; };
 		C9C7F12D229EBF8700A775B2 /* Continent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Continent.swift; sourceTree = "<group>"; };
-		C9C7F130229EBF9400A775B2 /* Building.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Building.swift; sourceTree = "<group>"; };
 		C9C7F132229EBFA400A775B2 /* PerlinGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerlinGenerator.swift; sourceTree = "<group>"; };
 		C9C7F134229EC0C300A775B2 /* HexMapDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexMapDisplay.swift; sourceTree = "<group>"; };
 		C9C7F136229EC0D700A775B2 /* HexLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexLayout.swift; sourceTree = "<group>"; };
@@ -188,6 +198,7 @@
 		C956078A22B1241B00AA69E9 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
+				C9A32B4622B29F2600AFC70D /* New Group */,
 				C956078B22B1245400AA69E9 /* UI */,
 				C9C7F0D2229B193400A775B2 /* Main.storyboard */,
 				C9C7F0D5229B193A00A775B2 /* Assets.xcassets */,
@@ -205,6 +216,17 @@
 				C956078C22B1291700AA69E9 /* VictoryDialog.xml */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		C956079222B1425100AA69E9 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				C956079522B23FD800AA69E9 /* Level.swift */,
+				C956079322B1426500AA69E9 /* LevelManager.swift */,
+				C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */,
+				C956079922B2435100AA69E9 /* MonsterCheck.swift */,
+			);
+			path = Game;
 			sourceTree = "<group>";
 		};
 		C9763EB222A317C600F31126 /* UI */ = {
@@ -246,6 +268,15 @@
 			path = PathFinding;
 			sourceTree = "<group>";
 		};
+		C9A32B4622B29F2600AFC70D /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				C9A32B4722B29F3100AFC70D /* level0001.lvl */,
+				C9A32B4922B29F7B00AFC70D /* level0002.lvl */,
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		C9C7F0BC229B193400A775B2 = {
 			isa = PBXGroup;
 			children = (
@@ -268,6 +299,7 @@
 		C9C7F0C7229B193400A775B2 /* Colony */ = {
 			isa = PBXGroup;
 			children = (
+				C956079222B1425100AA69E9 /* Game */,
 				C97E96D122A0739100D594F3 /* Objects */,
 				C9C7F108229EBE2000A775B2 /* Utils */,
 				C9C7F0F7229EBD0700A775B2 /* Map */,
@@ -331,7 +363,6 @@
 				C9C7F105229EBDE700A775B2 /* RiverEdge.swift */,
 				C9C7F12D229EBF8700A775B2 /* Continent.swift */,
 				C9C7F12C229EBF8700A775B2 /* ContinentFinder.swift */,
-				C9C7F130229EBF9400A775B2 /* Building.swift */,
 				C97B283122A5349A00112532 /* FogManager.swift */,
 				C97B283522A54AE600112532 /* HexArea.swift */,
 				C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */,
@@ -449,9 +480,11 @@
 			files = (
 				C9C7F0D4229B193400A775B2 /* Main.storyboard in Resources */,
 				C9C7F0D6229B193A00A775B2 /* Assets.xcassets in Resources */,
+				C9A32B4822B29F3100AFC70D /* level0001.lvl in Resources */,
 				C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */,
 				C90A134F22A99F130003BBDE /* README.md in Resources */,
 				C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */,
+				C9A32B4A22B29F7B00AFC70D /* level0002.lvl in Resources */,
 				C9C7F0D9229B193A00A775B2 /* LaunchScreen.storyboard in Resources */,
 				C900654222AEE8DC0004C963 /* DefeatDialog.xml in Resources */,
 			);
@@ -500,6 +533,7 @@
 				C97E96D322A073A500D594F3 /* GameObjectAtlas.swift in Sources */,
 				C9C7F13C229F204900A775B2 /* FeatureLayer.swift in Sources */,
 				C9C7F122229EBE5C00A775B2 /* MapSize.swift in Sources */,
+				C956079622B23FD800AA69E9 /* Level.swift in Sources */,
 				C9C7F135229EC0C300A775B2 /* HexMapDisplay.swift in Sources */,
 				C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */,
 				C97B283622A54AE600112532 /* HexArea.swift in Sources */,
@@ -508,7 +542,6 @@
 				C9C7F114229EBE3100A775B2 /* FloatExtension.swift in Sources */,
 				C9C7F0FD229EBD2900A775B2 /* HexagonMap.swift in Sources */,
 				C9C7F0D1229B193400A775B2 /* GameViewController.swift in Sources */,
-				C9C7F131229EBF9400A775B2 /* Building.swift in Sources */,
 				C97B283222A5349A00112532 /* FogManager.swift in Sources */,
 				C9C7F140229F20C300A775B2 /* RiverLayer.swift in Sources */,
 				C97B283022A42A4600112532 /* MapGenerationScene.swift in Sources */,
@@ -521,6 +554,7 @@
 				C9C7F127229EBE7A00A775B2 /* HeightMap.swift in Sources */,
 				C9C7F0FF229EBD5100A775B2 /* HexPoint.swift in Sources */,
 				C9C7F0FB229EBD1800A775B2 /* HexagonTileMap.swift in Sources */,
+				C956079822B2426400AA69E9 /* GameConditionCheckManager.swift in Sources */,
 				C9C7F116229EBE3100A775B2 /* BitArray.swift in Sources */,
 				C9C7F0F3229EA73300A775B2 /* MapNode.swift in Sources */,
 				C956078922B0F22800AA69E9 /* DialogConfiguration.swift in Sources */,
@@ -542,6 +576,8 @@
 				C9C7F102229EBD9500A775B2 /* Terrain.swift in Sources */,
 				C9C7F129229EBEDD00A775B2 /* HexDirection.swift in Sources */,
 				C9C7F133229EBFA400A775B2 /* PerlinGenerator.swift in Sources */,
+				C956079422B1426500AA69E9 /* LevelManager.swift in Sources */,
+				C956079A22B2435100AA69E9 /* MonsterCheck.swift in Sources */,
 				C9AB425C22A062E3000E5397 /* Monster.swift in Sources */,
 				C9C7F12F229EBF8700A775B2 /* Continent.swift in Sources */,
 				C9C7F12E229EBF8700A775B2 /* ContinentFinder.swift in Sources */,
@@ -704,6 +740,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3XR2XX99JT;
 				INFOPLIST_FILE = "$(SRCROOT)/Colony/Ressources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -723,6 +760,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3XR2XX99JT;
 				INFOPLIST_FILE = "$(SRCROOT)/Colony/Ressources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -11,11 +11,8 @@ import SpriteKit
 class TerrainLayer: SKNode {
     
     weak var map: HexagonTileMap?
-    let mapDisplay: HexMapDisplay
     
-    init(with size: CGSize, and mapDisplay: HexMapDisplay) {
-        
-        self.mapDisplay = mapDisplay
+    override init() {
         
         super.init()
     }
@@ -43,7 +40,7 @@ class TerrainLayer: SKNode {
                 
                 let pt = HexPoint(x: x, y: y)
                 if let tile = map.tiles[x, y] {
-                    let screenPoint = self.mapDisplay.toScreen(hex: pt)
+                    let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
                     if fogManager.discovered(at: pt) {
                         self.placeTileHex(tile: tile, coastTexture: map.coastTexture(at: pt), at: screenPoint, alpha: 0.5)
                     } else if fogManager.currentlyVisible(at: pt) {
@@ -103,7 +100,7 @@ extension TerrainLayer: FogStateChangedDelegate {
         self.clearTileHex(at: pt)
         
         if let tile = map.tiles[pt] {
-            let screenPoint = self.mapDisplay.toScreen(hex: pt)
+            let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
             if fogManager.currentlyVisible(at: pt) {
                 self.placeTileHex(tile: tile, coastTexture: map.coastTexture(at: pt), at: screenPoint, alpha: 1.0)
             } else if fogManager.discovered(at: pt) {

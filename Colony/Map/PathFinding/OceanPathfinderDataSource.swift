@@ -37,6 +37,34 @@ class OceanPathfinderDataSource: PathfinderDataSource {
     func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Int {
         return 1
     }
+}
+
+class OceanPathfinderDataSourceIgnoreSight: PathfinderDataSource {
     
+    let map: HexagonTileMap
     
+    init(map: HexagonTileMap) {
+        self.map = map
+    }
+    
+    func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
+        
+        var walkableCoords = [HexPoint]()
+        
+        for direction in HexDirection.all {
+            let neighbor = coord.neighbor(in: direction)
+            if map.valid(point: neighbor) {
+
+                if map.isWater(at: neighbor) {
+                    walkableCoords.append(neighbor)
+                }
+            }
+        }
+        
+        return walkableCoords
+    }
+    
+    func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Int {
+        return 1
+    }
 }
