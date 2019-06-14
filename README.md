@@ -3,14 +3,14 @@
 ## Todo
 - add beach-se-sw-nw texture
 - add game UI frame
-- save and load games
 - style splash screen
 - abstract game and turn game menu into level overview
 
 ## Bugs
-
+- dialogs have wrong display levels
 
 ## Done
+- save and load games
 - harbor as goal in game
 - make game fail when monster catches boat
 - [Defect] monster not hidden / revealed based on player sight
