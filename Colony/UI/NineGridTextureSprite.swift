@@ -10,17 +10,21 @@ import SpriteKit
 
 class NineGridTextureSprite: SKSpriteNode {
     
-    init(imageNamed imageName: String, size: CGSize) {
+    init(imageNamed imageName: String, size: CGSize, isNineGrid: Bool = true) {
         let texture = SKTexture.init(imageNamed: imageName)
         super.init(texture: texture, color: UIColor.black, size: size)
         
-        setupNineGrid()
+        if isNineGrid {
+            setupNineGrid()
+        }
     }
     
-    override init(texture: SKTexture?, color: UIColor, size: CGSize) {
+    init(texture: SKTexture?, color: UIColor, size: CGSize, isNineGrid: Bool = true) {
         super.init(texture: texture, color: color, size: size)
         
-        setupNineGrid()
+        if isNineGrid {
+            setupNineGrid()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

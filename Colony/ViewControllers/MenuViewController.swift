@@ -12,6 +12,7 @@ import SpriteKit
 class MenuViewController: UIViewController {
     
     var scene: MenuScene?
+    var currentLevelName: String? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,15 +34,34 @@ class MenuViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // add level here
+        if segue.identifier == "gotoGame" {
+            let gameViewController = segue.destination as? GameViewController
+            
+            if self.currentLevelName == nil {
+                gameViewController?.viewModel = GameViewModel()
+            } else {
+                gameViewController?.viewModel = GameViewModel(with: self.currentLevelName)
+            }
+        }
+    }
 }
 
 extension MenuViewController: MenuDelegate {
 
-    func startGame() {
+    func start(level levelName: String) {
+        self.currentLevelName = levelName
         self.performSegue(withIdentifier: "gotoGame", sender: nil)
     }
     
-    func startOptions() {
+    func startGeneration() {
+        self.currentLevelName = nil
+        self.performSegue(withIdentifier: "gotoGame", sender: nil)
+    }
+    
+    /*func startOptions() {
         
         if let defeatDialog = UI.defeatDialog() {
             
@@ -52,9 +72,5 @@ extension MenuViewController: MenuDelegate {
             
             scene?.addChild(defeatDialog)
         }
-    }
-    
-    func startCredits() {
-        
-    }
+    }*/
 }

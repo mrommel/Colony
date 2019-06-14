@@ -20,8 +20,7 @@ class ProgressBarNode: SKNode {
         
         super.init()
         
-        let filledImage = NineGridTextureSprite(imageNamed: "grid9_progress")
-        filledImage.size = size
+        let filledImage = NineGridTextureSprite(imageNamed: "grid9_progress", size: size)
         self.progressBar.addChild(filledImage)
         
         self.progressBar.maskNode = SKSpriteNode(color: UIColor.white,

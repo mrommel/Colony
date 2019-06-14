@@ -15,15 +15,13 @@ class SpriteButtonNode: SKNode {
     var buttonLabel: SKLabelNode
     var action: () -> Void
     
-    init(titled title: String, defaultButtonImage: String, activeButtonImage: String, size: CGSize, buttonAction: @escaping () -> Void) {
+    init(titled title: String, defaultButtonImage: String, activeButtonImage: String, size: CGSize, isNineGrid: Bool = true, buttonAction: @escaping () -> Void) {
         
         // default button state
-        self.defaultButton = NineGridTextureSprite(imageNamed: defaultButtonImage)
-        self.defaultButton.size = size
+        self.defaultButton = NineGridTextureSprite(imageNamed: defaultButtonImage, size: size, isNineGrid: isNineGrid)
         
         // active button state
-        self.activeButton = NineGridTextureSprite(imageNamed: activeButtonImage)
-        self.activeButton.size = size
+        self.activeButton = NineGridTextureSprite(imageNamed: activeButtonImage, size: size, isNineGrid: isNineGrid)
         self.activeButton.isHidden = true
         
         self.action = buttonAction

@@ -15,6 +15,30 @@ protocol GameDelegate: class {
     func quitGame()
 }
 
+enum GameSceneViewModelType {
+    case level
+    case generator
+}
+
+class GameSceneViewModel {
+
+    let type: GameSceneViewModelType
+    let map: HexagonTileMap?
+    let levelName: String?
+
+    init(with map: HexagonTileMap?) {
+        self.type = .generator
+        self.map = map
+        self.levelName = nil
+    }
+
+    init(with levelName: String?) {
+        self.type = .level
+        self.map = nil
+        self.levelName = levelName
+    }
+}
+
 class GameScene: SKScene {
 
     struct Constants {
@@ -39,7 +63,7 @@ class GameScene: SKScene {
         }
     }
 
-    var map: HexagonTileMap? = nil
+    var viewModel: GameSceneViewModel?
 
     var mapNode: MapNode?
     let viewHex: SKSpriteNode
@@ -80,15 +104,28 @@ class GameScene: SKScene {
 
         let deviceScale = self.size.width / 667
 
-        let levelMgr = LevelManager()
-
-        guard let level = levelMgr.loadLevel(named: "level0001") else {
-            fatalError("no level")
+        guard let viewModel = self.viewModel else {
+            fatalError("no ViewModel")
         }
 
-        self.mapNode = MapNode(with: level)
+        switch viewModel.type {
 
-        //self.mapNode = MapNode(with: self.map)
+        case .level:
+            let levelMgr = LevelManager()
+
+            guard let levelname = viewModel.levelName else {
+                fatalError("no level name")
+            }
+
+            guard let level = levelMgr.loadLevel(named: levelname) else {
+                fatalError("no level")
+            }
+
+            self.mapNode = MapNode(with: level)
+        case .generator:
+            self.mapNode = MapNode(with: viewModel.map)
+        }
+
         self.mapNode?.xScale = 1.0
         self.mapNode?.yScale = 1.0
         self.mapNode?.gameObjectManager.conditionDelegate = self
@@ -120,21 +157,25 @@ class GameScene: SKScene {
         exitButton.zPosition = 200
         self.cameraNode.addChild(exitButton)
 
-        // save node
-        let saveButton = MessageBoxButtonNode(titled: "Save", buttonAction: {
+        if viewModel.type == .generator {
+            // save node
+            let saveButton = MessageBoxButtonNode(titled: "Save", buttonAction: {
 
-            let startPositionFinder = StartPositionFinder(map: self.map)
-            let startPositions = startPositionFinder.identifyStartPositions()
+                let map = self.viewModel?.map
 
-            let level = Level(title: "Test", summary: "Dummy", map: self.map!, startPositions: startPositions, gameObjectManager: self.mapNode!.gameObjectManager)
+                let startPositionFinder = StartPositionFinder(map: map)
+                let startPositions = startPositionFinder.identifyStartPositions()
 
-            let levelMgr = LevelManager()
-            levelMgr.store(level: level, to: "level0001.lvl")
+                let level = Level(title: "Test", summary: "Dummy", map: map!, startPositions: startPositions, gameObjectManager: self.mapNode!.gameObjectManager)
 
-        })
-        saveButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 80)
-        saveButton.zPosition = 200
-        self.cameraNode.addChild(saveButton)
+                let levelMgr = LevelManager()
+                levelMgr.store(level: level, to: "level0001.lvl")
+
+            })
+            saveButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 80)
+            saveButton.zPosition = 200
+            self.cameraNode.addChild(saveButton)
+        }
 
         // debug
         self.positionLabel.text = String("0, 0")

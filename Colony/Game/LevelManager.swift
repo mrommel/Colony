@@ -6,11 +6,26 @@
 //  Copyright © 2019 Michael Rommel. All rights reserved.
 //
 
-import Foundation
+import SpriteKit
+
+struct LevelInfo {
+    
+    let number: Int
+    let position: CGPoint
+    let levelName: String
+}
 
 class LevelManager {
+    
+    var levels: [LevelInfo] = []
+    
+    init() {
+        
+        levels.append(LevelInfo(number: 1, position: CGPoint(x: 0.1, y: 0.1), levelName: "level0001"))
+        levels.append(LevelInfo(number: 2, position: CGPoint(x: 0.2, y: 0.3), levelName: "level0002"))
+    }
 
-    func getDocumentsDirectory() -> URL {
+    private func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
     }
@@ -42,9 +57,8 @@ class LevelManager {
 
                 return try JSONDecoder().decode(Level.self, from: jsonData)
             } catch {
-print("Error reading \(error)")
+                print("Error reading \(error)")
             }
-
         }
 
         return nil
