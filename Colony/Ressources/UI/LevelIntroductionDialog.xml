@@ -17,14 +17,25 @@
             <anchory>center</anchory>
             <offsetx>0</offsetx>
             <offsety>70</offsety>
-            <width>120</width>
-            <height>80</height>
-            <image>victory</image>
+            <width>60</width>
+            <height>60</height>
+            <image>questionmark</image>
+        </item>
+        <item>
+            <identifier>title</identifier>
+            <type>label</type>
+            <title>Level</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>10</offsety>
+            <width>200</width>
+            <height>50</height>
         </item>
         <item>
             <identifier>summary</identifier>
             <type>label</type>
-            <title>You won. You reached the heaven.</title>
+            <title>Description</title>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>

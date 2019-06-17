@@ -34,6 +34,7 @@ class GameObject: Decodable {
     
     var spriteName: String
     var sprite: SKSpriteNode
+    var spriteAnchorPoint: CGPoint
     
     var atlasIdle: GameObjectAtlas?
     var atlasDown: GameObjectAtlas?
@@ -53,7 +54,7 @@ class GameObject: Decodable {
         case state
         case tribe
         
-        case spriteName
+        case spriteName, spriteAnchorPoint
         case atlasIdle, atlasDown, atlasUp, atlasRight, atlasLeft
         
         case sight
@@ -68,7 +69,8 @@ class GameObject: Decodable {
         self.sprite = SKSpriteNode(imageNamed: spriteName)
         self.sprite.position = HexMapDisplay.shared.toScreen(hex: self.position)
         self.sprite.zPosition = GameScene.Constants.ZLevels.sprite
-        self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.50)
+        self.spriteAnchorPoint = CGPoint(x: -0.25, y: -0.50)
+        self.sprite.anchorPoint = self.spriteAnchorPoint
         
         self.sight = sight
     }
@@ -85,7 +87,8 @@ class GameObject: Decodable {
         self.sprite = SKSpriteNode(imageNamed: self.spriteName)
         self.sprite.position = HexMapDisplay.shared.toScreen(hex: self.position)
         self.sprite.zPosition = GameScene.Constants.ZLevels.sprite
-        self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.50)
+        self.spriteAnchorPoint = try values.decodeIfPresent(CGPoint.self, forKey: .spriteAnchorPoint) ?? CGPoint(x: -0.25, y: -0.50)
+        self.sprite.anchorPoint = self.spriteAnchorPoint
         
         self.atlasIdle = try values.decode(GameObjectAtlas.self, forKey: .atlasIdle)
         self.atlasDown = try values.decode(GameObjectAtlas.self, forKey: .atlasDown)
@@ -172,6 +175,7 @@ extension GameObject: Encodable {
         try container.encode(self.tribe, forKey: .tribe)
 
         try container.encode(self.spriteName, forKey: .spriteName)
+        try container.encode(self.spriteAnchorPoint, forKey: .spriteAnchorPoint)
         
         try container.encode(self.atlasIdle, forKey: .atlasIdle)
         try container.encode(self.atlasDown, forKey: .atlasDown)

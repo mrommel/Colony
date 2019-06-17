@@ -12,6 +12,16 @@ enum MonsterGameConditionType: GameConditionType {
     
     case villageReached
     case monsterCaughtShip
+    
+    var summary: String {
+        switch self {
+            
+        case .villageReached:
+            return "You have reached the village."
+        case .monsterCaughtShip:
+            return "Oh. The Monster caught you."
+        }
+    }
 }
 
 class MonsterCheck: GameConditionCheck {

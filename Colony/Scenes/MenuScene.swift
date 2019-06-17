@@ -11,7 +11,7 @@ import SpriteKit
 
 protocol MenuDelegate {
     
-    func start(level levelName: String)
+    func start(level url: URL?)
     func startGeneration()
     
     /*func startOptions()
@@ -44,16 +44,16 @@ class MenuScene: SKScene {
         let levelManager = LevelManager()
         for level in levelManager.levels {
             
-            let levelButton = LevelButtonNode(titled: "\(level.number)", buttonAction: {
+            let levelButton = LevelButtonNode(titled: "\(level.number)", difficulty: level.difficulty, buttonAction: {
                 
-                self.menuDelegate?.start(level: level.levelName)
+                self.menuDelegate?.start(level: level.resource)
             })
             levelButton.position = CGPoint(x: self.frame.width * level.position.x, y: self.frame.height * level.position.y)
             levelButton.zPosition = 2
             self.addChild(levelButton)
         }
         
-        let generateButton = LevelButtonNode(titled: "G", buttonAction: {
+        let generateButton = LevelButtonNode(titled: "G", difficulty: .easy, buttonAction: {
             
             self.menuDelegate?.startGeneration()
         })

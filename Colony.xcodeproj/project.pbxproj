@@ -16,6 +16,7 @@
 		C90A134F22A99F130003BBDE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C90A134E22A99F130003BBDE /* README.md */; };
 		C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* MenuScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
+		C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2B22B7ABB700AB7117 /* R.generated.swift */; };
 		C956078922B0F22800AA69E9 /* DialogConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956078822B0F22800AA69E9 /* DialogConfiguration.swift */; };
 		C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078C22B1291700AA69E9 /* VictoryDialog.xml */; };
 		C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */; };
@@ -87,6 +88,9 @@
 		C9C7F13E229F206000A775B2 /* BoardLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F13D229F206000A775B2 /* BoardLayer.swift */; };
 		C9C7F140229F20C300A775B2 /* RiverLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F13F229F20C300A775B2 /* RiverLayer.swift */; };
 		C9E9BBF822B3B32C0048F97B /* LevelButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBF722B3B32C0048F97B /* LevelButtonNode.swift */; };
+		C9E9BBFC22B584400048F97B /* DiscoverCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */; };
+		C9E9BBFE22B58CF60048F97B /* Timer30SecondsCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */; };
+		C9E9BC0022B6262A0048F97B /* LevelIntroductionDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9E9BBFF22B6262A0048F97B /* LevelIntroductionDialog.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +105,7 @@
 		C90A134E22A99F130003BBDE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C91A4F3222A260DD000BF647 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
+		C94A2F2B22B7ABB700AB7117 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		C956078822B0F22800AA69E9 /* DialogConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogConfiguration.swift; sourceTree = "<group>"; };
 		C956078C22B1291700AA69E9 /* VictoryDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = VictoryDialog.xml; sourceTree = "<group>"; };
 		C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = QuitConfirmationDialog.xml; sourceTree = "<group>"; };
@@ -174,6 +179,9 @@
 		C9C7F13D229F206000A775B2 /* BoardLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardLayer.swift; sourceTree = "<group>"; };
 		C9C7F13F229F20C300A775B2 /* RiverLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverLayer.swift; sourceTree = "<group>"; };
 		C9E9BBF722B3B32C0048F97B /* LevelButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelButtonNode.swift; sourceTree = "<group>"; };
+		C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCheck.swift; sourceTree = "<group>"; };
+		C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer30SecondsCheck.swift; sourceTree = "<group>"; };
+		C9E9BBFF22B6262A0048F97B /* LevelIntroductionDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LevelIntroductionDialog.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,7 +208,7 @@
 		C956078A22B1241B00AA69E9 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
-				C9A32B4622B29F2600AFC70D /* New Group */,
+				C9A32B4622B29F2600AFC70D /* Levels */,
 				C956078B22B1245400AA69E9 /* UI */,
 				C9C7F0D2229B193400A775B2 /* Main.storyboard */,
 				C9C7F0D5229B193A00A775B2 /* Assets.xcassets */,
@@ -214,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				C900654122AEE8DC0004C963 /* DefeatDialog.xml */,
+				C9E9BBFF22B6262A0048F97B /* LevelIntroductionDialog.xml */,
 				C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */,
 				C956078C22B1291700AA69E9 /* VictoryDialog.xml */,
 			);
@@ -227,6 +236,8 @@
 				C956079322B1426500AA69E9 /* LevelManager.swift */,
 				C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */,
 				C956079922B2435100AA69E9 /* MonsterCheck.swift */,
+				C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */,
+				C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -271,13 +282,13 @@
 			path = PathFinding;
 			sourceTree = "<group>";
 		};
-		C9A32B4622B29F2600AFC70D /* New Group */ = {
+		C9A32B4622B29F2600AFC70D /* Levels */ = {
 			isa = PBXGroup;
 			children = (
 				C9A32B4722B29F3100AFC70D /* level0001.lvl */,
 				C9A32B4922B29F7B00AFC70D /* level0002.lvl */,
 			);
-			path = "New Group";
+			path = Levels;
 			sourceTree = "<group>";
 		};
 		C9C7F0BC229B193400A775B2 = {
@@ -312,6 +323,7 @@
 				C9C7F0EE229E992100A775B2 /* ViewControllers */,
 				C956078A22B1241B00AA69E9 /* Ressources */,
 				C9C7F0C8229B193400A775B2 /* AppDelegate.swift */,
+				C94A2F2B22B7ABB700AB7117 /* R.generated.swift */,
 			);
 			path = Colony;
 			sourceTree = "<group>";
@@ -430,6 +442,7 @@
 			buildConfigurationList = C9C7F0DD229B193A00A775B2 /* Build configuration list for PBXNativeTarget "Colony" */;
 			buildPhases = (
 				AE72828580C659482B7501FB /* [CP] Check Pods Manifest.lock */,
+				C94A2F2A22B7AB6700AB7117 /* ShellScript */,
 				C9C7F0C1229B193400A775B2 /* Sources */,
 				C9C7F0C2229B193400A775B2 /* Frameworks */,
 				C9C7F0C3229B193400A775B2 /* Resources */,
@@ -489,6 +502,7 @@
 				C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */,
 				C9A32B4A22B29F7B00AFC70D /* level0002.lvl in Resources */,
 				C9C7F0D9229B193A00A775B2 /* LaunchScreen.storyboard in Resources */,
+				C9E9BC0022B6262A0048F97B /* LevelIntroductionDialog.xml in Resources */,
 				C900654222AEE8DC0004C963 /* DefeatDialog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -517,6 +531,25 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C94A2F2A22B7AB6700AB7117 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$TEMP_DIR/rswift-lastrun",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				$SRCROOT/R.generated.swift,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/R.generated.swift\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -564,11 +597,14 @@
 				C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */,
 				C9C7F113229EBE3100A775B2 /* AStarPathFinder.swift in Sources */,
 				C9C7F0F6229EAB9000A775B2 /* SKNode+Extension.swift in Sources */,
+				C9E9BBFC22B584400048F97B /* DiscoverCheck.swift in Sources */,
 				C992ABEB22A32042001C5E7C /* NineGridTextureSprite.swift in Sources */,
 				C9C7F111229EBE3100A775B2 /* IntegerExtension.swift in Sources */,
 				C972CCBE22AA7E71008DB8CB /* GameObjectManager.swift in Sources */,
 				C9C7F125229EBE5C00A775B2 /* ClimateZone.swift in Sources */,
+				C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */,
 				C9C7F112229EBE3100A775B2 /* Array2D.swift in Sources */,
+				C9E9BBFE22B58CF60048F97B /* Timer30SecondsCheck.swift in Sources */,
 				C900654022AEE3BA0004C963 /* UIParser.swift in Sources */,
 				C9C7F115229EBE3100A775B2 /* Random.swift in Sources */,
 				C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */,

@@ -24,18 +24,18 @@ class GameSceneViewModel {
 
     let type: GameSceneViewModelType
     let map: HexagonTileMap?
-    let levelName: String?
+    let levelURL: URL?
 
     init(with map: HexagonTileMap?) {
         self.type = .generator
         self.map = map
-        self.levelName = nil
+        self.levelURL = nil
     }
 
-    init(with levelName: String?) {
+    init(with levelURL: URL?) {
         self.type = .level
         self.map = nil
-        self.levelName = levelName
+        self.levelURL = levelURL
     }
 }
 
@@ -107,21 +107,31 @@ class GameScene: SKScene {
         guard let viewModel = self.viewModel else {
             fatalError("no ViewModel")
         }
+        
+        // camera
+        self.cameraNode = SKCameraNode() //initialize and assign an instance of SKCameraNode to the cam variable.
+        self.cameraNode.xScale = 0.25
+        self.cameraNode.yScale = 0.25 //the scale sets the zoom level of the camera on the given position
+        
+        self.camera = cameraNode //set the scene's camera to reference cam
+        self.addChild(cameraNode) //make the cam a childElement of the scene itself.
 
         switch viewModel.type {
 
         case .level:
-            let levelMgr = LevelManager()
 
-            guard let levelname = viewModel.levelName else {
-                fatalError("no level name")
+            guard let levelURL = viewModel.levelURL else {
+                fatalError("no level url")
             }
 
-            guard let level = levelMgr.loadLevel(named: levelname) else {
+            guard let level = LevelManager.loadLevelFrom(url: levelURL) else {
                 fatalError("no level")
             }
 
             self.mapNode = MapNode(with: level)
+            
+            self.showLevel(title: level.title, summary: level.summary)
+            
         case .generator:
             self.mapNode = MapNode(with: viewModel.map)
         }
@@ -137,14 +147,6 @@ class GameScene: SKScene {
         self.addChild(viewHex)
 
         self.placeFocusHex()
-
-        // camera
-        self.cameraNode = SKCameraNode() //initialize and assign an instance of SKCameraNode to the cam variable.
-        self.cameraNode.xScale = 0.25
-        self.cameraNode.yScale = 0.25 //the scale sets the zoom level of the camera on the given position
-
-        self.camera = cameraNode //set the scene's camera to reference cam
-        self.addChild(cameraNode) //make the cam a childElement of the scene itself.
 
         // position the camera on the gamescene.
         self.cameraNode.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
@@ -166,10 +168,9 @@ class GameScene: SKScene {
                 let startPositionFinder = StartPositionFinder(map: map)
                 let startPositions = startPositionFinder.identifyStartPositions()
 
-                let level = Level(title: "Test", summary: "Dummy", map: map!, startPositions: startPositions, gameObjectManager: self.mapNode!.gameObjectManager)
+                let level = Level(title: "Test", summary: "Dummy", difficulty: .easy, map: map!, startPositions: startPositions, gameObjectManager: self.mapNode!.gameObjectManager)
 
-                let levelMgr = LevelManager()
-                levelMgr.store(level: level, to: "level0001.lvl")
+                LevelManager.store(level: level, to: "level000X.lvl")
 
             })
             saveButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 80)
@@ -205,9 +206,6 @@ class GameScene: SKScene {
         if let quitConfirmationDialog = UI.quitConfirmationDialog() {
 
             quitConfirmationDialog.zPosition = 250
-            print(quitConfirmationDialog.position)
-            //quitConfirmationDialog.position = CGPoint(x: -150, y: 0)
-
             quitConfirmationDialog.addOkayAction(handler: {
                 quitConfirmationDialog.close()
                 self.gameDelegate?.quitGame()
@@ -218,6 +216,24 @@ class GameScene: SKScene {
             })
 
             self.cameraNode.addChild(quitConfirmationDialog)
+        }
+    }
+    
+    func showLevel(title: String, summary: String) {
+        
+        if let levelIntroductionDialog = UI.levelIntroductionDialog() {
+            
+            levelIntroductionDialog.zPosition = 250
+            levelIntroductionDialog.set(text: title, identifier: "title")
+            levelIntroductionDialog.set(text: summary, identifier: "summary")
+            levelIntroductionDialog.addOkayAction(handler: {
+                levelIntroductionDialog.close()
+                
+                // start timer
+                self.mapNode?.gameObjectManager.start()
+            })
+            
+            self.cameraNode.addChild(levelIntroductionDialog)
         }
     }
 
@@ -305,10 +321,10 @@ class GameScene: SKScene {
 extension GameScene: GameConditionDelegate {
 
     func won(with type: GameConditionType) {
-        print("--- won ---")
+        print("--- won with \(type) ---")
 
         if let victoryDialog = UI.victoryDialog() {
-
+            victoryDialog.set(text: type.summary, identifier: "summary")
             victoryDialog.addOkayAction(handler: {
                 self.gameDelegate?.quitGame()
             })
@@ -318,10 +334,10 @@ extension GameScene: GameConditionDelegate {
     }
 
     func lost(with type: GameConditionType) {
-        print("--- lost ---")
+        print("--- lost with \(type) ---")
 
         if let defeatDialog = UI.defeatDialog() {
-
+            defeatDialog.set(text: type.summary, identifier: "summary")
             defeatDialog.addOkayAction(handler: {
                 self.gameDelegate?.quitGame()
             })

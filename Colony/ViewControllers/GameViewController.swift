@@ -18,16 +18,16 @@ enum GameViewModelType {
 class GameViewModel {
 
     let type: GameViewModelType
-    let levelName: String?
+    let resource: URL?
 
     init() {
         self.type = .generator
-        self.levelName = nil
+        self.resource = nil
     }
 
-    init(with levelName: String?) {
+    init(with resource: URL?) {
         self.type = .level
-        self.levelName = levelName
+        self.resource = resource
     }
 }
 
@@ -53,7 +53,7 @@ class GameViewController: UIViewController {
         
         switch viewModel.type {
         case .level:
-            self.startGameWith(levelName: self.viewModel?.levelName)
+            self.startGameWith(levelURL: self.viewModel?.resource)
         case .generator:
             self.startMapGeneration()
         }
@@ -73,7 +73,7 @@ class GameViewController: UIViewController {
         super.viewWillDisappear(animated)
     }
 
-    func startGameWith(levelName: String?) {
+    func startGameWith(levelURL: URL?) {
 
         guard let view = self.view as! SKView? else {
             fatalError("View not loaded")
@@ -82,7 +82,7 @@ class GameViewController: UIViewController {
         self.mapGenerationScene = nil
 
         self.gameScene = GameScene(size: view.bounds.size)
-        self.gameScene?.viewModel = GameSceneViewModel(with: levelName)
+        self.gameScene?.viewModel = GameSceneViewModel(with: levelURL)
         self.gameScene?.scaleMode = .resizeFill
         self.gameScene?.gameDelegate = self
 

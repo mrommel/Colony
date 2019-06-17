@@ -8,10 +8,31 @@
 
 import Foundation
 
+enum LevelDifficulty: String, Codable {
+    
+    case easy
+    case medium
+    case hard
+    
+    var buttonName: String {
+        
+        switch self {
+        
+        case .easy:
+            return "level_cyan"
+        case .medium:
+            return "level_yellow"
+        case .hard:
+            return "level_red"
+        }
+    }
+}
+
 class Level: Decodable  {
     
     let title: String
     let summary: String
+    let difficulty: LevelDifficulty
     
     let map: HexagonTileMap
     let startPositions: StartPositions
@@ -20,6 +41,7 @@ class Level: Decodable  {
     enum CodingKeys: String, CodingKey {
         case title
         case summary
+        case difficulty
         
         case map
         case startPositions
@@ -28,10 +50,11 @@ class Level: Decodable  {
         case gameConditionCheckIdentifiers
     }
     
-    init(title: String, summary: String, map: HexagonTileMap, startPositions: StartPositions, gameObjectManager: GameObjectManager) {
+    init(title: String, summary: String, difficulty: LevelDifficulty ,map: HexagonTileMap, startPositions: StartPositions, gameObjectManager: GameObjectManager) {
         
         self.title = title
         self.summary = summary
+        self.difficulty = difficulty
         
         self.map = map
         self.startPositions = startPositions
@@ -46,6 +69,7 @@ class Level: Decodable  {
         
         self.title = try values.decode(String.self, forKey: .title)
         self.summary = try values.decode(String.self, forKey: .summary)
+        self.difficulty = try values.decode(LevelDifficulty.self, forKey: .difficulty)
         
         self.map = try values.decode(HexagonTileMap.self, forKey: .map)
         self.startPositions = try values.decode(StartPositions.self, forKey: .startPositions)
@@ -67,6 +91,7 @@ class Level: Decodable  {
         for identifier in gameConditionCheckIdentifiers {
             if let gameConditionCheck = GameConditionCheckManager.shared.gameConditionCheckFor(identifier: identifier) {
                 self.gameObjectManager.add(conditionCheck: gameConditionCheck)
+                print("- add \(gameConditionCheck.identifier)")
             }
         }
     }
@@ -78,6 +103,7 @@ extension Level: Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.title, forKey: .title)
         try container.encode(self.summary, forKey: .summary)
+        try container.encode(self.difficulty, forKey: .difficulty)
         
         try container.encode(self.map, forKey: .map)
         try container.encode(self.startPositions, forKey: .startPositions)

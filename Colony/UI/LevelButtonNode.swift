@@ -10,11 +10,11 @@ import SpriteKit
 
 class LevelButtonNode: SpriteButtonNode {
     
-    init(titled title: String, buttonAction: @escaping () -> Void) {
+    init(titled title: String, difficulty: LevelDifficulty, buttonAction: @escaping () -> Void) {
         
         super.init(titled: title,
-                   defaultButtonImage: "level",
-                   activeButtonImage: "level",
+                   defaultButtonImage: difficulty.buttonName,
+                   activeButtonImage: difficulty.buttonName,
                    size: CGSize(width: 50, height: 50),
                    isNineGrid: false,
                    buttonAction: buttonAction)

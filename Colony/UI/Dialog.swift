@@ -47,6 +47,7 @@ class Dialog: NineGridTextureSprite {
                         fatalError("Button without action")
                     }
                 })
+                buttonItem.name = item.identifier
                 buttonItem.position = item.positionIn(parent: self.size)
                 buttonItem.zPosition = dialogLevel + 1.0
                 self.addChild(buttonItem)
@@ -55,6 +56,7 @@ class Dialog: NineGridTextureSprite {
             if item.type == .image {
                 let texture = SKTexture(imageNamed: item.image)
                 let imageItem = SKSpriteNode(texture: texture, size: item.size)
+                imageItem.name = item.identifier
                 imageItem.position = item.positionIn(parent: self.size)
                 imageItem.zPosition = dialogLevel + 1.0
                 self.addChild(imageItem)
@@ -62,6 +64,7 @@ class Dialog: NineGridTextureSprite {
             
             if item.type == .label {
                 let labelItem = SKLabelNode(text: item.title)
+                labelItem.name = item.identifier
                 labelItem.position = item.positionIn(parent: self.size)
                 labelItem.zPosition = dialogLevel + 1.0
                 self.addChild(labelItem)
@@ -71,6 +74,19 @@ class Dialog: NineGridTextureSprite {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func set(text: String, identifier: String) {
+    
+        guard let node = self.children.first(where: { $0.name == identifier }) else {
+            fatalError("Can't find \(identifier)")
+        }
+        
+        guard let label = node as? SKLabelNode else {
+            fatalError("identifier does not identify a label")
+        }
+        
+        label.text = text
     }
     
     func addOkayAction(handler: @escaping () -> Void) {

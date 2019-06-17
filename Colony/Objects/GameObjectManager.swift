@@ -14,6 +14,8 @@ protocol GameObjectDelegate {
 }
 
 public protocol GameConditionType {
+    
+    var summary: String { get }
 }
 
 extension GameConditionType {
@@ -32,6 +34,9 @@ class GameObjectManager: Codable {
 
     weak var map: HexagonTileMap?
     var objects: [GameObject?]
+    
+    var startTime: TimeInterval = 0.0
+    var timer: Timer? = nil
 
     // game condition
     private var conditionChecks: [GameConditionCheck] = []
@@ -50,6 +55,30 @@ class GameObjectManager: Codable {
     init(on map: HexagonTileMap?) {
         self.objects = []
         self.map = map
+    }
+    
+    deinit {
+        if let timer = self.timer {
+            timer.invalidate()
+        }
+    }
+    
+    func start() {
+        print("start timer")
+        
+        // save start time
+        self.startTime = Date().timeIntervalSince1970
+        
+        // start timer to check for conditions ever 1 seconds
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (t) in
+            
+            self.checkCondition()
+        }
+    }
+    
+    func timeInSecondsElapsed() -> TimeInterval {
+        let current = Date().timeIntervalSince1970
+        return current - self.startTime
     }
 
     func add(conditionCheck: GameConditionCheck) {
@@ -95,10 +124,18 @@ class GameObjectManager: Codable {
         for conditionCheck in self.conditionChecks {
             if let type = conditionCheck.isWon() {
                 self.conditionDelegate?.won(with: type)
+                
+                if let timer = self.timer {
+                    timer.invalidate()
+                }
             }
 
             if let type = conditionCheck.isLost() {
                 self.conditionDelegate?.lost(with: type)
+                
+                if let timer = self.timer {
+                    timer.invalidate()
+                }
             }
         }
     }

@@ -31,6 +31,8 @@ enum DialogResultType: String, Codable {
 
 struct DialogItem: Codable {
     
+    var identifier: String
+    
     var type: DialogItemType
     
     var title: String
@@ -46,8 +48,9 @@ struct DialogItem: Codable {
     
     var image: String
     
-    init(type: DialogItemType, title: String, result: DialogResultType, offsetx: Int, offsety: Int, anchorx: DialogAnchor, anchory: DialogAnchor, width: Int, height: Int, image: String) {
+    init(identifier: String, type: DialogItemType, title: String, result: DialogResultType, offsetx: Int, offsety: Int, anchorx: DialogAnchor, anchory: DialogAnchor, width: Int, height: Int, image: String) {
         
+        self.identifier = identifier
         self.type = type
         self.title = title
         self.result = result
@@ -64,6 +67,7 @@ struct DialogItem: Codable {
         
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
+        let identifier = try values.decode(String.self, forKey: .identifier)
         let type = try values.decode(DialogItemType.self, forKey: .type)
         let title = try values.decodeIfPresent(String.self, forKey: .title) ?? ""
         let result = try values.decodeIfPresent(DialogResultType.self, forKey: .result) ?? .none
@@ -76,7 +80,7 @@ struct DialogItem: Codable {
         
         let image = try values.decodeIfPresent(String.self, forKey: .image) ?? ""
         
-        self.init(type: type, title: title, result: result, offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, image: image)
+        self.init(identifier: identifier, type: type, title: title, result: result, offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, image: image)
     }
     
     func positionxIn(parent: CGSize) -> CGFloat {

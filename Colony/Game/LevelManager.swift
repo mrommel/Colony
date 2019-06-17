@@ -7,12 +7,14 @@
 //
 
 import SpriteKit
+import Rswift
 
 struct LevelInfo {
     
     let number: Int
+    let difficulty: LevelDifficulty
     let position: CGPoint
-    let levelName: String
+    let resource: URL?
 }
 
 class LevelManager {
@@ -20,27 +22,22 @@ class LevelManager {
     var levels: [LevelInfo] = []
     
     init() {
-        
-        levels.append(LevelInfo(number: 1, position: CGPoint(x: 0.1, y: 0.1), levelName: "level0001"))
-        levels.append(LevelInfo(number: 2, position: CGPoint(x: 0.2, y: 0.3), levelName: "level0002"))
+
+        levels.append(LevelInfo(number: 1, difficulty: .easy, position: CGPoint(x: 0.1, y: 0.1), resource: R.file.level0001Lvl()))
+        levels.append(LevelInfo(number: 2, difficulty: .medium, position: CGPoint(x: 0.2, y: 0.3), resource: R.file.level0002Lvl()))
     }
 
-    private func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
-
-    func store(level: Level?, to fileName: String) {
+    static func store(level: Level?, to fileName: String) {
 
         guard let level = level else {
-            fatalError("Can't store nil level")
+            fatalError("Can't store nil levels")
         }
 
-        let filename = getDocumentsDirectory().appendingPathComponent(fileName)
+        let filename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(fileName)
 
         do {
             let mapPayload: Data = try JSONEncoder().encode(level)
-            try mapPayload.write(to: filename)
+            try mapPayload.write(to: filename!)
             //let jsonString = String(data: mapPayload, encoding: .utf8)
             //print(jsonString!)
         } catch {
@@ -48,12 +45,12 @@ class LevelManager {
         }
     }
 
-    func loadLevel(named levelName: String) -> Level? {
+    static func loadLevelFrom(url: URL?) -> Level? {
 
-        if let url = Bundle.main.url(forResource: levelName, withExtension: "lvl") {
+        if let levelUrl = url {
 
             do {
-                let jsonData = try Data(contentsOf: url, options: .mappedIfSafe)
+                let jsonData = try Data(contentsOf: levelUrl, options: .mappedIfSafe)
 
                 return try JSONDecoder().decode(Level.self, from: jsonData)
             } catch {

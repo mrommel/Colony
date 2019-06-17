@@ -11,6 +11,7 @@
     <!-- sub items -->
     <items>
         <item>
+            <identifier>dialog_image</identifier>
             <type>image</type>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
@@ -21,6 +22,7 @@
             <image>defeat</image>
         </item>
         <item>
+            <identifier>summary</identifier>
             <type>label</type>
             <title>You lost. The monster catched you.</title>
             <anchorx>center</anchorx>
@@ -31,6 +33,7 @@
             <height>50</height>
         </item>
         <item>
+            <identifier>okay_button</identifier>
             <type>button</type>
             <title>Okay</title>
             <result>OKAY</result>

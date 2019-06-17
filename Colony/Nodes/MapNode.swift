@@ -36,7 +36,6 @@ class MapNode: SKNode {
 
         self.gameObjectManager = GameObjectManager(on: self.map)
 
-
         let monster = Monster(with: "monster", at: startPositions.monsterPosition, tribe: .enemy)
         self.gameObjectManager.add(object: monster)
         let ship = Ship(with: "ship", at: startPositions.playerPosition, tribe: .player)
@@ -58,7 +57,7 @@ class MapNode: SKNode {
 
         super.init()
 
-        self.gameObjectManager.add(conditionCheck: MonsterCheck())
+        //self.gameObjectManager.add(conditionCheck: MonsterCheck())
 
         self.addChild(self.terrainLayer)
         self.addChild(self.featureLayer)
@@ -86,11 +85,6 @@ class MapNode: SKNode {
         self.gameObjectManager = level.gameObjectManager
         self.gameObjectManager.map = self.map
 
-        // TODO: add objects from gameObjectManager
-        let monster = self.gameObjectManager.unitBy(identifier: "monster")
-        let ship = self.gameObjectManager.unitBy(identifier: "ship")
-        let village = self.gameObjectManager.unitBy(identifier: "village")
-
         // TODO: make objects generic
 
         self.terrainLayer = TerrainLayer()
@@ -112,17 +106,17 @@ class MapNode: SKNode {
         self.addChild(self.boardLayer)
         self.addChild(self.riverLayer)
 
-        if let monster = monster {
+        if let monster = self.gameObjectManager.unitBy(identifier: "monster") {
             self.addChild(monster.sprite)
             monster.idle()
         }
 
-        if let ship = ship {
+        if let ship = self.gameObjectManager.unitBy(identifier: "ship") {
             self.addChild(ship.sprite)
             ship.idle()
         }
 
-        if let village = village {
+        if let village = self.gameObjectManager.unitBy(identifier: "village") {
             self.addChild(village.sprite)
             village.idle()
         }
