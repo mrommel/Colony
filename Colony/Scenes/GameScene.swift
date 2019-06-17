@@ -168,7 +168,7 @@ class GameScene: SKScene {
                 let startPositionFinder = StartPositionFinder(map: map)
                 let startPositions = startPositionFinder.identifyStartPositions()
 
-                let level = Level(title: "Test", summary: "Dummy", difficulty: .easy, map: map!, startPositions: startPositions, gameObjectManager: self.mapNode!.gameObjectManager)
+                let level = Level(number: 0, title: "Test", summary: "Dummy", difficulty: .easy, map: map!, startPositions: startPositions, gameObjectManager: self.mapNode!.gameObjectManager)
 
                 LevelManager.store(level: level, to: "level000X.lvl")
 

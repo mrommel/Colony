@@ -30,6 +30,7 @@ enum LevelDifficulty: String, Codable {
 
 class Level: Decodable  {
     
+    let number: Int
     let title: String
     let summary: String
     let difficulty: LevelDifficulty
@@ -39,6 +40,7 @@ class Level: Decodable  {
     let gameObjectManager: GameObjectManager
     
     enum CodingKeys: String, CodingKey {
+        case number
         case title
         case summary
         case difficulty
@@ -50,8 +52,9 @@ class Level: Decodable  {
         case gameConditionCheckIdentifiers
     }
     
-    init(title: String, summary: String, difficulty: LevelDifficulty ,map: HexagonTileMap, startPositions: StartPositions, gameObjectManager: GameObjectManager) {
+    init(number: Int, title: String, summary: String, difficulty: LevelDifficulty ,map: HexagonTileMap, startPositions: StartPositions, gameObjectManager: GameObjectManager) {
         
+        self.number = number
         self.title = title
         self.summary = summary
         self.difficulty = difficulty
@@ -67,6 +70,7 @@ class Level: Decodable  {
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
+        self.number = try values.decode(Int.self, forKey: .number)
         self.title = try values.decode(String.self, forKey: .title)
         self.summary = try values.decode(String.self, forKey: .summary)
         self.difficulty = try values.decode(LevelDifficulty.self, forKey: .difficulty)
@@ -101,6 +105,8 @@ extension Level: Encodable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.number, forKey: .number)
         try container.encode(self.title, forKey: .title)
         try container.encode(self.summary, forKey: .summary)
         try container.encode(self.difficulty, forKey: .difficulty)

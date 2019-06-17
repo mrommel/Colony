@@ -1,6 +1,7 @@
 {
+  "difficulty": "medium", 
   "gameConditionCheckIdentifiers": [
-    "DiscoverCheck",
+    "DiscoverCheck", 
     "Timer30SecondsCheck"
   ], 
   "gameObjectManager": {
@@ -45,17 +46,17 @@
             "ship085", 
             "ship086"
           ]
-        },
-        "spriteAnchorPoint": [
-            -0.3,
-            -0.1
-        ],
+        }, 
         "identifier": "ship", 
         "position": {
           "x": 21, 
           "y": 11
         }, 
         "sight": 2, 
+        "spriteAnchorPoint": [
+          -0.3, 
+          -0.1
+        ], 
         "spriteName": "ship060", 
         "state": "idle", 
         "tribe": "player"
@@ -7062,6 +7063,7 @@
       "rows": 20
     }
   }, 
+  "number": 1, 
   "startPositions": {
     "monsterPosition": {
       "x": 2, 
@@ -7076,7 +7078,6 @@
       "y": 3
     }
   }, 
-  "summary": "Discover the ocean (you need to reveal 50 tiles in 2 minutes).",
-    "title": "Level 2",
-"difficulty": "medium"
+  "summary": "Discover the ocean (you need to reveal 50 tiles in 2 minutes).", 
+  "title": "Level 2"
 }

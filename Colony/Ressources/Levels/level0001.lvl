@@ -1,4 +1,5 @@
 {
+  "difficulty": "easy", 
   "gameConditionCheckIdentifiers": [
     "MonsterCheck"
   ], 
@@ -49,17 +50,17 @@
             "tile014", 
             "tile015"
           ]
-        },
-        "spriteAnchorPoint": [
-            -0.25,
-            -0.5
-        ],
+        }, 
         "identifier": "monster", 
         "position": {
           "x": 20, 
           "y": 13
-        },
-        "sight": 1,
+        }, 
+        "sight": 1, 
+        "spriteAnchorPoint": [
+          -0.25, 
+          -0.5
+        ], 
         "spriteName": "tile004", 
         "state": "walking", 
         "tribe": "enemy"
@@ -104,17 +105,17 @@
             "ship085", 
             "ship086"
           ]
-        },
-        "spriteAnchorPoint": [
-            -0.3,
-            -0.1
-        ], 
+        }, 
         "identifier": "ship", 
         "position": {
           "x": 1, 
           "y": 1
-        },
-        "sight": 2,
+        }, 
+        "sight": 2, 
+        "spriteAnchorPoint": [
+          -0.3, 
+          -0.1
+        ], 
         "spriteName": "ship060", 
         "state": "idle", 
         "tribe": "player"
@@ -149,17 +150,17 @@
           "textures": [
             "village0"
           ]
-        },
-        "spriteAnchorPoint": [
-            0.0,
-            0.0
-        ],
+        }, 
         "identifier": "village", 
         "position": {
           "x": 21, 
           "y": 11
-        },
-        "sight": 2,
+        }, 
+        "sight": 2, 
+        "spriteAnchorPoint": [
+          0.0, 
+          0.0
+        ], 
         "spriteName": "village0", 
         "state": "idle", 
         "tribe": "player"
@@ -6634,6 +6635,7 @@
       "rows": 20
     }
   }, 
+  "number": 1, 
   "startPositions": {
     "monsterPosition": {
       "x": 1, 
@@ -6648,7 +6650,6 @@
       "y": 4
     }
   }, 
-  "summary": "Find the harbor and avoid the Monster.",
-  "title": "Level 1",
-  "difficulty": "easy"
+  "summary": "Find the harbor and avoid the Monster.", 
+  "title": "Level 1"
 }
