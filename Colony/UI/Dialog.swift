@@ -67,6 +67,8 @@ class Dialog: NineGridTextureSprite {
                 labelItem.name = item.identifier
                 labelItem.position = item.positionIn(parent: self.size)
                 labelItem.zPosition = dialogLevel + 1.0
+                labelItem.fontSize = item.fontSize
+                    
                 self.addChild(labelItem)
             }
         }

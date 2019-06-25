@@ -17,6 +17,10 @@
 		C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* MenuScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
 		C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2B22B7ABB700AB7117 /* R.generated.swift */; };
+		C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */; };
+		C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */; };
+		C94A2F3322C22F8700AB7117 /* SafeAreaNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3222C22F8700AB7117 /* SafeAreaNode.swift */; };
+		C94A2F3522C2322A00AB7117 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3422C2322A00AB7117 /* CGRectExtension.swift */; };
 		C956078922B0F22800AA69E9 /* DialogConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956078822B0F22800AA69E9 /* DialogConfiguration.swift */; };
 		C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078C22B1291700AA69E9 /* VictoryDialog.xml */; };
 		C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */; };
@@ -106,6 +110,10 @@
 		C91A4F3222A260DD000BF647 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
 		C94A2F2B22B7ABB700AB7117 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
+		C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
+		C94A2F3222C22F8700AB7117 /* SafeAreaNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeAreaNode.swift; sourceTree = "<group>"; };
+		C94A2F3422C2322A00AB7117 /* CGRectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
 		C956078822B0F22800AA69E9 /* DialogConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogConfiguration.swift; sourceTree = "<group>"; };
 		C956078C22B1291700AA69E9 /* VictoryDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = VictoryDialog.xml; sourceTree = "<group>"; };
 		C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = QuitConfirmationDialog.xml; sourceTree = "<group>"; };
@@ -203,6 +211,14 @@
 				ACE7A2BA698D9042467C8F93 /* Pods-Colony.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		C94A2F2D22C0EC4000AB7117 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		C956078A22B1241B00AA69E9 /* Ressources */ = {
@@ -320,6 +336,7 @@
 				C9763EB222A317C600F31126 /* UI */,
 				C9C7F0F1229EA71500A775B2 /* Nodes */,
 				C9C7F0F4229EAB4D00A775B2 /* Scenes */,
+				C94A2F2D22C0EC4000AB7117 /* ViewModels */,
 				C9C7F0EE229E992100A775B2 /* ViewControllers */,
 				C956078A22B1241B00AA69E9 /* Ressources */,
 				C9C7F0C8229B193400A775B2 /* AppDelegate.swift */,
@@ -347,6 +364,7 @@
 				C9C7F13B229F204900A775B2 /* FeatureLayer.swift */,
 				C9C7F13F229F20C300A775B2 /* RiverLayer.swift */,
 				C9C7F13D229F206000A775B2 /* BoardLayer.swift */,
+				C94A2F3222C22F8700AB7117 /* SafeAreaNode.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -391,13 +409,15 @@
 				C9C7F10A229EBE3100A775B2 /* Array2D.swift */,
 				C9C7F110229EBE3100A775B2 /* ArrayExtension.swift */,
 				C9C7F10E229EBE3100A775B2 /* BitArray.swift */,
-				C9C7F10F229EBE3100A775B2 /* CGPointExtension.swift */,
 				C9C7F10C229EBE3100A775B2 /* FloatExtension.swift */,
 				C9C7F109229EBE3100A775B2 /* IntegerExtension.swift */,
 				C9C7F10D229EBE3100A775B2 /* Random.swift */,
 				C9763EB022A316C300F31126 /* ColorExtension.swift */,
 				C97B283322A53D0F00112532 /* MulticastDelegate.swift */,
 				C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */,
+				C9C7F10F229EBE3100A775B2 /* CGPointExtension.swift */,
+				C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */,
+				C94A2F3422C2322A00AB7117 /* CGRectExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -565,8 +585,10 @@
 				C9C7F0CF229B193400A775B2 /* GameScene.swift in Sources */,
 				C9763EAD22A2FEE300F31126 /* MessageBoxNode.swift in Sources */,
 				C97E96D722A1C21600D594F3 /* Ship.swift in Sources */,
+				C94A2F3322C22F8700AB7117 /* SafeAreaNode.swift in Sources */,
 				C9C7F137229EC0D700A775B2 /* HexLayout.swift in Sources */,
 				C97E96D322A073A500D594F3 /* GameObjectAtlas.swift in Sources */,
+				C94A2F3522C2322A00AB7117 /* CGRectExtension.swift in Sources */,
 				C9C7F13C229F204900A775B2 /* FeatureLayer.swift in Sources */,
 				C9C7F122229EBE5C00A775B2 /* MapSize.swift in Sources */,
 				C956079622B23FD800AA69E9 /* Level.swift in Sources */,
@@ -574,6 +596,7 @@
 				C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */,
 				C97B283622A54AE600112532 /* HexArea.swift in Sources */,
 				C9C7F120229EBE5C00A775B2 /* HexPointCorner.swift in Sources */,
+				C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */,
 				C9C7F13E229F206000A775B2 /* BoardLayer.swift in Sources */,
 				C9C7F114229EBE3100A775B2 /* FloatExtension.swift in Sources */,
 				C9C7F0FD229EBD2900A775B2 /* HexagonMap.swift in Sources */,
@@ -605,6 +628,7 @@
 				C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */,
 				C9C7F112229EBE3100A775B2 /* Array2D.swift in Sources */,
 				C9E9BBFE22B58CF60048F97B /* Timer30SecondsCheck.swift in Sources */,
+				C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */,
 				C900654022AEE3BA0004C963 /* UIParser.swift in Sources */,
 				C9C7F115229EBE3100A775B2 /* Random.swift in Sources */,
 				C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */,

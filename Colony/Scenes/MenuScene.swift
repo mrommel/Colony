@@ -13,13 +13,11 @@ protocol MenuDelegate {
     
     func start(level url: URL?)
     func startGeneration()
-    
-    /*func startOptions()
-    func startCredits()*/
 }
 
 class MenuScene: SKScene {
-
+    
+    // MARK: Variables
     var menuDelegate: MenuDelegate?
     
     override init(size: CGSize) {
@@ -49,7 +47,7 @@ class MenuScene: SKScene {
                 self.menuDelegate?.start(level: level.resource)
             })
             levelButton.position = CGPoint(x: self.frame.width * level.position.x, y: self.frame.height * level.position.y)
-            levelButton.zPosition = 2
+            levelButton.zPosition = 1
             self.addChild(levelButton)
         }
         
@@ -57,37 +55,8 @@ class MenuScene: SKScene {
             
             self.menuDelegate?.startGeneration()
         })
-        generateButton.position = CGPoint(x: self.frame.width * 0.9, y: self.frame.height * 0.9)
-        generateButton.zPosition = 2
+        generateButton.position = CGPoint(x: self.frame.width * 0.9, y: self.frame.height * 0.8)
+        generateButton.zPosition = 1
         self.addChild(generateButton)
-        
-        /*let level1Button = LevelButtonNode(titled: "1", buttonAction: {
-            
-            self.menuDelegate?.startGame()
-        })
-        level1Button.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
-        level1Button.zPosition = 2
-        self.addChild(level1Button)*/
-        
-        /*let frame = NineGridTextureSprite(imageNamed: "grid9_frame", size: viewSize.reduce(dx: 40, dy: 80))
-        frame.position = CGPoint(x: frame.size.width / 2 + 20, y: frame.size.height / 2 + 40)
-        frame.zPosition = 1
-        self.addChild(frame)*/
-        
-        /*let monsterButton = MenuButtonNode(titled: "Seeungeheuer", buttonAction: {
-            
-            self.menuDelegate?.startGame()
-        })
-        monsterButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
-        monsterButton.zPosition = 2
-        self.addChild(monsterButton)
-        
-        let optionButton = MenuButtonNode(titled: "Optionen", buttonAction: {
-            
-            self.menuDelegate?.startOptions()
-        })
-        optionButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 80)
-        optionButton.zPosition = 2
-        self.addChild(optionButton)*/
     }
 }

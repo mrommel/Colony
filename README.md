@@ -6,14 +6,14 @@
 - style splash screen
 - show elapsed time
 - store already played game results
-- load difficulty from level 
-- generate maps with parameters
 
 ## Bugs
 - [Defect] dialogs have wrong display levels
 - [Defect] dialogs have wrong font size (too big)
 
 ## Done
+- generate maps with parameters
+- load difficulty from level 
 - [Defect] sprites have wrong anchor points
 - add level introduction with level goal
 - [Defect] win or defect condition not displayed by correct reason

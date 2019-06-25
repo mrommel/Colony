@@ -70,6 +70,11 @@ class HexMapDisplay {
 
 		return toScreen(cube: HexCube(hex: hex))
 	}
+    
+    func toHexPoint(screen: CGPoint) -> HexPoint {
+    
+        return HexPoint(cube: self.toHexCube(screen: screen))
+    }
 
 	func toHexCube(screen: CGPoint) -> HexCube {
 

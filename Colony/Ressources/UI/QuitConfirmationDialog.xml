@@ -24,7 +24,7 @@
         <item>
             <identifier>summary</identifier>
             <type>label</type>
-            <title>Do you really want to quit?.</title>
+            <title>Do you really want to quit?</title>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>

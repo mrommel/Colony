@@ -10,27 +10,6 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-enum GameViewModelType {
-    case level
-    case generator
-}
-
-class GameViewModel {
-
-    let type: GameViewModelType
-    let resource: URL?
-
-    init() {
-        self.type = .generator
-        self.resource = nil
-    }
-
-    init(with resource: URL?) {
-        self.type = .level
-        self.resource = resource
-    }
-}
-
 class GameViewController: UIViewController {
 
     var pinchGestureRecognizer: UIPinchGestureRecognizer?
@@ -184,7 +163,7 @@ extension GameViewController: GameDelegate {
 
     func select(object: GameObject?) {
 
-        let alert = UIAlertController(title: "Ship", message: "Please Select an Option", preferredStyle: .actionSheet)
+        /*let alert = UIAlertController(title: "Ship", message: "Please Select an Option", preferredStyle: .actionSheet)
 
         alert.addAction(UIAlertAction(title: "Settle?", style: .default, handler: { (UIAlertAction)in
             print("User click Settle button => show buttons")
@@ -197,6 +176,6 @@ extension GameViewController: GameDelegate {
 
         self.present(alert, animated: true, completion: {
             print("completion block")
-        })
+        })*/
     }
 }

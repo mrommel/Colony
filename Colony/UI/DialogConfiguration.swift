@@ -36,6 +36,7 @@ struct DialogItem: Codable {
     var type: DialogItemType
     
     var title: String
+    var fontSize: CGFloat
     var result: DialogResultType
     
     var offsetx: Int = 0
@@ -48,11 +49,12 @@ struct DialogItem: Codable {
     
     var image: String
     
-    init(identifier: String, type: DialogItemType, title: String, result: DialogResultType, offsetx: Int, offsety: Int, anchorx: DialogAnchor, anchory: DialogAnchor, width: Int, height: Int, image: String) {
+    init(identifier: String, type: DialogItemType, title: String, fontSize: CGFloat, result: DialogResultType, offsetx: Int, offsety: Int, anchorx: DialogAnchor, anchory: DialogAnchor, width: Int, height: Int, image: String) {
         
         self.identifier = identifier
         self.type = type
         self.title = title
+        self.fontSize = fontSize
         self.result = result
         self.offsetx = offsetx
         self.offsety = offsety
@@ -70,6 +72,7 @@ struct DialogItem: Codable {
         let identifier = try values.decode(String.self, forKey: .identifier)
         let type = try values.decode(DialogItemType.self, forKey: .type)
         let title = try values.decodeIfPresent(String.self, forKey: .title) ?? ""
+        let fontSize = try values.decodeIfPresent(CGFloat.self, forKey: .fontSize) ?? 18
         let result = try values.decodeIfPresent(DialogResultType.self, forKey: .result) ?? .none
         let offsetx = try values.decodeIfPresent(Int.self, forKey: .offsetx) ?? 0
         let offsety = try values.decodeIfPresent(Int.self, forKey: .offsety) ?? 0
@@ -80,7 +83,7 @@ struct DialogItem: Codable {
         
         let image = try values.decodeIfPresent(String.self, forKey: .image) ?? ""
         
-        self.init(identifier: identifier, type: type, title: title, result: result, offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, image: image)
+        self.init(identifier: identifier, type: type, title: title, fontSize: fontSize, result: result, offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, image: image)
     }
     
     func positionxIn(parent: CGSize) -> CGFloat {

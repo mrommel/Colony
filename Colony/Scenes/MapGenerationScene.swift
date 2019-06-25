@@ -35,28 +35,41 @@ class MapGenerationScene: SKScene {
         background.size = (self.view?.bounds.size)!
         self.addChild(background)
         
+        let hugeButton = MenuButtonNode(titled: "Huge", buttonAction: {
+            DispatchQueue.global(qos: .background).async {
+                self.startMapGeneration(mapSize: .huge, waterPercentage: 0.4, rivers: 8)
+            }
+        })
+        hugeButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + 80)
+        hugeButton.zPosition = 1
+        self.addChild(hugeButton)
+        
+        let standardButton = MenuButtonNode(titled: "Standard", buttonAction: {
+            DispatchQueue.global(qos: .background).async {
+                self.startMapGeneration(mapSize: .standard, waterPercentage: 0.3, rivers: 4)
+            }
+        })
+        standardButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + 30)
+        standardButton.zPosition = 1
+        self.addChild(standardButton)
+        
         self.progressBarNode = ProgressBarNode(size: CGSize(width: 200, height: 40))
         self.progressBarNode.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 80)
         self.progressBarNode.zPosition = 1
         self.progressBarNode.set(progress: 0.0)
         self.addChild(self.progressBarNode)
-        
-        DispatchQueue.global(qos: .background).async {
-            self.startMapGeneration()
-        }
     }
     
-    func startMapGeneration() {
+    func startMapGeneration(mapSize: MapSize, waterPercentage: Float, rivers: Int) {
         
-        let mapSize = MapSize.standard
-        let options = MapGeneratorOptions(withSize: .standard, zone: .earth, waterPercentage: 0.30, rivers: 4)
+        let options = MapGeneratorOptions(withSize: mapSize, zone: .earth, waterPercentage: waterPercentage, rivers: rivers)
         
         let generator = MapGenerator(width: mapSize.width, height: mapSize.height)
-        generator.completionHandler = { progress in
+        generator.progressHandler = { progress in
             
             DispatchQueue.main.async {
                 let progressValue: CGFloat = CGFloat(progress)
-                print("progress: \(progressValue)")
+                //print("progress: \(progressValue)")
                 self.progressBarNode.set(progress: progressValue)
             }
         }

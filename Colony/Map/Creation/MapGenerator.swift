@@ -35,7 +35,7 @@ class MapGeneratorOptions {
 	}
 }
 
-public typealias CompletionHandler = (Float) -> Void
+public typealias ProgressHandler = (Float) -> Void
 
 class MapGenerator {
 
@@ -47,7 +47,7 @@ class MapGenerator {
 	let distanceToCoast: Array2D<Int>
 	var springLocations: [HexPoint]
 
-	var completionHandler: CompletionHandler?
+	var progressHandler: ProgressHandler?
 
 	/**
 	creates a new grid generator for a map of `width`x`height` dimension
@@ -76,7 +76,7 @@ class MapGenerator {
 		let heightMap = HeightMap(width: width, height: height)
 		let moistureMap = HeightMap(width: width, height: height)
 
-		if let completionHandler = self.completionHandler {
+		if let completionHandler = self.progressHandler {
 			completionHandler(0.2)
 		}
         
@@ -85,7 +85,7 @@ class MapGenerator {
 		// 1st step: land / water
 		self.fillFromElevation(withWaterPercentage: options.waterPercentage, on: heightMap)
 
-		if let completionHandler = self.completionHandler {
+		if let completionHandler = self.progressHandler {
 			completionHandler(0.4)
 		}
         
@@ -107,7 +107,7 @@ class MapGenerator {
 			self.setClimateZones(with: .tropic)
 		}
         
-		if let completionHandler = self.completionHandler {
+		if let completionHandler = self.progressHandler {
 			completionHandler(0.45)
 		}
         
@@ -117,7 +117,7 @@ class MapGenerator {
 		self.prepareDistanceToCoast()
 		self.refineClimate()
 
-		if let completionHandler = self.completionHandler {
+		if let completionHandler = self.progressHandler {
 			completionHandler(0.5)
 		}
         
@@ -126,7 +126,7 @@ class MapGenerator {
 		// 3rd step: refine terrain
 		self.refineTerrain(on: grid, with: heightMap, and: moistureMap)
 
-		if let completionHandler = self.completionHandler {
+		if let completionHandler = self.progressHandler {
 			completionHandler(0.65)
 		}
         
@@ -137,7 +137,7 @@ class MapGenerator {
 		let rivers = self.add(rivers: options.rivers, on: heightMap)
 		self.put(rivers: rivers, onto: grid)
 
-		if let completionHandler = self.completionHandler {
+		if let completionHandler = self.progressHandler {
 			completionHandler(0.8)
 		}
         
@@ -146,7 +146,7 @@ class MapGenerator {
         // 5th step: continents
         self.identifyContinents(on: grid)
         
-        if let completionHandler = self.completionHandler {
+        if let completionHandler = self.progressHandler {
             completionHandler(1.0)
         }
         

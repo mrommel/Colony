@@ -41,6 +41,9 @@ class GameSceneViewModel {
 
 class GameScene: SKScene {
 
+    // MARK: Constants
+    let headerHeight: CGFloat = 480
+    
     struct Constants {
 
         struct ZLevels {
@@ -82,7 +85,7 @@ class GameScene: SKScene {
         viewHex = SKSpriteNode()
 
         super.init(size: size)
-        self.anchorPoint = CGPoint(x: 0.5, y: 0.2)
+        //self.anchorPoint = CGPoint(x: 0.0, y: 0.0) // 0.2
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -110,8 +113,10 @@ class GameScene: SKScene {
         
         // camera
         self.cameraNode = SKCameraNode() //initialize and assign an instance of SKCameraNode to the cam variable.
+        
+        //the scale sets the zoom level of the camera on the given position
         self.cameraNode.xScale = 0.25
-        self.cameraNode.yScale = 0.25 //the scale sets the zoom level of the camera on the given position
+        self.cameraNode.yScale = 0.25
         
         self.camera = cameraNode //set the scene's camera to reference cam
         self.addChild(cameraNode) //make the cam a childElement of the scene itself.
@@ -140,7 +145,7 @@ class GameScene: SKScene {
         self.mapNode?.yScale = 1.0
         self.mapNode?.gameObjectManager.conditionDelegate = self
 
-        viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.25)
+        viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.5)
         viewHex.xScale = deviceScale
         viewHex.yScale = deviceScale
         viewHex.addChild(self.mapNode!)
@@ -151,11 +156,31 @@ class GameScene: SKScene {
         // position the camera on the gamescene.
         self.cameraNode.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
 
+        // header (with timer)
+        let headerBackground = SKSpriteNode(imageNamed: "header")
+        headerBackground.position = CGPoint(x: -self.frame.halfWidth, y: frame.size.height)
+        headerBackground.zPosition = 2
+        headerBackground.size = CGSize(width: frame.size.width, height: headerHeight)
+        headerBackground.anchorPoint = CGPoint(x: 0, y: 1.0)
+        self.cameraNode.addChild(headerBackground)
+        
+        let frameLeft = SKSpriteNode(imageNamed: "frame_left")
+        frameLeft.position = CGPoint(x: -self.frame.halfWidth, y: frame.size.height - headerHeight)
+        frameLeft.zPosition = 2
+        frameLeft.anchorPoint = CGPoint(x: 0, y: 1.0)
+        self.cameraNode.addChild(frameLeft)
+        
+        let frameRight = SKSpriteNode(imageNamed: "frame_right")
+        frameRight.position = CGPoint(x: self.frame.halfWidth, y: frame.size.height - headerHeight)
+        frameRight.zPosition = 2
+        frameRight.anchorPoint = CGPoint.upperRight
+        self.cameraNode.addChild(frameRight)
+        
         // exit node
         let exitButton = MessageBoxButtonNode(titled: "Cancel", buttonAction: {
             self.showQuitConfirmationDialog()
         })
-        exitButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 20)
+        exitButton.position = CGPoint(x: 0, y: frame.size.height - headerHeight)
         exitButton.zPosition = 200
         self.cameraNode.addChild(exitButton)
 
@@ -173,7 +198,7 @@ class GameScene: SKScene {
                 LevelManager.store(level: level, to: "level000X.lvl")
 
             })
-            saveButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 80)
+            saveButton.position = CGPoint(x: 0, y: frame.size.height - headerHeight - 40)
             saveButton.zPosition = 200
             self.cameraNode.addChild(saveButton)
         }
@@ -189,14 +214,7 @@ class GameScene: SKScene {
         // focus on ship
         if let mapNode = self.mapNode {
             if let ship = mapNode.gameObjectManager.unitBy(identifier: "ship") {
-                let shipPosition = HexMapDisplay.shared.toScreen(hex: ship.position)
-                var newCameraFocus = cameraNode.convert(shipPosition, to: self.viewHex)
-
-                // FIXME: hm, not sure why this is needed
-                newCameraFocus.x = newCameraFocus.x + 2.0
-                newCameraFocus.y = newCameraFocus.y + 80.0
-
-                self.cameraNode.position = newCameraFocus
+               self.centerCamera(to: ship.position)
             }
         }
     }
@@ -262,7 +280,7 @@ class GameScene: SKScene {
         touchLocation.x -= 20
         touchLocation.y -= 15
 
-        let position = HexPoint(cube: HexMapDisplay.shared.toHexCube(screen: touchLocation))
+        let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
         self.positionLabel.text = "\(position)"
 
         if !self.hasMoved {
@@ -284,8 +302,9 @@ class GameScene: SKScene {
                 self.hasMoved = true
             }
 
-            self.cameraNode.position.x -= deltaX * 0.5
-            self.cameraNode.position.y -= deltaY * 0.5
+            self.cameraNode.position.x -= deltaX * 0.7
+            self.cameraNode.position.y -= deltaY * 0.7
+            print("camera pos: \(self.cameraNode.position)")
         }
     }
 
@@ -296,6 +315,23 @@ class GameScene: SKScene {
 
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        //print("tick")
+    }
+    
+    func centerCamera(to hex: HexPoint) {
+
+        let screenPosition = HexMapDisplay.shared.toScreen(hex: hex)
+        var newCameraFocus = cameraNode.convert(screenPosition, to: self.viewHex)
+        
+        // FIXME: hm, not sure why this is needed
+        newCameraFocus.x = newCameraFocus.x - 270
+        newCameraFocus.y = newCameraFocus.y + 350
+        
+        self.cameraNode.position = newCameraFocus
+        print("center camera on: \(newCameraFocus)")
+        
+        // bad: (575.6199340820312, -176.4716796875) - 250
+        // good: (300, 100)
     }
 
     func moveFocus(to hex: HexPoint) {

@@ -17,4 +17,15 @@ extension CGSize {
         
         return self
     }
+    
+    func aspectResized(to target: CGSize) -> CGSize {
+        
+        let baseAspect = self.width / self.height
+        let targetAspect = target.width / target.height
+        if baseAspect > targetAspect {
+            return CGSize(width: (target.height * width) / height, height: target.height)
+        } else {
+            return CGSize(width: target.width, height: (target.width * height) / width)
+        }
+    }
 }
