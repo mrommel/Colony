@@ -126,6 +126,12 @@ class GameScene: SKScene {
         self.mapNode?.yScale = 1.0
         self.mapNode?.gameObjectManager.conditionDelegate = self
         
+        let mapOverviewBodyTexture = SKTexture(imageNamed: "map_overview_body")
+        let mapOverviewBody = SKSpriteNode(texture: mapOverviewBodyTexture, color: .black, size: CGSize(width: 110, height: 105))
+        mapOverviewBody.position = CGPoint(x: 0, y: -self.frame.halfHeight + 100)
+        mapOverviewBody.zPosition = 49
+        self.cameraNode.addChild(mapOverviewBody)
+        
         self.mapOverviewNode?.position = CGPoint(x: 0, y: -self.frame.halfHeight + 100)
         self.mapOverviewNode?.zPosition = 50
         self.cameraNode.addChild(self.mapOverviewNode!)
