@@ -26,8 +26,8 @@ class HexagonTileMap: HexagonMap<Tile> {
     override init(with size: CGSize) {
         super.init(width: Int(size.width), height: Int(size.height))
         
-        for x in 0..<self.tiles.columns {
-            for y in 0..<self.tiles.rows {
+        for x in 0..<self.width {
+            for y in 0..<self.height {
                 let point = HexPoint(x: x, y: y)
                 self.set(tile: Tile(at: point, with: .ocean), at: point)
             }
@@ -70,11 +70,11 @@ class HexagonTileMap: HexagonMap<Tile> {
     // MARK: caldera
     
     func calderaSouth(at hex: HexPoint) -> Bool {
-        return hex.y == self.tiles.rows - 1
+        return hex.y == self.height - 1
     }
     
     func calderaEast(at hex: HexPoint) -> Bool {
-        return hex.x == self.tiles.columns - 1
+        return hex.x == self.width - 1
     }
     
     func caldera(at hex: HexPoint) -> String? {
@@ -258,7 +258,7 @@ class HexagonTileMap: HexagonMap<Tile> {
             return []
         }
         
-        let tile = self.tiles[position]
+        let tile = self.tile(at: position)
         if let flows = tile?.flows {
             return flows
         }
@@ -277,7 +277,7 @@ class HexagonTileMap: HexagonMap<Tile> {
                 continue
             }
             
-            let tile = self.tiles[riverPoint.point]
+            let tile = self.tile(at: riverPoint.point)
             do {
                 try tile?.set(river: river, with: riverPoint.flowDirection)
             } catch {

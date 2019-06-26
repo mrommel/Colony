@@ -11,7 +11,11 @@ import CoreGraphics
 
 class HexagonMap<T: Equatable & Codable>: Codable {
     
-    var tiles: Array2D<T>
+    // MARK: properties
+    
+    private var tiles: Array2D<T>
+    
+    // MARK: constructors
     
     init(width: Int, height: Int) {
         self.tiles = Array2D<T>(columns: width, rows: height)
@@ -20,6 +24,22 @@ class HexagonMap<T: Equatable & Codable>: Codable {
     init(with size: CGSize) {
         self.tiles = Array2D<T>(columns: Int(size.width), rows: Int(size.height))
     }
+    
+    // MARK: status methods
+    
+    var size: CGSize {
+        return CGSize(width: self.width, height: self.height)
+    }
+    
+    var width: Int {
+        return self.tiles.columns
+    }
+    
+    var height: Int {
+        return self.tiles.rows
+    }
+    
+    // MARK: accessing methods
     
     func valid(point: HexPoint) -> Bool {
         return 0 <= point.x && point.x < self.tiles.columns &&

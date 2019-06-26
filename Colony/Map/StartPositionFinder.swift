@@ -29,13 +29,13 @@ class StartPositionFinder {
             fatalError("can identify start positions without a map")
         }
         
-        let maximalDistance = HexPoint(x: 0, y: 0).distance(to: HexPoint(x: map.tiles.columns - 1, y: map.tiles.rows - 1))
+        let maximalDistance = HexPoint(x: 0, y: 0).distance(to: HexPoint(x: map.width - 1, y: map.height - 1))
         var optimalDistance = maximalDistance * 4 / 5
         
         var possiblePoints: [HexPoint] = []
         
-        for x in 0..<map.tiles.columns {
-            for y in 0..<map.tiles.rows {
+        for x in 0..<map.width {
+            for y in 0..<map.height {
                 if map.tile(x: x, y: y)?.water ?? false {
                     possiblePoints.append(HexPoint(x: x, y: y))
                 }

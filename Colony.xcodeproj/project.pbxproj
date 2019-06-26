@@ -21,6 +21,9 @@
 		C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */; };
 		C94A2F3322C22F8700AB7117 /* SafeAreaNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3222C22F8700AB7117 /* SafeAreaNode.swift */; };
 		C94A2F3522C2322A00AB7117 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3422C2322A00AB7117 /* CGRectExtension.swift */; };
+		C94A2F3722C248DB00AB7117 /* MapOverviewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3622C248DB00AB7117 /* MapOverviewNode.swift */; };
+		C94A2F3A22C267B100AB7117 /* GameSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3922C267B100AB7117 /* GameSceneViewModel.swift */; };
+		C94A2F3C22C2B06200AB7117 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3B22C2B06200AB7117 /* UIImageExtension.swift */; };
 		C956078922B0F22800AA69E9 /* DialogConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956078822B0F22800AA69E9 /* DialogConfiguration.swift */; };
 		C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078C22B1291700AA69E9 /* VictoryDialog.xml */; };
 		C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */; };
@@ -33,7 +36,7 @@
 		C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */; };
 		C9763EAB22A2FB9B00F31126 /* SpriteButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */; };
 		C9763EAD22A2FEE300F31126 /* MessageBoxNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EAC22A2FEE300F31126 /* MessageBoxNode.swift */; };
-		C9763EB122A316C300F31126 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EB022A316C300F31126 /* ColorExtension.swift */; };
+		C9763EB122A316C300F31126 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EB022A316C300F31126 /* UIColorExtension.swift */; };
 		C97B282A22A3F72100112532 /* MessageBoxButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B282922A3F72100112532 /* MessageBoxButtonNode.swift */; };
 		C97B282C22A427A800112532 /* ProgressBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B282B22A427A800112532 /* ProgressBarNode.swift */; };
 		C97B283022A42A4600112532 /* MapGenerationScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B282F22A42A4600112532 /* MapGenerationScene.swift */; };
@@ -114,6 +117,9 @@
 		C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
 		C94A2F3222C22F8700AB7117 /* SafeAreaNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeAreaNode.swift; sourceTree = "<group>"; };
 		C94A2F3422C2322A00AB7117 /* CGRectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
+		C94A2F3622C248DB00AB7117 /* MapOverviewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewNode.swift; sourceTree = "<group>"; };
+		C94A2F3922C267B100AB7117 /* GameSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneViewModel.swift; sourceTree = "<group>"; };
+		C94A2F3B22C2B06200AB7117 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		C956078822B0F22800AA69E9 /* DialogConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogConfiguration.swift; sourceTree = "<group>"; };
 		C956078C22B1291700AA69E9 /* VictoryDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = VictoryDialog.xml; sourceTree = "<group>"; };
 		C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = QuitConfirmationDialog.xml; sourceTree = "<group>"; };
@@ -126,7 +132,7 @@
 		C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
 		C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteButtonNode.swift; sourceTree = "<group>"; };
 		C9763EAC22A2FEE300F31126 /* MessageBoxNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxNode.swift; sourceTree = "<group>"; };
-		C9763EB022A316C300F31126 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		C9763EB022A316C300F31126 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		C97B282922A3F72100112532 /* MessageBoxButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxButtonNode.swift; sourceTree = "<group>"; };
 		C97B282B22A427A800112532 /* ProgressBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarNode.swift; sourceTree = "<group>"; };
 		C97B282F22A42A4600112532 /* MapGenerationScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapGenerationScene.swift; sourceTree = "<group>"; };
@@ -219,6 +225,14 @@
 				C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C94A2F3822C267A200AB7117 /* SceneViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C94A2F3922C267B100AB7117 /* GameSceneViewModel.swift */,
+			);
+			path = SceneViewModel;
 			sourceTree = "<group>";
 		};
 		C956078A22B1241B00AA69E9 /* Ressources */ = {
@@ -335,6 +349,7 @@
 				C9C7F0F7229EBD0700A775B2 /* Map */,
 				C9763EB222A317C600F31126 /* UI */,
 				C9C7F0F1229EA71500A775B2 /* Nodes */,
+				C94A2F3822C267A200AB7117 /* SceneViewModel */,
 				C9C7F0F4229EAB4D00A775B2 /* Scenes */,
 				C94A2F2D22C0EC4000AB7117 /* ViewModels */,
 				C9C7F0EE229E992100A775B2 /* ViewControllers */,
@@ -358,6 +373,7 @@
 			isa = PBXGroup;
 			children = (
 				C9C7F0F2229EA73300A775B2 /* MapNode.swift */,
+				C94A2F3622C248DB00AB7117 /* MapOverviewNode.swift */,
 				C9C7F0F5229EAB9000A775B2 /* SKNode+Extension.swift */,
 				C9C7F12A229EBF5200A775B2 /* AreaSprites.swift */,
 				C9C7F139229F203200A775B2 /* TerrainLayer.swift */,
@@ -412,12 +428,13 @@
 				C9C7F10C229EBE3100A775B2 /* FloatExtension.swift */,
 				C9C7F109229EBE3100A775B2 /* IntegerExtension.swift */,
 				C9C7F10D229EBE3100A775B2 /* Random.swift */,
-				C9763EB022A316C300F31126 /* ColorExtension.swift */,
+				C9763EB022A316C300F31126 /* UIColorExtension.swift */,
 				C97B283322A53D0F00112532 /* MulticastDelegate.swift */,
 				C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */,
 				C9C7F10F229EBE3100A775B2 /* CGPointExtension.swift */,
-				C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */,
 				C94A2F3422C2322A00AB7117 /* CGRectExtension.swift */,
+				C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */,
+				C94A2F3B22C2B06200AB7117 /* UIImageExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -641,10 +658,13 @@
 				C9C7F129229EBEDD00A775B2 /* HexDirection.swift in Sources */,
 				C9C7F133229EBFA400A775B2 /* PerlinGenerator.swift in Sources */,
 				C956079422B1426500AA69E9 /* LevelManager.swift in Sources */,
+				C94A2F3C22C2B06200AB7117 /* UIImageExtension.swift in Sources */,
 				C956079A22B2435100AA69E9 /* MonsterCheck.swift in Sources */,
 				C9AB425C22A062E3000E5397 /* Monster.swift in Sources */,
 				C9C7F12F229EBF8700A775B2 /* Continent.swift in Sources */,
+				C94A2F3A22C267B100AB7117 /* GameSceneViewModel.swift in Sources */,
 				C9C7F12E229EBF8700A775B2 /* ContinentFinder.swift in Sources */,
+				C94A2F3722C248DB00AB7117 /* MapOverviewNode.swift in Sources */,
 				C9C7F124229EBE5C00A775B2 /* MapGenerator.swift in Sources */,
 				C900654422AF96A00004C963 /* Dialog.swift in Sources */,
 				C9C7F117229EBE3100A775B2 /* CGPointExtension.swift in Sources */,
@@ -654,7 +674,7 @@
 				C9C7F12B229EBF5200A775B2 /* AreaSprites.swift in Sources */,
 				C97B282A22A3F72100112532 /* MessageBoxButtonNode.swift in Sources */,
 				C9C7F123229EBE5C00A775B2 /* HexPointWithCorner.swift in Sources */,
-				C9763EB122A316C300F31126 /* ColorExtension.swift in Sources */,
+				C9763EB122A316C300F31126 /* UIColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

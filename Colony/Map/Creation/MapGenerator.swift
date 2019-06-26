@@ -542,7 +542,7 @@ class MapGenerator {
             return
         }
         
-        let finder = ContinentFinder(width: grid.tiles.columns, height: grid.tiles.rows)
+        let finder = ContinentFinder(width: grid.width, height: grid.height)
         finder.execute(on: grid)
     }
 }

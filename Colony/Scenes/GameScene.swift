@@ -15,30 +15,6 @@ protocol GameDelegate: class {
     func quitGame()
 }
 
-enum GameSceneViewModelType {
-    case level
-    case generator
-}
-
-class GameSceneViewModel {
-
-    let type: GameSceneViewModelType
-    let map: HexagonTileMap?
-    let levelURL: URL?
-
-    init(with map: HexagonTileMap?) {
-        self.type = .generator
-        self.map = map
-        self.levelURL = nil
-    }
-
-    init(with levelURL: URL?) {
-        self.type = .level
-        self.map = nil
-        self.levelURL = levelURL
-    }
-}
-
 class GameScene: SKScene {
 
     // MARK: Constants
@@ -69,6 +45,7 @@ class GameScene: SKScene {
     var viewModel: GameSceneViewModel?
 
     var mapNode: MapNode?
+    var mapOverviewNode: MapOverviewNode?
     let viewHex: SKSpriteNode
 
     var focus: SKSpriteNode?
@@ -135,15 +112,23 @@ class GameScene: SKScene {
 
             self.mapNode = MapNode(with: level)
             
+            self.mapOverviewNode = MapOverviewNode(with: level.map, size: CGSize(width: 100, height: 100))
+            
             self.showLevel(title: level.title, summary: level.summary)
             
         case .generator:
             self.mapNode = MapNode(with: viewModel.map)
+            
+            self.mapOverviewNode = MapOverviewNode(with: viewModel.map, size: CGSize(width: 100, height: 100))
         }
 
         self.mapNode?.xScale = 1.0
         self.mapNode?.yScale = 1.0
         self.mapNode?.gameObjectManager.conditionDelegate = self
+        
+        self.mapOverviewNode?.position = CGPoint(x: 0, y: -self.frame.halfHeight + 100)
+        self.mapOverviewNode?.zPosition = 50
+        self.cameraNode.addChild(self.mapOverviewNode!)
 
         viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.5)
         viewHex.xScale = deviceScale

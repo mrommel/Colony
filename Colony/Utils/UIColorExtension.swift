@@ -1,5 +1,5 @@
 //
-//  ColorExtension.swift
+//  UIColorExtension.swift
 //  Colony
 //
 //  Created by Michael Rommel on 01.06.19.
@@ -55,6 +55,7 @@ extension UIColor {
 }
 
 public extension UIColor {
+    
     var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
         var r: CGFloat = 0
         var g: CGFloat = 0

@@ -63,7 +63,7 @@ class FogManager: Codable {
     init(map: HexagonTileMap?) {
 
         self.map = map
-        self.fog = FogArray2D(columns: self.map?.tiles.columns ?? 1, rows: self.map?.tiles.rows ?? 1)
+        self.fog = FogArray2D(columns: self.map?.width ?? 1, rows: self.map?.height ?? 1)
         self.fog.fill(with: .never)
     }
 
@@ -76,7 +76,7 @@ class FogManager: Codable {
     func update() {
 
         // create tmp fog map
-        let tmpFog = FogArray2D(columns: self.map?.tiles.columns ?? 1, rows: self.map?.tiles.rows ?? 1)
+        let tmpFog = FogArray2D(columns: self.map?.width ?? 1, rows: self.map?.height ?? 1)
         tmpFog.fill(with: .never)
 
         // copy already discovered
@@ -166,15 +166,30 @@ class FogManager: Codable {
 
         return self.fog(at: point) == .never
     }
+    
+    func neverVisitedAt(x: Int, y: Int) -> Bool {
+        
+        return self.fogAt(x: x, y: y) == .never
+    }
 
     func discovered(at point: HexPoint) -> Bool {
 
         return self.fog(at: point) == .discovered
     }
+    
+    func discoveredAt(x: Int, y: Int) -> Bool {
+        
+        return self.fogAt(x: x, y: y) == .discovered
+    }
 
     func currentlyVisible(at point: HexPoint) -> Bool {
 
         return self.fog(at: point) == .sighted
+    }
+    
+    func currentlyVisibleAt(x: Int, y: Int) -> Bool {
+        
+        return self.fogAt(x: x, y: y) == .sighted
     }
     
     func numberOfDiscoveredTiles() -> Int {

@@ -35,11 +35,11 @@ class RiverLayer: SKNode {
             fatalError("fogManager not set")
         }
         
-        for x in 0..<map.tiles.columns {
-            for y in 0..<map.tiles.rows {
+        for x in 0..<map.width {
+            for y in 0..<map.height {
                 
                 let pt = HexPoint(x: x, y: y)
-                if let tile = map.tiles[x, y] {
+                if let tile = map.tile(at: pt) {
                     
                     if !tile.isRiver() {
                         continue
@@ -76,7 +76,7 @@ class RiverLayer: SKNode {
             fatalError("map not set")
         }
         
-        if let tile = map.tiles[pt] {
+        if let tile = map.tile(at: pt) {
             if let riverSprite = tile.riverSprite {
                 self.removeChildren(in: [riverSprite])
             }
@@ -98,7 +98,7 @@ extension RiverLayer: FogStateChangedDelegate {
         
         self.clearTileHex(at: pt)
         
-        if let tile = map.tiles[pt] {
+        if let tile = map.tile(at: pt) {
             
             if !tile.isRiver() {
                 return

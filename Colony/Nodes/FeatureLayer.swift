@@ -35,12 +35,12 @@ class FeatureLayer: SKNode {
             fatalError("fogManager not set")
         }
 
-        for x in 0..<map.tiles.columns {
-            for y in 0..<map.tiles.rows {
+        for x in 0..<map.width {
+            for y in 0..<map.height {
 
                 let pt = HexPoint(x: x, y: y)
                 
-                if let tile = map.tiles[pt] {
+                if let tile = map.tile(at: pt) {
                     let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
                     if fogManager.discovered(at: pt) {
                         self.placeTileHex(tile: tile, at: screenPoint, alpha: 0.5)
@@ -76,7 +76,7 @@ class FeatureLayer: SKNode {
             fatalError("map not set")
         }
         
-        if let tile = map.tiles[pt] {
+        if let tile = map.tile(at: pt) {
             self.removeChildren(in: tile.featureSprites)
         }
     }
@@ -96,7 +96,7 @@ extension FeatureLayer: FogStateChangedDelegate {
         
         self.clearTileHex(at: pt)
 
-        if let tile = map.tiles[pt] {
+        if let tile = map.tile(at: pt) {
             let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
             if fogManager.discovered(at: pt) {
                 self.placeTileHex(tile: tile, at: screenPoint, alpha: 0.5)

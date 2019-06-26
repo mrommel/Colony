@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum Terrain: String, Codable {
 
@@ -71,4 +72,29 @@ enum Terrain: String, Codable {
 			return "hex_ground"
 		}
 	}
+    
+    var overviewColor: UIColor {
+        switch self {
+        case .ocean:
+            return UIColor(red: 79, green: 112, blue: 141) 
+        case .shore:
+            return UIColor(red: 91, green: 129, blue: 166)
+        case .plain:
+            return UIColor(red: 98, green: 122, blue: 32)
+        case .grass:
+            return UIColor(red: 75, green: 113, blue: 21)
+        case .desert:
+            return UIColor(red: 197, green: 174, blue: 108)
+        case .tundra:
+            return UIColor(red: 140, green: 106, blue: 68)
+        case .snow:
+            return UIColor(red: 237, green: 240, blue: 240)
+            
+        // -------
+        case .water:
+            return UIColor(red: 79, green: 112, blue: 141)
+        case .ground:
+            return UIColor(red: 75, green: 113, blue: 21)
+        }
+    }
 }

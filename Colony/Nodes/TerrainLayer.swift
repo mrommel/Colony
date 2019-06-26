@@ -35,11 +35,11 @@ class TerrainLayer: SKNode {
             fatalError("fogManager not set")
         }
         
-        for x in 0..<map.tiles.columns {
-            for y in 0..<map.tiles.rows {
+        for x in 0..<map.width {
+            for y in 0..<map.height {
                 
                 let pt = HexPoint(x: x, y: y)
-                if let tile = map.tiles[x, y] {
+                if let tile = map.tile(at: pt) {
                     let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
                     if fogManager.discovered(at: pt) {
                         self.placeTileHex(tile: tile, coastTexture: map.coastTexture(at: pt), at: screenPoint, alpha: 0.5)
@@ -77,7 +77,7 @@ class TerrainLayer: SKNode {
             fatalError("map not set")
         }
         
-        if let tile = map.tiles[pt] {
+        if let tile = map.tile(at: pt) {
             if let terrainSprite = tile.terrainSprite {
                 self.removeChildren(in: [terrainSprite])
             }
@@ -99,7 +99,7 @@ extension TerrainLayer: FogStateChangedDelegate {
         
         self.clearTileHex(at: pt)
         
-        if let tile = map.tiles[pt] {
+        if let tile = map.tile(at: pt) {
             let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
             if fogManager.currentlyVisible(at: pt) {
                 self.placeTileHex(tile: tile, coastTexture: map.coastTexture(at: pt), at: screenPoint, alpha: 1.0)

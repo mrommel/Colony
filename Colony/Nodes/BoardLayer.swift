@@ -31,9 +31,9 @@ class BoardLayer: SKNode {
         
         map.fogManager?.delegates.addDelegate(self)
 
-        for x in 0..<map.tiles.columns {
-            for y in 0..<map.tiles.rows {
-                if let tile = map.tiles[x, y] {
+        for x in 0..<map.width {
+            for y in 0..<map.height {
+                if let tile = map.tile(x: x, y: y) {
                     self.place(tile: tile)
                 }
             }
@@ -81,7 +81,7 @@ class BoardLayer: SKNode {
             fatalError("map not set")
         }
 
-        if let tile = map.tiles[pt] {
+        if let tile = map.tile(at: pt) {
             if let boardSprite = tile.boardSprite {
                 self.removeChildren(in: [boardSprite])
             }
@@ -99,7 +99,7 @@ extension BoardLayer: FogStateChangedDelegate {
 
         self.clearTileHex(at: pt)
 
-        if let tile = map.tiles[pt] {
+        if let tile = map.tile(at: pt) {
 
             self.place(tile: tile)
         }
