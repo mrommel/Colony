@@ -18,6 +18,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="bXr-S1-6PW">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="colony" translatesAutoresizingMaskIntoConstraints="NO" id="mEw-yE-gDh">
                                 <rect key="frame" x="87" y="183" width="240" height="240"/>
                                 <constraints>
@@ -25,29 +28,24 @@
                                     <constraint firstAttribute="width" constant="240" id="jn1-ge-mdF"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="frame_left" translatesAutoresizingMaskIntoConstraints="NO" id="30K-eG-ucK">
-                                <rect key="frame" x="0.0" y="44" width="120" height="67.5"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ColonyText" translatesAutoresizingMaskIntoConstraints="NO" id="oof-pE-3SB">
+                                <rect key="frame" x="87" y="453" width="240" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="B0N-Kd-U7j"/>
-                                    <constraint firstAttribute="width" secondItem="30K-eG-ucK" secondAttribute="height" multiplier="16:9" id="y3n-8O-Gay"/>
-                                </constraints>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="frame_right" translatesAutoresizingMaskIntoConstraints="NO" id="BRb-w6-L2R">
-                                <rect key="frame" x="294" y="44" width="120" height="67.5"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="BRb-w6-L2R" secondAttribute="height" multiplier="16:9" id="4xg-Xi-Fge"/>
-                                    <constraint firstAttribute="width" constant="120" id="sjI-uN-DyK"/>
+                                    <constraint firstAttribute="width" constant="240" id="Jhi-73-BKK"/>
+                                    <constraint firstAttribute="height" constant="50" id="eS5-3E-bgb"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="bXr-S1-6PW" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="2IG-v3-pUo"/>
+                            <constraint firstItem="bXr-S1-6PW" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="77W-fH-UVJ"/>
+                            <constraint firstAttribute="bottom" secondItem="bXr-S1-6PW" secondAttribute="bottom" id="A6g-yt-2Gn"/>
                             <constraint firstItem="mEw-yE-gDh" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="WEM-hY-C9D"/>
-                            <constraint firstItem="BRb-w6-L2R" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="YjA-MD-8kv"/>
-                            <constraint firstItem="BRb-w6-L2R" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="a7Q-Ma-8e6"/>
+                            <constraint firstItem="oof-pE-3SB" firstAttribute="top" secondItem="mEw-yE-gDh" secondAttribute="bottom" constant="30" id="gcX-DQ-4dY"/>
+                            <constraint firstAttribute="trailing" secondItem="bXr-S1-6PW" secondAttribute="trailing" id="iRH-Ve-vpf"/>
                             <constraint firstItem="mEw-yE-gDh" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-150" id="oUL-Si-dgS"/>
-                            <constraint firstItem="30K-eG-ucK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pgm-zm-Ty7"/>
-                            <constraint firstItem="30K-eG-ucK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="xnG-qs-ehC"/>
+                            <constraint firstItem="oof-pE-3SB" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="t2b-UT-f7b"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -58,8 +56,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="colony" width="273.33334350585938" height="272"/>
-        <image name="frame_left" width="89.5" height="44.5"/>
-        <image name="frame_right" width="90" height="43"/>
+        <image name="ColonyText" width="114" height="43.5"/>
+        <image name="background" width="282" height="500.5"/>
+        <image name="colony" width="1024" height="1023"/>
     </resources>
 </document>

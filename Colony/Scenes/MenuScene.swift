@@ -33,7 +33,7 @@ class MenuScene: SKScene {
         
         let viewSize = (self.view?.bounds.size)!
         
-        let background = SKSpriteNode(imageNamed: "menu")
+        let background = SKSpriteNode(imageNamed: "background")
         background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
         background.zPosition = 0
         background.size = viewSize
