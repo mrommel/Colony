@@ -11,29 +11,28 @@ import SpriteKit
 class MapOverviewNode: SKSpriteNode {
 
     private var map: HexagonTileMap?
-    private var buffer: [PixelData]
+    private var buffer: PixelBuffer
 
     init(with map: HexagonTileMap?, size: CGSize) {
+        
         self.map = map
-
-        self.buffer = [PixelData]()
 
         guard let map = map else {
             fatalError("no map")
         }
+        
+        self.buffer = PixelBuffer(width: map.width, height: map.height, color: .black)
 
-        for _ in 0..<(map.width * map.height) {
-            self.buffer.append(PixelData(color: .black))
+        guard let image = self.buffer.toUIImage() else {
+            fatalError("can't create image from buffer")
         }
-
-        let image = UIImageExtension.imageFromARGB32Bitmap(pixels: self.buffer, width: map.width, height: map.height)
 
         let texture = SKTexture(image: image)
 
         super.init(texture: texture, color: UIColor.blue, size: size)
 
-        for y in 0..<map.width {
-            for x in 0..<map.height {
+        for y in 0..<map.height {
+            for x in 0..<map.width {
 
                 self.updateBufferAt(x: x, y: y)
             }
@@ -57,24 +56,36 @@ class MapOverviewNode: SKSpriteNode {
         let index = y * map.width + x
 
         if map.fogManager?.neverVisitedAt(x: x, y: y) ?? false {
-            self.buffer[index] = PixelData(color: .black)
+            self.buffer.set(color: .black, at: index)
         } else {
 
             if let tile = map.tile(x: x, y: y) {
 
                 let color = tile.terrain.overviewColor
-                self.buffer[index] = PixelData(color: color)
+                self.buffer.set(color: color, at: index)
             }
         }
     }
 
     private func updateTextureFromBuffer() {
 
-        guard let map = self.map else {
-            return
+        guard var image = self.buffer.toUIImage() else {
+            fatalError("can't create image from buffer")
         }
-
-        let image = UIImageExtension.imageFromARGB32Bitmap(pixels: self.buffer, width: map.width, height: map.height)
+        
+        if image.size.width < self.size.width {
+            if let tmpImage = image.resizeRasterizedTo(targetSize: CGSize(width: self.size.width, height: self.size.height)) {
+                image = tmpImage
+            }
+        }
+        
+        let deltaHeight = self.size.height - image.size.height
+        if deltaHeight > 0 {
+            let insets = UIEdgeInsets(top: deltaHeight / 2, left: 0, bottom: deltaHeight / 2, right: 0)
+            if let tmpImage = image.imageWithInsets(insets: insets){
+                image = tmpImage
+            }
+        }
 
         self.texture = SKTexture(image: image)
     }
