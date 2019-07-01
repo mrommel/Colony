@@ -8,6 +8,7 @@
 
 import SpriteKit
 import GameplayKit
+import Rswift
 
 protocol GameDelegate: class {
 
@@ -44,8 +45,18 @@ class GameScene: SKScene {
 
     var viewModel: GameSceneViewModel?
 
+    // UI
+    var safeAreaNode: SafeAreaNode
+    var frameTopLeft: SKSpriteNode?
+    var frameTopRight: SKSpriteNode?
+    var frameBottomLeft: SKSpriteNode?
+    var frameBottomRight: SKSpriteNode?
+    var bottomLeftBar: BottomLeftBar?
+    var bottomRightBar: BottomRightBar?
+    
+    var exitButton: MessageBoxButtonNode?
+    
     var mapNode: MapNode?
-    var mapOverviewNode: MapOverviewNode?
     let viewHex: SKSpriteNode
 
     var focus: SKSpriteNode?
@@ -59,10 +70,10 @@ class GameScene: SKScene {
 
     override init(size: CGSize) {
 
-        viewHex = SKSpriteNode()
+        self.safeAreaNode = SafeAreaNode()
+        self.viewHex = SKSpriteNode()
 
         super.init(size: size)
-        //self.anchorPoint = CGPoint(x: 0.0, y: 0.0) // 0.2
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -98,6 +109,10 @@ class GameScene: SKScene {
         self.camera = cameraNode //set the scene's camera to reference cam
         self.addChild(cameraNode) //make the cam a childElement of the scene itself.
 
+        // the safeAreaNode holds the UI
+        self.cameraNode.addChild(self.safeAreaNode)
+        self.safeAreaNode.updateLayout()
+        
         switch viewModel.type {
 
         case .level:
@@ -111,32 +126,40 @@ class GameScene: SKScene {
             }
 
             self.mapNode = MapNode(with: level)
-            
-            self.mapOverviewNode = MapOverviewNode(with: level.map, size: CGSize(width: 100, height: 100))
+            self.bottomLeftBar = BottomLeftBar(with: level.map, sized: CGSize(width: 172, height: 95))
+            self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
             
             self.showLevel(title: level.title, summary: level.summary)
             
         case .generator:
             self.mapNode = MapNode(with: viewModel.map)
+            self.bottomLeftBar = BottomLeftBar(with: viewModel.map, sized: CGSize(width: 200, height: 112))
             
-            self.mapOverviewNode = MapOverviewNode(with: viewModel.map, size: CGSize(width: 100, height: 100))
+            guard let map = viewModel.map else {
+                fatalError()
+            }
+            
+            let startPositions = StartPositions(monsterPosition: HexPoint(x: 4, y: 1), playerPosition: HexPoint(x: 2, y: 4), villagePosition: HexPoint(x: 5, y: 5))
+            let gameObjectManager = GameObjectManager(on: map)
+            
+            let level = Level(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, map: map, startPositions: startPositions, gameObjectManager: gameObjectManager)
+            
+            self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
+            
+            self.showLevel(title: "Free playing", summary: "Please ply free")
         }
 
-        self.mapNode?.xScale = 1.0
-        self.mapNode?.yScale = 1.0
         self.mapNode?.gameObjectManager.conditionDelegate = self
         
-        let mapOverviewBodyTexture = SKTexture(imageNamed: "map_overview_body")
-        let mapOverviewBody = SKSpriteNode(texture: mapOverviewBodyTexture, color: .black, size: CGSize(width: 110, height: 105))
-        mapOverviewBody.position = CGPoint(x: 0, y: -self.frame.halfHeight + 100)
-        mapOverviewBody.zPosition = 49
-        self.cameraNode.addChild(mapOverviewBody)
-        
-        self.mapOverviewNode?.position = CGPoint(x: 0, y: -self.frame.halfHeight + 100)
-        self.mapOverviewNode?.zPosition = 50
-        self.cameraNode.addChild(self.mapOverviewNode!)
+        if let bottomLeftBar = self.bottomLeftBar {
+            self.safeAreaNode.addChild(bottomLeftBar)
+        }
 
-        viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.5)
+        if let bottomRightBar = self.bottomRightBar {
+            self.safeAreaNode.addChild(bottomRightBar)
+        }
+
+        viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.5) // FIXME ???
         viewHex.xScale = deviceScale
         viewHex.yScale = deviceScale
         viewHex.addChild(self.mapNode!)
@@ -146,34 +169,53 @@ class GameScene: SKScene {
 
         // position the camera on the gamescene.
         self.cameraNode.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        
+        self.frameTopLeft = SKSpriteNode(imageNamed: "frame_top_left")
+        self.frameTopLeft?.position = CGPoint(x: -self.frame.halfWidth, y: frame.halfHeight)
+        self.frameTopLeft?.zPosition = 3
+        self.frameTopLeft?.anchorPoint = CGPoint.upperLeft
 
-        // header (with timer)
-        let headerBackground = SKSpriteNode(imageNamed: "header")
-        headerBackground.position = CGPoint(x: -self.frame.halfWidth, y: frame.size.height)
-        headerBackground.zPosition = 2
-        headerBackground.size = CGSize(width: frame.size.width, height: headerHeight)
-        headerBackground.anchorPoint = CGPoint(x: 0, y: 1.0)
-        self.cameraNode.addChild(headerBackground)
+        if let frameTopLeft = self.frameTopLeft {
+            self.safeAreaNode.addChild(frameTopLeft)
+        }
         
-        let frameLeft = SKSpriteNode(imageNamed: "frame_left")
-        frameLeft.position = CGPoint(x: -self.frame.halfWidth, y: frame.size.height - headerHeight)
-        frameLeft.zPosition = 2
-        frameLeft.anchorPoint = CGPoint(x: 0, y: 1.0)
-        self.cameraNode.addChild(frameLeft)
+        self.frameTopRight = SKSpriteNode(imageNamed: "frame_top_right")
+        self.frameTopRight?.position = CGPoint(x: self.frame.halfWidth, y: frame.halfHeight)
+        self.frameTopRight?.zPosition = 3
+        self.frameTopRight?.anchorPoint = CGPoint.upperRight
         
-        let frameRight = SKSpriteNode(imageNamed: "frame_right")
-        frameRight.position = CGPoint(x: self.frame.halfWidth, y: frame.size.height - headerHeight)
-        frameRight.zPosition = 2
-        frameRight.anchorPoint = CGPoint.upperRight
-        self.cameraNode.addChild(frameRight)
+        if let frameTopRight = self.frameTopRight {
+            self.safeAreaNode.addChild(frameTopRight)
+        }
+        
+        self.frameBottomLeft = SKSpriteNode(imageNamed: "frame_bottom_left")
+        self.frameBottomLeft?.position = CGPoint(x: -self.frame.halfWidth, y: -frame.halfHeight)
+        self.frameBottomLeft?.zPosition = 3
+        self.frameBottomLeft?.anchorPoint = CGPoint.lowerLeft
+        
+        if let frameBottomLeft = self.frameBottomLeft {
+            self.safeAreaNode.addChild(frameBottomLeft)
+        }
+        
+        self.frameBottomRight = SKSpriteNode(imageNamed: "frame_bottom_right")
+        self.frameBottomRight?.position = CGPoint(x: self.frame.halfWidth, y: -frame.halfHeight)
+        self.frameBottomRight?.zPosition = 3
+        self.frameBottomRight?.anchorPoint = CGPoint.lowerRight
+        
+        if let frameBottomRight = self.frameBottomRight {
+            self.safeAreaNode.addChild(frameBottomRight)
+        }
         
         // exit node
-        let exitButton = MessageBoxButtonNode(titled: "Cancel", buttonAction: {
+        self.exitButton = MessageBoxButtonNode(titled: "Cancel", buttonAction: {
             self.showQuitConfirmationDialog()
         })
-        exitButton.position = CGPoint(x: 0, y: frame.size.height - headerHeight)
-        exitButton.zPosition = 200
-        self.cameraNode.addChild(exitButton)
+        self.exitButton?.position = CGPoint(x: 0, y: frame.size.height - headerHeight)
+        self.exitButton?.zPosition = 200
+        
+        if let exitButton = self.exitButton {
+            self.safeAreaNode.addChild(exitButton)
+        }
 
         if viewModel.type == .generator {
             // save node
@@ -191,7 +233,7 @@ class GameScene: SKScene {
             })
             saveButton.position = CGPoint(x: 0, y: frame.size.height - headerHeight - 40)
             saveButton.zPosition = 200
-            self.cameraNode.addChild(saveButton)
+            self.safeAreaNode.addChild(saveButton)
         }
 
         // debug
@@ -200,7 +242,7 @@ class GameScene: SKScene {
         self.positionLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.positionLabel.zPosition = GameScene.Constants.ZLevels.labels
 
-        self.cameraNode.addChild(self.positionLabel)
+        self.safeAreaNode.addChild(self.positionLabel)
 
         // focus on ship
         if let mapNode = self.mapNode {
@@ -208,6 +250,22 @@ class GameScene: SKScene {
                self.centerCamera(to: ship.position)
             }
         }
+    }
+    
+    func updateLayout() {
+        
+        self.safeAreaNode.updateLayout()
+        
+        self.frameTopLeft?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight)
+        self.frameTopRight?.position = CGPoint(x: self.frame.halfWidth, y: self.frame.halfHeight)
+        self.frameBottomLeft?.position = CGPoint(x: -self.frame.halfWidth, y: -self.frame.halfHeight)
+        self.frameBottomRight?.position = CGPoint(x: self.frame.halfWidth, y: -self.frame.halfHeight)
+        
+        self.bottomLeftBar?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
+        self.bottomLeftBar?.updateLayout()
+        
+        self.bottomRightBar?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
+        self.bottomRightBar?.updateLayout()
     }
 
     func showQuitConfirmationDialog() {

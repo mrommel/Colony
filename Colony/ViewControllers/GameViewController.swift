@@ -51,6 +51,12 @@ class GameViewController: UIViewController {
 
         super.viewWillDisappear(animated)
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        self.gameScene?.updateLayout()
+    }
 
     func startGameWith(levelURL: URL?) {
 

@@ -11,7 +11,7 @@ import SpriteKit
 
 class MenuViewController: UIViewController {
     
-    var scene: MenuScene?
+    var menuScene: MenuScene?
     var currentLevelResource: URL? = nil
     
     override func viewDidLoad() {
@@ -21,18 +21,24 @@ class MenuViewController: UIViewController {
             fatalError("View not loaded")
         }
         
-        self.scene = MenuScene(size: view.bounds.size)
+        self.menuScene = MenuScene(size: view.bounds.size)
         
-        scene?.scaleMode = .resizeFill
-        scene?.menuDelegate = self
+        menuScene?.scaleMode = .resizeFill
+        menuScene?.menuDelegate = self
         
-        view.presentScene(scene)
+        view.presentScene(self.menuScene)
         view.ignoresSiblingOrder = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.menuScene?.updateLayout()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -24,6 +24,8 @@
 		C94A2F3722C248DB00AB7117 /* MapOverviewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3622C248DB00AB7117 /* MapOverviewNode.swift */; };
 		C94A2F3A22C267B100AB7117 /* GameSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3922C267B100AB7117 /* GameSceneViewModel.swift */; };
 		C94A2F3C22C2B06200AB7117 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3B22C2B06200AB7117 /* UIImageExtension.swift */; };
+		C94A2F3E22C8E1ED00AB7117 /* BottomLeftBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3D22C8E1ED00AB7117 /* BottomLeftBar.swift */; };
+		C94A2F4022C8F66100AB7117 /* BottomRightBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3F22C8F66100AB7117 /* BottomRightBar.swift */; };
 		C956078922B0F22800AA69E9 /* DialogConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956078822B0F22800AA69E9 /* DialogConfiguration.swift */; };
 		C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078C22B1291700AA69E9 /* VictoryDialog.xml */; };
 		C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */; };
@@ -120,6 +122,8 @@
 		C94A2F3622C248DB00AB7117 /* MapOverviewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewNode.swift; sourceTree = "<group>"; };
 		C94A2F3922C267B100AB7117 /* GameSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneViewModel.swift; sourceTree = "<group>"; };
 		C94A2F3B22C2B06200AB7117 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		C94A2F3D22C8E1ED00AB7117 /* BottomLeftBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomLeftBar.swift; sourceTree = "<group>"; };
+		C94A2F3F22C8F66100AB7117 /* BottomRightBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomRightBar.swift; sourceTree = "<group>"; };
 		C956078822B0F22800AA69E9 /* DialogConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogConfiguration.swift; sourceTree = "<group>"; };
 		C956078C22B1291700AA69E9 /* VictoryDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = VictoryDialog.xml; sourceTree = "<group>"; };
 		C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = QuitConfirmationDialog.xml; sourceTree = "<group>"; };
@@ -227,12 +231,12 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		C94A2F3822C267A200AB7117 /* SceneViewModel */ = {
+		C94A2F3822C267A200AB7117 /* SceneViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				C94A2F3922C267B100AB7117 /* GameSceneViewModel.swift */,
 			);
-			path = SceneViewModel;
+			path = SceneViewModels;
 			sourceTree = "<group>";
 		};
 		C956078A22B1241B00AA69E9 /* Ressources */ = {
@@ -349,7 +353,7 @@
 				C9C7F0F7229EBD0700A775B2 /* Map */,
 				C9763EB222A317C600F31126 /* UI */,
 				C9C7F0F1229EA71500A775B2 /* Nodes */,
-				C94A2F3822C267A200AB7117 /* SceneViewModel */,
+				C94A2F3822C267A200AB7117 /* SceneViewModels */,
 				C9C7F0F4229EAB4D00A775B2 /* Scenes */,
 				C94A2F2D22C0EC4000AB7117 /* ViewModels */,
 				C9C7F0EE229E992100A775B2 /* ViewControllers */,
@@ -372,6 +376,8 @@
 		C9C7F0F1229EA71500A775B2 /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
+				C94A2F3D22C8E1ED00AB7117 /* BottomLeftBar.swift */,
+				C94A2F3F22C8F66100AB7117 /* BottomRightBar.swift */,
 				C9C7F0F2229EA73300A775B2 /* MapNode.swift */,
 				C94A2F3622C248DB00AB7117 /* MapOverviewNode.swift */,
 				C9C7F0F5229EAB9000A775B2 /* SKNode+Extension.swift */,
@@ -620,6 +626,7 @@
 				C9C7F0D1229B193400A775B2 /* GameViewController.swift in Sources */,
 				C97B283222A5349A00112532 /* FogManager.swift in Sources */,
 				C9C7F140229F20C300A775B2 /* RiverLayer.swift in Sources */,
+				C94A2F4022C8F66100AB7117 /* BottomRightBar.swift in Sources */,
 				C97B283022A42A4600112532 /* MapGenerationScene.swift in Sources */,
 				C9C7F0C9229B193400A775B2 /* AppDelegate.swift in Sources */,
 				C9C7F121229EBE5C00A775B2 /* FlowDirection.swift in Sources */,
@@ -669,6 +676,7 @@
 				C900654422AF96A00004C963 /* Dialog.swift in Sources */,
 				C9C7F117229EBE3100A775B2 /* CGPointExtension.swift in Sources */,
 				C97B283422A53D0F00112532 /* MulticastDelegate.swift in Sources */,
+				C94A2F3E22C8E1ED00AB7117 /* BottomLeftBar.swift in Sources */,
 				C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */,
 				C9C7F118229EBE3100A775B2 /* ArrayExtension.swift in Sources */,
 				C9C7F12B229EBF5200A775B2 /* AreaSprites.swift in Sources */,

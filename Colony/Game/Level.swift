@@ -85,12 +85,12 @@ class Level: Decodable  {
         self.map.fogManager?.map = self.map
         self.gameObjectManager.map = self.map
         
-        for object in self.gameObjectManager.objects {
+        /*for object in self.gameObjectManager.objects {
             if let unitObject = object {
                 unitObject.delegate = self.gameObjectManager
                 self.map.fogManager?.add(unit: unitObject)
             }
-        }
+        }*/
 
         for identifier in gameConditionCheckIdentifiers {
             if let gameConditionCheck = GameConditionCheckManager.shared.gameConditionCheckFor(identifier: identifier) {

@@ -22,14 +22,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="colony" translatesAutoresizingMaskIntoConstraints="NO" id="mEw-yE-gDh">
-                                <rect key="frame" x="87" y="183" width="240" height="240"/>
+                                <rect key="frame" x="117" y="213" width="180" height="180"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="240" id="fL2-qi-DN8"/>
-                                    <constraint firstAttribute="width" constant="240" id="jn1-ge-mdF"/>
+                                    <constraint firstAttribute="height" constant="180" id="fL2-qi-DN8"/>
+                                    <constraint firstAttribute="width" constant="180" id="jn1-ge-mdF"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ColonyText" translatesAutoresizingMaskIntoConstraints="NO" id="oof-pE-3SB">
-                                <rect key="frame" x="87" y="453" width="240" height="50"/>
+                                <rect key="frame" x="87" y="423" width="240" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="Jhi-73-BKK"/>
                                     <constraint firstAttribute="height" constant="50" id="eS5-3E-bgb"/>

@@ -30,10 +30,20 @@ protocol GameConditionDelegate {
     func lost(with type: GameConditionType)
 }
 
+protocol GameObjectUnitDelegate {
+    
+    func selectedGameObjectChanged(to gameObject: GameObject?)
+}
+
 class GameObjectManager: Codable {
 
     weak var map: HexagonTileMap?
     var objects: [GameObject?]
+    var selected: GameObject? {
+        didSet {
+            self.gameObjectUnitDelegate?.selectedGameObjectChanged(to: selected)
+        }
+    }
     
     var startTime: TimeInterval = 0.0
     var timer: Timer? = nil
@@ -45,12 +55,24 @@ class GameObjectManager: Codable {
     }
     
     var conditionDelegate: GameConditionDelegate?
+    var gameObjectUnitDelegate: GameObjectUnitDelegate?
 
     enum CodingKeys: String, CodingKey {
         case objects
     }
 
     // MARK: constrcutor
+    
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.objects = []
+        let parsedObjects = try values.decode([GameObject?].self, forKey: .objects)
+        
+        for object in parsedObjects {
+            self.add(object: object)
+        }
+    }
 
     init(on map: HexagonTileMap?) {
         self.objects = []
@@ -96,6 +118,10 @@ class GameObjectManager: Codable {
         // only player unit update the fog
         if object.tribe == .player {
             self.map?.fogManager?.add(unit: object)
+            
+            if self.selected == nil {
+                self.selected = object
+            }
         }
 
         object.delegate = self

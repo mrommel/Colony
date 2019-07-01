@@ -20,9 +20,16 @@ class MenuScene: SKScene {
     // MARK: Variables
     var menuDelegate: MenuDelegate?
     
+    var safeAreaNode: SafeAreaNode
+    var backgroundNode: SKSpriteNode?
+    
     override init(size: CGSize) {
         
+        self.safeAreaNode = SafeAreaNode()
+        
         super.init(size: size)
+        
+        self.addChild(self.safeAreaNode)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,11 +40,14 @@ class MenuScene: SKScene {
         
         let viewSize = (self.view?.bounds.size)!
         
-        let background = SKSpriteNode(imageNamed: "background")
-        background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-        background.zPosition = 0
-        background.size = viewSize
-        self.addChild(background)
+        self.backgroundNode = SKSpriteNode(imageNamed: "background")
+        self.backgroundNode?.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        self.backgroundNode?.zPosition = 0
+        self.backgroundNode?.size = viewSize
+        
+        if let backgroundNode = self.backgroundNode {
+            self.addChild(backgroundNode)
+        }
         
         let levelManager = LevelManager()
         for level in levelManager.levels {
@@ -48,7 +58,7 @@ class MenuScene: SKScene {
             })
             levelButton.position = CGPoint(x: self.frame.width * level.position.x, y: self.frame.height * level.position.y)
             levelButton.zPosition = 1
-            self.addChild(levelButton)
+            self.safeAreaNode.addChild(levelButton)
         }
         
         let generateButton = LevelButtonNode(titled: "G", difficulty: .easy, buttonAction: {
@@ -57,6 +67,13 @@ class MenuScene: SKScene {
         })
         generateButton.position = CGPoint(x: self.frame.width * 0.9, y: self.frame.height * 0.8)
         generateButton.zPosition = 1
-        self.addChild(generateButton)
+        self.safeAreaNode.addChild(generateButton)
+    }
+    
+    func updateLayout() {
+        
+        self.safeAreaNode.updateLayout()
+        
+        self.backgroundNode?.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
     }
 }
