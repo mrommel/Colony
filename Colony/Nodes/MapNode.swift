@@ -27,7 +27,7 @@ class MapNode: SKNode {
     private var map: HexagonTileMap?
     var gameObjectManager: GameObjectManager
 
-    init(with map: HexagonTileMap?) {
+    /*init(with map: HexagonTileMap?) {
 
         self.map = map
 
@@ -77,7 +77,7 @@ class MapNode: SKNode {
             let path = startPositionFinder.findPatrolPath(from: startPositions.monsterPosition)
             monster.walk(on: path)
         }
-    }
+    }*/
 
     init(with level: Level) {
 
@@ -106,20 +106,14 @@ class MapNode: SKNode {
         self.addChild(self.boardLayer)
         self.addChild(self.riverLayer)
 
-        if let monster = self.gameObjectManager.unitBy(identifier: "monster") {
-            self.addChild(monster.sprite)
-            monster.idle()
+        for unit in self.gameObjectManager.objects {
+            if let unit = unit {
+                self.addChild(unit.sprite)
+                unit.idle()
+            }
         }
 
-        if let ship = self.gameObjectManager.unitBy(identifier: "ship") {
-            self.addChild(ship.sprite)
-            ship.idle()
-        }
 
-        if let village = self.gameObjectManager.unitBy(identifier: "village") {
-            self.addChild(village.sprite)
-            village.idle()
-        }
 
         /*DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) { // Change `2.0` to the desired number of seconds.
             let path = startPositionFinder.findPatrolPath(from: startPositions.monsterPosition)

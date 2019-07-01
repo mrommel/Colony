@@ -110,6 +110,10 @@ class HexagonTileMap: HexagonMap<Tile> {
         return false
     }
     
+    var oceanTiles: [Tile?] {
+        return self.filter { $0?.terrain == .ocean || $0?.terrain == .shore }
+    }
+    
     // MARK: coast
     
     func isCoast(at point: HexPoint) -> Bool {

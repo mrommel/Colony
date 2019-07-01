@@ -63,7 +63,7 @@ class GameObjectManager: Codable {
 
     // MARK: constrcutor
     
-    required init(from decoder: Decoder) throws {
+    /*required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         self.objects = []
@@ -72,7 +72,7 @@ class GameObjectManager: Codable {
         for object in parsedObjects {
             self.add(object: object)
         }
-    }
+    }*/
 
     init(on map: HexagonTileMap?) {
         self.objects = []
@@ -126,6 +126,8 @@ class GameObjectManager: Codable {
 
         object.delegate = self
         self.objects.append(object)
+        
+        self.moved(object: object)
 
         // check if already won / lost the game
         self.checkCondition()
@@ -196,7 +198,22 @@ extension GameObjectManager: GameObjectDelegate {
                     }
                 }
             }
-        } else if object.tribe == .enemy {
+            
+            for rewardUnit in self.unitsOf(tribe: .reward) {
+                
+                if let position = rewardUnit?.position {
+                    
+                    // show/hide enemies based on fog
+                    let fogAtReward = fogManager.fog(at: position)
+                    if fogAtReward == .sighted {
+                        rewardUnit?.sprite.alpha = 1.0
+                    } else {
+                        rewardUnit?.sprite.alpha = 0.1
+                    }
+                }
+            }
+            
+        } else if object.tribe == .enemy || object.tribe == .reward {
 
             let fogAtEnemy = fogManager.fog(at: object.position)
             if fogAtEnemy == .sighted {

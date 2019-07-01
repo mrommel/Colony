@@ -20,7 +20,7 @@ class Monster: GameObject {
         self.atlasLeft = GameObjectAtlas(atlasName: "monster", textures: ["tile004", "tile005", "tile006", "tile007"])
         self.atlasRight = GameObjectAtlas(atlasName: "monster", textures: ["tile008", "tile009", "tile010", "tile011"])
         
-        self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.3)
+        self.sprite.anchorPoint = CGPoint(x: 0.0, y: -0.3)
     }
     
     required init(from decoder: Decoder) throws {

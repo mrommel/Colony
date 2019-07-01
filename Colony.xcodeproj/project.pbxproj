@@ -100,6 +100,7 @@
 		C9E9BBFC22B584400048F97B /* DiscoverCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */; };
 		C9E9BBFE22B58CF60048F97B /* Timer30SecondsCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */; };
 		C9E9BC0022B6262A0048F97B /* LevelIntroductionDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9E9BBFF22B6262A0048F97B /* LevelIntroductionDialog.xml */; };
+		C9F6A14B22CA906800388198 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6A14A22CA906800388198 /* Coin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -200,6 +201,7 @@
 		C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCheck.swift; sourceTree = "<group>"; };
 		C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer30SecondsCheck.swift; sourceTree = "<group>"; };
 		C9E9BBFF22B6262A0048F97B /* LevelIntroductionDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LevelIntroductionDialog.xml; sourceTree = "<group>"; };
+		C9F6A14A22CA906800388198 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,6 +304,7 @@
 				C9AB425B22A062E3000E5397 /* Monster.swift */,
 				C97E96D622A1C21600D594F3 /* Ship.swift */,
 				C972CCBF22AAA4AE008DB8CB /* Village.swift */,
+				C9F6A14A22CA906800388198 /* Coin.swift */,
 				C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */,
 			);
 			path = Objects;
@@ -608,6 +611,7 @@
 				C9C7F0CF229B193400A775B2 /* GameScene.swift in Sources */,
 				C9763EAD22A2FEE300F31126 /* MessageBoxNode.swift in Sources */,
 				C97E96D722A1C21600D594F3 /* Ship.swift in Sources */,
+				C9F6A14B22CA906800388198 /* Coin.swift in Sources */,
 				C94A2F3322C22F8700AB7117 /* SafeAreaNode.swift in Sources */,
 				C9C7F137229EC0D700A775B2 /* HexLayout.swift in Sources */,
 				C97E96D322A073A500D594F3 /* GameObjectAtlas.swift in Sources */,

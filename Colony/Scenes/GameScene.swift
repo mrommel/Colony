@@ -20,7 +20,7 @@ class GameScene: SKScene {
 
     // MARK: Constants
     let headerHeight: CGFloat = 480
-    
+
     struct Constants {
 
         struct ZLevels {
@@ -53,9 +53,9 @@ class GameScene: SKScene {
     var frameBottomRight: SKSpriteNode?
     var bottomLeftBar: BottomLeftBar?
     var bottomRightBar: BottomRightBar?
-    
+
     var exitButton: MessageBoxButtonNode?
-    
+
     var mapNode: MapNode?
     let viewHex: SKSpriteNode
 
@@ -98,21 +98,21 @@ class GameScene: SKScene {
         guard let viewModel = self.viewModel else {
             fatalError("no ViewModel")
         }
-        
+
         // camera
         self.cameraNode = SKCameraNode() //initialize and assign an instance of SKCameraNode to the cam variable.
-        
+
         //the scale sets the zoom level of the camera on the given position
         self.cameraNode.xScale = 0.25
         self.cameraNode.yScale = 0.25
-        
+
         self.camera = cameraNode //set the scene's camera to reference cam
         self.addChild(cameraNode) //make the cam a childElement of the scene itself.
 
         // the safeAreaNode holds the UI
         self.cameraNode.addChild(self.safeAreaNode)
         self.safeAreaNode.updateLayout()
-        
+
         switch viewModel.type {
 
         case .level:
@@ -126,31 +126,33 @@ class GameScene: SKScene {
             }
 
             self.mapNode = MapNode(with: level)
-            self.bottomLeftBar = BottomLeftBar(with: level.map, sized: CGSize(width: 172, height: 95))
+            self.bottomLeftBar = BottomLeftBar(with: level.map, sized: CGSize(width: 200, height: 112))
             self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
-            
+
             self.showLevel(title: level.title, summary: level.summary)
-            
+
         case .generator:
-            self.mapNode = MapNode(with: viewModel.map)
-            self.bottomLeftBar = BottomLeftBar(with: viewModel.map, sized: CGSize(width: 200, height: 112))
-            
+
             guard let map = viewModel.map else {
                 fatalError()
             }
+
+            let startPositionFinder = StartPositionFinder(map: map)
+            let startPositions = startPositionFinder.identifyStartPositions()
             
-            let startPositions = StartPositions(monsterPosition: HexPoint(x: 4, y: 1), playerPosition: HexPoint(x: 2, y: 4), villagePosition: HexPoint(x: 5, y: 5))
             let gameObjectManager = GameObjectManager(on: map)
-            
+
             let level = Level(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, map: map, startPositions: startPositions, gameObjectManager: gameObjectManager)
-            
+
+            self.mapNode = MapNode(with: level)
+            self.bottomLeftBar = BottomLeftBar(with: level.map, sized: CGSize(width: 200, height: 112))
             self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
-            
+
             self.showLevel(title: "Free playing", summary: "Please ply free")
         }
 
         self.mapNode?.gameObjectManager.conditionDelegate = self
-        
+
         if let bottomLeftBar = self.bottomLeftBar {
             self.safeAreaNode.addChild(bottomLeftBar)
         }
@@ -169,7 +171,7 @@ class GameScene: SKScene {
 
         // position the camera on the gamescene.
         self.cameraNode.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        
+
         self.frameTopLeft = SKSpriteNode(imageNamed: "frame_top_left")
         self.frameTopLeft?.position = CGPoint(x: -self.frame.halfWidth, y: frame.halfHeight)
         self.frameTopLeft?.zPosition = 3
@@ -178,41 +180,41 @@ class GameScene: SKScene {
         if let frameTopLeft = self.frameTopLeft {
             self.safeAreaNode.addChild(frameTopLeft)
         }
-        
+
         self.frameTopRight = SKSpriteNode(imageNamed: "frame_top_right")
         self.frameTopRight?.position = CGPoint(x: self.frame.halfWidth, y: frame.halfHeight)
         self.frameTopRight?.zPosition = 3
         self.frameTopRight?.anchorPoint = CGPoint.upperRight
-        
+
         if let frameTopRight = self.frameTopRight {
             self.safeAreaNode.addChild(frameTopRight)
         }
-        
+
         self.frameBottomLeft = SKSpriteNode(imageNamed: "frame_bottom_left")
         self.frameBottomLeft?.position = CGPoint(x: -self.frame.halfWidth, y: -frame.halfHeight)
         self.frameBottomLeft?.zPosition = 3
         self.frameBottomLeft?.anchorPoint = CGPoint.lowerLeft
-        
+
         if let frameBottomLeft = self.frameBottomLeft {
             self.safeAreaNode.addChild(frameBottomLeft)
         }
-        
+
         self.frameBottomRight = SKSpriteNode(imageNamed: "frame_bottom_right")
         self.frameBottomRight?.position = CGPoint(x: self.frame.halfWidth, y: -frame.halfHeight)
         self.frameBottomRight?.zPosition = 3
         self.frameBottomRight?.anchorPoint = CGPoint.lowerRight
-        
+
         if let frameBottomRight = self.frameBottomRight {
             self.safeAreaNode.addChild(frameBottomRight)
         }
-        
+
         // exit node
         self.exitButton = MessageBoxButtonNode(titled: "Cancel", buttonAction: {
             self.showQuitConfirmationDialog()
         })
         self.exitButton?.position = CGPoint(x: 0, y: frame.size.height - headerHeight)
         self.exitButton?.zPosition = 200
-        
+
         if let exitButton = self.exitButton {
             self.safeAreaNode.addChild(exitButton)
         }
@@ -247,23 +249,25 @@ class GameScene: SKScene {
         // focus on ship
         if let mapNode = self.mapNode {
             if let ship = mapNode.gameObjectManager.unitBy(identifier: "ship") {
-               self.centerCamera(to: ship.position)
+                self.centerCamera(to: ship.position)
             }
         }
+        
+        self.updateLayout()
     }
-    
+
     func updateLayout() {
-        
+
         self.safeAreaNode.updateLayout()
-        
+
         self.frameTopLeft?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight)
         self.frameTopRight?.position = CGPoint(x: self.frame.halfWidth, y: self.frame.halfHeight)
         self.frameBottomLeft?.position = CGPoint(x: -self.frame.halfWidth, y: -self.frame.halfHeight)
         self.frameBottomRight?.position = CGPoint(x: self.frame.halfWidth, y: -self.frame.halfHeight)
-        
+
         self.bottomLeftBar?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.bottomLeftBar?.updateLayout()
-        
+
         self.bottomRightBar?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.bottomRightBar?.updateLayout()
     }
@@ -285,21 +289,21 @@ class GameScene: SKScene {
             self.cameraNode.addChild(quitConfirmationDialog)
         }
     }
-    
+
     func showLevel(title: String, summary: String) {
-        
+
         if let levelIntroductionDialog = UI.levelIntroductionDialog() {
-            
+
             levelIntroductionDialog.zPosition = 250
             levelIntroductionDialog.set(text: title, identifier: "title")
             levelIntroductionDialog.set(text: summary, identifier: "summary")
             levelIntroductionDialog.addOkayAction(handler: {
                 levelIntroductionDialog.close()
-                
+
                 // start timer
                 self.mapNode?.gameObjectManager.start()
             })
-            
+
             self.cameraNode.addChild(levelIntroductionDialog)
         }
     }
@@ -323,6 +327,18 @@ class GameScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 
         let touch = touches.first!
+        let cameraLocation = touch.location(in: self.cameraNode)
+
+        guard let bottomRightBar = self.bottomRightBar, !bottomRightBar.frame.contains(cameraLocation) else {
+            self.bottomRightBar?.touchesEnded(touches, with: event)
+            return
+        }
+
+        guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
+            self.bottomLeftBar?.touchesEnded(touches, with: event)
+            return
+        }
+
         var touchLocation = touch.location(in: self.viewHex)
 
         // FIXME: hm, not sure why this is needed
@@ -341,6 +357,17 @@ class GameScene: SKScene {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 
         for touch in touches {
+
+            let cameraLocation = touch.location(in: self.cameraNode)
+
+            guard let bottomRightBar = self.bottomRightBar, !bottomRightBar.frame.contains(cameraLocation) else {
+                return
+            }
+
+            guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
+                return
+            }
+
             let location = touch.location(in: self.viewHex)
             let previousLocation = touch.previousLocation(in: self.viewHex)
 
@@ -353,7 +380,7 @@ class GameScene: SKScene {
 
             self.cameraNode.position.x -= deltaX * 0.7
             self.cameraNode.position.y -= deltaY * 0.7
-            print("camera pos: \(self.cameraNode.position)")
+            //print("camera pos: \(self.cameraNode.position)")
         }
     }
 
@@ -366,19 +393,19 @@ class GameScene: SKScene {
         // Called before each frame is rendered
         //print("tick")
     }
-    
+
     func centerCamera(to hex: HexPoint) {
 
         let screenPosition = HexMapDisplay.shared.toScreen(hex: hex)
         var newCameraFocus = cameraNode.convert(screenPosition, to: self.viewHex)
-        
+
         // FIXME: hm, not sure why this is needed
         newCameraFocus.x = newCameraFocus.x - 270
         newCameraFocus.y = newCameraFocus.y + 350
-        
+
         self.cameraNode.position = newCameraFocus
         print("center camera on: \(newCameraFocus)")
-        
+
         // bad: (575.6199340820312, -176.4716796875) - 250
         // good: (300, 100)
     }

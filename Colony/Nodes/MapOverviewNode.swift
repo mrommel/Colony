@@ -56,7 +56,7 @@ class MapOverviewNode: SKSpriteNode {
         let index = y * map.width + x
 
         if map.fogManager?.neverVisitedAt(x: x, y: y) ?? false {
-            self.buffer.set(color: .black, at: index)
+            self.buffer.set(color: UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.5), at: index)
         } else {
 
             if let tile = map.tile(x: x, y: y) {

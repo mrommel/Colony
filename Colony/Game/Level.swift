@@ -63,6 +63,33 @@ class Level: Decodable  {
         self.startPositions = startPositions
         self.gameObjectManager = gameObjectManager
         
+        let monster = Monster(with: "monster", at: startPositions.monsterPosition, tribe: .enemy)
+        self.gameObjectManager.add(object: monster)
+        monster.idle()
+        
+        let ship = Ship(with: "ship", at: startPositions.playerPosition, tribe: .player)
+        self.gameObjectManager.add(object: ship)
+        ship.idle()
+        
+        let village = Village(with: "village", at: startPositions.villagePosition, tribe: .player)
+        self.gameObjectManager.add(object: village)
+        village.idle()
+        
+        let oceanTiles = map.oceanTiles
+        for _ in 0..<64 {
+            let oceanTile = oceanTiles.randomItem()
+            
+            if let point = oceanTile?.point {
+                print("added coin at \(point)")
+                let coin = Coin(at: point)
+                self.gameObjectManager.add(object: coin)
+                coin.idle()
+            }
+        }
+        
+        // set the selected unit - FIXME
+        self.gameObjectManager.selected = self.gameObjectManager.unitsOf(tribe: .player).first!
+        
         self.gameObjectManager.map = self.map
         self.gameObjectManager.add(conditionCheck: MonsterCheck())
     }
@@ -85,12 +112,18 @@ class Level: Decodable  {
         self.map.fogManager?.map = self.map
         self.gameObjectManager.map = self.map
         
-        /*for object in self.gameObjectManager.objects {
+        for object in self.gameObjectManager.objects {
             if let unitObject = object {
                 unitObject.delegate = self.gameObjectManager
-                self.map.fogManager?.add(unit: unitObject)
+                
+                if unitObject.tribe == .player {
+                    self.map.fogManager?.add(unit: unitObject)
+                }
             }
-        }*/
+        }
+        
+        // set the selected unit - FIXME
+        self.gameObjectManager.selected = self.gameObjectManager.unitsOf(tribe: .player).first!
 
         for identifier in gameConditionCheckIdentifiers {
             if let gameConditionCheck = GameConditionCheckManager.shared.gameConditionCheckFor(identifier: identifier) {

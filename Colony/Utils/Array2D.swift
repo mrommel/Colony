@@ -83,6 +83,10 @@ extension Array2D {
 			}
 		}
 	}
+    
+    func filter(_ isIncluded: @escaping (T?) -> Bool) -> [T?] {
+        return self.array.filter(isIncluded)
+    }
 }
 
 // MARK: grid method

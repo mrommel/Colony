@@ -16,6 +16,8 @@ enum GameObjectState: String, Codable {
 enum GameObjectTribe: String, Codable {
     case player
     case enemy
+    
+    case reward
 }
 
 class GameObject: Decodable {
@@ -45,6 +47,7 @@ class GameObject: Decodable {
     var delegate: GameObjectDelegate?
     
     var lastTime: CFTimeInterval = 0
+    var animationSpeed = 2.0
     
     let sight: Int
     
@@ -104,7 +107,7 @@ class GameObject: Decodable {
         if let atlas = atlas {
             let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
             let walkFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
-            let walk = SKAction.animate(with: [walkFrames, walkFrames, walkFrames].flatMap { $0 }, timePerFrame: 2.0 / Double(walkFrames.count * 3))
+            let walk = SKAction.animate(with: [walkFrames, walkFrames, walkFrames].flatMap { $0 }, timePerFrame: animationSpeed / Double(walkFrames.count * 3))
             
             let move = SKAction.move(to: HexMapDisplay.shared.toScreen(hex: hex), duration: walk.duration)
             
@@ -158,7 +161,7 @@ class GameObject: Decodable {
         if let atlas = self.atlasIdle {
             let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
             let idleFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
-            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: idleFrames, timePerFrame: 0.5 / Double(idleFrames.count)))
+            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: idleFrames, timePerFrame: (animationSpeed / 4.0) / Double(idleFrames.count)))
             
             self.sprite.run(idleAnimation, withKey: idleActionKey, completion: {})
         }
