@@ -27,10 +27,10 @@ class SpriteButtonNode: SKNode {
         self.action = buttonAction
         
         self.buttonLabel = SKLabelNode(text: title)
-        self.buttonLabel.fontColor = UIColor.white
         self.buttonLabel.position = CGPoint(x: 0, y: 0)
+        self.buttonLabel.fontColor = UIColor.white
         self.buttonLabel.fontSize = 18
-        self.buttonLabel.fontName = "Helvetica-Bold"
+        self.buttonLabel.fontName = Formatters.Fonts.systemFontBoldFamilyname
         self.buttonLabel.verticalAlignmentMode = .center
         self.buttonLabel.name = "buttonLabel"
         

@@ -37,11 +37,11 @@ class Timer30SecondsCheck: GameConditionCheck {
     
     override func isLost() -> GameConditionType? {
         
-        guard let timeInSecondsElapsed = self.gameObjectManager?.timeInSecondsElapsed() else {
+        guard let timeElapsedInSeconds = self.game?.timeElapsedInSeconds() else {
             fatalError("can't get time elapsed")
         }
         
-        if timeInSecondsElapsed > 30 {
+        if timeElapsedInSeconds > 30 {
             return TimerGameConditionType.timeWentOut
         }
         

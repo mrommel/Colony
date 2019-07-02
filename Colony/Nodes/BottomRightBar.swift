@@ -8,6 +8,7 @@
 
 import SpriteKit
 
+// FIXME: move to another class
 class SizedNode: SKNode {
     
     private var internalFrame: CGRect
@@ -56,7 +57,7 @@ class BottomRightBar: SizedNode {
         self.zPosition = 49 // FIXME: move to constants
         
         self.gameObjectManager = level?.gameObjectManager
-        level?.gameObjectManager.gameObjectUnitDelegate = self
+        level?.gameObjectManager.gameObjectUnitDelegates.addDelegate(self)
         
         let backgroundTexture = SKTexture(imageNamed: "unit_selector_body")
         self.unitSelectorBodyNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: size)
@@ -126,5 +127,9 @@ extension BottomRightBar: GameObjectUnitDelegate {
         let selectedUnitTexture = SKTexture(imageNamed: selectedUnitTextureString!)
         
         self.unitImageNode?.texture = selectedUnitTexture
+    }
+    
+    func removed(gameObject: GameObject?) {
+        // NOOP
     }
 }

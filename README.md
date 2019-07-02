@@ -2,20 +2,21 @@
 
 ## Todo
 - add beach-se-sw-nw texture
-- add game UI frame (overview map, current unit view)
 - multiple units (switcher)
 - center to current unit button
-- style splash screen
-- show elapsed time
 - store already played game results
 - add resources to map and draw them
 - add city screen
 
 ## Bugs
 - [Defect] dialogs have wrong display levels
-- [Defect] dialogs have wrong font size (too big)
 
 ## Done
+- [Defect] dialogs have wrong font size (too big)
+- show coins and make them collectable
+- show elapsed time
+- style splash screen
+- add game UI frame (overview map, current unit view)
 - generate maps with parameters
 - load difficulty from level 
 - [Defect] sprites have wrong anchor points

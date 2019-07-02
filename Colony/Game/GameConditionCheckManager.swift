@@ -14,7 +14,7 @@ class GameConditionCheck {
         fatalError("any subclass must override")
     }
 
-    weak var gameObjectManager: GameObjectManager?
+    weak var game: Game?
 
     func isWon() -> GameConditionType? {
         fatalError("any subclass must override")

@@ -7,106 +7,51 @@
 //
 
 import Foundation
+import SpriteKit
 
 protocol GameObjectDelegate {
 
     func moved(object: GameObject?)
 }
 
-public protocol GameConditionType {
-    
-    var summary: String { get }
-}
-
-extension GameConditionType {
-}
-
-extension GameConditionType where Self: RawRepresentable, Self.RawValue: FixedWidthInteger {
-}
-
-protocol GameConditionDelegate {
-
-    func won(with type: GameConditionType)
-    func lost(with type: GameConditionType)
-}
-
 protocol GameObjectUnitDelegate {
     
     func selectedGameObjectChanged(to gameObject: GameObject?)
+    func removed(gameObject: GameObject?)
+}
+
+protocol GameObservationDelegate {
+    
+    func updated()
+    func coinConsumed()
 }
 
 class GameObjectManager: Codable {
 
+    let alphaVisible: CGFloat = 1.0
+    let alphaInvisible: CGFloat = 0.1 // FIXME
+    
     weak var map: HexagonTileMap?
     var objects: [GameObject?]
     var selected: GameObject? {
         didSet {
-            self.gameObjectUnitDelegate?.selectedGameObjectChanged(to: selected)
+            self.gameObjectUnitDelegates |> { delegate in
+                delegate.selectedGameObjectChanged(to: selected)
+            }
         }
     }
-    
-    var startTime: TimeInterval = 0.0
-    var timer: Timer? = nil
 
-    // game condition
-    private var conditionChecks: [GameConditionCheck] = []
-    var conditionCheckIdentifiers: [String] {
-        return self.conditionChecks.map { $0.identifier }
-    }
-    
-    var conditionDelegate: GameConditionDelegate?
-    var gameObjectUnitDelegate: GameObjectUnitDelegate?
+    //var gameObjectUnitDelegate: GameObjectUnitDelegate?
+    var gameObjectUnitDelegates = MulticastDelegate<GameObjectUnitDelegate>()
+    var gameObservationDelegate: GameObservationDelegate?
 
     enum CodingKeys: String, CodingKey {
         case objects
     }
 
-    // MARK: constrcutor
-    
-    /*required init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        
-        self.objects = []
-        let parsedObjects = try values.decode([GameObject?].self, forKey: .objects)
-        
-        for object in parsedObjects {
-            self.add(object: object)
-        }
-    }*/
-
     init(on map: HexagonTileMap?) {
         self.objects = []
         self.map = map
-    }
-    
-    deinit {
-        if let timer = self.timer {
-            timer.invalidate()
-        }
-    }
-    
-    func start() {
-        print("start timer")
-        
-        // save start time
-        self.startTime = Date().timeIntervalSince1970
-        
-        // start timer to check for conditions ever 1 seconds
-        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (t) in
-            
-            self.checkCondition()
-        }
-    }
-    
-    func timeInSecondsElapsed() -> TimeInterval {
-        let current = Date().timeIntervalSince1970
-        return current - self.startTime
-    }
-
-    func add(conditionCheck: GameConditionCheck) {
-
-        conditionCheck.gameObjectManager = self
-        conditionChecks.append(conditionCheck)
     }
 
     func add(object: GameObject?) {
@@ -128,9 +73,13 @@ class GameObjectManager: Codable {
         self.objects.append(object)
         
         self.moved(object: object)
-
-        // check if already won / lost the game
-        self.checkCondition()
+    }
+    
+    func remove(object: GameObject?) {
+        if let objectIndex = self.objects.firstIndex(where: { $0?.identifier == object?.identifier }) {
+            self.objects.remove(at: objectIndex)
+            print("remove object")
+        }
     }
     
     func unitBy(identifier: String) -> GameObject? {
@@ -146,26 +95,10 @@ class GameObjectManager: Codable {
 
         return self.objects.filter { $0?.tribe == tribe }
     }
-
-    func checkCondition() {
-
-        for conditionCheck in self.conditionChecks {
-            if let type = conditionCheck.isWon() {
-                self.conditionDelegate?.won(with: type)
-                
-                if let timer = self.timer {
-                    timer.invalidate()
-                }
-            }
-
-            if let type = conditionCheck.isLost() {
-                self.conditionDelegate?.lost(with: type)
-                
-                if let timer = self.timer {
-                    timer.invalidate()
-                }
-            }
-        }
+    
+    func checkGameConditions() {
+        
+        self.gameObservationDelegate?.updated()
     }
 }
 
@@ -192,9 +125,9 @@ extension GameObjectManager: GameObjectDelegate {
                     // show/hide enemies based on fog
                     let fogAtEnemy = fogManager.fog(at: position)
                     if fogAtEnemy == .sighted {
-                        enemyUnit?.sprite.alpha = 1.0
+                        enemyUnit?.sprite.alpha = self.alphaVisible
                     } else {
-                        enemyUnit?.sprite.alpha = 0.1
+                        enemyUnit?.sprite.alpha = self.alphaInvisible
                     }
                 }
             }
@@ -203,12 +136,24 @@ extension GameObjectManager: GameObjectDelegate {
                 
                 if let position = rewardUnit?.position {
                     
-                    // show/hide enemies based on fog
+                    if position == object.position {
+                        
+                        // consume reward
+                        self.gameObservationDelegate?.coinConsumed()
+                        
+                        self.gameObjectUnitDelegates |> { delegate in
+                            delegate.removed(gameObject: rewardUnit)
+                        }
+                        self.remove(object: rewardUnit)
+                        continue
+                    }
+                    
+                    // show/hide rewards based on fog
                     let fogAtReward = fogManager.fog(at: position)
                     if fogAtReward == .sighted {
-                        rewardUnit?.sprite.alpha = 1.0
+                        rewardUnit?.sprite.alpha = self.alphaVisible
                     } else {
-                        rewardUnit?.sprite.alpha = 0.1
+                        rewardUnit?.sprite.alpha = self.alphaInvisible
                     }
                 }
             }
@@ -217,13 +162,13 @@ extension GameObjectManager: GameObjectDelegate {
 
             let fogAtEnemy = fogManager.fog(at: object.position)
             if fogAtEnemy == .sighted {
-                object.sprite.alpha = 1.0
+                object.sprite.alpha = self.alphaVisible
             } else {
-                object.sprite.alpha = 0.1 // TODO: make completely invisible
+                object.sprite.alpha = self.alphaInvisible
             }
         }
 
         // check if won / lost the game
-        self.checkCondition()
+        self.checkGameConditions()
     }
 }

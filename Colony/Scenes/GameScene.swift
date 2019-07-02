@@ -63,9 +63,11 @@ class GameScene: SKScene {
     var lastFocusPoint: HexPoint = HexPoint(x: 0, y: 0)
 
     var cameraNode: SKCameraNode!
-    let positionLabel = SKLabelNode(fontNamed: "Chalkduster")
+    let coinLabel = SKLabelNode(text: "0000")
+    let timeLabel = SKLabelNode(text: "0:00")
     var hasMoved = false
 
+    var game: Game? // the reference
     weak var gameDelegate: GameDelegate?
 
     override init(size: CGSize) {
@@ -124,6 +126,8 @@ class GameScene: SKScene {
             guard let level = LevelManager.loadLevelFrom(url: levelURL) else {
                 fatalError("no level")
             }
+            
+            self.game = Game(with: level)
 
             self.mapNode = MapNode(with: level)
             self.bottomLeftBar = BottomLeftBar(with: level.map, sized: CGSize(width: 200, height: 112))
@@ -143,6 +147,8 @@ class GameScene: SKScene {
             let gameObjectManager = GameObjectManager(on: map)
 
             let level = Level(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, map: map, startPositions: startPositions, gameObjectManager: gameObjectManager)
+            
+            self.game = Game(with: level)
 
             self.mapNode = MapNode(with: level)
             self.bottomLeftBar = BottomLeftBar(with: level.map, sized: CGSize(width: 200, height: 112))
@@ -151,7 +157,8 @@ class GameScene: SKScene {
             self.showLevel(title: "Free playing", summary: "Please ply free")
         }
 
-        self.mapNode?.gameObjectManager.conditionDelegate = self
+        self.game?.conditionDelegate = self
+        self.game?.gameUpdateDelegate = self
 
         if let bottomLeftBar = self.bottomLeftBar {
             self.safeAreaNode.addChild(bottomLeftBar)
@@ -239,12 +246,13 @@ class GameScene: SKScene {
         }
 
         // debug
-        self.positionLabel.text = String("0, 0")
-        self.positionLabel.fontSize = 10
-        self.positionLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        self.positionLabel.zPosition = GameScene.Constants.ZLevels.labels
-
-        self.safeAreaNode.addChild(self.positionLabel)
+        self.coinLabel.fontSize = 18
+        self.coinLabel.zPosition = GameScene.Constants.ZLevels.labels
+        self.safeAreaNode.addChild(self.coinLabel)
+        
+        self.timeLabel.fontSize = 18
+        self.timeLabel.zPosition = GameScene.Constants.ZLevels.labels
+        self.safeAreaNode.addChild(self.timeLabel)
 
         // focus on ship
         if let mapNode = self.mapNode {
@@ -265,6 +273,9 @@ class GameScene: SKScene {
         self.frameBottomLeft?.position = CGPoint(x: -self.frame.halfWidth, y: -self.frame.halfHeight)
         self.frameBottomRight?.position = CGPoint(x: self.frame.halfWidth, y: -self.frame.halfHeight)
 
+        self.coinLabel.position = CGPoint(x: 0, y: self.frame.halfHeight - 50)
+        self.timeLabel.position = CGPoint(x: self.frame.halfWidth - 50, y: self.frame.halfHeight - 50)
+        
         self.bottomLeftBar?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.bottomLeftBar?.updateLayout()
 
@@ -301,7 +312,7 @@ class GameScene: SKScene {
                 levelIntroductionDialog.close()
 
                 // start timer
-                self.mapNode?.gameObjectManager.start()
+                self.game?.start()
             })
 
             self.cameraNode.addChild(levelIntroductionDialog)
@@ -346,7 +357,7 @@ class GameScene: SKScene {
         touchLocation.y -= 15
 
         let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
-        self.positionLabel.text = "\(position)"
+        //self.positionLabel.text = "\(position)"
 
         if !self.hasMoved {
             self.moveFocus(to: position)
@@ -456,5 +467,24 @@ extension GameScene: GameConditionDelegate {
 
             self.cameraNode.addChild(defeatDialog)
         }
+    }
+}
+
+extension GameScene: GameUpdateDelegate {
+    
+    func update(time: TimeInterval) {
+        
+        let interval = Int(time)
+        let seconds = interval % 60
+        let minutes = (interval / 60) % 60
+        
+        self.timeLabel.text = String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    func update(coins: Int) {
+        
+        let coinText = Formatters.Numbers.getCoinString(from: coins)
+        
+        self.coinLabel.text = coinText
     }
 }

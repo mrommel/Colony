@@ -113,7 +113,7 @@ class MapNode: SKNode {
             }
         }
 
-
+        level.gameObjectManager.gameObjectUnitDelegates.addDelegate(self)
 
         /*DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) { // Change `2.0` to the desired number of seconds.
             let path = startPositionFinder.findPatrolPath(from: startPositions.monsterPosition)
@@ -146,5 +146,17 @@ class MapNode: SKNode {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension MapNode: GameObjectUnitDelegate {
+    
+    func selectedGameObjectChanged(to gameObject: GameObject?) {
+        // NOOP
+    }
+    
+    func removed(gameObject: GameObject?) {
+        gameObject?.sprite.removeFromParent()
+        //self.rem.addChild(unit.sprite)
     }
 }

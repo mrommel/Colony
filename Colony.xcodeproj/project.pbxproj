@@ -16,6 +16,14 @@
 		C90A134F22A99F130003BBDE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C90A134E22A99F130003BBDE /* README.md */; };
 		C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* MenuScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
+		C92D875322CB694200E7A55E /* BaseDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D875222CB694200E7A55E /* BaseDao.swift */; };
+		C92D875622CB69F200E7A55E /* Colony.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C92D875422CB69F200E7A55E /* Colony.xcdatamodeld */; };
+		C92D875822CB73B400E7A55E /* UserDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D875722CB73B400E7A55E /* UserDao.swift */; };
+		C92D875A22CB75CB00E7A55E /* ScoreDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D875922CB75CB00E7A55E /* ScoreDao.swift */; };
+		C92D875F22CB77EB00E7A55E /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D875E22CB77EB00E7A55E /* UserRepository.swift */; };
+		C92D876122CB7A0600E7A55E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D876022CB7A0600E7A55E /* Game.swift */; };
+		C92D876322CB871100E7A55E /* GameConditionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D876222CB871100E7A55E /* GameConditionType.swift */; };
+		C92D876522CBF34E00E7A55E /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D876422CBF34E00E7A55E /* Formatters.swift */; };
 		C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2B22B7ABB700AB7117 /* R.generated.swift */; };
 		C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */; };
 		C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */; };
@@ -115,6 +123,14 @@
 		C90A134E22A99F130003BBDE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C91A4F3222A260DD000BF647 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
+		C92D875222CB694200E7A55E /* BaseDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDao.swift; sourceTree = "<group>"; };
+		C92D875522CB69F200E7A55E /* Colony.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Colony.xcdatamodel; sourceTree = "<group>"; };
+		C92D875722CB73B400E7A55E /* UserDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDao.swift; sourceTree = "<group>"; };
+		C92D875922CB75CB00E7A55E /* ScoreDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreDao.swift; sourceTree = "<group>"; };
+		C92D875E22CB77EB00E7A55E /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		C92D876022CB7A0600E7A55E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		C92D876222CB871100E7A55E /* GameConditionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConditionType.swift; sourceTree = "<group>"; };
+		C92D876422CBF34E00E7A55E /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		C94A2F2B22B7ABB700AB7117 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
@@ -225,6 +241,24 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C92D875122CB693200E7A55E /* Dao */ = {
+			isa = PBXGroup;
+			children = (
+				C92D875222CB694200E7A55E /* BaseDao.swift */,
+				C92D875722CB73B400E7A55E /* UserDao.swift */,
+				C92D875922CB75CB00E7A55E /* ScoreDao.swift */,
+			);
+			path = Dao;
+			sourceTree = "<group>";
+		};
+		C92D875D22CB77DE00E7A55E /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				C92D875E22CB77EB00E7A55E /* UserRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
 		C94A2F2D22C0EC4000AB7117 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,6 +284,7 @@
 				C9C7F0D5229B193A00A775B2 /* Assets.xcassets */,
 				C9C7F0D7229B193A00A775B2 /* LaunchScreen.storyboard */,
 				C9C7F0DA229B193A00A775B2 /* Info.plist */,
+				C92D875422CB69F200E7A55E /* Colony.xcdatamodeld */,
 			);
 			path = Ressources;
 			sourceTree = "<group>";
@@ -274,6 +309,8 @@
 				C956079922B2435100AA69E9 /* MonsterCheck.swift */,
 				C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */,
 				C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */,
+				C92D876222CB871100E7A55E /* GameConditionType.swift */,
+				C92D876022CB7A0600E7A55E /* Game.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -350,6 +387,8 @@
 		C9C7F0C7229B193400A775B2 /* Colony */ = {
 			isa = PBXGroup;
 			children = (
+				C92D875D22CB77DE00E7A55E /* Repositories */,
+				C92D875122CB693200E7A55E /* Dao */,
 				C956079222B1425100AA69E9 /* Game */,
 				C97E96D122A0739100D594F3 /* Objects */,
 				C9C7F108229EBE2000A775B2 /* Utils */,
@@ -444,6 +483,7 @@
 				C94A2F3422C2322A00AB7117 /* CGRectExtension.swift */,
 				C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */,
 				C94A2F3B22C2B06200AB7117 /* UIImageExtension.swift */,
+				C92D876422CBF34E00E7A55E /* Formatters.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -620,14 +660,18 @@
 				C9C7F122229EBE5C00A775B2 /* MapSize.swift in Sources */,
 				C956079622B23FD800AA69E9 /* Level.swift in Sources */,
 				C9C7F135229EC0C300A775B2 /* HexMapDisplay.swift in Sources */,
+				C92D876122CB7A0600E7A55E /* Game.swift in Sources */,
 				C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */,
 				C97B283622A54AE600112532 /* HexArea.swift in Sources */,
+				C92D875A22CB75CB00E7A55E /* ScoreDao.swift in Sources */,
 				C9C7F120229EBE5C00A775B2 /* HexPointCorner.swift in Sources */,
 				C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */,
 				C9C7F13E229F206000A775B2 /* BoardLayer.swift in Sources */,
+				C92D875F22CB77EB00E7A55E /* UserRepository.swift in Sources */,
 				C9C7F114229EBE3100A775B2 /* FloatExtension.swift in Sources */,
 				C9C7F0FD229EBD2900A775B2 /* HexagonMap.swift in Sources */,
 				C9C7F0D1229B193400A775B2 /* GameViewController.swift in Sources */,
+				C92D876522CBF34E00E7A55E /* Formatters.swift in Sources */,
 				C97B283222A5349A00112532 /* FogManager.swift in Sources */,
 				C9C7F140229F20C300A775B2 /* RiverLayer.swift in Sources */,
 				C94A2F4022C8F66100AB7117 /* BottomRightBar.swift in Sources */,
@@ -635,6 +679,7 @@
 				C9C7F0C9229B193400A775B2 /* AppDelegate.swift in Sources */,
 				C9C7F121229EBE5C00A775B2 /* FlowDirection.swift in Sources */,
 				C9C7F107229EBDE700A775B2 /* RiverEdge.swift in Sources */,
+				C92D875322CB694200E7A55E /* BaseDao.swift in Sources */,
 				C97B282C22A427A800112532 /* ProgressBarNode.swift in Sources */,
 				C9C7F0F9229EBD1100A775B2 /* Tile.swift in Sources */,
 				C9C7F0F0229E993300A775B2 /* MenuViewController.swift in Sources */,
@@ -664,6 +709,7 @@
 				C9C7F106229EBDE700A775B2 /* River.swift in Sources */,
 				C97E96DA22A1CB7B00D594F3 /* OceanPathfinderDataSource.swift in Sources */,
 				C900654622AFA21D0004C963 /* UI.swift in Sources */,
+				C92D875822CB73B400E7A55E /* UserDao.swift in Sources */,
 				C9C7F102229EBD9500A775B2 /* Terrain.swift in Sources */,
 				C9E9BBF822B3B32C0048F97B /* LevelButtonNode.swift in Sources */,
 				C9C7F129229EBEDD00A775B2 /* HexDirection.swift in Sources */,
@@ -675,10 +721,12 @@
 				C9C7F12F229EBF8700A775B2 /* Continent.swift in Sources */,
 				C94A2F3A22C267B100AB7117 /* GameSceneViewModel.swift in Sources */,
 				C9C7F12E229EBF8700A775B2 /* ContinentFinder.swift in Sources */,
+				C92D875622CB69F200E7A55E /* Colony.xcdatamodeld in Sources */,
 				C94A2F3722C248DB00AB7117 /* MapOverviewNode.swift in Sources */,
 				C9C7F124229EBE5C00A775B2 /* MapGenerator.swift in Sources */,
 				C900654422AF96A00004C963 /* Dialog.swift in Sources */,
 				C9C7F117229EBE3100A775B2 /* CGPointExtension.swift in Sources */,
+				C92D876322CB871100E7A55E /* GameConditionType.swift in Sources */,
 				C97B283422A53D0F00112532 /* MulticastDelegate.swift in Sources */,
 				C94A2F3E22C8E1ED00AB7117 /* BottomLeftBar.swift in Sources */,
 				C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */,
@@ -890,6 +938,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C92D875422CB69F200E7A55E /* Colony.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C92D875522CB69F200E7A55E /* Colony.xcdatamodel */,
+			);
+			currentVersion = C92D875522CB69F200E7A55E /* Colony.xcdatamodel */;
+			path = Colony.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C9C7F0BD229B193400A775B2 /* Project object */;
 }

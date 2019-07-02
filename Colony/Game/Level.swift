@@ -39,6 +39,8 @@ class Level: Decodable  {
     let startPositions: StartPositions
     let gameObjectManager: GameObjectManager
     
+    var gameConditionCheckIdentifiers: [String] = []
+    
     enum CodingKeys: String, CodingKey {
         case number
         case title
@@ -91,7 +93,6 @@ class Level: Decodable  {
         self.gameObjectManager.selected = self.gameObjectManager.unitsOf(tribe: .player).first!
         
         self.gameObjectManager.map = self.map
-        self.gameObjectManager.add(conditionCheck: MonsterCheck())
     }
     
     required init(from decoder: Decoder) throws {
@@ -106,7 +107,7 @@ class Level: Decodable  {
         self.startPositions = try values.decode(StartPositions.self, forKey: .startPositions)
         self.gameObjectManager = try values.decode(GameObjectManager.self, forKey: .gameObjectManager)
         
-        let gameConditionCheckIdentifiers = try values.decode([String].self, forKey: .gameConditionCheckIdentifiers)
+        self.gameConditionCheckIdentifiers = try values.decode([String].self, forKey: .gameConditionCheckIdentifiers)
         
         // connect classes
         self.map.fogManager?.map = self.map
@@ -124,13 +125,6 @@ class Level: Decodable  {
         
         // set the selected unit - FIXME
         self.gameObjectManager.selected = self.gameObjectManager.unitsOf(tribe: .player).first!
-
-        for identifier in gameConditionCheckIdentifiers {
-            if let gameConditionCheck = GameConditionCheckManager.shared.gameConditionCheckFor(identifier: identifier) {
-                self.gameObjectManager.add(conditionCheck: gameConditionCheck)
-                print("- add \(gameConditionCheck.identifier)")
-            }
-        }
     }
 }
 
@@ -148,7 +142,6 @@ extension Level: Encodable {
         try container.encode(self.startPositions, forKey: .startPositions)
         try container.encode(self.gameObjectManager, forKey: .gameObjectManager)
         
-        let gameConditionCheckIdentifiers = self.gameObjectManager.conditionCheckIdentifiers
-        try container.encode(gameConditionCheckIdentifiers, forKey: .gameConditionCheckIdentifiers)
+        try container.encode(self.gameConditionCheckIdentifiers, forKey: .gameConditionCheckIdentifiers)
     }
 }

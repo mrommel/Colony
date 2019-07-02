@@ -23,7 +23,7 @@ class Coin: GameObject {
         self.atlasLeft = nil
         self.atlasRight = nil
         
-        self.sprite.anchorPoint = CGPoint(x: -0.7, y: -0.1)
+        self.sprite.anchorPoint = CGPoint(x: -1.0, y: -0.1)
         
         self.animationSpeed = 8.0
     }
