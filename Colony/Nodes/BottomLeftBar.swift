@@ -10,44 +10,65 @@ import SpriteKit
 
 class BottomLeftBar: SizedNode {
     
-    var mapOverviewBody: SKSpriteNode?
-    var mapOverviewNode: MapOverviewNode?
-    var mapOverlay: SKSpriteNode?
+    var backgroundBodyNode: SKSpriteNode?
+    var unitBackgroundNode: SKSpriteNode?
+    var unitImageNode: SKSpriteNode?
+    var nextUnitButton: MenuButtonNode?
     
-    init(with map: HexagonTileMap?, sized size: CGSize) {
+    var gameObjectManager: GameObjectManager?
+    
+    init(for level: Level?, sized size: CGSize) {
 
         super.init(sized: size)
         
         self.anchorPoint = .lowerLeft
         self.zPosition = 49 // FIXME: move to constants
         
+        self.gameObjectManager = level?.gameObjectManager
+        level?.gameObjectManager.gameObjectUnitDelegates.addDelegate(self)
+        
         let mapOverviewBodyTexture = SKTexture(imageNamed: "map_overview_body")
-        self.mapOverviewBody = SKSpriteNode(texture: mapOverviewBodyTexture, color: .black, size: CGSize(width: 200, height: 112))
-        self.mapOverviewBody?.position = CGPoint(x: 0, y: 0)
-        self.mapOverviewBody?.zPosition = 49
-        self.mapOverviewBody?.anchorPoint = .lowerLeft
+        self.backgroundBodyNode = SKSpriteNode(texture: mapOverviewBodyTexture, color: .black, size: CGSize(width: 200, height: 112))
+        self.backgroundBodyNode?.position = self.position
+        self.backgroundBodyNode?.zPosition = 49
+        self.backgroundBodyNode?.anchorPoint = .lowerLeft
         
-        if let mapOverviewBody = self.mapOverviewBody {
-            self.addChild(mapOverviewBody)
+        if let backgroundBodyNode = self.backgroundBodyNode {
+            self.addChild(backgroundBodyNode)
         }
         
-        self.mapOverviewNode = MapOverviewNode(with: map, size: CGSize(width: 157, height: 95))
-        self.mapOverviewNode?.position = CGPoint(x: 9, y: 1)
-        self.mapOverviewNode?.zPosition = 50
-        self.mapOverviewNode?.anchorPoint = .lowerLeft
+        let unitBackgroundTexture = SKTexture(imageNamed: "unit_frame")
+        self.unitBackgroundNode = SKSpriteNode(texture: unitBackgroundTexture, color: .black, size: CGSize(width: 72, height: 72))
+        self.unitBackgroundNode?.position = self.position + CGPoint(x: 90, y: 3)
+        self.unitBackgroundNode?.zPosition = 52
+        self.unitBackgroundNode?.anchorPoint = .lowerLeft
         
-        if let mapOverviewNode = self.mapOverviewNode {
-            self.addChild(mapOverviewNode)
+        if let unitBackgroundNode = self.unitBackgroundNode {
+            self.addChild(unitBackgroundNode)
         }
         
-        let mapOverlayTexture = SKTexture(imageNamed: "map_overlay")
-        self.mapOverlay = SKSpriteNode(texture: mapOverlayTexture, color: .black, size: CGSize(width: 157, height: 95))
-        self.mapOverlay?.position = CGPoint(x: 9, y: 1)
-        self.mapOverlay?.zPosition = 51
-        self.mapOverlay?.anchorPoint = .lowerLeft
+        let selectedUnitTextureString = (self.gameObjectManager?.selected?.atlasIdle?.textures.first)
+        let selectedUnitTexture = SKTexture(imageNamed: selectedUnitTextureString!)
+        self.unitImageNode = SKSpriteNode(texture: selectedUnitTexture, color: .black, size: CGSize(width: 72, height: 72))
+        self.unitImageNode?.position = self.position + CGPoint(x: 90, y: 3)
+        self.unitImageNode?.zPosition = 53
+        self.unitImageNode?.anchorPoint = .lowerLeft
         
-        if let mapOverlay = self.mapOverlay {
-            self.addChild(mapOverlay)
+        if let unitImageNode = self.unitImageNode {
+            self.addChild(unitImageNode)
+        }
+        
+        self.nextUnitButton = MenuButtonNode(imageNamed: "coin1",
+                                             title: "Next",
+                                             sized: CGSize(width: 80, height: 36),
+                                             buttonAction: {
+                                                self.gameObjectManager?.nextPlayerUnit()
+        })
+        self.nextUnitButton?.position = self.position + CGPoint(x: 50, y: 21)
+        self.nextUnitButton?.zPosition = 53
+        
+        if let nextUnitButton = self.nextUnitButton {
+            self.addChild(nextUnitButton)
         }
     }
     
@@ -55,10 +76,32 @@ class BottomLeftBar: SizedNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func updateLayout() {
+    override func updateLayout() {
         
-        self.mapOverviewBody?.position = self.position
-        self.mapOverviewNode?.position = self.position + CGPoint(x: 9, y: 1)
-        self.mapOverlay?.position = self.position + CGPoint(x: 9, y: 1)
+        self.backgroundBodyNode?.position = self.position
+        self.unitBackgroundNode?.position = self.position + CGPoint(x: 90, y: 3)
+        self.unitImageNode?.position = self.position + CGPoint(x: 90, y: 3)
+        self.nextUnitButton?.position = self.position + CGPoint(x: 50, y: 21)
+    }
+}
+
+extension BottomLeftBar: GameObjectUnitDelegate {
+    
+    func selectedGameObjectChanged(to gameObject: GameObject?) {
+        
+        guard let gameObject = gameObject else {
+            fatalError("selected unit set to nil")
+        }
+        
+        print("selected unit changed: \(gameObject.identifier)")
+        
+        let selectedUnitTextureString = (gameObject.atlasIdle?.textures.first)
+        let selectedUnitTexture = SKTexture(imageNamed: selectedUnitTextureString!)
+        
+        self.unitImageNode?.texture = selectedUnitTexture
+    }
+    
+    func removed(gameObject: GameObject?) {
+        // NOOP
     }
 }

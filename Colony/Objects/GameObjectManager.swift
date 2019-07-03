@@ -82,6 +82,25 @@ class GameObjectManager: Codable {
         }
     }
     
+    // MARK:
+    
+    func nextPlayerUnit() {
+        
+        let playerUnits = self.unitsOf(tribe: .player)
+        
+        guard playerUnits.count > 1 else {
+            return
+        }
+        
+        guard let currentIndex = playerUnits.firstIndex(where: { $0?.identifier == selected?.identifier }) else {
+            fatalError("selected no in player units")
+        }
+        
+        let nextIndex = (currentIndex + 1 ) % playerUnits.count
+        
+        self.selected = playerUnits[nextIndex]
+    }
+    
     func unitBy(identifier: String) -> GameObject? {
         
         if let object = self.objects.first(where: { $0?.identifier == identifier }) {

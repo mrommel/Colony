@@ -130,7 +130,7 @@ class GameScene: SKScene {
             self.game = Game(with: level)
 
             self.mapNode = MapNode(with: level)
-            self.bottomLeftBar = BottomLeftBar(with: level.map, sized: CGSize(width: 200, height: 112))
+            self.bottomLeftBar = BottomLeftBar(for: level, sized: CGSize(width: 200, height: 112))
             self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
 
             self.showLevel(title: level.title, summary: level.summary)
@@ -151,7 +151,7 @@ class GameScene: SKScene {
             self.game = Game(with: level)
 
             self.mapNode = MapNode(with: level)
-            self.bottomLeftBar = BottomLeftBar(with: level.map, sized: CGSize(width: 200, height: 112))
+            self.bottomLeftBar = BottomLeftBar(for: level, sized: CGSize(width: 200, height: 112))
             self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
 
             self.showLevel(title: "Free playing", summary: "Please ply free")
@@ -159,6 +159,7 @@ class GameScene: SKScene {
 
         self.game?.conditionDelegate = self
         self.game?.gameUpdateDelegate = self
+        self.game?.level?.gameObjectManager.gameObjectUnitDelegates.addDelegate(self)
 
         if let bottomLeftBar = self.bottomLeftBar {
             self.safeAreaNode.addChild(bottomLeftBar)
@@ -256,8 +257,9 @@ class GameScene: SKScene {
 
         // focus on ship
         if let mapNode = self.mapNode {
-            if let ship = mapNode.gameObjectManager.unitBy(identifier: "ship") {
-                self.centerCamera(to: ship.position)
+            if let selectedUnit = mapNode.gameObjectManager.selected {
+                self.centerCamera(on: selectedUnit.position)
+                self.moveFocus(to: selectedUnit.position)
             }
         }
         
@@ -391,7 +393,7 @@ class GameScene: SKScene {
 
             self.cameraNode.position.x -= deltaX * 0.7
             self.cameraNode.position.y -= deltaY * 0.7
-            //print("camera pos: \(self.cameraNode.position)")
+            print("camera pos moved: \(self.cameraNode.position)")
         }
     }
 
@@ -405,20 +407,17 @@ class GameScene: SKScene {
         //print("tick")
     }
 
-    func centerCamera(to hex: HexPoint) {
+    func centerCamera(on hex: HexPoint) {
 
-        let screenPosition = HexMapDisplay.shared.toScreen(hex: hex)
-        var newCameraFocus = cameraNode.convert(screenPosition, to: self.viewHex)
-
+        var screenPosition = HexMapDisplay.shared.toScreen(hex: hex)
         // FIXME: hm, not sure why this is needed
-        newCameraFocus.x = newCameraFocus.x - 270
-        newCameraFocus.y = newCameraFocus.y + 350
+        screenPosition.x += 20
+        screenPosition.y += 15
 
-        self.cameraNode.position = newCameraFocus
-        print("center camera on: \(newCameraFocus)")
+        let cameraPositionInScene = self.convert(screenPosition, from: self.viewHex)
 
-        // bad: (575.6199340820312, -176.4716796875) - 250
-        // good: (300, 100)
+        self.cameraNode.position = cameraPositionInScene
+        print("center camera on: \(cameraPositionInScene)")
     }
 
     func moveFocus(to hex: HexPoint) {
@@ -430,9 +429,9 @@ class GameScene: SKScene {
 
         if hex == self.lastFocusPoint {
 
-            if let ship = self.mapNode?.gameObjectManager.unitBy(identifier: "ship") {
-                if ship.position == hex {
-                    self.gameDelegate?.select(object: ship)
+            if let selectedUnit = self.mapNode?.gameObjectManager.selected {
+                if selectedUnit.position == hex {
+                    self.gameDelegate?.select(object: selectedUnit)
                 }
             }
         }
@@ -486,5 +485,19 @@ extension GameScene: GameUpdateDelegate {
         let coinText = Formatters.Numbers.getCoinString(from: coins)
         
         self.coinLabel.text = coinText
+    }
+}
+
+extension GameScene: GameObjectUnitDelegate {
+    
+    func selectedGameObjectChanged(to gameObject: GameObject?) {
+        if let newPosition = gameObject?.position {
+            self.centerCamera(on: newPosition)
+            self.moveFocus(to: newPosition)
+        }
+    }
+    
+    func removed(gameObject: GameObject?) {
+        // NOOP
     }
 }
