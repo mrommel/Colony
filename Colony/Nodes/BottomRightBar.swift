@@ -33,7 +33,7 @@ class BottomRightBar: SizedNode {
         
         self.mapOverviewNode = MapOverviewNode(with: level?.map, size: CGSize(width: 157, height: 95))
         self.mapOverviewNode?.position = CGPoint(x: 9, y: 1)
-        self.mapOverviewNode?.zPosition = 50
+        self.mapOverviewNode?.zPosition = 51 // FIXME: move to constants
         self.mapOverviewNode?.anchorPoint = .lowerLeft
         
         if let mapOverviewNode = self.mapOverviewNode {
@@ -43,7 +43,7 @@ class BottomRightBar: SizedNode {
         let mapOverlayTexture = SKTexture(imageNamed: "map_overlay")
         self.mapOverlay = SKSpriteNode(texture: mapOverlayTexture, color: .black, size: CGSize(width: 157, height: 95))
         self.mapOverlay?.position = CGPoint(x: 9, y: 1)
-        self.mapOverlay?.zPosition = 51
+        self.mapOverlay?.zPosition = 52 // FIXME: move to constants
         self.mapOverlay?.anchorPoint = .lowerLeft
         
         if let mapOverlay = self.mapOverlay {
