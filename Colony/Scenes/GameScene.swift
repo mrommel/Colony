@@ -448,6 +448,9 @@ extension GameScene: GameConditionDelegate {
         if let victoryDialog = UI.victoryDialog() {
             victoryDialog.set(text: type.summary, identifier: "summary")
             victoryDialog.addOkayAction(handler: {
+                
+                // save to database
+                
                 self.gameDelegate?.quitGame()
             })
 

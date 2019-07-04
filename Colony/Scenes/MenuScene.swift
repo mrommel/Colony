@@ -59,6 +59,9 @@ class MenuScene: SKScene {
             levelButton.position = CGPoint(x: self.frame.width * level.position.x, y: self.frame.height * level.position.y)
             levelButton.zPosition = 1
             self.safeAreaNode.addChild(levelButton)
+            
+            // FIXME: add level score here
+            
         }
         
         let generateButton = LevelButtonNode(titled: "G", difficulty: .easy, buttonAction: {
@@ -68,6 +71,13 @@ class MenuScene: SKScene {
         generateButton.position = CGPoint(x: self.frame.width * 0.9, y: self.frame.height * 0.8)
         generateButton.zPosition = 1
         self.safeAreaNode.addChild(generateButton)
+        
+        let settingsButton = SettingsButtonNode(buttonAction: {
+            print("settings")
+        })
+        settingsButton.position = CGPoint(x: self.frame.width * 0.88, y: self.frame.height * 0.1)
+        settingsButton.zPosition = 1
+        self.safeAreaNode.addChild(settingsButton)
     }
     
     func updateLayout() {

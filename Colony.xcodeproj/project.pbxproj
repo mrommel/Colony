@@ -58,6 +58,7 @@
 		C97E96D522A073E900D594F3 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D422A073E900D594F3 /* GameObject.swift */; };
 		C97E96D722A1C21600D594F3 /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D622A1C21600D594F3 /* Ship.swift */; };
 		C97E96DA22A1CB7B00D594F3 /* OceanPathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D922A1CB7B00D594F3 /* OceanPathfinderDataSource.swift */; };
+		C984CCD422CD4D3C0033F2BB /* SettingsButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984CCD322CD4D3C0033F2BB /* SettingsButtonNode.swift */; };
 		C992ABEB22A32042001C5E7C /* NineGridTextureSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */; };
 		C9A32B4822B29F3100AFC70D /* level0001.lvl in Resources */ = {isa = PBXBuildFile; fileRef = C9A32B4722B29F3100AFC70D /* level0001.lvl */; };
 		C9A32B4A22B29F7B00AFC70D /* level0002.lvl in Resources */ = {isa = PBXBuildFile; fileRef = C9A32B4922B29F7B00AFC70D /* level0002.lvl */; };
@@ -166,6 +167,7 @@
 		C97E96D422A073E900D594F3 /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		C97E96D622A1C21600D594F3 /* Ship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ship.swift; sourceTree = "<group>"; };
 		C97E96D922A1CB7B00D594F3 /* OceanPathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OceanPathfinderDataSource.swift; sourceTree = "<group>"; };
+		C984CCD322CD4D3C0033F2BB /* SettingsButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButtonNode.swift; sourceTree = "<group>"; };
 		C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineGridTextureSprite.swift; sourceTree = "<group>"; };
 		C9A32B4722B29F3100AFC70D /* level0001.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0001.lvl; sourceTree = "<group>"; };
 		C9A32B4922B29F7B00AFC70D /* level0002.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0002.lvl; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 				C900654322AF96A00004C963 /* Dialog.swift */,
 				C956078822B0F22800AA69E9 /* DialogConfiguration.swift */,
 				C900654522AFA21D0004C963 /* UI.swift */,
+				C984CCD322CD4D3C0033F2BB /* SettingsButtonNode.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -658,6 +661,7 @@
 				C94A2F3322C22F8700AB7117 /* SafeAreaNode.swift in Sources */,
 				C9C7F137229EC0D700A775B2 /* HexLayout.swift in Sources */,
 				C97E96D322A073A500D594F3 /* GameObjectAtlas.swift in Sources */,
+				C984CCD422CD4D3C0033F2BB /* SettingsButtonNode.swift in Sources */,
 				C94A2F3522C2322A00AB7117 /* CGRectExtension.swift in Sources */,
 				C9C7F13C229F204900A775B2 /* FeatureLayer.swift in Sources */,
 				C9C7F122229EBE5C00A775B2 /* MapSize.swift in Sources */,

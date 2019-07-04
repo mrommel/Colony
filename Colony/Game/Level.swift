@@ -28,6 +28,34 @@ enum LevelDifficulty: String, Codable {
     }
 }
 
+enum LevelScore: String {
+    
+    case none
+    case bronze
+    case silver
+    case gold
+    
+    var buttonName: String {
+        
+        switch self {
+            
+        case .none:
+            return "star_none"
+        case .bronze:
+            return "star_bronze"
+        case .silver:
+            return "star_silver"
+        case .gold:
+            return "star_gold"
+        }
+    }
+}
+
+struct ScoreThresold: Codable {
+    let silver: Int
+    let gold: Int
+}
+
 class Level: Decodable  {
     
     let number: Int
@@ -38,6 +66,8 @@ class Level: Decodable  {
     let map: HexagonTileMap
     let startPositions: StartPositions
     let gameObjectManager: GameObjectManager
+    
+    let scoreThresold: ScoreThresold
     
     var gameConditionCheckIdentifiers: [String] = []
     
@@ -51,6 +81,8 @@ class Level: Decodable  {
         case startPositions
         case gameObjectManager
         
+        case scoreThresold
+        
         case gameConditionCheckIdentifiers
     }
     
@@ -60,6 +92,7 @@ class Level: Decodable  {
         self.title = title
         self.summary = summary
         self.difficulty = difficulty
+        self.scoreThresold = ScoreThresold(silver: 4, gold: 5)
         
         self.map = map
         self.startPositions = startPositions
@@ -102,6 +135,7 @@ class Level: Decodable  {
         self.title = try values.decode(String.self, forKey: .title)
         self.summary = try values.decode(String.self, forKey: .summary)
         self.difficulty = try values.decode(LevelDifficulty.self, forKey: .difficulty)
+        self.scoreThresold = try values.decodeIfPresent(ScoreThresold.self, forKey: .scoreThresold) ?? ScoreThresold(silver: 4, gold: 5)
         
         self.map = try values.decode(HexagonTileMap.self, forKey: .map)
         self.startPositions = try values.decode(StartPositions.self, forKey: .startPositions)
@@ -126,6 +160,19 @@ class Level: Decodable  {
         // set the selected unit - FIXME
         self.gameObjectManager.selected = self.gameObjectManager.unitsOf(tribe: .player).first!
     }
+    
+    func score(for coins: Int) -> LevelScore {
+        
+        if coins >= self.scoreThresold.gold {
+            return .gold
+        }
+        
+        if coins >= self.scoreThresold.silver {
+            return .silver
+        }
+        
+        return .bronze
+    }
 }
 
 extension Level: Encodable {
@@ -137,6 +184,7 @@ extension Level: Encodable {
         try container.encode(self.title, forKey: .title)
         try container.encode(self.summary, forKey: .summary)
         try container.encode(self.difficulty, forKey: .difficulty)
+        try container.encode(self.scoreThresold, forKey: .scoreThresold)
         
         try container.encode(self.map, forKey: .map)
         try container.encode(self.startPositions, forKey: .startPositions)
