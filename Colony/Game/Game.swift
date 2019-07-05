@@ -21,6 +21,8 @@ class Game {
     var timer: Timer? = nil
     
     var coins: Int = 0
+    
+    let gameUsecase: GameUsecase?
 
     // game condition
     private var conditionChecks: [GameConditionCheck] = []
@@ -34,6 +36,7 @@ class Game {
     init(with level: Level?) {
 
         self.level = level
+        self.gameUsecase = GameUsecase()
 
         if let gameConditionCheckIdentifiers = self.level?.gameConditionCheckIdentifiers {
             for identifier in gameConditionCheckIdentifiers {
@@ -61,7 +64,12 @@ class Game {
         self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (t) in
             self.gameUpdateDelegate?.update(time: self.timeElapsedInSeconds())
             self.checkCondition()
+            
+            //
+            self.level?.gameObjectManager.update(in: self)
         }
+        
+        self.level?.gameObjectManager.setup()
     }
     
     func cancelTimer() {
@@ -94,6 +102,18 @@ class Game {
                 self.cancelTimer()
             }
         }
+    }
+    
+    func saveScore() {
+        
+        guard let level = self.level else {
+            return
+        }
+        
+        let score = self.coins
+        let levelScore = level.score(for: score)
+        
+        self.gameUsecase?.set(score: Int32(score), levelScore: levelScore, for: Int32(level.number))
     }
 }
 

@@ -29,7 +29,7 @@ protocol GameObservationDelegate {
 class GameObjectManager: Codable {
 
     let alphaVisible: CGFloat = 1.0
-    let alphaInvisible: CGFloat = 0.1 // FIXME
+    let alphaInvisible: CGFloat = 0.0 
     
     weak var map: HexagonTileMap?
     var objects: [GameObject?]
@@ -41,19 +41,54 @@ class GameObjectManager: Codable {
         }
     }
 
-    //var gameObjectUnitDelegate: GameObjectUnitDelegate?
     var gameObjectUnitDelegates = MulticastDelegate<GameObjectUnitDelegate>()
     var gameObservationDelegate: GameObservationDelegate?
 
     enum CodingKeys: String, CodingKey {
         case objects
     }
+    
+    // MARK: constructors
 
     init(on map: HexagonTileMap?) {
         self.objects = []
         self.map = map
     }
+    
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        let objectsFromFile = try values.decode([GameObject?].self, forKey: .objects)
+        
+        self.objects = []
+        for objectFromFile in objectsFromFile {
 
+            if let type = objectFromFile?.type,
+                let identifier = objectFromFile?.identifier,
+                let position = objectFromFile?.position,
+                let tribe = objectFromFile?.tribe {
+                
+                switch type {
+                
+                case .ship:
+                    self.objects.append(Ship(with: identifier, at: position, tribe: tribe))
+                    break
+                case .monster:
+                    self.objects.append(Monster(with: identifier, at: position, tribe: tribe))
+                    break
+                case .village:
+                    self.objects.append(Village(with: identifier, at: position, tribe: tribe))
+                    break
+                case .coin:
+                    self.objects.append(Coin(at: position))
+                    break
+                }
+            }
+        }
+    }
+
+    // MARK: methods
+    
     func add(object: GameObject?) {
 
         guard let object = object else {
@@ -118,6 +153,27 @@ class GameObjectManager: Codable {
     func checkGameConditions() {
         
         self.gameObservationDelegate?.updated()
+    }
+    
+    func setup() {
+        
+        for object in self.objects {
+            object?.setup()
+        }
+    }
+    
+    func update(in game: Game?) {
+        
+        for object in self.objects {
+            object?.update(in: game)
+        }
+    }
+    
+    func dismiss() {
+        
+        for object in self.objects {
+            object?.dismiss()
+        }
     }
 }
 

@@ -14,8 +14,12 @@
 		C900654622AFA21D0004C963 /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900654522AFA21D0004C963 /* UI.swift */; };
 		C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */; };
 		C90A134F22A99F130003BBDE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C90A134E22A99F130003BBDE /* README.md */; };
+		C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915971A22CE91E5001D034B /* ScoreRepository.swift */; };
 		C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* MenuScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
+		C927E2EC22CE9C6300EDBE0D /* GameUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2EB22CE9C6300EDBE0D /* GameUsecase.swift */; };
+		C927E2EE22CF5A0A00EDBE0D /* OptionsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */; };
+		C927E2F022CF5FA300EDBE0D /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */; };
 		C92D875322CB694200E7A55E /* BaseDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D875222CB694200E7A55E /* BaseDao.swift */; };
 		C92D875622CB69F200E7A55E /* Colony.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C92D875422CB69F200E7A55E /* Colony.xcdatamodeld */; };
 		C92D875822CB73B400E7A55E /* UserDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D875722CB73B400E7A55E /* UserDao.swift */; };
@@ -123,8 +127,12 @@
 		C900654522AFA21D0004C963 /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPositionFinder.swift; sourceTree = "<group>"; };
 		C90A134E22A99F130003BBDE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		C915971A22CE91E5001D034B /* ScoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRepository.swift; sourceTree = "<group>"; };
 		C91A4F3222A260DD000BF647 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
+		C927E2EB22CE9C6300EDBE0D /* GameUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUsecase.swift; sourceTree = "<group>"; };
+		C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
+		C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		C92D875222CB694200E7A55E /* BaseDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDao.swift; sourceTree = "<group>"; };
 		C92D875522CB69F200E7A55E /* Colony.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Colony.xcdatamodel; sourceTree = "<group>"; };
 		C92D875722CB73B400E7A55E /* UserDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDao.swift; sourceTree = "<group>"; };
@@ -245,6 +253,24 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C915971C22CE977E001D034B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C927E2EA22CE9C5300EDBE0D /* Usecase */,
+				C92D875D22CB77DE00E7A55E /* Repositories */,
+				C92D875122CB693200E7A55E /* Dao */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		C927E2EA22CE9C5300EDBE0D /* Usecase */ = {
+			isa = PBXGroup;
+			children = (
+				C927E2EB22CE9C6300EDBE0D /* GameUsecase.swift */,
+			);
+			path = Usecase;
+			sourceTree = "<group>";
+		};
 		C92D875122CB693200E7A55E /* Dao */ = {
 			isa = PBXGroup;
 			children = (
@@ -259,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				C92D875E22CB77EB00E7A55E /* UserRepository.swift */,
+				C915971A22CE91E5001D034B /* ScoreRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -393,8 +420,7 @@
 		C9C7F0C7229B193400A775B2 /* Colony */ = {
 			isa = PBXGroup;
 			children = (
-				C92D875D22CB77DE00E7A55E /* Repositories */,
-				C92D875122CB693200E7A55E /* Dao */,
+				C915971C22CE977E001D034B /* Data */,
 				C956079222B1425100AA69E9 /* Game */,
 				C97E96D122A0739100D594F3 /* Objects */,
 				C9C7F108229EBE2000A775B2 /* Utils */,
@@ -417,6 +443,7 @@
 			children = (
 				C9C7F0EF229E993300A775B2 /* MenuViewController.swift */,
 				C9C7F0D0229B193400A775B2 /* GameViewController.swift */,
+				C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -445,6 +472,7 @@
 				C91A4F3222A260DD000BF647 /* MenuScene.swift */,
 				C97B282F22A42A4600112532 /* MapGenerationScene.swift */,
 				C9C7F0CE229B193400A775B2 /* GameScene.swift */,
+				C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -455,10 +483,10 @@
 				C97E96D822A1CB5600D594F3 /* PathFinding */,
 				C9C7F138229EC0DA00A775B2 /* Tools */,
 				C9C7F119229EBE4600A775B2 /* Creation */,
-				C9C7F0F8229EBD1100A775B2 /* Tile.swift */,
-				C9C7F0FA229EBD1800A775B2 /* HexagonTileMap.swift */,
-				C9C7F0FC229EBD2900A775B2 /* HexagonMap.swift */,
 				C9C7F0FE229EBD5100A775B2 /* HexPoint.swift */,
+				C9C7F0F8229EBD1100A775B2 /* Tile.swift */,
+				C9C7F0FC229EBD2900A775B2 /* HexagonMap.swift */,
+				C9C7F0FA229EBD1800A775B2 /* HexagonTileMap.swift */,
 				C9C7F128229EBEDD00A775B2 /* HexDirection.swift */,
 				C9C7F101229EBD9500A775B2 /* Feature.swift */,
 				C9C7F100229EBD9500A775B2 /* Terrain.swift */,
@@ -652,6 +680,7 @@
 			files = (
 				C9763EAB22A2FB9B00F31126 /* SpriteButtonNode.swift in Sources */,
 				C97E96D522A073E900D594F3 /* GameObject.swift in Sources */,
+				C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */,
 				C9C7F103229EBD9500A775B2 /* Feature.swift in Sources */,
 				C9C7F13A229F203200A775B2 /* TerrainLayer.swift in Sources */,
 				C9C7F0CF229B193400A775B2 /* GameScene.swift in Sources */,
@@ -690,6 +719,7 @@
 				C97B282C22A427A800112532 /* ProgressBarNode.swift in Sources */,
 				C9C7F0F9229EBD1100A775B2 /* Tile.swift in Sources */,
 				C9C7F0F0229E993300A775B2 /* MenuViewController.swift in Sources */,
+				C927E2EC22CE9C6300EDBE0D /* GameUsecase.swift in Sources */,
 				C9C7F127229EBE7A00A775B2 /* HeightMap.swift in Sources */,
 				C9C7F0FF229EBD5100A775B2 /* HexPoint.swift in Sources */,
 				C9C7F0FB229EBD1800A775B2 /* HexagonTileMap.swift in Sources */,
@@ -719,6 +749,7 @@
 				C92D875822CB73B400E7A55E /* UserDao.swift in Sources */,
 				C9C7F102229EBD9500A775B2 /* Terrain.swift in Sources */,
 				C9E9BBF822B3B32C0048F97B /* LevelButtonNode.swift in Sources */,
+				C927E2EE22CF5A0A00EDBE0D /* OptionsScene.swift in Sources */,
 				C9C7F129229EBEDD00A775B2 /* HexDirection.swift in Sources */,
 				C9C7F133229EBFA400A775B2 /* PerlinGenerator.swift in Sources */,
 				C956079422B1426500AA69E9 /* LevelManager.swift in Sources */,
@@ -738,6 +769,7 @@
 				C97B283422A53D0F00112532 /* MulticastDelegate.swift in Sources */,
 				C94A2F3E22C8E1ED00AB7117 /* BottomLeftBar.swift in Sources */,
 				C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */,
+				C927E2F022CF5FA300EDBE0D /* OptionsViewController.swift in Sources */,
 				C9C7F118229EBE3100A775B2 /* ArrayExtension.swift in Sources */,
 				C9C7F12B229EBF5200A775B2 /* AreaSprites.swift in Sources */,
 				C97B282A22A3F72100112532 /* MessageBoxButtonNode.swift in Sources */,

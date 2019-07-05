@@ -30,10 +30,10 @@ enum LevelDifficulty: String, Codable {
 
 enum LevelScore: String {
     
-    case none
-    case bronze
-    case silver
-    case gold
+    case none = "none"
+    case bronze = "bronze"
+    case silver = "silver"
+    case gold = "gold"
     
     var buttonName: String {
         

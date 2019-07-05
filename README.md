@@ -2,16 +2,26 @@
 
 ## Todo
 - add beach-se-sw-nw texture
-- multiple units (switcher)
-- center to current unit button
-- store already played game results
 - add resources to map and draw them
 - add city screen
+- center to current unit button
+- show planned path of unit (for some time)
+- show collected coins in win dialog
+- reset all data on options scene (debug)
 
 ## Bugs
 - [Defect] dialogs have wrong display levels
+- [Defect] river should end at first ocean
 
 ## Done
+- make monster follow user
+- multiple units (switcher)
+- show coin icon on game scene
+- add options scene
+- generic navigation
+- animate monster
+- [Defect] monster misplaced
+- store already played game results
 - [Defect] dialogs have wrong font size (too big)
 - show coins and make them collectable
 - show elapsed time

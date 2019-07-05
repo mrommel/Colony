@@ -13,6 +13,7 @@ protocol MenuDelegate {
     
     func start(level url: URL?)
     func startGeneration()
+    func startOptions()
 }
 
 class MenuScene: SKScene {
@@ -26,9 +27,12 @@ class MenuScene: SKScene {
     var backgroundNode0: SKSpriteNode?
     var cameraNode: SKCameraNode!
     
+    let gameUsecase: GameUsecase?
+    
     override init(size: CGSize) {
         
         self.safeAreaNode = SafeAreaNode()
+        self.gameUsecase = GameUsecase()
         
         super.init(size: size)
         
@@ -87,7 +91,16 @@ class MenuScene: SKScene {
             self.addChild(levelButton)
             
             // FIXME: add level score here
+            var levelScoreValue = LevelScore.none
+            if let levelScore = self.gameUsecase?.levelScore(for: Int32(level.number)) {
+                levelScoreValue = levelScore
+            }
             
+            let starTexture = SKTexture(imageNamed: levelScoreValue.buttonName)
+            let starSprite = SKSpriteNode(texture: starTexture, color: .black, size: CGSize(width: 20, height: 20))
+            starSprite.position = CGPoint(x: self.frame.width * level.position.x - self.frame.halfWidth + 20, y: self.frame.height * level.position.y - self.frame.halfHeight + 20)
+            starSprite.zPosition = 2
+            self.addChild(starSprite)
         }
         
         let generateButton = LevelButtonNode(titled: "G", difficulty: .easy, buttonAction: {
@@ -98,12 +111,20 @@ class MenuScene: SKScene {
         generateButton.zPosition = 1
         self.addChild(generateButton)
         
+        // settings
         let settingsButton = SettingsButtonNode(buttonAction: {
-            print("settings")
+            self.menuDelegate?.startOptions()
         })
         settingsButton.position = CGPoint(x: self.frame.width * 0.88 - self.frame.halfWidth, y: self.frame.height * 0.1 - self.frame.halfHeight)
         settingsButton.zPosition = 1
         self.cameraNode.addChild(settingsButton)
+        
+        // copyright
+        let copyrightLabel = SKLabelNode(text: "Copyright 2019 MiRo & MaRo")
+        copyrightLabel.position = CGPoint(x: 0, y: self.frame.height * 0.1 - self.frame.halfHeight)
+        copyrightLabel.zPosition = 1
+        copyrightLabel.fontSize = 12
+        self.cameraNode.addChild(copyrightLabel)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

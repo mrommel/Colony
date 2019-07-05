@@ -10,7 +10,7 @@ import Foundation
 
 protocol PathfinderDataSource {
 	func walkableAdjacentTilesCoords(forTileCoord tileCoord: HexPoint) -> [HexPoint]
-	func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Int
+	func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Float
 }
 
 /** A single step on the computed path; used by the A* pathfinding algorithm */
@@ -19,9 +19,9 @@ private class AStarPathStep {
 	let position: HexPoint
 	var parent: AStarPathStep?
 
-	var gScore = 0
-	var hScore = 0
-	var fScore: Int {
+	var gScore: Float = 0.0
+	var hScore: Float = 0.0
+	var fScore: Float {
 		return gScore + hScore
 	}
 
@@ -29,7 +29,7 @@ private class AStarPathStep {
 		self.position = position
 	}
 
-	func setParent(parent: AStarPathStep, withMoveCost moveCost: Int) {
+	func setParent(parent: AStarPathStep, withMoveCost moveCost: Float) {
 		// The G score is equal to the parent G score + the cost to move from the parent to it
 		self.parent = parent
 		self.gScore = parent.gScore + moveCost
@@ -63,8 +63,11 @@ class AStarPathfinder {
 		openSteps = openSteps.sorted { return $0.fScore <= $1.fScore }
 	}
 
-	func hScoreFromCoord(fromCoord: HexPoint, toCoord: HexPoint) -> Int {
-		return abs(toCoord.x - fromCoord.x) + abs(toCoord.y - fromCoord.y)
+	func hScoreFromCoord(fromCoord: HexPoint, toCoord: HexPoint) -> Float {
+        
+        return Float(fromCoord.distance(to: toCoord))
+        // FIXME:
+		//return abs(toCoord.x - fromCoord.x) + abs(toCoord.y - fromCoord.y)
 	}
 
 	func shortestPath(fromTileCoord: HexPoint, toTileCoord: HexPoint) -> [HexPoint]? {

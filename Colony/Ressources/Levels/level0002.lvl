@@ -7,57 +7,12 @@
   "gameObjectManager": {
     "objects": [
       {
-        "atlasDown": {
-          "atlasName": "ship", 
-          "textures": [
-            "ship048", 
-            "ship049", 
-            "ship050"
-          ]
-        }, 
-        "atlasIdle": {
-          "atlasName": "ship", 
-          "textures": [
-            "ship060", 
-            "ship061", 
-            "ship062"
-          ]
-        }, 
-        "atlasLeft": {
-          "atlasName": "ship", 
-          "textures": [
-            "ship060", 
-            "ship061", 
-            "ship062"
-          ]
-        }, 
-        "atlasRight": {
-          "atlasName": "ship", 
-          "textures": [
-            "ship072", 
-            "ship073", 
-            "ship074"
-          ]
-        }, 
-        "atlasUp": {
-          "atlasName": "ship", 
-          "textures": [
-            "ship084", 
-            "ship085", 
-            "ship086"
-          ]
-        }, 
-        "identifier": "ship", 
+        "identifier": "ship",
+        "type": "ship",
         "position": {
           "x": 21, 
           "y": 11
         }, 
-        "sight": 2, 
-        "spriteAnchorPoint": [
-          -0.3, 
-          -0.1
-        ], 
-        "spriteName": "ship060", 
         "state": "idle", 
         "tribe": "player"
       }

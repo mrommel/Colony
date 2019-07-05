@@ -40,7 +40,7 @@ class ScoreDao: BaseDao {
     }
     
     @discardableResult
-    func create(with level: Int32, score: Int32, user: User?) -> Score? {
+    func create(with level: Int32, score: Int32, levelScore: String, user: User?) -> Score? {
         
         guard let context = self.context else {
             fatalError("Can't get context for creating score")
@@ -50,6 +50,7 @@ class ScoreDao: BaseDao {
         newScore.level = level
         newScore.date = Date()
         newScore.score = score
+        newScore.levelScore = levelScore
         newScore.user = user
         
         do {

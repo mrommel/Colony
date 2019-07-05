@@ -12,7 +12,7 @@ class Village: GameObject {
     
     init(with identifier: String, at point: HexPoint, tribe: GameObjectTribe) {
         
-        super.init(with: identifier, at: point, spriteName: "village0", tribe: tribe, sight: 2)
+        super.init(with: identifier, type: .village, at: point, spriteName: "village0", tribe: tribe, sight: 2)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "village", textures: ["village0"])
         

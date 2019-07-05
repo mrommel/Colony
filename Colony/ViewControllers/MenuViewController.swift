@@ -42,7 +42,7 @@ class MenuViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // add level here
+        
         if segue.identifier == "gotoGame" {
             let gameViewController = segue.destination as? GameViewController
             
@@ -51,6 +51,10 @@ class MenuViewController: UIViewController {
             } else {
                 gameViewController?.viewModel = GameViewModel(with: self.currentLevelResource)
             }
+        }
+        
+        if segue.identifier == "gotoOptions" {
+            // NOOP
         }
     }
 }
@@ -67,16 +71,7 @@ extension MenuViewController: MenuDelegate {
         self.performSegue(withIdentifier: "gotoGame", sender: nil)
     }
     
-    /*func startOptions() {
-        
-        if let defeatDialog = UI.defeatDialog() {
-            
-            defeatDialog.addOkayAction(handler: {
-                print("okay")
-                defeatDialog.close()
-            })
-            
-            scene?.addChild(defeatDialog)
-        }
-    }*/
+    func startOptions() {
+        self.performSegue(withIdentifier: "gotoOptions", sender: nil)
+    }
 }

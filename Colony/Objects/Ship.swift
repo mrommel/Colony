@@ -11,7 +11,7 @@ import SpriteKit
 class Ship: GameObject {
     
     init(with identifier: String, at point: HexPoint, tribe: GameObjectTribe) {
-        super.init(with: identifier, at: point, spriteName: "ship060", tribe: tribe, sight: 2)
+        super.init(with: identifier, type: .ship, at: point, spriteName: "ship060", tribe: tribe, sight: 2)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "ship", textures: ["ship060", "ship061", "ship062"])
         
@@ -21,6 +21,9 @@ class Ship: GameObject {
         self.atlasRight = GameObjectAtlas(atlasName: "ship", textures: ["ship072", "ship073", "ship074"])
         
         self.sprite.anchorPoint = CGPoint(x: -0.3, y: -0.1)
+        
+        self.canMoveByUserInput = true
+        self.movementType = .swimOcean
     }
     
     required init(from decoder: Decoder) throws {

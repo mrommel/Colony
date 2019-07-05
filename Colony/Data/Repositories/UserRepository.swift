@@ -26,7 +26,11 @@ class UserRepository {
         }
     }
     
-    func getAll() -> [User]? {
+    func getCurrentUser() -> User? {
+        return self.getUsers()?.first(where: { $0.current == true })
+    }
+    
+    func getUsers() -> [User]? {
         return self.userDao.fetch()
     }
 }

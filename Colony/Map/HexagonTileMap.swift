@@ -246,10 +246,10 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     // MARK: pathfinding
     
-    func path(from: HexPoint, to: HexPoint) -> [HexPoint]? {
+    func path(from: HexPoint, to: HexPoint, movementType: GameObjectMoveType) -> [HexPoint]? {
         
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = self.oceanPathfinderDataSourceIgnoreSight
+        pathFinder.dataSource = pathfinderDataSource(with: movementType, ignoreSight: true)
         return pathFinder.shortestPath(fromTileCoord: from, toTileCoord: to)
     }
     
@@ -290,16 +290,21 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
-    var oceanPathfinderDataSource: PathfinderDataSource {
+    func pathfinderDataSource(with moveType: GameObjectMoveType, ignoreSight: Bool) -> PathfinderDataSource {
+        
+        return MoveTypePathfinderDataSource(map: self, moveType: moveType, ignoreSight: ignoreSight)
+    }
+    
+    /*var oceanPathfinderDataSource: PathfinderDataSource {
         return OceanPathfinderDataSource(map: self)
     }
     
     var oceanPathfinderDataSourceIgnoreSight: PathfinderDataSource {
         return OceanPathfinderDataSourceIgnoreSight(map: self)
-    }
+    }*/
 }
 
-extension HexagonTileMap: PathfinderDataSource {
+/*extension HexagonTileMap: PathfinderDataSource {
     
     func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
         
@@ -315,7 +320,7 @@ extension HexagonTileMap: PathfinderDataSource {
         return walkableCoords
     }
     
-    func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Int {
-        return 1
+    func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Float {
+        return 1.0
     }
-}
+}*/

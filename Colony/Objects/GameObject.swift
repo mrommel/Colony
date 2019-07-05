@@ -20,11 +20,68 @@ enum GameObjectTribe: String, Codable {
     case reward
 }
 
+enum GameObjectType: String, Codable {
+    case ship
+    case monster
+    case village
+    case coin
+}
+
+struct MovementCosts {
+    let plain: Float
+    let grass: Float
+    let desert: Float
+    let tundra: Float
+    let snow: Float
+    let ocean: Float
+    let shore: Float
+}
+
+enum GameObjectMoveType {
+    
+    static let impassible: Float = -1.0
+    
+    /// possible values
+    case immobile // such as villages, coins etc
+    //case swimShore
+    case swimOcean
+    //case walk
+    //case ride
+    //case fly
+    
+    // FIXME: take features into account
+    /// cost to enter a terrain given the specified, -1.0 means not possible
+    var movementCosts: MovementCosts {
+        
+        switch self {
+        
+        case .immobile:
+            return MovementCosts(plain: GameObjectMoveType.impassible,
+                                 grass: GameObjectMoveType.impassible,
+                                 desert: GameObjectMoveType.impassible,
+                                 tundra: GameObjectMoveType.impassible,
+                                 snow: GameObjectMoveType.impassible,
+                                 ocean: GameObjectMoveType.impassible,
+                                 shore: GameObjectMoveType.impassible)
+            
+        case .swimOcean:
+            return MovementCosts(plain: GameObjectMoveType.impassible,
+                                 grass: GameObjectMoveType.impassible,
+                                 desert: GameObjectMoveType.impassible,
+                                 tundra: GameObjectMoveType.impassible,
+                                 snow: GameObjectMoveType.impassible,
+                                 ocean: 2.2,
+                                 shore: 1.0)
+        }
+    }
+}
+
 class GameObject: Decodable {
     
     let idleActionKey: String = "idleActionKey"
     
     let identifier: String
+    let type: GameObjectType
     
     var position: HexPoint {
         didSet {
@@ -34,9 +91,11 @@ class GameObject: Decodable {
     var state: GameObjectState = .idle
     var tribe: GameObjectTribe
     
+    var canMoveByUserInput: Bool = false
+    var movementType: GameObjectMoveType = .immobile
+    
     var spriteName: String
     var sprite: SKSpriteNode
-    var spriteAnchorPoint: CGPoint
     
     var atlasIdle: GameObjectAtlas?
     var atlasDown: GameObjectAtlas?
@@ -53,18 +112,15 @@ class GameObject: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case identifier
+        case type
         case position
         case state
         case tribe
-        
-        case spriteName, spriteAnchorPoint
-        case atlasIdle, atlasDown, atlasUp, atlasRight, atlasLeft
-        
-        case sight
     }
     
-    init(with identifier: String, at point: HexPoint, spriteName: String, tribe: GameObjectTribe, sight: Int) {
+    init(with identifier: String, type: GameObjectType, at point: HexPoint, spriteName: String, tribe: GameObjectTribe, sight: Int) {
         self.identifier = identifier
+        self.type = type
         self.position = point
         self.tribe = tribe
         
@@ -72,8 +128,7 @@ class GameObject: Decodable {
         self.sprite = SKSpriteNode(imageNamed: spriteName)
         self.sprite.position = HexMapDisplay.shared.toScreen(hex: self.position)
         self.sprite.zPosition = GameScene.Constants.ZLevels.sprite
-        self.spriteAnchorPoint = CGPoint(x: -0.25, y: -0.50)
-        self.sprite.anchorPoint = self.spriteAnchorPoint
+        self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.50)
         
         self.sight = sight
     }
@@ -82,24 +137,18 @@ class GameObject: Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         self.identifier = try values.decode(String.self, forKey: .identifier)
+        self.type = try values.decode(GameObjectType.self, forKey: .type)
         self.position = try values.decode(HexPoint.self, forKey: .position)
         self.state = try values.decode(GameObjectState.self, forKey: .state)
         self.tribe = try values.decode(GameObjectTribe.self, forKey: .tribe)
         
-        self.spriteName = try values.decode(String.self, forKey: .spriteName)
-        self.sprite = SKSpriteNode(imageNamed: self.spriteName)
+        self.spriteName = ""
+        self.sprite = SKSpriteNode()
         self.sprite.position = HexMapDisplay.shared.toScreen(hex: self.position)
         self.sprite.zPosition = GameScene.Constants.ZLevels.sprite
-        self.spriteAnchorPoint = try values.decodeIfPresent(CGPoint.self, forKey: .spriteAnchorPoint) ?? CGPoint(x: -0.25, y: -0.50)
-        self.sprite.anchorPoint = self.spriteAnchorPoint
+        self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.50)
         
-        self.atlasIdle = try values.decode(GameObjectAtlas.self, forKey: .atlasIdle)
-        self.atlasDown = try values.decode(GameObjectAtlas.self, forKey: .atlasDown)
-        self.atlasUp = try values.decode(GameObjectAtlas.self, forKey: .atlasUp)
-        self.atlasRight = try values.decode(GameObjectAtlas.self, forKey: .atlasRight)
-        self.atlasLeft = try values.decode(GameObjectAtlas.self, forKey: .atlasLeft)
-        
-        self.sight = try values.decode(Int.self, forKey: .sight)
+        self.sight = 0
     }
     
     private func animate(to hex: HexPoint, on atlas: GameObjectAtlas?, completion block: @escaping () -> Swift.Void) {
@@ -166,6 +215,17 @@ class GameObject: Decodable {
             self.sprite.run(idleAnimation, withKey: idleActionKey, completion: {})
         }
     }
+    
+    // MARK: game logic
+    
+    func setup() {
+    }
+    
+    func update(in game: Game?) {
+    }
+    
+    func dismiss() {
+    }
 }
 
 extension GameObject: Encodable {
@@ -176,17 +236,6 @@ extension GameObject: Encodable {
         try container.encode(self.position, forKey: .position)
         try container.encode(self.state, forKey: .state)
         try container.encode(self.tribe, forKey: .tribe)
-
-        try container.encode(self.spriteName, forKey: .spriteName)
-        try container.encode(self.spriteAnchorPoint, forKey: .spriteAnchorPoint)
-        
-        try container.encode(self.atlasIdle, forKey: .atlasIdle)
-        try container.encode(self.atlasDown, forKey: .atlasDown)
-        try container.encode(self.atlasUp, forKey: .atlasUp)
-        try container.encode(self.atlasRight, forKey: .atlasRight)
-        try container.encode(self.atlasLeft, forKey: .atlasLeft)
-        
-        try container.encode(self.sight, forKey: .sight)
     }
 }
 

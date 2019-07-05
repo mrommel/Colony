@@ -58,7 +58,7 @@ class BottomLeftBar: SizedNode {
             self.addChild(unitImageNode)
         }
         
-        self.nextUnitButton = MenuButtonNode(imageNamed: "coin1",
+        self.nextUnitButton = MenuButtonNode(imageNamed: "next",
                                              title: "Next",
                                              sized: CGSize(width: 80, height: 36),
                                              buttonAction: {

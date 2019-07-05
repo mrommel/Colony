@@ -6,162 +6,33 @@
   "gameObjectManager": {
     "objects": [
       {
-        "atlasDown": {
-          "atlasName": "monster", 
-          "textures": [
-            "tile000", 
-            "tile001", 
-            "tile002", 
-            "tile003"
-          ]
-        }, 
-        "atlasIdle": {
-          "atlasName": "monster", 
-          "textures": [
-            "tile004", 
-            "tile005", 
-            "tile006", 
-            "tile007"
-          ]
-        }, 
-        "atlasLeft": {
-          "atlasName": "monster", 
-          "textures": [
-            "tile004", 
-            "tile005", 
-            "tile006", 
-            "tile007"
-          ]
-        }, 
-        "atlasRight": {
-          "atlasName": "monster", 
-          "textures": [
-            "tile008", 
-            "tile009", 
-            "tile010", 
-            "tile011"
-          ]
-        }, 
-        "atlasUp": {
-          "atlasName": "monster", 
-          "textures": [
-            "tile012", 
-            "tile013", 
-            "tile014", 
-            "tile015"
-          ]
-        }, 
-        "identifier": "monster", 
+        "identifier": "monster",
+        "type": "monster",
         "position": {
           "x": 20, 
           "y": 13
         }, 
-        "sight": 1, 
-        "spriteAnchorPoint": [
-          -0.25, 
-          -0.5
-        ], 
-        "spriteName": "tile004", 
+        "sight": 1,
         "state": "walking", 
         "tribe": "enemy"
       }, 
       {
-        "atlasDown": {
-          "atlasName": "ship", 
-          "textures": [
-            "ship048", 
-            "ship049", 
-            "ship050"
-          ]
-        }, 
-        "atlasIdle": {
-          "atlasName": "ship", 
-          "textures": [
-            "ship060", 
-            "ship061", 
-            "ship062"
-          ]
-        }, 
-        "atlasLeft": {
-          "atlasName": "ship", 
-          "textures": [
-            "ship060", 
-            "ship061", 
-            "ship062"
-          ]
-        }, 
-        "atlasRight": {
-          "atlasName": "ship", 
-          "textures": [
-            "ship072", 
-            "ship073", 
-            "ship074"
-          ]
-        }, 
-        "atlasUp": {
-          "atlasName": "ship", 
-          "textures": [
-            "ship084", 
-            "ship085", 
-            "ship086"
-          ]
-        }, 
-        "identifier": "ship", 
+        "identifier": "ship",
+        "type": "ship",
         "position": {
           "x": 1, 
           "y": 1
-        }, 
-        "sight": 2, 
-        "spriteAnchorPoint": [
-          -0.3, 
-          -0.1
-        ], 
-        "spriteName": "ship060", 
+        },
         "state": "idle", 
         "tribe": "player"
       }, 
       {
-        "atlasDown": {
-          "atlasName": "village", 
-          "textures": [
-            "village0"
-          ]
-        }, 
-        "atlasIdle": {
-          "atlasName": "village", 
-          "textures": [
-            "village0"
-          ]
-        }, 
-        "atlasLeft": {
-          "atlasName": "village", 
-          "textures": [
-            "village0"
-          ]
-        }, 
-        "atlasRight": {
-          "atlasName": "village", 
-          "textures": [
-            "village0"
-          ]
-        }, 
-        "atlasUp": {
-          "atlasName": "village", 
-          "textures": [
-            "village0"
-          ]
-        }, 
-        "identifier": "village", 
+        "identifier": "village",
+        "type": "village",
         "position": {
           "x": 21, 
           "y": 11
         }, 
-        "sight": 2, 
-        "spriteAnchorPoint": [
-          0.0, 
-          0.0
-        ], 
-        "spriteName": "village0", 
         "state": "idle", 
         "tribe": "player"
       }

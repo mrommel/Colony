@@ -49,7 +49,7 @@ class StartPositionFinder {
             print("try to find start positions ...")
             randomItem = possiblePoints.randomItem()
         
-            trial = possiblePoints.filter { $0.distance(to: randomItem) > optimalDistance && map.path(from: $0, to: randomItem) != nil }
+            trial = possiblePoints.filter { $0.distance(to: randomItem) > optimalDistance && map.path(from: $0, to: randomItem, movementType: .swimOcean) != nil }
             optimalDistance = optimalDistance - 1 // reduce distance each time we fail
         } while trial.count == 0
         
@@ -66,24 +66,5 @@ class StartPositionFinder {
         villagePosition = areaToCheck.randomItem()
             
         return StartPositions(monsterPosition: randomItem, playerPosition: trial.randomItem(), villagePosition: villagePosition)
-    }
-    
-    func findPatrolPath(from point: HexPoint) -> [HexPoint] {
-        
-        guard let map = self.map else {
-            fatalError("can identify start positions without a map")
-        }
-        
-        var path: [HexPoint] = []
-        var currentPoint = point
-        
-        for _ in 0..<8 {
-            let neighbors = currentPoint.neighbors().filter { map.valid(point: $0) && map.tile(at: $0)?.water ?? false }
-            
-            currentPoint = neighbors.randomItem()
-            path.append(currentPoint)
-        }
-        
-        return path
     }
 }

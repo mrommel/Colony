@@ -63,7 +63,8 @@ class GameScene: SKScene {
     var lastFocusPoint: HexPoint = HexPoint(x: 0, y: 0)
 
     var cameraNode: SKCameraNode!
-    let coinLabel = SKLabelNode(text: "0000")
+    var coinLabel: SKLabelNode!
+    var coinIconLabel: SKSpriteNode!
     let timeLabel = SKLabelNode(text: "0:00")
     var hasMoved = false
 
@@ -216,17 +217,6 @@ class GameScene: SKScene {
             self.safeAreaNode.addChild(frameBottomRight)
         }
 
-        // exit node
-        self.exitButton = MessageBoxButtonNode(titled: "Cancel", buttonAction: {
-            self.showQuitConfirmationDialog()
-        })
-        self.exitButton?.position = CGPoint(x: 0, y: frame.size.height - headerHeight)
-        self.exitButton?.zPosition = 200
-
-        if let exitButton = self.exitButton {
-            self.safeAreaNode.addChild(exitButton)
-        }
-
         if viewModel.type == .generator {
             // save node
             let saveButton = MessageBoxButtonNode(titled: "Save", buttonAction: {
@@ -246,14 +236,29 @@ class GameScene: SKScene {
             self.safeAreaNode.addChild(saveButton)
         }
 
-        // debug
+        // infos
+        self.coinLabel = SKLabelNode(text: "0000")
         self.coinLabel.fontSize = 18
         self.coinLabel.zPosition = GameScene.Constants.ZLevels.labels
         self.safeAreaNode.addChild(self.coinLabel)
         
+        self.coinIconLabel = SKSpriteNode(imageNamed: "coin1")
+        self.coinIconLabel.zPosition = GameScene.Constants.ZLevels.labels
+        self.safeAreaNode.addChild(self.coinIconLabel)
+        
         self.timeLabel.fontSize = 18
         self.timeLabel.zPosition = GameScene.Constants.ZLevels.labels
         self.safeAreaNode.addChild(self.timeLabel)
+        
+        // exit node
+        self.exitButton = MessageBoxButtonNode(titled: "Cancel", buttonAction: {
+            self.showQuitConfirmationDialog()
+        })
+        self.exitButton?.zPosition = 200
+        
+        if let exitButton = self.exitButton {
+            self.safeAreaNode.addChild(exitButton)
+        }
 
         // focus on ship
         if let mapNode = self.mapNode {
@@ -269,12 +274,15 @@ class GameScene: SKScene {
     func updateLayout() {
 
         self.safeAreaNode.updateLayout()
+        
+        self.mapNode?.updateLayout()
 
         self.frameTopLeft?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight)
         self.frameTopRight?.position = CGPoint(x: self.frame.halfWidth, y: self.frame.halfHeight)
         self.frameBottomLeft?.position = CGPoint(x: -self.frame.halfWidth, y: -self.frame.halfHeight)
         self.frameBottomRight?.position = CGPoint(x: self.frame.halfWidth, y: -self.frame.halfHeight)
 
+        self.coinIconLabel.position = CGPoint(x: -30, y: self.frame.halfHeight - 43)
         self.coinLabel.position = CGPoint(x: 0, y: self.frame.halfHeight - 50)
         self.timeLabel.position = CGPoint(x: self.frame.halfWidth - 50, y: self.frame.halfHeight - 50)
         
@@ -283,6 +291,8 @@ class GameScene: SKScene {
 
         self.bottomRightBar?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.bottomRightBar?.updateLayout()
+        
+        self.exitButton?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth + 50, y: -self.safeAreaNode.frame.halfHeight + 112 + 21)
     }
 
     func showQuitConfirmationDialog() {
@@ -292,6 +302,10 @@ class GameScene: SKScene {
             quitConfirmationDialog.zPosition = 250
             quitConfirmationDialog.addOkayAction(handler: {
                 quitConfirmationDialog.close()
+                
+                self.game?.cancelTimer()
+                self.game = nil
+                
                 self.gameDelegate?.quitGame()
             })
 
@@ -425,7 +439,7 @@ class GameScene: SKScene {
         print("move to \(hex)")
         self.focus?.position = HexMapDisplay.shared.toScreen(hex: hex)
 
-        self.mapNode?.moveShip(to: hex)
+        self.mapNode?.moveSelectedUnit(to: hex)
 
         if hex == self.lastFocusPoint {
 
@@ -449,7 +463,9 @@ extension GameScene: GameConditionDelegate {
             victoryDialog.set(text: type.summary, identifier: "summary")
             victoryDialog.addOkayAction(handler: {
                 
-                // save to database
+                self.game?.saveScore()
+                self.game?.cancelTimer()
+                self.game = nil
                 
                 self.gameDelegate?.quitGame()
             })
@@ -464,6 +480,10 @@ extension GameScene: GameConditionDelegate {
         if let defeatDialog = UI.defeatDialog() {
             defeatDialog.set(text: type.summary, identifier: "summary")
             defeatDialog.addOkayAction(handler: {
+                
+                self.game?.cancelTimer()
+                self.game = nil
+                
                 self.gameDelegate?.quitGame()
             })
 
