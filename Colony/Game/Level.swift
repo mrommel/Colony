@@ -110,12 +110,16 @@ class Level: Decodable  {
         self.gameObjectManager.add(object: village)
         village.idle()
         
+        let shipWreck = ShipWreck(with: "shipWreck", at: startPositions.playerPosition.neighbors().randomItem())
+        self.gameObjectManager.add(object: shipWreck)
+        shipWreck.idle()
+        
         let oceanTiles = map.oceanTiles
         for _ in 0..<64 {
             let oceanTile = oceanTiles.randomItem()
             
             if let point = oceanTile?.point {
-                print("added coin at \(point)")
+                //print("added coin at \(point)")
                 let coin = Coin(at: point)
                 self.gameObjectManager.add(object: coin)
                 coin.idle()

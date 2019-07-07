@@ -1,19 +1,30 @@
 # Colony
 
 ## Todo
+- add pirate ship as enemy
+- add trade ship as neutral
+- add random fishes
 - add beach-se-sw-nw texture
 - add resources to map and draw them
 - add city screen
-- center to current unit button
 - show planned path of unit (for some time)
 - show collected coins in win dialog
-- reset all data on options scene (debug)
+- add global player score
+- add new player input
+- add player switcher in options (logout)
+- river mouth
 
 ## Bugs
 - [Defect] dialogs have wrong display levels
+- [Defect] dialogs not centered in landscape mode
 - [Defect] river should end at first ocean
+- [Defect] Coins in level 1&2
 
 ## Done
+- center to current unit button
+- [Defect] Level icon über settings icon
+- reset all data on options scene (debug)
+- [Defect] Copyright text tiefer
 - make monster follow user
 - multiple units (switcher)
 - show coin icon on game scene

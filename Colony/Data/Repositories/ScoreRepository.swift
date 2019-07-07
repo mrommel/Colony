@@ -27,4 +27,8 @@ class ScoreRepository {
     func create(with level: Int32, score: Int32, levelScore: LevelScore, user: User?) {
         self.scoreDao.create(with: level, score: score, levelScore: levelScore.rawValue, user: user)
     }
+    
+    func resetScores() {
+        self.scoreDao.deleteAll()
+    }
 }

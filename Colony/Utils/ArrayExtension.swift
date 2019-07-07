@@ -54,3 +54,12 @@ extension Array {
         return arrayOrdered
     }
 }
+
+extension Array{
+    mutating func prepend(_ newItem: Element) {
+        let copy = self
+        self = []
+        self.append(newItem)
+        self.append(contentsOf: copy)
+    }
+}

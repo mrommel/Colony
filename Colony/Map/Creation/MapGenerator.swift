@@ -477,9 +477,13 @@ class MapGenerator {
 		let startCorner = randomGridPointCorner()
 		let startGridPointWithCorner = HexPointWithCorner(with: gridPoint, andCorner: startCorner)
 
-		let points = self.followRiver(at: startGridPointWithCorner, on: heightMap, depth: 30)
+		let hexPointCorners = self.followRiver(at: startGridPointWithCorner, on: heightMap, depth: 30)
 
-		let river = River(with: name, and: points)
+        if let lastHexPointCorners = hexPointCorners.last {
+            
+        }
+        
+		let river = River(with: name, and: hexPointCorners)
 
 		return river
 	}

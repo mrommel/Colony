@@ -79,6 +79,13 @@ class MenuScene: SKScene {
             self.addChild(backgroundNode2)
         }
         
+        // colony label
+        let colonytexture = SKTexture(imageNamed: "ColonyText")
+        let colonyTitleLabel = SKSpriteNode(texture: colonytexture, color: .black, size: CGSize(width: 228, height: 87))
+        colonyTitleLabel.position = CGPoint(x: 0, y: self.frame.halfHeight - 80)
+        colonyTitleLabel.zPosition = 1
+        self.cameraNode.addChild(colonyTitleLabel)
+        
         let levelManager = LevelManager()
         for level in levelManager.levels {
             
@@ -116,12 +123,12 @@ class MenuScene: SKScene {
             self.menuDelegate?.startOptions()
         })
         settingsButton.position = CGPoint(x: self.frame.width * 0.88 - self.frame.halfWidth, y: self.frame.height * 0.1 - self.frame.halfHeight)
-        settingsButton.zPosition = 1
+        settingsButton.zPosition = 7
         self.cameraNode.addChild(settingsButton)
         
         // copyright
         let copyrightLabel = SKLabelNode(text: "Copyright 2019 MiRo & MaRo")
-        copyrightLabel.position = CGPoint(x: 0, y: self.frame.height * 0.1 - self.frame.halfHeight)
+        copyrightLabel.position = CGPoint(x: 0, y: -self.frame.halfHeight + 18)
         copyrightLabel.zPosition = 1
         copyrightLabel.fontSize = 12
         self.cameraNode.addChild(copyrightLabel)

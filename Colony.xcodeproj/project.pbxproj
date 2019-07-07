@@ -20,6 +20,7 @@
 		C927E2EC22CE9C6300EDBE0D /* GameUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2EB22CE9C6300EDBE0D /* GameUsecase.swift */; };
 		C927E2EE22CF5A0A00EDBE0D /* OptionsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */; };
 		C927E2F022CF5FA300EDBE0D /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */; };
+		C927E2F222D1DA9B00EDBE0D /* ShipWreck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2F122D1DA9B00EDBE0D /* ShipWreck.swift */; };
 		C92D875322CB694200E7A55E /* BaseDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D875222CB694200E7A55E /* BaseDao.swift */; };
 		C92D875622CB69F200E7A55E /* Colony.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C92D875422CB69F200E7A55E /* Colony.xcdatamodeld */; };
 		C92D875822CB73B400E7A55E /* UserDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D875722CB73B400E7A55E /* UserDao.swift */; };
@@ -133,6 +134,7 @@
 		C927E2EB22CE9C6300EDBE0D /* GameUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUsecase.swift; sourceTree = "<group>"; };
 		C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
 		C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
+		C927E2F122D1DA9B00EDBE0D /* ShipWreck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipWreck.swift; sourceTree = "<group>"; };
 		C92D875222CB694200E7A55E /* BaseDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDao.swift; sourceTree = "<group>"; };
 		C92D875522CB69F200E7A55E /* Colony.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Colony.xcdatamodel; sourceTree = "<group>"; };
 		C92D875722CB73B400E7A55E /* UserDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDao.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 				C97E96D422A073E900D594F3 /* GameObject.swift */,
 				C9AB425B22A062E3000E5397 /* Monster.swift */,
 				C97E96D622A1C21600D594F3 /* Ship.swift */,
+				C927E2F122D1DA9B00EDBE0D /* ShipWreck.swift */,
 				C972CCBF22AAA4AE008DB8CB /* Village.swift */,
 				C9F6A14A22CA906800388198 /* Coin.swift */,
 				C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */,
@@ -740,6 +743,7 @@
 				C9E9BBFE22B58CF60048F97B /* Timer30SecondsCheck.swift in Sources */,
 				C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */,
 				C900654022AEE3BA0004C963 /* UIParser.swift in Sources */,
+				C927E2F222D1DA9B00EDBE0D /* ShipWreck.swift in Sources */,
 				C9C7F115229EBE3100A775B2 /* Random.swift in Sources */,
 				C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */,
 				C972CCC022AAA4AE008DB8CB /* Village.swift in Sources */,

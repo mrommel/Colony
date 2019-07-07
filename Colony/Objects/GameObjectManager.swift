@@ -136,6 +136,14 @@ class GameObjectManager: Codable {
         self.selected = playerUnits[nextIndex]
     }
     
+    func centerOnPlayerUnit() {
+        
+        // focus on unit
+        self.gameObjectUnitDelegates |> { delegate in
+            delegate.selectedGameObjectChanged(to: selected)
+        }
+    }
+    
     func unitBy(identifier: String) -> GameObject? {
         
         if let object = self.objects.first(where: { $0?.identifier == identifier }) {

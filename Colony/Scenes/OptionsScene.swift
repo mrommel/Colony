@@ -11,6 +11,7 @@ import SpriteKit
 protocol OptionsDelegate: class {
     
     func quitOptions()
+    func resetData()
 }
 
 class OptionsScene: SKScene {
@@ -40,6 +41,14 @@ class OptionsScene: SKScene {
         if let backgroundNode = self.backgroundNode {
             self.addChild(backgroundNode)
         }
+        
+        let resetButton = MenuButtonNode(titled: "Reset",
+                                         buttonAction: {
+                                            self.optionsDelegate?.resetData()
+        })
+        resetButton.position = CGPoint(x: viewSize.width / 2, y: viewSize.height * 0.7)
+        resetButton.zPosition = 53
+        self.addChild(resetButton)
         
         self.backButton = MenuButtonNode(titled: "Back",
                                          buttonAction: {

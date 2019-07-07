@@ -48,9 +48,9 @@ class RiverLayer: SKNode {
                     let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
                     
                     if fogManager.discovered(at: pt) {
-                        self.placeTileHex(tile: tile, riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 1.0)
-                    } else if fogManager.currentlyVisible(at: pt) {
                         self.placeTileHex(tile: tile, riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 0.5)
+                    } else if fogManager.currentlyVisible(at: pt) {
+                        self.placeTileHex(tile: tile, riverTextureName: map.riverTexture(at: pt), at: screenPoint, alpha: 1.0)
                     }
                 }
             }

@@ -14,6 +14,7 @@ class BottomLeftBar: SizedNode {
     var unitBackgroundNode: SKSpriteNode?
     var unitImageNode: SKSpriteNode?
     var nextUnitButton: MenuButtonNode?
+    var centerUnitButton: MenuButtonNode?
     
     var gameObjectManager: GameObjectManager?
     
@@ -70,6 +71,20 @@ class BottomLeftBar: SizedNode {
         if let nextUnitButton = self.nextUnitButton {
             self.addChild(nextUnitButton)
         }
+        
+        self.centerUnitButton = MenuButtonNode(imageNamed: "center",
+                                             title: "",
+                                             sized: CGSize(width: 36, height: 36),
+                                             buttonAction: {
+                                                
+                                                self.gameObjectManager?.centerOnPlayerUnit()
+        })
+        self.centerUnitButton?.position = self.position + CGPoint(x: 45, y: 60)
+        self.centerUnitButton?.zPosition = 53
+        
+        if let centerUnitButton = self.centerUnitButton {
+            self.addChild(centerUnitButton)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -82,6 +97,7 @@ class BottomLeftBar: SizedNode {
         self.unitBackgroundNode?.position = self.position + CGPoint(x: 90, y: 3)
         self.unitImageNode?.position = self.position + CGPoint(x: 90, y: 3)
         self.nextUnitButton?.position = self.position + CGPoint(x: 50, y: 21)
+        self.centerUnitButton?.position = self.position + CGPoint(x: 45, y: 60)
     }
 }
 

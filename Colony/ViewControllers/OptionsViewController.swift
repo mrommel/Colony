@@ -35,6 +35,11 @@ class OptionsViewController: UIViewController {
 
 extension OptionsViewController: OptionsDelegate {
     
+    func resetData() {
+        let scoreRepository = ScoreRepository()
+        scoreRepository.resetScores()
+    }
+    
     func quitOptions() {
         self.navigationController?.popViewController(animated: true)
     }
