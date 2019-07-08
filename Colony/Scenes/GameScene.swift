@@ -343,7 +343,7 @@ class GameScene: SKScene {
         self.focus?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         self.focus?.xScale = 1.0
         self.focus?.yScale = 1.0
-        viewHex.addChild(self.focus!)
+        self.viewHex.addChild(self.focus!)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -441,14 +441,14 @@ class GameScene: SKScene {
 
         self.mapNode?.moveSelectedUnit(to: hex)
 
-        if hex == self.lastFocusPoint {
+        /*if hex == self.lastFocusPoint {
 
             if let selectedUnit = self.mapNode?.gameObjectManager.selected {
                 if selectedUnit.position == hex {
                     self.gameDelegate?.select(object: selectedUnit)
                 }
             }
-        }
+        }*/
 
         self.lastFocusPoint = hex
     }

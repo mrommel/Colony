@@ -98,9 +98,13 @@ class Level: Decodable  {
         self.startPositions = startPositions
         self.gameObjectManager = gameObjectManager
         
-        let monster = Monster(with: "monster", at: startPositions.monsterPosition, tribe: .enemy)
+        let monster = Monster(with: "monster", at: startPositions.monsterPosition)
         self.gameObjectManager.add(object: monster)
         monster.idle()
+        
+        let pirates = Pirates(with: "pirates", at: startPositions.monsterPosition)
+        self.gameObjectManager.add(object: pirates)
+        pirates.idle()
         
         let ship = Ship(with: "ship", at: startPositions.playerPosition, tribe: .player)
         self.gameObjectManager.add(object: ship)
@@ -119,7 +123,6 @@ class Level: Decodable  {
             let oceanTile = oceanTiles.randomItem()
             
             if let point = oceanTile?.point {
-                //print("added coin at \(point)")
                 let coin = Coin(at: point)
                 self.gameObjectManager.add(object: coin)
                 coin.idle()

@@ -66,12 +66,64 @@ class MapNode: SKNode {
     }
     
     // MARK: methods
+    
+    func showCross(at hex: HexPoint) {
+        
+        let crossSprite = SKSpriteNode(imageNamed: "cross")
+        crossSprite.position = HexMapDisplay.shared.toScreen(hex: hex)
+        crossSprite.zPosition = 500
+        crossSprite.anchorPoint = CGPoint(x: 0, y: 0)
+        self.addChild(crossSprite)
+        
+        let delayAction = SKAction.wait(forDuration: 0.5)
+        let hideAction = SKAction.run { crossSprite.removeFromParent() }
+        
+        crossSprite.run(SKAction.sequence([delayAction, hideAction]))
+    }
+    
+    func show(path: [HexPoint]) {
+        
+        guard path.count > 1 else {
+            return
+        }
+        
+        // FIXME show path
+        print("path.count: \(path.count)")
+        var previousItem = path.first!
+        for i in 1..<path.count {
+            let currentItem = path[i]
+            
+            if let dir = previousItem.direction(towards: currentItem) {
+                
+                print("dir: \(dir.pickerImage)")
+                
+                let crossSprite = SKSpriteNode(imageNamed: dir.pickerImage)
+                crossSprite.position = HexMapDisplay.shared.toScreen(hex: previousItem)
+                crossSprite.zPosition = 500
+                crossSprite.anchorPoint = CGPoint(x: 0.13, y: 0.12)
+                self.addChild(crossSprite)
+            }
+            
+            
+            previousItem = currentItem
+        }
+        
+    }
 
     func moveSelectedUnit(to hex: HexPoint) {
 
         if let selectedUnit = self.gameObjectManager.selected {
 
             guard selectedUnit.canMoveByUserInput else {
+                // FIXME: show x
+                self.showCross(at: hex)
+                return
+            }
+            
+            // can only select new target when unit is idle
+            guard selectedUnit.state == .idle else {
+                // FIXME: show x
+                self.showCross(at: hex)
                 return
             }
             
@@ -81,6 +133,9 @@ class MapNode: SKNode {
                 pathFinder.dataSource = map?.pathfinderDataSource(with: selectedUnit.movementType, ignoreSight: false)
                 
                 if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.position, toTileCoord: hex) {
+                    var pathToShow = path
+                    pathToShow.prepend(selectedUnit.position)
+                    self.show(path: pathToShow)
                     selectedUnit.walk(on: path)
                     return
                 }

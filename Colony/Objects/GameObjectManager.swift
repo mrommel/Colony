@@ -74,13 +74,19 @@ class GameObjectManager: Codable {
                     self.objects.append(Ship(with: identifier, at: position, tribe: tribe))
                     break
                 case .monster:
-                    self.objects.append(Monster(with: identifier, at: position, tribe: tribe))
+                    self.objects.append(Monster(with: identifier, at: position))
                     break
                 case .village:
                     self.objects.append(Village(with: identifier, at: position, tribe: tribe))
                     break
                 case .coin:
                     self.objects.append(Coin(at: position))
+                    break
+                case .pirates:
+                    self.objects.append(Pirates(with: identifier, at: position))
+                    break
+                case .shipwreck:
+                    self.objects.append(ShipWreck(with: identifier, at: position))
                     break
                 }
             }

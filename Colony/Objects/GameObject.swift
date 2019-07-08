@@ -25,6 +25,8 @@ enum GameObjectType: String, Codable {
     case monster
     case village
     case coin
+    case shipwreck
+    case pirates
 }
 
 struct MovementCosts {

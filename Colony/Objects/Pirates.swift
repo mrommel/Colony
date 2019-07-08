@@ -1,24 +1,24 @@
 //
-//  Monster.swift
+//  Pirates.swift
 //  Colony
 //
-//  Created by Michael Rommel on 30.05.19.
+//  Created by Michael Rommel on 07.07.19.
 //  Copyright © 2019 Michael Rommel. All rights reserved.
 //
 
 import SpriteKit
 
-class Monster: GameObject {
+class Pirates: GameObject {
     
     init(with identifier: String, at point: HexPoint) {
-        super.init(with: identifier, type: .monster, at: point, spriteName: "tile004", tribe: .enemy, sight: 1)
+        super.init(with: identifier, type: .pirates, at: point, spriteName: "tile004", tribe: .enemy, sight: 2)
         
-        self.atlasIdle = GameObjectAtlas(atlasName: "monster", textures: ["tile004", "tile005", "tile006", "tile007"])
+        self.atlasIdle = GameObjectAtlas(atlasName: "pirates", textures: ["pirate003", "pirate004", "pirate005"])
         
-        self.atlasDown = GameObjectAtlas(atlasName: "monster", textures: ["tile000", "tile001", "tile002", "tile003"])
-        self.atlasUp = GameObjectAtlas(atlasName: "monster", textures: ["tile012", "tile013", "tile014", "tile015"])
-        self.atlasLeft = GameObjectAtlas(atlasName: "monster", textures: ["tile004", "tile005", "tile006", "tile007"])
-        self.atlasRight = GameObjectAtlas(atlasName: "monster", textures: ["tile008", "tile009", "tile010", "tile011"])
+        self.atlasDown = GameObjectAtlas(atlasName: "pirates", textures: ["pirate000", "pirate001", "pirate002"])
+        self.atlasUp = GameObjectAtlas(atlasName: "pirates", textures: ["pirate009", "pirate010", "pirate011"])
+        self.atlasLeft = GameObjectAtlas(atlasName: "pirates", textures: ["pirate003", "pirate004", "pirate005"])
+        self.atlasRight = GameObjectAtlas(atlasName: "pirates", textures: ["pirate006", "pirate007", "pirate008"])
         
         self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.2)
         
@@ -55,8 +55,7 @@ class Monster: GameObject {
                     bestDistance = neighborDistance
                 }
             }
-            //let waterNeighbor = waterNeighbors.randomItem()
-            
+
             let pathFinder = AStarPathfinder()
             pathFinder.dataSource =  map.pathfinderDataSource(with: self.movementType, ignoreSight: true)
             

@@ -13,14 +13,17 @@
 - add new player input
 - add player switcher in options (logout)
 - river mouth
+- pirates gets 20 coins from you
 
 ## Bugs
 - [Defect] dialogs have wrong display levels
 - [Defect] dialogs not centered in landscape mode
 - [Defect] river should end at first ocean
 - [Defect] Coins in level 1&2
+- [Defect] multiple path can be combined
 
 ## Done
+- add pirate ship 
 - center to current unit button
 - [Defect] Level icon über settings icon
 - reset all data on options scene (debug)

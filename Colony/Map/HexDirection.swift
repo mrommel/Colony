@@ -56,20 +56,20 @@ enum HexDirection {
 		}
 	}
 
-	var pickerImage: UIImage? {
+	var pickerImage: String {
 		switch self {
 		case .north:
-			return UIImage(named: "hex_neighbors_n")
+			return "hex_neighbors_n"
 		case .northeast:
-			return UIImage(named: "hex_neighbors_ne")
+			return "hex_neighbors_ne"
 		case .southeast:
-			return UIImage(named: "hex_neighbors_se")
+			return "hex_neighbors_se"
 		case .south:
-			return UIImage(named: "hex_neighbors_s")
+			return "hex_neighbors_s"
 		case .southwest:
-			return UIImage(named: "hex_neighbors_sw")
+			return "hex_neighbors_sw"
 		case .northwest:
-			return UIImage(named: "hex_neighbors_nw")
+			return "hex_neighbors_nw"
 		}
 	}
 }

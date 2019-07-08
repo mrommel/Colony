@@ -13,7 +13,7 @@ import SpriteKit
 class ShipWreck: GameObject {
     
     init(with identifier: String, at point: HexPoint) {
-        super.init(with: identifier, type: .ship, at: point, spriteName: "shipwreck01", tribe: .reward, sight: 1) // FIXME: new type obstacle
+        super.init(with: identifier, type: .shipwreck, at: point, spriteName: "shipwreck01", tribe: .reward, sight: 1) // FIXME: new type obstacle
         
         self.atlasIdle = GameObjectAtlas(atlasName: "shipwreck", textures: ["shipwreck01", "shipwreck01", "shipwreck01"])
         
