@@ -156,7 +156,7 @@ class GameScene: SKScene {
             self.bottomLeftBar = BottomLeftBar(for: level, sized: CGSize(width: 200, height: 112))
             self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
 
-            self.showLevel(title: "Free playing", summary: "Please ply free")
+            self.showLevel(title: "Free playing", summary: "Please play free")
         }
 
         self.game?.conditionDelegate = self

@@ -20,7 +20,7 @@ class Tile: Decodable {
     
     var continent: Continent?
     
-    var riverName: String?
+    var riverName: String? = nil
     var riverFlowNorth: FlowDirection = .none
     var riverFlowNorthEast: FlowDirection = .none
     var riverFlowSouthEast: FlowDirection = .none

@@ -1,18 +1,15 @@
 # Colony
 
 ## Todo
-- add pirate ship as enemy
 - add trade ship as neutral
 - add random fishes
 - add beach-se-sw-nw texture
 - add resources to map and draw them
 - add city screen
-- show planned path of unit (for some time)
 - show collected coins in win dialog
 - add global player score
 - add new player input
 - add player switcher in options (logout)
-- river mouth
 - pirates gets 20 coins from you
 
 ## Bugs
@@ -20,9 +17,11 @@
 - [Defect] dialogs not centered in landscape mode
 - [Defect] river should end at first ocean
 - [Defect] Coins in level 1&2
-- [Defect] multiple path can be combined
 
 ## Done
+- [Defect] multiple path can be combined
+- river deltas
+- show planned path of unit (for some time)
 - add pirate ship 
 - center to current unit button
 - [Defect] Level icon über settings icon

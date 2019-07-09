@@ -30,6 +30,7 @@
 		C92D876322CB871100E7A55E /* GameConditionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D876222CB871100E7A55E /* GameConditionType.swift */; };
 		C92D876522CBF34E00E7A55E /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D876422CBF34E00E7A55E /* Formatters.swift */; };
 		C92D876722CCA7C000E7A55E /* SizedNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D876622CCA7C000E7A55E /* SizedNode.swift */; };
+		C938B56622D4A1EB00A2A838 /* HexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C938B56522D4A1EB00A2A838 /* HexPath.swift */; };
 		C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2B22B7ABB700AB7117 /* R.generated.swift */; };
 		C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */; };
 		C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */; };
@@ -145,6 +146,7 @@
 		C92D876222CB871100E7A55E /* GameConditionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConditionType.swift; sourceTree = "<group>"; };
 		C92D876422CBF34E00E7A55E /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		C92D876622CCA7C000E7A55E /* SizedNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizedNode.swift; sourceTree = "<group>"; };
+		C938B56522D4A1EB00A2A838 /* HexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexPath.swift; sourceTree = "<group>"; };
 		C94A2F2B22B7ABB700AB7117 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
@@ -503,6 +505,7 @@
 				C97B283122A5349A00112532 /* FogManager.swift */,
 				C97B283522A54AE600112532 /* HexArea.swift */,
 				C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */,
+				C938B56522D4A1EB00A2A838 /* HexPath.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -782,6 +785,7 @@
 				C9C7F12B229EBF5200A775B2 /* AreaSprites.swift in Sources */,
 				C97B282A22A3F72100112532 /* MessageBoxButtonNode.swift in Sources */,
 				C9C7F123229EBE5C00A775B2 /* HexPointWithCorner.swift in Sources */,
+				C938B56622D4A1EB00A2A838 /* HexPath.swift in Sources */,
 				C9763EB122A316C300F31126 /* UIColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
