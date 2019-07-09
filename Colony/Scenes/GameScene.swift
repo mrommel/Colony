@@ -31,6 +31,7 @@ class GameScene: SKScene {
             static let feature: CGFloat = 4.0
             static let road: CGFloat = 4.1
             static let river: CGFloat = 4.2
+            static let path: CGFloat = 4.3
             static let featureUpper: CGFloat = 4.5
             static let staticSprite: CGFloat = 5.0
             static let sprite: CGFloat = 6.0

@@ -80,35 +80,6 @@ class MapNode: SKNode {
         
         crossSprite.run(SKAction.sequence([delayAction, hideAction]))
     }
-    
-    func show(path: [HexPoint]) {
-        
-        guard path.count > 1 else {
-            return
-        }
-        
-        // FIXME show path
-        print("path.count: \(path.count)")
-        var previousItem = path.first!
-        for i in 1..<path.count {
-            let currentItem = path[i]
-            
-            if let dir = previousItem.direction(towards: currentItem) {
-                
-                print("dir: \(dir.pickerImage)")
-                
-                let crossSprite = SKSpriteNode(imageNamed: dir.pickerImage)
-                crossSprite.position = HexMapDisplay.shared.toScreen(hex: previousItem)
-                crossSprite.zPosition = 500
-                crossSprite.anchorPoint = CGPoint(x: 0.13, y: 0.12)
-                self.addChild(crossSprite)
-            }
-            
-            
-            previousItem = currentItem
-        }
-        
-    }
 
     func moveSelectedUnit(to hex: HexPoint) {
 
@@ -133,9 +104,6 @@ class MapNode: SKNode {
                 pathFinder.dataSource = map?.pathfinderDataSource(with: selectedUnit.movementType, ignoreSight: false)
                 
                 if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.position, toTileCoord: hex) {
-                    var pathToShow = path
-                    pathToShow.prepend(selectedUnit.position)
-                    self.show(path: pathToShow)
                     selectedUnit.walk(on: path)
                     return
                 }

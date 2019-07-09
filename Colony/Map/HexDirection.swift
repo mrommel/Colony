@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-enum HexDirection {
+enum HexDirection: Int {
 
 	case north
 	case northeast

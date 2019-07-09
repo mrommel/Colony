@@ -112,6 +112,8 @@ class GameObject: Decodable {
     
     let sight: Int
     
+    private var pathSpriteBuffer: [SKSpriteNode] = []
+    
     enum CodingKeys: String, CodingKey {
         case identifier
         case type
@@ -186,6 +188,76 @@ class GameObject: Decodable {
         }
     }
     
+    func clearPathSpriteBuffer() {
+        
+        for sprite in self.pathSpriteBuffer {
+            sprite.removeFromParent()
+        }
+    }
+    
+    func show(path: [HexPoint]) {
+        
+        self.clearPathSpriteBuffer()
+        
+        guard path.count > 1 else {
+            return
+        }
+        
+        // FIXME move to path class
+        // print("path.count: \(path.count)")
+        let firstItem = path[0]
+        let secondItem = path[1]
+        
+        if let dir = firstItem.direction(towards: secondItem) {
+            let textureName = "path-start-\(dir.short)"
+            
+            let pathSprite = SKSpriteNode(imageNamed: textureName)
+            pathSprite.position = HexMapDisplay.shared.toScreen(hex: firstItem)
+            pathSprite.zPosition = GameScene.Constants.ZLevels.path
+            pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+            self.sprite.parent?.addChild(pathSprite)
+            
+            self.pathSpriteBuffer.append(pathSprite)
+        }
+        
+        for i in 1..<path.count-1 {
+            let previousItem = path[i-1]
+            let currentItem = path[i]
+            let nextItem = path[i+1]
+            
+            if let dir = currentItem.direction(towards: previousItem), let dir2 = currentItem.direction(towards: nextItem) {
+                
+                var textureName = "path-\(dir.short)-\(dir2.short)"
+                if dir.rawValue > dir2.rawValue {
+                    textureName = "path-\(dir2.short)-\(dir.short)"
+                }
+                
+                let pathSprite = SKSpriteNode(imageNamed: textureName)
+                pathSprite.position = HexMapDisplay.shared.toScreen(hex: currentItem)
+                pathSprite.zPosition = GameScene.Constants.ZLevels.path
+                pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+                self.sprite.parent?.addChild(pathSprite)
+                
+                self.pathSpriteBuffer.append(pathSprite)
+            }
+        }
+        
+        let secondlastItem = path[path.count-2]
+        let lastItem = path[path.count-1]
+        
+        if let dir = lastItem.direction(towards: secondlastItem) {
+            let textureName = "path-start-\(dir.short)"
+            
+            let pathSprite = SKSpriteNode(imageNamed: textureName)
+            pathSprite.position = HexMapDisplay.shared.toScreen(hex: lastItem)
+            pathSprite.zPosition = GameScene.Constants.ZLevels.path
+            pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+            self.sprite.parent?.addChild(pathSprite)
+            
+            self.pathSpriteBuffer.append(pathSprite)
+        }
+    }
+    
     func walk(on path: [HexPoint]) {
         
         guard !path.isEmpty else {
@@ -196,6 +268,10 @@ class GameObject: Decodable {
         self.sprite.removeAction(forKey: idleActionKey)
         self.state = .walking
         
+        if self.tribe == .player {
+            self.show(path: [self.position] + path)
+        }
+            
         if let point = path.first {
             let pathWithoutFirst = Array(path.suffix(from: 1))
             
@@ -207,6 +283,7 @@ class GameObject: Decodable {
     
     func idle() {
         
+        self.clearPathSpriteBuffer()
         self.state = .idle
         
         if let atlas = self.atlasIdle {
