@@ -77,8 +77,8 @@ class FogManager: Codable {
 
         // create tmp fog map
         let tmpFog = FogArray2D(columns: self.map?.width ?? 1, rows: self.map?.height ?? 1)
-        //tmpFog.fill(with: .never)
-        tmpFog.fill(with: .discovered)
+        tmpFog.fill(with: .never)
+        // tmpFog.fill(with: .discovered)
 
         // copy already discovered
         for x in 0..<self.fog.columns {

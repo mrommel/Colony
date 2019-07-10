@@ -88,6 +88,9 @@ class GameObjectManager: Codable {
                 case .shipwreck:
                     self.objects.append(ShipWreck(with: identifier, at: position))
                     break
+                case .shark:
+                    self.objects.append(Shark(with: identifier, at: position))
+                    break
                 }
             }
         }

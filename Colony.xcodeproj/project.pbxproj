@@ -31,6 +31,7 @@
 		C92D876522CBF34E00E7A55E /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D876422CBF34E00E7A55E /* Formatters.swift */; };
 		C92D876722CCA7C000E7A55E /* SizedNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D876622CCA7C000E7A55E /* SizedNode.swift */; };
 		C938B56622D4A1EB00A2A838 /* HexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C938B56522D4A1EB00A2A838 /* HexPath.swift */; };
+		C938B56822D6200E00A2A838 /* Shark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C938B56722D6200E00A2A838 /* Shark.swift */; };
 		C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2B22B7ABB700AB7117 /* R.generated.swift */; };
 		C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */; };
 		C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */; };
@@ -147,6 +148,7 @@
 		C92D876422CBF34E00E7A55E /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		C92D876622CCA7C000E7A55E /* SizedNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizedNode.swift; sourceTree = "<group>"; };
 		C938B56522D4A1EB00A2A838 /* HexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexPath.swift; sourceTree = "<group>"; };
+		C938B56722D6200E00A2A838 /* Shark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shark.swift; sourceTree = "<group>"; };
 		C94A2F2B22B7ABB700AB7117 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 				C97B53A222D2756B008078D9 /* Pirates.swift */,
 				C9F6A14A22CA906800388198 /* Coin.swift */,
 				C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */,
+				C938B56722D6200E00A2A838 /* Shark.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -729,6 +732,7 @@
 				C9C7F0F9229EBD1100A775B2 /* Tile.swift in Sources */,
 				C9C7F0F0229E993300A775B2 /* MenuViewController.swift in Sources */,
 				C927E2EC22CE9C6300EDBE0D /* GameUsecase.swift in Sources */,
+				C938B56822D6200E00A2A838 /* Shark.swift in Sources */,
 				C9C7F127229EBE7A00A775B2 /* HeightMap.swift in Sources */,
 				C9C7F0FF229EBD5100A775B2 /* HexPoint.swift in Sources */,
 				C9C7F0FB229EBD1800A775B2 /* HexagonTileMap.swift in Sources */,

@@ -118,6 +118,10 @@ class Level: Decodable  {
         self.gameObjectManager.add(object: shipWreck)
         shipWreck.idle()
         
+        let shark = Shark(with: "shark1", at: startPositions.playerPosition.neighbors().randomItem())
+        self.gameObjectManager.add(object: shark)
+        shark.idle()
+        
         let oceanTiles = map.oceanTiles
         for _ in 0..<64 {
             let oceanTile = oceanTiles.randomItem()

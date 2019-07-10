@@ -27,6 +27,7 @@ enum GameObjectType: String, Codable {
     case coin
     case shipwreck
     case pirates
+    case shark
 }
 
 struct MovementCosts {
