@@ -94,6 +94,10 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     // MARK: terrain
     
+    func terrain(at hex: HexPoint) -> Terrain? {
+        return self.tile(at: hex)?.terrain
+    }
+    
     func set(terrain: Terrain, at hex: HexPoint) {
         if let tile = self.tile(at: hex) {
             tile.terrain = terrain

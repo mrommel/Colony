@@ -49,7 +49,15 @@ class Monster: GameObject {
             }
             
             for waterNeighbor in waterNeighbors {
-                let neighborDistance = waterNeighbor.distance(to: enemyPosition) + Int.random(number: 2)
+                
+                // monsters avoid to go near the coast, so we add a penalty for shore tiles
+                let shorePenalty = game?.level?.map.terrain(at: waterNeighbor) == .shore ? 2 : 0
+                
+                // make it a bit unforeseen
+                let randomPenalty = Int.random(number: 2) // 0..1
+                
+                let neighborDistance = waterNeighbor.distance(to: enemyPosition) + shorePenalty + randomPenalty
+                
                 if neighborDistance < bestDistance {
                     bestWaterNeighbor = waterNeighbor
                     bestDistance = neighborDistance

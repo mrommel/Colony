@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AE0CBA9E74F8CE33C69E57B3 /* libPods-Colony.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74D966AB103078B030C04933 /* libPods-Colony.a */; };
+		C9001CA422D70BCF005528A7 /* GameConditionCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9001CA322D70BCF005528A7 /* GameConditionCheck.swift */; };
+		C9001CA622D712B7005528A7 /* Booster.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9001CA522D712B7005528A7 /* Booster.swift */; };
 		C900654022AEE3BA0004C963 /* UIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900653F22AEE3BA0004C963 /* UIParser.swift */; };
 		C900654222AEE8DC0004C963 /* DefeatDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C900654122AEE8DC0004C963 /* DefeatDialog.xml */; };
 		C900654422AF96A00004C963 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900654322AF96A00004C963 /* Dialog.swift */; };
@@ -49,6 +51,7 @@
 		C956079622B23FD800AA69E9 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079522B23FD800AA69E9 /* Level.swift */; };
 		C956079822B2426400AA69E9 /* GameConditionCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */; };
 		C956079A22B2435100AA69E9 /* MonsterCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079922B2435100AA69E9 /* MonsterCheck.swift */; };
+		C9564D6422D7C9DC0091099B /* Axeman.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9564D6322D7C9DC0091099B /* Axeman.swift */; };
 		C972CCBE22AA7E71008DB8CB /* GameObjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */; };
 		C972CCC022AAA4AE008DB8CB /* Village.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCBF22AAA4AE008DB8CB /* Village.swift */; };
 		C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */; };
@@ -125,6 +128,8 @@
 		210F580901715505DF5F00A6 /* Pods-Colony.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Colony.debug.xcconfig"; path = "Target Support Files/Pods-Colony/Pods-Colony.debug.xcconfig"; sourceTree = "<group>"; };
 		74D966AB103078B030C04933 /* libPods-Colony.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Colony.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACE7A2BA698D9042467C8F93 /* Pods-Colony.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Colony.release.xcconfig"; path = "Target Support Files/Pods-Colony/Pods-Colony.release.xcconfig"; sourceTree = "<group>"; };
+		C9001CA322D70BCF005528A7 /* GameConditionCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConditionCheck.swift; sourceTree = "<group>"; };
+		C9001CA522D712B7005528A7 /* Booster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booster.swift; sourceTree = "<group>"; };
 		C900653F22AEE3BA0004C963 /* UIParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIParser.swift; sourceTree = "<group>"; };
 		C900654122AEE8DC0004C963 /* DefeatDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = DefeatDialog.xml; sourceTree = "<group>"; };
 		C900654322AF96A00004C963 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
@@ -166,6 +171,7 @@
 		C956079522B23FD800AA69E9 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConditionCheckManager.swift; sourceTree = "<group>"; };
 		C956079922B2435100AA69E9 /* MonsterCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterCheck.swift; sourceTree = "<group>"; };
+		C9564D6322D7C9DC0091099B /* Axeman.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axeman.swift; sourceTree = "<group>"; };
 		C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObjectManager.swift; sourceTree = "<group>"; };
 		C972CCBF22AAA4AE008DB8CB /* Village.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Village.swift; sourceTree = "<group>"; };
 		C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
@@ -261,6 +267,19 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C9001CA222D70BB5005528A7 /* GameConditions */ = {
+			isa = PBXGroup;
+			children = (
+				C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */,
+				C9001CA322D70BCF005528A7 /* GameConditionCheck.swift */,
+				C92D876222CB871100E7A55E /* GameConditionType.swift */,
+				C956079922B2435100AA69E9 /* MonsterCheck.swift */,
+				C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */,
+				C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */,
+			);
+			path = GameConditions;
+			sourceTree = "<group>";
+		};
 		C915971C22CE977E001D034B /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -342,13 +361,10 @@
 		C956079222B1425100AA69E9 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				C9001CA222D70BB5005528A7 /* GameConditions */,
+				C97E96D122A0739100D594F3 /* Objects */,
 				C956079522B23FD800AA69E9 /* Level.swift */,
 				C956079322B1426500AA69E9 /* LevelManager.swift */,
-				C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */,
-				C956079922B2435100AA69E9 /* MonsterCheck.swift */,
-				C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */,
-				C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */,
-				C92D876222CB871100E7A55E /* GameConditionType.swift */,
 				C92D876022CB7A0600E7A55E /* Game.swift */,
 			);
 			path = Game;
@@ -387,8 +403,11 @@
 				C9F6A14A22CA906800388198 /* Coin.swift */,
 				C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */,
 				C938B56722D6200E00A2A838 /* Shark.swift */,
+				C9001CA522D712B7005528A7 /* Booster.swift */,
+				C9564D6322D7C9DC0091099B /* Axeman.swift */,
 			);
-			path = Objects;
+			name = Objects;
+			path = ../Objects;
 			sourceTree = "<group>";
 		};
 		C97E96D822A1CB5600D594F3 /* PathFinding */ = {
@@ -433,7 +452,6 @@
 			children = (
 				C915971C22CE977E001D034B /* Data */,
 				C956079222B1425100AA69E9 /* Game */,
-				C97E96D122A0739100D594F3 /* Objects */,
 				C9C7F108229EBE2000A775B2 /* Utils */,
 				C9C7F0F7229EBD0700A775B2 /* Map */,
 				C9763EB222A317C600F31126 /* UI */,
@@ -691,6 +709,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9763EAB22A2FB9B00F31126 /* SpriteButtonNode.swift in Sources */,
+				C9564D6422D7C9DC0091099B /* Axeman.swift in Sources */,
 				C97E96D522A073E900D594F3 /* GameObject.swift in Sources */,
 				C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */,
 				C9C7F103229EBD9500A775B2 /* Feature.swift in Sources */,
@@ -730,6 +749,7 @@
 				C92D875322CB694200E7A55E /* BaseDao.swift in Sources */,
 				C97B282C22A427A800112532 /* ProgressBarNode.swift in Sources */,
 				C9C7F0F9229EBD1100A775B2 /* Tile.swift in Sources */,
+				C9001CA422D70BCF005528A7 /* GameConditionCheck.swift in Sources */,
 				C9C7F0F0229E993300A775B2 /* MenuViewController.swift in Sources */,
 				C927E2EC22CE9C6300EDBE0D /* GameUsecase.swift in Sources */,
 				C938B56822D6200E00A2A838 /* Shark.swift in Sources */,
@@ -745,6 +765,7 @@
 				C9C7F113229EBE3100A775B2 /* AStarPathFinder.swift in Sources */,
 				C9C7F0F6229EAB9000A775B2 /* SKNode+Extension.swift in Sources */,
 				C9E9BBFC22B584400048F97B /* DiscoverCheck.swift in Sources */,
+				C9001CA622D712B7005528A7 /* Booster.swift in Sources */,
 				C992ABEB22A32042001C5E7C /* NineGridTextureSprite.swift in Sources */,
 				C9C7F111229EBE3100A775B2 /* IntegerExtension.swift in Sources */,
 				C972CCBE22AA7E71008DB8CB /* GameObjectManager.swift in Sources */,

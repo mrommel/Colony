@@ -1,6 +1,6 @@
 //
 //  IntegerExtension.swift
-//  agents
+//  Colony
 //
 //  Created by Michael Rommel on 25.01.18.
 //  Copyright © 2018 Michael Rommel. All rights reserved.

@@ -73,6 +73,10 @@ class GameObjectManager: Codable {
                 case .ship:
                     self.objects.append(Ship(with: identifier, at: position, tribe: tribe))
                     break
+                case .axeman:
+                    self.objects.append(Axeman(with: identifier, at: position, tribe: tribe))
+                    break
+                    
                 case .monster:
                     self.objects.append(Monster(with: identifier, at: position))
                     break
@@ -85,11 +89,20 @@ class GameObjectManager: Codable {
                 case .pirates:
                     self.objects.append(Pirates(with: identifier, at: position))
                     break
-                case .shipwreck:
-                    self.objects.append(ShipWreck(with: identifier, at: position))
+                    
+                case .obstacle:
+                    if identifier.starts(with: "shipwreck-") {
+                        self.objects.append(ShipWreck(at: position))
+                    } else {
+                        fatalError("obstacle cannot be loaded")
+                    }
                     break
-                case .shark:
-                    self.objects.append(Shark(with: identifier, at: position))
+                case .animal:
+                    if identifier.starts(with: "shark-") {
+                        self.objects.append(Shark(at: position))
+                    } else {
+                        fatalError("animal cannot be loaded")
+                    }
                     break
                 }
             }

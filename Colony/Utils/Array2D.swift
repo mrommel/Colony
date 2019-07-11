@@ -84,8 +84,12 @@ extension Array2D {
 		}
 	}
     
-    func filter(_ isIncluded: @escaping (T?) -> Bool) -> [T?] {
-        return self.array.filter(isIncluded)
+    func filter(where condition: @escaping (T?) -> Bool) -> [T?] {
+        return self.array.filter(condition)
+    }
+    
+    func count(where condition: @escaping (T?) -> Bool) -> Int {
+        return self.array.count(where: condition)
     }
 }
 

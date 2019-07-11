@@ -14,20 +14,25 @@ enum GameObjectState: String, Codable {
 }
 
 enum GameObjectTribe: String, Codable {
+    
     case player
     case enemy
     
     case reward
+    case decoration
 }
 
 enum GameObjectType: String, Codable {
     case ship
+    case axeman
+    
     case monster
     case village
     case coin
-    case shipwreck
+    case obstacle // tile cannot be accessed, can't be moved
     case pirates
-    case shark
+    
+    case animal
 }
 
 struct MovementCosts {
@@ -48,11 +53,11 @@ enum GameObjectMoveType {
     case immobile // such as villages, coins etc
     //case swimShore
     case swimOcean
-    //case walk
+    case walk
     //case ride
     //case fly
     
-    // FIXME: take features into account
+    // FIXME: take features (forest, river, road) into account
     /// cost to enter a terrain given the specified, -1.0 means not possible
     var movementCosts: MovementCosts {
         
@@ -75,6 +80,14 @@ enum GameObjectMoveType {
                                  snow: GameObjectMoveType.impassible,
                                  ocean: 2.2,
                                  shore: 1.0)
+        case .walk:
+            return MovementCosts(plain: 1.0,
+                                 grass: 1.1,
+                                 desert: 1.2,
+                                 tundra: 1.1,
+                                 snow: 1.5,
+                                 ocean: GameObjectMoveType.impassible,
+                                 shore: GameObjectMoveType.impassible)
         }
     }
 }

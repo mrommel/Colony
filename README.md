@@ -1,7 +1,8 @@
 # Colony
 
 ## Todo
-- add trade ship as neutral
+- add trade ship as neutral (current priate ship)
+- pirate ship with pirate flag indicator
 - add beach-se-sw-nw texture
 - add city screen
 - show collected coins in win dialog
@@ -9,9 +10,8 @@
 - add new player input
 - add player switcher in options (logout)
 - pirates gets 20 coins from you
-- kampf gegen piraten?
-- scout unit
-- scout aussetzen for land exploration
+- fight against pirates
+- release scout for exploration
 - booster: wind, telescope - more sight, canon, yields, more time (clock) - incl 'shop' and detail screen - find them on the map
 - monster lives in ocean and avoids shore
 
@@ -22,6 +22,8 @@
 - [Defect] Coins in level 1&2
 
 ## Done
+- scout unit
+- trade ship smaller
 - add shark as fish
 - [Defect] multiple path can be combined
 - river deltas

@@ -101,6 +101,7 @@ class ContinentFinder {
 
 	func firstFreeIdentifier() -> Int {
 
+        // FIXME
 		/*var freeIdentifiers = BitArray(repeating: true, count: 256)
 
 		for x in 0..<self.continentIdentifiers.columns {

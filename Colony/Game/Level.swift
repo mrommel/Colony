@@ -98,6 +98,14 @@ class Level: Decodable  {
         self.startPositions = startPositions
         self.gameObjectManager = gameObjectManager
         
+        let ship = Ship(with: "ship", at: startPositions.playerPosition, tribe: .player)
+        self.gameObjectManager.add(object: ship)
+        ship.idle()
+        
+        let axeman = Axeman(with: "axeman", at: startPositions.villagePosition.neighbors().randomItem(), tribe: .player)
+        self.gameObjectManager.add(object: axeman)
+        axeman.idle()
+        
         let monster = Monster(with: "monster", at: startPositions.monsterPosition)
         self.gameObjectManager.add(object: monster)
         monster.idle()
@@ -106,22 +114,24 @@ class Level: Decodable  {
         self.gameObjectManager.add(object: pirates)
         pirates.idle()
         
-        let ship = Ship(with: "ship", at: startPositions.playerPosition, tribe: .player)
-        self.gameObjectManager.add(object: ship)
-        ship.idle()
-        
         let village = Village(with: "village", at: startPositions.villagePosition, tribe: .player)
         self.gameObjectManager.add(object: village)
         village.idle()
         
-        let shipWreck = ShipWreck(with: "shipWreck", at: startPositions.playerPosition.neighbors().randomItem())
+        // decorations / obstacles
+        
+        let shipWreck = ShipWreck(at: startPositions.playerPosition.neighbors().randomItem())
         self.gameObjectManager.add(object: shipWreck)
         shipWreck.idle()
         
-        let shark = Shark(with: "shark1", at: startPositions.playerPosition.neighbors().randomItem())
-        self.gameObjectManager.add(object: shark)
-        shark.idle()
+        // animals
         
+        for _ in 0..<5 {
+            let shark = Shark(at: startPositions.playerPosition.neighbors().randomItem())
+            self.gameObjectManager.add(object: shark)
+            shark.idle()
+        }
+
         let oceanTiles = map.oceanTiles
         for _ in 0..<64 {
             let oceanTile = oceanTiles.randomItem()

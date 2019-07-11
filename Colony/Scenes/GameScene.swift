@@ -25,6 +25,7 @@ class GameScene: SKScene {
 
         struct ZLevels {
             static let terrain: CGFloat = 1.0
+            static let underwater: CGFloat = 1.1
             static let caldera: CGFloat = 1.5
             static let area: CGFloat = 2.0
             static let focus: CGFloat = 3.0

@@ -20,7 +20,7 @@ class Pirates: GameObject {
         self.atlasLeft = GameObjectAtlas(atlasName: "pirates", textures: ["pirate003", "pirate004", "pirate005"])
         self.atlasRight = GameObjectAtlas(atlasName: "pirates", textures: ["pirate006", "pirate007", "pirate008"])
         
-        self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.2)
+        self.sprite.anchorPoint = CGPoint(x: -0.3, y: -0.1)
         
         self.canMoveByUserInput = false
         self.movementType = .swimOcean

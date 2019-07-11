@@ -71,7 +71,7 @@ class HexagonMap<T: Equatable & Codable>: Codable {
         self.tiles[hex.x, hex.y] = tile
     }
     
-    func filter(_ isIncluded: @escaping (T?) -> Bool) -> [T?] {
-        return self.tiles.filter(isIncluded)
+    func filter(where condition: @escaping (T?) -> Bool) -> [T?] {
+        return self.tiles.filter(where: condition)
     }
 }

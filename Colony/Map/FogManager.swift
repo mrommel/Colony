@@ -195,18 +195,6 @@ class FogManager: Codable {
     
     func numberOfDiscoveredTiles() -> Int {
         
-        var result = 0
-        
-        for x in 0..<self.fog.columns {
-            for y in 0..<self.fog.rows {
-                
-                let state = self.fogAt(x: x, y: y)
-                if state == .discovered || state == .sighted {
-                    result += 1
-                }
-            }
-        }
-        
-        return result
+        return self.fog.count(where: { $0  == .discovered || $0 == .sighted })
     }
 }
