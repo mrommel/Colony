@@ -43,6 +43,8 @@ class GameScene: SKScene {
             static let currently: CGFloat = 1.0
             static let discovered: CGFloat = 0.5
         }
+        
+        static let initialScale: CGFloat = 0.25
     }
 
     var viewModel: GameSceneViewModel?
@@ -108,8 +110,8 @@ class GameScene: SKScene {
         self.cameraNode = SKCameraNode() //initialize and assign an instance of SKCameraNode to the cam variable.
 
         //the scale sets the zoom level of the camera on the given position
-        self.cameraNode.xScale = 0.25
-        self.cameraNode.yScale = 0.25
+        self.cameraNode.xScale = Constants.initialScale
+        self.cameraNode.yScale = Constants.initialScale
 
         self.camera = cameraNode //set the scene's camera to reference cam
         self.addChild(cameraNode) //make the cam a childElement of the scene itself.
@@ -343,8 +345,8 @@ class GameScene: SKScene {
         self.focus?.position = HexMapDisplay.shared.toScreen(hex: HexPoint(x: 0, y: 0))
         self.focus?.zPosition = GameScene.Constants.ZLevels.focus
         self.focus?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        self.focus?.xScale = 1.0
-        self.focus?.yScale = 1.0
+        //self.focus?.xScale = 1.0
+        //self.focus?.yScale = 1.0
         self.viewHex.addChild(self.focus!)
     }
 

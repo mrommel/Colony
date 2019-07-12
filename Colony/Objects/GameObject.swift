@@ -35,7 +35,7 @@ enum GameObjectType: String, Codable {
     case animal
 }
 
-struct MovementCosts {
+/*struct MovementCosts {
     let plain: Float
     let grass: Float
     let desert: Float
@@ -43,7 +43,7 @@ struct MovementCosts {
     let snow: Float
     let ocean: Float
     let shore: Float
-}
+}*/
 
 enum GameObjectMoveType {
     
@@ -56,40 +56,6 @@ enum GameObjectMoveType {
     case walk
     //case ride
     //case fly
-    
-    // FIXME: take features (forest, river, road) into account
-    /// cost to enter a terrain given the specified, -1.0 means not possible
-    var movementCosts: MovementCosts {
-        
-        switch self {
-        
-        case .immobile:
-            return MovementCosts(plain: GameObjectMoveType.impassible,
-                                 grass: GameObjectMoveType.impassible,
-                                 desert: GameObjectMoveType.impassible,
-                                 tundra: GameObjectMoveType.impassible,
-                                 snow: GameObjectMoveType.impassible,
-                                 ocean: GameObjectMoveType.impassible,
-                                 shore: GameObjectMoveType.impassible)
-            
-        case .swimOcean:
-            return MovementCosts(plain: GameObjectMoveType.impassible,
-                                 grass: GameObjectMoveType.impassible,
-                                 desert: GameObjectMoveType.impassible,
-                                 tundra: GameObjectMoveType.impassible,
-                                 snow: GameObjectMoveType.impassible,
-                                 ocean: 2.2,
-                                 shore: 1.0)
-        case .walk:
-            return MovementCosts(plain: 1.0,
-                                 grass: 1.1,
-                                 desert: 1.2,
-                                 tundra: 1.1,
-                                 snow: 1.5,
-                                 ocean: GameObjectMoveType.impassible,
-                                 shore: GameObjectMoveType.impassible)
-        }
-    }
 }
 
 class GameObject: Decodable {
@@ -209,7 +175,7 @@ class GameObject: Decodable {
         }
     }
     
-    func show(path: [HexPoint]) {
+    func show(path: HexPath) {
         
         self.clearPathSpriteBuffer()
         
@@ -272,7 +238,7 @@ class GameObject: Decodable {
         }
     }
     
-    func walk(on path: [HexPoint]) {
+    func walk(on path: HexPath) {
         
         guard !path.isEmpty else {
             self.idle()
@@ -283,11 +249,11 @@ class GameObject: Decodable {
         self.state = .walking
         
         if self.tribe == .player {
-            self.show(path: [self.position] + path)
+            self.show(path: HexPath(point: self.position, path: path))
         }
             
         if let point = path.first {
-            let pathWithoutFirst = Array(path.suffix(from: 1))
+            let pathWithoutFirst = path.pathWithoutFirst()
             
             self.walk(from: self.position, to: point, completion: {
                 self.walk(on: pathWithoutFirst)

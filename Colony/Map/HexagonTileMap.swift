@@ -305,7 +305,7 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     // MARK: pathfinding
     
-    func path(from: HexPoint, to: HexPoint, movementType: GameObjectMoveType) -> [HexPoint]? {
+    func path(from: HexPoint, to: HexPoint, movementType: GameObjectMoveType) -> HexPath? {
         
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = pathfinderDataSource(with: movementType, ignoreSight: true)

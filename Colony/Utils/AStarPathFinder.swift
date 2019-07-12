@@ -70,7 +70,7 @@ class AStarPathfinder {
 		//return abs(toCoord.x - fromCoord.x) + abs(toCoord.y - fromCoord.y)
 	}
 
-	func shortestPath(fromTileCoord: HexPoint, toTileCoord: HexPoint) -> [HexPoint]? {
+	func shortestPath(fromTileCoord: HexPoint, toTileCoord: HexPoint) -> HexPath? {
 
 		var closedSteps = Set<AStarPathStep>()
 
@@ -138,13 +138,17 @@ class AStarPathfinder {
 		return nil
 	}
 
-	private func convertStepsToShortestPath(lastStep: AStarPathStep) -> [HexPoint] {
-		var shortestPath = [HexPoint]()
+	private func convertStepsToShortestPath(lastStep: AStarPathStep) -> HexPath {
+        
+        let shortestPath = HexPath()
 		var currentStep = lastStep
-		while let parent = currentStep.parent { // if parent is nil, then it is our starting step, so don't include it
-			shortestPath.insert(currentStep.position, at: 0)
+        
+        // if parent is nil, then it is our starting step, so don't include it
+		while let parent = currentStep.parent {
+            shortestPath.prepend(point: currentStep.position)
 			currentStep = parent
 		}
+        
 		return shortestPath
 	}
 }

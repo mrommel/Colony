@@ -97,4 +97,47 @@ enum Terrain: String, Codable {
             return UIColor(red: 75, green: 113, blue: 21)
         }
     }
+    
+    func movementCost(for movementType: GameObjectMoveType) -> Float {
+        
+        switch movementType {
+            
+        case .immobile:
+            return GameObjectMoveType.impassible
+            
+        case .swimOcean:
+            if self == .ocean {
+                return 2.2
+            }
+            
+            if self == .shore {
+                return 1.0
+            }
+            
+            return GameObjectMoveType.impassible
+            
+        case .walk:
+            if self == .plain {
+                return 1.0
+            }
+            
+            if self == .grass {
+                return 1.1
+            }
+            
+            if self == .desert {
+                return 1.2
+            }
+            
+            if self == .tundra {
+                return 1.1
+            }
+            
+            if self == .snow {
+                return 1.5
+            }
+            
+            return GameObjectMoveType.impassible
+        }
+    }
 }

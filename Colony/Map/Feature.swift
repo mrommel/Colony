@@ -69,4 +69,44 @@ enum Feature: String, Codable {
 			return GameScene.Constants.ZLevels.feature
 		}
 	}
+    
+    func movementCost(for movementType: GameObjectMoveType) -> Float {
+        
+        switch movementType {
+        case .immobile:
+            return GameObjectMoveType.impassible
+            
+        case .swimOcean:
+            return GameObjectMoveType.impassible
+        
+        case .walk:
+            
+            if self == .forestMixed {
+                return 0.7
+            }
+            
+            if self == .forestPine {
+                return 0.5
+            }
+            
+            if self == .forestRain {
+                return 1.5
+            }
+            
+            if self == .hill {
+                return 0.7
+            }
+            
+            if self == .mountain {
+                return 2.5
+            }
+            
+            if self == .oasis {
+                return 0.0
+            }
+            
+            return GameObjectMoveType.impassible
+        }
+        
+    }
 }

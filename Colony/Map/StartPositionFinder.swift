@@ -30,23 +30,14 @@ class StartPositionFinder {
         }
         
         let maximalDistance = HexPoint(x: 0, y: 0).distance(to: HexPoint(x: map.width - 1, y: map.height - 1))
-        var optimalDistance = maximalDistance * 4 / 5
-        
-        var possiblePoints: [HexPoint] = []
-        
-        for x in 0..<map.width {
-            for y in 0..<map.height {
-                if map.tile(x: x, y: y)?.water ?? false {
-                    possiblePoints.append(HexPoint(x: x, y: y))
-                }
-            }
-        }
+        var optimalDistance = maximalDistance * 3 / 4
+        let possiblePoints: [HexPoint] = map.filter(where: { $0?.water ?? false}).map({ $0?.point ?? HexPoint.zero })
         
         var randomItem: HexPoint
         var trial: [HexPoint]
         
         repeat {
-            print("try to find start positions ...")
+            print("iterate to find start positions ...")
             randomItem = possiblePoints.randomItem()
         
             trial = possiblePoints.filter { $0.distance(to: randomItem) > optimalDistance && map.path(from: $0, to: randomItem, movementType: .swimOcean) != nil }

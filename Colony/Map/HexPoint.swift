@@ -9,6 +9,9 @@
 import Foundation
 
 class HexPoint: Codable {
+    
+    static let zero = HexPoint(x: 0, y: 0)
+    
     let x: Int
     let y: Int
     

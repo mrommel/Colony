@@ -1,6 +1,7 @@
 # Colony
 
 ## Todo
+- add flag to every unit
 - add trade ship as neutral (current priate ship)
 - pirate ship with pirate flag indicator
 - add beach-se-sw-nw texture
@@ -13,7 +14,9 @@
 - fight against pirates
 - release scout for exploration
 - booster: wind, telescope - more sight, canon, yields, more time (clock) - incl 'shop' and detail screen - find them on the map
-- monster lives in ocean and avoids shore
+- make start position finder more generic
+- make new city icons with city name
+- neutral cities
 
 ## Bugs
 - [Defect] dialogs have wrong display levels
@@ -22,6 +25,8 @@
 - [Defect] Coins in level 1&2
 
 ## Done
+- [Defect] shark right animation wrong order  
+- monster lives in ocean and avoids shore
 - scout unit
 - trade ship smaller
 - add shark as fish

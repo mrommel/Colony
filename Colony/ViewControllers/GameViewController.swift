@@ -21,7 +21,7 @@ class GameViewController: UIViewController {
     var gameScene: GameScene?
 
     // The current zoom scale of the camera
-    private var zoomScale: CGFloat = 1.0
+    private var zoomScale: CGFloat = GameScene.Constants.initialScale
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,7 +131,8 @@ class GameViewController: UIViewController {
 
         if recognizer.state == .changed {
 
-            zoomScale = (0.2 * zoomScale / recognizer.scale) + (0.8 * zoomScale)
+            //zoomScale = (0.2 * zoomScale / recognizer.scale) + (0.8 * zoomScale)
+            zoomScale = zoomScale / recognizer.scale
             scene.zoom(to: zoomScale)
             recognizer.scale = 1
         }

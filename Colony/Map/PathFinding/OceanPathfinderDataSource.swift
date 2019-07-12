@@ -38,9 +38,9 @@ class MoveTypePathfinderDataSource: PathfinderDataSource {
                     }
                 }
                 
-                if let terrain = self.map.tile(at: neighbor)?.terrain {
+                if let fromTile = self.map.tile(at: coord), let toTile = self.map.tile(at: neighbor) {
                 
-                    if cost(for: terrain) > GameObjectMoveType.impassible {
+                    if toTile.movementCost(for: self.moveType, from: fromTile) > GameObjectMoveType.impassible {
                         walkableCoords.append(neighbor)
                     }
                 }
@@ -50,68 +50,12 @@ class MoveTypePathfinderDataSource: PathfinderDataSource {
         return walkableCoords
     }
     
-    func cost(for terrain: Terrain) -> Float {
-        
-        switch terrain {
-        case .ocean:
-            return self.moveType.movementCosts.ocean
-        case .plain:
-            return self.moveType.movementCosts.plain
-        case .grass:
-            return self.moveType.movementCosts.grass
-        case .desert:
-            return self.moveType.movementCosts.desert
-        case .tundra:
-            return self.moveType.movementCosts.tundra
-        case .snow:
-            return self.moveType.movementCosts.snow
-        case .shore:
-            return self.moveType.movementCosts.shore
-            
-        // types from map generation
-        case .water:
-            return GameObjectMoveType.impassible
-        case .ground:
-            return GameObjectMoveType.impassible
-        }
-    }
-    
     func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Float {
         
-        if let terrain = self.map.tile(at: toTileCoord)?.terrain {
-            return self.cost(for: terrain)
+        if let toTile = self.map.tile(at: toTileCoord), let fromTile = self.map.tile(at: fromTileCoord) {
+            return toTile.movementCost(for: self.moveType, from: fromTile)
         }
         
         return GameObjectMoveType.impassible
     }
 }
-
-/*class OceanPathfinderDataSourceIgnoreSight: PathfinderDataSource {
-    
-    let map: HexagonTileMap
-    
-    init(map: HexagonTileMap) {
-        self.map = map
-    }
-    
-    func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
-        
-        var walkableCoords = [HexPoint]()
-        
-        for direction in HexDirection.all {
-            let neighbor = coord.neighbor(in: direction)
-            if map.valid(point: neighbor) {
-
-                if map.isWater(at: neighbor) {
-                    walkableCoords.append(neighbor)
-                }
-            }
-        }
-        
-        return walkableCoords
-    }
-    
-    func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Float {
-        return 1
-    }
-}*/

@@ -5,8 +5,22 @@
       "scale" : "1x"
     },
     {
+      "resizing" : {
+        "mode" : "9-part",
+        "center" : {
+          "mode" : "tile",
+          "width" : 1,
+          "height" : 1
+        },
+        "cap-insets" : {
+          "bottom" : 48,
+          "top" : 47,
+          "right" : 48,
+          "left" : 47
+        }
+      },
       "idiom" : "universal",
-      "filename" : "shark-right-001@2x.png",
+      "filename" : "shark-right-000@2x.png",
       "scale" : "2x"
     },
     {

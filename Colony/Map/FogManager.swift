@@ -35,7 +35,7 @@ class FogArray2D: Array2D<FogState> {
             return
         }
 
-        let area = HexArea(center: point, radius: radius)
+        let area = point.areaWith(radius: radius)
 
         for pt in area.points {
 

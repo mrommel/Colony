@@ -83,6 +83,7 @@ class Tile: Decodable {
 }
 
 extension Tile: Equatable {
+    
     static func == (lhs: Tile, rhs: Tile) -> Bool {
         
         guard lhs.point != nil else {
@@ -121,6 +122,71 @@ extension Tile {
     
     var ground: Bool {
         return !self.water
+    }
+}
+
+extension Tile {
+
+    func isNeighbor(to candidate: HexPoint) -> Bool {
+        
+        return self.point?.distance(to: candidate) == 1
+    }
+    
+    func isRiverToCross(towards target: Tile) -> Bool {
+        
+        guard let targetPoint = target.point else {
+            return false
+        }
+        
+        if !self.isNeighbor(to: targetPoint) {
+            return false
+        }
+        
+        guard let direction = self.point?.direction(towards: targetPoint) else {
+            return false
+        }
+        
+        switch direction {
+        case .north:
+            return self.isRiverInNorth()
+            
+        case .northeast:
+            return self.isRiverInNorthEast()
+            
+        case .southeast:
+            return self.isRiverInSouthEast()
+            
+        case .south:
+            return target.isRiverInNorth()
+            
+        case .southwest:
+            return target.isRiverInNorthEast()
+            
+        case .northwest:
+            return target.isRiverInSouthEast()
+        }
+    }
+    
+    /// cost to enter a terrain given the specified movementType
+    /// -1.0 means not possible
+    func movementCost(for movementType: GameObjectMoveType, from source: Tile) -> Float {
+        
+        // start with terrain cost
+        let terrainCost = self.terrain.movementCost(for: movementType)
+        
+        // add feature costs
+        var featureCost: Float = 0.0
+        for feature in self.features {
+            featureCost += feature.movementCost(for: movementType)
+        }
+        
+        // add river crossing cost
+        var riverCost: Float = 0.0
+        if source.isRiverToCross(towards: self) {
+            riverCost = 1.0 // FIXME - river cost per movementType
+        }
+
+        return terrainCost + featureCost + riverCost
     }
 }
 
