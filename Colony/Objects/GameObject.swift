@@ -93,6 +93,8 @@ class GameObject: Decodable {
     let sight: Int
     
     private var pathSpriteBuffer: [SKSpriteNode] = []
+    private var nameLabel: SKLabelNode?
+    private var nameBackground: SKSpriteNode?
     
     enum CodingKeys: String, CodingKey {
         case identifier
@@ -133,6 +135,35 @@ class GameObject: Decodable {
         self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.50)
         
         self.sight = 0
+    }
+    
+    // MARK: methods
+    
+    func show(name: String) {
+    
+        if self.nameLabel != nil {
+            self.nameLabel?.removeFromParent()
+            self.nameBackground?.removeFromParent()
+        }
+        
+        let texture = SKTexture(imageNamed: "header")
+        self.nameBackground = SKSpriteNode(texture: texture, color: .blue, size: CGSize(width: 35, height: 14))
+        self.nameBackground?.colorBlendFactor = 1.0
+        self.nameBackground?.position = HexMapDisplay.shared.toScreen(hex: self.position) + CGPoint(x: 24, y: 4)
+        self.nameBackground?.zPosition = GameScene.Constants.ZLevels.cityName - 0.1
+        if let nameBackground = self.nameBackground {
+            self.sprite.parent?.addChild(nameBackground)
+        }
+        
+        self.nameLabel = SKLabelNode(text: name)
+        self.nameLabel?.fontSize = 10
+        self.nameLabel?.position = HexMapDisplay.shared.toScreen(hex: self.position) + CGPoint(x: 24, y: 0)
+        self.nameLabel?.zPosition = GameScene.Constants.ZLevels.cityName
+        self.nameLabel?.fontName = Formatters.Fonts.systemFontBoldFamilyname
+        
+        if let nameLabel = self.nameLabel {
+            self.sprite.parent?.addChild(nameLabel)
+        }
     }
     
     private func animate(to hex: HexPoint, on atlas: GameObjectAtlas?, completion block: @escaping () -> Swift.Void) {

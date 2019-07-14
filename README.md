@@ -1,6 +1,7 @@
 # Colony
 
 ## Todo
+- collect wood with axemann
 - add flag to every unit
 - add trade ship as neutral (current priate ship)
 - pirate ship with pirate flag indicator
@@ -13,18 +14,21 @@
 - pirates gets 20 coins from you
 - fight against pirates
 - release scout for exploration
-- booster: wind, telescope - more sight, canon, yields, more time (clock) - incl 'shop' and detail screen - find them on the map
-- make start position finder more generic
-- make new city icons with city name
+- booster: wind, telescope - more sight, canon, yields, more time (clock), magnet (collect coins in area) - incl 'shop' and detail screen - find them on the map
+- make start position finder more generic - place more cities
 - neutral cities
+- shark: up+down copied from left+right
+- click on mini map should focus
 
 ## Bugs
+- [Defect] axeman can walk on the water
 - [Defect] dialogs have wrong display levels
 - [Defect] dialogs not centered in landscape mode
 - [Defect] river should end at first ocean
 - [Defect] Coins in level 1&2
 
 ## Done
+- make new city icons with city name
 - [Defect] shark right animation wrong order  
 - monster lives in ocean and avoids shore
 - scout unit

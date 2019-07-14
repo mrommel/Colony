@@ -36,6 +36,7 @@ class GameScene: SKScene {
             static let featureUpper: CGFloat = 4.5
             static let staticSprite: CGFloat = 5.0
             static let sprite: CGFloat = 6.0
+            static let cityName: CGFloat = 8.0
             static let labels: CGFloat = 50.0
         }
 
@@ -445,14 +446,22 @@ class GameScene: SKScene {
 
         self.mapNode?.moveSelectedUnit(to: hex)
 
-        /*if hex == self.lastFocusPoint {
+        if hex == self.lastFocusPoint {
 
-            if let selectedUnit = self.mapNode?.gameObjectManager.selected {
+            if let selectedVillage = self.mapNode?.gameObjectManager.selected as? Village {
+                
+                let newSize = VillageSize.all.randomItem()
+                let newWalls = Bool.random()
+                
+                selectedVillage.size = newSize
+                selectedVillage.walls = newWalls
+            }
+            /*if let selectedUnit = self.mapNode?.gameObjectManager.selected {
                 if selectedUnit.position == hex {
                     self.gameDelegate?.select(object: selectedUnit)
                 }
-            }
-        }*/
+            }*/
+        }
 
         self.lastFocusPoint = hex
     }
