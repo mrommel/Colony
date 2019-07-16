@@ -10,14 +10,14 @@ import Foundation
 
 enum MonsterGameConditionType: GameConditionType {
     
-    case villageReached
+    case cityReached
     case monsterCaughtShip
     
     var summary: String {
         switch self {
             
-        case .villageReached:
-            return "You have reached the village."
+        case .cityReached:
+            return "You have reached the city."
         case .monsterCaughtShip:
             return "Oh. The Monster caught you."
         }
@@ -46,7 +46,7 @@ class MonsterCheck: GameConditionCheck {
         if let position0 = playerUnits[0]?.position, let position1 = playerUnits[1]?.position {
             
             if position0.distance(to: position1) == 1 {
-                return MonsterGameConditionType.villageReached
+                return MonsterGameConditionType.cityReached
             }
         }
         

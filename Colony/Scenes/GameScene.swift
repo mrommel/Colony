@@ -448,13 +448,13 @@ class GameScene: SKScene {
 
         if hex == self.lastFocusPoint {
 
-            if let selectedVillage = self.mapNode?.gameObjectManager.selected as? Village {
+            if let selectedCity = self.mapNode?.gameObjectManager.selected as? CityObject {
                 
-                let newSize = VillageSize.all.randomItem()
+                let newSize = CitySize.all.randomItem()
                 let newWalls = Bool.random()
                 
-                selectedVillage.size = newSize
-                selectedVillage.walls = newWalls
+                selectedCity.size = newSize
+                selectedCity.walls = newWalls
             }
             /*if let selectedUnit = self.mapNode?.gameObjectManager.selected {
                 if selectedUnit.position == hex {

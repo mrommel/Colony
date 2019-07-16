@@ -15,6 +15,7 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     var rivers: [River] = []
     var fogManager: FogManager? = nil
+    var continents: [Continent] = []
     
     enum CodingKeys: String, CodingKey {
         case rivers
@@ -108,7 +109,7 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     func isWater(at point: HexPoint) -> Bool {
         if let tile = self.tile(at: point) {
-            return tile.water
+            return tile.isWater
         }
         
         return false
@@ -123,7 +124,7 @@ class HexagonTileMap: HexagonMap<Tile> {
     func isCoast(at point: HexPoint) -> Bool {
         
         if let tile = self.tile(at: point) {
-            if !tile.water {
+            if !tile.isWater {
                 return false
             }
         }
@@ -131,7 +132,7 @@ class HexagonTileMap: HexagonMap<Tile> {
         for neighbor in point.neighbors() {
             if let neighborTile = self.tile(at: neighbor) {
                 
-                if neighborTile.ground {
+                if neighborTile.isGround {
                     return true
                 }
             }
@@ -145,8 +146,9 @@ class HexagonTileMap: HexagonMap<Tile> {
     }
     
     func coastTexture(at point: HexPoint) -> String? {
+        
         if let tile = self.tile(at: point) {
-            if !tile.water {
+            if !tile.isWater {
                 return nil
             }
         }
@@ -157,7 +159,7 @@ class HexagonTileMap: HexagonMap<Tile> {
             
             if let neighborTile = self.tile(at: neighbor) {
                 
-                if neighborTile.ground {
+                if neighborTile.isGround {
                     texture += ("-" + direction.short)
                 }
             }
@@ -354,32 +356,9 @@ class HexagonTileMap: HexagonMap<Tile> {
         return MoveTypePathfinderDataSource(map: self, moveType: moveType, ignoreSight: ignoreSight)
     }
     
-    /*var oceanPathfinderDataSource: PathfinderDataSource {
-        return OceanPathfinderDataSource(map: self)
+    func city(at point: HexPoint) -> City? {
+        
+        let tile = self.tile(at: point)
+        return tile?.city
     }
-    
-    var oceanPathfinderDataSourceIgnoreSight: PathfinderDataSource {
-        return OceanPathfinderDataSourceIgnoreSight(map: self)
-    }*/
 }
-
-/*extension HexagonTileMap: PathfinderDataSource {
-    
-    func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
-        
-        var walkableCoords = [HexPoint]()
-        
-        for direction in HexDirection.all {
-            let neighbor = coord.neighbor(in: direction)
-            if self.valid(point: neighbor) /*&& self.tile(at: neighbor)?.terrain == .grass*/ {
-                walkableCoords.append(neighbor)
-            }
-        }
-        
-        return walkableCoords
-    }
-    
-    func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Float {
-        return 1.0
-    }
-}*/

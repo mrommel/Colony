@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class Ship: GameObject {
+class ShipObject: GameObject {
     
     init(with identifier: String, at point: HexPoint, tribe: GameObjectTribe) {
         super.init(with: identifier, type: .ship, at: point, spriteName: "ship060", tribe: tribe, sight: 2)

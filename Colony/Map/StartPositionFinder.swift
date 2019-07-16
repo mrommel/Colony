@@ -12,7 +12,7 @@ struct StartPositions: Codable {
     
     let monsterPosition: HexPoint
     let playerPosition: HexPoint
-    let villagePosition: HexPoint
+    let cityPositions: [HexPoint]
 }
 
 class StartPositionFinder {
@@ -31,7 +31,7 @@ class StartPositionFinder {
         
         let maximalDistance = HexPoint(x: 0, y: 0).distance(to: HexPoint(x: map.width - 1, y: map.height - 1))
         var optimalDistance = maximalDistance * 3 / 4
-        let possiblePoints: [HexPoint] = map.filter(where: { $0?.water ?? false}).map({ $0?.point ?? HexPoint.zero })
+        let possiblePoints: [HexPoint] = map.filter(where: { $0?.isWater ?? false}).map({ $0?.point ?? HexPoint.zero })
         
         var randomItem: HexPoint
         var trial: [HexPoint]
@@ -44,18 +44,16 @@ class StartPositionFinder {
             optimalDistance = optimalDistance - 1 // reduce distance each time we fail
         } while trial.count == 0
         
-        // find next non water tile next to monster
-        var villagePosition: HexPoint
-        var circleSize: Int = 2
-        var areaToCheck: [HexPoint]
+        let fertilityEvaluator = CitySiteEvaluator(map: self.map)
+        let finder = RegionFinder(map: self.map, evaluator: fertilityEvaluator)
+        let regions = finder.divideInto(regions: 5)
         
-        repeat {
-            areaToCheck = randomItem.areaWith(radius: circleSize).points.filter { map.valid(point: $0) && !map.isWater(at: $0) }
-            circleSize = circleSize + 1
-        } while areaToCheck.count == 0
+        var startPositions: [HexPoint] = []
+        for region in regions {
+            let startPosition = finder.findStartPosition(in: region)
+            startPositions.append(startPosition)
+        }
         
-        villagePosition = areaToCheck.randomItem()
-            
-        return StartPositions(monsterPosition: randomItem, playerPosition: trial.randomItem(), villagePosition: villagePosition)
+        return StartPositions(monsterPosition: randomItem, playerPosition: trial.randomItem(), cityPositions: startPositions)
     }
 }

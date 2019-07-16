@@ -98,13 +98,9 @@ class Level: Decodable  {
         self.startPositions = startPositions
         self.gameObjectManager = gameObjectManager
         
-        let ship = Ship(with: "ship", at: startPositions.playerPosition, tribe: .player)
+        let ship = ShipObject(with: "ship", at: startPositions.playerPosition, tribe: .player)
         self.gameObjectManager.add(object: ship)
         ship.idle()
-        
-        let axeman = Axeman(with: "axeman", at: startPositions.villagePosition.neighbors().randomItem(), tribe: .player)
-        self.gameObjectManager.add(object: axeman)
-        axeman.idle()
         
         let monster = Monster(with: "monster", at: startPositions.monsterPosition)
         self.gameObjectManager.add(object: monster)
@@ -114,9 +110,22 @@ class Level: Decodable  {
         self.gameObjectManager.add(object: pirates)
         pirates.idle()
         
-        let village = Village(with: "village", at: startPositions.villagePosition, tribe: .player)
-        self.gameObjectManager.add(object: village)
-        village.idle()
+        for (index, startPosition) in startPositions.cityPositions.enumerated() {
+        
+            if index == 0 {
+                let city = CityObject(with: "city", at: startPosition, tribe: .player)
+                self.gameObjectManager.add(object: city)
+                city.idle()
+            
+                let axeman = Axeman(with: "axeman", at: startPosition.neighbors().randomItem(), tribe: .player)
+                self.gameObjectManager.add(object: axeman)
+                axeman.idle()
+            } else {
+                let city = CityObject(with: "city-\(index)", at: startPosition, tribe: .neutral)
+                self.gameObjectManager.add(object: city)
+                city.idle()
+            }
+        }
         
         // decorations / obstacles
         

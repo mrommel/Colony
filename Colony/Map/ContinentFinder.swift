@@ -101,23 +101,28 @@ class ContinentFinder {
 
 	func firstFreeIdentifier() -> Int {
 
-        // FIXME
-		/*var freeIdentifiers = BitArray(repeating: true, count: 256)
+		let freeIdentifiers = BitArray(count: 256)
+        
+        for i in 0..<256 {
+            freeIdentifiers.setValueOfBit(value: true, at: i)
+        }
 
 		for x in 0..<self.continentIdentifiers.columns {
 			for y in 0..<self.continentIdentifiers.rows {
 
 				if let continentIndex = self.continentIdentifiers[x, y] {
 					if continentIndex >= 0 && continentIndex < 256 {
-						freeIdentifiers[continentIndex] = false
+						freeIdentifiers.setValueOfBit(value: false, at: continentIndex)
 					}
 				}
 			}
 		}
 
-		if let firstIndex = freeIdentifiers.index(where: { $0 == true }) {
-			return firstIndex
-		}*/
+        for i in 0..<256 {
+            if freeIdentifiers.valueOfBit(at: i) == true {
+                return i
+            }
+        }
 
 		return ContinentConstants.kNoContinent
 	}

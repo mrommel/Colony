@@ -17,40 +17,57 @@ enum GameObjectTribe: String, Codable {
     
     case player
     case enemy
+    case neutral
     
     case reward
     case decoration
+    
+    var color: UIColor {
+        switch self {
+        case .player:
+            return .green
+        case .enemy:
+            return .red
+        case .neutral:
+            return .white
+        case .reward:
+            return .yellow
+        case .decoration:
+            return .gray
+        }
+    }
 }
 
 enum GameObjectType: String, Codable {
+    
     case ship
     case axeman
     
     case monster
-    case village
+    case city
     case coin
     case obstacle // tile cannot be accessed, can't be moved
     case pirates
     
     case animal
+    
+    var textureName: String {
+        
+        switch self {
+        case .ship:
+            return "unit_indicator_ship"
+        @unknown default:
+            return "unit_indicator_unknown"
+        }
+    }
 }
-
-/*struct MovementCosts {
-    let plain: Float
-    let grass: Float
-    let desert: Float
-    let tundra: Float
-    let snow: Float
-    let ocean: Float
-    let shore: Float
-}*/
 
 enum GameObjectMoveType {
     
     static let impassible: Float = -1.0
     
     /// possible values
-    case immobile // such as villages, coins etc
+    case immobile // such as cities, coins etc
     //case swimShore
     case swimOcean
     case walk
@@ -95,6 +112,7 @@ class GameObject: Decodable {
     private var pathSpriteBuffer: [SKSpriteNode] = []
     private var nameLabel: SKLabelNode?
     private var nameBackground: SKSpriteNode?
+    var unitIndicator: UnitIndicator?
     
     enum CodingKeys: String, CodingKey {
         case identifier
@@ -105,6 +123,7 @@ class GameObject: Decodable {
     }
     
     init(with identifier: String, type: GameObjectType, at point: HexPoint, spriteName: String, tribe: GameObjectTribe, sight: Int) {
+        
         self.identifier = identifier
         self.type = type
         self.position = point
@@ -117,9 +136,19 @@ class GameObject: Decodable {
         self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.50)
         
         self.sight = sight
+        
+        if self.tribe != .reward && self.tribe != .decoration {
+            self.unitIndicator = UnitIndicator(tribe: self.tribe, unitType: self.type)
+            self.unitIndicator?.anchorPoint = CGPoint(x: 0.0, y: 0.1)
+            self.sprite.zPosition = GameScene.Constants.ZLevels.sprite + 0.1
+            if let unitIndicator = self.unitIndicator {
+                self.sprite.addChild(unitIndicator)
+            }
+        }
     }
     
     required init(from decoder: Decoder) throws {
+        
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         self.identifier = try values.decode(String.self, forKey: .identifier)
@@ -129,40 +158,47 @@ class GameObject: Decodable {
         self.tribe = try values.decode(GameObjectTribe.self, forKey: .tribe)
         
         self.spriteName = ""
-        self.sprite = SKSpriteNode()
+        let emptyTexture = SKTexture()
+        self.sprite = SKSpriteNode(texture: emptyTexture, size: CGSize(width: 48, height: 48))
         self.sprite.position = HexMapDisplay.shared.toScreen(hex: self.position)
         self.sprite.zPosition = GameScene.Constants.ZLevels.sprite
         self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.50)
+        
+        self.unitIndicator = UnitIndicator(tribe: self.tribe, unitType: self.type)
+        self.unitIndicator?.anchorPoint = CGPoint(x: 0.0, y: 0.1)
+        self.sprite.zPosition = GameScene.Constants.ZLevels.sprite + 0.1
+        if let unitIndicator = self.unitIndicator {
+            self.sprite.addChild(unitIndicator)
+        }
         
         self.sight = 0
     }
     
     // MARK: methods
     
-    func show(name: String) {
+    func showCity(named name: String) {
     
         if self.nameLabel != nil {
             self.nameLabel?.removeFromParent()
             self.nameBackground?.removeFromParent()
         }
         
-        let texture = SKTexture(imageNamed: "header")
-        self.nameBackground = SKSpriteNode(texture: texture, color: .blue, size: CGSize(width: 35, height: 14))
-        self.nameBackground?.colorBlendFactor = 1.0
-        self.nameBackground?.position = HexMapDisplay.shared.toScreen(hex: self.position) + CGPoint(x: 24, y: 4)
+        let texture = SKTexture(imageNamed: "city_label_background")
+        self.nameBackground = SKSpriteNode(texture: texture, size: CGSize(width: 48, height: 48))
         self.nameBackground?.zPosition = GameScene.Constants.ZLevels.cityName - 0.1
+        self.nameBackground?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         if let nameBackground = self.nameBackground {
-            self.sprite.parent?.addChild(nameBackground)
+            self.sprite.addChild(nameBackground)
         }
         
         self.nameLabel = SKLabelNode(text: name)
-        self.nameLabel?.fontSize = 10
-        self.nameLabel?.position = HexMapDisplay.shared.toScreen(hex: self.position) + CGPoint(x: 24, y: 0)
+        self.nameLabel?.fontSize = 8
+        self.nameLabel?.position = CGPoint(x: 24, y: 0)
         self.nameLabel?.zPosition = GameScene.Constants.ZLevels.cityName
         self.nameLabel?.fontName = Formatters.Fonts.systemFontBoldFamilyname
         
         if let nameLabel = self.nameLabel {
-            self.sprite.parent?.addChild(nameLabel)
+            self.sprite.addChild(nameLabel)
         }
     }
     

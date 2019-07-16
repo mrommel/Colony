@@ -20,7 +20,7 @@ class Pirates: GameObject {
         self.atlasLeft = GameObjectAtlas(atlasName: "pirates", textures: ["pirate003", "pirate004", "pirate005"])
         self.atlasRight = GameObjectAtlas(atlasName: "pirates", textures: ["pirate006", "pirate007", "pirate008"])
         
-        self.sprite.anchorPoint = CGPoint(x: -0.3, y: -0.1)
+        self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         
         self.canMoveByUserInput = false
         self.movementType = .swimOcean
@@ -39,7 +39,7 @@ class Pirates: GameObject {
             }
             
             // find neighbor water tile
-            let waterNeighbors = self.position.neighbors().filter({ map.tile(at: $0)?.water ?? false })
+            let waterNeighbors = self.position.neighbors().filter({ map.tile(at: $0)?.isWater ?? false })
             
             // FIXME: find tile that is towards the ship
             var bestWaterNeighbor = waterNeighbors.first!

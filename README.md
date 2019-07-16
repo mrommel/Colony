@@ -1,24 +1,22 @@
 # Colony
 
 ## Todo
-- collect wood with axemann
-- add flag to every unit
-- add trade ship as neutral (current priate ship)
-- pirate ship with pirate flag indicator
-- add beach-se-sw-nw texture
+- unit with type flag indicator and tribe (also neutral)
 - add city screen
 - show collected coins in win dialog
 - add global player score
-- add new player input
-- add player switcher in options (logout)
+- add new player input / add player switcher in options (logout)
 - pirates gets 20 coins from you
-- fight against pirates
+- fight between units (pirates)
 - release scout for exploration
 - booster: wind, telescope - more sight, canon, yields, more time (clock), magnet (collect coins in area) - incl 'shop' and detail screen - find them on the map
-- make start position finder more generic - place more cities
-- neutral cities
 - shark: up+down copied from left+right
 - click on mini map should focus
+- move unit on longclick
+
+## Maybe
+- collect wood with axemann
+- add beach-se-sw-nw texture
 
 ## Bugs
 - [Defect] axeman can walk on the water
@@ -28,6 +26,8 @@
 - [Defect] Coins in level 1&2
 
 ## Done
+- make start position finder more generic - place more cities
+- neutral cities
 - make new city icons with city name
 - [Defect] shark right animation wrong order  
 - monster lives in ocean and avoids shore

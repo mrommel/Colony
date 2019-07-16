@@ -7028,10 +7028,10 @@
       "x": 21, 
       "y": 11
     }, 
-    "villagePosition": {
+"cityPositions": [ {
       "x": 3, 
       "y": 3
-    }
+    }]
   }, 
   "summary": "Discover the ocean (you need to reveal 50 tiles in 30 seconds).", 
   "title": "Level 2"

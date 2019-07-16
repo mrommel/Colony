@@ -9,6 +9,11 @@
 import Foundation
 import UIKit
 
+struct Yields {
+    
+    let food: Int
+}
+
 enum Terrain: String, Codable {
 
 	case plain
@@ -139,5 +144,32 @@ enum Terrain: String, Codable {
             
             return GameObjectMoveType.impassible
         }
+    }
+
+    var yields: Yields {
+        
+        switch self {
+        case .grass:
+            return Yields(food: 2)
+        case .plain:
+            return Yields(food: 2)
+        case .desert:
+            return Yields(food: 0)
+        case .tundra:
+            return Yields(food: 1)
+        case .snow:
+            return Yields(food: 0)
+        case .ocean:
+            return Yields(food: 1)
+        case .shore:
+            return Yields(food: 1)
+            
+        // only used during map generation
+        case .water:
+            return Yields(food: 0)
+        case .ground:
+            return Yields(food: 0)
+        }
+        
     }
 }

@@ -18,6 +18,8 @@ class Tile: Decodable {
     var features: [Feature]
     var featureSprites: [SKSpriteNode] = []
     
+    var city: City? = nil
+    
     var continent: Continent?
     
     var riverName: String? = nil
@@ -116,12 +118,12 @@ extension Tile: Encodable {
 
 extension Tile {
     
-    var water: Bool {
+    var isWater: Bool {
         return self.terrain == .ocean || self.terrain == .shore
     }
     
-    var ground: Bool {
-        return !self.water
+    var isGround: Bool {
+        return !self.isWater
     }
 }
 

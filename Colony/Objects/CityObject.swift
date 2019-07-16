@@ -1,5 +1,5 @@
 //
-//  Village.swift
+//  CityObject.swift
 //  Colony
 //
 //  Created by Michael Rommel on 07.06.19.
@@ -8,13 +8,13 @@
 
 import SpriteKit
 
-enum VillageSize {
+enum CitySize {
     
     case small
     case medium
     case large
     
-    static let all: [VillageSize] = [.small, .medium, .large]
+    static let all: [CitySize] = [.small, .medium, .large]
     
     var textureName: String {
         
@@ -30,10 +30,10 @@ enum VillageSize {
     }
 }
 
-class Village: GameObject {
+class CityObject: GameObject {
     
     var name: String = "City"
-    var size: VillageSize = .small {
+    var size: CitySize = .small {
         didSet {
             self.updateAssets()
         }
@@ -46,9 +46,9 @@ class Village: GameObject {
     
     init(with identifier: String, at point: HexPoint, tribe: GameObjectTribe) {
         
-        super.init(with: identifier, type: .village, at: point, spriteName: "city_1_no_walls", tribe: tribe, sight: 2)
+        super.init(with: identifier, type: .city, at: point, spriteName: "city_1_no_walls", tribe: tribe, sight: 2)
         
-        self.atlasIdle = GameObjectAtlas(atlasName: "village", textures: ["city_1_no_walls"])
+        self.atlasIdle = GameObjectAtlas(atlasName: "city", textures: ["city_1_no_walls"])
         
         self.atlasDown = nil
         self.atlasUp = nil
@@ -58,10 +58,14 @@ class Village: GameObject {
         self.sprite.anchorPoint = CGPoint(x: -0.0, y: -0.0)
         
         self.movementType = .immobile
+        
+        self.showCity(named: self.name)
     }
     
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
+        
+        self.showCity(named: self.name)
     }
     
     // MARK: methods
@@ -70,11 +74,11 @@ class Village: GameObject {
         
         let textureName = self.size.textureName + (self.walls ? "_walls" : "_no_walls")
         
-        self.atlasIdle = GameObjectAtlas(atlasName: "village", textures: [textureName])
+        self.atlasIdle = GameObjectAtlas(atlasName: "city", textures: [textureName])
         self.idle()
     }
     
     override func update(in game: Game?) {
-        self.show(name: self.name)
+        
     }
 }

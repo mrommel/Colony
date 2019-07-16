@@ -27,8 +27,8 @@
         "tribe": "player"
       }, 
       {
-        "identifier": "village",
-        "type": "village",
+        "identifier": "city",
+        "type": "city",
         "position": {
           "x": 21, 
           "y": 11
@@ -6516,10 +6516,10 @@
       "x": 20, 
       "y": 19
     }, 
-    "villagePosition": {
+    "cityPositions": [{
       "x": 0, 
       "y": 4
-    }
+    }]
   }, 
   "summary": "Find the harbor and avoid the Monster.", 
   "title": "Level 1"

@@ -71,7 +71,7 @@ class GameObjectManager: Codable {
                 switch type {
                 
                 case .ship:
-                    self.objects.append(Ship(with: identifier, at: position, tribe: tribe))
+                    self.objects.append(ShipObject(with: identifier, at: position, tribe: tribe))
                     break
                 case .axeman:
                     self.objects.append(Axeman(with: identifier, at: position, tribe: tribe))
@@ -80,8 +80,8 @@ class GameObjectManager: Codable {
                 case .monster:
                     self.objects.append(Monster(with: identifier, at: position))
                     break
-                case .village:
-                    self.objects.append(Village(with: identifier, at: position, tribe: tribe))
+                case .city:
+                    self.objects.append(CityObject(with: identifier, at: position, tribe: tribe))
                     break
                 case .coin:
                     self.objects.append(Coin(at: position))
@@ -180,6 +180,11 @@ class GameObjectManager: Codable {
         return self.objects.filter { $0?.tribe == tribe }
     }
     
+    func unitsOf(tribes: [GameObjectTribe]) -> [GameObject?] {
+        
+        return self.objects.filter { tribes.contains($0!.tribe) }
+    }
+    
     func checkGameConditions() {
         
         self.gameObservationDelegate?.updated()
@@ -223,47 +228,34 @@ extension GameObjectManager: GameObjectDelegate {
             // update fog for own units
             fogManager.update()
 
-            for enemyUnit in self.unitsOf(tribe: .enemy) {
-
-                if let position = enemyUnit?.position {
-
-                    // show/hide enemies based on fog
-                    let fogAtEnemy = fogManager.fog(at: position)
-                    if fogAtEnemy == .sighted {
-                        enemyUnit?.sprite.alpha = self.alphaVisible
-                    } else {
-                        enemyUnit?.sprite.alpha = self.alphaInvisible
-                    }
-                }
-            }
-            
-            for rewardUnit in self.unitsOf(tribe: .reward) {
+            // everyone except player
+            for unit in self.unitsOf(tribes: [.enemy, .neutral, .reward, .decoration]) {
                 
-                if let position = rewardUnit?.position {
+                if let position = unit?.position, let tribe = unit?.tribe {
                     
-                    if position == object.position {
+                    if position == object.position && tribe == .reward {
                         
                         // consume reward
                         self.gameObservationDelegate?.coinConsumed()
                         
                         self.gameObjectUnitDelegates |> { delegate in
-                            delegate.removed(gameObject: rewardUnit)
+                            delegate.removed(gameObject: unit)
                         }
-                        self.remove(object: rewardUnit)
+                        self.remove(object: unit)
                         continue
                     }
                     
-                    // show/hide rewards based on fog
-                    let fogAtReward = fogManager.fog(at: position)
-                    if fogAtReward == .sighted {
-                        rewardUnit?.sprite.alpha = self.alphaVisible
+                    // show/hide enemies based on fog
+                    let fogAtEnemy = fogManager.fog(at: position)
+                    if fogAtEnemy == .sighted {
+                        unit?.sprite.alpha = self.alphaVisible
                     } else {
-                        rewardUnit?.sprite.alpha = self.alphaInvisible
+                        unit?.sprite.alpha = self.alphaInvisible
                     }
                 }
             }
-            
-        } else if object.tribe == .enemy || object.tribe == .reward {
+
+        } else if object.tribe == .enemy || object.tribe == .reward || object.tribe == .neutral {
 
             let fogAtEnemy = fogManager.fog(at: object.position)
             if fogAtEnemy == .sighted {

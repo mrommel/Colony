@@ -547,6 +547,8 @@ class MapGenerator {
         }
         
         let finder = ContinentFinder(width: grid.width, height: grid.height)
-        finder.execute(on: grid)
+        let continents = finder.execute(on: grid)
+        
+        grid.continents = continents
     }
 }
