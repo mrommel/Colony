@@ -48,7 +48,7 @@ class Shark: GameObject {
             let bestWaterNeighbor = waterNeighbors.randomItem()
             
             let pathFinder = AStarPathfinder()
-            pathFinder.dataSource =  map.pathfinderDataSource(with: self.movementType, ignoreSight: true)
+            pathFinder.dataSource =  map.pathfinderDataSource(with: game?.level?.gameObjectManager, movementType: self.movementType, ignoreSight: true)
             
             if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
                 self.walk(on: path)

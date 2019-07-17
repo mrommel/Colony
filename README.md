@@ -14,7 +14,6 @@
 - move unit on longclick
 - rough terrain + mountain => terrain and not feature
 - limit sight thru mountains
-- obstacle tiles should not be accessed
 - riffs as obstacles
 
 ## Maybe
@@ -22,13 +21,14 @@
 - add beach-se-sw-nw texture
 
 ## Bugs
-- [Defect] axeman can walk on the water
+- [Defect] axeman can walk on the water - cannot reproduce
 - [Defect] dialogs have wrong display levels
 - [Defect] dialogs not centered in landscape mode
 - [Defect] river should end at first ocean
 - [Defect] Coins in level 1&2
 
 ## Done
+- obstacle tiles should not be accessed
 - unit with type flag indicator and tribe (also neutral)
 - place sharks randomly
 - make start position finder more generic - place more cities

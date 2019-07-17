@@ -441,13 +441,14 @@ class GameScene: SKScene {
 
     func moveFocus(to hex: HexPoint) {
 
-        print("move to \(hex)")
+        //print("move to \(hex)")
         self.focus?.position = HexMapDisplay.shared.toScreen(hex: hex)
 
         self.mapNode?.moveSelectedUnit(to: hex)
 
         if hex == self.lastFocusPoint {
 
+            // debug
             if let selectedCity = self.mapNode?.gameObjectManager.selected as? CityObject {
                 
                 let newSize = CitySize.all.randomItem()

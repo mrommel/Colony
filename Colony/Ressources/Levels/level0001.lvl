@@ -13,7 +13,7 @@
           "y": 13
         }, 
         "sight": 1,
-        "state": "walking", 
+        "state": "moving", 
         "tribe": "enemy"
       }, 
       {

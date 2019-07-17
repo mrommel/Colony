@@ -182,6 +182,25 @@ class GameObjectManager: Codable {
         return self.objects.filter { tribes.contains($0!.tribe) }
     }
     
+    func units(at position: HexPoint) -> [GameObject?] {
+    
+        return self.objects.filter { $0?.position == position }
+    }
+    
+    func obstacle(at position: HexPoint) -> Bool {
+        
+        let unitsAtPosition = self.units(at: position)
+        
+        for unit in unitsAtPosition {
+            
+            if unit?.type == .obstacle {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     func checkGameConditions() {
         
         self.gameObservationDelegate?.updated()

@@ -72,7 +72,7 @@
 		C97E96D322A073A500D594F3 /* GameObjectAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D222A073A500D594F3 /* GameObjectAtlas.swift */; };
 		C97E96D522A073E900D594F3 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D422A073E900D594F3 /* GameObject.swift */; };
 		C97E96D722A1C21600D594F3 /* ShipObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D622A1C21600D594F3 /* ShipObject.swift */; };
-		C97E96DA22A1CB7B00D594F3 /* OceanPathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D922A1CB7B00D594F3 /* OceanPathfinderDataSource.swift */; };
+		C97E96DA22A1CB7B00D594F3 /* MoveTypePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D922A1CB7B00D594F3 /* MoveTypePathfinderDataSource.swift */; };
 		C984CCD422CD4D3C0033F2BB /* SettingsButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984CCD322CD4D3C0033F2BB /* SettingsButtonNode.swift */; };
 		C992ABEB22A32042001C5E7C /* NineGridTextureSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */; };
 		C9A32B4822B29F3100AFC70D /* level0001.lvl in Resources */ = {isa = PBXBuildFile; fileRef = C9A32B4722B29F3100AFC70D /* level0001.lvl */; };
@@ -198,7 +198,7 @@
 		C97E96D222A073A500D594F3 /* GameObjectAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObjectAtlas.swift; sourceTree = "<group>"; };
 		C97E96D422A073E900D594F3 /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		C97E96D622A1C21600D594F3 /* ShipObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipObject.swift; sourceTree = "<group>"; };
-		C97E96D922A1CB7B00D594F3 /* OceanPathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OceanPathfinderDataSource.swift; sourceTree = "<group>"; };
+		C97E96D922A1CB7B00D594F3 /* MoveTypePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveTypePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C984CCD322CD4D3C0033F2BB /* SettingsButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButtonNode.swift; sourceTree = "<group>"; };
 		C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineGridTextureSprite.swift; sourceTree = "<group>"; };
 		C9A32B4722B29F3100AFC70D /* level0001.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0001.lvl; sourceTree = "<group>"; };
@@ -440,7 +440,7 @@
 			isa = PBXGroup;
 			children = (
 				C9C7F10B229EBE3100A775B2 /* AStarPathFinder.swift */,
-				C97E96D922A1CB7B00D594F3 /* OceanPathfinderDataSource.swift */,
+				C97E96D922A1CB7B00D594F3 /* MoveTypePathfinderDataSource.swift */,
 			);
 			path = PathFinding;
 			sourceTree = "<group>";
@@ -810,7 +810,7 @@
 				C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */,
 				C972CCC022AAA4AE008DB8CB /* CityObject.swift in Sources */,
 				C9C7F106229EBDE700A775B2 /* River.swift in Sources */,
-				C97E96DA22A1CB7B00D594F3 /* OceanPathfinderDataSource.swift in Sources */,
+				C97E96DA22A1CB7B00D594F3 /* MoveTypePathfinderDataSource.swift in Sources */,
 				C900654622AFA21D0004C963 /* UI.swift in Sources */,
 				C92D875822CB73B400E7A55E /* UserDao.swift in Sources */,
 				C9C7F102229EBD9500A775B2 /* Terrain.swift in Sources */,

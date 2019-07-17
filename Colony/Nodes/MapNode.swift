@@ -101,7 +101,7 @@ class MapNode: SKNode {
             if self.map?.valid(point: hex) ?? false {
                 let pathFinder = AStarPathfinder()
                 
-                pathFinder.dataSource = map?.pathfinderDataSource(with: selectedUnit.movementType, ignoreSight: false)
+                pathFinder.dataSource = map?.pathfinderDataSource(with: self.gameObjectManager, movementType: selectedUnit.movementType, ignoreSight: false)
                 
                 if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.position, toTileCoord: hex) {
                     selectedUnit.walk(on: path)

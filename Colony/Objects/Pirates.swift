@@ -38,6 +38,10 @@ class Pirates: GameObject {
                 return
             }
             
+            guard let gameObjectManager = game?.level?.gameObjectManager else {
+                return
+            }
+            
             // find neighbor water tile
             let waterNeighbors = self.position.neighbors().filter({ map.tile(at: $0)?.isWater ?? false })
             
@@ -57,7 +61,7 @@ class Pirates: GameObject {
             }
 
             let pathFinder = AStarPathfinder()
-            pathFinder.dataSource =  map.pathfinderDataSource(with: self.movementType, ignoreSight: true)
+            pathFinder.dataSource =  map.pathfinderDataSource(with: gameObjectManager, movementType: self.movementType, ignoreSight: true)
             
             if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
                 self.walk(on: path)

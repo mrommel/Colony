@@ -10,13 +10,15 @@ import Foundation
 
 class MoveTypePathfinderDataSource: PathfinderDataSource {
     
-    let map: HexagonTileMap
-    let moveType: GameObjectMoveType
+    let map: HexagonTileMap?
+    let gameObjectManager: GameObjectManager?
+    let movementType: GameObjectMoveType
     let ignoreSight: Bool
 
-    init(map: HexagonTileMap, moveType: GameObjectMoveType, ignoreSight: Bool) {
+    init(map: HexagonTileMap?, gameObjectManager: GameObjectManager?, movementType: GameObjectMoveType, ignoreSight: Bool) {
         self.map = map
-        self.moveType = moveType
+        self.gameObjectManager = gameObjectManager
+        self.movementType = movementType
         self.ignoreSight = ignoreSight
     }
     
@@ -26,21 +28,27 @@ class MoveTypePathfinderDataSource: PathfinderDataSource {
         
         for direction in HexDirection.all {
             let neighbor = coord.neighbor(in: direction)
-            if map.valid(point: neighbor) {
+            if map?.valid(point: neighbor) ?? false {
                 
-                let fogState = map.fogManager?.fog(at: neighbor)
+                // are there obstacles
+                if self.gameObjectManager?.obstacle(at: neighbor) ?? false {
+                    continue
+                }
                 
                 // use sight?
                 if !self.ignoreSight {
+                    
+                    let fogState = map?.fogManager?.fog(at: neighbor)
+                    
                     // skip if not in sight or discovered
                     if fogState != .discovered && fogState != .sighted {
                         continue
                     }
                 }
                 
-                if let fromTile = self.map.tile(at: coord), let toTile = self.map.tile(at: neighbor) {
+                if let fromTile = self.map?.tile(at: coord), let toTile = self.map?.tile(at: neighbor) {
                 
-                    if toTile.movementCost(for: self.moveType, from: fromTile) > GameObjectMoveType.impassible {
+                    if toTile.movementCost(for: self.movementType, from: fromTile) > GameObjectMoveType.impassible {
                         walkableCoords.append(neighbor)
                     }
                 }
@@ -52,8 +60,8 @@ class MoveTypePathfinderDataSource: PathfinderDataSource {
     
     func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Float {
         
-        if let toTile = self.map.tile(at: toTileCoord), let fromTile = self.map.tile(at: fromTileCoord) {
-            return toTile.movementCost(for: self.moveType, from: fromTile)
+        if let toTile = self.map?.tile(at: toTileCoord), let fromTile = self.map?.tile(at: fromTileCoord) {
+            return toTile.movementCost(for: self.movementType, from: fromTile)
         }
         
         return GameObjectMoveType.impassible

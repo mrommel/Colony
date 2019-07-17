@@ -10,7 +10,7 @@ import SpriteKit
 
 enum GameObjectState: String, Codable {
     case idle
-    case walking
+    case moving
 }
 
 enum GameObjectTribe: String, Codable {
@@ -56,6 +56,8 @@ enum GameObjectType: String, Codable {
         switch self {
         case .ship:
             return "unit_indicator_ship"
+        case .axeman:
+            return "unit_indicator_axeman"
         @unknown default:
             return "unit_indicator_unknown"
         }
@@ -340,7 +342,7 @@ class GameObject: Decodable {
         }
         
         self.sprite.removeAction(forKey: idleActionKey)
-        self.state = .walking
+        self.state = .moving
         
         if self.tribe == .player {
             self.show(path: HexPath(point: self.position, path: path))
