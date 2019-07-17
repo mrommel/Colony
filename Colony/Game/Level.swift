@@ -127,21 +127,29 @@ class Level: Decodable  {
             }
         }
         
-        // decorations / obstacles
+        let oceanTiles = map.oceanTiles
         
-        let shipWreck = ShipWreck(at: startPositions.playerPosition.neighbors().randomItem())
-        self.gameObjectManager.add(object: shipWreck)
-        shipWreck.idle()
+        // special decorations / obstacles
+        let shipWreckTile = oceanTiles.randomItem()
+        if let point = shipWreckTile?.point {
+            let shipWreck = ShipWreck(at: point)
+            self.gameObjectManager.add(object: shipWreck)
+            shipWreck.idle()
+        }
+        
+        // riffs
         
         // animals
-        
         for _ in 0..<5 {
-            let shark = Shark(at: startPositions.playerPosition.neighbors().randomItem())
-            self.gameObjectManager.add(object: shark)
-            shark.idle()
+            let oceanTile = oceanTiles.randomItem()
+            
+            if let point = oceanTile?.point {
+                let shark = Shark(at: point)
+                self.gameObjectManager.add(object: shark)
+                shark.idle()
+            }
         }
 
-        let oceanTiles = map.oceanTiles
         for _ in 0..<64 {
             let oceanTile = oceanTiles.randomItem()
             

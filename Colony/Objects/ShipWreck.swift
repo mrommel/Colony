@@ -17,7 +17,7 @@ class ShipWreck: GameObject {
         let identifier = UUID()
         let identifierString = "shipwreck-\(identifier.uuidString)"
         
-        super.init(with: identifierString, type: .obstacle, at: point, spriteName: "shipwreck01", tribe: .decoration, sight: 1)
+        super.init(with: identifierString, type: .obstacle, at: point, spriteName: "shipwreck01", anchorPoint: CGPoint(x: -0.0, y: -0.0), tribe: .decoration, sight: 1)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "shipwreck", textures: ["shipwreck01", "shipwreck01", "shipwreck01"])
         
@@ -25,8 +25,6 @@ class ShipWreck: GameObject {
         self.atlasUp = nil
         self.atlasLeft = nil
         self.atlasRight = nil
-        
-        self.sprite.anchorPoint = CGPoint(x: -0.0, y: -0.0)
         
         self.canMoveByUserInput = false
         self.movementType = .immobile

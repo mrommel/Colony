@@ -78,6 +78,8 @@ enum GameObjectMoveType {
 class GameObject: Decodable {
     
     let idleActionKey: String = "idleActionKey"
+    static let alphaVisible: CGFloat = 1.0
+    static let alphaInvisible: CGFloat = 0.0
     
     let identifier: String
     let type: GameObjectType
@@ -94,7 +96,6 @@ class GameObject: Decodable {
     var movementType: GameObjectMoveType = .immobile
     
     var spriteName: String
-    var sprite: SKSpriteNode
     
     var atlasIdle: GameObjectAtlas?
     var atlasDown: GameObjectAtlas?
@@ -108,11 +109,13 @@ class GameObject: Decodable {
     var animationSpeed = 2.0
     
     let sight: Int
-    
+
+    // internal UI elements
+    private var sprite: SKSpriteNode
     private var pathSpriteBuffer: [SKSpriteNode] = []
     private var nameLabel: SKLabelNode?
     private var nameBackground: SKSpriteNode?
-    var unitIndicator: UnitIndicator?
+    private var unitIndicator: UnitIndicator?
     
     enum CodingKeys: String, CodingKey {
         case identifier
@@ -122,7 +125,7 @@ class GameObject: Decodable {
         case tribe
     }
     
-    init(with identifier: String, type: GameObjectType, at point: HexPoint, spriteName: String, tribe: GameObjectTribe, sight: Int) {
+    init(with identifier: String, type: GameObjectType, at point: HexPoint, spriteName: String, anchorPoint: CGPoint, tribe: GameObjectTribe, sight: Int) {
         
         self.identifier = identifier
         self.type = type
@@ -133,18 +136,9 @@ class GameObject: Decodable {
         self.sprite = SKSpriteNode(imageNamed: spriteName)
         self.sprite.position = HexMapDisplay.shared.toScreen(hex: self.position)
         self.sprite.zPosition = GameScene.Constants.ZLevels.sprite
-        self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.50)
+        self.sprite.anchorPoint = anchorPoint
         
         self.sight = sight
-        
-        if self.tribe != .reward && self.tribe != .decoration {
-            self.unitIndicator = UnitIndicator(tribe: self.tribe, unitType: self.type)
-            self.unitIndicator?.anchorPoint = CGPoint(x: 0.0, y: 0.1)
-            self.sprite.zPosition = GameScene.Constants.ZLevels.sprite + 0.1
-            if let unitIndicator = self.unitIndicator {
-                self.sprite.addChild(unitIndicator)
-            }
-        }
     }
     
     required init(from decoder: Decoder) throws {
@@ -164,17 +158,50 @@ class GameObject: Decodable {
         self.sprite.zPosition = GameScene.Constants.ZLevels.sprite
         self.sprite.anchorPoint = CGPoint(x: -0.25, y: -0.50)
         
+        self.sight = 0
+    }
+    
+    // MARK: methods
+    
+    func show() {
+        
+        self.sprite.alpha = GameObject.alphaVisible
+    }
+    
+    func hide() {
+        
+        self.sprite.alpha = GameObject.alphaInvisible
+    }
+    
+    func addTo(node parent: SKNode) {
+        
+        parent.addChild(self.sprite)
+    }
+    
+    func removeFromParent() {
+        
+        self.sprite.removeFromParent()
+    }
+    
+    /// used to change the zPosition - default is GameScene.Constants.ZLevels.sprite
+    func set(zPosition: CGFloat) {
+        
+        self.sprite.zPosition = zPosition
+    }
+    
+    func showUnitIndicator() {
+        
+        if self.unitIndicator != nil {
+            self.unitIndicator?.removeFromParent()
+        }
+        
         self.unitIndicator = UnitIndicator(tribe: self.tribe, unitType: self.type)
         self.unitIndicator?.anchorPoint = CGPoint(x: 0.0, y: 0.1)
         self.sprite.zPosition = GameScene.Constants.ZLevels.sprite + 0.1
         if let unitIndicator = self.unitIndicator {
             self.sprite.addChild(unitIndicator)
         }
-        
-        self.sight = 0
     }
-    
-    // MARK: methods
     
     func showCity(named name: String) {
     

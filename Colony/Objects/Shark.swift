@@ -15,7 +15,7 @@ class Shark: GameObject {
         let identifier = UUID()
         let identifierString = "shark-\(identifier.uuidString)"
         
-        super.init(with: identifierString, type: .animal, at: point, spriteName: "shark-down-0", tribe: .decoration, sight: 1)
+        super.init(with: identifierString, type: .animal, at: point, spriteName: "shark-down-0", anchorPoint: CGPoint(x: 0.0, y: 0.0), tribe: .decoration, sight: 1)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "shark", textures: ["shark-left-0", "shark-left-1", "shark-left-2", "shark-left-3", "shark-left-4", "shark-left-5", "shark-left-6", "shark-left-7", "shark-left-8", "shark-left-9"])
         
@@ -23,9 +23,8 @@ class Shark: GameObject {
         self.atlasUp = GameObjectAtlas(atlasName: "shark", textures: ["shark-up-0", "shark-up-1", "shark-up-2", "shark-up-3", "shark-up-4", "shark-up-5", "shark-up-6", "shark-up-7", "shark-up-8", "shark-up-9"])
         self.atlasLeft = GameObjectAtlas(atlasName: "shark", textures: ["shark-left-0", "shark-left-1", "shark-left-2", "shark-left-3", "shark-left-4", "shark-left-5", "shark-left-6", "shark-left-7", "shark-left-8", "shark-left-9"])
         self.atlasRight = GameObjectAtlas(atlasName: "shark", textures: ["shark-right-0", "shark-right-1", "shark-right-2", "shark-right-3", "shark-right-4", "shark-right-5", "shark-right-6", "shark-right-7", "shark-right-8", "shark-right-9"])
-        
-        self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        self.sprite.zPosition = GameScene.Constants.ZLevels.underwater
+
+        self.set(zPosition: GameScene.Constants.ZLevels.underwater)
         self.animationSpeed = 3.5
         
         self.canMoveByUserInput = false

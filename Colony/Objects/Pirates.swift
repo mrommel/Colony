@@ -11,7 +11,7 @@ import SpriteKit
 class Pirates: GameObject {
     
     init(with identifier: String, at point: HexPoint) {
-        super.init(with: identifier, type: .pirates, at: point, spriteName: "tile004", tribe: .enemy, sight: 2)
+        super.init(with: identifier, type: .pirates, at: point, spriteName: "pirate003", anchorPoint: CGPoint(x: 0.0, y: 0.0), tribe: .enemy, sight: 2)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "pirates", textures: ["pirate003", "pirate004", "pirate005"])
         
@@ -20,10 +20,10 @@ class Pirates: GameObject {
         self.atlasLeft = GameObjectAtlas(atlasName: "pirates", textures: ["pirate003", "pirate004", "pirate005"])
         self.atlasRight = GameObjectAtlas(atlasName: "pirates", textures: ["pirate006", "pirate007", "pirate008"])
         
-        self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        
         self.canMoveByUserInput = false
         self.movementType = .swimOcean
+        
+        self.showUnitIndicator()
     }
     
     required init(from decoder: Decoder) throws {

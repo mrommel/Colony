@@ -46,7 +46,7 @@ class CityObject: GameObject {
     
     init(with identifier: String, at point: HexPoint, tribe: GameObjectTribe) {
         
-        super.init(with: identifier, type: .city, at: point, spriteName: "city_1_no_walls", tribe: tribe, sight: 2)
+        super.init(with: identifier, type: .city, at: point, spriteName: "city_1_no_walls", anchorPoint: CGPoint(x: -0.0, y: -0.0), tribe: tribe, sight: 2)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "city", textures: ["city_1_no_walls"])
         
@@ -54,8 +54,6 @@ class CityObject: GameObject {
         self.atlasUp = nil
         self.atlasLeft = nil
         self.atlasRight = nil
-        
-        self.sprite.anchorPoint = CGPoint(x: -0.0, y: -0.0)
         
         self.movementType = .immobile
         

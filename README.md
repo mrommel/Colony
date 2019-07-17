@@ -1,7 +1,6 @@
 # Colony
 
 ## Todo
-- unit with type flag indicator and tribe (also neutral)
 - add city screen
 - show collected coins in win dialog
 - add global player score
@@ -13,6 +12,10 @@
 - shark: up+down copied from left+right
 - click on mini map should focus
 - move unit on longclick
+- rough terrain + mountain => terrain and not feature
+- limit sight thru mountains
+- obstacle tiles should not be accessed
+- riffs as obstacles
 
 ## Maybe
 - collect wood with axemann
@@ -26,6 +29,8 @@
 - [Defect] Coins in level 1&2
 
 ## Done
+- unit with type flag indicator and tribe (also neutral)
+- place sharks randomly
 - make start position finder more generic - place more cities
 - neutral cities
 - make new city icons with city name

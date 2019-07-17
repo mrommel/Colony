@@ -11,7 +11,7 @@ import SpriteKit
 class Monster: GameObject {
     
     init(with identifier: String, at point: HexPoint) {
-        super.init(with: identifier, type: .monster, at: point, spriteName: "tile004", tribe: .enemy, sight: 1)
+        super.init(with: identifier, type: .monster, at: point, spriteName: "tile004", anchorPoint: CGPoint(x: 0.0, y: 0.2), tribe: .enemy, sight: 1)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "monster", textures: ["tile004", "tile005", "tile006", "tile007"])
         
@@ -19,8 +19,6 @@ class Monster: GameObject {
         self.atlasUp = GameObjectAtlas(atlasName: "monster", textures: ["tile012", "tile013", "tile014", "tile015"])
         self.atlasLeft = GameObjectAtlas(atlasName: "monster", textures: ["tile004", "tile005", "tile006", "tile007"])
         self.atlasRight = GameObjectAtlas(atlasName: "monster", textures: ["tile008", "tile009", "tile010", "tile011"])
-        
-        self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.2)
         
         self.canMoveByUserInput = false
         self.movementType = .swimOcean

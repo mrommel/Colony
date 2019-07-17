@@ -412,7 +412,7 @@ class GameScene: SKScene {
 
             self.cameraNode.position.x -= deltaX * 0.7
             self.cameraNode.position.y -= deltaY * 0.7
-            print("camera pos moved: \(self.cameraNode.position)")
+            //print("camera pos moved: \(self.cameraNode.position)")
         }
     }
 

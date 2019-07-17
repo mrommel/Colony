@@ -27,9 +27,6 @@ protocol GameObservationDelegate {
 }
 
 class GameObjectManager: Codable {
-
-    let alphaVisible: CGFloat = 1.0
-    let alphaInvisible: CGFloat = 0.0 
     
     weak var map: HexagonTileMap?
     var objects: [GameObject?]
@@ -135,7 +132,7 @@ class GameObjectManager: Codable {
     func remove(object: GameObject?) {
         if let objectIndex = self.objects.firstIndex(where: { $0?.identifier == object?.identifier }) {
             self.objects.remove(at: objectIndex)
-            print("remove object")
+            object?.removeFromParent()
         }
     }
     
@@ -248,9 +245,9 @@ extension GameObjectManager: GameObjectDelegate {
                     // show/hide enemies based on fog
                     let fogAtEnemy = fogManager.fog(at: position)
                     if fogAtEnemy == .sighted {
-                        unit?.sprite.alpha = self.alphaVisible
+                        unit?.show()
                     } else {
-                        unit?.sprite.alpha = self.alphaInvisible
+                        unit?.hide()
                     }
                 }
             }
@@ -259,9 +256,9 @@ extension GameObjectManager: GameObjectDelegate {
 
             let fogAtEnemy = fogManager.fog(at: object.position)
             if fogAtEnemy == .sighted {
-                object.sprite.alpha = self.alphaVisible
+                object.show()
             } else {
-                object.sprite.alpha = self.alphaInvisible
+                object.hide()
             }
         }
 

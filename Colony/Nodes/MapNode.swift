@@ -53,7 +53,7 @@ class MapNode: SKNode {
 
         for unit in self.gameObjectManager.objects {
             if let unit = unit {
-                self.add(unit: unit)
+                unit.addTo(node: self)
                 unit.idle()
             }
         }
@@ -66,12 +66,6 @@ class MapNode: SKNode {
     }
     
     // MARK: methods
-    
-    func add(unit: GameObject) {
-        
-        self.addChild(unit.sprite)
-        //self.addChild(unit.unitIndicator)
-    }
     
     func showCross(at hex: HexPoint) {
         
@@ -129,6 +123,6 @@ extension MapNode: GameObjectUnitDelegate {
     }
     
     func removed(gameObject: GameObject?) {
-        gameObject?.sprite.removeFromParent()
+        // NOOP
     }
 }

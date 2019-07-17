@@ -11,7 +11,8 @@ import SpriteKit
 class Axeman: GameObject {
     
     init(with identifier: String, at point: HexPoint, tribe: GameObjectTribe) {
-        super.init(with: identifier, type: .axeman, at: point, spriteName: "axemann-idle-0", tribe: tribe, sight: 2)
+        
+        super.init(with: identifier, type: .axeman, at: point, spriteName: "axemann-idle-0", anchorPoint: CGPoint(x: 0.0, y: 0.0), tribe: tribe, sight: 2)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "axeman", textures: ["axemann-idle-0", "axemann-idle-1", "axemann-idle-2", "axemann-idle-3"])
         
@@ -19,12 +20,12 @@ class Axeman: GameObject {
         self.atlasUp = GameObjectAtlas(atlasName: "axeman", textures: ["axemann-up-0", "axemann-up-1", "axemann-up-2", "axemann-up-3", "axemann-up-4", "axemann-up-5", "axemann-up-6", "axemann-up-7"])
         self.atlasLeft = GameObjectAtlas(atlasName: "axeman", textures: ["axemann-left-0", "axemann-left-1", "axemann-left-2", "axemann-left-3", "axemann-left-4", "axemann-left-5", "axemann-left-6", "axemann-left-7"])
         self.atlasRight = GameObjectAtlas(atlasName: "axeman", textures: ["axemann-right-0", "axemann-right-1", "axemann-right-2", "axemann-right-3", "axemann-right-4", "axemann-right-5", "axemann-right-6", "axemann-right-7"])
-        
-        self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        
+
         self.canMoveByUserInput = true
         self.movementType = .walk
         self.animationSpeed = 3
+        
+        self.showUnitIndicator()
     }
     
     required init(from decoder: Decoder) throws {
