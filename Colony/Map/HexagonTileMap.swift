@@ -145,6 +145,22 @@ class HexagonTileMap: HexagonMap<Tile> {
         return self.isCoast(at: HexPoint(x: x, y: y))
     }
     
+    func isAdjacentToOcean(at point: HexPoint) -> Bool {
+        
+        for direction in HexDirection.all {
+            let neighbor = point.neighbor(in: direction)
+            
+            if let neighborTile = self.tile(at: neighbor) {
+                
+                if neighborTile.isWater {
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
+    
     func coastTexture(at point: HexPoint) -> String? {
         
         if let tile = self.tile(at: point) {
@@ -172,11 +188,46 @@ class HexagonTileMap: HexagonMap<Tile> {
         return texture
     }
     
+    // river
+    
+    func isAdjacentToRiver(at point: HexPoint) -> Bool {
+        
+        guard let tile = self.tile(at: point) else {
+            return false
+        }
+        
+        if tile.isRiver() {
+            return true
+        }
+        
+        let neighborNW = point.neighbor(in: .northwest)
+        if let tileNW = self.tile(at: neighborNW) {
+            if tileNW.isRiverInSouthEast() {
+                return true
+            }
+        }
+        
+        let neighborSW = point.neighbor(in: .southwest)
+        if let tileSW = self.tile(at: neighborSW) {
+            if tileSW.isRiverInNorthEast() {
+                return true
+            }
+        }
+        
+        let neighborS = point.neighbor(in: .south)
+        if let tileS = self.tile(at: neighborS) {
+            if tileS.isRiverInNorth() {
+                return true
+            }
+        }
+        
+        return  false
+    }
+    
     func riverTexture(at point: HexPoint) -> String? {
         
         guard let tile = self.tile(at: point) else {
             return nil
-            
         }
         
         if !tile.isRiver() {

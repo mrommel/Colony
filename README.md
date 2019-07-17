@@ -13,8 +13,12 @@
 - click on mini map should focus
 - move unit on longclick
 - rough terrain + mountain => terrain and not feature
+- less deserts
 - limit sight thru mountains
 - riffs as obstacles
+- add tradeing ship unit that moves from city to city
+- pirates only follow units in sight
+- shipwreck animation
 
 ## Maybe
 - collect wood with axemann
@@ -28,6 +32,9 @@
 - [Defect] Coins in level 1&2
 
 ## Done
+- random city names
+- city should stay visible when discovered
+- neutral cities placed on shores
 - obstacle tiles should not be accessed
 - unit with type flag indicator and tribe (also neutral)
 - place sharks randomly

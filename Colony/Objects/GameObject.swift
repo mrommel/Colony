@@ -58,6 +58,8 @@ enum GameObjectType: String, Codable {
             return "unit_indicator_ship"
         case .axeman:
             return "unit_indicator_axeman"
+        case .pirates:
+            return "unit_indicator_pirates"
         @unknown default:
             return "unit_indicator_unknown"
         }

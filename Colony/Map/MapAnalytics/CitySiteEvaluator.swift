@@ -96,6 +96,14 @@ class CitySiteEvaluator: SiteEvaluator {
             sum += self.tileFertilityEvaluator.value(of: areaPoint, by: tribe)
         }
         
+        if map.isAdjacentToRiver(at: point) {
+            sum *= 2
+        }
+        
+        if map.isAdjacentToOcean(at: point) {
+            sum *= 2
+        }
+        
         return sum
     }
 }

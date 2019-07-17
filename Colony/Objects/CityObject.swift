@@ -30,6 +30,9 @@ enum CitySize {
     }
 }
 
+// taken from here: https://civilization-v-customisation.fandom.com/wiki/List_of_City-States
+let cityNames = ["Almaty", "Antwerp", "Belgrade", "Bogota", "Bratislava", "Brussels", "Colombo", "Florence", "Geneva", "Genoa", "Jerusalem", "Lhasa", "Manila", "Melbourne", "Monaco", "Prague", "Riga", "Samarkand", "Sydney", "Tyre", "Vilnius", "Wittenberg", "Zurich"]
+
 class CityObject: GameObject {
     
     var name: String = "City"
@@ -44,7 +47,9 @@ class CityObject: GameObject {
         }
     }
     
-    init(with identifier: String, at point: HexPoint, tribe: GameObjectTribe) {
+    init(with identifier: String, named name: String, at point: HexPoint, tribe: GameObjectTribe) {
+        
+        self.name = name
         
         super.init(with: identifier, type: .city, at: point, spriteName: "city_1_no_walls", anchorPoint: CGPoint(x: -0.0, y: -0.0), tribe: tribe, sight: 2)
         

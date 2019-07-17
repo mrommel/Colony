@@ -78,7 +78,8 @@ class GameObjectManager: Codable {
                     self.objects.append(Monster(with: identifier, at: position))
                     break
                 case .city:
-                    self.objects.append(CityObject(with: identifier, at: position, tribe: tribe))
+                    // FIXME: name is not stored
+                    self.objects.append(CityObject(with: identifier, named: cityNames.randomItem(), at: position, tribe: tribe))
                     break
                 case .coin:
                     self.objects.append(Coin(at: position))
@@ -266,7 +267,11 @@ extension GameObjectManager: GameObjectDelegate {
                     if fogAtEnemy == .sighted {
                         unit?.show()
                     } else {
-                        unit?.hide()
+                        if unit?.type == .city && fogAtEnemy == .discovered {
+                            unit?.show() // already discovered
+                        } else {
+                            unit?.hide()
+                        }
                     }
                 }
             }
@@ -277,7 +282,11 @@ extension GameObjectManager: GameObjectDelegate {
             if fogAtEnemy == .sighted {
                 object.show()
             } else {
-                object.hide()
+                if object.type == .city && fogAtEnemy == .discovered {
+                    object.show() // already discovered
+                } else {
+                    object.hide()
+                }
             }
         }
 

@@ -382,7 +382,7 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
-		C9697B2D22DC99A40076FF4C /* New Group */ = {
+		C9697B2D22DC99A40076FF4C /* MapAnalytics */ = {
 			isa = PBXGroup;
 			children = (
 				C9C7F12C229EBF8700A775B2 /* ContinentFinder.swift */,
@@ -392,7 +392,7 @@
 				C9BA0A6322DB5C780055ED59 /* CitySiteEvaluator.swift */,
 				C9697B3022DC99DD0076FF4C /* TileFertilityEvaluator.swift */,
 			);
-			path = "New Group";
+			path = MapAnalytics;
 			sourceTree = "<group>";
 		};
 		C9763EB222A317C600F31126 /* UI */ = {
@@ -535,7 +535,7 @@
 		C9C7F0F7229EBD0700A775B2 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				C9697B2D22DC99A40076FF4C /* New Group */,
+				C9697B2D22DC99A40076FF4C /* MapAnalytics */,
 				C97E96D822A1CB5600D594F3 /* PathFinding */,
 				C9C7F138229EC0DA00A775B2 /* Tools */,
 				C9C7F119229EBE4600A775B2 /* Creation */,

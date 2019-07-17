@@ -110,10 +110,15 @@ class Level: Decodable  {
         self.gameObjectManager.add(object: pirates)
         pirates.idle()
         
+        var ununsedCityNames = cityNames
+        
         for (index, startPosition) in startPositions.cityPositions.enumerated() {
         
+            let cityName = ununsedCityNames.randomItem()
+            ununsedCityNames = ununsedCityNames.filter { $0 != cityName }
+            
             if index == 0 {
-                let city = CityObject(with: "city", at: startPosition, tribe: .player)
+                let city = CityObject(with: "city", named: cityName, at: startPosition, tribe: .player)
                 self.gameObjectManager.add(object: city)
                 city.idle()
             
@@ -121,7 +126,7 @@ class Level: Decodable  {
                 self.gameObjectManager.add(object: axeman)
                 axeman.idle()
             } else {
-                let city = CityObject(with: "city-\(index)", at: startPosition, tribe: .neutral)
+                let city = CityObject(with: "city-\(index)", named: cityName, at: startPosition, tribe: .neutral)
                 self.gameObjectManager.add(object: city)
                 city.idle()
             }
