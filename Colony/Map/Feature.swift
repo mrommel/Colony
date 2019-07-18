@@ -16,6 +16,8 @@ enum Feature: String, Codable {
 	case forestRain
 	case oasis
 
+    // case lake
+    
 	case hill
 	case mountain
 

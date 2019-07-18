@@ -306,8 +306,8 @@ class MapGenerator {
 
 					grid?.set(terrain: terrainVal, at: gridPoint)
 
-					if moistureMap[x, y]! > 0.5 {
-
+					if moistureMap[x, y]! > 0.5 && Float.random > 0.8 {
+                        
 						switch terrainVal {
 						case .grass:
 							if self.zones[x, y]! == .subtropic {
@@ -315,8 +315,6 @@ class MapGenerator {
 							} else {
 								grid?.set(feature: .forestMixed, at: gridPoint)
 							}
-						case .desert:
-							grid?.set(feature: .oasis, at: gridPoint)
 						case .plain:
 							if self.zones[x, y]! == .subtropic {
 								grid?.set(feature: .forestRain, at: gridPoint)
@@ -329,6 +327,10 @@ class MapGenerator {
 							break
 						}
 					}
+                    
+                    if terrainVal == .desert && Float.random > 0.9 {
+                        grid?.set(feature: .oasis, at: gridPoint)
+                    }
 
                     if heightMap[x, y]! > 0.85 {
                         grid?.set(feature: .mountain, at: gridPoint)
@@ -396,11 +398,11 @@ class MapGenerator {
 
 	func biomeForTropic(elevation: Float, moisture: Float) -> Terrain {
 
-		if elevation > 0.9 {
+		if elevation > 0.95 {
 			return .snow
 		}
 
-		if moisture < 0.5 {
+		if moisture < 0.3 {
 			return .desert
 		} else {
 			return .plain

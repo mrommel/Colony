@@ -32,6 +32,7 @@
 - [Defect] Coins in level 1&2
 
 ## Done
+- add oasis texture and make it more likely to appear on the map
 - random city names
 - city should stay visible when discovered
 - neutral cities placed on shores

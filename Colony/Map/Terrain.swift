@@ -23,6 +23,10 @@ enum Terrain: String, Codable {
 	case snow
 	case ocean
 	case shore
+    
+    // FIXME
+    // case hills
+    // case mountains
 
 	// types for map generation
 	case water
