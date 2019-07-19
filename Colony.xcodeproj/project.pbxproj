@@ -128,6 +128,9 @@
 		C9E9BBFE22B58CF60048F97B /* Timer30SecondsCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */; };
 		C9E9BC0022B6262A0048F97B /* LevelIntroductionDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9E9BBFF22B6262A0048F97B /* LevelIntroductionDialog.xml */; };
 		C9F6A14B22CA906800388198 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6A14A22CA906800388198 /* Coin.swift */; };
+		C9F9C98B22E075D8000A3310 /* TradeShip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9C98A22E075D8000A3310 /* TradeShip.swift */; };
+		C9F9C98D22E0AFD9000A3310 /* OceanFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9C98C22E0AFD9000A3310 /* OceanFinder.swift */; };
+		C9F9C98F22E0B10B000A3310 /* Ocean.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9C98E22E0B10B000A3310 /* Ocean.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -256,6 +259,9 @@
 		C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer30SecondsCheck.swift; sourceTree = "<group>"; };
 		C9E9BBFF22B6262A0048F97B /* LevelIntroductionDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LevelIntroductionDialog.xml; sourceTree = "<group>"; };
 		C9F6A14A22CA906800388198 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
+		C9F9C98A22E075D8000A3310 /* TradeShip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeShip.swift; sourceTree = "<group>"; };
+		C9F9C98C22E0AFD9000A3310 /* OceanFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OceanFinder.swift; sourceTree = "<group>"; };
+		C9F9C98E22E0B10B000A3310 /* Ocean.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ocean.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -386,6 +392,7 @@
 			isa = PBXGroup;
 			children = (
 				C9C7F12C229EBF8700A775B2 /* ContinentFinder.swift */,
+				C9F9C98C22E0AFD9000A3310 /* OceanFinder.swift */,
 				C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */,
 				C9697B2E22DC99C30076FF4C /* RegionFinder.swift */,
 				C9697B3222DC99F80076FF4C /* SiteEvaluator.swift */,
@@ -431,6 +438,7 @@
 				C938B56722D6200E00A2A838 /* Shark.swift */,
 				C9001CA522D712B7005528A7 /* Booster.swift */,
 				C9564D6322D7C9DC0091099B /* Axeman.swift */,
+				C9F9C98A22E075D8000A3310 /* TradeShip.swift */,
 			);
 			name = Objects;
 			path = ../Objects;
@@ -549,6 +557,7 @@
 				C9C7F104229EBDE700A775B2 /* River.swift */,
 				C9C7F105229EBDE700A775B2 /* RiverEdge.swift */,
 				C9C7F12D229EBF8700A775B2 /* Continent.swift */,
+				C9F9C98E22E0B10B000A3310 /* Ocean.swift */,
 				C97B283122A5349A00112532 /* FogManager.swift */,
 				C97B283522A54AE600112532 /* HexArea.swift */,
 				C938B56522D4A1EB00A2A838 /* HexPath.swift */,
@@ -742,6 +751,7 @@
 				C9C7F13A229F203200A775B2 /* TerrainLayer.swift in Sources */,
 				C9C7F0CF229B193400A775B2 /* GameScene.swift in Sources */,
 				C9763EAD22A2FEE300F31126 /* MessageBoxNode.swift in Sources */,
+				C9F9C98F22E0B10B000A3310 /* Ocean.swift in Sources */,
 				C97E96D722A1C21600D594F3 /* ShipObject.swift in Sources */,
 				C9F6A14B22CA906800388198 /* Coin.swift in Sources */,
 				C94A2F3322C22F8700AB7117 /* SafeAreaNode.swift in Sources */,
@@ -776,6 +786,7 @@
 				C92D875322CB694200E7A55E /* BaseDao.swift in Sources */,
 				C97B282C22A427A800112532 /* ProgressBarNode.swift in Sources */,
 				C9C7F0F9229EBD1100A775B2 /* Tile.swift in Sources */,
+				C9F9C98D22E0AFD9000A3310 /* OceanFinder.swift in Sources */,
 				C9001CA422D70BCF005528A7 /* GameConditionCheck.swift in Sources */,
 				C9C7F0F0229E993300A775B2 /* MenuViewController.swift in Sources */,
 				C927E2EC22CE9C6300EDBE0D /* GameUsecase.swift in Sources */,
@@ -822,6 +833,7 @@
 				C94A2F3C22C2B06200AB7117 /* UIImageExtension.swift in Sources */,
 				C956079A22B2435100AA69E9 /* MonsterCheck.swift in Sources */,
 				C9AB425C22A062E3000E5397 /* Monster.swift in Sources */,
+				C9F9C98B22E075D8000A3310 /* TradeShip.swift in Sources */,
 				C9C7F12F229EBF8700A775B2 /* Continent.swift in Sources */,
 				C92D876722CCA7C000E7A55E /* SizedNode.swift in Sources */,
 				C94A2F3A22C267B100AB7117 /* GameSceneViewModel.swift in Sources */,

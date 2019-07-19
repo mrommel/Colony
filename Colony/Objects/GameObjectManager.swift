@@ -78,14 +78,21 @@ class GameObjectManager: Codable {
                     self.objects.append(Monster(with: identifier, at: position))
                     break
                 case .city:
-                    // FIXME: name is not stored
-                    self.objects.append(CityObject(with: identifier, named: cityNames.randomItem(), at: position, tribe: tribe))
+                    // FIXME: name is not stored nor loaded
+                    let name = cityNames.randomItem()
+                    self.map?.cities.append(City(named: name, at: position))
+                    let city = CityObject(with: identifier, named: name, at: position, tribe: tribe)
+                    
+                    self.objects.append(city)
                     break
                 case .coin:
                     self.objects.append(Coin(at: position))
                     break
                 case .pirates:
                     self.objects.append(Pirates(with: identifier, at: position))
+                    break
+                case .tradeShip:
+                    self.objects.append(TradeShip(with: identifier, at: position))
                     break
                     
                 case .obstacle:

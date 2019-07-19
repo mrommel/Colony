@@ -17,9 +17,7 @@ enum Feature: String, Codable {
 	case oasis
 
     // case lake
-    
-	case hill
-	case mountain
+
 
 	var description: String {
 		switch self {
@@ -31,10 +29,6 @@ enum Feature: String, Codable {
 			return "Rain Forest"
 		case .oasis:
 			return "Oasis"
-		case .hill:
-			return "Hill"
-		case .mountain:
-			return "Mountain"
 		}
 	}
 
@@ -48,10 +42,6 @@ enum Feature: String, Codable {
 			return ["hex_forest_rain", "hex_forest_rain2"]
 		case .oasis:
 			return ["hex_oasis"]
-		case .hill:
-			return ["hex_hill"]
-		case .mountain:
-			return ["hex_mountain"]
 		}
 	}
 
@@ -64,10 +54,6 @@ enum Feature: String, Codable {
 		case .forestRain:
 			return GameScene.Constants.ZLevels.featureUpper
 		case .oasis:
-			return GameScene.Constants.ZLevels.feature
-		case .hill:
-			return GameScene.Constants.ZLevels.feature
-		case .mountain:
 			return GameScene.Constants.ZLevels.feature
 		}
 	}
@@ -93,14 +79,6 @@ enum Feature: String, Codable {
             
             if self == .forestRain {
                 return 1.5
-            }
-            
-            if self == .hill {
-                return 0.7
-            }
-            
-            if self == .mountain {
-                return 2.5
             }
             
             if self == .oasis {

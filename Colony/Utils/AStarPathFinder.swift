@@ -66,8 +66,6 @@ class AStarPathfinder {
 	func hScoreFromCoord(fromCoord: HexPoint, toCoord: HexPoint) -> Float {
         
         return Float(fromCoord.distance(to: toCoord))
-        // FIXME:
-		//return abs(toCoord.x - fromCoord.x) + abs(toCoord.y - fromCoord.y)
 	}
 
 	func shortestPath(fromTileCoord: HexPoint, toTileCoord: HexPoint) -> HexPath? {

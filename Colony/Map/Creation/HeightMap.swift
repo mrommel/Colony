@@ -80,6 +80,25 @@ class HeightMap: Array2D<Float> {
 
 		return Float(belowNum / (belowNum + aboveNum))
 	}
+    
+    func percentage(above threshold: Float) -> Float {
+        
+        var belowNum: Float = 0
+        var aboveNum: Float = 0
+        
+        for x in 0..<self.columns {
+            for y in 0..<self.rows {
+                let value = self[x, y]
+                if value! < threshold {
+                    belowNum += 1.0
+                } else {
+                    aboveNum += 1.0
+                }
+            }
+        }
+        
+        return Float(aboveNum / (belowNum + aboveNum))
+    }
 
 	func findWaterLevel(forWaterPercentage waterPercentage: Float) -> Float {
 
@@ -93,6 +112,19 @@ class HeightMap: Array2D<Float> {
 
 		return waterLevel
 	}
+    
+    func findPeakLevel(forPeakPercentage peakPercentage: Float) -> Float {
+        
+        var peakLevel: Float = 1.0
+        var calculatedPeakPercentage: Float = self.percentage(above: peakLevel)
+        
+        while calculatedPeakPercentage < peakPercentage {
+            peakLevel -= 0.05
+            calculatedPeakPercentage = self.percentage(above: peakLevel)
+        }
+        
+        return peakLevel
+    }
 
 	func normalize() {
 

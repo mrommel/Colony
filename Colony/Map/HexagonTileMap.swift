@@ -15,7 +15,11 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     var rivers: [River] = []
     var fogManager: FogManager? = nil
+    
+    // properties that are not stored
     var continents: [Continent] = []
+    var oceans: [Ocean] = []
+    var cities: [City] = []
     
     enum CodingKeys: String, CodingKey {
         case rivers
@@ -57,6 +61,8 @@ class HexagonTileMap: HexagonMap<Tile> {
         
         self.rivers = try values.decode([River].self, forKey: .rivers)
         self.fogManager = try values.decode(FogManager.self, forKey: .fogManager)
+        
+        // FIXME: find continents and oceans !!!
     }
     
     override func encode(to encoder: Encoder) throws {
@@ -159,6 +165,22 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
         
         return false
+    }
+    
+    func adjacentOcean(at point: HexPoint) -> Ocean? {
+        
+        for direction in HexDirection.all {
+            let neighbor = point.neighbor(in: direction)
+            
+            if let neighborTile = self.tile(at: neighbor) {
+                
+                if neighborTile.isWater {
+                    return neighborTile.ocean
+                }
+            }
+        }
+        
+        return nil
     }
     
     func coastTexture(at point: HexPoint) -> String? {
@@ -348,12 +370,36 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
-    // MARK: continent
+    // MARK: continents & oceans
     
     func set(continent: Continent?, at hex: HexPoint) {
         if let tile = self.tile(at: hex) {
             tile.continent = continent
         }
+    }
+    
+    func continent(at point: HexPoint) -> Continent? {
+        
+        if let tile = self.tile(at: point) {
+            return tile.continent
+        }
+        
+        return nil
+    }
+    
+    func set(ocean: Ocean?, at hex: HexPoint) {
+        if let tile = self.tile(at: hex) {
+            tile.ocean = ocean
+        }
+    }
+    
+    func ocean(at point: HexPoint) -> Ocean? {
+        
+        if let tile = self.tile(at: point) {
+            return tile.ocean
+        }
+        
+        return nil
     }
     
     // MARK: pathfinding
@@ -407,9 +453,27 @@ class HexagonTileMap: HexagonMap<Tile> {
         return MoveTypePathfinderDataSource(map: self, gameObjectManager: gameObjectManager, movementType: movementType, ignoreSight: ignoreSight)
     }
     
+    // MARK: city methods
+    
+    func set(city: City?, at hex: HexPoint) {
+        
+        if let tile = self.tile(at: hex) {
+            tile.city = city
+        }
+    }
+    
     func city(at point: HexPoint) -> City? {
         
         let tile = self.tile(at: point)
         return tile?.city
     }
+    
+    func getCoastalCities(at ocean: Ocean) -> [City] {
+        
+        //return self.cities.filter({ self.isCoast(at: $0.position) && self.adjacentOcean(at: $0.position)! == ocean })
+        
+        return self.cities.filter({ ocean.isAdjacent(to: $0.position) })
+    }
+
 }
+

@@ -23,14 +23,8 @@ enum Terrain: String, Codable {
 	case snow
 	case ocean
 	case shore
-    
-    // FIXME
-    // case hills
-    // case mountains
-
-	// types for map generation
-	case water
-	case ground
+    case hill
+    case mountain
 
 	var description: String {
 		switch self {
@@ -48,37 +42,33 @@ enum Terrain: String, Codable {
 			return "Tundra"
 		case .snow:
 			return "Snow"
-
-			// -------
-		case .water:
-			return "Water"
-		case .ground:
-			return "Ground"
+        case .hill:
+            return "Hill"
+        case .mountain:
+            return "Mountain"
 		}
 	}
 
-	var textureNameHex: String {
+    var textureNameHex: [String] {
 		switch self {
 		case .ocean:
-			return "hex_ocean"
+			return ["hex_ocean"]
 		case .shore:
-			return "hex_shore"
+			return ["hex_shore"]
 		case .plain:
-			return "hex_plain"
+			return ["hex_plain"]
 		case .grass:
-			return "hex_grass"
+			return ["hex_grass"]
 		case .desert:
-			return "hex_desert"
+			return ["hex_desert"]
 		case .tundra:
-			return "hex_tundra"
+			return ["hex_tundra"]
 		case .snow:
-			return "hex_snow"
-
-			// -------
-		case .water:
-			return "hex_water"
-		case .ground:
-			return "hex_ground"
+			return ["hex_snow"]
+        case .hill:
+            return ["hex_hill"]
+        case .mountain:
+            return ["hex_mountain"]
 		}
 	}
     
@@ -98,12 +88,10 @@ enum Terrain: String, Codable {
             return UIColor(red: 140, green: 106, blue: 68)
         case .snow:
             return UIColor(red: 237, green: 240, blue: 240)
-            
-        // -------
-        case .water:
-            return UIColor(red: 79, green: 112, blue: 141)
-        case .ground:
-            return UIColor(red: 75, green: 113, blue: 21)
+        case .hill:
+            return UIColor(red: 237, green: 240, blue: 240) // FIXME
+        case .mountain:
+            return UIColor(red: 237, green: 240, blue: 240)
         }
     }
     
@@ -146,6 +134,14 @@ enum Terrain: String, Codable {
                 return 1.5
             }
             
+            if self == .hill {
+                return 0.7
+            }
+            
+            if self == .mountain {
+                return 2.5
+            }
+            
             return GameObjectMoveType.impassible
         }
     }
@@ -167,11 +163,9 @@ enum Terrain: String, Codable {
             return Yields(food: 1)
         case .shore:
             return Yields(food: 1)
-            
-        // only used during map generation
-        case .water:
-            return Yields(food: 0)
-        case .ground:
+        case .hill:
+            return Yields(food: 1)
+        case .mountain:
             return Yields(food: 0)
         }
         

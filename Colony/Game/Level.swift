@@ -110,6 +110,10 @@ class Level: Decodable  {
         self.gameObjectManager.add(object: pirates)
         pirates.idle()
         
+        let tradeShip = TradeShip(with: "tradeShip", at: startPositions.monsterPosition)
+        self.gameObjectManager.add(object: tradeShip)
+        tradeShip.idle()
+        
         var ununsedCityNames = cityNames
         
         for (index, startPosition) in startPositions.cityPositions.enumerated() {
@@ -118,17 +122,21 @@ class Level: Decodable  {
             ununsedCityNames = ununsedCityNames.filter { $0 != cityName }
             
             if index == 0 {
-                let city = CityObject(with: "city", named: cityName, at: startPosition, tribe: .player)
-                self.gameObjectManager.add(object: city)
-                city.idle()
+                let cityObj = CityObject(with: "city", named: cityName, at: startPosition, tribe: .player)
+                self.gameObjectManager.add(object: cityObj)
+                cityObj.idle()
+                
+                self.map.cities.append(City(named: cityName, at: startPosition))
             
                 let axeman = Axeman(with: "axeman", at: startPosition.neighbors().randomItem(), tribe: .player)
                 self.gameObjectManager.add(object: axeman)
                 axeman.idle()
             } else {
-                let city = CityObject(with: "city-\(index)", named: cityName, at: startPosition, tribe: .neutral)
-                self.gameObjectManager.add(object: city)
-                city.idle()
+                let cityObj = CityObject(with: "city-\(index)", named: cityName, at: startPosition, tribe: .neutral)
+                self.gameObjectManager.add(object: cityObj)
+                cityObj.idle()
+                
+                self.map.cities.append(City(named: cityName, at: startPosition))
             }
         }
         

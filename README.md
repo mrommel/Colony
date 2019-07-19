@@ -12,11 +12,8 @@
 - shark: up+down copied from left+right
 - click on mini map should focus
 - move unit on longclick
-- rough terrain + mountain => terrain and not feature
-- less deserts
 - limit sight thru mountains
 - riffs as obstacles
-- add tradeing ship unit that moves from city to city
 - pirates only follow units in sight
 - shipwreck animation
 
@@ -32,6 +29,9 @@
 - [Defect] Coins in level 1&2
 
 ## Done
+- rough terrain + mountain => terrain and not feature
+- less deserts
+- add tradeing ship unit that moves from city to city
 - add oasis texture and make it more likely to appear on the map
 - random city names
 - city should stay visible when discovered

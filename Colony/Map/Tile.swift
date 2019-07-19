@@ -21,6 +21,7 @@ class Tile: Decodable {
     var city: City? = nil
     
     var continent: Continent?
+    var ocean: Ocean?
     
     var riverName: String? = nil
     var riverFlowNorth: FlowDirection = .none

@@ -64,7 +64,7 @@ class ContinentFinder {
 
 		let currentPoint = HexPoint(x: x, y: y)
 
-		if map.tile(at: currentPoint)?.terrain != .ocean {
+        if map.tile(at: currentPoint)?.isGround ?? false {
 
 			let northPoint = currentPoint.neighbor(in: .north)
 			let nortwestPoint = currentPoint.neighbor(in: .northwest)

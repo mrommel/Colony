@@ -143,8 +143,9 @@ class MapGenerator {
         
         usleep(100000) // will sleep for 100 milliseconds
         
-        // 5th step: continents
+        // 5th step: continents & oceans
         self.identifyContinents(on: grid)
+        self.identifyOceans(on: grid)
         
         if let completionHandler = self.progressHandler {
             completionHandler(1.0)
@@ -160,29 +161,23 @@ class MapGenerator {
 	func waterOrLandFrom(elevation: Float, waterLevel: Float) -> Terrain {
 
 		if elevation < waterLevel {
-			return Terrain.water
+			return Terrain.ocean
 		}
 
-		return Terrain.ground
+		return Terrain.grass
 	}
 
 	func fillFromElevation(withWaterPercentage waterPercentage: Float, on heightMap: HeightMap) {
 
 		let waterLevel = heightMap.findWaterLevel(forWaterPercentage: waterPercentage)
-
+        
 		for x in 0..<width {
 			for y in 0..<height {
 				guard let height = heightMap[x, y] else {
 					continue
 				}
 
-				let terrainType = self.waterOrLandFrom(elevation: height, waterLevel: waterLevel)
-
-				if terrainType == Terrain.water {
-					self.terrain[x, y] = Terrain.ocean
-				} else {
-					self.terrain[x, y] = Terrain.grass
-				}
+                self.terrain[x, y] = self.waterOrLandFrom(elevation: height, waterLevel: waterLevel)
 			}
 		}
 	}
@@ -198,9 +193,9 @@ class MapGenerator {
 
 				let latitude = abs(Float(height / 2 - y)) / Float(height / 2)
 
-				if latitude > 0.8 {
+				if latitude > 0.9 {
 					self.zones[x, y] = .polar
-				} else if latitude > 0.6 {
+				} else if latitude > 0.65 {
 					self.zones[x, y] = .subpolar
 				} else if latitude > 0.4 {
 					self.zones[x, y] = .temperate
@@ -331,12 +326,6 @@ class MapGenerator {
                     if terrainVal == .desert && Float.random > 0.9 {
                         grid?.set(feature: .oasis, at: gridPoint)
                     }
-
-                    if heightMap[x, y]! > 0.85 {
-                        grid?.set(feature: .mountain, at: gridPoint)
-                    } else if heightMap[x, y]! > 0.7 {
-						grid?.set(feature: .hill, at: gridPoint)
-					}
 				}
 			}
 		}
@@ -361,7 +350,15 @@ class MapGenerator {
 
 	func biomeForSubpolar(elevation: Float, moisture: Float) -> Terrain {
 
-		if elevation > 0.6 {
+        if elevation > 0.9 {
+            return .mountain
+        }
+        
+        if elevation > 0.75 {
+            return .hill
+        }
+        
+		if elevation > 0.5 {
 			return .snow
 		}
 
@@ -370,9 +367,13 @@ class MapGenerator {
 
 	func biomeForTemperate(elevation: Float, moisture: Float) -> Terrain {
 
-		if elevation > 0.9 {
-			return .snow
-		}
+        if elevation > 0.9 {
+            return .mountain
+        }
+        
+        if elevation > 0.8 {
+            return .hill
+        }
 
 		if moisture < 0.5 {
 			return .plain
@@ -384,8 +385,12 @@ class MapGenerator {
 	func biomeForSubtropic(elevation: Float, moisture: Float) -> Terrain {
 
 		if elevation > 0.9 {
-			return .snow
+			return .mountain
 		}
+        
+        if elevation > 0.8 {
+            return .hill
+        }
 
 		if moisture < 0.2 {
 			return .desert
@@ -398,9 +403,13 @@ class MapGenerator {
 
 	func biomeForTropic(elevation: Float, moisture: Float) -> Terrain {
 
-		if elevation > 0.95 {
-			return .snow
+		if elevation > 0.9 {
+			return .mountain
 		}
+        
+        if elevation > 0.8 {
+            return .hill
+        }
 
 		if moisture < 0.3 {
 			return .desert
@@ -552,5 +561,17 @@ class MapGenerator {
         let continents = finder.execute(on: grid)
         
         grid.continents = continents
+    }
+    
+    func identifyOceans(on grid: HexagonTileMap?) {
+        
+        guard let grid = grid else {
+            return
+        }
+        
+        let finder = OceanFinder(width: grid.width, height: grid.height)
+        let oceans = finder.execute(on: grid)
+        
+        grid.oceans = oceans
     }
 }

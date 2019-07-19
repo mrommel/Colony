@@ -47,7 +47,9 @@ enum GameObjectType: String, Codable {
     case city
     case coin
     case obstacle // tile cannot be accessed, can't be moved
+    
     case pirates
+    case tradeShip
     
     case animal
     
@@ -60,6 +62,9 @@ enum GameObjectType: String, Codable {
             return "unit_indicator_axeman"
         case .pirates:
             return "unit_indicator_pirates"
+        case .tradeShip:
+            return "unit_indicator_tradeShip"
+            
         @unknown default:
             return "unit_indicator_unknown"
         }

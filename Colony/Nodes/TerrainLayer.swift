@@ -58,7 +58,7 @@ class TerrainLayer: SKNode {
         if let coastTexture = coastTexture {
             textureName = coastTexture
         } else {
-            textureName = tile.terrain.textureNameHex
+            textureName = tile.terrain.textureNameHex.randomItem()
         }
         
         let terrainSprite = SKSpriteNode(imageNamed: textureName)
