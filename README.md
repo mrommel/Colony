@@ -5,6 +5,7 @@
 - show collected coins in win dialog
 - add global player score
 - add new player input / add player switcher in options (logout)
+- let player select a civilization
 - pirates gets 20 coins from you
 - fight between units (pirates)
 - release scout for exploration
@@ -13,9 +14,10 @@
 - click on mini map should focus
 - move unit on longclick
 - limit sight thru mountains
-- riffs as obstacles
-- pirates only follow units in sight
 - shipwreck animation
+- snow textures from wesnoth
+- mountain textures
+- add cities to minimap
 
 ## Maybe
 - collect wood with axemann
@@ -27,8 +29,13 @@
 - [Defect] dialogs not centered in landscape mode
 - [Defect] river should end at first ocean
 - [Defect] Coins in level 1&2
+- [Defest] objects are visible until first move of unit
+- [Defect] city banner is on top of ??? 
 
 ## Done
+- pirates only follow units in sight
+- add zone of control to map and also display it
+- reefs as obstacles
 - rough terrain + mountain => terrain and not feature
 - less deserts
 - add tradeing ship unit that moves from city to city

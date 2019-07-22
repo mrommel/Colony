@@ -6,7 +6,7 @@
 //  Copyright © 2019 Michael Rommel. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum LevelDifficulty: String, Codable {
     
@@ -56,6 +56,87 @@ struct ScoreThresold: Codable {
     let gold: Int
 }
 
+enum Civilization: String, Codable {
+    
+    // real player
+    case english
+    case french
+    case spanish
+    
+    //
+    case pirates
+    case trader
+    
+    var name: String {
+        switch self {
+        case .english:
+            return "English"
+        case .french:
+            return "French"
+        case .spanish:
+            return "Spanish"
+        case .pirates:
+            return "Pirates"
+        case .trader:
+            return "Trader"
+        }
+    }
+    
+    var color: UIColor {
+        switch self {
+        case .french:
+            return .blue
+        case .english:
+            return .red
+        case .spanish:
+            return .yellow
+            
+        case .pirates:
+            return .black
+        case .trader:
+            return .gray
+        }
+    }
+}
+
+class Player: Codable {
+    
+    let name: String
+    let civilization: Civilization
+    var zoneOfControl: HexArea? = nil
+    let isUser: Bool
+    
+    init(name: String, civilization: Civilization, isUser: Bool) {
+        self.name = name
+        self.civilization = civilization
+        self.isUser = isUser
+    }
+    
+    func addZoneOfControl(at point: HexPoint) {
+        
+        if self.zoneOfControl == nil {
+            self.zoneOfControl = HexArea(points: [point])
+        } else {
+            self.zoneOfControl?.add(point: point)
+        }
+    }
+}
+
+extension Player: Equatable {
+    
+    static func == (lhs: Player, rhs: Player) -> Bool {
+        
+        return lhs.name == rhs.name
+    }
+}
+
+extension Player: Hashable {
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.name)
+    }
+}
+
 class Level: Decodable  {
     
     let number: Int
@@ -63,9 +144,11 @@ class Level: Decodable  {
     let summary: String
     let difficulty: LevelDifficulty
     
+    // data holder
     let map: HexagonTileMap
     let startPositions: StartPositions
     let gameObjectManager: GameObjectManager
+    var players: [Player] = []
     
     let scoreThresold: ScoreThresold
     
@@ -98,7 +181,9 @@ class Level: Decodable  {
         self.startPositions = startPositions
         self.gameObjectManager = gameObjectManager
         
-        let ship = ShipObject(with: "ship", at: startPositions.playerPosition, tribe: .player)
+        self.setupPlayers()
+        
+        let ship = ShipObject(with: "ship", at: startPositions.playerPosition, civilization: .english)
         self.gameObjectManager.add(object: ship)
         ship.idle()
         
@@ -122,21 +207,16 @@ class Level: Decodable  {
             ununsedCityNames = ununsedCityNames.filter { $0 != cityName }
             
             if index == 0 {
-                let cityObj = CityObject(with: "city", named: cityName, at: startPosition, tribe: .player)
-                self.gameObjectManager.add(object: cityObj)
-                cityObj.idle()
-                
-                self.map.cities.append(City(named: cityName, at: startPosition))
-            
-                let axeman = Axeman(with: "axeman", at: startPosition.neighbors().randomItem(), tribe: .player)
+                let player = self.playerForUser()
+                self.found(city: City(named: cityName, at: startPosition, player: player))
+
+                // FIXME
+                let axeman = Axeman(with: "axeman", at: startPosition.neighbors().randomItem(), civilization: player.civilization)
                 self.gameObjectManager.add(object: axeman)
                 axeman.idle()
             } else {
-                let cityObj = CityObject(with: "city-\(index)", named: cityName, at: startPosition, tribe: .neutral)
-                self.gameObjectManager.add(object: cityObj)
-                cityObj.idle()
-                
-                self.map.cities.append(City(named: cityName, at: startPosition))
+                let player = self.playerForUser() // FIXME: wrong
+                self.found(city: City(named: cityName, at: startPosition, player: player))
             }
         }
         
@@ -150,7 +230,13 @@ class Level: Decodable  {
             shipWreck.idle()
         }
         
-        // riffs
+        // reefs
+        let reefTile = oceanTiles.randomItem()
+        if let point = reefTile?.point {
+            let reef = Reef(at: point)
+            self.gameObjectManager.add(object: reef)
+            reef.idle()
+        }
         
         // animals
         for _ in 0..<5 {
@@ -174,7 +260,7 @@ class Level: Decodable  {
         }
         
         // set the selected unit - FIXME
-        self.gameObjectManager.selected = self.gameObjectManager.unitsOf(tribe: .player).first!
+        self.gameObjectManager.selected = self.gameObjectManager.unitsOf(civilization: .english).first! // FIXME
         
         self.gameObjectManager.map = self.map
     }
@@ -202,14 +288,35 @@ class Level: Decodable  {
             if let unitObject = object {
                 unitObject.delegate = self.gameObjectManager
                 
-                if unitObject.tribe == .player {
-                    self.map.fogManager?.add(unit: unitObject)
+                if let civilization = unitObject.civilization {
+                    if civilization == .english { // FIXME
+                        self.map.fogManager?.add(unit: unitObject)
+                    }
                 }
             }
         }
         
         // set the selected unit - FIXME
-        self.gameObjectManager.selected = self.gameObjectManager.unitsOf(tribe: .player).first!
+        self.gameObjectManager.selected = self.gameObjectManager.unitsOf(civilization: .english).first! // FIXME
+        
+        self.setupPlayers()
+    }
+    
+    func setupPlayers() {
+        
+        let john = Player(name: "John", civilization: .english, isUser: true)
+        self.players.append(john)
+        
+        let jaques = Player(name: "Jaques", civilization: .french, isUser: false)
+        self.players.append(jaques)
+        
+        let juan = Player(name: "Juan", civilization: .spanish, isUser: false)
+        self.players.append(juan)
+    }
+    
+    func playerForUser() -> Player {
+        
+        return self.players.first(where: { $0.isUser })!
     }
     
     func score(for coins: Int) -> LevelScore {
@@ -223,6 +330,26 @@ class Level: Decodable  {
         }
         
         return .bronze
+    }
+    
+    func found(city: City) {
+        
+        let uuid = UUID()
+        let cityObj = CityObject(with: "city-\(uuid.uuidString)", named: city.name, at: city.position, civilization: city.player.civilization)
+        self.gameObjectManager.add(object: cityObj)
+        cityObj.idle()
+        
+        self.map.cities.append(city)
+        
+        city.player.addZoneOfControl(at: city.position)
+        
+        for neighbor in city.position.neighbors() {
+            
+            // check if this is a valid tile
+            if map.isGround(at: neighbor) {
+                city.player.addZoneOfControl(at: neighbor)
+            }
+        }
     }
 }
 

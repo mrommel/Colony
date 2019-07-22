@@ -10,8 +10,10 @@ import SpriteKit
 
 class Pirates: GameObject {
     
+    var target: GameObject? = nil
+    
     init(with identifier: String, at point: HexPoint) {
-        super.init(with: identifier, type: .pirates, at: point, spriteName: "pirate003", anchorPoint: CGPoint(x: 0.0, y: 0.0), tribe: .enemy, sight: 2)
+        super.init(with: identifier, type: .pirates, at: point, spriteName: "pirate003", anchorPoint: CGPoint(x: 0.0, y: 0.0), civilization: .pirates, sight: 2)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "pirates", textures: ["pirate003", "pirate004", "pirate005"])
         
@@ -34,38 +36,79 @@ class Pirates: GameObject {
         
         if self.state == .idle {
             
-            guard let map = game?.level?.map else {
+            guard let game = game else {
                 return
-            }
-            
-            guard let gameObjectManager = game?.level?.gameObjectManager else {
-                return
-            }
-            
-            // find neighbor water tile
-            let waterNeighbors = self.position.neighbors().filter({ map.tile(at: $0)?.isWater ?? false })
-            
-            // FIXME: find tile that is towards the ship
-            var bestWaterNeighbor = waterNeighbors.first!
-            var bestDistance: Int = Int.max
-            guard let enemyPosition = game?.level?.gameObjectManager.selected?.position else {
-                return
-            }
-            
-            for waterNeighbor in waterNeighbors {
-                let neighborDistance = waterNeighbor.distance(to: enemyPosition) + Int.random(number: 2)
-                if neighborDistance < bestDistance {
-                    bestWaterNeighbor = waterNeighbor
-                    bestDistance = neighborDistance
-                }
             }
 
-            let pathFinder = AStarPathfinder()
-            pathFinder.dataSource =  map.pathfinderDataSource(with: gameObjectManager, movementType: self.movementType, ignoreSight: true)
+            // find tile that is towards a ship in sight
+            let tilesInSight = self.tilesInSight()
+            var possibleTargets = game.navalUnits(in: tilesInSight)
+            possibleTargets = possibleTargets.filter({ $0.identifier != self.identifier})
             
-            if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
-                self.walk(on: path)
+            if possibleTargets.isEmpty {
+                // find neighbor water tile
+                let waterNeighbors = game.neighborsInWater(of: self.position)
+                let target = waterNeighbors.randomItem()
+                
+                let pathFinder = AStarPathfinder()
+                pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
+                
+                if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: target) {
+                    self.walk(on: path)
+                }
+            } else {
+                let target = possibleTargets.randomItem()
+                self.follow(unit: target, in: game)
             }
+        }
+        
+        if self.state == .following {
+            
+            if let targetPosition = self.target?.position {
+                
+                // is target still in sight
+                if self.position.distance(to: targetPosition) <= self.sight {
+                    self.idle()
+                    return
+                }
+                
+                self.step(towards: targetPosition, in: game)
+            }
+        }
+    }
+    
+    func follow(unit: GameObject?, in game: Game?) {
+        
+        self.target = unit
+        self.state = .following
+        
+        if let targetPosition = self.target?.position {
+            self.step(towards: targetPosition, in: game)
+        }
+    }
+    
+    func step(towards point: HexPoint, in game: Game?) {
+        
+        guard let waterNeighbors = game?.neighborsInWater(of: point) else {
+            return
+        }
+        
+        var bestWaterNeighbor = waterNeighbors.first!
+        var bestDistance: Int = Int.max
+
+        for waterNeighbor in waterNeighbors {
+            let neighborDistance = waterNeighbor.distance(to: point) + Int.random(number: 2)
+            if neighborDistance < bestDistance {
+                bestWaterNeighbor = waterNeighbor
+                bestDistance = neighborDistance
+            }
+        }
+
+        let pathFinder = AStarPathfinder()
+        pathFinder.dataSource = game?.pathfinderDataSource(for: self.movementType, ignoreSight: true)
+        
+        if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
+            self.followUnit(on: path)
         }
     }
 }

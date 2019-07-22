@@ -11,12 +11,10 @@ import SpriteKit
 
 class AreaSprites: SKNode {
 
-	private let mapDisplay: HexMapDisplay?
 	private var sprites: [SKSpriteNode]
 
-	init(with mapDisplay: HexMapDisplay?) {
+    override init() {
 
-		self.mapDisplay = mapDisplay
 		self.sprites = []
 
 		super.init()
@@ -26,31 +24,31 @@ class AreaSprites: SKNode {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	func texture(for point: HexPoint, in points: [HexPoint]) -> String {
+	func texture(for point: HexPoint, in area: HexArea) -> String {
 
 		var textureName = "hex_border_"
 
-		if !points.contains(where: { $0 == point.neighbor(in: .north) }) {
+		if !area.contains(where: { $0 == point.neighbor(in: .north) }) {
 			textureName += "n_"
 		}
 
-		if !points.contains(where: { $0 == point.neighbor(in: .northeast) }) {
+		if !area.contains(where: { $0 == point.neighbor(in: .northeast) }) {
 			textureName += "ne_"
 		}
 
-		if !points.contains(where: { $0 == point.neighbor(in: .southeast) }) {
+		if !area.contains(where: { $0 == point.neighbor(in: .southeast) }) {
 			textureName += "se_"
 		}
 
-		if !points.contains(where: { $0 == point.neighbor(in: .south) }) {
+		if !area.contains(where: { $0 == point.neighbor(in: .south) }) {
 			textureName += "s_"
 		}
 
-		if !points.contains(where: { $0 == point.neighbor(in: .southwest) }) {
+		if !area.contains(where: { $0 == point.neighbor(in: .southwest) }) {
 			textureName += "sw_"
 		}
 
-		if !points.contains(where: { $0 == point.neighbor(in: .northwest) }) {
+		if !area.contains(where: { $0 == point.neighbor(in: .northwest) }) {
 			textureName += "nw_"
 		}
 
@@ -62,7 +60,7 @@ class AreaSprites: SKNode {
 		return textureName
 	}
 
-	func rebuild(with points: [HexPoint]) {
+	func rebuild(with area: HexArea) {
 
 		// remove old sprites
 		for sprite in self.sprites {
@@ -70,19 +68,19 @@ class AreaSprites: SKNode {
 		}
 		self.sprites.removeAll()
 
-		for point in points {
+		for point in area {
 
-			if let position = self.mapDisplay?.toScreen(hex: point) {
-
-				let textureName = self.texture(for: point, in: points)
-				let sprite = SKSpriteNode(imageNamed: textureName)
-				sprite.position = position
-				sprite.zPosition = GameScene.Constants.ZLevels.area
-				sprite.anchorPoint = CGPoint(x: 0, y: 0)
-				self.addChild(sprite)
-
-				self.sprites.append(sprite)
-			}
+            let position = HexMapDisplay.shared.toScreen(hex: point)
+            
+            let textureName = self.texture(for: point, in: area)
+            let sprite = SKSpriteNode(imageNamed: textureName)
+            sprite.position = position
+            sprite.zPosition = GameScene.Constants.ZLevels.area
+            sprite.anchorPoint = CGPoint(x: 0, y: 0)
+            self.addChild(sprite)
+            
+            self.sprites.append(sprite)
+            
 		}
 	}
 }

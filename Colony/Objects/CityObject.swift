@@ -47,11 +47,11 @@ class CityObject: GameObject {
         }
     }
     
-    init(with identifier: String, named name: String, at point: HexPoint, tribe: GameObjectTribe) {
+    init(with identifier: String, named name: String, at point: HexPoint, civilization: Civilization) {
         
         self.name = name
         
-        super.init(with: identifier, type: .city, at: point, spriteName: "city_1_no_walls", anchorPoint: CGPoint(x: -0.0, y: -0.0), tribe: tribe, sight: 2)
+        super.init(with: identifier, type: .city, at: point, spriteName: "city_1_no_walls", anchorPoint: CGPoint(x: -0.0, y: -0.0), civilization: civilization, sight: 2)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "city", textures: ["city_1_no_walls"])
         

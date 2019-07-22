@@ -39,7 +39,7 @@ class RegionFinder {
                 continue
             }
             
-            let value = evaluator.value(of: area, by: .player)
+            let value = evaluator.value(of: area, by: .english) // FIXME
             
             if value == 0 {
                 continue
@@ -83,7 +83,7 @@ class RegionFinder {
         var selectedValue = -1
         
         for point in area {
-            let value = evaluator.value(of: point, by: .player)
+            let value = evaluator.value(of: point, by: .english) // FIXME
             
             if value > selectedValue {
                 selectedPoint = point
@@ -118,10 +118,10 @@ class RegionFinder {
             
             let (firstArea, secondArea) = area.divideHorizontally(at: dx)
             
-            let firstValue = evaluator.value(of: firstArea, by: .player)
+            let firstValue = evaluator.value(of: firstArea, by: .english) // FIXME
             firstArea.set(value: firstValue)
             
-            let secondValue = evaluator.value(of: secondArea, by: .player)
+            let secondValue = evaluator.value(of: secondArea, by: .english) // FIXME
             secondArea.set(value: secondValue)
             
             if firstValue > secondValue {
@@ -145,10 +145,10 @@ class RegionFinder {
             
             let (firstArea, secondArea) = area.divideVertically(at: dy)
             
-            let firstValue = evaluator.value(of: firstArea, by: .player)
+            let firstValue = evaluator.value(of: firstArea, by: .english) // FIXME
             firstArea.set(value: firstValue)
             
-            let secondValue = evaluator.value(of: secondArea, by: .player)
+            let secondValue = evaluator.value(of: secondArea, by: .english) // FIXME
             secondArea.set(value: secondValue)
             
             if firstValue > secondValue {

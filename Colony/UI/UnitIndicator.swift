@@ -10,15 +10,15 @@ import SpriteKit
 
 class UnitIndicator: SKSpriteNode {
     
-    let tribe: GameObjectTribe
+    let civilization: Civilization
     let unitType: GameObjectType
     
-    init(tribe: GameObjectTribe, unitType: GameObjectType) {
-        self.tribe = tribe
+    init(civilization: Civilization, unitType: GameObjectType) {
+        self.civilization = civilization
         self.unitType = unitType
         
         let texture = SKTexture(imageNamed: unitType.textureName)
-        super.init(texture: texture, color: tribe.color, size: CGSize(width: 48, height: 48))
+        super.init(texture: texture, color: civilization.color, size: CGSize(width: 48, height: 48))
         self.colorBlendFactor = 0.5
     }
     

@@ -11,9 +11,11 @@ import SpriteKit
 enum GameObjectState: String, Codable {
     case idle
     case moving
+    case following
 }
 
-enum GameObjectTribe: String, Codable {
+// TODO: name, color, traits => Civilization + leader
+/*enum GameObjectTribe: String, Codable {
     
     case player
     case enemy
@@ -36,7 +38,7 @@ enum GameObjectTribe: String, Codable {
             return .gray
         }
     }
-}
+}*/
 
 enum GameObjectType: String, Codable {
     
@@ -69,6 +71,30 @@ enum GameObjectType: String, Codable {
             return "unit_indicator_unknown"
         }
     }
+    
+    var isNaval: Bool {
+    
+        switch self {
+        case .ship:
+            return true
+        case .axeman:
+            return false
+        case .monster:
+            return false
+        case .city:
+            return false
+        case .coin:
+            return false
+        case .obstacle:
+            return false
+        case .pirates:
+            return true
+        case .tradeShip:
+            return true
+        case .animal:
+            return false
+        }
+    }
 }
 
 enum GameObjectMoveType {
@@ -99,7 +125,7 @@ class GameObject: Decodable {
         }
     }
     var state: GameObjectState = .idle
-    var tribe: GameObjectTribe
+    var civilization: Civilization?
     
     var canMoveByUserInput: Bool = false
     var movementType: GameObjectMoveType = .immobile
@@ -131,15 +157,15 @@ class GameObject: Decodable {
         case type
         case position
         case state
-        case tribe
+        case civilization
     }
     
-    init(with identifier: String, type: GameObjectType, at point: HexPoint, spriteName: String, anchorPoint: CGPoint, tribe: GameObjectTribe, sight: Int) {
+    init(with identifier: String, type: GameObjectType, at point: HexPoint, spriteName: String, anchorPoint: CGPoint, civilization: Civilization?, sight: Int) {
         
         self.identifier = identifier
         self.type = type
         self.position = point
-        self.tribe = tribe
+        self.civilization = civilization
         
         self.spriteName = spriteName
         self.sprite = SKSpriteNode(imageNamed: spriteName)
@@ -158,7 +184,7 @@ class GameObject: Decodable {
         self.type = try values.decode(GameObjectType.self, forKey: .type)
         self.position = try values.decode(HexPoint.self, forKey: .position)
         self.state = try values.decode(GameObjectState.self, forKey: .state)
-        self.tribe = try values.decode(GameObjectTribe.self, forKey: .tribe)
+        self.civilization = try values.decodeIfPresent(Civilization.self, forKey: .civilization)
         
         self.spriteName = ""
         let emptyTexture = SKTexture()
@@ -204,7 +230,11 @@ class GameObject: Decodable {
             self.unitIndicator?.removeFromParent()
         }
         
-        self.unitIndicator = UnitIndicator(tribe: self.tribe, unitType: self.type)
+        guard let civilization = self.civilization else {
+            fatalError("can't show unit indicator for non civilization units") // FIXME pirates?
+        }
+        
+        self.unitIndicator = UnitIndicator(civilization: civilization, unitType: self.type)
         self.unitIndicator?.anchorPoint = CGPoint(x: 0.0, y: 0.1)
         self.sprite.zPosition = GameScene.Constants.ZLevels.sprite + 0.1
         if let unitIndicator = self.unitIndicator {
@@ -351,8 +381,10 @@ class GameObject: Decodable {
         self.sprite.removeAction(forKey: idleActionKey)
         self.state = .moving
         
-        if self.tribe == .player {
-            self.show(path: HexPath(point: self.position, path: path))
+        if let civilization = self.civilization {
+            if civilization == .english { // FIXME
+                self.show(path: HexPath(point: self.position, path: path))
+            }
         }
             
         if let point = path.first {
@@ -360,6 +392,31 @@ class GameObject: Decodable {
             
             self.walk(from: self.position, to: point, completion: {
                 self.walk(on: pathWithoutFirst)
+            })
+        }
+    }
+    
+    func followUnit(on path: HexPath) {
+        
+        guard !path.isEmpty else {
+            self.state = .following
+            return
+        }
+        
+        self.sprite.removeAction(forKey: idleActionKey)
+        self.state = .moving
+        
+        if let civilization = self.civilization {
+            if civilization == .english { // FIXME
+                self.show(path: HexPath(point: self.position, path: path))
+            }
+        }
+        
+        if let point = path.first {
+            let pathWithoutFirst = path.pathWithoutFirst()
+            
+            self.walk(from: self.position, to: point, completion: {
+                self.followUnit(on: pathWithoutFirst)
             })
         }
     }
@@ -376,6 +433,11 @@ class GameObject: Decodable {
             
             self.sprite.run(idleAnimation, withKey: idleActionKey, completion: {})
         }
+    }
+    
+    func tilesInSight() -> HexArea {
+        
+        return HexArea(center: self.position, radius: self.sight)
     }
     
     // MARK: game logic
@@ -395,9 +457,10 @@ extension GameObject: Encodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.identifier, forKey: .identifier)
+        try container.encode(self.type, forKey: .type)
         try container.encode(self.position, forKey: .position)
         try container.encode(self.state, forKey: .state)
-        try container.encode(self.tribe, forKey: .tribe)
+        try container.encode(self.civilization, forKey: .civilization)
     }
 }
 

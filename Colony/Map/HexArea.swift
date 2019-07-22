@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BoundingBox {
+class BoundingBox: Codable {
     
     var minX, maxX: Int
     var minY, maxY: Int
@@ -37,9 +37,9 @@ class BoundingBox {
     }
 }
 
-class HexArea {
+class HexArea: Codable {
     
-    let points: [HexPoint]
+    var points: [HexPoint]
     private var value: Int = 0
     private(set) var boundingBox: BoundingBox
     
@@ -81,6 +81,15 @@ class HexArea {
     }
     
     // MARK: methods
+    
+    func add(point: HexPoint) {
+        self.points.append(point)
+    }
+    
+    func contains(where predicate: (HexPoint) throws -> Bool) rethrows -> Bool {
+        
+        return try self.points.contains(where: predicate)
+    }
     
     func set(value: Int) {
         self.value = value

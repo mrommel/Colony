@@ -16,7 +16,7 @@ class TileFertilityEvaluator: SiteEvaluator {
         self.map = map
     }
     
-    func value(of point: HexPoint, by tribe: GameObjectTribe) -> Int {
+    func value(of point: HexPoint, by civilization: Civilization) -> Int {
         
         guard let tile = self.map?.tile(at: point) else {
             return 0
@@ -27,12 +27,12 @@ class TileFertilityEvaluator: SiteEvaluator {
         return tile.terrain.yields.food
     }
     
-    func value(of area: HexArea, by tribe: GameObjectTribe) -> Int {
+    func value(of area: HexArea, by civilization: Civilization) -> Int {
         
         var sum = 0
         
         for point in area {
-            sum += self.value(of: point, by: tribe)
+            sum += self.value(of: point, by: civilization)
         }
         
         return sum

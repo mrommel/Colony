@@ -21,7 +21,7 @@ class Booster: GameObject {
         
         let identifier = UUID()
         
-        super.init(with: identifier.uuidString, type: .coin, at: point, spriteName: "coin1", anchorPoint: CGPoint(x: -1.0, y: -0.1), tribe: .reward, sight: 1)
+        super.init(with: identifier.uuidString, type: .coin, at: point, spriteName: "coin1", anchorPoint: CGPoint(x: -1.0, y: -0.1), civilization: nil, sight: 1)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "coin", textures: ["coin1", "coin2", "coin3", "coin4", "coin5", "coin6", "coin7", "coin8", "coin9", "coin10"])
         

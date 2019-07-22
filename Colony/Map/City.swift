@@ -8,14 +8,17 @@
 
 import Foundation
 
-class City {
+class City: Codable {
     
     let name: String
     let position: HexPoint
+    let player: Player
+    let population: Float = 1.0
     
-    init(named name: String, at position: HexPoint) {
+    init(named name: String, at position: HexPoint, player: Player) {
         
         self.name = name
         self.position = position
+        self.player = player
     }
 }

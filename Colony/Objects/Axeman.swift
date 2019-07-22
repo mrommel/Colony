@@ -10,9 +10,9 @@ import SpriteKit
 
 class Axeman: GameObject {
     
-    init(with identifier: String, at point: HexPoint, tribe: GameObjectTribe) {
+    init(with identifier: String, at point: HexPoint, civilization: Civilization) {
         
-        super.init(with: identifier, type: .axeman, at: point, spriteName: "axemann-idle-0", anchorPoint: CGPoint(x: 0.0, y: 0.0), tribe: tribe, sight: 2)
+        super.init(with: identifier, type: .axeman, at: point, spriteName: "axemann-idle-0", anchorPoint: CGPoint(x: 0.0, y: 0.0), civilization: civilization, sight: 2)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "axeman", textures: ["axemann-idle-0", "axemann-idle-1", "axemann-idle-2", "axemann-idle-3"])
         

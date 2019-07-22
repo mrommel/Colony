@@ -15,7 +15,7 @@ class Shark: GameObject {
         let identifier = UUID()
         let identifierString = "shark-\(identifier.uuidString)"
         
-        super.init(with: identifierString, type: .animal, at: point, spriteName: "shark-down-0", anchorPoint: CGPoint(x: 0.0, y: 0.0), tribe: .decoration, sight: 1)
+        super.init(with: identifierString, type: .animal, at: point, spriteName: "shark-down-0", anchorPoint: CGPoint(x: 0.0, y: 0.0), civilization: nil, sight: 1)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "shark", textures: ["shark-left-0", "shark-left-1", "shark-left-2", "shark-left-3", "shark-left-4", "shark-left-5", "shark-left-6", "shark-left-7", "shark-left-8", "shark-left-9"])
         
@@ -39,16 +39,16 @@ class Shark: GameObject {
         
         if self.state == .idle {
             
-            guard let map = game?.level?.map else {
+            guard let game = game else {
                 return
             }
             
             // find neighbor water tile
-            let waterNeighbors = self.position.neighbors().filter({ map.tile(at: $0)?.isWater ?? false })
+            let waterNeighbors = game.neighborsInWater(of: self.position)
             let bestWaterNeighbor = waterNeighbors.randomItem()
             
             let pathFinder = AStarPathfinder()
-            pathFinder.dataSource =  map.pathfinderDataSource(with: game?.level?.gameObjectManager, movementType: self.movementType, ignoreSight: true)
+            pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
             
             if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
                 self.walk(on: path)

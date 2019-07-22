@@ -35,7 +35,7 @@ class MonsterCheck: GameConditionCheck {
     
     override func isWon() -> GameConditionType? {
         
-        guard let playerUnits = self.game?.level?.gameObjectManager.unitsOf(tribe: .player) else {
+        guard let playerUnits = self.game?.getAllUnitsOfUser() else {
             fatalError("no player units")
         }
         
@@ -55,11 +55,11 @@ class MonsterCheck: GameConditionCheck {
     
     override func isLost() -> GameConditionType? {
         
-        guard let enemyUnits = self.game?.level?.gameObjectManager.unitsOf(tribe: .enemy) else {
-            fatalError("no enemy units")
+        guard let enemyUnits = self.game?.getUnitsBy(type: .monster) else {
+            fatalError("no monster units")
         }
         
-        guard let playerUnits = self.game?.level?.gameObjectManager.unitsOf(tribe: .player) else {
+        guard let playerUnits = self.game?.getAllUnitsOfUser() else {
             fatalError("no player units")
         }
         

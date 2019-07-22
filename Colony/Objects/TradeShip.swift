@@ -11,7 +11,7 @@ import SpriteKit
 class TradeShip: GameObject {
     
     init(with identifier: String, at point: HexPoint) {
-        super.init(with: identifier, type: .tradeShip, at: point, spriteName: "pirate003", anchorPoint: CGPoint(x: 0.0, y: 0.0), tribe: .neutral, sight: 2)
+        super.init(with: identifier, type: .tradeShip, at: point, spriteName: "pirate003", anchorPoint: CGPoint(x: 0.0, y: 0.0), civilization: .trader, sight: 2)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "pirates", textures: ["pirate003", "pirate004", "pirate005"])
         
@@ -34,24 +34,20 @@ class TradeShip: GameObject {
         
         if self.state == .idle {
             
-            guard let map = game?.level?.map else {
+            guard let game = game else {
                 return
             }
             
-            guard let gameObjectManager = game?.level?.gameObjectManager else {
-                return
-            }
-            
-            guard let ocean = map.ocean(at: self.position) else {
+            guard let ocean = game.ocean(at: self.position) else {
                 fatalError("ship not at ocean")
             }
             
-            let listOfPossibleDestinations = map.getCoastalCities(at: ocean)
+            let listOfPossibleDestinations = game.getCoastalCities(at: ocean)
             let newCityDestination = listOfPossibleDestinations.randomItem()
-            let newDestination = newCityDestination.position.neighbors().filter({ map.isWater(at: $0) }).randomItem()
+            let newDestination = game.neighborsInWater(of: newCityDestination.position).randomItem()
             
             let pathFinder = AStarPathfinder()
-            pathFinder.dataSource =  map.pathfinderDataSource(with: gameObjectManager, movementType: self.movementType, ignoreSight: true)
+            pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true) 
             
             if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: newDestination) {
                 self.walk(on: path)

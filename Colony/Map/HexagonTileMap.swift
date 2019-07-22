@@ -15,15 +15,16 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     var rivers: [River] = []
     var fogManager: FogManager? = nil
+    var cities: [City] = []
     
     // properties that are not stored
     var continents: [Continent] = []
     var oceans: [Ocean] = []
-    var cities: [City] = []
     
     enum CodingKeys: String, CodingKey {
         case rivers
         case fogManager
+        case cities
     }
     
     // MARK: constructors
@@ -61,8 +62,22 @@ class HexagonTileMap: HexagonMap<Tile> {
         
         self.rivers = try values.decode([River].self, forKey: .rivers)
         self.fogManager = try values.decode(FogManager.self, forKey: .fogManager)
+        self.cities = try values.decode([City].self, forKey: .cities)
         
-        // FIXME: find continents and oceans !!!
+        // find continents and oceans
+        let continentFinder = ContinentFinder(width: self.width, height: self.height)
+        self.continents = continentFinder.execute(on: self)
+        
+        let oceanFinder = OceanFinder(width: self.width, height: self.height)
+        self.oceans = oceanFinder.execute(on: self)
+        
+        // assign city to its tiles
+        for city in self.cities {
+            
+            if let cityTile = self.tile(at: city.position) {
+                cityTile.city = city
+            }
+        }
     }
     
     override func encode(to encoder: Encoder) throws {
@@ -72,6 +87,7 @@ class HexagonTileMap: HexagonMap<Tile> {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.rivers, forKey: .rivers)
         try container.encode(self.fogManager, forKey: .fogManager)
+        try container.encode(self.cities, forKey: .cities)
     }
     
     // MARK: caldera
@@ -111,11 +127,19 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
-    // MARK: convineience
+    // MARK: convenience
     
     func isWater(at point: HexPoint) -> Bool {
         if let tile = self.tile(at: point) {
             return tile.isWater
+        }
+        
+        return false
+    }
+    
+    func isGround(at point: HexPoint) -> Bool {
+        if let tile = self.tile(at: point) {
+            return !tile.isWater
         }
         
         return false
@@ -460,6 +484,8 @@ class HexagonTileMap: HexagonMap<Tile> {
         if let tile = self.tile(at: hex) {
             tile.city = city
         }
+        
+        // FIXME update zone of control
     }
     
     func city(at point: HexPoint) -> City? {
@@ -469,11 +495,19 @@ class HexagonTileMap: HexagonMap<Tile> {
     }
     
     func getCoastalCities(at ocean: Ocean) -> [City] {
-        
-        //return self.cities.filter({ self.isCoast(at: $0.position) && self.adjacentOcean(at: $0.position)! == ocean })
-        
+
         return self.cities.filter({ ocean.isAdjacent(to: $0.position) })
     }
 
+    // MARK: zone of control methods
+    
+    func setZoneOfControl(for civilization: Civilization, at hex: HexPoint) {
+    
+        let tile = self.tile(at: hex)
+        let oldOwner = tile?.owned
+        tile?.owned = civilization
+        
+        // FIXME inform delegates
+    }
 }
 

@@ -10,6 +10,6 @@ import Foundation
 
 protocol SiteEvaluator {
     
-    func value(of point: HexPoint, by tribe: GameObjectTribe) -> Int
-    func value(of area: HexArea, by tribe: GameObjectTribe) -> Int
+    func value(of point: HexPoint, by civilization: Civilization) -> Int
+    func value(of area: HexArea, by civilization: Civilization) -> Int
 }

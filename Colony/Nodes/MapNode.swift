@@ -16,6 +16,7 @@ class MapNode: SKNode {
     var featureLayer: FeatureLayer
     var boardLayer: BoardLayer
     var riverLayer: RiverLayer
+    var areaLayer: AreaLayer
 
     // MARK: map
 
@@ -43,6 +44,9 @@ class MapNode: SKNode {
 
         self.riverLayer = RiverLayer()
         self.riverLayer.populate(with: self.map)
+        
+        self.areaLayer = AreaLayer()
+        self.areaLayer.populate(with: level)
 
         super.init()
 
@@ -50,6 +54,7 @@ class MapNode: SKNode {
         self.addChild(self.featureLayer)
         self.addChild(self.boardLayer)
         self.addChild(self.riverLayer)
+        self.addChild(self.areaLayer)
 
         for unit in self.gameObjectManager.objects {
             if let unit = unit {

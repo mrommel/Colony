@@ -11,7 +11,7 @@ import SpriteKit
 class Monster: GameObject {
     
     init(with identifier: String, at point: HexPoint) {
-        super.init(with: identifier, type: .monster, at: point, spriteName: "tile004", anchorPoint: CGPoint(x: 0.0, y: 0.2), tribe: .enemy, sight: 1)
+        super.init(with: identifier, type: .monster, at: point, spriteName: "tile004", anchorPoint: CGPoint(x: 0.0, y: 0.2), civilization: nil, sight: 1)
         
         self.atlasIdle = GameObjectAtlas(atlasName: "monster", textures: ["tile004", "tile005", "tile006", "tile007"])
         
@@ -32,28 +32,24 @@ class Monster: GameObject {
         
         if self.state == .idle {
             
-            guard let map = game?.level?.map else {
-                return
-            }
-            
-            guard let gameObjectManager = game?.level?.gameObjectManager else {
+            guard let game = game else {
                 return
             }
             
             // find neighbor water tile
-            let waterNeighbors = self.position.neighbors().filter({ map.tile(at: $0)?.isWater ?? false })
+            let waterNeighbors = game.neighborsInWater(of: self.position)
             
             // FIXME: find tile that is towards the ship
             var bestWaterNeighbor = waterNeighbors.first!
             var bestDistance: Int = Int.max
-            guard let enemyPosition = game?.level?.gameObjectManager.selected?.position else {
+            guard let enemyPosition = game.getSelectedUnitOfUser()?.position else {
                 return
             }
             
             for waterNeighbor in waterNeighbors {
                 
                 // monsters avoid to go near the coast, so we add a penalty for shore tiles
-                let shorePenalty = game?.level?.map.terrain(at: waterNeighbor) == .shore ? 2 : 0
+                let shorePenalty = game.isShore(at: waterNeighbor) ? 2 : 0
                 
                 // make it a bit unforeseen
                 let randomPenalty = Int.random(number: 2) // 0..1
@@ -68,7 +64,7 @@ class Monster: GameObject {
             //let waterNeighbor = waterNeighbors.randomItem()
             
             let pathFinder = AStarPathfinder()
-            pathFinder.dataSource =  map.pathfinderDataSource(with: gameObjectManager, movementType: self.movementType, ignoreSight: true)
+            pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
             
             if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
                 self.walk(on: path)

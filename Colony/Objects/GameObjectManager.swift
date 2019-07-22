@@ -63,15 +63,15 @@ class GameObjectManager: Codable {
             if let type = objectFromFile?.type,
                 let identifier = objectFromFile?.identifier,
                 let position = objectFromFile?.position,
-                let tribe = objectFromFile?.tribe {
+                let civilization = objectFromFile?.civilization {
                 
                 switch type {
                 
                 case .ship:
-                    self.objects.append(ShipObject(with: identifier, at: position, tribe: tribe))
+                    self.objects.append(ShipObject(with: identifier, at: position, civilization: civilization))
                     break
                 case .axeman:
-                    self.objects.append(Axeman(with: identifier, at: position, tribe: tribe))
+                    self.objects.append(Axeman(with: identifier, at: position, civilization: civilization))
                     break
                     
                 case .monster:
@@ -80,8 +80,11 @@ class GameObjectManager: Codable {
                 case .city:
                     // FIXME: name is not stored nor loaded
                     let name = cityNames.randomItem()
-                    self.map?.cities.append(City(named: name, at: position))
-                    let city = CityObject(with: identifier, named: name, at: position, tribe: tribe)
+                    
+                    // FIXME: how can we get the player here?
+                    let player = Player(name: "test", civilization: civilization, isUser: false)
+                    self.map?.cities.append(City(named: name, at: position, player: player))
+                    let city = CityObject(with: identifier, named: name, at: position, civilization: civilization)
                     
                     self.objects.append(city)
                     break
@@ -98,6 +101,8 @@ class GameObjectManager: Codable {
                 case .obstacle:
                     if identifier.starts(with: "shipwreck-") {
                         self.objects.append(ShipWreck(at: position))
+                    } else if identifier.starts(with: "reef-") {
+                        self.objects.append(Reef(at: position))
                     } else {
                         fatalError("obstacle cannot be loaded")
                     }
@@ -123,11 +128,13 @@ class GameObjectManager: Codable {
         }
 
         // only player unit update the fog
-        if object.tribe == .player {
-            self.map?.fogManager?.add(unit: object)
-            
-            if self.selected == nil {
-                self.selected = object
+        if let civilization = object.civilization {
+            if civilization == .english {
+                self.map?.fogManager?.add(unit: object)
+                
+                if self.selected == nil {
+                    self.selected = object
+                }
             }
         }
 
@@ -148,7 +155,7 @@ class GameObjectManager: Codable {
     
     func nextPlayerUnit() {
         
-        let playerUnits = self.unitsOf(tribe: .player)
+        let playerUnits = self.unitsOf(civilization: .english) // FIXME
         
         guard playerUnits.count > 1 else {
             return
@@ -179,15 +186,20 @@ class GameObjectManager: Codable {
         
         return nil
     }
+    
+    func unitsOf(type: GameObjectType) -> [GameObject?] {
+        
+        return self.objects.filter { $0?.type == type }
+    }
 
-    func unitsOf(tribe: GameObjectTribe) -> [GameObject?] {
+    func unitsOf(civilization: Civilization) -> [GameObject?] {
 
-        return self.objects.filter { $0?.tribe == tribe }
+        return self.objects.filter { $0?.civilization == civilization }
     }
     
-    func unitsOf(tribes: [GameObjectTribe]) -> [GameObject?] {
+    func unitsExcept(civilization: Civilization) -> [GameObject?] {
         
-        return self.objects.filter { tribes.contains($0!.tribe) }
+        return self.objects.filter { $0?.civilization != civilization } // also nil
     }
     
     func units(at position: HexPoint) -> [GameObject?] {
@@ -234,6 +246,67 @@ class GameObjectManager: Codable {
             object?.dismiss()
         }
     }
+    
+    // MARK: update methods
+    
+    func updatePlayer(object: GameObject) {
+        
+        guard let fogManager = self.map?.fogManager else {
+            fatalError("no fogManager set")
+        }
+        
+        // update fog for own units
+        fogManager.update()
+        
+        // everyone except player
+        for unit in self.unitsExcept(civilization: .english) {
+            
+            if let position = unit?.position, let type = unit?.type {
+                
+                if position == object.position && type == .coin {
+                    
+                    // consume reward
+                    self.gameObservationDelegate?.coinConsumed()
+                    
+                    self.gameObjectUnitDelegates |> { delegate in
+                        delegate.removed(gameObject: unit)
+                    }
+                    self.remove(object: unit)
+                    continue
+                }
+                
+                // show/hide enemies based on fog
+                let fogAtEnemy = fogManager.fog(at: position)
+                if fogAtEnemy == .sighted {
+                    unit?.show()
+                } else {
+                    if unit?.type == .city && fogAtEnemy == .discovered {
+                        unit?.show() // already discovered
+                    } else {
+                        unit?.hide()
+                    }
+                }
+            }
+        }
+    }
+    
+    func updateForeign(object: GameObject) {
+    
+        guard let fogManager = self.map?.fogManager else {
+            fatalError("no fogManager set")
+        }
+        
+        let fogAtEnemy = fogManager.fog(at: object.position)
+        if fogAtEnemy == .sighted {
+            object.show()
+        } else {
+            if object.type == .city && fogAtEnemy == .discovered {
+                object.show() // already discovered
+            } else {
+                object.hide()
+            }
+        }
+    }
 }
 
 extension GameObjectManager: GameObjectDelegate {
@@ -244,57 +317,14 @@ extension GameObjectManager: GameObjectDelegate {
             fatalError("Can't add nil object")
         }
 
-        guard let fogManager = self.map?.fogManager else {
-            fatalError("no fogManager set")
-        }
-
-        if object.tribe == .player {
-            // update fog for own units
-            fogManager.update()
-
-            // everyone except player
-            for unit in self.unitsOf(tribes: [.enemy, .neutral, .reward, .decoration]) {
-                
-                if let position = unit?.position, let tribe = unit?.tribe {
-                    
-                    if position == object.position && tribe == .reward {
-                        
-                        // consume reward
-                        self.gameObservationDelegate?.coinConsumed()
-                        
-                        self.gameObjectUnitDelegates |> { delegate in
-                            delegate.removed(gameObject: unit)
-                        }
-                        self.remove(object: unit)
-                        continue
-                    }
-                    
-                    // show/hide enemies based on fog
-                    let fogAtEnemy = fogManager.fog(at: position)
-                    if fogAtEnemy == .sighted {
-                        unit?.show()
-                    } else {
-                        if unit?.type == .city && fogAtEnemy == .discovered {
-                            unit?.show() // already discovered
-                        } else {
-                            unit?.hide()
-                        }
-                    }
-                }
-            }
-
-        } else if object.tribe == .enemy || object.tribe == .reward || object.tribe == .neutral {
-
-            let fogAtEnemy = fogManager.fog(at: object.position)
-            if fogAtEnemy == .sighted {
-                object.show()
+        if let civilization = object.civilization {
+            if civilization == .english { // FIXME current civ
+                self.updatePlayer(object: object)
             } else {
-                if object.type == .city && fogAtEnemy == .discovered {
-                    object.show() // already discovered
-                } else {
-                    object.hide()
-                }
+                self.updateForeign(object: object)
             }
+        } else {
+            self.updateForeign(object: object)
         }
 
         // check if won / lost the game

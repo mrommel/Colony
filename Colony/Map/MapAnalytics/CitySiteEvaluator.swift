@@ -18,7 +18,7 @@ class CitySiteEvaluator: SiteEvaluator {
         self.tileFertilityEvaluator = TileFertilityEvaluator(map: map)
     }
     
-    func canCityBeFound(on tile: Tile?, by tribe: GameObjectTribe) -> Bool {
+    func canCityBeFound(on tile: Tile?, by civilization: Civilization) -> Bool {
         
         guard let map = self.map else {
             return false
@@ -61,18 +61,18 @@ class CitySiteEvaluator: SiteEvaluator {
         return true
     }
     
-    func value(of area: HexArea, by tribe: GameObjectTribe) -> Int {
+    func value(of area: HexArea, by civilization: Civilization) -> Int {
         
         var sum = 0
         
         for point in area {
-            sum += self.value(of: point, by: tribe)
+            sum += self.value(of: point, by: civilization)
         }
         
         return sum
     }
     
-    func value(of point: HexPoint, by tribe: GameObjectTribe) -> Int {
+    func value(of point: HexPoint, by civilization: Civilization) -> Int {
 
         guard let map = self.map else {
             return 0
@@ -80,7 +80,7 @@ class CitySiteEvaluator: SiteEvaluator {
         
         let tile = map.tile(at: point)
         
-        if !self.canCityBeFound(on: tile, by: tribe) {
+        if !self.canCityBeFound(on: tile, by: civilization) {
             return 0
         }
         
@@ -93,7 +93,7 @@ class CitySiteEvaluator: SiteEvaluator {
                 continue
             }
             
-            sum += self.tileFertilityEvaluator.value(of: areaPoint, by: tribe)
+            sum += self.tileFertilityEvaluator.value(of: areaPoint, by: civilization)
         }
         
         if map.isAdjacentToRiver(at: point) {

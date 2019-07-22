@@ -165,7 +165,7 @@ class GameScene: SKScene {
 
         self.game?.conditionDelegate = self
         self.game?.gameUpdateDelegate = self
-        self.game?.level?.gameObjectManager.gameObjectUnitDelegates.addDelegate(self)
+        self.game?.add(gameObjectUnitDelegate: self)
 
         if let bottomLeftBar = self.bottomLeftBar {
             self.safeAreaNode.addChild(bottomLeftBar)

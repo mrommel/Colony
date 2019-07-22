@@ -52,6 +52,7 @@
 		C956079822B2426400AA69E9 /* GameConditionCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */; };
 		C956079A22B2435100AA69E9 /* MonsterCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079922B2435100AA69E9 /* MonsterCheck.swift */; };
 		C9564D6422D7C9DC0091099B /* Axeman.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9564D6322D7C9DC0091099B /* Axeman.swift */; };
+		C965FEA922E4F20A0075CB87 /* AreaLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C965FEA822E4F20A0075CB87 /* AreaLayer.swift */; };
 		C9697B2F22DC99C30076FF4C /* RegionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9697B2E22DC99C30076FF4C /* RegionFinder.swift */; };
 		C9697B3122DC99DD0076FF4C /* TileFertilityEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9697B3022DC99DD0076FF4C /* TileFertilityEvaluator.swift */; };
 		C9697B3322DC99F80076FF4C /* SiteEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9697B3222DC99F80076FF4C /* SiteEvaluator.swift */; };
@@ -181,6 +182,7 @@
 		C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConditionCheckManager.swift; sourceTree = "<group>"; };
 		C956079922B2435100AA69E9 /* MonsterCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterCheck.swift; sourceTree = "<group>"; };
 		C9564D6322D7C9DC0091099B /* Axeman.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axeman.swift; sourceTree = "<group>"; };
+		C965FEA822E4F20A0075CB87 /* AreaLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaLayer.swift; sourceTree = "<group>"; };
 		C9697B2E22DC99C30076FF4C /* RegionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFinder.swift; sourceTree = "<group>"; };
 		C9697B3022DC99DD0076FF4C /* TileFertilityEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileFertilityEvaluator.swift; sourceTree = "<group>"; };
 		C9697B3222DC99F80076FF4C /* SiteEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteEvaluator.swift; sourceTree = "<group>"; };
@@ -516,6 +518,7 @@
 			children = (
 				C94A2F3D22C8E1ED00AB7117 /* BottomLeftBar.swift */,
 				C94A2F3F22C8F66100AB7117 /* BottomRightBar.swift */,
+				C94A2F3222C22F8700AB7117 /* SafeAreaNode.swift */,
 				C9C7F0F2229EA73300A775B2 /* MapNode.swift */,
 				C94A2F3622C248DB00AB7117 /* MapOverviewNode.swift */,
 				C9C7F0F5229EAB9000A775B2 /* SKNode+Extension.swift */,
@@ -524,7 +527,7 @@
 				C9C7F13B229F204900A775B2 /* FeatureLayer.swift */,
 				C9C7F13F229F20C300A775B2 /* RiverLayer.swift */,
 				C9C7F13D229F206000A775B2 /* BoardLayer.swift */,
-				C94A2F3222C22F8700AB7117 /* SafeAreaNode.swift */,
+				C965FEA822E4F20A0075CB87 /* AreaLayer.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -853,6 +856,7 @@
 				C9C7F12B229EBF5200A775B2 /* AreaSprites.swift in Sources */,
 				C9697B3322DC99F80076FF4C /* SiteEvaluator.swift in Sources */,
 				C97B282A22A3F72100112532 /* MessageBoxButtonNode.swift in Sources */,
+				C965FEA922E4F20A0075CB87 /* AreaLayer.swift in Sources */,
 				C9C7F123229EBE5C00A775B2 /* HexPointWithCorner.swift in Sources */,
 				C938B56622D4A1EB00A2A838 /* HexPath.swift in Sources */,
 				C9763EB122A316C300F31126 /* UIColorExtension.swift in Sources */,
