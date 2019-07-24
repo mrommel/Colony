@@ -78,11 +78,12 @@ class GameObjectManager: Codable {
                     self.objects.append(Monster(with: identifier, at: position))
                     break
                 case .city:
-                    // FIXME: name is not stored nor loaded
-                    let name = cityNames.randomItem()
-                    
                     // FIXME: how can we get the player here?
                     let player = Player(name: "test", civilization: civilization, isUser: false)
+                    
+                    // FIXME: name is not stored nor loaded
+                    let name = player.civilization.cityNames.randomItem()
+                    
                     self.map?.cities.append(City(named: name, at: position, player: player))
                     let city = CityObject(with: identifier, named: name, at: position, civilization: civilization)
                     

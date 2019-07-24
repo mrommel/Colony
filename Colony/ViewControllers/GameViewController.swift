@@ -13,6 +13,8 @@ import GameplayKit
 class GameViewController: UIViewController {
 
     var pinchGestureRecognizer: UIPinchGestureRecognizer?
+    var longPressRecognizer: UILongPressGestureRecognizer?
+    var doubleTapGestureRecognizer: UITapGestureRecognizer?
 
     var viewModel: GameViewModel?
 
@@ -74,8 +76,7 @@ class GameViewController: UIViewController {
         view.presentScene(self.gameScene)
         view.ignoresSiblingOrder = true
 
-        self.pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(GameViewController.updateScale(sender:)))
-        self.view.addGestureRecognizer(pinchGestureRecognizer!)
+        self.setupGestureRecognizer()
     }
 
     func startMapGeneration() {
@@ -120,8 +121,20 @@ class GameViewController: UIViewController {
             view.showsNodeCount = true
         #endif
 
+        self.setupGestureRecognizer()
+    }
+    
+    func setupGestureRecognizer() {
+        
         self.pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(GameViewController.updateScale(sender:)))
-        self.view.addGestureRecognizer(pinchGestureRecognizer!)
+        self.view.addGestureRecognizer(self.pinchGestureRecognizer!)
+        
+        self.longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(GameViewController.handleLongPress(sender:)))
+        //self.view.addGestureRecognizer(self.longPressRecognizer!)
+        
+        self.doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(GameViewController.handleDoubleTap(sender:)))
+        self.doubleTapGestureRecognizer?.numberOfTapsRequired = 2
+        //self.view.addGestureRecognizer(self.doubleTapGestureRecognizer!)
     }
 
     @objc func updateScale(sender: UIPinchGestureRecognizer) {
@@ -131,11 +144,26 @@ class GameViewController: UIViewController {
 
         if recognizer.state == .changed {
 
-            //zoomScale = (0.2 * zoomScale / recognizer.scale) + (0.8 * zoomScale)
             zoomScale = zoomScale / recognizer.scale
             scene.zoom(to: zoomScale)
             recognizer.scale = 1
         }
+    }
+    
+    @objc func handleLongPress(sender: UITapGestureRecognizer) {
+ 
+        let screenPoint = sender.location(in: self.view)
+        let transformedPoint = self.gameScene?.cameraNode.convert(screenPoint, from: self.gameScene!.viewHex)
+        /*let touch = UITouch()
+        touch.view = self.view
+        touch.*/
+        let hex = HexMapDisplay.shared.toHexPoint(screen: transformedPoint!)
+        
+        print("long press at: \(hex)")
+    }
+    
+    @objc func handleDoubleTap(sender: UITapGestureRecognizer) {
+        print("double tap")
     }
 
     override var shouldAutorotate: Bool {
@@ -170,6 +198,7 @@ extension GameViewController: GameDelegate {
 
     func select(object: GameObject?) {
 
+        print("select")
         /*let alert = UIAlertController(title: "Ship", message: "Please Select an Option", preferredStyle: .actionSheet)
 
         alert.addAction(UIAlertAction(title: "Settle?", style: .default, handler: { (UIAlertAction)in

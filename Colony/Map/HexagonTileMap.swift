@@ -504,7 +504,7 @@ class HexagonTileMap: HexagonMap<Tile> {
     func setZoneOfControl(for civilization: Civilization, at hex: HexPoint) {
     
         let tile = self.tile(at: hex)
-        let oldOwner = tile?.owned
+        //let oldOwner = tile?.owned
         tile?.owned = civilization
         
         // FIXME inform delegates

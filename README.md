@@ -1,12 +1,11 @@
 # Colony
 
 ## Todo
-- add city screen
 - show collected coins in win dialog
 - add global player score
 - add new player input / add player switcher in options (logout)
 - let player select a civilization
-- pirates gets 20 coins from you
+- pirates gets some coins from you or trader
 - fight between units (pirates)
 - release scout for exploration
 - booster: wind, telescope - more sight, canon, yields, more time (clock), magnet (collect coins in area) - incl 'shop' and detail screen - find them on the map
@@ -24,15 +23,18 @@
 - add beach-se-sw-nw texture
 
 ## Bugs
-- [Defect] axeman can walk on the water - cannot reproduce
+- [Defect] axeman can walk on the water / ship can cross land - cannot reproduce
+- [Defect] river should end at first ocean - general tile bug
 - [Defect] dialogs have wrong display levels
 - [Defect] dialogs not centered in landscape mode
-- [Defect] river should end at first ocean
-- [Defect] Coins in level 1&2
+- [Defect] no coins in level 1&2
 - [Defest] objects are visible until first move of unit
 - [Defect] city banner is on top of ??? 
 
 ## Done
+- color areas in civ color
+- civ specific city names
+- add city screen
 - pirates only follow units in sight
 - add zone of control to map and also display it
 - reefs as obstacles

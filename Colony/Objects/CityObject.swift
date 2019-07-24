@@ -30,9 +30,6 @@ enum CitySize {
     }
 }
 
-// taken from here: https://civilization-v-customisation.fandom.com/wiki/List_of_City-States
-let cityNames = ["Almaty", "Antwerp", "Belgrade", "Bogota", "Bratislava", "Brussels", "Colombo", "Florence", "Geneva", "Genoa", "Jerusalem", "Lhasa", "Manila", "Melbourne", "Monaco", "Prague", "Riga", "Samarkand", "Sydney", "Tyre", "Vilnius", "Wittenberg", "Zurich"]
-
 class CityObject: GameObject {
     
     var name: String = "City"

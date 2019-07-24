@@ -49,4 +49,16 @@ class UI {
         
         return nil
     }
+    
+    static func cityDialog(for city: City?) -> Dialog? {
+        
+        let uiParser = UIParser()
+        if let cityDialogConfiguration = uiParser.parse(from: "CityDialog") {
+            let cityDialog = CityDialog(from: cityDialogConfiguration)
+            cityDialog.populate(with: city)
+            return cityDialog
+        }
+        
+        return nil
+    }
 }

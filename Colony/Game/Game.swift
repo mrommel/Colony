@@ -201,6 +201,11 @@ extension Game {
         
         return navalUnits
     }
+    
+    func city(at point: HexPoint) -> City? {
+        
+        return self.level?.map.city(at: point)
+    }
 }
 
 extension Game: GameObservationDelegate {

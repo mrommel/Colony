@@ -9,19 +9,17 @@
 import SpriteKit
 
 class Dialog: NineGridTextureSprite {
-    
     private let dialogLevel: CGFloat = 100.0
     
     var okayHandler: (() -> Void)?
     var cancelHandler: (() -> Void)?
     
     init(from configuration: DialogConfiguration) {
-        
         super.init(imageNamed: configuration.background,
                    size: configuration.size)
         
         self.position = configuration.position
-        self.zPosition = dialogLevel
+        self.zPosition = self.dialogLevel
         
         // position of childs
         // https://stackoverflow.com/questions/33099051/how-to-position-child-skspritenodes-inside-their-parents
@@ -29,7 +27,6 @@ class Dialog: NineGridTextureSprite {
         
         // items
         for item in configuration.items.item {
-
             if item.type == .button {
                 let buttonItem = MessageBoxButtonNode(titled: item.title, buttonAction: { [weak self] in
                     switch item.result {
@@ -37,19 +34,17 @@ class Dialog: NineGridTextureSprite {
                         if let handler = self?.okayHandler {
                             handler()
                         }
-                        break
                     case .cancel:
                         if let handler = self?.cancelHandler {
                             handler()
                         }
-                        break
                     case .none:
                         fatalError("Button without action")
                     }
                 })
                 buttonItem.name = item.identifier
                 buttonItem.position = item.positionIn(parent: self.size)
-                buttonItem.zPosition = dialogLevel + 1.0
+                buttonItem.zPosition = self.dialogLevel + 1.0
                 self.addChild(buttonItem)
             }
             
@@ -58,7 +53,7 @@ class Dialog: NineGridTextureSprite {
                 let imageItem = SKSpriteNode(texture: texture, size: item.size)
                 imageItem.name = item.identifier
                 imageItem.position = item.positionIn(parent: self.size)
-                imageItem.zPosition = dialogLevel + 1.0
+                imageItem.zPosition = self.dialogLevel + 1.0
                 self.addChild(imageItem)
             }
             
@@ -66,9 +61,9 @@ class Dialog: NineGridTextureSprite {
                 let labelItem = SKLabelNode(text: item.title)
                 labelItem.name = item.identifier
                 labelItem.position = item.positionIn(parent: self.size)
-                labelItem.zPosition = dialogLevel + 1.0
+                labelItem.zPosition = self.dialogLevel + 1.0
                 labelItem.fontSize = item.fontSize
-                    
+                
                 self.addChild(labelItem)
             }
         }
@@ -79,7 +74,6 @@ class Dialog: NineGridTextureSprite {
     }
     
     func set(text: String, identifier: String) {
-    
         guard let node = self.children.first(where: { $0.name == identifier }) else {
             fatalError("Can't find \(identifier)")
         }
@@ -91,6 +85,20 @@ class Dialog: NineGridTextureSprite {
         label.text = text
     }
     
+    func set(imageNamed imageName: String, identifier: String) {
+        guard let node = self.children.first(where: { $0.name == identifier }) else {
+            fatalError("Can't find \(identifier)")
+        }
+        
+        guard let spriteNode = node as? SKSpriteNode else {
+            fatalError("identifier does not identify a spriteNode")
+        }
+        
+        let texture = SKTexture(imageNamed: imageName)
+        
+        spriteNode.texture = texture
+    }
+    
     func addOkayAction(handler: @escaping () -> Void) {
         self.okayHandler = handler
     }
@@ -100,7 +108,6 @@ class Dialog: NineGridTextureSprite {
     }
     
     func close() {
-        
         self.parent?.removeChildren(in: [self])
     }
 }

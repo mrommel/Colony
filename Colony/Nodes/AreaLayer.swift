@@ -10,6 +10,7 @@ import SpriteKit
 
 class AreaLayer: SKNode {
     
+    weak var map: HexagonTileMap?
     var areaSpritesMap: [Player: AreaSprites] = [:]
     
     override init() {
@@ -23,38 +24,37 @@ class AreaLayer: SKNode {
     
     func populate(with level: Level?) {
         
+        self.map = level?.map
+        
+        guard let map = self.map else {
+            fatalError("map not set")
+        }
+        
+        map.fogManager?.delegates.addDelegate(self)
+        
         guard let players = level?.players else {
             return
         }
         
         for player in players {
-            let areaSprite = AreaSprites()
+            let areaSprite = AreaSprites(colored: player.civilization.color)
             if let zoneOfControl = player.zoneOfControl {
-                areaSprite.rebuild(with: zoneOfControl)
+                areaSprite.rebuild(with: zoneOfControl, and: map.fogManager)
             }
             self.addChild(areaSprite)
             
             self.areaSpritesMap[player] = areaSprite
         }
-        
-        /*map.fogManager?.delegates.addDelegate(self)
-        
-        for (player, areaSprite) in self.areaSpritesMap {
-            if let zoneOfControl = player.zoneOfControl {
-                areaSprite.rebuild(with: zoneOfControl)
-            }
-        }*/
     }
 }
 
 extension AreaLayer: FogStateChangedDelegate {
     
     func changed(to newState: FogState, at pt: HexPoint) {
-        
-        // NOOP
+
         for (player, areaSprite) in self.areaSpritesMap {
             if let zoneOfControl = player.zoneOfControl {
-                areaSprite.rebuild(with: zoneOfControl)
+                areaSprite.rebuild(with: zoneOfControl, and: map?.fogManager)
             }
         }
     }

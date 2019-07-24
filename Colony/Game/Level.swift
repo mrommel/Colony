@@ -56,87 +56,6 @@ struct ScoreThresold: Codable {
     let gold: Int
 }
 
-enum Civilization: String, Codable {
-    
-    // real player
-    case english
-    case french
-    case spanish
-    
-    //
-    case pirates
-    case trader
-    
-    var name: String {
-        switch self {
-        case .english:
-            return "English"
-        case .french:
-            return "French"
-        case .spanish:
-            return "Spanish"
-        case .pirates:
-            return "Pirates"
-        case .trader:
-            return "Trader"
-        }
-    }
-    
-    var color: UIColor {
-        switch self {
-        case .french:
-            return .blue
-        case .english:
-            return .red
-        case .spanish:
-            return .yellow
-            
-        case .pirates:
-            return .black
-        case .trader:
-            return .gray
-        }
-    }
-}
-
-class Player: Codable {
-    
-    let name: String
-    let civilization: Civilization
-    var zoneOfControl: HexArea? = nil
-    let isUser: Bool
-    
-    init(name: String, civilization: Civilization, isUser: Bool) {
-        self.name = name
-        self.civilization = civilization
-        self.isUser = isUser
-    }
-    
-    func addZoneOfControl(at point: HexPoint) {
-        
-        if self.zoneOfControl == nil {
-            self.zoneOfControl = HexArea(points: [point])
-        } else {
-            self.zoneOfControl?.add(point: point)
-        }
-    }
-}
-
-extension Player: Equatable {
-    
-    static func == (lhs: Player, rhs: Player) -> Bool {
-        
-        return lhs.name == rhs.name
-    }
-}
-
-extension Player: Hashable {
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self.name)
-    }
-}
-
 class Level: Decodable  {
     
     let number: Int
@@ -199,15 +118,14 @@ class Level: Decodable  {
         self.gameObjectManager.add(object: tradeShip)
         tradeShip.idle()
         
-        var ununsedCityNames = cityNames
+        let playerForCityStates = self.playerForCityStates()
+        var ununsedCityNames = playerForCityStates.civilization.cityNames
         
         for (index, startPosition) in startPositions.cityPositions.enumerated() {
-        
-            let cityName = ununsedCityNames.randomItem()
-            ununsedCityNames = ununsedCityNames.filter { $0 != cityName }
-            
+
             if index == 0 {
                 let player = self.playerForUser()
+                let cityName = player.civilization.cityNames.first!
                 self.found(city: City(named: cityName, at: startPosition, player: player))
 
                 // FIXME
@@ -215,8 +133,10 @@ class Level: Decodable  {
                 self.gameObjectManager.add(object: axeman)
                 axeman.idle()
             } else {
-                let player = self.playerForUser() // FIXME: wrong
-                self.found(city: City(named: cityName, at: startPosition, player: player))
+                
+                let cityName = ununsedCityNames.randomItem()
+                ununsedCityNames = ununsedCityNames.filter { $0 != cityName }
+                self.found(city: City(named: cityName, at: startPosition, player: playerForCityStates))
             }
         }
         
@@ -312,11 +232,19 @@ class Level: Decodable  {
         
         let juan = Player(name: "Juan", civilization: .spanish, isUser: false)
         self.players.append(juan)
+        
+        let cityStates = Player(name: "Neuton", civilization: .cityStates, isUser: false)
+        self.players.append(cityStates)
     }
     
     func playerForUser() -> Player {
         
         return self.players.first(where: { $0.isUser })!
+    }
+    
+    func playerForCityStates() -> Player {
+        
+        return self.players.first(where: { $0.civilization == .cityStates })!
     }
     
     func score(for coins: Int) -> LevelScore {
@@ -339,6 +267,7 @@ class Level: Decodable  {
         self.gameObjectManager.add(object: cityObj)
         cityObj.idle()
         
+        self.map.set(city: city, at: city.position)
         self.map.cities.append(city)
         
         city.player.addZoneOfControl(at: city.position)

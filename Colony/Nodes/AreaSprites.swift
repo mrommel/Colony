@@ -12,10 +12,12 @@ import SpriteKit
 class AreaSprites: SKNode {
 
 	private var sprites: [SKSpriteNode]
+    private let color: UIColor
 
-    override init() {
+    init(colored color: UIColor) {
 
 		self.sprites = []
+        self.color = color
 
 		super.init()
 	}
@@ -60,8 +62,12 @@ class AreaSprites: SKNode {
 		return textureName
 	}
 
-	func rebuild(with area: HexArea) {
+    func rebuild(with area: HexArea, and fogManager: FogManager?) {
 
+        guard let fogManager = fogManager else {
+            return
+        }
+        
 		// remove old sprites
 		for sprite in self.sprites {
 			sprite.removeFromParent()
@@ -70,6 +76,10 @@ class AreaSprites: SKNode {
 
 		for point in area {
 
+            if !fogManager.currentlyVisible(at: point) {
+                continue
+            }
+            
             let position = HexMapDisplay.shared.toScreen(hex: point)
             
             let textureName = self.texture(for: point, in: area)
@@ -77,6 +87,8 @@ class AreaSprites: SKNode {
             sprite.position = position
             sprite.zPosition = GameScene.Constants.ZLevels.area
             sprite.anchorPoint = CGPoint(x: 0, y: 0)
+            sprite.colorBlendFactor = 0.8
+            sprite.color = self.color
             self.addChild(sprite)
             
             self.sprites.append(sprite)

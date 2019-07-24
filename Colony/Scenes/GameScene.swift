@@ -449,20 +449,28 @@ class GameScene: SKScene {
         if hex == self.lastFocusPoint {
 
             // debug
-            if let selectedCity = self.mapNode?.gameObjectManager.selected as? CityObject {
+            //if let selectedCity = self.mapNode?.gameObjectManager.selected as? CityObject {
                 
-                let newSize = CitySize.all.randomItem()
+            if let city = self.game?.city(at: hex) {
+                let cityDialog = UI.cityDialog(for: city)
+                cityDialog?.addOkayAction(handler: {
+                    cityDialog?.close()
+                })
+                self.cameraNode.addChild(cityDialog!)
+            }
+                
+                /*let newSize = CitySize.all.randomItem()
                 let newWalls = Bool.random()
                 
                 selectedCity.size = newSize
-                selectedCity.walls = newWalls
+                selectedCity.walls = newWalls*/
             }
             /*if let selectedUnit = self.mapNode?.gameObjectManager.selected {
                 if selectedUnit.position == hex {
                     self.gameDelegate?.select(object: selectedUnit)
                 }
             }*/
-        }
+        //}
 
         self.lastFocusPoint = hex
     }
