@@ -22,9 +22,12 @@ class MenuScene: SKScene {
     var menuDelegate: MenuDelegate?
     
     var safeAreaNode: SafeAreaNode
+    var colonyTitleLabel: SKSpriteNode?
     var backgroundNode2: SKSpriteNode?
     var backgroundNode1: SKSpriteNode?
     var backgroundNode0: SKSpriteNode?
+    var copyrightLabel: SKLabelNode?
+    var settingsButton: SettingsButtonNode?
     var cameraNode: SKCameraNode!
     
     let gameUsecase: GameUsecase?
@@ -81,10 +84,12 @@ class MenuScene: SKScene {
         
         // colony label
         let colonytexture = SKTexture(imageNamed: "ColonyText")
-        let colonyTitleLabel = SKSpriteNode(texture: colonytexture, color: .black, size: CGSize(width: 228, height: 87))
-        colonyTitleLabel.position = CGPoint(x: 0, y: self.frame.halfHeight - 80)
-        colonyTitleLabel.zPosition = 1
-        self.cameraNode.addChild(colonyTitleLabel)
+        self.colonyTitleLabel = SKSpriteNode(texture: colonytexture, color: .black, size: CGSize(width: 228, height: 87))
+        self.colonyTitleLabel?.zPosition = 1
+        
+        if let colonyTitleLabel = self.colonyTitleLabel {
+            self.cameraNode.addChild(colonyTitleLabel)
+        }
         
         let levelManager = LevelManager()
         for level in levelManager.levels {
@@ -97,7 +102,7 @@ class MenuScene: SKScene {
             levelButton.zPosition = 1
             self.addChild(levelButton)
             
-            // FIXME: add level score here
+            // add level score here
             var levelScoreValue = LevelScore.none
             if let levelScore = self.gameUsecase?.levelScore(for: Int32(level.number)) {
                 levelScoreValue = levelScore
@@ -119,19 +124,25 @@ class MenuScene: SKScene {
         self.addChild(generateButton)
         
         // settings
-        let settingsButton = SettingsButtonNode(buttonAction: {
+        self.settingsButton = SettingsButtonNode(buttonAction: {
             self.menuDelegate?.startOptions()
         })
-        settingsButton.position = CGPoint(x: self.frame.width * 0.88 - self.frame.halfWidth, y: self.frame.height * 0.1 - self.frame.halfHeight)
-        settingsButton.zPosition = 7
-        self.cameraNode.addChild(settingsButton)
+        self.settingsButton?.zPosition = 7
+        
+        if let settingsButton = self.settingsButton {
+            self.cameraNode.addChild(settingsButton)
+        }
         
         // copyright
-        let copyrightLabel = SKLabelNode(text: "Copyright 2019 MiRo & MaRo")
-        copyrightLabel.position = CGPoint(x: 0, y: -self.frame.halfHeight + 18)
-        copyrightLabel.zPosition = 1
-        copyrightLabel.fontSize = 12
-        self.cameraNode.addChild(copyrightLabel)
+        self.copyrightLabel = SKLabelNode(text: "Copyright 2019 MiRo & MaRo")
+        self.copyrightLabel?.zPosition = 1
+        self.copyrightLabel?.fontSize = 12
+        
+        if let copyrightLabel = self.copyrightLabel {
+            self.cameraNode.addChild(copyrightLabel)
+        }
+        
+        self.updateLayout()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -165,8 +176,23 @@ class MenuScene: SKScene {
     
     func updateLayout() {
         
+        let viewSize = (self.view?.bounds.size)!
+        let backgroundTileHeight = 812 * viewSize.width / 375
+        
         self.safeAreaNode.updateLayout()
         
+        self.colonyTitleLabel?.position = CGPoint(x: 0, y: self.frame.halfHeight - 80)
+        
         self.backgroundNode0?.position = CGPoint(x: 0.0, y: 0.0)
+        self.backgroundNode0?.size = CGSize(width: viewSize.width, height: backgroundTileHeight)
+        
+        self.backgroundNode1?.position = CGPoint(x: 0.0, y: backgroundTileHeight)
+        self.backgroundNode1?.size = CGSize(width: viewSize.width, height: backgroundTileHeight)
+        
+        self.backgroundNode2?.position = CGPoint(x: 0.0, y: 2 * backgroundTileHeight)
+        self.backgroundNode2?.size = CGSize(width: viewSize.width, height: backgroundTileHeight)
+        
+        self.settingsButton?.position = CGPoint(x: self.frame.width * 0.88 - self.frame.halfWidth, y: self.frame.height * 0.1 - self.frame.halfHeight)
+        self.copyrightLabel?.position = CGPoint(x: 0, y: -self.frame.halfHeight + 18)
     }
 }

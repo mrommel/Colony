@@ -62,32 +62,36 @@ class GameObjectManager: Codable {
 
             if let type = objectFromFile?.type,
                 let identifier = objectFromFile?.identifier,
-                let position = objectFromFile?.position,
-                let civilization = objectFromFile?.civilization {
+                let position = objectFromFile?.position {
                 
                 switch type {
                 
                 case .ship:
-                    self.objects.append(ShipObject(with: identifier, at: position, civilization: civilization))
+                    if let civilization = objectFromFile?.civilization {
+                        self.objects.append(ShipObject(with: identifier, at: position, civilization: civilization))
+                    }
                     break
                 case .axeman:
-                    self.objects.append(Axeman(with: identifier, at: position, civilization: civilization))
+                    if let civilization = objectFromFile?.civilization {
+                        self.objects.append(Axeman(with: identifier, at: position, civilization: civilization))
+                    }
                     break
                     
                 case .monster:
                     self.objects.append(Monster(with: identifier, at: position))
                     break
                 case .city:
-                    // FIXME: how can we get the player here?
-                    let player = Player(name: "test", civilization: civilization, isUser: false)
-                    
-                    // FIXME: name is not stored nor loaded
-                    let name = player.civilization.cityNames.randomItem()
-                    
-                    self.map?.cities.append(City(named: name, at: position, player: player))
-                    let city = CityObject(with: identifier, named: name, at: position, civilization: civilization)
-                    
-                    self.objects.append(city)
+                    if let civilization = objectFromFile?.civilization {
+                        // FIXME: how can we get the player here?
+                        let player = Player(name: "test", civilization: civilization, isUser: false)
+
+                        if let name = objectFromFile?.name {
+                            self.map?.cities.append(City(named: name, at: position, player: player))
+                            let city = CityObject(with: identifier, named: name, at: position, civilization: civilization)
+
+                            self.objects.append(city)
+                        }
+                    }
                     break
                 case .coin:
                     self.objects.append(Coin(at: position))

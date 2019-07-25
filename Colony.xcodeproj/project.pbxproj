@@ -418,7 +418,6 @@
 		C9763EB222A317C600F31126 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				C965FEAC22E7450B0075CB87 /* CityDialog.swift */,
 				C92D876622CCA7C000E7A55E /* SizedNode.swift */,
 				C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */,
 				C91A4F3422A26585000BF647 /* MenuButtonNode.swift */,
@@ -429,6 +428,7 @@
 				C97B282B22A427A800112532 /* ProgressBarNode.swift */,
 				C900653F22AEE3BA0004C963 /* UIParser.swift */,
 				C900654322AF96A00004C963 /* Dialog.swift */,
+				C965FEAC22E7450B0075CB87 /* CityDialog.swift */,
 				C956078822B0F22800AA69E9 /* DialogConfiguration.swift */,
 				C900654522AFA21D0004C963 /* UI.swift */,
 				C984CCD322CD4D3C0033F2BB /* SettingsButtonNode.swift */,

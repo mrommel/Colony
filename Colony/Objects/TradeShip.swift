@@ -55,7 +55,8 @@ class TradeShip: GameObject {
                 if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: newDestination) {
                     self.walk(on: path)
                 } else {
-                    fatalError("can't find path from \(self.position) to \(newDestination)")
+                    // FIXME: sometimes the trader gets stuck
+                    //fatalError("can't find path from \(self.position) to \(newDestination)")
                 }
             } else {
                 print("TradeShip: can't cycle coastal cities - only \(listOfPossibleDestinations.count) cities found")

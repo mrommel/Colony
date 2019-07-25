@@ -9,7 +9,6 @@
 import SpriteKit
 
 class Dialog: NineGridTextureSprite {
-    private let dialogLevel: CGFloat = 100.0
     
     var okayHandler: (() -> Void)?
     var cancelHandler: (() -> Void)?
@@ -19,7 +18,7 @@ class Dialog: NineGridTextureSprite {
                    size: configuration.size)
         
         self.position = configuration.position
-        self.zPosition = self.dialogLevel
+        self.zPosition = GameScene.Constants.ZLevels.dialogs
         
         // position of childs
         // https://stackoverflow.com/questions/33099051/how-to-position-child-skspritenodes-inside-their-parents
@@ -44,7 +43,7 @@ class Dialog: NineGridTextureSprite {
                 })
                 buttonItem.name = item.identifier
                 buttonItem.position = item.positionIn(parent: self.size)
-                buttonItem.zPosition = self.dialogLevel + 1.0
+                buttonItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
                 self.addChild(buttonItem)
             }
             
@@ -53,7 +52,7 @@ class Dialog: NineGridTextureSprite {
                 let imageItem = SKSpriteNode(texture: texture, size: item.size)
                 imageItem.name = item.identifier
                 imageItem.position = item.positionIn(parent: self.size)
-                imageItem.zPosition = self.dialogLevel + 1.0
+                imageItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
                 self.addChild(imageItem)
             }
             
@@ -61,7 +60,7 @@ class Dialog: NineGridTextureSprite {
                 let labelItem = SKLabelNode(text: item.title)
                 labelItem.name = item.identifier
                 labelItem.position = item.positionIn(parent: self.size)
-                labelItem.zPosition = self.dialogLevel + 1.0
+                labelItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
                 labelItem.fontSize = item.fontSize
                 
                 self.addChild(labelItem)
@@ -108,6 +107,7 @@ class Dialog: NineGridTextureSprite {
     }
     
     func close() {
-        self.parent?.removeChildren(in: [self])
+        self.removeFromParent()
+        //self.parent?.removeChildren(in: [self])
     }
 }

@@ -15,7 +15,7 @@ protocol GameUpdateDelegate {
 
 class Game {
 
-    private let level: Level?
+    fileprivate let level: Level?
 
     var startTime: TimeInterval = 0.0
     var timer: Timer? = nil
@@ -218,5 +218,26 @@ extension Game: GameObservationDelegate {
         self.coins += 1
         
         self.gameUpdateDelegate?.update(coins: self.coins)
+    }
+}
+
+extension LevelManager {
+    
+    static func store(game: Game?, to fileName: String) {
+        
+        guard let level = game?.level else {
+            fatalError("Can't store nil levels")
+        }
+        
+        let filename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(fileName)
+        
+        do {
+            let mapPayload: Data = try JSONEncoder().encode(level)
+            try mapPayload.write(to: filename!)
+            //let jsonString = String(data: mapPayload, encoding: .utf8)
+            //print(jsonString!)
+        } catch {
+            fatalError("Can't store level: \(error)")
+        }
     }
 }

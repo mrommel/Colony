@@ -32,7 +32,6 @@ enum CitySize {
 
 class CityObject: GameObject {
     
-    var name: String = "City"
     var size: CitySize = .small {
         didSet {
             self.updateAssets()
@@ -46,9 +45,9 @@ class CityObject: GameObject {
     
     init(with identifier: String, named name: String, at point: HexPoint, civilization: Civilization) {
         
-        self.name = name
-        
         super.init(with: identifier, type: .city, at: point, spriteName: "city_1_no_walls", anchorPoint: CGPoint(x: -0.0, y: -0.0), civilization: civilization, sight: 2)
+        
+        self.name = name
         
         self.atlasIdle = GameObjectAtlas(atlasName: "city", textures: ["city_1_no_walls"])
         
@@ -59,13 +58,13 @@ class CityObject: GameObject {
         
         self.movementType = .immobile
         
-        self.showCity(named: self.name)
+        self.showCity(named: self.name ?? "City")
     }
     
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         
-        self.showCity(named: self.name)
+        self.showCity(named: self.name ?? "City")
     }
     
     // MARK: methods

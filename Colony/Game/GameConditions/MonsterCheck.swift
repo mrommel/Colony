@@ -39,14 +39,16 @@ class MonsterCheck: GameConditionCheck {
             fatalError("no player units")
         }
         
-        guard playerUnits.count == 2 else {
+        guard playerUnits.count > 1 else {
             return nil
         }
         
-        if let position0 = playerUnits[0]?.position, let position1 = playerUnits[1]?.position {
-            
-            if position0.distance(to: position1) == 1 {
-                return MonsterGameConditionType.cityReached
+        if let ship = playerUnits.filter({ $0?.type == .ship }).first, let city = playerUnits.filter({ $0?.type == .city }).first {
+
+            if let shipPosition = ship?.position, let cityPosition = city?.position {
+                if shipPosition.distance(to: cityPosition) == 1 {
+                    return MonsterGameConditionType.cityReached
+                }
             }
         }
         
@@ -63,9 +65,9 @@ class MonsterCheck: GameConditionCheck {
             fatalError("no player units")
         }
         
-        for enemyUnit in enemyUnits {
-            for playerUnit in playerUnits {
-                if enemyUnit?.position == playerUnit?.position {
+        if let ship = playerUnits.filter({ $0?.type == .ship }).first, let monster = enemyUnits.first {
+            if let shipPosition = ship?.position, let monsterPosition = monster?.position {
+                if shipPosition == monsterPosition {
                     return MonsterGameConditionType.monsterCaughtShip
                 }
             }

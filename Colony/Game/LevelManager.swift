@@ -34,24 +34,6 @@ class LevelManager {
         }
     }
 
-    static func store(level: Level?, to fileName: String) {
-
-        guard let level = level else {
-            fatalError("Can't store nil levels")
-        }
-
-        let filename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(fileName)
-
-        do {
-            let mapPayload: Data = try JSONEncoder().encode(level)
-            try mapPayload.write(to: filename!)
-            //let jsonString = String(data: mapPayload, encoding: .utf8)
-            //print(jsonString!)
-        } catch {
-            fatalError("Can't store level: \(error)")
-        }
-    }
-
     static func loadLevelFrom(url: URL?) -> Level? {
 
         if let levelUrl = url {

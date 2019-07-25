@@ -35,9 +35,10 @@ class GameScene: SKScene {
             static let path: CGFloat = 4.3
             static let featureUpper: CGFloat = 4.5
             static let staticSprite: CGFloat = 5.0
+            static let cityName: CGFloat = 5.5
             static let sprite: CGFloat = 6.0
-            static let cityName: CGFloat = 8.0
             static let labels: CGFloat = 50.0
+            static let dialogs: CGFloat = 50.0
         }
 
         struct Visibility {
@@ -228,14 +229,14 @@ class GameScene: SKScene {
             // save node
             let saveButton = MessageBoxButtonNode(titled: "Save", buttonAction: {
 
-                let map = self.viewModel?.map
+                /*let map = self.viewModel?.map
 
                 let startPositionFinder = StartPositionFinder(map: map)
                 let startPositions = startPositionFinder.identifyStartPositions()
 
-                let level = Level(number: 0, title: "Test", summary: "Dummy", difficulty: .easy, map: map!, startPositions: startPositions, gameObjectManager: self.mapNode!.gameObjectManager)
+                let level = Level(number: 0, title: "Test", summary: "Dummy", difficulty: .easy, map: map!, startPositions: startPositions, gameObjectManager: self.mapNode!.gameObjectManager)*/
 
-                LevelManager.store(level: level, to: "level000X.lvl")
+                LevelManager.store(game: self.game, to: "level000X.lvl")
 
             })
             saveButton.position = CGPoint(x: 0, y: frame.size.height - headerHeight - 40)

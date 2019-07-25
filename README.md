@@ -21,15 +21,17 @@
 - move unit on longclick ?
 
 ## Bugs
-- [Defect] axeman can walk on the water / ship can cross land - cannot reproduce
-- [Defect] river should end at first ocean - general tile bug
+- [Defect] axeman can walk on the water / ship can cross land - general tile display bug
+- [Defect] river should end at first ocean - general tile display bug
 - [Defect] dialogs have wrong display levels
 - [Defect] dialogs not centered in landscape mode
-- [Defect] no coins in level 1&2
-- [Defest] objects are visible until first move of unit
-- [Defect] city banner is on top of ??? 
 
 ## Done
+- [Defect] no coins in level 1&2
+- [Defect] LevelManager can't load the levels anymore (at least 1 loads now)
+- [Defect] monstercheck is not working anymore
+- [Defect] city banner is on top of unit indicator
+- [Defest] objects are visible until first move of unit
 - [Defect] axeman starts sometimes in water
 - click on mini map should focus
 - add cities to minimap
