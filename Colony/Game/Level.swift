@@ -128,8 +128,12 @@ class Level: Decodable  {
                 let cityName = player.civilization.cityNames.first!
                 self.found(city: City(named: cityName, at: startPosition, player: player))
 
-                // FIXME
-                let axeman = Axeman(with: "axeman", at: startPosition.neighbors().randomItem(), civilization: player.civilization)
+                // start axeman next to city (or on city)
+                var axemanPositions = startPosition.neighbors().filter({ self.map.isGround(at: $0) })
+                if axemanPositions.count == 0 {
+                    axemanPositions = [startPosition]
+                }
+                let axeman = Axeman(with: "axeman", at: axemanPositions.randomItem(), civilization: player.civilization)
                 self.gameObjectManager.add(object: axeman)
                 axeman.idle()
             } else {

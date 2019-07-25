@@ -8,16 +8,26 @@
 
 import SpriteKit
 
+protocol BottomRightBarDelegate: class {
+    
+    func focus(on point: HexPoint)
+}
+
 class BottomRightBar: SizedNode {
 
     var backgroundBodyNode: SKSpriteNode?
     var mapOverviewNode: MapOverviewNode?
     var mapOverlay: SKSpriteNode?
     
+    let mapSize: CGSize!
+    weak var delegate: BottomRightBarDelegate?
+    
     init(for level: Level?, sized size: CGSize) {
 
-        super.init(sized: size)
+        self.mapSize = level?.map.size
         
+        super.init(sized: size)
+
         self.anchorPoint = .lowerRight
         self.zPosition = 49 // FIXME: move to constants
         
@@ -59,8 +69,21 @@ class BottomRightBar: SizedNode {
         
         let touch = touches.first!
         
+        guard let mapOverviewNode = self.mapOverviewNode else {
+            return
+        }
+        
         let location = touch.location(in: self)
-        print("BottomRightBar: \(location)")
+        print("BottomRightBar: location = \(location)")
+        let innerLocation = location - mapOverviewNode.position
+        print("BottomRightBar: innerLocation = \(innerLocation)")
+        
+        let imageWidth = mapOverviewNode.frame.height * self.mapSize.width / self.mapSize.height
+        let x = innerLocation.x / imageWidth * self.mapSize.width
+        let y = self.mapSize.height - (innerLocation.y / mapOverviewNode.frame.height * self.mapSize.height)
+        let newFocus = HexPoint(x: Int(x), y: Int(y))
+        print("BottomRightBar: newFocus = \(newFocus)")
+        self.delegate?.focus(on: newFocus)
     }
     
     override func updateLayout() {

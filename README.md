@@ -10,17 +10,15 @@
 - release scout for exploration
 - booster: wind, telescope - more sight, canon, yields, more time (clock), magnet (collect coins in area) - incl 'shop' and detail screen - find them on the map
 - shark: up+down copied from left+right
-- click on mini map should focus
-- move unit on longclick
 - limit sight thru mountains
 - shipwreck animation
 - snow textures from wesnoth
 - mountain textures
-- add cities to minimap
 
 ## Maybe
 - collect wood with axemann
 - add beach-se-sw-nw texture
+- move unit on longclick ?
 
 ## Bugs
 - [Defect] axeman can walk on the water / ship can cross land - cannot reproduce
@@ -32,6 +30,9 @@
 - [Defect] city banner is on top of ??? 
 
 ## Done
+- [Defect] axeman starts sometimes in water
+- click on mini map should focus
+- add cities to minimap
 - color areas in civ color
 - civ specific city names
 - add city screen

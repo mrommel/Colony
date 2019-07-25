@@ -138,6 +138,7 @@ class GameScene: SKScene {
             self.mapNode = MapNode(with: level)
             self.bottomLeftBar = BottomLeftBar(for: level, sized: CGSize(width: 200, height: 112))
             self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
+            self.bottomRightBar?.delegate = self
 
             self.showLevel(title: level.title, summary: level.summary)
 
@@ -159,6 +160,7 @@ class GameScene: SKScene {
             self.mapNode = MapNode(with: level)
             self.bottomLeftBar = BottomLeftBar(for: level, sized: CGSize(width: 200, height: 112))
             self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
+            self.bottomRightBar?.delegate = self
 
             self.showLevel(title: "Free playing", summary: "Please play free")
         }
@@ -378,7 +380,7 @@ class GameScene: SKScene {
         touchLocation.y -= 15
 
         let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
-        //self.positionLabel.text = "\(position)"
+        print("new focus: \(position)")
 
         if !self.hasMoved {
             self.moveFocus(to: position)
@@ -473,6 +475,13 @@ class GameScene: SKScene {
         //}
 
         self.lastFocusPoint = hex
+    }
+}
+
+extension GameScene: BottomRightBarDelegate {
+    
+    func focus(on point: HexPoint) {
+        self.centerCamera(on: point)
     }
 }
 

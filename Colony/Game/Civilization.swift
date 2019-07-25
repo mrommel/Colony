@@ -60,6 +60,25 @@ enum Civilization: String, Codable {
         }
     }
     
+    var overviewColor: UIColor {
+        switch self {
+        case .french:
+            return .blue
+        case .english:
+            return .red
+        case .spanish:
+            return .yellow
+            
+        case .cityStates:
+            return .white
+            
+        case .pirates:
+            return .black
+        case .trader:
+            return .gray
+        }
+    }
+    
     var cityNames: [String] {
         switch self {
         case .cityStates:
