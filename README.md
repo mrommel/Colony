@@ -2,23 +2,23 @@
 
 ## Todo
 - show collected coins in win dialog
-- add global player score
+- add global player score for booster and coins
 - add new player input / add player switcher in options (logout)
 - let player select a civilization
 - pirates gets some coins from you or trader
 - fight between units (pirates)
-- release scout for exploration
+- release / board units from ships
 - shark: up+down copied from left+right
 - limit sight thru mountains
 - shipwreck animation
 - snow textures from wesnoth
-- mountain textures
+- mountain textures layer
 
-## Booster
+## Booster - ongoing
 - wind - faster sailing
-- telescope - more sight, 
+- telescope - more sight - implemented
 - canon, yields, 
-- more time (clock), 
+- more time (clock) - implemented
 - magnet (collect coins in area) 
 - call for allies - trumpet / horn - (to help with re quest)
 

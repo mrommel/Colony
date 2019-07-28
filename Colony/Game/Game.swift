@@ -21,6 +21,7 @@ class Game: Decodable {
     var timer: Timer? = nil
     
     var coins: Int
+    var boosterStock: BoosterStock
     
     let gameUsecase: GameUsecase?
 
@@ -36,6 +37,7 @@ class Game: Decodable {
     enum CodingKeys: String, CodingKey {
         case level
         case coins
+        case boosterStock
         // FIXME - add timer (remaining)
     }
 
@@ -43,6 +45,7 @@ class Game: Decodable {
 
         self.level = level
         self.coins = 0
+        self.boosterStock = BoosterStock()
         
         self.gameUsecase = GameUsecase()
 
@@ -63,6 +66,7 @@ class Game: Decodable {
         
         self.level = try values.decode(Level.self, forKey: .level)
         self.coins = try values.decode(Int.self, forKey: .coins)
+        self.boosterStock = try values.decode(BoosterStock.self, forKey: .boosterStock)
         
         // FIXME - add timer (remaining)
         
@@ -147,6 +151,57 @@ class Game: Decodable {
     }
 }
 
+extension Game {
+    
+    func start(boosterType: BoosterType) {
+        
+        // check if we can use this booster
+        guard self.boosterStock.isAvailable(boosterType: boosterType) else {
+            fatalError("booster \(boosterType) not available !!! ")
+        }
+        
+        // reduce the amount of the booster
+        self.boosterStock.decrement(boosterType: boosterType)
+        
+        // start timer
+        let timer = Timer.scheduledTimer(timeInterval: boosterType.timeInterval, target: self, selector: #selector(fire(timer:)), userInfo: boosterType, repeats: false)
+        
+        // begin effect
+        switch boosterType {
+            
+        case .telescope:
+            print("start telescope")
+            
+            self.level?.gameObjectManager.selected?.sight += 1
+        case .time:
+            print("start time")
+            self.startTime += boosterType.timeInterval
+        }
+    }
+    
+    @objc func fire(timer: Timer) {
+        
+        if let boosterType = timer.userInfo as? BoosterType {
+            print("boosterType \(boosterType) canceled")
+            self.finish(boosterType: boosterType)
+        }
+    }
+    
+    func finish(boosterType: BoosterType) {
+    
+        // cancel effect
+        switch boosterType {
+            
+        case .telescope:
+            print("finish telescope")
+            
+            self.level?.gameObjectManager.selected?.sight -= 1
+        case .time:
+            print("finish time")
+        }
+    }
+}
+
 extension Game: Encodable {
     
     func encode(to encoder: Encoder) throws {
@@ -154,6 +209,7 @@ extension Game: Encodable {
         
         try container.encode(self.level, forKey: .level)
         try container.encode(self.coins, forKey: .coins)
+        try container.encode(self.boosterStock, forKey: .boosterStock)
         
         // FIXME - add timer (remaining)
     }

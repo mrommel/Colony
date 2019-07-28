@@ -73,6 +73,10 @@ class GameScene: SKScene {
     var coinIconLabel: SKSpriteNode!
     let timeLabel = SKLabelNode(text: "0:00")
     var hasMoved = false
+    
+    // booster handling
+    var boosterNodeTelescope: BoosterNode?
+    var boosterNodeTime: BoosterNode?
 
     var game: Game? // the reference
     weak var gameDelegate: GameDelegate?
@@ -289,6 +293,27 @@ class GameScene: SKScene {
         }
         
         self.updateLayout()
+        
+        // FIXME
+        let telescopeBoosterAvailable = self.game?.boosterStock.isAvailable(boosterType: .telescope) ?? false
+        self.boosterNodeTelescope = BoosterNode(for: .telescope, active: telescopeBoosterAvailable)
+        self.boosterNodeTelescope?.zPosition = 200
+        self.boosterNodeTelescope?.position = CGPoint(x: 220, y: 250)
+        self.boosterNodeTelescope?.delegate = self
+            
+        if let boosterNodeTelescope = self.boosterNodeTelescope {
+            self.safeAreaNode.addChild(boosterNodeTelescope)
+        }
+        
+        let timeBoosterAvailable = self.game?.boosterStock.isAvailable(boosterType: .time) ?? false
+        self.boosterNodeTime = BoosterNode(for: .time, active: timeBoosterAvailable)
+        self.boosterNodeTime?.zPosition = 200
+        self.boosterNodeTime?.position = CGPoint(x: 220, y: 170)
+        self.boosterNodeTime?.delegate = self
+        
+        if let boosterNodeTime = self.boosterNodeTime {
+            self.safeAreaNode.addChild(boosterNodeTime)
+        }
     }
 
     func updateLayout() {
@@ -566,5 +591,12 @@ extension GameScene: GameObjectUnitDelegate {
     
     func removed(gameObject: GameObject?) {
         // NOOP
+    }
+}
+
+extension GameScene: BoosterActivationDelegate {
+    
+    func activated(boosterType: BoosterType) {
+        self.game?.start(boosterType: boosterType)
     }
 }

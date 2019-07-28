@@ -143,7 +143,7 @@ class GameObject: Decodable {
     var lastTime: CFTimeInterval = 0
     var animationSpeed = 2.0
     
-    let sight: Int
+    var sight: Int
     var name: String? = nil // for cities
 
     // internal UI elements

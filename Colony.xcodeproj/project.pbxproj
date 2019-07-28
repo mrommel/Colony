@@ -17,6 +17,10 @@
 		C903368D22ED8F4B004D2D72 /* GameDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903368C22ED8F4B004D2D72 /* GameDao.swift */; };
 		C903368F22EDA834004D2D72 /* GameRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903368E22EDA834004D2D72 /* GameRepository.swift */; };
 		C903369122EDAFEA004D2D72 /* GameContinueDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C903369022EDAFEA004D2D72 /* GameContinueDialog.xml */; };
+		C903369322EDB89F004D2D72 /* BoosterTypeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369222EDB89F004D2D72 /* BoosterTypeNode.swift */; };
+		C903369522EDBB2E004D2D72 /* BoosterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369422EDBB2E004D2D72 /* BoosterNode.swift */; };
+		C903369822EDCE7F004D2D72 /* BoosterStock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369722EDCE7F004D2D72 /* BoosterStock.swift */; };
+		C903369A22EDD189004D2D72 /* BoosterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369922EDD189004D2D72 /* BoosterType.swift */; };
 		C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */; };
 		C90A134F22A99F130003BBDE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C90A134E22A99F130003BBDE /* README.md */; };
 		C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915971A22CE91E5001D034B /* ScoreRepository.swift */; };
@@ -154,6 +158,10 @@
 		C903368C22ED8F4B004D2D72 /* GameDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDao.swift; sourceTree = "<group>"; };
 		C903368E22EDA834004D2D72 /* GameRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRepository.swift; sourceTree = "<group>"; };
 		C903369022EDAFEA004D2D72 /* GameContinueDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GameContinueDialog.xml; sourceTree = "<group>"; };
+		C903369222EDB89F004D2D72 /* BoosterTypeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterTypeNode.swift; sourceTree = "<group>"; };
+		C903369422EDBB2E004D2D72 /* BoosterNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterNode.swift; sourceTree = "<group>"; };
+		C903369722EDCE7F004D2D72 /* BoosterStock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterStock.swift; sourceTree = "<group>"; };
+		C903369922EDD189004D2D72 /* BoosterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterType.swift; sourceTree = "<group>"; };
 		C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StartPositionFinder.swift; path = ../StartPositionFinder.swift; sourceTree = "<group>"; };
 		C90A134E22A99F130003BBDE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C915971A22CE91E5001D034B /* ScoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRepository.swift; sourceTree = "<group>"; };
@@ -314,6 +322,15 @@
 			path = GameConditions;
 			sourceTree = "<group>";
 		};
+		C903369622EDCE77004D2D72 /* Booster */ = {
+			isa = PBXGroup;
+			children = (
+				C903369722EDCE7F004D2D72 /* BoosterStock.swift */,
+				C903369922EDD189004D2D72 /* BoosterType.swift */,
+			);
+			path = Booster;
+			sourceTree = "<group>";
+		};
 		C915971C22CE977E001D034B /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -399,6 +416,7 @@
 		C956079222B1425100AA69E9 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				C903369622EDCE77004D2D72 /* Booster */,
 				C9001CA222D70BB5005528A7 /* GameConditions */,
 				C97E96D122A0739100D594F3 /* Objects */,
 				C956079522B23FD800AA69E9 /* Level.swift */,
@@ -442,6 +460,8 @@
 				C900654522AFA21D0004C963 /* UI.swift */,
 				C984CCD322CD4D3C0033F2BB /* SettingsButtonNode.swift */,
 				C9697B3422DDA3810076FF4C /* UnitIndicator.swift */,
+				C903369222EDB89F004D2D72 /* BoosterTypeNode.swift */,
+				C903369422EDBB2E004D2D72 /* BoosterNode.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -802,6 +822,7 @@
 				C9C7F114229EBE3100A775B2 /* FloatExtension.swift in Sources */,
 				C9C7F0FD229EBD2900A775B2 /* HexagonMap.swift in Sources */,
 				C9C7F0D1229B193400A775B2 /* GameViewController.swift in Sources */,
+				C903369822EDCE7F004D2D72 /* BoosterStock.swift in Sources */,
 				C9BA0A6622DB88190055ED59 /* City.swift in Sources */,
 				C92D876522CBF34E00E7A55E /* Formatters.swift in Sources */,
 				C97B283222A5349A00112532 /* FogManager.swift in Sources */,
@@ -825,6 +846,7 @@
 				C9C7F0FF229EBD5100A775B2 /* HexPoint.swift in Sources */,
 				C9C7F0FB229EBD1800A775B2 /* HexagonTileMap.swift in Sources */,
 				C956079822B2426400AA69E9 /* GameConditionCheckManager.swift in Sources */,
+				C903369322EDB89F004D2D72 /* BoosterTypeNode.swift in Sources */,
 				C97B53A322D2756B008078D9 /* Pirates.swift in Sources */,
 				C9C7F116229EBE3100A775B2 /* BitArray.swift in Sources */,
 				C9C7F0F3229EA73300A775B2 /* MapNode.swift in Sources */,
@@ -858,6 +880,7 @@
 				C9E9BBF822B3B32C0048F97B /* LevelButtonNode.swift in Sources */,
 				C927E2EE22CF5A0A00EDBE0D /* OptionsScene.swift in Sources */,
 				C9C7F129229EBEDD00A775B2 /* HexDirection.swift in Sources */,
+				C903369A22EDD189004D2D72 /* BoosterType.swift in Sources */,
 				C9C7F133229EBFA400A775B2 /* PerlinGenerator.swift in Sources */,
 				C956079422B1426500AA69E9 /* LevelManager.swift in Sources */,
 				C94A2F3C22C2B06200AB7117 /* UIImageExtension.swift in Sources */,
@@ -866,6 +889,7 @@
 				C9F9C98B22E075D8000A3310 /* TradeShip.swift in Sources */,
 				C9C7F12F229EBF8700A775B2 /* Continent.swift in Sources */,
 				C92D876722CCA7C000E7A55E /* SizedNode.swift in Sources */,
+				C903369522EDBB2E004D2D72 /* BoosterNode.swift in Sources */,
 				C94A2F3A22C267B100AB7117 /* GameSceneViewModel.swift in Sources */,
 				C9C7F12E229EBF8700A775B2 /* ContinentFinder.swift in Sources */,
 				C92D875622CB69F200E7A55E /* Colony.xcdatamodeld in Sources */,

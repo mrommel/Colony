@@ -8,13 +8,6 @@
 
 import SpriteKit
 
-enum BoosterType: String, Codable {
-    
-    case telescope = "telescope"
-    case clock = "clock"
-    case wind = "wind"
-}
-
 class Booster: GameObject {
     
     init(at point: HexPoint, type: BoosterType) {
