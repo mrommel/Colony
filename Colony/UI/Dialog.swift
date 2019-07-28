@@ -62,6 +62,8 @@ class Dialog: NineGridTextureSprite {
                 labelItem.position = item.positionIn(parent: self.size)
                 labelItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
                 labelItem.fontSize = item.fontSize
+                labelItem.numberOfLines = 0
+                labelItem.preferredMaxLayoutWidth = item.size.width
                 
                 self.addChild(labelItem)
             }

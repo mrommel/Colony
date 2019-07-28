@@ -12,6 +12,7 @@ import SpriteKit
 protocol MenuDelegate {
     
     func start(level url: URL?)
+    func restart(game: Game?)
     func startGeneration()
     func startOptions()
 }
@@ -143,6 +144,25 @@ class MenuScene: SKScene {
         }
         
         self.updateLayout()
+        
+        // ask if user wants to continue last game
+        let gameUsecase = GameUsecase()
+        
+        // check if a backup exists ...
+        if let game = gameUsecase.restoreGame() {
+
+            // ... ask the user if he wants ...
+            if let continueDialog = UI.continueDialog() {
+                continueDialog.addOkayAction(handler: {
+                    
+                    // ... and try to start it
+                    self.menuDelegate?.restart(game: game)
+                    continueDialog.close()
+                })
+                
+                self.cameraNode.addChild(continueDialog)
+            }
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

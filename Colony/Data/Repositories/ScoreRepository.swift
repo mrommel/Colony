@@ -16,15 +16,15 @@ class ScoreRepository {
         self.scoreDao = ScoreDao()
     }
     
-    func getScoreFor(level: Int32, and user: User) -> Score? {
+    func getScoreFor(level: Int32, and user: UserEntity) -> ScoreEntity? {
         return self.scoreDao.fetch()?.first(where: { $0.level == level && $0.user?.name == user.name })
     }
     
-    func save(score: Score?) {
+    func save(score: ScoreEntity?) {
         self.scoreDao.save(score: score)
     }
     
-    func create(with level: Int32, score: Int32, levelScore: LevelScore, user: User?) {
+    func create(with level: Int32, score: Int32, levelScore: LevelScore, user: UserEntity?) {
         self.scoreDao.create(with: level, score: score, levelScore: levelScore.rawValue, user: user)
     }
     

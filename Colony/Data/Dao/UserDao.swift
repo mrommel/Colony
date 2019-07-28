@@ -10,14 +10,14 @@ import CoreData
 
 class UserDao: BaseDao {
     
-    func fetch() -> [User]? {
+    func fetch() -> [UserEntity]? {
         
         guard let context = self.context else {
             fatalError("Can't get context for fetching users")
         }
         
         do {
-            let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+            let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
             //fetch.predicate = NSPredicate(format: "genreValue == %@", genre)
             //fetchRequest.sortDescriptors
             return try context.fetch(fetchRequest)
@@ -26,27 +26,27 @@ class UserDao: BaseDao {
         }
     }
     
-    func get(by objectId: NSManagedObjectID) -> User? {
+    func get(by objectId: NSManagedObjectID) -> UserEntity? {
         
         guard let context = self.context else {
             fatalError("Can't get context for creating user")
         }
         
         do {
-            return try context.existingObject(with: objectId) as? User
+            return try context.existingObject(with: objectId) as? UserEntity
         } catch {
             return nil
         }
     }
     
     @discardableResult
-    func create(named name: String, current: Bool) -> User? {
+    func create(named name: String, current: Bool) -> UserEntity? {
         
         guard let context = self.context else {
             fatalError("Can't get context for creating user")
         }
         
-        let newUser = User(context: context)
+        let newUser = UserEntity(context: context)
         newUser.name = name
         newUser.current = current
         
@@ -59,7 +59,7 @@ class UserDao: BaseDao {
     }
     
     @discardableResult
-    func save(user: User?) -> Bool {
+    func save(user: UserEntity?) -> Bool {
         
         guard let context = self.context else {
             fatalError("Can't get context for deletion")
@@ -78,7 +78,7 @@ class UserDao: BaseDao {
     }
     
     @discardableResult
-    func delete(user: User?) -> Bool {
+    func delete(user: UserEntity?) -> Bool {
         
         guard let context = self.context else {
             fatalError("Can't get context for deletion")
@@ -101,7 +101,7 @@ class UserDao: BaseDao {
     @discardableResult
     func deleteAll() -> Bool {
         
-        if let entityName = User.entity().name {
+        if let entityName = UserEntity.entity().name {
             return self.deleteAllData(of: entityName)
         }
         

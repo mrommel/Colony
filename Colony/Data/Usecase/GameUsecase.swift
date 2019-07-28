@@ -9,23 +9,25 @@
 import Foundation
 
 class GameUsecase {
-    
+
     let scoreRepository: ScoreRepository
     let userRepository: UserRepository
-    
+    let gameRepository: GameRepository
+
     init() {
         self.scoreRepository = ScoreRepository()
         self.userRepository = UserRepository()
+        self.gameRepository = GameRepository()
     }
-    
+
     func set(score: Int32, levelScore: LevelScore, for level: Int32) {
-        
+
         guard let user = self.userRepository.getCurrentUser() else {
             fatalError("can't find current user")
         }
-        
+
         let scoreEntry = self.scoreRepository.getScoreFor(level: level, and: user)
-        
+
         if scoreEntry != nil {
             scoreEntry?.score = score
             scoreEntry?.levelScore = levelScore.rawValue
@@ -34,19 +36,65 @@ class GameUsecase {
             self.scoreRepository.create(with: level, score: score, levelScore: levelScore, user: user)
         }
     }
-    
+
     func levelScore(for level: Int32) -> LevelScore? {
-        
+
         guard let user = self.userRepository.getCurrentUser() else {
             fatalError("can't find current user")
         }
-        
+
         let scoreEntry = self.scoreRepository.getScoreFor(level: level, and: user)
-        
+
         if let levelScore = scoreEntry?.levelScore {
             return LevelScore(rawValue: levelScore)
         }
-        
+
         return nil
+    }
+
+    func backup(game: Game?) {
+
+        guard let user = self.userRepository.getCurrentUser() else {
+            fatalError("can't find current user")
+        }
+
+        do {
+            let gamePayload: Data = try JSONEncoder().encode(game)
+            self.gameRepository.create(with: gamePayload, user: user)
+        } catch {
+            fatalError("Can't store game temporarily")
+        }
+    }
+
+    func restoreGame() -> Game? {
+
+        guard let user = self.userRepository.getCurrentUser() else {
+            fatalError("can't find current user")
+        }
+
+        if let gameEntity = self.gameRepository.getOnlyBackup(for: user) {
+
+            do {
+                guard let jsonData = gameEntity.data else {
+                    fatalError("Can't get data - wierd")
+                }
+                
+                return try JSONDecoder().decode(Game.self, from: jsonData)
+            } catch {
+                print("Error reading \(error)")
+            }
+        }
+
+        // there is no game stored
+        return nil
+    }
+
+    func deleteBackup() {
+
+        guard let user = self.userRepository.getCurrentUser() else {
+            fatalError("can't find current user")
+        }
+
+        self.gameRepository.deleteBackup(for: user)
     }
 }

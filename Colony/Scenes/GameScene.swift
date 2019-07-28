@@ -143,6 +143,18 @@ class GameScene: SKScene {
 
             self.showLevel(title: level.title, summary: level.summary)
 
+        case .game:
+            self.game = self.viewModel?.game
+            
+            guard let level = self.viewModel?.getLevel() else {
+                fatalError("no level")
+            }
+            
+            self.mapNode = MapNode(with: level)
+            self.bottomLeftBar = BottomLeftBar(for: level, sized: CGSize(width: 200, height: 112))
+            self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
+            self.bottomRightBar?.delegate = self
+
         case .generator:
 
             guard let map = viewModel.map else {

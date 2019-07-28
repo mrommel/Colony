@@ -35,6 +35,8 @@ class GameViewController: UIViewController {
         switch viewModel.type {
         case .level:
             self.startGameWith(levelURL: self.viewModel?.resource)
+        case .game:
+            self.restart(game: self.viewModel?.game)
         case .generator:
             self.startMapGeneration()
         }
@@ -76,6 +78,25 @@ class GameViewController: UIViewController {
         view.presentScene(self.gameScene)
         view.ignoresSiblingOrder = true
 
+        self.setupGestureRecognizer()
+    }
+    
+    func restart(game: Game?) {
+        
+        guard let view = self.view as! SKView? else {
+            fatalError("View not loaded")
+        }
+        
+        self.mapGenerationScene = nil
+        
+        self.gameScene = GameScene(size: view.bounds.size)
+        self.gameScene?.viewModel = GameSceneViewModel(with: game)
+        self.gameScene?.scaleMode = .resizeFill
+        self.gameScene?.gameDelegate = self
+        
+        view.presentScene(self.gameScene)
+        view.ignoresSiblingOrder = true
+        
         self.setupGestureRecognizer()
     }
 
@@ -193,6 +214,11 @@ extension GameViewController: MapGenerationDelegate {
 extension GameViewController: GameDelegate {
 
     func quitGame() {
+        
+        // delete current game from database
+        let gameUseCase = GameUsecase()
+        gameUseCase.deleteBackup()
+        
         self.navigationController?.popViewController(animated: true)
     }
 

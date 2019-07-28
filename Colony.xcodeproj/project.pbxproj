@@ -14,6 +14,9 @@
 		C900654222AEE8DC0004C963 /* DefeatDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C900654122AEE8DC0004C963 /* DefeatDialog.xml */; };
 		C900654422AF96A00004C963 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900654322AF96A00004C963 /* Dialog.swift */; };
 		C900654622AFA21D0004C963 /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900654522AFA21D0004C963 /* UI.swift */; };
+		C903368D22ED8F4B004D2D72 /* GameDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903368C22ED8F4B004D2D72 /* GameDao.swift */; };
+		C903368F22EDA834004D2D72 /* GameRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903368E22EDA834004D2D72 /* GameRepository.swift */; };
+		C903369122EDAFEA004D2D72 /* GameContinueDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C903369022EDAFEA004D2D72 /* GameContinueDialog.xml */; };
 		C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */; };
 		C90A134F22A99F130003BBDE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C90A134E22A99F130003BBDE /* README.md */; };
 		C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915971A22CE91E5001D034B /* ScoreRepository.swift */; };
@@ -148,6 +151,9 @@
 		C900654122AEE8DC0004C963 /* DefeatDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = DefeatDialog.xml; sourceTree = "<group>"; };
 		C900654322AF96A00004C963 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		C900654522AFA21D0004C963 /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
+		C903368C22ED8F4B004D2D72 /* GameDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDao.swift; sourceTree = "<group>"; };
+		C903368E22EDA834004D2D72 /* GameRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRepository.swift; sourceTree = "<group>"; };
+		C903369022EDAFEA004D2D72 /* GameContinueDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GameContinueDialog.xml; sourceTree = "<group>"; };
 		C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StartPositionFinder.swift; path = ../StartPositionFinder.swift; sourceTree = "<group>"; };
 		C90A134E22A99F130003BBDE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C915971A22CE91E5001D034B /* ScoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRepository.swift; sourceTree = "<group>"; };
@@ -332,6 +338,7 @@
 				C92D875222CB694200E7A55E /* BaseDao.swift */,
 				C92D875722CB73B400E7A55E /* UserDao.swift */,
 				C92D875922CB75CB00E7A55E /* ScoreDao.swift */,
+				C903368C22ED8F4B004D2D72 /* GameDao.swift */,
 			);
 			path = Dao;
 			sourceTree = "<group>";
@@ -341,6 +348,7 @@
 			children = (
 				C92D875E22CB77EB00E7A55E /* UserRepository.swift */,
 				C915971A22CE91E5001D034B /* ScoreRepository.swift */,
+				C903368E22EDA834004D2D72 /* GameRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -383,6 +391,7 @@
 				C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */,
 				C956078C22B1291700AA69E9 /* VictoryDialog.xml */,
 				C965FEAE22E747120075CB87 /* CityDialog.xml */,
+				C903369022EDAFEA004D2D72 /* GameContinueDialog.xml */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -698,6 +707,7 @@
 				C965FEAF22E747130075CB87 /* CityDialog.xml in Resources */,
 				C9C7F0D6229B193A00A775B2 /* Assets.xcassets in Resources */,
 				C9A32B4822B29F3100AFC70D /* level0001.lvl in Resources */,
+				C903369122EDAFEA004D2D72 /* GameContinueDialog.xml in Resources */,
 				C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */,
 				C90A134F22A99F130003BBDE /* README.md in Resources */,
 				C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */,
@@ -783,6 +793,7 @@
 				C92D876122CB7A0600E7A55E /* Game.swift in Sources */,
 				C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */,
 				C97B283622A54AE600112532 /* HexArea.swift in Sources */,
+				C903368D22ED8F4B004D2D72 /* GameDao.swift in Sources */,
 				C92D875A22CB75CB00E7A55E /* ScoreDao.swift in Sources */,
 				C9C7F120229EBE5C00A775B2 /* HexPointCorner.swift in Sources */,
 				C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */,
@@ -868,6 +879,7 @@
 				C94A2F3E22C8E1ED00AB7117 /* BottomLeftBar.swift in Sources */,
 				C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */,
 				C927E2F022CF5FA300EDBE0D /* OptionsViewController.swift in Sources */,
+				C903368F22EDA834004D2D72 /* GameRepository.swift in Sources */,
 				C9C7F118229EBE3100A775B2 /* ArrayExtension.swift in Sources */,
 				C9C7F12B229EBF5200A775B2 /* AreaSprites.swift in Sources */,
 				C9697B3322DC99F80076FF4C /* SiteEvaluator.swift in Sources */,

@@ -13,14 +13,14 @@ protocol GameUpdateDelegate {
     func update(coins: Int)
 }
 
-class Game {
+class Game: Decodable {
 
     fileprivate let level: Level?
 
     var startTime: TimeInterval = 0.0
     var timer: Timer? = nil
     
-    var coins: Int = 0
+    var coins: Int
     
     let gameUsecase: GameUsecase?
 
@@ -32,12 +32,42 @@ class Game {
 
     var conditionDelegate: GameConditionDelegate?
     var gameUpdateDelegate: GameUpdateDelegate?
+    
+    enum CodingKeys: String, CodingKey {
+        case level
+        case coins
+        // FIXME - add timer (remaining)
+    }
 
     init(with level: Level?) {
 
         self.level = level
+        self.coins = 0
+        
         self.gameUsecase = GameUsecase()
 
+        if let gameConditionCheckIdentifiers = self.level?.gameConditionCheckIdentifiers {
+            for identifier in gameConditionCheckIdentifiers {
+                if let gameConditionCheck = GameConditionCheckManager.shared.gameConditionCheckFor(identifier: identifier) {
+                    self.add(conditionCheck: gameConditionCheck)
+                    print("- added \(gameConditionCheck.identifier)")
+                }
+            }
+        }
+        
+        self.level?.gameObjectManager.gameObservationDelegate = self
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.level = try values.decode(Level.self, forKey: .level)
+        self.coins = try values.decode(Int.self, forKey: .coins)
+        
+        // FIXME - add timer (remaining)
+        
+        self.gameUsecase = GameUsecase()
+        
         if let gameConditionCheckIdentifiers = self.level?.gameConditionCheckIdentifiers {
             for identifier in gameConditionCheckIdentifiers {
                 if let gameConditionCheck = GameConditionCheckManager.shared.gameConditionCheckFor(identifier: identifier) {
@@ -114,6 +144,18 @@ class Game {
         let levelScore = level.score(for: score)
         
         self.gameUsecase?.set(score: Int32(score), levelScore: levelScore, for: Int32(level.number))
+    }
+}
+
+extension Game: Encodable {
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.level, forKey: .level)
+        try container.encode(self.coins, forKey: .coins)
+        
+        // FIXME - add timer (remaining)
     }
 }
 
@@ -239,5 +281,13 @@ extension LevelManager {
         } catch {
             fatalError("Can't store level: \(error)")
         }
+    }
+}
+
+extension GameSceneViewModel {
+    
+    func getLevel() -> Level? {
+        
+        return self.game?.level
     }
 }

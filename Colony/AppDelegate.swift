@@ -16,10 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static var shared: AppDelegate? = nil
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+
         // Override point for customization after application launch.
         AppDelegate.shared = self
-        
+
         return true
     }
 
@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+
+        // FIXME: stop timer here
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -42,13 +44,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+
+        if let window = UIApplication.shared.delegate?.window {
+            var viewController = window!.rootViewController
+            if (viewController is UINavigationController) {
+                viewController = (viewController as! UINavigationController).visibleViewController
+            }
+
+            if let gameViewController = viewController as? GameViewController {
+                
+                // check if we have the game
+                if let game = gameViewController.gameScene?.game {
+                    let gameUsecase = GameUsecase()
+                    gameUsecase.backup(game: game)
+                }
+            }
+        }
+
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
     }
-    
+
     // MARK: - Core Data stack
-    
+
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
@@ -61,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                
+
                 /*
                  Typical reasons for an error here include:
                  * The parent directory does not exist, cannot be created, or disallows writing.
@@ -75,9 +94,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
         return container
     }()
-    
+
     // MARK: - Core Data Saving support
-    
+
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {

@@ -1,23 +1,23 @@
 //
-//  ScoreDao.swift
+//  GameDao.swift
 //  Colony
 //
-//  Created by Michael Rommel on 02.07.19.
+//  Created by Michael Rommel on 28.07.19.
 //  Copyright © 2019 Michael Rommel. All rights reserved.
 //
 
 import CoreData
 
-class ScoreDao: BaseDao {
-
-    func fetch() -> [ScoreEntity]? {
-
+class GameDao: BaseDao {
+    
+    func fetch() -> [GameEntity]? {
+        
         guard let context = self.context else {
-            fatalError("Can't get context for fetching score")
+            fatalError("Can't get context for fetching from game table")
         }
-
+        
         do {
-            let fetchRequest: NSFetchRequest<ScoreEntity> = ScoreEntity.fetchRequest()
+            let fetchRequest: NSFetchRequest<GameEntity> = GameEntity.fetchRequest()
             //fetch.predicate = NSPredicate(format: "genreValue == %@", genre)
             //fetchRequest.sortDescriptors
             return try context.fetch(fetchRequest)
@@ -25,53 +25,51 @@ class ScoreDao: BaseDao {
             return nil
         }
     }
-
-    func get(by objectId: NSManagedObjectID) -> ScoreEntity? {
-
+    
+    func get(by objectId: NSManagedObjectID) -> GameEntity? {
+        
         guard let context = self.context else {
             fatalError("Can't get context for getting score")
         }
-
+        
         do {
-            return try context.existingObject(with: objectId) as? ScoreEntity
+            return try context.existingObject(with: objectId) as? GameEntity
         } catch {
             return nil
         }
     }
-
+    
     @discardableResult
-    func create(with level: Int32, score: Int32, levelScore: String, user: UserEntity?) -> ScoreEntity? {
-
+    func create(data: Data, user: UserEntity?) -> GameEntity? {
+        
         guard let context = self.context else {
             fatalError("Can't get context for creating score")
         }
-
-        let newScore = ScoreEntity(context: context)
-        newScore.level = level
-        newScore.date = Date()
-        newScore.score = score
-        newScore.levelScore = levelScore
-        newScore.user = user
-
+        
+        let newGame = GameEntity(context: context)
+        newGame.data = data
+        newGame.date = Date()
+        newGame.user = user
+        
         do {
             try context.save()
-            return self.get(by: newScore.objectID)
+            return self.get(by: newGame.objectID)
         } catch {
             return nil
         }
     }
-
+    
     @discardableResult
-    func save(score: ScoreEntity?) -> Bool {
-
+    func save(game: GameEntity?) -> Bool {
+        
         guard let context = self.context else {
-            fatalError("Can't get context for saving score")
+            fatalError("Can't get context for saving game")
         }
-
-        guard let _ = score else {
+        
+        guard let _ = game else {
             fatalError("Can't save nil user")
         }
-
+        
         do {
             try context.save()
             return true
@@ -79,20 +77,20 @@ class ScoreDao: BaseDao {
             return false
         }
     }
-
+    
     @discardableResult
-    func delete(score: ScoreEntity?) -> Bool {
-
+    func delete(game: GameEntity?) -> Bool {
+        
         guard let context = self.context else {
-            fatalError("Can't get context for deletion of Score")
+            fatalError("Can't get context for deletion of game")
         }
-
-        guard let score = score else {
+        
+        guard let game = game else {
             fatalError("Can't delete nil user")
         }
-
-        context.delete(score)
-
+        
+        context.delete(game)
+        
         do {
             try context.save()
             return true
@@ -100,14 +98,14 @@ class ScoreDao: BaseDao {
             return false
         }
     }
-
+    
     @discardableResult
     func deleteAll() -> Bool {
-
-        if let entityName = ScoreEntity.entity().name {
+        
+        if let entityName = GameEntity.entity().name {
             return self.deleteAllData(of: entityName)
         }
-
+        
         return false
     }
 }

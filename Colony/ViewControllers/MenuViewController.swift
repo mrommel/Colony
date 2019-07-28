@@ -12,7 +12,10 @@ import SpriteKit
 class MenuViewController: UIViewController {
     
     var menuScene: MenuScene?
+    
+    // used for segue
     var currentLevelResource: URL? = nil
+    var currentGame: Game? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,10 +49,12 @@ class MenuViewController: UIViewController {
         if segue.identifier == "gotoGame" {
             let gameViewController = segue.destination as? GameViewController
             
-            if self.currentLevelResource == nil {
-                gameViewController?.viewModel = GameViewModel()
-            } else {
+            if self.currentLevelResource != nil {
                 gameViewController?.viewModel = GameViewModel(with: self.currentLevelResource)
+            } else if self.currentGame != nil {
+                gameViewController?.viewModel = GameViewModel(with: self.currentGame)
+            } else {
+                gameViewController?.viewModel = GameViewModel()
             }
         }
         
@@ -63,11 +68,19 @@ extension MenuViewController: MenuDelegate {
 
     func start(level resource: URL?) {
         self.currentLevelResource = resource
+        self.currentGame = nil
         self.performSegue(withIdentifier: "gotoGame", sender: nil)
     }
     
     func startGeneration() {
         self.currentLevelResource = nil
+        self.currentGame = nil
+        self.performSegue(withIdentifier: "gotoGame", sender: nil)
+    }
+    
+    func restart(game: Game?) {
+        self.currentLevelResource = nil
+        self.currentGame = game
         self.performSegue(withIdentifier: "gotoGame", sender: nil)
     }
     

@@ -8,12 +8,22 @@
 - pirates gets some coins from you or trader
 - fight between units (pirates)
 - release scout for exploration
-- booster: wind, telescope - more sight, canon, yields, more time (clock), magnet (collect coins in area) - incl 'shop' and detail screen - find them on the map
 - shark: up+down copied from left+right
 - limit sight thru mountains
 - shipwreck animation
 - snow textures from wesnoth
 - mountain textures
+
+## Booster
+- wind - faster sailing
+- telescope - more sight, 
+- canon, yields, 
+- more time (clock), 
+- magnet (collect coins in area) 
+- call for allies - trumpet / horn - (to help with re quest)
+
+- incl 'shop' and detail screen 
+- find them on the map
 
 ## Maybe
 - collect wood with axemann
@@ -27,6 +37,7 @@
 - [Defect] dialogs not centered in landscape mode
 
 ## Done
+- restart last game after app was ended and restarted
 - [Defect] no coins in level 1&2
 - [Defect] LevelManager can't load the levels anymore (at least 1 loads now)
 - [Defect] monstercheck is not working anymore

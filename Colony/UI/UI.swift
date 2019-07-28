@@ -61,4 +61,14 @@ class UI {
         
         return nil
     }
+    
+    static func continueDialog() -> Dialog? {
+        
+        let uiParser = UIParser()
+        if let gameContinueDialogConfiguration = uiParser.parse(from: "GameContinueDialog") {
+            return Dialog(from: gameContinueDialogConfiguration)
+        }
+        
+        return nil
+    }
 }
