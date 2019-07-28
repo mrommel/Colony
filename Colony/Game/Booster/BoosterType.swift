@@ -14,7 +14,7 @@ enum BoosterType: String, Codable {
     case time = "time"
     //case wind = "wind"
     
-    // costs, duration, texture/icon
+    // costs
     
     // effect ???? how to implement this
     
@@ -40,13 +40,36 @@ enum BoosterType: String, Codable {
         }
     }
     
+    var summary: String {
+        
+        switch self {
+        case .telescope:
+            return "Increases sight by 1"
+        case .time:
+            return "Gives extra time (30 seconds)"
+            //case .wind:
+        }
+    }
+    
     var timeInterval: TimeInterval {
         
         switch self {
         case .telescope:
-            return 10 // s
+            return 30 // s
         case .time:
-            return 20 // s 
+            return 30 // s
+            //case .wind:
+        }
+    }
+    
+    /// coins to spend to buy this in the shop
+    var coins: Int {
+        
+        switch self {
+        case .telescope:
+            return 10
+        case .time:
+            return 20
             //case .wind:
         }
     }

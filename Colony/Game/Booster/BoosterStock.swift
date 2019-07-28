@@ -20,8 +20,8 @@ class BoosterStock: Decodable {
     }
     
     init() {
-        self.amountTelescopeBooster = 1
-        self.amountTimeBooster = 1
+        self.amountTelescopeBooster = 0
+        self.amountTimeBooster = 0
     }
     
     func isAvailable(boosterType: BoosterType) -> Bool {
@@ -42,6 +42,17 @@ class BoosterStock: Decodable {
             self.amountTelescopeBooster -= 1
         case .time:
             self.amountTimeBooster -= 1
+        }
+    }
+    
+    func increment(boosterType: BoosterType) {
+        
+        switch boosterType {
+            
+        case .telescope:
+            self.amountTelescopeBooster += 1
+        case .time:
+            self.amountTimeBooster += 1
         }
     }
 }

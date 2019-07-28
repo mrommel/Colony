@@ -10,13 +10,32 @@ import SpriteKit
 
 class Booster: GameObject {
     
-    init(at point: HexPoint, type: BoosterType) {
+    static let keyDictBoosterType = "boosterType"
+    
+    var boosterType: BoosterType {
+        get {
+            if let boosterTypeStringValue = self.dict[Booster.keyDictBoosterType] as? String {
+                if let boosterTypeValue = BoosterType(rawValue: boosterTypeStringValue) {
+                    return boosterTypeValue
+                }
+            }
+            
+            fatalError("Can't parse booster type")
+        }
+        set {
+            self.dict[Booster.keyDictBoosterType] = newValue.rawValue
+        }
+    }
+    
+    init(at point: HexPoint, boosterType: BoosterType) {
         
         let identifier = UUID()
         
-        super.init(with: identifier.uuidString, type: .coin, at: point, spriteName: "coin1", anchorPoint: CGPoint(x: -1.0, y: -0.1), civilization: nil, sight: 1)
+        super.init(with: identifier.uuidString, type: .booster, at: point, spriteName: boosterType.textureName, anchorPoint: CGPoint(x: -1.0, y: -0.1), civilization: nil, sight: 1)
         
-        self.atlasIdle = GameObjectAtlas(atlasName: "coin", textures: ["coin1", "coin2", "coin3", "coin4", "coin5", "coin6", "coin7", "coin8", "coin9", "coin10"])
+        self.boosterType = boosterType
+        
+        self.atlasIdle = GameObjectAtlas(atlasName: "booster", textures: [type.textureName])
         
         self.atlasDown = nil
         self.atlasUp = nil
@@ -27,6 +46,20 @@ class Booster: GameObject {
     }
     
     required init(from decoder: Decoder) throws {
+        
         try super.init(from: decoder)
+    }
+    
+    override func idle() {
+        
+        self.clearPathSpriteBuffer()
+        self.state = .idle
+        
+        let pulseUp = SKAction.scale(to: 1.0, duration: 1.0)
+        let pulseDown = SKAction.scale(to: 0.8, duration: 1.0)
+        let pulse = SKAction.sequence([pulseUp, pulseDown])
+        let idleAnimation = SKAction.repeatForever(pulse)
+
+        self.run(idleAnimation, withKey: GameObject.idleActionKey, completion: {})
     }
 }

@@ -572,11 +572,26 @@ extension GameScene: GameUpdateDelegate {
         self.timeLabel.text = String(format: "%02d:%02d", minutes, seconds)
     }
     
-    func update(coins: Int) {
+    func updateUI() {
         
-        let coinText = Formatters.Numbers.getCoinString(from: coins)
+        if let coins = self.game?.coins {
+            let coinText = Formatters.Numbers.getCoinString(from: coins)
+            self.coinLabel.text = coinText
+        }
         
-        self.coinLabel.text = coinText
+        if let boosterStock = self.game?.boosterStock {
+            if boosterStock.isAvailable(boosterType: .telescope) {
+                self.boosterNodeTelescope?.enable()
+            } else {
+                self.boosterNodeTelescope?.disable()
+            }
+            
+            if boosterStock.isAvailable(boosterType: .time) {
+                self.boosterNodeTime?.enable()
+            } else {
+                self.boosterNodeTime?.disable()
+            }
+        }
     }
 }
 
@@ -598,5 +613,6 @@ extension GameScene: BoosterActivationDelegate {
     
     func activated(boosterType: BoosterType) {
         self.game?.start(boosterType: boosterType)
+        self.updateUI()
     }
 }

@@ -9,8 +9,9 @@
 import Foundation
 
 protocol GameUpdateDelegate {
+    
     func update(time: TimeInterval)
-    func update(coins: Int)
+    func updateUI()
 }
 
 class Game: Decodable {
@@ -164,7 +165,7 @@ extension Game {
         self.boosterStock.decrement(boosterType: boosterType)
         
         // start timer
-        let timer = Timer.scheduledTimer(timeInterval: boosterType.timeInterval, target: self, selector: #selector(fire(timer:)), userInfo: boosterType, repeats: false)
+        Timer.scheduledTimer(timeInterval: boosterType.timeInterval, target: self, selector: #selector(fire(timer:)), userInfo: boosterType, repeats: false)
         
         // begin effect
         switch boosterType {
@@ -313,9 +314,15 @@ extension Game: GameObservationDelegate {
     }
     
     func coinConsumed() {
-        self.coins += 1
         
-        self.gameUpdateDelegate?.update(coins: self.coins)
+        self.coins += 1
+        self.gameUpdateDelegate?.updateUI()
+    }
+    
+    func boosterConsumed(type: BoosterType) {
+        
+        self.boosterStock.increment(boosterType: type)
+        self.gameUpdateDelegate?.updateUI()
     }
 }
 
@@ -330,7 +337,9 @@ extension LevelManager {
         let filename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(fileName)
         
         do {
-            let mapPayload: Data = try JSONEncoder().encode(level)
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let mapPayload: Data = try encoder.encode(level)
             try mapPayload.write(to: filename!)
             //let jsonString = String(data: mapPayload, encoding: .utf8)
             //print(jsonString!)

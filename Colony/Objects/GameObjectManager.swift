@@ -24,6 +24,7 @@ protocol GameObservationDelegate {
     
     func updated()
     func coinConsumed()
+    func boosterConsumed(type: BoosterType)
 }
 
 class GameObjectManager: Codable {
@@ -62,7 +63,8 @@ class GameObjectManager: Codable {
 
             if let type = objectFromFile?.type,
                 let identifier = objectFromFile?.identifier,
-                let position = objectFromFile?.position {
+                let position = objectFromFile?.position,
+                let dict = objectFromFile?.dict {
                 
                 switch type {
                 
@@ -80,12 +82,13 @@ class GameObjectManager: Codable {
                 case .monster:
                     self.objects.append(Monster(with: identifier, at: position))
                     break
+                    
                 case .city:
                     if let civilization = objectFromFile?.civilization {
                         // FIXME: how can we get the player here?
                         let player = Player(name: "test", civilization: civilization, isUser: false)
 
-                        if let name = objectFromFile?.name {
+                        if let name = dict[GameObject.keyDictName] as? String {
                             self.map?.cities.append(City(named: name, at: position, player: player))
                             let city = CityObject(with: identifier, named: name, at: position, civilization: civilization)
 
@@ -118,6 +121,9 @@ class GameObjectManager: Codable {
                     } else {
                         fatalError("animal cannot be loaded")
                     }
+                    break
+                    
+                case .booster:
                     break
                 }
             }
@@ -270,8 +276,25 @@ class GameObjectManager: Codable {
                 
                 if position == object.position && type == .coin {
                     
-                    // consume reward
+                    // consume coin
                     self.gameObservationDelegate?.coinConsumed()
+                    
+                    self.gameObjectUnitDelegates |> { delegate in
+                        delegate.removed(gameObject: unit)
+                    }
+                    self.remove(object: unit)
+                    continue
+                }
+                
+                if position == object.position && type == .booster {
+                    
+                    guard let boosterObject = unit as? Booster else {
+                        fatalError("error")
+                        continue
+                    }
+                    
+                    // consume coin
+                    self.gameObservationDelegate?.boosterConsumed(type: boosterObject.boosterType)
                     
                     self.gameObjectUnitDelegates |> { delegate in
                         delegate.removed(gameObject: unit)

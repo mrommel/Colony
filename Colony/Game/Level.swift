@@ -106,6 +106,11 @@ class Level: Decodable  {
         self.gameObjectManager.add(object: ship)
         ship.idle()
         
+        let boosterLocation = startPositions.playerPosition.neighbors().filter({ self.map.isWater(at: $0) })
+        let booster = Booster(at: boosterLocation.randomItem(), boosterType: .telescope)
+        self.gameObjectManager.add(object: booster)
+        booster.idle()
+        
         let monster = Monster(with: "monster", at: startPositions.monsterPosition)
         self.gameObjectManager.add(object: monster)
         monster.idle()

@@ -21,6 +21,7 @@
 		C903369522EDBB2E004D2D72 /* BoosterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369422EDBB2E004D2D72 /* BoosterNode.swift */; };
 		C903369822EDCE7F004D2D72 /* BoosterStock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369722EDCE7F004D2D72 /* BoosterStock.swift */; };
 		C903369A22EDD189004D2D72 /* BoosterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369922EDD189004D2D72 /* BoosterType.swift */; };
+		C903369C22EE3BF0004D2D72 /* EncodingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369B22EE3BF0004D2D72 /* EncodingExtensions.swift */; };
 		C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */; };
 		C90A134F22A99F130003BBDE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C90A134E22A99F130003BBDE /* README.md */; };
 		C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915971A22CE91E5001D034B /* ScoreRepository.swift */; };
@@ -162,6 +163,7 @@
 		C903369422EDBB2E004D2D72 /* BoosterNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterNode.swift; sourceTree = "<group>"; };
 		C903369722EDCE7F004D2D72 /* BoosterStock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterStock.swift; sourceTree = "<group>"; };
 		C903369922EDD189004D2D72 /* BoosterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterType.swift; sourceTree = "<group>"; };
+		C903369B22EE3BF0004D2D72 /* EncodingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodingExtensions.swift; sourceTree = "<group>"; };
 		C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StartPositionFinder.swift; path = ../StartPositionFinder.swift; sourceTree = "<group>"; };
 		C90A134E22A99F130003BBDE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C915971A22CE91E5001D034B /* ScoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRepository.swift; sourceTree = "<group>"; };
@@ -627,6 +629,7 @@
 				C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */,
 				C94A2F3B22C2B06200AB7117 /* UIImageExtension.swift */,
 				C92D876422CBF34E00E7A55E /* Formatters.swift */,
+				C903369B22EE3BF0004D2D72 /* EncodingExtensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -839,6 +842,7 @@
 				C9F9C98D22E0AFD9000A3310 /* OceanFinder.swift in Sources */,
 				C9001CA422D70BCF005528A7 /* GameConditionCheck.swift in Sources */,
 				C9C7F0F0229E993300A775B2 /* MenuViewController.swift in Sources */,
+				C903369C22EE3BF0004D2D72 /* EncodingExtensions.swift in Sources */,
 				C927E2EC22CE9C6300EDBE0D /* GameUsecase.swift in Sources */,
 				C938B56822D6200E00A2A838 /* Shark.swift in Sources */,
 				C9C7F127229EBE7A00A775B2 /* HeightMap.swift in Sources */,

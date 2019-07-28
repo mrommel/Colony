@@ -48,7 +48,9 @@
       {
         "civilization": "english", 
         "identifier": "city-27894B19-2948-4116-ADC8-C395BD4D4A2E", 
-        "name": "London", 
+        "dict": {
+          "name": "London"
+        },
         "position": {
           "x": 20, 
           "y": 13
@@ -69,7 +71,9 @@
       {
         "civilization": "cityStates", 
         "identifier": "city-24509D4B-0F26-47D2-A16D-D9354698116F", 
-        "name": "Tyre", 
+"dict": {
+"name": "Tyre"
+},
         "position": {
           "x": 15, 
           "y": 3
@@ -80,7 +84,9 @@
       {
         "civilization": "cityStates", 
         "identifier": "city-DDE46C16-E924-40A8-B2DC-564A2F22B7A9", 
-        "name": "Sydney", 
+"dict": {
+"name": "Sydney"
+},
         "position": {
           "x": 12, 
           "y": 17
@@ -91,7 +97,9 @@
       {
         "civilization": "cityStates", 
         "identifier": "city-4D7D1B09-4FB8-4D42-90D2-310705610457", 
-        "name": "Lhasa", 
+"dict": {
+"name": "Lhasa"
+},
         "position": {
           "x": 6, 
           "y": 5
@@ -102,7 +110,9 @@
       {
         "civilization": "cityStates", 
         "identifier": "city-B27813E2-7ECA-42F9-A486-317DE7479DB0", 
-        "name": "Manila", 
+"dict": {
+"name": "Manila"
+},
         "position": {
           "x": 11, 
           "y": 10

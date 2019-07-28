@@ -14,32 +14,6 @@ enum GameObjectState: String, Codable {
     case following
 }
 
-// TODO: name, color, traits => Civilization + leader
-/*enum GameObjectTribe: String, Codable {
-    
-    case player
-    case enemy
-    case neutral
-    
-    case reward
-    case decoration
-    
-    var color: UIColor {
-        switch self {
-        case .player:
-            return .green
-        case .enemy:
-            return .red
-        case .neutral:
-            return .white
-        case .reward:
-            return .yellow
-        case .decoration:
-            return .gray
-        }
-    }
-}*/
-
 enum GameObjectType: String, Codable {
     
     case ship
@@ -47,7 +21,10 @@ enum GameObjectType: String, Codable {
     
     case monster
     case city
+    
     case coin
+    case booster
+    
     case obstacle // tile cannot be accessed, can't be moved
     
     case pirates
@@ -85,6 +62,8 @@ enum GameObjectType: String, Codable {
             return false
         case .coin:
             return false
+        case .booster:
+            return false
         case .obstacle:
             return false
         case .pirates:
@@ -110,9 +89,14 @@ enum GameObjectMoveType {
     //case fly
 }
 
+/*class GameObjectExtra: class, [String: Codable], Codable {
+    
+}*/
+
 class GameObject: Decodable {
     
-    let idleActionKey: String = "idleActionKey"
+    static let idleActionKey: String = "idleActionKey"
+    static let keyDictName: String = "name"
     static let alphaVisible: CGFloat = 1.0
     static let alphaInvisible: CGFloat = 0.0
     
@@ -144,7 +128,7 @@ class GameObject: Decodable {
     var animationSpeed = 2.0
     
     var sight: Int
-    var name: String? = nil // for cities
+    var dict: [String: Any] = [:]
 
     // internal UI elements
     private var sprite: SKSpriteNode
@@ -159,7 +143,8 @@ class GameObject: Decodable {
         case position
         case state
         case civilization
-        case name // for cities
+        
+        case dict // for extra properties
     }
     
     init(with identifier: String, type: GameObjectType, at point: HexPoint, spriteName: String, anchorPoint: CGPoint, civilization: Civilization?, sight: Int) {
@@ -197,7 +182,7 @@ class GameObject: Decodable {
         
         self.sight = 0
         
-        self.name = try values.decodeIfPresent(String.self, forKey: .name)
+        self.dict = try values.decodeIfPresent([String: Any].self, forKey: .dict) ?? [:]
     }
     
     // MARK: methods
@@ -382,7 +367,7 @@ class GameObject: Decodable {
             return
         }
         
-        self.sprite.removeAction(forKey: idleActionKey)
+        self.sprite.removeAction(forKey: GameObject.idleActionKey)
         self.state = .moving
         
         if let civilization = self.civilization {
@@ -407,7 +392,7 @@ class GameObject: Decodable {
             return
         }
         
-        self.sprite.removeAction(forKey: idleActionKey)
+        self.sprite.removeAction(forKey: GameObject.idleActionKey)
         self.state = .moving
         
         if let civilization = self.civilization {
@@ -435,8 +420,13 @@ class GameObject: Decodable {
             let idleFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
             let idleAnimation = SKAction.repeatForever(SKAction.animate(with: idleFrames, timePerFrame: (animationSpeed / 4.0) / Double(idleFrames.count)))
             
-            self.sprite.run(idleAnimation, withKey: idleActionKey, completion: {})
+            self.sprite.run(idleAnimation, withKey: GameObject.idleActionKey, completion: {})
         }
+    }
+    
+    func run(_ action: SKAction!, withKey key: String!, completion block: (() -> Void)?) {
+        
+        self.sprite.run(action, withKey: key, completion: block)
     }
     
     func tilesInSight() -> HexArea {
@@ -465,7 +455,7 @@ extension GameObject: Encodable {
         try container.encode(self.position, forKey: .position)
         try container.encode(self.state, forKey: .state)
         try container.encode(self.civilization, forKey: .civilization)
-        try container.encodeIfPresent(self.name, forKey: .name)
+        try container.encode(self.dict, forKey: .dict)
     }
 }
 

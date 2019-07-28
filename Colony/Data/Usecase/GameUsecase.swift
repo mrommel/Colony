@@ -59,7 +59,9 @@ class GameUsecase {
         }
 
         do {
-            let gamePayload: Data = try JSONEncoder().encode(game)
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let gamePayload: Data = try encoder.encode(game)
             self.gameRepository.create(with: gamePayload, user: user)
         } catch {
             fatalError("Can't store game temporarily")
