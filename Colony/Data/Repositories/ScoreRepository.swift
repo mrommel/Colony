@@ -10,7 +10,7 @@ import Foundation
 
 class ScoreRepository {
     
-    let scoreDao: ScoreDao
+    private let scoreDao: ScoreDao
     
     init() {
         self.scoreDao = ScoreDao()

@@ -21,10 +21,10 @@ enum TimerGameConditionType: GameConditionType {
     }
 }
 
-class Timer30SecondsCheck: GameConditionCheck {
+class TimerElapsedCheck: GameConditionCheck {
     
     override var identifier: String {
-        return "Timer30SecondsCheck"
+        return "TimerElapsedCheck"
     }
     
     override init() {
@@ -37,11 +37,11 @@ class Timer30SecondsCheck: GameConditionCheck {
     
     override func isLost() -> GameConditionType? {
         
-        guard let timeElapsedInSeconds = self.game?.timeElapsedInSeconds() else {
+        guard let timeElapsedInSeconds = self.game?.timeRemainingInSeconds() else {
             fatalError("can't get time elapsed")
         }
         
-        if timeElapsedInSeconds > 30 {
+        if timeElapsedInSeconds < 0 {
             return TimerGameConditionType.timeWentOut
         }
         

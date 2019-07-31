@@ -87,4 +87,8 @@ extension MenuViewController: MenuDelegate {
     func startOptions() {
         self.performSegue(withIdentifier: "gotoOptions", sender: nil)
     }
+    
+    func startStore() {
+        self.performSegue(withIdentifier: "gotoStore", sender: nil)
+    }
 }

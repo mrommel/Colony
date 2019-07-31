@@ -37,6 +37,11 @@ class CitySiteEvaluator: SiteEvaluator {
         }*/
         
         // FIXME: check if tile is owned by another player
+        if let tileOwner = tile.owned {
+            if tile.owned != civilization {
+                return false
+            }
+        }
         
         // check if already found a city here
         if map.city(at: point) != nil {

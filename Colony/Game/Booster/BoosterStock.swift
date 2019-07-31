@@ -9,14 +9,13 @@
 import Foundation
 
 class BoosterStock: Decodable {
-    
-    var amountTelescopeBooster: Int
-    var amountTimeBooster: Int
+
+    private var amountTelescopeBooster: Int
+    private var amountTimeBooster: Int
     
     enum CodingKeys: String, CodingKey {
         case amountTelescopeBooster
         case amountTimeBooster
-        // FIXME - add timer (remaining)
     }
     
     init() {
@@ -31,6 +30,28 @@ class BoosterStock: Decodable {
             return self.amountTelescopeBooster > 0
         case .time:
             return self.amountTimeBooster > 0
+        }
+    }
+    
+    func amount(of boosterType: BoosterType) -> Int {
+        
+        switch boosterType {
+            
+        case .telescope:
+            return self.amountTelescopeBooster
+        case .time:
+            return self.amountTimeBooster
+        }
+    }
+    
+    func update(amount: Int, of boosterType: BoosterType) {
+        
+        switch boosterType {
+            
+        case .telescope:
+            self.amountTelescopeBooster = amount
+        case .time:
+            self.amountTimeBooster = amount
         }
     }
     
@@ -64,5 +85,19 @@ extension BoosterStock: Encodable {
         
         try container.encode(self.amountTelescopeBooster, forKey: .amountTelescopeBooster)
         try container.encode(self.amountTimeBooster, forKey: .amountTimeBooster)
+    }
+}
+
+extension BoosterStock: NSCopying {
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        
+        let boosterStockCopy = BoosterStock()
+        
+        for boosterType in BoosterType.all {
+            boosterStockCopy.update(amount: self.amount(of: boosterType), of: boosterType)
+        }
+        
+        return boosterStockCopy
     }
 }

@@ -12,6 +12,7 @@ import SpriteKit
 class OptionsViewController: UIViewController {
     
     var optionsScene: OptionsScene?
+    var settingsUsecase: SettingsUsecase?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +20,8 @@ class OptionsViewController: UIViewController {
         guard let view = self.view as! SKView? else {
             fatalError("View not loaded")
         }
+        
+        self.settingsUsecase = SettingsUsecase()
         
         /*guard let viewModel = self.viewModel else {
             fatalError("ViewModel not initilized")
@@ -36,11 +39,12 @@ class OptionsViewController: UIViewController {
 extension OptionsViewController: OptionsDelegate {
     
     func resetData() {
-        let scoreRepository = ScoreRepository()
-        scoreRepository.resetScores()
+        
+        self.settingsUsecase?.resetData()
     }
     
     func quitOptions() {
+        
         self.navigationController?.popViewController(animated: true)
     }
 }

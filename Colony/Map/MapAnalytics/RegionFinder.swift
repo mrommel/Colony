@@ -12,10 +12,17 @@ class RegionFinder {
     
     weak var map: HexagonTileMap?
     var evaluator: SiteEvaluator?
+    let currentUserCivilization: Civilization
     
     init(map: HexagonTileMap?, evaluator: SiteEvaluator?) {
         self.map = map
         self.evaluator = evaluator
+        
+        let userUsecase = UserUsecase()
+        guard let currentUserCivilization = userUsecase.currentUser()?.civilization else {
+            fatalError("Can't get current users civilization")
+        }
+        self.currentUserCivilization = currentUserCivilization
     }
     
     func divideInto(regions: Int) -> [HexArea] {
@@ -39,7 +46,7 @@ class RegionFinder {
                 continue
             }
             
-            let value = evaluator.value(of: area, by: .english) // FIXME
+            let value = evaluator.value(of: area, by: self.currentUserCivilization)
             
             if value == 0 {
                 continue
@@ -83,7 +90,7 @@ class RegionFinder {
         var selectedValue = -1
         
         for point in area {
-            let value = evaluator.value(of: point, by: .english) // FIXME
+            let value = evaluator.value(of: point, by: self.currentUserCivilization)
             
             if value > selectedValue {
                 selectedPoint = point
@@ -118,10 +125,10 @@ class RegionFinder {
             
             let (firstArea, secondArea) = area.divideHorizontally(at: dx)
             
-            let firstValue = evaluator.value(of: firstArea, by: .english) // FIXME
+            let firstValue = evaluator.value(of: firstArea, by: self.currentUserCivilization)
             firstArea.set(value: firstValue)
             
-            let secondValue = evaluator.value(of: secondArea, by: .english) // FIXME
+            let secondValue = evaluator.value(of: secondArea, by: self.currentUserCivilization)
             secondArea.set(value: secondValue)
             
             if firstValue > secondValue {
@@ -145,10 +152,10 @@ class RegionFinder {
             
             let (firstArea, secondArea) = area.divideVertically(at: dy)
             
-            let firstValue = evaluator.value(of: firstArea, by: .english) // FIXME
+            let firstValue = evaluator.value(of: firstArea, by: self.currentUserCivilization)
             firstArea.set(value: firstValue)
             
-            let secondValue = evaluator.value(of: secondArea, by: .english) // FIXME
+            let secondValue = evaluator.value(of: secondArea, by: self.currentUserCivilization)
             secondArea.set(value: secondValue)
             
             if firstValue > secondValue {

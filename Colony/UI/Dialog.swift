@@ -7,11 +7,16 @@
 //
 
 import SpriteKit
+import UIKit
 
 class Dialog: NineGridTextureSprite {
     
     var okayHandler: (() -> Void)?
     var cancelHandler: (() -> Void)?
+    
+    fileprivate var didAddTo: ((_ scene: SKScene?) -> Void)?
+    
+    var textField: UITextField?
     
     init(from configuration: DialogConfiguration) {
         super.init(imageNamed: configuration.background,
@@ -26,7 +31,9 @@ class Dialog: NineGridTextureSprite {
         
         // items
         for item in configuration.items.item {
-            if item.type == .button {
+            
+            switch item.type {
+            case .button:
                 let buttonItem = MessageBoxButtonNode(titled: item.title, buttonAction: { [weak self] in
                     switch item.result {
                     case .okay:
@@ -45,18 +52,16 @@ class Dialog: NineGridTextureSprite {
                 buttonItem.position = item.positionIn(parent: self.size)
                 buttonItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
                 self.addChild(buttonItem)
-            }
-            
-            if item.type == .image {
+                
+            case .image:
                 let texture = SKTexture(imageNamed: item.image)
                 let imageItem = SKSpriteNode(texture: texture, size: item.size)
                 imageItem.name = item.identifier
                 imageItem.position = item.positionIn(parent: self.size)
                 imageItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
                 self.addChild(imageItem)
-            }
-            
-            if item.type == .label {
+                
+            case .label:
                 let labelItem = SKLabelNode(text: item.title)
                 labelItem.name = item.identifier
                 labelItem.position = item.positionIn(parent: self.size)
@@ -64,14 +69,56 @@ class Dialog: NineGridTextureSprite {
                 labelItem.fontSize = item.fontSize
                 labelItem.numberOfLines = 0
                 labelItem.preferredMaxLayoutWidth = item.size.width
-                
                 self.addChild(labelItem)
+                
+            case .textfield:
+                
+                let texture = SKTexture(imageNamed: "grid9_textfield")
+                let imageItem = SKSpriteNode(texture: texture, size: item.size)
+                imageItem.centerRect = CGRect.init(x: 0.3333, y: 0.3333, width: 0.3333, height: 0.3333) // 9 grid
+                imageItem.name = "textField"
+                imageItem.position = item.positionIn(parent: self.size)
+                imageItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
+                self.addChild(imageItem)
+                
+                self.didAddTo = { scene in
+                    self.replaceTextFields(on: scene?.view)
+                }
+                
+                break
             }
         }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func replaceTextFields(on view: SKView?) {
+        
+        if let node = self.childNode(withName: "textField") as? SKSpriteNode, let view = view  {
+            
+            if let positionInScene = node.positionInScene {
+            
+                let pos = view.convert(positionInScene, from: view.scene!)
+                
+                let textFieldSize = node.size.reduced(dx: 10, dy: 10)
+                let rect = CGRect(origin: pos - textFieldSize.half, size: textFieldSize)
+                
+                self.textField = UITextField(frame: rect)
+                self.textField?.backgroundColor = .clear
+                self.textField?.tintColor = .white
+                self.textField?.textColor = .white
+                self.textField?.font = Formatters.Fonts.systemFont
+                self.textField?.delegate = self
+
+                if let textField = self.textField {
+                    view.addSubview(textField)
+                }
+                
+                self.textField?.becomeFirstResponder()
+            }
+        }
     }
     
     func set(text: String, identifier: String) {
@@ -87,6 +134,7 @@ class Dialog: NineGridTextureSprite {
     }
     
     func set(imageNamed imageName: String, identifier: String) {
+        
         guard let node = self.children.first(where: { $0.name == identifier }) else {
             fatalError("Can't find \(identifier)")
         }
@@ -100,6 +148,15 @@ class Dialog: NineGridTextureSprite {
         spriteNode.texture = texture
     }
     
+    func getTextFieldInput(for identifier: String = "textField") -> String {
+        
+        if let text = self.textField?.text {
+            return text
+        }
+        
+        return ""
+    }
+    
     func addOkayAction(handler: @escaping () -> Void) {
         self.okayHandler = handler
     }
@@ -110,6 +167,31 @@ class Dialog: NineGridTextureSprite {
     
     func close() {
         self.removeFromParent()
-        //self.parent?.removeChildren(in: [self])
+        
+        if self.textField?.superview != nil {
+            self.textField?.removeFromSuperview()
+        }
+    }
+}
+
+extension Dialog: UITextFieldDelegate {
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if let text = self.textField?.text {
+            print("text input: \(text)")
+        }
+    }
+}
+
+extension SKNode {
+    
+    func add(dialog: Dialog?) {
+        
+        if let dialog = dialog {
+            self.addChild(dialog)
+            
+            dialog.didAddTo?(self.scene)
+        }
     }
 }

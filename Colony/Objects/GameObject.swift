@@ -43,8 +43,8 @@ enum GameObjectType: String, Codable {
             return "unit_indicator_pirates"
         case .tradeShip:
             return "unit_indicator_tradeShip"
-            
-        @unknown default:
+        
+        default:
             return "unit_indicator_unknown"
         }
     }
@@ -129,6 +129,9 @@ class GameObject: Decodable {
     
     var sight: Int
     var dict: [String: Any] = [:]
+    
+    // usecases
+    let userUsecase: UserUsecase?
 
     // internal UI elements
     private var sprite: SKSpriteNode
@@ -161,6 +164,8 @@ class GameObject: Decodable {
         self.sprite.anchorPoint = anchorPoint
         
         self.sight = sight
+        
+        self.userUsecase = UserUsecase()
     }
     
     required init(from decoder: Decoder) throws {
@@ -183,6 +188,8 @@ class GameObject: Decodable {
         self.sight = 0
         
         self.dict = try values.decodeIfPresent([String: Any].self, forKey: .dict) ?? [:]
+        
+        self.userUsecase = UserUsecase()
     }
     
     // MARK: methods
@@ -220,7 +227,7 @@ class GameObject: Decodable {
         }
         
         guard let civilization = self.civilization else {
-            fatalError("can't show unit indicator for non civilization units") // FIXME pirates?
+            fatalError("can't show unit indicator for non civilization units")
         }
         
         self.unitIndicator = UnitIndicator(civilization: civilization, unitType: self.type)
@@ -305,8 +312,6 @@ class GameObject: Decodable {
             return
         }
         
-        // FIXME move to path class
-        // print("path.count: \(path.count)")
         let firstItem = path[0]
         let secondItem = path[1]
         
@@ -370,8 +375,12 @@ class GameObject: Decodable {
         self.sprite.removeAction(forKey: GameObject.idleActionKey)
         self.state = .moving
         
+        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
+            fatalError("Can't get current users civilization")
+        }
+        
         if let civilization = self.civilization {
-            if civilization == .english { // FIXME
+            if civilization == currentUserCivilization { 
                 self.show(path: HexPath(point: self.position, path: path))
             }
         }
@@ -394,12 +403,6 @@ class GameObject: Decodable {
         
         self.sprite.removeAction(forKey: GameObject.idleActionKey)
         self.state = .moving
-        
-        if let civilization = self.civilization {
-            if civilization == .english { // FIXME
-                self.show(path: HexPath(point: self.position, path: path))
-            }
-        }
         
         if let point = path.first {
             let pathWithoutFirst = path.pathWithoutFirst()

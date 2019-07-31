@@ -39,7 +39,7 @@ class Monster: GameObject {
             // find neighbor water tile
             let waterNeighbors = game.neighborsInWater(of: self.position)
             
-            // FIXME: find tile that is towards the ship
+            // find tile that is towards the ship
             var bestWaterNeighbor = waterNeighbors.first!
             var bestDistance: Int = Int.max
             guard let enemyPosition = game.getSelectedUnitOfUser()?.position else {

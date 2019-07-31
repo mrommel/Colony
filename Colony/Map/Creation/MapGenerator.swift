@@ -490,9 +490,9 @@ class MapGenerator {
 
 		let hexPointCorners = self.followRiver(at: startGridPointWithCorner, on: heightMap, depth: 30)
 
-        if let lastHexPointCorners = hexPointCorners.last {
+        //if let lastHexPointCorners = hexPointCorners.last {
             // FIXME
-        }
+        //}
         
 		let river = River(with: name, and: hexPointCorners)
 

@@ -40,7 +40,8 @@ class GameUsecase {
     func levelScore(for level: Int32) -> LevelScore? {
 
         guard let user = self.userRepository.getCurrentUser() else {
-            fatalError("can't find current user")
+            //fatalError("can't find current user")
+            return .none
         }
 
         let scoreEntry = self.scoreRepository.getScoreFor(level: level, and: user)
@@ -71,7 +72,8 @@ class GameUsecase {
     func restoreGame() -> Game? {
 
         guard let user = self.userRepository.getCurrentUser() else {
-            fatalError("can't find current user")
+            //fatalError("can't find current user")
+            return nil
         }
 
         if let gameEntity = self.gameRepository.getOnlyBackup(for: user) {

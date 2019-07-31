@@ -10,6 +10,15 @@ import SpriteKit
 
 class MenuButtonNode: SpriteButtonNode {
 
+    init(titled title: String, sized size: CGSize = CGSize(width: 200, height: 42)) {
+        
+        super.init(titled: title,
+                   defaultButtonImage: "grid9_button_active",
+                   activeButtonImage: "grid9_button_highlighted",
+                   size: size,
+                   buttonAction: {})
+    }
+    
     init(titled title: String, sized size: CGSize = CGSize(width: 200, height: 42), buttonAction: @escaping () -> Void) {
         
         super.init(titled: title,

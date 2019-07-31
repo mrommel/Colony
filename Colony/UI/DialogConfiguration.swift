@@ -21,6 +21,7 @@ enum DialogItemType: String, Codable {
     case button = "button"
     case image = "image"
     case label = "label"
+    case textfield = "textfield"
 }
 
 enum DialogResultType: String, Codable {

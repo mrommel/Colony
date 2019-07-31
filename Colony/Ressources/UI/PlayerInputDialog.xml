@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>center</anchory>
+    <offsetx>-337</offsetx>
+    <offsety>-400</offsety>
+    <width>300</width>
+    <height>300</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        <item>
+            <identifier>dialog_image</identifier>
+            <type>image</type>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>70</offsety>
+            <width>80</width>
+            <height>80</height>
+            <image>questionmark</image>
+        </item>
+        <item>
+            <identifier>summary</identifier>
+            <type>label</type>
+            <title>What is your name?</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-20</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>name_textfield</identifier>
+            <type>textfield</type>
+            <title>name</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-50</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>okay_button</identifier>
+            <type>button</type>
+            <title>Yes</title>
+            <result>OKAY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-100</offsety>
+            <width>100</width>
+            <height>42</height>
+        </item>
+    </items>
+</context>

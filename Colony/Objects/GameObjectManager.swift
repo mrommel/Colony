@@ -30,6 +30,7 @@ protocol GameObservationDelegate {
 class GameObjectManager: Codable {
     
     weak var map: HexagonTileMap?
+    var userUsecase: UserUsecase?
     var objects: [GameObject?]
     var selected: GameObject? {
         didSet {
@@ -51,6 +52,8 @@ class GameObjectManager: Codable {
     init(on map: HexagonTileMap?) {
         self.objects = []
         self.map = map
+        
+        self.userUsecase = UserUsecase()
     }
     
     required init(from decoder: Decoder) throws {
@@ -73,6 +76,7 @@ class GameObjectManager: Codable {
                         self.objects.append(ShipObject(with: identifier, at: position, civilization: civilization))
                     }
                     break
+                    
                 case .axeman:
                     if let civilization = objectFromFile?.civilization {
                         self.objects.append(Axeman(with: identifier, at: position, civilization: civilization))
@@ -85,23 +89,24 @@ class GameObjectManager: Codable {
                     
                 case .city:
                     if let civilization = objectFromFile?.civilization {
-                        // FIXME: how can we get the player here?
-                        let player = Player(name: "test", civilization: civilization, isUser: false)
 
                         if let name = dict[GameObject.keyDictName] as? String {
-                            self.map?.cities.append(City(named: name, at: position, player: player))
+                            self.map?.cities.append(City(named: name, at: position, civilization: civilization))
                             let city = CityObject(with: identifier, named: name, at: position, civilization: civilization)
 
                             self.objects.append(city)
                         }
                     }
                     break
+                    
                 case .coin:
                     self.objects.append(Coin(at: position))
                     break
+                    
                 case .pirates:
                     self.objects.append(Pirates(with: identifier, at: position))
                     break
+                    
                 case .tradeShip:
                     self.objects.append(TradeShip(with: identifier, at: position))
                     break
@@ -115,6 +120,7 @@ class GameObjectManager: Codable {
                         fatalError("obstacle cannot be loaded")
                     }
                     break
+                    
                 case .animal:
                     if identifier.starts(with: "shark-") {
                         self.objects.append(Shark(at: position))
@@ -124,10 +130,18 @@ class GameObjectManager: Codable {
                     break
                     
                 case .booster:
+                    if identifier.starts(with: "booster-") {
+                        let boosterType = dict[Booster.keyDictBoosterType]
+                        // let booster = Booster(at: position, boosterType: boosterType)
+                    } else {
+                        fatalError("booster cannot be loaded")
+                    }
                     break
                 }
             }
         }
+        
+        self.userUsecase = UserUsecase()
     }
 
     // MARK: methods
@@ -137,10 +151,14 @@ class GameObjectManager: Codable {
         guard let object = object else {
             fatalError("Can't add nil object")
         }
+        
+        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
+            fatalError("Can't get current users civilization")
+        }
 
         // only player unit update the fog
         if let civilization = object.civilization {
-            if civilization == .english {
+            if civilization == currentUserCivilization {
                 self.map?.fogManager?.add(unit: object)
                 
                 if self.selected == nil {
@@ -166,7 +184,11 @@ class GameObjectManager: Codable {
     
     func nextPlayerUnit() {
         
-        let playerUnits = self.unitsOf(civilization: .english) // FIXME
+        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
+            fatalError("Can't get current users civilization")
+        }
+        
+        let playerUnits = self.unitsOf(civilization: currentUserCivilization)
         
         guard playerUnits.count > 1 else {
             return
@@ -266,11 +288,15 @@ class GameObjectManager: Codable {
             fatalError("no fogManager set")
         }
         
+        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
+            fatalError("Can't get current users civilization")
+        }
+        
         // update fog for own units
         fogManager.update()
         
         // everyone except player
-        for unit in self.unitsExcept(civilization: .english) {
+        for unit in self.unitsExcept(civilization: currentUserCivilization) {
             
             if let position = unit?.position, let type = unit?.type {
                 
@@ -344,9 +370,13 @@ extension GameObjectManager: GameObjectDelegate {
         guard let object = object else {
             fatalError("Can't add nil object")
         }
+        
+        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
+            fatalError("Can't get current users civilization")
+        }
 
         if let civilization = object.civilization {
-            if civilization == .english { // FIXME current civ
+            if civilization == currentUserCivilization {
                 self.updatePlayer(object: object)
             } else {
                 self.updateForeign(object: object)

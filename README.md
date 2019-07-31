@@ -9,10 +9,11 @@
 - fight between units (pirates)
 - release / board units from ships
 - shark: up+down copied from left+right
-- limit sight thru mountains
 - shipwreck animation
-- snow textures from wesnoth
-- mountain textures layer
+- snow textures from wesnoth as layer
+- mountain textures as layer
+- limit sight thru mountains
+- pause app when user leaves app
 
 ## Booster - ongoing
 - wind - faster sailing
@@ -23,7 +24,7 @@
 - call for allies - trumpet / horn - (to help with re quest)
 
 - incl 'shop' and detail screen 
-- find them on the map
+- find them on the map - implemented
 
 ## Maybe
 - collect wood with axemann

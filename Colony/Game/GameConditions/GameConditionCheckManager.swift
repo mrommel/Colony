@@ -25,8 +25,8 @@ class GameConditionCheckManager {
         let discoverCheck = DiscoverCheck()
         gameConditionChecks[discoverCheck.identifier] = discoverCheck
         
-        let timer30SecondsCheck = Timer30SecondsCheck()
-        gameConditionChecks[timer30SecondsCheck.identifier] = timer30SecondsCheck
+        let timerElapsedCheck = TimerElapsedCheck()
+        gameConditionChecks[timerElapsedCheck.identifier] = timerElapsedCheck
     }
     
     func gameConditionCheckFor(identifier: String) -> GameConditionCheck? {

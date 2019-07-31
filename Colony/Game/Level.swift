@@ -62,6 +62,7 @@ class Level: Decodable  {
     let title: String
     let summary: String
     let difficulty: LevelDifficulty
+    let duration: Int // in seconds
     
     // data holder
     let map: HexagonTileMap
@@ -73,32 +74,39 @@ class Level: Decodable  {
     
     var gameConditionCheckIdentifiers: [String] = []
     
+    var userUsecase: UserUsecase?
+    
     enum CodingKeys: String, CodingKey {
         case number
         case title
         case summary
         case difficulty
+        case duration
         
         case map
         case startPositions
         case gameObjectManager
+        case player
         
         case scoreThresold
         
         case gameConditionCheckIdentifiers
     }
     
-    init(number: Int, title: String, summary: String, difficulty: LevelDifficulty ,map: HexagonTileMap, startPositions: StartPositions, gameObjectManager: GameObjectManager) {
+    init(number: Int, title: String, summary: String, difficulty: LevelDifficulty, duration: Int, map: HexagonTileMap, startPositions: StartPositions, gameObjectManager: GameObjectManager) {
         
         self.number = number
         self.title = title
         self.summary = summary
         self.difficulty = difficulty
+        self.duration = duration
         self.scoreThresold = ScoreThresold(silver: 4, gold: 5)
         
         self.map = map
         self.startPositions = startPositions
         self.gameObjectManager = gameObjectManager
+        
+        self.userUsecase = UserUsecase()
         
         self.setupPlayers()
         
@@ -131,7 +139,7 @@ class Level: Decodable  {
             if index == 0 {
                 let player = self.playerForUser()
                 let cityName = player.civilization.cityNames.first!
-                self.found(city: City(named: cityName, at: startPosition, player: player))
+                self.found(city: City(named: cityName, at: startPosition, civilization: player.civilization))
 
                 // start axeman next to city (or on city)
                 var axemanPositions = startPosition.neighbors().filter({ self.map.isGround(at: $0) })
@@ -145,7 +153,7 @@ class Level: Decodable  {
                 
                 let cityName = ununsedCityNames.randomItem()
                 ununsedCityNames = ununsedCityNames.filter { $0 != cityName }
-                self.found(city: City(named: cityName, at: startPosition, player: playerForCityStates))
+                self.found(city: City(named: cityName, at: startPosition, civilization: .cityStates))
             }
         }
         
@@ -188,8 +196,12 @@ class Level: Decodable  {
             }
         }
         
-        // set the selected unit - FIXME
-        self.gameObjectManager.selected = self.gameObjectManager.unitsOf(civilization: .english).first! // FIXME
+        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
+            fatalError("Can't get current users civilization")
+        }
+        
+        // set the selected unit
+        self.gameObjectManager.selected = self.gameObjectManager.unitsOf(civilization: currentUserCivilization).first!
         
         self.gameObjectManager.map = self.map
     }
@@ -201,11 +213,15 @@ class Level: Decodable  {
         self.title = try values.decode(String.self, forKey: .title)
         self.summary = try values.decode(String.self, forKey: .summary)
         self.difficulty = try values.decode(LevelDifficulty.self, forKey: .difficulty)
+        self.duration = try values.decode(Int.self, forKey: .duration)
         self.scoreThresold = try values.decodeIfPresent(ScoreThresold.self, forKey: .scoreThresold) ?? ScoreThresold(silver: 4, gold: 5)
         
         self.map = try values.decode(HexagonTileMap.self, forKey: .map)
         self.startPositions = try values.decode(StartPositions.self, forKey: .startPositions)
         self.gameObjectManager = try values.decode(GameObjectManager.self, forKey: .gameObjectManager)
+        self.players = try values.decode([Player].self, forKey: .player)
+        
+        self.userUsecase = UserUsecase()
         
         self.gameConditionCheckIdentifiers = try values.decode([String].self, forKey: .gameConditionCheckIdentifiers)
         
@@ -213,37 +229,42 @@ class Level: Decodable  {
         self.map.fogManager?.map = self.map
         self.gameObjectManager.map = self.map
         
+        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
+            fatalError("Can't get current users civilization")
+        }
+        
         for object in self.gameObjectManager.objects {
             if let unitObject = object {
                 unitObject.delegate = self.gameObjectManager
                 
                 if let civilization = unitObject.civilization {
-                    if civilization == .english { // FIXME
+                    if civilization == currentUserCivilization {
                         self.map.fogManager?.add(unit: unitObject)
                     }
                 }
             }
         }
         
-        // set the selected unit - FIXME
-        self.gameObjectManager.selected = self.gameObjectManager.unitsOf(civilization: .english).first! // FIXME
-        
-        self.setupPlayers()
+        // set the selected unit
+        self.gameObjectManager.selected = self.gameObjectManager.unitsOf(civilization: currentUserCivilization).first!
     }
     
     func setupPlayers() {
         
-        let john = Player(name: "John", civilization: .english, isUser: true)
-        self.players.append(john)
+        guard let currentUser = self.userUsecase?.currentUser() else {
+            fatalError("Can't get current users")
+        }
         
-        let jaques = Player(name: "Jaques", civilization: .french, isUser: false)
-        self.players.append(jaques)
-        
-        let juan = Player(name: "Juan", civilization: .spanish, isUser: false)
-        self.players.append(juan)
-        
-        let cityStates = Player(name: "Neuton", civilization: .cityStates, isUser: false)
-        self.players.append(cityStates)
+        for civilization in Civilization.all {
+            
+            if civilization == currentUser.civilization {
+                let player = Player(name: currentUser.name, civilization: civilization, isUser: true)
+                self.players.append(player)
+            } else {
+                let player = Player(name: civilization.defaultUserName, civilization: civilization, isUser: false)
+                self.players.append(player)
+            }
+        }
     }
     
     func playerForUser() -> Player {
@@ -254,6 +275,11 @@ class Level: Decodable  {
     func playerForCityStates() -> Player {
         
         return self.players.first(where: { $0.civilization == .cityStates })!
+    }
+    
+    func playerFor(civilization: Civilization) -> Player {
+        
+        return self.players.first(where: { $0.civilization == civilization })!
     }
     
     func score(for coins: Int) -> LevelScore {
@@ -272,21 +298,23 @@ class Level: Decodable  {
     func found(city: City) {
         
         let uuid = UUID()
-        let cityObj = CityObject(with: "city-\(uuid.uuidString)", named: city.name, at: city.position, civilization: city.player.civilization)
+        let cityObj = CityObject(with: "city-\(uuid.uuidString)", named: city.name, at: city.position, civilization: city.civilization)
         self.gameObjectManager.add(object: cityObj)
         cityObj.idle()
         
         self.map.set(city: city, at: city.position)
         self.map.cities.append(city)
         
-        city.player.addZoneOfControl(at: city.position)
+        let player = self.playerFor(civilization: city.civilization)
+        
+        player.addZoneOfControl(at: city.position)
         
         for neighbor in city.position.neighbors() {
             
             // check if this is a valid tile
-            if map.isGround(at: neighbor) {
-                city.player.addZoneOfControl(at: neighbor)
-            }
+            //if map.isGround(at: neighbor) {
+                player.addZoneOfControl(at: neighbor)
+            //}
         }
     }
 }
@@ -300,11 +328,13 @@ extension Level: Encodable {
         try container.encode(self.title, forKey: .title)
         try container.encode(self.summary, forKey: .summary)
         try container.encode(self.difficulty, forKey: .difficulty)
+        try container.encode(self.duration, forKey: .duration)
         try container.encode(self.scoreThresold, forKey: .scoreThresold)
         
         try container.encode(self.map, forKey: .map)
         try container.encode(self.startPositions, forKey: .startPositions)
         try container.encode(self.gameObjectManager, forKey: .gameObjectManager)
+        try container.encode(self.players, forKey: .player)
         
         try container.encode(self.gameConditionCheckIdentifiers, forKey: .gameConditionCheckIdentifiers)
     }

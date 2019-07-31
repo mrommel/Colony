@@ -10,7 +10,7 @@ import Foundation
 
 class GameRepository {
     
-    let gameDao: GameDao
+    private let gameDao: GameDao
     
     init() {
         self.gameDao = GameDao()
@@ -41,7 +41,7 @@ class GameRepository {
         }
     }
     
-    private func resetGames() {
+    func resetBackups() {
         self.gameDao.deleteAll()
     }
 }

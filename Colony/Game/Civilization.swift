@@ -22,7 +22,10 @@ enum Civilization: String, Codable {
     case pirates
     case trader
     
+    static let all: [Civilization] = [.english, .french, .spanish, .cityStates]
+    
     var name: String {
+        
         switch self {
         case .english:
             return "English"
@@ -42,6 +45,7 @@ enum Civilization: String, Codable {
     }
     
     var color: UIColor {
+        
         switch self {
         case .french:
             return .blue
@@ -61,6 +65,7 @@ enum Civilization: String, Codable {
     }
     
     var overviewColor: UIColor {
+        
         switch self {
         case .french:
             return .blue
@@ -95,8 +100,28 @@ enum Civilization: String, Codable {
             // taken from here: https://civilization.fandom.com/wiki/Spanish_cities_(Civ5)
             return ["Madrid", "Barcelona", "Seville", "Cordoba", "Toledo", "Santiago", "Salamanca", "Murcia", "Valencia", "Zaragoza"]
             
-        @unknown default:
+        default:
             fatalError("city name for unknown civ: \(self)")
+        }
+    }
+    
+    var defaultUserName: String {
+        
+        switch self {
+        case .french:
+            return "Jaques"
+        case .english:
+            return "John"
+        case .spanish:
+            return "Juan"
+            
+        case .cityStates:
+            return "Neutron"
+            
+        case .pirates:
+            return "Jack Sparrow"
+        case .trader:
+            return "Travis"
         }
     }
 }

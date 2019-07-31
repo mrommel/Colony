@@ -10,7 +10,6 @@ import Foundation
 
 protocol GameUpdateDelegate {
     
-    func update(time: TimeInterval)
     func updateUI()
 }
 
@@ -18,13 +17,14 @@ class Game: Decodable {
 
     fileprivate let level: Level?
 
-    var startTime: TimeInterval = 0.0
-    var timer: Timer? = nil
+    var timer: PausableTimer? = nil
     
     var coins: Int
     var boosterStock: BoosterStock
     
+    // usecases
     let gameUsecase: GameUsecase?
+    let userUsecase: UserUsecase?
 
     // game condition
     private var conditionChecks: [GameConditionCheck] = []
@@ -35,21 +35,26 @@ class Game: Decodable {
     var conditionDelegate: GameConditionDelegate?
     var gameUpdateDelegate: GameUpdateDelegate?
     
+    private var updateTimer: Timer? = nil
+    
     enum CodingKeys: String, CodingKey {
         case level
         case coins
         case boosterStock
-        // FIXME - add timer (remaining)
+        case remainingDuration
     }
 
-    init(with level: Level?) {
+    // new game
+    init(with level: Level?, coins: Int, boosterStock: BoosterStock) {
 
         self.level = level
-        self.coins = 0
-        self.boosterStock = BoosterStock()
+        self.coins = coins
+        self.boosterStock = boosterStock
         
+        // usecases
         self.gameUsecase = GameUsecase()
-
+        self.userUsecase = UserUsecase()
+        
         if let gameConditionCheckIdentifiers = self.level?.gameConditionCheckIdentifiers {
             for identifier in gameConditionCheckIdentifiers {
                 if let gameConditionCheck = GameConditionCheckManager.shared.gameConditionCheckFor(identifier: identifier) {
@@ -62,6 +67,7 @@ class Game: Decodable {
         self.level?.gameObjectManager.gameObservationDelegate = self
     }
     
+    // restarted
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -69,9 +75,11 @@ class Game: Decodable {
         self.coins = try values.decode(Int.self, forKey: .coins)
         self.boosterStock = try values.decode(BoosterStock.self, forKey: .boosterStock)
         
-        // FIXME - add timer (remaining)
+        let remainingDuration = try values.decode(Int.self, forKey: .remainingDuration)
         
+        // usecases
         self.gameUsecase = GameUsecase()
+        self.userUsecase = UserUsecase()
         
         if let gameConditionCheckIdentifiers = self.level?.gameConditionCheckIdentifiers {
             for identifier in gameConditionCheckIdentifiers {
@@ -83,39 +91,12 @@ class Game: Decodable {
         }
         
         self.level?.gameObjectManager.gameObservationDelegate = self
+        
+        self.start(with: remainingDuration)
     }
 
     deinit {
-        self.cancelTimer()
-    }
-
-    func start() {
-        print("start timer")
-
-        // save start time
-        self.startTime = Date().timeIntervalSince1970
-
-        // start timer to check for conditions ever 1 seconds
-        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (t) in
-            self.gameUpdateDelegate?.update(time: self.timeElapsedInSeconds())
-            self.checkCondition()
-            
-            //
-            self.level?.gameObjectManager.update(in: self)
-        }
-        
-        self.level?.gameObjectManager.setup()
-    }
-    
-    func cancelTimer() {
-        if let timer = self.timer {
-            timer.invalidate()
-        }
-    }
-
-    func timeElapsedInSeconds() -> TimeInterval {
-        let current = Date().timeIntervalSince1970
-        return current - self.startTime
+        self.cancel()
     }
 
     func add(conditionCheck: GameConditionCheck) {
@@ -129,12 +110,12 @@ class Game: Decodable {
         for conditionCheck in self.conditionChecks {
             if let type = conditionCheck.isWon() {
                 self.conditionDelegate?.won(with: type)
-                self.cancelTimer()
+                self.cancel()
             }
 
             if let type = conditionCheck.isLost() {
                 self.conditionDelegate?.lost(with: type)
-                self.cancelTimer()
+                self.cancel()
             }
         }
     }
@@ -154,6 +135,100 @@ class Game: Decodable {
 
 extension Game {
     
+    func start(with duration: Int) {
+        print("start game timer")
+        
+        // game timer
+        self.timer = PausableTimer(with: TimeInterval(duration))
+        
+        // start/stop update timer to check for conditions ever 1 seconds
+        self.timer?.didStart = {
+            self.startUpdateTimer()
+        }
+        self.timer?.didPause = {
+            self.stopUpdateTimer()
+        }
+        self.timer?.didResume = {
+            self.startUpdateTimer()
+        }
+        self.timer?.didStop = { isFinished in
+            self.stopUpdateTimer()
+        }
+
+        self.timer?.start()
+   
+        self.level?.gameObjectManager.setup()
+        if let selectedUnit = self.level?.gameObjectManager.selected {
+            self.level?.gameObjectManager.updatePlayer(object: selectedUnit)
+        }
+    }
+    
+    func pause() {
+        
+        print("pause game timer")
+        if let timer = self.timer {
+            timer.pause()
+        }
+    }
+    
+    func resume() {
+        
+        print("resume game timer")
+        if let timer = self.timer {
+            timer.resume()
+        }
+    }
+    
+    func cancel() {
+        
+        print("cancel game timer")
+        if let timer = self.timer {
+            timer.stop()
+        }
+    }
+    
+    func timeRemainingInSeconds() -> TimeInterval {
+        
+        if let timer = self.timer {
+            return timer.remainingDuration()
+        }
+        
+        return 0
+    }
+    
+    private func startUpdateTimer() {
+        
+        print("start update timer")
+        self.updateTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(fireUpdateTimer), userInfo: nil, repeats: true)
+    }
+    
+    @objc private func fireUpdateTimer() {
+        
+        self.gameUpdateDelegate?.updateUI()
+        self.checkCondition()
+        
+        //
+        self.level?.gameObjectManager.update(in: self)
+    }
+    
+    private func stopUpdateTimer() {
+
+        print("stop update timer")
+        self.updateTimer?.invalidate()
+    }
+}
+
+extension Game {
+    
+    var duration: Int {
+        
+        if let durationValue = self.level?.duration {
+            return durationValue
+        }
+        
+        return 0
+    }
+    
     func start(boosterType: BoosterType) {
         
         // check if we can use this booster
@@ -161,7 +236,7 @@ extension Game {
             fatalError("booster \(boosterType) not available !!! ")
         }
         
-        // reduce the amount of the booster
+        // reduce the amount of the boosters in the stock
         self.boosterStock.decrement(boosterType: boosterType)
         
         // start timer
@@ -172,11 +247,10 @@ extension Game {
             
         case .telescope:
             print("start telescope")
-            
             self.level?.gameObjectManager.selected?.sight += 1
         case .time:
             print("start time")
-            self.startTime += boosterType.timeInterval
+            self.pause()
         }
     }
     
@@ -195,10 +269,10 @@ extension Game {
             
         case .telescope:
             print("finish telescope")
-            
             self.level?.gameObjectManager.selected?.sight -= 1
         case .time:
             print("finish time")
+            self.resume()
         }
     }
 }
@@ -211,8 +285,7 @@ extension Game: Encodable {
         try container.encode(self.level, forKey: .level)
         try container.encode(self.coins, forKey: .coins)
         try container.encode(self.boosterStock, forKey: .boosterStock)
-        
-        // FIXME - add timer (remaining)
+        try container.encode(self.timer?.remainingDuration(), forKey: .remainingDuration)
     }
 }
 
@@ -234,7 +307,11 @@ extension Game {
     
     func getAllUnitsOfUser() -> [GameObject?]? {
         
-        return self.level?.gameObjectManager.unitsOf(civilization: .english) // FIXME
+        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
+            fatalError("Can't get current users civilization")
+        }
+        
+        return self.level?.gameObjectManager.unitsOf(civilization: currentUserCivilization)
     }
     
     func getUnitsBy(type: GameObjectType) -> [GameObject?]? {

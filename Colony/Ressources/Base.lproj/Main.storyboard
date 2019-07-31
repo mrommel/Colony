@@ -40,6 +40,21 @@
             </objects>
             <point key="canvasLocation" x="1958" y="822"/>
         </scene>
+        <!--Store View Controller-->
+        <scene sceneID="McB-mx-4dD">
+            <objects>
+                <viewController id="l3S-Os-W4E" customClass="StoreViewController" customModule="Colony" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="s06-Gc-4nK" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="qdT-GN-Xgn"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CtH-AR-oql" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2754" y="822"/>
+        </scene>
         <!--Menu View Controller-->
         <scene sceneID="biM-dS-VS9">
             <objects>
@@ -54,6 +69,7 @@
                     <connections>
                         <segue destination="BV1-FR-VrT" kind="show" identifier="gotoGame" id="LNV-fh-9x7"/>
                         <segue destination="I61-86-42e" kind="show" identifier="gotoOptions" id="CQ0-pE-82Y"/>
+                        <segue destination="l3S-Os-W4E" kind="show" identifier="gotoStore" id="gNi-fy-feu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WZn-N5-Xjb" userLabel="First Responder" sceneMemberID="firstResponder"/>

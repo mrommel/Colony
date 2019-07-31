@@ -10,20 +10,10 @@ import Foundation
 
 class UserRepository {
     
-    let userDao: UserDao
+    private let userDao: UserDao
     
     init() {
         self.userDao = UserDao()
-        
-        // FIXME
-        if let users = self.userDao.fetch() {
-            
-            if users.count == 0 {
-                _ = self.userDao.create(named: "Micha", current: true)
-            }
-        } else {
-            fatalError()
-        }
     }
     
     func getCurrentUser() -> UserEntity? {
@@ -32,5 +22,13 @@ class UserRepository {
     
     func getUsers() -> [UserEntity]? {
         return self.userDao.fetch()
+    }
+    
+    func createCurrentUser(named name: String, civilization: String) {
+        self.userDao.create(named: name, civilization: civilization, current: true)
+    }
+
+    func resetUsers() {
+        self.userDao.deleteAll()
     }
 }

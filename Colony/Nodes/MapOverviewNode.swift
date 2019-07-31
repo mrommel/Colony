@@ -62,7 +62,7 @@ class MapOverviewNode: SKSpriteNode {
             if let tile = map.tile(x: x, y: y) {
 
                 if let city = tile.city {
-                    let color = city.player.civilization.overviewColor
+                    let color = city.civilization.overviewColor
                     self.buffer.set(color: color, at: index)
                 } else {
                     let color = tile.terrain.overviewColor

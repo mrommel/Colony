@@ -1,8 +1,9 @@
 {
   "difficulty": "easy", 
+  "duration": 120, 
   "gameConditionCheckIdentifiers": [
     "MonsterCheck"
-  ],
+  ], 
   "gameObjectManager": {
     "objects": [
       {
@@ -47,10 +48,10 @@
       }, 
       {
         "civilization": "english", 
-        "identifier": "city-27894B19-2948-4116-ADC8-C395BD4D4A2E", 
         "dict": {
           "name": "London"
-        },
+        }, 
+        "identifier": "city-27894B19-2948-4116-ADC8-C395BD4D4A2E", 
         "position": {
           "x": 20, 
           "y": 13
@@ -70,10 +71,10 @@
       }, 
       {
         "civilization": "cityStates", 
+        "dict": {
+          "name": "Tyre"
+        }, 
         "identifier": "city-24509D4B-0F26-47D2-A16D-D9354698116F", 
-"dict": {
-"name": "Tyre"
-},
         "position": {
           "x": 15, 
           "y": 3
@@ -83,10 +84,10 @@
       }, 
       {
         "civilization": "cityStates", 
+        "dict": {
+          "name": "Sydney"
+        }, 
         "identifier": "city-DDE46C16-E924-40A8-B2DC-564A2F22B7A9", 
-"dict": {
-"name": "Sydney"
-},
         "position": {
           "x": 12, 
           "y": 17
@@ -96,10 +97,10 @@
       }, 
       {
         "civilization": "cityStates", 
+        "dict": {
+          "name": "Lhasa"
+        }, 
         "identifier": "city-4D7D1B09-4FB8-4D42-90D2-310705610457", 
-"dict": {
-"name": "Lhasa"
-},
         "position": {
           "x": 6, 
           "y": 5
@@ -109,10 +110,10 @@
       }, 
       {
         "civilization": "cityStates", 
+        "dict": {
+          "name": "Manila"
+        }, 
         "identifier": "city-B27813E2-7ECA-42F9-A486-317DE7479DB0", 
-"dict": {
-"name": "Manila"
-},
         "position": {
           "x": 11, 
           "y": 10
@@ -835,35 +836,8 @@
   "map": {
     "cities": [
       {
+        "civilization": "english", 
         "name": "London", 
-        "player": {
-          "civilization": "english", 
-          "isUser": true, 
-          "name": "John", 
-          "zoneOfControl": {
-            "boundingBox": {
-              "maxX": 20, 
-              "maxY": 13, 
-              "minX": 20, 
-              "minY": 13
-            }, 
-            "points": [
-              {
-                "x": 20, 
-                "y": 13
-              }, 
-              {
-                "x": 21, 
-                "y": 13
-              }, 
-              {
-                "x": 20, 
-                "y": 14
-              }
-            ], 
-            "value": 0
-          }
-        }, 
         "population": 1, 
         "position": {
           "x": 20, 
@@ -871,107 +845,8 @@
         }
       }, 
       {
+        "civilization": "cityStates", 
         "name": "Tyre", 
-        "player": {
-          "civilization": "cityStates", 
-          "isUser": false, 
-          "name": "Neuton", 
-          "zoneOfControl": {
-            "boundingBox": {
-              "maxX": 15, 
-              "maxY": 3, 
-              "minX": 15, 
-              "minY": 3
-            }, 
-            "points": [
-              {
-                "x": 15, 
-                "y": 3
-              }, 
-              {
-                "x": 14, 
-                "y": 2
-              }, 
-              {
-                "x": 15, 
-                "y": 2
-              }, 
-              {
-                "x": 16, 
-                "y": 3
-              }, 
-              {
-                "x": 12, 
-                "y": 17
-              }, 
-              {
-                "x": 11, 
-                "y": 16
-              }, 
-              {
-                "x": 12, 
-                "y": 16
-              }, 
-              {
-                "x": 11, 
-                "y": 18
-              }, 
-              {
-                "x": 11, 
-                "y": 17
-              }, 
-              {
-                "x": 6, 
-                "y": 5
-              }, 
-              {
-                "x": 5, 
-                "y": 4
-              }, 
-              {
-                "x": 7, 
-                "y": 5
-              }, 
-              {
-                "x": 6, 
-                "y": 6
-              }, 
-              {
-                "x": 5, 
-                "y": 6
-              }, 
-              {
-                "x": 5, 
-                "y": 5
-              }, 
-              {
-                "x": 11, 
-                "y": 10
-              }, 
-              {
-                "x": 12, 
-                "y": 9
-              }, 
-              {
-                "x": 12, 
-                "y": 10
-              }, 
-              {
-                "x": 12, 
-                "y": 11
-              }, 
-              {
-                "x": 11, 
-                "y": 11
-              }, 
-              {
-                "x": 10, 
-                "y": 10
-              }
-            ], 
-            "value": 0
-          }
-        }, 
         "population": 1, 
         "position": {
           "x": 15, 
@@ -979,107 +854,8 @@
         }
       }, 
       {
+        "civilization": "cityStates", 
         "name": "Sydney", 
-        "player": {
-          "civilization": "cityStates", 
-          "isUser": false, 
-          "name": "Neuton", 
-          "zoneOfControl": {
-            "boundingBox": {
-              "maxX": 15, 
-              "maxY": 3, 
-              "minX": 15, 
-              "minY": 3
-            }, 
-            "points": [
-              {
-                "x": 15, 
-                "y": 3
-              }, 
-              {
-                "x": 14, 
-                "y": 2
-              }, 
-              {
-                "x": 15, 
-                "y": 2
-              }, 
-              {
-                "x": 16, 
-                "y": 3
-              }, 
-              {
-                "x": 12, 
-                "y": 17
-              }, 
-              {
-                "x": 11, 
-                "y": 16
-              }, 
-              {
-                "x": 12, 
-                "y": 16
-              }, 
-              {
-                "x": 11, 
-                "y": 18
-              }, 
-              {
-                "x": 11, 
-                "y": 17
-              }, 
-              {
-                "x": 6, 
-                "y": 5
-              }, 
-              {
-                "x": 5, 
-                "y": 4
-              }, 
-              {
-                "x": 7, 
-                "y": 5
-              }, 
-              {
-                "x": 6, 
-                "y": 6
-              }, 
-              {
-                "x": 5, 
-                "y": 6
-              }, 
-              {
-                "x": 5, 
-                "y": 5
-              }, 
-              {
-                "x": 11, 
-                "y": 10
-              }, 
-              {
-                "x": 12, 
-                "y": 9
-              }, 
-              {
-                "x": 12, 
-                "y": 10
-              }, 
-              {
-                "x": 12, 
-                "y": 11
-              }, 
-              {
-                "x": 11, 
-                "y": 11
-              }, 
-              {
-                "x": 10, 
-                "y": 10
-              }
-            ], 
-            "value": 0
-          }
-        }, 
         "population": 1, 
         "position": {
           "x": 12, 
@@ -1087,107 +863,8 @@
         }
       }, 
       {
+        "civilization": "cityStates", 
         "name": "Lhasa", 
-        "player": {
-          "civilization": "cityStates", 
-          "isUser": false, 
-          "name": "Neuton", 
-          "zoneOfControl": {
-            "boundingBox": {
-              "maxX": 15, 
-              "maxY": 3, 
-              "minX": 15, 
-              "minY": 3
-            }, 
-            "points": [
-              {
-                "x": 15, 
-                "y": 3
-              }, 
-              {
-                "x": 14, 
-                "y": 2
-              }, 
-              {
-                "x": 15, 
-                "y": 2
-              }, 
-              {
-                "x": 16, 
-                "y": 3
-              }, 
-              {
-                "x": 12, 
-                "y": 17
-              }, 
-              {
-                "x": 11, 
-                "y": 16
-              }, 
-              {
-                "x": 12, 
-                "y": 16
-              }, 
-              {
-                "x": 11, 
-                "y": 18
-              }, 
-              {
-                "x": 11, 
-                "y": 17
-              }, 
-              {
-                "x": 6, 
-                "y": 5
-              }, 
-              {
-                "x": 5, 
-                "y": 4
-              }, 
-              {
-                "x": 7, 
-                "y": 5
-              }, 
-              {
-                "x": 6, 
-                "y": 6
-              }, 
-              {
-                "x": 5, 
-                "y": 6
-              }, 
-              {
-                "x": 5, 
-                "y": 5
-              }, 
-              {
-                "x": 11, 
-                "y": 10
-              }, 
-              {
-                "x": 12, 
-                "y": 9
-              }, 
-              {
-                "x": 12, 
-                "y": 10
-              }, 
-              {
-                "x": 12, 
-                "y": 11
-              }, 
-              {
-                "x": 11, 
-                "y": 11
-              }, 
-              {
-                "x": 10, 
-                "y": 10
-              }
-            ], 
-            "value": 0
-          }
-        }, 
         "population": 1, 
         "position": {
           "x": 6, 
@@ -1195,107 +872,8 @@
         }
       }, 
       {
+        "civilization": "cityStates", 
         "name": "Manila", 
-        "player": {
-          "civilization": "cityStates", 
-          "isUser": false, 
-          "name": "Neuton", 
-          "zoneOfControl": {
-            "boundingBox": {
-              "maxX": 15, 
-              "maxY": 3, 
-              "minX": 15, 
-              "minY": 3
-            }, 
-            "points": [
-              {
-                "x": 15, 
-                "y": 3
-              }, 
-              {
-                "x": 14, 
-                "y": 2
-              }, 
-              {
-                "x": 15, 
-                "y": 2
-              }, 
-              {
-                "x": 16, 
-                "y": 3
-              }, 
-              {
-                "x": 12, 
-                "y": 17
-              }, 
-              {
-                "x": 11, 
-                "y": 16
-              }, 
-              {
-                "x": 12, 
-                "y": 16
-              }, 
-              {
-                "x": 11, 
-                "y": 18
-              }, 
-              {
-                "x": 11, 
-                "y": 17
-              }, 
-              {
-                "x": 6, 
-                "y": 5
-              }, 
-              {
-                "x": 5, 
-                "y": 4
-              }, 
-              {
-                "x": 7, 
-                "y": 5
-              }, 
-              {
-                "x": 6, 
-                "y": 6
-              }, 
-              {
-                "x": 5, 
-                "y": 6
-              }, 
-              {
-                "x": 5, 
-                "y": 5
-              }, 
-              {
-                "x": 11, 
-                "y": 10
-              }, 
-              {
-                "x": 12, 
-                "y": 9
-              }, 
-              {
-                "x": 12, 
-                "y": 10
-              }, 
-              {
-                "x": 12, 
-                "y": 11
-              }, 
-              {
-                "x": 11, 
-                "y": 11
-              }, 
-              {
-                "x": 10, 
-                "y": 10
-              }
-            ], 
-            "value": 0
-          }
-        }, 
         "population": 1, 
         "position": {
           "x": 11, 
@@ -7612,6 +7190,136 @@
     }
   }, 
   "number": 1, 
+  "player": [
+    {
+      "civilization": "english", 
+      "isUser": true, 
+      "name": "John", 
+      "zoneOfControl": {
+        "boundingBox": {
+          "maxX": 20, 
+          "maxY": 13, 
+          "minX": 20, 
+          "minY": 13
+        }, 
+        "points": [
+          {
+            "x": 20, 
+            "y": 13
+          }, 
+          {
+            "x": 21, 
+            "y": 13
+          }, 
+          {
+            "x": 20, 
+            "y": 14
+          }
+        ], 
+        "value": 0
+      }
+    }, 
+    {
+      "civilization": "cityStates", 
+      "isUser": false, 
+      "name": "Neuton", 
+      "zoneOfControl": {
+        "boundingBox": {
+          "maxX": 15, 
+          "maxY": 3, 
+          "minX": 15, 
+          "minY": 3
+        }, 
+        "points": [
+          {
+            "x": 15, 
+            "y": 3
+          }, 
+          {
+            "x": 14, 
+            "y": 2
+          }, 
+          {
+            "x": 15, 
+            "y": 2
+          }, 
+          {
+            "x": 16, 
+            "y": 3
+          }, 
+          {
+            "x": 12, 
+            "y": 17
+          }, 
+          {
+            "x": 11, 
+            "y": 16
+          }, 
+          {
+            "x": 12, 
+            "y": 16
+          }, 
+          {
+            "x": 11, 
+            "y": 18
+          }, 
+          {
+            "x": 11, 
+            "y": 17
+          }, 
+          {
+            "x": 6, 
+            "y": 5
+          }, 
+          {
+            "x": 5, 
+            "y": 4
+          }, 
+          {
+            "x": 7, 
+            "y": 5
+          }, 
+          {
+            "x": 6, 
+            "y": 6
+          }, 
+          {
+            "x": 5, 
+            "y": 6
+          }, 
+          {
+            "x": 5, 
+            "y": 5
+          }, 
+          {
+            "x": 11, 
+            "y": 10
+          }, 
+          {
+            "x": 12, 
+            "y": 9
+          }, 
+          {
+            "x": 12, 
+            "y": 10
+          }, 
+          {
+            "x": 12, 
+            "y": 11
+          }, 
+          {
+            "x": 11, 
+            "y": 11
+          }, 
+          {
+            "x": 10, 
+            "y": 10
+          }
+        ], 
+        "value": 0
+      }
+    }
+  ], 
   "scoreThresold": {
     "gold": 5, 
     "silver": 4

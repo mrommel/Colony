@@ -154,6 +154,21 @@ public extension Formatters {
             }
         }
         
+        public static func getString(from duration: TimeInterval) -> String {
+            
+            let durationInt: Int      = Int(duration)
+            let secondsPerHour: Int   = 3600
+            let secondsPerMinute: Int = 60
+            
+            let hours: Int   = durationInt / secondsPerHour
+            let minutes: Int = (durationInt % secondsPerHour) / secondsPerMinute
+            let seconds: Int = durationInt % secondsPerMinute
+            
+            let hoursString: String   = hours == 0 ? "" : String(format: "%02d:", hours)
+            let defaultString: String = String(format: "%02d:%02d", minutes, seconds)
+            
+            return hoursString + defaultString
+        }
     }
     
 }
@@ -193,7 +208,10 @@ public extension Formatters {
     
     struct Fonts {
         
-        public static let systemFontBoldFamilyname = UIFont.systemFont(ofSize: 99, weight: UIFont.Weight.bold).familyName
-        public static let systemFontFamilyname = UIFont.systemFont(ofSize: 99).familyName
+        public static let systemFontBold = UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.bold)
+        public static let systemFontBoldFamilyname = systemFontBold.familyName
+        
+        public static let systemFont = UIFont.systemFont(ofSize: 24)
+        public static let systemFontFamilyname = systemFont.familyName
     }
 }

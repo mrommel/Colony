@@ -14,6 +14,8 @@ enum BoosterType: String, Codable {
     case time = "time"
     //case wind = "wind"
     
+    static let all: [BoosterType] = [.telescope, .time]
+    
     // costs
     
     // effect ???? how to implement this

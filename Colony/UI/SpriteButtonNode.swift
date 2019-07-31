@@ -63,17 +63,17 @@ class SpriteButtonNode: SKNode {
         let buttonIconTexture = SKTexture(imageNamed: imageName)
         let iconSize = CGSize(width: size.height - 8, height: size.height - 8)
         self.buttonIcon = SKSpriteNode(texture: buttonIconTexture, color: .black, size: iconSize)
-        let iconPosX = -(size.width / 2) + 4 + (iconSize.width / 2)
+        let iconPosX = -size.half.width + 4 + iconSize.half.width
         self.buttonIcon?.position = CGPoint(x: iconPosX, y: 0)
         
         self.buttonLabel = SKLabelNode(text: title)
-        let labelPosX = -(size.width / 2) + 4 + iconSize.width + 4
-        self.buttonLabel.position = CGPoint(x: labelPosX, y: 0)
+        //let labelPosX = -size.half.width + iconSize.width + 8
+        self.buttonLabel.position = CGPoint(x: 0, y: 0) //.position = CGPoint(x: labelPosX, y: 0)
         self.buttonLabel.fontColor = UIColor.white
         self.buttonLabel.fontSize = 18
         self.buttonLabel.fontName = Formatters.Fonts.systemFontBoldFamilyname
         self.buttonLabel.verticalAlignmentMode = .center
-        self.buttonLabel.horizontalAlignmentMode = .left
+        self.buttonLabel.horizontalAlignmentMode = .center // left
         self.buttonLabel.name = "buttonLabel"
         
         super.init()

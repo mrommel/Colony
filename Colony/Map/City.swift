@@ -12,13 +12,13 @@ class City: Codable {
     
     let name: String
     let position: HexPoint
-    let player: Player
+    let civilization: Civilization
     let population: Float = 1.0
     
-    init(named name: String, at position: HexPoint, player: Player) {
+    init(named name: String, at position: HexPoint, civilization: Civilization) {
         
         self.name = name
         self.position = position
-        self.player = player
+        self.civilization = civilization
     }
 }

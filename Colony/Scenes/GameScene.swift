@@ -53,6 +53,7 @@ class GameScene: SKScene {
 
     // UI
     var safeAreaNode: SafeAreaNode
+    var backgroundNode: SKSpriteNode?
     var frameTopLeft: SKSpriteNode?
     var frameTopRight: SKSpriteNode?
     var frameBottomLeft: SKSpriteNode?
@@ -106,6 +107,7 @@ class GameScene: SKScene {
 
     override func didMove(to view: SKView) {
 
+        let viewSize = (self.view?.bounds.size)!
         let deviceScale = self.size.width / 667
 
         guard let viewModel = self.viewModel else {
@@ -125,6 +127,18 @@ class GameScene: SKScene {
         // the safeAreaNode holds the UI
         self.cameraNode.addChild(self.safeAreaNode)
         self.safeAreaNode.updateLayout()
+        
+        // background
+        self.backgroundNode = SKSpriteNode(imageNamed: "background")
+        self.backgroundNode?.position = CGPoint(x: 0, y: 0)
+        self.backgroundNode?.zPosition = -100
+        self.backgroundNode?.size = viewSize
+        self.cameraNode.addChild(backgroundNode!)
+        
+        let userUsecase = UserUsecase()
+        guard let user = userUsecase.currentUser() else {
+            fatalError("can't get current user")
+        }
 
         switch viewModel.type {
 
@@ -138,7 +152,7 @@ class GameScene: SKScene {
                 fatalError("no level")
             }
             
-            self.game = Game(with: level)
+            self.game = Game(with: level, coins: user.coins, boosterStock: user.boosterStock)
 
             self.mapNode = MapNode(with: level)
             self.bottomLeftBar = BottomLeftBar(for: level, sized: CGSize(width: 200, height: 112))
@@ -170,9 +184,9 @@ class GameScene: SKScene {
             
             let gameObjectManager = GameObjectManager(on: map)
 
-            let level = Level(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, map: map, startPositions: startPositions, gameObjectManager: gameObjectManager)
+            let level = Level(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, duration: 300, map: map, startPositions: startPositions, gameObjectManager: gameObjectManager)
             
-            self.game = Game(with: level)
+            self.game = Game(with: level, coins: user.coins, boosterStock: user.boosterStock)
 
             self.mapNode = MapNode(with: level)
             self.bottomLeftBar = BottomLeftBar(for: level, sized: CGSize(width: 200, height: 112))
@@ -194,7 +208,7 @@ class GameScene: SKScene {
             self.safeAreaNode.addChild(bottomRightBar)
         }
 
-        viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.5) // FIXME ???
+        viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.5)
         viewHex.xScale = deviceScale
         viewHex.yScale = deviceScale
         viewHex.addChild(self.mapNode!)
@@ -279,10 +293,7 @@ class GameScene: SKScene {
             self.showQuitConfirmationDialog()
         })
         self.exitButton?.zPosition = 200
-        
-        if let exitButton = self.exitButton {
-            self.safeAreaNode.addChild(exitButton)
-        }
+        self.safeAreaNode.addChild(self.exitButton!)
 
         // focus on ship
         if let mapNode = self.mapNode {
@@ -300,20 +311,14 @@ class GameScene: SKScene {
         self.boosterNodeTelescope?.zPosition = 200
         self.boosterNodeTelescope?.position = CGPoint(x: 220, y: 250)
         self.boosterNodeTelescope?.delegate = self
-            
-        if let boosterNodeTelescope = self.boosterNodeTelescope {
-            self.safeAreaNode.addChild(boosterNodeTelescope)
-        }
+        self.safeAreaNode.addChild(self.boosterNodeTelescope!)
         
         let timeBoosterAvailable = self.game?.boosterStock.isAvailable(boosterType: .time) ?? false
         self.boosterNodeTime = BoosterNode(for: .time, active: timeBoosterAvailable)
         self.boosterNodeTime?.zPosition = 200
         self.boosterNodeTime?.position = CGPoint(x: 220, y: 170)
         self.boosterNodeTime?.delegate = self
-        
-        if let boosterNodeTime = self.boosterNodeTime {
-            self.safeAreaNode.addChild(boosterNodeTime)
-        }
+        self.safeAreaNode.addChild(self.boosterNodeTime!)
     }
 
     func updateLayout() {
@@ -348,7 +353,7 @@ class GameScene: SKScene {
             quitConfirmationDialog.addOkayAction(handler: {
                 quitConfirmationDialog.close()
                 
-                self.game?.cancelTimer()
+                self.game?.cancel()
                 self.game = nil
                 
                 self.gameDelegate?.quitGame()
@@ -372,8 +377,12 @@ class GameScene: SKScene {
             levelIntroductionDialog.addOkayAction(handler: {
                 levelIntroductionDialog.close()
 
+                guard let duration = self.game?.duration else {
+                    fatalError("can't get level duration")
+                }
+                
                 // start timer
-                self.game?.start()
+                self.game?.start(with: duration)
             })
 
             self.cameraNode.addChild(levelIntroductionDialog)
@@ -533,7 +542,7 @@ extension GameScene: GameConditionDelegate {
             victoryDialog.addOkayAction(handler: {
                 
                 self.game?.saveScore()
-                self.game?.cancelTimer()
+                self.game?.cancel()
                 self.game = nil
                 
                 self.gameDelegate?.quitGame()
@@ -550,7 +559,7 @@ extension GameScene: GameConditionDelegate {
             defeatDialog.set(text: type.summary, identifier: "summary")
             defeatDialog.addOkayAction(handler: {
                 
-                self.game?.cancelTimer()
+                self.game?.cancel()
                 self.game = nil
                 
                 self.gameDelegate?.quitGame()
@@ -563,16 +572,11 @@ extension GameScene: GameConditionDelegate {
 
 extension GameScene: GameUpdateDelegate {
     
-    func update(time: TimeInterval) {
-        
-        let interval = Int(time)
-        let seconds = interval % 60
-        let minutes = (interval / 60) % 60
-        
-        self.timeLabel.text = String(format: "%02d:%02d", minutes, seconds)
-    }
-    
     func updateUI() {
+        
+        if let time = self.game?.timeRemainingInSeconds() {
+            self.timeLabel.text = Formatters.Dates.getString(from: time)
+        }
         
         if let coins = self.game?.coins {
             let coinText = Formatters.Numbers.getCoinString(from: coins)

@@ -40,7 +40,7 @@ class UserDao: BaseDao {
     }
     
     @discardableResult
-    func create(named name: String, current: Bool) -> UserEntity? {
+    func create(named name: String, civilization: String, current: Bool) -> UserEntity? {
         
         guard let context = self.context else {
             fatalError("Can't get context for creating user")
@@ -49,6 +49,15 @@ class UserDao: BaseDao {
         let newUser = UserEntity(context: context)
         newUser.name = name
         newUser.current = current
+        newUser.civilization = civilization
+        newUser.coins = 0
+        
+        for boosterType in BoosterType.all {
+            let newBoosterStockEntity = BoosterStockEntity(context: context)
+            newBoosterStockEntity.boosterType = boosterType.rawValue
+            newBoosterStockEntity.amount = 0
+            newBoosterStockEntity.user = newUser
+        }
         
         do {
             try context.save()

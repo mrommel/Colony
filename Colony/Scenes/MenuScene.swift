@@ -14,6 +14,7 @@ protocol MenuDelegate {
     func start(level url: URL?)
     func restart(game: Game?)
     func startGeneration()
+    func startStore()
     func startOptions()
 }
 
@@ -29,6 +30,7 @@ class MenuScene: SKScene {
     var backgroundNode0: SKSpriteNode?
     var copyrightLabel: SKLabelNode?
     var settingsButton: SettingsButtonNode?
+    var cartButton: CartButtonNode?
     var cameraNode: SKCameraNode!
     
     let gameUsecase: GameUsecase?
@@ -134,6 +136,16 @@ class MenuScene: SKScene {
             self.cameraNode.addChild(settingsButton)
         }
         
+        // settings
+        self.cartButton = CartButtonNode(buttonAction: {
+            self.menuDelegate?.startStore()
+        })
+        self.cartButton?.zPosition = 7
+        
+        if let cartButton = self.cartButton {
+            self.cameraNode.addChild(cartButton)
+        }
+        
         // copyright
         self.copyrightLabel = SKLabelNode(text: "Copyright 2019 MiRo & MaRo")
         self.copyrightLabel?.zPosition = 1
@@ -145,9 +157,39 @@ class MenuScene: SKScene {
         
         self.updateLayout()
         
-        // ask if user wants to continue last game
+        // check if we have a user
+        let userUsecase = UserUsecase()
+        
+        if !userUsecase.isCurrentUserExisting() {
+            
+            // ... ask the user if he wants to create a new user ...
+            if let playerInputDialog = UI.playerInputDialog() {
+                playerInputDialog.addOkayAction(handler: {
+
+                    let username = playerInputDialog.getTextFieldInput()
+                    
+                    if UserUsecase.isValid(name: username) {
+                        
+                        //guard let currentUserCivilization = userUsecase.currentUser()?.civilization else {
+                        //    fatalError("Can't get current users civilization")
+                        //}
+                        let currentUserCivilization: Civilization = .english
+                        
+                        if userUsecase.createCurrentUser(named: username, civilization: currentUserCivilization) { // FIXME
+                            playerInputDialog.close()
+                        } else {
+                            print("can't create user")
+                        }
+                    }
+                })
+
+                self.cameraNode.add(dialog: playerInputDialog)
+            }
+        }
+        
         let gameUsecase = GameUsecase()
         
+        // ask if user wants to continue last game
         // check if a backup exists ...
         if let game = gameUsecase.restoreGame() {
 
@@ -212,7 +254,9 @@ class MenuScene: SKScene {
         self.backgroundNode2?.position = CGPoint(x: 0.0, y: 2 * backgroundTileHeight)
         self.backgroundNode2?.size = CGSize(width: viewSize.width, height: backgroundTileHeight)
         
-        self.settingsButton?.position = CGPoint(x: self.frame.width * 0.88 - self.frame.halfWidth, y: self.frame.height * 0.1 - self.frame.halfHeight)
+        self.settingsButton?.position = CGPoint(x: self.frame.halfWidth - 40, y: -self.frame.halfHeight + 160)
+        self.cartButton?.position = CGPoint(x: self.frame.halfWidth - 40, y: -self.frame.halfHeight + 80)
+        
         self.copyrightLabel?.position = CGPoint(x: 0, y: -self.frame.halfHeight + 18)
     }
-}
+} 

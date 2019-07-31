@@ -30,8 +30,9 @@ class Booster: GameObject {
     init(at point: HexPoint, boosterType: BoosterType) {
         
         let identifier = UUID()
+        let identifierString = "booster-\(identifier.uuidString)"
         
-        super.init(with: identifier.uuidString, type: .booster, at: point, spriteName: boosterType.textureName, anchorPoint: CGPoint(x: -1.0, y: -0.1), civilization: nil, sight: 1)
+        super.init(with: identifierString, type: .booster, at: point, spriteName: boosterType.textureName, anchorPoint: CGPoint(x: -1.0, y: -0.1), civilization: nil, sight: 1)
         
         self.boosterType = boosterType
         

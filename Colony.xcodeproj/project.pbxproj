@@ -22,6 +22,16 @@
 		C903369822EDCE7F004D2D72 /* BoosterStock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369722EDCE7F004D2D72 /* BoosterStock.swift */; };
 		C903369A22EDD189004D2D72 /* BoosterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369922EDD189004D2D72 /* BoosterType.swift */; };
 		C903369C22EE3BF0004D2D72 /* EncodingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369B22EE3BF0004D2D72 /* EncodingExtensions.swift */; };
+		C903369E22EEE82B004D2D72 /* PausableTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369D22EEE82B004D2D72 /* PausableTimer.swift */; };
+		C90336A022EF456E004D2D72 /* PlayerInputDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C903369F22EF456E004D2D72 /* PlayerInputDialog.xml */; };
+		C90336A222EF48AC004D2D72 /* UserUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336A122EF48AC004D2D72 /* UserUsecase.swift */; };
+		C90336A422F07663004D2D72 /* SettingsUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336A322F07663004D2D72 /* SettingsUsecase.swift */; };
+		C90336A622F084E2004D2D72 /* IconButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336A522F084E2004D2D72 /* IconButtonNode.swift */; };
+		C90336A822F08AAD004D2D72 /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336A722F08AAD004D2D72 /* StoreViewController.swift */; };
+		C90336AA22F08AF7004D2D72 /* StoreScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336A922F08AF7004D2D72 /* StoreScene.swift */; };
+		C90336AC22F199AD004D2D72 /* BoosterStoreNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336AB22F199AD004D2D72 /* BoosterStoreNode.swift */; };
+		C90336AE22F1C07F004D2D72 /* StoreSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336AD22F1C07F004D2D72 /* StoreSceneViewModel.swift */; };
+		C90336B022F1C7F7004D2D72 /* BoosterStockDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336AF22F1C7F7004D2D72 /* BoosterStockDao.swift */; };
 		C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */; };
 		C90A134F22A99F130003BBDE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C90A134E22A99F130003BBDE /* README.md */; };
 		C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915971A22CE91E5001D034B /* ScoreRepository.swift */; };
@@ -164,6 +174,16 @@
 		C903369722EDCE7F004D2D72 /* BoosterStock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterStock.swift; sourceTree = "<group>"; };
 		C903369922EDD189004D2D72 /* BoosterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterType.swift; sourceTree = "<group>"; };
 		C903369B22EE3BF0004D2D72 /* EncodingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodingExtensions.swift; sourceTree = "<group>"; };
+		C903369D22EEE82B004D2D72 /* PausableTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PausableTimer.swift; sourceTree = "<group>"; };
+		C903369F22EF456E004D2D72 /* PlayerInputDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PlayerInputDialog.xml; sourceTree = "<group>"; };
+		C90336A122EF48AC004D2D72 /* UserUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUsecase.swift; sourceTree = "<group>"; };
+		C90336A322F07663004D2D72 /* SettingsUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUsecase.swift; sourceTree = "<group>"; };
+		C90336A522F084E2004D2D72 /* IconButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButtonNode.swift; sourceTree = "<group>"; };
+		C90336A722F08AAD004D2D72 /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
+		C90336A922F08AF7004D2D72 /* StoreScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreScene.swift; sourceTree = "<group>"; };
+		C90336AB22F199AD004D2D72 /* BoosterStoreNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterStoreNode.swift; sourceTree = "<group>"; };
+		C90336AD22F1C07F004D2D72 /* StoreSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSceneViewModel.swift; sourceTree = "<group>"; };
+		C90336AF22F1C7F7004D2D72 /* BoosterStockDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterStockDao.swift; sourceTree = "<group>"; };
 		C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StartPositionFinder.swift; path = ../StartPositionFinder.swift; sourceTree = "<group>"; };
 		C90A134E22A99F130003BBDE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C915971A22CE91E5001D034B /* ScoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRepository.swift; sourceTree = "<group>"; };
@@ -347,6 +367,8 @@
 			isa = PBXGroup;
 			children = (
 				C927E2EB22CE9C6300EDBE0D /* GameUsecase.swift */,
+				C90336A122EF48AC004D2D72 /* UserUsecase.swift */,
+				C90336A322F07663004D2D72 /* SettingsUsecase.swift */,
 			);
 			path = Usecase;
 			sourceTree = "<group>";
@@ -356,6 +378,7 @@
 			children = (
 				C92D875222CB694200E7A55E /* BaseDao.swift */,
 				C92D875722CB73B400E7A55E /* UserDao.swift */,
+				C90336AF22F1C7F7004D2D72 /* BoosterStockDao.swift */,
 				C92D875922CB75CB00E7A55E /* ScoreDao.swift */,
 				C903368C22ED8F4B004D2D72 /* GameDao.swift */,
 			);
@@ -384,6 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				C94A2F3922C267B100AB7117 /* GameSceneViewModel.swift */,
+				C90336AD22F1C07F004D2D72 /* StoreSceneViewModel.swift */,
 			);
 			path = SceneViewModels;
 			sourceTree = "<group>";
@@ -411,6 +435,7 @@
 				C956078C22B1291700AA69E9 /* VictoryDialog.xml */,
 				C965FEAE22E747120075CB87 /* CityDialog.xml */,
 				C903369022EDAFEA004D2D72 /* GameContinueDialog.xml */,
+				C903369F22EF456E004D2D72 /* PlayerInputDialog.xml */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -451,6 +476,8 @@
 				C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */,
 				C91A4F3422A26585000BF647 /* MenuButtonNode.swift */,
 				C9E9BBF722B3B32C0048F97B /* LevelButtonNode.swift */,
+				C90336A522F084E2004D2D72 /* IconButtonNode.swift */,
+				C984CCD322CD4D3C0033F2BB /* SettingsButtonNode.swift */,
 				C9763EAC22A2FEE300F31126 /* MessageBoxNode.swift */,
 				C97B282922A3F72100112532 /* MessageBoxButtonNode.swift */,
 				C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */,
@@ -460,10 +487,10 @@
 				C965FEAC22E7450B0075CB87 /* CityDialog.swift */,
 				C956078822B0F22800AA69E9 /* DialogConfiguration.swift */,
 				C900654522AFA21D0004C963 /* UI.swift */,
-				C984CCD322CD4D3C0033F2BB /* SettingsButtonNode.swift */,
 				C9697B3422DDA3810076FF4C /* UnitIndicator.swift */,
 				C903369222EDB89F004D2D72 /* BoosterTypeNode.swift */,
 				C903369422EDBB2E004D2D72 /* BoosterNode.swift */,
+				C90336AB22F199AD004D2D72 /* BoosterStoreNode.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -552,6 +579,7 @@
 				C9C7F0EF229E993300A775B2 /* MenuViewController.swift */,
 				C9C7F0D0229B193400A775B2 /* GameViewController.swift */,
 				C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */,
+				C90336A722F08AAD004D2D72 /* StoreViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -582,6 +610,7 @@
 				C97B282F22A42A4600112532 /* MapGenerationScene.swift */,
 				C9C7F0CE229B193400A775B2 /* GameScene.swift */,
 				C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */,
+				C90336A922F08AF7004D2D72 /* StoreScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -630,6 +659,7 @@
 				C94A2F3B22C2B06200AB7117 /* UIImageExtension.swift */,
 				C92D876422CBF34E00E7A55E /* Formatters.swift */,
 				C903369B22EE3BF0004D2D72 /* EncodingExtensions.swift */,
+				C903369D22EEE82B004D2D72 /* PausableTimer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -736,6 +766,7 @@
 				C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */,
 				C9A32B4A22B29F7B00AFC70D /* level0002.lvl in Resources */,
 				C9C7F0D9229B193A00A775B2 /* LaunchScreen.storyboard in Resources */,
+				C90336A022EF456E004D2D72 /* PlayerInputDialog.xml in Resources */,
 				C9E9BC0022B6262A0048F97B /* LevelIntroductionDialog.xml in Resources */,
 				C900654222AEE8DC0004C963 /* DefeatDialog.xml in Resources */,
 			);
@@ -801,6 +832,7 @@
 				C9C7F13A229F203200A775B2 /* TerrainLayer.swift in Sources */,
 				C9C7F0CF229B193400A775B2 /* GameScene.swift in Sources */,
 				C9763EAD22A2FEE300F31126 /* MessageBoxNode.swift in Sources */,
+				C90336A422F07663004D2D72 /* SettingsUsecase.swift in Sources */,
 				C9F9C98F22E0B10B000A3310 /* Ocean.swift in Sources */,
 				C97E96D722A1C21600D594F3 /* ShipObject.swift in Sources */,
 				C9F6A14B22CA906800388198 /* Coin.swift in Sources */,
@@ -820,12 +852,14 @@
 				C92D875A22CB75CB00E7A55E /* ScoreDao.swift in Sources */,
 				C9C7F120229EBE5C00A775B2 /* HexPointCorner.swift in Sources */,
 				C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */,
+				C90336B022F1C7F7004D2D72 /* BoosterStockDao.swift in Sources */,
 				C9C7F13E229F206000A775B2 /* BoardLayer.swift in Sources */,
 				C92D875F22CB77EB00E7A55E /* UserRepository.swift in Sources */,
 				C9C7F114229EBE3100A775B2 /* FloatExtension.swift in Sources */,
 				C9C7F0FD229EBD2900A775B2 /* HexagonMap.swift in Sources */,
 				C9C7F0D1229B193400A775B2 /* GameViewController.swift in Sources */,
 				C903369822EDCE7F004D2D72 /* BoosterStock.swift in Sources */,
+				C90336A822F08AAD004D2D72 /* StoreViewController.swift in Sources */,
 				C9BA0A6622DB88190055ED59 /* City.swift in Sources */,
 				C92D876522CBF34E00E7A55E /* Formatters.swift in Sources */,
 				C97B283222A5349A00112532 /* FogManager.swift in Sources */,
@@ -854,6 +888,7 @@
 				C97B53A322D2756B008078D9 /* Pirates.swift in Sources */,
 				C9C7F116229EBE3100A775B2 /* BitArray.swift in Sources */,
 				C9C7F0F3229EA73300A775B2 /* MapNode.swift in Sources */,
+				C90336A222EF48AC004D2D72 /* UserUsecase.swift in Sources */,
 				C956078922B0F22800AA69E9 /* DialogConfiguration.swift in Sources */,
 				C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */,
 				C9697B3122DC99DD0076FF4C /* TileFertilityEvaluator.swift in Sources */,
@@ -876,6 +911,7 @@
 				C9C7F115229EBE3100A775B2 /* Random.swift in Sources */,
 				C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */,
 				C972CCC022AAA4AE008DB8CB /* CityObject.swift in Sources */,
+				C90336AC22F199AD004D2D72 /* BoosterStoreNode.swift in Sources */,
 				C9C7F106229EBDE700A775B2 /* River.swift in Sources */,
 				C97E96DA22A1CB7B00D594F3 /* MoveTypePathfinderDataSource.swift in Sources */,
 				C900654622AFA21D0004C963 /* UI.swift in Sources */,
@@ -883,6 +919,7 @@
 				C9C7F102229EBD9500A775B2 /* Terrain.swift in Sources */,
 				C9E9BBF822B3B32C0048F97B /* LevelButtonNode.swift in Sources */,
 				C927E2EE22CF5A0A00EDBE0D /* OptionsScene.swift in Sources */,
+				C90336AE22F1C07F004D2D72 /* StoreSceneViewModel.swift in Sources */,
 				C9C7F129229EBEDD00A775B2 /* HexDirection.swift in Sources */,
 				C903369A22EDD189004D2D72 /* BoosterType.swift in Sources */,
 				C9C7F133229EBFA400A775B2 /* PerlinGenerator.swift in Sources */,
@@ -901,16 +938,19 @@
 				C9C7F124229EBE5C00A775B2 /* MapGenerator.swift in Sources */,
 				C900654422AF96A00004C963 /* Dialog.swift in Sources */,
 				C9C7F117229EBE3100A775B2 /* CGPointExtension.swift in Sources */,
+				C903369E22EEE82B004D2D72 /* PausableTimer.swift in Sources */,
 				C92D876322CB871100E7A55E /* GameConditionType.swift in Sources */,
 				C97B283422A53D0F00112532 /* MulticastDelegate.swift in Sources */,
 				C9697B3522DDA3810076FF4C /* UnitIndicator.swift in Sources */,
 				C94A2F3E22C8E1ED00AB7117 /* BottomLeftBar.swift in Sources */,
 				C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */,
+				C90336AA22F08AF7004D2D72 /* StoreScene.swift in Sources */,
 				C927E2F022CF5FA300EDBE0D /* OptionsViewController.swift in Sources */,
 				C903368F22EDA834004D2D72 /* GameRepository.swift in Sources */,
 				C9C7F118229EBE3100A775B2 /* ArrayExtension.swift in Sources */,
 				C9C7F12B229EBF5200A775B2 /* AreaSprites.swift in Sources */,
 				C9697B3322DC99F80076FF4C /* SiteEvaluator.swift in Sources */,
+				C90336A622F084E2004D2D72 /* IconButtonNode.swift in Sources */,
 				C97B282A22A3F72100112532 /* MessageBoxButtonNode.swift in Sources */,
 				C965FEA922E4F20A0075CB87 /* AreaLayer.swift in Sources */,
 				C9C7F123229EBE5C00A775B2 /* HexPointWithCorner.swift in Sources */,

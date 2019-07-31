@@ -9,7 +9,7 @@
 import SpriteKit
 
 public extension SKNode {
-    
+
     /**
      Run an action with key & optional completion function.
      - parameter action:     `SKAction!` SpriteKit action.
@@ -18,11 +18,23 @@ public extension SKNode {
      */
     func run(_ action: SKAction!, withKey: String!, completion block: (() -> Void)?) {
         if let block = block {
-            let completionAction = SKAction.run( block )
-            let compositeAction = SKAction.sequence([ action, completionAction ])
+            let completionAction = SKAction.run(block)
+            let compositeAction = SKAction.sequence([action, completionAction])
             run(compositeAction, withKey: withKey)
         } else {
             run(action, withKey: withKey)
+        }
+    }
+}
+
+extension SKNode {
+    
+    var positionInScene: CGPoint? {
+        
+        if let scene = self.scene, let parent = self.parent {
+            return parent.convert(self.position, to: scene)
+        } else {
+            return nil
         }
     }
 }

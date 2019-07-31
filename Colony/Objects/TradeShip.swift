@@ -56,6 +56,7 @@ class TradeShip: GameObject {
                     self.walk(on: path)
                 } else {
                     // FIXME: sometimes the trader gets stuck
+                    print("TradeShip: got stuck")
                     //fatalError("can't find path from \(self.position) to \(newDestination)")
                 }
             } else {
