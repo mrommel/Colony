@@ -16,7 +16,7 @@ protocol GameDelegate: class {
     func quitGame()
 }
 
-class GameScene: SKScene {
+class GameScene: NotificationSkene {
 
     // MARK: Constants
     let headerHeight: CGFloat = 480
@@ -38,7 +38,8 @@ class GameScene: SKScene {
             static let cityName: CGFloat = 5.5
             static let sprite: CGFloat = 6.0
             static let labels: CGFloat = 50.0
-            static let dialogs: CGFloat = 50.0
+            static let dialogs: CGFloat = 51.0
+            static let messages: CGFloat = 60.0
         }
 
         struct Visibility {
@@ -596,6 +597,11 @@ extension GameScene: GameUpdateDelegate {
                 self.boosterNodeTime?.disable()
             }
         }
+    }
+    
+    func battle(between source: GameObject?, and target: GameObject?) {
+        
+        self.show(message: "Battle between \(source) and \(target)")
     }
 }
 

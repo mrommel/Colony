@@ -70,6 +70,7 @@ class Pirates: GameObject {
                 if self.position == targetPosition {
                     print("Pirates: !!! Battle !!!")
                     // FIXME: implement battle
+                    self.delegate?.battle(between: self, and: self.target)
                 }
 
                 // is target still in sight
@@ -109,7 +110,7 @@ class Pirates: GameObject {
         var bestDistance: Int = Int.max
 
         for waterNeighbor in waterNeighbors {
-            let neighborDistance = waterNeighbor.distance(to: point) + Int.random(number: 2)
+            let neighborDistance = waterNeighbor.distance(to: point) + Int.random(number: 1)
             if neighborDistance < bestDistance {
                 bestWaterNeighbor = waterNeighbor
                 bestDistance = neighborDistance

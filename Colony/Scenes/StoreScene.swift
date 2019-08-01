@@ -14,7 +14,7 @@ protocol StoreDelegate: class {
     //func resetData()
 }
 
-class StoreScene: SKScene {
+class StoreScene: NotificationSkene {
 
     var safeAreaNode: SafeAreaNode
 
@@ -184,6 +184,8 @@ extension StoreScene: BoosterStoreNodeDelegate {
         // new coins
         let costs = viewModel.calculateCosts()
         print("costs: \(costs)")
+        //self.costLabel
+        self.show(message: "Costs: \(costs)", for: 3.0)
     }
 }
 

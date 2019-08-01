@@ -12,6 +12,7 @@ import SpriteKit
 protocol GameObjectDelegate {
 
     func moved(object: GameObject?)
+    func battle(between: GameObject?, and target: GameObject?)
 }
 
 protocol GameObjectUnitDelegate {
@@ -25,6 +26,7 @@ protocol GameObservationDelegate {
     func updated()
     func coinConsumed()
     func boosterConsumed(type: BoosterType)
+    func battle(between: GameObject?, and target: GameObject?)
 }
 
 class GameObjectManager: Codable {
@@ -387,5 +389,10 @@ extension GameObjectManager: GameObjectDelegate {
 
         // check if won / lost the game
         self.checkGameConditions()
+    }
+    
+    func battle(between source: GameObject?, and target: GameObject?) {
+        
+        self.gameObservationDelegate?.battle(between: source, and: target)
     }
 }

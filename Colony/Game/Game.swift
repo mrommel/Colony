@@ -11,6 +11,7 @@ import Foundation
 protocol GameUpdateDelegate {
     
     func updateUI()
+    func battle(between source: GameObject?, and target: GameObject?)
 }
 
 class Game: Decodable {
@@ -215,6 +216,7 @@ extension Game {
 
         print("stop update timer")
         self.updateTimer?.invalidate()
+        self.checkCondition()
     }
 }
 
@@ -400,6 +402,11 @@ extension Game: GameObservationDelegate {
         
         self.boosterStock.increment(boosterType: type)
         self.gameUpdateDelegate?.updateUI()
+    }
+    
+    func battle(between source: GameObject?, and target: GameObject?) {
+        
+        self.gameUpdateDelegate?.battle(between: source, and: target)
     }
 }
 

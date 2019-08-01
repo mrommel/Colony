@@ -2,7 +2,8 @@
   "difficulty": "easy", 
   "duration": 120, 
   "gameConditionCheckIdentifiers": [
-    "MonsterCheck"
+    "MonsterCheck",
+    "TimerElapsedCheck"
   ], 
   "gameObjectManager": {
     "objects": [
