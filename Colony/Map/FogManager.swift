@@ -64,7 +64,8 @@ class FogManager: Codable {
 
         self.map = map
         self.fog = FogArray2D(columns: self.map?.width ?? 1, rows: self.map?.height ?? 1)
-        self.fog.fill(with: .never)
+        //self.fog.fill(with: .never)
+        self.fog.fill(with: .discovered)
     }
 
     func add(unit: FogUnit) {

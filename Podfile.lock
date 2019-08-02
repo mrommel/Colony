@@ -1,4 +1,5 @@
 PODS:
+  - BinarySwift (0.9.5)
   - Codability (0.2.1)
   - R.swift (5.0.3):
     - R.swift.Library (~> 5.0.0)
@@ -6,12 +7,14 @@ PODS:
   - XMLParsing (0.0.3)
 
 DEPENDENCIES:
+  - BinarySwift
   - Codability
   - R.swift
   - XMLParsing (from `https://github.com/ShawnMoore/XMLParsing.git`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - BinarySwift
     - Codability
     - R.swift
     - R.swift.Library
@@ -26,11 +29,12 @@ CHECKOUT OPTIONS:
     :git: https://github.com/ShawnMoore/XMLParsing.git
 
 SPEC CHECKSUMS:
+  BinarySwift: 80268ffb18d7a96d7831b7c0fee82936e5176e84
   Codability: c888a339f4784c15a482b2180799e1836fc119aa
   R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
   R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
   XMLParsing: 085edb6fa22c71d6b53a79299f990a91e7414d19
 
-PODFILE CHECKSUM: 15ac5396f51c8f13782a5434b321f733644546dc
+PODFILE CHECKSUM: e30045519b7cd12cdfd52d431c6fe2e7d057f9d7
 
 COCOAPODS: 1.7.1

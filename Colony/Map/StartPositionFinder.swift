@@ -40,7 +40,14 @@ class StartPositionFinder {
             print("iterate to find start positions ...")
             randomItem = possiblePoints.randomItem()
         
-            trial = possiblePoints.filter { $0.distance(to: randomItem) > optimalDistance && map.path(from: $0, to: randomItem, movementType: .swimOcean) != nil }
+            trial = []
+            for _ in 0..<25 {
+                let r1 = possiblePoints.randomItem()
+                
+                if r1.distance(to: randomItem) > optimalDistance && map.path(from: r1, to: randomItem, movementType: .swimOcean) != nil {
+                    trial.append(r1)
+                }
+            }
             optimalDistance = optimalDistance - 1 // reduce distance each time we fail
         } while trial.count == 0
         

@@ -30,6 +30,14 @@
 ## Maybe
 - collect wood with axemann
 - add beach-se-sw-nw texture
+- add beach-n-ne-s-sw
+beach-se-s-nw
+beach-ne-se-sw-nw
+beach-ne-se-s-nw
+beach-ne-se-sw
+beach-ne-s-sw-nw
+beach-ne-s-sw
+beach-n-se-sw   
 - move unit on longclick ?
 
 ## Bugs

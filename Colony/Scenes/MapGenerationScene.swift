@@ -19,6 +19,7 @@ class MapGenerationScene: BaseScene {
     var backgroundNode: SKSpriteNode!
     var hugeButton: MenuButtonNode!
     var standardButton: MenuButtonNode!
+    var earthButton: MenuButtonNode!
     var progressBarNode: ProgressBarNode!
     
     weak var mapGenerationDelegate: MapGenerationDelegate?
@@ -57,6 +58,14 @@ class MapGenerationScene: BaseScene {
         self.standardButton.zPosition = 1
         self.addChild(self.standardButton)
         
+        self.earthButton = MenuButtonNode(titled: "Earth", buttonAction: {
+            DispatchQueue.global(qos: .background).async {
+                self.loadMapAsync()
+            }
+        })
+        self.earthButton.zPosition = 1
+        self.addChild(self.earthButton)
+        
         self.progressBarNode = ProgressBarNode(size: CGSize(width: 200, height: 40))
         self.progressBarNode.zPosition = 1
         self.progressBarNode.set(progress: 0.0)
@@ -87,6 +96,38 @@ class MapGenerationScene: BaseScene {
         }
     }
     
+    func loadMapAsync() {
+        
+        let civ5MapReader = Civ5MapReader()
+        guard let map = civ5MapReader.load(from: R.file.earth_HugeCiv5Map()) else {
+            fatalError("Map could not be loaded")
+        }
+        
+        DispatchQueue.main.async {
+            self.progressBarNode.set(progress: 0.7)
+        }
+        
+        let continentFinder = ContinentFinder(width: map.width, height: map.height)
+        let continents = continentFinder.execute(on: map)
+        map.continents = continents
+        
+        DispatchQueue.main.async {
+            self.progressBarNode.set(progress: 0.8)
+        }
+        
+        let oceanFinder = OceanFinder(width: map.width, height: map.height)
+        let oceans = oceanFinder.execute(on: map)
+        map.oceans = oceans
+        
+        DispatchQueue.main.async {
+            self.progressBarNode.set(progress: 0.9)
+        }
+
+        DispatchQueue.main.async {
+            self.mapGenerationDelegate?.generated(map: map)
+        }
+    }
+    
     override func updateLayout() {
         
         super.updateLayout()
@@ -99,6 +140,8 @@ class MapGenerationScene: BaseScene {
         
         self.standardButton.position = CGPoint(x: 0, y: 0 + 30)
         self.hugeButton.position = CGPoint(x: 0, y: 80)
+        self.earthButton.position = CGPoint(x: 0, y: 130)
+        
         self.progressBarNode.position = CGPoint(x: 0, y: -80)
     }
 }

@@ -142,6 +142,7 @@ class StoreScene: BaseScene {
                 }
             })
         self.purchaseButton?.zPosition = 2
+        self.purchaseButton?.disable()
         self.addChild(self.purchaseButton!)
 
         self.updateLayout()
@@ -240,7 +241,7 @@ extension StoreScene: BoosterStoreNodeDelegate {
         self.calculatedCoinsValueNode?.coins = costs
         self.remainingCoinsValueNode?.coins = remaining
         
-        if remaining < 0 && viewModel.itemsInCart() > 0 {
+        if remaining < 0 || viewModel.itemsInCart() == 0 {
             self.purchaseButton?.disable()
         } else {
             self.purchaseButton?.enable()

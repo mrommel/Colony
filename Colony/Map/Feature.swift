@@ -15,9 +15,42 @@ enum Feature: String, Codable {
 	case forestPine
 	case forestRain
 	case oasis
+    case marsh
 
     // case lake
 
+    static func fromCiv5String(value: String) -> Feature? {
+        
+        if value == "FEATURE_ICE" {
+            return nil
+        }
+        
+        if value == "FEATURE_FOREST" {
+            return .forestMixed
+        }
+        
+        if value == "FEATURE_JUNGLE" {
+            return .forestRain
+        }
+        
+        if value == "FEATURE_MARSH" {
+            return .marsh
+        }
+        
+        if value == "FEATURE_OASIS" {
+            return .oasis
+        }
+        
+        if value == "FEATURE_FLOOD_PLAINS" {
+            return .oasis // FIXME
+        }
+        
+        if value == "FEATURE_FALLOUT" {
+            return .oasis // FIXME
+        }
+        
+        return nil
+    }
 
 	var description: String {
 		switch self {
@@ -29,6 +62,8 @@ enum Feature: String, Codable {
 			return "Rain Forest"
 		case .oasis:
 			return "Oasis"
+        case .marsh:
+            return "Marsh"
 		}
 	}
 
@@ -42,6 +77,8 @@ enum Feature: String, Codable {
 			return ["hex_forest_rain", "hex_forest_rain2"]
 		case .oasis:
 			return ["hex_oasis"]
+        case .marsh:
+            return ["hex_marsh"]
 		}
 	}
 
@@ -55,6 +92,8 @@ enum Feature: String, Codable {
 			return GameScene.Constants.ZLevels.featureUpper
 		case .oasis:
 			return GameScene.Constants.ZLevels.feature
+        case .marsh:
+            return GameScene.Constants.ZLevels.feature
 		}
 	}
     
@@ -82,6 +121,10 @@ enum Feature: String, Codable {
             }
             
             if self == .oasis {
+                return 0.0
+            }
+            
+            if self == .marsh {
                 return 0.0
             }
             
