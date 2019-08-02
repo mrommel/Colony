@@ -12,9 +12,12 @@ class SpriteButtonNode: SKNode {
     
     var defaultButton: SKSpriteNode
     var activeButton: SKSpriteNode
+
     var buttonIcon: SKSpriteNode?
     var buttonLabel: SKLabelNode
     var action: () -> Void
+    
+    var active: Bool = true
     
     init(titled title: String, defaultButtonImage: String, activeButtonImage: String, size: CGSize, isNineGrid: Bool = true, buttonAction: @escaping () -> Void) {
         
@@ -67,8 +70,7 @@ class SpriteButtonNode: SKNode {
         self.buttonIcon?.position = CGPoint(x: iconPosX, y: 0)
         
         self.buttonLabel = SKLabelNode(text: title)
-        //let labelPosX = -size.half.width + iconSize.width + 8
-        self.buttonLabel.position = CGPoint(x: 0, y: 0) //.position = CGPoint(x: labelPosX, y: 0)
+        self.buttonLabel.position = CGPoint(x: 0, y: 0)
         self.buttonLabel.fontColor = UIColor.white
         self.buttonLabel.fontSize = 18
         self.buttonLabel.fontName = Formatters.Fonts.systemFontBoldFamilyname
@@ -99,13 +101,58 @@ class SpriteButtonNode: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // state management
+    
+    func enable() {
+        
+        self.active = true
+        self.defaultButton.colorBlendFactor = 0.0
+        self.defaultButton.color = .black
+        
+        self.buttonIcon?.colorBlendFactor = 0.0
+        self.buttonIcon?.color = .black
+        self.buttonLabel.colorBlendFactor = 0.0
+        self.buttonLabel.color = .black
+        
+        self.activeButton.isHidden = true
+        self.defaultButton.isHidden = false
+    }
+    
+    func disable() {
+        
+        self.active = false
+        self.defaultButton.colorBlendFactor = 0.8
+        self.defaultButton.color = .gray
+        
+        self.buttonIcon?.colorBlendFactor = 0.4
+        self.buttonIcon?.color = .black
+        self.buttonLabel.colorBlendFactor = 0.4
+        self.buttonLabel.color = .black
+    }
+    
+    // action handling
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        // skip action handling, when button is not active
+        guard self.active else {
+            activeButton.isHidden = true
+            defaultButton.isHidden = false
+            return
+        }
         
         activeButton.isHidden = false
         defaultButton.isHidden = true
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        // skip action handling, when button is not active
+        guard self.active else {
+            activeButton.isHidden = true
+            defaultButton.isHidden = false
+            return
+        }
         
         if let touch: UITouch = touches.first {
             let location: CGPoint = touch.location(in: self)
@@ -121,6 +168,13 @@ class SpriteButtonNode: SKNode {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        // skip action handling, when button is not active
+        guard self.active else {
+            activeButton.isHidden = true
+            defaultButton.isHidden = false
+            return
+        }
         
         if let touch: UITouch = touches.first {
             let location: CGPoint = touch.location(in: self)

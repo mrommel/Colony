@@ -1,5 +1,5 @@
 //
-//  NotificationSkene.swift
+//  BaseSkene.swift
 //  Colony
 //
 //  Created by Michael Rommel on 31.07.19.
@@ -8,8 +8,12 @@
 
 import SpriteKit
 
-class NotificationSkene: SKScene {
+class BaseScene: SKScene {
 
+    // nodes
+    var safeAreaNode: SafeAreaNode!
+    var cameraNode: SKCameraNode!
+    
     var messages: [NotificationNode] = []
 
     override init(size: CGSize) {
@@ -20,6 +24,25 @@ class NotificationSkene: SKScene {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func didMove(to view: SKView) {
+        
+        // camera
+        self.cameraNode = SKCameraNode() //initialize and assign an instance of SKCameraNode to the cam variable.
+        self.camera = self.cameraNode //set the scene's camera to reference cam
+        self.addChild(self.cameraNode) //make the cam a childElement of the scene itself.
+        
+        // the safeAreaNode holds the UI
+        self.safeAreaNode = SafeAreaNode()
+        self.cameraNode.addChild(self.safeAreaNode)
+        
+        self.safeAreaNode.updateLayout()
+    }
+    
+    func updateLayout() {
+        
+        self.safeAreaNode.updateLayout()
+    }
 
     func show(message: String, for seconds: TimeInterval = 5.0) {
 
@@ -28,7 +51,7 @@ class NotificationSkene: SKScene {
         notificationNode.position = self.nextNotificationPosition()
         notificationNode.alpha = 0
 
-        self.addChild(notificationNode)
+        self.safeAreaNode.addChild(notificationNode)
 
         self.messages.append(notificationNode)
         self.updateMessages()

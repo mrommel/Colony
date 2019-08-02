@@ -154,6 +154,10 @@ extension Game {
         }
         self.timer?.didStop = { isFinished in
             self.stopUpdateTimer()
+            
+            if isFinished {
+                self.fireUpdateTimer()
+            }
         }
 
         self.timer?.start()
@@ -216,7 +220,6 @@ extension Game {
 
         print("stop update timer")
         self.updateTimer?.invalidate()
-        self.checkCondition()
     }
 }
 

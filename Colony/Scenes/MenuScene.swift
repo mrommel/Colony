@@ -18,12 +18,11 @@ protocol MenuDelegate {
     func startOptions()
 }
 
-class MenuScene: SKScene {
+class MenuScene: BaseScene {
     
     // MARK: Variables
     var menuDelegate: MenuDelegate?
     
-    var safeAreaNode: SafeAreaNode
     var colonyTitleLabel: SKSpriteNode?
     var backgroundNode2: SKSpriteNode?
     var backgroundNode1: SKSpriteNode?
@@ -31,18 +30,14 @@ class MenuScene: SKScene {
     var copyrightLabel: SKLabelNode?
     var settingsButton: SettingsButtonNode?
     var cartButton: CartButtonNode?
-    var cameraNode: SKCameraNode!
     
     let gameUsecase: GameUsecase?
     
     override init(size: CGSize) {
         
-        self.safeAreaNode = SafeAreaNode()
         self.gameUsecase = GameUsecase()
         
         super.init(size: size)
-        
-        self.addChild(self.safeAreaNode)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,10 +46,7 @@ class MenuScene: SKScene {
     
     override func didMove(to view: SKView) {
         
-        // camera
-        self.cameraNode = SKCameraNode() //initialize and assign an instance of SKCameraNode to the cam variable.
-        self.camera = self.cameraNode //set the scene's camera to reference cam
-        self.addChild(self.cameraNode) //make the cam a childElement of the scene itself.
+        super.didMove(to: view)
         
         let viewSize = (self.view?.bounds.size)!
         
@@ -236,12 +228,12 @@ class MenuScene: SKScene {
         }
     }
     
-    func updateLayout() {
+    override func updateLayout() {
+        
+        super.updateLayout()
         
         let viewSize = (self.view?.bounds.size)!
         let backgroundTileHeight = 812 * viewSize.width / 375
-        
-        self.safeAreaNode.updateLayout()
         
         self.colonyTitleLabel?.position = CGPoint(x: 0, y: self.frame.halfHeight - 80)
         

@@ -38,7 +38,7 @@ class CitySiteEvaluator: SiteEvaluator {
         
         // FIXME: check if tile is owned by another player
         if let tileOwner = tile.owned {
-            if tile.owned != civilization {
+            if tileOwner != civilization {
                 return false
             }
         }

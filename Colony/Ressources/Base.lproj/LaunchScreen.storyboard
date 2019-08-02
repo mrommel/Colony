@@ -57,7 +57,7 @@
     </scenes>
     <resources>
         <image name="ColonyText" width="114" height="43.5"/>
-        <image name="background" width="282" height="500.5"/>
+        <image name="background" width="212.5" height="380.5"/>
         <image name="colony" width="1024" height="1023"/>
     </resources>
 </document>

@@ -71,7 +71,7 @@ public class PausableTimer {
 
     public func remainingDuration() -> TimeInterval {
         guard let timer = timer, timer.isValid else {
-            return self.currentDuration
+            return 0
         }
 
         let remainingDuration: TimeInterval = self.currentDuration - self.elapsedDuration
@@ -107,7 +107,7 @@ public class PausableTimer {
     }
 
     private func reset() {
-        self.currentDuration = duration
+        //self.currentDuration = duration
         self.timer?.invalidate()
         self.elasedTimer?.invalidate()
     }

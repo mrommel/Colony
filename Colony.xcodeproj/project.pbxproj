@@ -32,8 +32,9 @@
 		C90336AC22F199AD004D2D72 /* BoosterStoreNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336AB22F199AD004D2D72 /* BoosterStoreNode.swift */; };
 		C90336AE22F1C07F004D2D72 /* StoreSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336AD22F1C07F004D2D72 /* StoreSceneViewModel.swift */; };
 		C90336B022F1C7F7004D2D72 /* BoosterStockDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336AF22F1C7F7004D2D72 /* BoosterStockDao.swift */; };
-		C90336B222F21C72004D2D72 /* NotificationSkene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336B122F21C72004D2D72 /* NotificationSkene.swift */; };
+		C90336B222F21C72004D2D72 /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336B122F21C72004D2D72 /* BaseScene.swift */; };
 		C90336B422F30E7A004D2D72 /* NotificationNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336B322F30E7A004D2D72 /* NotificationNode.swift */; };
+		C90336B622F42842004D2D72 /* CoinsLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336B522F42841004D2D72 /* CoinsLabelNode.swift */; };
 		C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */; };
 		C90A134F22A99F130003BBDE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C90A134E22A99F130003BBDE /* README.md */; };
 		C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915971A22CE91E5001D034B /* ScoreRepository.swift */; };
@@ -150,7 +151,7 @@
 		C9CCF42622E75F940041AD45 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CCF42522E75F940041AD45 /* Player.swift */; };
 		C9E9BBF822B3B32C0048F97B /* LevelButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBF722B3B32C0048F97B /* LevelButtonNode.swift */; };
 		C9E9BBFC22B584400048F97B /* DiscoverCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */; };
-		C9E9BBFE22B58CF60048F97B /* Timer30SecondsCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */; };
+		C9E9BBFE22B58CF60048F97B /* TimerElapsedCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBFD22B58CF60048F97B /* TimerElapsedCheck.swift */; };
 		C9E9BC0022B6262A0048F97B /* LevelIntroductionDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9E9BBFF22B6262A0048F97B /* LevelIntroductionDialog.xml */; };
 		C9F6A14B22CA906800388198 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6A14A22CA906800388198 /* Coin.swift */; };
 		C9F9C98B22E075D8000A3310 /* TradeShip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9C98A22E075D8000A3310 /* TradeShip.swift */; };
@@ -186,8 +187,9 @@
 		C90336AB22F199AD004D2D72 /* BoosterStoreNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterStoreNode.swift; sourceTree = "<group>"; };
 		C90336AD22F1C07F004D2D72 /* StoreSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSceneViewModel.swift; sourceTree = "<group>"; };
 		C90336AF22F1C7F7004D2D72 /* BoosterStockDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterStockDao.swift; sourceTree = "<group>"; };
-		C90336B122F21C72004D2D72 /* NotificationSkene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSkene.swift; sourceTree = "<group>"; };
+		C90336B122F21C72004D2D72 /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
 		C90336B322F30E7A004D2D72 /* NotificationNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNode.swift; sourceTree = "<group>"; };
+		C90336B522F42841004D2D72 /* CoinsLabelNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsLabelNode.swift; sourceTree = "<group>"; };
 		C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StartPositionFinder.swift; path = ../StartPositionFinder.swift; sourceTree = "<group>"; };
 		C90A134E22A99F130003BBDE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C915971A22CE91E5001D034B /* ScoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRepository.swift; sourceTree = "<group>"; };
@@ -306,7 +308,7 @@
 		C9CCF42522E75F940041AD45 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		C9E9BBF722B3B32C0048F97B /* LevelButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelButtonNode.swift; sourceTree = "<group>"; };
 		C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCheck.swift; sourceTree = "<group>"; };
-		C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer30SecondsCheck.swift; sourceTree = "<group>"; };
+		C9E9BBFD22B58CF60048F97B /* TimerElapsedCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerElapsedCheck.swift; sourceTree = "<group>"; };
 		C9E9BBFF22B6262A0048F97B /* LevelIntroductionDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LevelIntroductionDialog.xml; sourceTree = "<group>"; };
 		C9F6A14A22CA906800388198 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		C9F9C98A22E075D8000A3310 /* TradeShip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeShip.swift; sourceTree = "<group>"; };
@@ -343,7 +345,7 @@
 				C92D876222CB871100E7A55E /* GameConditionType.swift */,
 				C956079922B2435100AA69E9 /* MonsterCheck.swift */,
 				C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */,
-				C9E9BBFD22B58CF60048F97B /* Timer30SecondsCheck.swift */,
+				C9E9BBFD22B58CF60048F97B /* TimerElapsedCheck.swift */,
 			);
 			path = GameConditions;
 			sourceTree = "<group>";
@@ -604,6 +606,7 @@
 				C9C7F13D229F206000A775B2 /* BoardLayer.swift */,
 				C965FEA822E4F20A0075CB87 /* AreaLayer.swift */,
 				C90336B322F30E7A004D2D72 /* NotificationNode.swift */,
+				C90336B522F42841004D2D72 /* CoinsLabelNode.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -611,12 +614,12 @@
 		C9C7F0F4229EAB4D00A775B2 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				C90336B122F21C72004D2D72 /* BaseScene.swift */,
 				C91A4F3222A260DD000BF647 /* MenuScene.swift */,
 				C97B282F22A42A4600112532 /* MapGenerationScene.swift */,
 				C9C7F0CE229B193400A775B2 /* GameScene.swift */,
 				C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */,
 				C90336A922F08AF7004D2D72 /* StoreScene.swift */,
-				C90336B122F21C72004D2D72 /* NotificationSkene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -832,7 +835,7 @@
 				C9763EAB22A2FB9B00F31126 /* SpriteButtonNode.swift in Sources */,
 				C965FEAD22E7450B0075CB87 /* CityDialog.swift in Sources */,
 				C9564D6422D7C9DC0091099B /* Axeman.swift in Sources */,
-				C90336B222F21C72004D2D72 /* NotificationSkene.swift in Sources */,
+				C90336B222F21C72004D2D72 /* BaseScene.swift in Sources */,
 				C97E96D522A073E900D594F3 /* GameObject.swift in Sources */,
 				C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */,
 				C9C7F103229EBD9500A775B2 /* Feature.swift in Sources */,
@@ -862,6 +865,7 @@
 				C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */,
 				C90336B022F1C7F7004D2D72 /* BoosterStockDao.swift in Sources */,
 				C9C7F13E229F206000A775B2 /* BoardLayer.swift in Sources */,
+				C90336B622F42842004D2D72 /* CoinsLabelNode.swift in Sources */,
 				C92D875F22CB77EB00E7A55E /* UserRepository.swift in Sources */,
 				C9C7F114229EBE3100A775B2 /* FloatExtension.swift in Sources */,
 				C9C7F0FD229EBD2900A775B2 /* HexagonMap.swift in Sources */,
@@ -912,7 +916,7 @@
 				C9CCF42622E75F940041AD45 /* Player.swift in Sources */,
 				C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */,
 				C9C7F112229EBE3100A775B2 /* Array2D.swift in Sources */,
-				C9E9BBFE22B58CF60048F97B /* Timer30SecondsCheck.swift in Sources */,
+				C9E9BBFE22B58CF60048F97B /* TimerElapsedCheck.swift in Sources */,
 				C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */,
 				C900654022AEE3BA0004C963 /* UIParser.swift in Sources */,
 				C927E2F222D1DA9B00EDBE0D /* ShipWreck.swift in Sources */,

@@ -229,10 +229,8 @@ class Level: Decodable  {
         self.map.fogManager?.map = self.map
         self.gameObjectManager.map = self.map
         
-        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
-            fatalError("Can't get current users civilization")
-        }
-        
+        let currentUserCivilization = self.userUsecase?.currentUser()?.civilization ?? .english
+
         for object in self.gameObjectManager.objects {
             if let unitObject = object {
                 unitObject.delegate = self.gameObjectManager

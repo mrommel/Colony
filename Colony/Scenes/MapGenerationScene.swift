@@ -13,9 +13,14 @@ protocol MapGenerationDelegate: class {
     func generated(map: HexagonTileMap)
 }
 
-class MapGenerationScene: SKScene {
+class MapGenerationScene: BaseScene {
     
+    // nodes
+    var backgroundNode: SKSpriteNode!
+    var hugeButton: MenuButtonNode!
+    var standardButton: MenuButtonNode!
     var progressBarNode: ProgressBarNode!
+    
     weak var mapGenerationDelegate: MapGenerationDelegate?
     
     override init(size: CGSize) {
@@ -29,35 +34,35 @@ class MapGenerationScene: SKScene {
     
     override func didMove(to view: SKView) {
         
-        let background = SKSpriteNode(imageNamed: "menu")
-        background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-        background.zPosition = 0
-        background.size = (self.view?.bounds.size)!
-        self.addChild(background)
+        super.didMove(to: view)
         
-        let hugeButton = MenuButtonNode(titled: "Huge", buttonAction: {
+        self.backgroundNode = SKSpriteNode(imageNamed: "background")
+        self.backgroundNode.zPosition = 0
+        self.backgroundNode.size = (self.view?.bounds.size)!
+        self.addChild(self.backgroundNode)
+        
+        self.hugeButton = MenuButtonNode(titled: "Huge", buttonAction: {
             DispatchQueue.global(qos: .background).async {
                 self.startMapGeneration(mapSize: .huge, waterPercentage: 0.4, rivers: 8)
             }
         })
-        hugeButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + 80)
-        hugeButton.zPosition = 1
-        self.addChild(hugeButton)
+        self.hugeButton.zPosition = 1
+        self.addChild(self.hugeButton)
         
-        let standardButton = MenuButtonNode(titled: "Standard", buttonAction: {
+        self.standardButton = MenuButtonNode(titled: "Standard", buttonAction: {
             DispatchQueue.global(qos: .background).async {
                 self.startMapGeneration(mapSize: .standard, waterPercentage: 0.3, rivers: 4)
             }
         })
-        standardButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + 30)
-        standardButton.zPosition = 1
-        self.addChild(standardButton)
+        self.standardButton.zPosition = 1
+        self.addChild(self.standardButton)
         
         self.progressBarNode = ProgressBarNode(size: CGSize(width: 200, height: 40))
-        self.progressBarNode.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 80)
         self.progressBarNode.zPosition = 1
         self.progressBarNode.set(progress: 0.0)
         self.addChild(self.progressBarNode)
+        
+        self.updateLayout()
     }
     
     func startMapGeneration(mapSize: MapSize, waterPercentage: Float, rivers: Int) {
@@ -80,5 +85,20 @@ class MapGenerationScene: SKScene {
                 self.mapGenerationDelegate?.generated(map: map)
             }
         }
+    }
+    
+    override func updateLayout() {
+        
+        super.updateLayout()
+        
+        let viewSize = (self.view?.bounds.size)!
+        let backgroundTileHeight = 812 * viewSize.width / 375
+        
+        self.backgroundNode?.position = CGPoint(x: 0, y: 0)
+        self.backgroundNode?.size = CGSize(width: viewSize.width, height: backgroundTileHeight)
+        
+        self.standardButton.position = CGPoint(x: 0, y: 0 + 30)
+        self.hugeButton.position = CGPoint(x: 0, y: 80)
+        self.progressBarNode.position = CGPoint(x: 0, y: -80)
     }
 }

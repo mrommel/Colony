@@ -133,8 +133,10 @@ class GameObjectManager: Codable {
                     
                 case .booster:
                     if identifier.starts(with: "booster-") {
-                        let boosterType = dict[Booster.keyDictBoosterType]
+                        if let boosterType = dict[Booster.keyDictBoosterType] {
+                        fatalError("implement for \(boosterType)")
                         // let booster = Booster(at: position, boosterType: boosterType)
+                        }
                     } else {
                         fatalError("booster cannot be loaded")
                     }

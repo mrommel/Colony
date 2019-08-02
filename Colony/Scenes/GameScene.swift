@@ -16,7 +16,7 @@ protocol GameDelegate: class {
     func quitGame()
 }
 
-class GameScene: NotificationSkene {
+class GameScene: BaseScene {
 
     // MARK: Constants
     let headerHeight: CGFloat = 480
@@ -53,7 +53,6 @@ class GameScene: NotificationSkene {
     var viewModel: GameSceneViewModel?
 
     // UI
-    var safeAreaNode: SafeAreaNode
     var backgroundNode: SKSpriteNode?
     var frameTopLeft: SKSpriteNode?
     var frameTopRight: SKSpriteNode?
@@ -70,7 +69,6 @@ class GameScene: NotificationSkene {
     var focus: SKSpriteNode?
     var lastFocusPoint: HexPoint = HexPoint(x: 0, y: 0)
 
-    var cameraNode: SKCameraNode!
     var coinLabel: SKLabelNode!
     var coinIconLabel: SKSpriteNode!
     let timeLabel = SKLabelNode(text: "0:00")
@@ -85,7 +83,6 @@ class GameScene: NotificationSkene {
 
     override init(size: CGSize) {
 
-        self.safeAreaNode = SafeAreaNode()
         self.viewHex = SKSpriteNode()
 
         super.init(size: size)
@@ -108,6 +105,8 @@ class GameScene: NotificationSkene {
 
     override func didMove(to view: SKView) {
 
+        super.didMove(to: view)
+        
         let viewSize = (self.view?.bounds.size)!
         let deviceScale = self.size.width / 667
 
@@ -115,19 +114,9 @@ class GameScene: NotificationSkene {
             fatalError("no ViewModel")
         }
 
-        // camera
-        self.cameraNode = SKCameraNode() //initialize and assign an instance of SKCameraNode to the cam variable.
-
         //the scale sets the zoom level of the camera on the given position
         self.cameraNode.xScale = Constants.initialScale
         self.cameraNode.yScale = Constants.initialScale
-
-        self.camera = cameraNode //set the scene's camera to reference cam
-        self.addChild(cameraNode) //make the cam a childElement of the scene itself.
-
-        // the safeAreaNode holds the UI
-        self.cameraNode.addChild(self.safeAreaNode)
-        self.safeAreaNode.updateLayout()
         
         // background
         self.backgroundNode = SKSpriteNode(imageNamed: "background")
@@ -201,19 +190,15 @@ class GameScene: NotificationSkene {
         self.game?.gameUpdateDelegate = self
         self.game?.add(gameObjectUnitDelegate: self)
 
-        if let bottomLeftBar = self.bottomLeftBar {
-            self.safeAreaNode.addChild(bottomLeftBar)
-        }
 
-        if let bottomRightBar = self.bottomRightBar {
-            self.safeAreaNode.addChild(bottomRightBar)
-        }
+        self.safeAreaNode.addChild(self.bottomLeftBar!)
+        self.safeAreaNode.addChild(self.bottomRightBar!)
 
-        viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.5)
-        viewHex.xScale = deviceScale
-        viewHex.yScale = deviceScale
-        viewHex.addChild(self.mapNode!)
-        self.addChild(viewHex)
+        self.viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.5)
+        self.viewHex.xScale = deviceScale
+        self.viewHex.yScale = deviceScale
+        self.viewHex.addChild(self.mapNode!)
+        self.addChild(self.viewHex)
 
         self.placeFocusHex()
 
@@ -224,48 +209,29 @@ class GameScene: NotificationSkene {
         self.frameTopLeft?.position = CGPoint(x: -self.frame.halfWidth, y: frame.halfHeight)
         self.frameTopLeft?.zPosition = 3
         self.frameTopLeft?.anchorPoint = CGPoint.upperLeft
-
-        if let frameTopLeft = self.frameTopLeft {
-            self.safeAreaNode.addChild(frameTopLeft)
-        }
+        self.safeAreaNode.addChild(self.frameTopLeft!)
 
         self.frameTopRight = SKSpriteNode(imageNamed: "frame_top_right")
         self.frameTopRight?.position = CGPoint(x: self.frame.halfWidth, y: frame.halfHeight)
         self.frameTopRight?.zPosition = 3
         self.frameTopRight?.anchorPoint = CGPoint.upperRight
-
-        if let frameTopRight = self.frameTopRight {
-            self.safeAreaNode.addChild(frameTopRight)
-        }
+        self.safeAreaNode.addChild(self.frameTopRight!)
 
         self.frameBottomLeft = SKSpriteNode(imageNamed: "frame_bottom_left")
         self.frameBottomLeft?.position = CGPoint(x: -self.frame.halfWidth, y: -frame.halfHeight)
         self.frameBottomLeft?.zPosition = 3
         self.frameBottomLeft?.anchorPoint = CGPoint.lowerLeft
-
-        if let frameBottomLeft = self.frameBottomLeft {
-            self.safeAreaNode.addChild(frameBottomLeft)
-        }
+        self.safeAreaNode.addChild(self.frameBottomLeft!)
 
         self.frameBottomRight = SKSpriteNode(imageNamed: "frame_bottom_right")
         self.frameBottomRight?.position = CGPoint(x: self.frame.halfWidth, y: -frame.halfHeight)
         self.frameBottomRight?.zPosition = 3
         self.frameBottomRight?.anchorPoint = CGPoint.lowerRight
-
-        if let frameBottomRight = self.frameBottomRight {
-            self.safeAreaNode.addChild(frameBottomRight)
-        }
+        self.safeAreaNode.addChild(self.frameBottomRight!)
 
         if viewModel.type == .generator {
             // save node
             let saveButton = MessageBoxButtonNode(titled: "Save", buttonAction: {
-
-                /*let map = self.viewModel?.map
-
-                let startPositionFinder = StartPositionFinder(map: map)
-                let startPositions = startPositionFinder.identifyStartPositions()
-
-                let level = Level(number: 0, title: "Test", summary: "Dummy", difficulty: .easy, map: map!, startPositions: startPositions, gameObjectManager: self.mapNode!.gameObjectManager)*/
 
                 LevelManager.store(game: self.game, to: "level000X.lvl")
 
@@ -296,7 +262,7 @@ class GameScene: NotificationSkene {
         self.exitButton?.zPosition = 200
         self.safeAreaNode.addChild(self.exitButton!)
 
-        // focus on ship
+        // focus on selected unit
         if let mapNode = self.mapNode {
             if let selectedUnit = mapNode.gameObjectManager.selected {
                 self.centerCamera(on: selectedUnit.position)
@@ -322,9 +288,9 @@ class GameScene: NotificationSkene {
         self.safeAreaNode.addChild(self.boosterNodeTime!)
     }
 
-    func updateLayout() {
+    override func updateLayout() {
 
-        self.safeAreaNode.updateLayout()
+        super.updateLayout()
         
         self.mapNode?.updateLayout()
 

@@ -5,26 +5,27 @@
 - add global player score for booster and coins
 - add new player input / add player switcher in options (logout)
 - let player select a civilization
-- pirates gets some coins from you or trader
-- fight between units (pirates)
+- [Battle] pirates gets some coins from you or trader
+- [Battle] fight between units (pirates) - concept
 - release / board units from ships
 - shark: up+down copied from left+right
 - shipwreck animation
 - snow textures from wesnoth as layer
 - mountain textures as layer
 - limit sight thru mountains
-- pause app when user leaves app
+- more units
+- more animals
 
 ## Booster - ongoing
-- wind - faster sailing
-- telescope - more sight - implemented
-- canon, yields, 
-- more time (clock) - implemented
-- magnet (collect coins in area) 
-- call for allies - trumpet / horn - (to help with re quest)
+- [Booster] more time (clock) - implemented
+- [Booster] telescope - more sight - implemented
+- [Booster] wind - faster sailing
+- [Booster] canon, yields, 
+- [Booster] magnet (collect coins in area) 
+- [Booster] call for allies - trumpet / horn - (to help with the quest)
 
-- incl 'shop' and detail screen 
-- find them on the map - implemented
+- [Booster] incl booster 'store' - implemented
+- [Booster] find them on the map - implemented
 
 ## Maybe
 - collect wood with axemann
@@ -38,6 +39,7 @@
 - [Defect] dialogs not centered in landscape mode
 
 ## Done
+- pause app when user leaves app
 - restart last game after app was ended and restarted
 - [Defect] no coins in level 1&2
 - [Defect] LevelManager can't load the levels anymore (at least 1 loads now)

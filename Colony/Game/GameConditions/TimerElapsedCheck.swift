@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TimerGameConditionType: GameConditionType {
+enum TimerElapsedConditionType: GameConditionType {
     
     case timeWentOut
     
@@ -41,8 +41,9 @@ class TimerElapsedCheck: GameConditionCheck {
             fatalError("can't get time elapsed")
         }
         
-        if timeElapsedInSeconds < 0 {
-            return TimerGameConditionType.timeWentOut
+        print("timeElapsedInSeconds: \(timeElapsedInSeconds)")
+        if timeElapsedInSeconds == 0 {
+            return TimerElapsedConditionType.timeWentOut
         }
         
         return nil
