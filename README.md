@@ -29,15 +29,25 @@
 
 ## Maybe
 - collect wood with axemann
-- add beach-se-sw-nw texture
-- add beach-n-ne-s-sw
-beach-se-s-nw
-beach-ne-se-sw-nw
-beach-ne-se-s-nw
-beach-ne-se-sw
-beach-ne-s-sw-nw
-beach-ne-s-sw
-beach-n-se-sw   
+- add beach-se-sw-nw texture (/)
+- add beach-n-ne-s-sw texture (/)
+- add beach-se-s-nw texture (/)
+- add beach-ne-se-sw-nw texture (/)
+- add beach-ne-se-s-nw texture (/)
+- add beach-ne-se-sw texture (/)
+- add beach-ne-s-sw-nw texture (/)
+- add beach-n-se-sw texture (/)
+- beach-n-se-s (/)
+- beach-ne-s-sw (/)
+- beach-n-se-s-sw (/)
+- beach-ne-se-nw (/)
+- beach-n-ne-se-sw (/)
+- beach-ne-s-nw (/)
+- beach-n-se-s-nw (/)
+- beach-n-s-nw (/)
+- beach-n-ne-s-nw (/)
+- beach-n-se-sw-nw (/)
+- add marsh (/) 
 - move unit on longclick ?
 
 ## Bugs

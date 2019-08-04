@@ -28,6 +28,7 @@ class HexOrientation {
 		self.startAngle = startAngle
 	}
 
+    // static pointy = HexOrientation(Math.sqrt(3.0), Math.sqrt(3.0) / 2.0, 0.0, 3.0 / 2.0, Math.sqrt(3.0) / 3.0, -1.0 / 3.0, 0.0, 2.0 / 3.0, 0.5)
 	static let flat = HexOrientation(f0: 3.0 / 2.0, f1: 0, f2: sqrt(3.0) / 2.0, f3: sqrt(3.0), b0: 2.0 / 3.0, b1: 0.0, b2: -1.0 / 3.0, b3: sqrt(3.0) / 3.0, startAngle: 0.0)
 }
 
@@ -37,5 +38,7 @@ struct HexLayout {
 	let size: CGSize
 	let origin: CGPoint
 
-	// grid tpye: even-q
+	// grid type: even-q
+    
+    // odd-q
 }

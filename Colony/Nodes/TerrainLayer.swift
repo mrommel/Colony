@@ -65,7 +65,9 @@ class TerrainLayer: SKNode {
         terrainSprite.position = position
         terrainSprite.zPosition = GameScene.Constants.ZLevels.terrain
         terrainSprite.anchorPoint = CGPoint(x: 0, y: 0)
-        terrainSprite.alpha = alpha
+        //terrainSprite.alpha = alpha
+        terrainSprite.color = .black
+        terrainSprite.colorBlendFactor = 1.0 - alpha
         self.addChild(terrainSprite)
         
         tile.terrainSprite = terrainSprite

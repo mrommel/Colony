@@ -184,10 +184,21 @@ extension Tile {
         // start with terrain cost
         let terrainCost = self.terrain.movementCost(for: movementType)
         
+        if terrainCost == GameObjectMoveType.impassible {
+            return GameObjectMoveType.impassible
+        }
+
         // add feature costs
-        var featureCost: Float = 0.0
+        var featureCosts: Float = 0.0
         for feature in self.features {
-            featureCost += feature.movementCost(for: movementType)
+            
+            let featureCost = feature.movementCost(for: movementType)
+            
+            if featureCost == GameObjectMoveType.impassible {
+                return GameObjectMoveType.impassible
+            }
+            
+            featureCosts += featureCost
         }
         
         // add river crossing cost
@@ -196,7 +207,7 @@ extension Tile {
             riverCost = 1.0 // FIXME - river cost per movementType
         }
 
-        return terrainCost + featureCost + riverCost
+        return terrainCost + featureCosts + riverCost
     }
 }
 

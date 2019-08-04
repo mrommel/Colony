@@ -40,7 +40,8 @@ class HexCube {
     }
     
     convenience init(hex: HexPoint) {
-        self.init(q: hex.x - (hex.y + (hex.y&1)) / 2, s: hex.y)
+        self.init(q: hex.x - (hex.y + (hex.y&1)) / 2, s: hex.y) // even-q
+        //self.init(q: hex.x - (hex.y - (hex.y&1)) / 2, s: hex.y) // odd-q
     }
     
     func distance(to cube: HexCube) -> Int {
@@ -133,7 +134,8 @@ func lerp(minimum: Int, maximum: Int, weight: Double) -> Double {
 extension HexPoint {
     
     convenience init(cube: HexCube) {
-        self.init(x: cube.q + (cube.s + (cube.s&1)) / 2, y: cube.s)
+        self.init(x: cube.q + (cube.s + (cube.s&1)) / 2, y: cube.s) // even-q
+        //self.init(x: cube.q + (cube.s - (cube.s&1)) / 2, y: cube.s) // odd-q
     }
     
     /*func neighbor(in direction: HexDirection) -> HexPoint {

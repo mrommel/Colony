@@ -101,6 +101,8 @@
 		C97E96D722A1C21600D594F3 /* ShipObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D622A1C21600D594F3 /* ShipObject.swift */; };
 		C97E96DA22A1CB7B00D594F3 /* MoveTypePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E96D922A1CB7B00D594F3 /* MoveTypePathfinderDataSource.swift */; };
 		C984CCD422CD4D3C0033F2BB /* SettingsButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984CCD322CD4D3C0033F2BB /* SettingsButtonNode.swift */; };
+		C98F2F4022F572FF00B49457 /* Civ5Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98F2F3F22F572FF00B49457 /* Civ5Feature.swift */; };
+		C98F2F4222F573DB00B49457 /* Civ5Terrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98F2F4122F573DB00B49457 /* Civ5Terrain.swift */; };
 		C992ABEB22A32042001C5E7C /* NineGridTextureSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */; };
 		C9A32B4822B29F3100AFC70D /* level0001.lvl in Resources */ = {isa = PBXBuildFile; fileRef = C9A32B4722B29F3100AFC70D /* level0001.lvl */; };
 		C9A32B4A22B29F7B00AFC70D /* level0002.lvl in Resources */ = {isa = PBXBuildFile; fileRef = C9A32B4922B29F7B00AFC70D /* level0002.lvl */; };
@@ -259,6 +261,8 @@
 		C97E96D622A1C21600D594F3 /* ShipObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipObject.swift; sourceTree = "<group>"; };
 		C97E96D922A1CB7B00D594F3 /* MoveTypePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveTypePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C984CCD322CD4D3C0033F2BB /* SettingsButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButtonNode.swift; sourceTree = "<group>"; };
+		C98F2F3F22F572FF00B49457 /* Civ5Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Feature.swift; sourceTree = "<group>"; };
+		C98F2F4122F573DB00B49457 /* Civ5Terrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Terrain.swift; sourceTree = "<group>"; };
 		C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineGridTextureSprite.swift; sourceTree = "<group>"; };
 		C9A32B4722B29F3100AFC70D /* level0001.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0001.lvl; sourceTree = "<group>"; };
 		C9A32B4922B29F7B00AFC70D /* level0002.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0002.lvl; sourceTree = "<group>"; };
@@ -407,12 +411,14 @@
 			path = Repositories;
 			sourceTree = "<group>";
 		};
-		C938DEC022F462B400DA7072 /* New Group */ = {
+		C938DEC022F462B400DA7072 /* Civ5Map */ = {
 			isa = PBXGroup;
 			children = (
 				C938DEC122F462C800DA7072 /* Civ5MapReader.swift */,
+				C98F2F3F22F572FF00B49457 /* Civ5Feature.swift */,
+				C98F2F4122F573DB00B49457 /* Civ5Terrain.swift */,
 			);
-			path = "New Group";
+			path = Civ5Map;
 			sourceTree = "<group>";
 		};
 		C938DEC322F4673700DA7072 /* New Group */ = {
@@ -651,7 +657,7 @@
 		C9C7F0F7229EBD0700A775B2 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				C938DEC022F462B400DA7072 /* New Group */,
+				C938DEC022F462B400DA7072 /* Civ5Map */,
 				C9697B2D22DC99A40076FF4C /* MapAnalytics */,
 				C97E96D822A1CB5600D594F3 /* PathFinding */,
 				C9C7F138229EC0DA00A775B2 /* Tools */,
@@ -903,6 +909,7 @@
 				C92D876522CBF34E00E7A55E /* Formatters.swift in Sources */,
 				C97B283222A5349A00112532 /* FogManager.swift in Sources */,
 				C9C7F140229F20C300A775B2 /* RiverLayer.swift in Sources */,
+				C98F2F4222F573DB00B49457 /* Civ5Terrain.swift in Sources */,
 				C94A2F4022C8F66100AB7117 /* BottomRightBar.swift in Sources */,
 				C97B283022A42A4600112532 /* MapGenerationScene.swift in Sources */,
 				C9C7F0C9229B193400A775B2 /* AppDelegate.swift in Sources */,
@@ -972,6 +979,7 @@
 				C92D876722CCA7C000E7A55E /* SizedNode.swift in Sources */,
 				C903369522EDBB2E004D2D72 /* BoosterNode.swift in Sources */,
 				C94A2F3A22C267B100AB7117 /* GameSceneViewModel.swift in Sources */,
+				C98F2F4022F572FF00B49457 /* Civ5Feature.swift in Sources */,
 				C9C7F12E229EBF8700A775B2 /* ContinentFinder.swift in Sources */,
 				C92D875622CB69F200E7A55E /* Colony.xcdatamodeld in Sources */,
 				C94A2F3722C248DB00AB7117 /* MapOverviewNode.swift in Sources */,

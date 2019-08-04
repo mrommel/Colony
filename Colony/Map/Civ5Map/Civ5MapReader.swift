@@ -27,7 +27,7 @@ struct Civ5MapHeader {
     
     let terrainTypes: [String]
     let featureTypes: [String]
-    let feature2ndType: [String]
+    let feature2ndTypes: [String]
     let resourceTypes: [String]
     
     let mapName: String //string -- Map Name string
@@ -56,8 +56,8 @@ struct Civ5MapHeader {
         let featureTypesStr = try reader.readUTF8(Int(self.lengthOf1StFeatureTypeList))
         self.featureTypes = featureTypesStr.split(separator: "\0").map({ String($0) })
         
-        let feature2ndTypeStr = try reader.readUTF8(Int(self.lengthOf2NdFeatureTypeList))
-        self.feature2ndType = feature2ndTypeStr.split(separator: "\0").map({ String($0) })
+        let feature2ndTypesStr = try reader.readUTF8(Int(self.lengthOf2NdFeatureTypeList))
+        self.feature2ndTypes = feature2ndTypesStr.split(separator: "\0").map({ String($0) })
         
         let resourceTypesStr = try reader.readUTF8(Int(self.lengthOfResourceTypeList))
         self.resourceTypes = resourceTypesStr.split(separator: "\0").map({ String($0) })
@@ -73,7 +73,7 @@ struct Civ5MapHeader {
     }
 }
 
-struct Civ5MapPlot {
+struct Civ5MapPlot: Codable {
     
     var terrain: Terrain //byte 0 -- Terrain type ID (index into list of Terrain types read from header)
     let ressourceType: UInt8 //byte 1 -- Resource type ID; 0xFF if none
@@ -110,11 +110,56 @@ struct Civ5MapPlot {
         self.artStyle = try reader.read()
         let feature2stTypeIndex: UInt8 = try reader.read()
         if feature2stTypeIndex != 255 {
-            self.feature2ndType = Feature.fromCiv5String(value: header.featureTypes[Int(feature2stTypeIndex)])
+            self.feature2ndType = Feature.fromCiv5String(value: header.feature2ndTypes[Int(feature2stTypeIndex)])
         } else {
             self.feature2ndType = nil
         }
         self.unused2 = try reader.read()
+    }
+}
+
+extension Civ5MapPlot: Equatable {
+    
+}
+
+class Civ5Map {
+    
+    let header: Civ5MapHeader
+    let plots: Array2D<Civ5MapPlot>
+    
+    init(header: Civ5MapHeader, plots: Array2D<Civ5MapPlot>) {
+        self.header = header
+        self.plots = plots
+    }
+    
+    func toMap() -> HexagonTileMap? {
+        
+        let map = HexagonTileMap(width: Int(header.width), height: Int(header.height))
+
+        for y in 0..<Int(header.height) {
+            for x in 0..<Int(header.width) {
+                
+                guard let plot = self.plots[x, y] else {
+                    fatalError("Can't get plot")
+                }
+                
+                let point = HexPoint(x: x, y: y)
+                
+                let tile = Tile(at: point, with: plot.terrain)
+                
+                if let feature1st = plot.feature1stType {
+                    tile.set(feature: feature1st)
+                }
+                
+                if let feature2nd = plot.feature2ndType {
+                    tile.set(feature: feature2nd)
+                }
+                
+                map.set(tile: tile, at: point)
+            }
+        }
+        
+        return map
     }
 }
 
@@ -123,7 +168,7 @@ class Civ5MapReader {
     init() {
     }
 
-    func load(from url: URL?) -> HexagonTileMap? {
+    func load(from url: URL?) -> Civ5Map? {
         
         if let civ5MapUrl = url {
             
@@ -139,17 +184,16 @@ class Civ5MapReader {
         return nil
     }
     
-    private func load(from data: Data) -> HexagonTileMap? {
+    private func load(from data: Data) -> Civ5Map? {
 
         let binaryData = BinaryData(data: data, bigEndian: false)
         let reader = BinaryDataReader(binaryData)
 
         do {
             let header = try Civ5MapHeader(reader: reader)
+            //print("success: type=\(header.type)")
             
-            print("success: type=\(header.type)")
-
-            let map = HexagonTileMap(width: Int(header.width), height: Int(header.height))
+            let plots: Array2D<Civ5MapPlot> = Array2D<Civ5MapPlot>(columns: Int(header.width), rows: Int(header.height))
             
             for y in 0..<Int(header.height) {
                 for x in 0..<Int(header.width) {
@@ -157,23 +201,11 @@ class Civ5MapReader {
                     let ry = Int(header.height) - y - 1
                     
                     let plot = try Civ5MapPlot(reader: reader, header: header)
-                    let point = HexPoint(x: x, y: ry)
-                    
-                    let tile = Tile(at: point, with: plot.terrain)
-                    
-                    if let feature1st = plot.feature1stType {
-                        tile.set(feature: feature1st)
-                    }
-                    
-                    if let feature2nd = plot.feature2ndType {
-                        tile.set(feature: feature2nd)
-                    }
-                    
-                    map.set(tile: tile, at: point)
+                    plots[x, ry] = plot
                 }
             }
             
-            return map
+            return Civ5Map(header: header, plots: plots)
             
         } catch {
             print("error while reading Civ5Map: \(error)")

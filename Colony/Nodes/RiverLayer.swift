@@ -64,6 +64,8 @@ class RiverLayer: SKNode {
             riverSprite.position = position
             riverSprite.zPosition = GameScene.Constants.ZLevels.river
             riverSprite.anchorPoint = CGPoint(x: 0, y: 0)
+            riverSprite.color = .black
+            riverSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(riverSprite)
             
             tile.riverSprite = riverSprite

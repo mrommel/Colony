@@ -25,39 +25,6 @@ enum Terrain: String, Codable {
 	case shore
     case hill
     case mountain
-    
-    static func fromCiv5String(value: String) -> Terrain? {
-        
-        if value == "TERRAIN_OCEAN" {
-            return .ocean
-        }
-        
-        if value == "TERRAIN_COAST" {
-            return .shore
-        }
-        
-        if value == "TERRAIN_SNOW" {
-            return .snow
-        }
-        
-        if value == "TERRAIN_GRASS" {
-            return .grass
-        }
-        
-        if value == "TERRAIN_PLAINS" {
-            return .plain
-        }
-        
-        if value == "TERRAIN_DESERT" {
-            return .desert
-        }
-        
-        if value == "TERRAIN_TUNDRA" {
-            return .tundra
-        }
-        
-        return nil
-    }
 
 	var description: String {
 		switch self {

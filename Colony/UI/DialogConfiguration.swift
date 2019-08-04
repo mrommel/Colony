@@ -6,7 +6,7 @@
 //  Copyright © 2019 Michael Rommel. All rights reserved.
 //
 
-import XMLParsing
+import XMLCoder
 import SpriteKit
 
 enum DialogAnchor: String, Codable {

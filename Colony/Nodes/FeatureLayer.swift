@@ -63,7 +63,9 @@ class FeatureLayer: SKNode {
             featureSprite.position = position
             featureSprite.zPosition = feature.zLevel // GameSceneConstants.ZLevels.feature // maybe need to come from feature itself
             featureSprite.anchorPoint = CGPoint(x: 0, y: 0)
-            featureSprite.alpha = alpha
+            //featureSprite.alpha = alpha
+            featureSprite.color = .black
+            featureSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(featureSprite)
 
             tile.featureSprites.append(featureSprite)

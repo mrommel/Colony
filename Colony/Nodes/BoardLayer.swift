@@ -69,7 +69,9 @@ class BoardLayer: SKNode {
         boardSprite.position = position
         boardSprite.zPosition = GameScene.Constants.ZLevels.caldera
         boardSprite.anchorPoint = CGPoint(x: 0, y: 0.09)
-        boardSprite.alpha = alpha
+        //boardSprite.alpha = alpha
+        boardSprite.color = .black
+        boardSprite.colorBlendFactor = 1.0 - alpha
         self.addChild(boardSprite)
 
         tile.boardSprite = boardSprite

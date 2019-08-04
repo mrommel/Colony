@@ -99,12 +99,22 @@ class MapGenerationScene: BaseScene {
     func loadMapAsync() {
         
         let civ5MapReader = Civ5MapReader()
-        guard let map = civ5MapReader.load(from: R.file.earth_HugeCiv5Map()) else {
+        //let civ5MapUrl = R.file.earth_HugeCiv5Map()
+        let civ5MapUrl = R.file.accurate_EarthCiv5Map()
+        guard let civ5Map = civ5MapReader.load(from: civ5MapUrl) else {
             fatalError("Map could not be loaded")
         }
         
         DispatchQueue.main.async {
-            self.progressBarNode.set(progress: 0.7)
+            self.progressBarNode.set(progress: 0.2)
+        }
+        
+        guard let map = civ5Map.toMap() else {
+            fatalError("civ5 Map could not be transformed into custom formet")
+        }
+        
+        DispatchQueue.main.async {
+            self.progressBarNode.set(progress: 0.4)
         }
         
         let continentFinder = ContinentFinder(width: map.width, height: map.height)
@@ -112,7 +122,7 @@ class MapGenerationScene: BaseScene {
         map.continents = continents
         
         DispatchQueue.main.async {
-            self.progressBarNode.set(progress: 0.8)
+            self.progressBarNode.set(progress: 0.6)
         }
         
         let oceanFinder = OceanFinder(width: map.width, height: map.height)
