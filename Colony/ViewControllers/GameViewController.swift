@@ -147,9 +147,6 @@ class GameViewController: UIViewController {
  
         let screenPoint = sender.location(in: self.view)
         let transformedPoint = self.gameScene?.cameraNode.convert(screenPoint, from: self.gameScene!.viewHex)
-        /*let touch = UITouch()
-        touch.view = self.view
-        touch.*/
         let hex = HexMapDisplay.shared.toHexPoint(screen: transformedPoint!)
         
         print("long press at: \(hex)")

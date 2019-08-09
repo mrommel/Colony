@@ -41,7 +41,7 @@ class TimerElapsedCheck: GameConditionCheck {
             fatalError("can't get time elapsed")
         }
         
-        print("timeElapsedInSeconds: \(timeElapsedInSeconds)")
+        //print("timeElapsedInSeconds: \(timeElapsedInSeconds)")
         if timeElapsedInSeconds == 0 {
             return TimerElapsedConditionType.timeWentOut
         }

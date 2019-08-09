@@ -520,7 +520,7 @@
 		C956078A22B1241B00AA69E9 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
-				C962940D22FC6EF600CC7F27 /* New Group */,
+				C962940D22FC6EF600CC7F27 /* DDS */,
 				C938DEC322F4673700DA7072 /* Civ5 */,
 				C9A32B4622B29F2600AFC70D /* Levels */,
 				C956078B22B1245400AA69E9 /* UI */,
@@ -581,14 +581,14 @@
 			path = Dialogs;
 			sourceTree = "<group>";
 		};
-		C962940D22FC6EF600CC7F27 /* New Group */ = {
+		C962940D22FC6EF600CC7F27 /* DDS */ = {
 			isa = PBXGroup;
 			children = (
 				C962941022FC6F0100CC7F27 /* grid9detail140.dds */,
 				C962940F22FC6F0100CC7F27 /* grid9frameturns.dds */,
 				C962940E22FC6F0100CC7F27 /* mapgermany512.dds */,
 			);
-			path = "New Group";
+			path = DDS;
 			sourceTree = "<group>";
 		};
 		C962941922FD47D200CC7F27 /* ColonyTests */ = {

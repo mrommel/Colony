@@ -66,14 +66,12 @@ class GameScene: BaseScene {
     var mapNode: MapNode?
     let viewHex: SKSpriteNode
 
-    var focus: SKSpriteNode?
-    var lastFocusPoint: HexPoint = HexPoint(x: 0, y: 0)
-
     var coinLabel: SKLabelNode!
     var coinIconLabel: SKSpriteNode!
     let timeLabel = SKLabelNode(text: "0:00")
-    var hasMoved = false
     
+    var selectedUnit: GameObject? = nil
+
     // booster handling
     var boosterNodeTelescope: BoosterNode?
     var boosterNodeTime: BoosterNode?
@@ -100,7 +98,6 @@ class GameScene: BaseScene {
         self.removeFromParent()
 
         self.mapNode = nil
-        self.focus = nil
     }
 
     override func didMove(to view: SKView) {
@@ -114,7 +111,7 @@ class GameScene: BaseScene {
             fatalError("no ViewModel")
         }
 
-        //the scale sets the zoom level of the camera on the given position
+        // the scale sets the zoom level of the camera on the given position
         self.cameraNode.xScale = Constants.initialScale
         self.cameraNode.yScale = Constants.initialScale
         
@@ -200,8 +197,6 @@ class GameScene: BaseScene {
         self.viewHex.addChild(self.mapNode!)
         self.addChild(self.viewHex)
 
-        self.placeFocusHex()
-
         // position the camera on the gamescene.
         self.cameraNode.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
 
@@ -266,7 +261,6 @@ class GameScene: BaseScene {
         if let mapNode = self.mapNode {
             if let selectedUnit = mapNode.gameObjectManager.selected {
                 self.centerCamera(on: selectedUnit.position)
-                self.moveFocus(to: selectedUnit.position)
             }
         }
         
@@ -356,20 +350,36 @@ class GameScene: BaseScene {
         }
     }
 
-    func placeFocusHex() {
-
-        self.focus = SKSpriteNode(imageNamed: "hex_cursor")
-        self.focus?.position = HexMapDisplay.shared.toScreen(hex: HexPoint(x: 0, y: 0))
-        self.focus?.zPosition = GameScene.Constants.ZLevels.focus
-        self.focus?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        //self.focus?.xScale = 1.0
-        //self.focus?.yScale = 1.0
-        self.viewHex.addChild(self.focus!)
-    }
-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-        self.hasMoved = false
+        
+        let userUsecase = UserUsecase()
+        guard let user = userUsecase.currentUser() else {
+            fatalError("can't get current user")
+        }
+        
+        let touch = touches.first!
+        var touchLocation = touch.location(in: self.viewHex)
+        
+        // FIXME: hm, not sure why this is needed
+        touchLocation.x -= 20
+        touchLocation.y -= 15
+        
+        let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
+        
+        guard let units = self.game?.getUnits(at: position) else {
+            fatalError("cant get units at \(position)")
+        }
+        
+        if units.count > 0 {
+            
+            let unit = units.first!
+            if unit?.civilization == user.civilization {
+                selectedUnit = unit
+                return
+            }
+        }
+        
+        selectedUnit = nil
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -386,26 +396,51 @@ class GameScene: BaseScene {
             self.bottomLeftBar?.touchesEnded(touches, with: event)
             return
         }
-
-        var touchLocation = touch.location(in: self.viewHex)
-
-        // FIXME: hm, not sure why this is needed
-        touchLocation.x -= 20
-        touchLocation.y -= 15
-
-        let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
-        print("new focus: \(position)")
-
-        if !self.hasMoved {
-            self.moveFocus(to: position)
+        
+        if let selectedUnit = selectedUnit {
+            selectedUnit.clearPathSpriteBuffer()
+            
+            var touchLocation = touch.location(in: self.viewHex)
+            
+            // FIXME: hm, not sure why this is needed
+            touchLocation.x -= 20
+            touchLocation.y -= 15
+            
+            let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
+            self.mapNode?.moveSelectedUnit(to: position)
         }
+        self.selectedUnit = nil
     }
 
     // moving the map around
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-        for touch in touches {
-
+        let touch = touches.first!
+        
+        if let selectedUnit = selectedUnit {
+            
+            var touchLocation = touch.location(in: self.viewHex)
+            
+            // FIXME: hm, not sure why this is needed
+            touchLocation.x -= 20
+            touchLocation.y -= 15
+            
+            let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
+            
+            if position != self.selectedUnit?.position {
+                
+                let pathFinder = AStarPathfinder()
+                pathFinder.dataSource = self.game?.pathfinderDataSource(for: selectedUnit.movementType, ignoreSight: false)
+                
+                if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.position, toTileCoord: position) {
+                    path.prepend(point: selectedUnit.position)
+                    selectedUnit.show(path: path)
+                } else {
+                    selectedUnit.clearPathSpriteBuffer()
+                }
+            }
+        } else {
+        
             let cameraLocation = touch.location(in: self.cameraNode)
 
             guard let bottomRightBar = self.bottomRightBar, !bottomRightBar.frame.contains(cameraLocation) else {
@@ -423,12 +458,11 @@ class GameScene: BaseScene {
             let deltaY = (location.y) - (previousLocation.y)
 
             if abs(deltaX) > 0.1 || abs(deltaY) > 0.1 {
-                self.hasMoved = true
+                //self.hasMoved = true
             }
 
             self.cameraNode.position.x -= deltaX * 0.7
             self.cameraNode.position.y -= deltaY * 0.7
-            //print("camera pos moved: \(self.cameraNode.position)")
         }
     }
 
@@ -453,42 +487,6 @@ class GameScene: BaseScene {
 
         self.cameraNode.position = cameraPositionInScene
         print("center camera on: \(cameraPositionInScene)")
-    }
-
-    func moveFocus(to hex: HexPoint) {
-
-        //print("move to \(hex)")
-        self.focus?.position = HexMapDisplay.shared.toScreen(hex: hex)
-
-        self.mapNode?.moveSelectedUnit(to: hex)
-
-        if hex == self.lastFocusPoint {
-
-            // debug
-            //if let selectedCity = self.mapNode?.gameObjectManager.selected as? CityObject {
-                
-            if let city = self.game?.city(at: hex) {
-                let cityDialog = UI.cityDialog(for: city)
-                cityDialog?.addOkayAction(handler: {
-                    cityDialog?.close()
-                })
-                self.cameraNode.addChild(cityDialog!)
-            }
-                
-                /*let newSize = CitySize.all.randomItem()
-                let newWalls = Bool.random()
-                
-                selectedCity.size = newSize
-                selectedCity.walls = newWalls*/
-            }
-            /*if let selectedUnit = self.mapNode?.gameObjectManager.selected {
-                if selectedUnit.position == hex {
-                    self.gameDelegate?.select(object: selectedUnit)
-                }
-            }*/
-        //}
-
-        self.lastFocusPoint = hex
     }
 }
 
@@ -576,7 +574,7 @@ extension GameScene: GameObjectUnitDelegate {
     func selectedGameObjectChanged(to gameObject: GameObject?) {
         if let newPosition = gameObject?.position {
             self.centerCamera(on: newPosition)
-            self.moveFocus(to: newPosition)
+            //self.moveFocus(to: newPosition)
         }
     }
     

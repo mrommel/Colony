@@ -305,6 +305,15 @@ extension Game {
         return point.neighbors().filter({ map.tile(at: $0)?.isWater ?? false })
     }
     
+    func getUnits(at point: HexPoint) -> [GameObject?] {
+        
+        guard let level = self.level else {
+            fatalError("can't find level")
+        }
+        
+        return level.gameObjectManager.units(at: point)
+    }
+    
     func getSelectedUnitOfUser() -> GameObject? {
         
         return self.level?.gameObjectManager.selected
