@@ -148,3 +148,81 @@ public extension UIColor {
         return String(format: "#%02X%02X%02X", Int(c[0]*255.0), Int(c[1]*255.0), Int(c[2]*255.0))
     }
 }
+
+struct Color16 {
+    
+    let value: UInt16
+    let alpha: CGFloat = 0 // 0..1
+    
+    init(value: UInt16) {
+        self.value = value
+    }
+    
+    init(red: UInt8, green: UInt8, blue: UInt8) {
+        
+        let fRed: CGFloat = CGFloat(red) / 255
+        let fGreen: CGFloat = CGFloat(green) / 255
+        let fBlue: CGFloat = CGFloat(blue) / 255
+        
+        self.value = UInt16(fRed * 31 + 0.5) << 11 + UInt16(fGreen * 63 + 0.5) << 5 + UInt16(fBlue * 31 + 0.5)
+    }
+    
+    //var
+    
+    var red: UInt8 {
+        get {
+            let r5 = (value >> 11) & 31 // 5 bits
+            let r8 = CGFloat(r5) * 255 / 31 + 0.5
+            return UInt8(r8)
+        }
+    }
+    
+    var green: UInt8 {
+        get {
+            let g6 = (value >> 5) & 63 // 6 bits
+            let g8 = CGFloat(g6) * 255 / 63 + 0.5
+            return UInt8(g8)
+        }
+    }
+    
+    var blue: UInt8 {
+        get {
+            let b5 = value & 31 // 5 bits
+            let b8 = CGFloat(b5) * 255 / 31 + 0.5
+            return UInt8(b8)
+        }
+    }
+    
+    static func lerp(min: Color16, max: Color16, value: CGFloat) -> Color16 {
+        
+        let invValue = 1.0 - value
+        
+        let red = CGFloat(min.red) * value + CGFloat(max.red) * invValue
+        let green = CGFloat(min.green) * value + CGFloat(max.green) * invValue
+        let blue = CGFloat(min.blue) * value + CGFloat(max.blue) * invValue
+        
+        return Color16(red: UInt8(red), green: UInt8(green), blue: UInt8(blue))
+    }
+}
+
+struct Color32 {
+    
+    let red: UInt8
+    let green: UInt8
+    let blue: UInt8
+    let alpha: UInt8
+    
+    init(red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
+        self.red = red
+        self.green = green
+        self.blue = blue
+        self.alpha = alpha
+    }
+    
+    init(color: Color16) {
+        self.red = color.red
+        self.green = color.green
+        self.blue = color.blue
+        self.alpha = UInt8(color.alpha * 255)
+    }
+}

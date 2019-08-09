@@ -233,7 +233,7 @@ class GameScene: BaseScene {
             // save node
             let saveButton = MessageBoxButtonNode(titled: "Save", buttonAction: {
 
-                LevelManager.store(game: self.game, to: "level000X.lvl")
+                LevelManager.storeLevelFrom(game: self.game, to: "level000X.lvl")
 
             })
             saveButton.position = CGPoint(x: 0, y: frame.size.height - headerHeight - 40)

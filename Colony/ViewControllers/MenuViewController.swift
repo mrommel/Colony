@@ -16,6 +16,7 @@ class MenuViewController: UIViewController {
     // used for segue
     var currentLevelResource: URL? = nil
     var currentGame: Game? = nil
+    var currentMap: HexagonTileMap? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,8 +54,8 @@ class MenuViewController: UIViewController {
                 gameViewController?.viewModel = GameViewModel(with: self.currentLevelResource)
             } else if self.currentGame != nil {
                 gameViewController?.viewModel = GameViewModel(with: self.currentGame)
-            } else {
-                gameViewController?.viewModel = GameViewModel()
+            } else if self.currentMap != nil {
+                gameViewController?.viewModel = GameViewModel(with: self.currentMap)
             }
         }
         
@@ -67,20 +68,24 @@ class MenuViewController: UIViewController {
 extension MenuViewController: MenuDelegate {
 
     func start(level resource: URL?) {
+        
         self.currentLevelResource = resource
         self.currentGame = nil
+        self.currentMap = nil
         self.performSegue(withIdentifier: "gotoGame", sender: nil)
     }
     
-    func startGeneration() {
+    func startWith(map: HexagonTileMap?) {
         self.currentLevelResource = nil
         self.currentGame = nil
+        self.currentMap = map
         self.performSegue(withIdentifier: "gotoGame", sender: nil)
     }
     
     func restart(game: Game?) {
         self.currentLevelResource = nil
         self.currentGame = game
+        self.currentMap = nil
         self.performSegue(withIdentifier: "gotoGame", sender: nil)
     }
     

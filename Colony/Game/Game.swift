@@ -415,7 +415,7 @@ extension Game: GameObservationDelegate {
 
 extension LevelManager {
     
-    static func store(game: Game?, to fileName: String) {
+    static func storeLevelFrom(game: Game?, to fileName: String) {
         
         guard let level = game?.level else {
             fatalError("Can't store nil levels")
@@ -428,8 +428,6 @@ extension LevelManager {
             encoder.outputFormatting = .prettyPrinted
             let mapPayload: Data = try encoder.encode(level)
             try mapPayload.write(to: filename!)
-            //let jsonString = String(data: mapPayload, encoding: .utf8)
-            //print(jsonString!)
         } catch {
             fatalError("Can't store level: \(error)")
         }

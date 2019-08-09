@@ -10,30 +10,49 @@ import Foundation
 
 enum MapSize {
 
+    // https://civilization.fandom.com/wiki/Map_(Civ5)
 	case test // 5x5
-	case duel // 10x8
-	case tiny // 14x12
-	case small // 18x16
-	case standard // 22x20
-	case large // 26x24
-	case huge // 30x28
+	case duel // 40×24
+	case tiny // 56×36
+	case small // 66×42
+	case standard // 80×52
+	case large // 104×64
+	case huge // 128×80
 
+    static func from(result: DialogResultType) -> MapSize {
+        switch result {
+            
+        case .mapSizeHuge:
+            return .huge
+        case .mapSizeLarge:
+            return .large
+        case .mapSizeStandard:
+            return .standard
+        case .mapSizeSmall:
+            return .small
+        case .mapSizeTiny:
+            return .tiny
+        default:
+            fatalError("unknown map size \(result)")
+        }
+    }
+    
 	public var width: Int {
 		switch self {
 		case .test:
 			return 5
 		case .duel:
-			return 10
+			return 40
 		case .tiny:
-			return 14
+			return 56
 		case .small:
-			return 18
+			return 66
 		case .standard:
-			return 22
+			return 80
 		case .large:
-			return 26
+			return 104
 		case .huge:
-			return 30
+			return 128
 		}
 	}
 
@@ -42,17 +61,17 @@ enum MapSize {
 		case .test:
 			return 5
 		case .duel:
-			return 8
-		case .tiny:
-			return 12
-		case .small:
-			return 16
-		case .standard:
-			return 20
-		case .large:
 			return 24
+		case .tiny:
+			return 36
+		case .small:
+			return 42
+		case .standard:
+			return 52
+		case .large:
+			return 64
 		case .huge:
-			return 28
+			return 80
 		}
 	}
 }

@@ -40,4 +40,9 @@ extension Float {
 
 		return angleInRad * 180.0 / pi
 	}
+    
+    public static func lerp(min: Float, max: Float, value: Float) -> Float {
+        
+        return min * value + max * (1.0 - value)
+    }
 }

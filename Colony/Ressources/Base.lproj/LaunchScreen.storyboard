@@ -22,17 +22,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="colony" translatesAutoresizingMaskIntoConstraints="NO" id="mEw-yE-gDh">
-                                <rect key="frame" x="117" y="213" width="180" height="180"/>
+                                <rect key="frame" x="147" y="286" width="120" height="120"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="180" id="fL2-qi-DN8"/>
-                                    <constraint firstAttribute="width" constant="180" id="jn1-ge-mdF"/>
-                                </constraints>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ColonyText" translatesAutoresizingMaskIntoConstraints="NO" id="oof-pE-3SB">
-                                <rect key="frame" x="87" y="423" width="240" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="Jhi-73-BKK"/>
-                                    <constraint firstAttribute="height" constant="50" id="eS5-3E-bgb"/>
+                                    <constraint firstAttribute="height" constant="120" id="fL2-qi-DN8"/>
+                                    <constraint firstAttribute="width" constant="120" id="jn1-ge-mdF"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -42,10 +35,8 @@
                             <constraint firstItem="bXr-S1-6PW" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="77W-fH-UVJ"/>
                             <constraint firstAttribute="bottom" secondItem="bXr-S1-6PW" secondAttribute="bottom" id="A6g-yt-2Gn"/>
                             <constraint firstItem="mEw-yE-gDh" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="WEM-hY-C9D"/>
-                            <constraint firstItem="oof-pE-3SB" firstAttribute="top" secondItem="mEw-yE-gDh" secondAttribute="bottom" constant="30" id="gcX-DQ-4dY"/>
                             <constraint firstAttribute="trailing" secondItem="bXr-S1-6PW" secondAttribute="trailing" id="iRH-Ve-vpf"/>
-                            <constraint firstItem="mEw-yE-gDh" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-150" id="oUL-Si-dgS"/>
-                            <constraint firstItem="oof-pE-3SB" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="t2b-UT-f7b"/>
+                            <constraint firstItem="mEw-yE-gDh" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-107" id="oUL-Si-dgS"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -56,8 +47,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ColonyText" width="114" height="43.5"/>
-        <image name="background" width="212.5" height="380.5"/>
+        <image name="background" width="744" height="1392"/>
         <image name="colony" width="1024" height="1023"/>
     </resources>
 </document>

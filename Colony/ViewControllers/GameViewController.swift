@@ -19,7 +19,6 @@ class GameViewController: UIViewController {
     var viewModel: GameViewModel?
 
     // scenes
-    var mapGenerationScene: MapGenerationScene?
     var gameScene: GameScene?
 
     // The current zoom scale of the camera
@@ -37,8 +36,8 @@ class GameViewController: UIViewController {
             self.startGameWith(levelURL: self.viewModel?.resource)
         case .game:
             self.restart(game: self.viewModel?.game)
-        case .generator:
-            self.startMapGeneration()
+        case .map:
+            self.startGameWith(map: self.viewModel?.map)
         }
     }
 
@@ -68,8 +67,6 @@ class GameViewController: UIViewController {
             fatalError("View not loaded")
         }
 
-        self.mapGenerationScene = nil
-
         self.gameScene = GameScene(size: view.bounds.size)
         self.gameScene?.viewModel = GameSceneViewModel(with: levelURL)
         self.gameScene?.scaleMode = .resizeFill
@@ -87,8 +84,6 @@ class GameViewController: UIViewController {
             fatalError("View not loaded")
         }
         
-        self.mapGenerationScene = nil
-        
         self.gameScene = GameScene(size: view.bounds.size)
         self.gameScene?.viewModel = GameSceneViewModel(with: game)
         self.gameScene?.scaleMode = .resizeFill
@@ -100,34 +95,11 @@ class GameViewController: UIViewController {
         self.setupGestureRecognizer()
     }
 
-    func startMapGeneration() {
+    func startGameWith(map: HexagonTileMap?) {
 
         guard let view = self.view as! SKView? else {
             fatalError("View not loaded")
         }
-
-        self.gameScene = nil
-
-        self.mapGenerationScene = MapGenerationScene(size: view.bounds.size)
-        self.mapGenerationScene?.scaleMode = .resizeFill
-        self.mapGenerationScene?.mapGenerationDelegate = self
-
-        view.presentScene(self.mapGenerationScene)
-        view.ignoresSiblingOrder = true
-
-        #if DEBUG
-            view.showsFPS = true
-            view.showsNodeCount = true
-        #endif
-    }
-
-    func startGameWith(map: HexagonTileMap) {
-
-        guard let view = self.view as! SKView? else {
-            fatalError("View not loaded")
-        }
-
-        self.mapGenerationScene = nil
 
         self.gameScene = GameScene(size: view.bounds.size)
         self.gameScene?.viewModel = GameSceneViewModel(with: map)
@@ -201,13 +173,6 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
-    }
-}
-
-extension GameViewController: MapGenerationDelegate {
-
-    func generated(map: HexagonTileMap) {
-        self.startGameWith(map: map)
     }
 }
 

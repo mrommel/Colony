@@ -56,8 +56,6 @@
 		C938B56622D4A1EB00A2A838 /* HexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C938B56522D4A1EB00A2A838 /* HexPath.swift */; };
 		C938B56822D6200E00A2A838 /* Shark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C938B56722D6200E00A2A838 /* Shark.swift */; };
 		C938DEC222F462C800DA7072 /* Civ5MapReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C938DEC122F462C800DA7072 /* Civ5MapReader.swift */; };
-		C938DEC522F467A700DA7072 /* Accurate_Earth.Civ5Map in Resources */ = {isa = PBXBuildFile; fileRef = C938DEC422F4674200DA7072 /* Accurate_Earth.Civ5Map */; };
-		C938DEC722F4694A00DA7072 /* Earth_Huge.Civ5Map in Resources */ = {isa = PBXBuildFile; fileRef = C938DEC622F4694A00DA7072 /* Earth_Huge.Civ5Map */; };
 		C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2B22B7ABB700AB7117 /* R.generated.swift */; };
 		C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */; };
 		C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */; };
@@ -76,6 +74,24 @@
 		C956079822B2426400AA69E9 /* GameConditionCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */; };
 		C956079A22B2435100AA69E9 /* MonsterCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079922B2435100AA69E9 /* MonsterCheck.swift */; };
 		C9564D6422D7C9DC0091099B /* Axeman.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9564D6322D7C9DC0091099B /* Axeman.swift */; };
+		C962940122FB4ED800CC7F27 /* MapTypeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962940022FB4ED800CC7F27 /* MapTypeDialog.xml */; };
+		C962940422FB530100CC7F27 /* MapTypeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962940322FB530100CC7F27 /* MapTypeDialog.swift */; };
+		C962940622FB5D2100CC7F27 /* MapSizeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962940522FB5D2100CC7F27 /* MapSizeDialog.xml */; };
+		C962940822FB685500CC7F27 /* MapLoadingDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962940722FB685500CC7F27 /* MapLoadingDialog.xml */; };
+		C962940A22FBF6BE00CC7F27 /* MapLoadingDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962940922FBF6BE00CC7F27 /* MapLoadingDialog.swift */; };
+		C962940C22FC65E300CC7F27 /* SKTextureExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962940B22FC65E300CC7F27 /* SKTextureExtension.swift */; };
+		C962941122FC6F0100CC7F27 /* mapgermany512.dds in Resources */ = {isa = PBXBuildFile; fileRef = C962940E22FC6F0100CC7F27 /* mapgermany512.dds */; };
+		C962941222FC6F0100CC7F27 /* grid9frameturns.dds in Resources */ = {isa = PBXBuildFile; fileRef = C962940F22FC6F0100CC7F27 /* grid9frameturns.dds */; };
+		C962941322FC6F0100CC7F27 /* grid9detail140.dds in Resources */ = {isa = PBXBuildFile; fileRef = C962941022FC6F0100CC7F27 /* grid9detail140.dds */; };
+		C962941B22FD47D200CC7F27 /* ColonyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962941A22FD47D200CC7F27 /* ColonyTests.swift */; };
+		C962942322FD47F200CC7F27 /* DDSFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962942222FD47F200CC7F27 /* DDSFileTests.swift */; };
+		C962942522FD48BD00CC7F27 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962942422FD48BD00CC7F27 /* ColorTests.swift */; };
+		C962942722FD4C7F00CC7F27 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EB022A316C300F31126 /* UIColorExtension.swift */; };
+		C962942922FD8FAF00CC7F27 /* MapAgeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962942822FD8FAF00CC7F27 /* MapAgeDialog.xml */; };
+		C962942B22FD942300CC7F27 /* MapSeaLevelDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962942A22FD942300CC7F27 /* MapSeaLevelDialog.xml */; };
+		C962942E22FD970500CC7F27 /* MenuSceneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962942D22FD970500CC7F27 /* MenuSceneExtension.swift */; };
+		C962943022FDBFCE00CC7F27 /* MapRainfallDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962942F22FDBFCE00CC7F27 /* MapRainfallDialog.xml */; };
+		C962943222FDEEBD00CC7F27 /* MapClimateDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962943122FDEEBD00CC7F27 /* MapClimateDialog.xml */; };
 		C965FEA922E4F20A0075CB87 /* AreaLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C965FEA822E4F20A0075CB87 /* AreaLayer.swift */; };
 		C965FEAD22E7450B0075CB87 /* CityDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C965FEAC22E7450B0075CB87 /* CityDialog.swift */; };
 		C965FEAF22E747130075CB87 /* CityDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C965FEAE22E747120075CB87 /* CityDialog.xml */; };
@@ -91,7 +107,6 @@
 		C9763EB122A316C300F31126 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EB022A316C300F31126 /* UIColorExtension.swift */; };
 		C97B282A22A3F72100112532 /* MessageBoxButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B282922A3F72100112532 /* MessageBoxButtonNode.swift */; };
 		C97B282C22A427A800112532 /* ProgressBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B282B22A427A800112532 /* ProgressBarNode.swift */; };
-		C97B283022A42A4600112532 /* MapGenerationScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B282F22A42A4600112532 /* MapGenerationScene.swift */; };
 		C97B283222A5349A00112532 /* FogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B283122A5349A00112532 /* FogManager.swift */; };
 		C97B283422A53D0F00112532 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B283322A53D0F00112532 /* MulticastDelegate.swift */; };
 		C97B283622A54AE600112532 /* HexArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B283522A54AE600112532 /* HexArea.swift */; };
@@ -104,9 +119,15 @@
 		C98F2F4022F572FF00B49457 /* Civ5Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98F2F3F22F572FF00B49457 /* Civ5Feature.swift */; };
 		C98F2F4222F573DB00B49457 /* Civ5Terrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98F2F4122F573DB00B49457 /* Civ5Terrain.swift */; };
 		C992ABEB22A32042001C5E7C /* NineGridTextureSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */; };
+		C999FD0022F9824500D281D4 /* MapUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C999FCFF22F9824500D281D4 /* MapUsecase.swift */; };
+		C999FD0322F9A1B400D281D4 /* earth_large.map in Resources */ = {isa = PBXBuildFile; fileRef = C999FD0222F9A16B00D281D4 /* earth_large.map */; };
+		C999FD0422F9A1BC00D281D4 /* earth_huge.map in Resources */ = {isa = PBXBuildFile; fileRef = C999FD0122F9A14400D281D4 /* earth_huge.map */; };
 		C9A32B4822B29F3100AFC70D /* level0001.lvl in Resources */ = {isa = PBXBuildFile; fileRef = C9A32B4722B29F3100AFC70D /* level0001.lvl */; };
 		C9A32B4A22B29F7B00AFC70D /* level0002.lvl in Resources */ = {isa = PBXBuildFile; fileRef = C9A32B4922B29F7B00AFC70D /* level0002.lvl */; };
 		C9AB425C22A062E3000E5397 /* Monster.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB425B22A062E3000E5397 /* Monster.swift */; };
+		C9B1D61622F8071B008BFE61 /* Civ5Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D61522F8071B008BFE61 /* Civ5Map.swift */; };
+		C9B1D61822F8072E008BFE61 /* Civ5MapPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D61722F8072E008BFE61 /* Civ5MapPlot.swift */; };
+		C9B1D61A22F8073F008BFE61 /* Civ5MapHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D61922F8073F008BFE61 /* Civ5MapHeader.swift */; };
 		C9BA0A6422DB5C790055ED59 /* CitySiteEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA0A6322DB5C780055ED59 /* CitySiteEvaluator.swift */; };
 		C9BA0A6622DB88190055ED59 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA0A6522DB88190055ED59 /* City.swift */; };
 		C9C7F0C9229B193400A775B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F0C8229B193400A775B2 /* AppDelegate.swift */; };
@@ -154,6 +175,8 @@
 		C9C7F140229F20C300A775B2 /* RiverLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F13F229F20C300A775B2 /* RiverLayer.swift */; };
 		C9CCF42422E75F700041AD45 /* Civilization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CCF42322E75F700041AD45 /* Civilization.swift */; };
 		C9CCF42622E75F940041AD45 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CCF42522E75F940041AD45 /* Player.swift */; };
+		C9D234CC22FB019E00012316 /* earth_standard.map in Resources */ = {isa = PBXBuildFile; fileRef = C9D234CB22FB018E00012316 /* earth_standard.map */; };
+		C9D234CE22FB026700012316 /* earth_small.map in Resources */ = {isa = PBXBuildFile; fileRef = C9D234CD22FB024600012316 /* earth_small.map */; };
 		C9E9BBF822B3B32C0048F97B /* LevelButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBF722B3B32C0048F97B /* LevelButtonNode.swift */; };
 		C9E9BBFC22B584400048F97B /* DiscoverCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */; };
 		C9E9BBFE22B58CF60048F97B /* TimerElapsedCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BBFD22B58CF60048F97B /* TimerElapsedCheck.swift */; };
@@ -164,15 +187,25 @@
 		C9F9C98F22E0B10B000A3310 /* Ocean.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F9C98E22E0B10B000A3310 /* Ocean.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C962941D22FD47D200CC7F27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9C7F0BD229B193400A775B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9C7F0C4229B193400A775B2;
+			remoteInfo = Colony;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		210F580901715505DF5F00A6 /* Pods-Colony.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Colony.debug.xcconfig"; path = "Target Support Files/Pods-Colony/Pods-Colony.debug.xcconfig"; sourceTree = "<group>"; };
 		74D966AB103078B030C04933 /* libPods-Colony.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Colony.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACE7A2BA698D9042467C8F93 /* Pods-Colony.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Colony.release.xcconfig"; path = "Target Support Files/Pods-Colony/Pods-Colony.release.xcconfig"; sourceTree = "<group>"; };
 		C9001CA322D70BCF005528A7 /* GameConditionCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConditionCheck.swift; sourceTree = "<group>"; };
 		C9001CA522D712B7005528A7 /* Booster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booster.swift; sourceTree = "<group>"; };
-		C900653F22AEE3BA0004C963 /* UIParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIParser.swift; sourceTree = "<group>"; };
+		C900653F22AEE3BA0004C963 /* UIParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIParser.swift; path = ../UIParser.swift; sourceTree = "<group>"; };
 		C900654122AEE8DC0004C963 /* DefeatDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = DefeatDialog.xml; sourceTree = "<group>"; };
-		C900654322AF96A00004C963 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
+		C900654322AF96A00004C963 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Dialog.swift; path = ../Dialog.swift; sourceTree = "<group>"; };
 		C900654522AFA21D0004C963 /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		C903368C22ED8F4B004D2D72 /* GameDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDao.swift; sourceTree = "<group>"; };
 		C903368E22EDA834004D2D72 /* GameRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRepository.swift; sourceTree = "<group>"; };
@@ -216,8 +249,6 @@
 		C938B56522D4A1EB00A2A838 /* HexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexPath.swift; sourceTree = "<group>"; };
 		C938B56722D6200E00A2A838 /* Shark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shark.swift; sourceTree = "<group>"; };
 		C938DEC122F462C800DA7072 /* Civ5MapReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapReader.swift; sourceTree = "<group>"; };
-		C938DEC422F4674200DA7072 /* Accurate_Earth.Civ5Map */ = {isa = PBXFileReference; lastKnownFileType = file; path = Accurate_Earth.Civ5Map; sourceTree = "<group>"; };
-		C938DEC622F4694A00DA7072 /* Earth_Huge.Civ5Map */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_Huge.Civ5Map; sourceTree = "<group>"; };
 		C94A2F2B22B7ABB700AB7117 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
@@ -228,7 +259,7 @@
 		C94A2F3B22C2B06200AB7117 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		C94A2F3D22C8E1ED00AB7117 /* BottomLeftBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomLeftBar.swift; sourceTree = "<group>"; };
 		C94A2F3F22C8F66100AB7117 /* BottomRightBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomRightBar.swift; sourceTree = "<group>"; };
-		C956078822B0F22800AA69E9 /* DialogConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogConfiguration.swift; sourceTree = "<group>"; };
+		C956078822B0F22800AA69E9 /* DialogConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DialogConfiguration.swift; path = ../DialogConfiguration.swift; sourceTree = "<group>"; };
 		C956078C22B1291700AA69E9 /* VictoryDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = VictoryDialog.xml; sourceTree = "<group>"; };
 		C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = QuitConfirmationDialog.xml; sourceTree = "<group>"; };
 		C956079322B1426500AA69E9 /* LevelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelManager.swift; sourceTree = "<group>"; };
@@ -236,8 +267,27 @@
 		C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConditionCheckManager.swift; sourceTree = "<group>"; };
 		C956079922B2435100AA69E9 /* MonsterCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterCheck.swift; sourceTree = "<group>"; };
 		C9564D6322D7C9DC0091099B /* Axeman.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axeman.swift; sourceTree = "<group>"; };
+		C962940022FB4ED800CC7F27 /* MapTypeDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MapTypeDialog.xml; sourceTree = "<group>"; };
+		C962940322FB530100CC7F27 /* MapTypeDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypeDialog.swift; sourceTree = "<group>"; };
+		C962940522FB5D2100CC7F27 /* MapSizeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapSizeDialog.xml; sourceTree = "<group>"; };
+		C962940722FB685500CC7F27 /* MapLoadingDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapLoadingDialog.xml; sourceTree = "<group>"; };
+		C962940922FBF6BE00CC7F27 /* MapLoadingDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingDialog.swift; sourceTree = "<group>"; };
+		C962940B22FC65E300CC7F27 /* SKTextureExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTextureExtension.swift; sourceTree = "<group>"; };
+		C962940E22FC6F0100CC7F27 /* mapgermany512.dds */ = {isa = PBXFileReference; lastKnownFileType = file; path = mapgermany512.dds; sourceTree = "<group>"; };
+		C962940F22FC6F0100CC7F27 /* grid9frameturns.dds */ = {isa = PBXFileReference; lastKnownFileType = file; path = grid9frameturns.dds; sourceTree = "<group>"; };
+		C962941022FC6F0100CC7F27 /* grid9detail140.dds */ = {isa = PBXFileReference; lastKnownFileType = file; path = grid9detail140.dds; sourceTree = "<group>"; };
+		C962941822FD47D200CC7F27 /* ColonyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColonyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C962941A22FD47D200CC7F27 /* ColonyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColonyTests.swift; sourceTree = "<group>"; };
+		C962941C22FD47D200CC7F27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C962942222FD47F200CC7F27 /* DDSFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDSFileTests.swift; sourceTree = "<group>"; };
+		C962942422FD48BD00CC7F27 /* ColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTests.swift; sourceTree = "<group>"; };
+		C962942822FD8FAF00CC7F27 /* MapAgeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapAgeDialog.xml; sourceTree = "<group>"; };
+		C962942A22FD942300CC7F27 /* MapSeaLevelDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapSeaLevelDialog.xml; sourceTree = "<group>"; };
+		C962942D22FD970500CC7F27 /* MenuSceneExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSceneExtension.swift; sourceTree = "<group>"; };
+		C962942F22FDBFCE00CC7F27 /* MapRainfallDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapRainfallDialog.xml; sourceTree = "<group>"; };
+		C962943122FDEEBD00CC7F27 /* MapClimateDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapClimateDialog.xml; sourceTree = "<group>"; };
 		C965FEA822E4F20A0075CB87 /* AreaLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaLayer.swift; sourceTree = "<group>"; };
-		C965FEAC22E7450B0075CB87 /* CityDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CityDialog.swift; path = ../Nodes/CityDialog.swift; sourceTree = "<group>"; };
+		C965FEAC22E7450B0075CB87 /* CityDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDialog.swift; sourceTree = "<group>"; };
 		C965FEAE22E747120075CB87 /* CityDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityDialog.xml; sourceTree = "<group>"; };
 		C9697B2E22DC99C30076FF4C /* RegionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFinder.swift; sourceTree = "<group>"; };
 		C9697B3022DC99DD0076FF4C /* TileFertilityEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileFertilityEvaluator.swift; sourceTree = "<group>"; };
@@ -251,7 +301,6 @@
 		C9763EB022A316C300F31126 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		C97B282922A3F72100112532 /* MessageBoxButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxButtonNode.swift; sourceTree = "<group>"; };
 		C97B282B22A427A800112532 /* ProgressBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarNode.swift; sourceTree = "<group>"; };
-		C97B282F22A42A4600112532 /* MapGenerationScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapGenerationScene.swift; sourceTree = "<group>"; };
 		C97B283122A5349A00112532 /* FogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogManager.swift; sourceTree = "<group>"; };
 		C97B283322A53D0F00112532 /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		C97B283522A54AE600112532 /* HexArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexArea.swift; sourceTree = "<group>"; };
@@ -264,9 +313,15 @@
 		C98F2F3F22F572FF00B49457 /* Civ5Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Feature.swift; sourceTree = "<group>"; };
 		C98F2F4122F573DB00B49457 /* Civ5Terrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Terrain.swift; sourceTree = "<group>"; };
 		C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineGridTextureSprite.swift; sourceTree = "<group>"; };
+		C999FCFF22F9824500D281D4 /* MapUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUsecase.swift; sourceTree = "<group>"; };
+		C999FD0122F9A14400D281D4 /* earth_huge.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_huge.map; sourceTree = "<group>"; };
+		C999FD0222F9A16B00D281D4 /* earth_large.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_large.map; sourceTree = "<group>"; };
 		C9A32B4722B29F3100AFC70D /* level0001.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0001.lvl; sourceTree = "<group>"; };
 		C9A32B4922B29F7B00AFC70D /* level0002.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0002.lvl; sourceTree = "<group>"; };
 		C9AB425B22A062E3000E5397 /* Monster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monster.swift; sourceTree = "<group>"; };
+		C9B1D61522F8071B008BFE61 /* Civ5Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Map.swift; sourceTree = "<group>"; };
+		C9B1D61722F8072E008BFE61 /* Civ5MapPlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapPlot.swift; sourceTree = "<group>"; };
+		C9B1D61922F8073F008BFE61 /* Civ5MapHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapHeader.swift; sourceTree = "<group>"; };
 		C9BA0A6322DB5C780055ED59 /* CitySiteEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySiteEvaluator.swift; sourceTree = "<group>"; };
 		C9BA0A6522DB88190055ED59 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		C9C7F0C5229B193400A775B2 /* Colony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colony.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -316,6 +371,8 @@
 		C9C7F13F229F20C300A775B2 /* RiverLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverLayer.swift; sourceTree = "<group>"; };
 		C9CCF42322E75F700041AD45 /* Civilization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civilization.swift; sourceTree = "<group>"; };
 		C9CCF42522E75F940041AD45 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		C9D234CB22FB018E00012316 /* earth_standard.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_standard.map; sourceTree = "<group>"; };
+		C9D234CD22FB024600012316 /* earth_small.map */ = {isa = PBXFileReference; explicitFileType = text.json; path = earth_small.map; sourceTree = "<group>"; };
 		C9E9BBF722B3B32C0048F97B /* LevelButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelButtonNode.swift; sourceTree = "<group>"; };
 		C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCheck.swift; sourceTree = "<group>"; };
 		C9E9BBFD22B58CF60048F97B /* TimerElapsedCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerElapsedCheck.swift; sourceTree = "<group>"; };
@@ -327,6 +384,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C962941522FD47D200CC7F27 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9C7F0C2229B193400A775B2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -385,6 +449,7 @@
 				C927E2EB22CE9C6300EDBE0D /* GameUsecase.swift */,
 				C90336A122EF48AC004D2D72 /* UserUsecase.swift */,
 				C90336A322F07663004D2D72 /* SettingsUsecase.swift */,
+				C999FCFF22F9824500D281D4 /* MapUsecase.swift */,
 			);
 			path = Usecase;
 			sourceTree = "<group>";
@@ -417,17 +482,22 @@
 				C938DEC122F462C800DA7072 /* Civ5MapReader.swift */,
 				C98F2F3F22F572FF00B49457 /* Civ5Feature.swift */,
 				C98F2F4122F573DB00B49457 /* Civ5Terrain.swift */,
+				C9B1D61522F8071B008BFE61 /* Civ5Map.swift */,
+				C9B1D61722F8072E008BFE61 /* Civ5MapPlot.swift */,
+				C9B1D61922F8073F008BFE61 /* Civ5MapHeader.swift */,
 			);
 			path = Civ5Map;
 			sourceTree = "<group>";
 		};
-		C938DEC322F4673700DA7072 /* New Group */ = {
+		C938DEC322F4673700DA7072 /* Civ5 */ = {
 			isa = PBXGroup;
 			children = (
-				C938DEC622F4694A00DA7072 /* Earth_Huge.Civ5Map */,
-				C938DEC422F4674200DA7072 /* Accurate_Earth.Civ5Map */,
+				C999FD0122F9A14400D281D4 /* earth_huge.map */,
+				C999FD0222F9A16B00D281D4 /* earth_large.map */,
+				C9D234CB22FB018E00012316 /* earth_standard.map */,
+				C9D234CD22FB024600012316 /* earth_small.map */,
 			);
-			path = "New Group";
+			path = Civ5;
 			sourceTree = "<group>";
 		};
 		C94A2F2D22C0EC4000AB7117 /* ViewModels */ = {
@@ -450,7 +520,8 @@
 		C956078A22B1241B00AA69E9 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
-				C938DEC322F4673700DA7072 /* New Group */,
+				C962940D22FC6EF600CC7F27 /* New Group */,
+				C938DEC322F4673700DA7072 /* Civ5 */,
 				C9A32B4622B29F2600AFC70D /* Levels */,
 				C956078B22B1245400AA69E9 /* UI */,
 				C9C7F0D2229B193400A775B2 /* Main.storyboard */,
@@ -472,6 +543,13 @@
 				C965FEAE22E747120075CB87 /* CityDialog.xml */,
 				C903369022EDAFEA004D2D72 /* GameContinueDialog.xml */,
 				C903369F22EF456E004D2D72 /* PlayerInputDialog.xml */,
+				C962940022FB4ED800CC7F27 /* MapTypeDialog.xml */,
+				C962940522FB5D2100CC7F27 /* MapSizeDialog.xml */,
+				C962942822FD8FAF00CC7F27 /* MapAgeDialog.xml */,
+				C962942F22FDBFCE00CC7F27 /* MapRainfallDialog.xml */,
+				C962943122FDEEBD00CC7F27 /* MapClimateDialog.xml */,
+				C962942A22FD942300CC7F27 /* MapSeaLevelDialog.xml */,
+				C962940722FB685500CC7F27 /* MapLoadingDialog.xml */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -491,6 +569,49 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
+		C962940222FB52A100CC7F27 /* Dialogs */ = {
+			isa = PBXGroup;
+			children = (
+				C962942C22FD94AD00CC7F27 /* New Group */,
+				C900654522AFA21D0004C963 /* UI.swift */,
+				C965FEAC22E7450B0075CB87 /* CityDialog.swift */,
+				C962940322FB530100CC7F27 /* MapTypeDialog.swift */,
+				C962940922FBF6BE00CC7F27 /* MapLoadingDialog.swift */,
+			);
+			path = Dialogs;
+			sourceTree = "<group>";
+		};
+		C962940D22FC6EF600CC7F27 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				C962941022FC6F0100CC7F27 /* grid9detail140.dds */,
+				C962940F22FC6F0100CC7F27 /* grid9frameturns.dds */,
+				C962940E22FC6F0100CC7F27 /* mapgermany512.dds */,
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		C962941922FD47D200CC7F27 /* ColonyTests */ = {
+			isa = PBXGroup;
+			children = (
+				C962941A22FD47D200CC7F27 /* ColonyTests.swift */,
+				C962941C22FD47D200CC7F27 /* Info.plist */,
+				C962942222FD47F200CC7F27 /* DDSFileTests.swift */,
+				C962942422FD48BD00CC7F27 /* ColorTests.swift */,
+			);
+			path = ColonyTests;
+			sourceTree = "<group>";
+		};
+		C962942C22FD94AD00CC7F27 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				C900653F22AEE3BA0004C963 /* UIParser.swift */,
+				C956078822B0F22800AA69E9 /* DialogConfiguration.swift */,
+				C900654322AF96A00004C963 /* Dialog.swift */,
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		C9697B2D22DC99A40076FF4C /* MapAnalytics */ = {
 			isa = PBXGroup;
 			children = (
@@ -508,6 +629,7 @@
 		C9763EB222A317C600F31126 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C962940222FB52A100CC7F27 /* Dialogs */,
 				C92D876622CCA7C000E7A55E /* SizedNode.swift */,
 				C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */,
 				C91A4F3422A26585000BF647 /* MenuButtonNode.swift */,
@@ -518,11 +640,6 @@
 				C97B282922A3F72100112532 /* MessageBoxButtonNode.swift */,
 				C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */,
 				C97B282B22A427A800112532 /* ProgressBarNode.swift */,
-				C900653F22AEE3BA0004C963 /* UIParser.swift */,
-				C900654322AF96A00004C963 /* Dialog.swift */,
-				C965FEAC22E7450B0075CB87 /* CityDialog.swift */,
-				C956078822B0F22800AA69E9 /* DialogConfiguration.swift */,
-				C900654522AFA21D0004C963 /* UI.swift */,
 				C9697B3422DDA3810076FF4C /* UnitIndicator.swift */,
 				C903369222EDB89F004D2D72 /* BoosterTypeNode.swift */,
 				C903369422EDBB2E004D2D72 /* BoosterNode.swift */,
@@ -575,6 +692,7 @@
 			children = (
 				C90A134E22A99F130003BBDE /* README.md */,
 				C9C7F0C7229B193400A775B2 /* Colony */,
+				C962941922FD47D200CC7F27 /* ColonyTests */,
 				C9C7F0C6229B193400A775B2 /* Products */,
 				B71A40321D86AF7564AF884F /* Pods */,
 				F9D941C07E4738AC5B6E4F0C /* Frameworks */,
@@ -585,6 +703,7 @@
 			isa = PBXGroup;
 			children = (
 				C9C7F0C5229B193400A775B2 /* Colony.app */,
+				C962941822FD47D200CC7F27 /* ColonyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -646,7 +765,7 @@
 			children = (
 				C90336B122F21C72004D2D72 /* BaseScene.swift */,
 				C91A4F3222A260DD000BF647 /* MenuScene.swift */,
-				C97B282F22A42A4600112532 /* MapGenerationScene.swift */,
+				C962942D22FD970500CC7F27 /* MenuSceneExtension.swift */,
 				C9C7F0CE229B193400A775B2 /* GameScene.swift */,
 				C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */,
 				C90336A922F08AF7004D2D72 /* StoreScene.swift */,
@@ -700,6 +819,7 @@
 				C92D876422CBF34E00E7A55E /* Formatters.swift */,
 				C903369B22EE3BF0004D2D72 /* EncodingExtensions.swift */,
 				C903369D22EEE82B004D2D72 /* PausableTimer.swift */,
+				C962940B22FC65E300CC7F27 /* SKTextureExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -739,6 +859,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C962941722FD47D200CC7F27 /* ColonyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C962941F22FD47D300CC7F27 /* Build configuration list for PBXNativeTarget "ColonyTests" */;
+			buildPhases = (
+				C962941422FD47D200CC7F27 /* Sources */,
+				C962941522FD47D200CC7F27 /* Frameworks */,
+				C962941622FD47D200CC7F27 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C962941E22FD47D200CC7F27 /* PBXTargetDependency */,
+			);
+			name = ColonyTests;
+			productName = ColonyTests;
+			productReference = C962941822FD47D200CC7F27 /* ColonyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		C9C7F0C4229B193400A775B2 /* Colony */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9C7F0DD229B193A00A775B2 /* Build configuration list for PBXNativeTarget "Colony" */;
@@ -764,10 +902,14 @@
 		C9C7F0BD229B193400A775B2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1020;
+				LastSwiftUpdateCheck = 1030;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Michael Rommel";
 				TargetAttributes = {
+					C962941722FD47D200CC7F27 = {
+						CreatedOnToolsVersion = 10.3;
+						TestTargetID = C9C7F0C4229B193400A775B2;
+					};
 					C9C7F0C4229B193400A775B2 = {
 						CreatedOnToolsVersion = 10.2.1;
 					};
@@ -787,30 +929,50 @@
 			projectRoot = "";
 			targets = (
 				C9C7F0C4229B193400A775B2 /* Colony */,
+				C962941722FD47D200CC7F27 /* ColonyTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C962941622FD47D200CC7F27 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9C7F0C3229B193400A775B2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C962941222FC6F0100CC7F27 /* grid9frameturns.dds in Resources */,
+				C962943222FDEEBD00CC7F27 /* MapClimateDialog.xml in Resources */,
 				C9C7F0D4229B193400A775B2 /* Main.storyboard in Resources */,
 				C965FEAF22E747130075CB87 /* CityDialog.xml in Resources */,
+				C962940122FB4ED800CC7F27 /* MapTypeDialog.xml in Resources */,
 				C9C7F0D6229B193A00A775B2 /* Assets.xcassets in Resources */,
 				C9A32B4822B29F3100AFC70D /* level0001.lvl in Resources */,
-				C938DEC522F467A700DA7072 /* Accurate_Earth.Civ5Map in Resources */,
 				C903369122EDAFEA004D2D72 /* GameContinueDialog.xml in Resources */,
 				C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */,
+				C999FD0422F9A1BC00D281D4 /* earth_huge.map in Resources */,
+				C962940622FB5D2100CC7F27 /* MapSizeDialog.xml in Resources */,
 				C90A134F22A99F130003BBDE /* README.md in Resources */,
+				C9D234CE22FB026700012316 /* earth_small.map in Resources */,
 				C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */,
 				C9A32B4A22B29F7B00AFC70D /* level0002.lvl in Resources */,
+				C962941122FC6F0100CC7F27 /* mapgermany512.dds in Resources */,
+				C962943022FDBFCE00CC7F27 /* MapRainfallDialog.xml in Resources */,
 				C9C7F0D9229B193A00A775B2 /* LaunchScreen.storyboard in Resources */,
+				C962941322FC6F0100CC7F27 /* grid9detail140.dds in Resources */,
 				C90336A022EF456E004D2D72 /* PlayerInputDialog.xml in Resources */,
+				C962942922FD8FAF00CC7F27 /* MapAgeDialog.xml in Resources */,
+				C9D234CC22FB019E00012316 /* earth_standard.map in Resources */,
 				C9E9BC0022B6262A0048F97B /* LevelIntroductionDialog.xml in Resources */,
+				C999FD0322F9A1B400D281D4 /* earth_large.map in Resources */,
 				C900654222AEE8DC0004C963 /* DefeatDialog.xml in Resources */,
-				C938DEC722F4694A00DA7072 /* Earth_Huge.Civ5Map in Resources */,
+				C962942B22FD942300CC7F27 /* MapSeaLevelDialog.xml in Resources */,
+				C962940822FB685500CC7F27 /* MapLoadingDialog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -861,6 +1023,17 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C962941422FD47D200CC7F27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C962941B22FD47D200CC7F27 /* ColonyTests.swift in Sources */,
+				C962942522FD48BD00CC7F27 /* ColorTests.swift in Sources */,
+				C962942722FD4C7F00CC7F27 /* UIColorExtension.swift in Sources */,
+				C962942322FD47F200CC7F27 /* DDSFileTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9C7F0C1229B193400A775B2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -902,16 +1075,18 @@
 				C92D875F22CB77EB00E7A55E /* UserRepository.swift in Sources */,
 				C9C7F114229EBE3100A775B2 /* FloatExtension.swift in Sources */,
 				C9C7F0FD229EBD2900A775B2 /* HexagonMap.swift in Sources */,
+				C9B1D61622F8071B008BFE61 /* Civ5Map.swift in Sources */,
 				C9C7F0D1229B193400A775B2 /* GameViewController.swift in Sources */,
 				C903369822EDCE7F004D2D72 /* BoosterStock.swift in Sources */,
 				C90336A822F08AAD004D2D72 /* StoreViewController.swift in Sources */,
+				C962940C22FC65E300CC7F27 /* SKTextureExtension.swift in Sources */,
 				C9BA0A6622DB88190055ED59 /* City.swift in Sources */,
 				C92D876522CBF34E00E7A55E /* Formatters.swift in Sources */,
 				C97B283222A5349A00112532 /* FogManager.swift in Sources */,
 				C9C7F140229F20C300A775B2 /* RiverLayer.swift in Sources */,
 				C98F2F4222F573DB00B49457 /* Civ5Terrain.swift in Sources */,
+				C962940422FB530100CC7F27 /* MapTypeDialog.swift in Sources */,
 				C94A2F4022C8F66100AB7117 /* BottomRightBar.swift in Sources */,
-				C97B283022A42A4600112532 /* MapGenerationScene.swift in Sources */,
 				C9C7F0C9229B193400A775B2 /* AppDelegate.swift in Sources */,
 				C9C7F121229EBE5C00A775B2 /* FlowDirection.swift in Sources */,
 				C9C7F107229EBDE700A775B2 /* RiverEdge.swift in Sources */,
@@ -953,8 +1128,10 @@
 				C9C7F112229EBE3100A775B2 /* Array2D.swift in Sources */,
 				C9E9BBFE22B58CF60048F97B /* TimerElapsedCheck.swift in Sources */,
 				C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */,
+				C9B1D61822F8072E008BFE61 /* Civ5MapPlot.swift in Sources */,
 				C900654022AEE3BA0004C963 /* UIParser.swift in Sources */,
 				C927E2F222D1DA9B00EDBE0D /* ShipWreck.swift in Sources */,
+				C962940A22FBF6BE00CC7F27 /* MapLoadingDialog.swift in Sources */,
 				C9C7F115229EBE3100A775B2 /* Random.swift in Sources */,
 				C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */,
 				C972CCC022AAA4AE008DB8CB /* CityObject.swift in Sources */,
@@ -973,6 +1150,7 @@
 				C956079422B1426500AA69E9 /* LevelManager.swift in Sources */,
 				C94A2F3C22C2B06200AB7117 /* UIImageExtension.swift in Sources */,
 				C956079A22B2435100AA69E9 /* MonsterCheck.swift in Sources */,
+				C9B1D61A22F8073F008BFE61 /* Civ5MapHeader.swift in Sources */,
 				C9AB425C22A062E3000E5397 /* Monster.swift in Sources */,
 				C9F9C98B22E075D8000A3310 /* TradeShip.swift in Sources */,
 				C9C7F12F229EBF8700A775B2 /* Continent.swift in Sources */,
@@ -991,11 +1169,13 @@
 				C97B283422A53D0F00112532 /* MulticastDelegate.swift in Sources */,
 				C9697B3522DDA3810076FF4C /* UnitIndicator.swift in Sources */,
 				C94A2F3E22C8E1ED00AB7117 /* BottomLeftBar.swift in Sources */,
+				C999FD0022F9824500D281D4 /* MapUsecase.swift in Sources */,
 				C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */,
 				C90336AA22F08AF7004D2D72 /* StoreScene.swift in Sources */,
 				C927E2F022CF5FA300EDBE0D /* OptionsViewController.swift in Sources */,
 				C903368F22EDA834004D2D72 /* GameRepository.swift in Sources */,
 				C9C7F118229EBE3100A775B2 /* ArrayExtension.swift in Sources */,
+				C962942E22FD970500CC7F27 /* MenuSceneExtension.swift in Sources */,
 				C9C7F12B229EBF5200A775B2 /* AreaSprites.swift in Sources */,
 				C9697B3322DC99F80076FF4C /* SiteEvaluator.swift in Sources */,
 				C90336A622F084E2004D2D72 /* IconButtonNode.swift in Sources */,
@@ -1008,6 +1188,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C962941E22FD47D200CC7F27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9C7F0C4229B193400A775B2 /* Colony */;
+			targetProxy = C962941D22FD47D200CC7F27 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C9C7F0D2229B193400A775B2 /* Main.storyboard */ = {
@@ -1029,6 +1217,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		C962942022FD47D300CC7F27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3XR2XX99JT;
+				INFOPLIST_FILE = ColonyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.ColonyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Colony.app/Colony";
+			};
+			name = Debug;
+		};
+		C962942122FD47D300CC7F27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3XR2XX99JT;
+				INFOPLIST_FILE = ColonyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.ColonyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Colony.app/Colony";
+			};
+			name = Release;
+		};
 		C9C7F0DB229B193A00A775B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1188,6 +1416,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C962941F22FD47D300CC7F27 /* Build configuration list for PBXNativeTarget "ColonyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C962942022FD47D300CC7F27 /* Debug */,
+				C962942122FD47D300CC7F27 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C9C7F0C0229B193400A775B2 /* Build configuration list for PBXProject "Colony" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

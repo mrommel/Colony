@@ -238,7 +238,7 @@ extension Tile {
         }
     }
     
-    public func setRiver(flow: FlowDirection) throws {
+    private func setRiver(flow: FlowDirection) throws {
         
         switch flow {
         case .northEast:

@@ -9,16 +9,26 @@
 import SpriteKit
 
 class MessageBoxButtonNode: SpriteButtonNode {
-    
-    init(titled title: String, buttonAction: @escaping () -> Void) {
-        
+
+    init(titled title: String, sized size: CGSize = CGSize(width: 100, height: 42), buttonAction: @escaping () -> Void) {
+
         super.init(titled: title,
-                   defaultButtonImage: "grid9_button_active",
-                   activeButtonImage: "grid9_button_highlighted",
-                   size: CGSize(width: 100, height: 42),
-                   buttonAction: buttonAction)
+            defaultButtonImage: "grid9_button_active",
+            activeButtonImage: "grid9_button_highlighted",
+            size: size,
+            buttonAction: buttonAction)
     }
-    
+
+    init(imageNamed imageName: String, title: String, sized size: CGSize = CGSize(width: 100, height: 42), buttonAction: @escaping () -> Void) {
+
+        super.init(imageNamed: imageName,
+            title: title,
+            defaultButtonImage: "grid9_button_active",
+            activeButtonImage: "grid9_button_highlighted",
+            size: size,
+            buttonAction: buttonAction)
+    }
+
     /**
      Required so XCode doesn't throw warnings
      */

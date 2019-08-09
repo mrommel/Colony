@@ -22,12 +22,48 @@ enum DialogItemType: String, Codable {
     case image = "image"
     case label = "label"
     case textfield = "textfield"
+    case progressbar = "progressbar"
 }
 
 enum DialogResultType: String, Codable {
     case none
     case okay = "OKAY"
     case cancel = "CANCEL"
+    
+    // map types
+    case mapTypeEarth = "EARTH"
+    case mapTypePangaea = "PANGAEA"
+    case mapTypeContinents = "CONTINENTS"
+    case mapTypeArchipelago = "ARCHIPELAGO"
+    case mapTypeInlandsea = "INLANDSEA"
+    case mapTypeRandom = "TYPERANDOM"
+    
+    // map sizes
+    case mapSizeHuge = "HUGE"
+    case mapSizeLarge = "LARGE"
+    case mapSizeStandard = "STANDARD"
+    case mapSizeSmall = "SMALL"
+    case mapSizeTiny = "TINY"
+    
+    // map ages
+    case mapAgeYoung = "AGE_YOUNG"
+    case mapAgeNormal = "AGE_NORMAL"
+    case mapAgeOld = "AGE_OLD"
+    
+    // map rainfall
+    case mapRainfallWet = "RAINFALL_WET"
+    case mapRainfallNormal = "RAINFALL_NORMAL"
+    case mapRainfallDry = "RAINFALL_DRY"
+    
+    // map climate
+    case mapClimateHot = "CLIMATE_HOT"
+    case mapClimateTemperate = "CLIMATE_TEMPERATE"
+    case mapClimateCold = "CLIMATE_COLD"
+    
+    // map climate
+    case mapSeaLevelLow = "SEALEVEL_LOW"
+    case mapSeaLevelNormal = "SEALEVEL_NORMAL"
+    case mapSeaLevelHigh = "SEALEVEL_HIGH"
 }
 
 struct DialogItem: Codable {
@@ -48,9 +84,9 @@ struct DialogItem: Codable {
     var width: Int
     var height: Int
     
-    var image: String
+    var image: String?
     
-    init(identifier: String, type: DialogItemType, title: String, fontSize: CGFloat, result: DialogResultType, offsetx: Int, offsety: Int, anchorx: DialogAnchor, anchory: DialogAnchor, width: Int, height: Int, image: String) {
+    init(identifier: String, type: DialogItemType, title: String, fontSize: CGFloat, result: DialogResultType, offsetx: Int, offsety: Int, anchorx: DialogAnchor, anchory: DialogAnchor, width: Int, height: Int, image: String?) {
         
         self.identifier = identifier
         self.type = type
@@ -82,7 +118,7 @@ struct DialogItem: Codable {
         let width = try values.decode(Int.self, forKey: .width)
         let height = try values.decode(Int.self, forKey: .height)
         
-        let image = try values.decodeIfPresent(String.self, forKey: .image) ?? ""
+        let image = try values.decodeIfPresent(String.self, forKey: .image) ?? nil
         
         self.init(identifier: identifier, type: type, title: title, fontSize: fontSize, result: result, offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, image: image)
     }

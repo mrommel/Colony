@@ -10,6 +10,8 @@ import SpriteKit
 
 class ProgressBarNode: SKNode {
 
+    private static let kProgressAnimationKey = "progressAnimationKey"
+    
     var progressBar: SKCropNode
     let percentageLabel: SKLabelNode
 
@@ -27,11 +29,12 @@ class ProgressBarNode: SKNode {
             size: CGSize(width: size.width * 2, height: size.height * 2))
 
         self.progressBar.maskNode?.position = CGPoint(x: -size.width / 2, y: -size.height / 2)
-        self.progressBar.zPosition = 5
+        self.progressBar.zPosition = self.zPosition + 2
+        self.progressBar.maskNode?.xScale = 0
         self.addChild(self.progressBar)
         
         self.percentageLabel.position = CGPoint(x: self.position.x, y: self.position.y)
-        self.percentageLabel.zPosition = 6
+        self.percentageLabel.zPosition = self.zPosition + 3
         self.percentageLabel.fontColor = UIColor.white
         self.percentageLabel.fontSize = 18
         self.percentageLabel.verticalAlignmentMode = .center
@@ -45,6 +48,8 @@ class ProgressBarNode: SKNode {
 
     func set(progress: CGFloat) {
         
+        self.progressBar.maskNode?.removeAction(forKey: ProgressBarNode.kProgressAnimationKey)
+        
         var value = progress
         if progress < 0 {
             value = 0
@@ -53,7 +58,10 @@ class ProgressBarNode: SKNode {
             value = 1
         }
         
-        self.progressBar.maskNode?.xScale = value
+        let scaleAction = SKAction.scaleX(to: value, duration: 0.3)
+        self.progressBar.maskNode?.run(scaleAction, withKey: ProgressBarNode.kProgressAnimationKey)
+        //self.progressBar.maskNode?.xScale = value
+        
         let percentageValue: Int = Int(value * 100.0)
         self.percentageLabel.text = "\(percentageValue)%"
     }

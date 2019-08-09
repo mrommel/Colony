@@ -81,7 +81,8 @@ class OptionsScene: BaseScene {
         let backgroundTileHeight = 812 * viewSize.width / 375
 
         self.backgroundNode?.position = CGPoint(x: 0, y: 0)
-        self.backgroundNode?.size = CGSize(width: viewSize.width, height: backgroundTileHeight)
+        //self.backgroundNode?.size = CGSize(width: viewSize.width, height: backgroundTileHeight)
+        self.backgroundNode?.aspectFillTo(size: viewSize)
         
         self.headerLabelNode?.position = CGPoint(x: 0, y: viewSize.halfHeight - 72)
         self.headerIconNode?.position = CGPoint(x: -self.headerLabelNode!.frame.size.halfWidth - 24, y: viewSize.halfHeight - 62)

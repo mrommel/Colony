@@ -6,39 +6,198 @@
 //  Copyright © 2018 Michael Rommel. All rights reserved.
 //
 
-import Foundation
+import SpriteKit
 
-enum ClimateZoneOption {
+enum MapType {
+    
+    case earth
+    case pangaea
+    case continents
+    case archipelago
+    case inlandsea
+    case random
+    
+    static func from(result: DialogResultType) -> MapType {
+        
+        switch result {
 
-	case earth
-
-	case polarOnly
-	case subpolarOnly
-	case temperateOnly
-	case subtropicOnly
-	case tropicOnly
+        case .mapTypeEarth:
+            return .earth
+        case .mapTypePangaea:
+            return pangaea
+        case .mapTypeContinents:
+            return continents
+        case .mapTypeArchipelago:
+            return archipelago
+        case .mapTypeInlandsea:
+            return inlandsea
+        case .mapTypeRandom:
+            return random
+        
+        default:
+            fatalError("not a valid map type: \(result)")
+        }
+    }
 }
 
-class MapGeneratorOptions {
+enum MapOptionAge {
+    
+    case young
+    case normal
+    case old
+    
+    static func from(result: DialogResultType) -> MapOptionAge {
+        
+        switch result {
+            
+        case .mapAgeYoung:
+            return .young
+        case .mapAgeNormal:
+            return .normal
+        case .mapAgeOld:
+            return .old
+            
+        default:
+            fatalError("not a valid map age: \(result)")
+        }
+    }
+}
 
-	let mapSize: MapSize
-	let climateZoneOption: ClimateZoneOption
-	let waterPercentage: Float
-	let rivers: Int
+enum MapOptionRainfall {
+    
+    case dry
+    case normal
+    case wet
+    
+    static func from(result: DialogResultType) -> MapOptionRainfall {
+        
+        switch result {
+            
+        case .mapRainfallDry:
+            return .dry
+        case .mapRainfallNormal:
+            return .normal
+        case .mapRainfallWet:
+            return .wet
+            
+        default:
+            fatalError("not a valid map rainfall: \(result)")
+        }
+    }
+}
 
-	required public init(withSize size: MapSize, zone: ClimateZoneOption, waterPercentage: Float, rivers: Int) {
+enum MapOptionClimate {
 
-		self.mapSize = size
-		self.climateZoneOption = zone
-		self.waterPercentage = waterPercentage
-		self.rivers = rivers
+	case hot
+    case temperate
+    case cold
+    
+    static func from(result: DialogResultType) -> MapOptionClimate {
+        
+        switch result {
+            
+        case .mapClimateHot:
+            return .hot
+        case .mapClimateTemperate:
+            return .temperate
+        case .mapClimateCold:
+            return .cold
+            
+        default:
+            fatalError("not a valid map rainfall: \(result)")
+        }
+    }
+}
+
+enum MapOptionSeaLevel {
+    
+    case low
+    case normal
+    case high
+    
+    static func from(result: DialogResultType) -> MapOptionSeaLevel {
+        
+        switch result {
+            
+        case .mapSeaLevelLow:
+            return .low
+        case .mapSeaLevelNormal:
+            return .normal
+        case .mapSeaLevelHigh:
+            return .high
+            
+        default:
+            fatalError("not a valid map sea level: \(result)")
+        }
+    }
+}
+
+struct MapOptionsEnhanced {
+    
+    var age: MapOptionAge
+    var climate: MapOptionClimate
+    var sealevel: MapOptionSeaLevel
+    var rainfall: MapOptionRainfall
+    
+    init() {
+        self.age = .normal
+        self.climate = .temperate
+        self.sealevel = .normal
+        self.rainfall = .normal
+    }
+}
+
+class MapOptions {
+
+	let size: MapSize
+    var enhanced: MapOptionsEnhanced
+
+    required public init(withSize size: MapSize, enhanced: MapOptionsEnhanced = MapOptionsEnhanced()) {
+
+		self.size = size
+		self.enhanced = enhanced
 	}
+    
+    var rivers: Int {
+        
+        switch self.size {
+
+        case .duel:
+            return 4
+        case .tiny:
+            return 5
+        case .small:
+            return 6
+        case .standard:
+            return 10
+        case .large:
+            return 15
+        case .huge:
+            return 20
+        default:
+            return -1
+        }
+    }
+    
+    var waterPercentage: Float {
+        
+        switch enhanced.sealevel {
+            
+        case .low:
+            return 0.4
+        case .normal:
+            return 0.6
+        case .high:
+            return 0.6
+        }
+    }
 }
 
-public typealias ProgressHandler = (Float) -> Void
+public typealias ProgressHandler = (CGFloat, String) -> Void
 
 class MapGenerator {
 
+    let options: MapOptions
 	let width: Int
 	let height: Int
 
@@ -55,10 +214,11 @@ class MapGenerator {
 	- Parameter width: width of the resulting map
 	- Parameter height: height of the resulting map
 	*/
-	required public init(width: Int, height: Int) {
+    required public init(with options: MapOptions) {
 
-		self.width = width
-		self.height = height
+        self.options = options
+		self.width = options.size.width
+		self.height = options.size.height
 
 		// prepare terrain, distanceToCoast and zones
 		self.terrain = Array2D<Terrain>(columns: self.width, rows: self.height)
@@ -67,7 +227,7 @@ class MapGenerator {
 		self.springLocations = []
 	}
 
-	func generate(with options: MapGeneratorOptions) -> HexagonTileMap? {
+	func generate() -> HexagonTileMap? {
 
 		// prepare result value
 		let grid = HexagonTileMap(width: self.width, height: self.height)
@@ -77,7 +237,7 @@ class MapGenerator {
 		let moistureMap = HeightMap(width: width, height: height)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.2)
+			completionHandler(0.2, "initialized")
 		}
         
         usleep(100000) // will sleep for 100 milliseconds
@@ -86,29 +246,16 @@ class MapGenerator {
 		self.fillFromElevation(withWaterPercentage: options.waterPercentage, on: heightMap)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.4)
+			completionHandler(0.4, "elevation map created")
 		}
         
         usleep(100000) // will sleep for 100 milliseconds
 
 		// 2nd step: climate
-		switch options.climateZoneOption {
-		case .earth:
-			self.setClimateZones()
-		case .polarOnly:
-			self.setClimateZones(with: .polar)
-		case .subpolarOnly:
-			self.setClimateZones(with: .subpolar)
-		case .temperateOnly:
-			self.setClimateZones(with: .temperate)
-		case .subtropicOnly:
-			self.setClimateZones(with: .subtropic)
-		case .tropicOnly:
-			self.setClimateZones(with: .tropic)
-		}
+        self.setClimateZones()
         
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.45)
+			completionHandler(0.45, "climate zones generated")
 		}
         
         usleep(100000) // will sleep for 100 milliseconds
@@ -118,7 +265,7 @@ class MapGenerator {
 		self.refineClimate()
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.5)
+			completionHandler(0.5, "coastal distance calculated")
 		}
         
         usleep(100000) // will sleep for 100 milliseconds
@@ -127,7 +274,7 @@ class MapGenerator {
 		self.refineTerrain(on: grid, with: heightMap, and: moistureMap)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.65)
+			completionHandler(0.65, "terrain refined")
 		}
         
         usleep(100000) // will sleep for 100 milliseconds
@@ -138,17 +285,22 @@ class MapGenerator {
 		self.put(rivers: rivers, onto: grid)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.8)
+			completionHandler(0.8, "springs and rivers identified")
 		}
         
         usleep(100000) // will sleep for 100 milliseconds
         
         // 5th step: continents & oceans
         self.identifyContinents(on: grid)
+        
+        if let completionHandler = self.progressHandler {
+            completionHandler(0.9, "continents identified")
+        }
+        
         self.identifyOceans(on: grid)
         
         if let completionHandler = self.progressHandler {
-            completionHandler(1.0)
+            completionHandler(1.0, "oceans identified")
         }
         
         usleep(100000) // will sleep for 100 milliseconds
@@ -208,11 +360,6 @@ class MapGenerator {
 		}
 
 		return
-	}
-
-	func setClimateZones(with zone: ClimateZone) {
-
-		self.zones.fill(with: zone)
 	}
 
 	/**
