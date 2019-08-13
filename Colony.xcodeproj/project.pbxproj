@@ -602,7 +602,7 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		C91AC6E12302D06900104BD3 /* New Group */ = {
+		C91AC6E12302D06900104BD3 /* Base */ = {
 			isa = PBXGroup;
 			children = (
 				C97E96D222A073A500D594F3 /* GameObjectAtlas.swift */,
@@ -612,7 +612,7 @@
 				C91AC6E42302D09500104BD3 /* GameObjectType.swift */,
 				C91AC6E62302D0AD00104BD3 /* GameObjectMoveType.swift */,
 			);
-			path = "New Group";
+			path = Base;
 			sourceTree = "<group>";
 		};
 		C927E2EA22CE9C5300EDBE0D /* Usecase */ = {
@@ -744,7 +744,7 @@
 		C962940222FB52A100CC7F27 /* Dialogs */ = {
 			isa = PBXGroup;
 			children = (
-				C962942C22FD94AD00CC7F27 /* New Group */,
+				C962942C22FD94AD00CC7F27 /* Base */,
 				C900654522AFA21D0004C963 /* UI.swift */,
 				C965FEAC22E7450B0075CB87 /* CityDialog.swift */,
 				C962940322FB530100CC7F27 /* MapTypeDialog.swift */,
@@ -774,14 +774,14 @@
 			path = ColonyTests;
 			sourceTree = "<group>";
 		};
-		C962942C22FD94AD00CC7F27 /* New Group */ = {
+		C962942C22FD94AD00CC7F27 /* Base */ = {
 			isa = PBXGroup;
 			children = (
 				C900653F22AEE3BA0004C963 /* UIParser.swift */,
 				C956078822B0F22800AA69E9 /* DialogConfiguration.swift */,
 				C900654322AF96A00004C963 /* Dialog.swift */,
 			);
-			path = "New Group";
+			path = Base;
 			sourceTree = "<group>";
 		};
 		C9697B2D22DC99A40076FF4C /* MapAnalytics */ = {
@@ -823,7 +823,7 @@
 		C97E96D122A0739100D594F3 /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
-				C91AC6E12302D06900104BD3 /* New Group */,
+				C91AC6E12302D06900104BD3 /* Base */,
 				C97E96D622A1C21600D594F3 /* ShipObject.swift */,
 				C927E2F122D1DA9B00EDBE0D /* ShipWreck.swift */,
 				C972CCBF22AAA4AE008DB8CB /* CityObject.swift */,
