@@ -54,7 +54,7 @@ class Booster: GameObject {
     override func idle() {
         
         self.clearPathSpriteBuffer()
-        self.state = .idle
+        self.state = GameObjectAIState.idleState()
         
         let pulseUp = SKAction.scale(to: 1.0, duration: 1.0)
         let pulseDown = SKAction.scale(to: 0.8, duration: 1.0)

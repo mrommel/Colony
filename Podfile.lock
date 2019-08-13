@@ -4,12 +4,14 @@ PODS:
   - R.swift (5.0.3):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.1)
+  - SwiftState (6.0.0)
   - XMLCoder (0.7.0)
 
 DEPENDENCIES:
   - BinarySwift
   - Codability
   - R.swift
+  - SwiftState
   - XMLCoder (~> 0.7.0)
 
 SPEC REPOS:
@@ -18,6 +20,7 @@ SPEC REPOS:
     - Codability
     - R.swift
     - R.swift.Library
+    - SwiftState
     - XMLCoder
 
 SPEC CHECKSUMS:
@@ -25,8 +28,9 @@ SPEC CHECKSUMS:
   Codability: c888a339f4784c15a482b2180799e1836fc119aa
   R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
   R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
+  SwiftState: 5696580d3b91656d1c67773ca5c6d5e51610c711
   XMLCoder: 6c31ac37631628912c5afe51adce692b5748841f
 
-PODFILE CHECKSUM: db79bb20d28dad5674cde980cb3f28379d40a88a
+PODFILE CHECKSUM: 7dae06646186bbf799c4945758a75c8937d5648e
 
 COCOAPODS: 1.7.5

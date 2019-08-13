@@ -8,91 +8,6 @@
 
 import SpriteKit
 
-enum GameObjectState: String, Codable {
-    case idle
-    case moving
-    case following
-}
-
-enum GameObjectType: String, Codable {
-    
-    case ship
-    case axeman
-    
-    case monster
-    case city
-    
-    case coin
-    case booster
-    
-    case obstacle // tile cannot be accessed, can't be moved
-    
-    case pirates
-    case tradeShip
-    
-    case animal
-    
-    var textureName: String {
-        
-        switch self {
-        case .ship:
-            return "unit_indicator_ship"
-        case .axeman:
-            return "unit_indicator_axeman"
-        case .pirates:
-            return "unit_indicator_pirates"
-        case .tradeShip:
-            return "unit_indicator_tradeShip"
-        
-        default:
-            return "unit_indicator_unknown"
-        }
-    }
-    
-    var isNaval: Bool {
-    
-        switch self {
-        case .ship:
-            return true
-        case .axeman:
-            return false
-        case .monster:
-            return false
-        case .city:
-            return false
-        case .coin:
-            return false
-        case .booster:
-            return false
-        case .obstacle:
-            return false
-        case .pirates:
-            return true
-        case .tradeShip:
-            return true
-        case .animal:
-            return false
-        }
-    }
-}
-
-enum GameObjectMoveType {
-    
-    static let impassible: Float = -1.0
-    
-    /// possible values
-    case immobile // such as cities, coins etc
-    //case swimShore
-    case swimOcean
-    case walk
-    //case ride
-    //case fly
-}
-
-/*class GameObjectExtra: class, [String: Codable], Codable {
-    
-}*/
-
 class GameObject: Decodable {
     
     static let idleActionKey: String = "idleActionKey"
@@ -108,7 +23,7 @@ class GameObject: Decodable {
             self.delegate?.moved(object: self)
         }
     }
-    var state: GameObjectState = .idle
+    var state: GameObjectAIState = GameObjectAIState.idleState()
     var civilization: Civilization?
     
     var canMoveByUserInput: Bool = false
@@ -128,6 +43,7 @@ class GameObject: Decodable {
     var animationSpeed = 2.0
     
     var sight: Int
+    var health: Int = 100
     var dict: [String: Any] = [:]
     
     // usecases
@@ -175,7 +91,7 @@ class GameObject: Decodable {
         self.identifier = try values.decode(String.self, forKey: .identifier)
         self.type = try values.decode(GameObjectType.self, forKey: .type)
         self.position = try values.decode(HexPoint.self, forKey: .position)
-        self.state = try values.decode(GameObjectState.self, forKey: .state)
+        self.state = try values.decode(GameObjectAIState.self, forKey: .state)
         self.civilization = try values.decodeIfPresent(Civilization.self, forKey: .civilization)
         
         self.spriteName = ""
@@ -365,26 +281,42 @@ class GameObject: Decodable {
         }
     }
     
+    func idle() {
+        
+        self.clearPathSpriteBuffer()
+        self.state = GameObjectAIState.idleState()
+        
+        if let atlas = self.atlasIdle {
+            let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
+            let idleFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
+            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: idleFrames, timePerFrame: (animationSpeed / 4.0) / Double(idleFrames.count)))
+            
+            self.sprite.run(idleAnimation, withKey: GameObject.idleActionKey, completion: {})
+        }
+    }
+    
     func walk(on path: HexPath) {
         
         guard !path.isEmpty else {
-            self.idle()
+            self.state.transitioning = .ended
+            self.clearPathSpriteBuffer()
             return
         }
         
+        self.state.transitioning = .running
+        
         self.sprite.removeAction(forKey: GameObject.idleActionKey)
-        self.state = .moving
         
         guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
             fatalError("Can't get current users civilization")
         }
         
         if let civilization = self.civilization {
-            if civilization == currentUserCivilization { 
+            if civilization == currentUserCivilization {
                 self.show(path: HexPath(point: self.position, path: path))
             }
         }
-            
+        
         if let point = path.first {
             let pathWithoutFirst = path.pathWithoutFirst()
             
@@ -394,36 +326,28 @@ class GameObject: Decodable {
         }
     }
     
-    func followUnit(on path: HexPath) {
+    func stepOnWater(towards point: HexPoint, in game: Game?) {
         
-        guard !path.isEmpty else {
-            self.state = .following
+        guard let waterNeighbors = game?.neighborsInWater(of: point) else {
             return
         }
         
-        self.sprite.removeAction(forKey: GameObject.idleActionKey)
-        self.state = .moving
+        var bestWaterNeighbor = waterNeighbors.first!
+        var bestDistance: Int = Int.max
         
-        if let point = path.first {
-            let pathWithoutFirst = path.pathWithoutFirst()
-            
-            self.walk(from: self.position, to: point, completion: {
-                self.followUnit(on: pathWithoutFirst)
-            })
+        for waterNeighbor in waterNeighbors {
+            let neighborDistance = waterNeighbor.distance(to: point) + Int.random(number: 1)
+            if neighborDistance < bestDistance {
+                bestWaterNeighbor = waterNeighbor
+                bestDistance = neighborDistance
+            }
         }
-    }
-    
-    func idle() {
         
-        self.clearPathSpriteBuffer()
-        self.state = .idle
+        let pathFinder = AStarPathfinder()
+        pathFinder.dataSource = game?.pathfinderDataSource(for: self.movementType, ignoreSight: true)
         
-        if let atlas = self.atlasIdle {
-            let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
-            let idleFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
-            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: idleFrames, timePerFrame: (animationSpeed / 4.0) / Double(idleFrames.count)))
-            
-            self.sprite.run(idleAnimation, withKey: GameObject.idleActionKey, completion: {})
+        if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
+            self.walk(on: path)
         }
     }
     
@@ -459,6 +383,21 @@ extension GameObject: Encodable {
         try container.encode(self.state, forKey: .state)
         try container.encode(self.civilization, forKey: .civilization)
         try container.encode(self.dict, forKey: .dict)
+    }
+}
+
+extension GameObject: Hashable {
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.identifier)
+        hasher.combine(self.type)
+    }
+}
+
+extension GameObject: Equatable {
+    
+    static func == (lhs: GameObject, rhs: GameObject) -> Bool {
+        return lhs.identifier == rhs.identifier
     }
 }
 

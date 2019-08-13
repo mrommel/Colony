@@ -78,6 +78,8 @@ class GameScene: BaseScene {
 
     var game: Game? // the reference
     weak var gameDelegate: GameDelegate?
+    
+    let userUsecase = UserUsecase()
 
     override init(size: CGSize) {
 
@@ -122,7 +124,6 @@ class GameScene: BaseScene {
         self.backgroundNode?.size = viewSize
         self.cameraNode.addChild(backgroundNode!)
         
-        let userUsecase = UserUsecase()
         guard let user = userUsecase.currentUser() else {
             fatalError("can't get current user")
         }
@@ -352,18 +353,12 @@ class GameScene: BaseScene {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        let userUsecase = UserUsecase()
         guard let user = userUsecase.currentUser() else {
             fatalError("can't get current user")
         }
         
         let touch = touches.first!
-        var touchLocation = touch.location(in: self.viewHex)
-        
-        // FIXME: hm, not sure why this is needed
-        touchLocation.x -= 20
-        touchLocation.y -= 15
-        
+        let touchLocation = touch.location(in: self.viewHex)
         let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
         
         guard let units = self.game?.getUnits(at: position) else {
@@ -400,12 +395,7 @@ class GameScene: BaseScene {
         if let selectedUnit = selectedUnit {
             selectedUnit.clearPathSpriteBuffer()
             
-            var touchLocation = touch.location(in: self.viewHex)
-            
-            // FIXME: hm, not sure why this is needed
-            touchLocation.x -= 20
-            touchLocation.y -= 15
-            
+            let touchLocation = touch.location(in: self.viewHex)
             let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
             self.mapNode?.moveSelectedUnit(to: position)
         }
@@ -419,12 +409,7 @@ class GameScene: BaseScene {
         
         if let selectedUnit = selectedUnit {
             
-            var touchLocation = touch.location(in: self.viewHex)
-            
-            // FIXME: hm, not sure why this is needed
-            touchLocation.x -= 20
-            touchLocation.y -= 15
-            
+            let touchLocation = touch.location(in: self.viewHex)
             let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
             
             if position != self.selectedUnit?.position {
@@ -565,7 +550,10 @@ extension GameScene: GameUpdateDelegate {
     
     func battle(between source: GameObject?, and target: GameObject?) {
         
-        self.show(message: "Battle between \(source) and \(target)")
+        if let sourceUnit = source, let targetUnit = target {
+        
+            self.show(message: "Battle between \(sourceUnit) and \(targetUnit)")
+        }
     }
 }
 

@@ -97,7 +97,7 @@ class MapNode: SKNode {
             }
             
             // can only select new target when unit is idle
-            guard selectedUnit.state == .idle else {
+            guard selectedUnit.state.state == .idle else {
                 // FIXME: show x
                 self.showCross(at: hex)
                 return

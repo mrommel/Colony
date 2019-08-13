@@ -14,7 +14,7 @@
           "x": 2, 
           "y": 0
         }, 
-        "state": "idle", 
+"state": { "state": "idle", "transitioning": "began" },
         "type": "ship"
       }, 
       {
@@ -24,7 +24,7 @@
           "x": 17, 
           "y": 10
         }, 
-        "state": "moving", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "monster"
       }, 
       {
@@ -34,7 +34,7 @@
           "x": 18, 
           "y": 8
         }, 
-        "state": "moving", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "pirates"
       }, 
       {
@@ -44,7 +44,7 @@
           "x": 16, 
           "y": 6
         }, 
-        "state": "moving", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "tradeShip"
       }, 
       {
@@ -57,7 +57,7 @@
           "x": 20, 
           "y": 13
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "city"
       }, 
       {
@@ -67,7 +67,7 @@
           "x": 20, 
           "y": 14
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "axeman"
       }, 
       {
@@ -80,7 +80,7 @@
           "x": 15, 
           "y": 3
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "city"
       }, 
       {
@@ -93,7 +93,7 @@
           "x": 12, 
           "y": 17
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "city"
       }, 
       {
@@ -106,7 +106,7 @@
           "x": 6, 
           "y": 5
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "city"
       }, 
       {
@@ -119,7 +119,7 @@
           "x": 11, 
           "y": 10
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "city"
       }, 
       {
@@ -129,7 +129,7 @@
           "x": 20, 
           "y": 5
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "obstacle"
       }, 
       {
@@ -139,7 +139,7 @@
           "x": 14, 
           "y": 4
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "obstacle"
       }, 
       {
@@ -149,7 +149,7 @@
           "x": 11, 
           "y": 8
         }, 
-        "state": "moving", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "animal"
       }, 
       {
@@ -159,7 +159,7 @@
           "x": 20, 
           "y": 8
         }, 
-        "state": "moving", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "animal"
       }, 
       {
@@ -169,7 +169,7 @@
           "x": 16, 
           "y": 13
         }, 
-        "state": "moving", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "animal"
       }, 
       {
@@ -179,7 +179,7 @@
           "x": 17, 
           "y": 11
         }, 
-        "state": "moving", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "animal"
       }, 
       {
@@ -189,7 +189,7 @@
           "x": 18, 
           "y": 7
         }, 
-        "state": "moving", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "animal"
       }, 
       {
@@ -199,7 +199,7 @@
           "x": 14, 
           "y": 15
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -209,7 +209,7 @@
           "x": 18, 
           "y": 7
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -219,7 +219,7 @@
           "x": 17, 
           "y": 11
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -229,7 +229,7 @@
           "x": 14, 
           "y": 18
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -239,7 +239,7 @@
           "x": 2, 
           "y": 0
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -249,7 +249,7 @@
           "x": 18, 
           "y": 9
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -259,7 +259,7 @@
           "x": 16, 
           "y": 6
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -269,7 +269,7 @@
           "x": 14, 
           "y": 19
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -279,7 +279,7 @@
           "x": 16, 
           "y": 15
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -289,7 +289,7 @@
           "x": 20, 
           "y": 9
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -299,7 +299,7 @@
           "x": 3, 
           "y": 2
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -309,7 +309,7 @@
           "x": 19, 
           "y": 19
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -319,7 +319,7 @@
           "x": 18, 
           "y": 15
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -329,7 +329,7 @@
           "x": 3, 
           "y": 2
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -339,7 +339,7 @@
           "x": 15, 
           "y": 4
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -349,7 +349,7 @@
           "x": 21, 
           "y": 10
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -359,7 +359,7 @@
           "x": 0, 
           "y": 0
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -369,7 +369,7 @@
           "x": 20, 
           "y": 11
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -379,7 +379,7 @@
           "x": 21, 
           "y": 12
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -389,7 +389,7 @@
           "x": 20, 
           "y": 10
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -399,7 +399,7 @@
           "x": 4, 
           "y": 2
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -409,7 +409,7 @@
           "x": 13, 
           "y": 2
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -419,7 +419,7 @@
           "x": 12, 
           "y": 8
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -429,7 +429,7 @@
           "x": 10, 
           "y": 8
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -439,7 +439,7 @@
           "x": 13, 
           "y": 4
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -449,7 +449,7 @@
           "x": 19, 
           "y": 14
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -459,7 +459,7 @@
           "x": 11, 
           "y": 7
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -469,7 +469,7 @@
           "x": 20, 
           "y": 7
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -479,7 +479,7 @@
           "x": 18, 
           "y": 9
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -489,7 +489,7 @@
           "x": 20, 
           "y": 12
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -499,7 +499,7 @@
           "x": 17, 
           "y": 15
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -509,7 +509,7 @@
           "x": 21, 
           "y": 19
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -519,7 +519,7 @@
           "x": 21, 
           "y": 11
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -529,7 +529,7 @@
           "x": 9, 
           "y": 2
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -539,7 +539,7 @@
           "x": 13, 
           "y": 5
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -549,7 +549,7 @@
           "x": 18, 
           "y": 16
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -559,7 +559,7 @@
           "x": 20, 
           "y": 19
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -569,7 +569,7 @@
           "x": 14, 
           "y": 18
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -579,7 +579,7 @@
           "x": 14, 
           "y": 3
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -589,7 +589,7 @@
           "x": 8, 
           "y": 3
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -599,7 +599,7 @@
           "x": 19, 
           "y": 11
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -609,7 +609,7 @@
           "x": 8, 
           "y": 5
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -619,7 +619,7 @@
           "x": 19, 
           "y": 6
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -629,7 +629,7 @@
           "x": 17, 
           "y": 11
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -639,7 +639,7 @@
           "x": 14, 
           "y": 6
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -649,7 +649,7 @@
           "x": 15, 
           "y": 18
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -659,7 +659,7 @@
           "x": 19, 
           "y": 5
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -669,7 +669,7 @@
           "x": 14, 
           "y": 3
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -679,7 +679,7 @@
           "x": 11, 
           "y": 1
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -689,7 +689,7 @@
           "x": 21, 
           "y": 17
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -699,7 +699,7 @@
           "x": 17, 
           "y": 17
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -709,7 +709,7 @@
           "x": 9, 
           "y": 8
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -719,7 +719,7 @@
           "x": 17, 
           "y": 18
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -729,7 +729,7 @@
           "x": 15, 
           "y": 15
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -739,7 +739,7 @@
           "x": 0, 
           "y": 1
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -749,7 +749,7 @@
           "x": 21, 
           "y": 9
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -759,7 +759,7 @@
           "x": 8, 
           "y": 4
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -769,7 +769,7 @@
           "x": 5, 
           "y": 0
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -779,7 +779,7 @@
           "x": 11, 
           "y": 2
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -789,7 +789,7 @@
           "x": 7, 
           "y": 4
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -799,7 +799,7 @@
           "x": 13, 
           "y": 4
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -809,7 +809,7 @@
           "x": 21, 
           "y": 9
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -819,7 +819,7 @@
           "x": 11, 
           "y": 4
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }, 
       {
@@ -829,7 +829,7 @@
           "x": 16, 
           "y": 4
         }, 
-        "state": "idle", 
+        "state": { "state": "idle", "transitioning": "began" },
         "type": "coin"
       }
     ]

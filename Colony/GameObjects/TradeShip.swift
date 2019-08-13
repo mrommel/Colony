@@ -32,7 +32,7 @@ class TradeShip: GameObject {
 
     override func update(in game: Game?) {
 
-        if self.state == .idle {
+        /*if self.state == .idle {
 
             guard let game = game else {
                 return
@@ -73,6 +73,6 @@ class TradeShip: GameObject {
                     self.walk(on: path)
                 }
             }
-        }
+        }*/
     }
 }

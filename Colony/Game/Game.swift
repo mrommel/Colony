@@ -333,6 +333,11 @@ extension Game {
         return self.level?.gameObjectManager.unitsOf(type: type)
     }
     
+    func getUnitBy(identifier: String) -> GameObject? {
+        
+        return self.level?.gameObjectManager.unitBy(identifier: identifier)
+    }
+    
     func pathfinderDataSource(for movementType: GameObjectMoveType, ignoreSight: Bool) -> PathfinderDataSource {
         
         guard let level = self.level else {

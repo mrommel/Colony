@@ -73,7 +73,13 @@ class HexMapDisplay {
     
     func toHexPoint(screen: CGPoint) -> HexPoint {
     
-        return HexPoint(cube: self.toHexCube(screen: screen))
+        var screenPoint = screen
+        
+        // FIXME: hm, not sure why this is needed
+        screenPoint.x -= 20
+        screenPoint.y -= 15
+        
+        return HexPoint(cube: self.toHexCube(screen: screenPoint))
     }
 
 	func toHexCube(screen: CGPoint) -> HexCube {

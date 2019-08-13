@@ -37,7 +37,7 @@ class Shark: GameObject {
     
     override func update(in game: Game?) {
         
-        if self.state == .idle {
+        /*if self.state == .idle {
             
             guard let game = game else {
                 return
@@ -53,6 +53,6 @@ class Shark: GameObject {
             if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
                 self.walk(on: path)
             }
-        }
+        }*/
     }
 }

@@ -19,6 +19,36 @@ class HexPoint: Codable {
         self.x = x
         self.y = y
     }
+    
+    init(from json: String?) {
+        
+        let jsonDecoder = JSONDecoder()
+        do {
+            guard let jsonData = json?.data(using: .utf8) else {
+                fatalError()
+            }
+            
+            let tmpPoint = try jsonDecoder.decode(HexPoint.self, from: jsonData)
+            self.x = tmpPoint.x
+            self.y = tmpPoint.y
+        }
+        catch {
+            fatalError()
+        }
+    }
+    
+    var jsonString: String? {
+        
+        let jsonEncoder = JSONEncoder()
+        do {
+            let jsonData = try jsonEncoder.encode(self)
+            let jsonString = String(data: jsonData, encoding: .utf8)
+            return jsonString
+        }
+        catch {
+            fatalError()
+        }
+    }
 }
 
 class HexCube {
