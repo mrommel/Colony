@@ -32,20 +32,7 @@ class Pirates: GameObject {
         try super.init(from: decoder)
     }
     
-    override func update(in game: Game?) {
-        
-        switch self.state.transitioning {
-            
-        case .began:
-            self.handleBeganState(in: game)
-        case .running:
-            break
-        case .ended:
-            self.handleEndedState(in: game)
-        }
-    }
-    
-    func handleBeganState(in game: Game?) {
+    override func handleBeganState(in game: Game?) {
         
         assert(self.state.transitioning == .began, "method can only handle .begin")
         
@@ -63,12 +50,18 @@ class Pirates: GameObject {
         case .battling:
             self.handleBattling(in: game)
             
+        case .ambushed:
+            self.handleAmbushed(in: game)
+            
         case .fleeing:
             fatalError("[Pirates] handle began fleeing")
+            
+        case .traveling:
+            fatalError("[Pirates] handle began traveling")
         }
     }
     
-    func handleEndedState(in game: Game?) {
+    override func handleEndedState(in game: Game?) {
         
         assert(self.state.transitioning == .ended, "method can only handle .ended")
         
@@ -86,8 +79,14 @@ class Pirates: GameObject {
         case .battling:
             fatalError("[Pirates] handle ended battling")
             
+        case .ambushed:
+            self.state = GameObjectAIState.idleState()
+            
         case .fleeing:
             fatalError("[Pirates] handle ended fleeing")
+            
+        case .traveling:
+            fatalError("[Pirates] handle ended traveling")
         }
     }
     
@@ -175,5 +174,21 @@ class Pirates: GameObject {
         
             self.delegate?.battle(between: self, and: unit)
         } 
+    }
+    
+    func handleAmbushed(in game: Game?) {
+        
+        guard let game = game else {
+            return
+        }
+        
+        guard let attackerIdentifier = self.state.targetIdentifier else {
+            fatalError("attacker identifier not set")
+        }
+        
+        if let attacker = game.getUnitBy(identifier: attackerIdentifier) {
+            
+            self.delegate?.ambushed(self, by: attacker)
+        }
     }
 }

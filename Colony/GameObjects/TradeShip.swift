@@ -29,50 +29,168 @@ class TradeShip: GameObject {
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
-
-    override func update(in game: Game?) {
-
-        /*if self.state == .idle {
-
-            guard let game = game else {
-                return
-            }
-
-            guard let ocean = game.ocean(at: self.position) else {
-                fatalError("ship not at ocean")
-            }
-
-            let listOfPossibleDestinations = game.getCoastalCities(at: ocean)
-
-            if listOfPossibleDestinations.count >= 2 {
-
-                let newCityDestination = listOfPossibleDestinations.randomItem()
-                let newDestination = game.neighborsInWater(of: newCityDestination.position).randomItem()
-
-                let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
-
-                if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: newDestination) {
-                    self.walk(on: path)
-                } else {
-                    // FIXME: sometimes the trader gets stuck
-                    print("TradeShip: got stuck")
-                    //fatalError("can't find path from \(self.position) to \(newDestination)")
-                }
+    
+    override func handleBeganState(in game: Game?) {
+        
+        assert(self.state.transitioning == .began, "method can only handle .begin")
+        
+        switch self.state.state {
+            
+        case .idle:
+            self.handleIdle(in: game)
+            
+        case .wanderAround:
+            self.handleWanderAround(in: game)
+            
+        case .following:
+            fatalError("[TradeShip] handle began following")
+            
+        case .battling:
+            fatalError("[TradeShip] handle began battling")
+            
+        case .ambushed:
+            self.handleAmbushed(in: game)
+            
+        case .fleeing:
+            fatalError("[TradeShip] handle began fleeing")
+            
+        case .traveling:
+            self.handleTraveling(in: game)
+        }
+    }
+    
+    override func handleEndedState(in game: Game?) {
+        
+        assert(self.state.transitioning == .ended, "method can only handle .ended")
+        
+        switch self.state.state {
+            
+        case .idle:
+            self.state.transitioning = .began // re-start with same state
+            
+        case .wanderAround:
+            self.state = GameObjectAIState.idleState()
+            
+        case .following:
+            fatalError("[TradeShip] handle ended following")
+            
+        case .battling:
+            fatalError("[TradeShip] handle ended battling")
+            
+        case .ambushed:
+            self.state = GameObjectAIState.idleState()
+            
+        case .fleeing:
+            fatalError("[TradeShip] handle ended fleeing")
+            
+        case .traveling:
+            self.state = GameObjectAIState.idleState()
+            // FIXME: do trade with city 
+        }
+    }
+    
+    // worker
+    
+    func handleIdle(in game: Game?) {
+        
+        guard let game = game else {
+            return
+        }
+        
+        guard let ocean = game.ocean(at: self.position) else {
+            fatalError("trade ship not at an ocean")
+        }
+        
+        let listOfPossibleDestinations = game.getCoastalCities(at: ocean)
+        
+        if listOfPossibleDestinations.count >= 2 {
+            let newCityDestination = listOfPossibleDestinations.randomItem()
+            let newCityObject = game.getCityObject(at: newCityDestination.position)
+            //let newDestination = game.neighborsInWater(of: newCityDestination.position).randomItem()
+        
+            self.state = GameObjectAIState.travelingState(to: newCityObject?.identifier)
+        } else {
+            // wander randomly
+            let waterNeighbors = game.neighborsInWater(of: self.position)
+            let bestWaterNeighbor = waterNeighbors.randomItem()
+            
+            let pathFinder = AStarPathfinder()
+            pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
+            
+            if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
+                self.state = GameObjectAIState.wanderAroundState(on: path)
             } else {
-                print("TradeShip: can't cycle coastal cities - only \(listOfPossibleDestinations.count) cities found")
-                
-                // wander randomly
-                let waterNeighbors = game.neighborsInWater(of: self.position)
-                let target = waterNeighbors.randomItem()
-                
-                let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
-                
-                if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: target) {
-                    self.walk(on: path)
-                }
+                // fallback
+                self.state = GameObjectAIState.idleState()
             }
-        }*/
+        }
+    }
+    
+    func handleWanderAround(in _: Game?) {
+        
+        guard let path = self.state.path else {
+            fatalError("path not set")
+        }
+        
+        self.walk(on: path)
+    }
+    
+    func handleTraveling(in game: Game?) {
+        
+        guard let game = game else {
+            return
+        }
+        
+        guard let cityIdentifier = self.state.targetIdentifier else {
+            fatalError("target identifier not set")
+        }
+        
+        guard let cityObject = game.getCityObject(identifier: cityIdentifier) else {
+            fatalError("target identifier not a city")
+        }
+        
+        let waterNeighbors = game.neighborsInWater(of: cityObject.position)       
+        let bestWaterNeighbor = waterNeighbors.randomItem()
+        
+        let pathFinder = AStarPathfinder()
+        pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
+        
+        guard let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) else {
+            fatalError("no path found")
+        }
+
+        self.walk(on: path)
+    }
+    
+    func handleAmbushed(in game: Game?) {
+        
+        guard let game = game else {
+            return
+        }
+        
+        guard let attackerIdentifier = self.state.targetIdentifier else {
+            fatalError("attacker identifier not set")
+        }
+        
+        guard let attacker = game.getUnitBy(identifier: attackerIdentifier) else {
+            fatalError("Can't get attacker unit")
+        }
+        
+        guard attacker.civilization != self.civilization else {
+            fatalError("Can't have a fight between units of same civilization")
+        }
+        
+        // automatic battle?
+        guard let currentUser = userUsecase?.currentUser() else {
+            fatalError("Can't get current user")
+        }
+        
+        if currentUser.civilization != attacker.civilization && currentUser.civilization != self.civilization {
+            let battleResult = GameObject.battle(between: attacker, and: self, attackType: .active, real: false, in: game)
+            
+            print()
+        } else {
+            self.delegate?.ambushed(self, by: attacker)
+        }
     }
 }

@@ -168,6 +168,29 @@ enum Terrain: String, Codable {
         case .mountain:
             return Yields(food: 0)
         }
+    }
+    
+    var maxInitiative: Int {
         
+        switch self {
+        case .ocean:
+            return Int.max
+        case .shore:
+            return Int.max
+        case .plain:
+            return Int.max
+        case .grass:
+            return Int.max
+        case .desert:
+            return Int.max
+        case .tundra:
+            return Int.max
+        case .snow:
+            return Int.max
+        case .hill:
+            return Int.max
+        case .mountain:
+            return Int.max
+        }
     }
 }

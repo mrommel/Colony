@@ -394,6 +394,14 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
+    func features(at hex: HexPoint) -> [Feature]? {
+        if let tile = self.tile(at: hex) {
+            return tile.features
+        }
+        
+        return nil
+    }
+    
     // MARK: continents & oceans
     
     func set(continent: Continent?, at hex: HexPoint) {

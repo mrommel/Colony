@@ -14,7 +14,9 @@ enum GameObjectState: String, Codable {
     case wanderAround
     case following
     case battling
+    case ambushed
     case fleeing
+    case traveling
 }
 
 enum GameObjectStateTransition: String, Codable {
@@ -27,7 +29,7 @@ enum GameObjectStateTransition: String, Codable {
 class GameObjectAIState: Decodable {
     
     var state: GameObjectState = .idle
-    var targetIdentifier: String? = nil
+    var targetIdentifier: String? = nil // identifier of unit or city!
     var path: HexPath? = nil
     var transitioning: GameObjectStateTransition = .began
     
@@ -72,8 +74,16 @@ class GameObjectAIState: Decodable {
         return GameObjectAIState(state: .battling, targetIdentifier: targetIdentifier, path: nil, transitioning: .began)
     }
     
-    static func fleeingState(enemy targetIdentifier: String?) -> GameObjectAIState {
+    static func ambushedState(by attackerIdentifier: String?) -> GameObjectAIState {
+        return GameObjectAIState(state: .ambushed, targetIdentifier: attackerIdentifier, path: nil, transitioning: .began)
+    }
+    
+    static func fleeingState(from targetIdentifier: String?) -> GameObjectAIState {
         return GameObjectAIState(state: .fleeing, targetIdentifier: targetIdentifier, path: nil, transitioning: .began)
+    }
+    
+    static func travelingState(to targetIdentifier: String?) -> GameObjectAIState {
+        return GameObjectAIState(state: .traveling, targetIdentifier: targetIdentifier, path: nil, transitioning: .began)
     }
 }
 

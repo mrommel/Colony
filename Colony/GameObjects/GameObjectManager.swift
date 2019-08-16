@@ -13,6 +13,8 @@ protocol GameObjectDelegate {
 
     func moved(object: GameObject?)
     func battle(between: GameObject?, and target: GameObject?)
+    func ambushed(_ target: GameObject?, by attacker: GameObject?)
+    func killed(object: GameObject?)
 }
 
 protocol GameObjectUnitDelegate {
@@ -93,10 +95,9 @@ class GameObjectManager: Codable {
                     if let civilization = objectFromFile?.civilization {
 
                         if let name = dict[GameObject.keyDictName] as? String {
-                            self.map?.cities.append(City(named: name, at: position, civilization: civilization))
-                            let city = CityObject(with: identifier, named: name, at: position, civilization: civilization)
-
-                            self.objects.append(city)
+                            let city = City(named: name, at: position, civilization: civilization)
+                            self.map?.cities.append(city)
+                            self.objects.append(CityObject(for: city))
                         }
                     }
                     break
@@ -263,13 +264,6 @@ class GameObjectManager: Codable {
         self.gameObservationDelegate?.updated()
     }
     
-    func setup() {
-        
-        for object in self.objects {
-            object?.setup()
-        }
-    }
-    
     func update(in game: Game?) {
         
         for object in self.objects {
@@ -396,5 +390,14 @@ extension GameObjectManager: GameObjectDelegate {
     func battle(between source: GameObject?, and target: GameObject?) {
         
         self.gameObservationDelegate?.battle(between: source, and: target)
+    }
+    
+    func ambushed(_ target: GameObject?, by attacker: GameObject?) {
+        
+        self.gameObservationDelegate?.battle(between: attacker, and: target)
+    }
+    
+    func killed(object: GameObject?) {
+        fatalError("obj killed")
     }
 }

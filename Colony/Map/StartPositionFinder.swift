@@ -13,6 +13,13 @@ struct StartPositions: Codable {
     let monsterPosition: HexPoint
     let playerPosition: HexPoint
     let cityPositions: [HexPoint]
+    
+    init(monsterPosition: HexPoint, playerPosition: HexPoint, cityPositions: [HexPoint]) {
+        
+        self.monsterPosition = monsterPosition
+        self.playerPosition = playerPosition
+        self.cityPositions = cityPositions
+    }
 }
 
 class StartPositionFinder {

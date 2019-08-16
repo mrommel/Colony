@@ -294,9 +294,8 @@ class Level: Decodable  {
     }
     
     func found(city: City) {
-        
-        let uuid = UUID()
-        let cityObj = CityObject(with: "city-\(uuid.uuidString)", named: city.name, at: city.position, civilization: city.civilization)
+
+        let cityObj = CityObject(for: city)
         self.gameObjectManager.add(object: cityObj)
         cityObj.idle()
         

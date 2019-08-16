@@ -28,47 +28,167 @@ class Monster: GameObject {
         try super.init(from: decoder)
     }
     
-    override func update(in game: Game?) {
+    // game AI
+    
+    override func handleBeganState(in game: Game?) {
+        assert(self.state.transitioning == .began, "method can only handle .begin")
         
-        /*if self.state == .idle {
+        switch self.state.state {
             
-            guard let game = game else {
-                return
-            }
+        case .idle:
+            self.handleIdle(in: game)
             
-            // find neighbor water tile
+        case .wanderAround:
+            self.handleWanderAround(in: game)
+            
+        case .following:
+            self.handleFollowing(in: game)
+            
+        case .battling:
+            self.handleBattling(in: game)
+            
+        case .ambushed:
+            self.handleAmbushed(in: game)
+            
+        case .fleeing:
+            fatalError("[Monster] handle began fleeing")
+        
+        case .traveling:
+            fatalError("[Monster] handle began traveling")
+        }
+    }
+    
+    override func handleEndedState(in game: Game?) {
+        
+        assert(self.state.transitioning == .ended, "method can only handle .ended")
+        
+        switch self.state.state {
+            
+        case .idle:
+            self.state.transitioning = .began // re-start with same state
+            
+        case .wanderAround:
+            self.state = GameObjectAIState.idleState()
+            
+        case .following:
+            self.state.transitioning = .began // re-start with same state
+            
+        case .battling:
+            fatalError("[Monster] handle ended battling")
+            
+        case .ambushed:
+            self.state = GameObjectAIState.idleState()
+            
+        case .fleeing:
+            fatalError("[Monster] handle ended fleeing")
+            
+        case .traveling:
+            fatalError("[Monster] handle ended traveling")
+        }
+    }
+    
+    // worker
+    
+    func handleIdle(in game: Game?) {
+        
+        guard let game = game else {
+            return
+        }
+        
+        // find tile that is towards a ship in sight
+        let tilesInSight = self.tilesInSight()
+        var possibleTargets = game.navalUnits(in: tilesInSight)
+        possibleTargets = possibleTargets.filter({ $0.identifier != self.identifier }) // remove self from target list
+        
+        if possibleTargets.isEmpty {
+            
+            // no real target - find neighboring water tile
             let waterNeighbors = game.neighborsInWater(of: self.position)
-            
-            // find tile that is towards the ship
-            var bestWaterNeighbor = waterNeighbors.first!
-            var bestDistance: Int = Int.max
-            guard let enemyPosition = game.getSelectedUnitOfUser()?.position else {
-                return
-            }
-            
-            for waterNeighbor in waterNeighbors {
-                
-                // monsters avoid to go near the coast, so we add a penalty for shore tiles
-                let shorePenalty = game.isShore(at: waterNeighbor) ? 2 : 0
-                
-                // make it a bit unforeseen
-                let randomPenalty = Int.random(number: 2) // 0..1
-                
-                let neighborDistance = waterNeighbor.distance(to: enemyPosition) + shorePenalty + randomPenalty
-                
-                if neighborDistance < bestDistance {
-                    bestWaterNeighbor = waterNeighbor
-                    bestDistance = neighborDistance
-                }
-            }
-            //let waterNeighbor = waterNeighbors.randomItem()
+            let bestWaterNeighbor = waterNeighbors.randomItem()
             
             let pathFinder = AStarPathfinder()
             pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
             
             if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
-                self.walk(on: path)
+                self.state = GameObjectAIState.wanderAroundState(on: path)
+            } else {
+                // fallback
+                self.state = GameObjectAIState.idleState()
             }
-        }*/
+            
+        } else {
+            let target = possibleTargets.randomItem()
+            self.state = GameObjectAIState.followingState(targetIdentifier: target.identifier)
+        }
+    }
+    
+    func handleWanderAround(in _: Game?) {
+        
+        if let path = self.state.path {
+            self.walk(on: path)
+        }
+    }
+    
+    func handleFollowing(in game: Game?) {
+        
+        guard let game = game else {
+            return
+        }
+        
+        guard let targetIdentifier = self.state.targetIdentifier else {
+            fatalError("target identifier not set")
+        }
+        
+        if let unit = game.getUnitBy(identifier: targetIdentifier) {
+            
+            if unit.position == self.position {
+                // battle
+                self.state = GameObjectAIState.battlingState(with: unit.identifier)
+            } else if unit.position.distance(to: self.position) > self.sight {
+                // lost sight (out of reach)
+                self.state = GameObjectAIState.idleState()
+            } else {
+                // move towards - keep state
+                self.stepOnWater(towards: unit.position, in: game)
+            }
+        } else {
+            // lost target - target does not exist any more (killed)
+            self.state = GameObjectAIState.idleState()
+        }
+    }
+    
+    func handleBattling(in game: Game?) {
+        
+        guard let game = game else {
+            return
+        }
+        
+        guard let targetIdentifier = self.state.targetIdentifier else {
+            fatalError("target identifier not set")
+        }
+        
+        if let unit = game.getUnitBy(identifier: targetIdentifier) {
+            
+            // ambush unit
+            unit.state = GameObjectAIState.ambushedState(by: self.identifier)
+            
+            self.delegate?.battle(between: self, and: unit)
+        }
+    }
+    
+    func handleAmbushed(in game: Game?) {
+        
+        guard let game = game else {
+            return
+        }
+        
+        guard let attackerIdentifier = self.state.targetIdentifier else {
+            fatalError("attacker identifier not set")
+        }
+        
+        if let attacker = game.getUnitBy(identifier: attackerIdentifier) {
+            
+            self.delegate?.ambushed(self, by: attacker)
+        }
     }
 }

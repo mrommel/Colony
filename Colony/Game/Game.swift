@@ -161,8 +161,7 @@ extension Game {
         }
 
         self.timer?.start()
-   
-        self.level?.gameObjectManager.setup()
+
         if let selectedUnit = self.level?.gameObjectManager.selected {
             self.level?.gameObjectManager.updatePlayer(object: selectedUnit)
         }
@@ -302,7 +301,14 @@ extension Game {
             fatalError("Can't get map")
         }
         
-        return point.neighbors().filter({ map.tile(at: $0)?.isWater ?? false })
+        guard let level = self.level else {
+            fatalError("can't find level")
+        }
+        
+        let waterTiles = point.neighbors().filter({ map.tile(at: $0)?.isWater ?? false })
+        let waterTilesWithoutObstacles = waterTiles.filter({ !level.gameObjectManager.obstacle(at: $0) })
+        
+        return waterTilesWithoutObstacles
     }
     
     func getUnits(at point: HexPoint) -> [GameObject?] {
@@ -338,6 +344,28 @@ extension Game {
         return self.level?.gameObjectManager.unitBy(identifier: identifier)
     }
     
+    func getCityObject(at point: HexPoint) -> CityObject? {
+        
+        guard let level = self.level else {
+            fatalError("can't find level")
+        }
+        
+        let units = level.gameObjectManager.units(at: point)
+        let cities = units.filter({ $0?.type == .city })
+        
+        if cities.count == 1 {
+            let city = cities.first as? CityObject
+            return city
+        }
+        
+        return nil
+    }
+    
+    func getCityObject(identifier: String) -> CityObject? {
+        
+        return self.level?.gameObjectManager.unitBy(identifier: identifier) as? CityObject
+    }
+    
     func pathfinderDataSource(for movementType: GameObjectMoveType, ignoreSight: Bool) -> PathfinderDataSource {
         
         guard let level = self.level else {
@@ -364,6 +392,16 @@ extension Game {
     func isShore(at point: HexPoint) -> Bool {
         
         return self.level?.map.terrain(at: point) == .shore
+    }
+    
+    func terrain(at point: HexPoint) -> Terrain? {
+        
+        return self.level?.map.terrain(at: point)
+    }
+    
+    func features(at point: HexPoint) -> [Feature]? {
+        
+        return self.level?.map.features(at: point)
     }
     
     func numberOfDiscoveredTiles() -> Int? {

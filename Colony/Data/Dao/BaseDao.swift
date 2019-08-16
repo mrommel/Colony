@@ -12,7 +12,7 @@ class BaseDao {
     
     var context: NSManagedObjectContext? {
         get {
-            return AppDelegate.shared?.persistentContainer.viewContext
+            return CoreDataManager.shared.persistentContainer.viewContext
         }
     }
     

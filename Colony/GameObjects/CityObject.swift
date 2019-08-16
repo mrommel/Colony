@@ -32,6 +32,8 @@ enum CitySize {
 
 class CityObject: GameObject {
     
+    weak var city: City? = nil
+    
     var size: CitySize = .small {
         didSet {
             self.updateAssets()
@@ -56,9 +58,17 @@ class CityObject: GameObject {
         }
     }
     
-    init(with identifier: String, named name: String, at point: HexPoint, civilization: Civilization) {
+    init(for city: City?) {
         
-        super.init(with: identifier, type: .city, at: point, spriteName: "city_1_no_walls", anchorPoint: CGPoint(x: -0.0, y: -0.0), civilization: civilization, sight: 2)
+        let identifier = UUID()
+        let identifierString = "shark-\(identifier.uuidString)"
+        
+        self.city = city
+        guard let position = city?.position else { fatalError() }
+        let civilization = city?.civilization
+        let name = city?.name ?? "City"
+        
+        super.init(with: identifierString, type: .city, at: position, spriteName: "city_1_no_walls", anchorPoint: CGPoint(x: -0.0, y: -0.0), civilization: civilization, sight: 2)
         
         self.name = name
 
@@ -77,6 +87,8 @@ class CityObject: GameObject {
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         
+        //FIXME: city not set when loaded from file
+        
         self.showCity(named: self.name)
     }
     
@@ -88,9 +100,5 @@ class CityObject: GameObject {
         
         self.atlasIdle = GameObjectAtlas(atlasName: "city", textures: [textureName])
         self.idle()
-    }
-    
-    override func update(in game: Game?) {
-        
     }
 }

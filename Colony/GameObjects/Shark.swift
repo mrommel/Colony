@@ -35,24 +35,91 @@ class Shark: GameObject {
         try super.init(from: decoder)
     }
     
-    override func update(in game: Game?) {
+    override func handleBeganState(in game: Game?) {
         
-        /*if self.state == .idle {
+        assert(self.state.transitioning == .began, "method can only handle .begin")
+        
+        switch self.state.state {
             
-            guard let game = game else {
-                return
-            }
+        case .idle:
+            self.handleIdle(in: game)
             
-            // find neighbor water tile
-            let waterNeighbors = game.neighborsInWater(of: self.position)
-            let bestWaterNeighbor = waterNeighbors.randomItem()
+        case .wanderAround:
+            self.handleWanderAround(in: game)
             
-            let pathFinder = AStarPathfinder()
-            pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
+        case .following:
+            fatalError("[Shark] handle began following")
             
-            if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
-                self.walk(on: path)
-            }
-        }*/
+        case .battling:
+            fatalError("[Shark] handle began battling")
+            
+        case .ambushed:
+            fatalError("[Shark] handle began ambushed")
+            
+        case .fleeing:
+            fatalError("[Shark] handle began fleeing")
+            
+        case .traveling:
+            fatalError("[Shark] handle began traveling")
+        }
+    }
+    
+    override func handleEndedState(in game: Game?) {
+        
+        assert(self.state.transitioning == .ended, "method can only handle .ended")
+        
+        switch self.state.state {
+            
+        case .idle:
+            self.state.transitioning = .began // re-start with same state
+            
+        case .wanderAround:
+            self.state = GameObjectAIState.idleState()
+            
+        case .following:
+            fatalError("[Shark] handle ended following")
+            
+        case .battling:
+            fatalError("[Shark] handle ended battling")
+            
+        case .ambushed:
+            fatalError("[Shark] handle ended ambushed")
+            
+        case .fleeing:
+            fatalError("[Shark] handle ended fleeing")
+            
+        case .traveling:
+            fatalError("[Shark] handle ended traveling")
+        }
+    }
+    
+    // worker
+    
+    func handleIdle(in game: Game?) {
+        
+        guard let game = game else {
+            return
+        }
+        
+        // no real target - find neighboring water tile
+        let waterNeighbors = game.neighborsInWater(of: self.position)
+        let bestWaterNeighbor = waterNeighbors.randomItem()
+        
+        let pathFinder = AStarPathfinder()
+        pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
+        
+        if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
+            self.state = GameObjectAIState.wanderAroundState(on: path)
+        } else {
+            // fallback
+            self.state = GameObjectAIState.idleState()
+        }
+    }
+    
+    func handleWanderAround(in _: Game?) {
+        
+        if let path = self.state.path {
+            self.walk(on: path)
+        }
     }
 }

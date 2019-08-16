@@ -31,4 +31,21 @@ class Axeman: GameObject {
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
+    
+    override func handleBeganState(in game: Game?) {
+        assert(self.state.transitioning == .began, "method can only handle .begin")
+        
+        if self.state.state == .ambushed {
+            fatalError("[Axeman] handle began ambushed")
+        }
+    }
+    
+    override func handleEndedState(in game: Game?) {
+        
+        assert(self.state.transitioning == .ended, "method can only handle .ended")
+        
+        if self.state.state == .ambushed {
+            fatalError("[Axeman] handle ended ambushed")
+        }
+    }
 }
