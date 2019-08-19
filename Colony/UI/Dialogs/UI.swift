@@ -72,6 +72,16 @@ class UI {
         return nil
     }
     
+    static func battleDialog() -> Dialog? {
+        
+        let uiParser = UIParser()
+        if let battleDialogConfiguration = uiParser.parse(from: "BattleDialog") {
+            return Dialog(from: battleDialogConfiguration)
+        }
+        
+        return nil
+    }
+    
     static func playerInputDialog() -> Dialog? {
         
         let uiParser = UIParser()

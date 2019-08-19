@@ -122,6 +122,7 @@ enum GameObjectType: String, Codable {
     // real units
     case ship
     case axeman
+    case archer
     
     // can't be moved
     case city
@@ -148,6 +149,8 @@ enum GameObjectType: String, Codable {
             return "unit_indicator_ship"
         case .axeman:
             return "unit_indicator_axeman"
+        case .archer:
+            return "unit_indicator_archer"
         case .pirates:
             return "unit_indicator_pirates"
         case .tradeShip:
@@ -176,6 +179,8 @@ enum GameObjectType: String, Codable {
         // land units
             
         case .axeman:
+            return false
+        case .archer:
             return false
         
         // misc units

@@ -1,0 +1,51 @@
+//
+//  Archer.swift
+//  Colony
+//
+//  Created by Michael Rommel on 16.08.19.
+//  Copyright © 2019 Michael Rommel. All rights reserved.
+//
+
+import SpriteKit
+
+class Archer: GameObject {
+    
+    init(with identifier: String, at point: HexPoint, civilization: Civilization) {
+        
+        super.init(with: identifier, type: .archer, at: point, spriteName: "archer-idle-0", anchorPoint: CGPoint(x: 0.0, y: 0.0), civilization: civilization, sight: 2)
+        
+        self.atlasIdle = GameObjectAtlas(atlasName: "archer", textures: ["axemann-idle-0", "axemann-idle-1", "axemann-idle-2", "axemann-idle-3"])
+        
+        self.atlasDown = GameObjectAtlas(atlasName: "archer", textures: ["axemann-down-0", "axemann-down-1", "axemann-down-2", "axemann-down-3", "axemann-down-4", "axemann-down-5", "axemann-down-6", "axemann-down-7"])
+        self.atlasUp = GameObjectAtlas(atlasName: "archer", textures: ["axemann-up-0", "axemann-up-1", "axemann-up-2", "axemann-up-3", "axemann-up-4", "axemann-up-5", "axemann-up-6", "axemann-up-7"])
+        self.atlasLeft = GameObjectAtlas(atlasName: "archer", textures: ["axemann-left-0", "axemann-left-1", "axemann-left-2", "axemann-left-3", "axemann-left-4", "axemann-left-5", "axemann-left-6", "axemann-left-7"])
+        self.atlasRight = GameObjectAtlas(atlasName: "archer", textures: ["axemann-right-0", "axemann-right-1", "axemann-right-2", "axemann-right-3", "axemann-right-4", "axemann-right-5", "axemann-right-6", "axemann-right-7"])
+        
+        self.canMoveByUserInput = true
+        self.movementType = .walk
+        self.animationSpeed = 3
+        
+        self.showUnitIndicator()
+    }
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+    
+    override func handleBeganState(in game: Game?) {
+        assert(self.state.transitioning == .began, "method can only handle .begin")
+        
+        if self.state.state == .ambushed {
+            fatalError("[Archer] handle began ambushed")
+        }
+    }
+    
+    override func handleEndedState(in game: Game?) {
+        
+        assert(self.state.transitioning == .ended, "method can only handle .ended")
+        
+        if self.state.state == .ambushed {
+            fatalError("[Archer] handle ended ambushed")
+        }
+    }
+}

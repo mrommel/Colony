@@ -12,8 +12,9 @@ import SpriteKit
 protocol GameObjectDelegate {
 
     func moved(object: GameObject?)
-    func battle(between: GameObject?, and target: GameObject?)
-    func ambushed(_ target: GameObject?, by attacker: GameObject?)
+    
+    func battle(between: GameObject?, and target: GameObject?) // unit is attacker
+    func ambushed(_ target: GameObject?, by attacker: GameObject?) // passive
     func killed(object: GameObject?)
 }
 
@@ -28,6 +29,7 @@ protocol GameObservationDelegate {
     func updated()
     func coinConsumed()
     func boosterConsumed(type: BoosterType)
+    
     func battle(between: GameObject?, and target: GameObject?)
 }
 
@@ -84,6 +86,12 @@ class GameObjectManager: Codable {
                 case .axeman:
                     if let civilization = objectFromFile?.civilization {
                         self.objects.append(Axeman(with: identifier, at: position, civilization: civilization))
+                    }
+                    break
+                    
+                case .archer:
+                    if let civilization = objectFromFile?.civilization {
+                        self.objects.append(Archer(with: identifier, at: position, civilization: civilization))
                     }
                     break
                     
@@ -388,7 +396,7 @@ extension GameObjectManager: GameObjectDelegate {
     }
     
     func battle(between source: GameObject?, and target: GameObject?) {
-        
+
         self.gameObservationDelegate?.battle(between: source, and: target)
     }
     
@@ -398,6 +406,8 @@ extension GameObjectManager: GameObjectDelegate {
     }
     
     func killed(object: GameObject?) {
-        fatalError("obj killed")
+        print("\(object) killed")
+        // FIXME: animation of unit dying?
+        self.remove(object: object)
     }
 }

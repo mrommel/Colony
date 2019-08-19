@@ -45,11 +45,15 @@ class BattleTests: XCTestCase {
         let attacker = Axeman(with: "attacker", at: HexPoint(x: 1, y: 1), civilization: .english)
         let defender = Axeman(with: "defender", at: HexPoint(x: 1, y: 1), civilization: .french)
         
-        let result = GameObject.battle(between: attacker, and: defender, attackType: .active, real: false, in: game)
+        let battle = Battle(between: attacker, and: defender, attackType: .active, in: self.game)
+        let result = battle.predict()
 
-        XCTAssertEqual(attacker.strength, 5, "attacker should have 5 losses")
-        XCTAssertEqual(defender.strength, 5, "defender should have 5 losses")
-        XCTAssertEqual(result, [], "result should be empty")
+        XCTAssertEqual(attacker.strength, 10, "attacker should still have 10 strength")
+        XCTAssertEqual(defender.strength, 10, "defender should still have 10 strength")
+        
+        XCTAssertEqual(result.attackerDamage, 5, "attacker should have 5 losses")
+        XCTAssertEqual(result.defenderDamage, 5, "defender should have 5 losses")
+        XCTAssertEqual(result.options, [], "result should be empty")
     }
     
     func testBattleDefenderKilled() {
@@ -58,11 +62,15 @@ class BattleTests: XCTestCase {
         let defender = Axeman(with: "defender", at: HexPoint(x: 1, y: 1), civilization: .french)
         defender.strength = 4
         
-        let result = GameObject.battle(between: attacker, and: defender, attackType: .active, real: false, in: game)
+        let battle = Battle(between: attacker, and: defender, attackType: .active, in: self.game)
+        let result = battle.predict()
         
-        XCTAssertEqual(attacker.strength, 5, "attacker should have 5 losses")
-        XCTAssertEqual(defender.strength, 0, "defender should be killed")
-        XCTAssertEqual(result, [BattleResult.defenderKilled], "result should contain 'defender killed'")
+        XCTAssertEqual(attacker.strength, 10, "attacker should still have 10 strength")
+        XCTAssertEqual(defender.strength, 4, "defender should still have 4 strength")
+        
+        XCTAssertEqual(result.attackerDamage, 2, "attacker should have 5 losses")
+        XCTAssertEqual(result.defenderDamage, 5, "defender should be killed")
+        XCTAssertEqual(result.options, [BattleOptions.defenderKilled], "result should contain 'defender killed'")
     }
     
     func testBattleAttackBrokenUp() {
@@ -72,10 +80,58 @@ class BattleTests: XCTestCase {
         let defender = Axeman(with: "defender", at: HexPoint(x: 1, y: 1), civilization: .french)
         defender.experience = 5
         
-        let result = GameObject.battle(between: attacker, and: defender, attackType: .active, real: false, in: game)
+        let battle = Battle(between: attacker, and: defender, attackType: .active, in: self.game)
+        let result = battle.predict()
         
-        XCTAssertEqual(attacker.strength, 0, "attacker should have 1 loss")
-        XCTAssertEqual(defender.strength, 10, "defender should have 0 losses")
-        XCTAssertEqual(result, [BattleResult.attackBrokenUp, BattleResult.attackerKilled], "result should be attacker killed and attack broken up")
+        XCTAssertEqual(attacker.strength, 1, "attacker should still have 1 strength")
+        XCTAssertEqual(defender.strength, 10, "defender should still have 10 strength")
+        
+        XCTAssertEqual(result.attackerDamage, 6, "attacker should have 1 loss")
+        XCTAssertEqual(result.defenderDamage, 0, "defender should have 0 losses")
+        XCTAssertEqual(result.options, [BattleOptions.attackBrokenUp, BattleOptions.attackerKilled], "result should be attacker killed and attack broken up")
+    }
+    
+    func testBattlePrediction() {
+     
+        let attacker = Axeman(with: "attacker", at: HexPoint(x: 1, y: 1), civilization: .english)
+        attacker.strength = 7
+        attacker.experience = 3
+        attacker.entrenchment = 2
+
+        let defender = Axeman(with: "defender", at: HexPoint(x: 1, y: 1), civilization: .french)
+        defender.strength = 6
+        defender.experience = 2
+        defender.entrenchment = 4
+        
+        let battle = Battle(between: attacker, and: defender, attackType: .active, in: self.game)
+        let predictResult = battle.predict()
+        
+        var averageAttackerDamage: CGFloat = 0.0
+        var averageDefenderDamage: CGFloat = 0.0
+        
+        for _ in 0..<10 {
+            
+            let attackerTmp = Axeman(with: "attacker", at: HexPoint(x: 1, y: 1), civilization: .english)
+            attackerTmp.strength = 7
+            attackerTmp.experience = 3
+            attackerTmp.entrenchment = 2
+            
+            let defenderTmp = Axeman(with: "defender", at: HexPoint(x: 1, y: 1), civilization: .french)
+            defenderTmp.strength = 6
+            defenderTmp.experience = 2
+            defenderTmp.entrenchment = 4
+            
+            let battle = Battle(between: attackerTmp, and: defenderTmp, attackType: .active, in: self.game)
+            let fightResult = battle.fight()
+            
+            averageAttackerDamage += CGFloat(fightResult.attackerDamage)
+            averageDefenderDamage += CGFloat(fightResult.defenderDamage)
+        }
+        
+        averageAttackerDamage /= 10
+        averageDefenderDamage /= 10
+        
+        XCTAssertEqual(predictResult.attackerDamage, Int(averageAttackerDamage.rounded()), "predicted attacker damage differs from average")
+        XCTAssertEqual(predictResult.defenderDamage, Int(averageDefenderDamage.rounded()), "predicted defender damage differs from average")
     }
 }

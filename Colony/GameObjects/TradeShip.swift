@@ -185,12 +185,17 @@ class TradeShip: GameObject {
             fatalError("Can't get current user")
         }
         
-        if currentUser.civilization != attacker.civilization && currentUser.civilization != self.civilization {
-            let battleResult = GameObject.battle(between: attacker, and: self, attackType: .active, real: false, in: game)
-            
-            print()
+        if attacker.civilization == self.civilization {
+            fatalError("attacker can't attack tradeship of same civ")
+        }
+        
+        if currentUser.civilization == attacker.civilization  {
+            //let battleResult = GameObject.battle(between: attacker, and: self, attackType: .active, real: false, in: game)
+            // FIXME: battle - user attacks trade ship
+            //self.delegate?.
+            print("[TradeShip] uah - I'm beeing attacked")
         } else {
-            self.delegate?.ambushed(self, by: attacker)
+            self.delegate?.ambushed(self, by: attacker) //
         }
     }
 }

@@ -11,7 +11,9 @@ import Foundation
 protocol GameUpdateDelegate {
     
     func updateUI()
-    func battle(between source: GameObject?, and target: GameObject?)
+    
+    func showBattleDialog(between source: GameObject?, and target: GameObject?)
+    func showBattleResult(between source: GameObject?, and target: GameObject?, result: BattleResult)
 }
 
 class Game: Decodable {
@@ -442,7 +444,7 @@ extension Game {
 }
 
 extension Game: GameObservationDelegate {
-    
+
     func updated() {
         self.checkCondition()
     }
@@ -461,7 +463,29 @@ extension Game: GameObservationDelegate {
     
     func battle(between source: GameObject?, and target: GameObject?) {
         
-        self.gameUpdateDelegate?.battle(between: source, and: target)
+        // check diplomatic status ? hostile / aggressive?
+        
+        // check if one of the units is controlled by player
+        guard let currentUser = self.userUsecase?.currentUser() else {
+            fatalError("can't get current user")
+        }
+        
+        if currentUser.civilization == source?.civilization {
+            // user is attacker
+            self.pause()
+            self.gameUpdateDelegate?.showBattleDialog(between: source, and: target)
+        } else if currentUser.civilization == target?.civilization {
+            // user is target
+            self.pause()
+            self.gameUpdateDelegate?.showBattleDialog(between: source, and: target)
+        } else {
+            
+            // run battle automatically (and just display the result)
+            let battle = Battle(between: source, and: target, attackType: .active, in: self)
+            let battleResult = battle.fight()
+                
+            self.gameUpdateDelegate?.showBattleResult(between: source, and: target, result: battleResult)
+        }
     }
 }
 

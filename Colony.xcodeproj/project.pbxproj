@@ -62,6 +62,9 @@
 		C938B56622D4A1EB00A2A838 /* HexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C938B56522D4A1EB00A2A838 /* HexPath.swift */; };
 		C938B56822D6200E00A2A838 /* Shark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C938B56722D6200E00A2A838 /* Shark.swift */; };
 		C938DEC222F462C800DA7072 /* Civ5MapReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C938DEC122F462C800DA7072 /* Civ5MapReader.swift */; };
+		C93A408E2306C40A0011E9DA /* Archer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A408D2306C40A0011E9DA /* Archer.swift */; };
+		C93A40902306CBD00011E9DA /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A408F2306CBD00011E9DA /* Battle.swift */; };
+		C93A4092230A7F090011E9DA /* BattleDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C93A4091230A7F090011E9DA /* BattleDialog.xml */; };
 		C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2B22B7ABB700AB7117 /* R.generated.swift */; };
 		C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */; };
 		C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */; };
@@ -297,6 +300,9 @@
 		C938B56522D4A1EB00A2A838 /* HexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexPath.swift; sourceTree = "<group>"; };
 		C938B56722D6200E00A2A838 /* Shark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shark.swift; sourceTree = "<group>"; };
 		C938DEC122F462C800DA7072 /* Civ5MapReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapReader.swift; sourceTree = "<group>"; };
+		C93A408D2306C40A0011E9DA /* Archer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archer.swift; sourceTree = "<group>"; };
+		C93A408F2306CBD00011E9DA /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
+		C93A4091230A7F090011E9DA /* BattleDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BattleDialog.xml; sourceTree = "<group>"; };
 		C94A2F2B22B7ABB700AB7117 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
@@ -610,6 +616,7 @@
 				C956078C22B1291700AA69E9 /* VictoryDialog.xml */,
 				C965FEAE22E747120075CB87 /* CityDialog.xml */,
 				C903369022EDAFEA004D2D72 /* GameContinueDialog.xml */,
+				C93A4091230A7F090011E9DA /* BattleDialog.xml */,
 				C903369F22EF456E004D2D72 /* PlayerInputDialog.xml */,
 				C962940022FB4ED800CC7F27 /* MapTypeDialog.xml */,
 				C962940522FB5D2100CC7F27 /* MapSizeDialog.xml */,
@@ -633,6 +640,7 @@
 				C92D876022CB7A0600E7A55E /* Game.swift */,
 				C9CCF42322E75F700041AD45 /* Civilization.swift */,
 				C9CCF42522E75F940041AD45 /* Player.swift */,
+				C93A408F2306CBD00011E9DA /* Battle.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -731,6 +739,7 @@
 				C9001CA522D712B7005528A7 /* Booster.swift */,
 				C9564D6322D7C9DC0091099B /* Axeman.swift */,
 				C9F9C98A22E075D8000A3310 /* TradeShip.swift */,
+				C93A408D2306C40A0011E9DA /* Archer.swift */,
 			);
 			name = GameObjects;
 			path = ../GameObjects;
@@ -1027,6 +1036,7 @@
 				C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */,
 				C999FD0422F9A1BC00D281D4 /* earth_huge.map in Resources */,
 				C962940622FB5D2100CC7F27 /* MapSizeDialog.xml in Resources */,
+				C93A4092230A7F090011E9DA /* BattleDialog.xml in Resources */,
 				C90A134F22A99F130003BBDE /* README.md in Resources */,
 				C9D234CE22FB026700012316 /* earth_small.map in Resources */,
 				C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */,
@@ -1192,6 +1202,7 @@
 				C9C7F135229EC0C300A775B2 /* HexMapDisplay.swift in Sources */,
 				C92D876122CB7A0600E7A55E /* Game.swift in Sources */,
 				C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */,
+				C93A40902306CBD00011E9DA /* Battle.swift in Sources */,
 				C97B283622A54AE600112532 /* HexArea.swift in Sources */,
 				C903368D22ED8F4B004D2D72 /* GameDao.swift in Sources */,
 				C92D875A22CB75CB00E7A55E /* ScoreDao.swift in Sources */,
@@ -1314,6 +1325,7 @@
 				C90336A622F084E2004D2D72 /* IconButtonNode.swift in Sources */,
 				C97B282A22A3F72100112532 /* MessageBoxButtonNode.swift in Sources */,
 				C965FEA922E4F20A0075CB87 /* AreaLayer.swift in Sources */,
+				C93A408E2306C40A0011E9DA /* Archer.swift in Sources */,
 				C9C7F123229EBE5C00A775B2 /* HexPointWithCorner.swift in Sources */,
 				C938B56622D4A1EB00A2A838 /* HexPath.swift in Sources */,
 				C9763EB122A316C300F31126 /* UIColorExtension.swift in Sources */,

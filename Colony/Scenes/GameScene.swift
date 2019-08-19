@@ -46,7 +46,7 @@ class GameScene: BaseScene {
             static let currently: CGFloat = 1.0
             static let discovered: CGFloat = 0.5
         }
-        
+
         static let initialScale: CGFloat = 0.25
     }
 
@@ -69,8 +69,12 @@ class GameScene: BaseScene {
     var coinLabel: SKLabelNode!
     var coinIconLabel: SKSpriteNode!
     let timeLabel = SKLabelNode(text: "0:00")
-    
-    var selectedUnit: GameObject? = nil
+
+    // FIXME: move to view model
+    var selectedUnitForMovement: GameObject? = nil
+    var selectedUnitForAttack: GameObject? = nil
+    var attackOverlay: SKSpriteNode?
+    let forceTouchLevel: CGFloat = 3.0
 
     // booster handling
     var boosterNodeTelescope: BoosterNode?
@@ -78,7 +82,7 @@ class GameScene: BaseScene {
 
     var game: Game? // the reference
     weak var gameDelegate: GameDelegate?
-    
+
     let userUsecase = UserUsecase()
 
     override init(size: CGSize) {
@@ -105,7 +109,7 @@ class GameScene: BaseScene {
     override func didMove(to view: SKView) {
 
         super.didMove(to: view)
-        
+
         let viewSize = (self.view?.bounds.size)!
         let deviceScale = self.size.width / 667
 
@@ -116,14 +120,14 @@ class GameScene: BaseScene {
         // the scale sets the zoom level of the camera on the given position
         self.cameraNode.xScale = Constants.initialScale
         self.cameraNode.yScale = Constants.initialScale
-        
+
         // background
         self.backgroundNode = SKSpriteNode(imageNamed: "background")
         self.backgroundNode?.position = CGPoint(x: 0, y: 0)
         self.backgroundNode?.zPosition = -100
         self.backgroundNode?.size = viewSize
         self.cameraNode.addChild(backgroundNode!)
-        
+
         guard let user = userUsecase.currentUser() else {
             fatalError("can't get current user")
         }
@@ -139,7 +143,7 @@ class GameScene: BaseScene {
             guard let level = LevelManager.loadLevelFrom(url: levelURL) else {
                 fatalError("no level")
             }
-            
+
             self.game = Game(with: level, coins: user.coins, boosterStock: user.boosterStock)
 
             self.mapNode = MapNode(with: level)
@@ -151,11 +155,11 @@ class GameScene: BaseScene {
 
         case .game:
             self.game = self.viewModel?.game
-            
+
             guard let level = self.viewModel?.getLevel() else {
                 fatalError("no level")
             }
-            
+
             self.mapNode = MapNode(with: level)
             self.bottomLeftBar = BottomLeftBar(for: level, sized: CGSize(width: 200, height: 112))
             self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
@@ -169,11 +173,11 @@ class GameScene: BaseScene {
 
             let startPositionFinder = StartPositionFinder(map: map)
             let startPositions = startPositionFinder.identifyStartPositions()
-            
+
             let gameObjectManager = GameObjectManager(on: map)
 
             let level = Level(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, duration: 300, map: map, startPositions: startPositions, gameObjectManager: gameObjectManager)
-            
+
             self.game = Game(with: level, coins: user.coins, boosterStock: user.boosterStock)
 
             self.mapNode = MapNode(with: level)
@@ -242,15 +246,15 @@ class GameScene: BaseScene {
         self.coinLabel.fontSize = 18
         self.coinLabel.zPosition = GameScene.Constants.ZLevels.labels
         self.safeAreaNode.addChild(self.coinLabel)
-        
+
         self.coinIconLabel = SKSpriteNode(imageNamed: "coin1")
         self.coinIconLabel.zPosition = GameScene.Constants.ZLevels.labels
         self.safeAreaNode.addChild(self.coinIconLabel)
-        
+
         self.timeLabel.fontSize = 18
         self.timeLabel.zPosition = GameScene.Constants.ZLevels.labels
         self.safeAreaNode.addChild(self.timeLabel)
-        
+
         // exit node
         self.exitButton = MessageBoxButtonNode(titled: "Cancel", buttonAction: {
             self.showQuitConfirmationDialog()
@@ -264,9 +268,9 @@ class GameScene: BaseScene {
                 self.centerCamera(on: selectedUnit.position)
             }
         }
-        
+
         self.updateLayout()
-        
+
         // FIXME
         let telescopeBoosterAvailable = self.game?.boosterStock.isAvailable(boosterType: .telescope) ?? false
         self.boosterNodeTelescope = BoosterNode(for: .telescope, active: telescopeBoosterAvailable)
@@ -274,7 +278,7 @@ class GameScene: BaseScene {
         self.boosterNodeTelescope?.position = CGPoint(x: 220, y: 250)
         self.boosterNodeTelescope?.delegate = self
         self.safeAreaNode.addChild(self.boosterNodeTelescope!)
-        
+
         let timeBoosterAvailable = self.game?.boosterStock.isAvailable(boosterType: .time) ?? false
         self.boosterNodeTime = BoosterNode(for: .time, active: timeBoosterAvailable)
         self.boosterNodeTime?.zPosition = 200
@@ -286,7 +290,7 @@ class GameScene: BaseScene {
     override func updateLayout() {
 
         super.updateLayout()
-        
+
         self.mapNode?.updateLayout()
 
         self.frameTopLeft?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight)
@@ -297,13 +301,13 @@ class GameScene: BaseScene {
         self.coinIconLabel.position = CGPoint(x: -30, y: self.frame.halfHeight - 43)
         self.coinLabel.position = CGPoint(x: 0, y: self.frame.halfHeight - 50)
         self.timeLabel.position = CGPoint(x: self.frame.halfWidth - 50, y: self.frame.halfHeight - 50)
-        
+
         self.bottomLeftBar?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.bottomLeftBar?.updateLayout()
 
         self.bottomRightBar?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.bottomRightBar?.updateLayout()
-        
+
         self.exitButton?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth + 50, y: -self.safeAreaNode.frame.halfHeight + 112 + 21)
     }
 
@@ -314,10 +318,10 @@ class GameScene: BaseScene {
             quitConfirmationDialog.zPosition = 250
             quitConfirmationDialog.addOkayAction(handler: {
                 quitConfirmationDialog.close()
-                
+
                 self.game?.cancel()
                 self.game = nil
-                
+
                 self.gameDelegate?.quitGame()
             })
 
@@ -342,7 +346,7 @@ class GameScene: BaseScene {
                 guard let duration = self.game?.duration else {
                     fatalError("can't get level duration")
                 }
-                
+
                 // start timer
                 self.game?.start(with: duration)
             })
@@ -351,72 +355,99 @@ class GameScene: BaseScene {
         }
     }
 
+    func showAttackSymbol(at point: HexPoint, real: Bool) {
+
+        self.hideAttackSymbol()
+
+        self.attackOverlay = SKSpriteNode(imageNamed: "hex_attack")
+        self.attackOverlay?.position = HexMapDisplay.shared.toScreen(hex: point)
+        self.attackOverlay?.zPosition = GameScene.Constants.ZLevels.focus
+        self.attackOverlay?.alpha = real ? 1.0 : 0.3
+        self.attackOverlay?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+        self.viewHex.addChild(self.attackOverlay!)
+    }
+
+    func hideAttackSymbol() {
+        self.attackOverlay?.removeFromParent()
+        self.attackOverlay = nil
+    }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+
         guard let user = userUsecase.currentUser() else {
             fatalError("can't get current user")
         }
-        
+
         let touch = touches.first!
         let touchLocation = touch.location(in: self.viewHex)
         let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
-        
+
         guard let units = self.game?.getUnits(at: position) else {
             fatalError("cant get units at \(position)")
         }
-        
-        if units.count > 0 {
-            
-            let unit = units.first!
-            if unit?.civilization == user.civilization {
-                selectedUnit = unit
+
+        if touch.force > self.forceTouchLevel {
+            // force touch
+            print("force touch: \(touch.force)")
+
+            let target = self.target(at: position)
+
+            if let newTarget = target {
+
+                self.selectedUnitForAttack = newTarget
+                self.showAttackSymbol(at: position, real: true)
+                return
+            } else {
+
+                self.showAttackSymbol(at: position, real: false)
                 return
             }
         }
-        
-        selectedUnit = nil
-    }
 
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if units.count > 0 {
 
-        let touch = touches.first!
-        let cameraLocation = touch.location(in: self.cameraNode)
-
-        guard let bottomRightBar = self.bottomRightBar, !bottomRightBar.frame.contains(cameraLocation) else {
-            self.bottomRightBar?.touchesEnded(touches, with: event)
-            return
+            let unit = units.first!
+            if unit?.civilization == user.civilization {
+                selectedUnitForMovement = unit
+                return
+            }
         }
 
-        guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
-            self.bottomLeftBar?.touchesEnded(touches, with: event)
-            return
-        }
-        
-        if let selectedUnit = selectedUnit {
-            selectedUnit.clearPathSpriteBuffer()
-            
-            let touchLocation = touch.location(in: self.viewHex)
-            let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
-            self.mapNode?.moveSelectedUnit(to: position)
-        }
-        self.selectedUnit = nil
+        selectedUnitForMovement = nil
     }
 
     // moving the map around
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 
         let touch = touches.first!
-        
-        if let selectedUnit = selectedUnit {
-            
-            let touchLocation = touch.location(in: self.viewHex)
-            let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
-            
-            if position != self.selectedUnit?.position {
-                
+
+        let touchLocation = touch.location(in: self.viewHex)
+        let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
+
+        if touch.force > self.forceTouchLevel {
+            // force touch
+            let target = self.target(at: position)
+
+            if let newTarget = target {
+
+                self.selectedUnitForAttack = newTarget
+                self.showAttackSymbol(at: position, real: true)
+                return
+            } else {
+
+                self.selectedUnitForAttack = nil
+                self.showAttackSymbol(at: position, real: false)
+                return
+            }
+        }
+
+        if let selectedUnit = self.selectedUnitForMovement {
+
+            if position != selectedUnit.position {
+
                 let pathFinder = AStarPathfinder()
                 pathFinder.dataSource = self.game?.pathfinderDataSource(for: selectedUnit.movementType, ignoreSight: false)
-                
+
                 if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.position, toTileCoord: position) {
                     path.prepend(point: selectedUnit.position)
                     selectedUnit.show(path: path)
@@ -425,7 +456,7 @@ class GameScene: BaseScene {
                 }
             }
         } else {
-        
+
             let cameraLocation = touch.location(in: self.cameraNode)
 
             guard let bottomRightBar = self.bottomRightBar, !bottomRightBar.frame.contains(cameraLocation) else {
@@ -436,19 +467,73 @@ class GameScene: BaseScene {
                 return
             }
 
-            let location = touch.location(in: self.viewHex)
             let previousLocation = touch.previousLocation(in: self.viewHex)
 
-            let deltaX = (location.x) - (previousLocation.x)
-            let deltaY = (location.y) - (previousLocation.y)
-
-            if abs(deltaX) > 0.1 || abs(deltaY) > 0.1 {
-                //self.hasMoved = true
-            }
+            let deltaX = (touchLocation.x) - (previousLocation.x)
+            let deltaY = (touchLocation.y) - (previousLocation.y)
 
             self.cameraNode.position.x -= deltaX * 0.7
             self.cameraNode.position.y -= deltaY * 0.7
         }
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+        let touch = touches.first!
+        let cameraLocation = touch.location(in: self.cameraNode)
+        let touchLocation = touch.location(in: self.viewHex)
+        let position = HexMapDisplay.shared.toHexPoint(screen: touchLocation)
+
+        guard let bottomRightBar = self.bottomRightBar, !bottomRightBar.frame.contains(cameraLocation) else {
+            self.bottomRightBar?.touchesEnded(touches, with: event)
+            return
+        }
+
+        guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
+            self.bottomLeftBar?.touchesEnded(touches, with: event)
+            return
+        }
+
+        if let selectedUnit = self.selectedUnitForAttack {
+            // FIXME: do it
+            self.show(message: "initiate battle: \(selectedUnit)")
+            
+            self.selectedUnitForAttack = nil
+        }
+
+        if let selectedUnit = self.selectedUnitForMovement {
+            selectedUnit.clearPathSpriteBuffer()
+
+            self.mapNode?.moveSelectedUnit(to: position)
+        }
+        self.selectedUnitForMovement = nil
+
+        self.hideAttackSymbol()
+    }
+
+    func target(at point: HexPoint) -> GameObject? {
+
+        guard let user = userUsecase.currentUser() else {
+            fatalError("can't get current user")
+        }
+        
+        if let units = self.game?.getUnits(at: point) {
+
+            var filteredUnits = units.filter({ $0?.civilization != user.civilization })
+            filteredUnits = filteredUnits.filter({ $0?.type != .coin && $0?.type != .animal && $0?.type != .obstacle && $0?.type != .booster })
+            
+            // FIXME: how to select the attacker?
+            //filteredUnits = filteredUnits.filter({ $0?.position.distance(to: <#T##HexPoint#>) })
+            
+            if filteredUnits.count == 0 {
+                return nil
+            }
+
+            let firstUnit = filteredUnits.first!
+            return firstUnit
+        }
+
+        return nil
     }
 
     func zoom(to zoomScale: CGFloat) {
@@ -476,7 +561,7 @@ class GameScene: BaseScene {
 }
 
 extension GameScene: BottomRightBarDelegate {
-    
+
     func focus(on point: HexPoint) {
         self.centerCamera(on: point)
     }
@@ -490,11 +575,11 @@ extension GameScene: GameConditionDelegate {
         if let victoryDialog = UI.victoryDialog() {
             victoryDialog.set(text: type.summary, identifier: "summary")
             victoryDialog.addOkayAction(handler: {
-                
+
                 self.game?.saveScore()
                 self.game?.cancel()
                 self.game = nil
-                
+
                 self.gameDelegate?.quitGame()
             })
 
@@ -508,10 +593,10 @@ extension GameScene: GameConditionDelegate {
         if let defeatDialog = UI.defeatDialog() {
             defeatDialog.set(text: type.summary, identifier: "summary")
             defeatDialog.addOkayAction(handler: {
-                
+
                 self.game?.cancel()
                 self.game = nil
-                
+
                 self.gameDelegate?.quitGame()
             })
 
@@ -521,25 +606,25 @@ extension GameScene: GameConditionDelegate {
 }
 
 extension GameScene: GameUpdateDelegate {
-    
+
     func updateUI() {
-        
+
         if let time = self.game?.timeRemainingInSeconds() {
             self.timeLabel.text = Formatters.Dates.getString(from: time)
         }
-        
+
         if let coins = self.game?.coins {
             let coinText = Formatters.Numbers.getCoinString(from: coins)
             self.coinLabel.text = coinText
         }
-        
+
         if let boosterStock = self.game?.boosterStock {
             if boosterStock.isAvailable(boosterType: .telescope) {
                 self.boosterNodeTelescope?.enable()
             } else {
                 self.boosterNodeTelescope?.disable()
             }
-            
+
             if boosterStock.isAvailable(boosterType: .time) {
                 self.boosterNodeTime?.enable()
             } else {
@@ -547,32 +632,56 @@ extension GameScene: GameUpdateDelegate {
             }
         }
     }
-    
-    func battle(between source: GameObject?, and target: GameObject?) {
-        
+
+    func showBattleDialog(between source: GameObject?, and target: GameObject?) {
+
+        guard let targetUnit = target else {
+            return
+        }
+
+        if let battleDialog = UI.battleDialog() {
+            battleDialog.set(text: "Do you want to fight with \(targetUnit)?", identifier: "summary")
+            battleDialog.addOkayAction(handler: {
+
+                self.game?.resume()
+
+            })
+
+            battleDialog.addCancelAction(handler: {
+
+                self.game?.resume()
+
+            })
+
+            self.cameraNode.addChild(battleDialog)
+        }
+    }
+
+    func showBattleResult(between source: GameObject?, and target: GameObject?, result: BattleResult) {
+
         if let sourceUnit = source, let targetUnit = target {
-        
+
             self.show(message: "Battle between \(sourceUnit) and \(targetUnit)")
         }
     }
 }
 
 extension GameScene: GameObjectUnitDelegate {
-    
+
     func selectedGameObjectChanged(to gameObject: GameObject?) {
         if let newPosition = gameObject?.position {
             self.centerCamera(on: newPosition)
             //self.moveFocus(to: newPosition)
         }
     }
-    
+
     func removed(gameObject: GameObject?) {
         // NOOP
     }
 }
 
 extension GameScene: BoosterActivationDelegate {
-    
+
     func activated(boosterType: BoosterType) {
         self.game?.start(boosterType: boosterType)
         self.updateUI()
