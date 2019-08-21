@@ -24,7 +24,8 @@ class Pirates: GameObject {
         self.canMoveByUserInput = false
         self.movementType = .swimOcean
 
-        self.showUnitIndicator()
+        self.showUnitTypeIndicator()
+        self.showUnitStrengthIndicator()
     }
 
     required init(from decoder: Decoder) throws {

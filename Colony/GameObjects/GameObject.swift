@@ -12,6 +12,10 @@ class GameObject: Decodable {
 
     static let idleActionKey: String = "idleActionKey"
     static let keyDictName: String = "name"
+    static let keyDictStrength: String = "strength"
+    static let keyDictSuppression: String = "suppression"
+    static let keyDictExperience: String = "experience"
+    static let keyDictEntrenchment: String = "entrenchment"
     static let alphaVisible: CGFloat = 1.0
     static let alphaInvisible: CGFloat = 0.0
 
@@ -43,10 +47,55 @@ class GameObject: Decodable {
     var animationSpeed = 2.0
 
     var sight: Int
-    var strength: Int = 10 // FIXME: from unit type
-    var suppression: Int = 0
-    var experience: Int = 0 // untrained
-    var entrenchment: Int = 0
+    var strength: Int { // FIXME: from unit type
+        get {
+            if let strengthValue = self.dict[GameObject.keyDictStrength] as? Int {
+                return strengthValue
+            }
+            
+            return 10 // default
+        }
+        set {
+            self.dict[GameObject.keyDictStrength] = newValue
+            self.updateUnitStrengthIndicator()
+        }
+    }
+    var suppression: Int {
+        get {
+            if let suppressionValue = self.dict[GameObject.keyDictSuppression] as? Int {
+                return suppressionValue
+            }
+            
+            return 0 // default
+        }
+        set {
+            self.dict[GameObject.keyDictSuppression] = newValue
+        }
+    }
+    var experience: Int {
+        get {
+            if let experienceValue = self.dict[GameObject.keyDictExperience] as? Int {
+                return experienceValue
+            }
+            
+            return 0 // default // untrained
+        }
+        set {
+            self.dict[GameObject.keyDictExperience] = newValue
+        }
+    }
+    var entrenchment: Int {
+        get {
+            if let entrenchmentValue = self.dict[GameObject.keyDictEntrenchment] as? Int {
+                return entrenchmentValue
+            }
+            
+            return 0 // default // untrained
+        }
+        set {
+            self.dict[GameObject.keyDictEntrenchment] = newValue
+        }
+    }
 
     var dict: [String: Any] = [:]
 
@@ -58,7 +107,8 @@ class GameObject: Decodable {
     private var pathSpriteBuffer: [SKSpriteNode] = []
     private var nameLabel: SKLabelNode?
     private var nameBackground: SKSpriteNode?
-    private var unitIndicator: UnitIndicator?
+    private var unitTypeIndicator: UnitTypeIndicator?
+    private var unitStrengthIndicator: UnitStrengthIndicator?
 
     enum CodingKeys: String, CodingKey {
         case identifier
@@ -140,21 +190,49 @@ class GameObject: Decodable {
         self.sprite.zPosition = zPosition
     }
 
-    func showUnitIndicator() {
+    func showUnitTypeIndicator() {
 
-        if self.unitIndicator != nil {
-            self.unitIndicator?.removeFromParent()
-        }
+        self.hideUnitTypeIndicator()
 
         guard let civilization = self.civilization else {
             fatalError("can't show unit indicator for non civilization units")
         }
 
-        self.unitIndicator = UnitIndicator(civilization: civilization, unitType: self.type)
-        self.unitIndicator?.anchorPoint = CGPoint(x: 0.0, y: 0.1)
-        self.sprite.zPosition = GameScene.Constants.ZLevels.sprite + 0.1
-        if let unitIndicator = self.unitIndicator {
-            self.sprite.addChild(unitIndicator)
+        self.unitTypeIndicator = UnitTypeIndicator(civilization: civilization, unitType: self.type)
+        self.unitTypeIndicator?.anchorPoint = CGPoint(x: 0.0, y: 0.1)
+        self.unitTypeIndicator?.zPosition = GameScene.Constants.ZLevels.sprite + 0.1
+        if let unitTypeIndicator = self.unitTypeIndicator {
+            self.sprite.addChild(unitTypeIndicator)
+        }
+    }
+    
+    func hideUnitTypeIndicator() {
+        
+        if self.unitTypeIndicator != nil {
+            self.unitTypeIndicator?.removeFromParent()
+        }
+    }
+    
+    func showUnitStrengthIndicator() {
+        
+        self.hideUnitStrengthIndicator()
+        
+        self.unitStrengthIndicator = UnitStrengthIndicator(strength: self.strength)
+        self.unitStrengthIndicator?.position = CGPoint(x: 38, y: 5)
+        self.unitStrengthIndicator?.zPosition = GameScene.Constants.ZLevels.sprite + 0.1
+        if let unitStrengthIndicator = self.unitStrengthIndicator {
+            self.sprite.addChild(unitStrengthIndicator)
+        }
+    }
+    
+    func updateUnitStrengthIndicator() {
+        self.unitStrengthIndicator?.set(strength: self.strength)
+    }
+    
+    func hideUnitStrengthIndicator() {
+        
+        if self.unitStrengthIndicator != nil {
+            self.unitStrengthIndicator?.removeFromParent()
         }
     }
 

@@ -92,7 +92,6 @@ class AreaSprites: SKNode {
             self.addChild(sprite)
             
             self.sprites.append(sprite)
-            
 		}
 	}
 }

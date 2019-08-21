@@ -261,8 +261,9 @@ class Battle {
                 attackerUnit.experience += 10
                 defenderUnit.experience += 10
             }
-            
         }
+        
+        print("[GameObject]: attackerDamage=\(attackerDamage), defenderDamage=\(defenderDamage)")
 
         return BattleResult(defenderDamage: defenderDamage, defenderSuppression: defenderSuppression, attackerDamage: attackerDamage, attackerSuppression: attackerSuppression, options: options)
     }
@@ -287,9 +288,9 @@ class Battle {
     /// passivly attack (target initated attack, unit defenses) the target.
     static func checkAttack(from attacker: GameObject?, and defender: GameObject?, attackType: AttackType, in game: Game?) -> Bool {
         
-        guard let game = game else {
+        /*guard let game = game else {
             fatalError("can't get game")
-        }
+        }*/
         
         guard let attackerUnit = attacker, let attackerProperties = attackerUnit.type.properties else {
             return false

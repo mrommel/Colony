@@ -28,7 +28,18 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-20</offsety>
+            <offsety>-10</offsety>
+            <width>200</width>
+            <height>50</height>
+        </item>
+        <item>
+            <identifier>description</identifier>
+            <type>label</type>
+            <title>prediction</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-40</offsety>
             <width>200</width>
             <height>50</height>
         </item>

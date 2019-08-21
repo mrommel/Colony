@@ -213,7 +213,7 @@ enum GameObjectType: String, Codable {
             return unitProperties
             
         case .monster:
-            var unitProperties = UnitProperties(initiative: 8, sight: 2, range: 0, strength: 10, targetType: .soft, softAttack: 1, hardAttack: 1, airAttack: 0, navalAttack: 1, groundDefense: 2, closeDefense: 1, airDefense: 0)
+            var unitProperties = UnitProperties(initiative: 2, sight: 2, range: 0, strength: 10, targetType: .soft, softAttack: 1, hardAttack: 1, airAttack: 0, navalAttack: 1, groundDefense: 2, closeDefense: 1, airDefense: 0)
             
             unitProperties.isSwimming = true
             

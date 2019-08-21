@@ -15,6 +15,7 @@
 - limit sight thru mountains
 - more units
 - more animals
+units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245
 
 ## Booster - ongoing
 - [Booster] more time (clock) - implemented

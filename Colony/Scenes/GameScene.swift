@@ -496,7 +496,8 @@ class GameScene: BaseScene {
 
         if let selectedUnit = self.selectedUnitForAttack {
             // FIXME: do it
-            self.show(message: "initiate battle: \(selectedUnit)")
+            //self.show(message: "initiate battle: \(selectedUnit)")
+            self.showBattleDialog(between: self.game?.getSelectedUnitOfUser(), and: selectedUnit)
             
             self.selectedUnitForAttack = nil
         }
@@ -632,25 +633,42 @@ extension GameScene: GameUpdateDelegate {
             }
         }
     }
+    
+    func showBattleResultDialog(with result: BattleResult) {
+        
+        if let battleResultDialog = UI.battleResultDialog() {
+            battleResultDialog.set(text: "att: \(result.attackerDamage) / def: \(result.defenderDamage)", identifier: "summary")
+            battleResultDialog.addOkayAction(handler: {
+                
+                self.game?.resume()
+                battleResultDialog.close()
+            })
+            
+            self.cameraNode.addChild(battleResultDialog)
+        }
+    }
 
     func showBattleDialog(between source: GameObject?, and target: GameObject?) {
 
-        guard let targetUnit = target else {
-            return
-        }
-
         if let battleDialog = UI.battleDialog() {
-            battleDialog.set(text: "Do you want to fight with \(targetUnit)?", identifier: "summary")
+            
+            self.game?.pause()
+            
+            let battle = Battle(between: source, and: target, attackType: .active, in: self.game)
+            let prediction = battle.predict()
+            
+            battleDialog.show(prediction: prediction, for: target)
             battleDialog.addOkayAction(handler: {
 
-                self.game?.resume()
-
+                let result = battle.fight()
+                battleDialog.close()
+                self.showBattleResultDialog(with: result)
             })
 
             battleDialog.addCancelAction(handler: {
 
                 self.game?.resume()
-
+                battleDialog.close()
             })
 
             self.cameraNode.addChild(battleDialog)
@@ -661,7 +679,7 @@ extension GameScene: GameUpdateDelegate {
 
         if let sourceUnit = source, let targetUnit = target {
 
-            self.show(message: "Battle between \(sourceUnit) and \(targetUnit)")
+            // self.show(message: "Battle between \(sourceUnit) and \(targetUnit)")
         }
     }
 }

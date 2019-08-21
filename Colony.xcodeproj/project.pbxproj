@@ -65,6 +65,8 @@
 		C93A408E2306C40A0011E9DA /* Archer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A408D2306C40A0011E9DA /* Archer.swift */; };
 		C93A40902306CBD00011E9DA /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A408F2306CBD00011E9DA /* Battle.swift */; };
 		C93A4092230A7F090011E9DA /* BattleDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C93A4091230A7F090011E9DA /* BattleDialog.xml */; };
+		C93A4094230BB97E0011E9DA /* BattleResultDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C93A4093230BB97E0011E9DA /* BattleResultDialog.xml */; };
+		C93A4096230BCE6E0011E9DA /* BattleDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A4095230BCE6E0011E9DA /* BattleDialog.swift */; };
 		C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2B22B7ABB700AB7117 /* R.generated.swift */; };
 		C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */; };
 		C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */; };
@@ -303,6 +305,8 @@
 		C93A408D2306C40A0011E9DA /* Archer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archer.swift; sourceTree = "<group>"; };
 		C93A408F2306CBD00011E9DA /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
 		C93A4091230A7F090011E9DA /* BattleDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BattleDialog.xml; sourceTree = "<group>"; };
+		C93A4093230BB97E0011E9DA /* BattleResultDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BattleResultDialog.xml; sourceTree = "<group>"; };
+		C93A4095230BCE6E0011E9DA /* BattleDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleDialog.swift; sourceTree = "<group>"; };
 		C94A2F2B22B7ABB700AB7117 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
@@ -617,6 +621,7 @@
 				C965FEAE22E747120075CB87 /* CityDialog.xml */,
 				C903369022EDAFEA004D2D72 /* GameContinueDialog.xml */,
 				C93A4091230A7F090011E9DA /* BattleDialog.xml */,
+				C93A4093230BB97E0011E9DA /* BattleResultDialog.xml */,
 				C903369F22EF456E004D2D72 /* PlayerInputDialog.xml */,
 				C962940022FB4ED800CC7F27 /* MapTypeDialog.xml */,
 				C962940522FB5D2100CC7F27 /* MapSizeDialog.xml */,
@@ -653,6 +658,7 @@
 				C965FEAC22E7450B0075CB87 /* CityDialog.swift */,
 				C962940322FB530100CC7F27 /* MapTypeDialog.swift */,
 				C962940922FBF6BE00CC7F27 /* MapLoadingDialog.swift */,
+				C93A4095230BCE6E0011E9DA /* BattleDialog.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -1025,6 +1031,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C93A4094230BB97E0011E9DA /* BattleResultDialog.xml in Resources */,
 				C962941222FC6F0100CC7F27 /* grid9frameturns.dds in Resources */,
 				C962943222FDEEBD00CC7F27 /* MapClimateDialog.xml in Resources */,
 				C9C7F0D4229B193400A775B2 /* Main.storyboard in Resources */,
@@ -1261,6 +1268,7 @@
 				C9BA0A6422DB5C790055ED59 /* CitySiteEvaluator.swift in Sources */,
 				C9E9BBFC22B584400048F97B /* DiscoverCheck.swift in Sources */,
 				C9001CA622D712B7005528A7 /* Booster.swift in Sources */,
+				C93A4096230BCE6E0011E9DA /* BattleDialog.swift in Sources */,
 				C992ABEB22A32042001C5E7C /* NineGridTextureSprite.swift in Sources */,
 				C9C7F111229EBE3100A775B2 /* IntegerExtension.swift in Sources */,
 				C972CCBE22AA7E71008DB8CB /* GameObjectManager.swift in Sources */,

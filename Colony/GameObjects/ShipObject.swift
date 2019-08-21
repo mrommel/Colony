@@ -23,7 +23,8 @@ class ShipObject: GameObject {
         self.canMoveByUserInput = true
         self.movementType = .swimOcean
         
-        self.showUnitIndicator()
+        self.showUnitTypeIndicator()
+        self.showUnitStrengthIndicator()
     }
     
     required init(from decoder: Decoder) throws {

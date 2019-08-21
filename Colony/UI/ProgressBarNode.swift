@@ -50,18 +50,11 @@ class ProgressBarNode: SKNode {
         
         self.progressBar.maskNode?.removeAction(forKey: ProgressBarNode.kProgressAnimationKey)
         
-        var value = progress
-        if progress < 0 {
-            value = 0
-        }
-        if progress > 1 {
-            value = 1
-        }
+        let value = max(0.0, min(1.0, progress))
         
         let scaleAction = SKAction.scaleX(to: value, duration: 0.3)
         self.progressBar.maskNode?.run(scaleAction, withKey: ProgressBarNode.kProgressAnimationKey)
-        //self.progressBar.maskNode?.xScale = value
-        
+
         let percentageValue: Int = Int(value * 100.0)
         self.percentageLabel.text = "\(percentageValue)%"
     }

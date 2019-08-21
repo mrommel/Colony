@@ -25,7 +25,8 @@ class Axeman: GameObject {
         self.movementType = .walk
         self.animationSpeed = 3
         
-        self.showUnitIndicator()
+        self.showUnitTypeIndicator()
+        self.showUnitStrengthIndicator()
     }
     
     required init(from decoder: Decoder) throws {

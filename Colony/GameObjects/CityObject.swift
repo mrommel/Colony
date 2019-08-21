@@ -32,15 +32,35 @@ enum CitySize {
 
 class CityObject: GameObject {
     
+    static let keyDictWalls: String = "walls"
+    static let keyDictSize: String = "size"
+    
     weak var city: City? = nil
     
-    var size: CitySize = .small {
-        didSet {
+    var size: CitySize {
+        get {
+            if let wallsValue = self.dict[CityObject.keyDictSize] as? CitySize {
+                return wallsValue
+            }
+            
+            return .small
+        }
+        set {
+            self.dict[CityObject.keyDictSize] = newValue
             self.updateAssets()
         }
     }
-    var walls: Bool = false {
-        didSet {
+    
+    var walls: Bool {
+        get {
+            if let wallsValue = self.dict[CityObject.keyDictWalls] as? Bool {
+                return wallsValue
+            }
+            
+            return false
+        }
+        set {
+            self.dict[CityObject.keyDictWalls] = newValue
             self.updateAssets()
         }
     }

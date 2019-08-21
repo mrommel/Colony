@@ -22,6 +22,8 @@ class Monster: GameObject {
         
         self.canMoveByUserInput = false
         self.movementType = .swimOcean
+        
+        self.showUnitStrengthIndicator()
     }
     
     required init(from decoder: Decoder) throws {

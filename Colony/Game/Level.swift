@@ -307,11 +307,8 @@ class Level: Decodable  {
         player.addZoneOfControl(at: city.position)
         
         for neighbor in city.position.neighbors() {
-            
-            // check if this is a valid tile
-            //if map.isGround(at: neighbor) {
-                player.addZoneOfControl(at: neighbor)
-            //}
+
+            player.addZoneOfControl(at: neighbor)
         }
     }
 }

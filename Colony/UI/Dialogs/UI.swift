@@ -72,11 +72,21 @@ class UI {
         return nil
     }
     
-    static func battleDialog() -> Dialog? {
+    static func battleDialog() -> BattleDialog? {
         
         let uiParser = UIParser()
         if let battleDialogConfiguration = uiParser.parse(from: "BattleDialog") {
-            return Dialog(from: battleDialogConfiguration)
+            return BattleDialog(from: battleDialogConfiguration)
+        }
+        
+        return nil
+    }
+    
+    static func battleResultDialog() -> Dialog? {
+        
+        let uiParser = UIParser()
+        if let battleResultDialogConfiguration = uiParser.parse(from: "BattleResultDialog") {
+            return Dialog(from: battleResultDialogConfiguration)
         }
         
         return nil
