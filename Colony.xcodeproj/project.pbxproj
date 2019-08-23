@@ -40,6 +40,9 @@
 		C90A134F22A99F130003BBDE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C90A134E22A99F130003BBDE /* README.md */; };
 		C90AB6EF2305986100CC5C59 /* BattleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90AB6EE2305986100CC5C59 /* BattleTests.swift */; };
 		C90AB6F123059C3A00CC5C59 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90AB6F023059C3A00CC5C59 /* CoreDataManager.swift */; };
+		C90BF098230FE1DC0074C3E8 /* LevelIntroductionDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF097230FE1DC0074C3E8 /* LevelIntroductionDialog.swift */; };
+		C90BF09A230FEBBE0074C3E8 /* UnitProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF099230FEBBE0074C3E8 /* UnitProperties.swift */; };
+		C90BF09C230FF3350074C3E8 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF09B230FF3350074C3E8 /* SplashViewController.swift */; };
 		C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915971A22CE91E5001D034B /* ScoreRepository.swift */; };
 		C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* MenuScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
@@ -280,6 +283,9 @@
 		C90A134E22A99F130003BBDE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C90AB6EE2305986100CC5C59 /* BattleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleTests.swift; sourceTree = "<group>"; };
 		C90AB6F023059C3A00CC5C59 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		C90BF097230FE1DC0074C3E8 /* LevelIntroductionDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelIntroductionDialog.swift; sourceTree = "<group>"; };
+		C90BF099230FEBBE0074C3E8 /* UnitProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitProperties.swift; sourceTree = "<group>"; };
+		C90BF09B230FF3350074C3E8 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		C915971A22CE91E5001D034B /* ScoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRepository.swift; sourceTree = "<group>"; };
 		C91A4F3222A260DD000BF647 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
@@ -517,6 +523,7 @@
 				C91AC6E22302D07C00104BD3 /* GameObjectAIState.swift */,
 				C91AC6E42302D09500104BD3 /* GameObjectType.swift */,
 				C91AC6E62302D0AD00104BD3 /* GameObjectMoveType.swift */,
+				C90BF099230FEBBE0074C3E8 /* UnitProperties.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -659,6 +666,7 @@
 				C962940322FB530100CC7F27 /* MapTypeDialog.swift */,
 				C962940922FBF6BE00CC7F27 /* MapLoadingDialog.swift */,
 				C93A4095230BCE6E0011E9DA /* BattleDialog.swift */,
+				C90BF097230FE1DC0074C3E8 /* LevelIntroductionDialog.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -813,6 +821,7 @@
 		C9C7F0EE229E992100A775B2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C90BF09B230FF3350074C3E8 /* SplashViewController.swift */,
 				C9C7F0EF229E993300A775B2 /* MenuViewController.swift */,
 				C9C7F0D0229B193400A775B2 /* GameViewController.swift */,
 				C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */,
@@ -1203,6 +1212,7 @@
 				C97E96D322A073A500D594F3 /* GameObjectAtlas.swift in Sources */,
 				C984CCD422CD4D3C0033F2BB /* SettingsButtonNode.swift in Sources */,
 				C94A2F3522C2322A00AB7117 /* CGRectExtension.swift in Sources */,
+				C90BF09C230FF3350074C3E8 /* SplashViewController.swift in Sources */,
 				C9C7F13C229F204900A775B2 /* FeatureLayer.swift in Sources */,
 				C9C7F122229EBE5C00A775B2 /* MapSize.swift in Sources */,
 				C956079622B23FD800AA69E9 /* Level.swift in Sources */,
@@ -1231,6 +1241,7 @@
 				C9BA0A6622DB88190055ED59 /* City.swift in Sources */,
 				C92D876522CBF34E00E7A55E /* Formatters.swift in Sources */,
 				C97B283222A5349A00112532 /* FogManager.swift in Sources */,
+				C90BF098230FE1DC0074C3E8 /* LevelIntroductionDialog.swift in Sources */,
 				C9C7F140229F20C300A775B2 /* RiverLayer.swift in Sources */,
 				C98F2F4222F573DB00B49457 /* Civ5Terrain.swift in Sources */,
 				C962940422FB530100CC7F27 /* MapTypeDialog.swift in Sources */,
@@ -1242,6 +1253,7 @@
 				C938DEC222F462C800DA7072 /* Civ5MapReader.swift in Sources */,
 				C9CCF42422E75F700041AD45 /* Civilization.swift in Sources */,
 				C97B282C22A427A800112532 /* ProgressBarNode.swift in Sources */,
+				C90BF09A230FEBBE0074C3E8 /* UnitProperties.swift in Sources */,
 				C9C7F0F9229EBD1100A775B2 /* Tile.swift in Sources */,
 				C9F9C98D22E0AFD9000A3310 /* OceanFinder.swift in Sources */,
 				C9001CA422D70BCF005528A7 /* GameConditionCheck.swift in Sources */,

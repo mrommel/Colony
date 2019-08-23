@@ -20,11 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         AppDelegate.shared = self
         
-        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil {
-            CoreDataManager.shared.setup(completion: nil)
-        }
-        
-
         return true
     }
 

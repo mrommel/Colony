@@ -161,7 +161,13 @@ class GameObject: Decodable {
 
         self.userUsecase = UserUsecase()
     }
+    
+    // MARK: unit methods
 
+    var properties: UnitProperties? {
+        return self.type.properties
+    }
+    
     // MARK: methods
 
     func show() {

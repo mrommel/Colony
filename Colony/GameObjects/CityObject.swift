@@ -107,8 +107,7 @@ class CityObject: GameObject {
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         
-        //FIXME: city not set when loaded from file
-        
+        // city name not set when loaded from file
         self.showCity(named: self.name)
     }
     

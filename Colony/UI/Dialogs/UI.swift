@@ -40,11 +40,13 @@ class UI {
         return nil
     }
     
-    static func levelIntroductionDialog() -> Dialog? {
+    static func levelIntroductionDialog(for level: Level?) -> LevelIntroductionDialog? {
         
         let uiParser = UIParser()
         if let levelIntroductionDialogConfiguration = uiParser.parse(from: "LevelIntroductionDialog") {
-            return Dialog(from: levelIntroductionDialogConfiguration)
+            let dialog = LevelIntroductionDialog(from: levelIntroductionDialogConfiguration)
+            dialog.displayIntroductionFor(level: level)
+            return dialog
         }
         
         return nil

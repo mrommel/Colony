@@ -151,7 +151,7 @@ class GameScene: BaseScene {
             self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
             self.bottomRightBar?.delegate = self
 
-            self.showLevel(title: level.title, summary: level.summary)
+            self.showLevelIntroductionFor(level: level)
 
         case .game:
             self.game = self.viewModel?.game
@@ -185,7 +185,7 @@ class GameScene: BaseScene {
             self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
             self.bottomRightBar?.delegate = self
 
-            self.showLevel(title: "Free playing", summary: "Please play free")
+            self.showLevelIntroductionFor(level: nil)
         }
 
         self.game?.conditionDelegate = self
@@ -291,6 +291,9 @@ class GameScene: BaseScene {
 
         super.updateLayout()
 
+        let viewSize = (self.view?.bounds.size)!
+        self.backgroundNode?.aspectFillTo(size: viewSize)
+        
         self.mapNode?.updateLayout()
 
         self.frameTopLeft?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight)
@@ -333,13 +336,11 @@ class GameScene: BaseScene {
         }
     }
 
-    func showLevel(title: String, summary: String) {
+    func showLevelIntroductionFor(level: Level?) {
 
-        if let levelIntroductionDialog = UI.levelIntroductionDialog() {
+        if let levelIntroductionDialog = UI.levelIntroductionDialog(for: level) {
 
             levelIntroductionDialog.zPosition = 250
-            levelIntroductionDialog.set(text: title, identifier: "title")
-            levelIntroductionDialog.set(text: summary, identifier: "summary")
             levelIntroductionDialog.addOkayAction(handler: {
                 levelIntroductionDialog.close()
 
@@ -362,12 +363,21 @@ class GameScene: BaseScene {
         self.attackOverlay = SKSpriteNode(imageNamed: "hex_attack")
         self.attackOverlay?.position = HexMapDisplay.shared.toScreen(hex: point)
         self.attackOverlay?.zPosition = GameScene.Constants.ZLevels.focus
-        self.attackOverlay?.alpha = real ? 1.0 : 0.3
+        self.attackOverlay?.alpha = real ? 1.0 : 0.2
         self.attackOverlay?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         self.viewHex.addChild(self.attackOverlay!)
+        
+        if real {
+            let pulseUp = SKAction.scale(to: 1.2, duration: 1.0)
+            let pulseDown = SKAction.scale(to: 0.8, duration: 1.0)
+            let pulse = SKAction.sequence([pulseUp, pulseDown])
+            let repeatPulse = SKAction.repeatForever(pulse)
+            self.attackOverlay?.run(repeatPulse)
+        }
     }
 
     func hideAttackSymbol() {
+        
         self.attackOverlay?.removeFromParent()
         self.attackOverlay = nil
     }
@@ -689,7 +699,6 @@ extension GameScene: GameObjectUnitDelegate {
     func selectedGameObjectChanged(to gameObject: GameObject?) {
         if let newPosition = gameObject?.position {
             self.centerCamera(on: newPosition)
-            //self.moveFocus(to: newPosition)
         }
     }
 

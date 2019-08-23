@@ -139,14 +139,19 @@ class Battle {
             fatalError("Can't get defender terrain")
         }
         
+        var ruggedDefence = false
+        
         /* check if rugged defense occurs */
         if real && self.mainAttackType == .active {
-            /*if ( unit_check_rugged_def( unit, target ) || ( forceRugged && unit_is_close( unit, target ) ) ) {
-                rugged_chance = unit_get_rugged_def_chance( unit, target );
-             if ( DICE(100) <= rugged_chance || forceRugged ) {
-                    forceRugged = true
-             }
-            }*/
+            if Battle.checkRuggedDefense(attacker: self.attackerUnit, defender: self.defenderUnit) ||
+                (forceRugged && Battle.areClose(attacker: self.attackerUnit, defender: self.defenderUnit)) {
+                
+                let ruggedChance = Battle.ruggedDefenceChance(attacker: self.attackerUnit, defender: self.defenderUnit)
+                
+                if Int.random(number: 100) <= ruggedChance || forceRugged {
+                    ruggedDefence = true
+                }
+            }
         }
         
         var attackerInitiative = min(attackerProperties.initiative, attackerTerrain.maxInitiative)
@@ -183,10 +188,10 @@ class Battle {
             
         case .bothStrike:
             /* both strike at the same time */
-            (defenderDamage, defenderSuppression) = Battle.getDamageForAttack(from: self.attackerUnit, and: self.defenderUnit, attackType: mainAttackType, real: real, ruggedDefense: false, in: self.game)
+            (defenderDamage, defenderSuppression) = Battle.getDamageForAttack(from: self.attackerUnit, and: self.defenderUnit, attackType: mainAttackType, real: real, ruggedDefense: ruggedDefence, in: self.game)
             
             if Battle.checkAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, in: self.game) {
-                (attackerDamage, attackerSuppression) = Battle.getDamageForAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, real: real, ruggedDefense: false, in: self.game)
+                (attackerDamage, attackerSuppression) = Battle.getDamageForAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, real: real, ruggedDefense: ruggedDefence, in: self.game)
             }
             
             attackerUnit.apply(damage: attackerDamage, suppression: attackerSuppression)
@@ -194,17 +199,17 @@ class Battle {
             break
         case .attackerStrikesFirst:
             /* unit strikes first */
-            (defenderDamage, defenderSuppression) = Battle.getDamageForAttack(from: self.attackerUnit, and: self.defenderUnit, attackType: self.mainAttackType, real: real, ruggedDefense: false, in: self.game)
+            (defenderDamage, defenderSuppression) = Battle.getDamageForAttack(from: self.attackerUnit, and: self.defenderUnit, attackType: self.mainAttackType, real: real, ruggedDefense: ruggedDefence, in: self.game)
             defenderUnit.apply(damage: defenderDamage, suppression: defenderSuppression)
             
             if Battle.checkAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, in: self.game) && self.mainAttackType != .defensive {
-                (attackerDamage, attackerSuppression) = Battle.getDamageForAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, real: real, ruggedDefense: false, in: self.game)
+                (attackerDamage, attackerSuppression) = Battle.getDamageForAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, real: real, ruggedDefense: ruggedDefence, in: self.game)
                 attackerUnit.apply(damage: attackerDamage, suppression: attackerSuppression)
             }
         case .defenderStrikesFirst:
             /* target strikes first */
             if Battle.checkAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, in: self.game) {
-                (attackerDamage, attackerSuppression) = Battle.getDamageForAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, real: real, ruggedDefense: false, in: self.game)
+                (attackerDamage, attackerSuppression) = Battle.getDamageForAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, real: real, ruggedDefense: ruggedDefence, in: self.game)
                 attackerUnit.apply(damage: attackerDamage, suppression: attackerSuppression)
                 
                 if attackerUnit.strength <= 0 {
@@ -213,7 +218,7 @@ class Battle {
             }
             
             if attackerUnit.strength > 0 {
-                (defenderDamage, defenderSuppression) = Battle.getDamageForAttack(from: self.attackerUnit, and: self.defenderUnit, attackType: self.mainAttackType, real: real, ruggedDefense: false, in: self.game)
+                (defenderDamage, defenderSuppression) = Battle.getDamageForAttack(from: self.attackerUnit, and: self.defenderUnit, attackType: self.mainAttackType, real: real, ruggedDefense: ruggedDefence, in: self.game)
                 defenderUnit.apply(damage: defenderDamage, suppression: defenderSuppression)
             }
         }
@@ -231,9 +236,9 @@ class Battle {
             options.insert(BattleOptions.defenderSuppressed)
         }
         
-        /*if ruggedDefense {
-         result.insert(BattleResult.ruggedDefense)
-         }*/
+        if ruggedDefence {
+            options.insert(BattleOptions.ruggedDefense)
+        }
         
         if real {
             /* cost ammo */
@@ -257,7 +262,7 @@ class Battle {
             let experienceModifierDefender = max(attackerUnit.experience - defenderUnit.experience, 1)
             defenderUnit.experience += experienceModifierDefender * attackerDamage + defenderDamage
             
-            if attackerUnit.position.distance(to: defenderUnit.position) == 0 {
+            if Battle.areClose(attacker: attackerUnit, defender: defenderUnit) {
                 attackerUnit.experience += 10
                 defenderUnit.experience += 10
             }
@@ -268,15 +273,49 @@ class Battle {
         return BattleResult(defenderDamage: defenderDamage, defenderSuppression: defenderSuppression, attackerDamage: attackerDamage, attackerSuppression: attackerSuppression, options: options)
     }
     
-    /// Check if target may do rugged defense
-    func checkRuggedDefense(attacker: GameObject?, defender: GameObject?) -> Bool {
+    /// Compute the targets rugged defense chance.
+    static func ruggedDefenceChance(attacker: GameObject, defender: GameObject) -> Int {
         
-        /*if attacker.proper || ( target->sel_prop->flags & FLYING ) )
-        return 0;
-        if ( ( unit->sel_prop->flags & SWIMMING ) || ( target->sel_prop->flags & SWIMMING ) )
-        return 0;
+        /* PG's formula is
+         5% * def_entr *
+         ( (def_exp_level + 2) / (atk_exp_level + 2) ) *
+         ( (def_entr_rate + 1) / (atk_entr_rate + 1) ) */
+        return Int( 5.0 * CGFloat(defender.entrenchment) *
+            ( CGFloat(defender.experience + 2) / CGFloat(attacker.experience + 2) ) )
+    }
+    
+    static func areClose(attacker: GameObject, defender: GameObject) -> Bool {
+        return attacker.position.distance(to: defender.position) == 0
+    }
+    
+    /// Check if target may do rugged defense
+    static func checkRuggedDefense(attacker: GameObject?, defender: GameObject?) -> Bool {
+        
+        guard let attackerProperties = attacker?.properties else {
+            return false
+        }
+        
+        guard let defenderProperties = defender?.properties else {
+            return false
+        }
+        
+        if attackerProperties.isFlying {
+            return false
+        }
+        
+        if attackerProperties.isSwimming || defenderProperties.isSwimming {
+            return false
+        }
+        
+        /* no rugged def for pioneers and such */
+        if attackerProperties.isEntrenchmentIgnore {
+            return false
+        }
+        
+        //if
+        
+        /*
         if (unit->sel_prop->flags & ARTILLERY ) return 0; /* no rugged def against range attack */
-        if (unit->sel_prop->flags&IGNORE_ENTR) return 0; /* no rugged def for pioneers and such */
         if ( !unit_is_close( unit, target ) ) return 0;
         if ( target->entr == 0 ) return 0;
         

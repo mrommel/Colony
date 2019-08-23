@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nHh-4y-XTX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="OBT-dI-Lir">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -23,7 +23,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1957.9710144927537" y="82.366071428571431"/>
+            <point key="canvasLocation" x="2868.115942028986" y="82.366071428571431"/>
         </scene>
         <!--Options View Controller-->
         <scene sceneID="OiV-YR-ucc">
@@ -74,25 +74,75 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WZn-N5-Xjb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1155.072463768116" y="81.696428571428569"/>
+            <point key="canvasLocation" x="2065.217391304348" y="81.696428571428569"/>
+        </scene>
+        <!--Splash View Controller-->
+        <scene sceneID="KOb-JH-f4q">
+            <objects>
+                <viewController id="XYk-RJ-JBW" customClass="SplashViewController" customModule="Colony" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dxl-eb-wh4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="knm-sY-PNt">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="colony" translatesAutoresizingMaskIntoConstraints="NO" id="gDA-24-jEq">
+                                <rect key="frame" x="147" y="281" width="120" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="keN-zd-eIL"/>
+                                    <constraint firstAttribute="height" constant="120" id="yiG-Hc-abq"/>
+                                </constraints>
+                            </imageView>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ColonyText" translatesAutoresizingMaskIntoConstraints="NO" id="77Q-Q0-5fe">
+                                <rect key="frame" x="150" y="426.5" width="114" height="43.5"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="knm-sY-PNt" secondAttribute="trailing" id="1iP-TT-arl"/>
+                            <constraint firstItem="gDA-24-jEq" firstAttribute="centerY" secondItem="zRk-5u-7Uo" secondAttribute="centerY" constant="-112" id="LCg-H9-6GK"/>
+                            <constraint firstAttribute="bottom" secondItem="knm-sY-PNt" secondAttribute="bottom" id="OXX-Kb-hmJ"/>
+                            <constraint firstItem="knm-sY-PNt" firstAttribute="top" secondItem="dxl-eb-wh4" secondAttribute="top" id="VA8-AH-2sw"/>
+                            <constraint firstItem="knm-sY-PNt" firstAttribute="leading" secondItem="dxl-eb-wh4" secondAttribute="leading" id="kxs-kw-mit"/>
+                            <constraint firstItem="gDA-24-jEq" firstAttribute="centerX" secondItem="zRk-5u-7Uo" secondAttribute="centerX" id="lgC-eZ-Mg6"/>
+                            <constraint firstItem="77Q-Q0-5fe" firstAttribute="centerX" secondItem="dxl-eb-wh4" secondAttribute="centerX" id="rFe-zS-2wK"/>
+                            <constraint firstItem="77Q-Q0-5fe" firstAttribute="centerY" secondItem="dxl-eb-wh4" secondAttribute="centerY" id="ycK-53-O91"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="zRk-5u-7Uo"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="k8V-he-X1p"/>
+                    <connections>
+                        <outlet property="colonyTextImageView" destination="77Q-Q0-5fe" id="FUh-cc-ree"/>
+                        <segue destination="60g-hE-Prn" kind="show" identifier="gotoMenu" id="09J-Ki-2lZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OAc-rD-69e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1310.144927536232" y="81.696428571428569"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="7Ed-UP-VmB">
+        <scene sceneID="4ua-RJ-b74">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nHh-4y-XTX" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="OBT-dI-Lir" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="dY4-UR-2Fs">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WUu-Ox-Oe5">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="60g-hE-Prn" kind="relationship" relationship="rootViewController" id="ij8-s7-qgu"/>
+                        <segue destination="XYk-RJ-JBW" kind="relationship" relationship="rootViewController" id="Fsr-EE-w2A"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ODE-Gb-oJt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qyh-V3-bNE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="244.92753623188409" y="81.696428571428569"/>
+            <point key="canvasLocation" x="400.00000000000006" y="81.696428571428569"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ColonyText" width="114" height="43.5"/>
+        <image name="background" width="744" height="1392"/>
+        <image name="colony" width="1024" height="1023"/>
+    </resources>
 </document>
