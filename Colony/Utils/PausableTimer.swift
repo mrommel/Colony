@@ -70,6 +70,7 @@ public class PausableTimer {
     }
 
     public func remainingDuration() -> TimeInterval {
+        
         guard let timer = timer, timer.isValid else {
             return 0
         }

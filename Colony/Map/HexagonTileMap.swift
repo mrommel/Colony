@@ -16,6 +16,8 @@ class HexagonTileMap: HexagonMap<Tile> {
     var rivers: [River] = []
     var fogManager: FogManager? = nil
     var cities: [City] = []
+    var castles: [Castle] = []
+    var fields: [Field] = []
     
     // properties that are not stored
     var continents: [Continent] = []

@@ -687,10 +687,10 @@ extension GameScene: GameUpdateDelegate {
 
     func showBattleResult(between source: GameObject?, and target: GameObject?, result: BattleResult) {
 
-        if let sourceUnit = source, let targetUnit = target {
+        //if let sourceUnit = source, let targetUnit = target {
 
             // self.show(message: "Battle between \(sourceUnit) and \(targetUnit)")
-        }
+        //}
     }
 }
 

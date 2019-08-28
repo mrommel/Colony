@@ -17,6 +17,8 @@ enum GameObjectType: String, Codable {
     
     // can't be moved
     case city
+    case field
+    case castle
     
     // collectives
     case coin
@@ -78,6 +80,11 @@ enum GameObjectType: String, Codable {
             
         case .city:
             return false
+        case .field:
+            return false
+        case .castle:
+            return false
+            
         case .coin:
             return false
         case .booster:

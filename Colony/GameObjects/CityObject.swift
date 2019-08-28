@@ -81,7 +81,7 @@ class CityObject: GameObject {
     init(for city: City?) {
         
         let identifier = UUID()
-        let identifierString = "shark-\(identifier.uuidString)"
+        let identifierString = "city-\(identifier.uuidString)"
         
         self.city = city
         guard let position = city?.position else { fatalError() }

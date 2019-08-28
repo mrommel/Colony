@@ -43,12 +43,16 @@
 		C90BF098230FE1DC0074C3E8 /* LevelIntroductionDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF097230FE1DC0074C3E8 /* LevelIntroductionDialog.swift */; };
 		C90BF09A230FEBBE0074C3E8 /* UnitProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF099230FEBBE0074C3E8 /* UnitProperties.swift */; };
 		C90BF09C230FF3350074C3E8 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF09B230FF3350074C3E8 /* SplashViewController.swift */; };
+		C90BF09E2313B7DA0074C3E8 /* Castle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF09D2313B7DA0074C3E8 /* Castle.swift */; };
+		C90BF0A02313FCF70074C3E8 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF09F2313FCF70074C3E8 /* Field.swift */; };
+		C90BF0A22313FDCA0074C3E8 /* CastleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF0A12313FDCA0074C3E8 /* CastleObject.swift */; };
 		C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915971A22CE91E5001D034B /* ScoreRepository.swift */; };
 		C91A4F3322A260DD000BF647 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* MenuScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
 		C91AC6E32302D07C00104BD3 /* GameObjectAIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91AC6E22302D07C00104BD3 /* GameObjectAIState.swift */; };
 		C91AC6E52302D09500104BD3 /* GameObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91AC6E42302D09500104BD3 /* GameObjectType.swift */; };
 		C91AC6E72302D0AD00104BD3 /* GameObjectMoveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91AC6E62302D0AD00104BD3 /* GameObjectMoveType.swift */; };
+		C92185E82316AF5200ED61A5 /* FieldObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92185E72316AF5200ED61A5 /* FieldObject.swift */; };
 		C927E2EC22CE9C6300EDBE0D /* GameUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2EB22CE9C6300EDBE0D /* GameUsecase.swift */; };
 		C927E2EE22CF5A0A00EDBE0D /* OptionsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */; };
 		C927E2F022CF5FA300EDBE0D /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */; };
@@ -286,12 +290,16 @@
 		C90BF097230FE1DC0074C3E8 /* LevelIntroductionDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelIntroductionDialog.swift; sourceTree = "<group>"; };
 		C90BF099230FEBBE0074C3E8 /* UnitProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitProperties.swift; sourceTree = "<group>"; };
 		C90BF09B230FF3350074C3E8 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		C90BF09D2313B7DA0074C3E8 /* Castle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Castle.swift; sourceTree = "<group>"; };
+		C90BF09F2313FCF70074C3E8 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
+		C90BF0A12313FDCA0074C3E8 /* CastleObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastleObject.swift; sourceTree = "<group>"; };
 		C915971A22CE91E5001D034B /* ScoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRepository.swift; sourceTree = "<group>"; };
 		C91A4F3222A260DD000BF647 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
 		C91AC6E22302D07C00104BD3 /* GameObjectAIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObjectAIState.swift; sourceTree = "<group>"; };
 		C91AC6E42302D09500104BD3 /* GameObjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObjectType.swift; sourceTree = "<group>"; };
 		C91AC6E62302D0AD00104BD3 /* GameObjectMoveType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObjectMoveType.swift; sourceTree = "<group>"; };
+		C92185E72316AF5200ED61A5 /* FieldObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldObject.swift; sourceTree = "<group>"; };
 		C927E2EB22CE9C6300EDBE0D /* GameUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUsecase.swift; sourceTree = "<group>"; };
 		C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
 		C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
@@ -746,6 +754,8 @@
 				C97E96D622A1C21600D594F3 /* ShipObject.swift */,
 				C927E2F122D1DA9B00EDBE0D /* ShipWreck.swift */,
 				C972CCBF22AAA4AE008DB8CB /* CityObject.swift */,
+				C90BF0A12313FDCA0074C3E8 /* CastleObject.swift */,
+				C92185E72316AF5200ED61A5 /* FieldObject.swift */,
 				C9AB425B22A062E3000E5397 /* Monster.swift */,
 				C97B53A222D2756B008078D9 /* Pirates.swift */,
 				C9F6A14A22CA906800388198 /* Coin.swift */,
@@ -887,6 +897,8 @@
 				C97B283522A54AE600112532 /* HexArea.swift */,
 				C938B56522D4A1EB00A2A838 /* HexPath.swift */,
 				C9BA0A6522DB88190055ED59 /* City.swift */,
+				C90BF09D2313B7DA0074C3E8 /* Castle.swift */,
+				C90BF09F2313FCF70074C3E8 /* Field.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -1197,6 +1209,7 @@
 				C9564D6422D7C9DC0091099B /* Axeman.swift in Sources */,
 				C90336B222F21C72004D2D72 /* BaseScene.swift in Sources */,
 				C97E96D522A073E900D594F3 /* GameObject.swift in Sources */,
+				C90BF09E2313B7DA0074C3E8 /* Castle.swift in Sources */,
 				C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */,
 				C9C7F103229EBD9500A775B2 /* Feature.swift in Sources */,
 				C9C7F13A229F203200A775B2 /* TerrainLayer.swift in Sources */,
@@ -1223,6 +1236,7 @@
 				C97B283622A54AE600112532 /* HexArea.swift in Sources */,
 				C903368D22ED8F4B004D2D72 /* GameDao.swift in Sources */,
 				C92D875A22CB75CB00E7A55E /* ScoreDao.swift in Sources */,
+				C90BF0A02313FCF70074C3E8 /* Field.swift in Sources */,
 				C91AC6E32302D07C00104BD3 /* GameObjectAIState.swift in Sources */,
 				C9C7F120229EBE5C00A775B2 /* HexPointCorner.swift in Sources */,
 				C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */,
@@ -1286,6 +1300,7 @@
 				C972CCBE22AA7E71008DB8CB /* GameObjectManager.swift in Sources */,
 				C9C7F125229EBE5C00A775B2 /* ClimateZone.swift in Sources */,
 				C9CCF42622E75F940041AD45 /* Player.swift in Sources */,
+				C90BF0A22313FDCA0074C3E8 /* CastleObject.swift in Sources */,
 				C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */,
 				C9C7F112229EBE3100A775B2 /* Array2D.swift in Sources */,
 				C9E9BBFE22B58CF60048F97B /* TimerElapsedCheck.swift in Sources */,
@@ -1335,6 +1350,7 @@
 				C94A2F3E22C8E1ED00AB7117 /* BottomLeftBar.swift in Sources */,
 				C999FD0022F9824500D281D4 /* MapUsecase.swift in Sources */,
 				C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */,
+				C92185E82316AF5200ED61A5 /* FieldObject.swift in Sources */,
 				C90336AA22F08AF7004D2D72 /* StoreScene.swift in Sources */,
 				C927E2F022CF5FA300EDBE0D /* OptionsViewController.swift in Sources */,
 				C903368F22EDA834004D2D72 /* GameRepository.swift in Sources */,

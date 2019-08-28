@@ -109,6 +109,17 @@ class GameObjectManager: Codable {
                         }
                     }
                     break
+                case .castle:
+                    if let civilization = objectFromFile?.civilization {
+                        if let name = dict[GameObject.keyDictName] as? String {
+                            let castle = Castle(named: name, at: position, civilization: civilization, type: .normal)
+                            self.map?.castles.append(castle)
+                            self.objects.append(CastleObject(for: castle))
+                        }
+                    }
+                    break
+                case .field:
+                    break
                     
                 case .coin:
                     self.objects.append(Coin(at: position))
@@ -406,7 +417,10 @@ extension GameObjectManager: GameObjectDelegate {
     }
     
     func killed(object: GameObject?) {
-        print("\(object) killed")
+        
+        if let object = object {
+            print("\(object) killed")
+        }
         // FIXME: animation of unit dying?
         self.remove(object: object)
     }
