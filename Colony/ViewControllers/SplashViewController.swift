@@ -11,19 +11,19 @@ import UIKit
 class SplashViewController: UIViewController {
     
     @IBOutlet var colonyTextImageView: UIImageView!
+    @IBOutlet var glowImageView: UIImageView!
     
     override func viewDidLoad() {
         
         self.colonyTextImageView.isHidden = false
+        self.glowImageView.isHidden = false
         
         if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil {
             CoreDataManager.shared.setup(completion: {
-                self.performSegue(withIdentifier: "gotoMenu", sender: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.performSegue(withIdentifier: "gotoMenu", sender: nil)
+                }
             })
         }
-        
-        /*DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            
-        }*/
     }
 }

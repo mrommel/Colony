@@ -148,7 +148,11 @@ class HexagonTileMap: HexagonMap<Tile> {
     }
     
     var oceanTiles: [Tile?] {
-        return self.filter { $0?.terrain == .ocean || $0?.terrain == .shore }
+        return self.filter { $0?.isWater ?? false }
+    }
+    
+    var forestTiles: [Tile?] {
+        return self.filter { ( $0?.features.contains(.forestMixed) ?? false || $0?.features.contains(.forestPine) ?? false || $0?.features.contains(.forestRain) ?? false ) }
     }
     
     // MARK: coast

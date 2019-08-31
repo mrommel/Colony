@@ -23,7 +23,27 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2868.115942028986" y="82.366071428571431"/>
+            <point key="canvasLocation" x="3590" y="82"/>
+        </scene>
+        <!--Menu View Controller-->
+        <scene sceneID="TD6-PH-r12">
+            <objects>
+                <viewController id="bH5-vE-qYf" customClass="MenuViewController" customModule="Colony" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5ht-UF-ELk" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="qX2-oO-aIy"/>
+                    </view>
+                    <connections>
+                        <segue destination="I61-86-42e" kind="show" identifier="gotoOptions" id="wnC-t7-IDS"/>
+                        <segue destination="l3S-Os-W4E" kind="show" identifier="gotoStore" id="tIU-ab-Rg6"/>
+                        <segue destination="60g-hE-Prn" kind="show" identifier="gotoQuests" id="sa3-WW-UWX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V7A-5U-ba5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2075" y="82"/>
         </scene>
         <!--Options View Controller-->
         <scene sceneID="OiV-YR-ucc">
@@ -38,7 +58,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zbh-WB-iFR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1958" y="822"/>
+            <point key="canvasLocation" x="1520" y="933"/>
         </scene>
         <!--Store View Controller-->
         <scene sceneID="McB-mx-4dD">
@@ -53,12 +73,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CtH-AR-oql" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2754" y="822"/>
+            <point key="canvasLocation" x="2349" y="907"/>
         </scene>
-        <!--Menu View Controller-->
+        <!--Quests View Controller-->
         <scene sceneID="biM-dS-VS9">
             <objects>
-                <viewController id="60g-hE-Prn" customClass="MenuViewController" customModule="Colony" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="60g-hE-Prn" customClass="QuestsViewController" customModule="Colony" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ydk-NV-zci" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -68,13 +88,11 @@
                     <navigationItem key="navigationItem" id="kFS-Pc-dQ4"/>
                     <connections>
                         <segue destination="BV1-FR-VrT" kind="show" identifier="gotoGame" id="LNV-fh-9x7"/>
-                        <segue destination="I61-86-42e" kind="show" identifier="gotoOptions" id="CQ0-pE-82Y"/>
-                        <segue destination="l3S-Os-W4E" kind="show" identifier="gotoStore" id="gNi-fy-feu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WZn-N5-Xjb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2065.217391304348" y="81.696428571428569"/>
+            <point key="canvasLocation" x="2855" y="82"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="KOb-JH-f4q">
@@ -86,6 +104,13 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="knm-sY-PNt">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="glow" translatesAutoresizingMaskIntoConstraints="NO" id="A8M-hN-sj0">
+                                <rect key="frame" x="82" y="211" width="250" height="250"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="MEn-rf-ujC"/>
+                                    <constraint firstAttribute="height" constant="250" id="ZgN-fh-BCr"/>
+                                </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="colony" translatesAutoresizingMaskIntoConstraints="NO" id="gDA-24-jEq">
                                 <rect key="frame" x="147" y="281" width="120" height="120"/>
@@ -101,12 +126,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="knm-sY-PNt" secondAttribute="trailing" id="1iP-TT-arl"/>
+                            <constraint firstItem="A8M-hN-sj0" firstAttribute="centerX" secondItem="dxl-eb-wh4" secondAttribute="centerX" id="4Jy-Ce-yw0"/>
                             <constraint firstItem="gDA-24-jEq" firstAttribute="centerY" secondItem="zRk-5u-7Uo" secondAttribute="centerY" constant="-112" id="LCg-H9-6GK"/>
                             <constraint firstAttribute="bottom" secondItem="knm-sY-PNt" secondAttribute="bottom" id="OXX-Kb-hmJ"/>
                             <constraint firstItem="knm-sY-PNt" firstAttribute="top" secondItem="dxl-eb-wh4" secondAttribute="top" id="VA8-AH-2sw"/>
                             <constraint firstItem="knm-sY-PNt" firstAttribute="leading" secondItem="dxl-eb-wh4" secondAttribute="leading" id="kxs-kw-mit"/>
                             <constraint firstItem="gDA-24-jEq" firstAttribute="centerX" secondItem="zRk-5u-7Uo" secondAttribute="centerX" id="lgC-eZ-Mg6"/>
                             <constraint firstItem="77Q-Q0-5fe" firstAttribute="centerX" secondItem="dxl-eb-wh4" secondAttribute="centerX" id="rFe-zS-2wK"/>
+                            <constraint firstItem="A8M-hN-sj0" firstAttribute="centerY" secondItem="dxl-eb-wh4" secondAttribute="centerY" constant="-112" id="snJ-cu-wIU"/>
                             <constraint firstItem="77Q-Q0-5fe" firstAttribute="centerY" secondItem="dxl-eb-wh4" secondAttribute="centerY" id="ycK-53-O91"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zRk-5u-7Uo"/>
@@ -114,7 +141,8 @@
                     <navigationItem key="navigationItem" id="k8V-he-X1p"/>
                     <connections>
                         <outlet property="colonyTextImageView" destination="77Q-Q0-5fe" id="FUh-cc-ree"/>
-                        <segue destination="60g-hE-Prn" kind="show" identifier="gotoMenu" id="09J-Ki-2lZ"/>
+                        <outlet property="glowImageView" destination="A8M-hN-sj0" id="7FX-8Y-MC9"/>
+                        <segue destination="bH5-vE-qYf" kind="show" identifier="gotoMenu" id="7zg-yX-Alw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OAc-rD-69e" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -144,5 +172,6 @@
         <image name="ColonyText" width="114" height="43.5"/>
         <image name="background" width="744" height="1392"/>
         <image name="colony" width="1024" height="1023"/>
+        <image name="glow" width="83.333335876464844" height="83.333335876464844"/>
     </resources>
 </document>

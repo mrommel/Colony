@@ -313,6 +313,22 @@ extension Game {
         return waterTilesWithoutObstacles
     }
     
+    func neighborsOnLand(of point: HexPoint) -> [HexPoint] {
+        
+        guard let map = self.level?.map else {
+            fatalError("Can't get map")
+        }
+        
+        guard let level = self.level else {
+            fatalError("can't find level")
+        }
+        
+        let landTiles = point.neighbors().filter({ map.tile(at: $0)?.isGround ?? false })
+        let landTilesWithoutObstacles = landTiles.filter({ !level.gameObjectManager.obstacle(at: $0) })
+        
+        return landTilesWithoutObstacles
+    }
+    
     func getUnits(at point: HexPoint) -> [GameObject?] {
         
         guard let level = self.level else {

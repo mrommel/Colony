@@ -158,6 +158,7 @@ class Level: Decodable  {
         }
         
         let oceanTiles = map.oceanTiles
+        let forestTiles = map.forestTiles
         
         // special decorations / obstacles
         let shipWreckTile = oceanTiles.randomItem()
@@ -186,6 +187,17 @@ class Level: Decodable  {
             }
         }
 
+        for _ in 0..<15 {
+            let forestTile = forestTiles.randomItem()
+            
+            if let point = forestTile?.point {
+                let wulf = Wulf(at: point)
+                self.gameObjectManager.add(object: wulf)
+                wulf.idle()
+            }
+        }
+        
+        // coins
         for _ in 0..<64 {
             let oceanTile = oceanTiles.randomItem()
             

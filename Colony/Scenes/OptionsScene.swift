@@ -23,6 +23,7 @@ class OptionsScene: BaseScene {
     var backButton: MenuButtonNode?
     var resetButton: MenuButtonNode?
 
+    // delegate
     weak var optionsDelegate: OptionsDelegate?
 
     override init(size: CGSize) {

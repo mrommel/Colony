@@ -2,7 +2,7 @@
 //  MenuViewController.swift
 //  Colony
 //
-//  Created by Michael Rommel on 29.05.19.
+//  Created by Michael Rommel on 30.08.19.
 //  Copyright © 2019 Michael Rommel. All rights reserved.
 //
 
@@ -13,11 +13,6 @@ class MenuViewController: UIViewController {
     
     var menuScene: MenuScene?
     
-    // used for segue
-    var currentLevelResource: URL? = nil
-    var currentGame: Game? = nil
-    var currentMap: HexagonTileMap? = nil
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,68 +20,24 @@ class MenuViewController: UIViewController {
             fatalError("View not loaded")
         }
         
-        self.menuScene = MenuScene(size: view.bounds.size)
-        
-        menuScene?.scaleMode = .resizeFill
-        menuScene?.menuDelegate = self
+        self.menuScene = MenuScene(size: view.frame.size)
+        self.menuScene?.menuDelegate = self
+        self.menuScene?.scaleMode = .resizeFill
         
         view.presentScene(self.menuScene)
         view.ignoresSiblingOrder = true
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        self.menuScene?.updateLayout()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "gotoGame" {
-            let gameViewController = segue.destination as? GameViewController
-            
-            if self.currentLevelResource != nil {
-                gameViewController?.viewModel = GameViewModel(with: self.currentLevelResource)
-            } else if self.currentGame != nil {
-                gameViewController?.viewModel = GameViewModel(with: self.currentGame)
-            } else if self.currentMap != nil {
-                gameViewController?.viewModel = GameViewModel(with: self.currentMap)
-            }
-        }
-        
-        if segue.identifier == "gotoOptions" {
-            // NOOP
-        }
-    }
 }
 
 extension MenuViewController: MenuDelegate {
-
-    func start(level resource: URL?) {
-        
-        self.currentLevelResource = resource
-        self.currentGame = nil
-        self.currentMap = nil
-        self.performSegue(withIdentifier: "gotoGame", sender: nil)
+    
+    func startTutorials() {
+        //self.performSegue(withIdentifier: "gotoTutorials", sender: nil)
+        self.menuScene?.show(message: "not implemented")
     }
     
-    func startWith(map: HexagonTileMap?) {
-        self.currentLevelResource = nil
-        self.currentGame = nil
-        self.currentMap = map
-        self.performSegue(withIdentifier: "gotoGame", sender: nil)
-    }
-    
-    func restart(game: Game?) {
-        self.currentLevelResource = nil
-        self.currentGame = game
-        self.currentMap = nil
-        self.performSegue(withIdentifier: "gotoGame", sender: nil)
+    func startQuests() {
+        self.performSegue(withIdentifier: "gotoQuests", sender: nil)
     }
     
     func startOptions() {
