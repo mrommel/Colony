@@ -61,10 +61,7 @@ class StoreScene: BaseScene {
         self.backgroundNode = SKSpriteNode(imageNamed: "background")
         self.backgroundNode?.zPosition = 0
         self.backgroundNode?.size = viewSize
-
-        if let backgroundNode = self.backgroundNode {
-            self.addChild(backgroundNode)
-        }
+        self.addChild(self.backgroundNode!)
 
         // header
         self.headerLabelNode = SKLabelNode(text: "Store")

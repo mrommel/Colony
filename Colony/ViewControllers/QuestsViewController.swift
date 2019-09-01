@@ -16,7 +16,6 @@ class QuestsViewController: UIViewController {
     // used for segue
     var currentLevelResource: URL? = nil
     var currentGame: Game? = nil
-    var currentMap: HexagonTileMap? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,13 +53,7 @@ class QuestsViewController: UIViewController {
                 gameViewController?.viewModel = GameViewModel(with: self.currentLevelResource)
             } else if self.currentGame != nil {
                 gameViewController?.viewModel = GameViewModel(with: self.currentGame)
-            } else if self.currentMap != nil {
-                gameViewController?.viewModel = GameViewModel(with: self.currentMap)
             }
-        }
-        
-        if segue.identifier == "gotoOptions" {
-            // NOOP
         }
     }
 }
@@ -71,21 +64,12 @@ extension QuestsViewController: QuestsDelegate {
         
         self.currentLevelResource = resource
         self.currentGame = nil
-        self.currentMap = nil
-        self.performSegue(withIdentifier: "gotoGame", sender: nil)
-    }
-    
-    func startWith(map: HexagonTileMap?) {
-        self.currentLevelResource = nil
-        self.currentGame = nil
-        self.currentMap = map
         self.performSegue(withIdentifier: "gotoGame", sender: nil)
     }
     
     func restart(game: Game?) {
         self.currentLevelResource = nil
         self.currentGame = game
-        self.currentMap = nil
         self.performSegue(withIdentifier: "gotoGame", sender: nil)
     }
     

@@ -12,8 +12,11 @@ protocol MenuDelegate: class {
 
     func startTutorials()
     func startQuests()
+    func startWith(map: HexagonTileMap?)
     func startOptions()
     func startStore()
+    
+    func startPedia()
 }
 
 class MenuScene: BaseScene {
@@ -24,9 +27,11 @@ class MenuScene: BaseScene {
 
     var tutorialButton: MenuButtonNode?
     var questsButton: MenuButtonNode?
+    var freePlayButton: MenuButtonNode?
     var optionsButton: MenuButtonNode?
     var storeButton: MenuButtonNode?
-    
+    var pediaButton: MenuButtonNode?
+
     var copyrightLabel: SKLabelNode?
 
     // delegate
@@ -67,15 +72,23 @@ class MenuScene: BaseScene {
         self.addChild(self.tutorialButton!)
 
         // quests
-        self.questsButton = MenuButtonNode(titled: "Quests",
+        self.questsButton = MenuButtonNode(imageNamed: "quests", title: "Quests",
             buttonAction: {
                 self.menuDelegate?.startQuests()
             })
         self.questsButton?.zPosition = 2
         self.addChild(self.questsButton!)
 
+        // quests
+        self.freePlayButton = MenuButtonNode(titled: "Free Play",
+            buttonAction: {
+                self.requestMapType()
+            })
+        self.freePlayButton?.zPosition = 2
+        self.addChild(self.freePlayButton!)
+
         // options
-        self.optionsButton = MenuButtonNode(titled: "Options",
+        self.optionsButton = MenuButtonNode(imageNamed: "settings", title: "Options",
             buttonAction: {
                 self.menuDelegate?.startOptions()
             })
@@ -83,13 +96,21 @@ class MenuScene: BaseScene {
         self.addChild(self.optionsButton!)
 
         // shop
-        self.storeButton = MenuButtonNode(titled: "Store",
+        self.storeButton = MenuButtonNode(imageNamed: "cart", title: "Store",
             buttonAction: {
                 self.menuDelegate?.startStore()
             })
         self.storeButton?.zPosition = 2
         self.addChild(self.storeButton!)
         
+        // pedia
+        self.pediaButton = MenuButtonNode(titled: "Pedia",
+                                          buttonAction: {
+                                            self.menuDelegate?.startPedia()
+        })
+        self.pediaButton?.zPosition = 2
+        self.addChild(self.pediaButton!)
+
         // copyright
         self.copyrightLabel = SKLabelNode(text: "Copyright 2019 MiRo & MaRo")
         self.copyrightLabel?.zPosition = 1
@@ -113,9 +134,12 @@ class MenuScene: BaseScene {
         // buttons
         self.tutorialButton?.position = CGPoint(x: 0, y: 100)
         self.questsButton?.position = CGPoint(x: 0, y: 50)
+        self.freePlayButton?.position = CGPoint(x: 0, y: 0)
         self.optionsButton?.position = CGPoint(x: 0, y: -50)
         self.storeButton?.position = CGPoint(x: 0, y: -100)
-        
+        self.pediaButton?.position = CGPoint(x: 0, y: -170)
+
+        // copyright
         self.copyrightLabel?.position = CGPoint(x: 0, y: -self.frame.halfHeight + 18)
     }
 }

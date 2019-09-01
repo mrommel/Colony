@@ -23,7 +23,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3590" y="82"/>
+            <point key="canvasLocation" x="4161" y="504"/>
         </scene>
         <!--Menu View Controller-->
         <scene sceneID="TD6-PH-r12">
@@ -39,6 +39,8 @@
                         <segue destination="I61-86-42e" kind="show" identifier="gotoOptions" id="wnC-t7-IDS"/>
                         <segue destination="l3S-Os-W4E" kind="show" identifier="gotoStore" id="tIU-ab-Rg6"/>
                         <segue destination="60g-hE-Prn" kind="show" identifier="gotoQuests" id="sa3-WW-UWX"/>
+                        <segue destination="GRp-qM-GA0" kind="show" identifier="gotoPedia" id="0IY-cg-HWi"/>
+                        <segue destination="BV1-FR-VrT" kind="show" identifier="gotoGame" id="Tux-IZ-pUi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V7A-5U-ba5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -75,6 +77,21 @@
             </objects>
             <point key="canvasLocation" x="2349" y="907"/>
         </scene>
+        <!--Pedia View Controller-->
+        <scene sceneID="4D4-xJ-hTs">
+            <objects>
+                <viewController id="GRp-qM-GA0" customClass="PediaViewController" customModule="Colony" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Hip-fc-bKW" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="VQT-FD-zBn"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zzp-x4-grK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3139" y="907"/>
+        </scene>
         <!--Quests View Controller-->
         <scene sceneID="biM-dS-VS9">
             <objects>
@@ -92,7 +109,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WZn-N5-Xjb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2855" y="82"/>
+            <point key="canvasLocation" x="3201" y="-56"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="KOb-JH-f4q">
@@ -174,4 +191,7 @@
         <image name="colony" width="1024" height="1023"/>
         <image name="glow" width="83.333335876464844" height="83.333335876464844"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="LNV-fh-9x7"/>
+    </inferredMetricsTieBreakers>
 </document>

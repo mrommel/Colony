@@ -110,7 +110,7 @@
 		C962942722FD4C7F00CC7F27 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EB022A316C300F31126 /* UIColorExtension.swift */; };
 		C962942922FD8FAF00CC7F27 /* MapAgeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962942822FD8FAF00CC7F27 /* MapAgeDialog.xml */; };
 		C962942B22FD942300CC7F27 /* MapSeaLevelDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962942A22FD942300CC7F27 /* MapSeaLevelDialog.xml */; };
-		C962942E22FD970500CC7F27 /* QuestsSceneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962942D22FD970500CC7F27 /* QuestsSceneExtension.swift */; };
+		C962942E22FD970500CC7F27 /* MenuSceneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962942D22FD970500CC7F27 /* MenuSceneExtension.swift */; };
 		C962943022FDBFCE00CC7F27 /* MapRainfallDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962942F22FDBFCE00CC7F27 /* MapRainfallDialog.xml */; };
 		C962943222FDEEBD00CC7F27 /* MapClimateDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962943122FDEEBD00CC7F27 /* MapClimateDialog.xml */; };
 		C965FEA922E4F20A0075CB87 /* AreaLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C965FEA822E4F20A0075CB87 /* AreaLayer.swift */; };
@@ -187,6 +187,8 @@
 		C9B1D61A22F8073F008BFE61 /* Civ5MapHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D61922F8073F008BFE61 /* Civ5MapHeader.swift */; };
 		C9BA0A6422DB5C790055ED59 /* CitySiteEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA0A6322DB5C780055ED59 /* CitySiteEvaluator.swift */; };
 		C9BA0A6622DB88190055ED59 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA0A6522DB88190055ED59 /* City.swift */; };
+		C9C0F10C231C5A4800CCBBB7 /* PediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0F10B231C5A4800CCBBB7 /* PediaViewController.swift */; };
+		C9C0F10E231C5AAC00CCBBB7 /* PediaScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0F10D231C5AAC00CCBBB7 /* PediaScene.swift */; };
 		C9C7F0C9229B193400A775B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F0C8229B193400A775B2 /* AppDelegate.swift */; };
 		C9C7F0CF229B193400A775B2 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F0CE229B193400A775B2 /* GameScene.swift */; };
 		C9C7F0D1229B193400A775B2 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F0D0229B193400A775B2 /* GameViewController.swift */; };
@@ -361,7 +363,7 @@
 		C962942422FD48BD00CC7F27 /* ColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTests.swift; sourceTree = "<group>"; };
 		C962942822FD8FAF00CC7F27 /* MapAgeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapAgeDialog.xml; sourceTree = "<group>"; };
 		C962942A22FD942300CC7F27 /* MapSeaLevelDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapSeaLevelDialog.xml; sourceTree = "<group>"; };
-		C962942D22FD970500CC7F27 /* QuestsSceneExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestsSceneExtension.swift; sourceTree = "<group>"; };
+		C962942D22FD970500CC7F27 /* MenuSceneExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSceneExtension.swift; sourceTree = "<group>"; };
 		C962942F22FDBFCE00CC7F27 /* MapRainfallDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapRainfallDialog.xml; sourceTree = "<group>"; };
 		C962943122FDEEBD00CC7F27 /* MapClimateDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapClimateDialog.xml; sourceTree = "<group>"; };
 		C965FEA822E4F20A0075CB87 /* AreaLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaLayer.swift; sourceTree = "<group>"; };
@@ -403,6 +405,8 @@
 		C9B1D61922F8073F008BFE61 /* Civ5MapHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapHeader.swift; sourceTree = "<group>"; };
 		C9BA0A6322DB5C780055ED59 /* CitySiteEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySiteEvaluator.swift; sourceTree = "<group>"; };
 		C9BA0A6522DB88190055ED59 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		C9C0F10B231C5A4800CCBBB7 /* PediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaViewController.swift; sourceTree = "<group>"; };
+		C9C0F10D231C5AAC00CCBBB7 /* PediaScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaScene.swift; sourceTree = "<group>"; };
 		C9C7F0C5229B193400A775B2 /* Colony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9C7F0C8229B193400A775B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9C7F0CE229B193400A775B2 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -868,6 +872,7 @@
 				C9C7F0D0229B193400A775B2 /* GameViewController.swift */,
 				C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */,
 				C90336A722F08AAD004D2D72 /* StoreViewController.swift */,
+				C9C0F10B231C5A4800CCBBB7 /* PediaViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -898,11 +903,12 @@
 			children = (
 				C90336B122F21C72004D2D72 /* BaseScene.swift */,
 				C94CA8C823194DC40058F3B4 /* MenuScene.swift */,
+				C962942D22FD970500CC7F27 /* MenuSceneExtension.swift */,
 				C91A4F3222A260DD000BF647 /* QuestsScene.swift */,
-				C962942D22FD970500CC7F27 /* QuestsSceneExtension.swift */,
 				C9C7F0CE229B193400A775B2 /* GameScene.swift */,
 				C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */,
 				C90336A922F08AF7004D2D72 /* StoreScene.swift */,
+				C9C0F10D231C5AAC00CCBBB7 /* PediaScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -1350,12 +1356,14 @@
 				C972CCC022AAA4AE008DB8CB /* CityObject.swift in Sources */,
 				C90336AC22F199AD004D2D72 /* BoosterStoreNode.swift in Sources */,
 				C9C7F106229EBDE700A775B2 /* River.swift in Sources */,
+				C9C0F10C231C5A4800CCBBB7 /* PediaViewController.swift in Sources */,
 				C97E96DA22A1CB7B00D594F3 /* MoveTypePathfinderDataSource.swift in Sources */,
 				C900654622AFA21D0004C963 /* UI.swift in Sources */,
 				C92D875822CB73B400E7A55E /* UserDao.swift in Sources */,
 				C9C7F102229EBD9500A775B2 /* Terrain.swift in Sources */,
 				C9E9BBF822B3B32C0048F97B /* LevelButtonNode.swift in Sources */,
 				C927E2EE22CF5A0A00EDBE0D /* OptionsScene.swift in Sources */,
+				C9C0F10E231C5AAC00CCBBB7 /* PediaScene.swift in Sources */,
 				C90336AE22F1C07F004D2D72 /* StoreSceneViewModel.swift in Sources */,
 				C9C7F129229EBEDD00A775B2 /* HexDirection.swift in Sources */,
 				C903369A22EDD189004D2D72 /* BoosterType.swift in Sources */,
@@ -1391,7 +1399,7 @@
 				C927E2F022CF5FA300EDBE0D /* OptionsViewController.swift in Sources */,
 				C903368F22EDA834004D2D72 /* GameRepository.swift in Sources */,
 				C9C7F118229EBE3100A775B2 /* ArrayExtension.swift in Sources */,
-				C962942E22FD970500CC7F27 /* QuestsSceneExtension.swift in Sources */,
+				C962942E22FD970500CC7F27 /* MenuSceneExtension.swift in Sources */,
 				C9C7F12B229EBF5200A775B2 /* AreaSprites.swift in Sources */,
 				C9697B3322DC99F80076FF4C /* SiteEvaluator.swift in Sources */,
 				C90336A622F084E2004D2D72 /* IconButtonNode.swift in Sources */,

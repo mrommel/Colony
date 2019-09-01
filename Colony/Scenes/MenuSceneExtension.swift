@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-extension QuestsScene {
+extension MenuScene {
     
     func requestMapType() {
         
@@ -202,7 +202,7 @@ extension QuestsScene {
     }
 }
 
-extension QuestsScene {
+extension MenuScene {
     
     func generateMap(from options: MapOptions) {
         
@@ -276,7 +276,7 @@ extension QuestsScene {
         if let map = generator.generate() {
             
             DispatchQueue.main.async {
-                self.questsDelegate?.startWith(map: map)
+                self.menuDelegate?.startWith(map: map)
             }
         }
     }
@@ -306,7 +306,7 @@ extension QuestsScene {
             progressHandler(1.0, "ready")
             
             DispatchQueue.main.async {
-                self.questsDelegate?.startWith(map: map)
+                self.menuDelegate?.startWith(map: map)
             }
         } else {
             DispatchQueue.main.async {

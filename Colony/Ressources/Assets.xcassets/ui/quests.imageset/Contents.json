@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "path-start-ne.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "quests.png",
       "scale" : "2x"
     },
     {

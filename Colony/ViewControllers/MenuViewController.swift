@@ -13,6 +13,8 @@ class MenuViewController: UIViewController {
     
     var menuScene: MenuScene?
     
+    var currentMap: HexagonTileMap? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,9 +29,29 @@ class MenuViewController: UIViewController {
         view.presentScene(self.menuScene)
         view.ignoresSiblingOrder = true
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "gotoGame" {
+            let gameViewController = segue.destination as? GameViewController
+            
+            if self.currentMap != nil {
+                gameViewController?.viewModel = GameViewModel(with: self.currentMap)
+            }
+        }
+            
+        if segue.identifier == "gotoOptions" {
+            // NOOP
+        }
+    }
 }
 
 extension MenuViewController: MenuDelegate {
+    
+    func startWith(map: HexagonTileMap?) {
+        self.currentMap = map
+        self.performSegue(withIdentifier: "gotoGame", sender: nil)
+    }
     
     func startTutorials() {
         //self.performSegue(withIdentifier: "gotoTutorials", sender: nil)
@@ -46,5 +68,9 @@ extension MenuViewController: MenuDelegate {
     
     func startStore() {
         self.performSegue(withIdentifier: "gotoStore", sender: nil)
+    }
+    
+    func startPedia() {
+        self.performSegue(withIdentifier: "gotoPedia", sender: nil)
     }
 }
