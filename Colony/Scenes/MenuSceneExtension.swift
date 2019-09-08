@@ -26,7 +26,9 @@ extension MenuScene {
             })
             
             mapTypeDialog.addCancelAction(handler: {
-                mapTypeDialog.close()
+                self.rootNode.sharpWith(completion: {
+                    mapTypeDialog.close()
+                })
             })
             
             self.cameraNode.addChild(mapTypeDialog)
@@ -57,7 +59,7 @@ extension MenuScene {
                     self.loadEarthMap(sized: size)
                     
                 case .pangaea:
-                    print("not handled")
+                    print("not handled: pangaea")
                     self.show(message: "not implemented")
                     
                     // one main continent, some small islands
@@ -70,19 +72,18 @@ extension MenuScene {
                     self.generateMap(from: mapOptions)
  
                 case .archipelago:
-                    print("not handled")
+                    print("not handled: archipelago")
                     self.show(message: "not implemented")
                     
                     // 8-10 small continents/islands, some small islands
                     
                 case .inlandsea:
-                    print("not handled")
+                    print("not handled: inlandsea")
                     self.show(message: "not implemented")
                     
                     // all landmass - ocean in the middle
                     
                 case .random:
-                    print("not handled")
                     // age (magnitude of hills/mountains)
                     // rainfall (more or less vegetation)
                     // temperature (climate zones change)
@@ -93,7 +94,9 @@ extension MenuScene {
             })
             
             mapSizeDialog.addCancelAction(handler: {
-                mapSizeDialog.close()
+                self.rootNode.sharpWith(completion: {
+                    mapSizeDialog.close()
+                })
             })
             
             self.cameraNode.addChild(mapSizeDialog)
@@ -116,7 +119,9 @@ extension MenuScene {
             })
             
             mapAgeDialog.addCancelAction(handler: {
-                mapAgeDialog.close()
+                self.rootNode.sharpWith(completion: {
+                    mapAgeDialog.close()
+                })
             })
             
             self.cameraNode.addChild(mapAgeDialog)
@@ -139,7 +144,9 @@ extension MenuScene {
             })
             
             mapRainfallDialog.addCancelAction(handler: {
-                mapRainfallDialog.close()
+                self.rootNode.sharpWith(completion: {
+                    mapRainfallDialog.close()
+                })
             })
             
             self.cameraNode.addChild(mapRainfallDialog)
@@ -162,7 +169,9 @@ extension MenuScene {
             })
             
             mapClimateDialog.addCancelAction(handler: {
-                mapClimateDialog.close()
+                self.rootNode.sharpWith(completion: {
+                    mapClimateDialog.close()
+                })
             })
             
             self.cameraNode.addChild(mapClimateDialog)
@@ -194,7 +203,9 @@ extension MenuScene {
             })
             
             mapSeaLevelDialog.addCancelAction(handler: {
-                mapSeaLevelDialog.close()
+                self.rootNode.sharpWith(completion: {
+                    mapSeaLevelDialog.close()
+                })
             })
             
             self.cameraNode.addChild(mapSeaLevelDialog)
@@ -219,7 +230,9 @@ extension MenuScene {
                         mapLoadingDialog.showProgress(value: progress, text: text)
                         
                         if progress == 1.0 {
-                            mapLoadingDialog.close()
+                            self.rootNode.sharpWith(completion: {
+                                mapLoadingDialog.close()
+                            })
                         }
                     }
                 })
@@ -246,9 +259,9 @@ extension MenuScene {
             case .small:
                 url = R.file.earth_smallMap()
             case .tiny:
-                print("not handled")
+                print("not handled: tiny earth")
             default:
-                print("not handled")
+                print("not handled: \(size)")
             }
             
             DispatchQueue.global(qos: .background).async {
@@ -258,6 +271,7 @@ extension MenuScene {
                         mapLoadingDialog.showProgress(value: progress, text: text)
                         
                         if progress == 1.0 {
+                            print("ready1")
                             mapLoadingDialog.close()
                         }
                     }
@@ -274,10 +288,11 @@ extension MenuScene {
         }
         
         if let map = generator.generate() {
-            
-            DispatchQueue.main.async {
-                self.menuDelegate?.startWith(map: map)
-            }
+            self.rootNode.sharpWith(completion: {
+                DispatchQueue.main.async {
+                    self.menuDelegate?.startWith(map: map)
+                }
+            })
         }
     }
     
@@ -303,11 +318,16 @@ extension MenuScene {
             // not sure why
             map.fogManager?.map = map
             
-            progressHandler(1.0, "ready")
+            progressHandler(1.0, "ready0")
             
-            DispatchQueue.main.async {
-                self.menuDelegate?.startWith(map: map)
-            }
+            self.rootNode.sharpWith(completion: {
+                DispatchQueue.main.async {
+                    
+                    self.menuDelegate?.startWith(map: map)
+                    print("ready 2")
+                }
+            })
+        
         } else {
             DispatchQueue.main.async {
                 //self.mapGenerationDelegate?.failed()

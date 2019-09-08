@@ -35,6 +35,25 @@ enum GameObjectType: String, Codable {
     // just wonder around
     case animal
     
+    var title: String {
+        
+        switch self {
+        case .ship:
+            return "Ship"
+        case .axeman:
+            return "Axeman"
+        case .archer:
+            return "Archer"
+        case .pirates:
+            return "Pirates"
+        case .tradeShip:
+            return "TradeShip"
+            
+        default:
+            return "Unknown"
+        }
+    }
+    
     var textureName: String {
         
         switch self {

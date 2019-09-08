@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import Rswift
 
 class MenuViewController: UIViewController {
     
@@ -32,7 +33,7 @@ class MenuViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "gotoGame" {
+        if segue.identifier == R.segue.menuViewController.gotoGame.identifier {
             let gameViewController = segue.destination as? GameViewController
             
             if self.currentMap != nil {
@@ -40,7 +41,19 @@ class MenuViewController: UIViewController {
             }
         }
             
-        if segue.identifier == "gotoOptions" {
+        if segue.identifier == R.segue.menuViewController.gotoOptions.identifier {
+            // NOOP
+        }
+        
+        if segue.identifier == R.segue.menuViewController.gotoQuests.identifier {
+            // NOOP
+        }
+        
+        if segue.identifier == R.segue.menuViewController.gotoStore.identifier {
+            // NOOP
+        }
+        
+        if segue.identifier == R.segue.menuViewController.gotoPedia.identifier {
             // NOOP
         }
     }
@@ -50,7 +63,7 @@ extension MenuViewController: MenuDelegate {
     
     func startWith(map: HexagonTileMap?) {
         self.currentMap = map
-        self.performSegue(withIdentifier: "gotoGame", sender: nil)
+        self.performSegue(withIdentifier: R.segue.menuViewController.gotoGame.identifier, sender: nil)
     }
     
     func startTutorials() {
@@ -59,18 +72,18 @@ extension MenuViewController: MenuDelegate {
     }
     
     func startQuests() {
-        self.performSegue(withIdentifier: "gotoQuests", sender: nil)
+        self.performSegue(withIdentifier: R.segue.menuViewController.gotoQuests.identifier, sender: nil)
     }
     
     func startOptions() {
-        self.performSegue(withIdentifier: "gotoOptions", sender: nil)
+        self.performSegue(withIdentifier: R.segue.menuViewController.gotoOptions.identifier, sender: nil)
     }
     
     func startStore() {
-        self.performSegue(withIdentifier: "gotoStore", sender: nil)
+        self.performSegue(withIdentifier: R.segue.menuViewController.gotoStore.identifier, sender: nil)
     }
     
     func startPedia() {
-        self.performSegue(withIdentifier: "gotoPedia", sender: nil)
+        self.performSegue(withIdentifier: R.segue.menuViewController.gotoPedia.identifier, sender: nil)
     }
 }

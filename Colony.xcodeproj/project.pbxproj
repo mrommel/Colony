@@ -57,6 +57,9 @@
 		C927E2EE22CF5A0A00EDBE0D /* OptionsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */; };
 		C927E2F022CF5FA300EDBE0D /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */; };
 		C927E2F222D1DA9B00EDBE0D /* ShipWreck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2F122D1DA9B00EDBE0D /* ShipWreck.swift */; };
+		C927EEC4231EB44200D775BD /* BlurrableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927EEC3231EB44200D775BD /* BlurrableNode.swift */; };
+		C927EEC6231EE63200D775BD /* ShadowLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927EEC5231EE63200D775BD /* ShadowLabelNode.swift */; };
+		C927EEC82324F07000D775BD /* GameLoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927EEC72324F07000D775BD /* GameLoadingScene.swift */; };
 		C92D875322CB694200E7A55E /* BaseDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D875222CB694200E7A55E /* BaseDao.swift */; };
 		C92D875622CB69F200E7A55E /* Colony.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C92D875422CB69F200E7A55E /* Colony.xcdatamodeld */; };
 		C92D875822CB73B400E7A55E /* UserDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D875722CB73B400E7A55E /* UserDao.swift */; };
@@ -189,6 +192,12 @@
 		C9BA0A6622DB88190055ED59 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA0A6522DB88190055ED59 /* City.swift */; };
 		C9C0F10C231C5A4800CCBBB7 /* PediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0F10B231C5A4800CCBBB7 /* PediaViewController.swift */; };
 		C9C0F10E231C5AAC00CCBBB7 /* PediaScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0F10D231C5AAC00CCBBB7 /* PediaScene.swift */; };
+		C9C0F110231D523C00CCBBB7 /* TruncatedLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0F10F231D523C00CCBBB7 /* TruncatedLabelNode.swift */; };
+		C9C0F112231D527E00CCBBB7 /* ClickableLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0F111231D527E00CCBBB7 /* ClickableLabelNode.swift */; };
+		C9C0F114231D5AC500CCBBB7 /* PediaContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0F113231D5AC500CCBBB7 /* PediaContentViewModel.swift */; };
+		C9C0F116231D5B3000CCBBB7 /* PediaContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0F115231D5B3000CCBBB7 /* PediaContentViewController.swift */; };
+		C9C0F118231D5B9600CCBBB7 /* PediaContentScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0F117231D5B9600CCBBB7 /* PediaContentScene.swift */; };
+		C9C0F11A231DA1E100CCBBB7 /* PediaContentSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0F119231DA1E000CCBBB7 /* PediaContentSceneViewModel.swift */; };
 		C9C7F0C9229B193400A775B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F0C8229B193400A775B2 /* AppDelegate.swift */; };
 		C9C7F0CF229B193400A775B2 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F0CE229B193400A775B2 /* GameScene.swift */; };
 		C9C7F0D1229B193400A775B2 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F0D0229B193400A775B2 /* GameViewController.swift */; };
@@ -309,6 +318,9 @@
 		C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
 		C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		C927E2F122D1DA9B00EDBE0D /* ShipWreck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipWreck.swift; sourceTree = "<group>"; };
+		C927EEC3231EB44200D775BD /* BlurrableNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurrableNode.swift; sourceTree = "<group>"; };
+		C927EEC5231EE63200D775BD /* ShadowLabelNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowLabelNode.swift; sourceTree = "<group>"; };
+		C927EEC72324F07000D775BD /* GameLoadingScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLoadingScene.swift; sourceTree = "<group>"; };
 		C92D875222CB694200E7A55E /* BaseDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDao.swift; sourceTree = "<group>"; };
 		C92D875522CB69F200E7A55E /* Colony.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Colony.xcdatamodel; sourceTree = "<group>"; };
 		C92D875722CB73B400E7A55E /* UserDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDao.swift; sourceTree = "<group>"; };
@@ -407,6 +419,12 @@
 		C9BA0A6522DB88190055ED59 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		C9C0F10B231C5A4800CCBBB7 /* PediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaViewController.swift; sourceTree = "<group>"; };
 		C9C0F10D231C5AAC00CCBBB7 /* PediaScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaScene.swift; sourceTree = "<group>"; };
+		C9C0F10F231D523C00CCBBB7 /* TruncatedLabelNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TruncatedLabelNode.swift; sourceTree = "<group>"; };
+		C9C0F111231D527E00CCBBB7 /* ClickableLabelNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableLabelNode.swift; sourceTree = "<group>"; };
+		C9C0F113231D5AC500CCBBB7 /* PediaContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaContentViewModel.swift; sourceTree = "<group>"; };
+		C9C0F115231D5B3000CCBBB7 /* PediaContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaContentViewController.swift; sourceTree = "<group>"; };
+		C9C0F117231D5B9600CCBBB7 /* PediaContentScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaContentScene.swift; sourceTree = "<group>"; };
+		C9C0F119231DA1E000CCBBB7 /* PediaContentSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaContentSceneViewModel.swift; sourceTree = "<group>"; };
 		C9C7F0C5229B193400A775B2 /* Colony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9C7F0C8229B193400A775B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9C7F0CE229B193400A775B2 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -616,6 +634,7 @@
 			isa = PBXGroup;
 			children = (
 				C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */,
+				C9C0F113231D5AC500CCBBB7 /* PediaContentViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -625,6 +644,7 @@
 			children = (
 				C94A2F3922C267B100AB7117 /* GameSceneViewModel.swift */,
 				C90336AD22F1C07F004D2D72 /* StoreSceneViewModel.swift */,
+				C9C0F119231DA1E000CCBBB7 /* PediaContentSceneViewModel.swift */,
 			);
 			path = SceneViewModels;
 			sourceTree = "<group>";
@@ -782,6 +802,10 @@
 				C903369222EDB89F004D2D72 /* BoosterTypeNode.swift */,
 				C903369422EDBB2E004D2D72 /* BoosterNode.swift */,
 				C90336AB22F199AD004D2D72 /* BoosterStoreNode.swift */,
+				C9C0F10F231D523C00CCBBB7 /* TruncatedLabelNode.swift */,
+				C9C0F111231D527E00CCBBB7 /* ClickableLabelNode.swift */,
+				C927EEC3231EB44200D775BD /* BlurrableNode.swift */,
+				C927EEC5231EE63200D775BD /* ShadowLabelNode.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -873,6 +897,7 @@
 				C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */,
 				C90336A722F08AAD004D2D72 /* StoreViewController.swift */,
 				C9C0F10B231C5A4800CCBBB7 /* PediaViewController.swift */,
+				C9C0F115231D5B3000CCBBB7 /* PediaContentViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -906,9 +931,11 @@
 				C962942D22FD970500CC7F27 /* MenuSceneExtension.swift */,
 				C91A4F3222A260DD000BF647 /* QuestsScene.swift */,
 				C9C7F0CE229B193400A775B2 /* GameScene.swift */,
+				C927EEC72324F07000D775BD /* GameLoadingScene.swift */,
 				C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */,
 				C90336A922F08AF7004D2D72 /* StoreScene.swift */,
 				C9C0F10D231C5AAC00CCBBB7 /* PediaScene.swift */,
+				C9C0F117231D5B9600CCBBB7 /* PediaContentScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -1253,7 +1280,9 @@
 				C9C7F103229EBD9500A775B2 /* Feature.swift in Sources */,
 				C9C7F13A229F203200A775B2 /* TerrainLayer.swift in Sources */,
 				C9C7F0CF229B193400A775B2 /* GameScene.swift in Sources */,
+				C927EEC6231EE63200D775BD /* ShadowLabelNode.swift in Sources */,
 				C9763EAD22A2FEE300F31126 /* MessageBoxNode.swift in Sources */,
+				C9C0F112231D527E00CCBBB7 /* ClickableLabelNode.swift in Sources */,
 				C90336A422F07663004D2D72 /* SettingsUsecase.swift in Sources */,
 				C9F9C98F22E0B10B000A3310 /* Ocean.swift in Sources */,
 				C97E96D722A1C21600D594F3 /* ShipObject.swift in Sources */,
@@ -1284,6 +1313,7 @@
 				C90336B622F42842004D2D72 /* CoinsLabelNode.swift in Sources */,
 				C92D875F22CB77EB00E7A55E /* UserRepository.swift in Sources */,
 				C9C7F114229EBE3100A775B2 /* FloatExtension.swift in Sources */,
+				C9C0F116231D5B3000CCBBB7 /* PediaContentViewController.swift in Sources */,
 				C9C7F0FD229EBD2900A775B2 /* HexagonMap.swift in Sources */,
 				C9B1D61622F8071B008BFE61 /* Civ5Map.swift in Sources */,
 				C9C7F0D1229B193400A775B2 /* GameViewController.swift in Sources */,
@@ -1294,6 +1324,7 @@
 				C9BA0A6622DB88190055ED59 /* City.swift in Sources */,
 				C92D876522CBF34E00E7A55E /* Formatters.swift in Sources */,
 				C97B283222A5349A00112532 /* FogManager.swift in Sources */,
+				C9C0F118231D5B9600CCBBB7 /* PediaContentScene.swift in Sources */,
 				C90BF098230FE1DC0074C3E8 /* LevelIntroductionDialog.swift in Sources */,
 				C9C7F140229F20C300A775B2 /* RiverLayer.swift in Sources */,
 				C98F2F4222F573DB00B49457 /* Civ5Terrain.swift in Sources */,
@@ -1314,6 +1345,7 @@
 				C903369C22EE3BF0004D2D72 /* EncodingExtensions.swift in Sources */,
 				C927E2EC22CE9C6300EDBE0D /* GameUsecase.swift in Sources */,
 				C938B56822D6200E00A2A838 /* Shark.swift in Sources */,
+				C9C0F11A231DA1E100CCBBB7 /* PediaContentSceneViewModel.swift in Sources */,
 				C9C7F127229EBE7A00A775B2 /* HeightMap.swift in Sources */,
 				C90AB6F123059C3A00CC5C59 /* CoreDataManager.swift in Sources */,
 				C9697B2F22DC99C30076FF4C /* RegionFinder.swift in Sources */,
@@ -1357,6 +1389,7 @@
 				C90336AC22F199AD004D2D72 /* BoosterStoreNode.swift in Sources */,
 				C9C7F106229EBDE700A775B2 /* River.swift in Sources */,
 				C9C0F10C231C5A4800CCBBB7 /* PediaViewController.swift in Sources */,
+				C927EEC82324F07000D775BD /* GameLoadingScene.swift in Sources */,
 				C97E96DA22A1CB7B00D594F3 /* MoveTypePathfinderDataSource.swift in Sources */,
 				C900654622AFA21D0004C963 /* UI.swift in Sources */,
 				C92D875822CB73B400E7A55E /* UserDao.swift in Sources */,
@@ -1364,6 +1397,7 @@
 				C9E9BBF822B3B32C0048F97B /* LevelButtonNode.swift in Sources */,
 				C927E2EE22CF5A0A00EDBE0D /* OptionsScene.swift in Sources */,
 				C9C0F10E231C5AAC00CCBBB7 /* PediaScene.swift in Sources */,
+				C9C0F110231D523C00CCBBB7 /* TruncatedLabelNode.swift in Sources */,
 				C90336AE22F1C07F004D2D72 /* StoreSceneViewModel.swift in Sources */,
 				C9C7F129229EBEDD00A775B2 /* HexDirection.swift in Sources */,
 				C903369A22EDD189004D2D72 /* BoosterType.swift in Sources */,
@@ -1384,6 +1418,7 @@
 				C92D875622CB69F200E7A55E /* Colony.xcdatamodeld in Sources */,
 				C94A2F3722C248DB00AB7117 /* MapOverviewNode.swift in Sources */,
 				C9C7F124229EBE5C00A775B2 /* MapGenerator.swift in Sources */,
+				C927EEC4231EB44200D775BD /* BlurrableNode.swift in Sources */,
 				C900654422AF96A00004C963 /* Dialog.swift in Sources */,
 				C9C7F117229EBE3100A775B2 /* CGPointExtension.swift in Sources */,
 				C903369E22EEE82B004D2D72 /* PausableTimer.swift in Sources */,
@@ -1397,6 +1432,7 @@
 				C94CA8C923194DC40058F3B4 /* MenuScene.swift in Sources */,
 				C90336AA22F08AF7004D2D72 /* StoreScene.swift in Sources */,
 				C927E2F022CF5FA300EDBE0D /* OptionsViewController.swift in Sources */,
+				C9C0F114231D5AC500CCBBB7 /* PediaContentViewModel.swift in Sources */,
 				C903368F22EDA834004D2D72 /* GameRepository.swift in Sources */,
 				C9C7F118229EBE3100A775B2 /* ArrayExtension.swift in Sources */,
 				C962942E22FD970500CC7F27 /* MenuSceneExtension.swift in Sources */,

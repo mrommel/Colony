@@ -269,8 +269,6 @@ class GameScene: BaseScene {
             }
         }
 
-        self.updateLayout()
-
         // FIXME
         let telescopeBoosterAvailable = self.game?.boosterStock.isAvailable(boosterType: .telescope) ?? false
         self.boosterNodeTelescope = BoosterNode(for: .telescope, active: telescopeBoosterAvailable)
@@ -285,6 +283,8 @@ class GameScene: BaseScene {
         self.boosterNodeTime?.position = CGPoint(x: 220, y: 170)
         self.boosterNodeTime?.delegate = self
         self.safeAreaNode.addChild(self.boosterNodeTime!)
+        
+        self.updateLayout()
     }
 
     override func updateLayout() {

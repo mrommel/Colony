@@ -55,13 +55,13 @@ class MenuScene: BaseScene {
         self.backgroundNode = SKSpriteNode(imageNamed: "background")
         self.backgroundNode?.zPosition = 0
         self.backgroundNode?.size = viewSize
-        self.addChild(self.backgroundNode!)
+        self.rootNode.addChild(self.backgroundNode!)
 
         // colony label
         let colonytexture = SKTexture(imageNamed: "ColonyText")
         self.colonyTitleLabel = SKSpriteNode(texture: colonytexture, color: .black, size: CGSize(width: 228, height: 87))
         self.colonyTitleLabel?.zPosition = 1
-        self.addChild(self.colonyTitleLabel!)
+        self.rootNode.addChild(self.colonyTitleLabel!)
 
         // tutorial
         self.tutorialButton = MenuButtonNode(titled: "Tutorials",
@@ -69,7 +69,7 @@ class MenuScene: BaseScene {
                 self.menuDelegate?.startTutorials()
             })
         self.tutorialButton?.zPosition = 2
-        self.addChild(self.tutorialButton!)
+        self.rootNode.addChild(self.tutorialButton!)
 
         // quests
         self.questsButton = MenuButtonNode(imageNamed: "quests", title: "Quests",
@@ -77,15 +77,17 @@ class MenuScene: BaseScene {
                 self.menuDelegate?.startQuests()
             })
         self.questsButton?.zPosition = 2
-        self.addChild(self.questsButton!)
+        self.rootNode.addChild(self.questsButton!)
 
         // quests
         self.freePlayButton = MenuButtonNode(titled: "Free Play",
             buttonAction: {
-                self.requestMapType()
+                self.rootNode.blurWith(completion: {
+                    self.requestMapType()
+                })
             })
         self.freePlayButton?.zPosition = 2
-        self.addChild(self.freePlayButton!)
+        self.rootNode.addChild(self.freePlayButton!)
 
         // options
         self.optionsButton = MenuButtonNode(imageNamed: "settings", title: "Options",
@@ -93,7 +95,7 @@ class MenuScene: BaseScene {
                 self.menuDelegate?.startOptions()
             })
         self.optionsButton?.zPosition = 2
-        self.addChild(self.optionsButton!)
+        self.rootNode.addChild(self.optionsButton!)
 
         // shop
         self.storeButton = MenuButtonNode(imageNamed: "cart", title: "Store",
@@ -101,7 +103,7 @@ class MenuScene: BaseScene {
                 self.menuDelegate?.startStore()
             })
         self.storeButton?.zPosition = 2
-        self.addChild(self.storeButton!)
+        self.rootNode.addChild(self.storeButton!)
         
         // pedia
         self.pediaButton = MenuButtonNode(titled: "Pedia",
@@ -109,13 +111,13 @@ class MenuScene: BaseScene {
                                             self.menuDelegate?.startPedia()
         })
         self.pediaButton?.zPosition = 2
-        self.addChild(self.pediaButton!)
+        self.rootNode.addChild(self.pediaButton!)
 
         // copyright
         self.copyrightLabel = SKLabelNode(text: "Copyright 2019 MiRo & MaRo")
         self.copyrightLabel?.zPosition = 1
         self.copyrightLabel?.fontSize = 12
-        self.addChild(self.copyrightLabel!)
+        self.rootNode.addChild(self.copyrightLabel!)
 
         self.updateLayout()
     }

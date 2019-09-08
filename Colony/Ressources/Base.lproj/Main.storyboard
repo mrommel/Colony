@@ -87,10 +87,28 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="VQT-FD-zBn"/>
                     </view>
+                    <connections>
+                        <segue destination="HeW-kp-wV7" kind="show" identifier="showContent" id="6nw-6Z-Mtg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzp-x4-grK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3139" y="907"/>
+        </scene>
+        <!--Pedia Content View Controller-->
+        <scene sceneID="JYs-SO-7Px">
+            <objects>
+                <viewController id="HeW-kp-wV7" customClass="PediaContentViewController" customModule="Colony" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aXE-Wk-0A6" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="MMO-Ts-s1i"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SX4-Jq-z6Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4152" y="1228"/>
         </scene>
         <!--Quests View Controller-->
         <scene sceneID="biM-dS-VS9">

@@ -19,6 +19,7 @@ class GameViewController: UIViewController {
     var viewModel: GameViewModel?
 
     // scenes
+    var gameLoadingScene: GameLoadingScene?
     var gameScene: GameScene?
 
     // The current zoom scale of the camera
@@ -66,14 +67,26 @@ class GameViewController: UIViewController {
         guard let view = self.view as! SKView? else {
             fatalError("View not loaded")
         }
+        
+        self.gameLoadingScene = GameLoadingScene(size: view.bounds.size)
+        self.gameLoadingScene?.completion = {
+            
+            self.gameScene = GameScene(size: view.bounds.size)
+            self.gameScene?.viewModel = GameSceneViewModel(with: levelURL)
+            self.gameScene?.scaleMode = .resizeFill
+            self.gameScene?.gameDelegate = self
+            
+            view.presentScene(self.gameScene)
+            view.ignoresSiblingOrder = true
+        }
 
-        self.gameScene = GameScene(size: view.bounds.size)
-        self.gameScene?.viewModel = GameSceneViewModel(with: levelURL)
-        self.gameScene?.scaleMode = .resizeFill
-        self.gameScene?.gameDelegate = self
-
-        view.presentScene(self.gameScene)
+        view.presentScene(self.gameLoadingScene)
         view.ignoresSiblingOrder = true
+        
+        #if DEBUG
+        view.showsFPS = true
+        view.showsNodeCount = true
+        #endif
 
         self.setupGestureRecognizer()
     }
@@ -84,13 +97,25 @@ class GameViewController: UIViewController {
             fatalError("View not loaded")
         }
         
-        self.gameScene = GameScene(size: view.bounds.size)
-        self.gameScene?.viewModel = GameSceneViewModel(with: game)
-        self.gameScene?.scaleMode = .resizeFill
-        self.gameScene?.gameDelegate = self
+        self.gameLoadingScene = GameLoadingScene(size: view.bounds.size)
+        self.gameLoadingScene?.completion = {
         
-        view.presentScene(self.gameScene)
+            self.gameScene = GameScene(size: view.bounds.size)
+            self.gameScene?.viewModel = GameSceneViewModel(with: game)
+            self.gameScene?.scaleMode = .resizeFill
+            self.gameScene?.gameDelegate = self
+            
+            view.presentScene(self.gameScene)
+            view.ignoresSiblingOrder = true
+        }
+        
+        view.presentScene(self.gameLoadingScene)
         view.ignoresSiblingOrder = true
+        
+        #if DEBUG
+        view.showsFPS = true
+        view.showsNodeCount = true
+        #endif
         
         self.setupGestureRecognizer()
     }
@@ -100,13 +125,20 @@ class GameViewController: UIViewController {
         guard let view = self.view as! SKView? else {
             fatalError("View not loaded")
         }
+        
+        self.gameLoadingScene = GameLoadingScene(size: view.bounds.size)
+        self.gameLoadingScene?.completion = {
 
-        self.gameScene = GameScene(size: view.bounds.size)
-        self.gameScene?.viewModel = GameSceneViewModel(with: map)
-        self.gameScene?.scaleMode = .resizeFill
-        self.gameScene?.gameDelegate = self
-
-        view.presentScene(self.gameScene)
+            self.gameScene = GameScene(size: view.bounds.size)
+            self.gameScene?.viewModel = GameSceneViewModel(with: map)
+            self.gameScene?.scaleMode = .resizeFill
+            self.gameScene?.gameDelegate = self
+            
+            view.presentScene(self.gameScene)
+            view.ignoresSiblingOrder = true
+        }
+        
+        view.presentScene(self.gameLoadingScene)
         view.ignoresSiblingOrder = true
 
         #if DEBUG

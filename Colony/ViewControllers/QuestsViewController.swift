@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import Rswift
 
 class QuestsViewController: UIViewController {
     
@@ -46,7 +47,7 @@ class QuestsViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "gotoGame" {
+        if segue.identifier == R.segue.questsViewController.gotoGame.identifier {
             let gameViewController = segue.destination as? GameViewController
             
             if self.currentLevelResource != nil {
@@ -64,13 +65,13 @@ extension QuestsViewController: QuestsDelegate {
         
         self.currentLevelResource = resource
         self.currentGame = nil
-        self.performSegue(withIdentifier: "gotoGame", sender: nil)
+        self.performSegue(withIdentifier: R.segue.questsViewController.gotoGame.identifier, sender: nil)
     }
     
     func restart(game: Game?) {
         self.currentLevelResource = nil
         self.currentGame = game
-        self.performSegue(withIdentifier: "gotoGame", sender: nil)
+        self.performSegue(withIdentifier: R.segue.questsViewController.gotoGame.identifier, sender: nil)
     }
     
     func quitQuests() {

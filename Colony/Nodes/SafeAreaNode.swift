@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class SafeAreaNode: SKNode {
+class SafeAreaNode: SKEffectNode {
 
     override var frame: CGRect {
         get {

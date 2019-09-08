@@ -8,10 +8,14 @@
 
 import UIKit
 import SpriteKit
+import Rswift
 
 class PediaViewController: UIViewController {
     
     var pediaScene: PediaScene?
+    
+    // delegate content
+    var currentTerrain: Terrain? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,11 +38,28 @@ class PediaViewController: UIViewController {
         
         self.pediaScene?.updateLayout()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == R.segue.pediaViewController.showContent.identifier {
+            let pediaContentViewController = segue.destination as? PediaContentViewController
+            
+            if let terrain = self.currentTerrain {
+                pediaContentViewController?.viewModel = PediaContentViewModel(with: terrain)
+            }
+        }
+    }
 }
 
 extension PediaViewController: PediaDelegate {
     
     func quitPedia() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func show(terrain: Terrain) {
+        
+        self.currentTerrain = terrain
+        self.performSegue(withIdentifier: R.segue.pediaViewController.showContent.identifier, sender: nil)
     }
 }

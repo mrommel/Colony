@@ -26,7 +26,7 @@ enum Terrain: String, Codable {
     case hill
     case mountain
 
-	var description: String {
+	var title: String {
 		switch self {
 		case .ocean:
 			return "Ocean"
@@ -48,6 +48,29 @@ enum Terrain: String, Codable {
             return "Mountain"
 		}
 	}
+    
+    var summary: String {
+        switch self {
+        case .ocean:
+            return "Ocean sum"
+        case .shore:
+            return "Shore sum"
+        case .plain:
+            return "Plain sum"
+        case .grass:
+            return "Grass sum"
+        case .desert:
+            return "Desert sum"
+        case .tundra:
+            return "Tundra sum"
+        case .snow:
+            return "Snow sum"
+        case .hill:
+            return "Hill sum"
+        case .mountain:
+            return "Mountain sum"
+        }
+    }
 
     var textureNameHex: [String] {
 		switch self {

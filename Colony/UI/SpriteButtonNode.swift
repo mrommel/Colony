@@ -180,7 +180,7 @@ class SpriteButtonNode: SKNode {
             let location: CGPoint = touch.location(in: self)
             
             if defaultButton.contains(location) {
-                action()
+                self.action()
             }
             
             activeButton.isHidden = true
