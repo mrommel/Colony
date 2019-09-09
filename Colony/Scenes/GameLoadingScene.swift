@@ -47,13 +47,13 @@ class GameLoadingScene: BaseScene {
         self.backgroundNode?.position = CGPoint(x: 0, y: 0)
         self.backgroundNode?.zPosition = 0
         self.backgroundNode?.size = viewSize
-        self.addChild(backgroundNode!)
+        self.rootNode.addChild(backgroundNode!)
         
         self.progressBar = ProgressBarNode(size: CGSize(width: 200, height: 40))
         self.progressBar?.set(progress: 0.0)
         self.progressBar?.position = CGPoint(x: 0.0, y: 0.0)
         self.progressBar?.zPosition = 5
-        self.addChild(self.progressBar!)
+        self.rootNode.addChild(self.progressBar!)
         
         self.updateLayout()
     }

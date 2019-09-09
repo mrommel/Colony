@@ -15,6 +15,7 @@ class FeatureLayer: SKNode {
     override init() {
         
         super.init()
+        self.zPosition = GameScene.Constants.ZLevels.feature
     }
     
     required init?(coder aDecoder: NSCoder) {

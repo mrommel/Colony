@@ -174,7 +174,9 @@ class TradeShip: GameObject {
         }
         
         guard let attacker = game.getUnitBy(identifier: attackerIdentifier) else {
-            fatalError("Can't get attacker unit")
+            //fatalError("Can't get attacker unit")
+            print("[TradeShip] Can't get attacker unit => maybe dead?")
+            return
         }
         
         guard attacker.civilization != self.civilization else {

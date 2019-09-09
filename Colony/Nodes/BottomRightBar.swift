@@ -29,13 +29,13 @@ class BottomRightBar: SizedNode {
         super.init(sized: size)
 
         self.anchorPoint = .lowerRight
-        self.zPosition = 49 // FIXME: move to constants
+        self.zPosition = GameScene.Constants.ZLevels.sceneElements
         
         let backgroundTexture = SKTexture(imageNamed: "unit_selector_body")
         self.backgroundBodyNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: size)
         self.backgroundBodyNode?.anchorPoint = .lowerLeft
         self.backgroundBodyNode?.position = CGPoint(x: 0, y: 0)
-        self.backgroundBodyNode?.zPosition = 50
+        self.backgroundBodyNode?.zPosition = self.zPosition + 0.1
         
         if let backgroundBodyNode = self.backgroundBodyNode {
             self.addChild(backgroundBodyNode)
@@ -43,7 +43,7 @@ class BottomRightBar: SizedNode {
         
         self.mapOverviewNode = MapOverviewNode(with: level?.map, size: CGSize(width: 157, height: 95))
         self.mapOverviewNode?.position = CGPoint(x: 9, y: 1)
-        self.mapOverviewNode?.zPosition = 51 // FIXME: move to constants
+        self.mapOverviewNode?.zPosition = self.zPosition + 0.2
         self.mapOverviewNode?.anchorPoint = .lowerLeft
         
         if let mapOverviewNode = self.mapOverviewNode {
@@ -53,7 +53,7 @@ class BottomRightBar: SizedNode {
         let mapOverlayTexture = SKTexture(imageNamed: "map_overlay")
         self.mapOverlay = SKSpriteNode(texture: mapOverlayTexture, color: .black, size: CGSize(width: 157, height: 95))
         self.mapOverlay?.position = CGPoint(x: 9, y: 1)
-        self.mapOverlay?.zPosition = 52 // FIXME: move to constants
+        self.mapOverlay?.zPosition = self.zPosition + 0.3
         self.mapOverlay?.anchorPoint = .lowerLeft
         
         if let mapOverlay = self.mapOverlay {

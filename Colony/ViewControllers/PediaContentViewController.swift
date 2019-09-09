@@ -27,7 +27,7 @@ class PediaContentViewController: UIViewController {
         self.pediaContentScene?.scaleMode = .resizeFill
         
         view.presentScene(self.pediaContentScene)
-        view.ignoresSiblingOrder = true
+        view.ignoresSiblingOrder = false
     }
     
     override func viewDidLayoutSubviews() {

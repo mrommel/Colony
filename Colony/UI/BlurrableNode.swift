@@ -12,17 +12,19 @@ class BlurrableNode: SKEffectNode {
     
     let blurFilter: CIFilter? = CIFilter(name: "CIGaussianBlur")
     
+    private static let blurRadius: CGFloat = 5
+    private static let blurAnimationLength: CGFloat = 0.5
+    
     override init() {
         super.init()
         
-        //self.shouldEnableEffects = false
+        self.shouldEnableEffects = false // no - effects
 
         self.blurFilter?.setDefaults()
-        self.blurFilter?.setValue(0.0, forKey: kCIInputRadiusKey)
+        self.blurFilter?.setValue(BlurrableNode.blurRadius, forKey: kCIInputRadiusKey)
         
         self.filter = blurFilter
         self.shouldRasterize = true // no caching
-        //self.shouldEnableEffects = true // yes - effects
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -31,30 +33,34 @@ class BlurrableNode: SKEffectNode {
     
     func blurWith(completion: @escaping () -> Void) {
         
-        //self.blurFilter?.setValue(8, forKey: BlurrableNode.kInputRadius)
-        //self.shouldEnableEffects = true
-        //self.blendMode = .alpha
-        
-        //self.shouldEnableEffects = true
-        
-        self.run(SKAction.customAction(withDuration: 1.0, actionBlock: { (node: SKNode, elapsedTime: CGFloat) in
-            let radius = (elapsedTime / 1.0) * 10.0
-            self.blurFilter?.setValue(radius, forKey: kCIInputRadiusKey)
+        if BlurrableNode.blurAnimationLength == 0.0 {
             self.shouldEnableEffects = true
-            self.blendMode = .alpha
-        }), completion: {
             completion()
-        })
+        } else {
+            self.run(SKAction.customAction(withDuration: TimeInterval(BlurrableNode.blurAnimationLength), actionBlock: { (node: SKNode, elapsedTime: CGFloat) in
+                let radius = (elapsedTime / BlurrableNode.blurAnimationLength) * BlurrableNode.blurRadius
+                self.blurFilter?.setValue(radius, forKey: kCIInputRadiusKey)
+                self.shouldEnableEffects = true
+                self.blendMode = .alpha
+            }), completion: {
+                completion()
+            })
+        }
     }
     
     func sharpWith(completion: @escaping () -> Void) {
         
-        self.run(SKAction.customAction(withDuration: 1.0, actionBlock: { (node: SKNode, elapsedTime: CGFloat) in
-            let radius = 10 - (elapsedTime / 1.0) * 10.0
-            self.blurFilter?.setValue(radius, forKey: kCIInputRadiusKey)
-        }), completion: {
+        if BlurrableNode.blurAnimationLength == 0.0 {
             self.shouldEnableEffects = false
             completion()
-        })
+        } else {
+            self.run(SKAction.customAction(withDuration: TimeInterval(BlurrableNode.blurAnimationLength), actionBlock: { (node: SKNode, elapsedTime: CGFloat) in
+                let radius = BlurrableNode.blurRadius - (elapsedTime / BlurrableNode.blurAnimationLength) * BlurrableNode.blurRadius
+                self.blurFilter?.setValue(radius, forKey: kCIInputRadiusKey)
+            }), completion: {
+                self.shouldEnableEffects = false
+                completion()
+            })
+        }
     }
 }

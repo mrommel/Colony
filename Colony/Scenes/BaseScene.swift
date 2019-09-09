@@ -29,20 +29,26 @@ class BaseScene: SKScene {
     override func didMove(to view: SKView) {
 
         // camera
-        self.cameraNode = SKCameraNode() //initialize and assign an instance of SKCameraNode to the cam variable.
-        self.camera = self.cameraNode //set the scene's camera to reference cam
-        self.addChild(self.cameraNode) //make the cam a childElement of the scene itself.
+        self.cameraNode = SKCameraNode() // initialize and assign an instance of SKCameraNode to the cam variable.
+        self.cameraNode.zPosition = 50.0
+        self.camera = self.cameraNode // set the scene's camera to reference cam
+        super.addChild(self.cameraNode) // make the cam a childElement of the scene itself.
 
-        // the safeAreaNode holds the UI
+        // the safeAreaNode holds the main UI
         self.safeAreaNode = SafeAreaNode()
+        self.safeAreaNode.zPosition = 50.0
         self.cameraNode.addChild(self.safeAreaNode)
 
-        // blur node
+        // blurrable node
         self.rootNode = BlurrableNode()
         self.rootNode.zPosition = 1.5
-        self.addChild(self.rootNode)
+        super.addChild(self.rootNode)
 
         self.safeAreaNode.updateLayout()
+    }
+    
+    override func addChild(_ node: SKNode) {
+        fatalError("can't add child to node anymore - use something else")
     }
 
     func blurWithCompletion() {
@@ -61,6 +67,9 @@ class BaseScene: SKScene {
     func updateLayout() {
 
         self.safeAreaNode.updateLayout()
+        
+        self.rootNode.renderNodeHieararchy()
+        self.cameraNode.renderNodeHieararchy()
     }
 
     func show(message: String, for seconds: TimeInterval = 5.0) {

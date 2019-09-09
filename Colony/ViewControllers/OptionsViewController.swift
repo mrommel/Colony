@@ -33,7 +33,7 @@ class OptionsViewController: UIViewController {
         self.optionsScene?.scaleMode = .resizeFill
         
         view.presentScene(self.optionsScene)
-        view.ignoresSiblingOrder = true
+        view.ignoresSiblingOrder = false
     }
 }
 

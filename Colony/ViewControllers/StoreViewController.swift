@@ -32,7 +32,7 @@ class StoreViewController: UIViewController {
         self.storeScene?.scaleMode = .resizeFill
         
         view.presentScene(self.storeScene)
-        view.ignoresSiblingOrder = true
+        view.ignoresSiblingOrder = false
     }
     
     override func viewDidLayoutSubviews() {

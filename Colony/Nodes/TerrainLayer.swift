@@ -15,6 +15,7 @@ class TerrainLayer: SKNode {
     override init() {
         
         super.init()
+        self.zPosition = GameScene.Constants.ZLevels.terrain
     }
     
     required init?(coder aDecoder: NSCoder) {

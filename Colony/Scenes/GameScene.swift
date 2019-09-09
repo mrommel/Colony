@@ -38,7 +38,8 @@ class GameScene: BaseScene {
             static let cityName: CGFloat = 5.5
             static let sprite: CGFloat = 6.0
             static let labels: CGFloat = 50.0
-            static let dialogs: CGFloat = 51.0
+            static let sceneElements: CGFloat = 51.0
+            static let dialogs: CGFloat = 52.0
             static let messages: CGFloat = 60.0
         }
 
@@ -196,11 +197,13 @@ class GameScene: BaseScene {
         self.safeAreaNode.addChild(self.bottomLeftBar!)
         self.safeAreaNode.addChild(self.bottomRightBar!)
 
+        self.viewHex.name = "ViewHex"
         self.viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.5)
+        self.viewHex.zPosition = 1.0
         self.viewHex.xScale = deviceScale
         self.viewHex.yScale = deviceScale
         self.viewHex.addChild(self.mapNode!)
-        self.addChild(self.viewHex)
+        self.rootNode.addChild(self.viewHex)
 
         // position the camera on the gamescene.
         self.cameraNode.position = CGPoint(x: self.frame.midX, y: self.frame.midY)

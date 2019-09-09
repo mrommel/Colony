@@ -15,6 +15,7 @@ class BoardLayer: SKNode {
     override init() {
         
         super.init()
+        self.zPosition = GameScene.Constants.ZLevels.labels
     }
     
     required init?(coder aDecoder: NSCoder) {

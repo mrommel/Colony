@@ -28,7 +28,7 @@ class MenuViewController: UIViewController {
         self.menuScene?.scaleMode = .resizeFill
         
         view.presentScene(self.menuScene)
-        view.ignoresSiblingOrder = true
+        view.ignoresSiblingOrder = false
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

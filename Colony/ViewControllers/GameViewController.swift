@@ -77,11 +77,11 @@ class GameViewController: UIViewController {
             self.gameScene?.gameDelegate = self
             
             view.presentScene(self.gameScene)
-            view.ignoresSiblingOrder = true
+            view.ignoresSiblingOrder = false
         }
 
         view.presentScene(self.gameLoadingScene)
-        view.ignoresSiblingOrder = true
+        view.ignoresSiblingOrder = false
         
         #if DEBUG
         view.showsFPS = true
@@ -106,11 +106,11 @@ class GameViewController: UIViewController {
             self.gameScene?.gameDelegate = self
             
             view.presentScene(self.gameScene)
-            view.ignoresSiblingOrder = true
+            view.ignoresSiblingOrder = false
         }
         
         view.presentScene(self.gameLoadingScene)
-        view.ignoresSiblingOrder = true
+        view.ignoresSiblingOrder = false
         
         #if DEBUG
         view.showsFPS = true
@@ -135,11 +135,11 @@ class GameViewController: UIViewController {
             self.gameScene?.gameDelegate = self
             
             view.presentScene(self.gameScene)
-            view.ignoresSiblingOrder = true
+            view.ignoresSiblingOrder = false
         }
         
         view.presentScene(self.gameLoadingScene)
-        view.ignoresSiblingOrder = true
+        view.ignoresSiblingOrder = false
 
         #if DEBUG
             view.showsFPS = true

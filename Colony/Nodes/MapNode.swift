@@ -49,6 +49,7 @@ class MapNode: SKNode {
         self.areaLayer.populate(with: level)
 
         super.init()
+        self.zPosition = 0 // GameScene.Constants.ZLevels.labels
 
         self.addChild(self.terrainLayer)
         self.addChild(self.featureLayer)

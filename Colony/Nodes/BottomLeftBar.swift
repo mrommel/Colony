@@ -23,7 +23,7 @@ class BottomLeftBar: SizedNode {
         super.init(sized: size)
         
         self.anchorPoint = .lowerLeft
-        self.zPosition = 49 // FIXME: move to constants
+        self.zPosition = GameScene.Constants.ZLevels.sceneElements
         
         self.gameObjectManager = level?.gameObjectManager
         level?.gameObjectManager.gameObjectUnitDelegates.addDelegate(self)
@@ -31,7 +31,7 @@ class BottomLeftBar: SizedNode {
         let mapOverviewBodyTexture = SKTexture(imageNamed: "map_overview_body")
         self.backgroundBodyNode = SKSpriteNode(texture: mapOverviewBodyTexture, color: .black, size: CGSize(width: 200, height: 112))
         self.backgroundBodyNode?.position = self.position
-        self.backgroundBodyNode?.zPosition = 49
+        self.backgroundBodyNode?.zPosition = self.zPosition + 0.1
         self.backgroundBodyNode?.anchorPoint = .lowerLeft
         
         if let backgroundBodyNode = self.backgroundBodyNode {
@@ -41,7 +41,7 @@ class BottomLeftBar: SizedNode {
         let unitBackgroundTexture = SKTexture(imageNamed: "unit_frame")
         self.unitBackgroundNode = SKSpriteNode(texture: unitBackgroundTexture, color: .black, size: CGSize(width: 72, height: 72))
         self.unitBackgroundNode?.position = self.position + CGPoint(x: 90, y: 3)
-        self.unitBackgroundNode?.zPosition = 52
+        self.unitBackgroundNode?.zPosition = self.zPosition + 0.2
         self.unitBackgroundNode?.anchorPoint = .lowerLeft
         
         if let unitBackgroundNode = self.unitBackgroundNode {
@@ -52,7 +52,7 @@ class BottomLeftBar: SizedNode {
         let selectedUnitTexture = SKTexture(imageNamed: selectedUnitTextureString!)
         self.unitImageNode = SKSpriteNode(texture: selectedUnitTexture, color: .black, size: CGSize(width: 72, height: 72))
         self.unitImageNode?.position = self.position + CGPoint(x: 90, y: 3)
-        self.unitImageNode?.zPosition = 53
+        self.unitImageNode?.zPosition = self.zPosition + 0.3
         self.unitImageNode?.anchorPoint = .lowerLeft
         
         if let unitImageNode = self.unitImageNode {
@@ -66,7 +66,7 @@ class BottomLeftBar: SizedNode {
                                                 self.gameObjectManager?.nextPlayerUnit()
         })
         self.nextUnitButton?.position = self.position + CGPoint(x: 50, y: 21)
-        self.nextUnitButton?.zPosition = 53
+        self.nextUnitButton?.zPosition = self.zPosition + 0.3
         
         if let nextUnitButton = self.nextUnitButton {
             self.addChild(nextUnitButton)
@@ -80,7 +80,7 @@ class BottomLeftBar: SizedNode {
                                                 self.gameObjectManager?.centerOnPlayerUnit()
         })
         self.centerUnitButton?.position = self.position + CGPoint(x: 45, y: 60)
-        self.centerUnitButton?.zPosition = 53
+        self.centerUnitButton?.zPosition = self.zPosition + 0.3
         
         if let centerUnitButton = self.centerUnitButton {
             self.addChild(centerUnitButton)

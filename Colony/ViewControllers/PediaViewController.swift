@@ -30,7 +30,7 @@ class PediaViewController: UIViewController {
         self.pediaScene?.scaleMode = .resizeFill
         
         view.presentScene(self.pediaScene)
-        view.ignoresSiblingOrder = true
+        view.ignoresSiblingOrder = false
     }
     
     override func viewDidLayoutSubviews() {

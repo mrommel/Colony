@@ -31,7 +31,7 @@ class QuestsViewController: UIViewController {
         self.questsScene?.questsDelegate = self
         
         view.presentScene(self.questsScene)
-        view.ignoresSiblingOrder = true
+        view.ignoresSiblingOrder = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
