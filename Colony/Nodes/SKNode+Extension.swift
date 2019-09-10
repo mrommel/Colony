@@ -38,11 +38,11 @@ extension SKNode {
         }
     }
     
-    func renderNodeHieararchy() {
-        self.renderNodeHiearchyFor(node: self)
+    func renderNodeHierarchy() {
+        self.renderNodeHierarchyFor(node: self)
     }
 
-    func renderNodeHieararchyFor(node: SKNode, index: Int) {
+    func renderNodeHierarchyFor(node: SKNode, index: Int) {
 
         var i = 0
         var beginning = ""
@@ -55,8 +55,9 @@ extension SKNode {
         }
 
         print("\(beginning)Node of type \(type(of: node))\(node.name != nil ? " ('\(node.name!)')" : "") has zPosition = \(node.zPosition)\(node.children.count > 0 ? " and has children :" : ".")")
+        
         for (i, child) in node.children.enumerated() {
-            renderNodeHieararchyFor(node: child, index: index + 1)
+            renderNodeHierarchyFor(node: child, index: index + 1)
 
             if i == node.children.count - 1 {
                 print("")
@@ -64,8 +65,8 @@ extension SKNode {
         }
     }
 
-    func renderNodeHiearchyFor(node: SKNode) {
-        renderNodeHieararchyFor(node: node, index: 0)
+    func renderNodeHierarchyFor(node: SKNode) {
+        renderNodeHierarchyFor(node: node, index: 0)
     }
 }
 
@@ -74,7 +75,7 @@ extension SKSpriteNode {
     func addGlow(radius: Float = 30) {
         let effectNode = SKEffectNode()
         effectNode.shouldRasterize = true
-        addChild(effectNode)
+        self.addChild(effectNode)
         effectNode.addChild(SKSpriteNode(texture: texture))
         effectNode.filter = CIFilter(name: "CIGaussianBlur", parameters: ["inputRadius": radius])
     }

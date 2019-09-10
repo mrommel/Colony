@@ -68,8 +68,9 @@ class BaseScene: SKScene {
 
         self.safeAreaNode.updateLayout()
         
-        self.rootNode.renderNodeHieararchy()
-        self.cameraNode.renderNodeHieararchy()
+        // debug
+        // self.rootNode.renderNodeHierarchy()
+        // self.cameraNode.renderNodeHierarchy()
     }
 
     func show(message: String, for seconds: TimeInterval = 5.0) {
