@@ -41,7 +41,7 @@ class StoreScene: BaseScene {
 
     override init(size: CGSize) {
 
-        super.init(size: size)
+        super.init(size: size, layerOrdering: .nodeLayerOnTop)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -61,24 +61,24 @@ class StoreScene: BaseScene {
         self.backgroundNode = SKSpriteNode(imageNamed: "background")
         self.backgroundNode?.zPosition = 0
         self.backgroundNode?.size = viewSize
-        self.addChild(self.backgroundNode!)
+        self.cameraNode.addChild(self.backgroundNode!)
 
         // header
         self.headerLabelNode = SKLabelNode(text: "Store")
         self.headerLabelNode?.zPosition = 1
-        self.addChild(self.headerLabelNode!)
+        self.rootNode.addChild(self.headerLabelNode!)
 
         let headerIconTexture = SKTexture(imageNamed: "cart")
         self.headerIconNode = SKSpriteNode(texture: headerIconTexture, color: .black, size: CGSize(width: 42, height: 42))
         self.headerIconNode?.zPosition = 1
-        self.addChild(self.headerIconNode!)
+        self.rootNode.addChild(self.headerIconNode!)
 
         // items
         for boosterType in BoosterType.all {
 
             let boosterStoreNode = BoosterStoreNode(for: boosterType, amount: viewModel.initialAmount(of: boosterType), viewWidth: viewSize.width)
             boosterStoreNode.zPosition = 1
-            self.addChild(boosterStoreNode)
+            self.rootNode.addChild(boosterStoreNode)
 
             self.boosterStoreNodes.append(boosterStoreNode)
         }
@@ -87,41 +87,41 @@ class StoreScene: BaseScene {
         self.coinsBackground = NineGridTextureSprite(imageNamed: "grid9_info_banner", size: CGSize(width: viewSize.width - 32, height: 120))
         self.coinsBackground?.anchorPoint = CGPoint.upperLeft
         self.coinsBackground?.zPosition = 1
-        self.addChild(self.coinsBackground!)
+        self.rootNode.addChild(self.coinsBackground!)
         
         self.userCoinsLabelNode = SKLabelNode(text: "Coins you have")
         self.userCoinsLabelNode?.zPosition = 2
         self.userCoinsLabelNode?.horizontalAlignmentMode = .left
         self.userCoinsLabelNode?.fontSize = 18
-        self.addChild(self.userCoinsLabelNode!)
+        self.rootNode.addChild(self.userCoinsLabelNode!)
         self.userCoinsValueNode = CoinsLabelNode(coins: viewModel.currentCoins())
         self.userCoinsValueNode?.zPosition = 2
-        self.addChild(self.userCoinsValueNode!)
+        self.rootNode.addChild(self.userCoinsValueNode!)
         
         self.calculatedCoinsLabelNode = SKLabelNode(text: "Coins you spend")
         self.calculatedCoinsLabelNode?.zPosition = 2
         self.calculatedCoinsLabelNode?.horizontalAlignmentMode = .left
         self.calculatedCoinsLabelNode?.fontSize = 18
-        self.addChild(self.calculatedCoinsLabelNode!)
+        self.rootNode.addChild(self.calculatedCoinsLabelNode!)
         self.calculatedCoinsValueNode = CoinsLabelNode(coins: viewModel.calculateCosts())
         self.calculatedCoinsValueNode?.zPosition = 2
-        self.addChild(self.calculatedCoinsValueNode!)
+        self.rootNode.addChild(self.calculatedCoinsValueNode!)
         
         self.remainingCoinsLabelNode = SKLabelNode(text: "Coins you have left")
         self.remainingCoinsLabelNode?.zPosition = 2
         self.remainingCoinsLabelNode?.horizontalAlignmentMode = .left
         self.remainingCoinsLabelNode?.fontSize = 18
-        self.addChild(self.remainingCoinsLabelNode!)
+        self.rootNode.addChild(self.remainingCoinsLabelNode!)
         self.remainingCoinsValueNode = CoinsLabelNode(coins: viewModel.remainingCoins())
         self.remainingCoinsValueNode?.zPosition = 2
-        self.addChild(self.remainingCoinsValueNode!)
+        self.rootNode.addChild(self.remainingCoinsValueNode!)
 
         self.backButton = MenuButtonNode(titled: "Back", sized: CGSize(width: 150, height: 42),
             buttonAction: {
                 self.storeDelegate?.quitStore()
             })
         self.backButton?.zPosition = 2
-        self.addChild(self.backButton!)
+        self.rootNode.addChild(self.backButton!)
 
         self.purchaseButton = MenuButtonNode(imageNamed: "cart", title: "Buy",
             sized: CGSize(width: 150, height: 42),
@@ -140,7 +140,7 @@ class StoreScene: BaseScene {
             })
         self.purchaseButton?.zPosition = 2
         self.purchaseButton?.disable()
-        self.addChild(self.purchaseButton!)
+        self.rootNode.addChild(self.purchaseButton!)
 
         self.updateLayout()
     }
@@ -192,7 +192,6 @@ class StoreScene: BaseScene {
         let backgroundTileHeight = 812 * viewSize.width / 375
 
         self.backgroundNode?.position = CGPoint(x: 0, y: 0)
-        //self.backgroundNode?.size = CGSize(width: viewSize.width, height: backgroundTileHeight)
         self.backgroundNode?.aspectFillTo(size: viewSize)
 
         self.headerLabelNode?.position = CGPoint(x: 0, y: viewSize.halfHeight - 72)

@@ -36,7 +36,7 @@ class Booster: GameObject {
         
         self.boosterType = boosterType
         
-        self.atlasIdle = GameObjectAtlas(atlasName: "booster", textures: [type.textureName])
+        self.atlasIdle = GameObjectAtlas(atlasName: "booster", textures: [type.indicatorTextureName])
         
         self.atlasDown = nil
         self.atlasUp = nil
@@ -54,7 +54,7 @@ class Booster: GameObject {
     override func idle() {
         
         self.clearPathSpriteBuffer()
-        self.state = GameObjectAIState.idleState()
+        self.state = AIUnitState.idleState()
         
         let pulseUp = SKAction.scale(to: 1.0, duration: 1.0)
         let pulseDown = SKAction.scale(to: 0.8, duration: 1.0)

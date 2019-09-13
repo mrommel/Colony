@@ -244,7 +244,7 @@ class GameObjectManager: Codable {
         return nil
     }
     
-    func unitsOf(type: GameObjectType) -> [GameObject?] {
+    func unitsOf(type: UnitType) -> [GameObject?] {
         
         return self.objects.filter { $0?.type == type }
     }

@@ -72,7 +72,7 @@ class Pirates: GameObject {
             self.state.transitioning = .began // re-start with same state
             
         case .wanderAround:
-            self.state = GameObjectAIState.idleState()
+            self.state = AIUnitState.idleState()
             
         case .following:
             self.state.transitioning = .began // re-start with same state
@@ -81,7 +81,7 @@ class Pirates: GameObject {
             fatalError("[Pirates] handle ended battling")
             
         case .ambushed:
-            self.state = GameObjectAIState.idleState()
+            self.state = AIUnitState.idleState()
             
         case .fleeing:
             fatalError("[Pirates] handle ended fleeing")
@@ -114,15 +114,15 @@ class Pirates: GameObject {
             pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
             
             if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
-                self.state = GameObjectAIState.wanderAroundState(on: path)
+                self.state = AIUnitState.wanderAroundState(on: path)
             } else {
                 // fallback
-                self.state = GameObjectAIState.idleState()
+                self.state = AIUnitState.idleState()
             }
             
         } else {
             let target = possibleTargets.randomItem()
-            self.state = GameObjectAIState.followingState(targetIdentifier: target.identifier)
+            self.state = AIUnitState.followingState(targetIdentifier: target.identifier)
         }
     }
     
@@ -147,17 +147,17 @@ class Pirates: GameObject {
             
             if unit.position == self.position {
                 // battle
-                self.state = GameObjectAIState.battlingState(with: unit.identifier)
+                self.state = AIUnitState.battlingState(with: unit.identifier)
             } else if unit.position.distance(to: self.position) > self.sight {
                 // lost sight (out of reach)
-                 self.state = GameObjectAIState.idleState()
+                 self.state = AIUnitState.idleState()
             } else {
                 // move towards - keep state
                 self.stepOnWater(towards: unit.position, in: game)
             }
         } else {
             // lost target - target does not exist any more (killed)
-            self.state = GameObjectAIState.idleState()
+            self.state = AIUnitState.idleState()
         }
     }
     

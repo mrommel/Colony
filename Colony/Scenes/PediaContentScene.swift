@@ -29,7 +29,7 @@ class PediaContentScene: BaseScene {
     
     override init(size: CGSize) {
         
-        super.init(size: size)
+        super.init(size: size, layerOrdering: .nodeLayerOnTop)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -49,13 +49,12 @@ class PediaContentScene: BaseScene {
         
         self.headerLabelNode = SKLabelNode(text: "Pedia")
         self.headerLabelNode?.zPosition = 1
-        //self.headerLabelNode?.position = CGPoint(x: 0, y: 250)
-        self.addChild(self.headerLabelNode!)
+        self.rootNode.addChild(self.headerLabelNode!)
         
         let headerIconTexture = SKTexture(imageNamed: "pedia")
         self.headerIconNode = SKSpriteNode(texture: headerIconTexture, color: .black, size: CGSize(width: 42, height: 42))
         self.headerIconNode?.zPosition = 1
-        self.addChild(self.headerIconNode!)
+        self.rootNode.addChild(self.headerIconNode!)
         
         // add content here
         if let terrain = viewModel?.terrain {
@@ -64,17 +63,17 @@ class PediaContentScene: BaseScene {
             let contentIconNode = SKSpriteNode(texture: contentIconTexture, color: .black, size: CGSize(width: 120, height: 120))
             contentIconNode.zPosition = 1
             contentIconNode.position = CGPoint(x: 0, y: 180)
-            self.addChild(contentIconNode)
+            self.rootNode.addChild(contentIconNode)
             
             let contentTitleLabelNode = SKLabelNode(text: terrain.title)
             contentTitleLabelNode.zPosition = 1
             contentTitleLabelNode.position = CGPoint(x: 0, y: 40)
-            self.addChild(contentTitleLabelNode)
+            self.rootNode.addChild(contentTitleLabelNode)
             
             let contentTextLabelNode = SKLabelNode(text: terrain.summary)
             contentTextLabelNode.zPosition = 1
             contentTextLabelNode.position = CGPoint(x: 0, y: -10)
-            self.addChild(contentTextLabelNode)
+            self.rootNode.addChild(contentTextLabelNode)
         }
         
         self.backButton = MenuButtonNode(titled: "Back",

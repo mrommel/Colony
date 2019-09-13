@@ -8,17 +8,33 @@
 
 import SpriteKit
 
+enum BaseSceneLayerOrdering {
+    
+    case cameraLayerOnTop
+    case nodeLayerOnTop
+}
+
 class BaseScene: SKScene {
 
     // nodes
     var safeAreaNode: SafeAreaNode!
     var rootNode: BlurrableNode!
     var cameraNode: SKCameraNode!
+    
+    // layer ordering
+    let layerOrdering: BaseSceneLayerOrdering
 
     var messages: [NotificationNode] = []
 
     override init(size: CGSize) {
 
+        self.layerOrdering = .cameraLayerOnTop
+        super.init(size: size)
+    }
+    
+    init(size: CGSize, layerOrdering: BaseSceneLayerOrdering) {
+        
+        self.layerOrdering = layerOrdering
         super.init(size: size)
     }
 
@@ -43,6 +59,8 @@ class BaseScene: SKScene {
         self.rootNode = BlurrableNode()
         self.rootNode.zPosition = 1.5
         super.addChild(self.rootNode)
+        
+        self.setupLayer()
 
         self.safeAreaNode.updateLayout()
     }
@@ -50,18 +68,21 @@ class BaseScene: SKScene {
     override func addChild(_ node: SKNode) {
         fatalError("can't add child to node anymore - use something else")
     }
-
-    func blurWithCompletion() {
-
-        let duration: CGFloat = 0.5
-        let filter: CIFilter = CIFilter(name: "CIGaussianBlur", parameters: ["inputRadius": NSNumber(value: 1.0)])!
-        self.filter = filter
-        self.shouldRasterize = true
-        self.shouldEnableEffects = true
-        self.run(SKAction.customAction(withDuration: TimeInterval(duration), actionBlock: { (node: SKNode, elapsedTime: CGFloat) in
-                let radius = (elapsedTime / duration) * 10.0
-                (node as? SKEffectNode)!.filter!.setValue(radius, forKey: "inputRadius")
-            }))
+    
+    private func setupLayer() {
+        
+        switch self.layerOrdering {
+            
+        case .cameraLayerOnTop:
+            self.cameraNode.zPosition = 50.0
+            self.safeAreaNode.zPosition = 50.0
+            self.rootNode.zPosition = 1.5
+            
+        case .nodeLayerOnTop:
+            self.cameraNode.zPosition = 50.0
+            self.safeAreaNode.zPosition = 50.0
+            self.rootNode.zPosition = 51.0
+        }
     }
 
     func updateLayout() {

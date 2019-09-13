@@ -27,7 +27,7 @@ class OptionsScene: BaseScene {
     weak var optionsDelegate: OptionsDelegate?
 
     override init(size: CGSize) {
-        super.init(size: size)
+        super.init(size: size, layerOrdering: .nodeLayerOnTop)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -43,17 +43,17 @@ class OptionsScene: BaseScene {
         self.backgroundNode = SKSpriteNode(imageNamed: "background")
         self.backgroundNode?.zPosition = 0
         self.backgroundNode?.size = viewSize
-        self.addChild(self.backgroundNode!)
+        self.rootNode.addChild(self.backgroundNode!)
 
         // header
         self.headerLabelNode = SKLabelNode(text: "Options")
         self.headerLabelNode?.zPosition = 1
-        self.addChild(self.headerLabelNode!)
+        self.rootNode.addChild(self.headerLabelNode!)
         
         let headerIconTexture = SKTexture(imageNamed: "settings")
         self.headerIconNode = SKSpriteNode(texture: headerIconTexture, color: .black, size: CGSize(width: 42, height: 42))
         self.headerIconNode?.zPosition = 1
-        self.addChild(self.headerIconNode!)
+        self.rootNode.addChild(self.headerIconNode!)
         
         // debug
         self.resetButton = MenuButtonNode(titled: "Reset",
@@ -61,7 +61,7 @@ class OptionsScene: BaseScene {
                 self.optionsDelegate?.resetData()
             })
         self.resetButton?.zPosition = 53
-        self.addChild(self.resetButton!)
+        self.rootNode.addChild(self.resetButton!)
 
         self.backButton = MenuButtonNode(titled: "Back",
             sized: CGSize(width: 150, height: 42),
@@ -69,7 +69,7 @@ class OptionsScene: BaseScene {
                 self.optionsDelegate?.quitOptions()
             })
         self.backButton?.zPosition = 53
-        self.addChild(self.backButton!)
+        self.rootNode.addChild(self.backButton!)
 
         self.updateLayout()
     }

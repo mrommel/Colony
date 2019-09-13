@@ -20,14 +20,14 @@ class GameObject: Decodable {
     static let alphaInvisible: CGFloat = 0.0
 
     let identifier: String
-    let type: GameObjectType
+    let type: UnitType
 
     var position: HexPoint {
         didSet {
             self.delegate?.moved(object: self)
         }
     }
-    var state: GameObjectAIState = GameObjectAIState.idleState()
+    var state: AIUnitState = AIUnitState.idleState()
     var civilization: Civilization?
 
     var canMoveByUserInput: Bool = false
@@ -120,7 +120,7 @@ class GameObject: Decodable {
         case dict // for extra properties
     }
 
-    init(with identifier: String, type: GameObjectType, at point: HexPoint, spriteName: String, anchorPoint: CGPoint, civilization: Civilization?, sight: Int) {
+    init(with identifier: String, type: UnitType, at point: HexPoint, spriteName: String, anchorPoint: CGPoint, civilization: Civilization?, sight: Int) {
 
         self.identifier = identifier
         self.type = type
@@ -143,9 +143,9 @@ class GameObject: Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
         self.identifier = try values.decode(String.self, forKey: .identifier)
-        self.type = try values.decode(GameObjectType.self, forKey: .type)
+        self.type = try values.decode(UnitType.self, forKey: .type)
         self.position = try values.decode(HexPoint.self, forKey: .position)
-        self.state = try values.decode(GameObjectAIState.self, forKey: .state)
+        self.state = try values.decode(AIUnitState.self, forKey: .state)
         self.civilization = try values.decodeIfPresent(Civilization.self, forKey: .civilization)
 
         self.spriteName = ""
@@ -372,7 +372,7 @@ class GameObject: Decodable {
     func idle() {
 
         self.clearPathSpriteBuffer()
-        self.state = GameObjectAIState.idleState()
+        self.state = AIUnitState.idleState()
 
         if let atlas = self.atlasIdle {
             let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)

@@ -352,7 +352,7 @@ extension Game {
         return self.level?.gameObjectManager.unitsOf(civilization: currentUserCivilization)
     }
     
-    func getUnitsBy(type: GameObjectType) -> [GameObject?]? {
+    func getUnitsBy(type: UnitType) -> [GameObject?]? {
         
         return self.level?.gameObjectManager.unitsOf(type: type)
     }

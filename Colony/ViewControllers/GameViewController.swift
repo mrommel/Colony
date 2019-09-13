@@ -126,7 +126,7 @@ class GameViewController: UIViewController {
             fatalError("View not loaded")
         }
         
-        self.gameLoadingScene = GameLoadingScene(size: view.bounds.size)
+        self.gameLoadingScene = GameLoadingScene(size: view.bounds.size, layerOrdering: .nodeLayerOnTop)
         self.gameLoadingScene?.completion = {
 
             self.gameScene = GameScene(size: view.bounds.size)

@@ -16,6 +16,8 @@ class PediaViewController: UIViewController {
     
     // delegate content
     var currentTerrain: Terrain? = nil
+    var currentFeature: Feature? = nil
+    var currentUnitType: UnitType? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +48,10 @@ class PediaViewController: UIViewController {
             
             if let terrain = self.currentTerrain {
                 pediaContentViewController?.viewModel = PediaContentViewModel(with: terrain)
+            } else if let feature = self.currentFeature {
+                pediaContentViewController?.viewModel = PediaContentViewModel(with: feature)
+            } else if let unitType = self.currentUnitType {
+                pediaContentViewController?.viewModel = PediaContentViewModel(with: unitType)
             }
         }
     }
@@ -60,6 +66,24 @@ extension PediaViewController: PediaDelegate {
     func show(terrain: Terrain) {
         
         self.currentTerrain = terrain
+        self.currentFeature = nil
+        self.currentUnitType = nil
+        self.performSegue(withIdentifier: R.segue.pediaViewController.showContent.identifier, sender: nil)
+    }
+    
+    func show(feature: Feature) {
+        
+        self.currentTerrain = nil
+        self.currentFeature = feature
+        self.currentUnitType = nil
+        self.performSegue(withIdentifier: R.segue.pediaViewController.showContent.identifier, sender: nil)
+    }
+    
+    func show(unitType: UnitType) {
+        
+        self.currentTerrain = nil
+        self.currentFeature = nil
+        self.currentUnitType = unitType
         self.performSegue(withIdentifier: R.segue.pediaViewController.showContent.identifier, sender: nil)
     }
 }

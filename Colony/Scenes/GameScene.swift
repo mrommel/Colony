@@ -90,7 +90,7 @@ class GameScene: BaseScene {
 
         self.viewHex = SKSpriteNode()
 
-        super.init(size: size)
+        super.init(size: size, layerOrdering: .cameraLayerOnTop)
     }
 
     required init?(coder aDecoder: NSCoder) {

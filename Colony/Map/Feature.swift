@@ -19,21 +19,42 @@ enum Feature: String, Codable {
     case ice
 
     // case lake
-
-	var description: String {
-		switch self {
-		case .forestMixed:
-			return "Mixed Forest"
-		case .forestPine:
-			return "Pine Forest"
-		case .forestRain:
-			return "Rain Forest"
-		case .oasis:
-			return "Oasis"
+    
+    static var all: [Feature] {
+        return [.forestMixed, .forestPine, .forestRain, .oasis, .marsh, .ice]
+    }
+    
+    var title: String {
+        switch self {
+        case .forestMixed:
+            return "Mixed Forest"
+        case .forestPine:
+            return "Pine Forest"
+        case .forestRain:
+            return "Rain Forest"
+        case .oasis:
+            return "Oasis"
         case .marsh:
             return "Marsh"
         case .ice:
             return "Ice"
+        }
+    }
+
+	var summary: String {
+		switch self {
+		case .forestMixed:
+			return "Mixed Forest summary"
+		case .forestPine:
+			return "Pine Forest summary"
+		case .forestRain:
+			return "Rain Forest summary"
+		case .oasis:
+			return "Oasis summary"
+        case .marsh:
+            return "Marsh summary"
+        case .ice:
+            return "Ice summary"
 		}
 	}
 

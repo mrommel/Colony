@@ -25,6 +25,10 @@ enum Terrain: String, Codable {
 	case shore
     case hill
     case mountain
+    
+    static var all: [Terrain] {
+        return [.ocean, .shore, .plain, .grass, .desert, .tundra, .snow, .hill, .mountain]
+    }
 
 	var title: String {
 		switch self {

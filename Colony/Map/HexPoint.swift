@@ -165,13 +165,14 @@ extension HexPoint {
     
     convenience init(cube: HexCube) {
         self.init(x: cube.q + (cube.s + (cube.s&1)) / 2, y: cube.s) // even-q
+
         //self.init(x: cube.q + (cube.s - (cube.s&1)) / 2, y: cube.s) // odd-q
     }
     
     /*func neighbor(in direction: HexDirection) -> HexPoint {
-     let parity = self.x & 1
-     return self + (parity == 1 ? direction.axialDirectionOdd : direction.axialDirectionEven)
-     }*/
+        let parity = self.x & 1
+        return self + (parity == 0 ? direction.axialDirectionOdd : direction.axialDirectionEven)
+    }*/
     func neighbor(in direction: HexDirection) -> HexPoint {
         let cubeNeighbor = HexCube(hex: self) + direction.cubeDirection
         return HexPoint(cube: cubeNeighbor)

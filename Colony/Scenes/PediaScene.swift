@@ -11,6 +11,8 @@ import SpriteKit
 protocol PediaDelegate {
 
     func show(terrain: Terrain)
+    func show(feature: Feature)
+    func show(unitType: UnitType)
     
     func quitPedia()
 }
@@ -21,14 +23,29 @@ class PediaScene: BaseScene {
     var backgroundNode: SKSpriteNode?
     var headerLabelNode: SKLabelNode?
     var headerIconNode: SKSpriteNode?
+    
+    var terrainHeadingLabel: SKLabelNode?
+    var terrainItems: [PediaItemNode?] = []
+    
+    var featureHeadingLabel: SKLabelNode?
+    var featureItems: [PediaItemNode?] = []
+    
+    var unitTypeHeadingLabel: SKLabelNode?
+    var unitTypeItems: [PediaItemNode?] = []
+    
     var backButton: MenuButtonNode?
 
     // delegate
     var pediaDelegate: PediaDelegate?
+    
+    // view model
+    var viewModel: PediaSceneViewModel?
 
     override init(size: CGSize) {
 
-        super.init(size: size)
+        super.init(size: size, layerOrdering: .nodeLayerOnTop)
+        
+        self.viewModel = PediaSceneViewModel()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -38,6 +55,10 @@ class PediaScene: BaseScene {
     override func didMove(to view: SKView) {
 
         super.didMove(to: view)
+        
+        guard let viewModel = self.viewModel else {
+            fatalError("view model not set")
+        }
 
         let viewSize = (self.view?.bounds.size)!
 
@@ -46,56 +67,60 @@ class PediaScene: BaseScene {
         self.backgroundNode?.size = viewSize
         self.cameraNode.addChild(self.backgroundNode!)
 
-        self.headerLabelNode = SKLabelNode(text: "Pedia")
-        self.headerLabelNode?.zPosition = 1
-        //self.headerLabelNode?.position = CGPoint(x: 0, y: 250)
-        self.rootNode.addChild(self.headerLabelNode!)
-        
         let headerIconTexture = SKTexture(imageNamed: "pedia")
         self.headerIconNode = SKSpriteNode(texture: headerIconTexture, color: .black, size: CGSize(width: 42, height: 42))
         self.headerIconNode?.zPosition = 1
         self.rootNode.addChild(self.headerIconNode!)
+        
+        self.headerLabelNode = SKLabelNode(text: "Pedia")
+        self.headerLabelNode?.fontSize = 30
+        self.headerLabelNode?.zPosition = 1
+        self.rootNode.addChild(self.headerLabelNode!)
 
-        let terrainLabel = SKLabelNode(text: "Terrains")
-        terrainLabel.fontSize = 20
-        terrainLabel.fontName = Formatters.Fonts.systemFontBoldFamilyname
-        terrainLabel.zPosition = 1
-        terrainLabel.position = CGPoint(x: 0, y: 230)
-        self.rootNode.addChild(terrainLabel)
+        self.terrainHeadingLabel = SKLabelNode(text: "Terrains")
+        self.terrainHeadingLabel?.fontSize = 24
+        self.terrainHeadingLabel?.fontName = Formatters.Fonts.systemFontBoldFamilyname
+        self.terrainHeadingLabel?.zPosition = 1
+        self.rootNode.addChild(self.terrainHeadingLabel!)
         
-        var y = 230 - 50
+        for terrain in viewModel.terrains {
+            let pediaItem = PediaItemNode(terrain: terrain, action: {
+                self.pediaDelegate?.show(terrain: terrain)
+            })
+            self.rootNode.addChild(pediaItem)
+            
+            self.terrainItems.append(pediaItem)
+        }
         
-        self.addPedia(for: .plain, at: y)
-        y -= 50
-        self.addPedia(for: .grass, at: y)
-        y -= 50
-        self.addPedia(for: .ocean, at: y)
-        y -= 50
+        self.featureHeadingLabel = SKLabelNode(text: "Features")
+        self.featureHeadingLabel?.fontSize = 24
+        self.featureHeadingLabel?.fontName = Formatters.Fonts.systemFontBoldFamilyname
+        self.featureHeadingLabel?.zPosition = 1
+        self.rootNode.addChild(self.featureHeadingLabel!)
         
-        let featuresLabel = SKLabelNode(text: "Features")
-        featuresLabel.fontSize = 20
-        featuresLabel.fontName = Formatters.Fonts.systemFontBoldFamilyname
-        featuresLabel.zPosition = 1
-        featuresLabel.position = CGPoint(x: 0, y: -50)
-        self.rootNode.addChild(featuresLabel)
+        for feature in viewModel.features {
+            let pediaItem = PediaItemNode(feature: feature, action: {
+                self.pediaDelegate?.show(feature: feature)
+            })
+            self.rootNode.addChild(pediaItem)
+            
+            self.featureItems.append(pediaItem)
+        }
         
-        y = -50 - 50
+        self.unitTypeHeadingLabel = SKLabelNode(text: "Units")
+        self.unitTypeHeadingLabel?.fontSize = 24
+        self.unitTypeHeadingLabel?.fontName = Formatters.Fonts.systemFontBoldFamilyname
+        self.unitTypeHeadingLabel?.zPosition = 1
+        self.rootNode.addChild(self.unitTypeHeadingLabel!)
         
-        let unitsLabel = SKLabelNode(text: "Units")
-        unitsLabel.fontSize = 20
-        unitsLabel.fontName = Formatters.Fonts.systemFontBoldFamilyname
-        unitsLabel.zPosition = 1
-        unitsLabel.position = CGPoint(x: 0, y: -320)
-        self.rootNode.addChild(unitsLabel)
-        
-        y = -320 - 50
-        
-        self.addPedia(for: .axeman, at: y)
-        y -= 50
-        self.addPedia(for: .archer, at: y)
-        y -= 50
-        self.addPedia(for: .ship, at: y)
-        y -= 50
+        for unitType in viewModel.unitTypes {
+            let pediaItem = PediaItemNode(unitType: unitType, action: {
+                self.pediaDelegate?.show(unitType: unitType)
+            })
+            self.rootNode.addChild(pediaItem)
+            
+            self.unitTypeItems.append(pediaItem)
+        }
 
         self.backButton = MenuButtonNode(titled: "Back",
             sized: CGSize(width: 150, height: 42),
@@ -108,35 +133,7 @@ class PediaScene: BaseScene {
         self.updateLayout()
     }
     
-    func addPedia(for terrain: Terrain, at y: Int) {
-        
-        let terrainTexture = SKTexture(imageNamed: terrain.textureNameHex.first!)
-        let terrainIcon = SKSpriteNode(texture: terrainTexture, size: CGSize(width: 42, height: 42))
-        terrainIcon.zPosition = 1
-        terrainIcon.position = CGPoint(x: -150, y: y + 15)
-        self.rootNode.addChild(terrainIcon)
-        
-        let terrainLabel = ClickableLabelNode(text: terrain.title, buttonAction: {
-            self.pediaDelegate?.show(terrain: terrain)
-        })
-        terrainLabel.fontSize = 20
-        terrainLabel.fontName = Formatters.Fonts.systemFontBoldFamilyname
-        terrainLabel.zPosition = 1
-        terrainLabel.position = CGPoint(x: -100, y: y)
-        self.rootNode.addChild(terrainLabel)
-    }
-    
-    func addPedia(for unitType: GameObjectType, at y: Int) {
-        
-        let unitLabel = SKLabelNode(text: unitType.title)
-        unitLabel.fontSize = 20
-        unitLabel.fontName = Formatters.Fonts.systemFontBoldFamilyname
-        unitLabel.zPosition = 1
-        unitLabel.position = CGPoint(x: -100, y: y)
-        self.rootNode.addChild(unitLabel)
-    }
-    
-    // moving the map around
+    // moving the pedia content around
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         // let viewSize = (self.view?.bounds.size)!
@@ -173,7 +170,39 @@ class PediaScene: BaseScene {
         
         self.headerLabelNode?.position = CGPoint(x: 0, y: viewSize.halfHeight - 72)
         self.headerIconNode?.position = CGPoint(x: -self.headerLabelNode!.frame.size.halfWidth - 24, y: viewSize.halfHeight - 62)
+        
+        var y = 260
+        
+        // terrain
+        self.terrainHeadingLabel?.position = CGPoint(x: 0, y: y)
+        y -= 50
+        for terrainItem in self.terrainItems {
+            terrainItem?.position = CGPoint(x: 0, y: y)
+            y -= 50
+        }
+        y -= 20
+        
+        // feature
+        self.featureHeadingLabel?.position = CGPoint(x: 0, y: y)
+        y -= 50
+        for featureItem in self.featureItems {
+            featureItem?.position = CGPoint(x: 0, y: y)
+            y -= 50
+        }
+        y -= 20
+        
+        // units
+        self.unitTypeHeadingLabel?.position = CGPoint(x: 0, y: y)
+        y -= 50
+        for unitType in self.unitTypeItems {
+            unitType?.position = CGPoint(x: 0, y: y)
+            y -= 50
+        }
 
         self.backButton?.position = CGPoint(x: -100, y: -backgroundTileHeight / 2.0 + 80)
+        
+        // debug
+        //self.renderNodeHierarchyFor(node: self.cameraNode)
+        //self.renderNodeHierarchyFor(node: self.rootNode)
     }
 }

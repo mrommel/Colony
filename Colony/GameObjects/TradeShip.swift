@@ -70,7 +70,7 @@ class TradeShip: GameObject {
             self.state.transitioning = .began // re-start with same state
             
         case .wanderAround:
-            self.state = GameObjectAIState.idleState()
+            self.state = AIUnitState.idleState()
             
         case .following:
             fatalError("[TradeShip] handle ended following")
@@ -79,13 +79,13 @@ class TradeShip: GameObject {
             fatalError("[TradeShip] handle ended battling")
             
         case .ambushed:
-            self.state = GameObjectAIState.idleState()
+            self.state = AIUnitState.idleState()
             
         case .fleeing:
             fatalError("[TradeShip] handle ended fleeing")
             
         case .traveling:
-            self.state = GameObjectAIState.idleState()
+            self.state = AIUnitState.idleState()
             // FIXME: do trade with city 
         }
     }
@@ -109,7 +109,7 @@ class TradeShip: GameObject {
             let newCityObject = game.getCityObject(at: newCityDestination.position)
             //let newDestination = game.neighborsInWater(of: newCityDestination.position).randomItem()
         
-            self.state = GameObjectAIState.travelingState(to: newCityObject?.identifier)
+            self.state = AIUnitState.travelingState(to: newCityObject?.identifier)
         } else {
             // wander randomly
             let waterNeighbors = game.neighborsInWater(of: self.position)
@@ -119,10 +119,10 @@ class TradeShip: GameObject {
             pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
             
             if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
-                self.state = GameObjectAIState.wanderAroundState(on: path)
+                self.state = AIUnitState.wanderAroundState(on: path)
             } else {
                 // fallback
-                self.state = GameObjectAIState.idleState()
+                self.state = AIUnitState.idleState()
             }
         }
     }

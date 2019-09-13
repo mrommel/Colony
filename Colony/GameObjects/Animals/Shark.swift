@@ -75,7 +75,7 @@ class Shark: GameObject {
             
         case .wanderAround:
             self.idle()
-            self.state = GameObjectAIState.idleState()
+            self.state = AIUnitState.idleState()
             
         case .following:
             fatalError("[Shark] handle ended following")
@@ -110,10 +110,10 @@ class Shark: GameObject {
         pathFinder.dataSource = game.pathfinderDataSource(for: self.movementType, ignoreSight: true)
         
         if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
-            self.state = GameObjectAIState.wanderAroundState(on: path)
+            self.state = AIUnitState.wanderAroundState(on: path)
         } else {
             // fallback
-            self.state = GameObjectAIState.idleState()
+            self.state = AIUnitState.idleState()
         }
     }
     

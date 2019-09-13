@@ -1,5 +1,5 @@
 //
-//  GameObjectType.swift
+//  UnitType.swift
 //  Colony
 //
 //  Created by Michael Rommel on 13.08.19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum GameObjectType: String, Codable {
+enum UnitType: String, Codable {
     
     // real units
     case ship
@@ -35,6 +35,10 @@ enum GameObjectType: String, Codable {
     // just wonder around
     case animal
     
+    static var unitTypes: [UnitType] {
+        return [.ship, .axeman, .archer]
+    }
+    
     var title: String {
         
         switch self {
@@ -55,6 +59,25 @@ enum GameObjectType: String, Codable {
     }
     
     var textureName: String {
+        
+        switch self {
+        case .ship:
+            return "unit_ship"
+        case .axeman:
+            return "unit_axeman"
+        case .archer:
+            return "unit_archer"
+        case .pirates:
+            return "unit_pirates"
+        case .tradeShip:
+            return "unit_tradeShip"
+            
+        default:
+            return "unit_unknown"
+        }
+    }
+    
+    var indicatorTextureName: String {
         
         switch self {
         case .ship:

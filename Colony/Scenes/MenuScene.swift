@@ -38,7 +38,7 @@ class MenuScene: BaseScene {
     weak var menuDelegate: MenuDelegate?
 
     override init(size: CGSize) {
-        super.init(size: size)
+        super.init(size: size, layerOrdering: .nodeLayerOnTop)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -120,6 +120,31 @@ class MenuScene: BaseScene {
         self.rootNode.addChild(self.copyrightLabel!)
 
         self.updateLayout()
+    }
+    
+    // moving the menu content around
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        // let viewSize = (self.view?.bounds.size)!
+        
+        for touch in touches {
+            let location = touch.location(in: self.backgroundNode!)
+            let previousLocation = touch.previousLocation(in: self.backgroundNode!)
+            
+            let deltaY = (location.y) - (previousLocation.y)
+            let height = (self.backgroundNode?.frame.height)! * 2 // << == change here
+            
+            self.cameraNode.position.x = 0.0
+            self.cameraNode.position.y -= deltaY * 0.7
+            
+            if self.cameraNode.position.y < -height {
+                self.cameraNode.position.y = -height
+            }
+            
+            if self.cameraNode.position.y > 0 {
+                self.cameraNode.position.y = 0
+            }
+        }
     }
 
     override func updateLayout() {

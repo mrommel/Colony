@@ -29,7 +29,7 @@ extension SKSpriteNode {
             if textureAspectRatio > fillAspectRatio {
                 newWidth = fillSize.width / fillAspectRatio * textureAspectRatio
             } else {
-                newHeight = fillSize.height / fillAspectRatio * textureAspectRatio
+                newHeight = fillSize.height * fillAspectRatio / textureAspectRatio
             }
             self.size = CGSize(width: newWidth, height: newHeight)
         }
