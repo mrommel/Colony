@@ -104,6 +104,13 @@ class Wulf: GameObject {
         
         // no real target - find neighboring water tile
         let landNeighbors = game.neighborsOnLand(of: self.position)
+        
+        if landNeighbors.isEmpty {
+            // fallback
+            self.state = AIUnitState.idleState()
+            return
+        }
+        
         let bestLandNeighbor = landNeighbors.randomItem()
         
         let pathFinder = AStarPathfinder()

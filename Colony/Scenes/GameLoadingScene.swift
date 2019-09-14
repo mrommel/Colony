@@ -33,6 +33,7 @@ class GameLoadingScene: BaseScene {
         
         self.preloadAssets(completion: {
             self.run(SKAction.wait(forDuration: 1.0), completion: {
+                self.timer.invalidate()
                 self.completion?()
             })
         })

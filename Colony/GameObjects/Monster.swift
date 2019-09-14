@@ -106,6 +106,13 @@ class Monster: GameObject {
             
             // no real target - find neighboring water tile
             let waterNeighbors = game.neighborsInWater(of: self.position)
+            
+            if waterNeighbors.isEmpty {
+                // fallback
+                self.state = AIUnitState.idleState()
+                return
+            }
+            
             let bestWaterNeighbor = waterNeighbors.randomItem()
             
             let pathFinder = AStarPathfinder()

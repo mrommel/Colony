@@ -113,6 +113,13 @@ class TradeShip: GameObject {
         } else {
             // wander randomly
             let waterNeighbors = game.neighborsInWater(of: self.position)
+            
+            if waterNeighbors.isEmpty {
+                // fallback
+                self.state = AIUnitState.idleState()
+                return
+            }
+            
             let bestWaterNeighbor = waterNeighbors.randomItem()
             
             let pathFinder = AStarPathfinder()
@@ -150,7 +157,14 @@ class TradeShip: GameObject {
             fatalError("target identifier not a city")
         }
         
-        let waterNeighbors = game.neighborsInWater(of: cityObject.position)       
+        let waterNeighbors = game.neighborsInWater(of: cityObject.position)
+        
+        if waterNeighbors.isEmpty {
+            // fallback
+            self.state = AIUnitState.idleState()
+            return
+        }
+        
         let bestWaterNeighbor = waterNeighbors.randomItem()
         
         let pathFinder = AStarPathfinder()

@@ -52,19 +52,19 @@ class QuestsScene: BaseScene {
         self.backgroundNode0?.position = CGPoint(x: 0.0, y: 0.0)
         self.backgroundNode0?.zPosition = 0
         self.backgroundNode0?.size = viewSize
-        self.addChild(self.backgroundNode0!)
+        self.rootNode.addChild(self.backgroundNode0!)
 
         self.backgroundNode1 = SKSpriteNode(imageNamed: "menu_background1")
         self.backgroundNode1?.position = CGPoint(x: 0.0, y: (self.backgroundNode0?.frame.height)!)
         self.backgroundNode1?.zPosition = 0
         self.backgroundNode1?.size = viewSize
-        self.addChild(self.backgroundNode1!)
+        self.rootNode.addChild(self.backgroundNode1!)
         
         self.backgroundNode2 = SKSpriteNode(imageNamed: "menu_background2")
         self.backgroundNode2?.position = CGPoint(x: 0.0, y: (self.backgroundNode0?.frame.height)! * 2)
         self.backgroundNode2?.zPosition = 0
         self.backgroundNode2?.size = viewSize
-        self.addChild(self.backgroundNode2!)
+        self.rootNode.addChild(self.backgroundNode2!)
         
         // colony label
         let colonytexture = SKTexture(imageNamed: "ColonyText")
@@ -81,7 +81,7 @@ class QuestsScene: BaseScene {
             })
             levelButton.position = CGPoint(x: self.frame.width * level.position.x - self.frame.halfWidth, y: self.frame.height * level.position.y - self.frame.halfHeight)
             levelButton.zPosition = 1
-            self.addChild(levelButton)
+            self.rootNode.addChild(levelButton)
 
             // add level score here
             var levelScoreValue = LevelScore.none
@@ -93,7 +93,7 @@ class QuestsScene: BaseScene {
             let starSprite = SKSpriteNode(texture: starTexture, color: .black, size: CGSize(width: 20, height: 20))
             starSprite.position = CGPoint(x: self.frame.width * level.position.x - self.frame.halfWidth + 20, y: self.frame.height * level.position.y - self.frame.halfHeight + 20)
             starSprite.zPosition = 2
-            self.addChild(starSprite)
+            self.rootNode.addChild(starSprite)
         }
 
         /*let generateButton = LevelButtonNode(titled: "G", difficulty: .easy, buttonAction: {
@@ -117,7 +117,7 @@ class QuestsScene: BaseScene {
                                             self.questsDelegate?.quitQuests()
         })
         self.backButton?.zPosition = 1
-        self.addChild(self.backButton!)
+        self.rootNode.addChild(self.backButton!)
 
         self.updateLayout()
         
