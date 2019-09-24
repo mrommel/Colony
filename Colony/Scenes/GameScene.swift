@@ -72,8 +72,8 @@ class GameScene: BaseScene {
     let timeLabel = SKLabelNode(text: "0:00")
 
     // FIXME: move to view model
-    var selectedUnitForMovement: GameObject? = nil
-    var selectedUnitForAttack: GameObject? = nil
+    var selectedUnitForMovement: Unit? = nil
+    var selectedUnitForAttack: Unit? = nil
     var attackOverlay: SKSpriteNode?
     let forceTouchLevel: CGFloat = 3.0
 
@@ -177,7 +177,7 @@ class GameScene: BaseScene {
 
             let gameObjectManager = GameObjectManager(on: map)
 
-            let level = Level(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, duration: 300, map: map, startPositions: startPositions, gameObjectManager: gameObjectManager)
+            let level = Level(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, duration: 300, map: map, startPositions: startPositions)
 
             self.game = Game(with: level, coins: user.coins, boosterStock: user.boosterStock)
 
@@ -459,13 +459,13 @@ class GameScene: BaseScene {
             if position != selectedUnit.position {
 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = self.game?.pathfinderDataSource(for: selectedUnit.movementType, ignoreSight: false)
+                pathFinder.dataSource = self.game?.pathfinderDataSource(for: selectedUnit.unitType.movementType, ignoreSight: false)
 
                 if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.position, toTileCoord: position) {
                     path.prepend(point: selectedUnit.position)
-                    selectedUnit.show(path: path)
+                    selectedUnit.gameObject?.show(path: path)
                 } else {
-                    selectedUnit.clearPathSpriteBuffer()
+                    selectedUnit.gameObject?.clearPathSpriteBuffer()
                 }
             }
         } else {
@@ -516,7 +516,7 @@ class GameScene: BaseScene {
         }
 
         if let selectedUnit = self.selectedUnitForMovement {
-            selectedUnit.clearPathSpriteBuffer()
+            selectedUnit.gameObject?.clearPathSpriteBuffer()
 
             self.mapNode?.moveSelectedUnit(to: position)
         }
@@ -525,7 +525,7 @@ class GameScene: BaseScene {
         self.hideAttackSymbol()
     }
 
-    func target(at point: HexPoint) -> GameObject? {
+    func target(at point: HexPoint) -> Unit? {
 
         guard let user = userUsecase.currentUser() else {
             fatalError("can't get current user")
@@ -534,7 +534,7 @@ class GameScene: BaseScene {
         if let units = self.game?.getUnits(at: point) {
 
             var filteredUnits = units.filter({ $0?.civilization != user.civilization })
-            filteredUnits = filteredUnits.filter({ $0?.type != .coin && $0?.type != .animal && $0?.type != .obstacle && $0?.type != .booster })
+            //filteredUnits = filteredUnits.filter({ $0?.type != .coin && $0?.type != .animal && $0?.type != .obstacle && $0?.type != .booster })
             
             // FIXME: how to select the attacker?
             //filteredUnits = filteredUnits.filter({ $0?.position.distance(to: <#T##HexPoint#>) })
@@ -661,7 +661,7 @@ extension GameScene: GameUpdateDelegate {
         }
     }
 
-    func showBattleDialog(between source: GameObject?, and target: GameObject?) {
+    func showBattleDialog(between source: Unit?, and target: Unit?) {
 
         if let battleDialog = UI.battleDialog() {
             
@@ -688,24 +688,20 @@ extension GameScene: GameUpdateDelegate {
         }
     }
 
-    func showBattleResult(between source: GameObject?, and target: GameObject?, result: BattleResult) {
-
-        //if let sourceUnit = source, let targetUnit = target {
-
-            // self.show(message: "Battle between \(sourceUnit) and \(targetUnit)")
-        //}
+    func showBattleResult(between source: Unit?, and target: Unit?, result: BattleResult) {
+        
     }
 }
 
 extension GameScene: GameObjectUnitDelegate {
-
-    func selectedGameObjectChanged(to gameObject: GameObject?) {
-        if let newPosition = gameObject?.position {
+    
+    func selectedUnitChanged(to unit: Unit?) {
+        if let newPosition = unit?.position {
             self.centerCamera(on: newPosition)
         }
     }
 
-    func removed(gameObject: GameObject?) {
+    func removed(unit: Unit?) {
         // NOOP
     }
 }

@@ -122,12 +122,12 @@ enum Terrain: String, Codable {
         }
     }
     
-    func movementCost(for movementType: GameObjectMoveType) -> Float {
+    func movementCost(for movementType: MovementType) -> Float {
         
         switch movementType {
             
         case .immobile:
-            return GameObjectMoveType.impassible
+            return MovementType.impassible
             
         case .swimOcean:
             if self == .ocean {
@@ -138,7 +138,7 @@ enum Terrain: String, Codable {
                 return 1.0
             }
             
-            return GameObjectMoveType.impassible
+            return MovementType.impassible
             
         case .walk:
             if self == .plain {
@@ -169,7 +169,7 @@ enum Terrain: String, Codable {
                 return 2.5
             }
             
-            return GameObjectMoveType.impassible
+            return MovementType.impassible
         }
     }
 

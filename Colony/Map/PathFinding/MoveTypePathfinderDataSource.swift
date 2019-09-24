@@ -12,10 +12,10 @@ class MoveTypePathfinderDataSource: PathfinderDataSource {
     
     let map: HexagonTileMap?
     let gameObjectManager: GameObjectManager?
-    let movementType: GameObjectMoveType
+    let movementType: MovementType
     let ignoreSight: Bool
 
-    init(map: HexagonTileMap?, gameObjectManager: GameObjectManager?, movementType: GameObjectMoveType, ignoreSight: Bool) {
+    init(map: HexagonTileMap?, gameObjectManager: GameObjectManager?, movementType: MovementType, ignoreSight: Bool) {
         self.map = map
         self.gameObjectManager = gameObjectManager
         self.movementType = movementType
@@ -31,9 +31,9 @@ class MoveTypePathfinderDataSource: PathfinderDataSource {
             if map?.valid(point: neighbor) ?? false {
                 
                 // are there obstacles
-                if self.gameObjectManager?.obstacle(at: neighbor) ?? false {
+                /*if self.gameObjectManager?.obstacle(at: neighbor) ?? false {
                     continue
-                }
+                }*/
                 
                 // use sight?
                 if !self.ignoreSight {
@@ -48,7 +48,7 @@ class MoveTypePathfinderDataSource: PathfinderDataSource {
                 
                 if let fromTile = self.map?.tile(at: coord), let toTile = self.map?.tile(at: neighbor) {
                 
-                    if toTile.movementCost(for: self.movementType, from: fromTile) > GameObjectMoveType.impassible {
+                    if toTile.movementCost(for: self.movementType, from: fromTile) > MovementType.impassible {
                         walkableCoords.append(neighbor)
                     }
                 }
@@ -64,6 +64,6 @@ class MoveTypePathfinderDataSource: PathfinderDataSource {
             return toTile.movementCost(for: self.movementType, from: fromTile)
         }
         
-        return GameObjectMoveType.impassible
+        return MovementType.impassible
     }
 }

@@ -24,7 +24,7 @@ class LevelManager {
     init() {
 
         self.addLevelFrom(url: R.file.level0001Lvl(), at: CGPoint(x: 0.1, y: 0.1))
-        self.addLevelFrom(url: R.file.level0002Lvl(), at: CGPoint(x: 0.3, y: 0.15))
+        //self.addLevelFrom(url: R.file.level0002Lvl(), at: CGPoint(x: 0.3, y: 0.15))
     }
     
     private func addLevelFrom(url: URL?, at position: CGPoint) {

@@ -54,6 +54,7 @@ class FogManager: Codable {
     var fog: FogArray2D
     weak var map: HexagonTileMap?
     var units: [FogUnit] = []
+    var cities: [FogUnit] = []
     var delegates = MulticastDelegate<FogStateChangedDelegate>()
 
     enum CodingKeys: String, CodingKey {
@@ -72,6 +73,12 @@ class FogManager: Codable {
         self.units.append(unit)
         
         self.fog.addSight(at: unit.position, with: unit.sight, on: self.map)
+    }
+    
+    func add(city: FogUnit) {
+        self.cities.append(city)
+        
+        self.fog.addSight(at: city.position, with: 2, on: self.map)
     }
 
     func update() {

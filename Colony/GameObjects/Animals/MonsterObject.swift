@@ -1,40 +1,37 @@
 //
-//  Pirates.swift
+//  MonsterObject.swift
 //  Colony
 //
-//  Created by Michael Rommel on 07.07.19.
+//  Created by Michael Rommel on 30.05.19.
 //  Copyright © 2019 Michael Rommel. All rights reserved.
 //
 
 import SpriteKit
 
-class Pirates: GameObject {
-
-    init(with identifier: String, at point: HexPoint) {
+class MonsterObject: GameObject {
+    
+    init(for animal: Animal?) {
+    
+        let identifier = UUID()
+        let identifierString = "monster-\(identifier.uuidString)"
+    
+        super.init(with: identifierString, animal: animal, spriteName: "tile004", anchorPoint: CGPoint(x: 0.0, y: 0.2))
         
-        super.init(with: identifier, type: .pirates, at: point, spriteName: "pirate003", anchorPoint: CGPoint(x: 0.0, y: 0.0), civilization: .pirates, sight: 2)
-
-        self.atlasIdle = GameObjectAtlas(atlasName: "pirates", textures: ["pirate003", "pirate004", "pirate005"])
-
-        self.atlasDown = GameObjectAtlas(atlasName: "pirates", textures: ["pirate000", "pirate001", "pirate002"])
-        self.atlasUp = GameObjectAtlas(atlasName: "pirates", textures: ["pirate009", "pirate010", "pirate011"])
-        self.atlasLeft = GameObjectAtlas(atlasName: "pirates", textures: ["pirate003", "pirate004", "pirate005"])
-        self.atlasRight = GameObjectAtlas(atlasName: "pirates", textures: ["pirate006", "pirate007", "pirate008"])
-
+        self.atlasIdle = GameObjectAtlas(atlasName: "monster", textures: ["tile004", "tile005", "tile006", "tile007"])
+        
+        self.atlasDown = GameObjectAtlas(atlasName: "monster", textures: ["tile000", "tile001", "tile002", "tile003"])
+        self.atlasUp = GameObjectAtlas(atlasName: "monster", textures: ["tile012", "tile013", "tile014", "tile015"])
+        self.atlasLeft = GameObjectAtlas(atlasName: "monster", textures: ["tile004", "tile005", "tile006", "tile007"])
+        self.atlasRight = GameObjectAtlas(atlasName: "monster", textures: ["tile008", "tile009", "tile010", "tile011"])
+        
         self.canMoveByUserInput = false
-        self.movementType = .swimOcean
-
-        self.showUnitTypeIndicator()
+        
         self.showUnitStrengthIndicator()
     }
 
-    required init(from decoder: Decoder) throws {
-        
-        try super.init(from: decoder)
-    }
+    // game AI
     
-    override func handleBeganState(in game: Game?) {
-        
+    /*override func handleBeganState(in game: Game?) {
         assert(self.state.transitioning == .began, "method can only handle .begin")
         
         switch self.state.state {
@@ -44,7 +41,7 @@ class Pirates: GameObject {
             
         case .wanderAround:
             self.handleWanderAround(in: game)
-
+            
         case .following:
             self.handleFollowing(in: game)
             
@@ -55,10 +52,10 @@ class Pirates: GameObject {
             self.handleAmbushed(in: game)
             
         case .fleeing:
-            fatalError("[Pirates] handle began fleeing")
-            
+            fatalError("[Monster] handle began fleeing")
+        
         case .traveling:
-            fatalError("[Pirates] handle began traveling")
+            fatalError("[Monster] handle began traveling")
         }
     }
     
@@ -78,16 +75,16 @@ class Pirates: GameObject {
             self.state.transitioning = .began // re-start with same state
             
         case .battling:
-            fatalError("[Pirates] handle ended battling")
+            fatalError("[Monster] handle ended battling")
             
         case .ambushed:
             self.state = AIUnitState.idleState()
             
         case .fleeing:
-            fatalError("[Pirates] handle ended fleeing")
+            fatalError("[Monster] handle ended fleeing")
             
         case .traveling:
-            fatalError("[Pirates] handle ended traveling")
+            fatalError("[Monster] handle ended traveling")
         }
     }
     
@@ -102,7 +99,7 @@ class Pirates: GameObject {
         // find tile that is towards a ship in sight
         let tilesInSight = self.tilesInSight()
         var possibleTargets = game.navalUnits(in: tilesInSight)
-        possibleTargets = possibleTargets.filter({ $0.identifier != self.identifier })
+        possibleTargets = possibleTargets.filter({ $0.identifier != self.identifier }) // remove self from target list
         
         if possibleTargets.isEmpty {
             
@@ -157,7 +154,7 @@ class Pirates: GameObject {
                 self.state = AIUnitState.battlingState(with: unit.identifier)
             } else if unit.position.distance(to: self.position) > self.sight {
                 // lost sight (out of reach)
-                 self.state = AIUnitState.idleState()
+                self.state = AIUnitState.idleState()
             } else {
                 // move towards - keep state
                 self.stepOnWater(towards: unit.position, in: game)
@@ -179,9 +176,12 @@ class Pirates: GameObject {
         }
         
         if let unit = game.getUnitBy(identifier: targetIdentifier) {
-        
+            
+            // ambush unit
+            unit.state = AIUnitState.ambushedState(by: self.identifier)
+            
             self.delegate?.battle(between: self, and: unit)
-        } 
+        }
     }
     
     func handleAmbushed(in game: Game?) {
@@ -198,5 +198,5 @@ class Pirates: GameObject {
             
             self.delegate?.ambushed(self, by: attacker)
         }
-    }
+    }*/
 }

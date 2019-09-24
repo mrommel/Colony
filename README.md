@@ -5,16 +5,11 @@
 - add global player score for booster and coins
 - add new player input / add player switcher in options (logout)
 - let player select a civilization
-- [Battle] pirates gets some coins from you or trader
-- [Battle] fight between units (pirates) - concept
 - release / board units from ships
-- shark: up+down copied from left+right
 - shipwreck animation
 - snow textures from wesnoth as layer
 - mountain textures as layer
 - limit sight thru mountains
-- more units
-- more animals
 units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245
 
 ## Booster - ongoing
@@ -29,7 +24,6 @@ units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=4
 - [Booster] find them on the map - implemented
 
 ## Maybe
-- collect wood with axemann
 - add beach-se-sw-nw texture (/)
 - add beach-n-ne-s-sw texture (/)
 - add beach-se-s-nw texture (/)
@@ -49,7 +43,6 @@ units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=4
 - beach-n-ne-s-nw (/)
 - beach-n-se-sw-nw (/)
 - add marsh (/) 
-- move unit on longclick ?
 
 ## Bugs
 - [Defect] axeman can walk on the water / ship can cross land - general tile display bug
@@ -58,6 +51,11 @@ units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=4
 - [Defect] dialogs not centered in landscape mode
 
 ## Done
+- shark: up+down copied from left+right
+- more units (archer)
+- more animals (wulf)
+- move unit on longclick
+- [Battle] fight between units (pirates) - concept
 - pause app when user leaves app
 - restart last game after app was ended and restarted
 - [Defect] no coins in level 1&2

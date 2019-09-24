@@ -12,8 +12,8 @@ protocol GameUpdateDelegate {
     
     func updateUI()
     
-    func showBattleDialog(between source: GameObject?, and target: GameObject?)
-    func showBattleResult(between source: GameObject?, and target: GameObject?, result: BattleResult)
+    func showBattleDialog(between source: Unit?, and target: Unit?)
+    func showBattleResult(between source: Unit?, and target: Unit?, result: BattleResult)
 }
 
 class Game: Decodable {
@@ -165,7 +165,7 @@ extension Game {
         self.timer?.start()
 
         if let selectedUnit = self.level?.gameObjectManager.selected {
-            self.level?.gameObjectManager.updatePlayer(object: selectedUnit)
+            self.level?.gameObjectManager.updatePlayer(unit: selectedUnit)
         }
     }
     
@@ -213,8 +213,8 @@ extension Game {
         self.gameUpdateDelegate?.updateUI()
         self.checkCondition()
         
-        //
-        self.level?.gameObjectManager.update(in: self)
+        // FIXME
+        // self.level?.gameObjectManager.update(in: self)
     }
     
     private func stopUpdateTimer() {
@@ -308,9 +308,10 @@ extension Game {
         }
         
         let waterTiles = point.neighbors().filter({ map.tile(at: $0)?.isWater ?? false })
-        let waterTilesWithoutObstacles = waterTiles.filter({ !level.gameObjectManager.obstacle(at: $0) })
+        return waterTiles
+        //let waterTilesWithoutObstacles = waterTiles.filter({ !level.gameObjectManager.obstacle(at: $0) })
         
-        return waterTilesWithoutObstacles
+        //return waterTilesWithoutObstacles
     }
     
     func neighborsOnLand(of point: HexPoint) -> [HexPoint] {
@@ -324,67 +325,63 @@ extension Game {
         }
         
         let landTiles = point.neighbors().filter({ map.tile(at: $0)?.isGround ?? false })
-        let landTilesWithoutObstacles = landTiles.filter({ !level.gameObjectManager.obstacle(at: $0) })
+        return landTiles
+        //let landTilesWithoutObstacles = landTiles.filter({ !level.gameObjectManager.obstacle(at: $0) })
         
-        return landTilesWithoutObstacles
+        //return landTilesWithoutObstacles
     }
     
-    func getUnits(at point: HexPoint) -> [GameObject?] {
+    func getUnits(at point: HexPoint) -> [Unit?] {
         
         guard let level = self.level else {
             fatalError("can't find level")
         }
         
-        return level.gameObjectManager.units(at: point)
+        return level.map.units(at: point)
     }
     
-    func getSelectedUnitOfUser() -> GameObject? {
+    func getSelectedUnitOfUser() -> Unit? {
         
         return self.level?.gameObjectManager.selected
     }
     
-    func getAllUnitsOfUser() -> [GameObject?]? {
+    func getAllUnitsOfUser() -> [Unit?]? {
         
         guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
             fatalError("Can't get current users civilization")
         }
         
-        return self.level?.gameObjectManager.unitsOf(civilization: currentUserCivilization)
+        return self.level?.map.unitsOf(civilization: currentUserCivilization)
     }
     
-    func getUnitsBy(type: UnitType) -> [GameObject?]? {
+    func getUnitsBy(type: UnitType) -> [Unit?]? {
         
-        return self.level?.gameObjectManager.unitsOf(type: type)
+        return self.level?.map.unitsOf(type: type)
     }
     
-    func getUnitBy(identifier: String) -> GameObject? {
+    // MARK: city methods
+    
+    func getAllCitiesOfUser() -> [City?]? {
         
-        return self.level?.gameObjectManager.unitBy(identifier: identifier)
+        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
+            fatalError("Can't get current users civilization")
+        }
+        
+        return self.level?.map.citiesOf(civilization: currentUserCivilization)
     }
     
-    func getCityObject(at point: HexPoint) -> CityObject? {
+    func getCity(at point: HexPoint) -> City? {
         
         guard let level = self.level else {
             fatalError("can't find level")
         }
         
-        let units = level.gameObjectManager.units(at: point)
-        let cities = units.filter({ $0?.type == .city })
-        
-        if cities.count == 1 {
-            let city = cities.first as? CityObject
-            return city
-        }
+        return level.map.city(at: point)
         
         return nil
     }
     
-    func getCityObject(identifier: String) -> CityObject? {
-        
-        return self.level?.gameObjectManager.unitBy(identifier: identifier) as? CityObject
-    }
-    
-    func pathfinderDataSource(for movementType: GameObjectMoveType, ignoreSight: Bool) -> PathfinderDataSource {
+    func pathfinderDataSource(for movementType: MovementType, ignoreSight: Bool) -> PathfinderDataSource {
         
         guard let level = self.level else {
             fatalError("can't find level")
@@ -432,7 +429,7 @@ extension Game {
         self.level?.gameObjectManager.gameObjectUnitDelegates.addDelegate(gameObjectUnitDelegate)
     }
     
-    func navalUnits(in area: HexArea) -> [GameObject] {
+    /*func navalUnits(in area: HexArea) -> [GameObject] {
         
         guard let objects = self.level?.gameObjectManager.objects else {
             return []
@@ -451,7 +448,7 @@ extension Game {
         }
         
         return navalUnits
-    }
+    }*/
     
     func city(at point: HexPoint) -> City? {
         
@@ -477,7 +474,7 @@ extension Game: GameObservationDelegate {
         self.gameUpdateDelegate?.updateUI()
     }
     
-    func battle(between source: GameObject?, and target: GameObject?) {
+    func battle(between source: Unit?, and target: Unit?) {
         
         // check diplomatic status ? hostile / aggressive?
         

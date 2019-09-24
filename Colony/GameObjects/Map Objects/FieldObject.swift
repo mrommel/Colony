@@ -10,18 +10,12 @@ import SpriteKit
 
 class FieldObject: GameObject {
     
-    let field: Field?
-    
     init(for field: Field?) {
         
         let identifier = UUID()
-        let identifierString = "feild-\(identifier.uuidString)"
+        let identifierString = "field-\(identifier.uuidString)"
         
-        self.field = field
-        guard let position = field?.position else { fatalError() }
-        let civilization = field?.civilization
-        
-        super.init(with: identifierString, type: .field, at: position, spriteName: "field", anchorPoint: CGPoint(x: -0.0, y: -0.0), civilization: civilization, sight: 0)
+        super.init(with: identifierString, mapItem: field, spriteName: "field", anchorPoint: CGPoint(x: -0.0, y: -0.0))
         
         self.atlasIdle = GameObjectAtlas(atlasName: "field", textures: ["field"])
         
@@ -29,17 +23,5 @@ class FieldObject: GameObject {
         self.atlasUp = nil
         self.atlasLeft = nil
         self.atlasRight = nil
-        
-        self.movementType = .immobile
-    }
-    
-    required init(from decoder: Decoder) throws {
-        
-        self.field = nil
-        
-        try super.init(from: decoder)
-        
-        // city name not set when loaded from file
-        //self.showCity(named: self.name)
     }
 }

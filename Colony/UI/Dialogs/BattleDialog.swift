@@ -18,7 +18,7 @@ class BattleDialog: Dialog {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func show(prediction: BattleResult, for target: GameObject?) {
+    func show(prediction: BattleResult, for target: Unit?) {
         
         guard let targetUnit = target else {
             return

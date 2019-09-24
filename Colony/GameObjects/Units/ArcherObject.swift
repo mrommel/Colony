@@ -1,5 +1,5 @@
 //
-//  Archer.swift
+//  ArcherObject.swift
 //  Colony
 //
 //  Created by Michael Rommel on 16.08.19.
@@ -8,11 +8,14 @@
 
 import SpriteKit
 
-class Archer: GameObject {
+class ArcherObject: GameObject {
     
-    init(with identifier: String, at point: HexPoint, civilization: Civilization) {
+    init(for archer: Archer?) {
         
-        super.init(with: identifier, type: .archer, at: point, spriteName: "archer-idle-0", anchorPoint: CGPoint(x: 0.0, y: 0.0), civilization: civilization, sight: 2)
+        let identifier = UUID()
+        let identifierString = "axeman-\(identifier.uuidString)"
+        
+        super.init(with: identifierString, unit: archer, spriteName: "archer-idle-0", anchorPoint: CGPoint(x: 0.0, y: 0.0))
         
         self.atlasIdle = GameObjectAtlas(atlasName: "archer", textures: ["axemann-idle-0", "axemann-idle-1", "axemann-idle-2", "axemann-idle-3"])
         
@@ -21,32 +24,9 @@ class Archer: GameObject {
         self.atlasLeft = GameObjectAtlas(atlasName: "archer", textures: ["axemann-left-0", "axemann-left-1", "axemann-left-2", "axemann-left-3", "axemann-left-4", "axemann-left-5", "axemann-left-6", "axemann-left-7"])
         self.atlasRight = GameObjectAtlas(atlasName: "archer", textures: ["axemann-right-0", "axemann-right-1", "axemann-right-2", "axemann-right-3", "axemann-right-4", "axemann-right-5", "axemann-right-6", "axemann-right-7"])
         
-        self.canMoveByUserInput = true
-        self.movementType = .walk
         self.animationSpeed = 3
         
         self.showUnitTypeIndicator()
         self.showUnitStrengthIndicator()
-    }
-    
-    required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
-    
-    override func handleBeganState(in game: Game?) {
-        assert(self.state.transitioning == .began, "method can only handle .begin")
-        
-        if self.state.state == .ambushed {
-            fatalError("[Archer] handle began ambushed")
-        }
-    }
-    
-    override func handleEndedState(in game: Game?) {
-        
-        assert(self.state.transitioning == .ended, "method can only handle .ended")
-        
-        if self.state.state == .ambushed {
-            fatalError("[Archer] handle ended ambushed")
-        }
     }
 }

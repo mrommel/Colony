@@ -60,7 +60,7 @@ class MapNode: SKNode {
         for unit in self.gameObjectManager.objects {
             if let unit = unit {
                 unit.addTo(node: self)
-                unit.idle()
+                //unit.idle()
             }
         }
 
@@ -91,7 +91,7 @@ class MapNode: SKNode {
 
         if let selectedUnit = self.gameObjectManager.selected {
 
-            guard selectedUnit.canMoveByUserInput else {
+            guard selectedUnit.gameObject?.canMoveByUserInput ?? false else {
                 // FIXME: show x
                 self.showCross(at: hex)
                 return
@@ -107,10 +107,10 @@ class MapNode: SKNode {
             if self.map?.valid(point: hex) ?? false {
                 let pathFinder = AStarPathfinder()
                 
-                pathFinder.dataSource = map?.pathfinderDataSource(with: self.gameObjectManager, movementType: selectedUnit.movementType, ignoreSight: false)
+                pathFinder.dataSource = map?.pathfinderDataSource(with: self.gameObjectManager, movementType: selectedUnit.unitType.movementType, ignoreSight: false)
                 
                 if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.position, toTileCoord: hex) {
-                    selectedUnit.walk(on: path)
+                    selectedUnit.gameObject?.showWalk(on: path, completion: {})
                     return
                 }
             }
@@ -124,11 +124,11 @@ class MapNode: SKNode {
 
 extension MapNode: GameObjectUnitDelegate {
     
-    func selectedGameObjectChanged(to gameObject: GameObject?) {
+    func selectedUnitChanged(to unit: Unit?) {
         // NOOP
     }
     
-    func removed(gameObject: GameObject?) {
+    func removed(unit: Unit?) {
         // NOOP
     }
 }

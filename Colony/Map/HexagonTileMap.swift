@@ -15,9 +15,10 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     var rivers: [River] = []
     var fogManager: FogManager? = nil
+    
     var cities: [City] = []
-    var castles: [Castle] = []
-    var fields: [Field] = []
+    var units: [Unit] = []
+    var items: [MapItem] = []
     
     // properties that are not stored
     var continents: [Continent] = []
@@ -26,7 +27,10 @@ class HexagonTileMap: HexagonMap<Tile> {
     enum CodingKeys: String, CodingKey {
         case rivers
         case fogManager
+        
         case cities
+        case units
+        case items
     }
     
     // MARK: constructors
@@ -65,6 +69,9 @@ class HexagonTileMap: HexagonMap<Tile> {
         self.rivers = try values.decode([River].self, forKey: .rivers)
         self.fogManager = try values.decode(FogManager.self, forKey: .fogManager)
         self.cities = try values.decode([City].self, forKey: .cities)
+        self.units = try values.decode([Unit].self, forKey: .units)
+        self.replaceUnits()
+        self.items = try values.decode([MapItem].self, forKey: .items)
         
         // find continents and oceans
         let continentFinder = ContinentFinder(width: self.width, height: self.height)
@@ -90,6 +97,60 @@ class HexagonTileMap: HexagonMap<Tile> {
         try container.encode(self.rivers, forKey: .rivers)
         try container.encode(self.fogManager, forKey: .fogManager)
         try container.encode(self.cities, forKey: .cities)
+        try container.encode(self.units, forKey: .units)
+        try container.encode(self.items, forKey: .items)
+    }
+    
+    func replaceUnits() {
+        
+        var customUnits: [Unit] = []
+        for unit in self.units {
+            
+            switch unit.unitType {
+                
+            /*case .trader:
+                <#code#>
+            case .pirates:
+                <#code#>
+            case .settler:
+                <#code#>
+            case .builder:
+                <#code#>
+            case .galley:
+                <#code#>
+            case .trireme:
+                <#code#>
+            case .galleass:
+                <#code#>*/
+            case .caravel:
+                let caravel = Caravel(position: unit.position, civilization: unit.civilization)
+                caravel.copy(from: unit)
+                customUnits.append(caravel)
+                break
+            /*case .frigate:
+                <#code#>
+            case .ironclad:
+                <#code#>
+            case .destroyer:
+                <#code#>
+                */
+            case .axeman:
+                let axeman = Axeman(position: unit.position, civilization: unit.civilization)
+                axeman.copy(from: unit)
+                customUnits.append(axeman)
+                break
+            case .archer:
+                let archer = Archer(position: unit.position, civilization: unit.civilization)
+                archer.copy(from: unit)
+                customUnits.append(archer)
+            default:
+                // NOOP
+                break
+            }
+        }
+        
+        self.units = []
+        self.units.append(contentsOf: customUnits)
     }
     
     // MARK: caldera
@@ -442,7 +503,7 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     // MARK: pathfinding
     
-    func path(from: HexPoint, to: HexPoint, movementType: GameObjectMoveType) -> HexPath? {
+    func path(from: HexPoint, to: HexPoint, movementType: MovementType) -> HexPath? {
         
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = pathfinderDataSource(with: nil, movementType: movementType, ignoreSight: true)
@@ -486,7 +547,7 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
-    func pathfinderDataSource(with gameObjectManager: GameObjectManager?, movementType: GameObjectMoveType, ignoreSight: Bool) -> PathfinderDataSource {
+    func pathfinderDataSource(with gameObjectManager: GameObjectManager?, movementType: MovementType, ignoreSight: Bool) -> PathfinderDataSource {
         
         return MoveTypePathfinderDataSource(map: self, gameObjectManager: gameObjectManager, movementType: movementType, ignoreSight: ignoreSight)
     }
@@ -511,6 +572,33 @@ class HexagonTileMap: HexagonMap<Tile> {
     func getCoastalCities(at ocean: Ocean) -> [City] {
 
         return self.cities.filter({ ocean.isAdjacent(to: $0.position) })
+    }
+    
+    func citiesOf(civilization: Civilization) -> [City?] {
+
+        return self.cities.filter { $0.civilization == civilization }
+    }
+    
+    // MARK: unit methods
+    
+    func unitsOf(type: UnitType) -> [Unit?] {
+        
+        return self.units.filter { $0.unitType == type }
+    }
+
+    func unitsOf(civilization: Civilization) -> [Unit?] {
+
+        return self.units.filter { $0.civilization == civilization }
+    }
+    
+    func unitsExcept(civilization: Civilization) -> [Unit?] {
+        
+        return self.units.filter { $0.civilization != civilization } // also nil
+    }
+    
+    func units(at position: HexPoint) -> [Unit?] {
+    
+        return self.units.filter { $0.position == position }
     }
 
     // MARK: zone of control methods

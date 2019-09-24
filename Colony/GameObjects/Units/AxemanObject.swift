@@ -1,18 +1,21 @@
 //
-//  Axeman.swift
+//  AxemanObject.swift
 //  Colony
 //
-//  Created by Michael Rommel on 11.07.19.
+//  Created by Michael Rommel on 23.09.19.
 //  Copyright © 2019 Michael Rommel. All rights reserved.
 //
 
 import SpriteKit
 
-class Axeman: GameObject {
+class AxemanObject: GameObject {
     
-    init(with identifier: String, at point: HexPoint, civilization: Civilization) {
+    init(for axeman: Axeman?) {
         
-        super.init(with: identifier, type: .axeman, at: point, spriteName: "axemann-idle-0", anchorPoint: CGPoint(x: 0.0, y: 0.0), civilization: civilization, sight: 2)
+        let identifier = UUID()
+        let identifierString = "axeman-\(identifier.uuidString)"
+        
+        super.init(with: identifierString, unit: axeman, spriteName: "axemann-idle-0", anchorPoint: CGPoint(x: 0.0, y: 0.0))
         
         self.atlasIdle = GameObjectAtlas(atlasName: "axeman", textures: ["axemann-idle-0", "axemann-idle-1", "axemann-idle-2", "axemann-idle-3"])
         
@@ -21,32 +24,9 @@ class Axeman: GameObject {
         self.atlasLeft = GameObjectAtlas(atlasName: "axeman", textures: ["axemann-left-0", "axemann-left-1", "axemann-left-2", "axemann-left-3", "axemann-left-4", "axemann-left-5", "axemann-left-6", "axemann-left-7"])
         self.atlasRight = GameObjectAtlas(atlasName: "axeman", textures: ["axemann-right-0", "axemann-right-1", "axemann-right-2", "axemann-right-3", "axemann-right-4", "axemann-right-5", "axemann-right-6", "axemann-right-7"])
 
-        self.canMoveByUserInput = true
-        self.movementType = .walk
         self.animationSpeed = 3
         
         self.showUnitTypeIndicator()
         self.showUnitStrengthIndicator()
-    }
-    
-    required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
-    
-    override func handleBeganState(in game: Game?) {
-        assert(self.state.transitioning == .began, "method can only handle .begin")
-        
-        if self.state.state == .ambushed {
-            fatalError("[Axeman] handle began ambushed")
-        }
-    }
-    
-    override func handleEndedState(in game: Game?) {
-        
-        assert(self.state.transitioning == .ended, "method can only handle .ended")
-        
-        if self.state.state == .ambushed {
-            fatalError("[Axeman] handle ended ambushed")
-        }
     }
 }

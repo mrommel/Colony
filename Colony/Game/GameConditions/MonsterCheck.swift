@@ -39,11 +39,15 @@ class MonsterCheck: GameConditionCheck {
             fatalError("no player units")
         }
         
+        guard let playerCities = self.game?.getAllCitiesOfUser() else {
+            fatalError("no player cities")
+        }
+        
         guard playerUnits.count > 1 else {
             return nil
         }
         
-        if let ship = playerUnits.filter({ $0?.type == .ship }).first, let city = playerUnits.filter({ $0?.type == .city }).first {
+        if let ship = playerUnits.filter({ $0?.unitType == .caravel }).first, let city = playerCities.first {
 
             if let shipPosition = ship?.position, let cityPosition = city?.position {
                 if shipPosition.distance(to: cityPosition) == 1 {
@@ -57,7 +61,7 @@ class MonsterCheck: GameConditionCheck {
     
     override func isLost() -> GameConditionType? {
         
-        guard let enemyUnits = self.game?.getUnitsBy(type: .monster) else {
+        /*guard let enemyUnits = self.game?.getUnitsBy(type: .monster) else {
             fatalError("no monster units")
         }
         
@@ -65,13 +69,13 @@ class MonsterCheck: GameConditionCheck {
             fatalError("no player units")
         }
         
-        if let ship = playerUnits.filter({ $0?.type == .ship }).first, let monster = enemyUnits.first {
+        if let ship = playerUnits.filter({ $0?.type == .caravel }).first, let monster = enemyUnits.first {
             if let shipPosition = ship?.position, let monsterPosition = monster?.position {
                 if shipPosition == monsterPosition {
                     return MonsterGameConditionType.monsterCaughtShip
                 }
             }
-        }
+        }*/
         
         return nil
     }

@@ -48,8 +48,8 @@ class BottomLeftBar: SizedNode {
             self.addChild(unitBackgroundNode)
         }
         
-        let selectedUnitTextureString = (self.gameObjectManager?.selected?.atlasIdle?.textures.first)
-        let selectedUnitTexture = SKTexture(imageNamed: selectedUnitTextureString!)
+        let selectedUnitTextureString = (self.gameObjectManager?.selected?.gameObject?.atlasIdle?.textures.first)
+        let selectedUnitTexture = SKTexture(imageNamed: selectedUnitTextureString ?? "")
         self.unitImageNode = SKSpriteNode(texture: selectedUnitTexture, color: .black, size: CGSize(width: 72, height: 72))
         self.unitImageNode?.position = self.position + CGPoint(x: 90, y: 3)
         self.unitImageNode?.zPosition = self.zPosition + 0.3
@@ -103,9 +103,9 @@ class BottomLeftBar: SizedNode {
 
 extension BottomLeftBar: GameObjectUnitDelegate {
     
-    func selectedGameObjectChanged(to gameObject: GameObject?) {
+    func selectedUnitChanged(to unit: Unit?) {
         
-        guard let gameObject = gameObject else {
+        guard let gameObject = unit?.gameObject else {
             fatalError("selected unit set to nil")
         }
         
@@ -117,7 +117,7 @@ extension BottomLeftBar: GameObjectUnitDelegate {
         self.unitImageNode?.texture = selectedUnitTexture
     }
     
-    func removed(gameObject: GameObject?) {
+    func removed(unit: Unit?) {
         // NOOP
     }
 }

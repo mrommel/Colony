@@ -92,14 +92,14 @@ enum Feature: String, Codable {
 		}
 	}
     
-    func movementCost(for movementType: GameObjectMoveType) -> Float {
+    func movementCost(for movementType: MovementType) -> Float {
         
         switch movementType {
         case .immobile:
-            return GameObjectMoveType.impassible
+            return MovementType.impassible
             
         case .swimOcean:
-            return GameObjectMoveType.impassible
+            return MovementType.impassible
         
         case .walk:
             
@@ -127,7 +127,7 @@ enum Feature: String, Codable {
                 return 0.0
             }
             
-            return GameObjectMoveType.impassible
+            return MovementType.impassible
         }
         
     }

@@ -8,10 +8,14 @@
 
 import SpriteKit
 
-class TradeShip: GameObject {
+class TradeShipObject: GameObject {
 
-    init(with identifier: String, at point: HexPoint) {
-        super.init(with: identifier, type: .tradeShip, at: point, spriteName: "pirate003", anchorPoint: CGPoint(x: 0.0, y: 0.0), civilization: .trader, sight: 2)
+    init(for unit: Unit?) {
+           
+        let identifier = UUID()
+        let identifierString = "trader-\(identifier.uuidString)"
+
+        super.init(with: identifierString, unit: unit, spriteName: "pirate003", anchorPoint: CGPoint(x: 0.0, y: 0.0))
 
         self.atlasIdle = GameObjectAtlas(atlasName: "pirates", textures: ["pirate003", "pirate004", "pirate005"])
 
@@ -21,17 +25,12 @@ class TradeShip: GameObject {
         self.atlasRight = GameObjectAtlas(atlasName: "pirates", textures: ["pirate006", "pirate007", "pirate008"])
 
         self.canMoveByUserInput = false
-        self.movementType = .swimOcean
 
         self.showUnitTypeIndicator()
         self.showUnitStrengthIndicator()
     }
-
-    required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
     
-    override func handleBeganState(in game: Game?) {
+    /*override func handleBeganState(in game: Game?) {
         
         assert(self.state.transitioning == .began, "method can only handle .begin")
         
@@ -214,5 +213,5 @@ class TradeShip: GameObject {
         } else {
             self.delegate?.ambushed(self, by: attacker) //
         }
-    }
+    }*/
 }

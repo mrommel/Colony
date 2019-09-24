@@ -48,17 +48,17 @@ enum AttackType {
 
 class Battle {
     
-    let attackerUnit: GameObject
+    let attackerUnit: Unit
     let attackerProperties: UnitProperties
     
-    let defenderUnit: GameObject
+    let defenderUnit: Unit
     let defenderProperties: UnitProperties
     
     let mainAttackType: AttackType
     
     weak var game: Game?
     
-    init(between attacker: GameObject?, and defender: GameObject?, attackType: AttackType, in game: Game?) {
+    init(between attacker: Unit?, and defender: Unit?, attackType: AttackType, in game: Game?) {
         
         guard game != nil else {
             fatalError("game is nil")
@@ -72,7 +72,7 @@ class Battle {
         
         self.attackerUnit = attackerInstance
         
-        guard let attackerPropertiesInstance = self.attackerUnit.type.properties else {
+        guard let attackerPropertiesInstance = self.attackerUnit.unitType.properties else {
             fatalError("attacker properties are nil")
         }
         
@@ -84,7 +84,7 @@ class Battle {
         
         self.defenderUnit = defenderInstance
         
-        guard let defenderPropertiesInstance = self.defenderUnit.type.properties else {
+        guard let defenderPropertiesInstance = self.defenderUnit.unitType.properties else {
             fatalError("defender properties are nil")
         }
         
@@ -274,7 +274,7 @@ class Battle {
     }
     
     /// Compute the targets rugged defense chance.
-    static func ruggedDefenceChance(attacker: GameObject, defender: GameObject) -> Int {
+    static func ruggedDefenceChance(attacker: Unit, defender: Unit) -> Int {
         
         /* PG's formula is
          5% * def_entr *
@@ -284,12 +284,12 @@ class Battle {
             ( CGFloat(defender.experience + 2) / CGFloat(attacker.experience + 2) ) )
     }
     
-    static func areClose(attacker: GameObject, defender: GameObject) -> Bool {
+    static func areClose(attacker: Unit, defender: Unit) -> Bool {
         return attacker.position.distance(to: defender.position) == 0
     }
     
     /// Check if target may do rugged defense
-    static func checkRuggedDefense(attacker: GameObject?, defender: GameObject?) -> Bool {
+    static func checkRuggedDefense(attacker: Unit?, defender: Unit?) -> Bool {
         
         guard let attackerProperties = attacker?.properties else {
             return false
@@ -325,17 +325,17 @@ class Battle {
     
     /// Check if unit may activly attack (unit initiated attack) or
     /// passivly attack (target initated attack, unit defenses) the target.
-    static func checkAttack(from attacker: GameObject?, and defender: GameObject?, attackType: AttackType, in game: Game?) -> Bool {
+    static func checkAttack(from attacker: Unit?, and defender: Unit?, attackType: AttackType, in game: Game?) -> Bool {
         
         /*guard let game = game else {
             fatalError("can't get game")
         }*/
         
-        guard let attackerUnit = attacker, let attackerProperties = attackerUnit.type.properties else {
+        guard let attackerUnit = attacker, let attackerProperties = attackerUnit.unitType.properties else {
             return false
         }
         
-        guard let defenderUnit = defender, let defenderProperties = defenderUnit.type.properties else {
+        guard let defenderUnit = defender, let defenderProperties = defenderUnit.unitType.properties else {
             return false
         }
         
@@ -425,17 +425,17 @@ class Battle {
     ///
     /// no close defense handled yet
     ///
-    private static func getDamageForAttack(from attacker: GameObject?, and defender: GameObject?, attackType: AttackType, real: Bool, ruggedDefense: Bool, in game: Game?) -> (Int, Int) {
+    private static func getDamageForAttack(from attacker: Unit?, and defender: Unit?, attackType: AttackType, real: Bool, ruggedDefense: Bool, in game: Game?) -> (Int, Int) {
         
         guard let game = game else {
             fatalError("can't get game")
         }
         
-        guard let attackerUnit = attacker, let attackerProperties = attackerUnit.type.properties else {
+        guard let attackerUnit = attacker, let attackerProperties = attackerUnit.unitType.properties else {
             fatalError("Can't get attacker")
         }
         
-        guard let defenderUnit = defender, let defenderProperties = defenderUnit.type.properties else {
+        guard let defenderUnit = defender, let defenderProperties = defenderUnit.unitType.properties else {
             fatalError("Can't get defender")
         }
         

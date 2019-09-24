@@ -11,37 +11,37 @@ import SpriteKit
 
 protocol GameObjectDelegate {
 
-    func moved(object: GameObject?)
-    
-    func battle(between: GameObject?, and target: GameObject?) // unit is attacker
-    func ambushed(_ target: GameObject?, by attacker: GameObject?) // passive
-    func killed(object: GameObject?)
+    func moved(unit: Unit?)
+
+    func battle(between: Unit?, and target: Unit?) // unit is attacker
+    func ambushed(_ target: Unit?, by attacker: Unit?) // passive
+    func killed(unit: Unit?)
 }
 
 protocol GameObjectUnitDelegate {
-    
-    func selectedGameObjectChanged(to gameObject: GameObject?)
-    func removed(gameObject: GameObject?)
+
+    func selectedUnitChanged(to unit: Unit?)
+    func removed(unit: Unit?)
 }
 
 protocol GameObservationDelegate {
-    
+
     func updated()
     func coinConsumed()
     func boosterConsumed(type: BoosterType)
-    
-    func battle(between: GameObject?, and target: GameObject?)
+
+    func battle(between: Unit?, and target: Unit?)
 }
 
-class GameObjectManager: Codable {
-    
+class GameObjectManager {
+
     weak var map: HexagonTileMap?
     var userUsecase: UserUsecase?
     var objects: [GameObject?]
-    var selected: GameObject? {
+    var selected: Unit? {
         didSet {
             self.gameObjectUnitDelegates |> { delegate in
-                delegate.selectedGameObjectChanged(to: selected)
+                delegate.selectedUnitChanged(to: selected)
             }
         }
     }
@@ -49,275 +49,138 @@ class GameObjectManager: Codable {
     var gameObjectUnitDelegates = MulticastDelegate<GameObjectUnitDelegate>()
     var gameObservationDelegate: GameObservationDelegate?
 
-    enum CodingKeys: String, CodingKey {
-        case objects
-    }
-    
     // MARK: constructors
 
     init(on map: HexagonTileMap?) {
         self.objects = []
         self.map = map
-        
-        self.userUsecase = UserUsecase()
-    }
-    
-    required init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        
-        let objectsFromFile = try values.decode([GameObject?].self, forKey: .objects)
-        
-        self.objects = []
-        for objectFromFile in objectsFromFile {
 
-            if let type = objectFromFile?.type,
-                let identifier = objectFromFile?.identifier,
-                let position = objectFromFile?.position,
-                let dict = objectFromFile?.dict {
-                
-                switch type {
-                
-                case .ship:
-                    if let civilization = objectFromFile?.civilization {
-                        self.objects.append(ShipObject(with: identifier, at: position, civilization: civilization))
-                    }
-                    break
-                    
-                case .axeman:
-                    if let civilization = objectFromFile?.civilization {
-                        self.objects.append(Axeman(with: identifier, at: position, civilization: civilization))
-                    }
-                    break
-                    
-                case .archer:
-                    if let civilization = objectFromFile?.civilization {
-                        self.objects.append(Archer(with: identifier, at: position, civilization: civilization))
-                    }
-                    break
-                    
-                case .monster:
-                    self.objects.append(Monster(with: identifier, at: position))
-                    break
-                    
-                case .city:
-                    if let civilization = objectFromFile?.civilization {
-
-                        if let name = dict[GameObject.keyDictName] as? String {
-                            let city = City(named: name, at: position, civilization: civilization)
-                            self.map?.cities.append(city)
-                            self.objects.append(CityObject(for: city))
-                        }
-                    }
-                    break
-                case .castle:
-                    if let civilization = objectFromFile?.civilization {
-                        if let name = dict[GameObject.keyDictName] as? String {
-                            let castle = Castle(named: name, at: position, civilization: civilization, type: .normal)
-                            self.map?.castles.append(castle)
-                            self.objects.append(CastleObject(for: castle))
-                        }
-                    }
-                    break
-                case .field:
-                    break
-                    
-                case .coin:
-                    self.objects.append(Coin(at: position))
-                    break
-                    
-                case .pirates:
-                    self.objects.append(Pirates(with: identifier, at: position))
-                    break
-                    
-                case .tradeShip:
-                    self.objects.append(TradeShip(with: identifier, at: position))
-                    break
-                    
-                case .obstacle:
-                    if identifier.starts(with: "shipwreck-") {
-                        self.objects.append(ShipWreck(at: position))
-                    } else if identifier.starts(with: "reef-") {
-                        self.objects.append(Reef(at: position))
-                    } else {
-                        fatalError("obstacle cannot be loaded")
-                    }
-                    break
-                    
-                case .animal:
-                    if identifier.starts(with: "shark-") {
-                        self.objects.append(Shark(at: position))
-                    } else {
-                        fatalError("animal cannot be loaded")
-                    }
-                    break
-                    
-                case .booster:
-                    if identifier.starts(with: "booster-") {
-                        if let boosterType = dict[Booster.keyDictBoosterType] {
-                        fatalError("implement for \(boosterType)")
-                        // let booster = Booster(at: position, boosterType: boosterType)
-                        }
-                    } else {
-                        fatalError("booster cannot be loaded")
-                    }
-                    break
-                }
-            }
-        }
-        
         self.userUsecase = UserUsecase()
+        
+        // create from map objects
+        self.setupUnits()
+        self.setupCities()
     }
 
-    // MARK: methods
-    
-    func add(object: GameObject?) {
+    func setupUnits() {
 
-        guard let object = object else {
-            fatalError("Can't add nil object")
-        }
-        
         guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
             fatalError("Can't get current users civilization")
         }
 
-        // only player unit update the fog
-        if let civilization = object.civilization {
-            if civilization == currentUserCivilization {
-                self.map?.fogManager?.add(unit: object)
-                
+        for unit in self.map?.units ?? [] {
+
+            let gameObject = unit.createGameObject()
+            gameObject?.delegate = self
+            self.objects.append(gameObject)
+
+            // only player unit update the fog
+            if unit.civilization == currentUserCivilization {
+                self.map?.fogManager?.add(unit: gameObject!)
+
                 if self.selected == nil {
-                    self.selected = object
+                    self.selected = unit
                 }
             }
-        }
 
-        object.delegate = self
-        self.objects.append(object)
-        
-        self.moved(object: object)
+            self.moved(unit: unit)
+        }
     }
     
-    func remove(object: GameObject?) {
-        if let objectIndex = self.objects.firstIndex(where: { $0?.identifier == object?.identifier }) {
+    func setupCities() {
+        
+        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
+            fatalError("Can't get current users civilization")
+        }
+        
+        for city in self.map?.cities ?? [] {
+
+            let gameObject = city.createGameObject()
+            gameObject?.delegate = self
+            self.objects.append(gameObject)
+        
+            // only player unit update the fog
+            if city.civilization == currentUserCivilization {
+                self.map?.fogManager?.add(city: gameObject!)
+            }
+        }
+    }
+
+    func remove(unit: Unit?) {
+        fatalError("FIXME")
+        /*if let objectIndex = self.objects.firstIndex(where: { $0?.identifier == object?.identifier }) {
             self.objects.remove(at: objectIndex)
             object?.removeFromParent()
-        }
+        }*/
     }
-    
+
     // MARK:
-    
+
     func nextPlayerUnit() {
-        
+
         guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
             fatalError("Can't get current users civilization")
         }
-        
-        let playerUnits = self.unitsOf(civilization: currentUserCivilization)
-        
+
+        guard let playerUnits = self.map?.unitsOf(civilization: currentUserCivilization) else {
+            fatalError("Can't get current users units")
+        }
+
         guard playerUnits.count > 1 else {
             return
         }
-        
-        guard let currentIndex = playerUnits.firstIndex(where: { $0?.identifier == selected?.identifier }) else {
+
+        guard let currentIndex = playerUnits.firstIndex(where: { $0 == selected }) else {
             fatalError("selected no in player units")
         }
-        
-        let nextIndex = (currentIndex + 1 ) % playerUnits.count
-        
+
+        let nextIndex = (currentIndex + 1) % playerUnits.count
+
         self.selected = playerUnits[nextIndex]
     }
-    
+
     func centerOnPlayerUnit() {
-        
+
         // focus on unit
         self.gameObjectUnitDelegates |> { delegate in
-            delegate.selectedGameObjectChanged(to: selected)
+            delegate.selectedUnitChanged(to: self.selected)
         }
-    }
-    
-    func unitBy(identifier: String) -> GameObject? {
-        
-        if let object = self.objects.first(where: { $0?.identifier == identifier }) {
-            return object
-        }
-        
-        return nil
-    }
-    
-    func unitsOf(type: UnitType) -> [GameObject?] {
-        
-        return self.objects.filter { $0?.type == type }
     }
 
-    func unitsOf(civilization: Civilization) -> [GameObject?] {
-
-        return self.objects.filter { $0?.civilization == civilization }
-    }
-    
-    func unitsExcept(civilization: Civilization) -> [GameObject?] {
-        
-        return self.objects.filter { $0?.civilization != civilization } // also nil
-    }
-    
-    func units(at position: HexPoint) -> [GameObject?] {
-    
-        return self.objects.filter { $0?.position == position }
-    }
-    
-    func obstacle(at position: HexPoint) -> Bool {
-        
-        let unitsAtPosition = self.units(at: position)
-        
-        for unit in unitsAtPosition {
-            
-            if unit?.type == .obstacle {
-                return true
-            }
-        }
-        
-        return false
-    }
-    
     func checkGameConditions() {
-        
+
         self.gameObservationDelegate?.updated()
     }
-    
-    func update(in game: Game?) {
-        
-        for object in self.objects {
-            object?.update(in: game)
-        }
-    }
-    
+
     func dismiss() {
-        
+
         for object in self.objects {
             object?.dismiss()
         }
     }
-    
+
     // MARK: update methods
-    
-    func updatePlayer(object: GameObject) {
-        
+
+    func updatePlayer(unit _: Unit) {
+
         guard let fogManager = self.map?.fogManager else {
             fatalError("no fogManager set")
         }
-        
+
         guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
             fatalError("Can't get current users civilization")
         }
-        
+
         // update fog for own units
         fogManager.update()
-        
+
         // everyone except player
-        for unit in self.unitsExcept(civilization: currentUserCivilization) {
-            
-            if let position = unit?.position, let type = unit?.type {
-                
-                if position == object.position && type == .coin {
+        for unit in self.map?.unitsExcept(civilization: currentUserCivilization) ?? [] {
+
+            if let position = unit?.position {
+
+                // FIXME: coins are map items
+                /*if position == object.position && type == .coin {
                     
                     // consume coin
                     self.gameObservationDelegate?.coinConsumed()
@@ -327,9 +190,10 @@ class GameObjectManager: Codable {
                     }
                     self.remove(object: unit)
                     continue
-                }
-                
-                if position == object.position && type == .booster {
+                }*/
+
+                // FIXME: boosters are map items
+                /*if position == object.position && type == .booster {
                     
                     guard let boosterObject = unit as? Booster else {
                         fatalError("error")
@@ -344,84 +208,97 @@ class GameObjectManager: Codable {
                     }
                     self.remove(object: unit)
                     continue
-                }
-                
+                }*/
+
                 // show/hide enemies based on fog
                 let fogAtEnemy = fogManager.fog(at: position)
                 if fogAtEnemy == .sighted {
-                    unit?.show()
+                    unit?.gameObject?.show()
                 } else {
-                    if unit?.type == .city && fogAtEnemy == .discovered {
-                        unit?.show() // already discovered
-                    } else {
-                        unit?.hide()
-                    }
+                    unit?.gameObject?.hide()
                 }
             }
         }
+
+        for city in self.map?.cities ?? [] {
+                // show/hide cities based on discovery fog
+                let fogAtEnemy = fogManager.fog(at: city.position)
+
+                if fogAtEnemy == .discovered {
+                    city.gameObject?.show() // already discovered
+                } else {
+                    city.gameObject?.hide()
+                }
+        }
     }
-    
-    func updateForeign(object: GameObject) {
-    
+
+    func updateForeign(unit: Unit) {
+
         guard let fogManager = self.map?.fogManager else {
             fatalError("no fogManager set")
         }
-        
-        let fogAtEnemy = fogManager.fog(at: object.position)
+
+        let fogAtEnemy = fogManager.fog(at: unit.position)
         if fogAtEnemy == .sighted {
-            object.show()
+            unit.gameObject?.show()
         } else {
-            if object.type == .city && fogAtEnemy == .discovered {
-                object.show() // already discovered
-            } else {
-                object.hide()
-            }
+            unit.gameObject?.hide()
+        }
+    }
+    
+    func updateForeign(city: City) {
+
+        guard let fogManager = self.map?.fogManager else {
+            fatalError("no fogManager set")
+        }
+
+        let fogAtEnemy = fogManager.fog(at: city.position)
+        if fogAtEnemy == .discovered {
+            city.gameObject?.show()
+        } else {
+            city.gameObject?.hide()
         }
     }
 }
 
 extension GameObjectManager: GameObjectDelegate {
 
-    func moved(object: GameObject?) {
+    func moved(unit: Unit?) {
 
-        guard let object = object else {
+        guard let unit = unit else {
             fatalError("Can't add nil object")
         }
-        
+
         guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
             fatalError("Can't get current users civilization")
         }
 
-        if let civilization = object.civilization {
-            if civilization == currentUserCivilization {
-                self.updatePlayer(object: object)
-            } else {
-                self.updateForeign(object: object)
-            }
+        if unit.civilization == currentUserCivilization {
+            self.updatePlayer(unit: unit)
         } else {
-            self.updateForeign(object: object)
+            self.updateForeign(unit: unit)
         }
 
         // check if won / lost the game
         self.checkGameConditions()
     }
-    
-    func battle(between source: GameObject?, and target: GameObject?) {
+
+    func battle(between source: Unit?, and target: Unit?) {
 
         self.gameObservationDelegate?.battle(between: source, and: target)
     }
-    
-    func ambushed(_ target: GameObject?, by attacker: GameObject?) {
-        
+
+    func ambushed(_ target: Unit?, by attacker: Unit?) {
+
         self.gameObservationDelegate?.battle(between: attacker, and: target)
     }
-    
-    func killed(object: GameObject?) {
-        
-        if let object = object {
-            print("\(object) killed")
+
+    func killed(unit: Unit?) {
+
+        if let unit = unit {
+            print("\(unit) killed")
         }
         // FIXME: animation of unit dying?
-        self.remove(object: object)
+        self.remove(unit: unit)
     }
 }

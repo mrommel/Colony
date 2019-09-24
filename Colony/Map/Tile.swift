@@ -179,13 +179,13 @@ extension Tile {
     
     /// cost to enter a terrain given the specified movementType
     /// -1.0 means not possible
-    func movementCost(for movementType: GameObjectMoveType, from source: Tile) -> Float {
+    func movementCost(for movementType: MovementType, from source: Tile) -> Float {
         
         // start with terrain cost
         let terrainCost = self.terrain.movementCost(for: movementType)
         
-        if terrainCost == GameObjectMoveType.impassible {
-            return GameObjectMoveType.impassible
+        if terrainCost == MovementType.impassible {
+            return MovementType.impassible
         }
 
         // add feature costs
@@ -194,8 +194,8 @@ extension Tile {
             
             let featureCost = feature.movementCost(for: movementType)
             
-            if featureCost == GameObjectMoveType.impassible {
-                return GameObjectMoveType.impassible
+            if featureCost == MovementType.impassible {
+                return MovementType.impassible
             }
             
             featureCosts += featureCost

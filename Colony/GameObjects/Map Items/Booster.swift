@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class Booster: GameObject {
+/*class Booster: GameObject {
     
     static let keyDictBoosterType = "boosterType"
     
@@ -63,4 +63,4 @@ class Booster: GameObject {
 
         self.run(idleAnimation, withKey: GameObject.idleActionKey, completion: {})
     }
-}
+}*/
