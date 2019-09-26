@@ -60,8 +60,6 @@ class GameObject {
 
     var lastTime: CFTimeInterval = 0
     var animationSpeed = 2.0
-    
-    var canMoveByUserInput: Bool = false
 
     // usecases
     let userUsecase: UserUsecase?
@@ -160,11 +158,16 @@ class GameObject {
         
         if let unit = self.connectedUnit() {
             unit.position = position
+            self.delegate?.moved(unit: unit)
+            return
         }
         
         if let animal = self.connectedAnimal() {
             animal.position = position
+            return
         }
+        
+        fatalError("can't move map item or city")
     }
     
     // MARK: methods
@@ -426,43 +429,9 @@ class GameObject {
         }
     }
 
-    /*func stepOnWater(towards point: HexPoint, in game: Game?) {
-
-        guard let waterNeighbors = game?.neighborsInWater(of: point) else {
-            return
-        }
-
-        var bestWaterNeighbor = waterNeighbors.first!
-        var bestDistance: Int = Int.max
-
-        for waterNeighbor in waterNeighbors {
-            let neighborDistance = waterNeighbor.distance(to: point) + Int.random(number: 1)
-            if neighborDistance < bestDistance {
-                bestWaterNeighbor = waterNeighbor
-                bestDistance = neighborDistance
-            }
-        }
-
-        let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = game?.pathfinderDataSource(for: self.movementType, ignoreSight: true)
-
-        if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
-            self.showWalk(on: path, completion: {})
-        }
-    }*/
-
     func run(_ action: SKAction!, withKey key: String!, completion block: (() -> Void)?) {
 
         self.sprite.run(action, withKey: key, completion: block)
-    }
-
-    func tilesInSight() -> HexArea {
-
-        if let unit = self.connectedUnit() {
-            return HexArea(center: self.position, radius: unit.sight)
-        }
-        
-        fatalError("no unit - no tiles in sight")
     }
 
     func dismiss() {

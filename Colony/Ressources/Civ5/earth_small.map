@@ -2782,6 +2782,12 @@
   "cities" : [
 
   ],
+  "units" : [
+
+  ],
+  "items" : [
+
+  ],
   "tiles" : {
     "columns" : 66,
     "rows" : 42,

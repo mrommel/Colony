@@ -18,18 +18,21 @@ class MapNode: SKNode {
     var riverLayer: RiverLayer
     var areaLayer: AreaLayer
 
-    // MARK: map
+    // MARK: properties
 
     private var map: HexagonTileMap?
-    var gameObjectManager: GameObjectManager
+    weak var gameObjectManager: GameObjectManager?
+    let userUsecase: UserUsecase
 
     // MARK: constructors
     
     init(with level: Level) {
 
+        self.userUsecase = UserUsecase()
+        
         self.map = level.map
         self.gameObjectManager = level.gameObjectManager
-        self.gameObjectManager.map = self.map
+        self.gameObjectManager?.map = self.map
 
         // TODO: make objects generic
 
@@ -57,7 +60,7 @@ class MapNode: SKNode {
         self.addChild(self.riverLayer)
         self.addChild(self.areaLayer)
 
-        for unit in self.gameObjectManager.objects {
+        for unit in self.gameObjectManager?.objects ?? [] {
             if let unit = unit {
                 unit.addTo(node: self)
                 //unit.idle()
@@ -89,9 +92,13 @@ class MapNode: SKNode {
 
     func moveSelectedUnit(to hex: HexPoint) {
 
-        if let selectedUnit = self.gameObjectManager.selected {
+        guard let currentCivilization = self.userUsecase.currentUser()?.civilization else {
+            return
+        }
+        
+        if let selectedUnit = self.gameObjectManager?.selected {
 
-            guard selectedUnit.gameObject?.canMoveByUserInput ?? false else {
+            guard selectedUnit.civilization == currentCivilization else {
                 // FIXME: show x
                 self.showCross(at: hex)
                 return

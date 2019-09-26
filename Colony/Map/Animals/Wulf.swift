@@ -10,6 +10,8 @@ import Foundation
 
 class Wulf: Animal {
     
+    // MARK: constructors
+    
     init(position: HexPoint) {
         super.init(position: position, animalType: .wulf)
     }
@@ -17,6 +19,15 @@ class Wulf: Animal {
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
+    
+    override func createGameObject() -> GameObject? {
+
+        let gameObject = WulfObject(for: self)
+        self.gameObject = gameObject
+        return gameObject
+    }
+    
+    // MARK: AI handling
     
     override func handleBeganState(in game: Game?) {
         

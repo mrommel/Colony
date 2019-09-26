@@ -10250,6 +10250,12 @@
   "cities" : [
 
   ],
+  "units" : [
+
+  ],
+  "items" : [
+
+  ],
   "tiles" : {
     "columns" : 128,
     "rows" : 80,

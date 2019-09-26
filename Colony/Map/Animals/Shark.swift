@@ -10,6 +10,8 @@ import Foundation
 
 class Shark: Animal {
     
+    // MARK: constructors
+    
     init(position: HexPoint) {
         super.init(position: position, animalType: .shark)
     }
@@ -17,6 +19,8 @@ class Shark: Animal {
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
+    
+    // MARK: AI handling
     
     override func createGameObject() -> GameObject? {
 

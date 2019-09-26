@@ -116,6 +116,11 @@ class Unit: Decodable, AIHandable {
         return self.unitType.properties
     }
     
+    func tilesInSight() -> HexArea {
+
+        return HexArea(center: self.position, radius: self.sight)
+    }
+    
     func canEmbark(onto point: HexPoint) -> Bool {
         return false
     }

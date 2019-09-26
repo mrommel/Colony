@@ -47,12 +47,6 @@ extension MenuScene {
                 
                 let size = MapSize.from(result: sizeResult)
                 
-                // check combination
-                if type == .earth && size == .tiny {
-                    self.show(message: "Not a valid combination")
-                    return
-                }
-                
                 // handle earth maps
                 switch type {
                 case .earth:
@@ -259,9 +253,9 @@ extension MenuScene {
             case .small:
                 url = R.file.earth_smallMap()
             case .tiny:
-                print("not handled: tiny earth")
+                fatalError("not handled: tiny earth")
             default:
-                print("not handled: \(size)")
+                fatalError("not handled: \(size)")
             }
             
             DispatchQueue.global(qos: .background).async {

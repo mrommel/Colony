@@ -16,9 +16,9 @@ class HexagonTileMap: HexagonMap<Tile> {
     var rivers: [River] = []
     var fogManager: FogManager? = nil
     
-    var cities: [City] = []
     var units: [Unit] = []
     var items: [MapItem] = []
+    var animals: [Animal] = []
     
     // properties that are not stored
     var continents: [Continent] = []
@@ -28,9 +28,9 @@ class HexagonTileMap: HexagonMap<Tile> {
         case rivers
         case fogManager
         
-        case cities
         case units
         case items
+        case animals
     }
     
     // MARK: constructors
@@ -68,10 +68,10 @@ class HexagonTileMap: HexagonMap<Tile> {
         
         self.rivers = try values.decode([River].self, forKey: .rivers)
         self.fogManager = try values.decode(FogManager.self, forKey: .fogManager)
-        self.cities = try values.decode([City].self, forKey: .cities)
         self.units = try values.decode([Unit].self, forKey: .units)
         self.replaceUnits()
         self.items = try values.decode([MapItem].self, forKey: .items)
+        self.replaceItems()
         
         // find continents and oceans
         let continentFinder = ContinentFinder(width: self.width, height: self.height)
@@ -81,7 +81,8 @@ class HexagonTileMap: HexagonMap<Tile> {
         self.oceans = oceanFinder.execute(on: self)
         
         // assign city to its tiles
-        for city in self.cities {
+        let cities = self.getCities()
+        for city in cities {
             
             if let cityTile = self.tile(at: city.position) {
                 cityTile.city = city
@@ -96,7 +97,7 @@ class HexagonTileMap: HexagonMap<Tile> {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.rivers, forKey: .rivers)
         try container.encode(self.fogManager, forKey: .fogManager)
-        try container.encode(self.cities, forKey: .cities)
+        try container.encode(self.animals, forKey: .animals)
         try container.encode(self.units, forKey: .units)
         try container.encode(self.items, forKey: .items)
     }
@@ -144,13 +145,44 @@ class HexagonTileMap: HexagonMap<Tile> {
                 archer.copy(from: unit)
                 customUnits.append(archer)
             default:
-                // NOOP
+                fatalError("cant load unit")
                 break
             }
         }
         
         self.units = []
         self.units.append(contentsOf: customUnits)
+    }
+    
+    func replaceItems() {
+        
+        var customItems: [MapItem] = []
+        for item in self.items {
+            
+            switch item.type {
+            case .city:
+                let city = City(at: item.position)
+                city.copy(from: item)
+                customItems.append(city)
+            case .castle:
+                let castle = Castle(at: item.position)
+                castle.copy(from: item)
+                customItems.append(castle)
+            case .field:
+                let field = Field(at: item.position)
+                field.copy(from: item)
+                customItems.append(field)
+            case .hut:
+                let hut = Hut(at: item.position)
+                //field.copy(from: item)
+                customItems.append(hut)
+            default:
+                fatalError("unhandled ")
+            }
+        }
+        
+        self.items = []
+        self.items.append(contentsOf: customItems)
     }
     
     // MARK: caldera
@@ -554,7 +586,16 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     // MARK: city methods
     
+    func getCities() -> [City] {
+        
+        return self.items.filter { $0.type == .city }.map { $0 as! City }
+    }
+    
     func set(city: City?, at hex: HexPoint) {
+        
+        if let city = city {
+            self.items.append(city)
+        }
         
         if let tile = self.tile(at: hex) {
             tile.city = city
@@ -571,12 +612,14 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     func getCoastalCities(at ocean: Ocean) -> [City] {
 
-        return self.cities.filter({ ocean.isAdjacent(to: $0.position) })
+        let cities = self.getCities()
+        return cities.filter({ ocean.isAdjacent(to: $0.position) })
     }
     
     func citiesOf(civilization: Civilization) -> [City?] {
 
-        return self.cities.filter { $0.civilization == civilization }
+        let cities = self.getCities()
+        return cities.filter { $0.civilization == civilization }
     }
     
     // MARK: unit methods

@@ -56,7 +56,7 @@ class GameObjectManager {
         self.map = map
 
         self.userUsecase = UserUsecase()
-        
+
         // create from map objects
         self.setupUnits()
         self.setupCities()
@@ -86,19 +86,23 @@ class GameObjectManager {
             self.moved(unit: unit)
         }
     }
-    
+
     func setupCities() {
-        
+
         guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
             fatalError("Can't get current users civilization")
         }
+
+        guard let cities = self.map?.getCities() else {
+            fatalError("Can't get all cities")
+        }
         
-        for city in self.map?.cities ?? [] {
+        for city in cities {
 
             let gameObject = city.createGameObject()
             gameObject?.delegate = self
             self.objects.append(gameObject)
-        
+
             // only player unit update the fog
             if city.civilization == currentUserCivilization {
                 self.map?.fogManager?.add(city: gameObject!)
@@ -220,15 +224,19 @@ class GameObjectManager {
             }
         }
 
-        for city in self.map?.cities ?? [] {
-                // show/hide cities based on discovery fog
-                let fogAtEnemy = fogManager.fog(at: city.position)
+        guard let cities = self.map?.getCities() else {
+            fatalError("can't get cities")
+        }
+        
+        for city in cities {
+            // show/hide cities based on discovery fog
+            let fogAtEnemy = fogManager.fog(at: city.position)
 
-                if fogAtEnemy == .discovered {
-                    city.gameObject?.show() // already discovered
-                } else {
-                    city.gameObject?.hide()
-                }
+            if fogAtEnemy == .discovered || fogAtEnemy == .sighted {
+                city.gameObject?.show() // already discovered
+            } else {
+                city.gameObject?.hide()
+            }
         }
     }
 
@@ -245,7 +253,7 @@ class GameObjectManager {
             unit.gameObject?.hide()
         }
     }
-    
+
     func updateForeign(city: City) {
 
         guard let fogManager = self.map?.fogManager else {

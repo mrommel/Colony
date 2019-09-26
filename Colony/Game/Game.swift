@@ -331,6 +331,8 @@ extension Game {
         //return landTilesWithoutObstacles
     }
     
+    // MARK: unit methods
+    
     func getUnits(at point: HexPoint) -> [Unit?] {
         
         guard let level = self.level else {
@@ -429,26 +431,24 @@ extension Game {
         self.level?.gameObjectManager.gameObjectUnitDelegates.addDelegate(gameObjectUnitDelegate)
     }
     
-    /*func navalUnits(in area: HexArea) -> [GameObject] {
+    func navalUnits(in area: HexArea) -> [Unit] {
         
-        guard let objects = self.level?.gameObjectManager.objects else {
+        guard let units = self.level?.map.units else {
             return []
         }
         
-        var navalUnits: [GameObject] = []
-        for object in objects {
+        var navalUnits: [Unit] = []
+        for unit in units {
             
-            if let object = object {
-                if object.type.isNaval {
-                    if area.contains(object.position) {
-                        navalUnits.append(object)
-                    }
+            if unit.unitType.isNaval {
+                if area.contains(unit.position) {
+                    navalUnits.append(unit)
                 }
             }
         }
         
         return navalUnits
-    }*/
+    }
     
     func city(at point: HexPoint) -> City? {
         

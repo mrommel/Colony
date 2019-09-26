@@ -267,7 +267,7 @@ class GameScene: BaseScene {
 
         // focus on selected unit
         if let mapNode = self.mapNode {
-            if let selectedUnit = mapNode.gameObjectManager.selected {
+            if let selectedUnit = mapNode.gameObjectManager?.selected {
                 self.centerCamera(on: selectedUnit.position)
             }
         }

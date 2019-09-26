@@ -24,8 +24,6 @@ class TradeShipObject: GameObject {
         self.atlasLeft = GameObjectAtlas(atlasName: "pirates", textures: ["pirate003", "pirate004", "pirate005"])
         self.atlasRight = GameObjectAtlas(atlasName: "pirates", textures: ["pirate006", "pirate007", "pirate008"])
 
-        self.canMoveByUserInput = false
-
         self.showUnitTypeIndicator()
         self.showUnitStrengthIndicator()
     }

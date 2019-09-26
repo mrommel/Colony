@@ -58,6 +58,36 @@ class Animal: Decodable, AIHandable {
         fatalError("must be overwritten by sub class")
     }
     
+    func tilesInSight() -> HexArea {
+
+        return HexArea(center: self.position, radius: 1)
+    }
+    
+    func stepOnWater(towards point: HexPoint, in game: Game?) {
+
+        guard let waterNeighbors = game?.neighborsInWater(of: point) else {
+            return
+        }
+
+        var bestWaterNeighbor = waterNeighbors.first!
+        var bestDistance: Int = Int.max
+
+        for waterNeighbor in waterNeighbors {
+            let neighborDistance = waterNeighbor.distance(to: point) + Int.random(number: 1)
+            if neighborDistance < bestDistance {
+                bestWaterNeighbor = waterNeighbor
+                bestDistance = neighborDistance
+            }
+        }
+
+        let pathFinder = AStarPathfinder()
+        pathFinder.dataSource = game?.pathfinderDataSource(for: self.animalType.movementType, ignoreSight: true)
+
+        if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
+            self.gameObject?.showWalk(on: path, completion: {})
+        }
+    }
+    
     func update(in game: Game?) {
 
         switch self.state.transitioning {

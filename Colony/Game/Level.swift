@@ -314,7 +314,6 @@ class Level: Decodable  {
         cityObj.showIdle()
         
         self.map.set(city: city, at: city.position)
-        self.map.cities.append(city)
         
         let player = self.playerFor(civilization: city.civilization)
         
