@@ -44,6 +44,7 @@ class BoosterNode: SKSpriteNode {
         boosterTypeLabel.zPosition = self.zPosition + 0.1
         boosterTypeLabel.position = CGPoint(x: 0, y: 10)
         boosterTypeLabel.fontSize = 16
+        boosterTypeLabel.fontName = Formatters.Fonts.customFontFamilyname
         self.addChild(boosterTypeLabel)
         
         // activation button

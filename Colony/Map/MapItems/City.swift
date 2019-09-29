@@ -78,6 +78,12 @@ class City: MapItem {
         
         self.name = self.dict[City.kName] as! String
         self.civilization = Civilization(rawValue: self.dict[City.kCivilization] as! String) ?? .english
-        self.population = Float(self.dict[City.kPopulation] as! String)!
+        
+        if let doubleValue = self.dict[City.kPopulation] as? Double {
+            self.population = Float(doubleValue)
+        } else if let intValue = self.dict[City.kPopulation] as? Int {
+            self.population = Float(intValue)
+        }
+        
     }
 }

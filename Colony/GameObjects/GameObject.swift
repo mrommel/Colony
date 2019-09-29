@@ -279,7 +279,7 @@ class GameObject {
         self.nameLabel?.fontSize = 8
         self.nameLabel?.position = CGPoint(x: 24, y: 0)
         self.nameLabel?.zPosition = GameScene.Constants.ZLevels.cityName
-        self.nameLabel?.fontName = Formatters.Fonts.systemFontBoldFamilyname
+        self.nameLabel?.fontName = Formatters.Fonts.customFontBoldFamilyname
 
         if let nameLabel = self.nameLabel {
             self.sprite.addChild(nameLabel)

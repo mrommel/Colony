@@ -27,7 +27,7 @@ class TruncatedLabelNode: SKLabelNode {
     
     init(text: String?) {
         
-        super.init(fontNamed: Formatters.Fonts.systemFontFamilyname)
+        super.init(fontNamed: Formatters.Fonts.customFontFamilyname)
         self.originalText = text
     }
     

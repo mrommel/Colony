@@ -37,6 +37,7 @@ class ProgressBarNode: SKNode {
         self.percentageLabel.zPosition = self.zPosition + 3
         self.percentageLabel.fontColor = UIColor.white
         self.percentageLabel.fontSize = 18
+        self.percentageLabel.fontName = Formatters.Fonts.customFontFamilyname
         self.percentageLabel.verticalAlignmentMode = .center
         self.percentageLabel.name = "percentageLabel"
         self.addChild(self.percentageLabel)

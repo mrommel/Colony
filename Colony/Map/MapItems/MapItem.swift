@@ -63,7 +63,7 @@ class MapItem: Codable {
     }
     
     func loadFromDict() {
-        fatalError("must be overridden by subclass")
+        //fatalError("must be overridden by subclass")
     }
 }
 

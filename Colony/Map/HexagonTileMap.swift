@@ -163,14 +163,17 @@ class HexagonTileMap: HexagonMap<Tile> {
             case .city:
                 let city = City(at: item.position)
                 city.copy(from: item)
+                city.loadFromDict()
                 customItems.append(city)
             case .castle:
                 let castle = Castle(at: item.position)
                 castle.copy(from: item)
+                castle.loadFromDict()
                 customItems.append(castle)
             case .field:
                 let field = Field(at: item.position)
                 field.copy(from: item)
+                field.loadFromDict()
                 customItems.append(field)
             case .hut:
                 let hut = Hut(at: item.position)

@@ -213,5 +213,11 @@ public extension Formatters {
         
         public static let systemFont = UIFont.systemFont(ofSize: 24)
         public static let systemFontFamilyname = systemFont.familyName
+        
+        public static let customFontBold = UIFont(name: "DIN Next for AVM", size: 24)
+        public static let customFontBoldFamilyname = "DIN Next for AVM"
+        
+        public static let customFont = UIFont(name: "DIN Next for AVM", size: 24)
+        public static let customFontFamilyname = "DIN Next for AVM"
     }
 }

@@ -6,53 +6,6 @@
     "TimerElapsedCheck"
   ],
   "map": {
-    "cities": [
-      {
-        "civilization": "english",
-        "name": "London",
-        "population": 1,
-        "position": {
-          "x": 20,
-          "y": 13
-        }
-      },
-      {
-        "civilization": "cityStates",
-        "name": "Tyre",
-        "population": 1,
-        "position": {
-          "x": 15,
-          "y": 3
-        }
-      },
-      {
-        "civilization": "cityStates",
-        "name": "Sydney",
-        "population": 1,
-        "position": {
-          "x": 12,
-          "y": 17
-        }
-      },
-      {
-        "civilization": "cityStates",
-        "name": "Lhasa",
-        "population": 1,
-        "position": {
-          "x": 6,
-          "y": 5
-        }
-      },
-      {
-        "civilization": "cityStates",
-        "name": "Manila",
-        "population": 1,
-        "position": {
-          "x": 11,
-          "y": 10
-        }
-      }
-    ],
     "fogManager": {
       "fog": {
         "array": [
@@ -502,9 +455,66 @@
       }
     },
     "items": [
-      {
-        
-      },
+        {
+          "position": {
+            "x": 20,
+            "y": 13
+          },
+          "type": "city",
+          "dict": {
+            "civilization": "english",
+            "name": "London",
+            "population": 1.0,
+          }
+        },
+        {
+          "position": {
+            "x": 15,
+            "y": 3
+          },
+          "type": "city",
+          "dict": {
+            "civilization": "cityStates",
+            "name": "Tyre",
+            "population": 1.0,
+          }
+        },
+        {
+          "position": {
+            "x": 12,
+            "y": 17
+          },
+          "type": "city",
+          "dict": {
+            "civilization": "cityStates",
+            "name": "Sydney",
+            "population": 1.0,
+          }
+        },
+        {
+          "position": {
+            "x": 6,
+            "y": 5
+          },
+          "type": "city",
+          "dict": {
+            "civilization": "cityStates",
+            "name": "Lhasa",
+            "population": 1.0,
+          }
+        },
+        {
+          "position": {
+            "x": 11,
+            "y": 10
+          },
+          "type": "city",
+          "dict": {
+            "civilization": "cityStates",
+            "name": "Manila",
+            "population": 1.0,
+          }
+        }
     ],
     "rivers": [
       {

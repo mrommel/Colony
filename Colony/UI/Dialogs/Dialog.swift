@@ -101,6 +101,7 @@ class Dialog: NineGridTextureSprite {
                 labelItem.position = item.positionIn(parent: self.size)
                 labelItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
                 labelItem.fontSize = item.fontSize
+                labelItem.fontName = Formatters.Fonts.customFontFamilyname
                 labelItem.numberOfLines = 0
                 labelItem.preferredMaxLayoutWidth = item.size.width
                 self.addChild(labelItem)
@@ -151,7 +152,7 @@ class Dialog: NineGridTextureSprite {
                 self.textField?.backgroundColor = .clear
                 self.textField?.tintColor = .white
                 self.textField?.textColor = .white
-                self.textField?.font = Formatters.Fonts.systemFont
+                self.textField?.font = Formatters.Fonts.customFont
                 self.textField?.delegate = self
 
                 if let textField = self.textField {

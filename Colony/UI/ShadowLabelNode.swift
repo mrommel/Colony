@@ -23,7 +23,7 @@ class ShadowLabelNode: SKLabelNode {
     }
     
     convenience init(text: String?) {
-        self.init(fontNamed: Formatters.Fonts.systemFontFamilyname)
+        self.init(fontNamed: Formatters.Fonts.customFontFamilyname)
         
         self.text = text
     }

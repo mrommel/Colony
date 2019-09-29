@@ -22,7 +22,7 @@ class PediaItemNode: SKNode {
         
         let terrainLabel = ClickableLabelNode(text: terrain.title, buttonAction: action)
         terrainLabel.fontSize = 20
-        terrainLabel.fontName = Formatters.Fonts.systemFontBoldFamilyname
+        terrainLabel.fontName = Formatters.Fonts.customFontFamilyname
         terrainLabel.zPosition = self.zPosition + 1
         terrainLabel.horizontalAlignmentMode = .left
         terrainLabel.position = CGPoint(x: -20, y: 0)
@@ -41,7 +41,7 @@ class PediaItemNode: SKNode {
         
         let featureLabel = ClickableLabelNode(text: feature.title, buttonAction: action)
         featureLabel.fontSize = 20
-        featureLabel.fontName = Formatters.Fonts.systemFontBoldFamilyname
+        featureLabel.fontName = Formatters.Fonts.customFontFamilyname
         featureLabel.zPosition = self.zPosition + 1
         featureLabel.horizontalAlignmentMode = .left
         featureLabel.position = CGPoint(x: -20, y: 0)
@@ -60,7 +60,7 @@ class PediaItemNode: SKNode {
         
         let unitTypeLabel = ClickableLabelNode(text: unitType.title, buttonAction: action)
         unitTypeLabel.fontSize = 20
-        unitTypeLabel.fontName = Formatters.Fonts.systemFontBoldFamilyname
+        unitTypeLabel.fontName = Formatters.Fonts.customFontFamilyname
         unitTypeLabel.zPosition = self.zPosition + 1
         unitTypeLabel.horizontalAlignmentMode = .left
         unitTypeLabel.position = CGPoint(x: -20, y: 0)

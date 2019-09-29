@@ -79,7 +79,7 @@ class PediaScene: BaseScene {
 
         self.terrainHeadingLabel = SKLabelNode(text: "Terrains")
         self.terrainHeadingLabel?.fontSize = 24
-        self.terrainHeadingLabel?.fontName = Formatters.Fonts.systemFontBoldFamilyname
+        self.terrainHeadingLabel?.fontName = Formatters.Fonts.customFontBoldFamilyname
         self.terrainHeadingLabel?.zPosition = 1
         self.rootNode.addChild(self.terrainHeadingLabel!)
         
@@ -94,7 +94,7 @@ class PediaScene: BaseScene {
         
         self.featureHeadingLabel = SKLabelNode(text: "Features")
         self.featureHeadingLabel?.fontSize = 24
-        self.featureHeadingLabel?.fontName = Formatters.Fonts.systemFontBoldFamilyname
+        self.featureHeadingLabel?.fontName = Formatters.Fonts.customFontBoldFamilyname
         self.featureHeadingLabel?.zPosition = 1
         self.rootNode.addChild(self.featureHeadingLabel!)
         
@@ -109,7 +109,7 @@ class PediaScene: BaseScene {
         
         self.unitTypeHeadingLabel = SKLabelNode(text: "Units")
         self.unitTypeHeadingLabel?.fontSize = 24
-        self.unitTypeHeadingLabel?.fontName = Formatters.Fonts.systemFontBoldFamilyname
+        self.unitTypeHeadingLabel?.fontName = Formatters.Fonts.customFontBoldFamilyname
         self.unitTypeHeadingLabel?.zPosition = 1
         self.rootNode.addChild(self.unitTypeHeadingLabel!)
         

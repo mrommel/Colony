@@ -93,6 +93,10 @@
 		C94CA8C723194D920058F3B4 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CA8C623194D920058F3B4 /* MenuViewController.swift */; };
 		C94CA8C923194DC40058F3B4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CA8C823194DC40058F3B4 /* MenuScene.swift */; };
 		C95318D6233D54B7005D507F /* HutObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95318D5233D54B7005D507F /* HutObject.swift */; };
+		C95318DC233E4F1E005D507F /* DINNext-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C95318D8233E4F1D005D507F /* DINNext-Regular.ttf */; };
+		C95318DD233E4F1E005D507F /* DINNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C95318D9233E4F1D005D507F /* DINNext-Bold.ttf */; };
+		C95318DE233E4F1E005D507F /* DINNext-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C95318DA233E4F1D005D507F /* DINNext-Heavy.ttf */; };
+		C95318DF233E4F1E005D507F /* DINNext-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C95318DB233E4F1E005D507F /* DINNext-Light.ttf */; };
 		C956078922B0F22800AA69E9 /* DialogConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956078822B0F22800AA69E9 /* DialogConfiguration.swift */; };
 		C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078C22B1291700AA69E9 /* VictoryDialog.xml */; };
 		C956078F22B1297500AA69E9 /* QuitConfirmationDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */; };
@@ -372,6 +376,10 @@
 		C94CA8C623194D920058F3B4 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		C94CA8C823194DC40058F3B4 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C95318D5233D54B7005D507F /* HutObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HutObject.swift; sourceTree = "<group>"; };
+		C95318D8233E4F1D005D507F /* DINNext-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Regular.ttf"; sourceTree = "<group>"; };
+		C95318D9233E4F1D005D507F /* DINNext-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Bold.ttf"; sourceTree = "<group>"; };
+		C95318DA233E4F1D005D507F /* DINNext-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Heavy.ttf"; sourceTree = "<group>"; };
+		C95318DB233E4F1E005D507F /* DINNext-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Light.ttf"; sourceTree = "<group>"; };
 		C956078822B0F22800AA69E9 /* DialogConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DialogConfiguration.swift; path = ../DialogConfiguration.swift; sourceTree = "<group>"; };
 		C956078C22B1291700AA69E9 /* VictoryDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = VictoryDialog.xml; sourceTree = "<group>"; };
 		C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = QuitConfirmationDialog.xml; sourceTree = "<group>"; };
@@ -698,9 +706,21 @@
 			path = "Map Items";
 			sourceTree = "<group>";
 		};
+		C95318D7233E4F02005D507F /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				C95318D9233E4F1D005D507F /* DINNext-Bold.ttf */,
+				C95318DA233E4F1D005D507F /* DINNext-Heavy.ttf */,
+				C95318DB233E4F1E005D507F /* DINNext-Light.ttf */,
+				C95318D8233E4F1D005D507F /* DINNext-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		C956078A22B1241B00AA69E9 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
+				C95318D7233E4F02005D507F /* Fonts */,
 				C962940D22FC6EF600CC7F27 /* DDS */,
 				C938DEC322F4673700DA7072 /* Civ5 */,
 				C9A32B4622B29F2600AFC70D /* Levels */,
@@ -1214,7 +1234,9 @@
 				C9A32B4822B29F3100AFC70D /* level0001.lvl in Resources */,
 				C903369122EDAFEA004D2D72 /* GameContinueDialog.xml in Resources */,
 				C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */,
+				C95318DC233E4F1E005D507F /* DINNext-Regular.ttf in Resources */,
 				C999FD0422F9A1BC00D281D4 /* earth_huge.map in Resources */,
+				C95318DF233E4F1E005D507F /* DINNext-Light.ttf in Resources */,
 				C962940622FB5D2100CC7F27 /* MapSizeDialog.xml in Resources */,
 				C93A4092230A7F090011E9DA /* BattleDialog.xml in Resources */,
 				C90A134F22A99F130003BBDE /* README.md in Resources */,
@@ -1225,6 +1247,7 @@
 				C9C7F0D9229B193A00A775B2 /* LaunchScreen.storyboard in Resources */,
 				C962941322FC6F0100CC7F27 /* grid9detail140.dds in Resources */,
 				C90336A022EF456E004D2D72 /* PlayerInputDialog.xml in Resources */,
+				C95318DD233E4F1E005D507F /* DINNext-Bold.ttf in Resources */,
 				C962942922FD8FAF00CC7F27 /* MapAgeDialog.xml in Resources */,
 				C9D234CC22FB019E00012316 /* earth_standard.map in Resources */,
 				C9E9BC0022B6262A0048F97B /* LevelIntroductionDialog.xml in Resources */,
@@ -1232,6 +1255,7 @@
 				C900654222AEE8DC0004C963 /* DefeatDialog.xml in Resources */,
 				C962942B22FD942300CC7F27 /* MapSeaLevelDialog.xml in Resources */,
 				C962940822FB685500CC7F27 /* MapLoadingDialog.xml in Resources */,
+				C95318DE233E4F1E005D507F /* DINNext-Heavy.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
