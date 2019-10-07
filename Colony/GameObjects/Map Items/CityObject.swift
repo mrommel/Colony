@@ -15,17 +15,13 @@ class CityObject: GameObject {
         let identifier = UUID()
         let identifierString = "city-\(identifier.uuidString)"
         
-        super.init(with: identifierString, city: city, spriteName: "city_1_no_walls", anchorPoint: CGPoint(x: -0.0, y: -0.0))
+        super.init(with: identifierString, city: city, spriteName: "hex_city", anchorPoint: CGPoint(x: -0.0, y: -0.0))
 
-        self.atlasIdle = GameObjectAtlas(atlasName: "city", textures: ["city_1_no_walls"])
+        self.atlasIdle = GameObjectAtlas(atlasName: "city", textures: ["hex_city"])
         
         self.atlasDown = nil
         self.atlasUp = nil
         self.atlasLeft = nil
         self.atlasRight = nil
-        
-        /*self.movementType = .immobile
-        
-        self.showCity(named: self.name)*/
     }
 }

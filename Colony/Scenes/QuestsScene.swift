@@ -11,7 +11,7 @@ import SpriteKit
 
 protocol QuestsDelegate {
 
-    func start(level url: URL?)
+    func start(levelMeta: LevelMeta?)
     func restart(game: Game?)
    
     func quitQuests()
@@ -73,25 +73,25 @@ class QuestsScene: BaseScene {
         self.cameraNode.addChild(self.colonyTitleLabel!)
 
         let levelManager = LevelManager()
-        for level in levelManager.levels {
+        for levelMeta in levelManager.levelMetas {
 
-            let levelButton = LevelButtonNode(titled: "\(level.number)", difficulty: level.difficulty, buttonAction: {
+            let levelButton = LevelButtonNode(titled: "\(levelMeta.number)", difficulty: levelMeta.difficulty, buttonAction: {
 
-                self.questsDelegate?.start(level: level.resource)
+                self.questsDelegate?.start(levelMeta: levelMeta)
             })
-            levelButton.position = CGPoint(x: self.frame.width * level.position.x - self.frame.halfWidth, y: self.frame.height * level.position.y - self.frame.halfHeight)
+            levelButton.position = CGPoint(x: self.frame.width * levelMeta.position.x - self.frame.halfWidth, y: self.frame.height * levelMeta.position.y - self.frame.halfHeight)
             levelButton.zPosition = 1
             self.rootNode.addChild(levelButton)
 
             // add level score here
             var levelScoreValue = LevelScore.none
-            if let levelScore = self.gameUsecase?.levelScore(for: Int32(level.number)) {
+            if let levelScore = self.gameUsecase?.levelScore(for: Int32(levelMeta.number)) {
                 levelScoreValue = levelScore
             }
 
             let starTexture = SKTexture(imageNamed: levelScoreValue.buttonName)
             let starSprite = SKSpriteNode(texture: starTexture, color: .black, size: CGSize(width: 20, height: 20))
-            starSprite.position = CGPoint(x: self.frame.width * level.position.x - self.frame.halfWidth + 20, y: self.frame.height * level.position.y - self.frame.halfHeight + 20)
+            starSprite.position = CGPoint(x: self.frame.width * levelMeta.position.x - self.frame.halfWidth + 20, y: self.frame.height * levelMeta.position.y - self.frame.halfHeight + 20)
             starSprite.zPosition = 2
             self.rootNode.addChild(starSprite)
         }

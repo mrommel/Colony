@@ -15,7 +15,7 @@ class QuestsViewController: UIViewController {
     var questsScene: QuestsScene?
     
     // used for segue
-    var currentLevelResource: URL? = nil
+    var currentLevelMeta: LevelMeta? = nil
     var currentGame: Game? = nil
     
     override func viewDidLoad() {
@@ -50,8 +50,8 @@ class QuestsViewController: UIViewController {
         if segue.identifier == R.segue.questsViewController.gotoGame.identifier {
             let gameViewController = segue.destination as? GameViewController
             
-            if self.currentLevelResource != nil {
-                gameViewController?.viewModel = GameViewModel(with: self.currentLevelResource)
+            if self.currentLevelMeta != nil {
+                gameViewController?.viewModel = GameViewModel(with: self.currentLevelMeta)
             } else if self.currentGame != nil {
                 gameViewController?.viewModel = GameViewModel(with: self.currentGame)
             }
@@ -61,15 +61,16 @@ class QuestsViewController: UIViewController {
 
 extension QuestsViewController: QuestsDelegate {
 
-    func start(level resource: URL?) {
+    func start(levelMeta: LevelMeta?) {
         
-        self.currentLevelResource = resource
+        self.currentLevelMeta = levelMeta
         self.currentGame = nil
         self.performSegue(withIdentifier: R.segue.questsViewController.gotoGame.identifier, sender: nil)
     }
     
     func restart(game: Game?) {
-        self.currentLevelResource = nil
+        
+        self.currentLevelMeta = nil
         self.currentGame = game
         self.performSegue(withIdentifier: R.segue.questsViewController.gotoGame.identifier, sender: nil)
     }

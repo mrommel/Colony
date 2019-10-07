@@ -30,6 +30,7 @@ struct UnitProperties {
     let initiative: Int
     let sight: Int
     let range: Int
+    let supportDistance: Int
     let strength: Int //
     let targetType: UnitTargetType
     let flags: BitArray
@@ -45,11 +46,12 @@ struct UnitProperties {
     let closeDefense: Int
     let airDefense: Int
     
-    init(initiative: Int, sight: Int, range: Int, strength: Int, targetType: UnitTargetType, softAttack: Int, hardAttack: Int, airAttack: Int, navalAttack: Int, groundDefense: Int, closeDefense: Int, airDefense: Int) {
+    init(initiative: Int, sight: Int, range: Int, supportDistance: Int, strength: Int, targetType: UnitTargetType, softAttack: Int, hardAttack: Int, airAttack: Int, navalAttack: Int, groundDefense: Int, closeDefense: Int, airDefense: Int) {
         
         self.initiative = initiative
         self.sight = sight
         self.range = range
+        self.supportDistance = supportDistance
         self.strength = strength
         self.targetType = targetType
         self.flags = BitArray(count: 4) // <-- extend, when adding new bits

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="OBT-dI-Lir">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="OBT-dI-Lir">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -47,6 +45,47 @@
             </objects>
             <point key="canvasLocation" x="2075" y="82"/>
         </scene>
+        <!--AI Log-->
+        <scene sceneID="bD2-vL-LAZ">
+            <objects>
+                <viewController id="SkL-Bk-GvT" customClass="LogViewerViewController" customModule="Colony" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VZe-bW-6ff">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Oxx-Xt-w7J">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Oxx-Xt-w7J" firstAttribute="top" secondItem="FUE-9S-FQU" secondAttribute="top" id="4De-ta-Fv9"/>
+                            <constraint firstItem="Oxx-Xt-w7J" firstAttribute="trailing" secondItem="FUE-9S-FQU" secondAttribute="trailing" id="SkA-8d-3Yr"/>
+                            <constraint firstItem="Oxx-Xt-w7J" firstAttribute="leading" secondItem="FUE-9S-FQU" secondAttribute="leading" id="XrL-Qs-sZB"/>
+                            <constraint firstItem="Oxx-Xt-w7J" firstAttribute="bottom" secondItem="FUE-9S-FQU" secondAttribute="bottom" id="eKw-Zi-2DP"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="FUE-9S-FQU"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" title="AI Log" id="mqB-k5-sRx">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="U0y-8Y-o5u">
+                            <color key="tintColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="logTextView" destination="Oxx-Xt-w7J" id="oxG-6U-Ai7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="04N-X6-vTl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1519" y="1676"/>
+        </scene>
         <!--Options View Controller-->
         <scene sceneID="OiV-YR-ucc">
             <objects>
@@ -57,6 +96,10 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="j1K-xj-FPc"/>
                     </view>
+                    <navigationItem key="navigationItem" id="BGo-Od-RkL"/>
+                    <connections>
+                        <segue destination="SkL-Bk-GvT" kind="show" identifier="showLog" id="uaB-jJ-AmG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zbh-WB-iFR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

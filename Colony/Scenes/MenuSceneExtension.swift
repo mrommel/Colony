@@ -265,7 +265,7 @@ extension MenuScene {
                         mapLoadingDialog.showProgress(value: progress, text: text)
                         
                         if progress == 1.0 {
-                            print("ready1")
+                            print("ready 1")
                             mapLoadingDialog.close()
                         }
                     }
@@ -312,7 +312,8 @@ extension MenuScene {
             // not sure why
             map.fogManager?.map = map
             
-            progressHandler(1.0, "ready0")
+            print("ready 0")
+            progressHandler(1.0, "ready")
             
             self.rootNode.sharpWith(completion: {
                 DispatchQueue.main.async {

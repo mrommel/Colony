@@ -96,7 +96,7 @@ class SeaMonster: Animal {
         
         // find tile that is towards a ship in sight
         let tilesInSight = self.tilesInSight()
-        var possibleTargets = game.navalUnits(in: tilesInSight)
+        let possibleTargets = game.navalUnits(in: tilesInSight)
         
         if possibleTargets.isEmpty {
             

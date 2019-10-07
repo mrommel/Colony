@@ -35,9 +35,23 @@ class OptionsViewController: UIViewController {
         view.presentScene(self.optionsScene)
         view.ignoresSiblingOrder = false
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
+        if segue.identifier == R.segue.optionsViewController.showLog.identifier {
+            
+            let logViewerViewController = segue.destination as? LogViewerViewController
+            logViewerViewController?.viewModel = LogViewerViewModel(logContent: Log.ai.readAll())
+        }
+    }
 }
 
 extension OptionsViewController: OptionsDelegate {
+    
+    func showAILog() {
+
+        self.performSegue(withIdentifier: R.segue.optionsViewController.showLog.identifier, sender: nil)
+    }
     
     func resetData() {
         

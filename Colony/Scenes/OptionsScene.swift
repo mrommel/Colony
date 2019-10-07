@@ -12,6 +12,7 @@ protocol OptionsDelegate: class {
 
     func quitOptions()
     func resetData()
+    func showAILog()
 }
 
 class OptionsScene: BaseScene {
@@ -21,8 +22,10 @@ class OptionsScene: BaseScene {
     var headerLabelNode: SKLabelNode?
     var headerIconNode: SKSpriteNode?
     var backButton: MenuButtonNode?
+    
     var resetButton: MenuButtonNode?
-
+    var aiLogButton: MenuButtonNode?
+    
     // delegate
     weak var optionsDelegate: OptionsDelegate?
 
@@ -62,6 +65,14 @@ class OptionsScene: BaseScene {
             })
         self.resetButton?.zPosition = 53
         self.rootNode.addChild(self.resetButton!)
+        
+        // ai log
+        self.aiLogButton = MenuButtonNode(titled: "AI Log",
+            buttonAction: {
+                self.optionsDelegate?.showAILog()
+            })
+        self.aiLogButton?.zPosition = 53
+        self.rootNode.addChild(self.aiLogButton!)
 
         self.backButton = MenuButtonNode(titled: "Back",
             sized: CGSize(width: 150, height: 42),
@@ -89,6 +100,7 @@ class OptionsScene: BaseScene {
         self.headerIconNode?.position = CGPoint(x: -self.headerLabelNode!.frame.size.halfWidth - 24, y: viewSize.halfHeight - 62)
 
         self.resetButton?.position = CGPoint(x: 0, y: 100)
+        self.aiLogButton?.position = CGPoint(x: 0, y: 50)
 
         self.backButton?.position = CGPoint(x: -100, y: -backgroundTileHeight / 2.0 + 80)
     }

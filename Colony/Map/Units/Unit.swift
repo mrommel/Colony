@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AIHandable {
+/*protocol AIHandable {
     
     var state: AIUnitState { get set }
     
@@ -16,9 +16,9 @@ protocol AIHandable {
     
     func handleBeganState(in game: Game?)
     func handleEndedState(in game: Game?)
-}
+}*/
 
-class Unit: Decodable, AIHandable {
+class Unit: Decodable /*, AIHandable*/ {
     
     // MARK: properties
     
@@ -32,7 +32,11 @@ class Unit: Decodable, AIHandable {
     var experience: Int
     var entrenchment: Int
     
+    // MARK: ai stuff
+    
     var state: AIUnitState
+    var tacticalAI: TacticalAIProtocol? = nil
+    var group: UnitGroup? = nil
     
     // MARK: UI connection
     
@@ -75,6 +79,8 @@ class Unit: Decodable, AIHandable {
         self.entrenchment = 0
         
         self.state = AIUnitState.idleState()
+        self.tacticalAI = TacticalAI(unit: self)
+        self.group = nil
     }
     
     required init(from decoder: Decoder) throws {
@@ -92,6 +98,8 @@ class Unit: Decodable, AIHandable {
         self.entrenchment = try values.decode(Int.self, forKey: .entrenchment)
         
         self.state = try values.decode(AIUnitState.self, forKey: .state)
+        self.tacticalAI = TacticalAI(unit: self)
+        self.group = nil
     }
     
     // MARK: unit methods
@@ -112,14 +120,46 @@ class Unit: Decodable, AIHandable {
         self.state = unit.state // FIXME: maybe copy all values?
     }
     
+    func destroyed() -> Bool {
+        
+        return self.strength == 0
+    }
+    
     var properties: UnitProperties? {
         return self.unitType.properties
+    }
+    
+    var supportDistance: Int {
+        return self.unitType.properties?.supportDistance ?? 0
     }
     
     func tilesInSight() -> HexArea {
 
         return HexArea(center: self.position, radius: self.sight)
     }
+    
+    func isAttacked() -> Bool {
+        
+        if let tacticalAI = self.tacticalAI {
+            return tacticalAI.isAttacked()
+        }
+        
+        return false
+    }
+    
+    func isEnemySpotted() -> Bool {
+    
+        if let tacticalAI = self.tacticalAI {
+            return tacticalAI.isEnemySpotted()
+        }
+        
+        return false
+    }
+    
+    /*func follow(path: HexPath) {
+        
+        self.movementAI?.follow(path: path)
+    }*/
     
     func canEmbark(onto point: HexPoint) -> Bool {
         return false
@@ -157,19 +197,8 @@ class Unit: Decodable, AIHandable {
     
     func update(in game: Game?) {
 
-        switch self.state.transitioning {
-
-        case .began:
-            self.handleBeganState(in: game)
-        case .running:
-            break
-        case .ended:
-            self.handleEndedState(in: game)
-        }
+        self.tacticalAI?.update(for: game)
     }
-
-    func handleBeganState(in game: Game?) { }
-    func handleEndedState(in game: Game?) { }
 }
 
 extension Unit: Encodable {
@@ -199,5 +228,15 @@ extension Unit: Equatable {
         return lhs.position == rhs.position
             && lhs.civilization == rhs.civilization
             && lhs.unitType == rhs.unitType
+    }
+}
+
+extension Unit: Hashable {
+    
+    func hash(into hasher: inout Hasher) {
+        
+        hasher.combine(self.position)
+        hasher.combine(self.civilization)
+        hasher.combine(self.unitType)
     }
 }

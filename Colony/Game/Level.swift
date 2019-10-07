@@ -58,10 +58,6 @@ struct ScoreThresold: Codable {
 
 class Level: Decodable  {
     
-    let number: Int
-    let title: String
-    let summary: String
-    let difficulty: LevelDifficulty
     let duration: Int // in seconds
     
     // data holder
@@ -94,12 +90,8 @@ class Level: Decodable  {
         case gameConditionCheckIdentifiers
     }
     
-    init(number: Int, title: String, summary: String, difficulty: LevelDifficulty, duration: Int, map: HexagonTileMap, startPositions: StartPositions) {
+    init(duration: Int, map: HexagonTileMap, startPositions: StartPositions) {
         
-        self.number = number
-        self.title = title
-        self.summary = summary
-        self.difficulty = difficulty
         self.duration = duration
         self.scoreThresold = ScoreThresold(silver: 4, gold: 5)
         
@@ -110,6 +102,19 @@ class Level: Decodable  {
         self.userUsecase = UserUsecase()
         
         self.setupPlayers()
+        
+        let caravel = Caravel(position: startPositions.playerPosition, civilization: .english)
+        self.map.set(unit: caravel)
+        
+        for (index, startPosition) in startPositions.cityPositions.enumerated() {
+            print("- city \(index): \(startPosition)")
+            let city = City(named: "abc\(index)", at: startPosition, civilization: .english)
+            self.map.set(city: city)
+        }
+        
+        // create object on map
+        self.gameObjectManager.setupUnits()
+        self.gameObjectManager.setupCities()
         
         /*let ship = ShipObject(with: "ship", at: startPositions.playerPosition, civilization: .english)
         self.gameObjectManager.add(object: ship)
@@ -130,12 +135,12 @@ class Level: Decodable  {
         
         let tradeShip = TradeShip(with: "tradeShip", at: startPositions.monsterPosition)
         self.gameObjectManager.add(object: tradeShip)
-        tradeShip.idle()*/
+        tradeShip.idle()
         
-        let playerForCityStates = self.playerForCityStates()
-        var ununsedCityNames = playerForCityStates.civilization.cityNames
+        //let playerForCityStates = self.playerForCityStates()
+        //var ununsedCityNames = playerForCityStates.civilization.cityNames
         
-        /*for (index, startPosition) in startPositions.cityPositions.enumerated() {
+        for (index, startPosition) in startPositions.cityPositions.enumerated() {
 
             if index == 0 {
                 let player = self.playerForUser()
@@ -156,9 +161,9 @@ class Level: Decodable  {
                 ununsedCityNames = ununsedCityNames.filter { $0 != cityName }
                 self.found(city: City(named: cityName, at: startPosition, civilization: .cityStates))
             }
-        }*/
+        }
         
-        /*let oceanTiles = map.oceanTiles
+        let oceanTiles = map.oceanTiles
         let forestTiles = map.forestTiles
         
         // special decorations / obstacles
@@ -208,24 +213,20 @@ class Level: Decodable  {
                 coin.idle()
             }
         }
-        
+        */
         guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
             fatalError("Can't get current users civilization")
         }
         
         // set the selected unit
-        self.gameObjectManager.selected = self.gameObjectManager.unitsOf(civilization: currentUserCivilization).first!
-        */
-        self.gameObjectManager.map = self.map
+        self.gameObjectManager.selected = self.map.unitsOf(civilization: currentUserCivilization).first!
+        
+        //self.gameObjectManager.map = self.map
     }
     
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        self.number = try values.decode(Int.self, forKey: .number)
-        self.title = try values.decode(String.self, forKey: .title)
-        self.summary = try values.decode(String.self, forKey: .summary)
-        self.difficulty = try values.decode(LevelDifficulty.self, forKey: .difficulty)
         self.duration = try values.decode(Int.self, forKey: .duration)
         self.scoreThresold = try values.decodeIfPresent(ScoreThresold.self, forKey: .scoreThresold) ?? ScoreThresold(silver: 4, gold: 5)
         
@@ -255,10 +256,10 @@ class Level: Decodable  {
                     }
                 }
             }
-        }
+        }*/
         
         // set the selected unit
-        self.gameObjectManager.selected = self.map.unitsOf(civilization: currentUserCivilization).first!*/
+        self.gameObjectManager.selected = self.map.unitsOf(civilization: currentUserCivilization).first!
     }
     
     func setupPlayers() {
@@ -270,10 +271,11 @@ class Level: Decodable  {
         for civilization in Civilization.all {
             
             if civilization == currentUser.civilization {
-                let player = Player(name: currentUser.name, civilization: civilization, isUser: true)
+                let customLeader = Leader(name: currentUser.name, civilization: civilization)
+                let player = Player(leader: customLeader, isUser: true)
                 self.players.append(player)
             } else {
-                let player = Player(name: civilization.defaultUserName, civilization: civilization, isUser: false)
+                let player = Player(leader: civilization.leader, isUser: false)
                 self.players.append(player)
             }
         }
@@ -284,14 +286,9 @@ class Level: Decodable  {
         return self.players.first(where: { $0.isUser })!
     }
     
-    func playerForCityStates() -> Player {
-        
-        return self.players.first(where: { $0.civilization == .cityStates })!
-    }
-    
     func playerFor(civilization: Civilization) -> Player {
         
-        return self.players.first(where: { $0.civilization == civilization })!
+        return self.players.first(where: { $0.leader.civilization == civilization })!
     }
     
     func score(for coins: Int) -> LevelScore {
@@ -309,11 +306,11 @@ class Level: Decodable  {
     
     func found(city: City) {
 
-        let cityObj = CityObject(for: city)
+        let cityObj = city.createGameObject()
         //self.gameObjectManager.add(object: cityObj)
-        cityObj.showIdle()
+        cityObj?.showIdle()
         
-        self.map.set(city: city, at: city.position)
+        self.map.set(city: city)
         
         let player = self.playerFor(civilization: city.civilization)
         
@@ -331,10 +328,10 @@ extension Level: Encodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        try container.encode(self.number, forKey: .number)
+        /*try container.encode(self.number, forKey: .number)
         try container.encode(self.title, forKey: .title)
         try container.encode(self.summary, forKey: .summary)
-        try container.encode(self.difficulty, forKey: .difficulty)
+        try container.encode(self.difficulty, forKey: .difficulty)*/
         try container.encode(self.duration, forKey: .duration)
         try container.encode(self.scoreThresold, forKey: .scoreThresold)
         

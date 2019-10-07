@@ -25,7 +25,7 @@ class Archer: Unit {
         return gameObject
     }
     
-    override func handleBeganState(in game: Game?) {
+    /*override func handleBeganState(in game: Game?) {
         
         assert(self.state.transitioning == .began, "method can only handle .begin")
         
@@ -41,5 +41,5 @@ class Archer: Unit {
         if self.state.state == .ambushed {
             fatalError("[Archer] handle ended ambushed")
         }
-    }
+    }*/
 }

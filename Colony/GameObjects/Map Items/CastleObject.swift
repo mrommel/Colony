@@ -15,10 +15,6 @@ class CastleObject: GameObject {
         let identifier = UUID()
         let identifierString = "castle-\(identifier.uuidString)"
         
-        guard let position = castle?.position else { fatalError() }
-        let civilization = castle?.civilization
-        let name = castle?.name ?? "Castle"
-        
         super.init(with: identifierString, mapItem: castle, spriteName: "castle", anchorPoint: CGPoint(x: -0.0, y: -0.0))
         
         self.atlasIdle = GameObjectAtlas(atlasName: "castle", textures: ["castle"])

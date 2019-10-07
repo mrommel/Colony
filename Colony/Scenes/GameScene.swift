@@ -137,11 +137,11 @@ class GameScene: BaseScene {
 
         case .level:
 
-            guard let levelURL = viewModel.levelURL else {
-                fatalError("no level url")
+            guard let levelMeta = viewModel.levelMeta else {
+                fatalError("no level meta")
             }
 
-            guard let level = LevelManager.loadLevelFrom(url: levelURL) else {
+            guard let level = LevelManager.loadLevelFrom(url: levelMeta.resourceUrl()) else {
                 fatalError("no level")
             }
 
@@ -152,7 +152,7 @@ class GameScene: BaseScene {
             self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
             self.bottomRightBar?.delegate = self
 
-            self.showLevelIntroductionFor(level: level)
+            self.showLevelIntroductionFor(levelMeta: levelMeta)
 
         case .game:
             self.game = self.viewModel?.game
@@ -175,9 +175,10 @@ class GameScene: BaseScene {
             let startPositionFinder = StartPositionFinder(map: map)
             let startPositions = startPositionFinder.identifyStartPositions()
 
-            let gameObjectManager = GameObjectManager(on: map)
+            //let gameObjectManager = GameObjectManager(on: map)
 
-            let level = Level(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, duration: 300, map: map, startPositions: startPositions)
+            let levelMeta = LevelMeta(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, position: CGPoint(x: 0.0, y: 0.0), resource: "")
+            let level = Level(duration: 300, map: map, startPositions: startPositions)
 
             self.game = Game(with: level, coins: user.coins, boosterStock: user.boosterStock)
 
@@ -186,7 +187,7 @@ class GameScene: BaseScene {
             self.bottomRightBar = BottomRightBar(for: level, sized: CGSize(width: 200, height: 112))
             self.bottomRightBar?.delegate = self
 
-            self.showLevelIntroductionFor(level: nil)
+            self.showLevelIntroductionFor(levelMeta: levelMeta)
         }
 
         self.game?.conditionDelegate = self
@@ -339,9 +340,9 @@ class GameScene: BaseScene {
         }
     }
 
-    func showLevelIntroductionFor(level: Level?) {
+    func showLevelIntroductionFor(levelMeta: LevelMeta?) {
 
-        if let levelIntroductionDialog = UI.levelIntroductionDialog(for: level) {
+        if let levelIntroductionDialog = UI.levelIntroductionDialog(for: levelMeta) {
 
             levelIntroductionDialog.zPosition = 250
             levelIntroductionDialog.addOkayAction(handler: {
@@ -533,7 +534,7 @@ class GameScene: BaseScene {
         
         if let units = self.game?.getUnits(at: point) {
 
-            var filteredUnits = units.filter({ $0?.civilization != user.civilization })
+            let filteredUnits = units.filter({ $0?.civilization != user.civilization })
             //filteredUnits = filteredUnits.filter({ $0?.type != .coin && $0?.type != .animal && $0?.type != .obstacle && $0?.type != .booster })
             
             // FIXME: how to select the attacker?

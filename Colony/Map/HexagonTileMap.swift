@@ -179,8 +179,6 @@ class HexagonTileMap: HexagonMap<Tile> {
                 let hut = Hut(at: item.position)
                 //field.copy(from: item)
                 customItems.append(hut)
-            default:
-                fatalError("unhandled ")
             }
         }
         
@@ -594,16 +592,16 @@ class HexagonTileMap: HexagonMap<Tile> {
         return self.items.filter { $0.type == .city }.map { $0 as! City }
     }
     
-    func set(city: City?, at hex: HexPoint) {
+    func set(city cityRef: City?) {
         
-        if let city = city {
+        if let city = cityRef {
             self.items.append(city)
+            
+            if let tile = self.tile(at: city.position) {
+                tile.city = city
+            }
         }
-        
-        if let tile = self.tile(at: hex) {
-            tile.city = city
-        }
-        
+
         // FIXME update zone of control
     }
     
@@ -626,6 +624,13 @@ class HexagonTileMap: HexagonMap<Tile> {
     }
     
     // MARK: unit methods
+    
+    func set(unit unitRef: Unit?) {
+        
+        if let unit = unitRef {
+            self.units.append(unit)
+        }
+    }
     
     func unitsOf(type: UnitType) -> [Unit?] {
         

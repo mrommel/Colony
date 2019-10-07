@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Animal: Decodable, AIHandable {
+class Animal: Decodable /*, AIHandable*/ {
     
     // MARK: properties
     

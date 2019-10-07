@@ -115,22 +115,22 @@ public class PerlinGenerator {
 		let dt1 = t - Float(t1)
 
 		// The 16 gradient values
-		var g0000 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y0, k: z0, l: t0)]
-		var g0001 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y0, k: z0, l: t1)]
-		var g0010 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y0, k: z1, l: t0)]
-		var g0011 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y0, k: z1, l: t1)]
-		var g0100 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y1, k: z0, l: t0)]
-		var g0101 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y1, k: z0, l: t1)]
-		var g0110 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y1, k: z1, l: t0)]
-		var g0111 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y1, k: z1, l: t1)]
-		var g1000 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y0, k: z0, l: t0)]
-		var g1001 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y0, k: z0, l: t1)]
-		var g1010 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y0, k: z1, l: t0)]
-		var g1011 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y0, k: z1, l: t1)]
-		var g1100 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y1, k: z0, l: t0)]
-		var g1101 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y1, k: z0, l: t1)]
-		var g1110 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y1, k: z1, l: t0)]
-		var g1111 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y1, k: z1, l: t1)]
+        let g0000 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y0, k: z0, l: t0)]
+        let g0001 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y0, k: z0, l: t1)]
+        let g0010 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y0, k: z1, l: t0)]
+        let g0011 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y0, k: z1, l: t1)]
+        let g0100 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y1, k: z0, l: t0)]
+        let g0101 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y1, k: z0, l: t1)]
+        let g0110 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y1, k: z1, l: t0)]
+        let g0111 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y1, k: z1, l: t1)]
+        let g1000 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y0, k: z0, l: t0)]
+        let g1001 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y0, k: z0, l: t1)]
+        let g1010 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y0, k: z1, l: t0)]
+        let g1011 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y0, k: z1, l: t1)]
+        let g1100 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y1, k: z0, l: t0)]
+        let g1101 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y1, k: z0, l: t1)]
+        let g1110 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y1, k: z1, l: t0)]
+        let g1111 = PerlinGenerator.gradient[self.gradientAt(i: x1, j: y1, k: z1, l: t1)]
 
 		// The 16 dot products
 		let b0000 = self.dotProductI(x0: dx0, x1: g0000[0], y0: dy0, y1: g0000[1], z0: dz0, z1: g0000[2], t0: dt0, t1: g0000[3])

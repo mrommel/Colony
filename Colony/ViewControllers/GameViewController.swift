@@ -34,7 +34,7 @@ class GameViewController: UIViewController {
         
         switch viewModel.type {
         case .level:
-            self.startGameWith(levelURL: self.viewModel?.resource)
+            self.startGameWith(levelMeta: self.viewModel?.levelMeta)
         case .game:
             self.restart(game: self.viewModel?.game)
         case .map:
@@ -62,7 +62,7 @@ class GameViewController: UIViewController {
         self.gameScene?.updateLayout()
     }
 
-    func startGameWith(levelURL: URL?) {
+    func startGameWith(levelMeta: LevelMeta?) {
 
         guard let view = self.view as! SKView? else {
             fatalError("View not loaded")
@@ -72,7 +72,7 @@ class GameViewController: UIViewController {
         self.gameLoadingScene?.completion = {
             
             self.gameScene = GameScene(size: view.bounds.size)
-            self.gameScene?.viewModel = GameSceneViewModel(with: levelURL)
+            self.gameScene?.viewModel = GameSceneViewModel(with: levelMeta)
             self.gameScene?.scaleMode = .resizeFill
             self.gameScene?.gameDelegate = self
             

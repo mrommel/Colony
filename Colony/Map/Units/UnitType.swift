@@ -147,7 +147,7 @@ enum UnitType: String, Codable {
         // sea units
             
         case .caravel:
-            var unitProperties = UnitProperties(initiative: 3, sight: 2, range: 1, strength: 10, targetType: .hard, softAttack: 2, hardAttack: 1, airAttack: 0, navalAttack: 2, groundDefense: 2, closeDefense: 2, airDefense: 1)
+            var unitProperties = UnitProperties(initiative: 3, sight: 2, range: 1, supportDistance: 2, strength: 10, targetType: .hard, softAttack: 2, hardAttack: 1, airAttack: 0, navalAttack: 2, groundDefense: 2, closeDefense: 2, airDefense: 1)
             
             unitProperties.isSwimming = true
             
@@ -156,7 +156,7 @@ enum UnitType: String, Codable {
         // land units
             
         case .axeman:
-            var unitProperties = UnitProperties(initiative: 3, sight: 2, range: 0, strength: 10, targetType: .soft, softAttack: 3, hardAttack: 0, airAttack: 0, navalAttack: 0, groundDefense: 1, closeDefense: 2, airDefense: 0)
+            var unitProperties = UnitProperties(initiative: 3, sight: 2, range: 0, supportDistance: 1, strength: 10, targetType: .soft, softAttack: 3, hardAttack: 0, airAttack: 0, navalAttack: 0, groundDefense: 1, closeDefense: 2, airDefense: 0)
             
             unitProperties.isSwimming = false
             unitProperties.isInfantery = true

@@ -18,11 +18,11 @@ class LevelIntroductionDialog: Dialog {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func displayIntroductionFor(level: Level?) {
+    func displayIntroductionFor(levelMeta: LevelMeta?) {
         
-        if let level = level {
-            self.set(text: level.title, identifier: "title")
-            self.set(text: level.summary, identifier: "summary")
+        if let levelMeta = levelMeta {
+            self.set(text: levelMeta.title, identifier: "title")
+            self.set(text: levelMeta.summary, identifier: "summary")
         } else {
             self.set(text: "Free playing", identifier: "title")
             self.set(text: "Please play free", identifier: "summary")

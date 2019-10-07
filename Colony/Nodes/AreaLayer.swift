@@ -38,7 +38,7 @@ class AreaLayer: SKNode {
         }
         
         for player in players {
-            let areaSprite = AreaSprites(colored: player.civilization.color)
+            let areaSprite = AreaSprites(colored: player.leader.civilization.color)
             if let zoneOfControl = player.zoneOfControl {
                 areaSprite.rebuild(with: zoneOfControl, and: map.fogManager)
             }

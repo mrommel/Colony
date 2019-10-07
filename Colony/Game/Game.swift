@@ -6,7 +6,7 @@
 //  Copyright © 2019 Michael Rommel. All rights reserved.
 //
 
-import Foundation
+import SpriteKit
 
 protocol GameUpdateDelegate {
     
@@ -132,7 +132,8 @@ class Game: Decodable {
         let score = self.coins
         let levelScore = level.score(for: score)
         
-        self.gameUsecase?.set(score: Int32(score), levelScore: levelScore, for: Int32(level.number))
+        fatalError("need to save")
+        //self.gameUsecase?.set(score: Int32(score), levelScore: levelScore, for: Int32(level.number))
     }
 }
 
@@ -210,6 +211,7 @@ extension Game {
     
     @objc private func fireUpdateTimer() {
         
+        self.updateAI()
         self.gameUpdateDelegate?.updateUI()
         self.checkCondition()
         
@@ -221,6 +223,18 @@ extension Game {
 
         print("stop update timer")
         self.updateTimer?.invalidate()
+    }
+    
+    private func updateAI() {
+        
+        guard let level = self.level else {
+            fatalError("can't find level")
+        }
+        
+        for player in level.players {
+            
+            player.updateAI(in: self)
+        }
     }
 }
 
@@ -297,14 +311,19 @@ extension Game: Encodable {
 
 extension Game {
     
-    func neighborsInWater(of point: HexPoint) -> [HexPoint] {
+    func mapSize() -> CGSize {
         
         guard let map = self.level?.map else {
             fatalError("Can't get map")
         }
         
-        guard let level = self.level else {
-            fatalError("can't find level")
+        return map.size
+    }
+    
+    func neighborsInWater(of point: HexPoint) -> [HexPoint] {
+        
+        guard let map = self.level?.map else {
+            fatalError("Can't get map")
         }
         
         let waterTiles = point.neighbors().filter({ map.tile(at: $0)?.isWater ?? false })
@@ -318,10 +337,6 @@ extension Game {
         
         guard let map = self.level?.map else {
             fatalError("Can't get map")
-        }
-        
-        guard let level = self.level else {
-            fatalError("can't find level")
         }
         
         let landTiles = point.neighbors().filter({ map.tile(at: $0)?.isGround ?? false })
@@ -347,6 +362,11 @@ extension Game {
         return self.level?.gameObjectManager.selected
     }
     
+    func getUnitsOf(civilization: Civilization) -> [Unit?]? {
+           
+        return self.level?.map.unitsOf(civilization: civilization)
+    }
+    
     func getAllUnitsOfUser() -> [Unit?]? {
         
         guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
@@ -361,7 +381,32 @@ extension Game {
         return self.level?.map.unitsOf(type: type)
     }
     
+    func alliedUnits(for civilization: Civilization) -> [Unit?]? {
+        
+        let player = self.level?.playerFor(civilization: civilization)
+        
+        if let allies = player?.getAllies() {
+            
+            var units: [Unit?] = []
+            
+            for ally in allies {
+                if let allyUnits = self.getUnitsOf(civilization: ally.civilization) {
+                    units.append(contentsOf: allyUnits)
+                }
+            }
+            
+            return units
+        }
+        
+        return nil
+    }
+    
     // MARK: city methods
+    
+    func getCitiesOf(civilization: Civilization) -> [City?]? {
+           
+        return self.level?.map.citiesOf(civilization: civilization)
+    }
     
     func getAllCitiesOfUser() -> [City?]? {
         
@@ -379,8 +424,6 @@ extension Game {
         }
         
         return level.map.city(at: point)
-        
-        return nil
     }
     
     func pathfinderDataSource(for movementType: MovementType, ignoreSight: Bool) -> PathfinderDataSource {
@@ -390,6 +433,15 @@ extension Game {
         }
         
         return level.map.pathfinderDataSource(with: self.level?.gameObjectManager, movementType: movementType, ignoreSight: ignoreSight)
+    }
+    
+    func pathfinderDataSource(for unit: Unit?, ignoreSight: Bool) -> PathfinderDataSource {
+        
+        guard let movementType = unit?.unitType.movementType else {
+            fatalError("can't find movementType")
+        }
+        
+        return self.pathfinderDataSource(for: movementType, ignoreSight: ignoreSight)
     }
     
     func getCoastalCities(at ocean: Ocean) -> [City] {

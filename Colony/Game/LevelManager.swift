@@ -9,29 +9,48 @@
 import SpriteKit
 import Rswift
 
-struct LevelInfo {
+struct LevelMeta: Codable {
     
+    // meta data
     let number: Int
-    let difficulty: LevelDifficulty
+    let title: String
+    let summary: String
+    let difficulty:  LevelDifficulty
+
     let position: CGPoint
-    let resource: URL?
+    let resource: String//URL? // of level file
+    
+    func resourceUrl() -> URL? {
+        
+        return Bundle.main.url(forResource: self.resource, withExtension: "lvl")
+    }
 }
 
 class LevelManager {
     
-    var levels: [LevelInfo] = []
+    var levelMetas: [LevelMeta] = []
     
     init() {
 
-        self.addLevelFrom(url: R.file.level0001Lvl(), at: CGPoint(x: 0.1, y: 0.1))
-        //self.addLevelFrom(url: R.file.level0002Lvl(), at: CGPoint(x: 0.3, y: 0.15))
+        if let meta = LevelManager.loadLevelMetaFrom(url: R.file.level0001Meta()) {
+            self.levelMetas.append(meta)
+        }
     }
     
-    private func addLevelFrom(url: URL?, at position: CGPoint) {
+    static func loadLevelMetaFrom(url: URL?) -> LevelMeta? {
 
-        if let level = LevelManager.loadLevelFrom(url: url) {
-            levels.append(LevelInfo(number: level.number, difficulty: level.difficulty, position: position, resource: url))
+        if let levelUrl = url {
+
+            do {
+                let jsonData = try Data(contentsOf: levelUrl, options: .mappedIfSafe)
+
+                return try JSONDecoder().decode(LevelMeta.self, from: jsonData)
+            } catch {
+                print("Error reading \(error)")
+            }
         }
+
+        return nil
     }
 
     static func loadLevelFrom(url: URL?) -> Level? {

@@ -93,7 +93,7 @@ extension Array2D {
     }
 }
 
-// MARK: grid method
+// MARK: grid methods
 
 extension Array2D {
 

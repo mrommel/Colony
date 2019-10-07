@@ -196,6 +196,28 @@ extension HexPoint {
         return HexArea(center: self, radius: radius)
     }
     
+    // based on: https://www.redblobgames.com/grids/hexagons/#rings
+    func ringWith(radius: Int) -> HexArea {
+        
+        var points: [HexPoint] = []
+        var cursor: HexPoint = HexPoint(x: self.x, y: self.y)
+        
+        // find start location
+        for _ in 0..<radius {
+            cursor = cursor.neighbor(in: .southwest)
+        }
+        
+        // loop through all directions clockwise starting with north
+        for dir in HexDirection.all {
+            for _ in 0..<radius {
+                points.append(cursor)
+                cursor = cursor.neighbor(in: dir)
+            }
+        }
+        
+        return HexArea(points: points)
+    }
+    
     func distance(to hex: HexPoint) -> Int {
         let selfCube = HexCube(hex: self)
         let hexCube = HexCube(hex: hex)

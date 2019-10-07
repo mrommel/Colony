@@ -10,19 +10,18 @@
 import UIKit
 
 enum Civilization: String, Codable {
-    // real player
+    
+    // real players
     case english
     case french
     case spanish
-    
-    // city state
-    case cityStates
+    case greek
     
     // generic
     case pirates
     case trader
     
-    static let all: [Civilization] = [.english, .french, .spanish, .cityStates]
+    static let all: [Civilization] = [.english, .french, .spanish, .greek]
     
     var name: String {
         
@@ -33,9 +32,8 @@ enum Civilization: String, Codable {
             return "French"
         case .spanish:
             return "Spanish"
-            
-        case .cityStates:
-            return "City States"
+        case .greek:
+            return "Greek"
             
         case .pirates:
             return "Pirates"
@@ -53,9 +51,8 @@ enum Civilization: String, Codable {
             return .red
         case .spanish:
             return .yellow
-            
-        case .cityStates:
-            return .gray
+        case .greek:
+            return .green
             
         case .pirates:
             return .black
@@ -73,9 +70,8 @@ enum Civilization: String, Codable {
             return .red
         case .spanish:
             return .yellow
-            
-        case .cityStates:
-            return .white
+        case .greek:
+            return .green
             
         case .pirates:
             return .black
@@ -86,9 +82,9 @@ enum Civilization: String, Codable {
     
     var cityNames: [String] {
         switch self {
-        case .cityStates:
+        /*case .cityStates:
             // taken from here: https://civilization-v-customisation.fandom.com/wiki/List_of_City-States
-            return ["Almaty", "Antwerp", "Belgrade", "Bogota", "Bratislava", "Brussels", "Colombo", "Florence", "Geneva", "Genoa", "Jerusalem", "Lhasa", "Manila", "Melbourne", "Monaco", "Prague", "Riga", "Samarkand", "Sydney", "Tyre", "Vilnius", "Wittenberg", "Zurich"]
+            return ["Almaty", "Antwerp", "Belgrade", "Bogota", "Bratislava", "Brussels", "Colombo", "Florence", "Geneva", "Genoa", "Jerusalem", "Lhasa", "Manila", "Melbourne", "Monaco", "Prague", "Riga", "Samarkand", "Sydney", "Tyre", "Vilnius", "Wittenberg", "Zurich"]*/
         
         case .french:
             // taken from here: https://civilization.fandom.com/wiki/French_cities_(Civ5)
@@ -99,29 +95,17 @@ enum Civilization: String, Codable {
         case .spanish:
             // taken from here: https://civilization.fandom.com/wiki/Spanish_cities_(Civ5)
             return ["Madrid", "Barcelona", "Seville", "Cordoba", "Toledo", "Santiago", "Salamanca", "Murcia", "Valencia", "Zaragoza"]
+        case .greek:
+            // taken from here: https://civilization.fandom.com/wiki/Greek_cities_(Civ5)
+            return ["Athens", "Sparta", "Corinth", "Argos", "Knossos", "Mycenae", "Pharsalos", "Ephesus", "Halicarnassus", "Rhodes", "Eretria", "Pergamon", "Miletos"]
             
         default:
             fatalError("city name for unknown civ: \(self)")
         }
     }
     
-    var defaultUserName: String {
+    var leader: Leader {
         
-        switch self {
-        case .french:
-            return "Jaques"
-        case .english:
-            return "John"
-        case .spanish:
-            return "Juan"
-            
-        case .cityStates:
-            return "Neutron"
-            
-        case .pirates:
-            return "Jack Sparrow"
-        case .trader:
-            return "Travis"
-        }
+        return Leaders.leader(for: self)
     }
 }

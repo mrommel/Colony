@@ -84,6 +84,5 @@ class City: MapItem {
         } else if let intValue = self.dict[City.kPopulation] as? Int {
             self.population = Float(intValue)
         }
-        
     }
 }

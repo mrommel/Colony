@@ -18,27 +18,27 @@ enum GameViewModelType {
 class GameViewModel {
     
     let type: GameViewModelType
-    let resource: URL?
+    let levelMeta: LevelMeta?
     let game: Game?
     let map: HexagonTileMap?
     
     init(with map: HexagonTileMap?) {
         self.type = .map
-        self.resource = nil
+        self.levelMeta = nil
         self.game = nil
         self.map = map
     }
     
-    init(with resource: URL?) {
+    init(with levelMeta: LevelMeta?) {
         self.type = .level
-        self.resource = resource
+        self.levelMeta = levelMeta
         self.game = nil
         self.map = nil
     }
     
     init(with game: Game?) {
         self.type = .game
-        self.resource = nil
+        self.levelMeta = nil
         self.game = game
         self.map = nil
     }

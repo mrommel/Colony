@@ -67,7 +67,7 @@ enum Feature: String, Codable {
 		case .forestRain:
 			return ["hex_forest_rain", "hex_forest_rain2"]
 		case .oasis:
-			return ["hex_oasis"]
+			return ["hex_oasis1", "hex_oasis2"]
         case .marsh:
             return ["hex_marsh"]
         case .ice:

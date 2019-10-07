@@ -41,7 +41,7 @@ class GameUsecase {
 
         guard let user = self.userRepository.getCurrentUser() else {
             //fatalError("can't find current user")
-            return .none
+            return LevelScore.none
         }
 
         let scoreEntry = self.scoreRepository.getScoreFor(level: level, and: user)

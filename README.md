@@ -1,16 +1,22 @@
 # Colony
 
 ## Todo
+- redone city and village
+- populate world from start locations
+
 - show collected coins in win dialog
 - add global player score for booster and coins
 - add new player input / add player switcher in options (logout)
 - let player select a civilization
-- release / board units from ships
+- other leaders
+- show game rating (compared to other players)
+- release / board units from ships => unit refactoring
 - shipwreck animation
 - snow textures from wesnoth as layer
 - mountain textures as layer
 - limit sight thru mountains
 units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245
+tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-location-hexes-medieval-fantasy-59271
 
 ## Booster - ongoing
 - [Booster] more time (clock) - implemented
@@ -23,7 +29,13 @@ units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=4
 - [Booster] incl booster 'store' - implemented
 - [Booster] find them on the map - implemented
 
-## Maybe
+## Bugs
+- [Defect] axeman can walk on the water / ship can cross land - general tile display bug
+- [Defect] river should end at first ocean - general tile display bug
+- [Defect] dialogs have wrong display levels
+- [Defect] dialogs not centered in landscape mode
+
+## Done
 - add beach-se-sw-nw texture (/)
 - add beach-n-ne-s-sw texture (/)
 - add beach-se-s-nw texture (/)
@@ -32,25 +44,17 @@ units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=4
 - add beach-ne-se-sw texture (/)
 - add beach-ne-s-sw-nw texture (/)
 - add beach-n-se-sw texture (/)
-- beach-n-se-s (/)
-- beach-ne-s-sw (/)
-- beach-n-se-s-sw (/)
-- beach-ne-se-nw (/)
-- beach-n-ne-se-sw (/)
-- beach-ne-s-nw (/)
-- beach-n-se-s-nw (/)
-- beach-n-s-nw (/)
-- beach-n-ne-s-nw (/)
-- beach-n-se-sw-nw (/)
+- add beach-n-se-s (/)
+- add beach-ne-s-sw (/)
+- add beach-n-se-s-sw (/)
+- add beach-ne-se-nw (/)
+- add beach-n-ne-se-sw (/)
+- add beach-ne-s-nw (/)
+- add beach-n-se-s-nw (/)
+- add beach-n-s-nw (/)
+- add beach-n-ne-s-nw (/)
+- add beach-n-se-sw-nw (/)
 - add marsh (/) 
-
-## Bugs
-- [Defect] axeman can walk on the water / ship can cross land - general tile display bug
-- [Defect] river should end at first ocean - general tile display bug
-- [Defect] dialogs have wrong display levels
-- [Defect] dialogs not centered in landscape mode
-
-## Done
 - shark: up+down copied from left+right
 - more units (archer)
 - more animals (wulf)

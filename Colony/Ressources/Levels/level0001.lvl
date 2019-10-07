@@ -474,7 +474,7 @@
           },
           "type": "city",
           "dict": {
-            "civilization": "cityStates",
+            "civilization": "french",
             "name": "Tyre",
             "population": 1.0,
           }
@@ -486,7 +486,7 @@
           },
           "type": "city",
           "dict": {
-            "civilization": "cityStates",
+            "civilization": "french",
             "name": "Sydney",
             "population": 1.0,
           }
@@ -498,7 +498,7 @@
           },
           "type": "city",
           "dict": {
-            "civilization": "cityStates",
+            "civilization": "greek",
             "name": "Lhasa",
             "population": 1.0,
           }
@@ -510,7 +510,7 @@
           },
           "type": "city",
           "dict": {
-            "civilization": "cityStates",
+            "civilization": "spanish",
             "name": "Manila",
             "population": 1.0,
           }
@@ -6400,7 +6400,10 @@
     {
       "civilization": "english",
       "isUser": true,
-      "name": "John",
+      "leader": {
+        "name": "John",
+        "civilization": "english"
+      },
       "zoneOfControl": {
         "boundingBox": {
           "maxX": 20,
@@ -6426,105 +6429,24 @@
       }
     },
     {
-      "civilization": "cityStates",
+      "civilization": "greek",
       "isUser": false,
-      "name": "Neuton",
+      "leader": {
+        "name": "Alexander",
+        "civilization": "greek"
+      },
       "zoneOfControl": {
         "boundingBox": {
-          "maxX": 15,
-          "maxY": 3,
-          "minX": 15,
-          "minY": 3
+          "maxX": 20,
+          "maxY": 13,
+          "minX": 20,
+          "minY": 13
         },
         "points": [
-          {
-            "x": 15,
-            "y": 3
-          },
-          {
-            "x": 14,
-            "y": 2
-          },
-          {
-            "x": 15,
-            "y": 2
-          },
-          {
-            "x": 16,
-            "y": 3
-          },
-          {
-            "x": 12,
-            "y": 17
-          },
-          {
-            "x": 11,
-            "y": 16
-          },
-          {
-            "x": 12,
-            "y": 16
-          },
-          {
-            "x": 11,
-            "y": 18
-          },
-          {
-            "x": 11,
-            "y": 17
-          },
-          {
-            "x": 6,
-            "y": 5
-          },
-          {
-            "x": 5,
-            "y": 4
-          },
-          {
-            "x": 7,
-            "y": 5
-          },
-          {
-            "x": 6,
-            "y": 6
-          },
-          {
-            "x": 5,
-            "y": 6
-          },
-          {
-            "x": 5,
-            "y": 5
-          },
-          {
-            "x": 11,
-            "y": 10
-          },
-          {
-            "x": 12,
-            "y": 9
-          },
-          {
-            "x": 12,
-            "y": 10
-          },
-          {
-            "x": 12,
-            "y": 11
-          },
-          {
-            "x": 11,
-            "y": 11
-          },
-          {
-            "x": 10,
-            "y": 10
-          }
         ],
         "value": 0
       }
-    }
+    },
   ],
   "scoreThresold": {
     "gold": 5,
