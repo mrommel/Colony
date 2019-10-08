@@ -9,23 +9,6 @@
 import SpriteKit
 import Rswift
 
-struct LevelMeta: Codable {
-    
-    // meta data
-    let number: Int
-    let title: String
-    let summary: String
-    let difficulty:  LevelDifficulty
-
-    let position: CGPoint
-    let resource: String//URL? // of level file
-    
-    func resourceUrl() -> URL? {
-        
-        return Bundle.main.url(forResource: self.resource, withExtension: "lvl")
-    }
-}
-
 class LevelManager {
     
     var levelMetas: [LevelMeta] = []

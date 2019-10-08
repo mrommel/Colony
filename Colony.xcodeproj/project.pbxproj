@@ -3,12 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		76CE361BBC9ED0B08BC6CED6 /* libPods-ColonyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BCB23A77FD4F902AF2525D /* libPods-ColonyTests.a */; };
-		AE0CBA9E74F8CE33C69E57B3 /* libPods-Colony.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74D966AB103078B030C04933 /* libPods-Colony.a */; };
 		C9001CA422D70BCF005528A7 /* GameConditionCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9001CA322D70BCF005528A7 /* GameConditionCheck.swift */; };
 		C9001CA622D712B7005528A7 /* Booster.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9001CA522D712B7005528A7 /* Booster.swift */; };
 		C900654022AEE3BA0004C963 /* UIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900653F22AEE3BA0004C963 /* UIParser.swift */; };
@@ -47,6 +45,12 @@
 		C90BF0A02313FCF70074C3E8 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF09F2313FCF70074C3E8 /* Field.swift */; };
 		C90BF0A22313FDCA0074C3E8 /* CastleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF0A12313FDCA0074C3E8 /* CastleObject.swift */; };
 		C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915971A22CE91E5001D034B /* ScoreRepository.swift */; };
+		C91993AB234C93A000703353 /* Codability in Frameworks */ = {isa = PBXBuildFile; productRef = C91993AA234C93A000703353 /* Codability */; };
+		C91993AE234C948700703353 /* BinarySwift in Frameworks */ = {isa = PBXBuildFile; productRef = C91993AD234C948700703353 /* BinarySwift */; };
+		C91993B2234C979300703353 /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = C91993B1234C979300703353 /* Rswift */; };
+		C91993B5234C993100703353 /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = C91993B4234C993100703353 /* XMLCoder */; };
+		C91993B8234C9BA600703353 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91993B7234C9BA600703353 /* R.generated.swift */; };
+		C91993BA234CA0C500703353 /* LevelMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91993B9234CA0C500703353 /* LevelMeta.swift */; };
 		C91A4F3322A260DD000BF647 /* QuestsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* QuestsScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
 		C91AC6E32302D07C00104BD3 /* AIUnitState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91AC6E22302D07C00104BD3 /* AIUnitState.swift */; };
@@ -79,7 +83,6 @@
 		C93A4092230A7F090011E9DA /* BattleDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C93A4091230A7F090011E9DA /* BattleDialog.xml */; };
 		C93A4094230BB97E0011E9DA /* BattleResultDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C93A4093230BB97E0011E9DA /* BattleResultDialog.xml */; };
 		C93A4096230BCE6E0011E9DA /* BattleDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A4095230BCE6E0011E9DA /* BattleDialog.swift */; };
-		C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2B22B7ABB700AB7117 /* R.generated.swift */; };
 		C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */; };
 		C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */; };
 		C94A2F3322C22F8700AB7117 /* SafeAreaNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3222C22F8700AB7117 /* SafeAreaNode.swift */; };
@@ -299,10 +302,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		210F580901715505DF5F00A6 /* Pods-Colony.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Colony.debug.xcconfig"; path = "Target Support Files/Pods-Colony/Pods-Colony.debug.xcconfig"; sourceTree = "<group>"; };
-		74D966AB103078B030C04933 /* libPods-Colony.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Colony.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		ACE7A2BA698D9042467C8F93 /* Pods-Colony.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Colony.release.xcconfig"; path = "Target Support Files/Pods-Colony/Pods-Colony.release.xcconfig"; sourceTree = "<group>"; };
-		C2BCB23A77FD4F902AF2525D /* libPods-ColonyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ColonyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9001CA322D70BCF005528A7 /* GameConditionCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConditionCheck.swift; sourceTree = "<group>"; };
 		C9001CA522D712B7005528A7 /* Booster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booster.swift; sourceTree = "<group>"; };
 		C900653F22AEE3BA0004C963 /* UIParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIParser.swift; path = ../UIParser.swift; sourceTree = "<group>"; };
@@ -341,6 +340,8 @@
 		C90BF09F2313FCF70074C3E8 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
 		C90BF0A12313FDCA0074C3E8 /* CastleObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastleObject.swift; sourceTree = "<group>"; };
 		C915971A22CE91E5001D034B /* ScoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRepository.swift; sourceTree = "<group>"; };
+		C91993B7234C9BA600703353 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		C91993B9234CA0C500703353 /* LevelMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelMeta.swift; sourceTree = "<group>"; };
 		C91A4F3222A260DD000BF647 /* QuestsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestsScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
 		C91AC6E22302D07C00104BD3 /* AIUnitState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIUnitState.swift; sourceTree = "<group>"; };
@@ -373,7 +374,6 @@
 		C93A4091230A7F090011E9DA /* BattleDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BattleDialog.xml; sourceTree = "<group>"; };
 		C93A4093230BB97E0011E9DA /* BattleResultDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BattleResultDialog.xml; sourceTree = "<group>"; };
 		C93A4095230BCE6E0011E9DA /* BattleDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleDialog.swift; sourceTree = "<group>"; };
-		C94A2F2B22B7ABB700AB7117 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		C94A2F2E22C0EC5000AB7117 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
 		C94A2F3222C22F8700AB7117 /* SafeAreaNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeAreaNode.swift; sourceTree = "<group>"; };
@@ -548,8 +548,6 @@
 		C9F9C98A22E075D8000A3310 /* TradeShipObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeShipObject.swift; sourceTree = "<group>"; };
 		C9F9C98C22E0AFD9000A3310 /* OceanFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OceanFinder.swift; sourceTree = "<group>"; };
 		C9F9C98E22E0B10B000A3310 /* Ocean.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ocean.swift; sourceTree = "<group>"; };
-		CD30FDB8EBA383ED16C76E2C /* Pods-ColonyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColonyTests.debug.xcconfig"; path = "Target Support Files/Pods-ColonyTests/Pods-ColonyTests.debug.xcconfig"; sourceTree = "<group>"; };
-		D7C74C47200A74161115B291 /* Pods-ColonyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColonyTests.release.xcconfig"; path = "Target Support Files/Pods-ColonyTests/Pods-ColonyTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -557,7 +555,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76CE361BBC9ED0B08BC6CED6 /* libPods-ColonyTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,24 +562,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE0CBA9E74F8CE33C69E57B3 /* libPods-Colony.a in Frameworks */,
+				C91993B2234C979300703353 /* Rswift in Frameworks */,
+				C91993AB234C93A000703353 /* Codability in Frameworks */,
+				C91993B5234C993100703353 /* XMLCoder in Frameworks */,
+				C91993AE234C948700703353 /* BinarySwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B71A40321D86AF7564AF884F /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				210F580901715505DF5F00A6 /* Pods-Colony.debug.xcconfig */,
-				ACE7A2BA698D9042467C8F93 /* Pods-Colony.release.xcconfig */,
-				CD30FDB8EBA383ED16C76E2C /* Pods-ColonyTests.debug.xcconfig */,
-				D7C74C47200A74161115B291 /* Pods-ColonyTests.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		C9001CA222D70BB5005528A7 /* GameConditions */ = {
 			isa = PBXGroup;
 			children = (
@@ -786,6 +775,7 @@
 				C9001CA222D70BB5005528A7 /* GameConditions */,
 				C97E96D122A0739100D594F3 /* GameObjects */,
 				C956079522B23FD800AA69E9 /* Level.swift */,
+				C91993B9234CA0C500703353 /* LevelMeta.swift */,
 				C956079322B1426500AA69E9 /* LevelManager.swift */,
 				C92D876022CB7A0600E7A55E /* Game.swift */,
 				C9CCF42322E75F700041AD45 /* Civilization.swift */,
@@ -980,8 +970,6 @@
 				C9C7F0C7229B193400A775B2 /* Colony */,
 				C962941922FD47D200CC7F27 /* ColonyTests */,
 				C9C7F0C6229B193400A775B2 /* Products */,
-				B71A40321D86AF7564AF884F /* Pods */,
-				F9D941C07E4738AC5B6E4F0C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1009,7 +997,7 @@
 				C9C7F0EE229E992100A775B2 /* ViewControllers */,
 				C956078A22B1241B00AA69E9 /* Ressources */,
 				C9C7F0C8229B193400A775B2 /* AppDelegate.swift */,
-				C94A2F2B22B7ABB700AB7117 /* R.generated.swift */,
+				C91993B7234C9BA600703353 /* R.generated.swift */,
 			);
 			path = Colony;
 			sourceTree = "<group>";
@@ -1149,15 +1137,6 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
-		F9D941C07E4738AC5B6E4F0C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				74D966AB103078B030C04933 /* libPods-Colony.a */,
-				C2BCB23A77FD4F902AF2525D /* libPods-ColonyTests.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1165,7 +1144,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C962941F22FD47D300CC7F27 /* Build configuration list for PBXNativeTarget "ColonyTests" */;
 			buildPhases = (
-				EDD6B0518C6A2927695BF41A /* [CP] Check Pods Manifest.lock */,
 				C962941422FD47D200CC7F27 /* Sources */,
 				C962941522FD47D200CC7F27 /* Frameworks */,
 				C962941622FD47D200CC7F27 /* Resources */,
@@ -1184,8 +1162,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9C7F0DD229B193A00A775B2 /* Build configuration list for PBXNativeTarget "Colony" */;
 			buildPhases = (
-				AE72828580C659482B7501FB /* [CP] Check Pods Manifest.lock */,
-				C94A2F2A22B7AB6700AB7117 /* ShellScript */,
+				C91993B6234C9A4D00703353 /* ShellScript */,
 				C9C7F0C1229B193400A775B2 /* Sources */,
 				C9C7F0C2229B193400A775B2 /* Frameworks */,
 				C9C7F0C3229B193400A775B2 /* Resources */,
@@ -1195,6 +1172,12 @@
 			dependencies = (
 			);
 			name = Colony;
+			packageProductDependencies = (
+				C91993AA234C93A000703353 /* Codability */,
+				C91993AD234C948700703353 /* BinarySwift */,
+				C91993B1234C979300703353 /* Rswift */,
+				C91993B4234C993100703353 /* XMLCoder */,
+			);
 			productName = Colony;
 			productReference = C9C7F0C5229B193400A775B2 /* Colony.app */;
 			productType = "com.apple.product-type.application";
@@ -1227,6 +1210,12 @@
 				Base,
 			);
 			mainGroup = C9C7F0BC229B193400A775B2;
+			packageReferences = (
+				C91993A9234C93A000703353 /* XCRemoteSwiftPackageReference "Codability" */,
+				C91993AC234C948700703353 /* XCRemoteSwiftPackageReference "BinarySwift" */,
+				C91993B0234C979300703353 /* XCRemoteSwiftPackageReference "R.swift" */,
+				C91993B3234C993100703353 /* XCRemoteSwiftPackageReference "XMLCoder" */,
+			);
 			productRefGroup = C9C7F0C6229B193400A775B2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1288,29 +1277,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		AE72828580C659482B7501FB /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Colony-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C94A2F2A22B7AB6700AB7117 /* ShellScript */ = {
+		C91993B6234C9A4D00703353 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1323,33 +1290,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				$SRCROOT/R.generated.swift,
+				$SRCROOT/Colony/R.generated.swift,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/R.generated.swift\"\n";
-		};
-		EDD6B0518C6A2927695BF41A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ColonyTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"$SRCROOT/rswift\" generate \"$SRCROOT/Colony/R.generated.swift\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1464,6 +1409,7 @@
 				C996744C230151A000313420 /* StringExtension.swift in Sources */,
 				C90336A822F08AAD004D2D72 /* StoreViewController.swift in Sources */,
 				C962940C22FC65E300CC7F27 /* SKTextureExtension.swift in Sources */,
+				C91993B8234C9BA600703353 /* R.generated.swift in Sources */,
 				C9BA0A6622DB88190055ED59 /* City.swift in Sources */,
 				C92D876522CBF34E00E7A55E /* Formatters.swift in Sources */,
 				C97B283222A5349A00112532 /* FogManager.swift in Sources */,
@@ -1525,7 +1471,6 @@
 				C90BF0A22313FDCA0074C3E8 /* CastleObject.swift in Sources */,
 				C927EECC232A657E00D775BD /* PediaItemNode.swift in Sources */,
 				C94CA8C3231904940058F3B4 /* WulfObject.swift in Sources */,
-				C94A2F2C22B7ABB700AB7117 /* R.generated.swift in Sources */,
 				C9C7F112229EBE3100A775B2 /* Array2D.swift in Sources */,
 				C9E9BBFE22B58CF60048F97B /* TimerElapsedCheck.swift in Sources */,
 				C94A2F3122C2257C00AB7117 /* SKNodeExtension.swift in Sources */,
@@ -1578,6 +1523,7 @@
 				C9C7F124229EBE5C00A775B2 /* MapGenerator.swift in Sources */,
 				C927EEC4231EB44200D775BD /* BlurrableNode.swift in Sources */,
 				C900654422AF96A00004C963 /* Dialog.swift in Sources */,
+				C91993BA234CA0C500703353 /* LevelMeta.swift in Sources */,
 				C9C7F117229EBE3100A775B2 /* CGPointExtension.swift in Sources */,
 				C903369E22EEE82B004D2D72 /* PausableTimer.swift in Sources */,
 				C92D876322CB871100E7A55E /* GameConditionType.swift in Sources */,
@@ -1644,7 +1590,6 @@
 /* Begin XCBuildConfiguration section */
 		C962942022FD47D300CC7F27 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CD30FDB8EBA383ED16C76E2C /* Pods-ColonyTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1665,7 +1610,6 @@
 		};
 		C962942122FD47D300CC7F27 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D7C74C47200A74161115B291 /* Pods-ColonyTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1802,7 +1746,6 @@
 		};
 		C9C7F0DE229B193A00A775B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 210F580901715505DF5F00A6 /* Pods-Colony.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -1822,7 +1765,6 @@
 		};
 		C9C7F0DF229B193A00A775B2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ACE7A2BA698D9042467C8F93 /* Pods-Colony.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -1871,6 +1813,64 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C91993A9234C93A000703353 /* XCRemoteSwiftPackageReference "Codability" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yonaskolb/Codability";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.1;
+			};
+		};
+		C91993AC234C948700703353 /* XCRemoteSwiftPackageReference "BinarySwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mrommel/BinarySwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.6;
+			};
+		};
+		C91993B0234C979300703353 /* XCRemoteSwiftPackageReference "R.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/znly/R.swift.Library";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.4;
+			};
+		};
+		C91993B3234C993100703353 /* XCRemoteSwiftPackageReference "XMLCoder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MaxDesiatov/XMLCoder";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C91993AA234C93A000703353 /* Codability */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C91993A9234C93A000703353 /* XCRemoteSwiftPackageReference "Codability" */;
+			productName = Codability;
+		};
+		C91993AD234C948700703353 /* BinarySwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C91993AC234C948700703353 /* XCRemoteSwiftPackageReference "BinarySwift" */;
+			productName = BinarySwift;
+		};
+		C91993B1234C979300703353 /* Rswift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C91993B0234C979300703353 /* XCRemoteSwiftPackageReference "R.swift" */;
+			productName = Rswift;
+		};
+		C91993B4234C993100703353 /* XMLCoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C91993B3234C993100703353 /* XCRemoteSwiftPackageReference "XMLCoder" */;
+			productName = XMLCoder;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C92D875422CB69F200E7A55E /* Colony.xcdatamodeld */ = {
