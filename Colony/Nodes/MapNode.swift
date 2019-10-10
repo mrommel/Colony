@@ -105,11 +105,11 @@ class MapNode: SKNode {
             }
             
             // can only select new target when unit is idle
-            guard selectedUnit.state.state == .idle else {
+            /*guard selectedUnit.state.state == .idle else {
                 // FIXME: show x
                 self.showCross(at: hex)
                 return
-            }
+            }*/
             
             if self.map?.valid(point: hex) ?? false {
                 let pathFinder = AStarPathfinder()

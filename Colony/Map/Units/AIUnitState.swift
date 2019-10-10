@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum AIState: String, Codable {
+/*enum AIState: String, Codable {
     
     case idle
     case wanderAround
@@ -97,4 +97,4 @@ extension AIUnitState: Encodable {
         try container.encodeIfPresent(self.path, forKey: .path)
         try container.encode(self.transitioning, forKey: .transitioning)
     }
-}
+}*/

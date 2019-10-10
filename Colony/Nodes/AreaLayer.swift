@@ -31,9 +31,9 @@ class AreaLayer: SKNode {
             fatalError("map not set")
         }
         
-        map.fogManager?.delegates.addDelegate(self)
+        //map.fogManager?.delegates.addDelegate(self)
         
-        guard let players = level?.players else {
+        /*guard let players = level?.players else {
             return
         }
         
@@ -45,7 +45,7 @@ class AreaLayer: SKNode {
             self.addChild(areaSprite)
             
             self.areaSpritesMap[player] = areaSprite
-        }
+        }*/
     }
 }
 
@@ -53,10 +53,10 @@ extension AreaLayer: FogStateChangedDelegate {
     
     func changed(to newState: FogState, at pt: HexPoint) {
 
-        for (player, areaSprite) in self.areaSpritesMap {
+        /*for (player, areaSprite) in self.areaSpritesMap {
             if let zoneOfControl = player.zoneOfControl {
                 areaSprite.rebuild(with: zoneOfControl, and: map?.fogManager)
             }
-        }
+        }*/
     }
 }

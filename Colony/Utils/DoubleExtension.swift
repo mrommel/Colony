@@ -8,12 +8,8 @@
 
 import Foundation
 
-extension BinaryInteger {
-
-	public func sign() -> Int {
-		return (self < 0 ? -1 : 1)
-	}
-	/* or, use signature: func sign() -> Self */
+public func clamp<T>(_ value: T, from minValue: T, to maxValue: T) -> T where T : Comparable {
+    return min(max(value, minValue), maxValue)
 }
 
 extension Double {

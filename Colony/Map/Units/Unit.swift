@@ -8,17 +8,7 @@
 
 import Foundation
 
-/*protocol AIHandable {
-    
-    var state: AIUnitState { get set }
-    
-    func update(in game: Game?)
-    
-    func handleBeganState(in game: Game?)
-    func handleEndedState(in game: Game?)
-}*/
-
-class Unit: Decodable /*, AIHandable*/ {
+class Unit: Decodable {
     
     // MARK: properties
     
@@ -34,7 +24,6 @@ class Unit: Decodable /*, AIHandable*/ {
     
     // MARK: ai stuff
     
-    var state: AIUnitState
     var tacticalAI: TacticalAIProtocol? = nil
     var group: UnitGroup? = nil
     
@@ -78,7 +67,6 @@ class Unit: Decodable /*, AIHandable*/ {
         self.experience = 0
         self.entrenchment = 0
         
-        self.state = AIUnitState.idleState()
         self.tacticalAI = TacticalAI(unit: self)
         self.group = nil
     }
@@ -97,7 +85,6 @@ class Unit: Decodable /*, AIHandable*/ {
         self.experience = try values.decode(Int.self, forKey: .experience)
         self.entrenchment = try values.decode(Int.self, forKey: .entrenchment)
         
-        self.state = try values.decode(AIUnitState.self, forKey: .state)
         self.tacticalAI = TacticalAI(unit: self)
         self.group = nil
     }
@@ -116,8 +103,6 @@ class Unit: Decodable /*, AIHandable*/ {
         self.experience = unit.experience
         self.suppression = unit.suppression
         self.entrenchment = unit.entrenchment
-        
-        self.state = unit.state // FIXME: maybe copy all values?
     }
     
     func destroyed() -> Bool {
@@ -216,8 +201,6 @@ extension Unit: Encodable {
         try container.encode(self.suppression, forKey: .suppression)
         try container.encode(self.experience, forKey: .experience)
         try container.encode(self.entrenchment, forKey: .entrenchment)
-        
-        try container.encode(self.state, forKey: .state)
     }
 }
 

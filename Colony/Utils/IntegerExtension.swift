@@ -46,3 +46,11 @@ extension Int {
 		return Int.random(number: maximum - minimum + 1) + minimum
 	}
 }
+
+extension BinaryInteger {
+
+    public func sign() -> Int {
+        return (self < 0 ? -1 : 1)
+    }
+    /* or, use signature: func sign() -> Self */
+}

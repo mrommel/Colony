@@ -15,8 +15,6 @@ class Animal: Decodable /*, AIHandable*/ {
     var position: HexPoint
     let animalType: AnimalType
     
-    var state: AIUnitState
-    
     // MARK: UI connection
     
     var gameObject: GameObject? = nil
@@ -27,8 +25,6 @@ class Animal: Decodable /*, AIHandable*/ {
 
         case position
         case animalType
-        
-        case state
     }
     
     // MARK: constructor
@@ -37,8 +33,6 @@ class Animal: Decodable /*, AIHandable*/ {
         
         self.position = position
         self.animalType = animalType
-        
-        self.state = AIUnitState.idleState()
     }
     
     required init(from decoder: Decoder) throws {
@@ -47,8 +41,6 @@ class Animal: Decodable /*, AIHandable*/ {
 
         self.position = try values.decode(HexPoint.self, forKey: .position)
         self.animalType = try values.decode(AnimalType.self, forKey: .animalType)
-        
-        self.state = try values.decode(AIUnitState.self, forKey: .state)
     }
     
     // MARK: unit methods
@@ -90,19 +82,7 @@ class Animal: Decodable /*, AIHandable*/ {
     
     func update(in game: Game?) {
 
-        switch self.state.transitioning {
-
-        case .began:
-            self.handleBeganState(in: game)
-        case .running:
-            break
-        case .ended:
-            self.handleEndedState(in: game)
-        }
     }
-
-    func handleBeganState(in game: Game?) { }
-    func handleEndedState(in game: Game?) { }
 }
 
 extension Animal: Encodable {
@@ -113,7 +93,5 @@ extension Animal: Encodable {
         
         try container.encode(self.position, forKey: .position)
         try container.encode(self.animalType, forKey: .animalType)
-        
-        try container.encode(self.state, forKey: .state)
     }
 }

@@ -65,5 +65,9 @@ class MapItem: Codable {
     func loadFromDict() {
         //fatalError("must be overridden by subclass")
     }
+    
+    func update(in game: Game?) {
+        // NOOP
+    }
 }
 

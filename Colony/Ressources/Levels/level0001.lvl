@@ -464,7 +464,7 @@
           "dict": {
             "civilization": "english",
             "name": "London",
-            "population": 1.0,
+            "population": 1000.0,
           }
         },
         {
@@ -476,7 +476,7 @@
           "dict": {
             "civilization": "french",
             "name": "Tyre",
-            "population": 1.0,
+            "population": 1000.0,
           }
         },
         {
@@ -488,7 +488,7 @@
           "dict": {
             "civilization": "french",
             "name": "Sydney",
-            "population": 1.0,
+            "population": 1000.0,
           }
         },
         {
@@ -500,7 +500,7 @@
           "dict": {
             "civilization": "greek",
             "name": "Lhasa",
-            "population": 1.0,
+            "population": 1000.0,
           }
         },
         {
@@ -512,7 +512,7 @@
           "dict": {
             "civilization": "spanish",
             "name": "Manila",
-            "population": 1.0,
+            "population": 500.0,
           }
         }
     ],
@@ -6385,11 +6385,20 @@
           "y": 0
         },
         "sight": 2,
-        "state": {
-          "state": "idle",
-          "transitioning": "began"
+        "strength": 10,
+        "suppression": 0,
+        "unitType": "caravel"
+      },
+      {
+        "civilization": "french",
+        "entrenchment": 0,
+        "experience": 0,
+        "position": {
+          "x": 3,
+          "y": 0
         },
-        "strength": 3,
+        "sight": 2,
+        "strength": 10,
         "suppression": 0,
         "unitType": "caravel"
       }
@@ -6398,7 +6407,6 @@
   "number": 1,
   "player": [
     {
-      "civilization": "english",
       "isUser": true,
       "leader": {
         "name": "John",
@@ -6429,11 +6437,28 @@
       }
     },
     {
-      "civilization": "greek",
       "isUser": false,
       "leader": {
         "name": "Alexander",
         "civilization": "greek"
+      },
+      "zoneOfControl": {
+        "boundingBox": {
+          "maxX": 20,
+          "maxY": 13,
+          "minX": 20,
+          "minY": 13
+        },
+        "points": [
+        ],
+        "value": 0
+      }
+    },
+    {
+      "isUser": false,
+      "leader": {
+        "name": "Jaques",
+        "civilization": "french"
       },
       "zoneOfControl": {
         "boundingBox": {

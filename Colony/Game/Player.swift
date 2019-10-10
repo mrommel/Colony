@@ -147,6 +147,20 @@ class PlayerData {
     var isAlly: Bool = false
 }
 
+struct SpawnData {
+
+    var location: HexPoint
+    // encouragement
+}
+
+struct TechData {
+    
+    func foodProduction(on tile: Tile?) -> Int {
+        
+        return 1500 // FIXME
+    }
+}
+
 /**
  
  */
@@ -155,11 +169,14 @@ class Player: Codable {
     // MARK: properties
 
     let leader: Leader
-    var zoneOfControl: HexArea? = nil
     let isUser: Bool
+    
+    var spawn: SpawnData? = nil
+    var techs: TechData? = nil
 
     // MARK: AI
 
+    private var strategicAI: StrategicAI?
     private var _relations: [Leader: PlayerData] = [:]
     private var _aiInitialized: Bool = false
     private weak var game: Game? = nil
@@ -179,6 +196,8 @@ class Player: Codable {
 
         self.leader = leader
         self.isUser = isUser
+        
+        self.strategicAI = StrategicAI(player: self)
     }
 
     required init(from decoder: Decoder) throws {
@@ -186,11 +205,13 @@ class Player: Codable {
 
         self.leader = try values.decode(Leader.self, forKey: .leader)
         self.isUser = try values.decode(Bool.self, forKey: .isUser)
+        
+        self.strategicAI = StrategicAI(player: self)
     }
 
     // MARK: AI methods
 
-    func updateAI(in game: Game?) {
+    func update(in game: Game?) {
 
         self.game = game
 
@@ -199,6 +220,8 @@ class Player: Codable {
         if self.isUser {
             return
         }
+        
+        self.strategicAI?.update(for: game)
 
         guard let game = self.game else {
             fatalError("Can't get game")
@@ -235,15 +258,6 @@ class Player: Codable {
         return allies
     }
 
-    func addZoneOfControl(at point: HexPoint) {
-
-        if self.zoneOfControl == nil {
-            self.zoneOfControl = HexArea(points: [point])
-        } else {
-            self.zoneOfControl?.add(point: point)
-        }
-    }
-
     // MARK: logging
 
     func log(_ text: String) {
@@ -255,7 +269,7 @@ extension Player: Equatable {
 
     static func == (lhs: Player, rhs: Player) -> Bool {
 
-        return lhs.leader == rhs.leader
+        return lhs.leader == rhs.leader && lhs.isUser == rhs.isUser
     }
 }
 
@@ -264,5 +278,6 @@ extension Player: Hashable {
     func hash(into hasher: inout Hasher) {
 
         hasher.combine(self.leader)
+        hasher.combine(self.isUser)
     }
 }

@@ -29,7 +29,7 @@ class Shark: Animal {
         return gameObject
     }
     
-    override func handleBeganState(in game: Game?) {
+    /*override func handleBeganState(in game: Game?) {
         
         assert(self.state.transitioning == .began, "method can only handle .begin")
         
@@ -127,5 +127,5 @@ class Shark: Animal {
                 self.state.transitioning = .ended
             })
         }
-    }
+    }*/
 }

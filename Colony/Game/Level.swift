@@ -286,9 +286,9 @@ class Level: Decodable  {
         return self.players.first(where: { $0.isUser })!
     }
     
-    func playerFor(civilization: Civilization) -> Player {
+    func playerFor(civilization: Civilization) -> Player? {
         
-        return self.players.first(where: { $0.leader.civilization == civilization })!
+        return self.players.first(where: { $0.leader.civilization == civilization })
     }
     
     func score(for coins: Int) -> LevelScore {
@@ -302,24 +302,6 @@ class Level: Decodable  {
         }
         
         return .bronze
-    }
-    
-    func found(city: City) {
-
-        let cityObj = city.createGameObject()
-        //self.gameObjectManager.add(object: cityObj)
-        cityObj?.showIdle()
-        
-        self.map.set(city: city)
-        
-        let player = self.playerFor(civilization: city.civilization)
-        
-        player.addZoneOfControl(at: city.position)
-        
-        for neighbor in city.position.neighbors() {
-
-            player.addZoneOfControl(at: neighbor)
-        }
     }
 }
 

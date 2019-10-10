@@ -29,7 +29,7 @@ class SeaMonster: Animal {
     
     // MARK: AI handling
     
-    override func handleBeganState(in game: Game?) {
+    /*override func handleBeganState(in game: Game?) {
         assert(self.state.transitioning == .began, "method can only handle .begin")
         
         switch self.state.state {
@@ -201,5 +201,5 @@ class SeaMonster: Animal {
             fatalError("not implemented")
             //self.gameObject?.delegate?.ambushed(self, by: attacker)
         }
-    }
+    }*/
 }
