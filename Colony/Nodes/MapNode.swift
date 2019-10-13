@@ -60,14 +60,15 @@ class MapNode: SKNode {
         self.addChild(self.riverLayer)
         self.addChild(self.areaLayer)
 
-        for unit in self.gameObjectManager?.objects ?? [] {
-            if let unit = unit {
-                unit.addTo(node: self)
+        for objectRef in self.gameObjectManager?.objects ?? [] {
+            if let object = objectRef {
+                object.addTo(node: self)
                 //unit.idle()
             }
         }
 
         level.gameObjectManager.gameObjectUnitDelegates.addDelegate(self)
+        level.gameObjectManager.node = self
     }
     
     required init?(coder aDecoder: NSCoder) {

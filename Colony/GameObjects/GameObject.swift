@@ -386,6 +386,14 @@ class GameObject {
             self.pathSpriteBuffer.append(pathSprite)
         }
     }
+    
+    func showTexture(named spriteName: String) {
+        
+        self.spriteName = spriteName
+        let newTexture = SKTexture(imageNamed: self.spriteName)
+        
+        self.sprite.texture = newTexture
+    }
 
     func showIdle() {
 

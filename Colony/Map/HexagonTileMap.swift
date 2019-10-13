@@ -601,9 +601,18 @@ class HexagonTileMap: HexagonMap<Tile> {
                 tile.city = city
             }
         }
-
-        // FIXME update zone of control
     }
+    
+    func remove(city cityRef: City?) {
+        
+        if let city = cityRef {
+            self.items.remove(object: city)
+                
+                if let tile = self.tile(at: city.position) {
+                    tile.city = nil
+                }
+            }
+        }
     
     func city(at point: HexPoint) -> City? {
         
@@ -654,13 +663,13 @@ class HexagonTileMap: HexagonMap<Tile> {
 
     // MARK: zone of control methods
     
-    func setZoneOfControl(for civilization: Civilization, at hex: HexPoint) {
+    /*func setZoneOfControl(for civilization: Civilization, at hex: HexPoint) {
     
         let tile = self.tile(at: hex)
         //let oldOwner = tile?.owned
         tile?.owned = civilization
         
         // FIXME inform delegates
-    }
+    }*/
 }
 

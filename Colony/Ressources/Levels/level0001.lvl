@@ -6411,29 +6411,6 @@
       "leader": {
         "name": "John",
         "civilization": "english"
-      },
-      "zoneOfControl": {
-        "boundingBox": {
-          "maxX": 20,
-          "maxY": 13,
-          "minX": 20,
-          "minY": 13
-        },
-        "points": [
-          {
-            "x": 20,
-            "y": 13
-          },
-          {
-            "x": 21,
-            "y": 13
-          },
-          {
-            "x": 20,
-            "y": 14
-          }
-        ],
-        "value": 0
       }
     },
     {
@@ -6441,17 +6418,6 @@
       "leader": {
         "name": "Alexander",
         "civilization": "greek"
-      },
-      "zoneOfControl": {
-        "boundingBox": {
-          "maxX": 20,
-          "maxY": 13,
-          "minX": 20,
-          "minY": 13
-        },
-        "points": [
-        ],
-        "value": 0
       }
     },
     {
@@ -6459,19 +6425,15 @@
       "leader": {
         "name": "Jaques",
         "civilization": "french"
-      },
-      "zoneOfControl": {
-        "boundingBox": {
-          "maxX": 20,
-          "maxY": 13,
-          "minX": 20,
-          "minY": 13
-        },
-        "points": [
-        ],
-        "value": 0
       }
     },
+    {
+      "isUser": false,
+      "leader": {
+        "name": "Juan",
+        "civilization": "spanish"
+      }
+    }
   ],
   "scoreThresold": {
     "gold": 5,

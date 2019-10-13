@@ -479,12 +479,26 @@ extension Game {
 
     func getCity(at point: HexPoint) -> City? {
 
-        guard let level = self.level else {
-            fatalError("can't find level")
-        }
-
-        return level.map.city(at: point)
+        return self.level?.map.city(at: point)
     }
+    
+    func found(city: City) {
+        
+        self.level?.map.set(city: city)
+        self.level?.gameObjectManager.setupCities()
+        
+        if let node = self.level?.gameObjectManager.node {
+            city.gameObject?.addTo(node: node)
+        }
+    }
+    
+    func abandon(city: City) {
+
+        self.level?.gameObjectManager.remove(city: city)
+        self.level?.map.remove(city: city)
+    }
+    
+    // MARK: path finding data sources
 
     func pathfinderDataSource(for movementType: MovementType, ignoreSight: Bool) -> PathfinderDataSource {
 
@@ -589,11 +603,6 @@ extension Game {
         }
 
         return navalUnits
-    }
-
-    func city(at point: HexPoint) -> City? {
-
-        return self.level?.map.city(at: point)
     }
 }
 

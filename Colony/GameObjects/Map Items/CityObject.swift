@@ -15,9 +15,9 @@ class CityObject: GameObject {
         let identifier = UUID()
         let identifierString = "city-\(identifier.uuidString)"
         
-        super.init(with: identifierString, city: city, spriteName: "hex_city", anchorPoint: CGPoint(x: -0.0, y: -0.0))
+        super.init(with: identifierString, city: city, spriteName: "hex_city_1", anchorPoint: CGPoint(x: -0.0, y: -0.0))
 
-        self.atlasIdle = GameObjectAtlas(atlasName: "city", textures: ["hex_city"])
+        self.atlasIdle = GameObjectAtlas(atlasName: "city", textures: ["hex_city_1"])
         
         self.atlasDown = nil
         self.atlasUp = nil

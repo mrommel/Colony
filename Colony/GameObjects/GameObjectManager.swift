@@ -48,6 +48,7 @@ class GameObjectManager {
 
     var gameObjectUnitDelegates = MulticastDelegate<GameObjectUnitDelegate>()
     var gameObservationDelegate: GameObservationDelegate?
+    var node: SKNode? = nil
 
     // MARK: constructors
 
@@ -99,6 +100,10 @@ class GameObjectManager {
         
         for city in cities {
 
+            if city.gameObject != nil {
+                continue
+            }
+            
             let gameObject = city.createGameObject()
             gameObject?.delegate = self
             self.objects.append(gameObject)
@@ -110,6 +115,14 @@ class GameObjectManager {
         }
     }
 
+    func remove(city: City?) {
+
+        if let objectIndex = self.objects.firstIndex(where: { $0 == city?.gameObject }) {
+            self.objects.remove(at: objectIndex)
+            city?.gameObject?.removeFromParent()
+        }
+    }
+    
     func remove(unit: Unit?) {
         fatalError("FIXME")
         /*if let objectIndex = self.objects.firstIndex(where: { $0?.identifier == object?.identifier }) {

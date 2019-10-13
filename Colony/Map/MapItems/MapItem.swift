@@ -71,3 +71,10 @@ class MapItem: Codable {
     }
 }
 
+extension MapItem: Equatable {
+    
+    static func == (lhs: MapItem, rhs: MapItem) -> Bool {
+        
+        return lhs.position == rhs.position && lhs.type == rhs.type
+    }
+}

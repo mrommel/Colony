@@ -11,38 +11,38 @@ import Foundation
 // http://stackoverflow.com/questions/27259332/get-random-elements-from-array-in-swift
 extension Array {
 
-	/// Returns an array containing this sequence shuffled
-	public var shuffled: Array {
-		var elements = self
-		return elements.shuffle()
-	}
+    /// Returns an array containing this sequence shuffled
+    public var shuffled: Array {
+        var elements = self
+        return elements.shuffle()
+    }
 
-	/// Shuffles this sequence in place
-	@discardableResult
-	public mutating func shuffle() -> Array {
-		indices.dropLast().forEach {
-			guard case let index = Int(arc4random_uniform(UInt32(count - $0))) + $0, index != $0 else { return }
-			self.swapAt($0, index)
-		}
-		return self
-	}
+    /// Shuffles this sequence in place
+    @discardableResult
+    public mutating func shuffle() -> Array {
+        indices.dropLast().forEach {
+            guard case let index = Int(arc4random_uniform(UInt32(count - $0))) + $0, index != $0 else { return }
+            self.swapAt($0, index)
+        }
+        return self
+    }
 
-	public var chooseOne: Element { return self[Int(arc4random_uniform(UInt32(count)))] }
+    public var chooseOne: Element { return self[Int(arc4random_uniform(UInt32(count)))] }
 
-	public func choose(_ number: Int) -> Array { return Array(shuffled.prefix(number)) }
+    public func choose(_ number: Int) -> Array { return Array(shuffled.prefix(number)) }
 }
 
 extension Array {
 
-	public func randomItem() -> Element {
-		let index = Int.random(minimum: 0, maximum: self.count - 1)
-		return self[index]
-	}
+    public func randomItem() -> Element {
+        let index = Int.random(minimum: 0, maximum: self.count - 1)
+        return self[index]
+    }
 }
 
 extension Array {
-    
-    func unique<T:Hashable>(map: ((Element) -> (T)))  -> [Element] {
+
+    func unique<T:Hashable>(map: ((Element) -> (T))) -> [Element] {
         var set = Set<T>() //the unique list kept in a Set for fast retrieval
         var arrayOrdered = [Element]() //keeping the unique list of elements but ordered
         for value in self {
@@ -51,12 +51,13 @@ extension Array {
                 arrayOrdered.append(value)
             }
         }
-        
+
         return arrayOrdered
     }
 }
 
-extension Array{
+extension Array {
+
     mutating func prepend(_ newItem: Element) {
         let copy = self
         self = []
@@ -67,7 +68,19 @@ extension Array{
 
 // https://www.hackingwithswift.com/example-code/language/how-to-count-matching-items-in-an-array
 extension Collection {
+
     func count(where condition: (Element) throws -> Bool) rethrows -> Int {
         return try self.filter(condition).count
     }
 }
+
+extension Array where Element: Equatable {
+
+    // Remove first collection element that is equal to the given `object`:
+    mutating func remove(object: Element) {
+        guard let index = firstIndex(of: object) else { return }
+        remove(at: index)
+    }
+
+}
+

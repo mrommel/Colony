@@ -19,7 +19,7 @@ class Tile: Decodable {
     var featureSprites: [SKSpriteNode] = []
     
     var city: City? = nil
-    var owned: Civilization? = nil // zone of control
+    //var owned: Civilization? = nil // zone of control
     
     var continent: Continent?
     var ocean: Ocean?
@@ -46,7 +46,7 @@ class Tile: Decodable {
         case riverFlowSouthEast
         case road
         
-        case owned
+        //case owned
     }
     
     init(at point: HexPoint, with terrain: Terrain) {
@@ -68,7 +68,7 @@ class Tile: Decodable {
         self.riverFlowSouthEast = try values.decode(FlowDirection.self, forKey: .riverFlowSouthEast)
         self.road = try values.decode(Bool.self, forKey: .road)
         
-        self.owned = try values.decodeIfPresent(Civilization.self, forKey: .owned) ?? nil
+        //self.owned = try values.decodeIfPresent(Civilization.self, forKey: .owned) ?? nil
     }
     
     func set(feature: Feature) {
@@ -120,7 +120,7 @@ extension Tile: Encodable {
         try container.encode(self.riverFlowSouthEast, forKey: .riverFlowSouthEast)
         try container.encode(self.road, forKey: .road)
         
-        try container.encodeIfPresent(self.owned, forKey: .owned)
+        //try container.encodeIfPresent(self.owned, forKey: .owned)
     }
 }
 
