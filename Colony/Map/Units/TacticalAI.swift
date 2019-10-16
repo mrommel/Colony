@@ -12,9 +12,11 @@ protocol TacticalAIProtocol {
 
     func update(for game: Game?)
 
-    func orderMove(to position: HexPoint)
-    func orderStay()
-
+    // mission methods
+    func missionFinished(with result: MissionResult)
+    func order(mission: Mission?)
+    
+    func isWaitingForOrders() -> Bool
     func isAttacked() -> Bool
     func isEnemySpotted() -> Bool
 }
@@ -59,9 +61,12 @@ class TacticalAI {
     // general properties
     private var disturbTime: TimeInterval = 0.0
 
+    // ai
+    //private var mission: Mission? = nil
+    
     // movement properties
     private var post: HexPoint? = nil // target for the unit to go to
-    private var path: HexPath? = nil // path towards the post
+    //private var path: HexPath? = nil // path towards the post
 
     // battle properties
     private var aggressionPlace: HexPoint? = nil // location the latest attack came from
@@ -92,6 +97,7 @@ class TacticalAI {
         if self.isAttacked() {
             self.stateMachine?.push(state: .returnToPost)
             //self.stateMachine?.push(state: .ATTACK_BACK)
+            return
         }
 
         // return to post, if disturbed
@@ -123,10 +129,9 @@ class TacticalAI {
         pathFinder.dataSource = self.game?.pathfinderDataSource(for: self.unit, ignoreSight: true)
 
         if let path = pathFinder.shortestPath(fromTileCoord: unitPosition, toTileCoord: target) {
-
-            self.path = path
             self.stateMachine?.popState()
-            self.stateMachine?.push(state: .followPath)
+            self.order(mission: ScoutingMission(unit: self.unit, path: path))
+            self.stateMachine?.push(state: .followMission)
         } else {
             // fallback
             self.stateMachine?.popState()
@@ -134,13 +139,18 @@ class TacticalAI {
         }
     }
 
-    func doFollowPath() {
+    func doFollow(mission: Mission?) {
 
-        if let path = self.path {
-            self.unit?.gameObject?.showWalk(on: path, completion: {
-                self.stateMachine?.popState()
-            })
+        if mission == nil {
+            fatalError("can't follow mission - no mission")
         }
+
+        if self.game == nil {
+            // we need to skip
+            return
+        }
+        
+        mission?.follow(in: self.game)
     }
 
     func doReturnToPost() {
@@ -166,7 +176,7 @@ class TacticalAI {
         var res: [Unit?] = []
 
         for ae in self.aggressions {
-            if !(ae.unit?.destroyed() ?? true) {
+            if !(ae.unit?.isDestroyed() ?? true) {
                 res.append(ae.unit)
             }
         }
@@ -186,7 +196,7 @@ class TacticalAI {
             }
 
             // skip destroyed units
-            if rearUnit.destroyed() {
+            if rearUnit.isDestroyed() {
                 continue
             }
 
@@ -210,7 +220,7 @@ class TacticalAI {
         var forgottenAttackers: [AttackEvent] = []
         for ae in self.aggressions {
             if let unit = ae.unit {
-                if unit.destroyed() || ae.time + TacticalAI.kTAUNT_DURATION < Date().timeIntervalSince1970 {
+                if unit.isDestroyed() || ae.time + TacticalAI.kTAUNT_DURATION < Date().timeIntervalSince1970 {
                     forgottenAttackers.append(ae)
                 }
             }
@@ -267,20 +277,24 @@ extension TacticalAI: TacticalAIProtocol {
 
     // MARK: orders
 
-    func orderMove(to position: HexPoint) {
-
+    func order(mission: Mission?) {
+        
         // remove all orders
         self.stateMachine?.popAll()
 
-        self.stateMachine?.push(state: .findPath, arg: position)
+        self.stateMachine?.push(state: .followMission, arg: mission)
     }
-
-    func orderStay() {
-
-        // remove all orders
-        self.stateMachine?.popAll()
-
-        self.stateMachine?.push(state: .wait, arg: 200) // seconds
+    
+    // MARK: mission methods
+    
+    func missionFinished(with result: MissionResult) {
+        
+        self.stateMachine?.popState()
+        
+        if self.stateMachine?.isEmpty ?? false {
+            
+            self.stateMachine?.push(state: .waitingForOrders)
+        }
     }
 
     // MARK: properties
@@ -293,5 +307,14 @@ extension TacticalAI: TacticalAIProtocol {
     func isEnemySpotted() -> Bool {
 
         return false // FIXME
+    }
+    
+    func isWaitingForOrders() -> Bool {
+        
+        guard let (state, _) = self.stateMachine?.peek() else {
+            fatalError("no state")
+        }
+        
+        return state == .waitingForOrders
     }
 }

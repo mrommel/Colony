@@ -651,6 +651,11 @@ class HexagonTileMap: HexagonMap<Tile> {
         return self.units.filter { $0.civilization == civilization }
     }
     
+    func unitsWithout(civilization: Civilization) -> [Unit?] {
+
+        return self.units.filter { $0.civilization != civilization }
+    }
+    
     func unitsExcept(civilization: Civilization) -> [Unit?] {
         
         return self.units.filter { $0.civilization != civilization } // also nil

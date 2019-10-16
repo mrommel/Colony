@@ -21,13 +21,11 @@ public class PausableTimer {
     private var elasedTimer: Timer?
 
     private let duration: TimeInterval
-    private var currentDuration: TimeInterval
     private var elapsedDuration: TimeInterval
 
     // MARK: - constructor
     init(with duration: TimeInterval) {
         self.duration = duration
-        self.currentDuration = duration
         self.elapsedDuration = 0
     }
 
@@ -41,8 +39,9 @@ public class PausableTimer {
     public func pause() {
         if !isRunning() { return }
 
-        self.currentDuration = self.remainingDuration()
+        // invalidate old timer
         self.timer?.invalidate()
+        self.elasedTimer?.invalidate()
 
         self.didPause?()
     }
@@ -70,12 +69,8 @@ public class PausableTimer {
     }
 
     public func remainingDuration() -> TimeInterval {
-        
-        guard let timer = timer, timer.isValid else {
-            return 0
-        }
 
-        let remainingDuration: TimeInterval = self.currentDuration - self.elapsedDuration
+        let remainingDuration: TimeInterval = self.duration - self.elapsedDuration
 
         return remainingDuration < 0 ? 0 : remainingDuration
     }
@@ -89,7 +84,8 @@ public class PausableTimer {
 
     // MARK: - private
     private func registerTimer() {
-        self.timer = Timer(timeInterval: self.currentDuration,
+        
+        self.timer = Timer(timeInterval: self.remainingDuration(),
             target: self,
             selector: #selector(didFinishTimerDuration),
             userInfo: nil,
@@ -97,9 +93,6 @@ public class PausableTimer {
         RunLoop.current.add(self.timer!, forMode: .default)
         
         self.elasedTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(fireUpdateTimer), userInfo: nil, repeats: true)
-        /*self.elasedTimer = Timer(timeInterval: 1, repeats: true, block: { timer in
-            self.elapsedDuration += 1
-        })*/
     }
     
     @objc private func fireUpdateTimer() {
@@ -108,8 +101,8 @@ public class PausableTimer {
     }
 
     private func reset() {
-        //self.currentDuration = duration
         self.timer?.invalidate()
         self.elasedTimer?.invalidate()
+        self.elapsedDuration = 0
     }
 }

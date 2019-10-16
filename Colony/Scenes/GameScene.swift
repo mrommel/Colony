@@ -141,11 +141,11 @@ class GameScene: BaseScene {
                 fatalError("no level meta")
             }
 
-            guard let level = LevelManager.loadLevelFrom(url: levelMeta.resourceUrl()) else {
+            guard let level = LevelManager.loadLevel(from: levelMeta) else {
                 fatalError("no level")
             }
 
-            self.game = Game(with: level, coins: user.coins, boosterStock: user.boosterStock)
+            self.game = Game(with: level, meta: levelMeta, coins: user.coins, boosterStock: user.boosterStock)
 
             self.mapNode = MapNode(with: level)
             self.bottomLeftBar = BottomLeftBar(for: level, sized: CGSize(width: 200, height: 112))
@@ -177,10 +177,10 @@ class GameScene: BaseScene {
 
             //let gameObjectManager = GameObjectManager(on: map)
 
-            let levelMeta = LevelMeta(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, position: CGPoint(x: 0.0, y: 0.0), resource: "")
+            let levelMeta = LevelMeta(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, position: CGPoint(x: 0.0, y: 0.0), resource: "", rating: "", aiscript: "")
             let level = Level(duration: 300, map: map, startPositions: startPositions)
 
-            self.game = Game(with: level, coins: user.coins, boosterStock: user.boosterStock)
+            self.game = Game(with: level, meta: levelMeta, coins: user.coins, boosterStock: user.boosterStock)
 
             self.mapNode = MapNode(with: level)
             self.bottomLeftBar = BottomLeftBar(for: level, sized: CGSize(width: 200, height: 112))

@@ -16,6 +16,11 @@ class LogViewerViewModel {
         
         self.logContent = logContent
     }
+    
+    func doReset() {
+        
+        Log.ai.reset()
+    }
 }
 
 class LogViewerViewController: UIViewController {
@@ -27,6 +32,7 @@ class LogViewerViewController: UIViewController {
     override func viewDidLoad() {
         
         self.navigationItem.title = "AI Log"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetTapped))
         
         guard let viewModel = self.viewModel else {
             return
@@ -41,5 +47,11 @@ class LogViewerViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    @objc func resetTapped(sender: UIBarButtonItem) {
+
+        self.viewModel?.doReset()
+        self.viewModel = LogViewerViewModel(logContent: "")
     }
 }

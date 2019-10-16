@@ -34,6 +34,8 @@
 		C90336B222F21C72004D2D72 /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336B122F21C72004D2D72 /* BaseScene.swift */; };
 		C90336B422F30E7A004D2D72 /* NotificationNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336B322F30E7A004D2D72 /* NotificationNode.swift */; };
 		C90336B622F42842004D2D72 /* CoinsLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336B522F42841004D2D72 /* CoinsLabelNode.swift */; };
+		C90817D823549197004A4634 /* AIScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90817D723549197004A4634 /* AIScript.swift */; };
+		C90817DA2354969A004A4634 /* Mission.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90817D92354969A004A4634 /* Mission.swift */; };
 		C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */; };
 		C90A134F22A99F130003BBDE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C90A134E22A99F130003BBDE /* README.md */; };
 		C90AB6EF2305986100CC5C59 /* BattleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90AB6EE2305986100CC5C59 /* BattleTests.swift */; };
@@ -56,6 +58,7 @@
 		C91993C3234CC72200703353 /* AnimalStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91993C2234CC72200703353 /* AnimalStateMachine.swift */; };
 		C91993C5234E166300703353 /* StrategicAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91993C4234E166300703353 /* StrategicAI.swift */; };
 		C91993C7234E1EA100703353 /* StrategicStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91993C6234E1EA100703353 /* StrategicStateMachine.swift */; };
+		C91993C9235357B000703353 /* GameRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91993C8235357B000703353 /* GameRating.swift */; };
 		C91A4F3322A260DD000BF647 /* QuestsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* QuestsScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
 		C91AC6E32302D07C00104BD3 /* AIUnitState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91AC6E22302D07C00104BD3 /* AIUnitState.swift */; };
@@ -111,7 +114,7 @@
 		C956079422B1426500AA69E9 /* LevelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079322B1426500AA69E9 /* LevelManager.swift */; };
 		C956079622B23FD800AA69E9 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079522B23FD800AA69E9 /* Level.swift */; };
 		C956079822B2426400AA69E9 /* GameConditionCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */; };
-		C956079A22B2435100AA69E9 /* MonsterCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079922B2435100AA69E9 /* MonsterCheck.swift */; };
+		C956079A22B2435100AA69E9 /* GameConditionCheckLevel0001.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956079922B2435100AA69E9 /* GameConditionCheckLevel0001.swift */; };
 		C9564D6422D7C9DC0091099B /* Axeman.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9564D6322D7C9DC0091099B /* Axeman.swift */; };
 		C959F01E232B75A00001AD2E /* UnitStrengthIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C959F01D232B75A00001AD2E /* UnitStrengthIndicator.swift */; };
 		C962940122FB4ED800CC7F27 /* MapTypeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962940022FB4ED800CC7F27 /* MapTypeDialog.xml */; };
@@ -334,6 +337,8 @@
 		C90336B122F21C72004D2D72 /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
 		C90336B322F30E7A004D2D72 /* NotificationNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNode.swift; sourceTree = "<group>"; };
 		C90336B522F42841004D2D72 /* CoinsLabelNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsLabelNode.swift; sourceTree = "<group>"; };
+		C90817D723549197004A4634 /* AIScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIScript.swift; sourceTree = "<group>"; };
+		C90817D92354969A004A4634 /* Mission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mission.swift; sourceTree = "<group>"; };
 		C90A134C22A6FEE50003BBDE /* StartPositionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StartPositionFinder.swift; path = ../StartPositionFinder.swift; sourceTree = "<group>"; };
 		C90A134E22A99F130003BBDE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C90AB6EE2305986100CC5C59 /* BattleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleTests.swift; sourceTree = "<group>"; };
@@ -352,6 +357,7 @@
 		C91993C2234CC72200703353 /* AnimalStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalStateMachine.swift; sourceTree = "<group>"; };
 		C91993C4234E166300703353 /* StrategicAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrategicAI.swift; sourceTree = "<group>"; };
 		C91993C6234E1EA100703353 /* StrategicStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrategicStateMachine.swift; sourceTree = "<group>"; };
+		C91993C8235357B000703353 /* GameRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRating.swift; sourceTree = "<group>"; };
 		C91A4F3222A260DD000BF647 /* QuestsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestsScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
 		C91AC6E22302D07C00104BD3 /* AIUnitState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIUnitState.swift; sourceTree = "<group>"; };
@@ -407,7 +413,7 @@
 		C956079322B1426500AA69E9 /* LevelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelManager.swift; sourceTree = "<group>"; };
 		C956079522B23FD800AA69E9 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConditionCheckManager.swift; sourceTree = "<group>"; };
-		C956079922B2435100AA69E9 /* MonsterCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterCheck.swift; sourceTree = "<group>"; };
+		C956079922B2435100AA69E9 /* GameConditionCheckLevel0001.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConditionCheckLevel0001.swift; sourceTree = "<group>"; };
 		C9564D6322D7C9DC0091099B /* Axeman.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axeman.swift; sourceTree = "<group>"; };
 		C959F01D232B75A00001AD2E /* UnitStrengthIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitStrengthIndicator.swift; sourceTree = "<group>"; };
 		C962940022FB4ED800CC7F27 /* MapTypeDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MapTypeDialog.xml; sourceTree = "<group>"; };
@@ -588,7 +594,7 @@
 				C956079722B2426400AA69E9 /* GameConditionCheckManager.swift */,
 				C9001CA322D70BCF005528A7 /* GameConditionCheck.swift */,
 				C92D876222CB871100E7A55E /* GameConditionType.swift */,
-				C956079922B2435100AA69E9 /* MonsterCheck.swift */,
+				C956079922B2435100AA69E9 /* GameConditionCheckLevel0001.swift */,
 				C9E9BBFB22B584400048F97B /* DiscoverCheck.swift */,
 				C9E9BBFD22B58CF60048F97B /* TimerElapsedCheck.swift */,
 			);
@@ -788,6 +794,7 @@
 				C91993B9234CA0C500703353 /* LevelMeta.swift */,
 				C956079322B1426500AA69E9 /* LevelManager.swift */,
 				C92D876022CB7A0600E7A55E /* Game.swift */,
+				C91993C8235357B000703353 /* GameRating.swift */,
 				C9CCF42322E75F700041AD45 /* Civilization.swift */,
 				C9CCF42522E75F940041AD45 /* Player.swift */,
 				C93A408F2306CBD00011E9DA /* Battle.swift */,
@@ -795,6 +802,7 @@
 				C91993BE234CA86600703353 /* Scripts.swift */,
 				C91993C4234E166300703353 /* StrategicAI.swift */,
 				C91993C6234E1EA100703353 /* StrategicStateMachine.swift */,
+				C90817D723549197004A4634 /* AIScript.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -925,6 +933,7 @@
 				C9EB0C752349D825006632A0 /* FiniteStateMachine.swift */,
 				C9EB0C792349E287006632A0 /* Stack.swift */,
 				C9EB0C81234B313D006632A0 /* AttackEvent.swift */,
+				C90817D92354969A004A4634 /* Mission.swift */,
 			);
 			path = Units;
 			sourceTree = "<group>";
@@ -1377,6 +1386,7 @@
 				C9C7F13A229F203200A775B2 /* TerrainLayer.swift in Sources */,
 				C9C7F0CF229B193400A775B2 /* GameScene.swift in Sources */,
 				C9B24CFE233910BE0050B1C2 /* Archer.swift in Sources */,
+				C90817D823549197004A4634 /* AIScript.swift in Sources */,
 				C927EEC6231EE63200D775BD /* ShadowLabelNode.swift in Sources */,
 				C9763EAD22A2FEE300F31126 /* MessageBoxNode.swift in Sources */,
 				C9C0F112231D527E00CCBBB7 /* ClickableLabelNode.swift in Sources */,
@@ -1448,6 +1458,7 @@
 				C9C7F0F9229EBD1100A775B2 /* Tile.swift in Sources */,
 				C9F9C98D22E0AFD9000A3310 /* OceanFinder.swift in Sources */,
 				C9001CA422D70BCF005528A7 /* GameConditionCheck.swift in Sources */,
+				C90817DA2354969A004A4634 /* Mission.swift in Sources */,
 				C9C7F0F0229E993300A775B2 /* QuestsViewController.swift in Sources */,
 				C91993C1234CC6E000703353 /* AnimalAI.swift in Sources */,
 				C903369C22EE3BF0004D2D72 /* EncodingExtensions.swift in Sources */,
@@ -1523,12 +1534,13 @@
 				C956079422B1426500AA69E9 /* LevelManager.swift in Sources */,
 				C94A2F3C22C2B06200AB7117 /* UIImageExtension.swift in Sources */,
 				C9EB0C742349D05E006632A0 /* UnitGroup.swift in Sources */,
-				C956079A22B2435100AA69E9 /* MonsterCheck.swift in Sources */,
+				C956079A22B2435100AA69E9 /* GameConditionCheckLevel0001.swift in Sources */,
 				C9B1D61A22F8073F008BFE61 /* Civ5MapHeader.swift in Sources */,
 				C9AB425C22A062E3000E5397 /* SeaMonsterObject.swift in Sources */,
 				C9F9C98B22E075D8000A3310 /* TradeShipObject.swift in Sources */,
 				C9B24D0C23394EA10050B1C2 /* Hut.swift in Sources */,
 				C995F21C2338BF8E0091D021 /* AxemanObject.swift in Sources */,
+				C91993C9235357B000703353 /* GameRating.swift in Sources */,
 				C9C7F12F229EBF8700A775B2 /* Continent.swift in Sources */,
 				C92D876722CCA7C000E7A55E /* SizedNode.swift in Sources */,
 				C903369522EDBB2E004D2D72 /* BoosterNode.swift in Sources */,

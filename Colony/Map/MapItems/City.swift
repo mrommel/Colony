@@ -98,7 +98,7 @@ class City: MapItem {
 
     override func update(in game: Game?) {
 
-        print("update \(self.name) - \(self.population) - \(self.gameObject?.spriteName ?? "-")")
+        // print("update \(self.name) - \(self.population) - \(self.gameObject?.spriteName ?? "-")")
 
         // get some random local events
 

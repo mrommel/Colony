@@ -15,7 +15,7 @@ enum TacticalAIState {
     
     // movement states
     case findPath
-    case followPath
+    case followMission
     case returnToPost
     
     // battle states
@@ -56,8 +56,9 @@ class TacticalStateMachine: FiniteStateMachine<TacticalAIState> {
         case .findPath:
             let target = arg as! HexPoint
             self.ai?.doFindPath(towards: target)
-        case .followPath:
-            self.ai?.doFollowPath()
+        case .followMission:
+            let mission = arg as? Mission
+            self.ai?.doFollow(mission: mission)
         case .wait:
             let seconds = arg as! TimeInterval
             self.ai?.doWait(for: seconds)

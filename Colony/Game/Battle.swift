@@ -194,23 +194,23 @@ class Battle {
                 (attackerDamage, attackerSuppression) = Battle.getDamageForAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, real: real, ruggedDefense: ruggedDefence, in: self.game)
             }
             
-            attackerUnit.apply(damage: attackerDamage, suppression: attackerSuppression)
-            defenderUnit.apply(damage: defenderDamage, suppression: defenderSuppression)
+            attackerUnit.apply(damage: attackerDamage, suppression: attackerSuppression, real: real)
+            defenderUnit.apply(damage: defenderDamage, suppression: defenderSuppression, real: real)
             break
         case .attackerStrikesFirst:
             /* unit strikes first */
             (defenderDamage, defenderSuppression) = Battle.getDamageForAttack(from: self.attackerUnit, and: self.defenderUnit, attackType: self.mainAttackType, real: real, ruggedDefense: ruggedDefence, in: self.game)
-            defenderUnit.apply(damage: defenderDamage, suppression: defenderSuppression)
+            defenderUnit.apply(damage: defenderDamage, suppression: defenderSuppression, real: real)
             
             if Battle.checkAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, in: self.game) && self.mainAttackType != .defensive {
                 (attackerDamage, attackerSuppression) = Battle.getDamageForAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, real: real, ruggedDefense: ruggedDefence, in: self.game)
-                attackerUnit.apply(damage: attackerDamage, suppression: attackerSuppression)
+                attackerUnit.apply(damage: attackerDamage, suppression: attackerSuppression, real: real)
             }
         case .defenderStrikesFirst:
             /* target strikes first */
             if Battle.checkAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, in: self.game) {
                 (attackerDamage, attackerSuppression) = Battle.getDamageForAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, real: real, ruggedDefense: ruggedDefence, in: self.game)
-                attackerUnit.apply(damage: attackerDamage, suppression: attackerSuppression)
+                attackerUnit.apply(damage: attackerDamage, suppression: attackerSuppression, real: real)
                 
                 if attackerUnit.strength <= 0 {
                     options.insert(BattleOptions.attackBrokenUp)
@@ -219,7 +219,7 @@ class Battle {
             
             if attackerUnit.strength > 0 {
                 (defenderDamage, defenderSuppression) = Battle.getDamageForAttack(from: self.attackerUnit, and: self.defenderUnit, attackType: self.mainAttackType, real: real, ruggedDefense: ruggedDefence, in: self.game)
-                defenderUnit.apply(damage: defenderDamage, suppression: defenderSuppression)
+                defenderUnit.apply(damage: defenderDamage, suppression: defenderSuppression, real: real)
             }
         }
         
@@ -266,6 +266,10 @@ class Battle {
                 attackerUnit.experience += 10
                 defenderUnit.experience += 10
             }
+        } else {
+            // restore units
+            attackerUnit.apply(damage: -attackerDamage, suppression: -attackerSuppression, real: false)
+            defenderUnit.apply(damage: -defenderDamage, suppression: -defenderSuppression, real: false)
         }
         
         print("[GameObject]: attackerDamage=\(attackerDamage), defenderDamage=\(defenderDamage)")
@@ -621,6 +625,10 @@ class Battle {
             suppression = Int(suppressionChance * CGFloat(atk_strength))
             damage = Int(killChance * CGFloat(atk_strength))
         }
+        
+        // prevent negative values
+        damage = max(damage, 0)
+        suppression = max(suppression, 0)
         
         return (damage, suppression)
     }

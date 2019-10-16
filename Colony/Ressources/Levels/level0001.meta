@@ -12,5 +12,7 @@
     "silver": 4
   }, 
   "summary": "Find the harbor and avoid the Monster.", 
-  "title": "Level 1"
+  "title": "Level 1",
+  "rating": "GameRatingLevel0001",
+  "aiscript": "AIScriptLevel0001",
 }

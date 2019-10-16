@@ -34,7 +34,7 @@ class DiscoverCheck: GameConditionCheck {
 
     override func isWon() -> GameConditionType? {
 
-        if let numberOfDiscoveredTiles = self.game?.numberOfDiscoveredTiles() {
+        if let numberOfDiscoveredTiles = self.game?.numberOfDiscoveredTiles(for: .english) {
             if numberOfDiscoveredTiles > self.tilesToBeDiscovered {
                 return DiscoverAreaGameConditionType.discoveryGoalReached
             }

@@ -58,6 +58,9 @@ struct ScoreThresold: Codable {
 
 class Level: Decodable  {
     
+    // meta data
+    var meta: LevelMeta? = nil
+    
     let duration: Int // in seconds
     
     // data holder

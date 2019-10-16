@@ -10,18 +10,18 @@ import Foundation
 
 // based on https://github.com/daltoniam/SwiftLog/blob/master/Log.swift
 class Log {
-    
+
     ///The max size a log file can be in Kilobytes. Default is 1024 (1 MB)
     open var maxFileSize: UInt64 = 1024
-    
+
     ///The max number of log file that will be stored. Once this point is reached, the oldest file is deleted.
     open var maxFileCount = 4
-    
+
     ///The directory in which the log files will be written
     open var directory = Log.defaultDirectory() {
         didSet {
             directory = NSString(string: directory).expandingTildeInPath
-            
+
             let fileManager = FileManager.default
             if !fileManager.fileExists(atPath: directory) {
                 do {
@@ -39,10 +39,10 @@ class Log {
 
     ///The name of the log files
     open var name = "logfile"
-    
+
     ///Whether or not logging also prints to the console
     open var printToConsole = true
-    
+
     //the date formatter
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -50,7 +50,7 @@ class Log {
         formatter.dateStyle = .short
         return formatter
     }
-    
+
     ///write content to the current log file.
     open func write(_ text: String) {
         let path = currentPath
@@ -73,12 +73,12 @@ class Log {
             cleanup()
         }
     }
-    
+
     open func readAll() -> String {
-        
+
         let fileManager = FileManager.default
         var output: String = ""
-        
+
         for index in 0..<maxFileCount {
             let path = "\(directory)/\(logName(index))"
             if fileManager.fileExists(atPath: path) {
@@ -89,15 +89,15 @@ class Log {
                 }
             }
         }
-        
+
         return output
     }
-    
+
     ///do the checks and cleanup
     func cleanup() {
         let path = "\(directory)/\(logName(0))"
         let size = fileSize(path)
-        let maxSize: UInt64 = maxFileSize*1024
+        let maxSize: UInt64 = maxFileSize * 1024
         if size > 0 && size >= maxSize && maxSize > 0 && maxFileCount > 0 {
             rename(0)
             //delete the oldest file
@@ -110,6 +110,20 @@ class Log {
         }
     }
     
+    // delete all log files
+    func reset() {
+        
+        for i in 0..<self.maxFileCount {
+            
+            let deletePath = "\(directory)/\(logName(i))"
+            let fileManager = FileManager.default
+            do {
+                try fileManager.removeItem(atPath: deletePath)
+            } catch _ {
+            }
+        }
+    }
+
     ///check the size of a file
     func fileSize(_ path: String) -> UInt64 {
         let fileManager = FileManager.default
@@ -119,26 +133,26 @@ class Log {
         }
         return 0
     }
-    
+
     ///Recursive method call to rename log files
     func rename(_ index: Int) {
         let fileManager = FileManager.default
         let path = "\(directory)/\(logName(index))"
-        let newPath = "\(directory)/\(logName(index+1))"
+        let newPath = "\(directory)/\(logName(index + 1))"
         if fileManager.fileExists(atPath: newPath) {
-            rename(index+1)
+            rename(index + 1)
         }
         do {
             try fileManager.moveItem(atPath: path, toPath: newPath)
         } catch _ {
         }
     }
-    
+
     ///gets the log name
-    func logName(_ num :Int) -> String {
+    func logName(_ num: Int) -> String {
         return "\(name)-\(num).log"
     }
-    
+
     ///get the default log directory
     class func defaultDirectory() -> String {
         var path = ""
@@ -152,7 +166,7 @@ class Log {
                 path = "\(url.path)/Logs"
             }
         #endif
-        if !fileManager.fileExists(atPath: path) && path != ""  {
+        if !fileManager.fileExists(atPath: path) && path != "" {
             do {
                 try fileManager.createDirectory(atPath: path, withIntermediateDirectories: false, attributes: nil)
             } catch _ {
@@ -163,19 +177,19 @@ class Log {
 }
 
 extension Log {
-    
+
     /// default logging singleton
     open class var ´default´: Log {
-        
+
         struct Static {
             static let defaultInstance: Log = Log()
         }
         return Static.defaultInstance
     }
-    
+
     /// ai logging singleton
     open class var ai: Log {
-        
+
         struct Static {
             static let aiInstance: Log = Log()
         }

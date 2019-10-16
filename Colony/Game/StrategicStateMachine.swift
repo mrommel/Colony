@@ -8,10 +8,31 @@
 
 import Foundation
 
+/*
+ https://forums.civfanatics.com/threads/real-strategy-ai.640452/
+ 
+ - Ancient - spread, food
+ - Classical - more culture, science and food
+ - Medieval - more faith, food, prod, less science, more wars
+ - Renaissance - less faith and food, more culture and science, less wars, more naval for exploration
+ - Industrial - more production, more wars, less faith, less settlers
+ - Modern - more gold and culture, bigger armies, more wars, less settlers
+ - Atomic - more sci and prod, more air units, less settlers
+ - Information - shrink armies, less wars, more gold, less food, less settlers, more air units
+ */
+
 enum StrategicAIState {
 
     case waitingForOrders // initial state
     
+    // found colony
+    // fight natives
+    // take over other civilization
+    
+    // global
+    //case expansion
+    
+    //case send
     /*case found
     case explore
     case expand*/
@@ -39,6 +60,7 @@ class StrategicStateMachine: FiniteStateMachine<StrategicAIState> {
         switch (state) {
         case .waitingForOrders:
             self.ai?.doWaitOrders()
+            
         /*case .found:
             let target = arg as! HexPoint
             self.ai?.doFound(at: target)

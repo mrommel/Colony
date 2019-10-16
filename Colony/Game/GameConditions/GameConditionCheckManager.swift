@@ -19,7 +19,7 @@ class GameConditionCheckManager {
     }
     
     private init() {
-        let monsterCheck = MonsterCheck()
+        let monsterCheck = GameConditionCheckLevel0001()
         gameConditionChecks[monsterCheck.identifier] = monsterCheck
         
         let discoverCheck = DiscoverCheck()

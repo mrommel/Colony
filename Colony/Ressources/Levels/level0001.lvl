@@ -2,7 +2,7 @@
   "difficulty": "easy",
   "duration": 120,
   "gameConditionCheckIdentifiers": [
-    "MonsterCheck",
+    "Level0001Check",
     "TimerElapsedCheck"
   ],
   "map": {

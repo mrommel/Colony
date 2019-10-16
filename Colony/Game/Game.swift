@@ -38,6 +38,9 @@ class Game: Decodable {
     var conditionDelegate: GameConditionDelegate?
     var gameUpdateDelegate: GameUpdateDelegate?
 
+    var gameRating: GameRating?
+    var aiscript: AIScript?
+
     private var updateTimer: Timer? = nil
 
     enum CodingKeys: String, CodingKey {
@@ -48,9 +51,10 @@ class Game: Decodable {
     }
 
     // new game
-    init(with level: Level?, coins: Int, boosterStock: BoosterStock) {
+    init(with level: Level?, meta: LevelMeta?, coins: Int, boosterStock: BoosterStock) {
 
         self.level = level
+        self.level?.meta = meta
         self.coins = coins
         self.boosterStock = boosterStock
 
@@ -66,6 +70,9 @@ class Game: Decodable {
                 }
             }
         }
+
+        self.gameRating = meta?.getGameRating(for: self)
+        self.aiscript = meta?.getAIScript(for: self)
 
         self.level?.gameObjectManager.gameObservationDelegate = self
     }
@@ -128,12 +135,15 @@ class Game: Decodable {
         guard let level = self.level else {
             return
         }
+        
+        guard let levelMeta = self.level?.meta else {
+            return
+        }
 
         let score = self.coins
         let levelScore = level.score(for: score)
 
-        fatalError("need to save")
-        //self.gameUsecase?.set(score: Int32(score), levelScore: levelScore, for: Int32(level.number))
+        self.gameUsecase?.set(score: Int32(score), levelScore: levelScore, for: Int32(levelMeta.number))
     }
 }
 
@@ -239,12 +249,19 @@ extension Game {
             fatalError("can't get user civilization")
         }
 
+        self.aiscript?.update(for: self)
+
         for unit in level.map.units {
+
+            if unit.isDestroyed() {
+                continue
+            }
 
             if unit.civilization != userCivilization {
                 unit.update(in: self)
             }
         }
+        level.map.units = level.map.units.filter { !$0.isDestroyed() }
 
         for item in level.map.items {
             item.update(in: self)
@@ -253,6 +270,12 @@ extension Game {
         for animal in level.map.animals {
             animal.update(in: self)
         }
+
+        //let rating = self.gameRating?.value(for: .english)
+        //print("-- rating: \(rating)")
+
+        // check if game is lost or even won
+        self.checkCondition()
     }
 }
 
@@ -338,6 +361,8 @@ extension Game {
         return map.size
     }
 
+    // MARK: animal methods
+
     func add(animal animalRef: Animal?) {
 
         guard let map = self.level?.map else {
@@ -348,7 +373,7 @@ extension Game {
             map.animals.append(animal)
         }
     }
-    
+
     // MARK: player methods
 
     func player(for civilization: Civilization) -> Player? {
@@ -359,21 +384,21 @@ extension Game {
 
         return level.playerFor(civilization: civilization)
     }
-    
+
     func foodProduction(at position: HexPoint, for civilization: Civilization) -> Int {
-        
+
         guard let level = self.level else {
             fatalError("can't find level")
         }
-        
+
         guard let player = self.player(for: civilization) else {
             fatalError("can't get player")
         }
-        
+
         guard let tile = level.map.tile(at: position) else {
             fatalError("can't get tile")
         }
-        
+
         return player.techs?.foodProduction(on: tile) ?? 0
     }
 
@@ -405,6 +430,39 @@ extension Game {
         //return landTilesWithoutObstacles
     }
 
+    func getBestDisembarkTile(of point: HexPoint, for civilization: Civilization) -> Tile? {
+
+        guard let map = self.level?.map else {
+            fatalError("Can't get map")
+        }
+
+        let landTiles = point.neighbors().filter({ map.tile(at: $0)?.isGround ?? false })
+
+        if landTiles.isEmpty {
+            return nil
+        }
+
+        // check if tile is occupied
+        for landTile in landTiles {
+            // FIXME: check for civilization
+            if map.fogManager?.fog(at: landTile) == .discovered {
+                // FIXME
+            }
+        }
+
+        return nil
+    }
+
+    func isVisible(at position: HexPoint, for civilization: Civilization) -> Bool {
+
+        guard let level = self.level else {
+            fatalError("can't find level")
+        }
+
+        // FIXME: civilization not handled
+        return level.map.fogManager?.currentlyVisible(at: position) ?? false
+    }
+
     // MARK: unit methods
 
     func getUnits(at point: HexPoint) -> [Unit?] {
@@ -433,6 +491,15 @@ extension Game {
         }
 
         return self.level?.map.unitsOf(civilization: currentUserCivilization)
+    }
+
+    func getAllUnitsOfAI() -> [Unit?]? {
+
+        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
+            fatalError("Can't get current users civilization")
+        }
+
+        return self.level?.map.unitsWithout(civilization: currentUserCivilization)
     }
 
     func getUnitsBy(type: UnitType) -> [Unit?]? {
@@ -481,23 +548,23 @@ extension Game {
 
         return self.level?.map.city(at: point)
     }
-    
+
     func found(city: City) {
-        
+
         self.level?.map.set(city: city)
         self.level?.gameObjectManager.setupCities()
-        
+
         if let node = self.level?.gameObjectManager.node {
             city.gameObject?.addTo(node: node)
         }
     }
-    
+
     func abandon(city: City) {
 
         self.level?.gameObjectManager.remove(city: city)
         self.level?.map.remove(city: city)
     }
-    
+
     // MARK: path finding data sources
 
     func pathfinderDataSource(for movementType: MovementType, ignoreSight: Bool) -> PathfinderDataSource {
@@ -576,11 +643,6 @@ extension Game {
         return self.level?.map.features(at: point)
     }
 
-    func numberOfDiscoveredTiles() -> Int? {
-
-        return self.level?.map.fogManager?.numberOfDiscoveredTiles()
-    }
-
     func add(gameObjectUnitDelegate: GameObjectUnitDelegate) {
 
         self.level?.gameObjectManager.gameObjectUnitDelegates.addDelegate(gameObjectUnitDelegate)
@@ -603,6 +665,11 @@ extension Game {
         }
 
         return navalUnits
+    }
+
+    func numberOfDiscoveredTiles(for civilization: Civilization) -> Int? {
+
+        return self.level?.map.fogManager?.numberOfDiscoveredTiles()
     }
 }
 
@@ -652,6 +719,8 @@ extension Game: GameObservationDelegate {
     }
 }
 
+// MARK: external classes that can access the level
+
 extension LevelManager {
 
     static func storeLevelFrom(game: Game?, to fileName: String) {
@@ -680,3 +749,4 @@ extension GameSceneViewModel {
         return self.game?.level
     }
 }
+

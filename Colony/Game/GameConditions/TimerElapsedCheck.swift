@@ -49,15 +49,6 @@ class TimerElapsedCheck: GameConditionCheck {
             return TimerElapsedConditionType.timeWentOut
         }
         
-        /*guard let timeElapsedInSeconds = self.game?.timeRemainingInSeconds() else {
-            fatalError("can't get time elapsed")
-        }
-        
-        //print("timeElapsedInSeconds: \(timeElapsedInSeconds)")
-        if timeElapsedInSeconds == 0 {
-            return TimerElapsedConditionType.timeWentOut
-        }*/
-        
         return nil
     }
 }

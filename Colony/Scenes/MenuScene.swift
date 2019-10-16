@@ -72,7 +72,7 @@ class MenuScene: BaseScene {
         self.rootNode.addChild(self.tutorialButton!)
 
         // quests
-        self.questsButton = MenuButtonNode(imageNamed: "quests", title: "Quests",
+        self.questsButton = MenuButtonNode(imageNamed: "quests", title: "Missions",
             buttonAction: {
                 self.menuDelegate?.startQuests()
             })
