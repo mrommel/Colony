@@ -17,7 +17,7 @@ class HexagonTileMap: HexagonMap<Tile> {
     var fogManager: FogManager? = nil
     
     var units: [Unit] = []
-    var items: [MapItem] = []
+    var cities: [City] = []
     var animals: [Animal] = []
     
     // properties that are not stored
@@ -25,11 +25,12 @@ class HexagonTileMap: HexagonMap<Tile> {
     var oceans: [Ocean] = []
     
     enum CodingKeys: String, CodingKey {
+        
         case rivers
         case fogManager
         
         case units
-        case items
+        case cities
         case animals
     }
     
@@ -70,7 +71,7 @@ class HexagonTileMap: HexagonMap<Tile> {
         self.fogManager = try values.decode(FogManager.self, forKey: .fogManager)
         self.units = try values.decode([Unit].self, forKey: .units)
         self.replaceUnits()
-        self.items = try values.decode([MapItem].self, forKey: .items)
+        self.cities = try values.decode([City].self, forKey: .cities)
         self.replaceItems()
         
         // find continents and oceans
@@ -99,7 +100,7 @@ class HexagonTileMap: HexagonMap<Tile> {
         try container.encode(self.fogManager, forKey: .fogManager)
         try container.encode(self.animals, forKey: .animals)
         try container.encode(self.units, forKey: .units)
-        try container.encode(self.items, forKey: .items)
+        try container.encode(self.cities, forKey: .cities)
     }
     
     func replaceUnits() {
@@ -156,8 +157,8 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     func replaceItems() {
         
-        var customItems: [MapItem] = []
-        for item in self.items {
+        /*var customItems: [MapItem] = []
+        for city in self.cities {
             
             switch item.type {
             case .city:
@@ -182,8 +183,8 @@ class HexagonTileMap: HexagonMap<Tile> {
             }
         }
         
-        self.items = []
-        self.items.append(contentsOf: customItems)
+        self.cities = []
+        self.cities.append(contentsOf: customItems)*/
     }
     
     // MARK: caldera
@@ -589,13 +590,13 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     func getCities() -> [City] {
         
-        return self.items.filter { $0.type == .city }.map { $0 as! City }
+        return self.cities
     }
     
     func set(city cityRef: City?) {
         
         if let city = cityRef {
-            self.items.append(city)
+            self.cities.append(city)
             
             if let tile = self.tile(at: city.position) {
                 tile.city = city
@@ -606,7 +607,7 @@ class HexagonTileMap: HexagonMap<Tile> {
     func remove(city cityRef: City?) {
         
         if let city = cityRef {
-            self.items.remove(object: city)
+            self.cities.remove(object: city)
                 
                 if let tile = self.tile(at: city.position) {
                     tile.city = nil

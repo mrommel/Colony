@@ -77,6 +77,7 @@ class GameObjectManager {
 
             // only player unit update the fog
             if unit.civilization == currentUserCivilization {
+                // FIXME: add to correct 
                 self.map?.fogManager?.add(unit: gameObject!)
 
                 if self.selected == nil {

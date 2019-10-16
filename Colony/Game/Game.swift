@@ -263,8 +263,8 @@ extension Game {
         }
         level.map.units = level.map.units.filter { !$0.isDestroyed() }
 
-        for item in level.map.items {
-            item.update(in: self)
+        for city in level.map.cities {
+            city.update(in: self)
         }
 
         for animal in level.map.animals {

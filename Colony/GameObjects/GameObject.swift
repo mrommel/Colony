@@ -205,6 +205,11 @@ class GameObject {
         return self._connectedUnit
     }
     
+    func connectedCity() -> City? {
+        
+        return self._connectedCity
+    }
+    
     func connectedAnimal() -> Animal? {
         
         return self._connectedAnimal
@@ -488,6 +493,10 @@ extension GameObject: FogUnit {
         
         if let unit = self.connectedUnit() {
             return unit.sight
+        }
+        
+        if let city = self.connectedCity() {
+            return 2
         }
         
         /*if let animal = self.connectedAnimal() {

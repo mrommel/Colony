@@ -14,7 +14,7 @@ class MapItem: Codable {
     
     let position: HexPoint
     let type: MapItemType
-    var dict: [String: Any]
+    var dict: [String: Codable]
     
     // MARK: UI connection
     
@@ -42,7 +42,7 @@ class MapItem: Codable {
 
         self.position = try values.decode(HexPoint.self, forKey: .position)
         self.type = try values.decode(MapItemType.self, forKey: .type)
-        self.dict = try values.decode([String: Any].self, forKey: .dict)
+        self.dict = try values.decode([String: Any].self, forKey: .dict) as! [String : Codable]
         
         self.loadFromDict()
     }

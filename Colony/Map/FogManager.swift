@@ -51,6 +51,8 @@ class FogArray2D: Array2D<FogState> {
 
 class FogManager: Codable {
 
+    // FIXME: let civilization: Civilization
+    
     var fog: FogArray2D
     weak var map: HexagonTileMap?
     var units: [FogUnit] = []
@@ -98,8 +100,12 @@ class FogManager: Codable {
 
         // add unit sight
         for unit in self.units {
-            // FIXME: only player units?
             tmpFog.addSight(at: unit.position, with: unit.sight, on: self.map)
+        }
+        
+        // add unit sight
+        for city in self.cities {
+            tmpFog.addSight(at: city.position, with: city.sight, on: self.map)
         }
 
         // handle changes

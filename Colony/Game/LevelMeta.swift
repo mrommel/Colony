@@ -29,13 +29,27 @@ struct LevelMeta: Codable {
     
     func getGameRating(for game: Game?) -> GameRating? {
 
-        let classType = Bundle.main.classNamed("Colony.\(self.rating)") as! GameRating.Type
-        return classType.init(game: game)
+        if self.rating.isEmpty {
+            return nil
+        }
+        
+        if let classType = Bundle.main.classNamed("Colony.\(self.rating)") as? GameRating.Type {
+            return classType.init(game: game)
+        }
+        
+        return nil
     }
     
     func getAIScript(for game: Game?) -> AIScript? {
 
-        let classType = Bundle.main.classNamed("Colony.\(self.aiscript)") as! AIScript.Type
-        return classType.init(game: game)
+        if self.aiscript.isEmpty {
+            return nil
+        }
+        
+        if let classType = Bundle.main.classNamed("Colony.\(self.aiscript)") as? AIScript.Type {
+            return classType.init(game: game)
+        }
+        
+        return nil
     }
 }

@@ -454,66 +454,51 @@
         "rows": 20
       }
     },
-    "items": [
+    "cities": [
         {
           "position": {
             "x": 20,
             "y": 13
           },
-          "type": "city",
-          "dict": {
-            "civilization": "english",
-            "name": "London",
-            "population": 1000.0,
-          }
+          "civilization": "english",
+          "name": "London",
+          "population": 1000.0,
         },
         {
           "position": {
             "x": 15,
             "y": 3
           },
-          "type": "city",
-          "dict": {
-            "civilization": "french",
-            "name": "Tyre",
-            "population": 1000.0,
-          }
+          "civilization": "french",
+          "name": "Tyre",
+          "population": 1000.0,
         },
         {
           "position": {
             "x": 12,
             "y": 17
           },
-          "type": "city",
-          "dict": {
-            "civilization": "french",
-            "name": "Sydney",
-            "population": 1000.0,
-          }
+          "civilization": "french",
+          "name": "Sydney",
+          "population": 1000.0,
         },
         {
           "position": {
             "x": 6,
             "y": 5
           },
-          "type": "city",
-          "dict": {
-            "civilization": "greek",
-            "name": "Lhasa",
-            "population": 1000.0,
-          }
+          "civilization": "greek",
+          "name": "Lhasa",
+          "population": 1000.0,
         },
         {
           "position": {
             "x": 11,
             "y": 10
           },
-          "type": "city",
-          "dict": {
-            "civilization": "spanish",
-            "name": "Manila",
-            "population": 500.0,
-          }
+          "civilization": "spanish",
+          "name": "Manila",
+          "population": 500.0,
         }
     ],
     "rivers": [
