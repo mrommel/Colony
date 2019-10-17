@@ -73,7 +73,7 @@ class Animal: Decodable /*, AIHandable*/ {
         }
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = game?.pathfinderDataSource(for: self.animalType.movementType, ignoreSight: true)
+        pathFinder.dataSource = game?.pathfinderDataSource(for: self.animalType.movementType, civilization: .pirates, ignoreSight: true) // FIXME: animal has no civ
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.position, toTileCoord: bestWaterNeighbor) {
             self.gameObject?.showWalk(on: path, completion: {})

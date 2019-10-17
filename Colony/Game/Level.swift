@@ -111,11 +111,11 @@ class Level: Decodable  {
         
         for (index, startPosition) in startPositions.cityPositions.enumerated() {
             print("- city \(index): \(startPosition)")
-            let city = City(named: "abc\(index)", at: startPosition, civilization: .english)
+            let city = City(named: City.kDefaultName, at: startPosition, civilization: .english)
             self.map.set(city: city)
         }
         
-        // create object on map
+        // create game objects on map
         self.gameObjectManager.setupUnits()
         self.gameObjectManager.setupCities()
         

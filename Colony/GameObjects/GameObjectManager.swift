@@ -195,7 +195,7 @@ class GameObjectManager {
         // everyone except player
         for unit in self.map?.unitsExcept(civilization: currentUserCivilization) ?? [] {
 
-            if let position = unit?.position {
+            if let position = unit?.position, let civilization = unit?.civilization {
 
                 // FIXME: coins are map items
                 /*if position == object.position && type == .coin {
@@ -229,7 +229,7 @@ class GameObjectManager {
                 }*/
 
                 // show/hide enemies based on fog
-                let fogAtEnemy = fogManager.fog(at: position)
+                let fogAtEnemy = fogManager.fog(at: position, by: civilization)
                 if fogAtEnemy == .sighted {
                     unit?.gameObject?.show()
                 } else {
@@ -244,7 +244,7 @@ class GameObjectManager {
         
         for city in cities {
             // show/hide cities based on discovery fog
-            let fogAtEnemy = fogManager.fog(at: city.position)
+            let fogAtEnemy = fogManager.fog(at: city.position, by: city.civilization)
 
             if fogAtEnemy == .discovered || fogAtEnemy == .sighted {
                 city.gameObject?.show() // already discovered
@@ -260,7 +260,7 @@ class GameObjectManager {
             fatalError("no fogManager set")
         }
 
-        let fogAtEnemy = fogManager.fog(at: unit.position)
+        let fogAtEnemy = fogManager.fog(at: unit.position, by: unit.civilization)
         if fogAtEnemy == .sighted {
             unit.gameObject?.show()
         } else {
@@ -274,7 +274,7 @@ class GameObjectManager {
             fatalError("no fogManager set")
         }
 
-        let fogAtEnemy = fogManager.fog(at: city.position)
+        let fogAtEnemy = fogManager.fog(at: city.position, by: city.civilization)
         if fogAtEnemy == .discovered {
             city.gameObject?.show()
         } else {

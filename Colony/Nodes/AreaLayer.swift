@@ -13,7 +13,11 @@ class AreaLayer: SKNode {
     weak var map: HexagonTileMap?
     var areaSpritesMap: [Player: AreaSprites] = [:]
     
-    override init() {
+    let civilization: Civilization
+
+    init(civilization: Civilization) {
+        
+        self.civilization = civilization
         
         super.init()
         self.zPosition = GameScene.Constants.ZLevels.labels
@@ -51,7 +55,7 @@ class AreaLayer: SKNode {
 
 extension AreaLayer: FogStateChangedDelegate {
     
-    func changed(to newState: FogState, at pt: HexPoint) {
+    func changed(for civilization: Civilization, to newState: FogState, at pt: HexPoint) {
 
         /*for (player, areaSprite) in self.areaSpritesMap {
             if let zoneOfControl = player.zoneOfControl {

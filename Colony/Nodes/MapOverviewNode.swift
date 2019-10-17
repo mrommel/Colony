@@ -12,10 +12,20 @@ class MapOverviewNode: SKSpriteNode {
 
     private var map: HexagonTileMap?
     private var buffer: PixelBuffer
+    private let civilization: Civilization
+    
+    private let userUsecase: UserUsecase
 
     init(with map: HexagonTileMap?, size: CGSize) {
         
+        self.userUsecase = UserUsecase()
+        
+        guard let currentUser = self.userUsecase.currentUser() else {
+            fatalError("can't get current user")
+        }
+        
         self.map = map
+        self.civilization = currentUser.civilization
 
         guard let map = map else {
             fatalError("no map")
@@ -55,7 +65,7 @@ class MapOverviewNode: SKSpriteNode {
 
         let index = y * map.width + x
 
-        if map.fogManager?.neverVisitedAt(x: x, y: y) ?? false {
+        if map.fogManager?.neverVisitedAt(x: x, y: y, by: self.civilization) ?? false {
             self.buffer.set(color: UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.5), at: index)
         } else {
 
@@ -98,7 +108,7 @@ class MapOverviewNode: SKSpriteNode {
 
 extension MapOverviewNode: FogStateChangedDelegate {
 
-    func changed(to newState: FogState, at pt: HexPoint) {
+    func changed(for civilization: Civilization, to newState: FogState, at pt: HexPoint) {
 
         self.updateBufferAt(x: pt.x, y: pt.y)
 

@@ -468,6 +468,19 @@ extension GameObject: Equatable {
 
 extension GameObject: FogUnit {
     
+    var civilization: Civilization {
+        
+        if let unit = self._connectedUnit {
+            return unit.civilization
+        }
+        
+        if let city = self._connectedCity {
+            return city.civilization
+        }
+        
+        return .none
+    }
+    
     var position: HexPoint {
         
         if let unit = self._connectedUnit {

@@ -10,6 +10,7 @@ import Foundation
 import SpriteKit
 
 struct JSONCodingKeys: CodingKey {
+    
     var stringValue: String
     
     init(stringValue: String) {
@@ -21,6 +22,13 @@ struct JSONCodingKeys: CodingKey {
     init?(intValue: Int) {
         self.init(stringValue: "\(intValue)")
         self.intValue = intValue
+    }
+    
+    var civilizationValue: Civilization?
+    
+    init?(civilizationValue: Civilization) {
+        self.init(stringValue: "\(civilizationValue)")
+        self.civilizationValue = civilizationValue
     }
 }
 
@@ -51,6 +59,7 @@ extension KeyedDecodingContainer {
     }
     
     func decode(_ type: Dictionary<String, Any>.Type) throws -> Dictionary<String, Any> {
+        
         var dictionary = Dictionary<String, Any>()
         
         for key in allKeys {
@@ -69,6 +78,49 @@ extension KeyedDecodingContainer {
             }
         }
         return dictionary
+    }
+}
+
+extension KeyedDecodingContainer {
+    
+    func decode(_ type: Dictionary<Civilization, FogArray2D>.Type, forKey key: K) throws -> Dictionary<Civilization, FogArray2D> {
+
+        let container = try self.nestedContainer(keyedBy: JSONCodingKeys.self, forKey: key)
+        return try container.decode(type)
+    }
+    
+    func decode(_ type: Dictionary<Civilization, FogArray2D>.Type) throws -> Dictionary<Civilization, FogArray2D> {
+    
+        var dictionary = Dictionary<Civilization, FogArray2D>()
+        
+        for key in allKeys {
+            let civilization = Civilization(rawValue: key.stringValue)!
+            
+            if let arrayValue = try? decode(FogArray2D.self, forKey: key) {
+                dictionary[civilization] = arrayValue
+            } 
+        }
+        
+        return dictionary
+    }
+}
+
+extension UnkeyedDecodingContainer {
+    
+    mutating func decode(_ type: Array<FogArray2D>.Type) throws -> Array<FogArray2D> {
+        var array: [FogArray2D] = []
+        while isAtEnd == false {
+            if let value = try? decode(FogArray2D.self) {
+                array.append(value)
+            }
+        }
+        return array
+    }
+    
+    mutating func decode(_ type: Dictionary<Civilization, FogArray2D>.Type) throws -> Dictionary<Civilization, FogArray2D> {
+        
+        let nestedContainer = try self.nestedContainer(keyedBy: JSONCodingKeys.self)
+        return try nestedContainer.decode(type)
     }
 }
 

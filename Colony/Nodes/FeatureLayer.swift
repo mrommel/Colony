@@ -11,9 +11,11 @@ import SpriteKit
 class FeatureLayer: SKNode {
 
     weak var map: HexagonTileMap?
+    let civilization: Civilization
 
-    override init() {
+    init(civilization: Civilization) {
         
+        self.civilization = civilization
         super.init()
         self.zPosition = GameScene.Constants.ZLevels.feature
     }
@@ -43,9 +45,9 @@ class FeatureLayer: SKNode {
                 
                 if let tile = map.tile(at: pt) {
                     let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
-                    if fogManager.discovered(at: pt) {
+                    if fogManager.discovered(at: pt, by: self.civilization) {
                         self.placeTileHex(tile: tile, at: screenPoint, alpha: 0.5)
-                    } else if fogManager.currentlyVisible(at: pt) {
+                    } else if fogManager.currentlyVisible(at: pt, by: self.civilization) {
                         self.placeTileHex(tile: tile, at: screenPoint, alpha: 1.0)
                     }
                 }
@@ -87,8 +89,13 @@ class FeatureLayer: SKNode {
 
 extension FeatureLayer: FogStateChangedDelegate {
 
-    func changed(to newState: FogState, at pt: HexPoint) {
+    func changed(for civilization: Civilization, to newState: FogState, at pt: HexPoint) {
 
+        if self.civilization != civilization {
+            // we don't care for changes of non player civs here
+            return
+        }
+        
         guard let map = self.map else {
             fatalError("map not set")
         }
@@ -101,9 +108,9 @@ extension FeatureLayer: FogStateChangedDelegate {
 
         if let tile = map.tile(at: pt) {
             let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
-            if fogManager.discovered(at: pt) {
+            if fogManager.discovered(at: pt, by: self.civilization) {
                 self.placeTileHex(tile: tile, at: screenPoint, alpha: 0.5)
-            } else if fogManager.currentlyVisible(at: pt) {
+            } else if fogManager.currentlyVisible(at: pt, by: self.civilization) {
                 self.placeTileHex(tile: tile, at: screenPoint, alpha: 1.0)
             }
         }

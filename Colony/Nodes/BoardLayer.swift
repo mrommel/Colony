@@ -12,7 +12,11 @@ class BoardLayer: SKNode {
 
     weak var map: HexagonTileMap?
 
-    override init() {
+    let civilization: Civilization
+
+    init(civilization: Civilization) {
+        
+        self.civilization = civilization
         
         super.init()
         self.zPosition = GameScene.Constants.ZLevels.labels
@@ -55,9 +59,9 @@ class BoardLayer: SKNode {
             let screenPoint = HexMapDisplay.shared.toScreen(hex: pt)
 
             if let calderaName = map.caldera(at: pt) {
-                if fogManager.currentlyVisible(at: pt) {
+                if fogManager.currentlyVisible(at: pt, by: self.civilization) {
                     self.placeTileHex(tile: tile, and: calderaName, at: screenPoint, alpha: GameScene.Constants.Visibility.currently)
-                } else if fogManager.discovered(at: pt) {
+                } else if fogManager.discovered(at: pt, by: self.civilization) {
                     self.placeTileHex(tile: tile, and: calderaName, at: screenPoint, alpha: GameScene.Constants.Visibility.discovered)
                 }
             }
@@ -94,8 +98,13 @@ class BoardLayer: SKNode {
 
 extension BoardLayer: FogStateChangedDelegate {
 
-    func changed(to newState: FogState, at pt: HexPoint) {
+    func changed(for civilization: Civilization, to newState: FogState, at pt: HexPoint) {
 
+        if self.civilization != civilization {
+            // we don't care for changes of non player civs here
+            return
+        }
+        
         guard let map = self.map else {
             fatalError("map not set")
         }

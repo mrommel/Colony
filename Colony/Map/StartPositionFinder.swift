@@ -10,13 +10,11 @@ import Foundation
 
 struct StartPositions: Codable {
     
-    let monsterPosition: HexPoint
     let playerPosition: HexPoint
     let cityPositions: [HexPoint]
     
-    init(monsterPosition: HexPoint, playerPosition: HexPoint, cityPositions: [HexPoint]) {
+    init(playerPosition: HexPoint, cityPositions: [HexPoint]) {
         
-        self.monsterPosition = monsterPosition
         self.playerPosition = playerPosition
         self.cityPositions = cityPositions
     }
@@ -36,28 +34,9 @@ class StartPositionFinder {
             fatalError("can identify start positions without a map")
         }
         
-        let maximalDistance = HexPoint(x: 0, y: 0).distance(to: HexPoint(x: map.width - 1, y: map.height - 1))
-        var optimalDistance = maximalDistance * 3 / 4
         let possiblePoints: [HexPoint] = map.filter(where: { $0?.isWater ?? false}).map({ $0?.point ?? HexPoint.zero })
         
-        var randomItem: HexPoint
-        var trial: [HexPoint]
-        
-        repeat {
-            print("iterate to find start positions ...")
-            randomItem = possiblePoints.randomItem()
-        
-            trial = []
-            for _ in 0..<25 {
-                let r1 = possiblePoints.randomItem()
-                
-                if r1.distance(to: randomItem) > optimalDistance && map.path(from: r1, to: randomItem, movementType: .swimOcean) != nil {
-                    trial.append(r1)
-                }
-            }
-            optimalDistance = optimalDistance - 1 // reduce distance each time we fail
-        } while trial.count == 0
-        
+        // map is divided into regions
         let fertilityEvaluator = CitySiteEvaluator(map: self.map)
         let finder = RegionFinder(map: self.map, evaluator: fertilityEvaluator)
         let regions = finder.divideInto(regions: 5)
@@ -68,6 +47,6 @@ class StartPositionFinder {
             startPositions.append(startPosition)
         }
         
-        return StartPositions(monsterPosition: randomItem, playerPosition: trial.randomItem(), cityPositions: startPositions)
+        return StartPositions(playerPosition: possiblePoints.randomItem(), cityPositions: startPositions)
     }
 }

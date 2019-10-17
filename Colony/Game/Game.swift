@@ -445,7 +445,7 @@ extension Game {
         // check if tile is occupied
         for landTile in landTiles {
             // FIXME: check for civilization
-            if map.fogManager?.fog(at: landTile) == .discovered {
+            if map.fogManager?.fog(at: landTile, by: civilization) == .discovered {
                 // FIXME
             }
         }
@@ -460,7 +460,7 @@ extension Game {
         }
 
         // FIXME: civilization not handled
-        return level.map.fogManager?.currentlyVisible(at: position) ?? false
+        return level.map.fogManager?.currentlyVisible(at: position, by: civilization) ?? false
     }
 
     // MARK: unit methods
@@ -567,13 +567,13 @@ extension Game {
 
     // MARK: path finding data sources
 
-    func pathfinderDataSource(for movementType: MovementType, ignoreSight: Bool) -> PathfinderDataSource {
+    func pathfinderDataSource(for movementType: MovementType, civilization: Civilization, ignoreSight: Bool) -> PathfinderDataSource {
 
         guard let level = self.level else {
             fatalError("can't find level")
         }
 
-        return level.map.pathfinderDataSource(with: self.level?.gameObjectManager, movementType: movementType, ignoreSight: ignoreSight)
+        return level.map.pathfinderDataSource(with: self.level?.gameObjectManager, movementType: movementType, civilization: civilization, ignoreSight: ignoreSight)
     }
 
     func pathfinderDataSource(for unit: Unit?, ignoreSight: Bool) -> PathfinderDataSource {
@@ -581,8 +581,12 @@ extension Game {
         guard let movementType = unit?.unitType.movementType else {
             fatalError("can't find movementType")
         }
+        
+        guard let civilization = unit?.civilization else {
+            fatalError("can't find civilization")
+        }
 
-        return self.pathfinderDataSource(for: movementType, ignoreSight: ignoreSight)
+        return self.pathfinderDataSource(for: movementType, civilization: civilization, ignoreSight: ignoreSight)
     }
 
     func pathfinderDataSource(for animal: Animal?, ignoreSight: Bool) -> PathfinderDataSource {
@@ -591,7 +595,7 @@ extension Game {
             fatalError("can't find movementType")
         }
 
-        return self.pathfinderDataSource(for: movementType, ignoreSight: ignoreSight)
+        return self.pathfinderDataSource(for: movementType, civilization: .pirates, ignoreSight: ignoreSight)
     }
 
     func getCoastalCities(at ocean: Ocean) -> [City] {
@@ -669,7 +673,7 @@ extension Game {
 
     func numberOfDiscoveredTiles(for civilization: Civilization) -> Int? {
 
-        return self.level?.map.fogManager?.numberOfDiscoveredTiles()
+        return self.level?.map.fogManager?.numberOfDiscoveredTiles(by: civilization)
     }
 }
 

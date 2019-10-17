@@ -101,9 +101,9 @@ class City: Codable {
         //let foodSupply = food * (1.0 - foodSecurity) * 0.2 * random(0..1)
         //let health = // 0..1 // +sewage, +doctors, -waterSecurity, -urbanisation, +hygiene, -marsh
 
-        let birthRate = (46.0 + Double.random(minimum: -5.0, maximum: 5.0)) / 1000.0
+        let birthRate = (48.0 + Double.random(minimum: -5.0, maximum: 5.0)) / 1000.0
         let deathRate = (40.0 + Double.random(minimum: -5.0, maximum: 5.0)) / 1000.0
-        let emigrationRate = (5.0 + Double.random(minimum: -2.0, maximum: 2.0)) / 1000.0 // ca. 0.5%
+        let emigrationRate = (3.0 + Double.random(minimum: -1.0, maximum: 1.0)) / 1000.0 // ca. 0.3%
 
         let births: Double = max(Double(self.population) * birthRate + Double.random(minimum: -20.0, maximum: 20.0), 0.0)
         let immigrats: Double = Double(self.sumImmigrats)

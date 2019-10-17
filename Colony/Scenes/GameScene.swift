@@ -460,7 +460,7 @@ class GameScene: BaseScene {
             if position != selectedUnit.position {
 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = self.game?.pathfinderDataSource(for: selectedUnit.unitType.movementType, ignoreSight: false)
+                pathFinder.dataSource = self.game?.pathfinderDataSource(for: selectedUnit.unitType.movementType, civilization: selectedUnit.civilization, ignoreSight: false)
 
                 if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.position, toTileCoord: position) {
                     path.prepend(point: selectedUnit.position)

@@ -537,10 +537,10 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     // MARK: pathfinding
     
-    func path(from: HexPoint, to: HexPoint, movementType: MovementType) -> HexPath? {
+    func path(from: HexPoint, to: HexPoint, movementType: MovementType, civilization: Civilization) -> HexPath? {
         
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = pathfinderDataSource(with: nil, movementType: movementType, ignoreSight: true)
+        pathFinder.dataSource = pathfinderDataSource(with: nil, movementType: movementType, civilization: civilization, ignoreSight: true)
         return pathFinder.shortestPath(fromTileCoord: from, toTileCoord: to)
     }
     
@@ -581,9 +581,9 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
-    func pathfinderDataSource(with gameObjectManager: GameObjectManager?, movementType: MovementType, ignoreSight: Bool) -> PathfinderDataSource {
+    func pathfinderDataSource(with gameObjectManager: GameObjectManager?, movementType: MovementType, civilization: Civilization ,ignoreSight: Bool) -> PathfinderDataSource {
         
-        return MoveTypePathfinderDataSource(map: self, gameObjectManager: gameObjectManager, movementType: movementType, ignoreSight: ignoreSight)
+        return MoveTypePathfinderDataSource(map: self, gameObjectManager: gameObjectManager, movementType: movementType, civilization: civilization, ignoreSight: ignoreSight)
     }
     
     // MARK: city methods

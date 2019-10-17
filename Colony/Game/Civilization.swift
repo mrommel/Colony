@@ -21,6 +21,8 @@ enum Civilization: String, Codable {
     case pirates
     case trader
     
+    case none
+    
     static let all: [Civilization] = [.english, .french, .spanish, .greek]
     
     var name: String {
@@ -39,6 +41,9 @@ enum Civilization: String, Codable {
             return "Pirates"
         case .trader:
             return "Trader"
+            
+        case .none:
+            return "None"
         }
     }
     
@@ -58,6 +63,9 @@ enum Civilization: String, Codable {
             return .black
         case .trader:
             return .gray
+            
+        case .none:
+            fatalError("can't get color of none")
         }
     }
     
@@ -77,6 +85,9 @@ enum Civilization: String, Codable {
             return .black
         case .trader:
             return .gray
+            
+        case .none:
+            fatalError("can't get color of none")
         }
     }
     

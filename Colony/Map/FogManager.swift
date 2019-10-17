@@ -10,6 +10,7 @@ import Foundation
 
 protocol FogUnit {
 
+    var civilization: Civilization { get }
     var position: HexPoint { get }
     var sight: Int { get }
 }
@@ -24,7 +25,7 @@ enum FogState: String, Codable {
 // to notify the layers
 protocol FogStateChangedDelegate: class {
 
-    func changed(to newState: FogState, at pt: HexPoint)
+    func changed(for civilization: Civilization, to newState: FogState, at pt: HexPoint)
 }
 
 class FogArray2D: Array2D<FogState> {
@@ -51,98 +52,116 @@ class FogArray2D: Array2D<FogState> {
 
 class FogManager: Codable {
 
-    // FIXME: let civilization: Civilization
-    
-    var fog: FogArray2D
+    var fogDict: [Civilization: FogArray2D] = [:]
     weak var map: HexagonTileMap?
     var units: [FogUnit] = []
     var cities: [FogUnit] = []
     var delegates = MulticastDelegate<FogStateChangedDelegate>()
 
     enum CodingKeys: String, CodingKey {
-        case fog
+        case fogDict
     }
-    
+
     init(map: HexagonTileMap?) {
 
         self.map = map
-        self.fog = FogArray2D(columns: self.map?.width ?? 1, rows: self.map?.height ?? 1)
-        self.fog.fill(with: .never)
-        //self.fog.fill(with: .discovered)
+
+        for civilization in Civilization.all {
+
+            let fog = FogArray2D(columns: self.map?.width ?? 1, rows: self.map?.height ?? 1)
+            fog.fill(with: .never)
+            self.fogDict[civilization] = fog
+        }
+    }
+    
+    required init(from decoder: Decoder) throws {
+
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.fogDict = try values.decode([Civilization: FogArray2D].self, forKey: .fogDict)
     }
 
     func add(unit: FogUnit) {
+
         self.units.append(unit)
-        
-        self.fog.addSight(at: unit.position, with: unit.sight, on: self.map)
+
+        self.fogDict[unit.civilization]?.addSight(at: unit.position, with: unit.sight, on: self.map)
     }
-    
+
     func add(city: FogUnit) {
+
         self.cities.append(city)
-        
-        self.fog.addSight(at: city.position, with: 2, on: self.map)
+
+        self.fogDict[city.civilization]?.addSight(at: city.position, with: 2, on: self.map)
     }
 
     func update() {
 
-        // create tmp fog map
-        let tmpFog = FogArray2D(columns: self.map?.width ?? 1, rows: self.map?.height ?? 1)
-        tmpFog.fill(with: .never)
+        for civilization in Civilization.all {
 
-        // copy already discovered
-        for x in 0..<self.fog.columns {
-            for y in 0..<self.fog.rows {
-                if self.fog[x, y] == .discovered || self.fog[x, y] == .sighted {
-                    tmpFog[x, y] = .discovered
+            // create tmp fog map
+            let tmpFog = FogArray2D(columns: self.map?.width ?? 1, rows: self.map?.height ?? 1)
+            tmpFog.fill(with: .never)
+
+            guard let currentFog = self.fogDict[civilization] else {
+                fatalError("can't get fog for \(civilization)")
+            }
+
+            // copy already discovered
+            for x in 0..<currentFog.columns {
+                for y in 0..<currentFog.rows {
+                    if currentFog[x, y] == .discovered || currentFog[x, y] == .sighted {
+                        tmpFog[x, y] = .discovered
+                    }
                 }
             }
-        }
 
-        // add unit sight
-        for unit in self.units {
-            tmpFog.addSight(at: unit.position, with: unit.sight, on: self.map)
-        }
-        
-        // add unit sight
-        for city in self.cities {
-            tmpFog.addSight(at: city.position, with: city.sight, on: self.map)
-        }
+            // add unit sight
+            for unit in self.units {
+                tmpFog.addSight(at: unit.position, with: unit.sight, on: self.map)
+            }
 
-        // handle changes
-        for x in 0..<self.fog.columns {
-            for y in 0..<self.fog.rows {
+            // add unit sight
+            for city in self.cities {
+                tmpFog.addSight(at: city.position, with: city.sight, on: self.map)
+            }
 
-                let oldState = self.fogAt(x: x, y: y)
-                
-                if let newState = tmpFog[x, y] {
-                    
-                    if newState == .sighted {
-                        self.fog[x, y] = .sighted
-                    }
-                    
-                    if newState == .discovered {
-                        self.fog[x, y] = .discovered
-                    }
-                    
-                    if oldState == .sighted && newState != .sighted {
-                        notifyDelegatesTo(changedState: newState, at: HexPoint(x: x, y: y))
-                    }
-                    
-                    if oldState != .sighted && newState == .sighted {
-                        notifyDelegatesTo(changedState: newState, at: HexPoint(x: x, y: y))
+            // handle changes
+            for x in 0..<currentFog.columns {
+                for y in 0..<currentFog.rows {
+
+                    let oldState = self.fogAt(x: x, y: y, for: civilization)
+
+                    if let newState = tmpFog[x, y] {
+
+                        if newState == .sighted {
+                            self.fogDict[civilization]?[x, y] = .sighted
+                        }
+
+                        if newState == .discovered {
+                            self.fogDict[civilization]?[x, y] = .discovered
+                        }
+
+                        if oldState == .sighted && newState != .sighted {
+                            notifyDelegatesTo(for: civilization, changedState: newState, at: HexPoint(x: x, y: y))
+                        }
+
+                        if oldState != .sighted && newState == .sighted {
+                            notifyDelegatesTo(for: civilization, changedState: newState, at: HexPoint(x: x, y: y))
+                        }
                     }
                 }
             }
         }
     }
-    
-    func notifyDelegatesTo(changedState: FogState, at pt: HexPoint) {
+
+    func notifyDelegatesTo(for civilization: Civilization, changedState: FogState, at pt: HexPoint) {
         self.delegates |> { delegate in
-            delegate.changed(to: changedState, at: pt)
+            delegate.changed(for: civilization, to: changedState, at: pt)
         }
     }
 
-    func fogAt(x: Int, y: Int) -> FogState {
+    func fogAt(x: Int, y: Int, for civilization: Civilization) -> FogState {
 
         guard let map = self.map else {
             return .never
@@ -152,14 +171,14 @@ class FogManager: Codable {
             return .never
         }
 
-        if let state = self.fog[x, y] {
+        if let state = self.fogDict[civilization]?[x, y] {
             return state
         }
 
         return .never
     }
 
-    func fog(at point: HexPoint) -> FogState {
+    func fog(at point: HexPoint, by civilization: Civilization) -> FogState {
 
         guard let map = self.map else {
             return .never
@@ -169,45 +188,45 @@ class FogManager: Codable {
             return .never
         }
 
-        if let state = self.fog[point] {
+        if let state = self.fogDict[civilization]?[point] {
             return state
         }
 
         return .never
     }
 
-    func neverVisited(at point: HexPoint) -> Bool {
+    func neverVisited(at point: HexPoint, by civilization: Civilization) -> Bool {
 
-        return self.fog(at: point) == .never
-    }
-    
-    func neverVisitedAt(x: Int, y: Int) -> Bool {
-        
-        return self.fogAt(x: x, y: y) == .never
+        return self.fog(at: point, by: civilization) == .never
     }
 
-    func discovered(at point: HexPoint) -> Bool {
+    func neverVisitedAt(x: Int, y: Int, by civilization: Civilization) -> Bool {
 
-        return self.fog(at: point) == .discovered
-    }
-    
-    func discoveredAt(x: Int, y: Int) -> Bool {
-        
-        return self.fogAt(x: x, y: y) == .discovered
+        return self.fogAt(x: x, y: y, for: civilization) == .never
     }
 
-    func currentlyVisible(at point: HexPoint) -> Bool {
+    func discovered(at point: HexPoint, by civilization: Civilization) -> Bool {
 
-        return self.fog(at: point) == .sighted
+        return self.fog(at: point, by: civilization) == .discovered
     }
-    
-    func currentlyVisibleAt(x: Int, y: Int) -> Bool {
-        
-        return self.fogAt(x: x, y: y) == .sighted
+
+    func discoveredAt(x: Int, y: Int, by civilization: Civilization) -> Bool {
+
+        return self.fogAt(x: x, y: y, for: civilization) == .discovered
     }
-    
-    func numberOfDiscoveredTiles() -> Int {
-        
-        return self.fog.count(where: { $0  == .discovered || $0 == .sighted })
+
+    func currentlyVisible(at point: HexPoint, by civilization: Civilization) -> Bool {
+
+        return self.fog(at: point, by: civilization) == .sighted
+    }
+
+    func currentlyVisibleAt(x: Int, y: Int, by civilization: Civilization) -> Bool {
+
+        return self.fogAt(x: x, y: y, for: civilization) == .sighted
+    }
+
+    func numberOfDiscoveredTiles(by civilization: Civilization) -> Int {
+
+        return self.fogDict[civilization]?.count(where: { $0 == .discovered || $0 == .sighted }) ?? 0
     }
 }

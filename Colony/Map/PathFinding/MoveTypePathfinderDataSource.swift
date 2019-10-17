@@ -13,12 +13,14 @@ class MoveTypePathfinderDataSource: PathfinderDataSource {
     let map: HexagonTileMap?
     let gameObjectManager: GameObjectManager?
     let movementType: MovementType
+    let civilization: Civilization
     let ignoreSight: Bool
 
-    init(map: HexagonTileMap?, gameObjectManager: GameObjectManager?, movementType: MovementType, ignoreSight: Bool) {
+    init(map: HexagonTileMap?, gameObjectManager: GameObjectManager?, movementType: MovementType, civilization: Civilization, ignoreSight: Bool) {
         self.map = map
         self.gameObjectManager = gameObjectManager
         self.movementType = movementType
+        self.civilization = civilization
         self.ignoreSight = ignoreSight
     }
     
@@ -38,7 +40,7 @@ class MoveTypePathfinderDataSource: PathfinderDataSource {
                 // use sight?
                 if !self.ignoreSight {
                     
-                    let fogState = map?.fogManager?.fog(at: neighbor)
+                    let fogState = map?.fogManager?.fog(at: neighbor, by: self.civilization)
                     
                     // skip if not in sight or discovered
                     if fogState != .discovered && fogState != .sighted {

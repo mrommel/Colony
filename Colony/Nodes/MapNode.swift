@@ -30,25 +30,29 @@ class MapNode: SKNode {
 
         self.userUsecase = UserUsecase()
         
+        guard let currentUser = self.userUsecase.currentUser() else {
+            fatalError("can't get current user")
+        }
+        
         self.map = level.map
         self.gameObjectManager = level.gameObjectManager
         self.gameObjectManager?.map = self.map
 
         // TODO: make objects generic
 
-        self.terrainLayer = TerrainLayer()
+        self.terrainLayer = TerrainLayer(civilization: currentUser.civilization)
         self.terrainLayer.populate(with: self.map)
 
-        self.featureLayer = FeatureLayer()
+        self.featureLayer = FeatureLayer(civilization: currentUser.civilization)
         self.featureLayer.populate(with: self.map)
 
-        self.boardLayer = BoardLayer()
+        self.boardLayer = BoardLayer(civilization: currentUser.civilization)
         self.boardLayer.populate(with: self.map)
 
-        self.riverLayer = RiverLayer()
+        self.riverLayer = RiverLayer(civilization: currentUser.civilization)
         self.riverLayer.populate(with: self.map)
         
-        self.areaLayer = AreaLayer()
+        self.areaLayer = AreaLayer(civilization: currentUser.civilization)
         self.areaLayer.populate(with: level)
 
         super.init()
@@ -115,7 +119,7 @@ class MapNode: SKNode {
             if self.map?.valid(point: hex) ?? false {
                 let pathFinder = AStarPathfinder()
                 
-                pathFinder.dataSource = map?.pathfinderDataSource(with: self.gameObjectManager, movementType: selectedUnit.unitType.movementType, ignoreSight: false)
+                pathFinder.dataSource = map?.pathfinderDataSource(with: self.gameObjectManager, movementType: selectedUnit.unitType.movementType, civilization: currentCivilization, ignoreSight: false)
                 
                 if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.position, toTileCoord: hex) {
                     selectedUnit.gameObject?.showWalk(on: path, completion: {})

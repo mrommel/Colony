@@ -15,6 +15,8 @@
 - snow textures from wesnoth as layer
 - mountain textures as layer
 - limit sight thru mountains
+- global events - climate cycles / volcano events (winter)
+
 units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245
 tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-location-hexes-medieval-fantasy-59271
 

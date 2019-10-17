@@ -76,9 +76,9 @@ class AreaSprites: SKNode {
 
 		for point in area {
 
-            if !fogManager.currentlyVisible(at: point) {
+            /*if !fogManager.currentlyVisible(at: point, by: <#Civilization#>) {
                 continue
-            }
+            }*/
             
             let position = HexMapDisplay.shared.toScreen(hex: point)
             
