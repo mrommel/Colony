@@ -64,9 +64,9 @@ class AreaSprites: SKNode {
 
     func rebuild(with area: HexArea, and fogManager: FogManager?) {
 
-        guard let fogManager = fogManager else {
+        /*guard let fogManager = fogManager else {
             return
-        }
+        }*/
         
 		// remove old sprites
 		for sprite in self.sprites {

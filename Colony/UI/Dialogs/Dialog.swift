@@ -18,6 +18,8 @@ class Dialog: NineGridTextureSprite {
     fileprivate var didAddTo: ((_ scene: SKScene?) -> Void)?
 
     var textField: UITextField?
+    var selectedItem: DropdownItem? = nil
+    var selectedIndex: Int? = nil
 
     init(from configuration: DialogConfiguration) {
         super.init(imageNamed: configuration.background,
@@ -34,6 +36,7 @@ class Dialog: NineGridTextureSprite {
         for item in configuration.items.item {
 
             switch item.type {
+                
             case .button:
                 if let imageName = item.image {
                     let buttonItem = MessageBoxButtonNode(imageNamed: imageName, title: item.title, sized: item.size, buttonAction: { [weak self] in
@@ -58,6 +61,7 @@ class Dialog: NineGridTextureSprite {
                     buttonItem.position = item.positionIn(parent: self.size)
                     buttonItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
                     self.addChild(buttonItem)
+                    
                 } else {
                     let buttonItem = MessageBoxButtonNode(titled: item.title, sized: item.size, buttonAction: { [weak self] in
                         switch item.result {
@@ -120,7 +124,6 @@ class Dialog: NineGridTextureSprite {
                     self.replaceTextFields(on: scene?.view)
                 }
 
-                break
             case .progressbar:
                 
                 let progressBar = ProgressBarNode(size: item.size)
@@ -129,6 +132,24 @@ class Dialog: NineGridTextureSprite {
                 progressBar.position = item.positionIn(parent: self.size)
                 progressBar.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
                 self.addChild(progressBar)
+                
+            case .dropdown:
+                
+                guard let dropdownItems = item.items, let dropdownSelectedIndex = item.selectedIndex else {
+                    fatalError("no items or selectedIndex for dropdown found")
+                }
+                
+                var items: [DropdownItem] = []
+                for dropdownItem in dropdownItems.item {
+                    items.append(DropdownItem(imageName: dropdownItem, title: dropdownItem))
+                }
+                
+                let dropdown = DropdownNode(items: items, selectedIndex: dropdownSelectedIndex, size: item.size)
+                dropdown.name = item.identifier
+                dropdown.position = item.positionIn(parent: self.size)
+                dropdown.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
+                dropdown.delegate = self
+                self.addChild(dropdown)
             }
         }
     }
@@ -159,9 +180,14 @@ class Dialog: NineGridTextureSprite {
                     view.addSubview(textField)
                 }
 
-                self.textField?.becomeFirstResponder()
+                //self.textField?.becomeFirstResponder()
             }
         }
+    }
+    
+    func resignActive() {
+        
+        self.textField?.resignFirstResponder()
     }
 
     func set(text: String, identifier: String) {
@@ -212,6 +238,16 @@ class Dialog: NineGridTextureSprite {
 
         return ""
     }
+    
+    // maybe String?
+    func getSelectedDropdown() -> String {
+        
+        if let selectedItem = self.selectedItem {
+            return selectedItem.title
+        }
+        
+        return ""
+    }
 
     func addOkayAction(handler: @escaping () -> Void) {
         self.okayHandler = handler
@@ -241,6 +277,20 @@ extension Dialog: UITextFieldDelegate {
         if let text = self.textField?.text {
             print("text input: \(text)")
         }
+    }
+}
+
+extension Dialog: DropdownDelegate {
+    
+    func dropdownClicked() {
+        
+        self.resignActive()
+    }
+
+    func selected(item: DropdownItem, at index: Int) {
+        
+        self.selectedItem = item
+        self.selectedIndex = index
     }
 }
 

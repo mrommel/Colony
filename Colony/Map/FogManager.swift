@@ -230,3 +230,40 @@ class FogManager: Codable {
         return self.fogDict[civilization]?.count(where: { $0 == .discovered || $0 == .sighted }) ?? 0
     }
 }
+
+extension KeyedDecodingContainer {
+    
+    func decode(_ type: Dictionary<Civilization, FogArray2D>.Type, forKey key: K) throws -> Dictionary<Civilization, FogArray2D> {
+
+        let container = try self.nestedContainer(keyedBy: JSONCodingKeys.self, forKey: key)
+        return try container.decode(type)
+    }
+    
+    func decode(_ type: Dictionary<Civilization, FogArray2D>.Type) throws -> Dictionary<Civilization, FogArray2D> {
+    
+        var dictionary = Dictionary<Civilization, FogArray2D>()
+        
+        for key in allKeys {
+            let civilization = Civilization(rawValue: key.stringValue)!
+            
+            if let arrayValue = try? decode(FogArray2D.self, forKey: key) {
+                dictionary[civilization] = arrayValue
+            }
+        }
+        
+        return dictionary
+    }
+}
+
+extension UnkeyedDecodingContainer {
+    
+    mutating func decode(_ type: Array<FogArray2D>.Type) throws -> Array<FogArray2D> {
+        var array: [FogArray2D] = []
+        while isAtEnd == false {
+            if let value = try? decode(FogArray2D.self) {
+                array.append(value)
+            }
+        }
+        return array
+    }
+}

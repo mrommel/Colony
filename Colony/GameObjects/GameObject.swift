@@ -244,7 +244,7 @@ class GameObject {
         if let unit = self.connectedUnit() {
             self.unitStrengthIndicator = UnitStrengthIndicator(strength: unit.strength)
             self.unitStrengthIndicator?.position = CGPoint(x: 38, y: 5)
-            self.unitStrengthIndicator?.zPosition = GameScene.Constants.ZLevels.sprite + 0.1
+            self.unitStrengthIndicator?.zPosition = GameScene.Constants.ZLevels.sprite + 0.2
             if let unitStrengthIndicator = self.unitStrengthIndicator {
                 self.sprite.addChild(unitStrengthIndicator)
             }
@@ -269,7 +269,9 @@ class GameObject {
 
         if self.nameLabel != nil {
             self.nameLabel?.removeFromParent()
+            self.nameLabel = nil
             self.nameBackground?.removeFromParent()
+            self.nameBackground = nil
         }
 
         let texture = SKTexture(imageNamed: "city_label_background")
@@ -288,6 +290,14 @@ class GameObject {
 
         if let nameLabel = self.nameLabel {
             self.sprite.addChild(nameLabel)
+        }
+    }
+    
+    func hideCityName() {
+        
+        if self.nameLabel != nil {
+            self.nameLabel?.removeFromParent()
+            self.nameBackground?.removeFromParent()
         }
     }
 
@@ -508,7 +518,7 @@ extension GameObject: FogUnit {
             return unit.sight
         }
         
-        if let city = self.connectedCity() {
+        if let _ = self.connectedCity() {
             return 2
         }
         

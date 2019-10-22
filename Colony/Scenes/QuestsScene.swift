@@ -140,21 +140,21 @@ class QuestsScene: BaseScene {
             if let playerInputDialog = UI.playerInputDialog() {
                 playerInputDialog.addOkayAction(handler: {
 
-                    let username = playerInputDialog.getTextFieldInput()
+                    if !playerInputDialog.isValid() {
 
-                    if UserUsecase.isValid(name: username) {
-
-                        //guard let currentUserCivilization = userUsecase.currentUser()?.civilization else {
-                        //    fatalError("Can't get current users civilization")
-                        //}
-                        let currentUserCivilization: Civilization = .english
-
-                        if userUsecase.createCurrentUser(named: username, civilization: currentUserCivilization) { // FIXME
-                            playerInputDialog.close()
-                        } else {
-                            print("can't create user")
-                        }
+                        playerInputDialog.show(warning: "name needs to have at least 3 characters")
+                        return
                     }
+                    
+                    let username = playerInputDialog.getUsername()
+                    let civilization = playerInputDialog.getCivilization()
+
+                    if !userUsecase.createCurrentUser(named: username, civilization: civilization) {
+                        playerInputDialog.show(warning: "can't create user")
+                        return
+                    }
+                    
+                    playerInputDialog.close()
                 })
 
                 self.cameraNode.add(dialog: playerInputDialog)

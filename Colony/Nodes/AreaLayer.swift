@@ -31,9 +31,9 @@ class AreaLayer: SKNode {
         
         self.map = level?.map
         
-        guard let map = self.map else {
+        /*guard let map = self.map else {
             fatalError("map not set")
-        }
+        }*/
         
         //map.fogManager?.delegates.addDelegate(self)
         

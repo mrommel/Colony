@@ -14,7 +14,7 @@ class City: Codable {
     // MARK: constants
 
     static let kDefaultName = "default"
-    
+
     // MARK: properties
 
     var name: String
@@ -24,13 +24,13 @@ class City: Codable {
 
     var sumEmigrats: Int = 0
     var sumImmigrats: Int = 0
-    
+
     // MARK: UI connection
 
     var gameObject: GameObject? = nil
-    
+
     // MARK: coding keys
-    
+
     enum CodingKeys: String, CodingKey {
 
         case name
@@ -60,17 +60,17 @@ class City: Codable {
     required init(from decoder: Decoder) throws {
 
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.position = try values.decode(HexPoint.self, forKey: .position)
         self.name = try values.decode(String.self, forKey: .name)
         self.civilization = try values.decode(Civilization.self, forKey: .civilization)
         self.population = try values.decode(Int.self, forKey: .population)
     }
-    
+
     func encode(to encoder: Encoder) throws {
-        
+
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
+
         try container.encode(self.position, forKey: .position)
         try container.encode(self.name, forKey: .name)
         try container.encode(self.civilization, forKey: .civilization)
@@ -140,39 +140,48 @@ class City: Codable {
         if self.name == City.kDefaultName {
             let uuid = UUID()
             self.name = "\(City.kDefaultName)-\(uuid.uuidString)"
+
+            self.gameObject?.hideCityName()
+            return
         }
 
-        if self.name.starts(with: City.kDefaultName) && self.population >= 10000 {
+        if self.name.starts(with: City.kDefaultName) {
 
-            guard let player = game?.player(for: self.civilization) else {
-                fatalError("can't get player")
-            }
+            if self.population >= 1000 {
 
-            let civilization = player.leader.civilization
-            var unusedCityNames = civilization.cityNames
-
-            // get all cities of player
-            guard let cities = game?.getCitiesOf(civilization: civilization) else {
-                fatalError("can't get cities")
-            }
-
-            for city in cities {
-                if let cityName = city?.name {
-                    unusedCityNames.remove(object: cityName)
+                guard let player = game?.player(for: self.civilization) else {
+                    fatalError("can't get player")
                 }
-            }
-            
-            if let firstCityName = unusedCityNames.first {
-                self.name = firstCityName
+
+                let civilization = player.leader.civilization
+                var unusedCityNames = civilization.cityNames
+
+                // get all cities of player
+                guard let cities = game?.getCitiesOf(civilization: civilization) else {
+                    fatalError("can't get cities")
+                }
+
+                for city in cities {
+                    if let cityName = city?.name {
+                        unusedCityNames.remove(object: cityName)
+                    }
+                }
+
+                if let firstCityName = unusedCityNames.first {
+                    self.name = firstCityName
+                    self.gameObject?.showCity(named: firstCityName)
+                } else {
+                    fatalError("no city name left")
+                }
             } else {
-                fatalError("no city name left")
+                self.gameObject?.hideCityName()
             }
         }
     }
 
     // all our people have left this place - kill the city
     private func handleAbandonment(in game: Game?) {
-        
+
         game?.abandon(city: self)
     }
 
@@ -205,7 +214,7 @@ class City: Codable {
                 fatalError("there are no neighbors - WTF")
             } else {
                 let newCityLocation = neighbors.randomItem()
-                
+
                 if let city = game?.getCity(at: newCityLocation) {
                     city.sumImmigrats = city.sumImmigrats + emigration
                 } else {
@@ -217,17 +226,17 @@ class City: Codable {
             }
         }
     }
-    
+
     private func updateCitySprite() {
-        
+
         if self.population < 1000 {
             self.gameObject?.showTexture(named: "hex_city_1")
         }
-        
+
         if 1000 <= self.population && self.population < 2000 {
             self.gameObject?.showTexture(named: "hex_city_2")
         }
-        
+
         if 2000 <= self.population {
             self.gameObject?.showTexture(named: "hex_city_3")
         }
@@ -235,9 +244,9 @@ class City: Codable {
 }
 
 extension City: Equatable {
-    
+
     static func == (lhs: City, rhs: City) -> Bool {
-        
+
         return lhs.position == rhs.position && lhs.civilization == rhs.civilization
     }
 }

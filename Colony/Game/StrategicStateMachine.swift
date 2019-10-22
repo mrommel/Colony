@@ -53,7 +53,7 @@ class StrategicStateMachine: FiniteStateMachine<StrategicAIState> {
             fatalError("no state")
         }
 
-        guard let (state, arg) = self.peek() else {
+        guard let (state, _) = self.peek() else {
             fatalError("no state")
         }
 

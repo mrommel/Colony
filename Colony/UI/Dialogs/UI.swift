@@ -94,11 +94,11 @@ class UI {
         return nil
     }
     
-    static func playerInputDialog() -> Dialog? {
+    static func playerInputDialog() -> PlayerInputDialog? {
         
         let uiParser = UIParser()
         if let playerInputDialogConfiguration = uiParser.parse(from: "PlayerInputDialog") {
-            return Dialog(from: playerInputDialogConfiguration)
+            return PlayerInputDialog(from: playerInputDialogConfiguration)
         }
         
         return nil

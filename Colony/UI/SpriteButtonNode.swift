@@ -11,6 +11,7 @@ import SpriteKit
 class SpriteButtonNode: SKNode {
     
     var defaultButton: SKSpriteNode
+    var hoverButton: SKSpriteNode
     var activeButton: SKSpriteNode
 
     var buttonIcon: SKSpriteNode?
@@ -19,10 +20,14 @@ class SpriteButtonNode: SKNode {
     
     var active: Bool = true
     
-    init(titled title: String, defaultButtonImage: String, activeButtonImage: String, size: CGSize, isNineGrid: Bool = true, buttonAction: @escaping () -> Void) {
+    init(titled title: String, defaultButtonImage: String, hoverButtonImage: String = "", activeButtonImage: String, size: CGSize, isNineGrid: Bool = true, buttonAction: @escaping () -> Void) {
         
         // default button state
         self.defaultButton = NineGridTextureSprite(imageNamed: defaultButtonImage, size: size, isNineGrid: isNineGrid)
+        
+        // hover button state
+        self.hoverButton = NineGridTextureSprite(imageNamed: hoverButtonImage.isEmpty ? defaultButtonImage : hoverButtonImage, size: size, isNineGrid: isNineGrid)
+        self.hoverButton.isHidden = true
         
         // active button state
         self.activeButton = NineGridTextureSprite(imageNamed: activeButtonImage, size: size, isNineGrid: isNineGrid)
@@ -45,6 +50,9 @@ class SpriteButtonNode: SKNode {
         self.defaultButton.zPosition = self.zPosition
         self.addChild(self.defaultButton)
         
+        self.hoverButton.zPosition = self.zPosition
+        self.addChild(self.hoverButton)
+        
         self.activeButton.zPosition = self.zPosition
         self.addChild(self.activeButton)
         
@@ -52,10 +60,14 @@ class SpriteButtonNode: SKNode {
         self.addChild(self.buttonLabel)
     }
     
-    init(imageNamed imageName: String, title: String, defaultButtonImage: String, activeButtonImage: String, size: CGSize, isNineGrid: Bool = true, buttonAction: @escaping () -> Void) {
+    init(imageNamed imageName: String, title: String, defaultButtonImage: String, hoverButtonImage: String = "", activeButtonImage: String, size: CGSize, isNineGrid: Bool = true, buttonAction: @escaping () -> Void) {
         
         // default button state
         self.defaultButton = NineGridTextureSprite(imageNamed: defaultButtonImage, size: size, isNineGrid: isNineGrid)
+        
+        // hover button state
+        self.hoverButton = NineGridTextureSprite(imageNamed: hoverButtonImage.isEmpty ? defaultButtonImage : hoverButtonImage, size: size, isNineGrid: isNineGrid)
+        self.hoverButton.isHidden = true
         
         // active button state
         self.activeButton = NineGridTextureSprite(imageNamed: activeButtonImage, size: size, isNineGrid: isNineGrid)
@@ -64,7 +76,9 @@ class SpriteButtonNode: SKNode {
         self.action = buttonAction
         
         let buttonIconTexture = SKTexture(imageNamed: imageName)
-        let iconSize = CGSize(width: size.height - 8, height: size.height - 8)
+        let iconWidth = size.height - 8
+        let iconHeight = buttonIconTexture.size().height * iconWidth / buttonIconTexture.size().width
+        let iconSize = CGSize(width: iconWidth, height: iconHeight)
         self.buttonIcon = SKSpriteNode(texture: buttonIconTexture, color: .black, size: iconSize)
         let iconPosX = -size.half.width + 4 + iconSize.half.width
         self.buttonIcon?.position = CGPoint(x: iconPosX, y: 0)
@@ -85,6 +99,9 @@ class SpriteButtonNode: SKNode {
         self.defaultButton.zPosition = self.zPosition
         self.addChild(self.defaultButton)
         
+        self.hoverButton.zPosition = self.zPosition
+        self.addChild(self.hoverButton)
+        
         self.activeButton.zPosition = self.zPosition
         self.addChild(self.activeButton)
         
@@ -101,6 +118,17 @@ class SpriteButtonNode: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // properties
+    
+    var fontColor: UIColor? {
+        set {
+            self.buttonLabel.fontColor = newValue
+        }
+        get {
+            return self.buttonLabel.fontColor
+        }
+    }
+    
     // state management
     
     func enable() {
@@ -115,6 +143,7 @@ class SpriteButtonNode: SKNode {
         self.buttonLabel.color = .black
         
         self.activeButton.isHidden = true
+        self.hoverButton.isHidden = true
         self.defaultButton.isHidden = false
     }
     
@@ -136,21 +165,24 @@ class SpriteButtonNode: SKNode {
         
         // skip action handling, when button is not active
         guard self.active else {
-            activeButton.isHidden = true
-            defaultButton.isHidden = false
+            self.activeButton.isHidden = true
+            self.hoverButton.isHidden = true
+            self.defaultButton.isHidden = false
             return
         }
         
-        activeButton.isHidden = false
-        defaultButton.isHidden = true
+        self.activeButton.isHidden = true
+        self.hoverButton.isHidden = false
+        self.defaultButton.isHidden = true
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         // skip action handling, when button is not active
         guard self.active else {
-            activeButton.isHidden = true
-            defaultButton.isHidden = false
+            self.activeButton.isHidden = true
+            self.hoverButton.isHidden = true
+            self.defaultButton.isHidden = false
             return
         }
         
@@ -158,11 +190,13 @@ class SpriteButtonNode: SKNode {
             let location: CGPoint = touch.location(in: self)
             
             if defaultButton.contains(location) {
-                activeButton.isHidden = false
-                defaultButton.isHidden = true
+                self.activeButton.isHidden = true
+                self.hoverButton.isHidden = false
+                self.defaultButton.isHidden = true
             } else {
-                activeButton.isHidden = true
-                defaultButton.isHidden = false
+                self.activeButton.isHidden = true
+                self.hoverButton.isHidden = true
+                self.defaultButton.isHidden = false
             }
         }
     }
@@ -171,8 +205,9 @@ class SpriteButtonNode: SKNode {
         
         // skip action handling, when button is not active
         guard self.active else {
-            activeButton.isHidden = true
-            defaultButton.isHidden = false
+            self.activeButton.isHidden = true
+            self.hoverButton.isHidden = true
+            self.defaultButton.isHidden = false
             return
         }
         
@@ -183,8 +218,9 @@ class SpriteButtonNode: SKNode {
                 self.action()
             }
             
-            activeButton.isHidden = true
-            defaultButton.isHidden = false
+            self.activeButton.isHidden = true
+            self.hoverButton.isHidden = true
+            self.defaultButton.isHidden = false
         }
     }
 }

@@ -3,9 +3,9 @@
     <anchorx>center</anchorx>
     <anchory>center</anchory>
     <offsetx>-337</offsetx>
-    <offsety>-400</offsety>
+    <offsety>-450</offsety>
     <width>300</width>
-    <height>300</height>
+    <height>370</height>
     <background>grid9_dialog</background>
     
     <!-- sub items -->
@@ -44,6 +44,23 @@
             <height>40</height>
         </item>
         <item>
+            <identifier>civ_dropdown</identifier>
+            <type>dropdown</type>
+            <selectedIndex>0</selectedIndex>
+            <items>
+                <item>english</item>
+                <item>french</item>
+                <item>spanish</item>
+                <item>greek</item>
+            </items>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-100</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
             <identifier>okay_button</identifier>
             <type>button</type>
             <title>Yes</title>
@@ -51,7 +68,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-100</offsety>
+            <offsety>-150</offsety>
             <width>100</width>
             <height>42</height>
         </item>
