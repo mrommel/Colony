@@ -131,36 +131,6 @@ class QuestsScene: BaseScene {
         self.cameraNode.addChild(debugLabel)*/
         // debug
 
-        // check if we have a user
-        let userUsecase = UserUsecase()
-
-        if !userUsecase.isCurrentUserExisting() {
-
-            // ... ask the user if he wants to create a new user ...
-            if let playerInputDialog = UI.playerInputDialog() {
-                playerInputDialog.addOkayAction(handler: {
-
-                    if !playerInputDialog.isValid() {
-
-                        playerInputDialog.show(warning: "name needs to have at least 3 characters")
-                        return
-                    }
-                    
-                    let username = playerInputDialog.getUsername()
-                    let civilization = playerInputDialog.getCivilization()
-
-                    if !userUsecase.createCurrentUser(named: username, civilization: civilization) {
-                        playerInputDialog.show(warning: "can't create user")
-                        return
-                    }
-                    
-                    playerInputDialog.close()
-                })
-
-                self.cameraNode.add(dialog: playerInputDialog)
-            }
-        }
-
         let gameUsecase = GameUsecase()
 
         // ask if user wants to continue last game

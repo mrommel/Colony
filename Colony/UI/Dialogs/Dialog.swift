@@ -150,6 +150,9 @@ class Dialog: NineGridTextureSprite {
                 dropdown.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
                 dropdown.delegate = self
                 self.addChild(dropdown)
+                
+                self.selectedIndex = dropdownSelectedIndex
+                self.selectedItem = items[dropdownSelectedIndex]
             }
         }
     }

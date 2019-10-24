@@ -64,7 +64,7 @@ class MenuScene: BaseScene {
         self.rootNode.addChild(self.colonyTitleLabel!)
 
         // tutorial
-        self.tutorialButton = MenuButtonNode(titled: "Tutorials",
+        self.tutorialButton = MenuButtonNode(imageNamed: "tutorials", title: "Tutorials",
             buttonAction: {
                 self.menuDelegate?.startTutorials()
             })
@@ -80,7 +80,7 @@ class MenuScene: BaseScene {
         self.rootNode.addChild(self.questsButton!)
 
         // quests
-        self.freePlayButton = MenuButtonNode(titled: "Free Play",
+        self.freePlayButton = MenuButtonNode(imageNamed: "free_play", title: "Free Play",
             buttonAction: {
                 self.rootNode.blurWith(completion: {
                     self.requestMapType()
@@ -106,7 +106,7 @@ class MenuScene: BaseScene {
         self.rootNode.addChild(self.storeButton!)
         
         // pedia
-        self.pediaButton = MenuButtonNode(titled: "Pedia",
+        self.pediaButton = MenuButtonNode(imageNamed: "pedia", title: "Pedia",
                                           buttonAction: {
                                             self.menuDelegate?.startPedia()
         })
@@ -120,6 +120,8 @@ class MenuScene: BaseScene {
         self.rootNode.addChild(self.copyrightLabel!)
 
         self.updateLayout()
+        
+        self.checkUserExists()
     }
     
     // moving the menu content around

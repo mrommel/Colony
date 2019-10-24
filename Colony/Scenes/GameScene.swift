@@ -675,6 +675,21 @@ extension GameScene: GameUpdateDelegate {
             battleDialog.addOkayAction(handler: {
 
                 let result = battle.fight()
+                
+                if result.options.contains(.attackerStriked) {
+                    print("show attacker strike")
+                    source?.gameObject?.showExplosion()
+                    target?.gameObject?.showExplosion()
+                } else if result.options.contains(.defenderStriked) {
+                    print("show defender strike")
+                    source?.gameObject?.showExplosion()
+                    target?.gameObject?.showExplosion()
+                } else if result.options.contains(.bothStriked) {
+                    print("show both strike")
+                    source?.gameObject?.showExplosion()
+                    target?.gameObject?.showExplosion()
+                }
+                
                 battleDialog.close()
                 self.showBattleResultDialog(with: result)
             })
@@ -690,7 +705,7 @@ extension GameScene: GameUpdateDelegate {
     }
 
     func showBattleResult(between source: Unit?, and target: Unit?, result: BattleResult) {
-        
+        print("hm")
     }
 }
 

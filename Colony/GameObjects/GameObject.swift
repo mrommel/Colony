@@ -9,27 +9,27 @@
 import SpriteKit
 
 enum GameObjectType {
-    
+
     // player
     case unit
-    
+
     // can't be moved
     case city
     case field
     case castle
-    
+
     // collectives
     case coin
     case booster
-    
+
     // tile cannot be accessed, can't be moved
     case obstacle
-    
+
     // simple reactive AI
     case monster
     case pirates
     case tradeShip
-    
+
     // just wonder around
     case animal
 }
@@ -42,7 +42,7 @@ class GameObject {
 
     let identifier: String
     let type: GameObjectType
-    
+
     private var _connectedUnit: Unit? = nil
     private var _connectedAnimal: Animal? = nil
     private var _connectedCity: City? = nil
@@ -61,6 +61,9 @@ class GameObject {
     var lastTime: CFTimeInterval = 0
     var animationSpeed = 2.0
 
+    // objecct animation
+    var atlasExplosion: GameObjectAtlas?
+
     // usecases
     let userUsecase: UserUsecase?
 
@@ -76,9 +79,9 @@ class GameObject {
 
         self.identifier = identifier
         self.type = .unit
-        
+
         self._connectedUnit = connectedUnit
-        
+
         guard let position = self._connectedUnit?.position else {
             fatalError("can't get inital position")
         }
@@ -90,15 +93,17 @@ class GameObject {
         self.sprite.anchorPoint = anchorPoint
 
         self.userUsecase = UserUsecase()
+
+        self.setupEmitters()
     }
-    
+
     init(with identifier: String, animal connectedAnimal: Animal?, spriteName: String, anchorPoint: CGPoint) {
 
         self.identifier = identifier
         self.type = .animal
-        
+
         self._connectedAnimal = connectedAnimal
-        
+
         guard let position = self._connectedAnimal?.position else {
             fatalError("can't get inital position")
         }
@@ -110,15 +115,17 @@ class GameObject {
         self.sprite.anchorPoint = anchorPoint
 
         self.userUsecase = UserUsecase()
+
+        self.setupEmitters()
     }
-    
+
     init(with identifier: String, city connectedCity: City?, spriteName: String, anchorPoint: CGPoint) {
 
         self.identifier = identifier
         self.type = .city
-        
+
         self._connectedCity = connectedCity
-        
+
         guard let position = self._connectedCity?.position else {
             fatalError("can't get inital position")
         }
@@ -130,15 +137,17 @@ class GameObject {
         self.sprite.anchorPoint = anchorPoint
 
         self.userUsecase = UserUsecase()
+
+        self.setupEmitters()
     }
-    
+
     init(with identifier: String, mapItem connectedMapItem: MapItem?, spriteName: String, anchorPoint: CGPoint) {
 
         self.identifier = identifier
         self.type = .city
-        
+
         self._connectedMapItem = connectedMapItem
-        
+
         guard let position = self._connectedMapItem?.position else {
             fatalError("can't get inital position")
         }
@@ -150,26 +159,33 @@ class GameObject {
         self.sprite.anchorPoint = anchorPoint
 
         self.userUsecase = UserUsecase()
+
+        self.setupEmitters()
     }
-    
+
     // MARK: methods
-    
+
+    func setupEmitters() {
+
+        self.atlasExplosion = GameObjectAtlas(atlasName: "explosion", textures: ["explosion000", "explosion001", "explosion002", "explosion003", "explosion004", "explosion005", "explosion006", "explosion007", "explosion008", "explosion009", "explosion010", "explosion011", "explosion012", "explosion013", "explosion014", "explosion015", "explosion016", "explosion017", "explosion018", "explosion019", "explosion020", "explosion021", "explosion022", "explosion023", "explosion024", "explosion025", "explosion026", "explosion027", "explosion028", "explosion029", "explosion030", "explosion031", "explosion032", "explosion033", "explosion034", "explosion035", "explosion036", "explosion037", "explosion037", "explosion039", "explosion040", "explosion041", "explosion042", "explosion043", "explosion044", "explosion045", "explosion046", "explosion047", "explosion048", "explosion049", "explosion050", "explosion051", "explosion052", "explosion053", "explosion054", "explosion055", "explosion056", "explosion057", "explosion058", "explosion059", "explosion060", "explosion061", "explosion062", "explosion063"])
+    }
+
     func updatePosition(to position: HexPoint) {
-        
+
         if let unit = self.connectedUnit() {
             unit.position = position
             self.delegate?.moved(unit: unit)
             return
         }
-        
+
         if let animal = self.connectedAnimal() {
             animal.position = position
             return
         }
-        
+
         fatalError("can't move map item or city")
     }
-    
+
     // MARK: methods
 
     func show() {
@@ -197,28 +213,28 @@ class GameObject {
 
         self.sprite.zPosition = zPosition
     }
-    
+
     // MARK - connect unit
-    
+
     func connectedUnit() -> Unit? {
-        
+
         return self._connectedUnit
     }
-    
+
     func connectedCity() -> City? {
-        
+
         return self._connectedCity
     }
-    
+
     func connectedAnimal() -> Animal? {
-        
+
         return self._connectedAnimal
     }
 
     func showUnitTypeIndicator() {
 
         self.hideUnitTypeIndicator()
-        
+
         if let unit = self.connectedUnit() {
 
             self.unitTypeIndicator = UnitTypeIndicator(civilization: unit.civilization, unitType: unit.unitType)
@@ -229,18 +245,18 @@ class GameObject {
             }
         }
     }
-    
+
     func hideUnitTypeIndicator() {
-        
+
         if self.unitTypeIndicator != nil {
             self.unitTypeIndicator?.removeFromParent()
         }
     }
-    
+
     func showUnitStrengthIndicator() {
-        
+
         self.hideUnitStrengthIndicator()
-        
+
         if let unit = self.connectedUnit() {
             self.unitStrengthIndicator = UnitStrengthIndicator(strength: unit.strength)
             self.unitStrengthIndicator?.position = CGPoint(x: 38, y: 5)
@@ -250,16 +266,16 @@ class GameObject {
             }
         }
     }
-    
+
     func updateUnitStrengthIndicator() {
-        
+
         if let unit = self.connectedUnit() {
             self.unitStrengthIndicator?.set(strength: unit.strength)
         }
     }
-    
+
     func hideUnitStrengthIndicator() {
-        
+
         if self.unitStrengthIndicator != nil {
             self.unitStrengthIndicator?.removeFromParent()
         }
@@ -292,9 +308,9 @@ class GameObject {
             self.sprite.addChild(nameLabel)
         }
     }
-    
+
     func hideCityName() {
-        
+
         if self.nameLabel != nil {
             self.nameLabel?.removeFromParent()
             self.nameBackground?.removeFromParent()
@@ -401,12 +417,12 @@ class GameObject {
             self.pathSpriteBuffer.append(pathSprite)
         }
     }
-    
+
     func showTexture(named spriteName: String) {
-        
+
         self.spriteName = spriteName
         let newTexture = SKTexture(imageNamed: self.spriteName)
-        
+
         self.sprite.texture = newTexture
     }
 
@@ -452,6 +468,68 @@ class GameObject {
         }
     }
 
+    func showExplosion() {
+
+        if let atlas = self.atlasExplosion {
+            
+            let explosionNode = SKSpriteNode(imageNamed: atlas.textures[0])
+            explosionNode.position = CGPoint(x: 0.0, y: 0.0) // HexMapDisplay.shared.toScreen(hex: self.position)
+            //explosionNode.setScale(0.3)
+            explosionNode.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+            self.sprite.addChild(explosionNode)
+            
+            let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
+            let explosionFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
+            let explosionAnimation = SKAction.animate(with: explosionFrames, timePerFrame: 3.0 / Double(explosionFrames.count))
+
+            let removeAction = SKAction.run({
+                explosionNode.removeFromParent()
+                print("explosion node removed")
+            })
+            
+            let sequence = SKAction.sequence([explosionAnimation, removeAction])
+            
+            explosionNode.run(sequence)
+        }
+        
+        /*let explosionNode = SKSpriteNode(imageNamed: "explosion000")
+
+        let addNodeAction = SKAction.run({
+            self.sprite.addChild(explosionNode)
+        })
+        let explosionAction = SKAction.animate(with: self.explosionAtlas?.textureNames, timePerFrame: 0.7)
+        let removeAction = SKAction.run({
+            explosionNode.removeFromParent()
+            print("explosion node removed")
+        })
+
+        let sequence = SKAction.sequence([addNodeAction, explosionAction, removeAction])
+        self.sprite.run(sequence)*/
+
+
+
+        /*let emitterToAdd = self.explosionEmitter?.copy() as! SKEmitterNode
+
+        emitterToAdd.position = HexMapDisplay.shared.toScreen(hex: position)
+        
+        let addEmitterAction = SKAction.run({
+            self.sprite.addChild(emitterToAdd)
+        })
+
+        let emitterDuration: CGFloat = 2.0 // CGFloat(emitterToAdd.numParticlesToEmit) * emitterToAdd.particleLifetime
+
+        let wait = SKAction.wait(forDuration: TimeInterval(emitterDuration))
+
+        let remove = SKAction.run({
+            emitterToAdd.removeFromParent()
+            print("explosion Emitter removed")
+        })
+
+        let sequence = SKAction.sequence([addEmitterAction, wait, remove])
+
+        self.sprite.run(sequence)*/
+    }
+
     func run(_ action: SKAction!, withKey key: String!, completion block: (() -> Void)?) {
 
         self.sprite.run(action, withKey: key, completion: block)
@@ -477,55 +555,55 @@ extension GameObject: Equatable {
 }
 
 extension GameObject: FogUnit {
-    
+
     var civilization: Civilization {
-        
+
         if let unit = self._connectedUnit {
             return unit.civilization
         }
-        
+
         if let city = self._connectedCity {
             return city.civilization
         }
-        
+
         return .none
     }
-    
+
     var position: HexPoint {
-        
+
         if let unit = self._connectedUnit {
             return unit.position
         }
-        
+
         if let animal = self._connectedAnimal {
             return animal.position
         }
-        
+
         if let city = self._connectedCity {
             return city.position
         }
-        
+
         if let mapItem = self._connectedMapItem {
             return mapItem.position
         }
-        
+
         fatalError("no position defined")
     }
-    
+
     var sight: Int {
-        
+
         if let unit = self.connectedUnit() {
             return unit.sight
         }
-        
+
         if let _ = self.connectedCity() {
             return 2
         }
-        
+
         /*if let animal = self.connectedAnimal() {
             return animal.sight
         }*/
-        
+
         fatalError("no sight defined")
     }
 

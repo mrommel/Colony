@@ -22,14 +22,20 @@ struct BattleOptions: OptionSet {
     
     let rawValue: Int
     
-    static let attackBrokenUp  = BattleOptions(rawValue: 1 << 0)
-    static let attackerKilled = BattleOptions(rawValue: 1 << 1)
-    static let attackerSuppressed  = BattleOptions(rawValue: 1 << 2)
+    // initiative
+    static let attackerStriked  = BattleOptions(rawValue: 1 << 0)
+    static let defenderStriked  = BattleOptions(rawValue: 1 << 1)
+    static let bothStriked  = BattleOptions(rawValue: 1 << 2)
     
-    static let defenderKilled = BattleOptions(rawValue: 1 << 3)
-    static let defenderSuppressed = BattleOptions(rawValue: 1 << 4)
+    // battle events
+    static let attackBrokenUp  = BattleOptions(rawValue: 1 << 3)
+    static let attackerKilled = BattleOptions(rawValue: 1 << 4)
+    static let attackerSuppressed  = BattleOptions(rawValue: 1 << 5)
     
-    static let ruggedDefense = BattleOptions(rawValue: 1 << 5)
+    static let defenderKilled = BattleOptions(rawValue: 1 << 6)
+    static let defenderSuppressed = BattleOptions(rawValue: 1 << 7)
+    
+    static let ruggedDefense = BattleOptions(rawValue: 1 << 8)
 }
 
 enum BattleStrikeOrder {
@@ -139,6 +145,7 @@ class Battle {
             fatalError("Can't get defender terrain")
         }
         
+        var options: BattleOptions = []
         var ruggedDefence = false
         
         /* check if rugged defense occurs */
@@ -167,17 +174,22 @@ class Battle {
         
         let attackerStrengthOld = attackerUnit.strength
         
-        print("[GameObject]: attackerInitiative=\(attackerInitiative), defenderInitiative=\(defenderInitiative)")
+        logBattle("[Battle]: attackerInitiative=\(attackerInitiative), defenderInitiative=\(defenderInitiative)")
         
         var strikeOrder: BattleStrikeOrder = .bothStrike
         if attackerInitiative > defenderInitiative {
             strikeOrder = .attackerStrikesFirst
+            options.insert(.attackerStriked)
         } else if attackerInitiative < defenderInitiative {
             strikeOrder = .defenderStrikesFirst
+            options.insert(.defenderStriked)
+        } else {
+            options.insert(.bothStriked)
         }
+                
+        logBattle("[Battle]: strikeOrder=\(strikeOrder)")
         
         // combat results
-        var options: BattleOptions = []
         var defenderDamage: Int = 0
         var defenderSuppression: Int = 0
         var attackerDamage: Int = 0
@@ -196,7 +208,7 @@ class Battle {
             
             attackerUnit.apply(damage: attackerDamage, suppression: attackerSuppression, real: real)
             defenderUnit.apply(damage: defenderDamage, suppression: defenderSuppression, real: real)
-            break
+
         case .attackerStrikesFirst:
             /* unit strikes first */
             (defenderDamage, defenderSuppression) = Battle.getDamageForAttack(from: self.attackerUnit, and: self.defenderUnit, attackType: self.mainAttackType, real: real, ruggedDefense: ruggedDefence, in: self.game)
@@ -206,6 +218,7 @@ class Battle {
                 (attackerDamage, attackerSuppression) = Battle.getDamageForAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, real: real, ruggedDefense: ruggedDefence, in: self.game)
                 attackerUnit.apply(damage: attackerDamage, suppression: attackerSuppression, real: real)
             }
+            
         case .defenderStrikesFirst:
             /* target strikes first */
             if Battle.checkAttack(from: self.defenderUnit, and: self.attackerUnit, attackType: .passive, in: self.game) {
@@ -213,7 +226,7 @@ class Battle {
                 attackerUnit.apply(damage: attackerDamage, suppression: attackerSuppression, real: real)
                 
                 if attackerUnit.strength <= 0 {
-                    options.insert(BattleOptions.attackBrokenUp)
+                    options.insert(.attackBrokenUp)
                 }
             }
             
@@ -225,19 +238,19 @@ class Battle {
         
         /* check return value */
         if attackerUnit.strength <= 0 {
-            options.insert(BattleOptions.attackerKilled)
+            options.insert(.attackerKilled)
         } else if attackerUnit.currentStrength <= 0 {
-            options.insert(BattleOptions.attackerSuppressed)
+            options.insert(.attackerSuppressed)
         }
         
         if defenderUnit.strength <= 0 {
-            options.insert(BattleOptions.defenderKilled)
+            options.insert(.defenderKilled)
         } else if defenderUnit.currentStrength <= 0 {
-            options.insert(BattleOptions.defenderSuppressed)
+            options.insert(.defenderSuppressed)
         }
         
         if ruggedDefence {
-            options.insert(BattleOptions.ruggedDefense)
+            options.insert(.ruggedDefense)
         }
         
         if real {
@@ -272,7 +285,7 @@ class Battle {
             defenderUnit.apply(damage: -defenderDamage, suppression: -defenderSuppression, real: false)
         }
         
-        print("[GameObject]: attackerDamage=\(attackerDamage), defenderDamage=\(defenderDamage)")
+        logBattle("[Battle]: attackerDamage=\(attackerDamage), defenderDamage=\(defenderDamage)")
 
         return BattleResult(defenderDamage: defenderDamage, defenderSuppression: defenderSuppression, attackerDamage: attackerDamage, attackerSuppression: attackerSuppression, options: options)
     }

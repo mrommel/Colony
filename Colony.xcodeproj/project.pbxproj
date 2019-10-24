@@ -66,6 +66,7 @@
 		C91AC6E72302D0AD00104BD3 /* MovementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91AC6E62302D0AD00104BD3 /* MovementType.swift */; };
 		C91AE233235EF8DE00555F2D /* DialogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91AE232235EF8DE00555F2D /* DialogItem.swift */; };
 		C91AE235235F339100555F2D /* PlayerInputDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91AE234235F339100555F2D /* PlayerInputDialog.swift */; };
+		C91C39D623619A8700BD90B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C91C39D423619A8700BD90B9 /* Assets.xcassets */; };
 		C92185E82316AF5200ED61A5 /* FieldObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92185E72316AF5200ED61A5 /* FieldObject.swift */; };
 		C927E2EC22CE9C6300EDBE0D /* GameUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2EB22CE9C6300EDBE0D /* GameUsecase.swift */; };
 		C927E2EE22CF5A0A00EDBE0D /* OptionsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */; };
@@ -368,6 +369,7 @@
 		C91AC6E62302D0AD00104BD3 /* MovementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementType.swift; sourceTree = "<group>"; };
 		C91AE232235EF8DE00555F2D /* DialogItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogItem.swift; sourceTree = "<group>"; };
 		C91AE234235F339100555F2D /* PlayerInputDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInputDialog.swift; sourceTree = "<group>"; };
+		C91C39D423619A8700BD90B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C92185E72316AF5200ED61A5 /* FieldObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldObject.swift; sourceTree = "<group>"; };
 		C927E2EB22CE9C6300EDBE0D /* GameUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUsecase.swift; sourceTree = "<group>"; };
 		C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
@@ -637,6 +639,14 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
+		C91C39D223619A4E00BD90B9 /* Emitters */ = {
+			isa = PBXGroup;
+			children = (
+				C91C39D423619A8700BD90B9 /* Assets.xcassets */,
+			);
+			path = Emitters;
+			sourceTree = "<group>";
+		};
 		C92185E9231903C000ED61A5 /* Animals */ = {
 			isa = PBXGroup;
 			children = (
@@ -753,6 +763,7 @@
 		C956078A22B1241B00AA69E9 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
+				C91C39D223619A4E00BD90B9 /* Emitters */,
 				C95318D7233E4F02005D507F /* Fonts */,
 				C962940D22FC6EF600CC7F27 /* DDS */,
 				C938DEC322F4673700DA7072 /* Civ5 */,
@@ -1275,6 +1286,7 @@
 				C962941222FC6F0100CC7F27 /* grid9frameturns.dds in Resources */,
 				C962943222FDEEBD00CC7F27 /* MapClimateDialog.xml in Resources */,
 				C9C7F0D4229B193400A775B2 /* Main.storyboard in Resources */,
+				C91C39D623619A8700BD90B9 /* Assets.xcassets in Resources */,
 				C965FEAF22E747130075CB87 /* CityDialog.xml in Resources */,
 				C962940122FB4ED800CC7F27 /* MapTypeDialog.xml in Resources */,
 				C9C7F0D6229B193A00A775B2 /* Assets.xcassets in Resources */,

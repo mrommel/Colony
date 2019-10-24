@@ -50,6 +50,10 @@ class Log {
         formatter.dateStyle = .short
         return formatter
     }
+    
+    init(with name: String = "logfile") {
+        self.name = name
+    }
 
     ///write content to the current log file.
     open func write(_ text: String) {
@@ -182,7 +186,7 @@ extension Log {
     open class var ´default´: Log {
 
         struct Static {
-            static let defaultInstance: Log = Log()
+            static let defaultInstance: Log = Log(with: "logfile")
         }
         return Static.defaultInstance
     }
@@ -191,9 +195,18 @@ extension Log {
     open class var ai: Log {
 
         struct Static {
-            static let aiInstance: Log = Log()
+            static let aiInstance: Log = Log(with: "ailogfile")
         }
         return Static.aiInstance
+    }
+    
+    /// ai logging singleton
+    open class var battle: Log {
+
+        struct Static {
+            static let battleInstance: Log = Log(with: "battlelogfile")
+        }
+        return Static.battleInstance
     }
 }
 
@@ -205,4 +218,9 @@ public func logDefault(_ text: String) {
 /// Writes content to the ai log file
 public func logAI(_ text: String) {
     Log.ai.write(text)
+}
+
+/// Writes content to the battle log file
+public func logBattle(_ text: String) {
+    Log.battle.write(text)
 }
