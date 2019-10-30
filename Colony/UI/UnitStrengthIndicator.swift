@@ -27,18 +27,19 @@ class UnitStrengthIndicator: SKNode {
         let frameImageNode = SKSpriteNode(texture: frameTexture, color: .black, size: size)
         frameImageNode.position = CGPoint(x: 0.0, y: 0.0)
         frameImageNode.anchorPoint = CGPoint.lowerLeft
-        frameImageNode.zPosition = self.zPosition + 1
+        frameImageNode.zPosition = GameScene.Constants.ZLevels.unitStrength + 0.3
         self.addChild(frameImageNode)
         
         self.progressBar = SKCropNode()
         self.progressBar?.position = CGPoint(x: 0.0, y: 0.0)
-        self.progressBar?.zPosition = self.zPosition - 0.1
+        self.progressBar?.zPosition = GameScene.Constants.ZLevels.unitStrength + 0.2
         
         let barTexture = SKTexture(imageNamed: "unit_strength_bar")
         self.barImageNode = SKSpriteNode(texture: barTexture, color: .green, size: size)
         self.barImageNode?.position = CGPoint(x: 0.0, y: 0.0)
         self.barImageNode?.anchorPoint = CGPoint.lowerLeft
         self.barImageNode?.colorBlendFactor = 0.9
+        self.barImageNode?.zPosition = GameScene.Constants.ZLevels.unitStrength + 0.1
         self.progressBar?.addChild(self.barImageNode!)
         
         let maskNode = SKSpriteNode(color: UIColor.white, size: sizeDouble)

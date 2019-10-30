@@ -14,6 +14,10 @@ class HexMapDisplay {
     static let shared = HexMapDisplay()
     
 	private let layout: HexLayout
+    
+    var size: CGSize {
+        return self.layout.size
+    }
 
 	private init() {
 		layout = HexLayout(orientation: HexOrientation.flat, size: CGSize(width: 24, height: 18), origin: CGPoint.zero)

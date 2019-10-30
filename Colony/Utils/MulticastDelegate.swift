@@ -78,8 +78,6 @@ open class MulticastDelegate<T> {
     /**
      *  Use this method to invoke a closure on each delegate.
      *
-     *  Alternatively, you can use the `|>` operator to invoke a given closure on each delegate.
-     *
      *  - parameter invocation: The closure to be invoked on each delegate.
      */
     public func invokeDelegates(_ invocation: (T) -> ()) {
@@ -126,24 +124,4 @@ public func +=<T>(left: MulticastDelegate<T>, right: T) {
 public func -=<T>(left: MulticastDelegate<T>, right: T) {
     
     left.removeDelegate(right)
-}
-
-/**
- *  Use this operator invoke a closure on each delegate.
- *
- *  This is a convenience operator for calling `invokeDelegates`.
- *
- *  - parameter left:   The multicast delegate
- *  - parameter right:  The closure to be invoked on each delegate
- *
- *  - returns: The `MulticastDelegate` after all its delegates have been invoked
- */
-precedencegroup MulticastPrecedence {
-    associativity: left
-    higherThan: TernaryPrecedence
-}
-infix operator |> : MulticastPrecedence
-public func |><T>(left: MulticastDelegate<T>, right: (T) -> ()) {
-    
-    left.invokeDelegates(right)
 }

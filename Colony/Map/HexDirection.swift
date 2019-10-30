@@ -19,10 +19,12 @@ enum HexDirection: Int {
 	case northwest
 
 	static var all: [HexDirection] {
+        
 		return [.north, .northeast, .southeast, .south, .southwest, .northwest]
 	}
 
 	var short: String {
+        
 		switch self {
 		case .north:
 			return "n"
@@ -40,6 +42,7 @@ enum HexDirection: Int {
 	}
 
 	var description: String {
+        
 		switch self {
 		case .north:
 			return "North"
@@ -57,6 +60,7 @@ enum HexDirection: Int {
 	}
 
 	var pickerImage: String {
+        
 		switch self {
 		case .north:
 			return "hex_neighbors_n"
@@ -72,4 +76,22 @@ enum HexDirection: Int {
 			return "hex_neighbors_nw"
 		}
 	}
+    
+    var opposite: HexDirection {
+        
+        switch self {
+        case .north:
+            return .south
+        case .northeast:
+            return .southwest
+        case .southeast:
+            return .northwest
+        case .south:
+            return .north
+        case .southwest:
+            return .northeast
+        case .northwest:
+            return .southeast
+        }
+    }
 }

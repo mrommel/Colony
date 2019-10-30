@@ -239,7 +239,7 @@ class GameObject {
 
             self.unitTypeIndicator = UnitTypeIndicator(civilization: unit.civilization, unitType: unit.unitType)
             self.unitTypeIndicator?.anchorPoint = CGPoint(x: 0.0, y: 0.1)
-            self.unitTypeIndicator?.zPosition = GameScene.Constants.ZLevels.sprite + 0.1
+            self.unitTypeIndicator?.zPosition = GameScene.Constants.ZLevels.unitType
             if let unitTypeIndicator = self.unitTypeIndicator {
                 self.sprite.addChild(unitTypeIndicator)
             }
@@ -260,7 +260,7 @@ class GameObject {
         if let unit = self.connectedUnit() {
             self.unitStrengthIndicator = UnitStrengthIndicator(strength: unit.strength)
             self.unitStrengthIndicator?.position = CGPoint(x: 38, y: 5)
-            self.unitStrengthIndicator?.zPosition = GameScene.Constants.ZLevels.sprite + 0.2
+            self.unitStrengthIndicator?.zPosition = GameScene.Constants.ZLevels.unitStrength
             if let unitStrengthIndicator = self.unitStrengthIndicator {
                 self.sprite.addChild(unitStrengthIndicator)
             }
@@ -468,66 +468,53 @@ class GameObject {
         }
     }
 
-    func showExplosion() {
+    func delta(in dir: HexDirection) -> CGPoint {
+        
+        let size = HexMapDisplay.shared.size * 2.0
+        
+        switch dir {
+            
+        case .north:
+            return CGPoint(x: size.halfWidth, y: size.height - 2)
+        case .northeast:
+            return CGPoint(x: size.width * 0.8, y: size.height * 0.7)
+        case .southeast:
+            return CGPoint(x: size.width * 0.8, y: size.height * 0.3)
+        case .south:
+            return CGPoint(x: size.halfWidth, y: 2)
+        case .southwest:
+            return CGPoint(x: size.width * 0.2, y: size.height * 0.3)
+        case .northwest:
+            return CGPoint(x: size.width * 0.2, y: size.height * 0.7)
+        }
+    }
+    
+    func showExplosion(in dir: HexDirection) {
 
         if let atlas = self.atlasExplosion {
-            
+             
             let explosionNode = SKSpriteNode(imageNamed: atlas.textures[0])
-            explosionNode.position = CGPoint(x: 0.0, y: 0.0) // HexMapDisplay.shared.toScreen(hex: self.position)
-            //explosionNode.setScale(0.3)
-            explosionNode.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-            self.sprite.addChild(explosionNode)
+            let explosionPosition = HexMapDisplay.shared.toScreen(hex: self.position) + self.delta(in: dir)
+
+            explosionNode.setScale(0.5)
+            explosionNode.position = explosionPosition
+            explosionNode.anchorPoint = .middleCenter
+            explosionNode.zPosition = GameScene.Constants.ZLevels.sprite + 0.2
+            self.sprite.parent?.addChild(explosionNode)
             
             let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
             let explosionFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
             let explosionAnimation = SKAction.animate(with: explosionFrames, timePerFrame: 3.0 / Double(explosionFrames.count))
 
-            let removeAction = SKAction.run({
+            let removeAnimation = SKAction.run({
                 explosionNode.removeFromParent()
                 print("explosion node removed")
             })
             
-            let sequence = SKAction.sequence([explosionAnimation, removeAction])
+            let sequence = SKAction.sequence([explosionAnimation, removeAnimation])
             
             explosionNode.run(sequence)
         }
-        
-        /*let explosionNode = SKSpriteNode(imageNamed: "explosion000")
-
-        let addNodeAction = SKAction.run({
-            self.sprite.addChild(explosionNode)
-        })
-        let explosionAction = SKAction.animate(with: self.explosionAtlas?.textureNames, timePerFrame: 0.7)
-        let removeAction = SKAction.run({
-            explosionNode.removeFromParent()
-            print("explosion node removed")
-        })
-
-        let sequence = SKAction.sequence([addNodeAction, explosionAction, removeAction])
-        self.sprite.run(sequence)*/
-
-
-
-        /*let emitterToAdd = self.explosionEmitter?.copy() as! SKEmitterNode
-
-        emitterToAdd.position = HexMapDisplay.shared.toScreen(hex: position)
-        
-        let addEmitterAction = SKAction.run({
-            self.sprite.addChild(emitterToAdd)
-        })
-
-        let emitterDuration: CGFloat = 2.0 // CGFloat(emitterToAdd.numParticlesToEmit) * emitterToAdd.particleLifetime
-
-        let wait = SKAction.wait(forDuration: TimeInterval(emitterDuration))
-
-        let remove = SKAction.run({
-            emitterToAdd.removeFromParent()
-            print("explosion Emitter removed")
-        })
-
-        let sequence = SKAction.sequence([addEmitterAction, wait, remove])
-
-        self.sprite.run(sequence)*/
     }
 
     func run(_ action: SKAction!, withKey key: String!, completion block: (() -> Void)?) {

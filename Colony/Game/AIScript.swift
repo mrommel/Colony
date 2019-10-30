@@ -48,9 +48,15 @@ class AIScriptLevel0001: AIScript {
         for unitRef in unitsOfAI {
             if let unit = unitRef {
                 if unit.isWaitingForOrders() {
-                    print("-- add mission")
-                    let followMission = FollowAndAttackUnitMission(unit: unitRef, target: caravelOfPlayer)
-                    unit.order(mission: followMission)
+                    print("-- need mission")
+                    
+                    if unit.strength > 5 {
+                        let followMission = FollowAndAttackUnitMission(unit: unitRef, target: caravelOfPlayer)
+                        unit.order(mission: followMission)
+                    } else {
+                        let scoutingMission = ScoutingMission(unit: unitRef, target: positionNearLondon)
+                        unit.order(mission: scoutingMission)
+                    }
                 }
             }
         }

@@ -40,8 +40,8 @@ class GameObjectManager {
     var objects: [GameObject?]
     var selected: Unit? {
         didSet {
-            self.gameObjectUnitDelegates |> { delegate in
-                delegate.selectedUnitChanged(to: selected)
+            self.gameObjectUnitDelegates.invokeDelegates {
+                $0.selectedUnitChanged(to: selected)
             }
         }
     }
@@ -114,6 +114,8 @@ class GameObjectManager {
                 self.map?.fogManager?.add(city: gameObject!)
             }
         }
+        
+        self.map?.fogManager?.update()
     }
 
     func remove(city: City?) {
@@ -160,8 +162,8 @@ class GameObjectManager {
     func centerOnPlayerUnit() {
 
         // focus on unit
-        self.gameObjectUnitDelegates |> { delegate in
-            delegate.selectedUnitChanged(to: self.selected)
+        self.gameObjectUnitDelegates.invokeDelegates {
+            $0.selectedUnitChanged(to: self.selected)
         }
     }
 
@@ -203,7 +205,7 @@ class GameObjectManager {
                     // consume coin
                     self.gameObservationDelegate?.coinConsumed()
                     
-                    self.gameObjectUnitDelegates |> { delegate in
+                    self.gameObjectUnitDelegates | > { delegate in
                         delegate.removed(gameObject: unit)
                     }
                     self.remove(object: unit)
@@ -221,7 +223,7 @@ class GameObjectManager {
                     // consume coin
                     self.gameObservationDelegate?.boosterConsumed(type: boosterObject.boosterType)
                     
-                    self.gameObjectUnitDelegates |> { delegate in
+                    self.gameObjectUnitDelegates | > { delegate in
                         delegate.removed(gameObject: unit)
                     }
                     self.remove(object: unit)

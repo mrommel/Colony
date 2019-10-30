@@ -37,6 +37,8 @@ class GameScene: BaseScene {
             static let staticSprite: CGFloat = 5.0
             static let cityName: CGFloat = 5.5
             static let sprite: CGFloat = 6.0
+            static let unitType: CGFloat = 8.0
+            static let unitStrength: CGFloat = 10.0
             static let labels: CGFloat = 50.0
             static let sceneElements: CGFloat = 51.0
             static let dialogs: CGFloat = 52.0
@@ -676,18 +678,28 @@ extension GameScene: GameUpdateDelegate {
 
                 let result = battle.fight()
                 
+                var sourceDirection: HexDirection = .north
+                if let sourcePosition = source?.position, let targetPosition = target?.position {
+                    sourceDirection = HexMapDisplay.shared.screenDirection(from: sourcePosition, towards: targetPosition) 
+                }
+                let targetDirection = sourceDirection.opposite
+                
                 if result.options.contains(.attackerStriked) {
-                    print("show attacker strike")
-                    source?.gameObject?.showExplosion()
-                    target?.gameObject?.showExplosion()
+                    //print("show attacker strike")
+                    source?.gameObject?.showExplosion(in: sourceDirection)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+                       target?.gameObject?.showExplosion(in: targetDirection)
+                    }
                 } else if result.options.contains(.defenderStriked) {
-                    print("show defender strike")
-                    source?.gameObject?.showExplosion()
-                    target?.gameObject?.showExplosion()
+                    //print("show defender strike")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+                       source?.gameObject?.showExplosion(in: sourceDirection)
+                    }
+                    target?.gameObject?.showExplosion(in: targetDirection)
                 } else if result.options.contains(.bothStriked) {
-                    print("show both strike")
-                    source?.gameObject?.showExplosion()
-                    target?.gameObject?.showExplosion()
+                    //print("show both strike")
+                    source?.gameObject?.showExplosion(in: sourceDirection)
+                    target?.gameObject?.showExplosion(in: targetDirection)
                 }
                 
                 battleDialog.close()
