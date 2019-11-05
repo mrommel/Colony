@@ -29,11 +29,13 @@ class BattleTests: XCTestCase {
         }
         
         let map = HexagonTileMap(with: CGSize(width: 5, height: 5))
-        let startPositions = StartPositions(monsterPosition: HexPoint(x: 0, y: 0), playerPosition: HexPoint(x: 2, y: 2), cityPositions: [])
-        let gameObjectManager = GameObjectManager(on: map)
-        let level = Level(number: 0, title: "", summary: "", difficulty: .easy, duration: 120, map: map, startPositions: startPositions, gameObjectManager: gameObjectManager)
+        let startPositions = StartPositions(playerPosition: HexPoint(x: 0, y: 0), cityPositions: [HexPoint(x: 1, y: 1)])
+        //let gameObjectManager = GameObjectManager(on: map)
+        
+        let level = Level(duration: 120, map: map, startPositions: startPositions)
+        let meta = LevelMeta(number: 1, title: "title", summary: "summary", difficulty: .medium, position: CGPoint(x: 1, y: 1), resource: "bla", rating: "rating", aiscript: "")
         let boosterStock = BoosterStock()
-        self.game = Game(with: level, coins: 0, boosterStock: boosterStock)
+        self.game = Game(with: level, meta: meta, coins: 0, boosterStock: boosterStock)
     }
     
     override func tearDown() {
@@ -42,8 +44,8 @@ class BattleTests: XCTestCase {
     
     func testSimpleBattle() {
         
-        let attacker = Axeman(with: "attacker", at: HexPoint(x: 1, y: 1), civilization: .english)
-        let defender = Axeman(with: "defender", at: HexPoint(x: 1, y: 1), civilization: .french)
+        let attacker = Axeman(position: HexPoint(x: 1, y: 1), civilization: .english)
+        let defender = Axeman(position: HexPoint(x: 1, y: 1), civilization: .french)
         
         let battle = Battle(between: attacker, and: defender, attackType: .active, in: self.game)
         let result = battle.predict()
@@ -58,8 +60,8 @@ class BattleTests: XCTestCase {
     
     func testBattleDefenderKilled() {
         
-        let attacker = Axeman(with: "attacker", at: HexPoint(x: 1, y: 1), civilization: .english)
-        let defender = Axeman(with: "defender", at: HexPoint(x: 1, y: 1), civilization: .french)
+        let attacker = Axeman(position: HexPoint(x: 1, y: 1), civilization: .english)
+        let defender = Axeman(position: HexPoint(x: 1, y: 1), civilization: .french)
         defender.strength = 4
         
         let battle = Battle(between: attacker, and: defender, attackType: .active, in: self.game)
@@ -75,9 +77,9 @@ class BattleTests: XCTestCase {
     
     func testBattleAttackBrokenUp() {
         
-        let attacker = Axeman(with: "attacker", at: HexPoint(x: 1, y: 1), civilization: .english)
+        let attacker = Axeman(position: HexPoint(x: 1, y: 1), civilization: .english)
         attacker.strength = 1
-        let defender = Axeman(with: "defender", at: HexPoint(x: 1, y: 1), civilization: .french)
+        let defender = Axeman(position: HexPoint(x: 1, y: 1), civilization: .french)
         defender.experience = 5
         
         let battle = Battle(between: attacker, and: defender, attackType: .active, in: self.game)
@@ -93,12 +95,12 @@ class BattleTests: XCTestCase {
     
     func testBattlePrediction() {
      
-        let attacker = Axeman(with: "attacker", at: HexPoint(x: 1, y: 1), civilization: .english)
+        let attacker = Axeman(position: HexPoint(x: 1, y: 1), civilization: .english)
         attacker.strength = 7
         attacker.experience = 3
         attacker.entrenchment = 2
 
-        let defender = Axeman(with: "defender", at: HexPoint(x: 1, y: 1), civilization: .french)
+        let defender = Axeman(position: HexPoint(x: 1, y: 1), civilization: .french)
         defender.strength = 6
         defender.experience = 2
         defender.entrenchment = 4
@@ -111,12 +113,12 @@ class BattleTests: XCTestCase {
         
         for _ in 0..<10 {
             
-            let attackerTmp = Axeman(with: "attacker", at: HexPoint(x: 1, y: 1), civilization: .english)
+            let attackerTmp = Axeman(position: HexPoint(x: 1, y: 1), civilization: .english)
             attackerTmp.strength = 7
             attackerTmp.experience = 3
             attackerTmp.entrenchment = 2
             
-            let defenderTmp = Axeman(with: "defender", at: HexPoint(x: 1, y: 1), civilization: .french)
+            let defenderTmp = Axeman(position: HexPoint(x: 1, y: 1), civilization: .french)
             defenderTmp.strength = 6
             defenderTmp.experience = 2
             defenderTmp.entrenchment = 4

@@ -516,6 +516,12 @@ class GameObject {
             explosionNode.run(sequence)
         }
     }
+    
+    func showExplosionDelayed(in dir: HexDirection) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+           self.showExplosion(in: dir)
+        }
+    }
 
     func run(_ action: SKAction!, withKey key: String!, completion block: (() -> Void)?) {
 

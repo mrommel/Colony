@@ -14,6 +14,7 @@ class Tile: Decodable {
     var point: HexPoint?
     var terrain: Terrain
     var terrainSprite: SKSpriteNode?
+    var snowSprite: SKSpriteNode?
     
     var features: [Feature]
     var featureSprites: [SKSpriteNode] = []

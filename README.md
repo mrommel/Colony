@@ -3,11 +3,9 @@
 ## Todo
 - redone city and village
 - populate world from start locations
-
+- fix tests
 - show collected coins in win dialog
 - add global player score for booster and coins
-- add new player input / add player switcher in options (logout)
-- let player select a civilization
 - other leaders
 - show game rating (compared to other players)
 - release / board units from ships => unit refactoring
@@ -39,6 +37,8 @@ tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-locati
 - [Defect] dialogs not centered in landscape mode
 
 ## Done
+- add new player input / add player switcher in options (logout)
+- let player select a civilization
 - add beach-se-sw-nw texture (/)
 - add beach-n-ne-s-sw texture (/)
 - add beach-se-s-nw texture (/)

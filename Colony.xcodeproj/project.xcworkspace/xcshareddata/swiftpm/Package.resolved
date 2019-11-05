@@ -11,15 +11,6 @@
         }
       },
       {
-        "package": "Codability",
-        "repositoryURL": "https://github.com/yonaskolb/Codability",
-        "state": {
-          "branch": null,
-          "revision": "eb5bac78e0679f521c3f058c1eb9be0dd657dadd",
-          "version": "0.2.1"
-        }
-      },
-      {
         "package": "R.swift.Library",
         "repositoryURL": "https://github.com/znly/R.swift.Library",
         "state": {
@@ -33,8 +24,8 @@
         "repositoryURL": "https://github.com/MaxDesiatov/XMLCoder",
         "state": {
           "branch": null,
-          "revision": "f68964b14c34f73f2a6fa56f30d8a355e21afc25",
-          "version": "0.8.0"
+          "revision": "96d210ee78d8b1d38870f81ff48d8e8ab806fffa",
+          "version": "0.9.0"
         }
       }
     ]

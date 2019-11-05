@@ -47,7 +47,6 @@
 		C90BF0A02313FCF70074C3E8 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF09F2313FCF70074C3E8 /* Field.swift */; };
 		C90BF0A22313FDCA0074C3E8 /* CastleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90BF0A12313FDCA0074C3E8 /* CastleObject.swift */; };
 		C915971B22CE91E5001D034B /* ScoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915971A22CE91E5001D034B /* ScoreRepository.swift */; };
-		C91993AB234C93A000703353 /* Codability in Frameworks */ = {isa = PBXBuildFile; productRef = C91993AA234C93A000703353 /* Codability */; };
 		C91993AE234C948700703353 /* BinarySwift in Frameworks */ = {isa = PBXBuildFile; productRef = C91993AD234C948700703353 /* BinarySwift */; };
 		C91993B2234C979300703353 /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = C91993B1234C979300703353 /* Rswift */; };
 		C91993B5234C993100703353 /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = C91993B4234C993100703353 /* XMLCoder */; };
@@ -138,7 +137,7 @@
 		C962942E22FD970500CC7F27 /* MenuSceneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962942D22FD970500CC7F27 /* MenuSceneExtension.swift */; };
 		C962943022FDBFCE00CC7F27 /* MapRainfallDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962942F22FDBFCE00CC7F27 /* MapRainfallDialog.xml */; };
 		C962943222FDEEBD00CC7F27 /* MapClimateDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962943122FDEEBD00CC7F27 /* MapClimateDialog.xml */; };
-		C965FEA922E4F20A0075CB87 /* AreaLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C965FEA822E4F20A0075CB87 /* AreaLayer.swift */; };
+		C965FEA922E4F20A0075CB87 /* SnowLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C965FEA822E4F20A0075CB87 /* SnowLayer.swift */; };
 		C965FEAD22E7450B0075CB87 /* CityDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C965FEAC22E7450B0075CB87 /* CityDialog.swift */; };
 		C965FEAF22E747130075CB87 /* CityDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C965FEAE22E747120075CB87 /* CityDialog.xml */; };
 		C9697B2F22DC99C30076FF4C /* RegionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9697B2E22DC99C30076FF4C /* RegionFinder.swift */; };
@@ -149,6 +148,7 @@
 		C972CCBE22AA7E71008DB8CB /* GameObjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */; };
 		C972CCC022AAA4AE008DB8CB /* CityObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCBF22AAA4AE008DB8CB /* CityObject.swift */; };
 		C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */; };
+		C97541612370A88B001DCA85 /* DialogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97541602370A88B001DCA85 /* DialogTests.swift */; };
 		C9763EAB22A2FB9B00F31126 /* SpriteButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */; };
 		C9763EAD22A2FEE300F31126 /* MessageBoxNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EAC22A2FEE300F31126 /* MessageBoxNode.swift */; };
 		C9763EB122A316C300F31126 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9763EB022A316C300F31126 /* UIColorExtension.swift */; };
@@ -176,7 +176,6 @@
 		C996745F2301604800313420 /* IntegerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F109229EBE3100A775B2 /* IntegerExtension.swift */; };
 		C99674602301606100313420 /* HexDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F128229EBEDD00A775B2 /* HexDirection.swift */; };
 		C99674652301608F00313420 /* HexPointCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F11A229EBE5B00A775B2 /* HexPointCorner.swift */; };
-		C99674732301619000313420 /* EncodingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903369B22EE3BF0004D2D72 /* EncodingExtensions.swift */; };
 		C9967474230161A200313420 /* SKNode+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F0F5229EAB9000A775B2 /* SKNode+Extension.swift */; };
 		C9967479230161E900313420 /* FlowDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F11B229EBE5C00A775B2 /* FlowDirection.swift */; };
 		C996747D2301622900313420 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B283322A53D0F00112532 /* MulticastDelegate.swift */; };
@@ -193,14 +192,11 @@
 		C99674A92301784400313420 /* BitArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F10E229EBE3100A775B2 /* BitArray.swift */; };
 		C99674AA2301784900313420 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3022C2257C00AB7117 /* SKNodeExtension.swift */; };
 		C99674AB2301784F00313420 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */; };
-		C99674AE2301786C00313420 /* UIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C900653F22AEE3BA0004C963 /* UIParser.swift */; };
-		C99674AF2301786F00313420 /* DialogConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956078822B0F22800AA69E9 /* DialogConfiguration.swift */; };
 		C99674B4230178BD00313420 /* NineGridTextureSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C992ABEA22A32042001C5E7C /* NineGridTextureSprite.swift */; };
 		C99674B5230178DF00313420 /* ProgressBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B282B22A427A800112532 /* ProgressBarNode.swift */; };
 		C99674B62301792600313420 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3422C2322A00AB7117 /* CGRectExtension.swift */; };
 		C99674B82301793800313420 /* HexLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F136229EC0D700A775B2 /* HexLayout.swift */; };
 		C99674BE2301796500313420 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A2F3B22C2B06200AB7117 /* UIImageExtension.swift */; };
-		C99674C9230179C000313420 /* MapSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F11C229EBE5C00A775B2 /* MapSize.swift */; };
 		C99674CD230179FB00313420 /* CoinsLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90336B522F42841004D2D72 /* CoinsLabelNode.swift */; };
 		C99674D423017A5400313420 /* ClimateZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7F11F229EBE5C00A775B2 /* ClimateZone.swift */; };
 		C99674D823017A9000313420 /* Civ5MapHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D61922F8073F008BFE61 /* Civ5MapHeader.swift */; };
@@ -442,7 +438,7 @@
 		C962942D22FD970500CC7F27 /* MenuSceneExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSceneExtension.swift; sourceTree = "<group>"; };
 		C962942F22FDBFCE00CC7F27 /* MapRainfallDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapRainfallDialog.xml; sourceTree = "<group>"; };
 		C962943122FDEEBD00CC7F27 /* MapClimateDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapClimateDialog.xml; sourceTree = "<group>"; };
-		C965FEA822E4F20A0075CB87 /* AreaLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaLayer.swift; sourceTree = "<group>"; };
+		C965FEA822E4F20A0075CB87 /* SnowLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowLayer.swift; sourceTree = "<group>"; };
 		C965FEAC22E7450B0075CB87 /* CityDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDialog.swift; sourceTree = "<group>"; };
 		C965FEAE22E747120075CB87 /* CityDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityDialog.xml; sourceTree = "<group>"; };
 		C9697B2E22DC99C30076FF4C /* RegionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFinder.swift; sourceTree = "<group>"; };
@@ -453,6 +449,7 @@
 		C972CCBD22AA7E71008DB8CB /* GameObjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameObjectManager.swift; path = ../GameObjectManager.swift; sourceTree = "<group>"; };
 		C972CCBF22AAA4AE008DB8CB /* CityObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityObject.swift; sourceTree = "<group>"; };
 		C972CCC122AC3D79008DB8CB /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
+		C97541602370A88B001DCA85 /* DialogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogTests.swift; sourceTree = "<group>"; };
 		C9763EAA22A2FB9B00F31126 /* SpriteButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteButtonNode.swift; sourceTree = "<group>"; };
 		C9763EAC22A2FEE300F31126 /* MessageBoxNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxNode.swift; sourceTree = "<group>"; };
 		C9763EB022A316C300F31126 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
@@ -587,7 +584,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C91993B2234C979300703353 /* Rswift in Frameworks */,
-				C91993AB234C93A000703353 /* Codability in Frameworks */,
 				C91993B5234C993100703353 /* XMLCoder in Frameworks */,
 				C91993AE234C948700703353 /* BinarySwift in Frameworks */,
 			);
@@ -857,6 +853,7 @@
 				C962942222FD47F200CC7F27 /* DDSFileTests.swift */,
 				C962942422FD48BD00CC7F27 /* ColorTests.swift */,
 				C90AB6EE2305986100CC5C59 /* BattleTests.swift */,
+				C97541602370A88B001DCA85 /* DialogTests.swift */,
 			);
 			path = ColonyTests;
 			sourceTree = "<group>";
@@ -1073,10 +1070,10 @@
 				C9C7F0F5229EAB9000A775B2 /* SKNode+Extension.swift */,
 				C9C7F12A229EBF5200A775B2 /* AreaSprites.swift */,
 				C9C7F139229F203200A775B2 /* TerrainLayer.swift */,
+				C965FEA822E4F20A0075CB87 /* SnowLayer.swift */,
 				C9C7F13B229F204900A775B2 /* FeatureLayer.swift */,
 				C9C7F13F229F20C300A775B2 /* RiverLayer.swift */,
 				C9C7F13D229F206000A775B2 /* BoardLayer.swift */,
-				C965FEA822E4F20A0075CB87 /* AreaLayer.swift */,
 				C90336B322F30E7A004D2D72 /* NotificationNode.swift */,
 				C90336B522F42841004D2D72 /* CoinsLabelNode.swift */,
 				C927EECB232A657E00D775BD /* PediaItemNode.swift */,
@@ -1217,7 +1214,6 @@
 			);
 			name = Colony;
 			packageProductDependencies = (
-				C91993AA234C93A000703353 /* Codability */,
 				C91993AD234C948700703353 /* BinarySwift */,
 				C91993B1234C979300703353 /* Rswift */,
 				C91993B4234C993100703353 /* XMLCoder */,
@@ -1255,7 +1251,6 @@
 			);
 			mainGroup = C9C7F0BC229B193400A775B2;
 			packageReferences = (
-				C91993A9234C93A000703353 /* XCRemoteSwiftPackageReference "Codability" */,
 				C91993AC234C948700703353 /* XCRemoteSwiftPackageReference "BinarySwift" */,
 				C91993B0234C979300703353 /* XCRemoteSwiftPackageReference "R.swift" */,
 				C91993B3234C993100703353 /* XCRemoteSwiftPackageReference "XMLCoder" */,
@@ -1352,24 +1347,22 @@
 				C99674B82301793800313420 /* HexLayout.swift in Sources */,
 				C90AB6EF2305986100CC5C59 /* BattleTests.swift in Sources */,
 				C99674D423017A5400313420 /* ClimateZone.swift in Sources */,
+				C97541612370A88B001DCA85 /* DialogTests.swift in Sources */,
 				C99674D823017A9000313420 /* Civ5MapHeader.swift in Sources */,
 				C99674AA2301784900313420 /* SKNodeExtension.swift in Sources */,
 				C9967479230161E900313420 /* FlowDirection.swift in Sources */,
 				C99674A6230177FD00313420 /* SettingsButtonNode.swift in Sources */,
-				C99674732301619000313420 /* EncodingExtensions.swift in Sources */,
 				C99674A82301783100313420 /* SpriteButtonNode.swift in Sources */,
 				C996749A2301776400313420 /* NotificationNode.swift in Sources */,
 				C962941B22FD47D200CC7F27 /* ColonyTests.swift in Sources */,
 				C9967474230161A200313420 /* SKNode+Extension.swift in Sources */,
 				C99674B62301792600313420 /* CGRectExtension.swift in Sources */,
 				C962942522FD48BD00CC7F27 /* ColorTests.swift in Sources */,
-				C99674C9230179C000313420 /* MapSize.swift in Sources */,
 				C996749E230177AD00313420 /* CGPointExtension.swift in Sources */,
 				C99674CD230179FB00313420 /* CoinsLabelNode.swift in Sources */,
 				C99674A92301784400313420 /* BitArray.swift in Sources */,
 				C962942722FD4C7F00CC7F27 /* UIColorExtension.swift in Sources */,
 				C996745F2301604800313420 /* IntegerExtension.swift in Sources */,
-				C99674AF2301786F00313420 /* DialogConfiguration.swift in Sources */,
 				C99674DA23017AA000313420 /* PerlinGenerator.swift in Sources */,
 				C996749C2301777F00313420 /* MenuButtonNode.swift in Sources */,
 				C99674962301773600313420 /* MessageBoxButtonNode.swift in Sources */,
@@ -1380,7 +1373,6 @@
 				C996745923015FBC00313420 /* PausableTimer.swift in Sources */,
 				C99674B4230178BD00313420 /* NineGridTextureSprite.swift in Sources */,
 				C962942322FD47F200CC7F27 /* DDSFileTests.swift in Sources */,
-				C99674AE2301786C00313420 /* UIParser.swift in Sources */,
 				C99674AB2301784F00313420 /* CGSizeExtension.swift in Sources */,
 				C996747D2301622900313420 /* MulticastDelegate.swift in Sources */,
 				C99674A72301780D00313420 /* IconButtonNode.swift in Sources */,
@@ -1605,7 +1597,7 @@
 				C9697B3322DC99F80076FF4C /* SiteEvaluator.swift in Sources */,
 				C90336A622F084E2004D2D72 /* IconButtonNode.swift in Sources */,
 				C97B282A22A3F72100112532 /* MessageBoxButtonNode.swift in Sources */,
-				C965FEA922E4F20A0075CB87 /* AreaLayer.swift in Sources */,
+				C965FEA922E4F20A0075CB87 /* SnowLayer.swift in Sources */,
 				C93A408E2306C40A0011E9DA /* ArcherObject.swift in Sources */,
 				C9B24D00233910F50050B1C2 /* Caravel.swift in Sources */,
 				C9C7F123229EBE5C00A775B2 /* HexPointWithCorner.swift in Sources */,
@@ -1649,6 +1641,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 3XR2XX99JT;
 				INFOPLIST_FILE = ColonyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1669,6 +1662,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 3XR2XX99JT;
 				INFOPLIST_FILE = ColonyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1735,13 +1729,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1790,12 +1785,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1805,9 +1801,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 3XR2XX99JT;
 				INFOPLIST_FILE = "$(SRCROOT)/Colony/Ressources/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1824,9 +1821,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 3XR2XX99JT;
 				INFOPLIST_FILE = "$(SRCROOT)/Colony/Ressources/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1871,14 +1869,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C91993A9234C93A000703353 /* XCRemoteSwiftPackageReference "Codability" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/yonaskolb/Codability";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.1;
-			};
-		};
 		C91993AC234C948700703353 /* XCRemoteSwiftPackageReference "BinarySwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mrommel/BinarySwift";
@@ -1906,11 +1896,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C91993AA234C93A000703353 /* Codability */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C91993A9234C93A000703353 /* XCRemoteSwiftPackageReference "Codability" */;
-			productName = Codability;
-		};
 		C91993AD234C948700703353 /* BinarySwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C91993AC234C948700703353 /* XCRemoteSwiftPackageReference "BinarySwift" */;

@@ -27,7 +27,7 @@ class GameScene: BaseScene {
             static let terrain: CGFloat = 1.0
             static let underwater: CGFloat = 1.1
             static let caldera: CGFloat = 1.5
-            static let area: CGFloat = 2.0
+            static let snow: CGFloat = 2.0
             static let focus: CGFloat = 3.0
             static let feature: CGFloat = 4.0
             static let road: CGFloat = 4.1
@@ -687,14 +687,10 @@ extension GameScene: GameUpdateDelegate {
                 if result.options.contains(.attackerStriked) {
                     //print("show attacker strike")
                     source?.gameObject?.showExplosion(in: sourceDirection)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-                       target?.gameObject?.showExplosion(in: targetDirection)
-                    }
+                    target?.gameObject?.showExplosionDelayed(in: targetDirection)
                 } else if result.options.contains(.defenderStriked) {
                     //print("show defender strike")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-                       source?.gameObject?.showExplosion(in: sourceDirection)
-                    }
+                    source?.gameObject?.showExplosionDelayed(in: sourceDirection)
                     target?.gameObject?.showExplosion(in: targetDirection)
                 } else if result.options.contains(.bothStriked) {
                     //print("show both strike")

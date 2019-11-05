@@ -71,7 +71,7 @@ struct DialogItem: Codable {
         let image = try values.decodeIfPresent(String.self, forKey: .image) ?? nil
         
         let selectedIndex = try values.decodeIfPresent(Int.self, forKey: .selectedIndex) ?? nil
-        let items = try values.decodeIfPresent(DropdownItems.self, forKey: .items) ?? nil
+        let items: DropdownItems? = nil // try values.decodeIfPresent(DropdownItems.self, forKey: .items) ?? nil
         
         self.init(identifier: identifier, type: type, title: title, fontSize: fontSize, result: result, offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, image: image, selectedIndex: selectedIndex, items: items)
     }

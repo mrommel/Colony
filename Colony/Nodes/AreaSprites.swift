@@ -74,13 +74,13 @@ class AreaSprites: SKNode {
 		}
 		self.sprites.removeAll()
 
-		for point in area {
+		//for point in area {
 
             /*if !fogManager.currentlyVisible(at: point, by: <#Civilization#>) {
                 continue
             }*/
             
-            let position = HexMapDisplay.shared.toScreen(hex: point)
+            /*let position = HexMapDisplay.shared.toScreen(hex: point)
             
             let textureName = self.texture(for: point, in: area)
             let sprite = SKSpriteNode(imageNamed: textureName)
@@ -91,7 +91,7 @@ class AreaSprites: SKNode {
             sprite.color = self.color
             self.addChild(sprite)
             
-            self.sprites.append(sprite)
-		}
+            self.sprites.append(sprite)*/
+		//}
 	}
 }

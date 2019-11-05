@@ -106,7 +106,8 @@ class Level: Decodable  {
         
         self.setupPlayers()
         
-        let caravel = Caravel(position: startPositions.playerPosition, civilization: .english)
+        let currentUserCivilization = self.userUsecase?.currentUser()?.civilization ?? .english
+        let caravel = Caravel(position: startPositions.playerPosition, civilization: currentUserCivilization)
         self.map.set(unit: caravel)
         
         for (index, startPosition) in startPositions.cityPositions.enumerated() {
@@ -217,9 +218,6 @@ class Level: Decodable  {
             }
         }
         */
-        guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
-            fatalError("Can't get current users civilization")
-        }
         
         // set the selected unit
         self.gameObjectManager.selected = self.map.unitsOf(civilization: currentUserCivilization).first!
@@ -313,10 +311,6 @@ extension Level: Encodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        /*try container.encode(self.number, forKey: .number)
-        try container.encode(self.title, forKey: .title)
-        try container.encode(self.summary, forKey: .summary)
-        try container.encode(self.difficulty, forKey: .difficulty)*/
         try container.encode(self.duration, forKey: .duration)
         try container.encode(self.scoreThresold, forKey: .scoreThresold)
         

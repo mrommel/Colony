@@ -19,14 +19,14 @@ extension UIColor {
      */
     convenience init(hexString: String) {
 
-        let hexString: String = (hexString as NSString).trimmingCharacters(in: .whitespacesAndNewlines)
+        var hexString: String = (hexString as NSString).trimmingCharacters(in: .whitespacesAndNewlines)
         let scanner = Scanner(string: hexString as String)
 
         if hexString.hasPrefix("#") {
-            scanner.scanLocation = 1
+            hexString.remove(at: hexString.startIndex)
         }
-        var color: UInt32 = 0
-        scanner.scanHexInt32(&color)
+        var color: UInt64 = 0
+        scanner.scanHexInt64(&color)
 
         let mask = 0x000000FF
         let r = Int(color >> 16) & mask
@@ -116,13 +116,13 @@ public extension UIColor {
             let greenHex = String(hex[startIndex..<endIndex])
             let blueHex = String(hex[endIndex...])
 
-            var redInt: CUnsignedInt = 0
-            var greenInt: CUnsignedInt = 0
-            var blueInt: CUnsignedInt = 0
+            var redInt: UInt64 = 0
+            var greenInt: UInt64 = 0
+            var blueInt: UInt64 = 0
 
-            Scanner(string: redHex).scanHexInt32(&redInt)
-            Scanner(string: greenHex).scanHexInt32(&greenInt)
-            Scanner(string: blueHex).scanHexInt32(&blueInt)
+            Scanner(string: redHex).scanHexInt64(&redInt)
+            Scanner(string: greenHex).scanHexInt64(&greenInt)
+            Scanner(string: blueHex).scanHexInt64(&blueInt)
 
             self.init(red: CGFloat(redInt) / 255.0,
                 green: CGFloat(greenInt) / 255.0,
@@ -165,6 +165,13 @@ struct Color16 {
         let fBlue: CGFloat = CGFloat(blue) / 255
 
         self.value = UInt16(fRed * 31 + 0.5) << 11 + UInt16(fGreen * 63 + 0.5) << 5 + UInt16(fBlue * 31 + 0.5)
+    }
+    
+    init(color: UIColor) {
+        
+        let (r, g, b, _) = color.rgba
+        
+        self.init(red: UInt8(r), green: UInt8(g), blue: UInt8(b))
     }
 
     //var

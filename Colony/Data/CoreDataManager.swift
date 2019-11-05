@@ -14,8 +14,6 @@ class CoreDataManager {
     
     static let shared = CoreDataManager()
 
-    
-    
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation

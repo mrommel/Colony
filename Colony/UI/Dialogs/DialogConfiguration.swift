@@ -86,6 +86,10 @@ struct DialogConfiguration: Decodable {
     }
     var items: Items = Items()
     
+    enum CodingKeys: String, CodingKey {
+        case type, offsetx, offsety, anchorx, anchory, width, height, background, items
+    }
+    
     init(offsetx: Int, offsety: Int, anchorx: DialogAnchor, anchory: DialogAnchor, width: Int, height: Int, background: String) {
         
         self.offsetx = offsetx
@@ -99,23 +103,19 @@ struct DialogConfiguration: Decodable {
     
     init(from decoder: Decoder) throws {
         
-        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        let offsetx = try values.decodeIfPresent(Int.self, forKey: .offsetx) ?? 0
-        let offsety = try values.decodeIfPresent(Int.self, forKey: .offsety) ?? 0
-        let anchorx = try values.decode(DialogAnchor.self, forKey: .anchorx)
-        let anchory = try values.decode(DialogAnchor.self, forKey: .anchory)
-        let width = try values.decode(Int.self, forKey: .width)
-        let height = try values.decode(Int.self, forKey: .height)
-        let background = try values.decode(String.self, forKey: .background)
+        let offsetx = try container.decodeIfPresent(Int.self, forKey: .offsetx) ?? 0
+        let offsety = try container.decodeIfPresent(Int.self, forKey: .offsety) ?? 0
+        let anchorx = try container.decode(DialogAnchor.self, forKey: .anchorx)
+        let anchory = try container.decode(DialogAnchor.self, forKey: .anchory)
+        let width = try container.decode(Int.self, forKey: .width)
+        let height = try container.decode(Int.self, forKey: .height)
+        let background = try container.decode(String.self, forKey: .background)
         
         self.init(offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, background: background)
         
-        self.items = try values.decode(Items.self, forKey: .items)
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case type, offsetx, offsety, anchorx, anchory, width, height, background, items
+        self.items = try container.decode(Items.self, forKey: .items)
     }
     
     var positionx: CGFloat {

@@ -71,4 +71,39 @@ class ColorTests: XCTestCase {
         XCTAssertEqual(color3.green, 134, "green not equal")
         XCTAssertEqual(color3.blue, 49, "blue not equal")
     }
+    
+    func testParseUIColorRGB() {
+        
+        // GIVEN
+        let colorString = "08bcfa"
+        let colorWithHashString = "#e355f7"
+        
+        // WHEN
+        let color = UIColor(hex: colorString).rgba
+        let colorWithHash = UIColor(hex: colorWithHashString).rgba
+        
+        // THEN
+        XCTAssertEqual(UInt(color.red * 255), 8, "red not equal")
+        XCTAssertEqual(UInt(color.green * 255), 188, "green not equal")
+        XCTAssertEqual(UInt(color.blue * 255), 250, "blue not equal")
+        
+        XCTAssertEqual(UInt(colorWithHash.red * 255), 227, "red not equal")
+        XCTAssertEqual(UInt(colorWithHash.green * 255), 85, "green not equal")
+        XCTAssertEqual(UInt(colorWithHash.blue * 255), 247, "blue not equal")
+    }
+    
+    func testHexValueUIColor() {
+        
+        // GIVEN
+        let color1 = UIColor(red: 8, green: 188, blue: 250)
+        let color2 = UIColor(red: 227, green: 85, blue: 247)
+        
+        // WHEN
+        let hexValue1 = color1.hexValue
+        let hexValue2 = color2.hexValue
+        
+        // THEN
+        XCTAssertEqual(hexValue1, "#08BCFA", "hex not equal")
+        XCTAssertEqual(hexValue2, "#E355F7", "hex not equal")
+    }
 }
