@@ -28,6 +28,8 @@ class GameScene: BaseScene {
             static let underwater: CGFloat = 1.1
             static let caldera: CGFloat = 1.5
             static let snow: CGFloat = 2.0
+            static let hill: CGFloat = 2.1
+            static let mountain: CGFloat = 2.2
             static let focus: CGFloat = 3.0
             static let feature: CGFloat = 4.0
             static let road: CGFloat = 4.1

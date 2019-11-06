@@ -335,6 +335,66 @@ class HexagonTileMap: HexagonMap<Tile> {
         return texture
     }
     
+    func snowTexture(at point: HexPoint) -> String? {
+        
+        var texture = "snow" // "snow-n-ne-se-s-sw-nw"
+        
+        if let tile = self.tile(at: point) {
+            if tile.isWater {
+                texture = "snow-to-water"
+            }
+        }
+        
+        for direction in HexDirection.all {
+            let neighbor = point.neighbor(in: direction)
+            
+            if let neighborTile = self.tile(at: neighbor) {
+                
+                if neighborTile.terrain == .snow {
+                    texture += ("-" + direction.short)
+                }
+            }
+        }
+        
+        if texture == "snow" || texture == "snow-to-water" {
+            return nil
+        }
+        
+        return texture
+    }
+    
+    func mountainTexture(at point: HexPoint) -> String? {
+        
+        var texture = "mountain" // "mountain-n-ne-se-s-sw-nw"
+        
+        for direction in HexDirection.all {
+            let neighbor = point.neighbor(in: direction)
+            
+            if let neighborTile = self.tile(at: neighbor) {
+                
+                if neighborTile.terrain == .snow {
+                    texture += ("-" + direction.short)
+                }
+            }
+        }
+        
+        if texture == "mountain" {
+            return nil
+        }
+        
+        // limit to only some existing textures
+        if texture != "mountains-n-ne" &&
+            texture != "mountains-n" &&
+            texture != "mountains-ne" &&
+            texture != "mountains-nw-n" &&
+            texture != "mountains-nw" {
+            
+            return nil
+        }
+        
+        return texture
+    }
+    
     // river
     
     func isAdjacentToRiver(at point: HexPoint) -> Bool {

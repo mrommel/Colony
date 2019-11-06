@@ -137,7 +137,6 @@
 		C962942E22FD970500CC7F27 /* MenuSceneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962942D22FD970500CC7F27 /* MenuSceneExtension.swift */; };
 		C962943022FDBFCE00CC7F27 /* MapRainfallDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962942F22FDBFCE00CC7F27 /* MapRainfallDialog.xml */; };
 		C962943222FDEEBD00CC7F27 /* MapClimateDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C962943122FDEEBD00CC7F27 /* MapClimateDialog.xml */; };
-		C965FEA922E4F20A0075CB87 /* SnowLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C965FEA822E4F20A0075CB87 /* SnowLayer.swift */; };
 		C965FEAD22E7450B0075CB87 /* CityDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C965FEAC22E7450B0075CB87 /* CityDialog.swift */; };
 		C965FEAF22E747130075CB87 /* CityDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C965FEAE22E747120075CB87 /* CityDialog.xml */; };
 		C9697B2F22DC99C30076FF4C /* RegionFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9697B2E22DC99C30076FF4C /* RegionFinder.swift */; };
@@ -438,7 +437,6 @@
 		C962942D22FD970500CC7F27 /* MenuSceneExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSceneExtension.swift; sourceTree = "<group>"; };
 		C962942F22FDBFCE00CC7F27 /* MapRainfallDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapRainfallDialog.xml; sourceTree = "<group>"; };
 		C962943122FDEEBD00CC7F27 /* MapClimateDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapClimateDialog.xml; sourceTree = "<group>"; };
-		C965FEA822E4F20A0075CB87 /* SnowLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowLayer.swift; sourceTree = "<group>"; };
 		C965FEAC22E7450B0075CB87 /* CityDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDialog.swift; sourceTree = "<group>"; };
 		C965FEAE22E747120075CB87 /* CityDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityDialog.xml; sourceTree = "<group>"; };
 		C9697B2E22DC99C30076FF4C /* RegionFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFinder.swift; sourceTree = "<group>"; };
@@ -1070,7 +1068,6 @@
 				C9C7F0F5229EAB9000A775B2 /* SKNode+Extension.swift */,
 				C9C7F12A229EBF5200A775B2 /* AreaSprites.swift */,
 				C9C7F139229F203200A775B2 /* TerrainLayer.swift */,
-				C965FEA822E4F20A0075CB87 /* SnowLayer.swift */,
 				C9C7F13B229F204900A775B2 /* FeatureLayer.swift */,
 				C9C7F13F229F20C300A775B2 /* RiverLayer.swift */,
 				C9C7F13D229F206000A775B2 /* BoardLayer.swift */,
@@ -1597,7 +1594,6 @@
 				C9697B3322DC99F80076FF4C /* SiteEvaluator.swift in Sources */,
 				C90336A622F084E2004D2D72 /* IconButtonNode.swift in Sources */,
 				C97B282A22A3F72100112532 /* MessageBoxButtonNode.swift in Sources */,
-				C965FEA922E4F20A0075CB87 /* SnowLayer.swift in Sources */,
 				C93A408E2306C40A0011E9DA /* ArcherObject.swift in Sources */,
 				C9B24D00233910F50050B1C2 /* Caravel.swift in Sources */,
 				C9C7F123229EBE5C00A775B2 /* HexPointWithCorner.swift in Sources */,

@@ -60,11 +60,6 @@ class TerrainLayer: SKNode {
     /// snow is handled in [SnowLayer]
     func placeTileHex(tile: Tile, coastTexture: String?, at position: CGPoint, alpha: CGFloat) {
         
-        if tile.terrain == .snow {
-            // handled by SnowLayer
-            return
-        }
-        
         // place terrain
         var textureName = ""
         if let coastTexture = coastTexture {
@@ -72,17 +67,52 @@ class TerrainLayer: SKNode {
         } else {
             textureName = tile.terrain.textureNameHex.randomItem()
         }
-        
+
         let terrainSprite = SKSpriteNode(imageNamed: textureName)
         terrainSprite.position = position
-        terrainSprite.zPosition = GameScene.Constants.ZLevels.terrain
+        terrainSprite.zPosition = tile.terrain.zLevel
         terrainSprite.anchorPoint = CGPoint(x: 0, y: 0)
-        //terrainSprite.alpha = alpha
         terrainSprite.color = .black
         terrainSprite.colorBlendFactor = 1.0 - alpha
         self.addChild(terrainSprite)
-        
+
         tile.terrainSprite = terrainSprite
+        
+        // snow
+        if tile.terrain != .snow {
+            if let tilePoint = tile.point {
+                if let snowTexture = self.map?.snowTexture(at: tilePoint) {
+
+                    let snowSprite = SKSpriteNode(imageNamed: snowTexture)
+                    snowSprite.position = position
+                    snowSprite.zPosition = GameScene.Constants.ZLevels.snow
+                    snowSprite.anchorPoint = CGPoint(x: 0, y: 0)
+                    snowSprite.color = .black
+                    snowSprite.colorBlendFactor = 1.0 - alpha
+                    self.addChild(snowSprite)
+
+                    tile.snowSprite = snowSprite
+                }
+            }
+        }
+        
+        // mountain
+        if tile.terrain != .mountain {
+            if let tilePoint = tile.point {
+                if let mountainTexture = self.map?.mountainTexture(at: tilePoint) {
+                    
+                    let mountainSprite = SKSpriteNode(imageNamed: mountainTexture)
+                    mountainSprite.position = position
+                    mountainSprite.zPosition = GameScene.Constants.ZLevels.mountain
+                    mountainSprite.anchorPoint = CGPoint(x: 0, y: 0)
+                    mountainSprite.color = .black
+                    mountainSprite.colorBlendFactor = 1.0 - alpha
+                    self.addChild(mountainSprite)
+
+                    tile.mountainSprite = mountainSprite
+                }
+            }
+        }
     }
     
     func clearTileHex(at pt: HexPoint) {
@@ -94,6 +124,14 @@ class TerrainLayer: SKNode {
         if let tile = map.tile(at: pt) {
             if let terrainSprite = tile.terrainSprite {
                 self.removeChildren(in: [terrainSprite])
+            }
+            
+            if let snowSprite = tile.snowSprite {
+                self.removeChildren(in: [snowSprite])
+            }
+            
+            if let mountainSprite = tile.mountainSprite {
+                self.removeChildren(in: [mountainSprite])
             }
         }
     }

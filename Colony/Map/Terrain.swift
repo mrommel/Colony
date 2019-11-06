@@ -95,9 +95,32 @@ enum Terrain: String, Codable {
         case .hill:
             return ["hex_hill"]
         case .mountain:
-            return ["hex_mountain"]
+            return ["mountain1", "mountain2", "mountain3"]
 		}
 	}
+    
+    var zLevel: CGFloat {
+        switch self {
+        case .ocean:
+            return GameScene.Constants.ZLevels.terrain
+        case .shore:
+            return GameScene.Constants.ZLevels.terrain
+        case .plain:
+            return GameScene.Constants.ZLevels.terrain
+        case .grass:
+            return GameScene.Constants.ZLevels.terrain
+        case .desert:
+            return GameScene.Constants.ZLevels.terrain
+        case .tundra:
+            return GameScene.Constants.ZLevels.terrain
+        case .snow:
+            return GameScene.Constants.ZLevels.snow
+        case .hill:
+            return GameScene.Constants.ZLevels.hill
+        case .mountain:
+            return GameScene.Constants.ZLevels.mountain
+        }
+    }
     
     var overviewColor: UIColor {
         switch self {

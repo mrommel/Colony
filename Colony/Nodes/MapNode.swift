@@ -13,7 +13,6 @@ class MapNode: SKNode {
     // MARK: layer
 
     var terrainLayer: TerrainLayer
-    var snowLayer: SnowLayer
     var featureLayer: FeatureLayer
     var boardLayer: BoardLayer
     var riverLayer: RiverLayer
@@ -43,9 +42,6 @@ class MapNode: SKNode {
         self.terrainLayer = TerrainLayer(civilization: currentUser.civilization)
         self.terrainLayer.populate(with: self.map)
 
-        self.snowLayer = SnowLayer(civilization: currentUser.civilization)
-        self.snowLayer.populate(with: self.map)
-        
         self.featureLayer = FeatureLayer(civilization: currentUser.civilization)
         self.featureLayer.populate(with: self.map)
 
@@ -59,7 +55,6 @@ class MapNode: SKNode {
         self.zPosition = 0 // GameScene.Constants.ZLevels.labels
 
         self.addChild(self.terrainLayer)
-        self.addChild(self.snowLayer)
         self.addChild(self.featureLayer)
         self.addChild(self.boardLayer)
         self.addChild(self.riverLayer)
