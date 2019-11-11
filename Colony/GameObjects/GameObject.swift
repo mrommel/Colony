@@ -37,6 +37,7 @@ enum GameObjectType {
 class GameObject {
 
     static let idleActionKey: String = "idleActionKey"
+    static let focusActionKey: String = "focusActionKey"
     static let alphaVisible: CGFloat = 1.0
     static let alphaInvisible: CGFloat = 0.0
 
@@ -63,6 +64,7 @@ class GameObject {
 
     // objecct animation
     var atlasExplosion: GameObjectAtlas?
+    var atlasFocus: GameObjectAtlas?
 
     // usecases
     let userUsecase: UserUsecase?
@@ -74,6 +76,7 @@ class GameObject {
     private var nameBackground: SKSpriteNode?
     private var unitTypeIndicator: UnitTypeIndicator?
     private var unitStrengthIndicator: UnitStrengthIndicator?
+    private var focusNode: SKSpriteNode?
 
     init(with identifier: String, unit connectedUnit: Unit?, spriteName: String, anchorPoint: CGPoint) {
 
@@ -94,7 +97,7 @@ class GameObject {
 
         self.userUsecase = UserUsecase()
 
-        self.setupEmitters()
+        self.setupAtlases()
     }
 
     init(with identifier: String, animal connectedAnimal: Animal?, spriteName: String, anchorPoint: CGPoint) {
@@ -116,7 +119,7 @@ class GameObject {
 
         self.userUsecase = UserUsecase()
 
-        self.setupEmitters()
+        self.setupAtlases()
     }
 
     init(with identifier: String, city connectedCity: City?, spriteName: String, anchorPoint: CGPoint) {
@@ -138,7 +141,7 @@ class GameObject {
 
         self.userUsecase = UserUsecase()
 
-        self.setupEmitters()
+        self.setupAtlases()
     }
 
     init(with identifier: String, mapItem connectedMapItem: MapItem?, spriteName: String, anchorPoint: CGPoint) {
@@ -160,14 +163,16 @@ class GameObject {
 
         self.userUsecase = UserUsecase()
 
-        self.setupEmitters()
+        self.setupAtlases()
     }
 
     // MARK: methods
 
-    func setupEmitters() {
+    func setupAtlases() {
 
         self.atlasExplosion = GameObjectAtlas(atlasName: "explosion", textures: ["explosion000", "explosion001", "explosion002", "explosion003", "explosion004", "explosion005", "explosion006", "explosion007", "explosion008", "explosion009", "explosion010", "explosion011", "explosion012", "explosion013", "explosion014", "explosion015", "explosion016", "explosion017", "explosion018", "explosion019", "explosion020", "explosion021", "explosion022", "explosion023", "explosion024", "explosion025", "explosion026", "explosion027", "explosion028", "explosion029", "explosion030", "explosion031", "explosion032", "explosion033", "explosion034", "explosion035", "explosion036", "explosion037", "explosion037", "explosion039", "explosion040", "explosion041", "explosion042", "explosion043", "explosion044", "explosion045", "explosion046", "explosion047", "explosion048", "explosion049", "explosion050", "explosion051", "explosion052", "explosion053", "explosion054", "explosion055", "explosion056", "explosion057", "explosion058", "explosion059", "explosion060", "explosion061", "explosion062", "explosion063"])
+        
+        self.atlasFocus = GameObjectAtlas(atlasName: "focus", textures: ["focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "focus6", "focus5", "focus4", "focus3", "focus2", "focus1"])
     }
 
     func updatePosition(to position: HexPoint) {
@@ -489,6 +494,29 @@ class GameObject {
         }
     }
     
+    func show(losses: Int) {
+        
+        let lossLabel = SKLabelNode(text: "-\(losses)")
+        lossLabel.fontColor = .red
+        lossLabel.fontSize = 12
+        lossLabel.position = HexMapDisplay.shared.toScreen(hex: self.position) + self.delta(in: .northeast)
+        lossLabel.zPosition = GameScene.Constants.ZLevels.cityName
+        lossLabel.fontName = Formatters.Fonts.customFontBoldFamilyname
+        self.sprite.parent?.addChild(lossLabel)
+        
+        let fadeAnimation = SKAction.fadeAlpha(to: 0.1, duration: 1)
+        let moveAnimation = SKAction.moveBy(x: 0.0, y: 10, duration: 1)
+        
+        let removeAnimation = SKAction.run({
+            lossLabel.removeFromParent()
+            print("loss node removed")
+        })
+        
+        let sequence = SKAction.sequence([SKAction.group([fadeAnimation, moveAnimation]), removeAnimation])
+        
+        lossLabel.run(sequence)
+    }
+    
     func showExplosion(in dir: HexDirection) {
 
         if let atlas = self.atlasExplosion {
@@ -520,6 +548,43 @@ class GameObject {
     func showExplosionDelayed(in dir: HexDirection) {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
            self.showExplosion(in: dir)
+        }
+    }
+    
+    func showFocus() {
+        print("--- show ---")
+        if self.focusNode != nil {
+            self.focusNode?.removeAction(forKey: GameObject.focusActionKey)
+            self.focusNode?.removeFromParent()
+            self.focusNode = nil
+        }
+        
+        let texture = SKTexture(imageNamed: "focus1")
+        self.focusNode = SKSpriteNode(texture: texture)
+        self.focusNode?.zPosition = GameScene.Constants.ZLevels.focus
+        self.focusNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+        
+        if let atlas = self.atlasFocus {
+            
+            let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
+            let focusFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
+            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: (animationSpeed / 4.0) / Double(focusFrames.count)))
+
+            self.focusNode?.run(focusAnimation, withKey: GameObject.focusActionKey, completion: { })
+        }
+        
+        if let focusNode = self.focusNode {
+            self.sprite.addChild(focusNode)
+        }
+    }
+    
+    func hideFocus() {
+        print("--- hide ---")
+        
+        if self.focusNode != nil {
+            self.focusNode?.removeAction(forKey: GameObject.focusActionKey)
+            self.focusNode?.removeFromParent()
+            self.focusNode = nil
         }
     }
 

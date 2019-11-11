@@ -365,20 +365,20 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     func mountainTexture(at point: HexPoint) -> String? {
         
-        var texture = "mountain" // "mountain-n-ne-se-s-sw-nw"
+        var texture = "mountains" // "mountains-n-ne-se-s-sw-nw"
         
         for direction in HexDirection.all {
             let neighbor = point.neighbor(in: direction)
             
             if let neighborTile = self.tile(at: neighbor) {
                 
-                if neighborTile.terrain == .snow {
+                if neighborTile.terrain == .mountain {
                     texture += ("-" + direction.short)
                 }
             }
         }
         
-        if texture == "mountain" {
+        if texture == "mountains" {
             return nil
         }
         
@@ -386,9 +386,39 @@ class HexagonTileMap: HexagonMap<Tile> {
         if texture != "mountains-n-ne" &&
             texture != "mountains-n" &&
             texture != "mountains-ne" &&
-            texture != "mountains-nw-n" &&
+            texture != "mountains-n-nw" &&
             texture != "mountains-nw" {
             
+            return nil
+        }
+        
+        return texture
+    }
+    
+    func iceTexture(at point: HexPoint) -> String? {
+        
+        var texture = "ice" // "snow-n-ne-se-s-sw-nw"
+        
+        if let tile = self.tile(at: point) {
+            if tile.isWater {
+                texture = "ice-to-water"
+            }
+        }
+        
+        for direction in HexDirection.all {
+            let neighbor = point.neighbor(in: direction)
+            
+            if let neighborTile = self.tile(at: neighbor) {
+                
+                for feature in neighborTile.features {
+                    if feature == .ice {
+                        texture += ("-" + direction.short)
+                    }
+                }
+            }
+        }
+        
+        if texture == "ice" || texture == "ice-to-water" {
             return nil
         }
         

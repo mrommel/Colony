@@ -19,6 +19,7 @@ class Tile: Decodable {
     
     var features: [Feature]
     var featureSprites: [SKSpriteNode] = []
+    var iceSprite: SKSpriteNode?
     
     var city: City? = nil
     //var owned: Civilization? = nil // zone of control

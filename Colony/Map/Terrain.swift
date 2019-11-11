@@ -95,7 +95,7 @@ enum Terrain: String, Codable {
         case .hill:
             return ["hex_hill"]
         case .mountain:
-            return ["mountain1", "mountain2", "mountain3"]
+            return ["mountains1", "mountains2", "mountains3"]
 		}
 	}
     

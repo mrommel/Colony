@@ -57,6 +57,8 @@ class FeatureLayer: SKNode {
 
     func placeTileHex(tile: Tile, at position: CGPoint, alpha: CGFloat) {
 
+        var isIce = false
+        
         // place forests etc
         for feature in tile.features {
 
@@ -64,14 +66,34 @@ class FeatureLayer: SKNode {
 
             let featureSprite = SKSpriteNode(imageNamed: textureName)
             featureSprite.position = position
-            featureSprite.zPosition = feature.zLevel // GameSceneConstants.ZLevels.feature // maybe need to come from feature itself
+            featureSprite.zPosition = feature.zLevel
             featureSprite.anchorPoint = CGPoint(x: 0, y: 0)
-            //featureSprite.alpha = alpha
             featureSprite.color = .black
             featureSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(featureSprite)
 
             tile.featureSprites.append(featureSprite)
+            
+            if feature == .ice {
+                isIce = true
+            }
+        }
+        
+        if !isIce {
+            if let tilePoint = tile.point {
+                if let iceTexture = self.map?.iceTexture(at: tilePoint) {
+
+                    let iceSprite = SKSpriteNode(imageNamed: iceTexture)
+                    iceSprite.position = position
+                    iceSprite.zPosition = Feature.ice.zLevel
+                    iceSprite.anchorPoint = CGPoint(x: 0, y: 0)
+                    iceSprite.color = .black
+                    iceSprite.colorBlendFactor = 1.0 - alpha
+                    self.addChild(iceSprite)
+
+                    tile.iceSprite = iceSprite
+                }
+            }
         }
     }
 
@@ -83,6 +105,10 @@ class FeatureLayer: SKNode {
         
         if let tile = map.tile(at: pt) {
             self.removeChildren(in: tile.featureSprites)
+            
+            if let iceSprite = tile.iceSprite {
+                self.removeChildren(in: [iceSprite])
+            }
         }
     }
 }

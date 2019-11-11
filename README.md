@@ -1,7 +1,7 @@
 # Colony
 
 ## Todo
-- redone city and village
+- redo city and village
 - populate world from start locations
 - fix tests
 - show collected coins in win dialog
@@ -10,11 +10,10 @@
 - show game rating (compared to other players)
 - release / board units from ships => unit refactoring
 - shipwreck animation
-- snow textures from wesnoth as layer
-- mountain textures as layer
 - limit sight thru mountains
 - global events - climate cycles / volcano events (winter)
 - current unit indicator
+- show losses as animation not dialog
 
 units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245
 tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-location-hexes-medieval-fantasy-59271
@@ -37,6 +36,8 @@ tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-locati
 - [Defect] dialogs not centered in landscape mode
 
 ## Done
+- snow textures from wesnoth as layer
+- mountain textures as layer
 - add new player input / add player switcher in options (logout)
 - let player select a civilization
 - add beach-se-sw-nw texture (/)

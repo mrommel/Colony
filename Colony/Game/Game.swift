@@ -13,7 +13,7 @@ protocol GameUpdateDelegate {
     func updateUI()
 
     func showBattleDialog(between source: Unit?, and target: Unit?)
-    func showBattleResult(between source: Unit?, and target: Unit?, result: BattleResult)
+    //func showBattleResult(between source: Unit?, and target: Unit?, result: BattleResult)
 }
 
 class Game: Decodable {
@@ -718,7 +718,10 @@ extension Game: GameObservationDelegate {
             let battle = Battle(between: source, and: target, attackType: .active, in: self)
             let battleResult = battle.fight()
 
-            self.gameUpdateDelegate?.showBattleResult(between: source, and: target, result: battleResult)
+            source?.gameObject?.show(losses: battleResult.attackerDamage)
+            target?.gameObject?.show(losses: battleResult.defenderDamage)
+            
+            //self.gameUpdateDelegate?.showBattleResult(between: source, and: target, result: battleResult)
         }
     }
 }

@@ -167,9 +167,19 @@ class StoreScene: BaseScene {
         }
     }
     
+    var statusBarOrientation: UIInterfaceOrientation? {
+        get {
+            guard let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation else {
+                fatalError("Could not obtain UIInterfaceOrientation from a valid windowScene")
+            }
+            return orientation
+        }
+    }
+    
     func limitCamera() {
         
-        let landscape = UIApplication.shared.statusBarOrientation.isLandscape
+        let orientation = self.statusBarOrientation ?? .portrait
+        let landscape = orientation == .landscapeLeft || orientation == .landscapeRight
         let minY: CGFloat = landscape ? -690.0 : 0.0 // FIXME: different devices?
         let maxY: CGFloat = 0.0
         

@@ -29,7 +29,7 @@ class GameScene: BaseScene {
             static let caldera: CGFloat = 1.5
             static let snow: CGFloat = 2.0
             static let hill: CGFloat = 2.1
-            static let mountain: CGFloat = 2.2
+            static let mountain: CGFloat = 7.1 // 2.2 FIXME
             static let focus: CGFloat = 3.0
             static let feature: CGFloat = 4.0
             static let road: CGFloat = 4.1
@@ -426,12 +426,14 @@ class GameScene: BaseScene {
 
             let unit = units.first!
             if unit?.civilization == user.civilization {
-                selectedUnitForMovement = unit
+                self.selectedUnitForMovement = unit
+                self.selectedUnitForMovement?.gameObject?.showFocus()
                 return
             }
         }
 
-        selectedUnitForMovement = nil
+        self.selectedUnitForMovement?.gameObject?.hideFocus()
+        self.selectedUnitForMovement = nil
     }
 
     // moving the map around
@@ -652,7 +654,7 @@ extension GameScene: GameUpdateDelegate {
         }
     }
     
-    func showBattleResultDialog(with result: BattleResult) {
+    /*func showBattleResultDialog(with result: BattleResult) {
         
         if let battleResultDialog = UI.battleResultDialog() {
             battleResultDialog.set(text: "att: \(result.attackerDamage) / def: \(result.defenderDamage)", identifier: "summary")
@@ -664,7 +666,7 @@ extension GameScene: GameUpdateDelegate {
             
             self.cameraNode.addChild(battleResultDialog)
         }
-    }
+    }*/
 
     func showBattleDialog(between source: Unit?, and target: Unit?) {
 
@@ -701,7 +703,9 @@ extension GameScene: GameUpdateDelegate {
                 }
                 
                 battleDialog.close()
-                self.showBattleResultDialog(with: result)
+                source?.gameObject?.show(losses: result.attackerDamage)
+                target?.gameObject?.show(losses: result.defenderDamage)
+                //self.showBattleResultDialog(with: result)
             })
 
             battleDialog.addCancelAction(handler: {
@@ -712,10 +716,6 @@ extension GameScene: GameUpdateDelegate {
 
             self.cameraNode.addChild(battleDialog)
         }
-    }
-
-    func showBattleResult(between source: Unit?, and target: Unit?, result: BattleResult) {
-        print("hm")
     }
 }
 
