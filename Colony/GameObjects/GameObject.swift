@@ -552,7 +552,7 @@ class GameObject {
     }
     
     func showFocus() {
-        print("--- show ---")
+        
         if self.focusNode != nil {
             self.focusNode?.removeAction(forKey: GameObject.focusActionKey)
             self.focusNode?.removeFromParent()
@@ -568,7 +568,7 @@ class GameObject {
             
             let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
             let focusFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
-            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: (animationSpeed / 4.0) / Double(focusFrames.count)))
+            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: 2.0 / Double(focusFrames.count)))
 
             self.focusNode?.run(focusAnimation, withKey: GameObject.focusActionKey, completion: { })
         }
@@ -579,7 +579,6 @@ class GameObject {
     }
     
     func hideFocus() {
-        print("--- hide ---")
         
         if self.focusNode != nil {
             self.focusNode?.removeAction(forKey: GameObject.focusActionKey)

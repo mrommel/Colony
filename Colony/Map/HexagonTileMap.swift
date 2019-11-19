@@ -16,7 +16,7 @@ class HexagonTileMap: HexagonMap<Tile> {
     var rivers: [River] = []
     var fogManager: FogManager? = nil
     
-    var units: [Unit] = []
+    private var units: [Unit] = []
     var cities: [City] = []
     var animals: [Animal] = []
     
@@ -725,10 +725,17 @@ class HexagonTileMap: HexagonMap<Tile> {
     
     // MARK: unit methods
     
-    func set(unit unitRef: Unit?) {
+    func add(unit unitRef: Unit?) {
         
         if let unit = unitRef {
             self.units.append(unit)
+        }
+    }
+    
+    func remove(unit unitRef: Unit?) {
+        
+        if let unit = unitRef {
+            self.units.remove(object: unit)
         }
     }
     
@@ -755,6 +762,26 @@ class HexagonTileMap: HexagonMap<Tile> {
     func units(at position: HexPoint) -> [Unit?] {
     
         return self.units.filter { $0.position == position }
+    }
+    
+    func navalUnits(in area: HexArea) -> [Unit] {
+
+        var navalUnits: [Unit] = []
+        for unit in self.units {
+
+            if unit.unitType.isNaval {
+                if area.contains(unit.position) {
+                    navalUnits.append(unit)
+                }
+            }
+        }
+
+        return navalUnits
+    }
+    
+    func forEachUnit(_ body: (Unit) throws -> Void) rethrows {
+        
+        return try self.units.forEach(body)
     }
 
     // MARK: zone of control methods

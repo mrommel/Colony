@@ -108,7 +108,7 @@ class Level: Decodable  {
         
         let currentUserCivilization = self.userUsecase?.currentUser()?.civilization ?? .english
         let caravel = Caravel(position: startPositions.playerPosition, civilization: currentUserCivilization)
-        self.map.set(unit: caravel)
+        self.map.add(unit: caravel)
         
         for (index, startPosition) in startPositions.cityPositions.enumerated() {
             print("- city \(index): \(startPosition)")

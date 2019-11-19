@@ -250,18 +250,22 @@ extension Game {
         }
 
         self.aiscript?.update(for: self)
-
-        for unit in level.map.units {
-
+        
+        var destroyedUnits: [Unit] = []
+        level.map.forEachUnit { unit in
             if unit.isDestroyed() {
-                continue
-            }
+                destroyedUnits.append(unit)
+            } else {
 
-            if unit.civilization != userCivilization {
-                unit.update(in: self)
+                if unit.civilization != userCivilization {
+                    unit.update(in: self)
+                }
             }
         }
-        level.map.units = level.map.units.filter { !$0.isDestroyed() }
+        
+        destroyedUnits.forEach { unit in
+            level.map.remove(unit: unit)
+        }
 
         for city in level.map.cities {
             city.update(in: self)
@@ -654,18 +658,8 @@ extension Game {
 
     func navalUnits(in area: HexArea) -> [Unit] {
 
-        guard let units = self.level?.map.units else {
+        guard let navalUnits = self.level?.map.navalUnits(in: area) else {
             return []
-        }
-
-        var navalUnits: [Unit] = []
-        for unit in units {
-
-            if unit.unitType.isNaval {
-                if area.contains(unit.position) {
-                    navalUnits.append(unit)
-                }
-            }
         }
 
         return navalUnits

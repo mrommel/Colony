@@ -69,15 +69,15 @@ class GameObjectManager {
             fatalError("Can't get current users civilization")
         }
 
-        for unit in self.map?.units ?? [] {
-
+        self.map?.forEachUnit { unit in
+            
             let gameObject = unit.createGameObject()
             gameObject?.delegate = self
             self.objects.append(gameObject)
 
             // only player unit update the fog
             if unit.civilization == currentUserCivilization {
-                // FIXME: add to correct 
+                // FIXME: add to correct
                 self.map?.fogManager?.add(unit: gameObject!)
 
                 if self.selected == nil {

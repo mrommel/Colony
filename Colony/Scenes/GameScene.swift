@@ -672,6 +672,7 @@ extension GameScene: GameUpdateDelegate {
 
         if let battleDialog = UI.battleDialog() {
             
+            // stop the timer
             self.game?.pause()
             
             let battle = Battle(between: source, and: target, attackType: .active, in: self.game)
@@ -680,32 +681,23 @@ extension GameScene: GameUpdateDelegate {
             battleDialog.show(prediction: prediction, for: target)
             battleDialog.addOkayAction(handler: {
 
+                battleDialog.close()
+                
                 let result = battle.fight()
                 
-                var sourceDirection: HexDirection = .north
-                if let sourcePosition = source?.position, let targetPosition = target?.position {
-                    sourceDirection = HexMapDisplay.shared.screenDirection(from: sourcePosition, towards: targetPosition) 
-                }
-                let targetDirection = sourceDirection.opposite
-                
-                if result.options.contains(.attackerStriked) {
-                    //print("show attacker strike")
-                    source?.gameObject?.showExplosion(in: sourceDirection)
-                    target?.gameObject?.showExplosionDelayed(in: targetDirection)
-                } else if result.options.contains(.defenderStriked) {
-                    //print("show defender strike")
-                    source?.gameObject?.showExplosionDelayed(in: sourceDirection)
-                    target?.gameObject?.showExplosion(in: targetDirection)
-                } else if result.options.contains(.bothStriked) {
-                    //print("show both strike")
-                    source?.gameObject?.showExplosion(in: sourceDirection)
-                    target?.gameObject?.showExplosion(in: targetDirection)
+                self.showBattle(result: result, between: source, and: target)
+
+                // handle attacker / defender dead
+                if let isSourceDestroyed = source?.isDestroyed(), isSourceDestroyed {
+                    self.removed(unit: source)
                 }
                 
-                battleDialog.close()
-                source?.gameObject?.show(losses: result.attackerDamage)
-                target?.gameObject?.show(losses: result.defenderDamage)
-                //self.showBattleResultDialog(with: result)
+                if let isTargetDestroyed = target?.isDestroyed(), isTargetDestroyed {
+                    self.removed(unit: target)
+                }
+                
+                // restart the game
+                self.game?.resume()
             })
 
             battleDialog.addCancelAction(handler: {
@@ -716,6 +708,29 @@ extension GameScene: GameUpdateDelegate {
 
             self.cameraNode.addChild(battleDialog)
         }
+    }
+    
+    func showBattle(result: BattleResult, between source: Unit?, and target: Unit?) {
+        
+        var sourceDirection: HexDirection = .north
+        if let sourcePosition = source?.position, let targetPosition = target?.position {
+            sourceDirection = HexMapDisplay.shared.screenDirection(from: sourcePosition, towards: targetPosition)
+        }
+        let targetDirection = sourceDirection.opposite
+        
+        if result.options.contains(.attackerStriked) {
+            source?.gameObject?.showExplosion(in: sourceDirection)
+            target?.gameObject?.showExplosionDelayed(in: targetDirection)
+        } else if result.options.contains(.defenderStriked) {
+            source?.gameObject?.showExplosionDelayed(in: sourceDirection)
+            target?.gameObject?.showExplosion(in: targetDirection)
+        } else if result.options.contains(.bothStriked) {
+            source?.gameObject?.showExplosion(in: sourceDirection)
+            target?.gameObject?.showExplosion(in: targetDirection)
+        }
+        
+        source?.gameObject?.show(losses: result.attackerDamage)
+        target?.gameObject?.show(losses: result.defenderDamage)
     }
 }
 
@@ -729,6 +744,10 @@ extension GameScene: GameObjectUnitDelegate {
 
     func removed(unit: Unit?) {
         // NOOP
+        if let unit = unit {
+            print("---- removed: \(unit.unitType), \(unit.civilization) got killed or is deleted")
+        }
+        //self.game.remo
     }
 }
 
