@@ -19,6 +19,7 @@ enum UnitTargetType {
     case naval
 }
 
+// FIXME: move to UnitType
 struct UnitProperties {
     
     // vvvv -- extend flags in constructor, when adding new bits

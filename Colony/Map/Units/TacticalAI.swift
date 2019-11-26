@@ -48,9 +48,9 @@ class TacticalAI {
     // MARK: constants
 
     private static let kFREE_MOVE_RADIUS: Int = 1 // unit moves within this radius around the post
-    private static let kDISTURB_DURATION: Int = 2 // seconds
+    private static let kDISTURB_DURATION: Int = 2 // in turns
     private static let kPURSUE_RADIUS: Int = 5 // unit follows units within this radius around the post
-    private static let kTAUNT_DURATION: TimeInterval = 5.0 // seconds
+    private static let kTAUNT_DURATION: Int = 5 // in turns
 
     // MARK: properties
 
@@ -59,7 +59,7 @@ class TacticalAI {
     private var stateMachine: TacticalStateMachine? = nil
 
     // general properties
-    private var disturbTime: TimeInterval = 0.0
+    private var disturbTurn: Int = 0
 
     // ai
     //private var mission: Mission? = nil
@@ -107,12 +107,16 @@ class TacticalAI {
         }
     }
 
-    func doWait(for duration: TimeInterval) {
+    func doWait(for turns: Int) {
 
-        if self.disturbTime == 0 {
-            self.disturbTime = Date().timeIntervalSince1970
-        } else if self.disturbTime + duration < Date().timeIntervalSince1970 {
-            self.disturbTime = 0
+        guard let currentTurn = self.game?.currentTurn?.currentTurn else {
+            fatalError("can't get current turn")
+        }
+        
+        if self.disturbTurn == 0 {
+            self.disturbTurn = currentTurn
+        } else if self.disturbTurn + turns < currentTurn {
+            self.disturbTurn = 0
             self.stateMachine?.popState()
         }
     }
@@ -217,10 +221,14 @@ class TacticalAI {
 
     private func updateHostileUnits() {
 
+        guard let currentTurn = self.game?.currentTurn?.currentTurn else {
+            fatalError("can't get current turn")
+        }
+        
         var forgottenAttackers: [AttackEvent] = []
         for ae in self.aggressions {
             if let unit = ae.unit {
-                if unit.isDestroyed() || ae.time + TacticalAI.kTAUNT_DURATION < Date().timeIntervalSince1970 {
+                if unit.isDestroyed() || ae.turn + TacticalAI.kTAUNT_DURATION < currentTurn {
                     forgottenAttackers.append(ae)
                 }
             }

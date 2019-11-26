@@ -370,8 +370,8 @@ class GameObject {
             return
         }
 
-        let firstItem = path[0]
-        let secondItem = path[1]
+        let firstItem = path[0].0
+        let secondItem = path[1].0
 
         if let dir = firstItem.direction(towards: secondItem) {
             let textureName = "path-start-\(dir.short)"
@@ -386,9 +386,9 @@ class GameObject {
         }
 
         for i in 1..<path.count - 1 {
-            let previousItem = path[i - 1]
-            let currentItem = path[i]
-            let nextItem = path[i + 1]
+            let previousItem = path[i - 1].0
+            let currentItem = path[i].0
+            let nextItem = path[i + 1].0
 
             if let dir = currentItem.direction(towards: previousItem), let dir2 = currentItem.direction(towards: nextItem) {
 
@@ -407,8 +407,8 @@ class GameObject {
             }
         }
 
-        let secondlastItem = path[path.count - 2]
-        let lastItem = path[path.count - 1]
+        let secondlastItem = path[path.count - 2].0
+        let lastItem = path[path.count - 1].0
 
         if let dir = lastItem.direction(towards: secondlastItem) {
             let textureName = "path-start-\(dir.short)"
@@ -452,6 +452,13 @@ class GameObject {
             return
         }
 
+        if let unit = self.connectedUnit() {
+            if unit.movementInCurrentTurn <= 0 {
+                print("movement limited")
+                return
+            }
+        }
+        
         self.sprite.removeAction(forKey: GameObject.idleActionKey)
 
         guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
@@ -460,13 +467,16 @@ class GameObject {
 
         if let civilization = self.connectedUnit()?.civilization {
             if civilization == currentUserCivilization {
-                self.show(path: HexPath(point: self.position, path: path))
+                self.show(path: HexPath(point: self.position, cost: 0.0, path: path))
             }
         }
 
-        if let point = path.first {
+        if let (point, cost) = path.first {
             let pathWithoutFirst = path.pathWithoutFirst()
 
+            // reduce the movementInCurrentTurn
+            self.connectedUnit()?.move(by: cost)
+            
             self.walk(from: self.position, to: point, completion: {
                 self.showWalk(on: pathWithoutFirst, completion: block)
             })
@@ -561,6 +571,7 @@ class GameObject {
         
         let texture = SKTexture(imageNamed: "focus1")
         self.focusNode = SKSpriteNode(texture: texture)
+        self.focusNode?.position = HexMapDisplay.shared.toScreen(hex: self.position)
         self.focusNode?.zPosition = GameScene.Constants.ZLevels.focus
         self.focusNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         
@@ -574,7 +585,7 @@ class GameObject {
         }
         
         if let focusNode = self.focusNode {
-            self.sprite.addChild(focusNode)
+            self.sprite.parent?.addChild(focusNode)
         }
     }
     

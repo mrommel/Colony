@@ -67,6 +67,21 @@ enum UnitType: String, Codable {
         }
     }
     
+    var movementPoints: Float {
+        
+        switch self {
+        case .caravel:
+            return 4.0
+        case .axeman:
+            return 2.0
+        case .archer:
+            return 2.0
+            
+        default:
+            return 0.0
+        }
+    }
+    
     var textureName: String {
         
         switch self {

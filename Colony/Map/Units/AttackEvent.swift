@@ -11,7 +11,7 @@ import Foundation
 struct AttackEvent {
 
     let unit: Unit?
-    let time: TimeInterval
+    let turn: Int // attack happend in turn
 }
 
 extension AttackEvent: Hashable {
@@ -19,6 +19,6 @@ extension AttackEvent: Hashable {
     func hash(into hasher: inout Hasher) {
         
         hasher.combine(self.unit)
-        hasher.combine(self.time)
+        hasher.combine(self.turn)
     }
 }

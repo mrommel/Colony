@@ -671,7 +671,7 @@ class HexagonTileMap: HexagonMap<Tile> {
         }
     }
     
-    func pathfinderDataSource(with gameObjectManager: GameObjectManager?, movementType: MovementType, civilization: Civilization ,ignoreSight: Bool) -> PathfinderDataSource {
+    func pathfinderDataSource(with gameObjectManager: GameObjectManager?, movementType: MovementType, civilization: Civilization, ignoreSight: Bool) -> PathfinderDataSource {
         
         return MoveTypePathfinderDataSource(map: self, gameObjectManager: gameObjectManager, movementType: movementType, civilization: civilization, ignoreSight: ignoreSight)
     }

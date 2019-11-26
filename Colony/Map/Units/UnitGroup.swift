@@ -8,6 +8,7 @@
 
 import Foundation
 
+/*
 /// representation of an army / fleet of units
 /// unit can only be in one group
 class UnitGroup {
@@ -40,3 +41,4 @@ class UnitGroup {
         return false
     }
 }
+*/

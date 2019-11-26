@@ -1,6 +1,6 @@
 {
   "difficulty": "easy",
-  "duration": 120,
+  "turns": 10,
   "gameConditionCheckIdentifiers": [
     "Level0001Check",
     "TimerElapsedCheck"

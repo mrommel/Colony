@@ -60,7 +60,6 @@
 		C91993C9235357B000703353 /* GameRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91993C8235357B000703353 /* GameRating.swift */; };
 		C91A4F3322A260DD000BF647 /* QuestsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3222A260DD000BF647 /* QuestsScene.swift */; };
 		C91A4F3522A26585000BF647 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A4F3422A26585000BF647 /* MenuButtonNode.swift */; };
-		C91AC6E32302D07C00104BD3 /* AIUnitState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91AC6E22302D07C00104BD3 /* AIUnitState.swift */; };
 		C91AC6E52302D09500104BD3 /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91AC6E42302D09500104BD3 /* UnitType.swift */; };
 		C91AC6E72302D0AD00104BD3 /* MovementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91AC6E62302D0AD00104BD3 /* MovementType.swift */; };
 		C91AE233235EF8DE00555F2D /* DialogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91AE232235EF8DE00555F2D /* DialogItem.swift */; };
@@ -204,6 +203,10 @@
 		C999FD0022F9824500D281D4 /* MapUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C999FCFF22F9824500D281D4 /* MapUsecase.swift */; };
 		C999FD0322F9A1B400D281D4 /* earth_large.map in Resources */ = {isa = PBXBuildFile; fileRef = C999FD0222F9A16B00D281D4 /* earth_large.map */; };
 		C999FD0422F9A1BC00D281D4 /* earth_huge.map in Resources */ = {isa = PBXBuildFile; fileRef = C999FD0122F9A14400D281D4 /* earth_huge.map */; };
+		C9A116D5238C2F5F006DEA9B /* AIPlayerTurnDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A116D4238C2F5D006DEA9B /* AIPlayerTurnDialog.xml */; };
+		C9A116D7238C2FA6006DEA9B /* AIPlayerTurnDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A116D6238C2FA6006DEA9B /* AIPlayerTurnDialog.swift */; };
+		C9A116D9238D5820006DEA9B /* GameTurn.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A116D8238D5820006DEA9B /* GameTurn.swift */; };
+		C9A116DB238D61CD006DEA9B /* DispatchQueueExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A116DA238D61CD006DEA9B /* DispatchQueueExtension.swift */; };
 		C9A32B4822B29F3100AFC70D /* level0001.lvl in Resources */ = {isa = PBXBuildFile; fileRef = C9A32B4722B29F3100AFC70D /* level0001.lvl */; };
 		C9AB425C22A062E3000E5397 /* SeaMonsterObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB425B22A062E3000E5397 /* SeaMonsterObject.swift */; };
 		C9B1D61622F8071B008BFE61 /* Civ5Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D61522F8071B008BFE61 /* Civ5Map.swift */; };
@@ -359,7 +362,6 @@
 		C91993C8235357B000703353 /* GameRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRating.swift; sourceTree = "<group>"; };
 		C91A4F3222A260DD000BF647 /* QuestsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestsScene.swift; sourceTree = "<group>"; };
 		C91A4F3422A26585000BF647 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
-		C91AC6E22302D07C00104BD3 /* AIUnitState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIUnitState.swift; sourceTree = "<group>"; };
 		C91AC6E42302D09500104BD3 /* UnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitType.swift; sourceTree = "<group>"; };
 		C91AC6E62302D0AD00104BD3 /* MovementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementType.swift; sourceTree = "<group>"; };
 		C91AE232235EF8DE00555F2D /* DialogItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogItem.swift; sourceTree = "<group>"; };
@@ -473,6 +475,10 @@
 		C999FCFF22F9824500D281D4 /* MapUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUsecase.swift; sourceTree = "<group>"; };
 		C999FD0122F9A14400D281D4 /* earth_huge.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_huge.map; sourceTree = "<group>"; };
 		C999FD0222F9A16B00D281D4 /* earth_large.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_large.map; sourceTree = "<group>"; };
+		C9A116D4238C2F5D006DEA9B /* AIPlayerTurnDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = AIPlayerTurnDialog.xml; sourceTree = "<group>"; };
+		C9A116D6238C2FA6006DEA9B /* AIPlayerTurnDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIPlayerTurnDialog.swift; sourceTree = "<group>"; };
+		C9A116D8238D5820006DEA9B /* GameTurn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTurn.swift; sourceTree = "<group>"; };
+		C9A116DA238D61CD006DEA9B /* DispatchQueueExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueueExtension.swift; sourceTree = "<group>"; };
 		C9A32B4722B29F3100AFC70D /* level0001.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0001.lvl; sourceTree = "<group>"; };
 		C9AB425B22A062E3000E5397 /* SeaMonsterObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeaMonsterObject.swift; sourceTree = "<group>"; };
 		C9B1D61522F8071B008BFE61 /* Civ5Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Map.swift; sourceTree = "<group>"; };
@@ -775,6 +781,7 @@
 		C956078B22B1245400AA69E9 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C9A116D4238C2F5D006DEA9B /* AIPlayerTurnDialog.xml */,
 				C900654122AEE8DC0004C963 /* DefeatDialog.xml */,
 				C9E9BBFF22B6262A0048F97B /* LevelIntroductionDialog.xml */,
 				C956078E22B1297500AA69E9 /* QuitConfirmationDialog.xml */,
@@ -806,6 +813,7 @@
 				C956079322B1426500AA69E9 /* LevelManager.swift */,
 				C92D876022CB7A0600E7A55E /* Game.swift */,
 				C91993C8235357B000703353 /* GameRating.swift */,
+				C9A116D8238D5820006DEA9B /* GameTurn.swift */,
 				C9CCF42322E75F700041AD45 /* Civilization.swift */,
 				C9CCF42522E75F940041AD45 /* Player.swift */,
 				C93A408F2306CBD00011E9DA /* Battle.swift */,
@@ -829,6 +837,7 @@
 				C93A4095230BCE6E0011E9DA /* BattleDialog.swift */,
 				C90BF097230FE1DC0074C3E8 /* LevelIntroductionDialog.swift */,
 				C91AE234235F339100555F2D /* PlayerInputDialog.swift */,
+				C9A116D6238C2FA6006DEA9B /* AIPlayerTurnDialog.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -933,7 +942,6 @@
 		C995F21A2338BF570091D021 /* Units */ = {
 			isa = PBXGroup;
 			children = (
-				C91AC6E22302D07C00104BD3 /* AIUnitState.swift */,
 				C91AC6E62302D0AD00104BD3 /* MovementType.swift */,
 				C90BF099230FEBBE0074C3E8 /* UnitProperties.swift */,
 				C9B3B5FC232E263900ACAE94 /* UnitPromotions.swift */,
@@ -1147,6 +1155,7 @@
 				C996744B230151A000313420 /* StringExtension.swift */,
 				C9EB0C6B23421540006632A0 /* Logger.swift */,
 				C9EB0C7F234A591C006632A0 /* DateExtension.swift */,
+				C9A116DA238D61CD006DEA9B /* DispatchQueueExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1284,6 +1293,7 @@
 				C9C7F0D6229B193A00A775B2 /* Assets.xcassets in Resources */,
 				C9A32B4822B29F3100AFC70D /* level0001.lvl in Resources */,
 				C903369122EDAFEA004D2D72 /* GameContinueDialog.xml in Resources */,
+				C9A116D5238C2F5F006DEA9B /* AIPlayerTurnDialog.xml in Resources */,
 				C956078D22B1291700AA69E9 /* VictoryDialog.xml in Resources */,
 				C95318DC233E4F1E005D507F /* DINNext-Regular.ttf in Resources */,
 				C999FD0422F9A1BC00D281D4 /* earth_huge.map in Resources */,
@@ -1395,6 +1405,7 @@
 				C9C7F103229EBD9500A775B2 /* Feature.swift in Sources */,
 				C9C7F13A229F203200A775B2 /* TerrainLayer.swift in Sources */,
 				C9C7F0CF229B193400A775B2 /* GameScene.swift in Sources */,
+				C9A116D7238C2FA6006DEA9B /* AIPlayerTurnDialog.swift in Sources */,
 				C9B24CFE233910BE0050B1C2 /* Archer.swift in Sources */,
 				C90817D823549197004A4634 /* AIScript.swift in Sources */,
 				C927EEC6231EE63200D775BD /* ShadowLabelNode.swift in Sources */,
@@ -1418,6 +1429,7 @@
 				C91993C5234E166300703353 /* StrategicAI.swift in Sources */,
 				C956079622B23FD800AA69E9 /* Level.swift in Sources */,
 				C9C7F135229EC0C300A775B2 /* HexMapDisplay.swift in Sources */,
+				C9A116DB238D61CD006DEA9B /* DispatchQueueExtension.swift in Sources */,
 				C92D876122CB7A0600E7A55E /* Game.swift in Sources */,
 				C995F2212338DE850091D021 /* AnimalType.swift in Sources */,
 				C972CCC222AC3D79008DB8CB /* CGSizeExtension.swift in Sources */,
@@ -1428,7 +1440,6 @@
 				C9B24D0E233CE2280050B1C2 /* MapItemType.swift in Sources */,
 				C92D875A22CB75CB00E7A55E /* ScoreDao.swift in Sources */,
 				C90BF0A02313FCF70074C3E8 /* Field.swift in Sources */,
-				C91AC6E32302D07C00104BD3 /* AIUnitState.swift in Sources */,
 				C9C7F120229EBE5C00A775B2 /* HexPointCorner.swift in Sources */,
 				C9EB0C722347D533006632A0 /* TacticalAI.swift in Sources */,
 				C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */,
@@ -1486,6 +1497,7 @@
 				C956079822B2426400AA69E9 /* GameConditionCheckManager.swift in Sources */,
 				C903369322EDB89F004D2D72 /* BoosterTypeNode.swift in Sources */,
 				C97B53A322D2756B008078D9 /* PiratesObject.swift in Sources */,
+				C9A116D9238D5820006DEA9B /* GameTurn.swift in Sources */,
 				C9B24CFC2339106F0050B1C2 /* ReefObject.swift in Sources */,
 				C9C7F116229EBE3100A775B2 /* BitArray.swift in Sources */,
 				C9C7F0F3229EA73300A775B2 /* MapNode.swift in Sources */,

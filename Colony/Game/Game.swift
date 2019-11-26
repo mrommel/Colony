@@ -19,9 +19,8 @@ protocol GameUpdateDelegate {
 class Game: Decodable {
 
     fileprivate let level: Level?
-
-    var timer: PausableTimer? = nil
-
+    var currentTurn: GameTurn?
+    
     var coins: Int
     var boosterStock: BoosterStock
 
@@ -34,6 +33,18 @@ class Game: Decodable {
     var conditionCheckIdentifiers: [String] {
         return self.conditionChecks.map { $0.identifier }
     }
+    
+    var title: String {
+        return self.level?.meta?.title ?? "title"
+    }
+    
+    var maxTurns: Int {
+        return self.level?.turns ?? -1
+    }
+    
+    var initialTurns: Int {
+        return 0
+    }
 
     var conditionDelegate: GameConditionDelegate?
     var gameUpdateDelegate: GameUpdateDelegate?
@@ -41,13 +52,11 @@ class Game: Decodable {
     var gameRating: GameRating?
     var aiscript: AIScript?
 
-    private var updateTimer: Timer? = nil
-
     enum CodingKeys: String, CodingKey {
         case level
         case coins
         case boosterStock
-        case remainingDuration
+        case currentTurn
     }
 
     // new game
@@ -57,6 +66,7 @@ class Game: Decodable {
         self.level?.meta = meta
         self.coins = coins
         self.boosterStock = boosterStock
+        self.currentTurn = GameTurn(currentTurn: 0)
 
         // usecases
         self.gameUsecase = GameUsecase()
@@ -74,6 +84,7 @@ class Game: Decodable {
         self.gameRating = meta?.getGameRating(for: self)
         self.aiscript = meta?.getAIScript(for: self)
 
+        self.currentTurn?.turnMechanicsDelegate = self
         self.level?.gameObjectManager.gameObservationDelegate = self
     }
 
@@ -84,9 +95,10 @@ class Game: Decodable {
         self.level = try values.decode(Level.self, forKey: .level)
         self.coins = try values.decode(Int.self, forKey: .coins)
         self.boosterStock = try values.decode(BoosterStock.self, forKey: .boosterStock)
-
-        let remainingDuration = try values.decode(Int.self, forKey: .remainingDuration)
-
+        
+        let currentTurnValue = try values.decode(Int.self, forKey: .currentTurn)
+        self.currentTurn = GameTurn(currentTurn: currentTurnValue)
+        
         // usecases
         self.gameUsecase = GameUsecase()
         self.userUsecase = UserUsecase()
@@ -101,12 +113,9 @@ class Game: Decodable {
         }
 
         self.level?.gameObjectManager.gameObservationDelegate = self
-
-        self.start(with: remainingDuration)
-    }
-
-    deinit {
-        self.cancel()
+        self.currentTurn?.turnMechanicsDelegate = self
+        
+        self.start(with: currentTurnValue)
     }
 
     func add(conditionCheck: GameConditionCheck) {
@@ -120,12 +129,10 @@ class Game: Decodable {
         for conditionCheck in self.conditionChecks {
             if let type = conditionCheck.isWon() {
                 self.conditionDelegate?.won(with: type)
-                self.cancel()
             }
 
             if let type = conditionCheck.isLost() {
                 self.conditionDelegate?.lost(with: type)
-                self.cancel()
             }
         }
     }
@@ -149,104 +156,63 @@ class Game: Decodable {
 
 extension Game {
 
-    func start(with duration: Int) {
+    func start(with currentTurn: Int) {
         print("start game timer")
 
-        // game timer
-        self.timer = PausableTimer(with: TimeInterval(duration))
-
-        // start/stop update timer to check for conditions ever 1 seconds
-        self.timer?.didStart = {
-            self.startUpdateTimer()
-        }
-        self.timer?.didPause = {
-            self.stopUpdateTimer()
-        }
-        self.timer?.didResume = {
-            self.startUpdateTimer()
-        }
-        self.timer?.didStop = { isFinished in
-            self.stopUpdateTimer()
-
-            if isFinished {
-                self.fireUpdateTimer()
-            }
-        }
-
-        self.timer?.start()
-
+        // init turns
+        self.currentTurn?.currentTurn = currentTurn
+        
         if let selectedUnit = self.level?.gameObjectManager.selected {
             self.level?.gameObjectManager.updatePlayer(unit: selectedUnit)
         }
     }
 
-    func pause() {
-
-        print("pause game timer")
-        if let timer = self.timer {
-            timer.pause()
+    // end user turn
+    func turn() {
+        
+        guard let currentTurn = self.currentTurn else {
+            fatalError("Can't get current turn")
         }
-    }
-
-    func resume() {
-
-        print("resume game timer")
-        if let timer = self.timer {
-            timer.resume()
-        }
-    }
-
-    func cancel() {
-
-        print("cancel game timer")
-        if let timer = self.timer {
-            timer.stop()
-        }
-    }
-
-    func timeRemainingInSeconds() -> TimeInterval {
-
-        if let timer = self.timer {
-            return timer.remainingDuration()
-        }
-
-        return 0
-    }
-
-    private func startUpdateTimer() {
-
-        print("start update timer")
-        self.updateTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(fireUpdateTimer), userInfo: nil, repeats: true)
-    }
-
-    @objc private func fireUpdateTimer() {
-
-        self.update()
-        self.gameUpdateDelegate?.updateUI()
-        self.checkCondition()
-
-        // FIXME
-        // self.level?.gameObjectManager.update(in: self)
-    }
-
-    private func stopUpdateTimer() {
-
-        print("stop update timer")
-        self.updateTimer?.invalidate()
+        
+        // do the turn
+        currentTurn.doTurn()
     }
 
     private func update() {
 
+        guard let currentTurn = self.currentTurn else {
+            fatalError("Can't get current turn")
+        }
+        
         guard let level = self.level else {
             fatalError("can't find level")
         }
-
-        for player in level.players {
+        
+        //
+        if currentTurn.isUserPlayer() {
+            
+            level.map.forEachUnit { unit in
+                if unit.civilization == currentTurn.currentCivilization {
+                    unit.resetMoves()
+                    unit.update(in: self)
+                }
+            }
+        } else {
+            guard let player = level.playerFor(civilization: currentTurn.currentCivilization) else {
+                fatalError("Can't get current ai player")
+            }
+            
+            // update ai player
             player.update(in: self)
-        }
-
-        guard let userCivilization = self.userUsecase?.currentUser()?.civilization else {
-            fatalError("can't get user civilization")
+            
+            level.map.forEachUnit { unit in
+                if unit.civilization == currentTurn.currentCivilization {
+                    unit.resetMoves()
+                    unit.update(in: self)
+                }
+            }
+            
+            sleep(2)
         }
 
         self.aiscript?.update(for: self)
@@ -255,18 +221,14 @@ extension Game {
         level.map.forEachUnit { unit in
             if unit.isDestroyed() {
                 destroyedUnits.append(unit)
-            } else {
-
-                if unit.civilization != userCivilization {
-                    unit.update(in: self)
-                }
             }
         }
         
         destroyedUnits.forEach { unit in
             level.map.remove(unit: unit)
         }
-
+        
+        // FIXME: should this be run only once?
         for city in level.map.cities {
             city.update(in: self)
         }
@@ -283,16 +245,32 @@ extension Game {
     }
 }
 
-extension Game {
+extension Game: GameTurnMechanicsDelegate {
 
-    var duration: Int {
-
-        if let durationValue = self.level?.duration {
-            return durationValue
+    func notifyPlayer(with civilization: Civilization) {
+        
+        print("------- player is on duty: \(civilization) -------")
+        
+        guard let userCivilization = self.userUsecase?.currentUser()?.civilization else {
+            fatalError("can't get user civilization")
         }
-
-        return 0
+        
+        DispatchQueue.background(delay: 1.0, background: {
+            // do something in background
+            self.update()
+            self.checkCondition()
+        }, completion: {
+            // when background job finishes, wait 3 seconds and do something in main thread
+            self.gameUpdateDelegate?.updateUI()
+                    
+            if userCivilization != civilization {
+                self.turn()
+            }
+        })
     }
+}
+
+extension Game {
 
     func start(boosterType: BoosterType) {
 
@@ -315,7 +293,7 @@ extension Game {
             self.level?.gameObjectManager.selected?.sight += 1
         case .time:
             print("start time")
-            self.pause()
+            self.currentTurn?.currentTurn = (self.currentTurn?.currentTurn ?? 0) + 5 // add 5 turns
         }
     }
 
@@ -337,7 +315,6 @@ extension Game {
             self.level?.gameObjectManager.selected?.sight -= 1
         case .time:
             print("finish time")
-            self.resume()
         }
     }
 }
@@ -350,7 +327,7 @@ extension Game: Encodable {
         try container.encode(self.level, forKey: .level)
         try container.encode(self.coins, forKey: .coins)
         try container.encode(self.boosterStock, forKey: .boosterStock)
-        try container.encode(self.timer?.remainingDuration(), forKey: .remainingDuration)
+        try container.encode(self.currentTurn?.currentTurn ?? 0, forKey: .currentTurn)
     }
 }
 
@@ -700,11 +677,9 @@ extension Game: GameObservationDelegate {
 
         if currentUser.civilization == source?.civilization {
             // user is attacker
-            self.pause()
             self.gameUpdateDelegate?.showBattleDialog(between: source, and: target)
         } else if currentUser.civilization == target?.civilization {
             // user is target
-            self.pause()
             self.gameUpdateDelegate?.showBattleDialog(between: source, and: target)
         } else {
 

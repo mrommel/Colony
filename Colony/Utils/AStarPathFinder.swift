@@ -24,6 +24,7 @@ private class AStarPathStep {
 	var fScore: Float {
 		return gScore + hScore
 	}
+    var rScore: Float = 0.0 // real score
 
 	init(position: HexPoint) {
 		self.position = position
@@ -33,6 +34,7 @@ private class AStarPathStep {
 		// The G score is equal to the parent G score + the cost to move from the parent to it
 		self.parent = parent
 		self.gScore = parent.gScore + moveCost
+        self.rScore = moveCost
 	}
 }
 
@@ -143,7 +145,7 @@ class AStarPathfinder {
         
         // if parent is nil, then it is our starting step, so don't include it
 		while let parent = currentStep.parent {
-            shortestPath.prepend(point: currentStep.position)
+            shortestPath.prepend(point: currentStep.position, cost: currentStep.rScore)
 			currentStep = parent
 		}
         

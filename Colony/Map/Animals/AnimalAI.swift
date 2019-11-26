@@ -17,7 +17,7 @@ class AnimalAI {
 
     // MARK: constants
     
-    private static let kDISTURB_DURATION: Int = 2 // seconds
+    private static let kDISTURB_DURATION: TimeInterval = 2.0 // seconds
     
     // MARK: properties
 
@@ -26,7 +26,7 @@ class AnimalAI {
     private var stateMachine: AnimalStateMachine? = nil
 
     // MARK: general properties
-    private var disturbTime: TimeInterval = 0.0
+    private var disturbTurn: Int = 0
     private var path: HexPath? = nil
 
     // MARK: constructors
@@ -71,12 +71,16 @@ class AnimalAI {
         }
     }
     
-    func doWait(for duration: TimeInterval) {
+    func doWait(for turns: Int) {
 
-        if self.disturbTime == 0 {
-            self.disturbTime = Date().timeIntervalSince1970
-        } else if self.disturbTime + duration < Date().timeIntervalSince1970 {
-            self.disturbTime = 0
+        guard let currentTurn = self.game?.currentTurn?.currentTurn else {
+            fatalError("can't get current turn")
+        }
+        
+        if self.disturbTurn == 0 {
+            self.disturbTurn = currentTurn
+        } else if self.disturbTurn + turns < currentTurn {
+            self.disturbTurn = 0
             self.stateMachine?.popState()
         }
     }

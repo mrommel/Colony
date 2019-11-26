@@ -18,7 +18,7 @@ class SpriteButtonNode: SKNode {
     var buttonLabel: SKLabelNode
     var action: () -> Void
     
-    var active: Bool = true
+    private var active: Bool = true
     
     init(titled title: String, defaultButtonImage: String, hoverButtonImage: String = "", activeButtonImage: String, size: CGSize, isNineGrid: Bool = true, buttonAction: @escaping () -> Void) {
         
@@ -157,6 +157,10 @@ class SpriteButtonNode: SKNode {
         self.buttonIcon?.color = .black
         self.buttonLabel.colorBlendFactor = 0.4
         self.buttonLabel.color = .black
+        
+        self.activeButton.isHidden = false
+        self.hoverButton.isHidden = true
+        self.defaultButton.isHidden = true
     }
     
     // action handling

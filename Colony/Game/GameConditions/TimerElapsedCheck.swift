@@ -21,21 +21,12 @@ enum TimerElapsedConditionType: GameConditionType {
     }
 }
 
-class TimerElapsedCheck: GameConditionCheck {
+class TurnsElapsedCheck: GameConditionCheck {
     
     var elapsed: Bool = false
     
     override var identifier: String {
-        return "TimerElapsedCheck"
-    }
-    
-    override init() {
-        
-        super.init()
-        
-        self.game?.timer?.didStop = { isFinished in
-            self.elapsed = isFinished
-        }
+        return "TurnsElapsedCheck"
     }
     
     override func isWon() -> GameConditionType? {
@@ -45,7 +36,11 @@ class TimerElapsedCheck: GameConditionCheck {
     
     override func isLost() -> GameConditionType? {
         
-        if self.elapsed {
+        guard let game = self.game else {
+            fatalError("Can't get game")
+        }
+        
+        if game.currentTurn!.currentTurn >= game.maxTurns {
             return TimerElapsedConditionType.timeWentOut
         }
         

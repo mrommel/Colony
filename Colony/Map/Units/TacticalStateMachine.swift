@@ -17,18 +17,6 @@ enum TacticalAIState {
     case findPath
     case followMission
     case returnToPost
-    
-    // battle states
-    
-    /*case AUTO_ATTACK
-    case MOVE
-    case STOP
-    case ATTACK
-    case RETURN_POST
-    case ATTACK_BACK
-    case MOVE_ATTACK
-    case HOLD
-    case SUPPORT*/
 }
 
 class TacticalStateMachine: FiniteStateMachine<TacticalAIState> {
@@ -60,31 +48,10 @@ class TacticalStateMachine: FiniteStateMachine<TacticalAIState> {
             let mission = arg as? Mission
             self.ai?.doFollow(mission: mission)
         case .wait:
-            let seconds = arg as! TimeInterval
-            self.ai?.doWait(for: seconds)
+            let turns = arg as! Int
+            self.ai?.doWait(for: turns)
         case .returnToPost:
             self.ai?.doReturnToPost()
-        /*case .AUTO_ATTACK:
-            let enemies = arg as! [Unit]
-            self.ai?.doAutoAttack(enemies: enemies)
-        case .MOVE:
-            self.ai?.doMove()
-        case .STOP:
-            self.ai?.doStop()
-        case .ATTACK:
-            let target = arg as? Unit
-            self.ai?.doAttack(unit: target)
-        case .RETURN_POST:
-            self.ai?.doReturnPost()
-        case .ATTACK_BACK:
-            self.ai?.doAttackBack()
-        case .WAIT:
-            let seconds = arg as! TimeInterval
-            self.ai?.doWait(for: seconds)
-        case .MOVE_ATTACK:
-            self.ai?.doMoveAttack()
-        case .HOLD:
-            self.ai?.doHold()*/
         }
     }
 }

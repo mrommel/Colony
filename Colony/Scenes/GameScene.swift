@@ -29,7 +29,6 @@ class GameScene: BaseScene {
             static let caldera: CGFloat = 1.5
             static let snow: CGFloat = 2.0
             static let hill: CGFloat = 2.1
-            static let mountain: CGFloat = 7.1 // 2.2 FIXME
             static let focus: CGFloat = 3.0
             static let feature: CGFloat = 4.0
             static let road: CGFloat = 4.1
@@ -39,6 +38,7 @@ class GameScene: BaseScene {
             static let staticSprite: CGFloat = 5.0
             static let cityName: CGFloat = 5.5
             static let sprite: CGFloat = 6.0
+            static let mountain: CGFloat = 7.1 // 2.2 FIXME
             static let unitType: CGFloat = 8.0
             static let unitStrength: CGFloat = 10.0
             static let labels: CGFloat = 50.0
@@ -67,6 +67,8 @@ class GameScene: BaseScene {
     var bottomRightBar: BottomRightBar?
 
     var exitButton: MessageBoxButtonNode?
+    var turnButton: MessageBoxButtonNode?
+    var playerCanTurn: Bool = true
 
     var mapNode: MapNode?
     let viewHex: SKSpriteNode
@@ -89,6 +91,9 @@ class GameScene: BaseScene {
     weak var gameDelegate: GameDelegate?
 
     let userUsecase = UserUsecase()
+    
+    // dialogs
+    var aiPlayerTurnDialog: AIPlayerTurnDialog?
 
     override init(size: CGSize) {
 
@@ -182,7 +187,7 @@ class GameScene: BaseScene {
             //let gameObjectManager = GameObjectManager(on: map)
 
             let levelMeta = LevelMeta(number: 0, title: "Generator", summary: "Dummy", difficulty: .easy, position: CGPoint(x: 0.0, y: 0.0), resource: "", rating: "", aiscript: "")
-            let level = Level(duration: 300, map: map, startPositions: startPositions)
+            let level = Level(turns: 15, map: map, startPositions: startPositions)
 
             self.game = Game(with: level, meta: levelMeta, coins: user.coins, boosterStock: user.boosterStock)
 
@@ -196,8 +201,8 @@ class GameScene: BaseScene {
 
         self.game?.conditionDelegate = self
         self.game?.gameUpdateDelegate = self
+        self.game?.currentTurn?.turnUIDelegate = self
         self.game?.add(gameObjectUnitDelegate: self)
-
 
         self.safeAreaNode.addChild(self.bottomLeftBar!)
         self.safeAreaNode.addChild(self.bottomRightBar!)
@@ -269,6 +274,16 @@ class GameScene: BaseScene {
         })
         self.exitButton?.zPosition = 200
         self.safeAreaNode.addChild(self.exitButton!)
+        
+        self.turnButton = MessageBoxButtonNode(titled: "Turn", buttonAction: {
+            if self.playerCanTurn {
+                self.game?.turn()
+            } else {
+                self.show(message: "Can't turn")
+            }
+        })
+        self.turnButton?.zPosition = 200
+        self.safeAreaNode.addChild(self.turnButton!)
 
         // focus on selected unit
         if let mapNode = self.mapNode {
@@ -320,6 +335,7 @@ class GameScene: BaseScene {
         self.bottomRightBar?.updateLayout()
 
         self.exitButton?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth + 50, y: -self.safeAreaNode.frame.halfHeight + 112 + 21)
+        self.turnButton?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth - 50, y: -self.safeAreaNode.frame.halfHeight + 112 + 21)
     }
 
     func showQuitConfirmationDialog() {
@@ -330,7 +346,7 @@ class GameScene: BaseScene {
             quitConfirmationDialog.addOkayAction(handler: {
                 quitConfirmationDialog.close()
 
-                self.game?.cancel()
+                //self.game?.cancel()
                 self.game = nil
 
                 self.gameDelegate?.quitGame()
@@ -352,12 +368,12 @@ class GameScene: BaseScene {
             levelIntroductionDialog.addOkayAction(handler: {
                 levelIntroductionDialog.close()
 
-                guard let duration = self.game?.duration else {
-                    fatalError("can't get level duration")
+                guard let initialTurns = self.game?.initialTurns else {
+                    fatalError("can't get level initial turns")
                 }
 
                 // start timer
-                self.game?.start(with: duration)
+                self.game?.start(with: initialTurns)
             })
 
             self.cameraNode.addChild(levelIntroductionDialog)
@@ -469,7 +485,7 @@ class GameScene: BaseScene {
                 pathFinder.dataSource = self.game?.pathfinderDataSource(for: selectedUnit.unitType.movementType, civilization: selectedUnit.civilization, ignoreSight: false)
 
                 if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.position, toTileCoord: position) {
-                    path.prepend(point: selectedUnit.position)
+                    path.prepend(point: selectedUnit.position, cost: 0.0)
                     selectedUnit.gameObject?.show(path: path)
                 } else {
                     selectedUnit.gameObject?.clearPathSpriteBuffer()
@@ -515,16 +531,14 @@ class GameScene: BaseScene {
         }
 
         if let selectedUnit = self.selectedUnitForAttack {
-            // FIXME: do it
-            //self.show(message: "initiate battle: \(selectedUnit)")
+
             self.showBattleDialog(between: self.game?.getSelectedUnitOfUser(), and: selectedUnit)
-            
             self.selectedUnitForAttack = nil
         }
 
         if let selectedUnit = self.selectedUnitForMovement {
             selectedUnit.gameObject?.clearPathSpriteBuffer()
-
+            selectedUnit.gameObject?.hideFocus()
             self.mapNode?.moveSelectedUnit(to: position)
         }
         self.selectedUnitForMovement = nil
@@ -598,7 +612,6 @@ extension GameScene: GameConditionDelegate {
             victoryDialog.addOkayAction(handler: {
 
                 self.game?.saveScore()
-                self.game?.cancel()
                 self.game = nil
 
                 self.gameDelegate?.quitGame()
@@ -615,7 +628,6 @@ extension GameScene: GameConditionDelegate {
             defeatDialog.set(text: type.summary, identifier: "summary")
             defeatDialog.addOkayAction(handler: {
 
-                self.game?.cancel()
                 self.game = nil
 
                 self.gameDelegate?.quitGame()
@@ -630,8 +642,8 @@ extension GameScene: GameUpdateDelegate {
 
     func updateUI() {
 
-        if let time = self.game?.timeRemainingInSeconds() {
-            self.timeLabel.text = Formatters.Dates.getString(from: time)
+        if let turn = self.game?.currentTurn?.currentTurn {
+            self.timeLabel.text = "\(turn)"
         }
 
         if let coins = self.game?.coins {
@@ -673,7 +685,7 @@ extension GameScene: GameUpdateDelegate {
         if let battleDialog = UI.battleDialog() {
             
             // stop the timer
-            self.game?.pause()
+            //self.game?.pause()
             
             let battle = Battle(between: source, and: target, attackType: .active, in: self.game)
             let prediction = battle.predict()
@@ -685,7 +697,7 @@ extension GameScene: GameUpdateDelegate {
                 
                 let result = battle.fight()
                 
-                self.showBattle(result: result, between: source, and: target)
+                self.animateBattleWith(result: result, between: source, and: target)
 
                 // handle attacker / defender dead
                 if let isSourceDestroyed = source?.isDestroyed(), isSourceDestroyed {
@@ -697,12 +709,12 @@ extension GameScene: GameUpdateDelegate {
                 }
                 
                 // restart the game
-                self.game?.resume()
+                // self.game?.resume()
             })
 
             battleDialog.addCancelAction(handler: {
 
-                self.game?.resume()
+                // self.game?.resume()
                 battleDialog.close()
             })
 
@@ -710,7 +722,7 @@ extension GameScene: GameUpdateDelegate {
         }
     }
     
-    func showBattle(result: BattleResult, between source: Unit?, and target: Unit?) {
+    private func animateBattleWith(result: BattleResult, between source: Unit?, and target: Unit?) {
         
         var sourceDirection: HexDirection = .north
         if let sourcePosition = source?.position, let targetPosition = target?.position {
@@ -731,6 +743,37 @@ extension GameScene: GameUpdateDelegate {
         
         source?.gameObject?.show(losses: result.attackerDamage)
         target?.gameObject?.show(losses: result.defenderDamage)
+    }
+}
+
+extension GameScene: GameTurnUIDelegate {
+    
+    func showTurnDialog() {
+        
+        self.aiPlayerTurnDialog = nil
+        self.aiPlayerTurnDialog = UI.aiPlayerTurnDialog()
+        
+        if let aiPlayerTurnDialog = self.aiPlayerTurnDialog {
+            aiPlayerTurnDialog.show(for: .none)
+            self.cameraNode.addChild(aiPlayerTurnDialog)
+            
+            self.turnButton?.disable()
+        }
+        
+        self.playerCanTurn = false
+    }
+    
+    func hideTurnDialog() {
+        
+        self.turnButton?.enable()
+        self.aiPlayerTurnDialog?.close()
+        
+        self.playerCanTurn = true
+    }
+    
+    func setCurrentPlayer(civilization: Civilization) {
+        
+        self.aiPlayerTurnDialog?.show(for: civilization)
     }
 }
 

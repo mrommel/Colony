@@ -6,11 +6,11 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "tile085.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "galleon_up@3x.png",
       "scale" : "3x"
     }
   ],

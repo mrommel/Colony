@@ -40,6 +40,19 @@ class FollowAndAttackUnitMission: Mission {
         super.init(unit: unit)
     }
     
+    func isTargetDead(in game: Game?) -> Bool {
+        
+        /*guard let game = game else {
+            fatalError("can't get game")
+        }*/
+        
+        guard let targetStrength = self.target?.strength else {
+            fatalError("can't get target strength")
+        }
+        
+        return targetStrength <= 0
+    }
+    
     func isTargetVisible(in game: Game?) -> Bool {
         
         guard let game = game else {
@@ -76,6 +89,17 @@ class FollowAndAttackUnitMission: Mission {
     
     override func follow(in game: Game?) {
         
+        guard let unit = self.unit else {
+            fatalError("no unit set")
+        }
+        
+        if self.isTargetDead(in: game) {
+            
+            // we have lost the unit and the mission
+            self.unit?.missionFinished(with: .abort)
+            return
+        }
+        
         if !self.isTargetVisible(in: game) {
             
             // we have lost the unit and the mission
@@ -90,9 +114,7 @@ class FollowAndAttackUnitMission: Mission {
                 fatalError("can't get target position")
             }
             
-            guard let unitPosition = self.unit?.position else {
-                fatalError("can't find position of unit")
-            }
+            let unitPosition = unit.position
             
             let pathfinderDataSource = game?.pathfinderDataSource(for: self.unit, ignoreSight: true)
             guard let neighbors = pathfinderDataSource?.walkableAdjacentTilesCoords(forTileCoord: targetPosition) else {
@@ -118,15 +140,22 @@ class FollowAndAttackUnitMission: Mission {
             
             let neighborMission = ScoutingMission(unit: self.unit, target: bestNeighbor)
             self.unit?.order(mission: neighborMission)
+            neighborMission.follow(in: game)
             return
         }
+        
+        
         
         let battle = Battle(between: self.unit, and: self.target, attackType: .active, in: game)
         let prediction = battle.predict()
         
-        if prediction.attackerDamage + 2 < self.unit?.strength ?? 0 {
-        
-            game?.battle(between: self.unit, and: self.target)
+        if prediction.attackerDamage + 2 < unit.strength {
+            
+            // we need at least one movement point to attack
+            if unit.movementInCurrentTurn >= 1 {
+                game?.battle(between: self.unit, and: self.target)
+                unit.movementInCurrentTurn = unit.movementInCurrentTurn - 1
+            }
         } else {
             self.unit?.missionFinished(with: .abort)
             return
@@ -165,6 +194,7 @@ class ScoutingMission: Mission {
         if let path = self.path {
             self.onWalk = true
             self.unit?.gameObject?.showWalk(on: path, completion: {
+                self.unit?.gameObject?.showIdle()
                 self.onWalk = false
                 self.unit?.missionFinished(with: .success)
             })

@@ -73,6 +73,7 @@ class GameObjectManager {
             
             let gameObject = unit.createGameObject()
             gameObject?.delegate = self
+            gameObject?.showIdle()
             self.objects.append(gameObject)
 
             // only player unit update the fog

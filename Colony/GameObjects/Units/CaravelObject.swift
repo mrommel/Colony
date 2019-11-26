@@ -15,7 +15,7 @@ class CaravelObject: GameObject {
         let identifier = UUID()
         let identifierString = "caravel-\(identifier.uuidString)"
         
-        super.init(with: identifierString, unit: unit, spriteName: "ship060", anchorPoint: CGPoint(x: -0.3, y: -0.1))
+        super.init(with: identifierString, unit: unit, spriteName: "ship060", anchorPoint: CGPoint(x: -0.0, y: -0.0))
         
         self.atlasIdle = GameObjectAtlas(atlasName: "ship", textures: ["ship060", "ship061", "ship062"])
         

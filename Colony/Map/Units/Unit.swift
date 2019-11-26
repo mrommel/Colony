@@ -21,11 +21,13 @@ class Unit: Decodable {
     var suppression: Int
     var experience: Int
     var entrenchment: Int
+    
+    var movementInCurrentTurn: Float = 0.0
 
     // MARK: ai stuff
 
     private var tacticalAI: TacticalAIProtocol? = nil
-    var group: UnitGroup? = nil
+    //var group: UnitGroup? = nil
 
     // MARK: UI connection
 
@@ -66,9 +68,11 @@ class Unit: Decodable {
         self.suppression = 0
         self.experience = 0
         self.entrenchment = 0
+        
+        self.movementInCurrentTurn = unitType.movementPoints
 
         self.tacticalAI = TacticalAI(unit: self)
-        self.group = nil
+        //self.group = nil
     }
 
     required init(from decoder: Decoder) throws {
@@ -85,8 +89,10 @@ class Unit: Decodable {
         self.experience = try values.decode(Int.self, forKey: .experience)
         self.entrenchment = try values.decode(Int.self, forKey: .entrenchment)
 
+        self.movementInCurrentTurn = unitType.movementPoints
+        
         self.tacticalAI = TacticalAI(unit: self)
-        self.group = nil
+        //self.group = nil
     }
 
     // MARK: unit methods
@@ -103,6 +109,16 @@ class Unit: Decodable {
         self.experience = unit.experience
         self.suppression = unit.suppression
         self.entrenchment = unit.entrenchment
+    }
+    
+    func resetMoves() {
+        
+        self.movementInCurrentTurn = self.unitType.movementPoints
+    }
+    
+    func move(by cost: Float) {
+        
+        self.movementInCurrentTurn = self.movementInCurrentTurn - cost
     }
 
     func isDestroyed() -> Bool {
@@ -203,6 +219,16 @@ class Unit: Decodable {
 
     // MARK: AI methods
 
+    func preTurn(in game: Game?) {
+        
+        self.movementInCurrentTurn = self.unitType.movementPoints
+    }
+    
+    func postTurn(in game: Game?) {
+        
+        
+    }
+    
     func update(in game: Game?) {
 
         self.tacticalAI?.update(for: game)

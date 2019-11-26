@@ -61,7 +61,7 @@ class Level: Decodable  {
     // meta data
     var meta: LevelMeta? = nil
     
-    let duration: Int // in seconds
+    let turns: Int
     
     // data holder
     let map: HexagonTileMap
@@ -81,7 +81,7 @@ class Level: Decodable  {
         case title
         case summary
         case difficulty
-        case duration
+        case turns
         
         case map
         case startPositions
@@ -93,9 +93,9 @@ class Level: Decodable  {
         case gameConditionCheckIdentifiers
     }
     
-    init(duration: Int, map: HexagonTileMap, startPositions: StartPositions) {
+    init(turns: Int, map: HexagonTileMap, startPositions: StartPositions) {
         
-        self.duration = duration
+        self.turns = turns
         self.scoreThresold = ScoreThresold(silver: 4, gold: 5)
         
         self.map = map
@@ -228,7 +228,7 @@ class Level: Decodable  {
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        self.duration = try values.decode(Int.self, forKey: .duration)
+        self.turns = try values.decode(Int.self, forKey: .turns)
         self.scoreThresold = try values.decodeIfPresent(ScoreThresold.self, forKey: .scoreThresold) ?? ScoreThresold(silver: 4, gold: 5)
         
         self.map = try values.decode(HexagonTileMap.self, forKey: .map)
@@ -311,7 +311,7 @@ extension Level: Encodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        try container.encode(self.duration, forKey: .duration)
+        try container.encode(self.turns, forKey: .turns)
         try container.encode(self.scoreThresold, forKey: .scoreThresold)
         
         try container.encode(self.map, forKey: .map)

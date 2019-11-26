@@ -42,9 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let gameViewController = viewController as? GameViewController {
                 
                 // check if we have the game
-                if let game = gameViewController.gameScene?.game {
+                if let _ = gameViewController.gameScene?.game {
                     
-                    game.pause()
+                    //game.pause()
+                    print("game paused")
                 }
             }
         }
@@ -69,7 +70,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // check if we have the game
                 if let game = gameViewController.gameScene?.game {
                     
-                    game.resume()
+                    //game.resume()
+                    print("resume game: \(game.title)")
                 }
             }
         }

@@ -174,7 +174,11 @@ class Battle {
         
         let attackerStrengthOld = attackerUnit.strength
         
-        logBattle("[Battle]: attackerInitiative=\(attackerInitiative), defenderInitiative=\(defenderInitiative)")
+        if real {
+            logBattle("[Battle]: attackerInitiative=\(attackerInitiative), defenderInitiative=\(defenderInitiative)")
+        } else {
+            logBattle("[Test Battle]: attackerInitiative=\(attackerInitiative), defenderInitiative=\(defenderInitiative)")
+        }
         
         var strikeOrder: BattleStrikeOrder = .bothStrike
         if attackerInitiative > defenderInitiative {
@@ -186,8 +190,12 @@ class Battle {
         } else {
             options.insert(.bothStriked)
         }
-                
-        logBattle("[Battle]: strikeOrder=\(strikeOrder)")
+              
+        if real {
+            logBattle("[Battle]: strikeOrder=\(strikeOrder)")
+        } else {
+            logBattle("[Test Battle]: strikeOrder=\(strikeOrder)")
+        }
         
         // combat results
         var defenderDamage: Int = 0
@@ -285,7 +293,11 @@ class Battle {
             defenderUnit.apply(damage: -defenderDamage, suppression: -defenderSuppression, real: false)
         }
         
-        logBattle("[Battle]: attackerDamage=\(attackerDamage), defenderDamage=\(defenderDamage)")
+        if real {
+            logBattle("[Battle]: attackerDamage=\(attackerDamage), defenderDamage=\(defenderDamage)")
+        } else {
+            logBattle("[Test Battle]: attackerDamage=\(attackerDamage), defenderDamage=\(defenderDamage)")
+        }
 
         return BattleResult(defenderDamage: defenderDamage, defenderSuppression: defenderSuppression, attackerDamage: attackerDamage, attackerSuppression: attackerSuppression, options: options)
     }

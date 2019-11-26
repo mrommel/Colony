@@ -45,8 +45,8 @@ class AnimalStateMachine: FiniteStateMachine<AnimalAIState> {
         case .followPath:
             self.ai?.doFollowPath()
         case .wait:
-            let seconds = arg as! TimeInterval
-            self.ai?.doWait(for: seconds)
+            let turns = arg as! Int
+            self.ai?.doWait(for: turns)
         }
     }
 }

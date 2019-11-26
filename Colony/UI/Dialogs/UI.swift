@@ -180,4 +180,15 @@ class UI {
         
         return nil
     }
+    
+    static func aiPlayerTurnDialog() -> AIPlayerTurnDialog? {
+        
+        let uiParser = UIParser()
+        if let aiPlayerTurnDialogConfiguration = uiParser.parse(from: "AIPlayerTurnDialog") {
+            let aiPlayerTurnDialog = AIPlayerTurnDialog(from: aiPlayerTurnDialogConfiguration)
+            return aiPlayerTurnDialog
+        }
+        
+        return nil
+    }
 }
