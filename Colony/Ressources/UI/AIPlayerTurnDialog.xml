@@ -2,10 +2,10 @@
 <context>
     <anchorx>center</anchorx>
     <anchory>center</anchory>
-    <offsetx>-337</offsetx>
-    <offsety>-400</offsety>
-    <width>300</width>
-    <height>300</height>
+    <offsetx>-385</offsetx>
+    <offsety>-120</offsety>
+    <width>350</width>
+    <height>80</height>
     <background>grid9_dialog</background>
     
     <!-- sub items -->
@@ -15,10 +15,10 @@
             <type>image</type>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>0</offsetx>
-            <offsety>170</offsety>
-            <width>80</width>
-            <height>80</height>
+            <offsetx>-130</offsetx>
+            <offsety>-3</offsety>
+            <width>40</width>
+            <height>40</height>
             <image>questionmark</image>
         </item>
         <item>
@@ -28,18 +28,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>90</offsety>
-            <width>200</width>
-            <height>40</height>
-        </item>
-        <item>
-            <identifier>text</identifier>
-            <type>label</type>
-            <title>Please wait ...</title>
-            <anchorx>center</anchorx>
-            <anchory>center</anchory>
-            <offsetx>0</offsetx>
-            <offsety>-40</offsety>
+            <offsety>-13</offsety>
             <width>200</width>
             <height>40</height>
         </item>
