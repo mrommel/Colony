@@ -207,6 +207,10 @@
 		C9A116D7238C2FA6006DEA9B /* AIPlayerTurnDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A116D6238C2FA6006DEA9B /* AIPlayerTurnDialog.swift */; };
 		C9A116D9238D5820006DEA9B /* GameTurn.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A116D8238D5820006DEA9B /* GameTurn.swift */; };
 		C9A116DB238D61CD006DEA9B /* DispatchQueueExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A116DA238D61CD006DEA9B /* DispatchQueueExtension.swift */; };
+		C9A116DF238D6E1E006DEA9B /* FollowAndAttackUnitMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A116DE238D6E1E006DEA9B /* FollowAndAttackUnitMission.swift */; };
+		C9A116E1238D6E39006DEA9B /* ScoutingMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A116E0238D6E39006DEA9B /* ScoutingMission.swift */; };
+		C9A116E3238D6EA0006DEA9B /* Galleon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A116E2238D6EA0006DEA9B /* Galleon.swift */; };
+		C9A116E5238D6EEE006DEA9B /* GalleonObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A116E4238D6EEE006DEA9B /* GalleonObject.swift */; };
 		C9A32B4822B29F3100AFC70D /* level0001.lvl in Resources */ = {isa = PBXBuildFile; fileRef = C9A32B4722B29F3100AFC70D /* level0001.lvl */; };
 		C9AB425C22A062E3000E5397 /* SeaMonsterObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB425B22A062E3000E5397 /* SeaMonsterObject.swift */; };
 		C9B1D61622F8071B008BFE61 /* Civ5Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D61522F8071B008BFE61 /* Civ5Map.swift */; };
@@ -479,6 +483,10 @@
 		C9A116D6238C2FA6006DEA9B /* AIPlayerTurnDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIPlayerTurnDialog.swift; sourceTree = "<group>"; };
 		C9A116D8238D5820006DEA9B /* GameTurn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTurn.swift; sourceTree = "<group>"; };
 		C9A116DA238D61CD006DEA9B /* DispatchQueueExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueueExtension.swift; sourceTree = "<group>"; };
+		C9A116DE238D6E1E006DEA9B /* FollowAndAttackUnitMission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowAndAttackUnitMission.swift; sourceTree = "<group>"; };
+		C9A116E0238D6E39006DEA9B /* ScoutingMission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoutingMission.swift; sourceTree = "<group>"; };
+		C9A116E2238D6EA0006DEA9B /* Galleon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Galleon.swift; sourceTree = "<group>"; };
+		C9A116E4238D6EEE006DEA9B /* GalleonObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleonObject.swift; sourceTree = "<group>"; };
 		C9A32B4722B29F3100AFC70D /* level0001.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0001.lvl; sourceTree = "<group>"; };
 		C9AB425B22A062E3000E5397 /* SeaMonsterObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeaMonsterObject.swift; sourceTree = "<group>"; };
 		C9B1D61522F8071B008BFE61 /* Civ5Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Map.swift; sourceTree = "<group>"; };
@@ -942,21 +950,12 @@
 		C995F21A2338BF570091D021 /* Units */ = {
 			isa = PBXGroup;
 			children = (
-				C91AC6E62302D0AD00104BD3 /* MovementType.swift */,
-				C90BF099230FEBBE0074C3E8 /* UnitProperties.swift */,
-				C9B3B5FC232E263900ACAE94 /* UnitPromotions.swift */,
-				C91AC6E42302D09500104BD3 /* UnitType.swift */,
-				C9B3B5FE232EB15B00ACAE94 /* Unit.swift */,
+				C9A116DC238D6DE5006DEA9B /* Base */,
+				C9A116DD238D6E08006DEA9B /* Missions */,
 				C9564D6322D7C9DC0091099B /* Axeman.swift */,
 				C9B24CFD233910BE0050B1C2 /* Archer.swift */,
 				C9B24CFF233910F50050B1C2 /* Caravel.swift */,
-				C9EB0C712347D533006632A0 /* TacticalAI.swift */,
-				C9EB0C7B2349F4CD006632A0 /* TacticalStateMachine.swift */,
-				C9EB0C732349D05E006632A0 /* UnitGroup.swift */,
-				C9EB0C752349D825006632A0 /* FiniteStateMachine.swift */,
-				C9EB0C792349E287006632A0 /* Stack.swift */,
-				C9EB0C81234B313D006632A0 /* AttackEvent.swift */,
-				C90817D92354969A004A4634 /* Mission.swift */,
+				C9A116E2238D6EA0006DEA9B /* Galleon.swift */,
 			);
 			path = Units;
 			sourceTree = "<group>";
@@ -979,12 +978,41 @@
 			isa = PBXGroup;
 			children = (
 				C97E96D622A1C21600D594F3 /* CaravelObject.swift */,
+				C9A116E4238D6EEE006DEA9B /* GalleonObject.swift */,
 				C995F21B2338BF8E0091D021 /* AxemanObject.swift */,
 				C93A408D2306C40A0011E9DA /* ArcherObject.swift */,
 				C97B53A222D2756B008078D9 /* PiratesObject.swift */,
 				C9F9C98A22E075D8000A3310 /* TradeShipObject.swift */,
 			);
 			path = Units;
+			sourceTree = "<group>";
+		};
+		C9A116DC238D6DE5006DEA9B /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C9B3B5FE232EB15B00ACAE94 /* Unit.swift */,
+				C91AC6E62302D0AD00104BD3 /* MovementType.swift */,
+				C90BF099230FEBBE0074C3E8 /* UnitProperties.swift */,
+				C9B3B5FC232E263900ACAE94 /* UnitPromotions.swift */,
+				C91AC6E42302D09500104BD3 /* UnitType.swift */,
+				C9EB0C712347D533006632A0 /* TacticalAI.swift */,
+				C9EB0C7B2349F4CD006632A0 /* TacticalStateMachine.swift */,
+				C9EB0C732349D05E006632A0 /* UnitGroup.swift */,
+				C9EB0C752349D825006632A0 /* FiniteStateMachine.swift */,
+				C9EB0C792349E287006632A0 /* Stack.swift */,
+				C9EB0C81234B313D006632A0 /* AttackEvent.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		C9A116DD238D6E08006DEA9B /* Missions */ = {
+			isa = PBXGroup;
+			children = (
+				C90817D92354969A004A4634 /* Mission.swift */,
+				C9A116DE238D6E1E006DEA9B /* FollowAndAttackUnitMission.swift */,
+				C9A116E0238D6E39006DEA9B /* ScoutingMission.swift */,
+			);
+			path = Missions;
 			sourceTree = "<group>";
 		};
 		C9A32B4622B29F2600AFC70D /* Levels */ = {
@@ -1416,6 +1444,7 @@
 				C9EB0C762349D825006632A0 /* FiniteStateMachine.swift in Sources */,
 				C9F9C98F22E0B10B000A3310 /* Ocean.swift in Sources */,
 				C97E96D722A1C21600D594F3 /* CaravelObject.swift in Sources */,
+				C9A116E3238D6EA0006DEA9B /* Galleon.swift in Sources */,
 				C9F6A14B22CA906800388198 /* Coin.swift in Sources */,
 				C90336B422F30E7A004D2D72 /* NotificationNode.swift in Sources */,
 				C94A2F3322C22F8700AB7117 /* SafeAreaNode.swift in Sources */,
@@ -1443,6 +1472,7 @@
 				C9C7F120229EBE5C00A775B2 /* HexPointCorner.swift in Sources */,
 				C9EB0C722347D533006632A0 /* TacticalAI.swift in Sources */,
 				C94A2F2F22C0EC5000AB7117 /* GameViewModel.swift in Sources */,
+				C9A116E5238D6EEE006DEA9B /* GalleonObject.swift in Sources */,
 				C90336B022F1C7F7004D2D72 /* BoosterStockDao.swift in Sources */,
 				C9C7F13E229F206000A775B2 /* BoardLayer.swift in Sources */,
 				C90336B622F42842004D2D72 /* CoinsLabelNode.swift in Sources */,
@@ -1535,6 +1565,7 @@
 				C94CA8C723194D920058F3B4 /* MenuViewController.swift in Sources */,
 				C962940A22FBF6BE00CC7F27 /* MapLoadingDialog.swift in Sources */,
 				C927EECA232A606600D775BD /* PediaSceneViewModel.swift in Sources */,
+				C9A116E1238D6E39006DEA9B /* ScoutingMission.swift in Sources */,
 				C9C7F115229EBE3100A775B2 /* DoubleExtension.swift in Sources */,
 				C90A134D22A6FEE50003BBDE /* StartPositionFinder.swift in Sources */,
 				C972CCC022AAA4AE008DB8CB /* CityObject.swift in Sources */,
@@ -1556,6 +1587,7 @@
 				C9C7F129229EBEDD00A775B2 /* HexDirection.swift in Sources */,
 				C903369A22EDD189004D2D72 /* BoosterType.swift in Sources */,
 				C9C7F133229EBFA400A775B2 /* PerlinGenerator.swift in Sources */,
+				C9A116DF238D6E1E006DEA9B /* FollowAndAttackUnitMission.swift in Sources */,
 				C956079422B1426500AA69E9 /* LevelManager.swift in Sources */,
 				C94A2F3C22C2B06200AB7117 /* UIImageExtension.swift in Sources */,
 				C9EB0C742349D05E006632A0 /* UnitGroup.swift in Sources */,

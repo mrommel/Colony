@@ -25,7 +25,8 @@ enum UnitType: String, Codable {
     case galley
     case trireme
     case galleass
-    case caravel
+    case caravel // https://en.wikipedia.org/wiki/Caravel
+    case galleon // https://en.wikipedia.org/wiki/Galleon
     case frigate
     case ironclad
     case destroyer
@@ -34,7 +35,7 @@ enum UnitType: String, Codable {
     case archer
     
     static var unitTypes: [UnitType] {
-        return [.caravel, .axeman, .archer]
+        return [.caravel, .galleon, .axeman, .archer]
     }
     
     var title: String {
@@ -42,6 +43,8 @@ enum UnitType: String, Codable {
         switch self {
         case .caravel:
             return "Caravel"
+        case .galleon:
+            return "Galleon"
         case .axeman:
             return "Axeman"
         case .archer:
@@ -55,7 +58,7 @@ enum UnitType: String, Codable {
     var movementType: MovementType {
         
         switch self {
-        case .caravel:
+        case .caravel, .galleon:
             return .swimOcean
         case .axeman:
             return .walk
@@ -71,7 +74,9 @@ enum UnitType: String, Codable {
         
         switch self {
         case .caravel:
-            return 4.0
+            return 6.0
+        case .galleon:
+            return 5.0
         case .axeman:
             return 2.0
         case .archer:
@@ -87,6 +92,8 @@ enum UnitType: String, Codable {
         switch self {
         case .caravel:
             return "unit_caravel"
+        case .galleon:
+            return "unit_caravel" // <-- FIXME
         case .axeman:
             return "unit_axeman"
         case .archer:
@@ -102,6 +109,8 @@ enum UnitType: String, Codable {
         switch self {
         case .caravel:
             return "unit_indicator_caravel"
+        case .galleon:
+            return "unit_indicator_caravel" // <-- FIXME
         case .axeman:
             return "unit_indicator_axeman"
         case .archer:
@@ -130,7 +139,7 @@ enum UnitType: String, Codable {
             
         // sea units
             
-        case .caravel:
+        case .caravel, .galleon:
             return true
         case .galley:
             return true
@@ -166,6 +175,13 @@ enum UnitType: String, Codable {
             
             unitProperties.isSwimming = true
             
+            return unitProperties
+            
+        case .galleon:
+            var unitProperties = UnitProperties(initiative: 2, sight: 2, range: 1, supportDistance: 2, strength: 10, targetType: .hard, softAttack: 2, hardAttack: 1, airAttack: 0, navalAttack: 3, groundDefense: 2, closeDefense: 2, airDefense: 1)
+        
+            unitProperties.isSwimming = true
+        
             return unitProperties
         
         // land units

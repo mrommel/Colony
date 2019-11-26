@@ -129,6 +129,11 @@ class HexagonTileMap: HexagonMap<Tile> {
                 caravel.copy(from: unit)
                 customUnits.append(caravel)
                 break
+            case .galleon:
+                let galleon = Galleon(position: unit.position, civilization: unit.civilization)
+                galleon.copy(from: unit)
+                customUnits.append(galleon)
+                break
             /*case .frigate:
                 <#code#>
             case .ironclad:

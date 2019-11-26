@@ -15,14 +15,14 @@ class CaravelObject: GameObject {
         let identifier = UUID()
         let identifierString = "caravel-\(identifier.uuidString)"
         
-        super.init(with: identifierString, unit: unit, spriteName: "ship060", anchorPoint: CGPoint(x: -0.0, y: -0.0))
+        super.init(with: identifierString, unit: unit, spriteName: "caravel-left-1", anchorPoint: CGPoint(x: -0.0, y: -0.0))
         
-        self.atlasIdle = GameObjectAtlas(atlasName: "ship", textures: ["ship060", "ship061", "ship062"])
+        self.atlasIdle = GameObjectAtlas(atlasName: "caravel", textures: ["caravel-left-1", "caravel-left-2", "caravel-left-3"])
         
-        self.atlasDown = GameObjectAtlas(atlasName: "ship", textures: ["ship048", "ship049", "ship050"])
-        self.atlasUp = GameObjectAtlas(atlasName: "ship", textures: ["ship084", "ship085", "ship086"])
-        self.atlasLeft = GameObjectAtlas(atlasName: "ship", textures: ["ship060", "ship061", "ship062"])
-        self.atlasRight = GameObjectAtlas(atlasName: "ship", textures: ["ship072", "ship073", "ship074"])
+        self.atlasDown = GameObjectAtlas(atlasName: "caravel", textures: ["caravel-down-1", "caravel-down-2", "caravel-down-3"])
+        self.atlasUp = GameObjectAtlas(atlasName: "caravel", textures: ["caravel-up-1", "caravel-up-2", "caravel-up-3"])
+        self.atlasLeft = GameObjectAtlas(atlasName: "caravel", textures: ["caravel-left-1", "caravel-left-2", "caravel-left-3"])
+        self.atlasRight = GameObjectAtlas(atlasName: "caravel", textures: ["caravel-right-1", "caravel-right-2", "caravel-right-3"])
         
         self.showUnitTypeIndicator()
         self.showUnitStrengthIndicator()

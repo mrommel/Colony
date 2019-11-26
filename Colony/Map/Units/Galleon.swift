@@ -1,17 +1,17 @@
 //
-//  Caravel.swift
+//  Galleon.swift
 //  Colony
 //
-//  Created by Michael Rommel on 23.09.19.
+//  Created by Michael Rommel on 26.11.19.
 //  Copyright © 2019 Michael Rommel. All rights reserved.
 //
 
-import SpriteKit
+import Foundation
 
-class Caravel: Unit {
+class Galleon: Unit {
     
     init(position: HexPoint, civilization: Civilization) {
-        super.init(position: position, civilization: civilization, unitType: .caravel)
+        super.init(position: position, civilization: civilization, unitType: .galleon)
     }
         
     required init(from decoder: Decoder) throws {
@@ -20,7 +20,7 @@ class Caravel: Unit {
     
     override func createGameObject() -> GameObject? {
 
-        let gameObject = CaravelObject(for: self)
+        let gameObject = GalleonObject(for: self)
         self.gameObject = gameObject
         return gameObject
     }
