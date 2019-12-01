@@ -154,7 +154,7 @@ enum Terrain: String, Codable {
             
         case .swimOcean:
             if self == .ocean {
-                return 2.2
+                return 1.5
             }
             
             if self == .shore {

@@ -10,10 +10,10 @@ import Foundation
 
 protocol GameTurnUIDelegate {
     
-    func showTurnDialog()
+    func showTurnDialog(with civilization: Civilization)
     func hideTurnDialog()
     
-    func setCurrentPlayer(civilization: Civilization)
+    func updateTurnDialog(with civilization: Civilization)
 }
 
 protocol GameTurnMechanicsDelegate {
@@ -83,7 +83,7 @@ class GameTurn {
         
         // update the lock UI
         if self.isAIPlayer() {
-            self.turnUIDelegate?.setCurrentPlayer(civilization: self.currentCivilization)
+            self.turnUIDelegate?.updateTurnDialog(with: self.currentCivilization)
         }
         
         // inform player that he is on duty
@@ -95,7 +95,13 @@ class GameTurn {
         
         // inform UI to show the turn dialog
         if self.isUserPlayer() {
-            self.turnUIDelegate?.showTurnDialog()
+            
+            // get current civ
+            guard let currentCivIndex = self.turnOrder.firstIndex(where: { $0 == self.currentCivilization }) else {
+                fatalError("can't get current civ index")
+            }
+            
+            self.turnUIDelegate?.showTurnDialog(with: self.turnOrder[currentCivIndex + 1])
         }
     }
     

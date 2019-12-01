@@ -748,13 +748,13 @@ extension GameScene: GameUpdateDelegate {
 
 extension GameScene: GameTurnUIDelegate {
     
-    func showTurnDialog() {
+    func showTurnDialog(with civilization: Civilization) {
         
         self.aiPlayerTurnDialog = nil
         self.aiPlayerTurnDialog = UI.aiPlayerTurnDialog()
         
         if let aiPlayerTurnDialog = self.aiPlayerTurnDialog {
-            aiPlayerTurnDialog.show(for: .none)
+            aiPlayerTurnDialog.show(for: civilization)
             self.cameraNode.addChild(aiPlayerTurnDialog)
             
             self.turnButton?.disable()
@@ -771,7 +771,7 @@ extension GameScene: GameTurnUIDelegate {
         self.playerCanTurn = true
     }
     
-    func setCurrentPlayer(civilization: Civilization) {
+    func updateTurnDialog(with civilization: Civilization) {
         
         self.aiPlayerTurnDialog?.show(for: civilization)
     }

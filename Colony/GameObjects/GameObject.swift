@@ -364,20 +364,28 @@ class GameObject {
 
     func show(path: HexPath) {
 
+        var costSum: Float = 0.0
+        let movementInCurrentTurn = self.connectedUnit()?.movementInCurrentTurn ?? 0
         self.clearPathSpriteBuffer()
 
         guard path.count > 1 else {
             return
         }
 
-        let firstItem = path[0].0
-        let secondItem = path[1].0
+        let (firstPoint, _) = path[0]
+        let (secondPoint, secondCost) = path[1]
+        
+        let isMovementLeft = movementInCurrentTurn >= secondCost
 
-        if let dir = firstItem.direction(towards: secondItem) {
-            let textureName = "path-start-\(dir.short)"
+        if let dir = firstPoint.direction(towards: secondPoint) {
+            var textureName = "path-start-\(dir.short)"
+            
+            if !isMovementLeft {
+                textureName = textureName + "-out"
+            }
 
             let pathSprite = SKSpriteNode(imageNamed: textureName)
-            pathSprite.position = HexMapDisplay.shared.toScreen(hex: firstItem)
+            pathSprite.position = HexMapDisplay.shared.toScreen(hex: firstPoint)
             pathSprite.zPosition = GameScene.Constants.ZLevels.path
             pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
             self.sprite.parent?.addChild(pathSprite)
@@ -386,19 +394,27 @@ class GameObject {
         }
 
         for i in 1..<path.count - 1 {
-            let previousItem = path[i - 1].0
-            let currentItem = path[i].0
-            let nextItem = path[i + 1].0
+            let (previousPoint, _) = path[i - 1]
+            let (currentPoint, currentCost) = path[i]
+            let (nextPoint, _) = path[i + 1]
 
-            if let dir = currentItem.direction(towards: previousItem), let dir2 = currentItem.direction(towards: nextItem) {
+            costSum = costSum + currentCost
+            let isMovementLeft = movementInCurrentTurn > costSum
+            
+            if let dir = currentPoint.direction(towards: previousPoint),
+                let dir2 = currentPoint.direction(towards: nextPoint) {
 
                 var textureName = "path-\(dir.short)-\(dir2.short)"
                 if dir.rawValue > dir2.rawValue {
                     textureName = "path-\(dir2.short)-\(dir.short)"
                 }
+                
+                if !isMovementLeft {
+                    textureName = textureName + "-out"
+                }
 
                 let pathSprite = SKSpriteNode(imageNamed: textureName)
-                pathSprite.position = HexMapDisplay.shared.toScreen(hex: currentItem)
+                pathSprite.position = HexMapDisplay.shared.toScreen(hex: currentPoint)
                 pathSprite.zPosition = GameScene.Constants.ZLevels.path
                 pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
                 self.sprite.parent?.addChild(pathSprite)
@@ -407,14 +423,21 @@ class GameObject {
             }
         }
 
-        let secondlastItem = path[path.count - 2].0
-        let lastItem = path[path.count - 1].0
+        let (secondlastItem, _) = path[path.count - 2]
+        let (lastPoint, lastCost) = path[path.count - 1]
+        
+        costSum = costSum + lastCost
+        let isMovementLeftLast = movementInCurrentTurn > costSum
 
-        if let dir = lastItem.direction(towards: secondlastItem) {
-            let textureName = "path-start-\(dir.short)"
+        if let dir = lastPoint.direction(towards: secondlastItem) {
+            var textureName = "path-start-\(dir.short)"
+            
+            if !isMovementLeftLast {
+                textureName = textureName + "-out"
+            }
 
             let pathSprite = SKSpriteNode(imageNamed: textureName)
-            pathSprite.position = HexMapDisplay.shared.toScreen(hex: lastItem)
+            pathSprite.position = HexMapDisplay.shared.toScreen(hex: lastPoint)
             pathSprite.zPosition = GameScene.Constants.ZLevels.path
             pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
             self.sprite.parent?.addChild(pathSprite)
@@ -452,9 +475,10 @@ class GameObject {
             return
         }
 
-        if let unit = self.connectedUnit() {
-            if unit.movementInCurrentTurn <= 0 {
+        if let unit = self.connectedUnit(), let (_, cost) = path.first {
+            if unit.movementInCurrentTurn < cost {
                 print("movement limited")
+                self.clearPathSpriteBuffer()
                 return
             }
         }

@@ -110,7 +110,7 @@ enum UnitType: String, Codable {
         case .caravel:
             return "unit_indicator_caravel"
         case .galleon:
-            return "unit_indicator_caravel" // <-- FIXME
+            return "unit_indicator_galleon"
         case .axeman:
             return "unit_indicator_axeman"
         case .archer:

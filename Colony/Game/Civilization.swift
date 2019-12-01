@@ -90,6 +90,28 @@ enum Civilization: String, Codable {
             fatalError("can't get color of none")
         }
     }
+    
+    var coatOfArms: String? {
+        
+        switch self {
+        case .french:
+            return "french"
+        case .english:
+            return "english"
+        case .spanish:
+            return "spanish"
+        case .greek:
+            return "greek"
+
+        case .pirates:
+            return nil
+        case .trader:
+            return nil
+
+        case .none:
+            fatalError("can't get coatOfArms of none")
+        }
+    }
 
     var cityNames: [String] {
         switch self {
@@ -118,23 +140,5 @@ enum Civilization: String, Codable {
     var leader: Leader {
 
         return Leaders.leader(for: self)
-    }
-
-    // https://en.wikipedia.org/wiki/Gallery_of_sovereign_state_flags#F
-    var imageName: String {
-
-        switch self {
-
-        case .french:
-            return "french"
-        case .english:
-            return "english"
-        case .spanish:
-            return "spanish"
-        case .greek:
-            return "greek"
-        default:
-            fatalError("city name for unknown civ: \(self)")
-        }
     }
 }

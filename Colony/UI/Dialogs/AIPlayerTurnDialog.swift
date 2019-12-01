@@ -21,5 +21,8 @@ class AIPlayerTurnDialog: Dialog {
     func show(for civilization: Civilization) {
 
         self.set(text: "Current turn \(civilization)", identifier: "summary")
+        if let coatOfArms = civilization.coatOfArms {
+            self.set(imageNamed: coatOfArms, identifier: "dialog_image")
+        }
     }
 }
