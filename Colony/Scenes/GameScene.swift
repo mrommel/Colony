@@ -16,6 +16,13 @@ protocol GameDelegate: class {
     func quitGame()
 }
 
+enum MainButtonType {
+    
+    case turn
+    case next
+    // case event / research / building
+}
+
 class GameScene: BaseScene {
 
     // MARK: Constants
@@ -66,8 +73,9 @@ class GameScene: BaseScene {
     var bottomLeftBar: BottomLeftBar?
     var bottomRightBar: BottomRightBar?
 
-    var exitButton: MessageBoxButtonNode?
+    var menuButton: MessageBoxButtonNode?
     var turnButton: MessageBoxButtonNode?
+    var mainButtonType: MainButtonType = .next
     var playerCanTurn: Bool = true
 
     var mapNode: MapNode?
@@ -75,7 +83,7 @@ class GameScene: BaseScene {
 
     var coinLabel: SKLabelNode!
     var coinIconLabel: SKSpriteNode!
-    let timeLabel = SKLabelNode(text: "0:00")
+    let timeLabel = SKLabelNode(text: "0")
 
     // FIXME: move to view model
     var selectedUnitForMovement: Unit? = nil
@@ -254,7 +262,7 @@ class GameScene: BaseScene {
             self.safeAreaNode.addChild(saveButton)
         }
 
-        // infos
+        // header infos
         self.coinLabel = SKLabelNode(text: "0000")
         self.coinLabel.fontSize = 18
         self.coinLabel.zPosition = GameScene.Constants.ZLevels.labels
@@ -269,18 +277,15 @@ class GameScene: BaseScene {
         self.safeAreaNode.addChild(self.timeLabel)
 
         // exit node
-        self.exitButton = MessageBoxButtonNode(titled: "Cancel", buttonAction: {
-            self.showQuitConfirmationDialog()
+        self.menuButton = MessageBoxButtonNode(imageNamed: "menu_icon", title: "", sized: CGSize(width: 48, height: 48), buttonAction: {
+            self.showGameMenuDialog()
         })
-        self.exitButton?.zPosition = 200
-        self.safeAreaNode.addChild(self.exitButton!)
+        self.menuButton?.zPosition = 200
+        self.safeAreaNode.addChild(self.menuButton!)
         
+        // FIXME: next instead of turn, when there is still a unit with movement points
         self.turnButton = MessageBoxButtonNode(titled: "Turn", buttonAction: {
-            if self.playerCanTurn {
-                self.game?.turn()
-            } else {
-                self.show(message: "Can't turn")
-            }
+            self.handleMainButtonClick()
         })
         self.turnButton?.zPosition = 200
         self.safeAreaNode.addChild(self.turnButton!)
@@ -334,8 +339,27 @@ class GameScene: BaseScene {
         self.bottomRightBar?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.bottomRightBar?.updateLayout()
 
-        self.exitButton?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth + 50, y: -self.safeAreaNode.frame.halfHeight + 112 + 21)
+        self.menuButton?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth + 35, y: self.safeAreaNode.frame.halfHeight - 35)
         self.turnButton?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth - 50, y: -self.safeAreaNode.frame.halfHeight + 112 + 21)
+    }
+    
+    func showGameMenuDialog() {
+        
+        if let gameMenuDialog = UI.gameMenuDialog() {
+            
+            gameMenuDialog.zPosition = 250
+            gameMenuDialog.addOkayAction(handler: {
+                gameMenuDialog.close()
+
+                self.showQuitConfirmationDialog()
+            })
+
+            gameMenuDialog.addCancelAction(handler: {
+                gameMenuDialog.close()
+            })
+
+            self.cameraNode.addChild(gameMenuDialog)
+        }
     }
 
     func showQuitConfirmationDialog() {
@@ -405,6 +429,54 @@ class GameScene: BaseScene {
         self.attackOverlay?.removeFromParent()
         self.attackOverlay = nil
     }
+    
+    func setMainButton(type: MainButtonType) {
+        
+        self.mainButtonType = type
+    }
+    
+    func updateMainButton() {
+        
+        switch self.mainButtonType {
+            
+        case .next:
+            self.turnButton?.buttonLabel.text = "Next"
+            self.turnButton?.defaultButton.texture = SKTexture(imageNamed: "grid9_button_yellow_active")
+            self.turnButton?.activeButton.texture = SKTexture(imageNamed: "grid9_button_yellow_highlighted")
+            break
+            
+        case .turn:
+            self.turnButton?.buttonLabel.text = "Turn"
+            self.turnButton?.defaultButton.texture = SKTexture(imageNamed: "grid9_button_active")
+            self.turnButton?.activeButton.texture = SKTexture(imageNamed: "grid9_button_highlighted")
+            break
+        }
+    }
+    
+    func handleMainButtonClick() {
+        
+        switch self.mainButtonType {
+            
+        case .next:
+            if let mapNode = self.mapNode {
+                mapNode.gameObjectManager?.nextPlayerUnit()
+            } else {
+                self.show(message: "Can't next")
+            }
+            break
+            
+        case .turn:
+            if self.playerCanTurn {
+                self.game?.turn()
+            } else {
+                self.show(message: "Can't turn")
+            }
+            break
+        }
+        
+    }
+    
+    // MARK: touch handling
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 

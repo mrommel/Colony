@@ -63,7 +63,7 @@
         <item>
             <identifier>okay_button</identifier>
             <type>button</type>
-            <title>Yes</title>
+            <title>Okay</title>
             <result>OKAY</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>

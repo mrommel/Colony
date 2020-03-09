@@ -1,7 +1,9 @@
 # Colony
 
 ## Todo
-- redo city and village
+
+- strategic / hierarchical AI
+- redo city and village modelling (city smaller)
 - populate world from start locations
 - fix tests
 - show collected coins in win dialog
@@ -15,8 +17,10 @@
 - current unit indicator
 - show losses as animation not dialog
 
-units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245
-tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-location-hexes-medieval-fantasy-59271
+## Links
+
+- units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245
+- tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-location-hexes-medieval-fantasy-59271
 
 ## Booster - ongoing
 - [Booster] more time (clock) - implemented
@@ -138,3 +142,8 @@ tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-locati
 - map centered on ship
 - ship smaller
 - add beach-ne-nw texture
+
+
+Swimat Fix
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f /Applications/Xcode.app
+

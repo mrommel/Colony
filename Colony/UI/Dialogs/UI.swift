@@ -191,4 +191,15 @@ class UI {
         
         return nil
     }
+    
+    static func gameMenuDialog() -> GameMenuDialog? {
+        
+        let uiParser = UIParser()
+        if let gameMenuDialogConfiguration = uiParser.parse(from: "GameMenuDialog") {
+            let gameMenuDialog = GameMenuDialog(from: gameMenuDialogConfiguration)
+            return gameMenuDialog
+        }
+        
+        return nil
+    }
 }

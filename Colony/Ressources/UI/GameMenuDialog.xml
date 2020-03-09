@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>center</anchory>
+    <offsetx>-337</offsetx>
+    <offsety>-400</offsety>
+    <width>300</width>
+    <height>300</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        <item>
+            <identifier>title</identifier>
+            <type>label</type>
+            <title>Menu</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>90</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+
+        <item>
+            <identifier>okay_button</identifier>
+            <type>button</type>
+            <result>OKAY</result>
+            <title>Spiel beenden</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-40</offsety>
+            <width>100</width>
+            <height>42</height>
+        </item>
+        <item>
+            <identifier>cancel_button</identifier>
+            <type>button</type>
+            <title>Abbrechen</title>
+            <result>CANCEL</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-100</offsety>
+            <width>100</width>
+            <height>42</height>
+        </item>
+    </items>
+</context>

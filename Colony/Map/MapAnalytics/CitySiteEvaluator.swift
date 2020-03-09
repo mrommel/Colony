@@ -53,7 +53,7 @@ class CitySiteEvaluator: SiteEvaluator {
             return false
         }
         
-        // check for distance (cities inside the area
+        // check for distance (cities inside the area)
         let minCityDistance = 3
         let area = point.areaWith(radius: minCityDistance)
         

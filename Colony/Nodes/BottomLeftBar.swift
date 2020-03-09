@@ -10,11 +10,8 @@ import SpriteKit
 
 class BottomLeftBar: SizedNode {
     
-    var backgroundBodyNode: SKSpriteNode?
-    var unitBackgroundNode: SKSpriteNode?
-    var unitImageNode: SKSpriteNode?
-    var nextUnitButton: MenuButtonNode?
-    var centerUnitButton: MenuButtonNode?
+    var unitCanvasNode: SKSpriteNode?
+    var unitImageNode: TouchableSpriteNode?
     
     var gameObjectManager: GameObjectManager?
     
@@ -28,62 +25,28 @@ class BottomLeftBar: SizedNode {
         self.gameObjectManager = level?.gameObjectManager
         level?.gameObjectManager.gameObjectUnitDelegates.addDelegate(self)
         
-        let mapOverviewBodyTexture = SKTexture(imageNamed: "map_overview_body")
-        self.backgroundBodyNode = SKSpriteNode(texture: mapOverviewBodyTexture, color: .black, size: CGSize(width: 200, height: 112))
-        self.backgroundBodyNode?.position = self.position
-        self.backgroundBodyNode?.zPosition = self.zPosition + 0.1
-        self.backgroundBodyNode?.anchorPoint = .lowerLeft
+        let unitCanvasTexture = SKTexture(imageNamed: "unit_canvas")
+        self.unitCanvasNode = SKSpriteNode(texture: unitCanvasTexture, color: .black, size: CGSize(width: 111, height: 112))
+        self.unitCanvasNode?.position = self.position
+        self.unitCanvasNode?.zPosition = self.zPosition + 0.1
+        self.unitCanvasNode?.anchorPoint = .lowerLeft
         
-        if let backgroundBodyNode = self.backgroundBodyNode {
-            self.addChild(backgroundBodyNode)
-        }
-        
-        let unitBackgroundTexture = SKTexture(imageNamed: "unit_frame")
-        self.unitBackgroundNode = SKSpriteNode(texture: unitBackgroundTexture, color: .black, size: CGSize(width: 72, height: 72))
-        self.unitBackgroundNode?.position = self.position + CGPoint(x: 90, y: 3)
-        self.unitBackgroundNode?.zPosition = self.zPosition + 0.2
-        self.unitBackgroundNode?.anchorPoint = .lowerLeft
-        
-        if let unitBackgroundNode = self.unitBackgroundNode {
-            self.addChild(unitBackgroundNode)
+        if let unitCanvasNode = self.unitCanvasNode {
+            self.addChild(unitCanvasNode)
         }
         
         let selectedUnitTextureString = (self.gameObjectManager?.selected?.gameObject?.atlasIdle?.textures.first)
-        let selectedUnitTexture = SKTexture(imageNamed: selectedUnitTextureString ?? "")
-        self.unitImageNode = SKSpriteNode(texture: selectedUnitTexture, color: .black, size: CGSize(width: 72, height: 72))
-        self.unitImageNode?.position = self.position + CGPoint(x: 90, y: 3)
+        self.unitImageNode = TouchableSpriteNode(imageNamed: selectedUnitTextureString ?? "", size: CGSize(width: 90, height: 90))
+        self.unitImageNode?.position = self.position + CGPoint(x: 3, y: 3)
         self.unitImageNode?.zPosition = self.zPosition + 0.3
         self.unitImageNode?.anchorPoint = .lowerLeft
+        self.unitImageNode?.isUserInteractionEnabled = true
+        self.unitImageNode?.touchHandler = {
+            self.gameObjectManager?.centerOnPlayerUnit()
+        }
         
         if let unitImageNode = self.unitImageNode {
             self.addChild(unitImageNode)
-        }
-        
-        self.nextUnitButton = MenuButtonNode(imageNamed: "next",
-                                             title: "Next",
-                                             sized: CGSize(width: 80, height: 36),
-                                             buttonAction: {
-                                                self.gameObjectManager?.nextPlayerUnit()
-        })
-        self.nextUnitButton?.position = self.position + CGPoint(x: 50, y: 21)
-        self.nextUnitButton?.zPosition = self.zPosition + 0.3
-        
-        if let nextUnitButton = self.nextUnitButton {
-            self.addChild(nextUnitButton)
-        }
-        
-        self.centerUnitButton = MenuButtonNode(imageNamed: "center",
-                                             title: "",
-                                             sized: CGSize(width: 36, height: 36),
-                                             buttonAction: {
-                                                
-                                                self.gameObjectManager?.centerOnPlayerUnit()
-        })
-        self.centerUnitButton?.position = self.position + CGPoint(x: 45, y: 60)
-        self.centerUnitButton?.zPosition = self.zPosition + 0.3
-        
-        if let centerUnitButton = self.centerUnitButton {
-            self.addChild(centerUnitButton)
         }
     }
     
@@ -93,11 +56,8 @@ class BottomLeftBar: SizedNode {
     
     override func updateLayout() {
         
-        self.backgroundBodyNode?.position = self.position
-        self.unitBackgroundNode?.position = self.position + CGPoint(x: 90, y: 3)
-        self.unitImageNode?.position = self.position + CGPoint(x: 90, y: 3)
-        self.nextUnitButton?.position = self.position + CGPoint(x: 50, y: 21)
-        self.centerUnitButton?.position = self.position + CGPoint(x: 45, y: 60)
+        self.unitCanvasNode?.position = self.position
+        self.unitImageNode?.position = self.position + CGPoint(x: 3, y: 3)
     }
 }
 

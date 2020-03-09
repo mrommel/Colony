@@ -70,6 +70,9 @@
 		C927E2EE22CF5A0A00EDBE0D /* OptionsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */; };
 		C927E2F022CF5FA300EDBE0D /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */; };
 		C927E2F222D1DA9B00EDBE0D /* ShipWreckObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E2F122D1DA9B00EDBE0D /* ShipWreckObject.swift */; };
+		C927E88023A6B66C00800235 /* TouchableSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E87F23A6B66C00800235 /* TouchableSpriteNode.swift */; };
+		C927E88223A7BDD600800235 /* GameMenuDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C927E88123A7BDD600800235 /* GameMenuDialog.xml */; };
+		C927E88423A7BE2200800235 /* GameMenuDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927E88323A7BE2200800235 /* GameMenuDialog.swift */; };
 		C927EEC4231EB44200D775BD /* BlurrableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927EEC3231EB44200D775BD /* BlurrableNode.swift */; };
 		C927EEC6231EE63200D775BD /* ShadowLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927EEC5231EE63200D775BD /* ShadowLabelNode.swift */; };
 		C927EEC82324F07000D775BD /* GameLoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C927EEC72324F07000D775BD /* GameLoadingScene.swift */; };
@@ -295,8 +298,6 @@
 		C9EB0C70234693F2006632A0 /* level0001.meta in Resources */ = {isa = PBXBuildFile; fileRef = C9EB0C6F234693F1006632A0 /* level0001.meta */; };
 		C9EB0C722347D533006632A0 /* TacticalAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB0C712347D533006632A0 /* TacticalAI.swift */; };
 		C9EB0C742349D05E006632A0 /* UnitGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB0C732349D05E006632A0 /* UnitGroup.swift */; };
-		C9EB0C762349D825006632A0 /* FiniteStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB0C752349D825006632A0 /* FiniteStateMachine.swift */; };
-		C9EB0C7A2349E287006632A0 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB0C792349E287006632A0 /* Stack.swift */; };
 		C9EB0C7C2349F4CD006632A0 /* TacticalStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB0C7B2349F4CD006632A0 /* TacticalStateMachine.swift */; };
 		C9EB0C80234A591C006632A0 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB0C7F234A591C006632A0 /* DateExtension.swift */; };
 		C9EB0C82234B313D006632A0 /* AttackEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB0C81234B313D006632A0 /* AttackEvent.swift */; };
@@ -377,6 +378,9 @@
 		C927E2ED22CF5A0A00EDBE0D /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
 		C927E2EF22CF5FA300EDBE0D /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		C927E2F122D1DA9B00EDBE0D /* ShipWreckObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipWreckObject.swift; sourceTree = "<group>"; };
+		C927E87F23A6B66C00800235 /* TouchableSpriteNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableSpriteNode.swift; sourceTree = "<group>"; };
+		C927E88123A7BDD600800235 /* GameMenuDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = GameMenuDialog.xml; sourceTree = "<group>"; };
+		C927E88323A7BE2200800235 /* GameMenuDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMenuDialog.swift; sourceTree = "<group>"; };
 		C927EEC3231EB44200D775BD /* BlurrableNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurrableNode.swift; sourceTree = "<group>"; };
 		C927EEC5231EE63200D775BD /* ShadowLabelNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowLabelNode.swift; sourceTree = "<group>"; };
 		C927EEC72324F07000D775BD /* GameLoadingScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLoadingScene.swift; sourceTree = "<group>"; };
@@ -574,8 +578,6 @@
 		C9EB0C6F234693F1006632A0 /* level0001.meta */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0001.meta; sourceTree = "<group>"; };
 		C9EB0C712347D533006632A0 /* TacticalAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalAI.swift; sourceTree = "<group>"; };
 		C9EB0C732349D05E006632A0 /* UnitGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitGroup.swift; sourceTree = "<group>"; };
-		C9EB0C752349D825006632A0 /* FiniteStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiniteStateMachine.swift; sourceTree = "<group>"; };
-		C9EB0C792349E287006632A0 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		C9EB0C7B2349F4CD006632A0 /* TacticalStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalStateMachine.swift; sourceTree = "<group>"; };
 		C9EB0C7F234A591C006632A0 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		C9EB0C81234B313D006632A0 /* AttackEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttackEvent.swift; sourceTree = "<group>"; };
@@ -799,6 +801,7 @@
 				C956078C22B1291700AA69E9 /* VictoryDialog.xml */,
 				C965FEAE22E747120075CB87 /* CityDialog.xml */,
 				C903369022EDAFEA004D2D72 /* GameContinueDialog.xml */,
+				C927E88123A7BDD600800235 /* GameMenuDialog.xml */,
 				C93A4091230A7F090011E9DA /* BattleDialog.xml */,
 				C93A4093230BB97E0011E9DA /* BattleResultDialog.xml */,
 				C903369F22EF456E004D2D72 /* PlayerInputDialog.xml */,
@@ -849,6 +852,7 @@
 				C90BF097230FE1DC0074C3E8 /* LevelIntroductionDialog.swift */,
 				C91AE234235F339100555F2D /* PlayerInputDialog.swift */,
 				C9A116D6238C2FA6006DEA9B /* AIPlayerTurnDialog.swift */,
+				C927E88323A7BE2200800235 /* GameMenuDialog.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -925,6 +929,7 @@
 				C927EEC3231EB44200D775BD /* BlurrableNode.swift */,
 				C927EEC5231EE63200D775BD /* ShadowLabelNode.swift */,
 				C96FE465235DC63A00DC2DE1 /* DropdownNode.swift */,
+				C927E87F23A6B66C00800235 /* TouchableSpriteNode.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1001,8 +1006,6 @@
 				C9EB0C712347D533006632A0 /* TacticalAI.swift */,
 				C9EB0C7B2349F4CD006632A0 /* TacticalStateMachine.swift */,
 				C9EB0C732349D05E006632A0 /* UnitGroup.swift */,
-				C9EB0C752349D825006632A0 /* FiniteStateMachine.swift */,
-				C9EB0C792349E287006632A0 /* Stack.swift */,
 				C9EB0C81234B313D006632A0 /* AttackEvent.swift */,
 			);
 			path = Base;
@@ -1347,6 +1350,7 @@
 				C9EB0C70234693F2006632A0 /* level0001.meta in Resources */,
 				C999FD0322F9A1B400D281D4 /* earth_large.map in Resources */,
 				C900654222AEE8DC0004C963 /* DefeatDialog.xml in Resources */,
+				C927E88223A7BDD600800235 /* GameMenuDialog.xml in Resources */,
 				C962942B22FD942300CC7F27 /* MapSeaLevelDialog.xml in Resources */,
 				C962940822FB685500CC7F27 /* MapLoadingDialog.xml in Resources */,
 				C95318DE233E4F1E005D507F /* DINNext-Heavy.ttf in Resources */,
@@ -1445,7 +1449,6 @@
 				C91AE235235F339100555F2D /* PlayerInputDialog.swift in Sources */,
 				C9C0F112231D527E00CCBBB7 /* ClickableLabelNode.swift in Sources */,
 				C90336A422F07663004D2D72 /* SettingsUsecase.swift in Sources */,
-				C9EB0C762349D825006632A0 /* FiniteStateMachine.swift in Sources */,
 				C9F9C98F22E0B10B000A3310 /* Ocean.swift in Sources */,
 				C97E96D722A1C21600D594F3 /* CaravelObject.swift in Sources */,
 				C9A116E3238D6EA0006DEA9B /* Galleon.swift in Sources */,
@@ -1494,6 +1497,7 @@
 				C91993B8234C9BA600703353 /* R.generated.swift in Sources */,
 				C9BA0A6622DB88190055ED59 /* City.swift in Sources */,
 				C92D876522CBF34E00E7A55E /* Formatters.swift in Sources */,
+				C927E88423A7BE2200800235 /* GameMenuDialog.swift in Sources */,
 				C97B283222A5349A00112532 /* FogManager.swift in Sources */,
 				C9C0F118231D5B9600CCBBB7 /* PediaContentScene.swift in Sources */,
 				C90BF098230FE1DC0074C3E8 /* LevelIntroductionDialog.swift in Sources */,
@@ -1502,6 +1506,7 @@
 				C9EB0C6E23421995006632A0 /* LogViewerViewController.swift in Sources */,
 				C959F01E232B75A00001AD2E /* UnitStrengthIndicator.swift in Sources */,
 				C962940422FB530100CC7F27 /* MapTypeDialog.swift in Sources */,
+				C927E88023A6B66C00800235 /* TouchableSpriteNode.swift in Sources */,
 				C94A2F4022C8F66100AB7117 /* BottomRightBar.swift in Sources */,
 				C9C7F0C9229B193400A775B2 /* AppDelegate.swift in Sources */,
 				C9C7F121229EBE5C00A775B2 /* FlowDirection.swift in Sources */,
@@ -1527,7 +1532,6 @@
 				C9C7F0FF229EBD5100A775B2 /* HexPoint.swift in Sources */,
 				C995F21F2338DE2A0091D021 /* Animal.swift in Sources */,
 				C9C7F0FB229EBD1800A775B2 /* HexagonTileMap.swift in Sources */,
-				C9EB0C7A2349E287006632A0 /* Stack.swift in Sources */,
 				C956079822B2426400AA69E9 /* GameConditionCheckManager.swift in Sources */,
 				C903369322EDB89F004D2D72 /* BoosterTypeNode.swift in Sources */,
 				C97B53A322D2756B008078D9 /* PiratesObject.swift in Sources */,
