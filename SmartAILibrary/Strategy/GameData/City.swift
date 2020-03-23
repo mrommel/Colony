@@ -8,6 +8,8 @@
 
 import Foundation
 
+// Amenities https://www.youtube.com/watch?v=I_LH7BdkrWc
+
 enum GrowthStatusType {
 
     case none
@@ -41,19 +43,30 @@ protocol AbstractCity {
 
     var name: String { get }
     var player: AbstractPlayer? { get }
-    var capital: Bool { get }
     var buildings: AbstractBuildings? { get }
+    var districts: AbstractDistricts? { get }
     var location: HexPoint { get }
     
     var cityStrategy: CityStrategyAI? { get }
+    var cityCitizens: CityCitizens? { get }
+    //var cityEmphases: CityEmphases? { get }
 
     //static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
     func initialize()
+    
+    func yields(in gameModel: GameModel?) -> Yields
+    func foodConsumption() -> Double
+    
+    func isCapital() -> Bool
 
     func population() -> Int
-    func set(population: Int)
+    func set(population: Int, reassignCitizen: Bool, in gameModel: GameModel?)
+    func change(population: Int, reassignCitizen: Bool, in gameModel: GameModel?)
 
-    func turn(in gameModel: GameModel?) -> Yields
+    func turn(in gameModel: GameModel?)
+    
+    func has(district: DistrictType) -> Bool
+    func has(building: BuildingType) -> Bool
 
     func canBuild(building: BuildingType) -> Bool
     func canTrain(unit: UnitType) -> Bool
@@ -61,6 +74,7 @@ protocol AbstractCity {
 
     func startTraining(unit: UnitType)
     func startBuilding(building: BuildingType)
+    func startBuilding(district: DistrictType)
 
     func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int
     func unitProductionTurnsLeft(for unitType: UnitType) -> Int
@@ -69,6 +83,9 @@ protocol AbstractCity {
 
     func foodBasket() -> Double
     func set(foodBasket: Double)
+    func hasOnlySmallFoodSurplus() -> Bool // < 2 food surplus
+    func hasFoodSurplus() -> Bool // < 4 food surplus
+    func hasEnoughFood() -> Bool
 
     func healthPoints() -> Int
     func set(healthPoints: Int)
@@ -77,27 +94,41 @@ protocol AbstractCity {
     
     func power() -> Int
     
-    //func defensiveStrength() -> Int
+    func garrisonedUnit() -> AbstractUnit?
+    func hasGarrison() -> Bool
+    func setGarrison(unit: AbstractUnit?)
+    
     func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?, attacking: Bool) -> Int
     func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool) -> Int
 
     func work(tile: AbstractTile) throws
     
     func isFeatureSurrounded() -> Bool
+    func isBlockaded() -> Bool
+    func setRouteToCapitalConnected(value connected: Bool)
+    
+    func processSpecialist(specialistType: SpecialistType, change: Int)
     
     // military properties
     func threatValue() -> Int
     
     @discardableResult
     func doTask(taskType: CityTaskType, target: HexPoint?, in gameModel: GameModel?) -> CityTaskResultType
+    
+    func lastTurnGarrisonAssigned() -> Int
+    func setLastTurnGarrisonAssigned(turn: Int)
+    
+    func doBuyPlot(at point: HexPoint, in gameModel: GameModel?) -> Bool
+    func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int
 }
 
 class City: AbstractCity {
 
+    static let workRadius = 3
+    
     let name: String
     var populationValue: Double
     let location: HexPoint
-    private(set) var capital: Bool
     private(set) var player: AbstractPlayer?
     private(set) var growthStatus: GrowthStatusType = .growth
 
@@ -105,20 +136,28 @@ class City: AbstractCity {
     internal var buildings: AbstractBuildings? // buildings that are currently build in this city
     internal var projects: AbstractProjects? // projects that are currently build in this city
     internal var buildQueue: BuildQueue
+    internal var cityCitizens: CityCitizens?
+    //internal var cityEmphases: CityEmphases?
 
+    private var capitalValue: Bool
+    
     private var healthPointsValue: Int // 0..200
-    private var strengthValue: Int
     private var threatVal: Int
     
     private var isFeatureSurroundedValue: Bool
     private var productionLastTurn: Double = 1.0
 
     var foodBasketValue: Double
-    var workedTiles: [HexPoint]
+    private var foodLastTurn: Double = 1.0
 
     internal var cityStrategy: CityStrategyAI?
     
     private var madeAttack: Bool = false
+    private var routeToCapitalConnectedThisTurn: Bool = false
+    private var routeToCapitalConnectedLastTurn: Bool = false
+    private var lastTurnGarrisonAssignedValue: Int = 0
+    
+    private var garrisonedUnitValue: AbstractUnit? = nil
 
     // MARK: constructor
 
@@ -126,17 +165,15 @@ class City: AbstractCity {
 
         self.name = name
         self.location = location
-        self.capital = capital
+        self.capitalValue = capital
         self.populationValue = 1
 
         self.buildQueue = BuildQueue()
 
         self.foodBasketValue = 1.0
-        self.workedTiles = []
 
         self.player = owner
 
-        self.strengthValue = 0
         self.isFeatureSurroundedValue = false
         self.threatVal = 0
         
@@ -146,10 +183,9 @@ class City: AbstractCity {
     func initialize() {
 
         self.districts = Districts(city: self)
-
         self.buildings = Buildings(city: self)
 
-        if self.capital {
+        if self.capitalValue {
             do {
                 try self.buildings?.build(building: .palace)
             } catch {
@@ -158,6 +194,12 @@ class City: AbstractCity {
         }
 
         self.cityStrategy = CityStrategyAI(city: self)
+        self.cityCitizens = CityCitizens(city: self)
+    }
+    
+    func isCapital() -> Bool {
+        
+        return self.capitalValue
     }
 
     /*static func found(name: String, at location: HexPoint, capital: Bool = false, owner: AbstractPlayer?) -> AbstractCity {
@@ -170,11 +212,160 @@ class City: AbstractCity {
 
     // MARK: public methods
 
-    func turn(in gameModel: GameModel?) -> Yields {
+    func turn(in gameModel: GameModel?)  {
 
-        self.cityStrategy?.turn(with: gameModel)
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get cityCitizens")
+        }
+        
+        if self.damage() > 0 {
+            //CvAssertMsg(m_iDamage <= GC.getMAX_CITY_HIT_POINTS(), "Somehow a city has more damage than hit points. Please show this to a gameplay programmer immediately.");
+
+            /*int iHitsHealed = GC.getCITY_HIT_POINTS_HEALED_PER_TURN();
+            if (isCapital() && !GET_PLAYER(getOwner()).isMinorCiv())
+            {
+                iHitsHealed++;
+            }
+            int iBuildingDefense = m_pCityBuildings->GetBuildingDefense();
+            iBuildingDefense *= (100 + m_pCityBuildings->GetBuildingDefenseMod());
+            iBuildingDefense /= 100;
+            iHitsHealed += iBuildingDefense / 500;
+            iHitsHealed = min(5,iHitsHealed);
+            changeDamage(-iHitsHealed);*/
+        }
+        if self.damage() < 0 {
+            //self.setDamage(0)
+        }
+        
+        //setDrafted(false);
+        //setAirliftTargeted(false);
+        //setCurrAirlift(0);
+        //setMadeAttack(false);
+        //GetCityBuildings()->SetSoldBuildingThisTurn(false);
+
         self.updateFeatureSurrounded(in: gameModel)
 
+        self.cityStrategy?.turn(with: gameModel)
+
+        self.cityCitizens?.doTurn(with: gameModel)
+
+        //AI_doTurn();
+        if !player.isHuman() {
+            //AI_stealPlots();
+        }
+
+        let razed = false // self.doRazingTurn();
+
+        if !razed {
+            
+            // self.doResistanceTurn();
+
+            // let allowNoProduction = !doCheckProduction();
+
+            // self.doGrowth();
+
+            // self.doUpdateIndustrialRouteToCapital();
+
+            // self.doProduction(bAllowNoProduction);
+
+            // self.doDecay();
+
+            // self.doMeltdown();
+
+            for loopPoint in self.location.areaWith(radius: City.workRadius) {
+                
+                if let loopPlot = gameModel.tile(at: loopPoint) {
+               
+                    if cityCitizens.isWorked(at: loopPoint) {
+                        loopPlot.doImprovement()
+                    }
+                }
+            }
+
+            // Following function also looks at WLTKD stuff
+            // self.doTestResourceDemanded();
+
+            // Culture accumulation
+            // if (getJONSCulturePerTurn() > 0) {
+            //     ChangeJONSCultureStored(getJONSCulturePerTurn());
+            // }
+
+            // Enough Culture to acquire a new Plot?
+            // if (GetJONSCultureStored() >= GetJONSCultureThreshold()) {
+            //     DoJONSCultureLevelIncrease();
+            // }
+
+            // Resource Demanded Counter
+            // if (GetResourceDemandedCountdown() > 0) {
+            //     ChangeResourceDemandedCountdown(-1)
+
+            //     if (GetResourceDemandedCountdown() == 0) {
+                    // Pick a Resource to demand
+            //         self.doPickResourceDemanded();
+            //   }
+            // }
+
+            //self.updateStrengthValue()
+
+            // self.doNearbyEnemy()
+
+            //Check for Achievements
+            /*if(isHuman() && !GC.getGame().isGameMultiPlayer() && GET_PLAYER(GC.getGame().getActivePlayer()).isLocalPlayer()) {
+                if(getJONSCulturePerTurn()>=100) {
+                    gDLL->UnlockAchievement( ACHIEVEMENT_CITY_100CULTURE );
+                }
+                if(getYieldRate(YIELD_GOLD)>=100) {
+                    gDLL->UnlockAchievement( ACHIEVEMENT_CITY_100GOLD );
+                }
+                if(getYieldRate(YIELD_SCIENCE)>=100 ) {
+                    gDLL->UnlockAchievement( ACHIEVEMENT_CITY_100SCIENCE );
+                }
+            }*/
+
+            // sending notifications on when routes are connected to the capital
+            if !self.isCapital() {
+                
+                /*CvNotifications* pNotifications = GET_PLAYER(m_eOwner).GetNotifications();
+                if (pNotifications)
+                {
+                    CvCity* pPlayerCapital = GET_PLAYER(m_eOwner).getCapitalCity();
+                    CvAssertMsg(pPlayerCapital, "No capital city?");
+
+                    if (m_bRouteToCapitalConnectedLastTurn != m_bRouteToCapitalConnectedThisTurn && pPlayerCapital)
+                    {
+                        Localization::String strMessage;
+                        Localization::String strSummary;
+
+                        if (m_bRouteToCapitalConnectedThisTurn) // connected this turn
+                        {
+                            strMessage = Localization::Lookup( "TXT_KEY_NOTIFICATION_TRADE_ROUTE_ESTABLISHED" );
+                            strSummary = Localization::Lookup("TXT_KEY_NOTIFICATION_SUMMARY_TRADE_ROUTE_ESTABLISHED");
+                        }
+                        else // lost connection this turn
+                        {
+                            strMessage = Localization::Lookup( "TXT_KEY_NOTIFICATION_TRADE_ROUTE_BROKEN" );
+                            strSummary = Localization::Lookup("TXT_KEY_NOTIFICATION_SUMMARY_TRADE_ROUTE_BROKEN");
+                        }
+
+                        strMessage << getNameKey();
+                        strMessage << pPlayerCapital->getNameKey();
+                        pNotifications->Add( NOTIFICATION_GENERIC, strMessage.toUTF8(), strSummary.toUTF8(), -1, -1, -1 );
+                    }
+                }*/
+
+                self.routeToCapitalConnectedLastTurn = self.routeToCapitalConnectedThisTurn
+            }
+        }
+        
+        /*
         let yields = self.yields(in: gameModel)
 
         self.updateGrowth(for: yields.food, in: gameModel)
@@ -184,7 +375,7 @@ class City: AbstractCity {
         yields.food = 0
         yields.production = 0
 
-        return yields
+        return yields*/
     }
 
     func foodBasket() -> Double {
@@ -197,9 +388,47 @@ class City: AbstractCity {
         self.foodBasketValue = foodBasket
     }
 
-    func set(population: Int) {
+    //    Be very careful with setting bReassignPop to false.  This assumes that the caller
+    //  is manually adjusting the worker assignments *and* handling the setting of
+    //  the CityCitizens unassigned worker value.
+    func set(population newPopulation: Int, reassignCitizen: Bool = true, in gameModel: GameModel?) {
 
-        self.populationValue = Double(population)
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get cityCitizens")
+        }
+        
+        let oldPopulation = self.population()
+        let populationChange = newPopulation - oldPopulation;
+
+        if oldPopulation != newPopulation {
+            
+            // If we are reducing population, remove the workers first
+            if reassignCitizen && populationChange < 0 {
+                
+                // Need to Remove Citizens
+                for _ in 0..<(-populationChange) {
+                    cityCitizens.doRemoveWorstCitizen(in: gameModel)
+                }
+
+                // Fixup the unassigned workers
+                let unassignedWorkers = cityCitizens.numUnassignedCitizens()
+                cityCitizens.changeNumUnassignedCitizens(change: max(populationChange, -unassignedWorkers))
+            }
+            
+            if populationChange > 0 {
+                self.cityCitizens?.changeNumUnassignedCitizens(change: populationChange)
+            }
+        }
+        
+        self.populationValue = Double(newPopulation)
+        
+        // FIXME:
+        // update yields?
+    }
+    
+    func change(population change: Int, reassignCitizen: Bool = true, in gameModel: GameModel?) {
+        
+        self.set(population: self.population() + change, reassignCitizen: reassignCitizen, in: gameModel)
     }
 
     func population() -> Int {
@@ -207,12 +436,21 @@ class City: AbstractCity {
         return Int(self.populationValue)
     }
 
-    func build(building: BuildingType) {
+    private func build(building: BuildingType) {
 
         do {
             try self.buildings?.build(building: building)
         } catch {
             fatalError("cant build building: already build")
+        }
+    }
+    
+    private func build(districtType: DistrictType) {
+        
+        do {
+            try self.districts?.build(district: districtType)
+        } catch {
+            fatalError("cant build district: already build")
         }
     }
 
@@ -280,8 +518,26 @@ class City: AbstractCity {
         if district == .cityCenter {
             return true
         }
+        
+        guard let districts = self.districts else {
+            return false
+        }
 
-        return false // FIXME
+        return districts.has(district: district)
+    }
+    
+    func has(building: BuildingType) -> Bool {
+        
+        guard let buildings = self.buildings else {
+            return false
+        }
+        
+        return buildings.has(building: building)
+    }
+    
+    func setRouteToCapitalConnected(value connected: Bool) {
+        
+        self.routeToCapitalConnectedThisTurn = connected
     }
 
     func startTraining(unit unitType: UnitType) {
@@ -292,6 +548,11 @@ class City: AbstractCity {
     func startBuilding(building buildingType: BuildingType) {
 
         self.buildQueue.add(item: BuildableItem(buildingType: buildingType))
+    }
+    
+    func startBuilding(district: DistrictType) {
+        
+        self.buildQueue.add(item: BuildableItem(districtType: district))
     }
 
     func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int {
@@ -325,7 +586,8 @@ class City: AbstractCity {
             fatalError("cant get player")
         }
 
-        let foodNeededForPopulation = self.foodForPopulation()
+        let foodNeededForPopulation = self.foodConsumption()
+        self.foodLastTurn = foodPerTurn
 
         let foodDelta = foodPerTurn - foodNeededForPopulation
 
@@ -415,6 +677,30 @@ class City: AbstractCity {
                             gameModel?.add(message: CityHasFinishedBuildingMessage(city: self, building: buildingType))
                         }
                     }
+                    
+                case .wonder:
+
+                    if let wonderType = currentBuilding.wonderType {
+
+                        fatalError("niy")
+                        /*self.build(wonder: wonderType)
+
+                        if player.isHuman() {
+                            gameModel?.add(message: CityHasFinishedBuildingMessage(city: self, building: buildingType))
+                        }*/
+                    }
+                    
+                case .district:
+                    
+                    if let districtType = currentBuilding.districtType {
+
+                        self.build(districtType: districtType)
+
+                        if player.isHuman() {
+                            gameModel?.add(message: CityHasFinishedDistrictMessage(city: self, district: districtType))
+                        }
+                    }
+                    
                 case .project:
                     // NOOP - FIXME
                     break
@@ -455,7 +741,7 @@ class City: AbstractCity {
 
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
             // Capital receives +1 boost to all yields.
-            if government.currentGovernment() == .autocracy && self.capital == true {
+            if government.currentGovernment() == .autocracy && self.capitalValue == true {
 
                 yieldsVal.food += 1
                 yieldsVal.production += 1
@@ -468,7 +754,7 @@ class City: AbstractCity {
             }
 
             // godKing
-            if government.has(card: .godKing) && self.capital == true {
+            if government.has(card: .godKing) && self.capitalValue == true {
 
                 yieldsVal.gold += 1
                 yieldsVal.faith += 1
@@ -503,11 +789,15 @@ class City: AbstractCity {
         guard let gameModel = gameModel else {
             fatalError("no game model provided")
         }
+        
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
 
         var yields = Yields(food: 0, production: 0, gold: 0)
 
         if let centerTile = gameModel.tile(at: self.location) {
-            yields += centerTile.yields()
+            yields += centerTile.yields(ignoreFeature: false)
 
             // The yield of the tile occupied by the city center will be increased to 2 Food and 1 Production, if either was previously lower (before any bonus yields are applied).
             if yields.food < 2.0 {
@@ -518,18 +808,39 @@ class City: AbstractCity {
             }
         }
 
-        for point in self.workedTiles {
+        for point in cityCitizens.workingTileLocations() {
             if let adjacentTile = gameModel.tile(at: point) {
-                yields += adjacentTile.yields()
+                yields += adjacentTile.yields(ignoreFeature: false)
             }
         }
 
         return yields
     }
 
-    func foodForPopulation() -> Double {
+    func foodConsumption() -> Double {
 
         return Double(self.population()) * 2.0
+    }
+    
+    func hasOnlySmallFoodSurplus() -> Bool {
+        
+        let exceedFood = self.foodLastTurn - Double(self.foodConsumption())
+        
+        return exceedFood < 2.0 && exceedFood > 0.0
+    }
+    
+    func hasFoodSurplus() -> Bool {
+        
+        let exceedFood = self.foodLastTurn - Double(self.foodConsumption())
+        
+        return exceedFood < 4.0 && exceedFood > 0.0
+    }
+    
+    func hasEnoughFood() -> Bool {
+        
+        let exceedFood = self.foodLastTurn - Double(self.foodConsumption())
+        
+        return exceedFood > 0.0
     }
 
     func maintenanceCostsPerTurn() -> Double {
@@ -626,7 +937,7 @@ class City: AbstractCity {
         var featuredPlots = 0
 
         // Look two tiles around this city in every direction to see if at least half the plots are covered in a removable feature
-        let range = 2
+        let range = City.workRadius
 
         let surroundingArea = self.location.areaWith(radius: range)
 
@@ -666,16 +977,29 @@ class City: AbstractCity {
         
         return self.isFeatureSurroundedValue
     }
+    
+    func isBlockaded() -> Bool {
+        return false
+    }
 
     func garrisonedUnit() -> AbstractUnit? {
 
-        // FIXME
-        return nil
+        return self.garrisonedUnitValue
+    }
+    
+    func hasGarrison() -> Bool {
+        
+        return self.garrisonedUnitValue != nil
+    }
+    
+    func setGarrison(unit: AbstractUnit?) {
+        
+        self.garrisonedUnitValue = unit
     }
 
     func power() -> Int {
 
-        return Int(pow(Double(self.strengthValue) / 100.0, 1.5))
+        return Int(pow(Double(self.defensiveStrength(against: nil, on: nil, ranged: false)) / 100.0, 1.5))
     }
     
     func healthPoints() -> Int {
@@ -728,13 +1052,40 @@ class City: AbstractCity {
             throw CityError.cantWorkCenter
         }
 
-        self.workedTiles.append(tile.point)
+        self.cityCitizens?.setWorked(at: tile.point, worked: true, useUnassignedPool: true)
         try tile.setWorked(by: self)
     }
     
     func threatValue() -> Int {
         
         return self.threatVal
+    }
+    
+    func processSpecialist(specialistType: SpecialistType, change: Int) {
+
+        //fatalError("niy")
+        if specialistType->getGreatPeopleUnitClass() != NO_UNITCLASS {
+            let eGreatPeopleUnit = ((UnitTypes)(getCivilizationInfo().getCivilizationUnits(pkSpecialist->getGreatPeopleUnitClass())));
+
+            if eGreatPeopleUnit != NO_UNIT {
+                changeGreatPeopleUnitRate(eGreatPeopleUnit, pkSpecialist->getGreatPeopleRateChange() * iChange);
+            }
+        }
+
+        self.changeBaseGreatPeopleRate(pkSpecialist->getGreatPeopleRateChange() * iChange);
+
+        for (iI = 0; iI < NUM_YIELD_TYPES; iI++)
+        {
+            ChangeBaseYieldRateFromSpecialists(((YieldTypes)iI), (pkSpecialist->getYieldChange(iI) * iChange));
+        }
+
+        self.updateExtraSpecialistYield()
+
+        changeSpecialistFreeExperience(pkSpecialist->getExperience() * iChange);
+
+        // Culture
+        int iCulturePerSpecialist = GetCultureFromSpecialist(eSpecialist);
+        ChangeJONSCulturePerTurnFromSpecialists(iCulturePerSpecialist * iChange);
     }
     
     func doTask(taskType: CityTaskType, target: HexPoint? = nil, in gameModel: GameModel?) -> CityTaskResultType {
@@ -778,5 +1129,25 @@ class City: AbstractCity {
         }
 
         return .aborted
+    }
+    
+    func lastTurnGarrisonAssigned() -> Int {
+        
+        return self.lastTurnGarrisonAssignedValue
+    }
+    
+    func setLastTurnGarrisonAssigned(turn: Int) {
+        
+        self.lastTurnGarrisonAssignedValue = turn
+    }
+    
+    func doBuyPlot(at point: HexPoint, in gameModel: GameModel?) -> Bool {
+        
+        return false
+    }
+    
+    func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int {
+        
+        return 0
     }
 }

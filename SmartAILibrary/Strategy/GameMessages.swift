@@ -168,6 +168,21 @@ class CityHasFinishedBuildingMessage: AbstractGameMessage {
     }
 }
 
+class CityHasFinishedDistrictMessage: AbstractGameMessage {
+
+    let text: String
+    let city: AbstractCity?
+    let districtType: DistrictType
+    
+    init(city: AbstractCity?, district districtType: DistrictType) {
+
+        self.city = city
+        self.districtType = districtType
+        
+        self.text = "Your city \(city!.name) has finished working on \(districtType.name())"
+    }
+}
+
 class PromotionGainedMessage: AbstractGameMessage {
 
     let text: String

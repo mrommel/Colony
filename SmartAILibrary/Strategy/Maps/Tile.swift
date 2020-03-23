@@ -23,12 +23,22 @@ enum TileError: Error {
     case alreadyWorked
 }
 
+struct BuilderAIScratchPad {
+    
+    var turn: Int
+    var routeType: RouteType
+    var leader: LeaderType
+    var value: Int
+}
+
 protocol AbstractTile {
     
     var point: HexPoint { get }
     var area: HexArea? { get set }
     
-    func yields() -> Yields
+    func yields(ignoreFeature: Bool) -> Yields
+    func hasYield() -> Bool
+    func yieldsWith(buildType: BuildType, ignoreFeature: Bool) -> Yields
     
     // terrain & hills
     func set(terrain: TerrainType)
@@ -42,12 +52,22 @@ protocol AbstractTile {
     func isImpassable() -> Bool
     
     // improvements
-    func improvement() -> TileImprovementType?
+    func improvement() -> TileImprovementType
     func possibleImprovements() -> [TileImprovementType]
     func build(improvement: TileImprovementType) throws
     func has(improvement: TileImprovementType) -> Bool
-    func canBePillaged() -> Bool
     func removeImprovement()
+    func build(route: RouteType) throws
+    func has(route: RouteType) -> Bool
+    func canBuild(buildType: BuildType, by player: AbstractPlayer?) -> Bool
+    func isImprovementPillaged() -> Bool
+    func setImprovement(pillaged: Bool)
+    func productionFromFeatureRemoval(by buildType: BuildType) -> Int
+    func doImprovement()
+    
+    func canBePillaged() -> Bool
+    func isRoutePillaged() -> Bool
+    func setRoute(pillaged: Bool)
     
     // methods related to owner of this tile
     func hasOwner() -> Bool
@@ -62,8 +82,9 @@ protocol AbstractTile {
     func setWorked(by city: AbstractCity?) throws
     
     func defenseModifier(for player: AbstractPlayer?) -> Int
-    func isFriendlyTerritory(for player: AbstractPlayer?) -> Bool
-    func isVisibleToEnemy(of player: AbstractPlayer?) -> Bool
+    func isFriendlyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
+    func isFriendlyCity(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
+    func isVisibleToEnemy(of player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
     
     // discovered
     func isDiscovered(by player: AbstractPlayer?) -> Bool
@@ -73,20 +94,28 @@ protocol AbstractTile {
     func isVisible(to player: AbstractPlayer?) -> Bool
     func sight(by player: AbstractPlayer?)
     func conceal(to player: AbstractPlayer?)
+    func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, in gameModel: GameModel?) -> Bool
+    func seeThroughLevel() -> Int
     
     // features
+    func hasAnyFeature() -> Bool
+    func feature() -> FeatureType
     func has(feature: FeatureType) -> Bool
-    func add(feature: FeatureType)
+    func set(feature: FeatureType)
     
     // resources
     func hasAnyResource() -> Bool
+    func resource() -> ResourceType
     func has(resource: ResourceType) -> Bool
     func set(resource: ResourceType)
     func has(resourceType: ResourceUsageType) -> Bool
+    func resourceQuantity() -> Int
     
     // ocean / continent
     func set(ocean: Ocean?)
     func set(continent: Continent?)
+    func isOn(continent: Continent?) -> Bool
+    func sameContinent(as otherTile: AbstractTile) -> Bool
     
     // river
     func isRiver() -> Bool
@@ -97,6 +126,10 @@ protocol AbstractTile {
     func isRiverToCross(towards target: AbstractTile) -> Bool
     
     func movementCost(for movementType: UnitMovementType, from source: AbstractTile) -> Double
+    
+    // scratch pad
+    func builderAIScratchPad() -> BuilderAIScratchPad
+    func set(builderAIScratchPad: BuilderAIScratchPad)
 }
 
 class Tile: AbstractTile {
@@ -110,9 +143,13 @@ class Tile: AbstractTile {
     private var ocean: Ocean?
     private var continent: Continent?
     
-    private var resource: ResourceType
-    private var features: [FeatureType]
+    private var resourceValue: ResourceType
+    private var resourceQuantityValue: Int
+    private var featureValue: FeatureType
     private var improvementValue: TileImprovementType
+    private var improvementPillagedValue: Bool
+    private var routeValue: RouteType
+    private var routePillagedValue: Bool
     
     private var discovered: TileDiscovered
     private var ownerValue: AbstractPlayer?
@@ -124,15 +161,21 @@ class Tile: AbstractTile {
     private var riverFlowNorthEast: FlowDirection = .none
     private var riverFlowSouthEast: FlowDirection = .none
     
-    init(point: HexPoint, terrain: TerrainType, hills: Bool = false, features: [FeatureType] = []) {
+    private var builderAIScrtchPadValue: BuilderAIScratchPad
+    
+    init(point: HexPoint, terrain: TerrainType, hills: Bool = false, feature: FeatureType = .none) {
 
         self.point = point
         self.terrainVal = terrain
         self.hillsVal = hills
 
         self.improvementValue = .none
-        self.resource = .none
-        self.features = features
+        self.improvementPillagedValue = false
+        self.routeValue = .none
+        self.routePillagedValue = false
+        self.resourceValue = .none
+        self.resourceQuantityValue = 0
+        self.featureValue = feature
         
         self.ownerValue = nil
         self.discovered = TileDiscovered()
@@ -140,6 +183,8 @@ class Tile: AbstractTile {
         self.area = nil
         self.ocean = nil
         self.continent = nil
+        
+        self.builderAIScrtchPadValue = BuilderAIScratchPad(turn: -1, routeType: .none, leader: .none, value: -1)
     }
     
     // for tests
@@ -179,34 +224,34 @@ class Tile: AbstractTile {
         }
 
         if self.hasHills() || self.has(feature: .mountains) {
-            
             // Hill (and mountain)
             modifier += 3 // HILLS_EXTRA_DEFENSE
-            
         } else if featureModifier > 0 {
-            
             // Features
             modifier = featureModifier
-            
         } else {
-            
             // Terrain
             modifier = self.terrain().defenseModifier()
         }
 
-        if let improvement = self.improvement() {
-            modifier += improvement.defenseModifier()
+        if self.improvement() != .none {
+            modifier += self.improvement().defenseModifier()
         }
         
         return modifier
     }
     
-    func isFriendlyTerritory(for player: AbstractPlayer?) -> Bool {
+    func isFriendlyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
         
         fatalError("not implemented yet")
     }
     
-    func isVisibleToEnemy(of player: AbstractPlayer?) -> Bool {
+    func isFriendlyCity(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+        
+        fatalError("not implemented yet")
+    }
+    
+    func isVisibleToEnemy(of player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
         
         fatalError("not implemented yet")
     }
@@ -247,7 +292,7 @@ class Tile: AbstractTile {
     
     // end for tests
 
-    func yields() -> Yields {
+    func yields(ignoreFeature: Bool) -> Yields {
 
         var returnYields = Yields(food: 0, production: 0, gold: 0, science: 0)
 
@@ -258,26 +303,91 @@ class Tile: AbstractTile {
             returnYields += Yields(food: 0, production: 1, gold: 0, science: 0)
         }
         
-        for feature in self.features {
-            returnYields += feature.yields()
+        if ignoreFeature == false && self.featureValue != .none {
+            returnYields += self.featureValue.yields()
         }
         
-        returnYields += self.resource.yields()
+        returnYields += self.resourceValue.yields()
 
-        returnYields += self.improvementValue.yields()
+        if self.improvementValue != .none && !self.isImprovementPillaged() {
+            returnYields += self.improvementValue.yields()
+        }
+        
+        if self.routeValue != .none && !self.isRoutePillaged() {
+            returnYields += self.routeValue.yields()
+        }
 
         return returnYields
     }
     
-    // MARK: improvement methods
-    
-    func improvement() -> TileImprovementType? {
+    func hasYield() -> Bool {
         
-        if self.improvementValue != .none {
-            return self.improvementValue
+        let yield = self.yields(ignoreFeature: false)
+        
+        if yield.food > 0 {
+            return true
         }
         
-        return nil
+        if yield.production > 0 {
+            return true
+        }
+        
+        if yield.gold > 0 {
+            return true
+        }
+        
+        return false
+    }
+    
+    func yieldsWith(buildType: BuildType, ignoreFeature: Bool = false) -> Yields {
+        
+        // Will the build remove the feature?
+        var ignoreFeatureValue = ignoreFeature
+        
+        if self.featureValue != .none {
+            if buildType.canRemove(feature: self.featureValue) {
+                ignoreFeatureValue = true
+            }
+        }
+        
+        var yields = self.yields(ignoreFeature: ignoreFeatureValue)
+        
+        // //////////////
+        var improvementFromBuild = buildType.improvement()
+        if improvementFromBuild == nil {
+            // might be repair
+            if /*!self.isImprovementPillaged() ||*/ buildType == .repair {
+                improvementFromBuild = self.improvement()
+            }
+        }
+        
+        if let improvementFromBuild = improvementFromBuild {
+            
+            yields += improvementFromBuild.yields()
+        }
+        
+        // //////////////
+        var routeFromBuild = buildType.route()
+        if routeFromBuild == nil {
+            // might be repair
+            if /*!self.isRoutePillaged() ||*/ buildType == .repair {
+                routeFromBuild = self.routeValue
+            }
+        }
+        
+        if let routeFromBuild = routeFromBuild {
+            
+            yields += routeFromBuild.yields()
+        }
+        
+        return yields
+    }
+    
+    // MARK: improvement methods
+    
+    func improvement() -> TileImprovementType {
+        
+        return self.improvementValue
     }
 
     func possibleImprovements() -> [TileImprovementType] {
@@ -319,9 +429,81 @@ class Tile: AbstractTile {
         return self.improvementValue == improvement
     }
     
+    func isImprovementPillaged() -> Bool {
+        
+        return self.improvementPillagedValue
+    }
+    
+    func setImprovement(pillaged: Bool) {
+        
+        self.improvementPillagedValue = pillaged
+    }
+    
+    func doImprovement() {
+        
+    }
+    
+    func productionFromFeatureRemoval(by buildType: BuildType) -> Int {
+        
+        if !self.hasAnyFeature() {
+            return 0
+        }
+        
+        var production = 0
+        
+        for feature in FeatureType.all {
+            
+            if self.has(feature: feature) {
+                if !buildType.canRemove(feature: feature) {
+                    return 0
+                }
+                
+                production += buildType.productionFromRemoval(of: feature)
+            }
+        }
+        
+        return 0
+    }
+    
+    func has(route: RouteType) -> Bool {
+        
+        return self.routeValue == route
+    }
+    
     func canBePillaged() -> Bool {
         
         return self.improvementValue.canBePillaged()
+    }
+    
+    func isRoutePillaged() -> Bool {
+        
+        return self.routePillagedValue
+    }
+    
+    func setRoute(pillaged: Bool) {
+        
+        self.routePillagedValue = pillaged
+        
+        if pillaged {
+            fatalError("need to update city connections")
+            // GET_PLAYER(ePlayer).GetCityConnections()->Update();
+        }
+    }
+    
+    func build(route: RouteType) throws {
+        fatalError("niy")
+    }
+    
+    func canBuild(buildType: BuildType, by player: AbstractPlayer?) -> Bool {
+        
+        // Can't build nothing!
+        if buildType == .none {
+            return false
+        }
+        
+        
+        
+        return true
     }
     
     func costPerTurn() -> Int {
@@ -438,36 +620,56 @@ class Tile: AbstractTile {
     
     // MARK: feature methods
     
-    func has(feature: FeatureType) -> Bool {
+    func hasAnyFeature() -> Bool {
         
-        self.features.contains(feature)
+        return self.featureValue != .none
     }
     
-    func add(feature: FeatureType) {
+    func feature() -> FeatureType {
         
-        self.features.append(feature)
+        return self.featureValue
+    }
+    
+    func has(feature: FeatureType) -> Bool {
+        
+        return self.featureValue == feature
+    }
+    
+    func set(feature: FeatureType) {
+        
+        self.featureValue = feature
     }
     
     // MARK: resource methods
     
+    func resource() -> ResourceType {
+        
+        return self.resourceValue
+    }
+    
     func hasAnyResource() -> Bool {
         
-        return self.resource != .none
+        return self.resourceValue != .none
     }
     
     func has(resource: ResourceType) -> Bool {
         
-        return self.resource == resource
+        return self.resourceValue == resource
     }
     
     func set(resource: ResourceType) {
         
-        self.resource = resource
+        self.resourceValue = resource
     }
     
     func has(resourceType: ResourceUsageType) -> Bool {
         
-        return self.resource.usage() == resourceType
+        return self.resourceValue.usage() == resourceType
+    }
+    
+    func resourceQuantity() -> Int {
+        
+        return self.resourceQuantityValue
     }
     
     // MARK: ocean / continent methods
@@ -615,9 +817,9 @@ class Tile: AbstractTile {
             return true
         }
         
-        for feature in self.features {
+        if self.featureValue != .none {
             
-            let featureCost = feature.movementCost(for: .walk)
+            let featureCost = self.featureValue.movementCost(for: .walk)
             
             if featureCost == UnitMovementType.max {
                 return true
@@ -640,15 +842,15 @@ class Tile: AbstractTile {
 
         // add feature costs
         var featureCosts: Double = 0.0
-        for feature in self.features {
+        if self.featureValue != .none {
             
-            let featureCost = feature.movementCost(for: movementType)
+            let featureCost = self.featureValue.movementCost(for: movementType)
             
             if featureCost == UnitMovementType.max {
                 return UnitMovementType.max
             }
             
-            featureCosts += featureCost
+            featureCosts = featureCost
         }
         
         // add river crossing cost
@@ -694,5 +896,93 @@ class Tile: AbstractTile {
         case .northwest:
             return target.isRiverInSouthEast()
         }
+    }
+    
+    func seeThroughLevel() -> Int {
+        
+        var level = 0
+        
+        if self.terrainVal == .ocean {
+            level += 1
+        }
+        
+        if self.hasHills() {
+            level += 1
+        }
+        
+        if self.has(feature: .mountains) {
+            level += 2
+        }
+        
+        if self.has(feature: .forest) || self.has(feature: .rainforest) {
+            level += 1
+        }
+        
+        return level
+    }
+    
+    // FIXME wrap world !
+    func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let tile = tile else {
+            return false
+        }
+
+        if tile.point == self.point {
+            return true
+        }
+
+        if self.point.isNeighbor(of: tile.point) {
+            return true
+        }
+        
+        let distance = self.point.distance(to: tile.point)
+        if distance <= range {
+         
+            var tmpPoint = self.point
+ 
+            while !tmpPoint.isNeighbor(of: tile.point) {
+                
+                guard let dir = tmpPoint.direction(towards: tile.point) else {
+                    return false
+                }
+                tmpPoint = tmpPoint.neighbor(in: dir)
+                
+                if let tmpTile = gameModel.tile(at: tmpPoint) {
+                    if tmpTile.seeThroughLevel() > 1 {
+                        return false
+                    }
+                }
+            }
+            
+            return true
+        }
+
+        return false
+    }
+    
+    func isOn(continent: Continent?) -> Bool {
+        
+        return self.continent?.identifier == continent?.identifier
+    }
+    
+    func sameContinent(as otherTile: AbstractTile) -> Bool {
+        
+        return otherTile.isOn(continent: self.continent)
+    }
+    
+    // scratch pad
+    func builderAIScratchPad() -> BuilderAIScratchPad {
+        
+        return self.builderAIScrtchPadValue
+    }
+    
+    func set(builderAIScratchPad: BuilderAIScratchPad) {
+        
+        self.builderAIScrtchPadValue = builderAIScratchPad
     }
 }

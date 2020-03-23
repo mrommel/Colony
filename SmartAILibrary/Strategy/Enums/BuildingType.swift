@@ -10,6 +10,8 @@ import Foundation
 
 enum BuildingType {
 
+    case none
+    
     // ancient
     case palace
     case granary
@@ -18,6 +20,8 @@ enum BuildingType {
     case shrine
     case ancientWalls
     case barracks
+    
+    // harbor
 
     static var all: [BuildingType] {
         return [
@@ -31,6 +35,8 @@ enum BuildingType {
     func name() -> String {
         
         switch self {
+            
+        case .none: return ""
 
             // ancient
         case .palace: return "Palace"
@@ -47,6 +53,8 @@ enum BuildingType {
         
         switch self {
 
+        case .none: return 0
+            
             // ancient
         case .palace: return 3 // Palace Guard
         case .granary: return 0
@@ -62,6 +70,8 @@ enum BuildingType {
         
         switch self {
 
+        case .none: return 0
+            
             // ancient
         case .palace: return 0
         case .granary: return 0
@@ -78,6 +88,8 @@ enum BuildingType {
 
         switch self {
 
+        case .none: return 0
+            
             // ancient
         case .palace: return 0
         case .granary: return 65
@@ -94,6 +106,8 @@ enum BuildingType {
 
         switch self {
 
+        case .none: return 0
+            
             // ancient
         case .palace: return 0
         case .granary: return 0
@@ -109,6 +123,8 @@ enum BuildingType {
 
         switch self {
 
+        case .none: return Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0)
+        
             // ancient
         case .palace: return Yields(food: 0, production: 2, gold: 5, science: 2, culture: 1, faith: 0, housing: 1)
         case .granary: return Yields(food: 1, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 2)
@@ -124,6 +140,8 @@ enum BuildingType {
 
         switch self {
 
+        case .none: return nil
+            
             // ancient
         case .palace: return nil
         case .granary: return .pottery
@@ -139,6 +157,8 @@ enum BuildingType {
 
         switch self {
 
+        case .none: return .cityCenter
+            
             // ancient
         case .palace: return .cityCenter
         case .granary: return .cityCenter
@@ -154,6 +174,8 @@ enum BuildingType {
 
         switch self {
 
+        case .none: return []
+            
             // ancient
         case .palace: return [] // no need can't be build
             
@@ -171,5 +193,25 @@ enum BuildingType {
         
         case .barracks: return [Flavor(type: .cityDefense, value: 8), Flavor(type: .greatPeople, value: 5), Flavor(type: .defense, value: 4), Flavor(type: .wonder, value: 1), Flavor(type: .production, value: 1)]
         }
+    }
+    
+    func specialistCount() -> Int {
+        
+        return 0
+    }
+    
+    func canAddSpecialist() -> Bool {
+        
+        return self.specialistCount() > 0
+    }
+    
+    // check CIV5Buildings.xml
+    func specialistType() -> SpecialistType {
+        
+        if self == .library {
+            return .scientist
+        }
+        
+        return .none
     }
 }

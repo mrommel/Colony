@@ -52,7 +52,7 @@ class RegionFinder {
             areas.append(area)
         }
         
-        assert(areas.count >= continents.count, "no valid areas in map -> map invalid")
+        // assert(areas.count >= continents.count, "no valid areas in map -> map invalid")
         
         if areas.count > 0 {
             while areas.count < regions {

@@ -8,6 +8,16 @@
 
 import Foundation
 
+class ResourceInventory: WeightedList<ResourceType> {
+    
+    override func fill() {
+        
+        for resourceType in ResourceType.all {
+            self.add(weight: 0.0, for: resourceType)
+        }
+    }
+}
+
 protocol AbstractPlayer {
 
     var leader: LeaderType { get }
@@ -23,8 +33,23 @@ protocol AbstractPlayer {
     var militaryAI: MilitaryAI? { get }
     var tacticalAI: TacticalAI? { get }
     var dangerPlotsAI: DangerPlotsAI? { get }
+    var builderTaskingAI: BuilderTaskingAI? { get }
+    var citySpecializationAI: CitySpecializationAI? { get }
+    var cityConnections: CityConnections? { get }
+    
+    var plots: [AbstractTile?] { get }
 
     func initialize()
+    
+    func hasActiveDiplomacyRequests() -> Bool
+    func canFinishTurn() -> Bool
+    func finishTurnButtonPressed() -> Bool // TODO: rename to finishedTurn
+    func finishTurn()
+    
+    func hasProcessedAutoMoves() -> Bool
+    func setProcessedAutoMoves(value: Bool)
+    func isAutoMoves() -> Bool
+    func setAutoMoves(value: Bool)
 
     func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func doDefensivePact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
@@ -37,13 +62,24 @@ protocol AbstractPlayer {
 
     func hasGoldenAge() -> Bool
     
-    func turn(in gameModel: GameModel?)
+    func prepareTurn(in gamemModel: GameModel?)
+    func startTurn(in gameModel: GameModel?)
+    func endTurn(in gameModel: GameModel?)
+    func unitUpdate(in gameModel: GameModel?)
+    //func doTurn(in gameModel: GameModel?)
+    //func doTurnUnits(in gameModel: GameModel?)
+    func lastSliceMoved() -> Int
+    func setLastSliceMoved(to value: Int)
+    
     func isAlive() -> Bool
+    func isActive() -> Bool
     func isHuman() -> Bool
+    func isBarbarian() -> Bool
 
     // diplomatics
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool
     func atWarCount() -> Int
+    func updateNotifications()
 
     // era
     func currentEra() -> EraType
@@ -77,6 +113,18 @@ protocol AbstractPlayer {
     func bestSettleAreasWith(minimumSettleFertility minScore: Int, in gameModel: GameModel?) -> (Int, HexArea?, HexArea?)
     func bestSettlePlot(for firstSettler: AbstractUnit?, in gameModel: GameModel?, escorted: Bool, area: HexArea?) -> AbstractTile?
     func canFound(at location: HexPoint, in gameModel: GameModel?) -> Bool
+    func canBuild(build: BuildType, at point: HexPoint, testVisible: Bool, testGold: Bool, in gameModel: GameModel?) -> Bool
+    
+    func updatePlots(in gameModel: GameModel?)
+    func addPlot(tile: AbstractTile?) -> Bool
+    
+    func numAvailable(resource: ResourceType) -> Int
+    func numUnitsNeededToBeBuilt() -> Int
+    func countReadyUnits(in gameModel: GameModel?) -> Int
+    func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
+    func hasBusyUnitOrCity() -> Bool
+    
+    func isEqual(to other: AbstractPlayer?) -> Bool
 }
 
 class Player: AbstractPlayer {
@@ -93,6 +141,9 @@ class Player: AbstractPlayer {
     internal var tacticalAI: TacticalAI?
     internal var dangerPlotsAI: DangerPlotsAI?
     internal var homelandAI: HomelandAI?
+    internal var builderTaskingAI: BuilderTaskingAI?
+    internal var citySpecializationAI: CitySpecializationAI?
+    internal var cityConnections: CityConnections?
 
     internal var techs: AbstractTechs?
     internal var civics: AbstractCivics?
@@ -104,6 +155,16 @@ class Player: AbstractPlayer {
 
     internal var operations: Operations? = nil
     internal var armies: Armies? = nil
+    
+    internal var plots: [AbstractTile?]
+    
+    internal var resourceInventory: ResourceInventory?
+    
+    private var turnActive: Bool = false
+    private var finishTurnButtonPressedValue: Bool = false
+    private var processedAutoMovesValue: Bool = false
+    private var autoMovesValue: Bool = false
+    private var lastSliceMovedValue: Int = 0
 
     // MARK: constructor
 
@@ -113,6 +174,8 @@ class Player: AbstractPlayer {
         //self.relations = PlayerRelationDict()
         self.isAliveVal = true
         self.isHumanVal = isHuman
+        
+        self.plots = []
     }
 
     // public methods
@@ -126,6 +189,9 @@ class Player: AbstractPlayer {
         self.tacticalAI = TacticalAI(player: self)
         self.dangerPlotsAI = DangerPlotsAI(player: self)
         self.homelandAI = HomelandAI(player: self)
+        self.builderTaskingAI = BuilderTaskingAI(player: self)
+        self.citySpecializationAI = CitySpecializationAI(player: self)
+        self.cityConnections = CityConnections(player: self)
 
         self.techs = Techs(player: self)
         self.civics = Civics(player: self)
@@ -135,7 +201,58 @@ class Player: AbstractPlayer {
         self.government = Government()
 
         self.operations = Operations()
+        
+        self.resourceInventory = ResourceInventory()
+        self.resourceInventory?.fill()
     }
+    
+    func hasActiveDiplomacyRequests() -> Bool {
+        
+        return false
+    }
+    
+    func canFinishTurn() -> Bool {
+        
+        if !self.isHuman() {
+            return false
+        }
+        
+        if !self.isAlive() {
+            return false
+        }
+        
+        if !self.isActive() {
+            return false
+        }
+        
+        /*if !self.hasProcessedAutoMoves() {
+            return false
+        }*/
+        
+        return true
+    }
+    
+    func finishTurnButtonPressed() -> Bool {
+        
+        return self.finishTurnButtonPressedValue
+    }
+    
+    func finishTurn() {
+        
+        self.finishTurnButtonPressedValue = true
+    }
+    
+    func lastSliceMoved() -> Int {
+        
+        return self.lastSliceMovedValue
+    }
+
+    func setLastSliceMoved(to value: Int) {
+        
+        self.lastSliceMovedValue = value
+    }
+    
+    // MARK: ----
 
     func valueOfPersonalityFlavor(of flavor: FlavorType) -> Int {
 
@@ -158,6 +275,11 @@ class Player: AbstractPlayer {
     func valueOfStrategyAndPersonalityApproach(of approach: PlayerApproachType) -> Int {
 
         return self.leader.approachBias(for: approach)
+    }
+    
+    func isBarbarian() -> Bool {
+        
+        return self.leader == .barbar
     }
 
     func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
@@ -208,6 +330,19 @@ class Player: AbstractPlayer {
 
         return diplomacyAI.atWarCount()
     }
+    
+    func updateNotifications() {
+        
+        /*if (GetNotifications())
+        {
+            GetNotifications()->Update();
+        }
+
+        if (GetDiplomacyRequests())
+        {
+            GetDiplomacyRequests()->Update();
+        }*/
+    }
 
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool {
 
@@ -228,6 +363,11 @@ class Player: AbstractPlayer {
 
         return self.isAliveVal
     }
+    
+    func isActive() -> Bool {
+        
+        return self.turnActive
+    }
 
     func isHuman() -> Bool {
 
@@ -239,29 +379,211 @@ class Player: AbstractPlayer {
         return false
     }
     
-    func preTurn(in gameModel: GameModel?) {
+    func hasActiveDiploRequestWithHuman() -> Bool {
         
-        
-    }
-
-    func turn(in gameModel: GameModel?) {
-
-        if !self.isAliveVal {
-            // no need to update, the player died
-            return
-        }
-
-        self.grandStrategyAI?.turn(with: gameModel)
-
-        self.diplomacyAI?.turn(in: gameModel)
-        self.economicAI?.turn(in: gameModel)
-        self.militaryAI?.turn(in: gameModel)
-        
-        self.turnUnits(in: gameModel)
+        return false
     }
     
-    func turnUnits(in gameModel: GameModel?) {
+    func isTurnActive() -> Bool {
+        
+        return self.turnActive
+    }
+    
+    func prepareTurn(in gamemModel: GameModel?) {
+        
+        // Barbarians get all Techs that 3/4 of alive players get
+        if isBarbarian() {
+            // self.doBarbarianTech()
+        } else {
+            // War counter
+            /*TeamTypes eTeam;
+            int iTeamLoop;
+            for (iTeamLoop = 0; iTeamLoop < MAX_CIV_TEAMS; iTeamLoop++)
+            {
+                eTeam = (TeamTypes) iTeamLoop;
 
+                if (!GET_TEAM(eTeam).isBarbarian())
+                {
+                    if (isAtWar(eTeam))
+                        ChangeNumTurnsAtWar(eTeam, 1);
+                    else
+                        SetNumTurnsAtWar(eTeam, 0);
+                }
+
+                if (GetNumTurnsLockedIntoWar(eTeam) > 0)
+                    ChangeNumTurnsLockedIntoWar(eTeam, -1);
+            }*/
+        }
+
+        /*for (iI = 0; iI < GC.getNumTechInfos(); iI++)  {
+            GetTeamTechs()->SetNoTradeTech(((TechTypes)iI), false);
+        }
+
+        DoTestWarmongerReminder();
+
+        DoTestSmallAwards();
+
+        testCircumnavigated();*/
+    }
+    
+    func startTurn(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard isTurnActive() == false else {
+            fatalError("try to start already active turn")
+        }
+            
+        print("--- start turn for \(self.isHuman() ? "HUMAN": "AI") player \(self.leader) ---")
+
+        self.turnActive = true
+        //self.setTurnEnd(false)
+        self.setAutoMoves(value: false)
+        self.finishTurnButtonPressedValue = false
+        
+        /////////////////////////////////////////////
+        // TURN IS BEGINNING
+        /////////////////////////////////////////////
+        
+        // self.doUnitAttrition()
+        
+        self.setAllUnitsUnprocessed(in: gameModel)
+
+        gameModel.updateTacticalAnalysisMap(for: self)
+
+        //
+        //
+        self.updateTimers(in: gameModel)
+        //self.diplomacyAI?.update(in: gameModel) // extracted from updateTimers
+        
+        // This block all has things which might change based on city connections changing
+        self.cityConnections?.turn(with: gameModel)
+        //self.treasury.doUpdateCityConnectionGold()
+        //self.doUpdateHappiness()
+        self.builderTaskingAI?.update(in: gameModel)
+        
+        if gameModel.turnsElapsed > 0 {
+            
+            if self.isAlive() {
+                /*if (GetDiplomacyRequests())
+                {
+                    GetDiplomacyRequests()->BeginTurn();
+                }*/
+
+                self.doTurn(in: gameModel)
+
+                self.doTurnUnits(in: gameModel)
+            }
+        }
+        
+        // self.doWarnings()
+    }
+    
+    func endTurn(in gameModel: GameModel?) {
+        
+        guard isTurnActive() == true else {
+            fatalError("try to end an inactive turn")
+        }
+        
+        print("--- end turn for \(self.isHuman() ? "HUMAN": "AI") player \(self.leader) ---")
+        
+        self.turnActive = false
+        
+        /////////////////////////////////////////////
+        // TURN IS ENDING
+        /////////////////////////////////////////////
+        
+        self.doUnitReset(in: gameModel)
+
+        if !self.isHuman() {
+            //self.respositionInvalidUnits()
+        }
+
+        /*if (GetNotifications())
+        {
+            GetNotifications()->EndOfTurnCleanup();
+        }*/
+
+        /*if (GetDiplomacyRequests())
+        {
+            GetDiplomacyRequests()->EndTurn();
+        }*/
+    }
+
+    internal func doTurn(in gameModel: GameModel?) {
+
+        var hasActiveDiploRequest = false
+        if self.isAlive() {
+
+            if !self.isBarbarian() {
+
+                self.grandStrategyAI?.turn(with: gameModel)
+                
+                // Do diplomacy for toward everyone
+                self.diplomacyAI?.turn(in: gameModel)
+                
+                if !self.isHuman() {
+                    hasActiveDiploRequest = self.hasActiveDiploRequestWithHuman()
+                }
+            }
+        }
+        
+        if hasActiveDiploRequest {
+            
+        } else {
+            self.doTurnPostDiplomacy(in: gameModel)
+        }
+    }
+    
+    private func doTurnPostDiplomacy(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+        
+        if self.isAlive() {
+            if !self.isBarbarian() {
+                self.economicAI?.turn(in: gameModel)
+                self.militaryAI?.turn(in: gameModel)
+                self.citySpecializationAI?.turn(in: gameModel)
+            }
+        }
+
+        // Attack bonus turns
+        /*if GetAttackBonusTurns() > 0 {
+            ChangeAttackBonusTurns(-1);
+        }*/
+
+        // Golden Age
+        // self.doProcessGoldenAge();
+
+        // Great People gifts from Allied City States (if we have that policy)
+        // self.doGreatPeopleSpawnTurn();
+
+        // Do turn for all Cities
+        for cityRef in gameModel.cities(of: self) {
+            
+            guard let city = cityRef else {
+                fatalError("cant get city")
+            }
+            
+            city.turn(in: gameModel)
+        }
+
+        // Gold GetTreasury()->DoGold();
+        self.treasury?.turn(in: gameModel)
+        
+        // if this is the human player, have the popup come up so that he can choose a new policy
+        if self.isAlive() && self.isHuman() {
+            
+            
+        }
+    }
+    
+    func unitUpdate(in gameModel: GameModel?) {
+        
         // Now its the homeland AI's turn.
         if self.isHuman() {
             // The homeland AI goes first.
@@ -278,11 +600,165 @@ class Player: AbstractPlayer {
             self.tacticalAI?.turn(in: gameModel)
             
             // Skip homeland AI processing if a barbarian
-            if self.leader != .barbar {
+            if !self.isBarbarian() {
                 // Now its the homeland AI's turn.
                 self.homelandAI?.recruitUnits(in: gameModel)
                 self.homelandAI?.turn(in: gameModel)
             }
+        }
+    }
+    
+    func doTurnUnits(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        // doTurnUnitsPre(); // AI_doTurnUnitsPre
+
+        // Start: TACTICAL AI UNIT PROCESSING
+        self.tacticalAI?.turn(in: gameModel)
+        
+        // Start: OPERATIONAL AI UNIT PROCESSING
+        self.operations?.doDelayedDeath()
+        self.armies?.doDelayedDeath()
+        
+        for unitRef in gameModel.units(of: self) {
+            unitRef?.doDelayedDeath(in: gameModel)
+        }
+        
+        self.operations?.turn(in: gameModel)
+        
+        self.operations?.doDelayedDeath()
+        
+        self.armies?.turn(in: gameModel)
+        
+        // Homeland AI
+        // self.homelandAI?.turn(in: gameModel) is empty
+        
+        // Start: old unit AI processing
+        for pass in 0..<4 {
+            
+            for loopUnitRef in gameModel.units(of: self) {
+                
+                guard let loopUnit = loopUnitRef else {
+                    continue
+                }
+                
+                switch loopUnit.domain() {
+                case .air:
+                    if pass == 1 {
+                        loopUnit.turn(in: gameModel)
+                    }
+                case .sea:
+                    if pass == 2 {
+                        loopUnit.turn(in: gameModel)
+                    }
+                case .land:
+                    if pass == 3 {
+                        loopUnit.turn(in: gameModel)
+                    }
+                case .immobile:
+                    if pass == 0 {
+                        loopUnit.turn(in: gameModel)
+                    }
+                case .none:
+                    fatalError("Unit with no Domain")
+                default:
+                    if pass == 3 {
+                        loopUnit.turn(in: gameModel)
+                    }
+                }
+            }
+        }
+
+        /*if (GetID() == GC.getGame().getActivePlayer())
+        {
+            GC.GetEngineUserInterface()->setDirty(Waypoints_DIRTY_BIT, true);
+            GC.GetEngineUserInterface()->setDirty(SelectionButtons_DIRTY_BIT, true);
+        }*/
+
+        //GC.GetEngineUserInterface()->setDirty(UnitInfo_DIRTY_BIT, true);
+
+        self.doTurnUnitsPost(in: gameModel) // AI_doTurnUnitsPost();
+    }
+    
+    func doTurnUnitsPost(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        if self.isHuman() {
+            return
+        }
+        
+        for loopUnitRef in gameModel.units(of: self) {
+        
+            guard let loopUnit = loopUnitRef else {
+                continue
+            }
+            
+            //loopUnit.promote
+        }
+    }
+    
+    /// Units heal and then get their movement back
+    func doUnitReset(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        for loopUnitRef in gameModel.units(of: self) {
+        
+            guard let loopUnit = loopUnitRef else {
+                continue
+            }
+            
+            // HEAL UNIT?
+            if !loopUnit.isEmbarked() {
+                
+                if !loopUnit.hasMoved(in: gameModel) {
+                    if loopUnit.isHurt() {
+                        loopUnit.doHeal(in: gameModel)
+                    }
+                }
+            }
+
+            //int iCitadelDamage;
+            /*if (pLoopUnit->IsNearEnemyCitadel(iCitadelDamage))
+            {
+                pLoopUnit->changeDamage(iCitadelDamage, NO_PLAYER, /*fAdditionalTextDelay*/ 0.5f);
+            }*/
+
+            // Finally (now that healing is done), restore movement points
+            loopUnit.resetMoves(in: gameModel)
+            //pLoopUnit->SetIgnoreDangerWakeup(false);
+            //pLoopUnit->setMadeAttack(false);
+            //pLoopUnit->setMadeInterception(false);
+
+            if !self.isHuman() {
+                
+                if let mission = loopUnit.peekMission() {
+                    if mission.type == .rangedAttack {
+                        //CvAssertMsg(0, "An AI unit has a combat mission queued at the end of its turn.");
+                        loopUnit.clearMissions()    // Clear the whole thing, the AI will re-evaluate next turn.
+                    }
+                }
+            }
+        }
+    }
+    
+    func setAllUnitsUnprocessed(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            return
+        }
+        
+        for unitRef in gameModel.units(of: self) {
+            
+            unitRef?.set(turnProcessed: false)
         }
     }
     
@@ -298,8 +774,10 @@ class Player: AbstractPlayer {
                 continue
             }
             
-            unit.updateMission()
+            unit.updateMission(in: gameModel)
+            unit.doDelayedDeath(in: gameModel)
         }
+
     }
 
     func score(for gameModel: GameModel?) -> Int {
@@ -725,6 +1203,65 @@ class Player: AbstractPlayer {
 
         return false
     }
+    
+    /// Can we eBuild on pPlot?
+    func canBuild(build: BuildType, at point: HexPoint, testVisible: Bool, testGold: Bool, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let tile = gameModel.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+        
+        if !tile.canBuild(buildType: build, by: self) {
+            return false
+        }
+
+        if let required = build.required() {
+            
+            if !self.has(tech: required) {
+                return false
+            }
+        }
+
+        // Is this an improvement that is only useable by a specific civ?
+        if let improvement = build.improvement() {
+            // NOOP
+        }
+
+        if !testVisible {
+            
+            // IsBuildBlockedByFeature
+            if tile.hasAnyFeature() {
+                
+                for feature in FeatureType.all {
+                    
+                    if tile.has(feature: feature) {
+                        if !build.canRemove(feature: feature) {
+                            return false
+                        }
+                        
+                        if let removeTech = build.requiredRemoveTech(for: feature) {
+                            if !self.has(tech: removeTech) {
+                                return false
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        if testGold {
+            /*if (max(0, self.treasury?.value()) < getBuildCost(pPlot, eBuild))
+            {
+                return false
+            }*/
+        }
+
+        return true
+    }
 
     func bestSettleAreasWith(minimumSettleFertility minScore: Int, in gameModel: GameModel?) -> (Int, HexArea?, HexArea?) {
 
@@ -766,6 +1303,196 @@ class Player: AbstractPlayer {
         let numberOfAreas = bestScore != -1 ? 1 : 0 + secondBestScore != -1 ? 1 : 0
 
         return (numberOfAreas, bestArea, secondBestArea)
+    }
+    
+    func canBuild(buildType: BuildType, at tile: AbstractTile?) -> Bool {
+        
+        if let tile = tile {
+            if !tile.canBuild(buildType: buildType, by: self) {
+                return false
+            }
+        }
+
+        if let requiredTech = buildType.required() {
+            if !self.has(tech: requiredTech) {
+                return false
+            }
+        }
+
+        // FIXME: check cost
+
+        return true
+    }
+    
+    func bestRoute(at tile: AbstractTile? = nil) -> RouteType {
+        
+        for buildType in BuildType.all {
+            
+            if let routeType = buildType.route() {
+                if self.canBuild(buildType: buildType, at: tile) {
+                    return routeType
+                }
+            }
+        }
+        
+        return .none
+    }
+    
+    func isCapitalConnectedTo(city targetCity: AbstractCity?, via routeType: RouteType, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let targetCity = targetCity else {
+            fatalError("cant get targetCity")
+        }
+        
+        guard let playerCapital = gameModel.capital(of: self) else {
+            return false
+        }
+
+        let pathfinder = AStarPathfinder()
+        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self)
+        
+        if let _ = pathfinder.shortestPath(fromTileCoord: playerCapital.location, toTileCoord: targetCity.location) {
+            return true
+        }
+
+        return false
+    }
+    
+    /// This determines what plots the player has under control
+    func updatePlots(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        // not been inited
+        if self.plots.count == 0 {
+            return
+        }
+        
+        let mapSize = gameModel.mapSize()
+        self.plots.reserveCapacity(mapSize.numberOfTiles())
+        
+        for x in 0..<mapSize.width() {
+            for y in 0..<mapSize.height() {
+                
+                if let tile = gameModel.tile(at: HexPoint(x: x, y: y)) {
+                    
+                    if self.isEqual(to: tile.owner()) {
+                        self.plots.append(tile)
+                    }
+                }
+            }
+        }
+    }
+    
+    func addPlot(tile: AbstractTile?) -> Bool {
+        
+        if self.isEqual(to: tile?.owner()) {
+            self.plots.append(tile)
+            return true
+        }
+        
+        return false
+    }
+    
+    func numAvailable(resource: ResourceType) -> Int {
+        
+        if let resourceInventory = self.resourceInventory {
+            return Int(resourceInventory.weight(of: resource))
+        }
+        
+        return 0
+    }
+    
+    func numUnitsNeededToBeBuilt() -> Int {
+
+        guard let operations = self.operations else {
+            fatalError("cant get operations")
+        }
+        
+        return operations.numUnitsNeededToBeBuilt()
+    }
+    
+    func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for loopUnitRef in gameModel.units(of: self) {
+            
+            guard let loopUnit = loopUnitRef else {
+                continue
+            }
+            
+            if !loopUnit.processedInTurn() && (loopUnit.isAutomated() && loopUnit.task != .unknown && loopUnit.canMove()) {
+                return true
+            }
+        }
+
+        return false
+    }
+    
+    func hasBusyUnitOrCity() -> Bool {
+        
+        // FIXME
+        return false
+    }
+    
+    func isAutoMoves() -> Bool {
+        
+        return self.autoMovesValue
+    }
+    
+    func setAutoMoves(value: Bool) {
+        
+        if self.autoMovesValue != value {
+            self.autoMovesValue = value
+            self.processedAutoMovesValue = false
+        }
+    }
+    
+    func hasProcessedAutoMoves() -> Bool {
+        
+        return self.processedAutoMovesValue
+    }
+    
+    func setProcessedAutoMoves(value: Bool) {
+        
+        self.processedAutoMovesValue = value
+    }
+    
+    func countReadyUnits(in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel else {
+            
+            fatalError("cant get gameModel")
+        }
+        
+        var rtnValue = 0
+
+        for loopUnitRef in gameModel.units(of: self) {
+            
+            guard let loopUnit = loopUnitRef else {
+                continue
+            }
+            
+            if loopUnit.readyToMove() && !loopUnit.isDelayedDeath() {
+                rtnValue += 1
+            }
+        }
+
+        return rtnValue
+    }
+    
+    func isEqual(to other: AbstractPlayer?) -> Bool {
+        
+        return self.leader == other?.leader
     }
 }
 

@@ -15,9 +15,9 @@ class WeightedList<T : Equatable>: CustomDebugStringConvertible {
     class WeightedItem<T> {
         
         let itemType: T
-        var weight: Int
+        var weight: Double
 
-        init(itemType: T, weight: Int) {
+        init(itemType: T, weight: Double) {
             self.itemType = itemType
             self.weight = weight
         }
@@ -34,7 +34,7 @@ class WeightedList<T : Equatable>: CustomDebugStringConvertible {
         
     }
 
-    func set(weight: Int, for itemType: T) {
+    func set(weight: Double, for itemType: T) {
 
         if let item = self.items.first(where: { $0.itemType == itemType }) {
             item.weight = weight
@@ -43,7 +43,7 @@ class WeightedList<T : Equatable>: CustomDebugStringConvertible {
         }
     }
 
-    func add(weight: Int, for itemType: T) {
+    func add(weight: Double, for itemType: T) {
 
         if let item = self.items.first(where: { $0.itemType == itemType }) {
             item.weight += weight
@@ -53,8 +53,19 @@ class WeightedList<T : Equatable>: CustomDebugStringConvertible {
             self.items.append(newItem)
         }
     }
+    
+    func add(weight: Int, for itemType: T) {
 
-    func weight(of itemType: T) -> Int {
+        if let item = self.items.first(where: { $0.itemType == itemType }) {
+            item.weight += Double(weight)
+        } else {
+            //fatalError("not gonna happen")
+            let newItem = WeightedItem<T>(itemType: itemType, weight: Double(weight))
+            self.items.append(newItem)
+        }
+    }
+
+    func weight(of itemType: T) -> Double {
 
         if let item = self.items.first(where: { $0.itemType == itemType }) {
             return item.weight
@@ -103,11 +114,16 @@ class WeightedList<T : Equatable>: CustomDebugStringConvertible {
         // analyze first two items
         let sumOfWeights = self.items[0].weight + self.items[1].weight
         
-        if Int.random(number: abs(sumOfWeights)) <= abs(self.items[0].weight) {
+        if Double.random(minimum: 0.0, maximum: fabs(sumOfWeights)) <= fabs(self.items[0].weight) {
             return self.items[0].itemType
         }
         
         return self.items[1].itemType
+    }
+    
+    func append(contentsOf contents: WeightedList<T>) {
+        
+        self.items.append(contentsOf: contents.items)
     }
 
     var debugDescription: String {

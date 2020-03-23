@@ -8,14 +8,63 @@
 
 import Foundation
 
+class FlavorList: WeightedList<FlavorType> {
+    
+    override func fill() {
+        for flavorType in FlavorType.all {
+            self.add(weight: 0.0, for: flavorType)
+        }
+    }
+}
+
+class YieldList: WeightedList<YieldType> {
+    
+    override func fill() {
+        for yieldType in YieldType.all {
+            self.add(weight: 0.0, for: yieldType)
+        }
+        self.add(weight: 0.0, for: .none)
+    }
+}
+
+struct YieldValue: Comparable {
+
+    let location: HexPoint
+    let value: Double
+    
+    static func < (lhs: YieldValue, rhs: YieldValue) -> Bool {
+        return lhs.value > rhs.value
+    }
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  CLASS:      CvCityStrategyAI
+//!  \brief        Manages operations for a single city in the game world
+//
+//!  Key Attributes:
+//!  - One instance for each city
+//!  - Receives instructions from other AI components (usually as flavor changes) to
+//!    specialize, switch production, etc.
+//!  - Oversees both the city governor AI and the AI managing what the city is building
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class CityStrategyAI {
 
     let city: AbstractCity?
     let cityStrategyAdoption: CityStrategyAdoption
     var flavors: Flavors
+    var focusYield: YieldType
     
     private var buildingProductionAI: BuildingProductionAI?
     private var unitProductionAI: UnitProductionAI?
+    
+    
+    
+    private var defaultSpecializationValue: CitySpecializationType
+    private var specializationValue: CitySpecializationType
+    private var flavorWeights: FlavorList
+    
+    private var bestYieldAverage: YieldList
+    private var yieldDeltaValue: YieldList
 
     // MARK: internal classes
 
@@ -93,9 +142,21 @@ class CityStrategyAI {
         self.city = city
         self.cityStrategyAdoption = CityStrategyAdoption()
         self.flavors = Flavors()
+        self.focusYield = .none
         
         self.buildingProductionAI = BuildingProductionAI(city: city)
         self.unitProductionAI = UnitProductionAI(city: city)
+        
+        self.specializationValue = .generalEconomic
+        self.defaultSpecializationValue = .generalEconomic
+        self.flavorWeights = FlavorList()
+        self.flavorWeights.fill()
+        
+        self.bestYieldAverage = YieldList()
+        self.bestYieldAverage.fill()
+        
+        self.yieldDeltaValue = YieldList()
+        self.yieldDeltaValue.fill()
     }
     
     func adopted(cityStrategy: CityStrategyType) -> Bool {
@@ -222,7 +283,7 @@ class CityStrategyAI {
             
             if self.cityStrategyAdoption.adopted(cityStrategy: cityStrategyType) {
                 
-                print("CityStrategy: \(cityStrategyType)")
+                //print("CityStrategy: \(cityStrategyType)")
                 
                 for cityStrategyTypeFlavor in cityStrategyType.flavorModifiers() {
 
@@ -271,7 +332,7 @@ class CityStrategyAI {
         let unitsOfPlayer = gameModel.units(of: player)
         let buildables = BuildableItemWeights()
         
-        let settlerOnMap = unitsOfPlayer.count(where: { $0?.task == .settle })
+        let settlerOnMap = unitsOfPlayer.count(where: { $0!.has(task: .settle) })
         
         // Check units for operations first
         // FIXME
@@ -281,14 +342,14 @@ class CityStrategyAI {
             
             if city.canBuild(building: buildingType) {
                 
-                var weight = buildingProductionAI.weight(for: buildingType)
+                var weight: Double = Double(buildingProductionAI.weight(for: buildingType))
                 let buildableItem = BuildableItem(buildingType: buildingType)
                 
                 // reweight
                 let turnsLeft = city.buildingProductionTurnsLeft(for: buildingType)
                 let totalCostFactor = 0.15 /* AI_PRODUCTION_WEIGHT_BASE_MOD */ + 0.004 /* AI_PRODUCTION_WEIGHT_MOD_PER_TURN_LEFT */ * Double(turnsLeft)
                 let weightDivisor = pow(Double(turnsLeft), totalCostFactor)
-                weight = Int(Double(weight) / weightDivisor)
+                weight = weight / weightDivisor
                 
                 buildables.add(weight: weight, for: buildableItem)
             }
@@ -299,19 +360,19 @@ class CityStrategyAI {
             
             if city.canTrain(unit: unitType) {
                 
-                var weight = unitProductionAI.weight(for: unitType)
+                var weight = Double(unitProductionAI.weight(for: unitType))
                 let buildableItem = BuildableItem(unitType: unitType)
                 
                 // reweight
                 let turnsLeft = city.unitProductionTurnsLeft(for: unitType)
                 let totalCostFactor = 0.15 /* AI_PRODUCTION_WEIGHT_BASE_MOD */ + 0.004 /* AI_PRODUCTION_WEIGHT_MOD_PER_TURN_LEFT */ * Double(turnsLeft)
                 let weightDivisor = pow(Double(turnsLeft), totalCostFactor)
-                weight = Int(Double(weight) / weightDivisor)
+                weight = Double(weight) / weightDivisor
                 
                 if unitType.defaultTask() == .settle {
                     
                     if settlerOnMap >= 2 {
-                        weight = 0
+                        weight = 0.0
                     } else {
                         // FIXME: check settle areas
                     }
@@ -343,11 +404,243 @@ class CityStrategyAI {
                 if let buildingType = selection.buildingType {
                     city.startBuilding(building: buildingType)
                 }
+                
+            case .wonder:
+                if let wonderType = selection.wonderType {
+                    //city.startBuilding(wonder: wonderType)
+                    fatalError("niy")
+                }
+                
+            case .district:
+                if let districtType = selection.districtType {
+                    city.startBuilding(district: districtType)
+                }
             case .project:
                 // FIXME
                 break
             }
-
         }
+    }
+    
+    func updateBestYields(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let city = self.city else {
+            fatalError("cant get city")
+        }
+        
+        guard let player = city.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let cityStrategy = city.cityStrategy else {
+            fatalError("cant get cityStrategy")
+        }
+        
+        guard let cityCitizens = city.cityCitizens else {
+            fatalError("cant get cityCitizens")
+        }
+        
+        guard let buildings = city.buildings else {
+            fatalError("cant get buildings")
+        }
+        
+        self.focusYield = .none
+
+        self.resetBestYields()
+
+        let populationToEvaluate = city.population() + 2
+        
+        var bestFoodYields: [YieldValue] = []
+        var bestProductionYields: [YieldValue] = []
+        var bestGoldYields: [YieldValue] = []
+
+        for workingTileLocation in cityCitizens.workingTileLocations() {
+ 
+            guard let workingTile = gameModel.tile(at: workingTileLocation) else {
+                continue
+            }
+            
+            if workingTile.worked()?.location != city.location {
+                continue
+            }
+            
+            let yields = workingTile.yields(ignoreFeature: false)
+            bestFoodYields.append(YieldValue(location: workingTileLocation, value: yields.food))
+            bestProductionYields.append(YieldValue(location: workingTileLocation, value: yields.production))
+            bestGoldYields.append(YieldValue(location: workingTileLocation, value: yields.gold))
+        }
+
+        bestFoodYields.sort()
+        bestProductionYields.sort()
+        bestGoldYields.sort()
+
+        let slotsToEvaluate = min(bestFoodYields.count, populationToEvaluate)
+        if slotsToEvaluate <= 0 {
+            return
+        }
+        
+        // add in additional food from the city plot and the city buildings that provide food
+        let buildingFood = BuildingType.all.map({ buildings.has(building: $0) ? $0.yields().food : 0.0 }).reduce(0.0, +)
+        self.bestYieldAverage.set(weight: (bestFoodYields.map({ $0.value }).reduce(0.0, +) + buildingFood) / Double(slotsToEvaluate), for: .food)
+        
+        self.bestYieldAverage.set(weight: bestProductionYields.map({ $0.value }).reduce(0.0, +) / Double(slotsToEvaluate), for: .production)
+        self.bestYieldAverage.set(weight: bestGoldYields.map({ $0.value }).reduce(0.0, +) / Double(slotsToEvaluate), for: .gold)
+        
+        var specialization: CitySpecializationType = cityStrategy.specialization()
+        if cityStrategy.specialization() == .none {
+            
+            if player.isHuman() {
+                
+                // find a specialization type according to the citizen focus type
+                let focusType = cityCitizens.focusType()
+
+                if focusType == .food {
+                    specialization = .settlerPump
+                } else if focusType == .gold {
+                    specialization = .commerce
+                }
+            }
+
+            // if the human did not have a city ai specialization
+            if specialization == .none {
+                specialization = .generalEconomic
+            }
+        }
+        
+        self.yieldDeltaValue.set(weight: self.bestYieldAverage.weight(of: .food), for: .food)
+        self.yieldDeltaValue.set(weight: self.bestYieldAverage.weight(of: .production), for: .production)
+        self.yieldDeltaValue.set(weight: self.bestYieldAverage.weight(of: .gold), for: .gold)
+
+        self.focusYield = specialization.yieldType() ?? .none
+    }
+    
+    private func resetBestYields() {
+        
+        self.bestYieldAverage = YieldList()
+        self.bestYieldAverage.fill()
+        
+        self.yieldDeltaValue = YieldList()
+        self.yieldDeltaValue.fill()
+    }
+    
+    /// Set special production emphasis for this city
+    @discardableResult
+    func setSpecialization(to type: CitySpecializationType) -> Bool {
+        
+        if self.specializationValue != type {
+          
+            self.specializationValue = type
+            
+            // Clear out Temp array and fill
+            for flavorType in FlavorType.all {
+
+                self.flavorWeights.set(weight: Double(type.flavorModifier(for: flavorType)), for: flavorType)
+            }
+
+            return true
+        }
+        
+        return false
+    }
+    
+    func defaultSpecialization() -> CitySpecializationType {
+        
+        return self.defaultSpecializationValue
+    }
+    
+    func updateDefaultSpecialization(to value: CitySpecializationType) {
+        
+        self.defaultSpecializationValue = value
+    }
+    
+    func specialization() -> CitySpecializationType {
+        
+        return self.specializationValue
+    }
+    
+    // Determines what yield type is in a deficient state. If none, then NO_YIELD is returned
+    func deficientYield(in gameModel: GameModel?) -> YieldType {
+        
+        if self.isDeficient(for: .food) {
+            return .food
+        } else if self.isDeficient(for: .production) {
+            return .production
+        }
+        
+        return .none
+    }
+    
+    func isDeficient(for yieldType: YieldType) -> Bool {
+        
+        var desiredYield = self.deficientYieldValue(for: yieldType)
+        var yieldAverage = self.yieldAverage(for: yieldType)
+
+        desiredYield = round(desiredYield * 100.0)
+        yieldAverage = round(yieldAverage * 100.0)
+
+        return yieldAverage < desiredYield
+    }
+    
+    /// Get the average value of the yield for this city
+    func yieldAverage(for yieldType: YieldType) -> Double {
+        
+        guard let city = self.city else {
+            fatalError("cant get city")
+        }
+        
+        guard let player = city.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let cityCitizens = city.cityCitizens else {
+            fatalError("cant get cityCitizens")
+        }
+
+        var tilesWorked = 0
+        var yieldAmount = 0.0
+        
+        for plot in player.plots {
+
+            guard let plot = plot else {
+                continue
+            }
+            
+            if !cityCitizens.isWorked(at: plot.point) {
+                continue;
+            }
+
+            tilesWorked += 1
+            yieldAmount += plot.yields(ignoreFeature: false).value(of: yieldType)
+        }
+
+        var ratio = 0.0;
+        if tilesWorked > 0 {
+            ratio = yieldAmount / Double(tilesWorked)
+        }
+
+        return ratio
+    }
+    
+    /// Get the deficient value of the yield for this city
+    func deficientYieldValue(for yieldType: YieldType) -> Double {
+
+        switch yieldType {
+
+        case .none: return -999.0
+            
+        case .food: return 2.0 // AI_CITYSTRATEGY_YIELD_DEFICIENT_FOOD
+        case .production: return 0.8 // AI_CITYSTRATEGY_YIELD_DEFICIENT_PRODUCTION
+        case .gold: return 0.0 // AI_CITYSTRATEGY_YIELD_DEFICIENT_GOLD
+        case .science: return 0.0 // AI_CITYSTRATEGY_YIELD_DEFICIENT_SCIENCE
+        }
+    }
+    
+    func yieldDelta(for yieldtype: YieldType) -> Double {
+        
+        return self.yieldDeltaValue.weight(of: yieldtype)
     }
 }

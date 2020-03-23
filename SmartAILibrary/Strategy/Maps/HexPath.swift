@@ -52,6 +52,11 @@ class HexPath: Decodable {
         return self.points.count
     }
     
+    var cost: Double {
+        
+        return self.costs.reduce(0.0, +)
+    }
+    
     var isEmpty: Bool {
         return self.points.isEmpty
     }
@@ -65,7 +70,43 @@ class HexPath: Decodable {
         return nil
     }
     
+    var second: (HexPoint, Double)? {
+        
+        if self.count < 2 {
+            return nil
+        }
+        
+        return (self.points[1], self.costs[1])
+    }
+    
+    var last: (HexPoint, Double)? {
+        
+        if let lastPoint = self.points.last, let lastCost = self.costs.last {
+            return (lastPoint, lastCost)
+        }
+        
+        return nil
+    }
+    
+    func firstSegment(for moves: Int) -> HexPath {
+        
+        let result: HexPath = HexPath()
+        var index = 0
+        
+        repeat {
+            result.append(point: self.points[index], cost: self.costs[index])
+            index += 1
+        } while result.cost <= Double(moves) && index < self.count
+        
+        return result
+    }
+    
     // MARK: methods
+    
+    func append(point: HexPoint, cost: Double) {
+        self.points.append(point)
+        self.costs.append(cost)
+    }
     
     func prepend(point: HexPoint, cost: Double) {
         self.points.prepend(point)
@@ -85,6 +126,39 @@ class HexPath: Decodable {
             
             return (self.points[index], self.costs[index])
         }
+    }
+}
+
+struct HexPathIterator: IteratorProtocol {
+    
+    private let path: HexPath
+    private var index = 0
+    
+    init(path: HexPath) {
+        self.path = path
+    }
+    
+    mutating func next() -> HexPoint? {
+        
+        guard 0 <= index else {
+            return nil
+        }
+        
+        // prevent out of bounds
+        guard index < self.path.points.count else {
+            return nil
+        }
+        
+        let point = self.path.points[index]
+        index += 1
+        return point
+    }
+}
+
+extension HexPath: Sequence {
+    
+    func makeIterator() -> HexPathIterator {
+        return HexPathIterator(path: self)
     }
 }
 

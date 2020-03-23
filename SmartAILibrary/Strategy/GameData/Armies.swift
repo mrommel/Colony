@@ -17,7 +17,12 @@ class Armies {
         self.armies = []
     }
     
-    func turn(in gameMode: GameModel?) {
+    func turn(in gameModel: GameModel?) {
+        
+        fatalError("not implemented yet")
+    }
+    
+    func doDelayedDeath() {
         
         fatalError("not implemented yet")
     }

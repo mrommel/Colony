@@ -72,7 +72,7 @@ struct OperationSearchUnit {
 //!  - AI operations are launched by some player strategies
 //!  - Each operations manages one or more armies (multiple armies in an operation not yet tested)
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-class Operation {
+class Operation: Equatable {
 
     let type: UnitOperationType
     var state: OperationStateType = .none
@@ -289,7 +289,7 @@ class Operation {
             if let unit = unitRef {
 
                 // Make sure he's not needed by the tactical AI or already in an army or scouting
-                if unit.army() == nil && unit.task != .explore && unit.task != .exploreSea {
+                if unit.army() == nil && unit.has(task: .explore) && unit.has(task: .exploreSea) {
 
                     // Is this unit one of the requested types?
                     if unit.has(task: slot.slot.primaryUnitTask) || unit.has(task: slot.slot.secondaryUnitTask) {
@@ -598,6 +598,29 @@ class Operation {
     func cancel() {
 
     }
+    
+    func numUnitsNeededToBeBuilt() -> Int {
+        
+        fatalError("niy")
+    }
+    
+    /// Delete the operation if marked to go away
+    func doDelayedDeath() -> Bool
+    {
+        /*if (ShouldAbort())
+        {
+            Kill();
+            return true;
+        }
+
+        return false;*/
+        return true
+    }
+    
+    static func == (lhs: Operation, rhs: Operation) -> Bool {
+        
+        return lhs.type == rhs.type && lhs.area == rhs.area && lhs.enemy?.leader == rhs.enemy?.leader && lhs.moveType == rhs.moveType && lhs.targetPosition == rhs.targetPosition
+    }
 }
 
 class BasicCityAttackOperation: Operation {
@@ -682,7 +705,7 @@ class EscortedOperation: Operation {
 
             if let unit = unitRef {
 
-                if unit.task == self.civilianType {
+                if unit.has(task: self.civilianType) {
 
                     if unit.army() == nil {
 
@@ -831,25 +854,21 @@ class FoundCityOperation: EscortedOperation {
                     if let escort = self.army?.unit(at: 1) {
                         escort.finishMoves()
                     }
-                }
+                } else if settler.location == targetPosition && settler.canMove() && settler.canFound(at: settler.location, in: gameModel) {
 
-                // If the settler made it, we don't care about the entire army
-                    else if settler.location == targetPosition && settler.canMove() && settler.canFound(at: settler.location, in: gameModel) {
+                    // If the settler made it, we don't care about the entire army
+                    settler.push(mission: UnitMission(type: .found), in: gameModel)
+                    self.state = .successful
+                } else if settler.location == targetPosition && !settler.canFound(at: settler.location, in: gameModel) {
 
-                    settler.push(mission: UnitMission(type: .found, pushTurn: gameModel.turnsElapsed), in: gameModel)
-                        self.state = .successful
-                }
+                    // If we're at our target, but can no longer found a city, might be someone else beat us to this area
+                    // So move back out, picking a new target
+                    self.retarget(civilian: settler, within: self.army, in: gameModel)
+                    settler.finishMoves()
 
-                // If we're at our target, but can no longer found a city, might be someone else beat us to this area
-                // So move back out, picking a new target
-                    else if settler.location == targetPosition && !settler.canFound(at: settler.location, in: gameModel) {
-
-                        self.retarget(civilian: settler, within: self.army, in: gameModel)
-                        settler.finishMoves()
-
-                        if let escort = self.army?.unit(at: 1) {
-                            escort.finishMoves()
-                        }
+                    if let escort = self.army?.unit(at: 1) {
+                        escort.finishMoves()
+                    }
                 }
             }
 

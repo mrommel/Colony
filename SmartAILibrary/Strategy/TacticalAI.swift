@@ -323,6 +323,7 @@ class TacticalAI {
     var currentTurnUnits: [AbstractUnit?]
     var currentMoveCities: [TacticalCity?]
     var currentMoveUnits: [TacticalUnit?]
+    var currentMoveHighPriorityUnits: [TacticalUnit?]
     
     var movePriotityTurn: Int = 0
     var currentSeriesId: Int = -1
@@ -470,14 +471,11 @@ class TacticalAI {
         self.currentTurnUnits = []
         self.currentMoveCities = []
         self.currentMoveUnits = []
+        self.currentMoveHighPriorityUnits = []
     }
 
     /// Update the AI for units
     func turn(in gameModel: GameModel?) {
-
-        // update tactical targets
-        self.player?.armies?.turn(in: gameModel)
-        self.player?.operations?.turn(in: gameModel)
 
         self.findTacticalTargets(in: gameModel)
 
@@ -700,6 +698,10 @@ class TacticalAI {
         case .reposition:
             // TACTICAL_REPOSITION
             self.plotRepositionMoves(in: gameModel)
+        case .garrisonAlreadyThere:
+            self.plotGarrisonMoves(numTurnsAway: 0, in: gameModel)
+        case .garrisonToAllowBombards:
+            self.plotGarrisonMoves(numTurnsAway: 1, mustAllowRangedAttack: true, in: gameModel)
         /*case .none:
             fatalError("not implemented yet")
         case .unassigned:
@@ -741,10 +743,6 @@ class TacticalAI {
         case .garrisonToAllowBombards:
             fatalError("not implemented yet")
         case .bastionAlreadyThere:
-            //fatalError("not implemented yet")
-            // FIXME
-            break
-        case .garrisonAlreadyThere:
             //fatalError("not implemented yet")
             // FIXME
             break
@@ -799,7 +797,7 @@ class TacticalAI {
         
         default:
             // NOOP
-            print("not implemented: \(tacticalMove.moveType)")
+            //print("not implemented: TacticalAI - \(tacticalMove.moveType)")
             break
         }
     }
@@ -882,7 +880,7 @@ class TacticalAI {
                             // Find a path to this space
                             if unit.canReach(at: neighbor, in: 1, in: gameModel) {
                                 // Go ahead with mission
-                                unit.push(mission: UnitMission(type: .moveTo, target: neighbor, pushTurn: gameModel.turnsElapsed), in: gameModel)
+                                unit.push(mission: UnitMission(type: .moveTo, target: neighbor), in: gameModel)
                                 return true
                             }
                         }
@@ -1008,7 +1006,7 @@ class TacticalAI {
                     } else {
                         
                         // Civilian (or embarked) units always flee from danger
-                        if !currentUnit.canEntrench() {
+                        if !currentUnit.canFortify() {
                             addUnit = true
                         }
                     }
@@ -1139,7 +1137,7 @@ class TacticalAI {
                 if let bestPlot = bestPlot {
                     
                     // Move to the lowest danger value found
-                    currentUnit.push(mission: UnitMission(type: .moveTo, target: bestPlot, pushTurn: gameModel.turnsElapsed), in: gameModel) // FIXME: , .ignoreDanger
+                    currentUnit.push(mission: UnitMission(type: .moveTo, target: bestPlot), in: gameModel) // FIXME: , .ignoreDanger
                     currentUnit.finishMoves()
                     self.unitProcessed(unit: currentUnit, in: gameModel)
                     
@@ -1147,6 +1145,227 @@ class TacticalAI {
                 }
             }
         }
+    }
+    
+    /// Make a defensive move to garrison a city
+    func plotGarrisonMoves(numTurnsAway: Int, mustAllowRangedAttack: Bool = false, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        let targets = self.zoneTargets.filter({ $0.targetType == .cityToDefend })
+
+        for target in targets {
+            
+            guard let tile = gameModel.tile(at: target.target) else {
+                continue
+            }
+            
+            guard let city = gameModel.city(at: target.target) else {
+                continue
+            }
+
+            if city.lastTurnGarrisonAssigned() < gameModel.turnsElapsed {
+                
+                // Grab units that make sense for this move type
+                self.findUnitsFor(move: .garrisonAlreadyThere, target: tile, turnsAway: numTurnsAway, rangedOnly: mustAllowRangedAttack, in: gameModel)
+
+                if self.currentMoveHighPriorityUnits.count + self.currentMoveUnits.count > 0 {
+                    
+                    self.executeMoveToTarget(target: tile, garrisonIfPossible: true, in: gameModel)
+                    city.setLastTurnGarrisonAssigned(turn: gameModel.turnsElapsed)
+                }
+            }
+            
+        }
+    }
+    
+    /// Find one unit to move to target, starting with high priority list
+    func executeMoveToTarget(target: AbstractTile?, garrisonIfPossible: Bool, in gameModel: GameModel?) {
+
+        guard let target = target else {
+            fatalError("cant get target")
+        }
+        
+        // Start with high priority list
+        for currentMoveHighPriorityUnit in self.currentMoveHighPriorityUnits {
+            
+            guard let currentMoveHighPriorityUnit = currentMoveHighPriorityUnit else {
+                continue
+            }
+            
+            guard let unit = currentMoveHighPriorityUnit.unit else {
+                continue
+            }
+            
+            // Don't move high priority unit, if regular priority unit is closer
+            if let firstCurrentUnit = self.currentMoveUnits.first {
+                if firstCurrentUnit!.movesToTarget < currentMoveHighPriorityUnit.movesToTarget {
+                    break
+                }
+            }
+
+            if unit.location == target.point && unit.canFortify() {
+                
+                unit.push(mission: UnitMission(type: .fortify), in: gameModel)
+                unit.setFortifiedThisTurn(fortified: true)
+                self.unitProcessed(unit: unit, in: gameModel)
+                return
+                
+            } else if garrisonIfPossible && unit.location == target.point && unit.canGarrison(at: target.point, in: gameModel) {
+                
+                unit.push(mission: UnitMission(type: .garrison), in: gameModel)
+                unit.finishMoves()
+                self.unitProcessed(unit: unit, in: gameModel)
+                return
+                
+            } else if currentMoveHighPriorityUnit.movesToTarget < Int.max {
+                
+                unit.push(mission: UnitMission(type: .moveTo, target: target.point), in: gameModel)
+                unit.finishMoves()
+                self.unitProcessed(unit: unit, in: gameModel)
+                return
+            }
+        }
+
+        // Then regular priority
+        for currentMoveUnit in self.currentMoveUnits {
+            
+            guard let currentMoveUnit = currentMoveUnit else {
+                continue
+            }
+            
+            guard let unit = currentMoveUnit.unit else {
+                continue
+            }
+
+            if unit.location == target.point && unit.canFortify() {
+
+                unit.push(mission: UnitMission(type: .fortify), in: gameModel)
+                unit.setFortifiedThisTurn(fortified: true)
+                self.unitProcessed(unit: unit, in: gameModel)
+                return
+                
+            } else if currentMoveUnit.movesToTarget < Int.max {
+                
+                unit.push(mission: UnitMission(type: .moveTo, target: target.point), in: gameModel)
+                unit.finishMoves()
+                self.unitProcessed(unit: unit, in: gameModel)
+                return
+            }
+        }
+    }
+    
+    /// Finds both high and normal priority units we can use for this move (returns true if at least 1 unit found)
+    @discardableResult
+    private func findUnitsFor(move: TacticalMoveType, target: AbstractTile?, turnsAway: Int = -1, rangedOnly: Bool, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let target = target else {
+            fatalError("cant get target")
+        }
+        
+        //UnitHandle pLoopUnit;
+        var rtnValue = false
+
+        //list<int>::iterator it;
+        self.currentMoveUnits.removeAll()
+        self.currentMoveHighPriorityUnits.removeAll()
+        
+        let astar = AStarPathfinder()
+
+        // Loop through all units available to tactical AI this turn
+        for currentTurnUnit in self.currentTurnUnits {
+            
+            guard let loopUnit = currentTurnUnit else {
+                continue
+            }
+            
+            if loopUnit.domain() != .air && loopUnit.isCombatUnit() {
+                
+                // Make sure domain matches
+                if loopUnit.domain() == .sea && !target.terrain().isWater() ||
+                    loopUnit.domain() == .land && target.terrain().isWater() {
+                    continue
+                }
+
+                var suitableUnit = false
+                var highPriority = false
+
+                if move == .garrisonAlreadyThere || move == .garrisonOneTurn {
+                    
+                    // Want to put ranged units in cities to give them a ranged attack
+                    if loopUnit.isRanged() {
+                        suitableUnit = true
+                        highPriority = true
+                    } else if rangedOnly {
+                        continue
+                    }
+
+                    // Don't put units with a combat strength boosted from promotions in cities, these boosts are ignored
+                    if loopUnit.defenseModifier() == 0 && loopUnit.attackModifier() == 0 {
+                        suitableUnit = true
+                    }
+                } else if move == .guardImprovementAlreadyThere || move == .guardImprovementOneTurn || move == .bastionAlreadyThere || move == .bastionOneTurn {
+                    
+                    // No ranged units or units without defensive bonuses as plot defenders
+                    if !loopUnit.isRanged() /*&& !loopUnit->noDefensiveBonus()*/ {
+                        suitableUnit = true
+
+                        // Units with defensive promotions are especially valuable
+                        if loopUnit.defenseModifier() > 0 /* || pLoopUnit->getExtraCombatPercent() > 0*/ {
+                            highPriority = true
+                        }
+                    }
+                } else if move == .ancientRuins {
+                    
+                    // Fast movers are top priority
+                    if loopUnit.has(task: .fastAttack) {
+                        suitableUnit = true
+                        highPriority = true
+                    } else if loopUnit.canAttack() {
+                        suitableUnit = true
+                    }
+                }
+
+                if suitableUnit {
+                    // Is it even possible for the unit to reach in the number of requested turns (ignoring roads and RR)
+                    let distance = target.point.distance(to: loopUnit.location)
+                    if loopUnit.maxMoves(in: gameModel) > 0 {
+                        
+                        let movesPerTurn = loopUnit.maxMoves(in: gameModel) // / GC.getMOVE_DENOMINATOR();
+                        let leastTurns = (distance + movesPerTurn - 1) / movesPerTurn
+                        
+                        if turnsAway == -1 || leastTurns <= turnsAway {
+                            
+                            // If unit was suitable, and close enough, add it to the proper list
+                            astar.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: loopUnit.movementType(), for: loopUnit.player)
+                            let moves = astar.turnsToReachTarget(for: loopUnit, to: target.point)
+                            
+                            if moves != Int.max && (turnsAway == -1 || (turnsAway == 0 && loopUnit.location == target.point) || moves <= turnsAway) {
+                                
+                                let unit = TacticalUnit(unit: loopUnit)
+                                unit.healthPercent = loopUnit.healthPoints() * 100 / loopUnit.maxHealthPoints()
+                                unit.movesToTarget = moves
+
+                                if highPriority {
+                                    self.currentMoveHighPriorityUnits.append(unit)
+                                } else {
+                                    self.currentMoveUnits.append(unit)
+                                }
+                                rtnValue = true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return rtnValue
     }
     
     /// Choose which tactics to run and assign units to it (barbarian version)
@@ -1157,9 +1376,18 @@ class TacticalAI {
             switch move.moveType {
                 
             case .barbarianCaptureCity:
+                // AI_TACTICAL_BARBARIAN_CAPTURE_CITY
                 self.plotCaptureCityMoves(in: gameModel)
+            //case .barbarianCaptureCity:
+                // AI_TACTICAL_BARBARIAN_DAMAGE_CITY
+                //
+            case .barbarianMoveToSafety:
+                // AI_TACTICAL_BARBARIAN_MOVE_TO_SAFETY
+                self.plotMovesToSafety(combatUnits: true, in: gameModel)
             default:
-                fatalError("not handled: \(move.moveType)")
+                // NOOP
+                //print("not implemented: TacticalAI - \(move.moveType)")
+                break
             }
         }
         
@@ -1181,7 +1409,7 @@ class TacticalAI {
                 // Barbarians and air units aren't handled by the operational or homeland AIs
                 if currentTurnUnit.player?.leader == .barbar || currentTurnUnit.domain() == .air {
                     
-                    currentTurnUnit.push(mission: UnitMission(type: .skip, pushTurn: gameModel.turnsElapsed), in: gameModel)
+                    currentTurnUnit.push(mission: UnitMission(type: .skip), in: gameModel)
                     currentTurnUnit.set(turnProcessed: true)
                     
                     print("Unassigned \(currentTurnUnit.name()) at \(currentTurnUnit.location)")
@@ -1198,7 +1426,6 @@ class TacticalAI {
             fatalError("cant get gameModel")
         }
         
-        var requiredDamage = 0
         var attackMade = false
         
         // See how many moves of this type we can execute
@@ -1692,14 +1919,14 @@ class TacticalAI {
             
             if ranged && unit.domain() != .air  {
                 // Air attack is ranged, but it goes through the 'move to' mission.
-                unit.push(mission: UnitMission(type: .rangedAttack, target: target.target, pushTurn: gameModel.turnsElapsed), in: gameModel)
+                unit.push(mission: UnitMission(type: .rangedAttack, target: target.target), in: gameModel)
             }
             //else if (pUnit->canNuke(NULL)) // NUKE tactical attack (ouch)
             //{
             //    pUnit->PushMission(CvTypes::getMISSION_NUKE(), pTarget->GetTargetX(), pTarget->GetTargetY());
             //}
             else {
-                unit.push(mission: UnitMission(type: .moveTo, target: target.target, pushTurn: gameModel.turnsElapsed), in: gameModel)
+                unit.push(mission: UnitMission(type: .moveTo, target: target.target), in: gameModel)
             }
         }
 
@@ -1928,7 +2155,7 @@ class TacticalAI {
         //int iCityID = -1;
         
         if let city = dominanceZone.closestCity {
-            isOurCapital = self.player?.leader == city.player?.leader && city.capital
+            isOurCapital = self.player?.leader == city.player?.leader && city.isCapital()
         }
 
         return (isOurCapital || dominanceZone.rangeClosestEnemyUnit <= (self.recruitRange / 2) ||
@@ -2620,7 +2847,7 @@ class TacticalAI {
     func isVeryHighPriorityCivilian(target: TacticalTarget) -> Bool {
 
         if let unit = target.unit {
-            if unit.task == .general {
+            if unit.has(task: .general) {
                 return true
             }
         }
@@ -2643,7 +2870,7 @@ class TacticalAI {
                 }
             }
 
-            if returnValue == false && unit.task == .settle {
+            if returnValue == false && unit.has(task: .settle) {
 
                 if numCities < 5 {
                     returnValue = true
@@ -2669,9 +2896,9 @@ class TacticalAI {
             //embarked civilians
             if unit.isEmbarked() && !unit.isCombatUnit() {
                 return true
-            } else if unit.task == .settle && turn >= 50 {
+            } else if unit.has(task: .settle) && turn >= 50 {
                 return true
-            } else if unit.task == .build && turn < 50 { //early game?
+            } else if unit.has(task: .worker) && turn < 50 { //early game?
                 return true
             }
         }

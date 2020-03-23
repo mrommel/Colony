@@ -8,6 +8,40 @@
 
 import Foundation
 
+class HexOrientation {
+
+    let f0, f1, f2, f3: Double
+    let b0, b1, b2, b3: Double
+    let startAngle: Double // in multiples of 60°
+
+    init(f0: Double, f1: Double, f2: Double, f3: Double, b0: Double, b1: Double, b2: Double, b3: Double, startAngle: Double) {
+
+        self.f0 = f0
+        self.f1 = f1
+        self.f2 = f2
+        self.f3 = f3
+        self.b0 = b0
+        self.b1 = b1
+        self.b2 = b2
+        self.b3 = b3
+        self.startAngle = startAngle
+    }
+
+    // static pointy = HexOrientation(Math.sqrt(3.0), Math.sqrt(3.0) / 2.0, 0.0, 3.0 / 2.0, Math.sqrt(3.0) / 3.0, -1.0 / 3.0, 0.0, 2.0 / 3.0, 0.5)
+    static let flat = HexOrientation(f0: 3.0 / 2.0, f1: 0, f2: sqrt(3.0) / 2.0, f3: sqrt(3.0), b0: 2.0 / 3.0, b1: 0.0, b2: -1.0 / 3.0, b3: sqrt(3.0) / 3.0, startAngle: 0.0)
+}
+
+struct HexLayout {
+
+    let orientation: HexOrientation
+    let size: CGSize
+    let origin: CGPoint
+
+    // grid type: even-q
+    
+    // odd-q
+}
+
 enum HexDirection: Int {
 
     case north
@@ -262,6 +296,12 @@ extension HexPoint {
         let parity = self.x & 1
         return self + (parity == 0 ? direction.axialDirectionOdd : direction.axialDirectionEven)
     }*/
+    
+    func isNeighbor(of point: HexPoint) -> Bool {
+        
+        return self.distance(to: point) == 1
+    }
+    
     func neighbor(in direction: HexDirection) -> HexPoint {
         let cubeNeighbor = HexCube(hex: self) + direction.cubeDirection
         return HexPoint(cube: cubeNeighbor)
@@ -322,7 +362,57 @@ extension HexPoint {
             }
         }
         
-        return nil
+        let angle = HexPoint.screenAngle(from: self, towards: hex)
+        return HexPoint.degreesToDirection(degrees: angle)
+        
+        //return nil
+    }
+    
+    static func screenAngle(from: HexPoint, towards: HexPoint) -> Int {
+
+        let fromScreenPoint = self.toScreen(hex: from)
+        let towardsScreenPoint = self.toScreen(hex: towards)
+
+        let deltax = towardsScreenPoint.x - fromScreenPoint.x
+        let deltay = towardsScreenPoint.y - fromScreenPoint.y
+
+        return Int(atan2(deltax, deltay) * (180.0 / CGFloat(Double.pi)))
+    }
+
+    static func degreesToDirection(degrees: Int) -> HexDirection {
+
+        var degrees = degrees
+        if (degrees < 0) {
+            degrees += 360
+        }
+
+        if 30 < degrees && degrees <= 90 {
+            return .northeast
+        } else if 90 < degrees && degrees <= 150 {
+            return .southeast
+        } else if 150 < degrees && degrees <= 210 {
+            return .south
+        } else if 210 < degrees && degrees <= 270 {
+            return .southwest
+        } else if 270 < degrees && degrees <= 330 {
+            return .northwest
+        } else {
+            return .north
+        }
+    }
+    
+    static func toScreen(cube: HexCube) -> CGPoint {
+
+        let layout = HexLayout(orientation: HexOrientation.flat, size: CGSize(width: 24, height: 18), origin: CGPoint.zero)
+        let orientationMatrix = layout.orientation
+        let x = (orientationMatrix.f0 * Double(cube.q) + orientationMatrix.f1 * Double(cube.r)) * Double(layout.size.width)
+        let y = (orientationMatrix.f2 * Double(cube.q) + orientationMatrix.f3 * Double(cube.r)) * Double(layout.size.height)
+        return CGPoint(x: x + Double(layout.origin.x), y: y + Double(layout.origin.y))
+    }
+
+    static func toScreen(hex: HexPoint) -> CGPoint {
+
+        return toScreen(cube: HexCube(hex: hex))
     }
     
     /*func adjacentPoints(of corner: HexPointCorner) -> [HexPoint] {

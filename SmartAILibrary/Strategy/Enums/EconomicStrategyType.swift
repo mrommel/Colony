@@ -347,7 +347,7 @@ enum EconomicStrategyType {
                         let ownageRatio = numOwnedTiles * 100 / numTiles
                         let numCities = gameModel.cities(of: player).count
 
-                        let numSettlersOnMap = gameModel.units(of: player).count
+                        let numSettlersOnMap = gameModel.units(of: player).count(where: { $0!.has(task: .settle) })
                         
                         if ownageRatio < 75 /* AI_STRATEGY_AREA_IS_FULL_PERCENT */
                             

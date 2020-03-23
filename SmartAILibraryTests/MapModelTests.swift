@@ -75,4 +75,71 @@ class MapModelTests: XCTestCase {
         XCTAssertEqual(continents.count, 2)
         XCTAssertEqual(oceans.count, 1)
     }
+    
+    func testCanSeeThru() {
+        
+        // GIVEN
+        self.objectToTest = MapModelHelper.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
+        
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let tile = Tile(point: HexPoint(x: 0, y: 0), terrain: .grass, hills: false)
+        self.objectToTest!.set(tile: tile, at: HexPoint(x: 0, y: 0))
+        
+        let target = Tile(point: HexPoint(x: 3, y: 2), terrain: .grass, hills: false)
+        self.objectToTest!.set(tile: tile, at: HexPoint(x: 3, y: 2))
+        
+        // game
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
+                                  turnsElapsed: 0,
+                                  players: [playerAlexander],
+                                  on: self.objectToTest!)
+        
+        // WHEN
+        let canSee = tile.canSee(tile: target, for: playerAlexander, range: 4, in: gameModel)
+        
+        // THEN
+        XCTAssertEqual(canSee, true)
+    }
+    
+    func testCantSeeThru() {
+        
+        // GIVEN
+        self.objectToTest = MapModelHelper.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
+        
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let tile = Tile(point: HexPoint(x: 0, y: 0), terrain: .grass, hills: false)
+        self.objectToTest!.set(tile: tile, at: HexPoint(x: 0, y: 0))
+        
+        // obstacle
+        let obstacle1 = Tile(point: HexPoint(x: 1, y: 1), terrain: .grass, hills: false)
+        obstacle1.set(feature: .mountains)
+        self.objectToTest!.set(tile: obstacle1, at: HexPoint(x: 1, y: 1))
+        
+        let obstacle2 = Tile(point: HexPoint(x: 0, y: 1), terrain: .grass, hills: false)
+        obstacle2.set(feature: .mountains)
+        self.objectToTest!.set(tile: obstacle2, at: HexPoint(x: 0, y: 1))
+        
+        let obstacle3 = Tile(point: HexPoint(x: 1, y: 0), terrain: .grass, hills: false)
+        obstacle3.set(feature: .mountains)
+        self.objectToTest!.set(tile: obstacle3, at: HexPoint(x: 1, y: 0))
+        
+        let target = Tile(point: HexPoint(x: 3, y: 2), terrain: .grass, hills: false)
+        self.objectToTest!.set(tile: tile, at: HexPoint(x: 3, y: 2))
+        
+        // game
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
+                                  turnsElapsed: 0,
+                                  players: [playerAlexander],
+                                  on: self.objectToTest!)
+        
+        // WHEN
+        let canSee = tile.canSee(tile: target, for: playerAlexander, range: 4, in: gameModel)
+        
+        // THEN
+        XCTAssertEqual(canSee, false)
+    }
 }

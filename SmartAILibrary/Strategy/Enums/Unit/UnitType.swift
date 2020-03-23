@@ -53,11 +53,21 @@ enum UnitType {
 
     // taken from https://www.matrixgames.com/forums/tm.asp?m=2994803
     
+    // great people
+    case artist
+    // case admiral
+    case engineer
+    // case general
+    case merchant
+    // case musician
+    // case prophet
+    case scientist
+    // case writer
+    
     struct UnitTypeData {
 
         let name: String
         
-        let initiative: Int
         let sight: Int
         let range: Int
         let supportDistance: Int
@@ -74,6 +84,7 @@ enum UnitType {
     }
 
     static var all: [UnitType] {
+        
         return [
             // barbarians
             .barbarianWarrior,
@@ -82,7 +93,10 @@ enum UnitType {
             .settler, .builder,
 
             // ancient
-            .scout, .warrior, .archer, .spearman, .heavyChariot, .galley
+            .scout, .warrior, .archer, .spearman, .heavyChariot, .galley,
+            
+            // great people
+            .artist, .engineer, .merchant, .scientist
         ]
     }
     
@@ -163,30 +177,39 @@ enum UnitType {
         
         switch self {
             
-        case .barbarianWarrior: return UnitTypeData(name: "barbarian", initiative: 2, sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .melee, meleeAttack: 15, rangedAttack: 0, moves: 2)
+        case .barbarianWarrior: return UnitTypeData(name: "barbarian", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .melee, meleeAttack: 15, rangedAttack: 0, moves: 2)
             
         case .settler:
             // https://civilization.fandom.com/wiki/Settler_(Civ6)
-            return UnitTypeData(name: "settler", initiative: 2, sight: 3, range: 0, supportDistance: 0, strength: 10, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 2)
+            return UnitTypeData(name: "settler", sight: 3, range: 0, supportDistance: 0, strength: 10, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 2)
         case .builder:
             // https://civilization.fandom.com/wiki/Builder_(Civ6)
-            return UnitTypeData(name: "builder", initiative: 2, sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 2)
+            return UnitTypeData(name: "builder", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 2)
         case .scout:
             // https://civilization.fandom.com/wiki/Scout_(Civ6)
-            return UnitTypeData(name: "scout", initiative: 3, sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .recon, meleeAttack: 10, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "scout", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .recon, meleeAttack: 10, rangedAttack: 0, moves: 3)
         case .warrior:
             // https://civilization.fandom.com/wiki/Warrior_(Civ6)
-            return UnitTypeData(name: "warrior", initiative: 2, sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .melee, meleeAttack: 20, rangedAttack: 0, moves: 2)
+            return UnitTypeData(name: "warrior", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .melee, meleeAttack: 20, rangedAttack: 0, moves: 2)
         case .slinger:
-            return UnitTypeData(name: "slinger", initiative: 3, sight: 2, range: 1, supportDistance: 1, strength: 10, targetType: .ranged, meleeAttack: 5, rangedAttack: 15, moves: 2)
+            return UnitTypeData(name: "slinger", sight: 2, range: 1, supportDistance: 1, strength: 10, targetType: .ranged, meleeAttack: 5, rangedAttack: 15, moves: 2)
         case .archer:
-            return UnitTypeData(name: "archer", initiative: 2, sight: 2, range: 2, supportDistance: 2, strength: 10, targetType: .ranged, meleeAttack: 15, rangedAttack: 25, moves: 2)
+            return UnitTypeData(name: "archer", sight: 2, range: 2, supportDistance: 2, strength: 10, targetType: .ranged, meleeAttack: 15, rangedAttack: 25, moves: 2)
         case .spearman:
-            return UnitTypeData(name: "spearman", initiative: 2, sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .antiCavalry, meleeAttack: 25, rangedAttack: 0, moves: 2)
+            return UnitTypeData(name: "spearman", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .antiCavalry, meleeAttack: 25, rangedAttack: 0, moves: 2)
         case .heavyChariot:
-            return UnitTypeData(name: "chariot", initiative: 2, sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .lightCavalry, meleeAttack: 28, rangedAttack: 0, moves: 2)
+            return UnitTypeData(name: "chariot", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .lightCavalry, meleeAttack: 28, rangedAttack: 0, moves: 2)
         case .galley:
-            return UnitTypeData(name: "galley", initiative: 2, sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .navalMelee, meleeAttack: 0, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "galley", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .navalMelee, meleeAttack: 0, rangedAttack: 0, moves: 3)
+            
+        case .artist:
+            return UnitTypeData(name: "Artist", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+        case .engineer:
+            return UnitTypeData(name: "engineer", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+        case .merchant:
+            return UnitTypeData(name: "merchant", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+        case .scientist:
+            return UnitTypeData(name: "scientist", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
         }
     }
 
@@ -286,7 +309,7 @@ enum UnitType {
 
             // ancient
         case .settler: return [.settle]
-        case .builder: return [.build]
+        case .builder: return [.worker]
         case .scout: return [.explore]
         case .warrior: return [.attack, .defense, .explore]
         case .slinger: return [.ranged]
@@ -305,7 +328,7 @@ enum UnitType {
 
             // ancient
         case .settler: return .settle
-        case .builder: return .build
+        case .builder: return .worker
         case .scout: return .explore
         case .warrior: return .explore
         case .slinger: return .ranged
@@ -493,5 +516,27 @@ enum UnitType {
         }
         
         return 0
+    }
+    
+    func canBuild(build: BuildType) -> Bool {
+        
+        switch build {
+        
+        case .none: return false
+            
+        case .repair: return self.abilities().contains(.canImprove)
+        case .road: return self.abilities().contains(.canImprove)
+        case .farm: return self.abilities().contains(.canImprove)
+        case .mine: return self.abilities().contains(.canImprove)
+        case .quarry: return self.abilities().contains(.canImprove)
+        case .plantation: return self.abilities().contains(.canImprove)
+        case .camp: return self.abilities().contains(.canImprove)
+        case .pasture: return self.abilities().contains(.canImprove)
+        }
+    }
+    
+    func has(ability: UnitAbilityType) -> Bool {
+        
+        return self.abilities().contains(ability)
     }
 }

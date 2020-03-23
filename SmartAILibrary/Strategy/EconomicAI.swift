@@ -19,10 +19,11 @@ class EconomicAI {
     private var reconStateVal: EconomicReconState
     private var navalReconStateVal: EconomicReconState
     private var lastTurnBuilderDisbandedVal: Int
+    private var explorersDisbandedValue: Int
     
     private var explorationPlotsDirty: Bool = true
     private var goodyHutUnitAssignments: [GoodyHutUnitAssignment]
-    private var explorationPlots: [ExplorationPlot]
+    private var explorationPlotsArray: [ExplorationPlot]
     private var explorers: [AbstractUnit?]
     
     // MARK: internal classes
@@ -120,8 +121,9 @@ class EconomicAI {
         self.lastTurnBuilderDisbandedVal = 0
         
         self.goodyHutUnitAssignments = []
-        self.explorationPlots = []
+        self.explorationPlotsArray = []
         self.explorers = []
+        self.explorersDisbandedValue = 0
     }
     
     // MARK: methods
@@ -238,6 +240,16 @@ class EconomicAI {
         //print("economic strategy flavors")
         //print(self.flavors)
     }
+    
+    func incrementExplorersDisbanded() {
+        
+        self.explorersDisbandedValue += 1
+    }
+    
+    func explorersDisbanded() -> Int {
+        
+        return self.explorersDisbandedValue
+    }
 
     func updateReconState(in gameModel: GameModel?) {
 
@@ -301,7 +313,7 @@ class EconomicAI {
         
         // RECON ON OUR HOME CONTINENT
         
-        let iNumExploringUnits = gameModel.units(of: player).count(where: { $0?.task == .explore })
+        let iNumExploringUnits = gameModel.units(of: player).count(where: { $0!.has(task: .explore) }) + self.explorersDisbandedValue
         var iStrategyWeight = 100.0
         var iWeightThreshold = 110 - player.personalAndGrandStrategyFlavor(for: .recon) * 10
 
@@ -344,7 +356,7 @@ class EconomicAI {
             
         } else {
             // How many Units do we have exploring or being trained to do this job? The more Units we have the less we want this Strategy
-            let iNumExploringUnits = gameModel.units(of: player).count(where: { $0?.task == .exploreSea })
+            let iNumExploringUnits = gameModel.units(of: player).count(where: { $0!.has(task: .exploreSea) })
             var iStrategyWeight = 100.0
             var iWeightThreshold = 110 - player.personalAndGrandStrategyFlavor(for: .navalRecon) * 10
 
@@ -415,7 +427,7 @@ class EconomicAI {
         return 5000 // AI_STRATEGY_MINIMUM_SETTLE_FERTILITY
     }
     
-    func unitTargetGoodyPlot(for unit: AbstractUnit?, in gameModel: GameModel?) -> HexPoint? {
+    func unitTargetGoodyPlot(for unit: AbstractUnit?, in gameModel: GameModel?) -> AbstractTile? {
         
         if self.explorationPlotsDirty {
             self.updatePlots(in: gameModel)
@@ -428,7 +440,9 @@ class EconomicAI {
             }
             
             if goodyHutUnit.isEqual(to: unit) {
-                return goodyHutUnitAssignment.location
+                if let goodyHutPlot = gameModel?.tile(at: goodyHutUnitAssignment.location) {
+                    return goodyHutPlot
+                }
             }
         }
         
@@ -447,7 +461,7 @@ class EconomicAI {
         }
         
         // reset all plots
-        self.explorationPlots.removeAll()
+        self.explorationPlotsArray.removeAll()
         self.goodyHutUnitAssignments.removeAll()
 
         // find the center of all the cities
@@ -499,7 +513,7 @@ class EconomicAI {
                     continue
                 }
                 
-                self.explorationPlots.append(ExplorationPlot(location: point, rating: score))
+                self.explorationPlotsArray.append(ExplorationPlot(location: point, rating: score))
             }
         }
 
@@ -519,7 +533,7 @@ class EconomicAI {
                 continue
             }
             
-            if unit.task != .explore {
+            if !unit.has(task: .explore) {
                 continue
             }
             
@@ -537,6 +551,11 @@ class EconomicAI {
         }
 
         self.explorationPlotsDirty = false
+    }
+    
+    func explorationPlots() -> [ExplorationPlot] {
+    
+        return self.explorationPlotsArray
     }
     
     private func assignExplorersToHuts(in gameModel: GameModel?) {
@@ -670,7 +689,7 @@ class EconomicAI {
         }
     }
     
-    private func scoreExplore(plot: HexPoint, for player: AbstractPlayer?, range: Int, domain: UnitDomainType, in gameModel: GameModel?) -> Int {
+    func scoreExplore(plot: HexPoint, for player: AbstractPlayer?, range: Int, domain: UnitDomainType, in gameModel: GameModel?) -> Int {
         
         guard let gameModel = gameModel else {
             fatalError("cant get game model")
@@ -720,16 +739,14 @@ class EconomicAI {
                             }
 
                             // this cheats, because we can't be sure that between the target and the viewer
-                            /*if (pPlot->canSeePlot(pEvalPlot, eTeam, iRange, NO_DIRECTION))
-                            {
-                                bViewBlocked = false;
-                            }*/
+                            if evalTile.canSee(tile: adjacentTile, for: player, range: range, in: gameModel) {
+                                viewBlocked = false
+                            }
 
                             if !viewBlocked {
                                 break
                             }
                         }
-                        
                     }
 
                     if viewBlocked {

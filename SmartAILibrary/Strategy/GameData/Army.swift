@@ -162,9 +162,9 @@ class Army {
                 }
                 
                 // If can move over ocean, not a coastal vessel
-                if unit.isImpassable(terrain: .ocean) {
+                /* FIXME if unit.isImpassable(terrain: .ocean) {
                     return false
-                }
+                }*/
                 
             }
         }

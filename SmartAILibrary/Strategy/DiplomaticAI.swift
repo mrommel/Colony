@@ -44,6 +44,9 @@ class DiplomaticAI {
 
         self.updateOpinions(in: gameModel)
         self.updateApproaches(in: gameModel)
+        
+        self.doUpdateExpansionAggressivePostures(in: gameModel)
+        self.doUpdatePlotBuyingAggressivePosture(in: gameModel)
     }
 
     func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
@@ -449,7 +452,7 @@ class DiplomaticAI {
         for approach in PlayerApproachType.all {
 
             if let personalApproachBias = self.player?.valueOfStrategyAndPersonalityApproach(of: approach) {
-                weights.add(weight: personalApproachBias, for: approach)
+                weights.add(weight: Double(personalApproachBias), for: approach)
             }
         }
 
@@ -620,8 +623,8 @@ class DiplomaticAI {
 
             // only add random value when positiv
             if approachWeight > 0 {
-                let delta = Int.random(in: -approachWeight..<approachWeight)
-                weights.add(weight: delta / 100, for: approach)
+                let delta = Double.random(minimum: -approachWeight, maximum: approachWeight)
+                weights.add(weight: delta / 100.0, for: approach)
             }
         }
 
@@ -1424,5 +1427,334 @@ class DiplomaticAI {
     func warGoal(towards other: AbstractPlayer?) -> PlayerWarGoalType {
 
         return .none // FIXME
+    }
+    
+    /// Returns an integer that increases as the number and severity of land disputes rises
+    func totalLandDisputeLevel(in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var rtnValue = 0 // slewis added, to fix a compile error. I'm guessing zero is correct.
+
+        for otherPlayer in gameModel.players {
+            
+            if otherPlayer.isAlive() && otherPlayer.isEqual(to: self.player) {
+                
+                switch self.landDisputeLevel(with: otherPlayer) {
+                    
+                case .fierce:
+                    rtnValue += 5 /*AI_DIPLO_LAND_DISPUTE_WEIGHT_FIERCE */
+                case .strong:
+                    rtnValue += 3 /* AI_DIPLO_LAND_DISPUTE_WEIGHT_STRONG */
+                case .weak:
+                    rtnValue += 1 /* AI_DIPLO_LAND_DISPUTE_WEIGHT_WEAK */
+                
+                default:
+                    // NOOP
+                    break
+                }
+            }
+        }
+        
+        return rtnValue
+    }
+    
+    func landDisputeLevel(with otherPlayer: AbstractPlayer?) -> LandDisputeLevelType {
+        
+        return self.playerDict.landDisputeLevel(with: otherPlayer)
+    }
+    
+    func lastTurnLandDisputeLevel(with otherPlayer: AbstractPlayer?) -> LandDisputeLevelType {
+    
+        return self.playerDict.lastTurnLandDisputeLevel(with: otherPlayer)
+    }
+    
+    /// Updates what is our level of Dispute with a player is over Land
+    func doUpdateLandDisputeLevels(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        var disputeLevel: LandDisputeLevelType = .none
+
+        var landDisputeWeight = 0
+        var expansionFlavor = 0
+
+        // Loop through all (known) Players
+        for otherPlayer in gameModel.players {
+
+            // Update last turn's values
+            self.playerDict.updateLastTurnLandDisputeLevel(with: otherPlayer, to: self.landDisputeLevel(with: otherPlayer))
+
+            if otherPlayer.isAlive() && otherPlayer.leader != player.leader {
+                
+                disputeLevel = .none
+                landDisputeWeight = 0
+
+                // Expansion aggression
+                var aggression = self.expansionAggressivePosture(towards: otherPlayer)
+
+                if aggression == .none {
+                    landDisputeWeight += 0 /*LAND_DISPUTE_EXP_AGGRESSIVE_POSTURE_NONE*/
+                } else if aggression == .low {
+                    landDisputeWeight += 10 /*LAND_DISPUTE_EXP_AGGRESSIVE_POSTURE_LOW */
+                } else if aggression == .medium {
+                    landDisputeWeight += 32 /*LAND_DISPUTE_EXP_AGGRESSIVE_POSTURE_MEDIUM */
+                } else if aggression == .high {
+                    landDisputeWeight += 50 /*LAND_DISPUTE_EXP_AGGRESSIVE_POSTURE_HIGH */
+                } else if aggression == .incredible {
+                    landDisputeWeight += 60 /*LAND_DISPUTE_EXP_AGGRESSIVE_POSTURE_INCREDIBLE */
+                }
+
+                // Plot Buying aggression
+                aggression = self.plotBuyingAggressivePosture(towards: otherPlayer)
+
+                if aggression == .none {
+                    landDisputeWeight += 0 /* LAND_DISPUTE_PLOT_BUY_AGGRESSIVE_POSTURE_NONE */
+                } else if aggression == .low {
+                    landDisputeWeight += 5 /* LAND_DISPUTE_PLOT_BUY_AGGRESSIVE_POSTURE_LOW */
+                } else if aggression == .medium {
+                    landDisputeWeight += 12 /* LAND_DISPUTE_PLOT_BUY_AGGRESSIVE_POSTURE_MEDIUM */
+                } else if aggression == .high {
+                    landDisputeWeight += 20 /* LAND_DISPUTE_PLOT_BUY_AGGRESSIVE_POSTURE_HIGH */
+                } else if aggression == .incredible {
+                    landDisputeWeight += 30 /* LAND_DISPUTE_PLOT_BUY_AGGRESSIVE_POSTURE_INCREDIBLE */
+                }
+
+                // Look at our Proximity to the other Player
+                let proximity = self.proximity(to: otherPlayer)
+
+                if proximity == .distant {
+                    landDisputeWeight += 0 /* LAND_DISPUTE_DISTANT */
+                } else if proximity == .far {
+                    landDisputeWeight += 10 /* LAND_DISPUTE_FAR */
+                } else if proximity == .close {
+                    landDisputeWeight += 18 /* LAND_DISPUTE_CLOSE */
+                } else if proximity == .neighbors {
+                    landDisputeWeight += 30 /* LAND_DISPUTE_NEIGHBORS */
+                }
+
+                // JON: Turned off to counter-balance the lack of the next block functioning
+                // Is the player already cramped?
+                /*if (GetPlayer()->IsCramped())
+                {
+                    iLandDisputeWeight += /*0*/ GC.getLAND_DISPUTE_CRAMPED_MULTIPLIER();
+                }*/
+
+                // If the player has deleted the EXPANSION Flavor we have to account for that
+                expansionFlavor = 5 /* DEFAULT_FLAVOR_VALUE */
+                expansionFlavor = player.personalAndGrandStrategyFlavor(for: .expansion)
+
+                // Add weight for Player's natural EXPANSION preference
+                landDisputeWeight *= expansionFlavor
+
+                // Now See what our new Dispute Level should be
+                if landDisputeWeight >= 400 { /*LAND_DISPUTE_FIERCE_THRESHOLD */
+                    disputeLevel = .fierce
+                } else if landDisputeWeight >= 230 { /* LAND_DISPUTE_STRONG_THRESHOLD */
+                    disputeLevel = .strong
+                } else if landDisputeWeight >= 100 { /* LAND_DISPUTE_WEAK_THRESHOLD */
+                    disputeLevel = .weak
+                }
+
+                // Actually set the Level
+                self.playerDict.updateLandDisputeLevel(with: otherPlayer, to: disputeLevel)
+            }
+        }
+    }
+    
+    /// Updates how aggressively this player's Units are positioned in relation to us
+    func doUpdateExpansionAggressivePostures(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if gameModel.capital(of: player) != nil {
+            return
+        }
+
+        // Loop through all (known) Players
+        for loopPlayer in gameModel.players {
+
+            self.doUpdateOnePlayerExpansionAggressivePosture(of: loopPlayer, in: gameModel)
+        }
+    }
+    
+    /// Updates how aggressively this player's Units are positioned in relation to us
+    func doUpdateOnePlayerExpansionAggressivePosture(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get otherPlayer")
+        }
+
+        guard let myCapital = gameModel.capital(of: player) else {
+            return
+        }
+
+        if otherPlayer.isAlive() {
+            return
+        }
+
+        var aggressivePosture: AggressivePostureType = .none
+        var mostAggressiveCityPosture: AggressivePostureType = .none
+        var numMostAggressiveCities: Int = 0
+
+        // If they have no capital then, uh... just stop I guess
+        guard let otherCapital = gameModel.capital(of: otherPlayer) else {
+            return
+        }
+
+        let distanceCapitals = otherCapital.location.distance(to: myCapital.location)
+
+        // Loop through all of this player's Cities
+        for loopCityRef in gameModel.cities(of: otherPlayer) {
+            
+            guard let loopCity = loopCityRef else {
+                continue
+            }
+            
+            // Don't look at their capital
+            if loopCity.isCapital() {
+                continue
+            }
+
+            // Don't look at Cities they've captured
+            //if (pLoopCity->getOriginalOwner() != pLoopCity->getOwner())  continue;
+
+            aggressivePosture = .none
+
+            // First calculate distances
+            let distanceUsToThem = myCapital.location.distance(to: loopCity.location)
+            let distanceThemToTheirCapital = otherCapital.location.distance(to: loopCity.location)
+
+            if distanceUsToThem <= 3 { /*EXPANSION_CAPITAL_DISTANCE_AGGRESSIVE_POSTURE_HIGH */
+                aggressivePosture = .high
+            } else if distanceUsToThem <= 5 { /* EXPANSION_CAPITAL_DISTANCE_AGGRESSIVE_POSTURE_MEDIUM */
+                aggressivePosture = .medium
+            } else if distanceUsToThem <= 9 { /* EXPANSION_CAPITAL_DISTANCE_AGGRESSIVE_POSTURE_LOW */
+                aggressivePosture = .low
+            }
+
+            // If this City is closer to our capital than the other player's then it's immediately at least Mediumly aggressive
+            if aggressivePosture == .low {
+                if distanceUsToThem < distanceThemToTheirCapital {
+                    aggressivePosture = .medium
+                }
+            }
+
+            // If this City is further from their capital then our capitals are then it's super-aggressive
+            if aggressivePosture >= .medium {
+                if distanceCapitals < distanceThemToTheirCapital {
+                    aggressivePosture = .incredible
+                }
+            }
+
+            // Increase number of Cities at this Aggressiveness level
+            if aggressivePosture == mostAggressiveCityPosture {
+                numMostAggressiveCities += 1
+            } else if aggressivePosture > mostAggressiveCityPosture {
+                // If this City is the most aggressive one yet, replace the old record
+                mostAggressiveCityPosture = aggressivePosture
+                numMostAggressiveCities = 0
+            }
+
+            // If we're already at the max aggression level we don't need to look at more Cities
+            if mostAggressiveCityPosture == .incredible {
+                break
+            }
+        }
+
+        // If we have multiple Cities that tie for being the highest then bump us up a level
+        if numMostAggressiveCities > 1 {
+            // If every City is low then we don't care that much, and if we're already at the highest level we can't go higher
+            if mostAggressiveCityPosture > .low && mostAggressiveCityPosture < .incredible {
+                mostAggressiveCityPosture = mostAggressiveCityPosture.increased()
+            }
+        }
+
+        self.playerDict.updateExpansionAggressivePosture(for: otherPlayer, posture: mostAggressiveCityPosture)
+    }
+    
+    func expansionAggressivePosture(towards otherPlayer: AbstractPlayer?) -> AggressivePostureType {
+        
+        return self.playerDict.expansionAggressivePosture(towards: otherPlayer)
+    }
+    
+    /// Updates how aggressively ePlayer is buying land near us
+    func doUpdatePlotBuyingAggressivePosture(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let diplomacyAI = player.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+        
+        var posture: AggressivePostureType = .none
+
+        // Loop through all (known) Players
+        for loopPlayer in gameModel.players {
+
+            if loopPlayer.isAlive() && loopPlayer.leader != player.leader && diplomacyAI.hasMet(with: loopPlayer) {
+                
+                var aggressionScore = 0
+
+                // Loop through all of our Cities to see if this player has bought land near them
+                for loopCityRef in gameModel.cities(of: loopPlayer) {
+                    
+                    guard let loopCity = loopCityRef else {
+                        continue
+                    }
+                    
+                    aggressionScore += loopCity.numPlotsAcquired(by: loopPlayer)
+                }
+
+                // Now See what our new Dispute Level should be
+                if aggressionScore >= 10 { /*PLOT_BUYING_POSTURE_INCREDIBLE_THRESHOLD */
+                    posture = .incredible
+                } else if aggressionScore >= 7 { /* PLOT_BUYING_POSTURE_HIGH_THRESHOLD */
+                    posture = .high
+                } else if aggressionScore >= 4 { /* PLOT_BUYING_POSTURE_MEDIUM_THRESHOLD */
+                    posture = .medium
+                } else if aggressionScore >= 2 { /* PLOT_BUYING_POSTURE_LOW_THRESHOLD */
+                    posture = .low
+                } else {
+                    posture = .none
+                }
+
+                //self.updatePlotBuyingAggressivePosture(eLoopPlayer, ePosture);
+                self.playerDict.updatePlotBuyingAggressivePosture(for: loopPlayer, posture: posture)
+            }
+        }
+    }
+    
+    func plotBuyingAggressivePosture(towards otherPlayer: AbstractPlayer?) -> AggressivePostureType {
+        
+        return self.playerDict.plotBuyingAggressivePosture(towards: otherPlayer)
     }
 }

@@ -98,7 +98,7 @@ class UnitFormationHelper {
             }
 
             // Don't count scouts
-            if unit.task == .explore || unit.task == .exploreSea {
+            if unit.has(task: .explore) || unit.has(task: .exploreSea) {
                 continue
             }
 

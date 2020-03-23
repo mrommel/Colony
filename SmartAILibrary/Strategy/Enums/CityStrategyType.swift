@@ -521,7 +521,7 @@ enum CityStrategyType {
             }
         }
 
-        let numBuilders = gameModel.units(of: player).count(where: { $0?.task == .build })
+        let numBuilders = gameModel.units(of: player).count(where: { $0!.has(task: .worker) })
 
         let numCities = max(1, (currentNumCities * 3) / 4)
         if numBuilders >= numCities {
@@ -583,8 +583,8 @@ enum CityStrategyType {
             }
         }
 
-        let numSettlers = gameModel.units(of: player).count(where: { $0?.task == .settle })
-        let numBuilders = gameModel.units(of: player).count(where: { $0?.task == .build })
+        let numSettlers = gameModel.units(of: player).count(where: { $0!.has(task: .settle) })
+        let numBuilders = gameModel.units(of: player).count(where: { $0!.has(task: .worker) })
 
         let numCities = max(1, (currentNumCities * 3) / 4)
         if numBuilders >= numCities {
@@ -606,7 +606,7 @@ enum CityStrategyType {
             var numImprovedResources = 0
             
             // Look at all Tiles this City could potentially work to see if there are any Water Resources that could be improved
-            for pt in city.location.areaWith(radius: 2) {
+            for pt in city.location.areaWith(radius: City.workRadius) {
             
                 if let tile = gameModel.tile(at: pt) {
                     if tile.owner()?.leader == player.leader {
@@ -714,12 +714,12 @@ enum CityStrategyType {
             fatalError("cant get militaryAI")
         }
         
-        if !city.capital {
+        if !city.isCapital() {
             return false
         }
         
         let numCities = gameModel.cities(of: player).count
-        let numSettlers = gameModel.units(of: player).count(where: { $0?.task == .settle })
+        let numSettlers = gameModel.units(of: player).count(where: { $0!.has(task: .settle) })
         let numCitiesAndSettlers = numCities + numSettlers
         
         if numCitiesAndSettlers < 3 {
@@ -773,7 +773,7 @@ enum CityStrategyType {
             fatalError("cant get city")
         }
 
-        if !city.capital {
+        if !city.isCapital() {
             return false
         }
         
@@ -833,7 +833,7 @@ enum CityStrategyType {
         var numHills = 0
         
         // scan the nearby tiles to see if there are at least two hills in the vicinity
-        for pt in city.location.areaWith(radius: 2) {
+        for pt in city.location.areaWith(radius: City.workRadius) {
             
             if let tile = gameModel.tile(at: pt) {
                 if tile.owner()?.leader == city.player?.leader && tile.hasHills() {
@@ -861,7 +861,7 @@ enum CityStrategyType {
         }
 
         // scan the nearby tiles to see if there is a mountain close enough to build an observatory
-        for pt in city.location.areaWith(radius: 2) {
+        for pt in city.location.areaWith(radius: City.workRadius) {
             
             if let tile = gameModel.tile(at: pt) {
                 if tile.has(feature: .mountains) {
@@ -888,7 +888,7 @@ enum CityStrategyType {
         var numForests = 0
         
         // scan the nearby tiles to see if there are at least two forests in the vicinity
-        for pt in city.location.areaWith(radius: 2) {
+        for pt in city.location.areaWith(radius: City.workRadius) {
             
             if let tile = gameModel.tile(at: pt) {
                 if tile.owner()?.leader == city.player?.leader && tile.has(feature: .forest) {
@@ -918,7 +918,7 @@ enum CityStrategyType {
         var numForests = 0
         
         // scan the nearby tiles to see if there are at least two jungles in the vicinity
-        for pt in city.location.areaWith(radius: 2) {
+        for pt in city.location.areaWith(radius: City.workRadius) {
             
             if let tile = gameModel.tile(at: pt) {
                 if tile.owner()?.leader == city.player?.leader && tile.has(feature: .rainforest) {

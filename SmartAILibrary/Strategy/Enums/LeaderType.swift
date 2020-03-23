@@ -38,6 +38,7 @@ enum LeaderAbilityType {
 // https://civdata.com/
 enum LeaderType {
 
+    case none
     case barbar
     
     case alexander
@@ -54,6 +55,7 @@ enum LeaderType {
         
         switch self {
 
+        case .none: return "None"
         case .barbar: return "Barbar"
             
         case .alexander: return "Alexander"
@@ -68,6 +70,7 @@ enum LeaderType {
         
         switch self {
 
+        case .none: return .barbarian
         case .barbar: return .barbarian
             
         case .alexander: return .greek
@@ -82,6 +85,7 @@ enum LeaderType {
 
         switch self {
         
+        case .none: return []
         case .barbar: return []
             
         case .alexander:
@@ -174,6 +178,7 @@ enum LeaderType {
 
         switch self {
             
+        case .none: return []
         case .barbar: return []
 
         case .alexander:
@@ -200,6 +205,7 @@ enum LeaderType {
 
         switch self {
 
+        case .none: return []
         case .barbar: return []
             
         case .alexander: return [
@@ -246,6 +252,7 @@ enum LeaderType {
         
         switch self {
             
+        case .none: return .capitalBuildsCheaper
         case .barbar: return .capitalBuildsCheaper // FIXME
             
         case .alexander: return .cityStateFriendship

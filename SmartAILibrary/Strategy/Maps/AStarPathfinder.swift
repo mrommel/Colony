@@ -139,6 +139,28 @@ class AStarPathfinder {
         // no path found
         return nil
     }
+    
+    func doesPathExist(fromTileCoord: HexPoint, toTileCoord: HexPoint) -> Bool {
+        
+        return self.shortestPath(fromTileCoord: fromTileCoord, toTileCoord: toTileCoord) != nil
+    }
+    
+    /// How many turns will it take a unit to get to a target plot (returns MAX_INT if can't reach at all; returns 0 if makes it in 1 turn and has movement left)
+    // Should call it with bIgnoreStacking true if want foolproof way to see if can make it in 0 turns (since that way doesn't open
+    // open the 2nd layer of the pathfinder)
+    func turnsToReachTarget(for unit: AbstractUnit?, to target: HexPoint) -> Int {
+        
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        if let path = self.shortestPath(fromTileCoord: unit.location, toTileCoord: target) {
+            let cost = path.cost
+            return Int(cost) / unit.moves()
+        }
+        
+        return Int.max
+    }
 
     private func convertStepsToShortestPath(lastStep: AStarPathStep) -> HexPath {
         

@@ -640,7 +640,7 @@ class TacticalAnalysisMap {
 
                     baseValue += closestCity.population()
 
-                    if closestCity.capital {
+                    if closestCity.isCapital() {
                         baseValue *= 2
                     }
 
@@ -844,7 +844,7 @@ class TacticalAnalysisMap {
                     cell.ownTerritory = true
                 }
 
-                if tile.isFriendlyTerritory(for: player) {
+                if tile.isFriendlyTerritory(for: player, in: gameModel) {
                     cell.friendlyTerritory = true
                 }
 
@@ -993,7 +993,7 @@ class TacticalAnalysisMap {
 
                     if tile.isDiscovered(by: self.playerBuild) && !tile.isImpassable() {
 
-                        if !tile.isVisibleToEnemy(of: player) {
+                        if !tile.isVisibleToEnemy(of: player, in: gameModel) {
 
                             plot.notVisibleToEnemy = true
 

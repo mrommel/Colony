@@ -29,6 +29,14 @@ class DiplomaticPlayerDict {
         var warState: PlayerWarStateType
         var warFace: PlayerWarFaceType
         var targetValue: PlayerTargetValueType
+        
+        // disputes
+        var landDisputeLevel: LandDisputeLevelType
+        var lastTurnLandDisputeLevel: LandDisputeLevelType
+        
+        // postures
+        var expansionAggressivePosture: AggressivePostureType
+        var plotBuyingAggressivePosture: AggressivePostureType
 
         // pacts
         var declatationOfWar: DiplomaticPact
@@ -59,6 +67,12 @@ class DiplomaticPlayerDict {
             self.warFace = .none
             self.warState = .none
             self.targetValue = .none
+            
+            self.landDisputeLevel = .none
+            self.lastTurnLandDisputeLevel = .none
+            
+            self.expansionAggressivePosture = .none
+            self.plotBuyingAggressivePosture = .none
 
             // pacts
             self.declatationOfWar = DiplomaticPact()
@@ -544,5 +558,81 @@ class DiplomaticPlayerDict {
     func isRecklessExpander(of otherPlayer: AbstractPlayer?) -> Bool {
         
         return false // FIXME
+    }
+    
+    // MARK: land dispute
+    
+    func landDisputeLevel(with otherPlayer: AbstractPlayer?) -> LandDisputeLevelType {
+        
+        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+            return item.landDisputeLevel
+        }
+        
+        fatalError("not gonna happen")
+    }
+    
+    func updateLandDisputeLevel(with otherPlayer: AbstractPlayer?, to dispute: LandDisputeLevelType) {
+        
+        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+            item.landDisputeLevel = dispute
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func lastTurnLandDisputeLevel(with otherPlayer: AbstractPlayer?) -> LandDisputeLevelType {
+        
+        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+            return item.lastTurnLandDisputeLevel
+        }
+        
+        fatalError("not gonna happen")
+    }
+    
+    func updateLastTurnLandDisputeLevel(with otherPlayer: AbstractPlayer?, to dispute: LandDisputeLevelType) {
+        
+        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+            item.lastTurnLandDisputeLevel = dispute
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    // MARK: postures
+    
+    func expansionAggressivePosture(towards otherPlayer: AbstractPlayer?) -> AggressivePostureType {
+        
+        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+            return item.expansionAggressivePosture
+        }
+        
+        fatalError("not gonna happen")
+    }
+    
+    func updateExpansionAggressivePosture(for otherPlayer: AbstractPlayer?, posture: AggressivePostureType) {
+        
+        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+            item.expansionAggressivePosture = posture
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func plotBuyingAggressivePosture(towards otherPlayer: AbstractPlayer?) -> AggressivePostureType {
+        
+        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+            return item.plotBuyingAggressivePosture
+        }
+        
+        fatalError("not gonna happen")
+    }
+    
+    func updatePlotBuyingAggressivePosture(for otherPlayer: AbstractPlayer?, posture: AggressivePostureType) {
+        
+        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+            item.plotBuyingAggressivePosture = posture
+        } else {
+            fatalError("not gonna happen")
+        }
     }
 }

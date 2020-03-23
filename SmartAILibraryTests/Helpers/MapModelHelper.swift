@@ -49,4 +49,14 @@ class MapModelHelper {
             }
         }
     }
+    
+    static func discover(area: HexArea, mapModel: inout MapModel, by player: AbstractPlayer?) {
+            
+        for pt in area {
+                
+            let tile = mapModel.tile(at: pt)
+            tile?.discover(by: player)
+        }
+        
+    }
 }

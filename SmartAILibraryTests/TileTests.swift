@@ -99,4 +99,5 @@ class TileTests: XCTestCase {
         XCTAssertFalse(improvements!.contains(.pasture))
         XCTAssertFalse(improvements!.contains(.quarry))
     }
+
 }

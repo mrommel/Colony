@@ -45,7 +45,6 @@ class AdvisorTests: XCTestCase {
         // add the city to the map
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize()
-        self.objectToTest?.set(population: 2)
         
         try! mapModel.setWorked(by: self.objectToTest, at: HexPoint(x: 1, y: 2))
         
@@ -53,8 +52,10 @@ class AdvisorTests: XCTestCase {
         
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
+        self.objectToTest?.set(population: 2, reassignCitizen: false, in: gameModel)
+        
         // WHEN
-        gameModel.turn()
+        gameModel.update() //.doTurn()
         let messages = playerAlexander.advisorMessages()
         
         // THEN
@@ -78,9 +79,14 @@ class AdvisorTests: XCTestCase {
         
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize()
-        self.objectToTest?.set(population: 2)
         
         mapModel.add(city: self.objectToTest)
+        
+        let ui = TestUI()
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        gameModel.userInterface = ui
+        
+        self.objectToTest?.set(population: 2, reassignCitizen: false, in: gameModel)
         
         // center
         let centerTile = mapModel.tile(at: HexPoint(x: 1, y: 1))
@@ -97,11 +103,12 @@ class AdvisorTests: XCTestCase {
         try! self.objectToTest?.work(tile: anotherTile!)
         try! anotherTile?.build(improvement: .mine)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
-        
         // WHEN
         for _ in 0..<30 {
-            gameModel.turn()
+            gameModel.update() //.doTurn()
+            
+            // manual input
+            playerAlexander.endTurn(in: gameModel)
         }
         let messages = playerAlexander.advisorMessages()
         
@@ -123,11 +130,11 @@ class AdvisorTests: XCTestCase {
         try! playerAugustus.techs?.discover(tech: .mining)
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize()
-        self.objectToTest?.set(population: 2)
-        
+        self.objectToTest?.set(population: 2, reassignCitizen: false, in: gameModel)
         mapModel.add(city: self.objectToTest)
         
         // center
@@ -151,11 +158,11 @@ class AdvisorTests: XCTestCase {
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 2), type: .warrior, owner: playerAlexander))
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 3), type: .warrior, owner: playerAlexander))
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
-        
         // WHEN
         for _ in 0..<30 {
-            gameModel.turn()
+            gameModel.update() //.doTurn()
+            
+            playerAlexander.endTurn(in: gameModel)
         }
         let messages = playerAlexander.advisorMessages()
         

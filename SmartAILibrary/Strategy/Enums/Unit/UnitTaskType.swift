@@ -15,7 +15,7 @@ enum UnitTaskType {
     case unknown
     
     case settle
-    case build
+    case worker
     case attack
     case cityAttack
     case cityBombard
@@ -30,6 +30,7 @@ enum UnitTaskType {
     case exploreSea
     case escortSea
     case reserveSea
+    case shadow
     
     case general
 }

@@ -15,6 +15,7 @@ enum MilitaryStrategyType {
     case needMilitaryUnits
     case enoughMilitaryUnits
     case needNavalUnits
+    case needNavalUnitsCritical
     case enoughNavalUnits
 
     case empireDefense
@@ -30,7 +31,7 @@ enum MilitaryStrategyType {
         return [
                 .needRanged, .enoughRanged,
                 .needMilitaryUnits, .enoughMilitaryUnits,
-                .needNavalUnits, .enoughNavalUnits,
+                .needNavalUnits, .needNavalUnitsCritical, .enoughNavalUnits,
                 .empireDefense, .empireDefenseCritical, .atWar, .warMobilization, .eradicateBarbarians,
                 .winningWars, .losingWars
         ]
@@ -45,6 +46,7 @@ enum MilitaryStrategyType {
         case .needMilitaryUnits: return nil
         case .enoughMilitaryUnits: return nil
         case .needNavalUnits: return nil
+        case .needNavalUnitsCritical: return nil
         case .enoughNavalUnits: return nil
 
         case .empireDefense: return nil
@@ -67,6 +69,7 @@ enum MilitaryStrategyType {
         case .needMilitaryUnits: return nil
         case .enoughMilitaryUnits: return nil
         case .needNavalUnits: return nil
+        case .needNavalUnitsCritical: return nil
         case .enoughNavalUnits: return nil
 
         case .empireDefense: return nil
@@ -102,6 +105,8 @@ enum MilitaryStrategyType {
                 Flavor(type: .ranged, value: -50)
             ]
         case .needNavalUnits: return [
+            ]
+        case .needNavalUnitsCritical: return [
             ]
         case .enoughNavalUnits: return [
                 Flavor(type: .naval, value: -30)
@@ -153,6 +158,7 @@ enum MilitaryStrategyType {
         case .needMilitaryUnits: return 25
         case .enoughMilitaryUnits: return 25
         case .needNavalUnits: return 50
+        case .needNavalUnitsCritical: return 50
         case .enoughNavalUnits: return 50
 
         case .empireDefense: return 25
@@ -175,6 +181,7 @@ enum MilitaryStrategyType {
         case .needMilitaryUnits: return 2
         case .enoughMilitaryUnits: return 2
         case .needNavalUnits: return 2
+        case .needNavalUnitsCritical: return 2
         case .enoughNavalUnits: return 2
 
         case .empireDefense: return 2
@@ -197,6 +204,7 @@ enum MilitaryStrategyType {
         case .needMilitaryUnits: return 2
         case .enoughMilitaryUnits: return 2
         case .needNavalUnits: return 2
+        case .needNavalUnitsCritical: return 2
         case .enoughNavalUnits: return 2
 
         case .empireDefense: return 2
@@ -219,6 +227,7 @@ enum MilitaryStrategyType {
         case .needMilitaryUnits: return self.shouldBeActiveNeedMilitaryUnits(for: player, in: gameModel)
         case .enoughMilitaryUnits: return self.shouldBeActiveEnoughMilitaryUnits(for: player, in: gameModel)
         case .needNavalUnits: return false // FIXME
+        case .needNavalUnitsCritical: return false // FIXME
         case .enoughNavalUnits: return false // FIXME
 
         case .empireDefense: return self.shouldBeActiveEmpireDefense(for: player, in: gameModel)
@@ -509,6 +518,7 @@ enum MilitaryStrategyType {
         case .needMilitaryUnits: return nil
         case .enoughMilitaryUnits: return AdvisorMessage(advisor: .military, message: "TXT_KEY_MILITARYAISTRATEGY_ENOUGH_MILITARY_UNITS")
         case .needNavalUnits: return nil
+        case .needNavalUnitsCritical: return nil
         case .enoughNavalUnits: return nil
 
         case .empireDefense: return AdvisorMessage(advisor: .military, message: "TXT_KEY_MILITARYAISTRATEGY_EMPIRE_DEFENSE")

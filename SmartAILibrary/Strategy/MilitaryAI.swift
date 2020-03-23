@@ -646,7 +646,7 @@ class MilitaryAI {
             }
 
             // Don't count exploration units
-            if unit.task == .explore || unit.task == .exploreSea {
+            if unit.has(task: .explore) || unit.has(task: .exploreSea) {
                 continue
             }
 
@@ -694,7 +694,7 @@ class MilitaryAI {
 
         // 1 Unit per City & 1 per Settler
         iNumUnitsWanted += Double(gameModel.cities(of: player).count) * 1.0
-        iNumUnitsWanted += Double(gameModel.units(of: player).count(where: { $0?.task == .settle })) * 1.0
+        iNumUnitsWanted += Double(gameModel.units(of: player).count(where: { $0!.has(task: .settle) })) * 1.0
 
         self.baseData.mandatoryReserveSize = Int(Double(iNumUnitsWanted) * multiplier)
 
@@ -950,7 +950,7 @@ class MilitaryAI {
 
                 var threadValue = city.threatValue() * city.population()
 
-                if city.capital {
+                if city.isCapital() {
                     threadValue *= 125
                     threadValue /= 100
                 }

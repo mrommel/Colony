@@ -33,8 +33,12 @@ class DiplomacyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+        
         // WHEN
-        gameModel.turn()
+        gameModel.update() //.doTurn()
         let militaryStrength = playerAlexander.diplomacyAI!.militaryStrength(of: playerAugustus)
 
         // THEN
@@ -60,11 +64,15 @@ class DiplomacyAITests: XCTestCase {
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+        
         playerAlexander.diplomacyAI?.doFirstContact(with: playerAugustus, in: gameModel)
         playerAugustus.diplomacyAI?.doFirstContact(with: playerAlexander, in: gameModel)
 
         // WHEN
-        gameModel.turn()
+        gameModel.update() //.doTurn()
         let militaryStrength = playerAlexander.diplomacyAI!.militaryStrength(of: playerAugustus)
 
         // THEN
@@ -83,15 +91,18 @@ class DiplomacyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         mapModel.add(unit: Unit(at: HexPoint(x: 1, y: 0), type: .warrior, owner: playerAlexander))
-
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
 
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
         
         // WHEN
-        gameModel.turn()
+        gameModel.update() //.doTurn()
         let proximity = playerAlexander.diplomacyAI!.proximity(to: playerAugustus)
         
         // THEN
@@ -120,11 +131,15 @@ class DiplomacyAITests: XCTestCase {
         mapModel.add(city: cityAugustus)
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
 
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
         
         // WHEN
-        gameModel.turn()
+        gameModel.update() //.doTurn()
         let proximity = playerAlexander.diplomacyAI!.proximity(to: playerAugustus)
         
         // THEN
@@ -153,11 +168,15 @@ class DiplomacyAITests: XCTestCase {
         mapModel.add(city: cityAugustus)
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
 
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
         
         // WHEN
-        gameModel.turn()
+        gameModel.update() //.doTurn()
         let proximity = playerAlexander.diplomacyAI!.proximity(to: playerAugustus)
         
         // THEN
@@ -180,13 +199,17 @@ class DiplomacyAITests: XCTestCase {
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
 
         playerAlexander.diplomacyAI?.doFirstContact(with: playerAugustus, in: gameModel)
         playerAugustus.diplomacyAI?.doFirstContact(with: playerAlexander, in: gameModel)
         
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
-        gameModel.turn()
+        gameModel.update() //.doTurn()
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         
         // THEN
@@ -210,6 +233,10 @@ class DiplomacyAITests: XCTestCase {
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
 
         playerAlexander.diplomacyAI?.doFirstContact(with: playerAugustus, in: gameModel)
         playerAugustus.diplomacyAI?.doFirstContact(with: playerAlexander, in: gameModel)
@@ -217,7 +244,7 @@ class DiplomacyAITests: XCTestCase {
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         playerAlexander.diplomacyAI?.doDeclarationOfFriendship(with: playerAugustus, in: gameModel)
-        gameModel.turn()
+        gameModel.update() //.doTurn()
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         
         // THEN
@@ -241,13 +268,17 @@ class DiplomacyAITests: XCTestCase {
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
 
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
         
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         playerAlexander.diplomacyAI?.doDenounce(player: playerAugustus, in: gameModel)
-        gameModel.turn()
+        gameModel.update() //.doTurn()
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         
         // THEN
@@ -271,6 +302,10 @@ class DiplomacyAITests: XCTestCase {
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
 
         playerAlexander.diplomacyAI?.doFirstContact(with: playerAugustus, in: gameModel)
         playerAugustus.diplomacyAI?.doFirstContact(with: playerAlexander, in: gameModel)
@@ -278,7 +313,7 @@ class DiplomacyAITests: XCTestCase {
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         playerAlexander.diplomacyAI?.doDeclareWar(to: playerAugustus, in: gameModel)
-        gameModel.turn()
+        gameModel.update() //.doTurn()
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         
         // THEN
@@ -297,6 +332,10 @@ class DiplomacyAITests: XCTestCase {
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
         
         // WHEN
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
@@ -328,6 +367,10 @@ class DiplomacyAITests: XCTestCase {
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus, playerElizabeth], on: mapModel)
+        
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
 
         // all players have meet with another
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)

@@ -70,4 +70,30 @@ enum GrandStrategyAIType {
                     Flavor(type: .recon, value: 1)]
         }
     }
+    
+    func yields() -> Yields {
+        
+        switch self {
+            
+        case .none: return Yields(food: 0.0, production: 0.0, gold: 0.0)
+        case .conquest: return Yields(food: 0.0, production: 200.0, gold: 0.0)
+        case .culture: return Yields(food: 0.0, production: 0.0, gold: 50.0, science: 50.0)
+        case .council: return Yields(food: 0.0, production: 0.0, gold: 100.0)
+            /*
+             
+             <Row>
+                 <AIGrandStrategyType>AIGRANDSTRATEGY_SPACESHIP</AIGrandStrategyType>
+                 <YieldType>YIELD_SCIENCE</YieldType>
+                 <Yield>100</Yield>
+             </Row>
+             <Row>
+                 <AIGrandStrategyType>AIGRANDSTRATEGY_SPACESHIP</AIGrandStrategyType>
+                 <YieldType>YIELD_PRODUCTION</YieldType>
+                 <Yield>100</Yield>
+             </Row>
+             */
+        }
+    }
+
+    
 }

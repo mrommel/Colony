@@ -25,8 +25,6 @@ enum TileImprovementType {
     case fishingBoats
     /*case lumberMill*/
     
-    case road
-    
     case fort // Occupying unit receives +4 Civ6StrengthIcon Defense Strength, and automatically gains 2 turns of fortification.
     case citadelle
 
@@ -54,8 +52,6 @@ enum TileImprovementType {
         
         case .fort: return Yields(food: 0, production: 0, gold: 0)
         case .citadelle: return Yields(food: 0, production: 0, gold: 0)
-            
-        case .road: return Yields(food: 0, production: 0, gold: 0)
         }
     }
 
@@ -78,8 +74,6 @@ enum TileImprovementType {
             
         case .fort: return 1
         case .citadelle: return 1
-            
-        case .road: return 0
         }
     }
 
@@ -107,8 +101,6 @@ enum TileImprovementType {
             
         case .fort: return true // FIXME
         case .citadelle: return false // FIXME
-            
-        case .road: return false
         }
     }
     
@@ -116,7 +108,7 @@ enum TileImprovementType {
         
         switch self {
             
-        case .none, .barbarianCamp, .goodyHut, .farm, .mine, .quarry, .camp, .pasture, .plantation, .fishingBoats, .road:
+        case .none, .barbarianCamp, .goodyHut, .farm, .mine, .quarry, .camp, .pasture, .plantation, .fishingBoats:
             return 0
         case .fort:
             return 4
@@ -124,7 +116,7 @@ enum TileImprovementType {
             return 6
         }
         
-        return 0
+        // return 0
     }
     
     func canBePillaged() -> Bool {
@@ -144,7 +136,6 @@ enum TileImprovementType {
         case .fishingBoats: return true
         case .fort: return true
         case .citadelle: return true
-        case .road: return true
         }
     }
     
@@ -208,11 +199,11 @@ enum TileImprovementType {
         return true
     }
 
-    /*func required() -> TechType? {
+    func required() -> TechType? {
 
         switch self {
 
-        case .none: return nil
+        case .none, .barbarianCamp, .goodyHut: return nil
 
         case .farm: return nil
         case .mine: return .mining
@@ -222,7 +213,37 @@ enum TileImprovementType {
         case .plantation: return .irrigation
         case .fishingBoats: return .sailing
      
-     case .fort: return siege
+        case .fort: return .siegeTactics
+        case .citadelle: return .siegeTactics
         }
-    }*/
+    }
+    
+    func flavor(for flavorType: FlavorType) -> Int {
+
+        if let modifier = self.flavors().first(where: { $0.type == flavorType }) {
+            return modifier.value
+        }
+
+        return 0
+    }
+    
+    func flavors() -> [Flavor] {
+
+        switch self {
+
+        case .none: return []
+            
+        case .barbarianCamp: return []
+        case .goodyHut: return []
+        case .farm: return []
+        case .mine: return []
+        case .quarry: return []
+        case .camp: return []
+        case .pasture: return []
+        case .plantation: return []
+        case .fishingBoats: return []
+        case .fort: return []
+        case .citadelle: return []
+        }
+    }
 }
