@@ -10,7 +10,7 @@ import Foundation
 
 class BuildQueue {
     
-    private var items: [BuildableItem]
+    fileprivate var items: [BuildableItem]
     
     init() {
         
@@ -20,6 +20,11 @@ class BuildQueue {
     func add(item: BuildableItem) {
         
         self.items.append(item)
+    }
+    
+    func remove(item: BuildableItem) {
+    
+        self.items.removeAll(where: { $0 == item })
     }
     
     func building(of buildingType: BuildingType) -> BuildableItem? {
@@ -48,5 +53,43 @@ class BuildQueue {
     func pop() {
         
         self.items.removeFirst()
+    }
+    
+    func clear() {
+        
+        self.items.removeAll()
+    }
+}
+
+extension BuildQueue: Sequence {
+    
+    func makeIterator() -> BuildQueueIterator {
+        return BuildQueueIterator(queue: self)
+    }
+}
+
+struct BuildQueueIterator: IteratorProtocol {
+    
+    private let queue: BuildQueue
+    private var index = 0
+    
+    init(queue: BuildQueue) {
+        self.queue = queue
+    }
+    
+    mutating func next() -> BuildableItem? {
+        
+        guard 0 <= index else {
+            return nil
+        }
+        
+        // prevent out of bounds
+        guard index < self.queue.items.count else {
+            return nil
+        }
+        
+        let item = self.queue.items[index]
+        index += 1
+        return item
     }
 }

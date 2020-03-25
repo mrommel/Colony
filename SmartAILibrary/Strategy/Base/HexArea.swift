@@ -139,18 +139,18 @@ class HexArea: Codable {
     }
 }
 
-extension HexArea: Sequence {
-    
-    func makeIterator() -> HexAreaIterator {
-        return HexAreaIterator(area: self)
-    }
-}
-
 extension HexArea: Equatable {
     
     static func == (lhs: HexArea, rhs: HexArea) -> Bool {
         
         return lhs.points.elementsEqual(rhs.points)
+    }
+}
+
+extension HexArea: Sequence {
+    
+    func makeIterator() -> HexAreaIterator {
+        return HexAreaIterator(area: self)
     }
 }
 

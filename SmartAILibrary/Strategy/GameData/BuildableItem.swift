@@ -17,20 +17,6 @@ enum BuildableItemType {
     case project
 }
 
-enum ProjecType {
-    
-}
-
-enum WonderType {
-    
-    case pyramids
-    
-    func productionCost() -> Int {
-
-        return 0
-    }
-}
-
 class BuildableItem {
     
     let type: BuildableItemType

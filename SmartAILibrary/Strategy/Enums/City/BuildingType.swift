@@ -16,7 +16,7 @@ enum BuildingType {
     case palace
     case granary
     case monument
-    case library
+    case library // https://civilization.fandom.com/wiki/Library_(Civ6)
     case shrine
     case ancientWalls
     case barracks
@@ -169,6 +169,15 @@ enum BuildingType {
         case .barracks: return .encampment
         }
     }
+    
+    func flavor(for flavorType: FlavorType) -> Int {
+        
+        if let flavor = self.flavours().first(where: { $0.type == flavorType }) {
+            return flavor.value
+        }
+        
+        return 0
+    }
 
     func flavours() -> [Flavor] {
 
@@ -197,7 +206,18 @@ enum BuildingType {
     
     func specialistCount() -> Int {
         
-        return 0
+        switch self {
+            
+        case .none: return 0
+            
+        case .palace: return 0
+        case .granary: return 0
+        case .monument: return 0
+        case .library: return 1
+        case .shrine: return 1
+        case .ancientWalls: return 0
+        case .barracks: return 1
+        }
     }
     
     func canAddSpecialist() -> Bool {
@@ -208,10 +228,17 @@ enum BuildingType {
     // check CIV5Buildings.xml
     func specialistType() -> SpecialistType {
         
-        if self == .library {
-            return .scientist
+        switch self {
+            
+        case .none: return .none
+            
+        case .palace: return .none
+        case .granary: return .none
+        case .monument: return .none
+        case .library: return .scientist
+        case .shrine: return .priest
+        case .ancientWalls: return .none
+        case .barracks: return .commander
         }
-        
-        return .none
     }
 }

@@ -44,6 +44,7 @@ protocol AbstractCity {
     var name: String { get }
     var player: AbstractPlayer? { get }
     var buildings: AbstractBuildings? { get }
+    var wonders: AbstractWonders? { get }
     var districts: AbstractDistricts? { get }
     var location: HexPoint { get }
     
@@ -71,9 +72,12 @@ protocol AbstractCity {
     func canBuild(building: BuildingType) -> Bool
     func canTrain(unit: UnitType) -> Bool
     func canBuild(project: ProjectType) -> Bool
+    func canBuild(wonder: WonderType, in gameModel: GameModel?) -> Bool
+    func canConstruct(district: DistrictType, in gameModel: GameModel?) -> Bool
 
     func startTraining(unit: UnitType)
     func startBuilding(building: BuildingType)
+    func startBuilding(wonder: WonderType)
     func startBuilding(district: DistrictType)
 
     func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int
@@ -86,6 +90,8 @@ protocol AbstractCity {
     func hasOnlySmallFoodSurplus() -> Bool // < 2 food surplus
     func hasFoodSurplus() -> Bool // < 4 food surplus
     func hasEnoughFood() -> Bool
+    
+    func productionPerTurn() -> Double
 
     func healthPoints() -> Int
     func set(healthPoints: Int)
@@ -120,6 +126,9 @@ protocol AbstractCity {
     
     func doBuyPlot(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int
+    
+    func isProductionAutomated() -> Bool
+    func setProductionAutomated(to newValue: Bool, clear: Bool, in gameModel: GameModel?)
 }
 
 class City: AbstractCity {
@@ -134,6 +143,7 @@ class City: AbstractCity {
 
     internal var districts: AbstractDistricts?
     internal var buildings: AbstractBuildings? // buildings that are currently build in this city
+    internal var wonders: AbstractWonders?
     internal var projects: AbstractProjects? // projects that are currently build in this city
     internal var buildQueue: BuildQueue
     internal var cityCitizens: CityCitizens?
@@ -158,6 +168,13 @@ class City: AbstractCity {
     private var lastTurnGarrisonAssignedValue: Int = 0
     
     private var garrisonedUnitValue: AbstractUnit? = nil
+    
+    // yields
+    private var baseYieldRateFromSpecialists: YieldList
+    private var extraSpecialistYield: YieldList
+    private var culturePerTurnFromSpecialists: Int
+    
+    private var productionAutomatedValue: Bool
 
     // MARK: constructor
 
@@ -178,12 +195,23 @@ class City: AbstractCity {
         self.threatVal = 0
         
         self.healthPointsValue = 200
+        
+        self.baseYieldRateFromSpecialists = YieldList()
+        self.baseYieldRateFromSpecialists.fill()
+        
+        self.extraSpecialistYield = YieldList()
+        self.extraSpecialistYield.fill()
+        self.culturePerTurnFromSpecialists = 0
+        
+        self.productionAutomatedValue = false
     }
 
     func initialize() {
 
         self.districts = Districts(city: self)
         self.buildings = Buildings(city: self)
+        self.wonders = Wonders(city: self)
+        self.projects = Projects(city: self)
 
         if self.capitalValue {
             do {
@@ -268,13 +296,13 @@ class City: AbstractCity {
             
             // self.doResistanceTurn();
 
-            // let allowNoProduction = !doCheckProduction();
+            let allowNoProduction = !self.doCheckProduction(in: gameModel)
 
             // self.doGrowth();
 
             // self.doUpdateIndustrialRouteToCapital();
 
-            // self.doProduction(bAllowNoProduction);
+            self.doProduction(allowNoProduction: allowNoProduction, in: gameModel)
 
             // self.doDecay();
 
@@ -377,6 +405,436 @@ class City: AbstractCity {
 
         return yields*/
     }
+    
+    func doCheckProduction(in gameModel: GameModel?) -> Bool {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        /*OrderData* pOrderNode;
+        UnitTypes eUpgradeUnit;
+        int iUpgradeProduction;
+        int iProductionGold;
+        int iI;*/
+        var okay = true
+
+        let maxedUnitGoldPercent = 100 /* MAXED_UNIT_GOLD_PERCENT*/
+        let maxedBuildingGoldPercent = 100 /* MAXED_BUILDING_GOLD_PERCENT */
+        let maxedProjectGoldPercent = 300 /* MAXED_PROJECT_GOLD_PERCENT */
+
+        /*for unitType in UnitType.all {
+            
+            let unitProduction = self.unitProduction(of: unitType)
+            if unitProduction > 0 {
+                
+                if player.isProductionMaxedUnitClass((UnitClassTypes)(pkUnitInfo)->GetUnitClassType()) {
+                    
+                    let productionGold = ((unitProduction * maxedUnitGoldPercent) / 100)
+
+                    if productionGold > 0 {
+                        
+                        player.GetTreasury()->ChangeGold(iProductionGold);
+
+                        if (getOwner() == GC.getGame().getActivePlayer())
+                        {
+                            Localization::String localizedText = Localization::Lookup("TXT_KEY_MISC_LOST_WONDER_PROD_CONVERTED");
+                            localizedText << getNameKey() << GC.getUnitInfo((UnitTypes)iI)->GetTextKey() << iProductionGold;
+                            DLLUI->AddCityMessage(0, GetIDInfo(), getOwner(), false, GC.getEVENT_MESSAGE_TIME(), localizedText.toUTF8());
+                        }
+                    }
+
+                    setUnitProduction(((UnitTypes)iI), 0);
+                }
+            }
+        }*/
+
+        /*for buildingType in BuildingType.all {
+            
+            const BuildingTypes eExpiredBuilding = static_cast<BuildingTypes>(iI);
+            CvBuildingEntry* pkExpiredBuildingInfo = GC.getBuildingInfo(eExpiredBuilding);
+
+            //skip if null
+            if(pkExpiredBuildingInfo == NULL)
+                continue;
+
+            int iBuildingProduction = m_pCityBuildings->GetBuildingProduction(eExpiredBuilding);
+            if (iBuildingProduction > 0)
+            {
+                const BuildingClassTypes eExpiredBuildingClass = (BuildingClassTypes) (pkExpiredBuildingInfo->GetBuildingClassType());
+
+                if (thisPlayer.isProductionMaxedBuildingClass(eExpiredBuildingClass))
+                {
+                    // Beaten to a world wonder by someone?
+                    if (isWorldWonderClass(pkExpiredBuildingInfo->GetBuildingClassInfo()))
+                    {
+                        for (iPlayerLoop = 0; iPlayerLoop < MAX_MAJOR_CIVS; iPlayerLoop++)
+                        {
+                            eLoopPlayer = (PlayerTypes) iPlayerLoop;
+
+                            // Found the culprit
+                            if (GET_PLAYER(eLoopPlayer).getBuildingClassCount(eExpiredBuildingClass) > 0)
+                            {
+                                GET_PLAYER(getOwner()).GetDiplomacyAI()->ChangeNumWondersBeatenTo(eLoopPlayer, 1);
+                                break;
+                            }
+                        }
+
+                        auto_ptr<ICvCity1> pDllCity(new CvDllCity(this));
+                        DLLUI->AddDeferredWonderCommand(WONDER_REMOVED, pDllCity.get(), (BuildingTypes) eExpiredBuilding, 0);
+                        //Add "achievement" for sucking it up
+                        gDLL->IncrementSteamStatAndUnlock( ESTEAMSTAT_BEATWONDERS, 10, ACHIEVEMENT_SUCK_AT_WONDERS );
+                    }
+
+                    iProductionGold = ((iBuildingProduction * iMaxedBuildingGoldPercent) / 100);
+
+                    if (iProductionGold > 0)
+                    {
+                        thisPlayer.GetTreasury()->ChangeGold(iProductionGold);
+
+                        if (getOwner() == GC.getGame().getActivePlayer())
+                        {
+                            Localization::String localizedText = Localization::Lookup("TXT_KEY_MISC_LOST_WONDER_PROD_CONVERTED");
+                            localizedText << getNameKey() << pkExpiredBuildingInfo->GetTextKey() << iProductionGold;
+                            DLLUI->AddCityMessage(0, GetIDInfo(), getOwner(), false, GC.getEVENT_MESSAGE_TIME(), localizedText.toUTF8());
+                        }
+                    }
+
+                    m_pCityBuildings->SetBuildingProduction(eExpiredBuilding, 0);
+                }
+            }
+        }*/
+
+        /*for projectType in ProjectType.all {
+            
+            int iProjectProduction = getProjectProduction((ProjectTypes)iI);
+            if (iProjectProduction > 0)
+            {
+                if (thisPlayer.isProductionMaxedProject((ProjectTypes)iI))
+                {
+                    iProductionGold = ((iProjectProduction * iMaxedProjectGoldPercent) / 100);
+
+                    if (iProductionGold > 0)
+                    {
+                        thisPlayer.GetTreasury()->ChangeGold(iProductionGold);
+
+                        if (getOwner() == GC.getGame().getActivePlayer())
+                        {
+                            Localization::String localizedText = Localization::Lookup("TXT_KEY_MISC_LOST_WONDER_PROD_CONVERTED");
+                            localizedText << getNameKey() << GC.getProjectInfo((ProjectTypes)iI)->GetTextKey() << iProductionGold;
+                            DLLUI->AddCityMessage(0, GetIDInfo(), getOwner(), false, GC.getEVENT_MESSAGE_TIME(), localizedText.toUTF8());
+                        }
+                    }
+
+                    setProjectProduction(((ProjectTypes)iI), 0);
+                }
+            }
+        }*/
+
+        if !self.isProduction() && player.isHuman() && !self.isProductionAutomated() {
+            gameModel?.add(message: CityNeedsBuildableMessage(city: self))
+            return okay
+        }
+
+        // Can now construct an Upgraded version of this Unit
+        /*for (iI = 0; iI < iNumUnitInfos; iI++)
+        {
+            if (getFirstUnitOrder((UnitTypes)iI) != -1)
+            {
+                // If we can still actually train this Unit type then don't auto-upgrade it yet
+                if (canTrain((UnitTypes)iI, true))
+                {
+                    continue;
+                }
+
+                eUpgradeUnit = allUpgradesAvailable((UnitTypes)iI);
+
+                if (eUpgradeUnit != NO_UNIT)
+                {
+                    CvAssertMsg(eUpgradeUnit != iI, "Trying to upgrade a Unit to itself");
+                    iUpgradeProduction = getUnitProduction((UnitTypes)iI);
+                    setUnitProduction(((UnitTypes)iI), 0);
+                    setUnitProduction(eUpgradeUnit, iUpgradeProduction);
+
+                    pOrderNode = headOrderQueueNode();
+
+                    while (pOrderNode != NULL)
+                    {
+                        if (pOrderNode->eOrderType == ORDER_TRAIN)
+                        {
+                            if (pOrderNode->iData1 == iI)
+                            {
+                                thisPlayer.changeUnitClassMaking(((UnitClassTypes)(GC.getUnitInfo((UnitTypes)(pOrderNode->iData1))->GetUnitClassType())), -1);
+                                pOrderNode->iData1 = eUpgradeUnit;
+                                thisPlayer.changeUnitClassMaking(((UnitClassTypes)(GC.getUnitInfo((UnitTypes)(pOrderNode->iData1))->GetUnitClassType())), 1);
+                            }
+                        }
+
+                        pOrderNode = nextOrderQueueNode(pOrderNode);
+                    }
+                }
+            }
+        }*/
+
+        // Can now construct an Upgraded version of this Building
+        /*for (iI = 0; iI < iNumBuildingInfos; iI++)
+        {
+            const BuildingTypes eBuilding = static_cast<BuildingTypes>(iI);
+            CvBuildingEntry* pkBuildingInfo = GC.getBuildingInfo(eBuilding);
+            if(pkBuildingInfo)
+            {
+                if (getFirstBuildingOrder(eBuilding) != -1)
+                {
+                    BuildingClassTypes eBuildingClass = (BuildingClassTypes) pkBuildingInfo->GetReplacementBuildingClass();
+
+                    if (eBuildingClass != NO_BUILDINGCLASS)
+                    {
+                        BuildingTypes eUpgradeBuilding = ((BuildingTypes) (thisPlayer.getCivilizationInfo().getCivilizationBuildings(eBuildingClass)));
+
+                        if (canConstruct(eUpgradeBuilding))
+                        {
+                            CvAssertMsg(eUpgradeBuilding != iI, "Trying to upgrade a Building to itself");
+                            iUpgradeProduction = m_pCityBuildings->GetBuildingProduction(eBuilding);
+                            m_pCityBuildings->SetBuildingProduction((eBuilding), 0);
+                            m_pCityBuildings->SetBuildingProduction(eUpgradeBuilding, iUpgradeProduction);
+
+                            pOrderNode = headOrderQueueNode();
+
+                            while (pOrderNode != NULL)
+                            {
+                                if (pOrderNode->eOrderType == ORDER_CONSTRUCT)
+                                {
+                                    if (pOrderNode->iData1 == iI)
+                                    {
+                                        CvBuildingEntry* pkOrderBuildingInfo = GC.getBuildingInfo((BuildingTypes)pOrderNode->iData1);
+                                        CvBuildingEntry* pkUpgradeBuildingInfo = GC.getBuildingInfo(eUpgradeBuilding);
+
+                                        if(NULL != pkOrderBuildingInfo && NULL != pkUpgradeBuildingInfo)
+                                        {
+                                            const BuildingClassTypes eOrderBuildingClass = (BuildingClassTypes)pkOrderBuildingInfo->GetBuildingClassType();
+                                            const BuildingClassTypes eUpgradeBuildingClass = (BuildingClassTypes)pkUpgradeBuildingInfo->GetBuildingClassType();
+
+                                            thisPlayer.changeBuildingClassMaking(eOrderBuildingClass, -1);
+                                            pOrderNode->iData1 = eUpgradeBuilding;
+                                            thisPlayer.changeBuildingClassMaking(eUpgradeBuildingClass, 1);
+
+                                        }
+                                    }
+                                }
+
+                                pOrderNode = nextOrderQueueNode(pOrderNode);
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
+
+        okay = self.cleanUpQueue(in: gameModel)
+
+        return okay
+    }
+    
+    /// remove items in the queue that are no longer valid
+    func cleanUpQueue(in gameModel: GameModel?) -> Bool {
+        
+        var okay = true
+
+        for buildItem in self.buildQueue {
+ 
+            if !self.canContinueProduction(item: buildItem, in: gameModel) {
+                self.buildQueue.remove(item: buildItem)
+                okay = false
+            }
+        }
+
+        return okay
+    }
+    
+    func canContinueProduction(item: BuildableItem, in gameModel: GameModel?) -> Bool {
+        
+        switch item.type {
+            
+            case .unit:
+                return self.canTrain(unit: item.unitType!)
+            case .building:
+                return self.canBuild(building: item.buildingType!)
+            case .wonder:
+                return self.canBuild(wonder: item.wonderType!, in: gameModel)
+            case .district:
+                return self.canConstruct(district: item.districtType!, in: gameModel)
+            case .project:
+                return self.canBuild(project: item.projectType!)
+        }
+
+        return false;
+    }
+
+    func isProduction() -> Bool {
+        
+        if self.buildQueue.peek() != nil {
+            return true
+        }
+        
+        return false
+    }
+    
+    func isProductionAutomated() -> Bool {
+        
+        return self.productionAutomatedValue
+    }
+
+    func setProductionAutomated(to newValue: Bool, clear: Bool, in gameModel: GameModel?) {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if self.isProductionAutomated() != newValue {
+            
+            self.productionAutomatedValue = newValue
+
+            /*if ((getOwner() == GC.getGame().getActivePlayer()) && isCitySelected())
+            {
+                DLLUI->setDirty(SelectionButtons_DIRTY_BIT, true);
+            }*/
+
+            // if automated and not network game and all 3 modifiers down, clear the queue and choose again
+            if newValue && clear {
+                self.buildQueue.clear()
+            }
+            
+            if !isProduction() && !player.isHuman() {
+                self.AI_chooseProduction(interruptWonders: false, in: gameModel)
+            }
+        }
+    }
+    
+    //    --------------------------------------------------------------------------------
+    func doProduction(allowNoProduction: Bool, in gameModel: GameModel?) {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if !player.isHuman() || self.isProductionAutomated() {
+            if !self.isProduction() /*|| self.isProductionProcess() || AI_isChooseProductionDirty() */ {
+                self.AI_chooseProduction(interruptWonders: false, in: gameModel /*bInterruptWonders*/)
+            }
+        }
+
+        if !allowNoProduction && !self.isProduction() {
+            return
+        }
+
+        // processes are wealth or science
+        /*if self.isProductionProcess() {
+            return
+        }*/
+
+        if self.isProduction() {
+
+            /*if (isProductionBuilding())
+            {
+                const OrderData* pOrderNode = headOrderQueueNode();
+                int iData1 = -1;
+                if (pOrderNode != NULL)
+                {
+                    iData1 = pOrderNode->iData1;
+                }
+
+                const BuildingTypes eBuilding = static_cast<BuildingTypes>(iData1);
+                CvBuildingEntry* pkBuildingInfo = GC.getBuildingInfo(eBuilding);
+                if(pkBuildingInfo)
+                {
+                    if (isWorldWonderClass(pkBuildingInfo->GetBuildingClassInfo()))
+                    {
+                        if (m_pCityBuildings->GetBuildingProduction(eBuilding) == 0) // otherwise we are probably already showing this
+                        {
+                            auto_ptr<ICvCity1> pDllCity(new CvDllCity(this));
+                            DLLUI->AddDeferredWonderCommand(WONDER_CREATED, pDllCity.get(), eBuilding, 0);
+                        }
+                    }
+                }
+            }*/
+
+            let production = self.yields(in: gameModel).production
+            self.updateProduction(for: production, in: gameModel)
+            
+            //setOverflowProduction(0);
+            //setFeatureProduction(0);
+        } else {
+            // changeOverflowProductionTimes100(getCurrentProductionDifferenceTimes100(false, false));
+            fatalError("shfdfgj")
+        }
+    }
+    
+    // TODO rename
+    func AI_chooseProduction(interruptWonders: Bool, in gameModel: GameModel?) {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let citySpecializationAI = player.citySpecializationAI else {
+            fatalError("cant get citySpecializationAI")
+        }
+        
+        var buildWonder = false
+
+        // See if this is the one AI city that is supposed to be building wonders
+        if citySpecializationAI.wonderBuildCity()?.location == self.location {
+            
+            // Is it still working on that wonder and we don't want to interrupt it?
+            if !interruptWonders {
+                
+                if let currentWonderProduction = self.productionWonder() {
+                    // Stay the course
+                    return
+                }
+            }
+
+            // So we're the wonder building city but it is not underway yet...
+
+            // Has the designated wonder been poached by another civ?
+            let nextWonderType = citySpecializationAI.nextWonderDesired()
+            if !self.canBuild(wonder: nextWonderType, in: gameModel) {
+                // Reset city specialization
+                //citySpecializationAI.->SetSpecializationsDirty(SPECIALIZATION_UPDATE_WONDER_BUILT_BY_RIVAL);
+                fatalError("need to trigger the selection of new wonder")
+            } else {
+                buildWonder = true
+            }
+        }
+
+        if buildWonder {
+            
+            self.startBuilding(wonder: citySpecializationAI.nextWonderDesired())
+
+            /*if (GC.getLogging() && GC.getAILogging())
+            {
+                CvString playerName;
+                FILogFile *pLog;
+                CvString strBaseString;
+                CvString strOutBuf;
+
+                m_pCityStrategyAI->LogCityProduction(buildable, false);
+
+                playerName = kOwner.getCivilizationShortDescription();
+                pLog = LOGFILEMGR.GetLog(kOwner.GetCitySpecializationAI()->GetLogFileName(playerName), FILogFile::kDontTimeStamp);
+                strBaseString.Format ("%03d, ", GC.getGame().getElapsedGameTurns());
+                strBaseString += playerName + ", ";
+                strOutBuf.Format("%s, WONDER - Started %s, Turns: %d", getName().GetCString(), GC.getBuildingInfo((BuildingTypes)buildable.m_iIndex)->GetDescription(), buildable.m_iTurnsToConstruct);
+                strBaseString += strOutBuf;
+                pLog->Msg(strBaseString);
+            }*/
+        } else {
+            self.cityStrategy?.chooseProduction(in: gameModel)
+            //AI_setChooseProductionDirty(false);
+        }
+
+        return;
+    }
 
     func foodBasket() -> Double {
 
@@ -386,6 +844,13 @@ class City: AbstractCity {
     internal func set(foodBasket: Double) {
 
         self.foodBasketValue = foodBasket
+    }
+    
+    // MARK: production
+    
+    func productionPerTurn() -> Double {
+        
+        return self.productionLastTurn
     }
 
     //    Be very careful with setting bReassignPop to false.  This assumes that the caller
@@ -480,6 +945,79 @@ class City: AbstractCity {
 
         return true
     }
+    
+    func canBuild(wonder: WonderType, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let wonders = self.wonders else {
+            fatalError("cant get wonders")
+        }
+        
+        if wonders.has(wonder: wonder) {
+            return false
+        }
+        
+        if let requiredTech = wonder.requiredTech() {
+            if !player.has(tech: requiredTech) {
+                return false
+            }
+        }
+        
+        if let requiredCivic = wonder.requiredCivic() {
+            if !player.has(civic: requiredCivic) {
+                return false
+            }
+        }
+
+        //
+        if gameModel.alreadyBuilt(wonder: wonder) {
+            return false
+        }
+
+        return true
+    }
+    
+    func canConstruct(district districtType: DistrictType, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        // can build only once
+        if self.has(district: districtType) {
+            return false
+        }
+        
+        if let requiredTech = districtType.required() {
+            if !player.has(tech: requiredTech) {
+                return false
+            }
+        }
+        
+        var foundValidNeighbor = false
+        for neighbor in self.location.neighbors() {
+            if districtType.canConstruct(on: neighbor, in: gameModel) {
+                foundValidNeighbor = true
+            }
+        }
+        
+        if foundValidNeighbor == false {
+            return false
+        }
+        
+        return true
+    }
 
     func canTrain(unit unitType: UnitType) -> Bool {
 
@@ -535,6 +1073,18 @@ class City: AbstractCity {
         return buildings.has(building: building)
     }
     
+    func productionWonder() -> WonderType? {
+        
+        if let currentProduction = self.buildQueue.peek() {
+            
+            if currentProduction.type == .wonder {
+                return currentProduction.wonderType
+            }
+        }
+        
+        return nil
+    }
+    
     func setRouteToCapitalConnected(value connected: Bool) {
         
         self.routeToCapitalConnectedThisTurn = connected
@@ -548,6 +1098,11 @@ class City: AbstractCity {
     func startBuilding(building buildingType: BuildingType) {
 
         self.buildQueue.add(item: BuildableItem(buildingType: buildingType))
+    }
+    
+    func startBuilding(wonder wonderType: WonderType) {
+        
+        self.buildQueue.add(item: BuildableItem(wonderType: wonderType))
     }
     
     func startBuilding(district: DistrictType) {
@@ -1063,29 +1618,69 @@ class City: AbstractCity {
     
     func processSpecialist(specialistType: SpecialistType, change: Int) {
 
-        //fatalError("niy")
-        if specialistType->getGreatPeopleUnitClass() != NO_UNITCLASS {
-            let eGreatPeopleUnit = ((UnitTypes)(getCivilizationInfo().getCivilizationUnits(pkSpecialist->getGreatPeopleUnitClass())));
-
-            if eGreatPeopleUnit != NO_UNIT {
-                changeGreatPeopleUnitRate(eGreatPeopleUnit, pkSpecialist->getGreatPeopleRateChange() * iChange);
-            }
-        }
-
-        self.changeBaseGreatPeopleRate(pkSpecialist->getGreatPeopleRateChange() * iChange);
-
-        for (iI = 0; iI < NUM_YIELD_TYPES; iI++)
-        {
-            ChangeBaseYieldRateFromSpecialists(((YieldTypes)iI), (pkSpecialist->getYieldChange(iI) * iChange));
+        // Civ6: Another difference with the previous game is that Specialists now provide yields only and not Great Person Points, which makes them somewhat less important.
+        for yieldType in YieldType.all {
+            self.changeBaseYieldRateFromSpecialists(for: yieldType, change: Int(specialistType.yields().value(of: yieldType)) * change)
         }
 
         self.updateExtraSpecialistYield()
-
-        changeSpecialistFreeExperience(pkSpecialist->getExperience() * iChange);
-
+        
         // Culture
-        int iCulturePerSpecialist = GetCultureFromSpecialist(eSpecialist);
-        ChangeJONSCulturePerTurnFromSpecialists(iCulturePerSpecialist * iChange);
+        let culturePerSpecialist = specialistType.cutlurePerTurn()
+        self.culturePerTurnFromSpecialists += culturePerSpecialist * change
+    }
+    
+    func updateExtraSpecialistYield() {
+        
+        for yieldType in YieldType.all {
+            
+            let oldYield = self.extraSpecialistYield.weight(of: yieldType)
+
+            var newYield = 0.0
+
+            for specialistType in SpecialistType.all {
+                newYield += Double(self.calculateExtraSpecialistYield(for: yieldType, and: specialistType))
+            }
+
+            if oldYield != newYield {
+                self.extraSpecialistYield.set(weight: newYield, for: yieldType)
+                self.changeBaseYieldRateFromSpecialists(for: yieldType, change: Int(newYield - oldYield))
+            }
+        }
+    }
+    
+    func calculateExtraSpecialistYield(for yieldType: YieldType, and specialistType: SpecialistType) -> Int {
+        
+        /*guard let player = self.player else {
+            fatalError("cant get player")
+        }*/
+        
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get cityCitizens")
+        }
+        
+        //let yieldMultiplier = player.specialistExtraYield(for: specialistType, and: yieldType) + player.getSpecialistExtraYield(yieldType) /* + player.leader.traits().GetPlayerTraits()->GetSpecialistYieldChange(eSpecialist, eIndex);*/
+        let yieldMultiplier = specialistType.yields().value(of: yieldType)
+        let extraYield = Int(Double(cityCitizens.specialistCount(of: specialistType)) * yieldMultiplier)
+
+        return extraYield
+    }
+    
+    /// Base yield rate from Specialists
+    func changeBaseYieldRateFromSpecialists(for yieldType: YieldType, change: Int) {
+        
+        if change != 0 {
+            let oldYield = self.baseYieldRateFromSpecialists.weight(of: yieldType)
+            self.baseYieldRateFromSpecialists.add(weight: Double(change) + oldYield, for: yieldType)
+
+            // notify ui
+            /*if (getTeam() == GC.getGame().getActiveTeam())
+            {
+                if (isCitySelected()) {
+                    DLLUI->setDirty(CityScreen_DIRTY_BIT, true);
+                }
+            }*/
+        }
     }
     
     func doTask(taskType: CityTaskType, target: HexPoint? = nil, in gameModel: GameModel?) -> CityTaskResultType {

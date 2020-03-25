@@ -125,6 +125,17 @@ class WeightedList<T : Equatable>: CustomDebugStringConvertible {
         
         self.items.append(contentsOf: contents.items)
     }
+    
+    func totalWeights() -> Double {
+        
+        var sum = 0.0
+        
+        for item in self.items {
+            sum += item.weight
+        }
+        
+        return sum
+    }
 
     var debugDescription: String {
 

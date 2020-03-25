@@ -17,7 +17,7 @@ enum DistrictType {
     case harbor
     
     var all: [DistrictType] {
-        return [ .cityCenter, .campus, .holySite, .encampment, .harbor]
+        return [ .campus, .holySite, .encampment, .harbor]
     }
     
     func name() -> String {
@@ -50,10 +50,26 @@ enum DistrictType {
         switch self {
             
         case .cityCenter: return DistrictTypeData(name: "CityCenter", productionCost: 0, required: nil)
-        case .campus: return DistrictTypeData(name: "campus", productionCost: 54, required: .writing)
-        case .holySite: return DistrictTypeData(name: "holySite", productionCost: 54, required: .astrology)
-        case .encampment:  return DistrictTypeData(name: "encampment", productionCost: 54, required: .bronzeWorking)
-        case .harbor: return DistrictTypeData(name: "harbor", productionCost: 54, required: .celestialNavigation)
+            
+        case .campus: return DistrictTypeData(name: "Campus", productionCost: 54, required: .writing)
+        case .holySite: return DistrictTypeData(name: "HolySite", productionCost: 54, required: .astrology)
+        case .encampment:  return DistrictTypeData(name: "Encampment", productionCost: 54, required: .bronzeWorking)
+        case .harbor: return DistrictTypeData(name: "Harbor", productionCost: 54, required: .celestialNavigation)
         }
+    }
+
+    func canConstruct(on neighbor: HexPoint, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        if self == .harbor {
+            if let neighborTile = gameModel.tile(at: neighbor) {
+                return neighborTile.terrain().isWater()
+            }
+        }
+        
+        return true // FIXME
     }
 }

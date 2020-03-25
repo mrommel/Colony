@@ -268,85 +268,6 @@ class CityCitizens {
         }
 
         self.doReallocateCitizens(in: gameModel)
-        self.doSpecialists()
-    }
-    
-    /// Called at the end of every turn: Looks at the specialists in this City and levels them up
-    func doSpecialists() {
-        
-        let greatPersonThreshold = self.specialistUpgradeThreshold()
-
-        /*int iGPPChange;
-        int iCount;
-        int iMod;*/
-        for specialistType in SpecialistType.all {
-            
-            // Does this Specialist spawn a GP?
-            if let unitType = specialistType.unitType() {
-                
-                fatalError("niy")
-                /*iCount = GetSpecialistCount(eSpecialist);
-
-                // GPP from Specialists
-                iGPPChange = pkSpecialistInfo->getGreatPeopleRateChange() * iCount * 100;
-
-                // GPP from Buildings
-                iGPPChange += GetBuildingGreatPeopleRateChanges(eSpecialist) * 100;
-
-                if (iGPPChange > 0) {
-                    iMod = 0;
-
-                    // City mod
-                    iMod += GetCity()->getGreatPeopleRateModifier();
-
-                    // Player mod
-                    iMod += GetPlayer()->getGreatPeopleRateModifier();
-
-                    // Trait mod to this specific class
-                    if ((UnitClassTypes)pkSpecialistInfo->getGreatPeopleUnitClass() == GC.getInfoTypeForString("UNITCLASS_SCIENTIST")) {
-                        iMod += GetPlayer()->GetPlayerTraits()->GetGreatScientistRateModifier();
-                    }
-
-                    // Apply mod
-                    iGPPChange *= (100 + iMod);
-                    iGPPChange /= 100;
-
-                    ChangeSpecialistGreatPersonProgressTimes100(eSpecialist, iGPPChange);
-                }
-
-                // Enough to spawn a GP?
-                if (GetSpecialistGreatPersonProgress(eSpecialist) >= iGPThreshold) {
-                        // Reset progress on this Specialist
-                        self.doResetSpecialistGreatPersonProgressTimes100(eSpecialist);
-
-                        // Now... actually create the GP!
-                        UnitClassTypes eUnitClass = (UnitClassTypes) pkSpecialistInfo->getGreatPeopleUnitClass();
-                        UnitTypes eUnit = (UnitTypes) GetCity()->getCivilizationInfo().getCivilizationUnits(eUnitClass);
-
-                        self.doSpawnGreatPerson(eUnit)
-                    
-                }*/
-            }
-        }
-    }
-    
-    /// What upgrade progress does a Specialist need to level up?
-    func specialistUpgradeThreshold() -> Int {
-        
-        let threshold = 100 /* GREAT_PERSON_THRESHOLD_BASE */
-
-        // FIXME:  Increase threshold based on how many GP have already been spawned
-        // threshold += (50 /* GREAT_PERSON_THRESHOLD_INCREASE */ * GET_PLAYER(GetCity()->getOwner()).getGreatPeopleCreated());
-
-        // FIXME: Game Speed mod
-        // threshold *= GC.getGame().getGameSpeedInfo().getGreatPeoplePercent();
-        // threshold /= 100;
-
-        // FIXME: Start era mod
-        // threshold *= GC.getGame().getStartEraInfo().getGreatPeoplePercent();
-        // threshold /= 100;
-
-        return threshold
     }
     
     /// Optimize our Citizen Placement
@@ -1551,5 +1472,10 @@ class CityCitizens {
         }
 
         return false
+    }
+    
+    func specialistCount(of specialistType: SpecialistType) -> Int {
+        
+        return self.numSpecialists.amount(of: specialistType)
     }
 }

@@ -8,31 +8,29 @@
 
 import Foundation
 
+// https://civilization.fandom.com/wiki/Specialists_(Civ6)
 enum SpecialistType {
     
     case none
     
     case citizen
     
-    // https://civilization.fandom.com/wiki/Great_People_(Civ6)
     case artist
-    // case admiral
+    case captain
     case engineer
-    // case general
+    case commander
     case merchant
-    // case musician
-    // case prophet
+    case priest
     case scientist
-    // case writer
     
     static var all: [SpecialistType] {
-        return [.citizen, .artist, .scientist, .merchant, .engineer]
+        return [.citizen, .artist, .captain, .commander, .scientist, .merchant, .engineer, .priest]
     }
     
     func cutlurePerTurn() -> Int {
         
         if self == .artist {
-            return 1
+            return 2
         }
         
         return 0
@@ -44,11 +42,15 @@ enum SpecialistType {
             
         case .none: return Yields(food: 0.0, production: 0.0, gold: 0.0)
         
-        case .citizen: return Yields(food: 0.0, production: 1.0, gold: 0.0)
+        case .citizen: return Yields(food: 0.0, production: 0.0, gold: 0.0)
+            
         case .artist: return Yields(food: 0.0, production: 0.0, gold: 0.0) // culture cant
-        case .scientist: return Yields(food: 0.0, production: 0.0, gold: 0.0, science: 3.0)
+        case .scientist: return Yields(food: 0.0, production: 0.0, gold: 0.0, science: 2.0)
         case .merchant: return Yields(food: 0.0, production: 0.0, gold: 2.0)
-        case .engineer: return Yields(food: 0.0, production: 1.0, gold: 0.0)
+        case .engineer: return Yields(food: 0.0, production: 2.0, gold: 0.0)
+        case .captain: return Yields(food: 1.0, production: 0.0, gold: 2.0)
+        case .commander: return Yields(food: 0.0, production: 1.0, gold: 2.0)
+        case .priest: return Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 2.0)
         }
     }
     
@@ -63,10 +65,13 @@ enum SpecialistType {
         case .scientist: return 3
         case .merchant: return 3
         case .engineer: return 3
+        case .captain: return 3
+        case .commander: return 3
+        case .priest: return 3
         }
     }
     
-    func unitType() -> UnitType? {
+    /*func greatPeopleUnitClass() -> UnitType? {
         
         switch self {
             
@@ -78,6 +83,9 @@ enum SpecialistType {
         case .scientist: return .scientist
         case .merchant: return .merchant
         case .engineer: return .engineer
+        case .captain: return .admiral
+        case .commander: return .general
+        case .priest: return .prophet
         }
-    }
+    }*/
 }

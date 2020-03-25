@@ -407,8 +407,7 @@ class CityStrategyAI {
                 
             case .wonder:
                 if let wonderType = selection.wonderType {
-                    //city.startBuilding(wonder: wonderType)
-                    fatalError("niy")
+                    city.startBuilding(wonder: wonderType)
                 }
                 
             case .district:

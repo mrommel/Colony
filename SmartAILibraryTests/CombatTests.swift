@@ -112,7 +112,8 @@ class CombatTests: XCTestCase {
         let city = City(name: "Berlin", at: HexPoint(x: 5, y: 5), owner: playerAugustus)
         city.initialize()
         city.startBuilding(building: .ancientWalls)
-        city.updateProduction(for: 200, in: gameModel)
+        //city.updateProduction(for: 200, in: gameModel)
+        city.turn(in: gameModel)
         gameModel.add(city: city)
         
         // WHEN

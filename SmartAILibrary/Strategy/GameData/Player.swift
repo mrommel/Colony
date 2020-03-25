@@ -35,6 +35,8 @@ protocol AbstractPlayer {
     var dangerPlotsAI: DangerPlotsAI? { get }
     var builderTaskingAI: BuilderTaskingAI? { get }
     var citySpecializationAI: CitySpecializationAI? { get }
+    var wonderProductionAI: WonderProductionAI? { get }
+    
     var cityConnections: CityConnections? { get }
     
     var plots: [AbstractTile?] { get }
@@ -143,6 +145,8 @@ class Player: AbstractPlayer {
     internal var homelandAI: HomelandAI?
     internal var builderTaskingAI: BuilderTaskingAI?
     internal var citySpecializationAI: CitySpecializationAI?
+    internal var wonderProductionAI: WonderProductionAI?
+    
     internal var cityConnections: CityConnections?
 
     internal var techs: AbstractTechs?
@@ -191,6 +195,8 @@ class Player: AbstractPlayer {
         self.homelandAI = HomelandAI(player: self)
         self.builderTaskingAI = BuilderTaskingAI(player: self)
         self.citySpecializationAI = CitySpecializationAI(player: self)
+        self.wonderProductionAI = WonderProductionAI(player: self)
+        
         self.cityConnections = CityConnections(player: self)
 
         self.techs = Techs(player: self)
@@ -1488,6 +1494,12 @@ class Player: AbstractPlayer {
         }
 
         return rtnValue
+    }
+    
+    // buildings + policies
+    func specialistExtraYield(for specialistType: SpecialistType, and yieldType: YieldType) -> Int {
+        
+        return 0
     }
     
     func isEqual(to other: AbstractPlayer?) -> Bool {

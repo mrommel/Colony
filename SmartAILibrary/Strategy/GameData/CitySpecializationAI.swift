@@ -64,6 +64,7 @@ class CitySpecializationAI {
     private var nextSpecializationDesired: CitySpecializationType
     
     private var nextWonderWeight: Int
+    private var nextWonderDesiredValue: WonderType
     
     private var numSpecializationsForThisYield: YieldList
     private var numSpecializationsForThisSubtype: CitySpecializationList
@@ -80,6 +81,8 @@ class CitySpecializationAI {
         self.nextSpecializationDesired = .none
         
         self.nextWonderWeight = 0
+        self.nextWonderDesiredValue = .none
+        
         self.numSpecializationsForThisYield = YieldList()
         self.numSpecializationsForThisYield.fill()
         self.numSpecializationsForThisSubtype = CitySpecializationList()
@@ -94,6 +97,10 @@ class CitySpecializationAI {
         
         guard let player = self.player else {
             fatalError("cant get player")
+        }
+        
+        guard let wonderProductionAI = player.wonderProductionAI else {
+            fatalError("cant get wonderProductionAI")
         }
         
         // No city specializations for humans!
@@ -114,6 +121,8 @@ class CitySpecializationAI {
         // See if need to update assignments
         if self.specializationsDirty || self.lastTurnEvaluated + 50 /* AI_CITY_SPECIALIZATION_REEVALUATION_INTERVAL */ > gameModel.turnsElapsed {
 
+            (self.nextWonderDesiredValue, self.nextWonderWeight) = wonderProductionAI.chooseWonder(adjustForOtherPlayers: true, nextWonderWeight: self.nextWonderWeight, in: gameModel)
+            
             self.weightSpecializations(in: gameModel)
             self.assignSpecializations(in: gameModel)
             
@@ -560,7 +569,7 @@ class CitySpecializationAI {
     
     func wonderBuildCity() -> AbstractCity? {
     
-        fatalError("niy")
+        return self.wonderCity
     }
     
     func wonderSubtype() -> ProductionSpecialization {
@@ -821,6 +830,11 @@ class CitySpecializationAI {
         self.productionSubtypeWeights.add(weight: Double(spaceshipWeight), for: .spaceship)
 
         return Int(militaryTrainingWeight + emergencyUnitWeight + seaWeight + wonderWeight + spaceshipWeight)
+    }
+    
+    func nextWonderDesired() -> WonderType {
+        
+        return self.nextWonderDesiredValue
     }
 }
 

@@ -54,7 +54,12 @@ enum TerrainType {
     
     func isWater() -> Bool {
         
-        return !self.isLand()
+        switch self {
+        case .grass, .plains, .desert, .tundra, .snow:
+            return false
+        case .shore, .ocean:
+            return true
+        }
     }
     
     func attackModifier() -> Int {
