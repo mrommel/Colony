@@ -97,6 +97,8 @@ class CombatTests: XCTestCase {
         let playerAugustus = Player(leader: .augustus)
         playerAugustus.initialize()
         
+        try! playerAugustus.techs?.discover(tech: .masonry)
+        
         // map
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
 
@@ -109,19 +111,24 @@ class CombatTests: XCTestCase {
         let attacker = Unit(at: HexPoint(x: 5, y: 6), type: .warrior, owner: playerAlexander)
         gameModel.add(unit: attacker)
         
-        let city = City(name: "Berlin", at: HexPoint(x: 5, y: 5), owner: playerAugustus)
+        let city = City(name: "Berlin", at: HexPoint(x: 5, y: 5), capital: true, owner: playerAugustus)
         city.initialize()
+        gameModel.add(city: city)
+        
         city.startBuilding(building: .ancientWalls)
         //city.updateProduction(for: 200, in: gameModel)
-        city.turn(in: gameModel)
-        gameModel.add(city: city)
+        
+        for _ in 0..<30 {
+            city.turn(in: gameModel)
+        }
+        
         
         // WHEN
         let result = Combat.predictMeleeAttack(between: attacker, and: city, in: gameModel)
         
         // THEN
         XCTAssertEqual(result.attackerDamage, 21)
-        XCTAssertEqual(result.defenderDamage, 39)
+        XCTAssertEqual(result.defenderDamage, 35)
         XCTAssertEqual(city.maxHealthPoints(), 300)
     }
     

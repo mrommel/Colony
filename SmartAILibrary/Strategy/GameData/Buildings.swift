@@ -21,6 +21,7 @@ protocol AbstractBuildings {
     // stats
     func defense() -> Int
     func defenseModifier() -> Int
+    func housing() -> Double
 }
 
 class Buildings: AbstractBuildings {
@@ -30,6 +31,7 @@ class Buildings: AbstractBuildings {
     
     private var defenseVal: Int
     private var defenseModifierVal: Int
+    private var housingVal: Double
     
     init(city: AbstractCity?) {
         
@@ -38,6 +40,7 @@ class Buildings: AbstractBuildings {
         
         self.defenseVal = 0
         self.defenseModifierVal = 0
+        self.housingVal = 0.0
     }
     
     func has(building: BuildingType) -> Bool {
@@ -52,17 +55,18 @@ class Buildings: AbstractBuildings {
         }
         
         self.updateDefense()
+        self.updateHousing()
         
         self.buildings.append(building)
     }
     
     private func updateDefense() {
         
-        var defenseVal = 0
+        self.defenseVal = 0
         for building in BuildingType.all {
             
             if self.has(building: building) {
-                defenseVal += building.defense()
+                self.defenseVal += building.defense()
             }
         }
     }
@@ -75,5 +79,21 @@ class Buildings: AbstractBuildings {
     func defenseModifier() -> Int {
         
         return self.defenseModifierVal
+    }
+    
+    func updateHousing() {
+        
+        self.housingVal = 0.0
+        for building in BuildingType.all {
+            
+            if self.has(building: building) {
+                self.housingVal += building.yields().housing
+            }
+        }
+    }
+    
+    func housing() -> Double {
+        
+        return self.housingVal
     }
 }

@@ -52,6 +52,9 @@ class AdvisorTests: XCTestCase {
         
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
+        let ui = TestUI()
+        gameModel.userInterface = ui
+        
         self.objectToTest?.set(population: 2, reassignCitizen: false, in: gameModel)
         
         // WHEN
@@ -82,8 +85,9 @@ class AdvisorTests: XCTestCase {
         
         mapModel.add(city: self.objectToTest)
         
-        let ui = TestUI()
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
+        let ui = TestUI()
         gameModel.userInterface = ui
         
         self.objectToTest?.set(population: 2, reassignCitizen: false, in: gameModel)
@@ -129,8 +133,11 @@ class AdvisorTests: XCTestCase {
         playerAugustus.government?.set(governmentType: .autocracy)
         try! playerAugustus.techs?.discover(tech: .mining)
         
-        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
+        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
+        let ui = TestUI()
+        gameModel.userInterface = ui
         
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize()
@@ -167,6 +174,6 @@ class AdvisorTests: XCTestCase {
         let messages = playerAlexander.advisorMessages()
         
         // THEN
-        XCTAssertEqual(messages.count, 4)
+        XCTAssertEqual(messages.count, 3)
     }
 }

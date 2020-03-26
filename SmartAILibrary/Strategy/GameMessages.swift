@@ -10,11 +10,13 @@ import Foundation
 
 protocol AbstractGameMessage {
 
+    var title: String { get }
     var text: String { get }
 }
 
 class FirstContactMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     let player: AbstractPlayer?
 
@@ -26,22 +28,26 @@ class FirstContactMessage: AbstractGameMessage {
             fatalError("cant get player")
         }
         
-        self.text = "You made first contact with \(player.leader)"
+        self.title = "You made first contact with \(player.leader)"
+        self.text = "..."
     }
 }
 
 class PlayerNeedsTechSelectionMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     
     init() {
 
-        self.text = "You need to select the tech to research."
+        self.title = "You need to select the tech to research."
+        self.text = "..."
     }
 }
 
 class TechDiscoveredMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     let tech: TechType
     
@@ -49,12 +55,14 @@ class TechDiscoveredMessage: AbstractGameMessage {
 
         self.tech = tech
         
-        self.text = "You have discovered the new technology '\(tech)'."
+        self.title = "You have discovered the new technology '\(tech)'."
+        self.text = "..."
     }
 }
 
 class CivicDiscoveredMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     let civic: CivicType
     
@@ -62,12 +70,14 @@ class CivicDiscoveredMessage: AbstractGameMessage {
 
         self.civic = civic
         
-        self.text = "You have discovered the civic '\(civic)'."
+        self.title = "You have discovered the civic '\(civic)'."
+        self.text = "..."
     }
 }
 
 class EnteredEraMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     let era: EraType
     
@@ -75,71 +85,90 @@ class EnteredEraMessage: AbstractGameMessage {
 
         self.era = era
         
-        self.text = "You have entered the era \(era)."
+        self.title = "You have entered the era \(era)."
+        self.text = "..."
     }
 }
 
-class GrowthStatusMessage: AbstractGameMessage {
+class CityGrowthMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     let city: AbstractCity?
-    let growth: GrowthStatusType
     
-    init(in city: AbstractCity?, growth: GrowthStatusType) {
-
-        self.city = city
-        self.growth = growth
+    init(in city: AbstractCity?) {
         
-        if self.growth == .growth {
-            self.text = "Your city \(city!.name) has grown."
-        } else {
-            self.text = "Your city \(city!.name) is starving."
-        }
+        self.city = city
+        self.title = "\(city?.name) has Grown!"
+        self.text = "The City of \(city?.name) now has \(city?.population()) [ICON_CITIZEN] Citizens! The new Citizen will automatically work the land near the City for additional [ICON_FOOD] Food, [ICON_PRODUCTION] Production or [ICON_GOLD] Gold."
+    }
+}
+
+class CityStarvingMessage: AbstractGameMessage {
+
+    let title: String
+    let text: String
+    let city: AbstractCity?
+    
+    init(in city: AbstractCity?) {
+        
+        self.city = city
+        self.title = "\(city?.name) is Starving!"
+        self.text = "The City of \(city?.name) is starving! If it runs out of stored [ICON_FOOD] Food, a [ICON_CITIZEN] Citizen will die!"
     }
 }
 
 class DeclarationOfFriendshipMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     
     init(text: String) {
 
-        self.text = text
+        self.title = text
+        self.text = "..."
     }
 }
 
 class DenouncementMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     
     init(text: String) {
 
-        self.text = text
+        self.title = text
+        self.text = "..."
     }
 }
 
 class DeclarationOfWarMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     
     init(text: String) {
 
-        self.text = text
+        self.title = text
+        self.text = "..."
     }
 }
 
 class CityNeedsBuildableMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     
     init(city: AbstractCity?) {
 
-        self.text = "Your city \(city!.name) needs something to work on."
+        self.title = "Your city \(city!.name) needs something to work on."
+        self.text = "..."
     }
 }
 
 class CityHasFinishedTrainingMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     let city: AbstractCity?
     let unitType: UnitType
@@ -149,12 +178,14 @@ class CityHasFinishedTrainingMessage: AbstractGameMessage {
         self.city = city
         self.unitType = unitType
         
-        self.text = "Your city \(city!.name) has finished training at \(unitType.name())"
+        self.title = "Your city \(city!.name) has finished training at \(unitType.name())"
+        self.text = "..."
     }
 }
 
 class CityHasFinishedBuildingMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     let city: AbstractCity?
     let buildingType: BuildingType
@@ -164,12 +195,14 @@ class CityHasFinishedBuildingMessage: AbstractGameMessage {
         self.city = city
         self.buildingType = buildingType
         
-        self.text = "Your city \(city!.name) has finished working on \(buildingType.name())"
+        self.title = "Your city \(city!.name) has finished working on \(buildingType.name())"
+        self.text = "..."
     }
 }
 
 class CityHasFinishedDistrictMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     let city: AbstractCity?
     let districtType: DistrictType
@@ -179,16 +212,19 @@ class CityHasFinishedDistrictMessage: AbstractGameMessage {
         self.city = city
         self.districtType = districtType
         
-        self.text = "Your city \(city!.name) has finished working on \(districtType.name())"
+        self.title = "Your city \(city!.name) has finished working on \(districtType.name())"
+        self.text = "..."
     }
 }
 
 class PromotionGainedMessage: AbstractGameMessage {
 
+    let title: String
     let text: String
     
     init(unit: AbstractUnit?) {
         
-        self.text = "\(unit!.name()) has gained a promotion."
+        self.title = "\(unit!.name()) has gained a promotion."
+        self.text = "..."
     }
 }

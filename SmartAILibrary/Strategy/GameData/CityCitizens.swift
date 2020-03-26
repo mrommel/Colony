@@ -82,6 +82,7 @@ class CityCitizens {
     private var numForcedSpecialistsValue: Int = 0
     
     private var noAutoAssignSpecialistsValue: Bool = false
+    private var avoidGrowthValue: Bool = false
     private var forceAvoidGrowthValue:  Bool = false
     
     private var numSpecialists: SpecialistCountList // m_aiSpecialistCounts
@@ -1089,6 +1090,17 @@ class CityCitizens {
     
     /// Is this City avoiding growth?
     func isAvoidGrowth() -> Bool {
+
+        /* FIXME
+        if (GetPlayer()->GetExcessHappiness() < 0)
+        {
+            return true;
+        }*/
+
+        return self.avoidGrowthValue
+    }
+    
+    func isForcedAvoidGrowth() -> Bool {
 
         /* FIXME
         if (GetPlayer()->GetExcessHappiness() < 0)

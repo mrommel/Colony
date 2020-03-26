@@ -298,7 +298,7 @@ class City: AbstractCity {
 
             let allowNoProduction = !self.doCheckProduction(in: gameModel)
 
-            // self.doGrowth();
+            self.doGrowth(in: gameModel)
 
             // self.doUpdateIndustrialRouteToCapital();
 
@@ -404,6 +404,113 @@ class City: AbstractCity {
         yields.production = 0
 
         return yields*/
+    }
+    
+    private func doGrowth(in gameModel: GameModel?) {
+        
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("cant get cityCitizens")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
+        // No growth or starvation if being razed
+        /*if (IsRazing()) {
+            return
+        }*/
+        
+        let yields = self.yields(in: gameModel)
+
+        let foodPerTurn = yields.food
+        let foodEatenPerTurn = self.foodConsumption()
+        var foodDiff = foodPerTurn - foodEatenPerTurn
+
+        if foodDiff < 0 {
+            
+            // notify human about starvation
+            if player.isHuman() {
+                gameModel?.add(message: CityStarvingMessage(in: self))
+            }
+        }
+        
+        // housing
+        // https://civilization.fandom.com/wiki/Housing_(Civ6)
+        var housing = self.baseHousing(in: gameModel)
+        housing += yields.housing
+        housing += buildings.housing()
+        
+        let housingDiff = Int(housing) - Int(self.populationValue)
+        
+        if housingDiff >= 2 {
+            // 2 or more    100%
+            // NOOP
+        } else if housingDiff == 1 {
+            // 1    50%
+            foodDiff /= 2
+        } else if 0 <= housingDiff && housingDiff <= -4 {
+            // 0 to -4    25%
+            foodDiff /= 4
+        } else {
+            // -5 or less    0%
+            foodDiff = 0
+        }
+
+        self.set(foodBasket: self.foodBasket() + foodDiff)
+
+        if self.foodBasket() >= self.growthThreshold() {
+            
+            if cityCitizens.isForcedAvoidGrowth() {
+                // don't grow a city, if we are at avoid growth
+                self.set(foodBasket: self.growthThreshold())
+            } else {
+                self.set(foodBasket: 0)
+                self.set(population: self.population() + 1, in: gameModel)
+
+                // Only show notification if the city is small
+                if self.populationValue <= 5 {
+                    
+                    if player.isHuman() {
+                        gameModel?.add(message: CityGrowthMessage(in: self))
+                    }
+                }
+            }
+        } else if self.foodBasket() < 0 {
+            
+            self.set(foodBasket: 0)
+
+            if self.population() > 1 {
+                self.set(population: self.population() - 1, in: gameModel)
+            }
+        }
+    }
+    
+    func baseHousing(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        if let tile = gameModel.tile(at: self.location) {
+            for neighbor in self.location.neighbors() {
+                if let neighborTile = gameModel.tile(at: neighbor) {
+                    if tile.isRiverToCross(towards: neighborTile) {
+                        return 5
+                    }
+                }
+            }
+        }
+        
+        if gameModel.isCoastal(at: self.location) {
+            return 3
+        }
+        
+        return 2
     }
     
     func doCheckProduction(in gameModel: GameModel?) -> Bool {
@@ -1135,7 +1242,7 @@ class City: AbstractCity {
 
     // MARK: private methods
 
-    private func updateGrowth(for foodPerTurn: Double, in gameModel: GameModel?) {
+    /*private func updateGrowth(for foodPerTurn: Double, in gameModel: GameModel?) {
 
         guard let player = player else {
             fatalError("cant get player")
@@ -1154,7 +1261,7 @@ class City: AbstractCity {
 
         } else if foodDelta > 0 {
 
-            if self.foodBasketValue > self.foodNeededForGrowth() {
+            if self.foodBasketValue > self.growthThreshold() {
 
                 // notify human about growth
                 if player.isHuman() {
@@ -1189,11 +1296,25 @@ class City: AbstractCity {
                 self.growthStatus = .constant
             }
         }
-    }
+    }*/
 
-    func foodNeededForGrowth() -> Double {
+    func growthThreshold() -> Double {
 
-        return Double(self.population()) * 4.0
+        // https://forums.civfanatics.com/threads/formula-thread.600534/
+        //Population growth (food)
+        // 15+8*n+n^1.5
+        // (n is current population-1)
+        
+        //return Double(self.population()) * 4.0
+
+        var baseThreshold = 15.0 /* BASE_CITY_GROWTH_THRESHOLD */
+
+        var extraPopThreshold = (self.populationValue - 1.0) * 6.0 /* CITY_GROWTH_MULTIPLIER */
+
+        baseThreshold += extraPopThreshold
+        extraPopThreshold = pow(self.populationValue - 1.0, 1.8 /* CITY_GROWTH_EXPONENT */ )
+
+        return baseThreshold + extraPopThreshold
     }
 
     func updateProduction(for productionPerTurn: Double, in gameModel: GameModel?) {
