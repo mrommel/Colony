@@ -120,17 +120,17 @@ class DiplomacyAITests: XCTestCase {
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 10), type: .warrior, owner: playerAlexander))
         let cityAlexander = City(name: "Alexander", at: HexPoint(x: 0, y: 10), capital: true, owner: playerAlexander)
-        cityAlexander.initialize()
+        cityAlexander.initialize(in: gameModel)
         mapModel.add(city: cityAlexander)
 
         mapModel.add(unit: Unit(at: HexPoint(x: 19, y: 10), type: .warrior, owner: playerAugustus))
         let cityAugustus = City(name: "Augustus", at: HexPoint(x: 19, y: 10), capital: true, owner: playerAugustus)
-        cityAugustus.initialize()
+        cityAugustus.initialize(in: gameModel)
         mapModel.add(city: cityAugustus)
-
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         // add UI
         let userInterface = TestUI()
@@ -157,17 +157,17 @@ class DiplomacyAITests: XCTestCase {
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
         mapModel.add(unit: Unit(at: HexPoint(x: 8, y: 10), type: .warrior, owner: playerAlexander))
         let cityAlexander = City(name: "Alexander", at: HexPoint(x: 8, y: 10), capital: true, owner: playerAlexander)
-        cityAlexander.initialize()
+        cityAlexander.initialize(in: gameModel)
         mapModel.add(city: cityAlexander)
 
         mapModel.add(unit: Unit(at: HexPoint(x: 12, y: 10), type: .warrior, owner: playerAugustus))
         let cityAugustus = City(name: "Augustus", at: HexPoint(x: 12, y: 10), capital: true, owner: playerAugustus)
-        cityAugustus.initialize()
+        cityAugustus.initialize(in: gameModel)
         mapModel.add(city: cityAugustus)
-
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         // add UI
         let userInterface = TestUI()

@@ -142,4 +142,42 @@ class MapModelTests: XCTestCase {
         // THEN
         XCTAssertEqual(canSee, false)
     }
+    
+    func testAquireTileDirectly() {
+        
+        // GIVEN
+        self.objectToTest = MapModelHelper.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
+        
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let tile = Tile(point: HexPoint(x: 0, y: 0), terrain: .grass, hills: false)
+        self.objectToTest!.set(tile: tile, at: HexPoint(x: 0, y: 0))
+        
+        // WHEN
+        try! tile.set(owner: playerAlexander)
+        
+        // THEN
+        XCTAssertEqual(tile.hasOwner(), true)
+        XCTAssertEqual(tile.owner()?.leader, playerAlexander.leader)
+    }
+    
+    func testAquireTileIndirectly() {
+        
+        // GIVEN
+        self.objectToTest = MapModelHelper.mapFilled(with: .ocean, sized: .custom(width: 16, height: 12))
+        
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let tile = Tile(point: HexPoint(x: 0, y: 0), terrain: .grass, hills: false)
+        self.objectToTest!.set(tile: tile, at: HexPoint(x: 0, y: 0))
+        
+        // WHEN
+        try! self.objectToTest?.set(owner: playerAlexander, at: HexPoint(x: 0, y: 0))
+        
+        // THEN
+        XCTAssertEqual(tile.hasOwner(), true)
+        XCTAssertEqual(tile.owner()?.leader, playerAlexander.leader)
+    }
 }

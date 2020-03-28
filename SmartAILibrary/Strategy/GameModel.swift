@@ -918,4 +918,16 @@ class GameModel {
         
         return wondersBuilt.has(wonder: wonderType)
     }
+    
+    func calculateInfluenceDistance(from cityLocation: HexPoint, to targetDestination: HexPoint, limit: Int, abc: Bool) -> Int {
+    
+        let influencePathfinder = AStarPathfinder()
+        influencePathfinder.dataSource = InfluencePathfinderDataSource(in: self.map, cityLoction: cityLocation)
+        
+        if let path = influencePathfinder.shortestPath(fromTileCoord: cityLocation, toTileCoord: targetDestination) {
+            return Int(path.cost)
+        }
+        
+        return 0
+    }
 }

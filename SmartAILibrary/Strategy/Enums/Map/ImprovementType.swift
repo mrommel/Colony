@@ -42,7 +42,9 @@ enum TileImprovementType {
         case .barbarianCamp: return Yields(food: 0, production: 0, gold: 0, science: 0)
         case .goodyHut: return Yields(food: 0, production: 0, gold: 0, science: 0)
 
-        case .farm: return Yields(food: 1, production: 0, gold: 0, science: 0)
+        case .farm:
+            // FIXME: https://civilization.fandom.com/wiki/Wheat_(Civ6)
+            return Yields(food: 1, production: 0, gold: 0, science: 0)
         case .mine: return Yields(food: 0, production: 1, gold: 0, science: 0)
         case .quarry: return Yields(food: 0, production: 1, gold: 0, science: 0)
         case .camp: return Yields(food: 0, production: 0, gold: 1, science: 0)

@@ -118,9 +118,15 @@ protocol AbstractPlayer {
     func canBuild(build: BuildType, at point: HexPoint, testVisible: Bool, testGold: Bool, in gameModel: GameModel?) -> Bool
     
     func updatePlots(in gameModel: GameModel?)
+    
+    @discardableResult
     func addPlot(tile: AbstractTile?) -> Bool
+    func buyPlotCost() -> Int
+    func changeNumPlotsBought(change: Int)
     
     func numAvailable(resource: ResourceType) -> Int
+    func changeNumAvailable(resource: ResourceType, change: Int)
+    
     func numUnitsNeededToBeBuilt() -> Int
     func countReadyUnits(in gameModel: GameModel?) -> Int
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
@@ -161,6 +167,7 @@ class Player: AbstractPlayer {
     internal var armies: Armies? = nil
     
     internal var plots: [AbstractTile?]
+    internal var numPlotsBoughtValue: Int
     
     internal var resourceInventory: ResourceInventory?
     
@@ -180,6 +187,8 @@ class Player: AbstractPlayer {
         self.isHumanVal = isHuman
         
         self.plots = []
+        
+        self.numPlotsBoughtValue = 0
     }
 
     // public methods
@@ -798,12 +807,13 @@ class Player: AbstractPlayer {
         scoreVal += self.scoreFromCities(for: gameModel)
         scoreVal += self.scoreFromPopulation(for: gameModel)
         scoreVal += self.scoreFromLand(for: gameModel)
+        scoreVal += self.scoreFromWonder(for: gameModel)
         scoreVal += self.scoreFromTech(for: gameModel)
 
         return scoreVal
     }
 
-    func scoreFromCities(for gameModel: GameModel?) -> Int {
+    private func scoreFromCities(for gameModel: GameModel?) -> Int {
 
         if let cities = gameModel?.cities(of: self),
             let mapSizeModifier = gameModel?.mapSizeModifier() {
@@ -820,7 +830,7 @@ class Player: AbstractPlayer {
         return 0
     }
 
-    func scoreFromPopulation(for gameModel: GameModel?) -> Int {
+    private func scoreFromPopulation(for gameModel: GameModel?) -> Int {
 
         if let cities = gameModel?.cities(of: self),
             let mapSizeModifier = gameModel?.mapSizeModifier() {
@@ -843,14 +853,54 @@ class Player: AbstractPlayer {
         return 0
     }
 
-    func scoreFromLand(for gameModel: GameModel?) -> Int {
+    private func scoreFromLand(for gameModel: GameModel?) -> Int {
 
-        return 0
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var score = self.plots.count * 1 /*SCORE_LAND_MULTIPLIER */
+
+        // weight with map size
+        let mapSizeModifier = gameModel.mapSizeModifier()
+        score *= 100
+        score /= mapSizeModifier
+
+        return score
+    }
+    
+    // Score from world wonders: 40 per
+    private func scoreFromWonder(for gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var number = 0
+        
+        for city in gameModel.cities(of: self) {
+            
+            guard let cityWonders = city?.wonders else {
+                fatalError("cant get cityWonders")
+            }
+            
+            number += cityWonders.numberOfBuiltWonders()
+        }
+        
+        let score = number * 40 /* SCORE_WONDER_MULTIPLIER */
+        return score
     }
 
-    func scoreFromTech(for gameModel: GameModel?) -> Int {
+    // Score from Tech: 4 per
+    private func scoreFromTech(for gameModel: GameModel?) -> Int {
 
-        return 0
+        guard let techs = self.techs else {
+            fatalError("cant get techs")
+        }
+        
+        // Normally we recompute it each time
+        let score = techs.numberOfDiscoveredTechs() * 4 /* SCORE_TECH_MULTIPLIER */
+        return score
     }
 
     func personalAndGrandStrategyFlavor(for flavorType: FlavorType) -> Int {
@@ -883,7 +933,7 @@ class Player: AbstractPlayer {
     }
 
     func has(tech techType: TechType) -> Bool {
-
+        
         if let techs = self.techs {
             return techs.has(tech: techType)
         }
@@ -1375,10 +1425,8 @@ class Player: AbstractPlayer {
             fatalError("cant get gameModel")
         }
         
-        // not been inited
-        if self.plots.count == 0 {
-            return
-        }
+        // init
+        self.plots = []
         
         let mapSize = gameModel.mapSize()
         self.plots.reserveCapacity(mapSize.numberOfTiles())
@@ -1387,7 +1435,7 @@ class Player: AbstractPlayer {
             for y in 0..<mapSize.height() {
                 
                 if let tile = gameModel.tile(at: HexPoint(x: x, y: y)) {
-                    
+
                     if self.isEqual(to: tile.owner()) {
                         self.plots.append(tile)
                     }
@@ -1396,6 +1444,7 @@ class Player: AbstractPlayer {
         }
     }
     
+    @discardableResult
     func addPlot(tile: AbstractTile?) -> Bool {
         
         if self.isEqual(to: tile?.owner()) {
@@ -1406,6 +1455,32 @@ class Player: AbstractPlayer {
         return false
     }
     
+    /// Gold cost of buying a new Plot
+    func buyPlotCost() -> Int {
+        
+        var cost = 50 /* PLOT_BASE_COST */
+        cost += (5 /* PLOT_ADDITIONAL_COST_PER_PLOT */ * self.numPlotsBought())
+
+        // Cost Mod (Policies, etc.)
+        /*if (GetPlotGoldCostMod() != 0)
+        {
+            iCost *= (100 + GetPlotGoldCostMod());
+            iCost /= 100;
+        }*/
+
+        return cost
+    }
+    
+    func numPlotsBought() -> Int {
+        
+        return self.numPlotsBoughtValue
+    }
+    
+    func changeNumPlotsBought(change: Int) {
+        
+        self.numPlotsBoughtValue += change
+    }
+    
     func numAvailable(resource: ResourceType) -> Int {
         
         if let resourceInventory = self.resourceInventory {
@@ -1413,6 +1488,15 @@ class Player: AbstractPlayer {
         }
         
         return 0
+    }
+    
+    func changeNumAvailable(resource: ResourceType, change: Int) {
+        
+        guard let resourceInventory = self.resourceInventory else {
+            fatalError("cant get resourceInventory")
+        }
+        
+        resourceInventory.add(weight: change, for: resource)
     }
     
     func numUnitsNeededToBeBuilt() -> Int {

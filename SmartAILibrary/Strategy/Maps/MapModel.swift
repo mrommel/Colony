@@ -88,7 +88,7 @@ class MapModel {
                 do {
                     try tile.build(city: city)
                 } catch {
-                    fatalError("cant build city")
+                    fatalError("cant build city - no tile")
                 }
             }
             
@@ -97,6 +97,18 @@ class MapModel {
              
                 if self.valid(point: pointToDiscover) {
                     self.discover(by: city.player, at: pointToDiscover)
+                }
+            }
+            
+            // claim ownership for direct neighbors (if not taken)
+            for pointToClaim in city.location.areaWith(radius: 1) {
+                
+                if self.valid(point: pointToClaim) && self.owner(at: pointToClaim) == nil {
+                    do {
+                        try self.set(owner: city.player, at: pointToClaim)
+                    } catch {
+                        fatalError("cant set owner")
+                    }
                 }
             }
         }
@@ -167,11 +179,18 @@ class MapModel {
         }
     }
     
-    func set(owner player: AbstractPlayer?, at point: HexPoint) throws {
+    func owner(at point: HexPoint) -> AbstractPlayer? {
         
         if let tile = self.tile(at: point) {
-            try tile.set(owner: player)
+            return tile.owner()
         }
+        
+        return nil
+    }
+    
+    func set(owner player: AbstractPlayer?, at point: HexPoint) throws {
+        
+        try self.tile(at: point)?.set(owner: player)
     }
     
     func set(terrain terrainType: TerrainType, at point: HexPoint) {

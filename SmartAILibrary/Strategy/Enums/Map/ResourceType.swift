@@ -196,4 +196,21 @@ enum ResourceType {
         case .diamonds: return []
         }
     }
+    
+    func revealTech() -> TechType? {
+        
+        switch self {
+        case .none: return nil
+            
+        case .wheat: return .pottery
+        case .rice: return .pottery
+        case .horse: return .animalHusbandry
+        case .deer: return .animalHusbandry
+        case .sheep: return .animalHusbandry
+            
+        case .iron: return .bronzeWorking
+
+        case .diamonds: return .mining
+        }
+    }
 }

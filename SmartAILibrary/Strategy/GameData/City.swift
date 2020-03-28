@@ -53,7 +53,7 @@ protocol AbstractCity {
     //var cityEmphases: CityEmphases? { get }
 
     //static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
-    func initialize()
+    func initialize(in gameModel: GameModel?)
     
     func yields(in gameModel: GameModel?) -> Yields
     func foodConsumption() -> Double
@@ -124,11 +124,25 @@ protocol AbstractCity {
     func lastTurnGarrisonAssigned() -> Int
     func setLastTurnGarrisonAssigned(turn: Int)
     
+    @discardableResult
     func doBuyPlot(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int
+    func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int
+    func buyPlotScore(in gameModel: GameModel?) -> (Int, HexPoint)
+    func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int)
     
     func isProductionAutomated() -> Bool
     func setProductionAutomated(to newValue: Bool, clear: Bool, in gameModel: GameModel?)
+}
+
+class LeaderWeightList: WeightedList<LeaderType> {
+    
+    override func fill() {
+        
+        for leaderType in LeaderType.all {
+            self.add(weight: 0.0, for: leaderType)
+        }
+    }
 }
 
 class City: AbstractCity {
@@ -175,6 +189,8 @@ class City: AbstractCity {
     private var culturePerTurnFromSpecialists: Int
     
     private var productionAutomatedValue: Bool
+    
+    private var numPlotsAcquiredList: LeaderWeightList
 
     // MARK: constructor
 
@@ -204,9 +220,12 @@ class City: AbstractCity {
         self.culturePerTurnFromSpecialists = 0
         
         self.productionAutomatedValue = false
+        
+        self.numPlotsAcquiredList = LeaderWeightList()
+        self.numPlotsAcquiredList.fill()
     }
 
-    func initialize() {
+    func initialize(in gameModel: GameModel?) {
 
         self.districts = Districts(city: self)
         self.buildings = Buildings(city: self)
@@ -223,6 +242,8 @@ class City: AbstractCity {
 
         self.cityStrategy = CityStrategyAI(city: self)
         self.cityCitizens = CityCitizens(city: self)
+        
+        self.doUpdateCheapestPlotInfluence(in: gameModel)
     }
     
     func isCapital() -> Bool {
@@ -1857,13 +1878,430 @@ class City: AbstractCity {
         self.lastTurnGarrisonAssignedValue = turn
     }
     
+    /// Buy the plot and set it's owner to us (executed by the network code)
+    @discardableResult
     func doBuyPlot(at point: HexPoint, in gameModel: GameModel?) -> Bool {
         
-        return false
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            return false
+        }
+        
+        let cost = self.buyPlotCost(at: point, in: gameModel)
+        player.treasury?.add(gold: Double(-cost))
+        player.changeNumPlotsBought(change: 1)
+        
+        // See if there's anyone else nearby that could get upset by this action
+        for tilePoint in self.location.areaWith(radius: City.workRadius) {
+            
+            if let city = gameModel.city(at: tilePoint) {
+                
+                if !player.isEqual(to: city.player) {
+                    city.changeNumPlotsAcquiredBy(otherPlayer: city.player, change: 1)
+                }
+            }
+        }
+        
+        self.doAcquirePlot(at: point, in: gameModel)
+        
+        //Achievement test for purchasing 1000 tiles
+        return true
+    }
+    
+    /// How much will purchasing this plot cost -- (-1,-1) will return the generic price
+    func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if point.x == -1 && point.y == -1 {
+            return player.buyPlotCost()
+        }
+
+        guard let tile = gameModel.tile(at: point) else {
+            return -1
+        }
+
+        // Base cost
+        var cost = player.buyPlotCost()
+
+        // Influence cost (e.g. Hills are more expensive than flat land)
+        /*guard let cityTile = gameModel.tile(at: self.location) else {
+            fatalError("cant get city tile")
+        }*/
+        
+        var distance = gameModel.calculateInfluenceDistance(from: self.location, to: point, limit: City.workRadius, abc: false)
+
+        // Critical hit!
+        if point.distance(to: self.location) > City.workRadius {
+            return 9999
+        }
+
+        // Reduce distance by the cheapest available (so that the costs don't ramp up ridiculously fast)
+        distance -= (self.cheapestPlotInfluence() - 1)    // Subtract one because we want 1 to be the lowest value possible
+
+        var influenceCost = distance *  100 /* PLOT_INFLUENCE_DISTANCE_MULTIPLIER */
+
+        // Resource here?
+        if tile.resource() != .none {
+            influenceCost -= 100 /* PLOT_BUY_RESOURCE_COST */
+        }
+
+        if influenceCost > 100 {
+            cost *= influenceCost
+            cost /= 100
+        }
+
+        // Game Speed Mod
+        // iCost *= GC.getGame().getGameSpeedInfo().getGoldPercent();
+        // iCost /= 100;
+
+        // cost *= (100 + self.plotBuyCostModifier());
+        // cost /= 100;
+
+        // Now round so the number looks neat
+        let divisor = 5 /* PLOT_COST_APPEARANCE_DIVISOR */
+        cost /= divisor
+        cost *= divisor
+
+        return cost
+    }
+    
+    /// What is the cheapest plot we can get
+    func doUpdateCheapestPlotInfluence(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let cityTile = gameModel.tile(at: self.location) else {
+            fatalError("cant get cityTile")
+        }
+        
+        var lowestCost = Int.max
+
+        /*CvPlot* pLoopPlot = NULL;
+        CvPlot* pThisPlot = plot();
+        const int iMaxRange = /*5*/ GC.getMAXIMUM_ACQUIRE_PLOT_DISTANCE();
+        CvMap& thisMap = GC.getMap();*/
+
+        //int iDX, iDY;
+
+        for loopPoint in self.location.areaWith(radius: City.workRadius) {
+            
+            guard let loopPlot = gameModel.tile(at: loopPoint) else {
+                continue
+            }
+                
+            // If the plot's not owned by us, it doesn't matter
+            if loopPlot.hasOwner() {
+                continue
+            }
+
+            // we can use the faster, but slightly inaccurate pathfinder here - after all we are using a rand in the equation
+            let influenceCost = gameModel.calculateInfluenceDistance(from: self.location, to: loopPoint, limit: City.workRadius, abc: false)
+
+            if influenceCost > 0 {
+                // Are we the cheapest yet?
+                if influenceCost < lowestCost {
+                    lowestCost = influenceCost
+                }
+            }
+        }
+
+        self.set(cheapestPlotInfluence: lowestCost)
+    }
+    
+    var cheapestPlotInfluenceValue: Int = 0
+    
+    func set(cheapestPlotInfluence: Int) {
+        self.cheapestPlotInfluenceValue = cheapestPlotInfluence
+    }
+    
+    func cheapestPlotInfluence() -> Int {
+        
+        return self.cheapestPlotInfluenceValue
+    }
+    
+    /// Compute how valuable buying a plot is to this city
+    func buyPlotScore(in gameModel: GameModel?) -> (Int, HexPoint) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var bestScore = -1
+        var bestPoint: HexPoint = HexPoint.zero
+
+        //int iDX, iDY;
+
+        for tilePoint in self.location.areaWith(radius: City.workRadius) {
+            
+            guard let tile = gameModel.tile(at: tilePoint) else {
+                continue
+            }
+            
+            if self.canBuyPlot(at: tilePoint, in: gameModel) {
+                
+                let tempScore = self.individualPlotScore(for: tile, in: gameModel)
+                
+                if tempScore > bestScore {
+                    bestScore = tempScore
+                    bestPoint = tilePoint
+                }
+            }
+        }
+
+        return (bestScore, bestPoint)
+    }
+    
+    /// Can a specific plot be bought for the city
+    func canBuyPlot(at point: HexPoint, ignoreCost: Bool = true, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            return false
+        }
+        
+        guard let targetPlot = gameModel.tile(at: point) else {
+            return false
+        }
+
+        // if this plot belongs to someone, bail!
+        if targetPlot.hasOwner() {
+            return false
+        }
+
+        // Must be adjacent to a plot owned by this city
+        var foundAdjacent = false
+        for adjacentPoint in point.neighbors() {
+        
+            guard let adjacentPlot = gameModel.tile(at: adjacentPoint) else {
+                continue
+            }
+            
+            if player.isEqual(to: adjacentPlot.owner()) {
+                
+                if adjacentPlot.worked()?.location == self.location {
+                    foundAdjacent = true
+                    break
+                }
+            }
+        }
+
+        if !foundAdjacent {
+            return false
+        }
+
+        // Max range of 3
+        if point.distance(to: self.location) > City.workRadius {
+            return false
+        }
+
+        // check money
+        if !ignoreCost {
+            
+            guard let treasury = player.treasury else {
+                fatalError("cant get treasury")
+            }
+            
+            if Int(treasury.value()) < self.buyPlotCost(at: point, in: gameModel) {
+                return false
+            }
+        }
+
+        return true;
+    }
+    
+    /// Compute value of a plot we might buy
+    func individualPlotScore(for tile: AbstractTile?, in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let diplomacyAI = player.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+        
+        guard let cityStrategyAI = self.cityStrategy else {
+            fatalError("cant get cityStrategyAI")
+        }
+        
+        var rtnValue = 0;
+        /*ResourceTypes eResource;
+        int iYield;
+        int iI;
+        YieldTypes eSpecializationYield = NO_YIELD;
+        CitySpecializationTypes eSpecialization;
+        CvCity *pCity;*/
+
+        let specializationType = cityStrategyAI.specialization()
+        var specializationYield: YieldType = .none
+
+        if specializationType != .none {
+            specializationYield = specializationType.yieldType()!
+        }
+
+        // Does it have a resource?
+        let resource = tile.resource()
+        if resource != .none {
+            
+            if let revealTech = resource.revealTech() {
+                if player.has(tech: revealTech) {
+                    
+                    let resourceUsage = resource.usage()
+                    if resourceUsage == .strategic {
+                        // strategic resource?
+                        rtnValue += 50 /* AI_PLOT_VALUE_STRATEGIC_RESOURCE */
+                    } else if resourceUsage == .luxury {
+                        // Luxury resource?
+                        var luxuryValue = 40 /* AI_PLOT_VALUE_LUXURY_RESOURCE */
+
+                        // Luxury we don't have yet?
+                        if player.numAvailable(resource: resource) == 0 {
+                            luxuryValue *= 2
+                        }
+
+                        rtnValue += luxuryValue
+                    }
+                }
+            }
+        }
+
+        var yieldValue = 0
+        
+        // Valuate the yields from this plot
+        for yieldType in YieldType.all {
+
+            var yieldValue = Int(tile.yields(ignoreFeature: false).value(of: yieldType))
+            var tempValue = 0;
+
+            if yieldType == specializationYield {
+                tempValue += yieldValue * 20 /* AI_PLOT_VALUE_SPECIALIZATION_MULTIPLIER */
+            } else {
+                tempValue += yieldValue * 10 /* AI_PLOT_VALUE_YIELD_MULTIPLIER */
+            }
+
+            // Deficient? If so, give it a boost
+            if cityStrategyAI.isDeficient(for: yieldType) {
+                tempValue *= 5 /* AI_PLOT_VALUE_DEFICIENT_YIELD_MULTIPLIER */
+            }
+
+            yieldValue += tempValue
+        }
+
+        rtnValue += yieldValue
+
+        // For each player not on our team, check how close their nearest city is to this plot
+        //CvPlayer& owningPlayer = GET_PLAYER(m_eOwner);
+        //CvDiplomacyAI* owningPlayerDiploAI = owningPlayer.GetDiplomacyAI();
+        
+        for loopPlayer in gameModel.players {
+            
+            if loopPlayer.isAlive() {
+                
+                if !player.isEqual(to: loopPlayer) && player.hasMet(with: loopPlayer) {
+                    
+                    let landDisputeLevel = diplomacyAI.landDisputeLevel(with: loopPlayer)
+                    
+                    if landDisputeLevel != .none {
+                         
+                        if let city = tile.worked() {
+
+                            let distance = tile.point.distance(to: city.location)
+
+                            // Only want to account for civs with a city within 10 tiles
+                            if distance < 10 {
+                                
+                                switch landDisputeLevel {
+                                case .fierce:
+                                    rtnValue += (10 - distance) *  6 /* AI_PLOT_VALUE_FIERCE_DISPUTE */
+                                case .strong:
+                                    rtnValue += (10 - distance) * 4 /* AI_PLOT_VALUE_STRONG_DISPUTE */
+                                case .weak:
+                                    rtnValue += (10 - distance) * 2 /* AI_PLOT_VALUE_WEAK_DISPUTE */
+                                default:
+                                    // NOOP
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Modify value based on cost - the higher it is compared to the "base" cost the less the value
+        let cost = self.buyPlotCost(at: tile.point, in: gameModel)
+        rtnValue *= player.buyPlotCost()
+
+        // Protect against div by 0.
+        if cost != 0 {
+            rtnValue /= cost
+        } else {
+            rtnValue = 0
+        }
+
+        return rtnValue
+    }
+    
+    /// Acquire the plot and set it's owner to us
+    func doAcquirePlot(at point: HexPoint, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let tile = gameModel.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+
+        self.player?.addPlot(tile: tile)
+        
+        do {
+            try tile.set(owner: self.player)
+        } catch {
+            fatalError("cant set owner")
+        }
+
+        self.doUpdateCheapestPlotInfluence(in: gameModel)
+    }
+    
+    func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int) {
+        
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get otherPlayer")
+        }
+        
+        self.numPlotsAcquiredList.add(weight: change, for: otherPlayer.leader)
     }
     
     func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int {
         
-        return 0
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get otherPlayer")
+        }
+        
+        return Int(self.numPlotsAcquiredList.weight(of: otherPlayer.leader))
     }
 }

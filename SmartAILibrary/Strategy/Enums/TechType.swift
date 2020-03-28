@@ -9,7 +9,7 @@
 import Foundation
 
 enum TechType {
-
+    
     // ancient
     case mining
     case pottery

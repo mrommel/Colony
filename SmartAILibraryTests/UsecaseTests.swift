@@ -126,11 +126,11 @@ class UsecaseTests: XCTestCase {
         
         // initial cities
         let cityAlexandria = City(name: "Alexandria", at: HexPoint(x: 5, y: 5), capital: true, owner: playerAlexander)
-        cityAlexandria.initialize()
+        cityAlexandria.initialize(in: gameModel)
         gameModel.add(city: cityAlexandria)
         
         let cityAugustria = City(name: "Augustria", at: HexPoint(x: 15, y: 15), capital: true, owner: playerAugustus)
-        cityAugustria.initialize()
+        cityAugustria.initialize(in: gameModel)
         gameModel.add(city: cityAugustria)
         
         // this is cheating
@@ -207,7 +207,7 @@ class UsecaseTests: XCTestCase {
         // initial city
          
         let cityAugustria = City(name: "Augustria", at: HexPoint(x: 15, y: 15), capital: true, owner: playerAugustus)
-        cityAugustria.initialize()
+        cityAugustria.initialize(in: gameModel)
         gameModel.add(city: cityAugustria)
         
         playerAugustusWarrior.doGarrison(in: gameModel)

@@ -31,12 +31,12 @@ class CityTests: XCTestCase {
         let playerAugustus = Player(leader: .augustus)
         playerAugustus.initialize()
         
-        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
-        self.objectToTest?.initialize()
-        
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
+        
+        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
+        self.objectToTest?.initialize(in: gameModel)
         
         // WHEN
         let _ = self.objectToTest?.turn(in: gameModel)
@@ -56,10 +56,6 @@ class CityTests: XCTestCase {
         let playerAugustus = Player(leader: .augustus)
         playerAugustus.initialize()
         
-        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
-        self.objectToTest?.initialize()
-        self.objectToTest?.set(foodBasket: 20)
-        
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         
         let centerTile = mapModel.tile(at: HexPoint(x: 1, y: 1))
@@ -69,6 +65,10 @@ class CityTests: XCTestCase {
         try! centerTile?.build(improvement: .farm)
         
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
+        
+        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
+        self.objectToTest?.initialize(in: gameModel)
+        self.objectToTest?.set(foodBasket: 20)
         
         // WHEN
         let _ = self.objectToTest?.turn(in: gameModel)
@@ -87,12 +87,12 @@ class CityTests: XCTestCase {
         playerAlexander.government?.set(governmentType: .autocracy)
         try! playerAlexander.techs?.discover(tech: .mining)
         
-        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
-        self.objectToTest?.initialize()
-        
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        
+        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
+        self.objectToTest?.initialize(in: gameModel)
         
         self.objectToTest?.set(population: 2, reassignCitizen: false, in: gameModel)
         
@@ -137,11 +137,11 @@ class CityTests: XCTestCase {
         try! playerAlexander.techs?.discover(tech: .pottery)
         try! playerAlexander.techs?.discover(tech: .masonry)
         
-        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
-        self.objectToTest?.initialize()
-        
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        
+        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
+        self.objectToTest?.initialize(in: gameModel)
         
         self.objectToTest?.set(population: 1, reassignCitizen: false, in: gameModel)
         
@@ -164,13 +164,13 @@ class CityTests: XCTestCase {
         try! playerAlexander.techs?.discover(tech: .pottery)
         try! playerAlexander.techs?.discover(tech: .masonry)
         
-        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
-        self.objectToTest?.initialize()
-        try! self.objectToTest?.buildings?.build(building: .monument)
-        try! self.objectToTest?.buildings?.build(building: .granary)
-        
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        
+        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
+        self.objectToTest?.initialize(in: gameModel)
+        try! self.objectToTest?.buildings?.build(building: .monument)
+        try! self.objectToTest?.buildings?.build(building: .granary)
         
         self.objectToTest?.set(population: 2, reassignCitizen: false, in: gameModel)
         
@@ -181,5 +181,32 @@ class CityTests: XCTestCase {
         // THEN
         XCTAssertEqual(current?.type, .building)
         XCTAssertEqual(current?.buildingType, .ancientWalls)
+    }
+    
+    func testCityAquiredTiles() {
+        
+        // GIVEN
+        let playerAlexander = Player(leader: .alexander, isHuman: false)
+        playerAlexander.initialize()
+        playerAlexander.government?.set(governmentType: .autocracy)
+        
+        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        
+        // WHEN
+        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
+        self.objectToTest?.initialize(in: gameModel)
+        mapModel.add(city: self.objectToTest)
+
+        // THEN
+        for cityPoint in HexPoint(x: 1, y: 1).areaWith(radius: 1) {
+            
+            guard let tile = mapModel.tile(at: cityPoint) else {
+                fatalError("cant get tile")
+            }
+            
+            XCTAssertEqual(tile.hasOwner(), true, "for \(cityPoint)")
+            XCTAssertEqual(tile.owner()?.leader, playerAlexander.leader)
+        }
     }
 }

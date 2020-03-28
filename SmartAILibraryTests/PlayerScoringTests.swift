@@ -51,10 +51,16 @@ class PlayerScoringTests: XCTestCase {
         playerAugustus.initialize()
 
         let mapModel = MapModel(size: .standard)
-        mapModel.add(city: City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest))
-        mapModel.add(city: City(name: "Potsdam", at: HexPoint(x: 3, y: 5), owner: self.objectToTest))
 
         let gameModel = GameModel(victoryTypes: [.cultural, .domination], turnsElapsed: 0, players: [self.objectToTest!, playerAugustus], on: mapModel)
+        
+        let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
+        city1.initialize(in: gameModel)
+        mapModel.add(city: city1)
+        
+        let city2 = City(name: "Potsdam", at: HexPoint(x: 3, y: 5), owner: self.objectToTest)
+        city2.initialize(in: gameModel)
+        mapModel.add(city: city2)
 
         // WHEN
         let score = self.objectToTest!.score(for: gameModel)
@@ -72,15 +78,134 @@ class PlayerScoringTests: XCTestCase {
         playerAugustus.initialize()
 
         let mapModel = MapModel(size: .tiny)
-        mapModel.add(city: City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest))
-        mapModel.add(city: City(name: "Potsdam", at: HexPoint(x: 3, y: 5), owner: self.objectToTest))
 
         let gameModel = GameModel(victoryTypes: [.cultural, .domination], turnsElapsed: 0, players: [self.objectToTest!, playerAugustus], on: mapModel)
+        
+        let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
+        city1.initialize(in: gameModel)
+        mapModel.add(city: city1)
+        
+        let city2 = City(name: "Potsdam", at: HexPoint(x: 3, y: 5), owner: self.objectToTest)
+        city2.initialize(in: gameModel)
+        mapModel.add(city: city2)
 
         // WHEN
         let score = self.objectToTest!.score(for: gameModel)
 
         // THEN
         XCTAssertEqual(score, 57)
+    }
+    
+    func testScore1Tech() {
+        
+        self.objectToTest = Player(leader: .alexander)
+        self.objectToTest?.initialize()
+        
+        let mapModel = MapModel(size: .tiny)
+        
+        let gameModel = GameModel(victoryTypes: [.cultural, .domination], turnsElapsed: 0, players: [self.objectToTest!], on: mapModel)
+        
+        try! self.objectToTest?.techs?.discover(tech: .pottery)
+        
+        // WHEN
+        let score = self.objectToTest!.score(for: gameModel)
+
+        // THEN
+        XCTAssertEqual(score, 4)
+    }
+    
+    func testScore2Techs() {
+        
+        self.objectToTest = Player(leader: .alexander)
+        self.objectToTest?.initialize()
+        
+        let mapModel = MapModel(size: .tiny)
+        
+        let gameModel = GameModel(victoryTypes: [.cultural, .domination], turnsElapsed: 0, players: [self.objectToTest!], on: mapModel)
+        
+        try! self.objectToTest?.techs?.discover(tech: .pottery)
+        try! self.objectToTest?.techs?.discover(tech: .mining)
+        
+        // WHEN
+        let score = self.objectToTest!.score(for: gameModel)
+
+        // THEN
+        XCTAssertEqual(score, 8)
+    }
+    
+    func testScore1Wonder() {
+        
+        // GIVEN
+        self.objectToTest = Player(leader: .alexander)
+        self.objectToTest?.initialize()
+        let playerAugustus = Player(leader: .augustus)
+        playerAugustus.initialize()
+
+        let mapModel = MapModel(size: .tiny)
+
+        let gameModel = GameModel(victoryTypes: [.cultural, .domination], turnsElapsed: 0, players: [self.objectToTest!, playerAugustus], on: mapModel)
+        
+        let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
+        city1.initialize(in: gameModel)
+        mapModel.add(city: city1)
+        
+        try! city1.wonders?.build(wonder: .pyramids)
+
+        // WHEN
+        let score = self.objectToTest!.score(for: gameModel)
+
+        // THEN
+        XCTAssertEqual(score, 68)
+    }
+    
+    func testScore2Wonder() {
+        
+        // GIVEN
+        self.objectToTest = Player(leader: .alexander)
+        self.objectToTest?.initialize()
+        let playerAugustus = Player(leader: .augustus)
+        playerAugustus.initialize()
+
+        let mapModel = MapModel(size: .tiny)
+        
+        let gameModel = GameModel(victoryTypes: [.cultural, .domination], turnsElapsed: 0, players: [self.objectToTest!, playerAugustus], on: mapModel)
+        
+        let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
+        city1.initialize(in: gameModel)
+        mapModel.add(city: city1)
+
+        try! city1.wonders?.build(wonder: .pyramids)
+        try! city1.wonders?.build(wonder: .greatBath)
+
+        // WHEN
+        let score = self.objectToTest!.score(for: gameModel)
+
+        // THEN
+        XCTAssertEqual(score, 108)
+    }
+    
+    func testScoreLandStandard() {
+        
+        // GIVEN
+        self.objectToTest = Player(leader: .alexander)
+        self.objectToTest?.initialize()
+        let playerAugustus = Player(leader: .augustus)
+        playerAugustus.initialize()
+
+        let mapModel = MapModel(size: .standard)
+        
+        let gameModel = GameModel(victoryTypes: [.cultural, .domination], turnsElapsed: 0, players: [self.objectToTest!, playerAugustus], on: mapModel)
+        
+        let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
+        city1.initialize(in: gameModel)
+        mapModel.add(city: city1)
+
+        self.objectToTest?.updatePlots(in: gameModel)
+
+        // WHEN
+        let score = self.objectToTest!.score(for: gameModel)
+
+        // THEN
+        XCTAssertEqual(score, 21) // 10 + 4 from city
     }
 }

@@ -1501,7 +1501,7 @@ class Unit: AbstractUnit {
         let isCapital = gameModel.cities(of: player).count == 0
         
         let city = City(name: cityName, at: self.location, capital: isCapital, owner: player)
-        city.initialize()
+        city.initialize(in: gameModel)
         
         gameModel.add(city: city)
         
@@ -1605,6 +1605,16 @@ class Unit: AbstractUnit {
     func doBuild(build: BuildType) -> Bool {
         
         self.buildTypeValue = build
+        
+        /*if let tile = gameModel.tile(at: self.location) {
+        if tile.resource() != .none {
+            if let player = tile.owner() {
+                let resourceQuantity = tile.resourceQuantity()
+                player.changeNumAvailable(resource: tile.resource(), change: resourceQuantity)
+            }
+        }
+        }*/
+        
         return true
     }
     
@@ -1631,6 +1641,14 @@ class Unit: AbstractUnit {
                 return false
             } else {
                 tile.removeImprovement()
+                
+                if tile.resource() != .none {
+                    if let player = tile.owner() {
+                        let resourceQuantity = tile.resourceQuantity()
+                        player.changeNumAvailable(resource: tile.resource(), change: -resourceQuantity)
+                    }
+                }
+                
                 return true
             }
         }

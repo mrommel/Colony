@@ -73,7 +73,7 @@ class CombatTests: XCTestCase {
         gameModel.add(unit: attacker)
         
         let city = City(name: "Berlin", at: HexPoint(x: 5, y: 5), owner: playerAugustus)
-        city.initialize()
+        city.initialize(in: gameModel)
         gameModel.add(city: city)
         
         // WHEN
@@ -112,7 +112,7 @@ class CombatTests: XCTestCase {
         gameModel.add(unit: attacker)
         
         let city = City(name: "Berlin", at: HexPoint(x: 5, y: 5), capital: true, owner: playerAugustus)
-        city.initialize()
+        city.initialize(in: gameModel)
         gameModel.add(city: city)
         
         city.startBuilding(building: .ancientWalls)
@@ -154,7 +154,7 @@ class CombatTests: XCTestCase {
                                   on: mapModel)
         
         let attacker = City(name: "Berlin", at: HexPoint(x: 5, y: 5), owner: playerAugustus)
-        attacker.initialize()
+        attacker.initialize(in: gameModel)
         gameModel.add(city: attacker)
         
         let defender = Unit(at: HexPoint(x: 5, y: 6), type: .warrior, owner: playerAlexander)
@@ -193,7 +193,7 @@ class CombatTests: XCTestCase {
         gameModel.add(unit: attacker)
         
         let city = City(name: "Berlin", at: HexPoint(x: 5, y: 5), owner: playerAugustus)
-        city.initialize()
+        city.initialize(in: gameModel)
         gameModel.add(city: city)
         
         // WHEN

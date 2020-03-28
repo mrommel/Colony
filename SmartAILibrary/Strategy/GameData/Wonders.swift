@@ -17,6 +17,8 @@ protocol AbstractWonders {
     // wonders
     func has(wonder: WonderType) -> Bool
     func build(wonder: WonderType) throws
+    
+    func numberOfBuiltWonders() -> Int
 }
 
 class Wonders: AbstractWonders {
@@ -42,5 +44,18 @@ class Wonders: AbstractWonders {
         }
         
         self.wonders.append(wonder)
+    }
+
+    func numberOfBuiltWonders() -> Int {
+        
+        var number = 0
+
+        for wonderType in WonderType.all {
+            if self.has(wonder: wonderType) {
+                number += 1
+            }
+        }
+        
+        return number
     }
 }

@@ -29,13 +29,12 @@ class CityStrategyAITests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        
-        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
-        city.initialize()
          
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
+        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
+        city.initialize(in: gameModel)
         city.set(population: 1, reassignCitizen: false, in: gameModel)
         
         // WHEN
@@ -52,12 +51,12 @@ class CityStrategyAITests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        
-        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
-        city.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        
+        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
+        city.initialize(in: gameModel)
         
         city.set(population: 3, reassignCitizen: false, in: gameModel)
         
@@ -75,12 +74,12 @@ class CityStrategyAITests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        
-        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
-        city.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        
+        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
+        city.initialize(in: gameModel)
         
         city.set(population: 7, reassignCitizen: false, in: gameModel)
         
@@ -99,11 +98,11 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         
-        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
-        city.initialize()
-
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        
+        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
+        city.initialize(in: gameModel)
         
         city.set(population: 12, reassignCitizen: false, in: gameModel)
         
@@ -121,12 +120,12 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         
-        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
-        city.initialize()
-         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
+        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
+        city.initialize(in: gameModel)
+         
         city.set(population: 12, reassignCitizen: false, in: gameModel)
         
         // WHEN
@@ -143,13 +142,13 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         
-        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
-        city.initialize()
-         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
+        
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
+        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
+        city.initialize(in: gameModel)
         city.set(population: 12, reassignCitizen: false, in: gameModel)
         
         // WHEN
@@ -166,13 +165,13 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         
-        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
-        city.initialize()
-         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
+        
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
+        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
+        city.initialize(in: gameModel)
         city.set(population: 12, reassignCitizen: false, in: gameModel)
         
         // WHEN
@@ -189,13 +188,13 @@ class CityStrategyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         
-        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
-        city.initialize()
-         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
+        
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 31, players: [playerAlexander], on: mapModel)
         
+        let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
+        city.initialize(in: gameModel)
         city.set(population: 12, reassignCitizen: false, in: gameModel)
         
         // WHEN

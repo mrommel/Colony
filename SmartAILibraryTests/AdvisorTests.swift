@@ -42,15 +42,15 @@ class AdvisorTests: XCTestCase {
         try! mapModel.set(owner: playerAlexander, at: HexPoint(x: 1, y: 2))
         try! mapModel.build(improvement: .farm, at: HexPoint(x: 1, y: 2))
         
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        
         // add the city to the map
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
-        self.objectToTest?.initialize()
+        self.objectToTest?.initialize(in: gameModel)
         
         try! mapModel.setWorked(by: self.objectToTest, at: HexPoint(x: 1, y: 2))
         
         mapModel.add(city: self.objectToTest)
-        
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         let ui = TestUI()
         gameModel.userInterface = ui
@@ -80,12 +80,12 @@ class AdvisorTests: XCTestCase {
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel) //MapModel(size: .standard)
         
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
-        self.objectToTest?.initialize()
+        self.objectToTest?.initialize(in: gameModel)
         
         mapModel.add(city: self.objectToTest)
-        
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         let ui = TestUI()
         gameModel.userInterface = ui
@@ -96,14 +96,14 @@ class AdvisorTests: XCTestCase {
         let centerTile = mapModel.tile(at: HexPoint(x: 1, y: 1))
         centerTile?.set(terrain: .grass)
         centerTile?.set(hills: false)
-        try! centerTile?.set(owner: playerAlexander)
+        //try! centerTile?.set(owner: playerAlexander)
         try! centerTile?.build(improvement: .farm)
         
         // another
         let anotherTile = mapModel.tile(at: HexPoint(x: 1, y: 2))
         anotherTile?.set(terrain: .plains)
         anotherTile?.set(hills: true)
-        try! anotherTile?.set(owner: playerAlexander)
+        //try! anotherTile?.set(owner: playerAlexander)
         try! self.objectToTest?.work(tile: anotherTile!)
         try! anotherTile?.build(improvement: .mine)
         
@@ -140,7 +140,7 @@ class AdvisorTests: XCTestCase {
         gameModel.userInterface = ui
         
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
-        self.objectToTest?.initialize()
+        self.objectToTest?.initialize(in: gameModel)
         self.objectToTest?.set(population: 2, reassignCitizen: false, in: gameModel)
         mapModel.add(city: self.objectToTest)
         
@@ -148,14 +148,14 @@ class AdvisorTests: XCTestCase {
         let centerTile = mapModel.tile(at: HexPoint(x: 1, y: 1))
         centerTile?.set(terrain: .grass)
         centerTile?.set(hills: false)
-        try! centerTile?.set(owner: playerAlexander)
+        //try! centerTile?.set(owner: playerAlexander)
         try! centerTile?.build(improvement: .farm)
         
         // another
         let anotherTile = mapModel.tile(at: HexPoint(x: 1, y: 2))
         anotherTile?.set(terrain: .plains)
         anotherTile?.set(hills: true)
-        try! anotherTile?.set(owner: playerAlexander)
+        //try! anotherTile?.set(owner: playerAlexander)
         try! self.objectToTest?.work(tile: anotherTile!)
         try! anotherTile?.build(improvement: .mine)
         

@@ -137,6 +137,8 @@ class EconomicAI {
         guard let player = self.player else {
             fatalError("no player given")
         }
+        
+        self.updatePlots(in: gameModel)
 
         self.updateReconState(in: gameModel)
 
@@ -239,6 +241,11 @@ class EconomicAI {
 
         //print("economic strategy flavors")
         //print(self.flavors)
+        if !player.isHuman() {
+            //self.doHurry()
+            self.doPlotPurchases(in: gameModel)
+            //self.disbandExtraWorkers()
+        }
     }
     
     func incrementExplorersDisbanded() {
@@ -806,5 +813,99 @@ class EconomicAI {
         }
 
         return messages
+    }
+    
+    /// Spend money buying plots
+    func doPlotPurchases(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get game model")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let militaryAI = player.militaryAI else {
+            fatalError("cant get militaryAI")
+        }
+        
+        guard let treasury = player.treasury else {
+            fatalError("cant get treasury")
+        }
+        
+        var bestCity: AbstractCity? = nil
+        var bestPoint: HexPoint = HexPoint(x: -1, y: -1)
+        /*CvCity *pLoopCity = 0;
+        CvCity *pBestCity = NULL;
+        int iBestX = -1;
+        int iBestY = -1;
+        int iTempX = 0, iTempY = 0;
+
+        int iScore = 0;
+        int iLoop = 0;*/
+
+        // No plot buying when at war
+        if militaryAI.adopted(militaryStrategy: .atWar) {
+            return
+        }
+
+        // Set up the parameters
+        var bestScore = 150 /* AI_GOLD_PRIORITY_MINIMUM_PLOT_BUY_VALUE */
+        let currentCost = player.buyPlotCost()
+        let goldForHalfCost = 1000 /* AI_GOLD_BALANCE_TO_HALVE_PLOT_BUY_MINIMUM */
+        let balance = Int(treasury.value())
+
+        // Let's always invest any money we have in plot purchases
+        //  (LATER -- save up money to spend at newly settled cities)
+        if currentCost < balance && goldForHalfCost > currentCost {
+            
+            // Lower our requirements if we're building up a sizable treasury
+            let discountPercent = 50 * (balance - currentCost) / (goldForHalfCost - currentCost)
+            bestScore = bestScore - (bestScore * discountPercent / 100)
+
+            // Find the best city to buy a plot
+            for loopCityRef in gameModel.cities(of: player) {
+                
+                guard let loopCity = loopCityRef else {
+                    continue
+                }
+                
+                //if loopCity.canBuyAnyPlot() {
+                let (score, tempPoint) = loopCity.buyPlotScore(in: gameModel)
+
+                    if score > bestScore {
+                        bestCity = loopCity
+                        bestScore = score
+                        bestPoint = tempPoint
+                    }
+                //}
+            }
+
+            if let bestCity = bestCity {
+
+                let cost = bestCity.buyPlotCost(at: bestPoint, in: gameModel)
+
+                if self.canWithdrawMoneyForPurchase(of: .tile, amount: cost, priority: bestScore) {
+                    /*if (GC.getLogging() && GC.getAILogging())
+                    {
+                        CvString strLogString;
+                        strLogString.Format("Buying plot, X: %d, Y: %d, Cost: %d, Balance (before buy): %d, Priority: %d", iBestX, iBestY,
+                            iCost, m_pPlayer->GetTreasury()->GetGold(), iBestScore);
+                        m_pPlayer->GetHomelandAI()->LogHomelandMessage(strLogString);
+                    }*/
+                    bestCity.doBuyPlot(at: bestPoint, in: gameModel)
+                }
+                
+            }
+        }
+    }
+    
+    /// Returns true if have enough saved up for this purchase. May return false if have enough but higher priority requests have dibs on the gold.
+    //  (Priority of -1 (default parameter) means use existing priority
+    func canWithdrawMoneyForPurchase(of purchaseType: PurchaseType, amount: Int, priority: Int) -> Bool {
+     
+        // FIXME
+        return true
     }
 }
