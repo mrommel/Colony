@@ -437,8 +437,7 @@ class BuilderTaskingAI {
             // find how many turns the plot is away
             let moveTurnsAway = self.findTurnsAway(unit: unit, on: pPlot, in: gameModel)
             if moveTurnsAway < 0 {
-
-                continue;
+                continue
             }
 
             m_aDirectives.append(contentsOf: self.addRouteDirectives(unit: unit, on: pPlot, dist: moveTurnsAway, in: gameModel))
@@ -486,14 +485,14 @@ class BuilderTaskingAI {
         }
 
         // check to see if a non-bonus resource is here. if so, bail out!
-        let resource = pPlot.resource()
+        let resource = pPlot.resource(for: player)
         if resource != .none {
             if resource.usage() != .bonus {
                 return BuilderDirectiveWeightedList()
             }
         }
 
-        guard (pPlot.worked()) != nil else {
+        guard pPlot.workingCity() != nil else {
             return BuilderDirectiveWeightedList()
         }
 
@@ -601,12 +600,12 @@ class BuilderTaskingAI {
         }
 
         // check to see if a resource is here. If so, bail out!
-        let resource = pPlot.resource()
+        let resource = pPlot.resource(for: player)
         if resource != .none {
             return BuilderDirectiveWeightedList()
         }
 
-        guard let city = pPlot.worked() else {
+        guard let city = pPlot.workingCity() else {
             return BuilderDirectiveWeightedList()
         }
 
@@ -718,13 +717,13 @@ class BuilderTaskingAI {
         }*/
         
         // check to see if a resource is here. If not, bail out!
-        if !pPlot.hasAnyResource() {
+        if !pPlot.hasAnyResource(for: player) {
             return BuilderDirectiveWeightedList()
         }
         
         var resource: ResourceType = .none
         for resourceType in ResourceType.all {
-            if pPlot.has(resource: resourceType) {
+            if pPlot.has(resource: resourceType, for: player) {
                 resource = resourceType
             }
         }
@@ -868,7 +867,7 @@ class BuilderTaskingAI {
             return -1
         }
 
-        guard let city = pTargetPlot.worked() else {
+        guard let city = pTargetPlot.workingCity() else {
             return -1
         }
 
@@ -1151,8 +1150,8 @@ class BuilderTaskingAI {
         }
 
         // can't build on plots others own (unless inside a minor)
-        if player.isEqual(to: tile.owner()) {
-            return false;
+        if !player.isEqual(to: tile.owner()) {
+            return false
         }
 
         // workers should not be able to work in plots that do not match their default domain
@@ -1178,6 +1177,7 @@ class BuilderTaskingAI {
         guard let targetTile = gameModel.tile(at: unit.location) else {
             return false
         }
+        
         if !tile.sameContinent(as: targetTile) {
             
             var canCrossToNewArea = false
@@ -1213,7 +1213,8 @@ class BuilderTaskingAI {
             return false
         }
 
-        if unit.location != tile.point {
+        // other unit at target
+        if unit.location != tile.point && gameModel.unit(at: tile.point) != nil {
 
             return false
         }

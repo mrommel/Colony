@@ -108,7 +108,8 @@ protocol AbstractUnit: class {
     func doFound(with name: String?, in gameModel: GameModel?) -> Bool
     
     func canBuild(build: BuildType, at point: HexPoint, testVisible: Bool, testGold: Bool, in gameModel: GameModel?) -> Bool
-    func doBuild(build: BuildType) -> Bool
+    func canContinueBuild(build buildType: BuildType, in gameModel: GameModel?) -> Bool
+    func doBuild(build: BuildType, in gameModel: GameModel?) -> Bool
     func buildType() -> BuildType
     
     func doPillage(in gameModel: GameModel?) -> Bool
@@ -1602,9 +1603,69 @@ class Unit: AbstractUnit {
         return true
     }
     
-    func doBuild(build: BuildType) -> Bool {
+    func canContinueBuild(build buildType: BuildType, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
         
-        self.buildTypeValue = build
+        /*guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let tile = gameModel.tile(at: self.location) else {
+            fatalError("cant get tile")
+        }*/
+        
+        var continueToBuild = false;
+
+        /*if let improvement = buildType.improvement() {
+            
+            if self.isAutomated() {
+                
+                if tile.improvement() != .ruins {
+                    
+                    let resource = tile.resource(for: player)
+                    if resource == .none || !improvement.enables(resource: resource) {
+                        if improvement.re
+                        if (GC.getImprovementInfo(eImprovement)->GetImprovementPillage() != NO_IMPROVEMENT)
+                        {
+                            return false
+                        }
+                    }
+                }
+            }
+        }*/
+
+        // Don't check for Gold cost here (2nd false) because this function is called from continueMission... we spend the Gold then check to see if we can Build
+        if self.canBuild(build: buildType, at: self.location, testVisible: false, testGold: false, in: gameModel) {
+            continueToBuild = true
+
+            if self.doBuild(build: buildType, in: gameModel) {
+                continueToBuild = false
+            }
+        }
+
+        return continueToBuild
+    }
+    
+    // Returns true if build finished...
+    // bool CvUnit::build(BuildTypes eBuild)
+    func doBuild(build buildType: BuildType, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let tile = gameModel.tile(at: self.location) else {
+            fatalError("Cant get tile")
+        }
+        
+        //self.buildTypeValue = build
         
         /*if let tile = gameModel.tile(at: self.location) {
         if tile.resource() != .none {
@@ -1615,7 +1676,96 @@ class Unit: AbstractUnit {
         }
         }*/
         
-        return true
+        var finished: Bool = false
+
+        // Don't test Gold
+        if !self.canBuild(build: buildType, at: self.location, testVisible: false, testGold: false, in: gameModel) {
+            return false
+        }
+
+        let startedYet = tile.buildProgress(of: buildType)
+
+        // if we are starting something new wipe out the old thing immediately
+        if startedYet == 0 {
+            
+            if let improvement = buildType.improvement() {
+
+                if tile.improvement() != .none {
+                    tile.set(improvement: .none)
+                }
+            }
+
+            // wipe out all build progress also
+            finished = tile.changeBuildProgress(of: buildType, change: self.type.workRate(), for: player, in: gameModel)
+        }
+
+        finished = tile.changeBuildProgress(of: buildType, change: self.type.workRate(), for: player, in: gameModel)
+
+        self.finishMoves() // needs to be at bottom because movesLeft() can affect workRate()...
+
+        if finished {
+
+            // Update the amount of a Resource used up by popped Build
+            /*for resourceLoop in ResourceType.all {
+                
+                var numResource = 0
+                
+                if let improvment = buildType.improvement() {
+                    
+                        CvImprovementEntry* pkImprovementInfo = GC.getImprovementInfo(eImprovement);
+                        if(pkImprovementInfo)
+                        {
+                            numResource = pkImprovementInfo->GetResourceQuantityRequirement(iResourceLoop);
+                        }
+                    }
+                    else if (eRoute != NO_ROUTE)
+                    {
+                        CvRouteInfo* pkRouteInfo = GC.getRouteInfo(eRoute);
+                        if(pkRouteInfo)
+                        {
+                            numResource = pkRouteInfo->getResourceQuantityRequirement(iResourceLoop);
+                        }
+                    }
+
+                    if numResource > 0 {
+                        kPlayer.changeNumResourceUsed((ResourceTypes) iResourceLoop, -iNumResource);
+                    }
+                }*/
+
+            if buildType.isKill() {
+                if self.isGreatPerson() {
+                    fatalError("niy")
+                    //player.doGreatPersonExpended(of: self.type)
+                }
+
+                self.doKill(delayed: true, in: gameModel)
+            }
+
+            // Add to player's Improvement count, which will increase cost of future Improvements
+            if buildType.improvement() != nil || buildType.route() != nil {
+                // Prevents chopping Forest or Jungle from counting
+                player.changeTotalImprovementsBuilt(change: 1)
+            }
+        } else {
+            // we are not done doing this
+            if startedYet == 0 {
+                
+                if tile.isVisible(to: player) {
+                    if buildType.improvement() != nil {
+                        //pPlot->setLayoutDirty(true);
+                    } else if buildType.route() != nil {
+                        //pPlot->setLayoutDirty(true);
+                    }
+                }
+            }
+        }
+
+        return finished
+    }
+    
+    func isGreatPerson() -> Bool {
+        
+        return self.type == .general || self.type == .artist || self.type == .admiral || self.type == .engineer || self.type == .general || self.type == .merchant || self.type == .prophet || self.type == .scientist
     }
     
     func buildType() -> BuildType {
@@ -1642,10 +1792,10 @@ class Unit: AbstractUnit {
             } else {
                 tile.removeImprovement()
                 
-                if tile.resource() != .none {
+                if tile.resource(for: player) != .none {
                     if let player = tile.owner() {
                         let resourceQuantity = tile.resourceQuantity()
-                        player.changeNumAvailable(resource: tile.resource(), change: -resourceQuantity)
+                        player.changeNumAvailable(resource: tile.resource(for: player), change: -resourceQuantity)
                     }
                 }
                 

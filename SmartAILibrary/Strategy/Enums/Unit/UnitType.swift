@@ -629,6 +629,7 @@ enum UnitType {
             
         case .repair: return self.abilities().contains(.canImprove)
         case .road: return self.abilities().contains(.canImprove)
+        case .removeRoad: return self.abilities().contains(.canImprove)
         case .farm: return self.abilities().contains(.canImprove)
         case .mine: return self.abilities().contains(.canImprove)
         case .quarry: return self.abilities().contains(.canImprove)
@@ -641,5 +642,14 @@ enum UnitType {
     func has(ability: UnitAbilityType) -> Bool {
         
         return self.abilities().contains(ability)
+    }
+    
+    func workRate() -> Int {
+        
+        if self == .builder {
+            return 100
+        }
+        
+        return 0
     }
 }

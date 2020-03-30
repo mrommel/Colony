@@ -1433,7 +1433,7 @@ class CityCitizens {
             fatalError("Cant get tile")
         }
         
-        if tile.worked()?.location != self.city?.location {
+        if tile.workingCity()?.location != self.city?.location {
             return false
         }
 

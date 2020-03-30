@@ -378,9 +378,9 @@ class HomelandAI {
                         }
                     } else if tile.terrain().isWater() && tile.has(improvement: .none) {
                         // ... naval resource?
-                        if tile.hasAnyResource() {
+                        if tile.hasAnyResource(for: player) {
                             
-                            if let workingCity = tile.worked(), workingCity.player?.leader == player.leader {
+                            if let workingCity = tile.workingCity(), workingCity.player?.leader == player.leader {
                                 
                                 // Find proper improvement
                                 if let improvement = tile.possibleImprovements().first {
@@ -1679,7 +1679,7 @@ class HomelandAI {
             
             if unit.location == bestPlot.point {
 
-                print("\(unit.name()) tried to move to safety, but is already at the best spot, \(bestPlot.point)")
+                // print("\(unit.name()) tried to move to safety, but is already at the best spot, \(bestPlot.point)")
 
                 if unit.canHold(at: bestPlot.point, in: gameModel) {
 

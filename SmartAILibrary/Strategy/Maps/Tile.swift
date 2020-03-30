@@ -31,6 +31,16 @@ struct BuilderAIScratchPad {
     var value: Int
 }
 
+class BuildProgressList: WeightedList<BuildType> {
+    
+    override func fill() {
+        
+        for buildType in BuildType.all {
+            self.add(weight: 0, for: buildType)
+        }
+    }
+}
+
 protocol AbstractTile {
     
     var point: HexPoint { get }
@@ -52,20 +62,26 @@ protocol AbstractTile {
     func isImpassable() -> Bool
     
     // improvements
+    func hasAnyImprovement() -> Bool
     func improvement() -> TileImprovementType
     func possibleImprovements() -> [TileImprovementType]
-    func build(improvement: TileImprovementType) throws
     func has(improvement: TileImprovementType) -> Bool
     func removeImprovement()
-    func build(route: RouteType) throws
-    func has(route: RouteType) -> Bool
-    func canBuild(buildType: BuildType, by player: AbstractPlayer?) -> Bool
+    func set(improvement improvementType: TileImprovementType)
     func isImprovementPillaged() -> Bool
     func setImprovement(pillaged: Bool)
+    
+    func has(route: RouteType) -> Bool
+    
+    func canBuild(buildType: BuildType, by player: AbstractPlayer?) -> Bool
+    func changeBuildProgress(of buildType: BuildType, change: Int, for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
+    func buildProgress(of buildType: BuildType) -> Int
+    
     func productionFromFeatureRemoval(by buildType: BuildType) -> Int
     func doImprovement()
     
     func canBePillaged() -> Bool
+    
     func isRoutePillaged() -> Bool
     func setRoute(pillaged: Bool)
     
@@ -78,8 +94,8 @@ protocol AbstractTile {
     func isCity() -> Bool
     func build(city: AbstractCity?) throws
     func isWorked() -> Bool
-    func worked() -> AbstractCity?
-    func setWorked(by city: AbstractCity?) throws
+    func workingCity() -> AbstractCity?
+    func setWorkingCity(to city: AbstractCity?) throws
     
     func defenseModifier(for player: AbstractPlayer?) -> Int
     func isFriendlyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
@@ -104,11 +120,11 @@ protocol AbstractTile {
     func set(feature: FeatureType)
     
     // resources
-    func hasAnyResource() -> Bool
-    func resource() -> ResourceType
-    func has(resource: ResourceType) -> Bool
+    func hasAnyResource(for player: AbstractPlayer?) -> Bool
+    func resource(for player: AbstractPlayer?) -> ResourceType
+    func has(resource: ResourceType, for player: AbstractPlayer?) -> Bool
     func set(resource: ResourceType)
-    func has(resourceType: ResourceUsageType) -> Bool
+    func has(resourceType: ResourceUsageType, for player: AbstractPlayer?) -> Bool
     func resourceQuantity() -> Int
     
     // ocean / continent
@@ -161,6 +177,8 @@ class Tile: AbstractTile {
     private var riverFlowNorthEast: FlowDirection = .none
     private var riverFlowSouthEast: FlowDirection = .none
     
+    private var buildProgressList: BuildProgressList
+    
     private var builderAIScrtchPadValue: BuilderAIScratchPad
     
     init(point: HexPoint, terrain: TerrainType, hills: Bool = false, feature: FeatureType = .none) {
@@ -183,6 +201,9 @@ class Tile: AbstractTile {
         self.area = nil
         self.ocean = nil
         self.continent = nil
+        
+        self.buildProgressList = BuildProgressList()
+        self.buildProgressList.fill()
         
         self.builderAIScrtchPadValue = BuilderAIScratchPad(turn: -1, routeType: .none, leader: .none, value: -1)
     }
@@ -385,6 +406,11 @@ class Tile: AbstractTile {
     
     // MARK: improvement methods
     
+    func hasAnyImprovement() -> Bool {
+        
+        return self.improvementValue != .none
+    }
+    
     func improvement() -> TileImprovementType {
         
         return self.improvementValue
@@ -408,25 +434,213 @@ class Tile: AbstractTile {
 
         self.improvementValue = .none
     }
-
-    func build(improvement: TileImprovementType) throws {
-
-        // can't add an improvement, if something is already installed
-        if self.improvementValue != .none {
-            throw TileError.alreadyImproved
-        }
-        
-        // check if improvement is allowed here
-        if !self.possibleImprovements().contains(improvement) {
-            throw TileError.invalidImprovement
-        }
-        
-        self.improvementValue = improvement
-    }
     
     func has(improvement: TileImprovementType) -> Bool {
         
         return self.improvementValue == improvement
+    }
+    
+    func set(improvement improvementType: TileImprovementType) {
+        
+        let oldImprovement = self.improvement()
+
+        if oldImprovement != improvementType {
+            
+            if oldImprovement != .none {
+ 
+                // Culture from Improvement
+                /*int iCulture = ComputeCultureFromImprovement(oldImprovementEntry, eOldImprovement);
+                if (iCulture != 0)
+                {
+                    ChangeCulture(-iCulture);
+                }*/
+
+                // If this improvement can add culture to nearby improvements, update them as well
+                /*if (oldImprovementEntry.GetCultureAdjacentSameType() > 0)
+                {
+                    for (iI = 0; iI < NUM_DIRECTION_TYPES; iI++)
+                    {
+                        CvPlot *pAdjacentPlot = plotDirection(getX(), getY(), ((DirectionTypes)iI));
+                        if (pAdjacentPlot && pAdjacentPlot->getImprovementType() == eOldImprovement)
+                        {
+                            pAdjacentPlot->ChangeCulture(-oldImprovementEntry.GetCultureAdjacentSameType());
+                        }
+                    }
+                }*/
+
+                /*if (area())
+                {
+                    area()->changeNumImprovements(eOldImprovement, -1);
+                }*/
+                
+                // Someone owns this plot
+                if let player = self.owner() {
+
+                    player.changeImprovementCount(of: oldImprovement, change: -1)
+
+                    // Maintenance change!
+                    /*if (MustPayMaintenanceHere(owningPlayerID)) {
+                    GET_PLAYER(owningPlayerID).GetTreasury()->ChangeBaseImprovementGoldMaintenance(-GC.getImprovementInfo(getImprovementType())->GetGoldMaintenance());
+                    }*/
+
+                    // Update the amount of a Resource used up by the previous Improvement that is being removed
+                    /*int iNumResourceInfos = GC.getNumResourceInfos();
+                    for (int iResourceLoop = 0; iResourceLoop < iNumResourceInfos; iResourceLoop++)
+                    {
+                        if (oldImprovementEntry.GetResourceQuantityRequirement(iResourceLoop) > 0)
+                        {
+                            player.ch.changeNumResourceUsed((ResourceTypes) iResourceLoop, -oldImprovementEntry.GetResourceQuantityRequirement(iResourceLoop));
+                        }
+                    }*/
+                }
+
+                // Someone had built something here in an unowned plot, remove effects of the old improvement
+                /*if (GetPlayerResponsibleForImprovement() != NO_PLAYER)
+                {
+                    // Maintenance change!
+                    if (MustPayMaintenanceHere(GetPlayerResponsibleForImprovement()))
+                    {
+                        GET_PLAYER(GetPlayerResponsibleForImprovement()).GetTreasury()->ChangeBaseImprovementGoldMaintenance(-GC.getImprovementInfo(getImprovementType())->GetGoldMaintenance());
+                    }
+
+                    SetPlayerResponsibleForImprovement(NO_PLAYER);
+                }*/
+            }
+
+            self.improvementValue = improvementType
+
+            /*if (getImprovementType() == NO_IMPROVEMENT)
+            {
+                setImprovementDuration(0);
+            }*/
+
+            // Reset who cleared a Barb camp here last (if we're putting a new one down)
+            if improvementType == .barbarianCamp {
+                //SetPlayerThatClearedBarbCampHere(NO_PLAYER);
+            }
+
+            //setUpgradeProgress(0);
+
+            // make sure this plot is not disabled
+            self.setImprovement(pillaged: false)
+
+            /*for (iI = 0; iI < MAX_TEAMS; ++iI)
+            {
+                if (GET_TEAM((TeamTypes)iI).isAlive())
+                {
+                    if (isVisible((TeamTypes)iI))
+                    {
+                        setRevealedImprovementType((TeamTypes)iI, eNewValue);
+                    }
+                }
+            }*/
+
+            if improvementType != .none {
+                
+                // Culture from Improvement
+                let culture = improvementType.yields().culture //ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
+                if culture != 0 {
+                    //self.changeCulture(culture)
+                }
+
+                // If this improvement can add culture to nearby improvements, update them as well
+                /*if (newImprovementEntry.GetCultureAdjacentSameType() > 0)
+                {
+                    for (iI = 0; iI < NUM_DIRECTION_TYPES; iI++)
+                    {
+                        CvPlot *pAdjacentPlot = plotDirection(getX(), getY(), ((DirectionTypes)iI));
+                        if (pAdjacentPlot && pAdjacentPlot->getImprovementType() == eNewValue)
+                        {
+                            pAdjacentPlot->ChangeCulture(newImprovementEntry.GetCultureAdjacentSameType());
+                        }
+                    }
+                }*/
+
+                /*if (area())
+                {
+                    area()->changeNumImprovements(eNewValue, 1);
+                }*/
+                
+                if let player = self.owner() {
+                    
+                    player.changeImprovementCount(of: improvementType, change: 1);
+
+                    // Maintenance
+                    /*if (MustPayMaintenanceHere(owningPlayerID))
+                    {
+                        GET_PLAYER(owningPlayerID).GetTreasury()->ChangeBaseImprovementGoldMaintenance(newImprovementEntry.GetGoldMaintenance());
+                    }*/
+
+                    // Add Resource Quantity to total
+                    if self.resourceValue != .none {
+                        
+                        /*if (GET_TEAM(getTeam()).GetTeamTechs()->HasTech((TechTypes) GC.getResourceInfo(getResourceType())->getTechCityTrade()))
+                        {
+                            if (newImprovementEntry.IsImprovementResourceTrade(getResourceType()))
+                            {
+                                owningPlayer.changeNumResourceTotal(getResourceType(), getNumResourceForPlayer(owningPlayerID));
+
+                                // Activate Resource city link?
+                                if (GetResourceLinkedCity() != NULL && !IsResourceLinkedCityActive())
+                                    SetResourceLinkedCityActive(true);
+                            }
+                        }*/
+                    }
+
+                    /*ResourceTypes eResource = getResourceType(getTeam());
+
+                    if (eResource != NO_RESOURCE)
+                    {
+                        if (newImprovementEntry.IsImprovementResourceTrade(eResource))
+                        {
+                            if (GC.getResourceInfo(eResource)->getResourceUsage() == RESOURCEUSAGE_LUXURY)
+                            {
+                                owningPlayer.DoUpdateHappiness();
+                            }
+                        }
+                    }*/
+                }
+            }
+
+            // If we're removing an Improvement that hooked up a resource then we need to take away the bonus
+            if oldImprovement != .none && !self.isCity() {
+                
+                if let player = self.owner() {
+                    
+                    // Remove Resource Quantity from total
+                    if self.resource(for: player) != .none {
+                        
+                        fatalError("fixme")
+                        /*if (GET_TEAM(getTeam()).GetTeamTechs()->HasTech((TechTypes) GC.getResourceInfo(getResourceType())->getTechCityTrade()))
+                        {
+                            if (GC.getImprovementInfo(eOldImprovement)->IsImprovementResourceTrade(getResourceType()))
+                            {
+                                owningPlayer.changeNumResourceTotal(getResourceType(), -getNumResourceForPlayer(owningPlayerID));
+
+                                // Disconnect resource link
+                                if (GetResourceLinkedCity() != NULL)
+                                    SetResourceLinkedCityActive(false);
+                            }
+                        }*/
+                    }
+
+                    let resource = self.resource(for: player)
+
+                    if resource != .none {
+                        
+                        /*if (GC.getImprovementInfo(eOldImprovement)->IsImprovementResourceTrade(eResource))
+                        {
+                            if (GC.getResourceInfo(eResource)->getResourceUsage() == RESOURCEUSAGE_LUXURY)
+                            {
+                                player.doUpdateHappiness()
+                            }
+                        }*/
+                    }
+                }
+            }
+
+            // self.updateYield();
+        }
     }
     
     func isImprovementPillaged() -> Bool {
@@ -490,8 +704,9 @@ class Tile: AbstractTile {
         }
     }
     
-    func build(route: RouteType) throws {
-        fatalError("niy")
+    func set(route routeType: RouteType) {
+        
+        self.routeValue = routeType
     }
     
     func canBuild(buildType: BuildType, by player: AbstractPlayer?) -> Bool {
@@ -500,8 +715,6 @@ class Tile: AbstractTile {
         if buildType == .none {
             return false
         }
-        
-        
         
         return true
     }
@@ -562,7 +775,7 @@ class Tile: AbstractTile {
         return self.workedBy != nil
     }
     
-    func worked() -> AbstractCity? {
+    func workingCity() -> AbstractCity? {
         
         return self.workedBy
     }
@@ -576,7 +789,7 @@ class Tile: AbstractTile {
         self.workedBy = nil
     }
     
-    func setWorked(by city: AbstractCity?) throws {
+    func setWorkingCity(to city: AbstractCity?) throws {
         
         if city == nil {
             throw TileError.emptyWorker
@@ -642,19 +855,39 @@ class Tile: AbstractTile {
     
     // MARK: resource methods
     
-    func resource() -> ResourceType {
+    func hasAnyResource(for player: AbstractPlayer?) -> Bool {
         
-        return self.resourceValue
+        return self.resource(for: player) != .none
     }
     
-    func hasAnyResource() -> Bool {
+    func resource(for player: AbstractPlayer?) -> ResourceType {
         
-        return self.resourceValue != .none
+        guard let player = player else {
+            fatalError("no player provided")
+        }
+        
+        if self.resourceValue != .none {
+            
+            var valid = true
+            
+            // check if already visible to player
+            if let revealTech = self.resourceValue.revealTech() {
+                if !player.has(tech: revealTech) {
+                    valid = false
+                }
+            }
+            
+            if valid {
+                return self.resourceValue
+            }
+        }
+        
+        return .none
     }
     
-    func has(resource: ResourceType) -> Bool {
+    func has(resource: ResourceType, for player: AbstractPlayer?) -> Bool {
         
-        return self.resourceValue == resource
+        return self.resource(for: player) == resource
     }
     
     func set(resource: ResourceType) {
@@ -662,9 +895,9 @@ class Tile: AbstractTile {
         self.resourceValue = resource
     }
     
-    func has(resourceType: ResourceUsageType) -> Bool {
+    func has(resourceType: ResourceUsageType, for player: AbstractPlayer?) -> Bool {
         
-        return self.resourceValue.usage() == resourceType
+        return self.resource(for: player).usage() == resourceType
     }
     
     func resourceQuantity() -> Int {
@@ -984,5 +1217,146 @@ class Tile: AbstractTile {
     func set(builderAIScratchPad: BuilderAIScratchPad) {
         
         self.builderAIScrtchPadValue = builderAIScratchPad
+    }
+    
+    // MARK: build progress
+    
+    func buildProgress(buildType: BuildType) -> Int {
+        
+        return Int(self.buildProgressList.weight(of: buildType))
+    }
+    
+    // Returns true if build finished...
+    func changeBuildProgress(of buildType: BuildType, change: Int, for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        /*CvCity* pCity;
+        CvString strBuffer;
+        int iProduction;*/
+        var finished = false
+
+        if change != 0 {
+
+            self.buildProgressList.add(weight: change, for: buildType)
+
+            if self.buildProgress(buildType: buildType) >= buildType.buildTime(on: self) {
+                
+                self.buildProgressList.set(weight: 0, for: buildType)
+
+                // Constructed Improvement
+                if let improvementType = buildType.improvement() {
+                    
+                    self.set(improvement: improvementType)
+
+                    // Unowned plot, someone has to foot the bill
+                    if !self.hasOwner() {
+                        fatalError("someone must pay")
+                        /*if (MustPayMaintenanceHere(ePlayer))
+                        {
+                            GET_PLAYER(ePlayer).GetTreasury()->ChangeBaseImprovementGoldMaintenance(GC.getImprovementInfo(eImprovement)->GetGoldMaintenance());
+                        }
+                        SetPlayerResponsibleForImprovement(ePlayer);*/
+                    }
+                }
+
+                // Constructed Route
+                if let routeType = buildType.route() {
+                    
+                    self.set(route: routeType)
+
+                        // Unowned plot, someone has to foot the bill
+                        if !self.hasOwner() {
+                            fatalError("someone must pay")
+                            /*if (MustPayMaintenanceHere(ePlayer))
+                            {
+                                GET_PLAYER(ePlayer).GetTreasury()->ChangeBaseImprovementGoldMaintenance(pkRouteInfo->GetGoldMaintenance());
+                            }
+                            SetPlayerResponsibleForRoute(ePlayer);*/
+                        }
+                    }
+                }
+
+                // Remove Feature
+            if self.hasAnyFeature() {
+                
+                if buildType.canRemove(feature: self.feature()) {
+                        
+                    let (production, cityRef) = self.featureProduction(by: buildType, for: player)
+
+                    if production > 0 {
+                            
+                        guard let city = cityRef else {
+                            fatalError("no city found")
+                        }
+                        
+                        guard let cityPlayer = city.player else {
+                            fatalError("no city player found")
+                        }
+                        
+                        city.changeFeatureProduction(change: production)
+                            
+                        if cityPlayer.isHuman() {
+                            fatalError("fixme")
+                            // Das Entfernen der Geländeart {@1_FeatName} hat {2_Num} [ICON_PRODUCTION] für die Stadt {@3_CityName} eingebracht.
+                            // gameModel.add(message: <#T##AbstractGameMessage#>)
+                            /*    strBuffer = GetLocalizedText("TXT_KEY_MISC_CLEARING_FEATURE_RESOURCE", GC.getFeatureInfo(getFeatureType())->GetTextKey(), iProduction, pCity->getNameKey());
+                                GC.GetEngineUserInterface()->AddCityMessage(0, pCity->GetIDInfo(), pCity->getOwner(), false, GC.getEVENT_MESSAGE_TIME(), strBuffer);*/
+                        }
+                    }
+
+                    self.set(feature: .none)
+                }
+
+                // Repairing a Pillaged Tile
+                if buildType.repair() {
+                    
+                    if self.isImprovementPillaged() {
+                        self.setImprovement(pillaged: false)
+                    } else if self.isRoutePillaged() {
+                        self.setRoute(pillaged: false)
+                    }
+                }
+
+                if buildType.removeRoute() {
+                    self.set(route: .none)
+                }
+
+                finished = true
+            }
+        }
+
+        return finished
+    }
+    
+    func featureProduction(by buildType: BuildType, for player: AbstractPlayer?) -> (Int, AbstractCity?) {
+        
+        if self.featureValue == .none {
+            return (0, nil)
+        }
+        
+        var cityRef = self.workingCity()
+        if cityRef == nil {
+            fatalError("niy - try to find next city to give production to")
+        }
+        
+        guard let city = cityRef else {
+            return (0, nil)
+        }
+        
+        // base value
+        var production = buildType.productionFromRemoval(of: self.featureValue)
+        
+        // Distance mod
+        production -= (max(0, self.point.distance(to: city.location) - 2) * 5)
+        
+        return (production, city)
+    }
+    
+    func buildProgress(of buildType: BuildType) -> Int {
+        
+        return Int(self.buildProgressList.weight(of: buildType))
     }
 }

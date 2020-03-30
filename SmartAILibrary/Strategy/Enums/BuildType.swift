@@ -15,6 +15,7 @@ enum BuildType {
     case repair
     
     case road
+    case removeRoad
     
     case farm
     case mine
@@ -24,7 +25,7 @@ enum BuildType {
     case pasture
     
     static var all: [BuildType] {
-        return [.road, .repair, .farm, .mine, .quarry, .plantation, .camp, .pasture]
+        return [.road, .removeRoad, .repair, .farm, .mine, .quarry, .plantation, .camp, .pasture]
     }
     
     func name() -> String {
@@ -45,6 +46,11 @@ enum BuildType {
     func route() -> RouteType? {
         
         return self.data().route
+    }
+    
+    func removeRoute() -> Bool {
+        
+        return self.data().removeRoad
     }
     
     func required() -> TechType? {
@@ -110,16 +116,18 @@ enum BuildType {
         let required: TechType?
         let improvement: TileImprovementType?
         let route: RouteType?
+        let removeRoad: Bool
         var featureBuilds: [FeatureBuild] = []
         let duration: Int
         
-        init(name: String, repair: Bool = false, required: TechType? = nil, improvement: TileImprovementType? = nil, route: RouteType? = nil, duration: Int) {
+        init(name: String, repair: Bool = false, required: TechType? = nil, improvement: TileImprovementType? = nil, route: RouteType? = nil, removeRoad: Bool = false, duration: Int) {
             
             self.name = name
             self.repair = repair
             self.required = required
             self.improvement = improvement
             self.route = route
+            self.removeRoad = removeRoad
             self.duration = duration
         }
     }
@@ -141,6 +149,7 @@ enum BuildType {
         case .repair: return BuildTypeData(name: "Repair", repair: true, duration: 3)
             
         case .road: return BuildTypeData(name: "Road", required: .wheel, route: .road, duration: 3)
+        case .removeRoad: return BuildTypeData(name: "Remove Road", required: .wheel, removeRoad: true, duration: 3)
             
         case .farm:
             let farmBuild = BuildTypeData(name: "Farm", improvement: .farm, duration: 6)
@@ -177,5 +186,10 @@ enum BuildType {
             pastureBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 5, isRemove: true))
             return pastureBuild
         }
+    }
+    
+    func isKill() -> Bool {
+        
+        return false
     }
 }

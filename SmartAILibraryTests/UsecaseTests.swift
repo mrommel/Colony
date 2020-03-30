@@ -227,4 +227,128 @@ class UsecaseTests: XCTestCase {
          
         XCTAssertEqual(playerAugustusScout.location, HexPoint(x: 17, y: 13))
      }
+    
+    func testBuilderBuildsInPlace() {
+        
+        // GIVEN
+         
+        // player 1
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+         
+        // player 2
+        let playerAugustus = Player(leader: .augustus)
+        playerAugustus.initialize()
+         
+        let playerBarbarian = Player(leader: .barbar)
+        playerBarbarian.initialize()
+         
+        // map
+        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
+        mapModel.tile(at: HexPoint(x: 18, y: 15))?.set(terrain: .ocean)
+         
+        // game
+        let gameModel = GameModel(victoryTypes: [.domination],
+                                   turnsElapsed: 0,
+                                   players: [playerAugustus, playerBarbarian, playerAlexander],
+                                   on: mapModel)
+         
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+         
+        // initial units
+        let playerAugustusWarrior = Unit(at: HexPoint(x: 15, y: 15), type: .warrior, owner: playerAugustus)
+        gameModel.add(unit: playerAugustusWarrior)
+         
+        let playerAugustusBuilder = Unit(at: HexPoint(x: 16, y: 15), type: .builder, owner: playerAugustus)
+        gameModel.add(unit: playerAugustusBuilder)
+         
+        // initial city
+        let cityAugustria = City(name: "Augustria", at: HexPoint(x: 15, y: 15), capital: true, owner: playerAugustus)
+        cityAugustria.initialize(in: gameModel)
+        gameModel.add(city: cityAugustria)
+        
+        playerAugustusWarrior.doGarrison(in: gameModel)
+         
+        // this is cheating
+        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander)
+        MapModelHelper.discover(area: HexPoint(x: 15, y: 15).areaWith(radius: 3), mapModel: &mapModel, by: playerAugustus)
+        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian)
+        
+        // WHEN
+        while !playerAlexander.canFinishTurn() {
+            gameModel.update()
+        }
+        playerAlexander.endTurn(in: gameModel)
+         
+        // THEN
+        if let buildMission = playerAugustusBuilder.peekMission() {
+            XCTAssertEqual(buildMission.type, .build)
+            XCTAssertEqual(buildMission.buildType, .farm)
+        } else {
+            XCTFail()
+        }
+    }
+    
+    func testBuilderBuildsSomewhere() {
+        
+        // GIVEN
+         
+        // player 1
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+         
+        // player 2
+        let playerAugustus = Player(leader: .augustus)
+        playerAugustus.initialize()
+         
+        let playerBarbarian = Player(leader: .barbar)
+        playerBarbarian.initialize()
+         
+        // map
+        var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
+        mapModel.tile(at: HexPoint(x: 18, y: 15))?.set(terrain: .ocean)
+        mapModel.set(improvement: .farm, at: HexPoint(x: 16, y: 15))
+         
+        // game
+        let gameModel = GameModel(victoryTypes: [.domination],
+                                   turnsElapsed: 0,
+                                   players: [playerAugustus, playerBarbarian, playerAlexander],
+                                   on: mapModel)
+         
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+         
+        // initial units
+        let playerAugustusWarrior = Unit(at: HexPoint(x: 15, y: 15), type: .warrior, owner: playerAugustus)
+        gameModel.add(unit: playerAugustusWarrior)
+         
+        let playerAugustusBuilder = Unit(at: HexPoint(x: 16, y: 15), type: .builder, owner: playerAugustus)
+        gameModel.add(unit: playerAugustusBuilder)
+         
+        // initial city
+        let cityAugustria = City(name: "Augustria", at: HexPoint(x: 15, y: 15), capital: true, owner: playerAugustus)
+        cityAugustria.initialize(in: gameModel)
+        gameModel.add(city: cityAugustria)
+        
+        playerAugustusWarrior.doGarrison(in: gameModel)
+         
+        // this is cheating
+        MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander)
+        MapModelHelper.discover(area: HexPoint(x: 15, y: 15).areaWith(radius: 3), mapModel: &mapModel, by: playerAugustus)
+        MapModelHelper.discover(mapModel: &mapModel, by: playerBarbarian)
+        
+        // WHEN
+        while !playerAlexander.canFinishTurn() {
+            gameModel.update()
+        }
+        playerAlexander.endTurn(in: gameModel)
+         
+        // THEN
+        XCTAssertEqual(playerAugustusBuilder.location, HexPoint(x: 15, y: 15))
+    }
 }

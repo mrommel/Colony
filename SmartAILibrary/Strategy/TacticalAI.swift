@@ -2463,10 +2463,10 @@ class TacticalAI {
 
                                 // ... enemy resource improvement?
                             } else if diplomacyAI.isAtWar(with: tile.owner()) && !tile.has(improvement: .none) && !tile.canBePillaged() &&
-                                !tile.has(resource: .none) && !enemyDominatedPlot {
+                                !tile.has(resource: .none, for: player) && !enemyDominatedPlot {
 
                                 // On land, civs only target improvements built on resources
-                                if tile.has(resourceType: .strategic) || tile.has(resourceType: .luxury) || tile.terrain().isWater() || player.leader == .barbar {
+                                if tile.has(resourceType: .strategic, for: player) || tile.has(resourceType: .luxury, for: player) || tile.terrain().isWater() || player.leader == .barbar {
 
                                     if tile.terrain().isWater() && player.leader == .barbar {
 

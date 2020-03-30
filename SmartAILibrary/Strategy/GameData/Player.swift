@@ -18,6 +18,16 @@ class ResourceInventory: WeightedList<ResourceType> {
     }
 }
 
+class ImprovementCountList: WeightedList<TileImprovementType> {
+    
+    override func fill() {
+        
+        for improvementType in TileImprovementType.all {
+            self.add(weight: 0.0, for: improvementType)
+        }
+    }
+}
+
 protocol AbstractPlayer {
 
     var leader: LeaderType { get }
@@ -132,6 +142,9 @@ protocol AbstractPlayer {
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
     func hasBusyUnitOrCity() -> Bool
     
+    func changeImprovementCount(of improvement: TileImprovementType, change: Int)
+    func changeTotalImprovementsBuilt(change: Int)
+    
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
 
@@ -170,6 +183,7 @@ class Player: AbstractPlayer {
     internal var numPlotsBoughtValue: Int
     
     internal var resourceInventory: ResourceInventory?
+    internal var improvementCountList: ImprovementCountList
     
     private var turnActive: Bool = false
     private var finishTurnButtonPressedValue: Bool = false
@@ -189,6 +203,9 @@ class Player: AbstractPlayer {
         self.plots = []
         
         self.numPlotsBoughtValue = 0
+        
+        self.improvementCountList = ImprovementCountList()
+        self.improvementCountList.fill()
     }
 
     // public methods
@@ -1584,6 +1601,16 @@ class Player: AbstractPlayer {
     func specialistExtraYield(for specialistType: SpecialistType, and yieldType: YieldType) -> Int {
         
         return 0
+    }
+    
+    func changeImprovementCount(of improvement: TileImprovementType, change: Int) {
+        
+        self.improvementCountList.add(weight: change, for: improvement)
+    }
+    
+    func changeTotalImprovementsBuilt(change: Int) {
+        
+        fatalError("niy")
     }
     
     func isEqual(to other: AbstractPlayer?) -> Bool {

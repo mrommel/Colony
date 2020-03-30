@@ -584,6 +584,10 @@ class CitySpecializationAI {
             fatalError("cant get gameModel")
         }
         
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
         // Roughly half of weight comes from food yield
         // The other half will be are there open tiles we can easily build schools on
         var totalFoodYield = 0
@@ -607,7 +611,7 @@ class CitySpecializationAI {
             
             var isClear = false
             
-            if !loopPlot.hasAnyResource() {
+            if !loopPlot.hasAnyResource(for: player) {
                 if !loopPlot.hasAnyFeature() {
                     if !loopPlot.hasHills() {
                         if loopPlot.improvement() == .none {

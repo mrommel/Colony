@@ -412,7 +412,7 @@ class UnitMission {
                     }
                 } else if self.type == .build {
                     if let buildType = self.buildType {
-                        if !unit.doBuild(build: buildType) {
+                        if !unit.canContinueBuild(build: buildType, in: gameModel) {
                             done = true
                         }
                     }

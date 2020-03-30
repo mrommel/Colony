@@ -82,6 +82,8 @@ protocol AbstractCity {
 
     func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int
     func unitProductionTurnsLeft(for unitType: UnitType) -> Int
+    func featureProduction() -> Int
+    func changeFeatureProduction(change: Int)
 
     func currentBuildableItem() -> BuildableItem?
 
@@ -170,6 +172,7 @@ class City: AbstractCity {
     
     private var isFeatureSurroundedValue: Bool
     private var productionLastTurn: Double = 1.0
+    private var featureProductionValue: Int = 0
 
     var foodBasketValue: Double
     private var foodLastTurn: Double = 1.0
@@ -227,6 +230,10 @@ class City: AbstractCity {
 
     func initialize(in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
         self.districts = Districts(city: self)
         self.buildings = Buildings(city: self)
         self.wonders = Wonders(city: self)
@@ -244,6 +251,30 @@ class City: AbstractCity {
         self.cityCitizens = CityCitizens(city: self)
         
         self.doUpdateCheapestPlotInfluence(in: gameModel)
+        
+        // discover the surrounding area
+        for pointToDiscover in self.location.areaWith(radius: 2) {
+         
+            if let tile = gameModel.tile(at: pointToDiscover) {
+                tile.discover(by: self.player)
+            }
+        }
+        
+        // claim ownership for direct neighbors (if not taken)
+        for pointToClaim in self.location.areaWith(radius: 1) {
+            
+            if let tile = gameModel.tile(at: pointToClaim) {
+                do {
+                    // FIXME 
+                    try tile.set(owner: self.player)
+                    try tile.setWorkingCity(to: self)
+                } catch {
+                    fatalError("cant set owner")
+                }
+            }
+        }
+        
+        self.player?.updatePlots(in: gameModel)
     }
     
     func isCapital() -> Bool {
@@ -1432,6 +1463,10 @@ class City: AbstractCity {
 
         // from tiles
         var yieldsVal = self.yieldsFromTiles(in: gameModel)
+        
+        // from improvements (one time effect
+        yieldsVal.production += Double(self.featureProduction())
+        self.changeFeatureProduction(change: -self.featureProduction()) // reset to zero
 
         // yields from government
         if let government = player.government {
@@ -1476,7 +1511,7 @@ class City: AbstractCity {
         yieldsVal.culture += (self.populationValue * 0.3)
 
         // reduce gold by maintenance costs
-        yieldsVal.gold -= self.maintenanceCostsPerTurn()
+        //yieldsVal.gold -= self.maintenanceCostsPerTurn()
 
         return yieldsVal
     }
@@ -1512,6 +1547,16 @@ class City: AbstractCity {
         }
 
         return yields
+    }
+    
+    func featureProduction() -> Int {
+        
+        return self.featureProductionValue
+    }
+    
+    func changeFeatureProduction(change: Int) {
+        
+        self.featureProductionValue += change
     }
 
     func foodConsumption() -> Double {
@@ -1750,7 +1795,7 @@ class City: AbstractCity {
         }
 
         self.cityCitizens?.setWorked(at: tile.point, worked: true, useUnassignedPool: true)
-        try tile.setWorked(by: self)
+        try tile.setWorkingCity(to: self)
     }
     
     func threatValue() -> Int {
@@ -1951,7 +1996,7 @@ class City: AbstractCity {
         var influenceCost = distance *  100 /* PLOT_INFLUENCE_DISTANCE_MULTIPLIER */
 
         // Resource here?
-        if tile.resource() != .none {
+        if tile.resource(for: player) != .none {
             influenceCost -= 100 /* PLOT_BUY_RESOURCE_COST */
         }
 
@@ -2093,7 +2138,7 @@ class City: AbstractCity {
             
             if player.isEqual(to: adjacentPlot.owner()) {
                 
-                if adjacentPlot.worked()?.location == self.location {
+                if adjacentPlot.workingCity()?.location == self.location {
                     foundAdjacent = true
                     break
                 }
@@ -2163,7 +2208,7 @@ class City: AbstractCity {
         }
 
         // Does it have a resource?
-        let resource = tile.resource()
+        let resource = tile.resource(for: player)
         if resource != .none {
             
             if let revealTech = resource.revealTech() {
@@ -2226,7 +2271,7 @@ class City: AbstractCity {
                     
                     if landDisputeLevel != .none {
                          
-                        if let city = tile.worked() {
+                        if let city = tile.workingCity() {
 
                             let distance = tile.point.distance(to: city.location)
 

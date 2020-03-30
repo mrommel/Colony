@@ -62,7 +62,7 @@ class CityTests: XCTestCase {
         centerTile?.set(terrain: .grass)
         centerTile?.set(hills: false)
         try! centerTile?.set(owner: playerAlexander)
-        try! centerTile?.build(improvement: .farm)
+        centerTile?.set(improvement: .farm)
         
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
         
@@ -102,7 +102,7 @@ class CityTests: XCTestCase {
         centerTile?.set(hills: false)
         try! centerTile?.set(owner: playerAlexander)
         //try! self.objectToTest?.work(tile: centerTile)
-        try! centerTile?.build(improvement: .farm)
+        centerTile?.set(improvement: .farm)
         
         // another
         let anotherTile = mapModel.tile(at: HexPoint(x: 1, y: 2))
@@ -110,7 +110,7 @@ class CityTests: XCTestCase {
         anotherTile?.set(hills: true)
         try! anotherTile?.set(owner: playerAlexander)
         try! self.objectToTest?.work(tile: anotherTile!)
-        try! anotherTile?.build(improvement: .mine)
+        anotherTile?.set(improvement: .mine)
         
         // WHEN
         /*let yields = self.objectToTest?.turn(in: gameModel)

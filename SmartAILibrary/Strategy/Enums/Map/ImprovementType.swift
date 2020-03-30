@@ -14,6 +14,7 @@ enum TileImprovementType {
     
     case barbarianCamp
     case goodyHut
+    case ruins
 
     case farm
     case mine
@@ -41,6 +42,7 @@ enum TileImprovementType {
             
         case .barbarianCamp: return Yields(food: 0, production: 0, gold: 0, science: 0)
         case .goodyHut: return Yields(food: 0, production: 0, gold: 0, science: 0)
+        case .ruins: return Yields(food: 0, production: 0, gold: 0, science: 0)
 
         case .farm:
             // FIXME: https://civilization.fandom.com/wiki/Wheat_(Civ6)
@@ -65,6 +67,7 @@ enum TileImprovementType {
             
         case .barbarianCamp: return 0
         case .goodyHut: return 0
+        case .ruins: return 0
 
         case .farm: return 1
         case .mine: return 1
@@ -92,6 +95,7 @@ enum TileImprovementType {
             
         case .barbarianCamp: return self.isBarbarianCampPossible(on: tile)
         case .goodyHut: return false
+        case .ruins: return false
 
         case .farm: return self.isFarmPossible(on: tile)
         case .mine: return self.isMinePossible(on: tile)
@@ -110,7 +114,7 @@ enum TileImprovementType {
         
         switch self {
             
-        case .none, .barbarianCamp, .goodyHut, .farm, .mine, .quarry, .camp, .pasture, .plantation, .fishingBoats:
+        case .none, .barbarianCamp, .goodyHut, .ruins, .farm, .mine, .quarry, .camp, .pasture, .plantation, .fishingBoats:
             return 0
         case .fort:
             return 4
@@ -128,6 +132,7 @@ enum TileImprovementType {
         case .none: return false
         case .barbarianCamp: return false
         case .goodyHut: return false
+        case .ruins: return false
             
         case .farm: return true
         case .mine: return true
@@ -205,7 +210,7 @@ enum TileImprovementType {
 
         switch self {
 
-        case .none, .barbarianCamp, .goodyHut: return nil
+        case .none, .barbarianCamp, .goodyHut, .ruins: return nil
 
         case .farm: return nil
         case .mine: return .mining
@@ -234,6 +239,7 @@ enum TileImprovementType {
         switch self {
 
         case .none: return []
+        case .ruins: return []
             
         case .barbarianCamp: return []
         case .goodyHut: return []
@@ -247,5 +253,44 @@ enum TileImprovementType {
         case .fort: return []
         case .citadelle: return []
         }
+    }
+    
+    func enables(resource: ResourceType) -> Bool {
+        
+        if self == .farm && (resource == .wheat || resource == .rice) {
+            return true
+        }
+        
+        // Copper Diamonds Gold Ore  Iron  Jade  Mercury  Salt  Niter  Coal  Aluminum  Uranium  Amber
+        if self == .mine && (resource == .iron || resource == .copper ) {
+            return true
+        }
+        
+        // Gypsum
+        if self == .quarry && (resource == .stone || resource == .marble) {
+            return true
+        }
+        
+        // Bananas Citrus Cocoa Coffee Cotton Dyes Silk Sugar Tea Tobacco Wine Olives (Civ6) Olives
+        if self == .plantation && (resource == .bananas || resource == .citrus) {
+            return true
+        }
+        
+        // Deer Furs Ivory Truffles (Civ6) Truffles
+        if self == .camp && (resource == .deer || resource == .furs) {
+            return true
+        }
+        
+        // Sheep Cattle Horses
+        if self == .pasture && (resource == .sheep || resource == .cattle || resource == .horses) {
+            return true
+        }
+        
+        // Fish Crabs Whales Pearls Amber Turtles
+        if self == .fishingBoats && (resource == .fish) {
+            return true
+        }
+        
+        return false
     }
 }

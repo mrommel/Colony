@@ -463,7 +463,7 @@ class CityStrategyAI {
                 continue
             }
             
-            if workingTile.worked()?.location != city.location {
+            if workingTile.workingCity()?.location != city.location {
                 continue
             }
             

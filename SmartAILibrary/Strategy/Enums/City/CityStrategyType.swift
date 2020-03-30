@@ -612,7 +612,7 @@ enum CityStrategyType {
                     if tile.owner()?.leader == player.leader {
                         if tile.terrain().isLand() {
                             
-                            if !tile.hasAnyResource() {
+                            if !tile.hasAnyResource(for: player) {
                                 continue
                             }
                             
