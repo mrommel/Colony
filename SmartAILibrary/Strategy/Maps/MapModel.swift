@@ -9,7 +9,7 @@
 import Foundation
 
 
-class MapModel {
+public class MapModel {
     
     let size: MapSize
     private var cities: [AbstractCity?]

@@ -12,7 +12,6 @@ import Rswift
 class SplashViewController: UIViewController {
     
     @IBOutlet var colonyTextImageView: UIImageView!
-    @IBOutlet var glowImageView: UIImageView!
     
     var inUnitTests: Bool {
         return ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
@@ -21,8 +20,7 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         
         self.colonyTextImageView.isHidden = false
-        self.glowImageView.isHidden = false
-        
+
         if !self.inUnitTests {
             CoreDataManager.shared.setup(completion: {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {

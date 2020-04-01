@@ -18,6 +18,21 @@
 		C9B1D223243481D900033791 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D222243481D900033791 /* Main.storyboard */; };
 		C9B1D22624348BD300033791 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D22524348BD300033791 /* R.generated.swift */; };
 		C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D22724348C6E00033791 /* LaunchScreen.storyboard */; };
+		C9B1D22A2434934600033791 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2292434934600033791 /* MenuScene.swift */; };
+		C9B1D22C2434955300033791 /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D22B2434955300033791 /* BaseScene.swift */; };
+		C9B1D22F243495D000033791 /* SafeAreaNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D22E243495D000033791 /* SafeAreaNode.swift */; };
+		C9B1D2312434960000033791 /* BlurrableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2302434960000033791 /* BlurrableNode.swift */; };
+		C9B1D2342434B0BE00033791 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2332434B0BE00033791 /* CGRectExtension.swift */; };
+		C9B1D2362434B10000033791 /* SKSpriteNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2352434B10000033791 /* SKSpriteNodeExtension.swift */; };
+		C9B1D2382434B71900033791 /* MenuButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2372434B71900033791 /* MenuButtonNode.swift */; };
+		C9B1D23A2434B74F00033791 /* SpriteButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2392434B74F00033791 /* SpriteButtonNode.swift */; };
+		C9B1D23C2434B77500033791 /* NineGridTextureSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D23B2434B77500033791 /* NineGridTextureSprite.swift */; };
+		C9B1D23E2434B7BE00033791 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D23D2434B7BE00033791 /* Globals.swift */; };
+		C9B1D2402434B83800033791 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D23F2434B83800033791 /* CGSizeExtension.swift */; };
+		C9B1D2462434B9AE00033791 /* DINNext-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2422434B9AE00033791 /* DINNext-Light.ttf */; };
+		C9B1D2472434B9AE00033791 /* DINNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2432434B9AE00033791 /* DINNext-Bold.ttf */; };
+		C9B1D2482434B9AE00033791 /* DINNext-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2442434B9AE00033791 /* DINNext-Regular.ttf */; };
+		C9B1D2492434B9AE00033791 /* DINNext-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2452434B9AE00033791 /* DINNext-Heavy.ttf */; };
 		C9F61470243471D500450B6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6146F243471D500450B6C /* AppDelegate.swift */; };
 		C9F61475243471D500450B6C /* SmartColony.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C9F61473243471D500450B6C /* SmartColony.xcdatamodeld */; };
 		C9F61479243471E200450B6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F61478243471E200450B6C /* Assets.xcassets */; };
@@ -58,6 +73,21 @@
 		C9B1D222243481D900033791 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C9B1D22524348BD300033791 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		C9B1D22724348C6E00033791 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C9B1D2292434934600033791 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		C9B1D22B2434955300033791 /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
+		C9B1D22E243495D000033791 /* SafeAreaNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeAreaNode.swift; sourceTree = "<group>"; };
+		C9B1D2302434960000033791 /* BlurrableNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurrableNode.swift; sourceTree = "<group>"; };
+		C9B1D2332434B0BE00033791 /* CGRectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
+		C9B1D2352434B10000033791 /* SKSpriteNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSpriteNodeExtension.swift; sourceTree = "<group>"; };
+		C9B1D2372434B71900033791 /* MenuButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonNode.swift; sourceTree = "<group>"; };
+		C9B1D2392434B74F00033791 /* SpriteButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteButtonNode.swift; sourceTree = "<group>"; };
+		C9B1D23B2434B77500033791 /* NineGridTextureSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineGridTextureSprite.swift; sourceTree = "<group>"; };
+		C9B1D23D2434B7BE00033791 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		C9B1D23F2434B83800033791 /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
+		C9B1D2422434B9AE00033791 /* DINNext-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Light.ttf"; sourceTree = "<group>"; };
+		C9B1D2432434B9AE00033791 /* DINNext-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Bold.ttf"; sourceTree = "<group>"; };
+		C9B1D2442434B9AE00033791 /* DINNext-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Regular.ttf"; sourceTree = "<group>"; };
+		C9B1D2452434B9AE00033791 /* DINNext-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Heavy.ttf"; sourceTree = "<group>"; };
 		C9F6146C243471D500450B6C /* SmartColony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartColony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F6146F243471D500450B6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9F61474243471D500450B6C /* SmartColony.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartColony.xcdatamodel; sourceTree = "<group>"; };
@@ -101,6 +131,8 @@
 		C9B1D2062434752E00033791 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				C9B1D22B2434955300033791 /* BaseScene.swift */,
+				C9B1D2292434934600033791 /* MenuScene.swift */,
 				C9B1D20C2434768900033791 /* GameScene.swift */,
 			);
 			path = Scenes;
@@ -117,6 +149,7 @@
 		C9B1D217243477AC00033791 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C9B1D2412434B98600033791 /* Fonts */,
 				C9F61480243471E200450B6C /* Info.plist */,
 				C9F61473243471D500450B6C /* SmartColony.xcdatamodeld */,
 				C9F61478243471E200450B6C /* Assets.xcassets */,
@@ -132,6 +165,40 @@
 				C9B1D21D243478F400033791 /* CoreDataManager.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		C9B1D22D243495C600033791 /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D2352434B10000033791 /* SKSpriteNodeExtension.swift */,
+				C9B1D22E243495D000033791 /* SafeAreaNode.swift */,
+				C9B1D2302434960000033791 /* BlurrableNode.swift */,
+				C9B1D2372434B71900033791 /* MenuButtonNode.swift */,
+				C9B1D2392434B74F00033791 /* SpriteButtonNode.swift */,
+			);
+			path = Nodes;
+			sourceTree = "<group>";
+		};
+		C9B1D2322434B0B400033791 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D23D2434B7BE00033791 /* Globals.swift */,
+				C9B1D23B2434B77500033791 /* NineGridTextureSprite.swift */,
+				C9B1D2332434B0BE00033791 /* CGRectExtension.swift */,
+				C9B1D23F2434B83800033791 /* CGSizeExtension.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		C9B1D2412434B98600033791 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D2432434B9AE00033791 /* DINNext-Bold.ttf */,
+				C9B1D2452434B9AE00033791 /* DINNext-Heavy.ttf */,
+				C9B1D2422434B9AE00033791 /* DINNext-Light.ttf */,
+				C9B1D2442434B9AE00033791 /* DINNext-Regular.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		C9F61463243471D500450B6C = {
@@ -156,7 +223,9 @@
 		C9F6146E243471D500450B6C /* SmartColony */ = {
 			isa = PBXGroup;
 			children = (
+				C9B1D2322434B0B400033791 /* Utils */,
 				C9B1D21C243478DF00033791 /* Data */,
+				C9B1D22D243495C600033791 /* Nodes */,
 				C9B1D2062434752E00033791 /* Scenes */,
 				C9B1D203243474E800033791 /* ViewControllers */,
 				C9B1D217243477AC00033791 /* Resources */,
@@ -264,7 +333,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9B1D2492434B9AE00033791 /* DINNext-Heavy.ttf in Resources */,
+				C9B1D2482434B9AE00033791 /* DINNext-Regular.ttf in Resources */,
+				C9B1D2462434B9AE00033791 /* DINNext-Light.ttf in Resources */,
 				C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */,
+				C9B1D2472434B9AE00033791 /* DINNext-Bold.ttf in Resources */,
 				C9B1D223243481D900033791 /* Main.storyboard in Resources */,
 				C9F61479243471E200450B6C /* Assets.xcassets in Resources */,
 			);
@@ -309,11 +382,22 @@
 				C9F61470243471D500450B6C /* AppDelegate.swift in Sources */,
 				C9B1D21B2434788000033791 /* MenuViewController.swift in Sources */,
 				C9B1D205243474F900033791 /* GameViewController.swift in Sources */,
+				C9B1D22A2434934600033791 /* MenuScene.swift in Sources */,
 				C9B1D22624348BD300033791 /* R.generated.swift in Sources */,
 				C9B1D20D2434768900033791 /* GameScene.swift in Sources */,
+				C9B1D22F243495D000033791 /* SafeAreaNode.swift in Sources */,
 				C9F61475243471D500450B6C /* SmartColony.xcdatamodeld in Sources */,
+				C9B1D23E2434B7BE00033791 /* Globals.swift in Sources */,
+				C9B1D2342434B0BE00033791 /* CGRectExtension.swift in Sources */,
 				C9B1D21E243478F400033791 /* CoreDataManager.swift in Sources */,
+				C9B1D2402434B83800033791 /* CGSizeExtension.swift in Sources */,
+				C9B1D23A2434B74F00033791 /* SpriteButtonNode.swift in Sources */,
+				C9B1D23C2434B77500033791 /* NineGridTextureSprite.swift in Sources */,
+				C9B1D2362434B10000033791 /* SKSpriteNodeExtension.swift in Sources */,
 				C9B1D2192434784800033791 /* SplashViewController.swift in Sources */,
+				C9B1D22C2434955300033791 /* BaseScene.swift in Sources */,
+				C9B1D2382434B71900033791 /* MenuButtonNode.swift in Sources */,
+				C9B1D2312434960000033791 /* BlurrableNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

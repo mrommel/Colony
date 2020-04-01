@@ -10,10 +10,10 @@ import UIKit
 
 class GameViewController: UIViewController {
     
-    var gameScene: GameScene?
+    var gameScene: GameScene? = nil
     
     override func viewDidLoad() {
         
-        self.gameScene = GameScene()
+        // self.gameScene = GameScene()
     }
 }
