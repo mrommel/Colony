@@ -1,6 +1,6 @@
 //
 //  ClimateZone.swift
-//  agents
+//  SmartAILibrary
 //
 //  Created by Michael Rommel on 04.03.18.
 //  Copyright © 2018 Michael Rommel. All rights reserved.

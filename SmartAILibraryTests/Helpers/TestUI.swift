@@ -12,11 +12,15 @@ import Foundation
 
 class TestUI: UserInterfaceProtocol {
     
+    func isDiplomaticScreenActive() -> Bool {
+        return false
+    }
+    
     func isPopupShown() -> Bool {
         return false
     }
     
-    func showPopup(popupType: PopupType) {
+    func showPopup(popupType: PopupType, data: PopupData?) {
         
     }
     
@@ -24,7 +28,7 @@ class TestUI: UserInterfaceProtocol {
         
     }
     
-    func isDiplomaticScreenActive() -> Bool {
-        return false
+    func showMessage(message: AbstractGameMessage) {
+        
     }
 }

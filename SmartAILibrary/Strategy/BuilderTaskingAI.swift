@@ -393,7 +393,7 @@ class BuilderTaskingAI {
             plots = player.plots
         }
         
-        let m_aDirectives = BuilderDirectiveWeightedList()
+        let directives = BuilderDirectiveWeightedList()
 
         // go through all the plots the player has under their control
         for plot in plots {
@@ -409,10 +409,10 @@ class BuilderTaskingAI {
                 continue
             }
 
-            m_aDirectives.append(contentsOf: self.addRouteDirectives(unit: unit, on: plot, dist: moveTurnsAway, in: gameModel))
-            m_aDirectives.append(contentsOf: self.addImprovingResourcesDirectives(unit: unit, on: plot, dist: moveTurnsAway, in: gameModel))
-            m_aDirectives.append(contentsOf: self.addImprovingPlotsDirectives(unit: unit, on: plot, dist: moveTurnsAway, in: gameModel))
-            m_aDirectives.append(contentsOf: self.addChopDirectives(unit: unit, on: plot, dist: moveTurnsAway, in: gameModel))
+            directives.append(contentsOf: self.addRouteDirectives(unit: unit, on: plot, dist: moveTurnsAway, in: gameModel))
+            directives.append(contentsOf: self.addImprovingResourcesDirectives(unit: unit, on: plot, dist: moveTurnsAway, in: gameModel))
+            directives.append(contentsOf: self.addImprovingPlotsDirectives(unit: unit, on: plot, dist: moveTurnsAway, in: gameModel))
+            directives.append(contentsOf: self.addChopDirectives(unit: unit, on: plot, dist: moveTurnsAway, in: gameModel))
             // FIXME m_aDirectives.append(contentsOf: self.addScrubFalloutDirectives(unit, plot, moveTurnsAway))
         }
 
@@ -440,12 +440,12 @@ class BuilderTaskingAI {
                 continue
             }
 
-            m_aDirectives.append(contentsOf: self.addRouteDirectives(unit: unit, on: pPlot, dist: moveTurnsAway, in: gameModel))
+            directives.append(contentsOf: self.addRouteDirectives(unit: unit, on: pPlot, dist: moveTurnsAway, in: gameModel))
         }
 
-        m_aDirectives.sort()
+        directives.sort()
 
-        if let bestDirective = m_aDirectives.items.first {
+        if let bestDirective = directives.items.first {
             return bestDirective.itemType
         }
 
@@ -453,7 +453,7 @@ class BuilderTaskingAI {
     }
     
     /// Evaluating a plot to determine what improvement could be best there
-    func addImprovingPlotsDirectives(unit: AbstractUnit?, on pPlot: AbstractTile?, dist: Int, in gameModel: GameModel?) -> BuilderDirectiveWeightedList {
+    func addImprovingPlotsDirectives(unit: AbstractUnit?, on tile: AbstractTile?, dist: Int, in gameModel: GameModel?) -> BuilderDirectiveWeightedList {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -467,11 +467,11 @@ class BuilderTaskingAI {
             fatalError("cant get player")
         }
         
-        guard let pPlot = pPlot else {
+        guard let tile = tile else {
             fatalError("cant get pPlot")
         }
         
-        let existingImprovement = pPlot.improvement()
+        let existingImprovement = tile.improvement()
 
         // if we have a great improvement in a plot that's not pillaged, DON'T DO NOTHIN'
         /*if let existingImprovement = existingImprovement && existingImprovement != .none && GC.getImprovementInfo(eExistingImprovement)->IsCreatedByGreatPerson() && !pPlot->IsImprovementPillaged())
@@ -480,19 +480,19 @@ class BuilderTaskingAI {
         }*/
 
         // if it's not within a city radius
-        if !gameModel.isWithinCityRadius(plot: pPlot, of: player) {
+        if !gameModel.isWithinCityRadius(plot: tile, of: player) {
             return BuilderDirectiveWeightedList()
         }
 
         // check to see if a non-bonus resource is here. if so, bail out!
-        let resource = pPlot.resource(for: player)
+        let resource = tile.resource(for: player)
         if resource != .none {
             if resource.usage() != .bonus {
                 return BuilderDirectiveWeightedList()
             }
         }
 
-        guard pPlot.workingCity() != nil else {
+        guard tile.workingCity() != nil else {
             return BuilderDirectiveWeightedList()
         }
 
@@ -512,8 +512,8 @@ class BuilderTaskingAI {
                 continue
             }
 
-            if improvement == pPlot.improvement() {
-                if pPlot.isImprovementPillaged() {
+            if improvement == tile.improvement() {
+                if tile.isImprovementPillaged() {
                     tmpBuildType = .repair
                 } else {
                     continue
@@ -529,12 +529,12 @@ class BuilderTaskingAI {
             }
 
             // Only check to make sure our unit can build this after possibly switching this to a repair build in the block of code above
-            if !unit.canBuild(build: tmpBuildType, at: pPlot.point, testVisible: true, testGold: true, in: gameModel) {
+            if !unit.canBuild(build: tmpBuildType, at: tile.point, testVisible: true, testGold: true, in: gameModel) {
                 continue
             }
 
             //UpdateProjectedPlotYields(pPlot, eBuild);
-            let score = self.scorePlot(for: pPlot, on: tmpBuildType)
+            let score = self.scorePlot(for: tile, on: tmpBuildType)
 
             // if we're going backward, bail out!
             if score <= 0 {
@@ -556,13 +556,13 @@ class BuilderTaskingAI {
                 }*/
             }
 
-            // weight = GetBuildCostWeight(iWeight, pPlot, eBuild);
-            let buildTimeWeight = min(1, tmpBuildType.buildTime(on: pPlot) + dist)
+            let buildTimeWeight = max(1, tmpBuildType.buildTime(on: tile) + dist)
+            weight += (unit.location == tile.point) ? 10 : 0 // bonus for current plot
             weight += 100 / buildTimeWeight
             weight *= score
             //weight = CorrectWeight(iWeight);
 
-            let directive = BuilderDirective(type: directiveType, build: tmpBuildType, resource: .none, target: pPlot.point, moveTurnsAway: dist)
+            let directive = BuilderDirective(type: directiveType, build: tmpBuildType, resource: .none, target: tile.point, moveTurnsAway: dist)
             directiveList.add(weight: Double(weight), for: directive)
         }
         
@@ -1107,20 +1107,16 @@ class BuilderTaskingAI {
             let astar = AStarPathfinder()
             astar.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: unit.movementType(), for: unit.player)
             
+            //let path = astar.shortestPath(fromTileCoord: unit.location, toTileCoord: tile.point)
             let result = astar.turnsToReachTarget(for: unit, to: tile.point)
             if result == Int.max {
                 return -1
             }
 
-            return result
+            return result // path?.count ?? -1
         }
     }
-    
-    func turnsToReachTarget() -> Int {
-        
-        fatalError("not implemented yet")
-    }
-    
+
     /// Evaluates all the circumstances to determine if the builder can and should evaluate the given plot
     func shouldBuilderConsiderPlot(tile: AbstractTile?, for unit: AbstractUnit?, in gameModel: GameModel?) -> Bool {
         

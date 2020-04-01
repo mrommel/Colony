@@ -106,4 +106,115 @@ class TechTests: XCTestCase {
         //print("nextTech: \(nextTech)")
         XCTAssertTrue([.mining, .writing, .sailing].contains(nextTech))
     }
+
+    func testEurekaOfIrrigation() {
+        
+        // GIVEN
+        let playerAlexander = Player(leader: .elizabeth)
+        playerAlexander.initialize()
+        self.objectToTest = playerAlexander.techs
+        try! self.objectToTest?.discover(tech: .pottery)
+        
+        // map
+        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+         
+        // game
+        let gameModel = GameModel(victoryTypes: [.domination],
+                                   turnsElapsed: 0,
+                                   players: [playerAlexander],
+                                   on: mapModel)
+        
+        let tile = mapModel.tile(at: HexPoint(x: 0, y: 0))
+        tile?.set(resource: .wheat)
+        try! tile?.set(owner: playerAlexander)
+        
+        // WHEN
+        let beforeEureka = self.objectToTest?.eurekaTriggered(for: .irrigation)
+        tile?.changeBuildProgress(of: BuildType.farm, change: 100, for: playerAlexander, in: gameModel)
+        let afterEureka = self.objectToTest?.eurekaTriggered(for: .irrigation)
+        
+        // THEN
+        XCTAssertEqual(beforeEureka, false)
+        XCTAssertEqual(afterEureka, true)
+    }
+    
+    func testEurekaOfWriting() {
+        
+        // GIVEN
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+        self.objectToTest = playerAlexander.techs
+        
+        let playerAugustus = Player(leader: .augustus)
+        playerAugustus.initialize()
+        
+        // map
+        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+         
+        // game
+        let gameModel = GameModel(victoryTypes: [.domination],
+                                   turnsElapsed: 0,
+                                   players: [playerAlexander],
+                                   on: mapModel)
+        
+        // WHEN
+        let beforeEureka = self.objectToTest?.eurekaTriggered(for: .writing)
+        playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
+        let afterEureka = self.objectToTest?.eurekaTriggered(for: .writing)
+        
+        // THEN
+        XCTAssertEqual(beforeEureka, false)
+        XCTAssertEqual(afterEureka, true)
+    }
+    
+    func testEurekaOfAstrology() {
+        
+        // GIVEN
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+        self.objectToTest = playerAlexander.techs
+
+        // map
+        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        mapModel.set(feature: .greatBarrierReef, at: HexPoint(x: 0, y: 0))
+
+        // WHEN
+        let beforeEureka = self.objectToTest?.eurekaTriggered(for: .astrology)
+        mapModel.discover(by: playerAlexander, at: HexPoint(x: 0, y: 0))
+        let afterEureka = self.objectToTest?.eurekaTriggered(for: .astrology)
+        
+        // THEN
+        XCTAssertEqual(beforeEureka, false)
+        XCTAssertEqual(afterEureka, true)
+    }
+    
+    func testEurekaOfSailing() {
+        
+        // GIVEN
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+        self.objectToTest = playerAlexander.techs
+
+        // map
+        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        mapModel.set(terrain: .ocean, at: HexPoint(x: 0, y: 0))
+        
+        // game
+        let gameModel = GameModel(victoryTypes: [.domination],
+                                   turnsElapsed: 0,
+                                   players: [playerAlexander],
+                                   on: mapModel)
+        
+        let playerAlexanderSettler = Unit(at: HexPoint(x: 0, y: 1), type: .settler, owner: playerAlexander)
+        gameModel.add(unit: playerAlexanderSettler)
+
+        // WHEN
+        let beforeEureka = self.objectToTest?.eurekaTriggered(for: .sailing)
+        playerAlexanderSettler.doFound(in: gameModel)
+        let afterEureka = self.objectToTest?.eurekaTriggered(for: .sailing)
+        
+        // THEN
+        XCTAssertEqual(beforeEureka, false)
+        XCTAssertEqual(afterEureka, true)
+    }
 }

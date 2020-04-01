@@ -45,8 +45,8 @@ public class PerlinGenerator {
 	var permut: [Int]
 
 	var octaves: Int
-	var persistence: Float
-	var zoom: Float
+	var persistence: Double
+	var zoom: Double
 
 	public init() {
 		permut = []
@@ -66,7 +66,7 @@ public class PerlinGenerator {
 				& 0x1f)
 	}
 
-	public func productOf(a: Float, b: Int8) -> Float {
+	public func productOf(a: Double, b: Int8) -> Double {
 		if b > 0 {
 			return a
 		}
@@ -76,24 +76,24 @@ public class PerlinGenerator {
 		return 0
 	}
 
-	public func dotProductI(x0: Float, x1: Int8, y0: Float, y1: Int8, z0: Float, z1: Int8, t0: Float, t1: Int8) -> Float {
+	public func dotProductI(x0: Double, x1: Int8, y0: Double, y1: Int8, z0: Double, z1: Int8, t0: Double, t1: Int8) -> Double {
 		return self.productOf(a: x0, b: x1) +
 			self.productOf(a: y0, b: y1) +
 			self.productOf(a: z0, b: z1) +
 			self.productOf(a: t0, b: t1)
 	}
 
-	public func spline(state: Float) -> Float {
+	public func spline(state: Double) -> Double {
 		let square = state * state
 		let cubic = square * state
 		return cubic * (6 * square - 15 * state + 10)
 	}
 
-	public func interpolate(a: Float, b: Float, x: Float) -> Float {
+	public func interpolate(a: Double, b: Double, x: Double) -> Double {
 		return a + x * (b - a)
 	}
 
-	public func smoothNoise(x: Float, y: Float, z: Float, t: Float) -> Float {
+	public func smoothNoise(x: Double, y: Double, z: Double, t: Double) -> Double {
 		let x0 = Int(x > 0 ? x : x - 1)
 		let y0 = Int(y > 0 ? y : y - 1)
 		let z0 = Int(z > 0 ? z : z - 1)
@@ -105,14 +105,14 @@ public class PerlinGenerator {
 		let t1 = t0 + 1
 
 		// The vectors
-		var dx0 = x - Float(x0)
-		var dy0 = y - Float(y0)
-		var dz0 = z - Float(z0)
-		var dt0 = t - Float(t0)
-		let dx1 = x - Float(x1)
-		let dy1 = y - Float(y1)
-		let dz1 = z - Float(z1)
-		let dt1 = t - Float(t1)
+		var dx0 = x - Double(x0)
+		var dy0 = y - Double(y0)
+		var dz0 = z - Double(z0)
+		var dt0 = t - Double(t0)
+		let dx1 = x - Double(x1)
+		let dy1 = y - Double(y1)
+		let dz1 = z - Double(z1)
+		let dt1 = t - Double(t1)
 
 		// The 16 gradient values
         let g0000 = PerlinGenerator.gradient[self.gradientAt(i: x0, j: y0, k: z0, l: t0)]
@@ -177,12 +177,12 @@ public class PerlinGenerator {
 		return result
 	}
 
-	public func perlinNoise(x: Float, y: Float, z: Float, t: Float) -> Float {
+	public func perlinNoise(x: Double, y: Double, z: Double, t: Double) -> Double {
 
-		var noise: Float = 0.0
+		var noise: Double = 0.0
 		for octave in 0..<self.octaves {
-			let frequency: Float = powf(2, Float(octave))
-			let amplitude = powf(self.persistence, Float(octave))
+			let frequency: Double = pow(2, Double(octave))
+			let amplitude = pow(self.persistence, Double(octave))
 
 			noise += self.smoothNoise(x: x * frequency / zoom,
 				y: y * frequency / zoom,

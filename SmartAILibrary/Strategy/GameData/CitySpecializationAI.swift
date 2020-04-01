@@ -134,7 +134,7 @@ class CitySpecializationAI {
                 
                 for cityRef in gameModel.cities(of: player) {
                     
-                    guard let city = cityRef else {
+                    guard cityRef != nil else {
                         continue
                     }
                     
@@ -173,7 +173,7 @@ class CitySpecializationAI {
         var productionYieldWeight = 0.0
         var goldYieldWeight = 0.0
         var scienceYieldWeight = 0.0
-        var generalEconomicWeight = 0.0
+        //var generalEconomicWeight = 0.0
 
         // Clear old weights
         self.yieldWeights = YieldList()
@@ -226,7 +226,7 @@ class CitySpecializationAI {
             scienceYieldWeight += flavorSpaceship * 10.0 /* AI_CITY_SPECIALIZATION_SCIENCE_WEIGHT_FLAVOR_SPACESHIP */
 
             //   General Economics
-            generalEconomicWeight = 200.0 /* AI_CITY_SPECIALIZATION_GENERAL_ECONOMIC_WEIGHT */
+            //let generalEconomicWeight = 200.0 /* AI_CITY_SPECIALIZATION_GENERAL_ECONOMIC_WEIGHT */
 
             //   Add in any contribution from the current grand strategy
             for grandStrategyType in GrandStrategyAIType.all {
@@ -359,7 +359,7 @@ class CitySpecializationAI {
 
             // Compute the yield which we can improve the most with a new city
             //int iCurrentDelta;
-            var bestDelta: YieldList = YieldList()
+            let bestDelta: YieldList = YieldList()
             bestDelta.fill()
             
             for cityWithoutSpecialization in citiesWithoutSpecialization {
@@ -486,10 +486,9 @@ class CitySpecializationAI {
             fatalError("cant get player")
         }
         
-        var specialization: CitySpecializationType = .none
+        let specialization: CitySpecializationType = .none
         let specializationsToAssign = gameModel.cities(of: player).count + 1
         var oldWeight = 0.0
-        var newWeight = 0
         var reductionAmount = 0.0
 
         self.specializationsNeeded.removeAll()

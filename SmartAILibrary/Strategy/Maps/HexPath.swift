@@ -8,8 +8,6 @@
 
 import Foundation
 
-import Foundation
-
 class HexPath: Decodable {
     
     fileprivate var points: [HexPoint]

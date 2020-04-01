@@ -78,8 +78,6 @@ protocol AbstractPlayer {
     func startTurn(in gameModel: GameModel?)
     func endTurn(in gameModel: GameModel?)
     func unitUpdate(in gameModel: GameModel?)
-    //func doTurn(in gameModel: GameModel?)
-    //func doTurnUnits(in gameModel: GameModel?)
     func lastSliceMoved() -> Int
     func setLastSliceMoved(to value: Int)
     
@@ -92,6 +90,7 @@ protocol AbstractPlayer {
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool
     func atWarCount() -> Int
     func updateNotifications()
+    func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
 
     // era
     func currentEra() -> EraType
@@ -316,8 +315,25 @@ class Player: AbstractPlayer {
 
     func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get other player")
+        }
+        
+        guard self.leader != otherPlayer.leader else {
+            fatalError("cant do first contact with self")
+        }
+        
+        guard let techs = self.techs else {
+            fatalError("cant get techs")
+        }
+        
         self.diplomacyAI?.doFirstContact(with: otherPlayer, in: gameModel)
-        otherPlayer?.diplomacyAI?.doFirstContact(with: self, in: gameModel)
+        otherPlayer.diplomacyAI?.doFirstContact(with: self, in: gameModel)
+        
+        // update eureka
+        if !techs.eurekaTriggered(for: .writing) {
+            techs.triggerEureka(for: .writing)
+        }
     }
 
     // MARK: defensive pact handling
@@ -374,6 +390,11 @@ class Player: AbstractPlayer {
         {
             GetDiplomacyRequests()->Update();
         }*/
+    }
+    
+    func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+        
+        self.diplomacyAI?.updateProximity(to: otherPlayer, in: gameModel)
     }
 
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool {
@@ -607,11 +628,110 @@ class Player: AbstractPlayer {
         // Gold GetTreasury()->DoGold();
         self.treasury?.turn(in: gameModel)
         
-        // if this is the human player, have the popup come up so that he can choose a new policy
-        if self.isAlive() && self.isHuman() {
-            
-            
+        // Culture / Civics
+        self.doCivics(in: gameModel)
+        
+        // Science / Techs
+        self.doTechs(in: gameModel) // doResearch
+
+        // Anarchy counter
+        //if (GetAnarchyNumTurns() > 0)
+        //    ChangeAnarchyNumTurns(-1);
+
+        // DoIncomingUnits();
+
+        //const int iGameTurn = kGame.getGameTurn();
+        //GatherPerTurnReplayStats(iGameTurn);
+
+        // GC.GetEngineUserInterface()->setDirty(CityInfo_DIRTY_BIT, true);
+
+        self.doTurnPost()
+    }
+    
+    func doCivics(in gameModel: GameModel?) {
+        
+    }
+
+    /// How long until a RA with a player takes effect
+    func doTechs(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
         }
+        
+        guard let techs = self.techs else {
+            fatalError("cant get techs")
+        }
+        
+        let scienceVal = self.science(in: gameModel)
+        techs.add(science: scienceVal)
+        
+        do {
+            try techs.checkScienceProgress(in: gameModel)
+        } catch {
+            fatalError("cant check science progress: \(error)")
+        }
+    }
+    
+    // GetScienceTimes100()
+    func science(in gameModel: GameModel?) -> Double {
+        
+        var value = 0.0
+
+        // Science from our Cities
+        value += self.scienceFromCities(in: gameModel)
+
+        // Science from other players!
+        // value += GetScienceFromOtherPlayersTimes100();
+
+        // Happiness converted to Science? (Policies, etc.)
+        // value += GetScienceFromHappinessTimes100();
+
+        // Research Agreement bonuses
+        // value += GetScienceFromResearchAgreementsTimes100();
+
+        // If we have a negative Treasury + GPT then it gets removed from Science
+        // value += GetScienceFromBudgetDeficitTimes100();
+
+        return max(value, 0)
+    }
+    
+    func scienceFromCities(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var scienceVal = 0.0
+        
+        for cityRef in gameModel.cities(of: self) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            scienceVal += city.yields(in: gameModel).science
+        }
+        
+        return scienceVal
+    }
+    
+    func doTurnPost() {
+        
+        if self.isHuman() {
+            return
+        }
+
+        if self.isBarbarian() {
+            return
+        }
+
+        /*for (int i = 0; i < GC.getNumVictoryInfos(); ++i)
+        {
+            AI_launch((VictoryTypes)i);
+        }*/
+
+        //ProcessGreatPeople();
     }
     
     func unitUpdate(in gameModel: GameModel?) {

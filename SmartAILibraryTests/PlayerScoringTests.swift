@@ -66,7 +66,7 @@ class PlayerScoringTests: XCTestCase {
         let score = self.objectToTest!.score(for: gameModel)
 
         // THEN
-        XCTAssertEqual(score, 28)
+        XCTAssertEqual(score, 42)
     }
 
     func testScore2CitiesOnTiny() {
@@ -93,7 +93,7 @@ class PlayerScoringTests: XCTestCase {
         let score = self.objectToTest!.score(for: gameModel)
 
         // THEN
-        XCTAssertEqual(score, 57)
+        XCTAssertEqual(score, 86)
     }
     
     func testScore1Tech() {
@@ -155,7 +155,7 @@ class PlayerScoringTests: XCTestCase {
         let score = self.objectToTest!.score(for: gameModel)
 
         // THEN
-        XCTAssertEqual(score, 68)
+        XCTAssertEqual(score, 82)
     }
     
     func testScore2Wonder() {
@@ -181,7 +181,7 @@ class PlayerScoringTests: XCTestCase {
         let score = self.objectToTest!.score(for: gameModel)
 
         // THEN
-        XCTAssertEqual(score, 108)
+        XCTAssertEqual(score, 122)
     }
     
     func testScoreLandStandard() {

@@ -1,6 +1,6 @@
 //
 //  HeightMap.swift
-//  agents
+//  SmartAILibrary
 //
 //  Created by Michael Rommel on 04.03.18.
 //  Copyright © 2018 Michael Rommel. All rights reserved.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HeightMap: Array2D<Float> {
+class HeightMap: Array2D<Double> {
 
 	required init(width: Int, height: Int) {
 
@@ -18,7 +18,7 @@ class HeightMap: Array2D<Float> {
 		self.normalize()
 	}
 
-	required init(width: Int, height: Int, octaves: Int, zoom: Float, andPersistence persistence: Float) {
+	required init(width: Int, height: Int, octaves: Int, zoom: Double, andPersistence persistence: Double) {
 
 		super.init(columns: width, rows: height)
 
@@ -37,7 +37,7 @@ class HeightMap: Array2D<Float> {
 	- parameter zoom: 80
 	- parameter persistence: 0.52
 	*/
-	func generate(withOctaves octaves: Int, zoom: Float, andPersistence persistence: Float) {
+	func generate(withOctaves octaves: Int, zoom: Double, andPersistence persistence: Double) {
 
 		let generator = PerlinGenerator()
 
@@ -48,24 +48,24 @@ class HeightMap: Array2D<Float> {
 		for x in 0..<self.columns {
 			for y in 0..<self.rows {
 
-				let value0 = 1.00 * generator.perlinNoise(x: 1.0 * Float(x), y: 1.0 * Float(y), z: 0, t: 0)
-				let value1 = 0.50 * generator.perlinNoise(x: 2.0 * Float(x), y: 2.0 * Float(y), z: 0, t: 0)
-				let value2 = 0.25 * generator.perlinNoise(x: 4.0 * Float(x), y: 4.0 * Float(y), z: 0, t: 0)
+				let value0 = 1.00 * generator.perlinNoise(x: 1.0 * Double(x), y: 1.0 * Double(y), z: 0, t: 0)
+				let value1 = 0.50 * generator.perlinNoise(x: 2.0 * Double(x), y: 2.0 * Double(y), z: 0, t: 0)
+				let value2 = 0.25 * generator.perlinNoise(x: 4.0 * Double(x), y: 4.0 * Double(y), z: 0, t: 0)
 
 				var value = abs(value0 + value1 + value2)
 				if value > 1 {
 					value = 1
 				}
 
-				self[x, y] = powf(value, 1.97)
+				self[x, y] = pow(value, 1.97)
 			}
 		}
 	}
 
-	func percentage(below threshold: Float) -> Float {
+	func percentage(below threshold: Double) -> Double {
 
-		var belowNum: Float = 0
-		var aboveNum: Float = 0
+		var belowNum: Double = 0
+		var aboveNum: Double = 0
 
 		for x in 0..<self.columns {
 			for y in 0..<self.rows {
@@ -78,13 +78,13 @@ class HeightMap: Array2D<Float> {
 			}
 		}
 
-		return Float(belowNum / (belowNum + aboveNum))
+		return Double(belowNum / (belowNum + aboveNum))
 	}
     
-    func percentage(above threshold: Float) -> Float {
+    func percentage(above threshold: Double) -> Double {
         
-        var belowNum: Float = 0
-        var aboveNum: Float = 0
+        var belowNum: Double = 0
+        var aboveNum: Double = 0
         
         for x in 0..<self.columns {
             for y in 0..<self.rows {
@@ -97,13 +97,13 @@ class HeightMap: Array2D<Float> {
             }
         }
         
-        return Float(aboveNum / (belowNum + aboveNum))
+        return Double(aboveNum / (belowNum + aboveNum))
     }
 
-	func findWaterLevel(forWaterPercentage waterPercentage: Float) -> Float {
+	func findWaterLevel(forWaterPercentage waterPercentage: Double) -> Double {
 
-		var waterLevel: Float = 0.05
-		var calculatedWaterPercentage: Float = self.percentage(below: waterLevel)
+		var waterLevel: Double = 0.05
+		var calculatedWaterPercentage: Double = self.percentage(below: waterLevel)
 
 		while calculatedWaterPercentage < waterPercentage {
 			waterLevel += 0.05
@@ -113,10 +113,10 @@ class HeightMap: Array2D<Float> {
 		return waterLevel
 	}
     
-    func findPeakLevel(forPeakPercentage peakPercentage: Float) -> Float {
+    func findPeakLevel(forPeakPercentage peakPercentage: Double) -> Double {
         
-        var peakLevel: Float = 1.0
-        var calculatedPeakPercentage: Float = self.percentage(above: peakLevel)
+        var peakLevel: Double = 1.0
+        var calculatedPeakPercentage: Double = self.percentage(above: peakLevel)
         
         while calculatedPeakPercentage < peakPercentage {
             peakLevel -= 0.05
@@ -128,8 +128,8 @@ class HeightMap: Array2D<Float> {
 
 	func normalize() {
 
-		var maxValue: Float = Float.leastNormalMagnitude
-		var minValue: Float = Float.greatestFiniteMagnitude
+		var maxValue: Double = Double.leastNormalMagnitude
+		var minValue: Double = Double.greatestFiniteMagnitude
 
 		// find min / max
 		for x in 0..<self.columns {

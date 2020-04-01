@@ -35,11 +35,9 @@ class AdvisorTests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .small)
         
         mapModel.discover(by: playerAlexander, at: HexPoint(x: 1, y: 1))
-        try! mapModel.set(owner: playerAlexander, at: HexPoint(x: 1, y: 1))
         mapModel.set(improvement: .farm, at: HexPoint(x: 1, y: 1))
         
         mapModel.discover(by: playerAlexander, at: HexPoint(x: 1, y: 2))
-        try! mapModel.set(owner: playerAlexander, at: HexPoint(x: 1, y: 2))
         mapModel.set(improvement: .farm, at: HexPoint(x: 1, y: 2))
         
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
@@ -47,9 +45,7 @@ class AdvisorTests: XCTestCase {
         // add the city to the map
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
-        
-        try! mapModel.setWorking(city: self.objectToTest, at: HexPoint(x: 1, y: 2))
-        
+
         mapModel.add(city: self.objectToTest)
         
         let ui = TestUI()
@@ -96,16 +92,13 @@ class AdvisorTests: XCTestCase {
         let centerTile = mapModel.tile(at: HexPoint(x: 1, y: 1))
         centerTile?.set(terrain: .grass)
         centerTile?.set(hills: false)
-        //try! centerTile?.set(owner: playerAlexander)
-        try! centerTile?.set(improvement: .farm)
+        centerTile?.set(improvement: .farm)
         
         // another
         let anotherTile = mapModel.tile(at: HexPoint(x: 1, y: 2))
         anotherTile?.set(terrain: .plains)
         anotherTile?.set(hills: true)
-        //try! anotherTile?.set(owner: playerAlexander)
-        try! self.objectToTest?.work(tile: anotherTile!)
-        try! anotherTile?.set(improvement: .mine)
+        anotherTile?.set(improvement: .mine)
         
         // WHEN
         for _ in 0..<30 {
@@ -148,15 +141,12 @@ class AdvisorTests: XCTestCase {
         let centerTile = mapModel.tile(at: HexPoint(x: 1, y: 1))
         centerTile?.set(terrain: .grass)
         centerTile?.set(hills: false)
-        //try! centerTile?.set(owner: playerAlexander)
         centerTile?.set(improvement: .farm)
         
         // another
         let anotherTile = mapModel.tile(at: HexPoint(x: 1, y: 2))
         anotherTile?.set(terrain: .plains)
         anotherTile?.set(hills: true)
-        //try! anotherTile?.set(owner: playerAlexander)
-        try! self.objectToTest?.work(tile: anotherTile!)
         anotherTile?.set(improvement: .mine)
         
         // units

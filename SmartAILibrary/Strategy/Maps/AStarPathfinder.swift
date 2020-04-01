@@ -8,8 +8,6 @@
 
 import Foundation
 
-import Foundation
-
 protocol PathfinderDataSource {
     func walkableAdjacentTilesCoords(forTileCoord tileCoord: HexPoint) -> [HexPoint]
     func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Double

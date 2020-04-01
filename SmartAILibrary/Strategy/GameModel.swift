@@ -53,12 +53,14 @@ enum GameStateType {
     case extended
 }
 
-class GameModel {
+public class GameModel {
 
     let victoryTypes: [VictoryType]
     var turnsElapsed: Int
     var turnSliceValue: Int = 0
     let players: [AbstractPlayer]
+    
+    static let turnFrequency = 25 /* PROGRESS_POPUP_TURN_FREQUENCY */
 
     private let map: MapModel
     private var messagesVal: [AbstractGameMessage]
@@ -242,6 +244,11 @@ class GameModel {
                                         if nextPlayer.isAlive() {
                                             //the player is alive and also running sequential turns.  they're up!
                                             nextPlayer.startTurn(in: self)
+                                            
+                                            // show stacked messages
+                                            if player.isHuman() {
+                                                self.showMessages()
+                                            }
                                             //self.resetTurnTimer(false)
                                             
                                             break
@@ -548,6 +555,11 @@ class GameModel {
             if player.isAlive() {
 
                 player.startTurn(in: self)
+                
+                // show stacked messages
+                if player.isHuman() {
+                    self.showMessages()
+                }
                 break
             }
         }
@@ -562,11 +574,9 @@ class GameModel {
             
             if human.isAlive() {
             
-                let turnFrequency = 25 /* PROGRESS_POPUP_TURN_FREQUENCY */
-
-                if self.turnsElapsed % turnFrequency == 0 {
+                if self.turnsElapsed % GameModel.turnFrequency == 0 {
                     // This popup his the sync rand, so beware
-                    self.userInterface?.showPopup(popupType: .interimRanking)
+                    self.userInterface?.showScreen(screenType: .interimRanking)
                 }
             }
         }
@@ -582,6 +592,20 @@ class GameModel {
     func add(message: AbstractGameMessage) {
 
         self.messagesVal.append(message)
+    }
+    
+    func showMessages() {
+        
+        for message in self.messagesVal {
+            self.userInterface?.showMessage(message: message)
+        }
+        
+        self.messagesVal.removeAll()
+    }
+    
+    func messages() -> [AbstractGameMessage] {
+
+        return self.messagesVal
     }
 
     // MARK: getter
@@ -600,7 +624,23 @@ class GameModel {
     
     func add(city: AbstractCity?) {
 
+        guard let city = city else {
+            fatalError("cant get player techs")
+        }
+        
+        guard let techs = city.player?.techs else {
+            fatalError("cant get player techs")
+        }
+        
         self.map.add(city: city)
+        
+        // update eureka
+        if !techs.eurekaTriggered(for: .sailing) {
+            if self.isCoastal(at: city.location) {
+                techs.triggerEureka(for: .sailing)
+            }
+        }
+        
     }
 
     func cities(of player: AbstractPlayer) -> [AbstractCity?] {
@@ -762,11 +802,6 @@ class GameModel {
     func mapSize() -> MapSize {
 
         return self.map.size
-    }
-
-    func messages() -> [AbstractGameMessage] {
-
-        return self.messagesVal
     }
     
     func humanPlayer() -> AbstractPlayer? {

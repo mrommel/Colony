@@ -1043,7 +1043,7 @@ class TacticalAI {
                 
                 let range = currentUnit.moves()
                 
-                var lowestDanger = DBL_MAX
+                var lowestDanger = Double.greatestFiniteMagnitude
                 var bestPlot: HexPoint? = nil
 
                 var resultHasZeroDangerMove = false

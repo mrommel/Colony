@@ -114,15 +114,8 @@ class UsecaseTests: XCTestCase {
         gameModel.userInterface = userInterface
         
         // initial units
-
-        //let playerAlexanderWarrior = Unit(at: HexPoint(x: 5, y: 6), type: .warrior, owner: playerAlexander)
-        //gameModel.add(unit: playerAlexanderWarrior)
-        
         let playerAugustusWarrior = Unit(at: HexPoint(x: 15, y: 16), type: .warrior, owner: playerAugustus)
         gameModel.add(unit: playerAugustusWarrior)
-        
-        //let playerBarbarianWarrior = Unit(at: HexPoint(x: 10, y: 10), type: .barbarianWarrior, owner: playerBarbarian)
-        //gameModel.add(unit: playerBarbarianWarrior)
         
         // initial cities
         let cityAlexandria = City(name: "Alexandria", at: HexPoint(x: 5, y: 5), capital: true, owner: playerAlexander)
@@ -349,6 +342,6 @@ class UsecaseTests: XCTestCase {
         playerAlexander.endTurn(in: gameModel)
          
         // THEN
-        XCTAssertEqual(playerAugustusBuilder.location, HexPoint(x: 15, y: 15))
+        XCTAssertEqual(playerAugustusBuilder.location, HexPoint(x: 15, y: 14))
     }
 }

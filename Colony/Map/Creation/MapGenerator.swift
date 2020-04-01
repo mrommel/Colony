@@ -1,6 +1,6 @@
 //
 //  MapProvider.swift
-//  agents
+//  SmartAILibrary
 //
 //  Created by Michael Rommel on 04.03.18.
 //  Copyright © 2018 Michael Rommel. All rights reserved.
@@ -8,192 +8,7 @@
 
 import SpriteKit
 
-enum MapType {
-    
-    case earth
-    case pangaea
-    case continents
-    case archipelago
-    case inlandsea
-    case random
-    
-    static func from(result: DialogResultType) -> MapType {
-        
-        switch result {
-
-        case .mapTypeEarth:
-            return .earth
-        case .mapTypePangaea:
-            return pangaea
-        case .mapTypeContinents:
-            return continents
-        case .mapTypeArchipelago:
-            return archipelago
-        case .mapTypeInlandsea:
-            return inlandsea
-        case .mapTypeRandom:
-            return random
-        
-        default:
-            fatalError("not a valid map type: \(result)")
-        }
-    }
-}
-
-enum MapOptionAge {
-    
-    case young
-    case normal
-    case old
-    
-    static func from(result: DialogResultType) -> MapOptionAge {
-        
-        switch result {
-            
-        case .mapAgeYoung:
-            return .young
-        case .mapAgeNormal:
-            return .normal
-        case .mapAgeOld:
-            return .old
-            
-        default:
-            fatalError("not a valid map age: \(result)")
-        }
-    }
-}
-
-enum MapOptionRainfall {
-    
-    case dry
-    case normal
-    case wet
-    
-    static func from(result: DialogResultType) -> MapOptionRainfall {
-        
-        switch result {
-            
-        case .mapRainfallDry:
-            return .dry
-        case .mapRainfallNormal:
-            return .normal
-        case .mapRainfallWet:
-            return .wet
-            
-        default:
-            fatalError("not a valid map rainfall: \(result)")
-        }
-    }
-}
-
-enum MapOptionClimate {
-
-	case hot
-    case temperate
-    case cold
-    
-    static func from(result: DialogResultType) -> MapOptionClimate {
-        
-        switch result {
-            
-        case .mapClimateHot:
-            return .hot
-        case .mapClimateTemperate:
-            return .temperate
-        case .mapClimateCold:
-            return .cold
-            
-        default:
-            fatalError("not a valid map rainfall: \(result)")
-        }
-    }
-}
-
-enum MapOptionSeaLevel {
-    
-    case low
-    case normal
-    case high
-    
-    static func from(result: DialogResultType) -> MapOptionSeaLevel {
-        
-        switch result {
-            
-        case .mapSeaLevelLow:
-            return .low
-        case .mapSeaLevelNormal:
-            return .normal
-        case .mapSeaLevelHigh:
-            return .high
-            
-        default:
-            fatalError("not a valid map sea level: \(result)")
-        }
-    }
-}
-
-struct MapOptionsEnhanced {
-    
-    var age: MapOptionAge
-    var climate: MapOptionClimate
-    var sealevel: MapOptionSeaLevel
-    var rainfall: MapOptionRainfall
-    
-    init() {
-        self.age = .normal
-        self.climate = .temperate
-        self.sealevel = .normal
-        self.rainfall = .normal
-    }
-}
-
-class MapOptions {
-
-	let size: MapSize
-    var enhanced: MapOptionsEnhanced
-
-    required public init(withSize size: MapSize, enhanced: MapOptionsEnhanced = MapOptionsEnhanced()) {
-
-		self.size = size
-		self.enhanced = enhanced
-	}
-    
-    var rivers: Int {
-        
-        switch self.size {
-
-        case .duel:
-            return 4
-        case .tiny:
-            return 5
-        case .small:
-            return 6
-        case .standard:
-            return 10
-        case .large:
-            return 15
-        case .huge:
-            return 20
-        default:
-            return -1
-        }
-    }
-    
-    var waterPercentage: Float {
-        
-        switch enhanced.sealevel {
-            
-        case .low:
-            return 0.4
-        case .normal:
-            return 0.6
-        case .high:
-            return 0.6
-        }
-    }
-}
-
-public typealias ProgressHandler = (CGFloat, String) -> Void
+public typealias ProgressHandler = (Double, String) -> Void
 
 class MapGenerator {
 
@@ -201,7 +16,7 @@ class MapGenerator {
 	let width: Int
 	let height: Int
 
-	let terrain: Array2D<Terrain>
+	let terrain: Array2D<TerrainType>
 	let zones: Array2D<ClimateZone>
 	let distanceToCoast: Array2D<Int>
 	var springLocations: [HexPoint]
@@ -217,24 +32,24 @@ class MapGenerator {
     required public init(with options: MapOptions) {
 
         self.options = options
-		self.width = options.size.width
-		self.height = options.size.height
+        self.width = options.size.width()
+        self.height = options.size.height()
 
 		// prepare terrain, distanceToCoast and zones
-		self.terrain = Array2D<Terrain>(columns: self.width, rows: self.height)
+		self.terrain = Array2D<TerrainType>(columns: self.width, rows: self.height)
 		self.distanceToCoast = Array2D<Int>(columns: self.width, rows: self.height)
 		self.zones = Array2D<ClimateZone>(columns: self.width, rows: self.height)
 		self.springLocations = []
 	}
 
-	func generate() -> HexagonTileMap? {
+	func generate() -> MapModel? {
 
 		// prepare result value
-		let grid = HexagonTileMap(width: self.width, height: self.height)
+        let grid = MapModel(size: MapSize.custom(width: self.width, height: self.height))
 
 		// 0st step: height and moisture map
-		let heightMap = HeightMap(width: width, height: height)
-		let moistureMap = HeightMap(width: width, height: height)
+		let heightMap = HeightMap(width: self.width, height: self.height)
+		let moistureMap = HeightMap(width: self.width, height: self.height)
 
 		if let completionHandler = self.progressHandler {
 			completionHandler(0.2, "initialized")
@@ -310,16 +125,16 @@ class MapGenerator {
 
 	// MARK: 1st step methods
 
-	func waterOrLandFrom(elevation: Float, waterLevel: Float) -> Terrain {
+	func waterOrLandFrom(elevation: Double, waterLevel: Double) -> TerrainType {
 
 		if elevation < waterLevel {
-			return Terrain.ocean
+			return TerrainType.ocean
 		}
 
-		return Terrain.grass
+		return TerrainType.grass
 	}
 
-	func fillFromElevation(withWaterPercentage waterPercentage: Float, on heightMap: HeightMap) {
+	func fillFromElevation(withWaterPercentage waterPercentage: Double, on heightMap: HeightMap) {
 
 		let waterLevel = heightMap.findWaterLevel(forWaterPercentage: waterPercentage)
         
@@ -343,7 +158,7 @@ class MapGenerator {
 		for x in 0..<width {
 			for y in 0..<height {
 
-				let latitude = abs(Float(height / 2 - y)) / Float(height / 2)
+				let latitude = abs(Double(height / 2 - y)) / Double(height / 2)
 
 				if latitude > 0.9 {
 					self.zones[x, y] = .polar
@@ -398,7 +213,7 @@ class MapGenerator {
 					if self.distanceToCoast[x, y] == Int.max {
 
 						// if field is ocean => no distance
-						if self.terrain[x, y] == Terrain.ocean {
+						if self.terrain[x, y] == TerrainType.ocean {
 							self.distanceToCoast[x, y] = 0
 							actionHappened = true
 						} else {
@@ -429,13 +244,13 @@ class MapGenerator {
 
 	// MARK: 3rd step methods
 
-	func refineTerrain(on grid: HexagonTileMap?, with heightMap: HeightMap, and moistureMap: HeightMap) {
+	func refineTerrain(on grid: MapModel?, with heightMap: HeightMap, and moistureMap: HeightMap) {
 
 		for x in 0..<width {
 			for y in 0..<height {
 				let gridPoint = HexPoint(x: x, y: y)
 
-				if self.terrain[x, y] == Terrain.ocean {
+				if self.terrain[x, y] == TerrainType.ocean {
 
 					if heightMap[x, y]! > 0.1 {
 						grid?.set(terrain: .shore, at: gridPoint)
@@ -443,125 +258,142 @@ class MapGenerator {
 						grid?.set(terrain: .ocean, at: gridPoint)
 					}
 				} else {
-
-					let terrainVal = self.biome(elevation: heightMap[x, y]!, moisture: moistureMap[x, y]!, climate: self.zones[x, y]!)
-
-					grid?.set(terrain: terrainVal, at: gridPoint)
-
-					if moistureMap[x, y]! > 0.5 && Float.random > 0.8 {
-                        
-						switch terrainVal {
-						case .grass:
-							if self.zones[x, y]! == .subtropic {
-								grid?.set(feature: .forestRain, at: gridPoint)
-							} else {
-								grid?.set(feature: .forestMixed, at: gridPoint)
-							}
-						case .plain:
-							if self.zones[x, y]! == .subtropic {
-								grid?.set(feature: .forestRain, at: gridPoint)
-							} else {
-								grid?.set(feature: .forestRain, at: gridPoint)
-							}
-						case .tundra:
-							grid?.set(feature: .forestPine, at: gridPoint)
-						default:
-							break
-						}
-					}
-                    
-                    if terrainVal == .desert && Float.random > 0.9 {
-                        grid?.set(feature: .oasis, at: gridPoint)
-                    }
+                    self.updateBiome(at: gridPoint, on: grid, elevation: heightMap[x, y]!, moisture: moistureMap[x, y]!, climate: self.zones[x, y]!)
 				}
 			}
 		}
 	}
 
 	// from http://www.redblobgames.com/maps/terrain-from-noise/
-	func biome(elevation: Float, moisture: Float, climate: ClimateZone) -> Terrain {
+    func updateBiome(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double, climate: ClimateZone) {
 
 		switch climate {
 		case .polar:
-			return .snow
+            grid?.set(terrain: .snow, at: point)
 		case .subpolar:
-			return self.biomeForSubpolar(elevation: elevation, moisture: moisture)
+            self.updateBiomeForSubpolar(at: point, on: grid, elevation: elevation, moisture: moisture)
 		case .temperate:
-			return self.biomeForTemperate(elevation: elevation, moisture: moisture)
+			self.updateBiomeForTemperate(at: point, on: grid, elevation: elevation, moisture: moisture)
 		case .subtropic:
-			return self.biomeForSubtropic(elevation: elevation, moisture: moisture)
+			self.updateBiomeForSubtropic(at: point, on: grid, elevation: elevation, moisture: moisture)
 		case .tropic:
-			return self.biomeForTropic(elevation: elevation, moisture: moisture)
+			self.updateBiomeForTropic(at: point, on: grid, elevation: elevation, moisture: moisture)
 		}
 	}
 
-	func biomeForSubpolar(elevation: Float, moisture: Float) -> Terrain {
+	func updateBiomeForSubpolar(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
 
         if elevation > 0.9 {
-            return .mountain
+            grid?.set(feature: .mountains, at: point)
+            grid?.set(terrain: .snow, at: point)
+            return
         }
         
         if elevation > 0.75 {
-            return .hill
+            grid?.set(hills: true, at: point)
+            grid?.set(terrain: .snow, at: point)
+            return
         }
         
 		if elevation > 0.5 {
-			return .snow
+            grid?.set(terrain: .snow, at: point)
+			return
 		}
 
-		return .tundra
+        if moisture > 0.5 && Double.random > 0.8 {
+            grid?.set(feature: .forest, at: point)
+        }
+        grid?.set(terrain: .tundra, at: point)
+		return
 	}
 
-	func biomeForTemperate(elevation: Float, moisture: Float) -> Terrain {
+	func updateBiomeForTemperate(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
 
         if elevation > 0.9 {
-            return .mountain
+            grid?.set(feature: .mountains, at: point)
+            grid?.set(terrain: .grass, at: point)
+            return
         }
         
         if elevation > 0.8 {
-            return .hill
+            grid?.set(hills: true, at: point)
+            grid?.set(terrain: .grass, at: point)
+            return
         }
 
 		if moisture < 0.5 {
-			return .plain
+			grid?.set(terrain: .plains, at: point)
+            return
 		} else {
-			return .grass
+            if Double.random > 0.8 {
+                grid?.set(feature: .forest, at: point)
+            }
+			grid?.set(terrain: .grass, at: point)
+            return
 		}
 	}
 
-	func biomeForSubtropic(elevation: Float, moisture: Float) -> Terrain {
+	func updateBiomeForSubtropic(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
 
 		if elevation > 0.9 {
-			return .mountain
+			grid?.set(feature: .mountains, at: point)
+            grid?.set(terrain: .grass, at: point)
+            return
 		}
         
         if elevation > 0.8 {
-            return .hill
+            grid?.set(hills: true, at: point)
+            grid?.set(terrain: .plains, at: point)
+            return
         }
 
 		if moisture < 0.2 {
-			return .desert
+            if Double.random > 0.9 {
+                grid?.set(feature: .oasis, at: point)
+            }
+			grid?.set(terrain: .desert, at: point)
+            return
 		} else if moisture < 0.6 {
-			return .plain
+            if moisture > 0.5 && Double.random > 0.8 {
+                grid?.set(feature: .forest, at: point)
+            }
+			grid?.set(terrain: .plains, at: point)
+            return
 		} else {
-			return .grass
+            if moisture > 0.5 && Double.random > 0.8 {
+                grid?.set(feature: .rainforest, at: point)
+            }
+			grid?.set(terrain: .grass, at: point)
+            return
 		}
 	}
 
-	func biomeForTropic(elevation: Float, moisture: Float) -> Terrain {
+	func updateBiomeForTropic(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
 
 		if elevation > 0.9 {
-			return .mountain
+			grid?.set(feature: .mountains, at: point)
+            grid?.set(terrain: .plains, at: point)
+            return
 		}
         
         if elevation > 0.8 {
-            return .hill
+            grid?.set(hills: true, at: point)
+            grid?.set(terrain: .plains, at: point)
+            return
         }
 
 		if moisture < 0.3 {
-			return .desert
+            if Double.random > 0.9 {
+                grid?.set(feature: .oasis, at: point)
+            }
+			grid?.set(terrain: .desert, at: point)
+            return
 		} else {
-			return .plain
+            if moisture > 0.5 && Double.random > 0.8 {
+                grid?.set(feature: .rainforest, at: point)
+            }
+			grid?.set(terrain: .plains, at: point)
+            return
 		}
 	}
 
@@ -606,11 +438,11 @@ class MapGenerator {
 		return rivers
 	}
 
-	func heightOf(corner: HexPointCorner, at gridPoint: HexPoint, on heightMap: HeightMap) -> Float {
+	func heightOf(corner: HexPointCorner, at gridPoint: HexPoint, on heightMap: HeightMap) -> Double {
 
 		let adjacentPoints = gridPoint.adjacentPoints(of: corner)
-		var amountOfPoints: Float = 0.0
-		var height: Float = 0.0
+		var amountOfPoints: Double = 0.0
+		var height: Double = 0.0
 
 		for adjacentPoint in adjacentPoints {
 			// check if adjacentPoint is on map
@@ -654,7 +486,7 @@ class MapGenerator {
 		}
 
 		var lowestGridPointWithCorner: HexPointWithCorner = gridPointWithCorner
-		var lowestValue: Float = Float.greatestFiniteMagnitude
+		var lowestValue: Double = Double.greatestFiniteMagnitude
 
 		for corner in gridPointWithCorner.adjacentCorners() {
 
@@ -672,7 +504,7 @@ class MapGenerator {
 
 		var result: [HexPointWithCorner] = []
 
-		if lowestValue < Float.greatestFiniteMagnitude {
+		if lowestValue < Double.greatestFiniteMagnitude {
 
 			let targetTerrain = self.terrain[lowestGridPointWithCorner.point.x, lowestGridPointWithCorner.point.y]
 
@@ -689,34 +521,34 @@ class MapGenerator {
 		return result
 	}
 
-	func put(rivers: [River], onto grid: HexagonTileMap?) {
+	func put(rivers: [River], onto grid: MapModel?) {
 
 		for river in rivers {
-			grid?.add(river: river)
+            grid?.add(river: river)
 		}
 	}
     
     // MARK: 5th continents
     
-    func identifyContinents(on grid: HexagonTileMap?) {
+    func identifyContinents(on grid: MapModel?) {
         
         guard let grid = grid else {
             return
         }
         
-        let finder = ContinentFinder(width: grid.width, height: grid.height)
+        let finder = ContinentFinder(width: grid.size.width(), height: grid.size.height())
         let continents = finder.execute(on: grid)
         
         grid.continents = continents
     }
     
-    func identifyOceans(on grid: HexagonTileMap?) {
+    func identifyOceans(on grid: MapModel?) {
         
         guard let grid = grid else {
             return
         }
         
-        let finder = OceanFinder(width: grid.width, height: grid.height)
+        let finder = OceanFinder(width: grid.size.width(), height: grid.size.height())
         let oceans = finder.execute(on: grid)
         
         grid.oceans = oceans

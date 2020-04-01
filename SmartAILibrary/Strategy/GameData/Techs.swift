@@ -24,6 +24,12 @@ protocol AbstractTechs {
     func chooseNextTech() -> TechType
     
     func checkScienceProgress(in gameModel: GameModel?) throws
+    
+    // eurekas
+    func eurekaValue(for techType: TechType) -> Int
+    func changeEurekaValue(for techType: TechType, change: Int)
+    func eurekaTriggered(for techType: TechType) -> Bool
+    func triggerEureka(for techType: TechType)
 }
 
 enum TechError: Error {
@@ -42,6 +48,9 @@ class Techs: AbstractTechs {
     private var currentTechVal: TechType? = nil
     var currentProgress: Double = 0.0
     var lastScienceEarned: Double = 1.0
+    
+    // heureka
+    private var eurekas: Eurekas
     
     // MARK: internal types
     
@@ -68,11 +77,62 @@ class Techs: AbstractTechs {
         }
     }
     
+    private class Eurekas {
+        
+        var eurekaCounter: EurekaCounterList
+        var eurakaTrigger: EurekaTriggeredList
+        
+        class EurekaCounterList: WeightedList<TechType> {
+            
+            override func fill() {
+                
+                for techType in TechType.all {
+                    self.add(weight: 0, for: techType)
+                }
+            }
+        }
+
+        class EurekaTriggeredList: WeightedList<TechType> {
+            
+            override func fill() {
+                
+                for techType in TechType.all {
+                    self.add(weight: 0, for: techType)
+                }
+            }
+            
+            func trigger(for techType: TechType) {
+                
+                self.set(weight: 1.0, for: techType)
+            }
+            
+            func triggered(for techType: TechType) -> Bool {
+                
+                return self.weight(of: techType) > 0.0
+            }
+        }
+        
+        init() {
+            self.eurekaCounter = EurekaCounterList()
+            self.eurekaCounter.fill()
+            
+            self.eurakaTrigger = EurekaTriggeredList()
+            self.eurakaTrigger.fill()
+        }
+        
+        func triggered(for tech: TechType) -> Bool {
+            
+            return self.eurakaTrigger.triggered(for: tech)
+        }
+    }
+    
     // MARK: constructor
     
     init(player: Player?) {
         
         self.player = player
+        
+        self.eurekas = Eurekas()
     }
     
     // MARK: manage progress
@@ -123,7 +183,8 @@ class Techs: AbstractTechs {
             }
             
             // revalue based on cost / number of turns
-            let numberOfTurnsLeft = Double(possibleTech.cost()) / self.lastScienceEarned
+            let cost = self.cost(of: possibleTech)
+            let numberOfTurnsLeft = cost / self.lastScienceEarned
             let additionalTurnCostFactor = 0.015 * Double(numberOfTurnsLeft)
             let totalCostFactor = 0.15 + additionalTurnCostFactor
             let weightDivisor = pow(Double(numberOfTurnsLeft), totalCostFactor)
@@ -168,6 +229,38 @@ class Techs: AbstractTechs {
     func currentTech() -> TechType? {
         
         return self.currentTechVal
+    }
+    
+    private func cost(of techType: TechType) -> Double {
+        
+        var costValue = Double(techType.cost())
+    
+        // eureka gives 50% off
+        if self.eurekas.triggered(for: techType) {
+            costValue /= 2.0
+        }
+        
+        return costValue
+    }
+    
+    func eurekaValue(for techType: TechType) -> Int {
+        
+        return Int(self.eurekas.eurekaCounter.weight(of: techType))
+    }
+    
+    func changeEurekaValue(for techType: TechType, change: Int) {
+        
+        self.eurekas.eurekaCounter.add(weight: change, for: techType)
+    }
+    
+    func eurekaTriggered(for techType: TechType) -> Bool {
+        
+        return self.eurekas.eurakaTrigger.triggered(for: techType)
+    }
+    
+    func triggerEureka(for techType: TechType) {
+        
+        self.eurekas.eurakaTrigger.trigger(for: techType)
     }
     
     func numberOfDiscoveredTechs() -> Int {
@@ -243,14 +336,13 @@ class Techs: AbstractTechs {
             return
         }
         
-        if self.currentProgress >= Double(currentTech.cost()) {
+        if self.currentProgress >= self.cost(of: currentTech) {
             
             do {
                 try self.discover(tech: currentTech)
                 
                 // trigger event to user
                 if player.isHuman() {
-                    //gameModel?.techDiscoveredNotification?(currentTech)
                     gameModel?.add(message: TechDiscoveredMessage(with: currentTech))
                 }
                 
@@ -258,7 +350,6 @@ class Techs: AbstractTechs {
                 if currentTech.era() > player.currentEra() {
                     
                     if player.isHuman() {
-                        //gameModel?.eraEnteredNotification?(currentTech.era())
                         gameModel?.add(message: EnteredEraMessage(with: currentTech.era()))
                     }
                     
@@ -266,6 +357,7 @@ class Techs: AbstractTechs {
                 }
                 
                 self.currentTechVal = nil
+                self.currentProgress = 0.0
                 
             } catch {
                 fatalError("Can't discover science - already discovered")

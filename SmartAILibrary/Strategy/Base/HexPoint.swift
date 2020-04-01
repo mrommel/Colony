@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 class HexOrientation {
 
@@ -415,7 +416,7 @@ extension HexPoint {
         return toScreen(cube: HexCube(hex: hex))
     }
     
-    /*func adjacentPoints(of corner: HexPointCorner) -> [HexPoint] {
+    func adjacentPoints(of corner: HexPointCorner) -> [HexPoint] {
         
         var neighboring = [HexPoint]()
         
@@ -443,7 +444,7 @@ extension HexPoint {
         }
         
         return neighboring
-    }*/
+    }
 }
 
 extension HexPoint: Hashable, Equatable {

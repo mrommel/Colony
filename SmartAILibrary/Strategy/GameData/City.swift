@@ -234,6 +234,14 @@ class City: AbstractCity {
             fatalError("cant get gameModel")
         }
         
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let diplomacyAI = player.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+        
         self.districts = Districts(city: self)
         self.buildings = Buildings(city: self)
         self.wonders = Wonders(city: self)
@@ -249,6 +257,21 @@ class City: AbstractCity {
 
         self.cityStrategy = CityStrategyAI(city: self)
         self.cityCitizens = CityCitizens(city: self)
+        self.cityCitizens?.doFound(in: gameModel)
+        
+        // Update Proximity between this Player and all others
+        for otherPlayer in gameModel.players {
+
+            if otherPlayer.leader != self.player?.leader {
+                
+                if otherPlayer.isAlive() && diplomacyAI.hasMet(with: otherPlayer) {
+                    // Fixme
+                    // Players do NOT have to know one another in order to calculate proximity.  Having this info available (even when they haven't met) can be useful
+                    player.doUpdateProximity(towards: otherPlayer, in: gameModel)
+                    otherPlayer.doUpdateProximity(towards: player, in: gameModel)
+                }
+            }
+        }
         
         self.doUpdateCheapestPlotInfluence(in: gameModel)
         
@@ -825,8 +848,6 @@ class City: AbstractCity {
             case .project:
                 return self.canBuild(project: item.projectType!)
         }
-
-        return false;
     }
 
     func isProduction() -> Bool {
@@ -947,7 +968,7 @@ class City: AbstractCity {
             // Is it still working on that wonder and we don't want to interrupt it?
             if !interruptWonders {
                 
-                if let currentWonderProduction = self.productionWonder() {
+                if self.productionWonder() != nil {
                     // Stay the course
                     return
                 }
@@ -1541,8 +1562,10 @@ class City: AbstractCity {
         }
 
         for point in cityCitizens.workingTileLocations() {
-            if let adjacentTile = gameModel.tile(at: point) {
-                yields += adjacentTile.yields(ignoreFeature: false)
+            if cityCitizens.isWorked(at: point) {
+                if let adjacentTile = gameModel.tile(at: point) {
+                    yields += adjacentTile.yields(ignoreFeature: false)
+                }
             }
         }
 
@@ -2027,18 +2050,7 @@ class City: AbstractCity {
             fatalError("cant get gameModel")
         }
         
-        guard let cityTile = gameModel.tile(at: self.location) else {
-            fatalError("cant get cityTile")
-        }
-        
         var lowestCost = Int.max
-
-        /*CvPlot* pLoopPlot = NULL;
-        CvPlot* pThisPlot = plot();
-        const int iMaxRange = /*5*/ GC.getMAXIMUM_ACQUIRE_PLOT_DISTANCE();
-        CvMap& thisMap = GC.getMap();*/
-
-        //int iDX, iDY;
 
         for loopPoint in self.location.areaWith(radius: City.workRadius) {
             
@@ -2238,8 +2250,8 @@ class City: AbstractCity {
         // Valuate the yields from this plot
         for yieldType in YieldType.all {
 
-            var yieldValue = Int(tile.yields(ignoreFeature: false).value(of: yieldType))
-            var tempValue = 0;
+            yieldValue = Int(tile.yields(ignoreFeature: false).value(of: yieldType))
+            var tempValue = 0
 
             if yieldType == specializationYield {
                 tempValue += yieldValue * 20 /* AI_PLOT_VALUE_SPECIALIZATION_MULTIPLIER */

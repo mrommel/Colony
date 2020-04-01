@@ -61,7 +61,6 @@ class CityTests: XCTestCase {
         let centerTile = mapModel.tile(at: HexPoint(x: 1, y: 1))
         centerTile?.set(terrain: .grass)
         centerTile?.set(hills: false)
-        try! centerTile?.set(owner: playerAlexander)
         centerTile?.set(improvement: .farm)
         
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
@@ -100,31 +99,27 @@ class CityTests: XCTestCase {
         let centerTile = mapModel.tile(at: HexPoint(x: 1, y: 1))
         centerTile?.set(terrain: .grass)
         centerTile?.set(hills: false)
-        try! centerTile?.set(owner: playerAlexander)
-        //try! self.objectToTest?.work(tile: centerTile)
         centerTile?.set(improvement: .farm)
         
         // another
         let anotherTile = mapModel.tile(at: HexPoint(x: 1, y: 2))
         anotherTile?.set(terrain: .plains)
         anotherTile?.set(hills: true)
-        try! anotherTile?.set(owner: playerAlexander)
-        try! self.objectToTest?.work(tile: anotherTile!)
         anotherTile?.set(improvement: .mine)
         
         // WHEN
-        /*let yields = self.objectToTest?.turn(in: gameModel)
+        let yields = self.objectToTest?.yields(in: gameModel)
         
         // THEN
-        XCTAssertEqual(yields?.food, 0.0)
-        XCTAssertEqual(yields?.production, 0.0)
+        XCTAssertEqual(yields?.food, 4.0)
+        XCTAssertEqual(yields?.production, 4.0)
         XCTAssertEqual(yields?.gold, 6.0)
         
         XCTAssertEqual(yields?.culture, 2.6)
         XCTAssertEqual(yields?.science, 4.0)
         XCTAssertEqual(yields?.faith, 1.0)
         
-        XCTAssertEqual(yields?.housing, 1.0)*/
+        XCTAssertEqual(yields?.housing, 1.0)
     }
     
     func testBuildGranary() {

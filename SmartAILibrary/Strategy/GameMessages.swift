@@ -99,8 +99,14 @@ class CityGrowthMessage: AbstractGameMessage {
     init(in city: AbstractCity?) {
         
         self.city = city
-        self.title = "\(city?.name) has Grown!"
-        self.text = "The City of \(city?.name) now has \(city?.population()) [ICON_CITIZEN] Citizens! The new Citizen will automatically work the land near the City for additional [ICON_FOOD] Food, [ICON_PRODUCTION] Production or [ICON_GOLD] Gold."
+        
+        if let city = self.city {
+            self.title = "\(city.name) has Grown!"
+            self.text = "The City of \(city.name) now has \(city.population()) [ICON_CITIZEN] Citizens! The new Citizen will automatically work the land near the City for additional [ICON_FOOD] Food, [ICON_PRODUCTION] Production or [ICON_GOLD] Gold."
+        } else {
+            self.title = ""
+            self.text = ""
+        }
     }
 }
 
@@ -113,8 +119,14 @@ class CityStarvingMessage: AbstractGameMessage {
     init(in city: AbstractCity?) {
         
         self.city = city
-        self.title = "\(city?.name) is Starving!"
-        self.text = "The City of \(city?.name) is starving! If it runs out of stored [ICON_FOOD] Food, a [ICON_CITIZEN] Citizen will die!"
+        
+        if let city = self.city {
+            self.title = "\(city.name) is Starving!"
+            self.text = "The City of \(city.name) is starving! If it runs out of stored [ICON_FOOD] Food, a [ICON_CITIZEN] Citizen will die!"
+        } else {
+            self.title = ""
+            self.text = ""
+        }
     }
 }
 
@@ -146,11 +158,19 @@ class DeclarationOfWarMessage: AbstractGameMessage {
 
     let title: String
     let text: String
+    let player: AbstractPlayer?
     
-    init(text: String) {
+    init(by player: AbstractPlayer?) {
 
-        self.title = text
-        self.text = "..."
+        self.player = player
+        
+        if let player = self.player {
+            self.title = "Declaration of war"
+            self.text = "\(player.leader.name()) has declared war on you!" // TXT_KEY_MISC_DECLARED_WAR_ON_YOU
+        } else {
+            self.title = ""
+            self.text = ""
+        }
     }
 }
 

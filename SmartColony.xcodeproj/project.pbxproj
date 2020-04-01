@@ -1,0 +1,602 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C9B1D205243474F900033791 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D204243474F900033791 /* GameViewController.swift */; };
+		C9B1D2092434757600033791 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B1D2082434757600033791 /* SmartAILibrary.framework */; };
+		C9B1D20A2434757600033791 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9B1D2082434757600033791 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C9B1D20D2434768900033791 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D20C2434768900033791 /* GameScene.swift */; };
+		C9B1D2192434784800033791 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2182434784800033791 /* SplashViewController.swift */; };
+		C9B1D21B2434788000033791 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D21A2434788000033791 /* MenuViewController.swift */; };
+		C9B1D21E243478F400033791 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D21D243478F400033791 /* CoreDataManager.swift */; };
+		C9B1D221243479E200033791 /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = C9B1D220243479E200033791 /* Rswift */; };
+		C9B1D223243481D900033791 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D222243481D900033791 /* Main.storyboard */; };
+		C9B1D22624348BD300033791 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D22524348BD300033791 /* R.generated.swift */; };
+		C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D22724348C6E00033791 /* LaunchScreen.storyboard */; };
+		C9F61470243471D500450B6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6146F243471D500450B6C /* AppDelegate.swift */; };
+		C9F61475243471D500450B6C /* SmartColony.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C9F61473243471D500450B6C /* SmartColony.xcdatamodeld */; };
+		C9F61479243471E200450B6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F61478243471E200450B6C /* Assets.xcassets */; };
+		C9F6148A243471E200450B6C /* SmartColonyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F61489243471E200450B6C /* SmartColonyTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C9F61486243471E200450B6C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9F61464243471D500450B6C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9F6146B243471D500450B6C;
+			remoteInfo = SmartColony;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C9B1D20B2434757600033791 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C9B1D20A2434757600033791 /* SmartAILibrary.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C9B1D204243474F900033791 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		C9B1D2082434757600033791 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9B1D20C2434768900033791 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		C9B1D2182434784800033791 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		C9B1D21A2434788000033791 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		C9B1D21D243478F400033791 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		C9B1D222243481D900033791 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		C9B1D22524348BD300033791 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		C9B1D22724348C6E00033791 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C9F6146C243471D500450B6C /* SmartColony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartColony.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9F6146F243471D500450B6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C9F61474243471D500450B6C /* SmartColony.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartColony.xcdatamodel; sourceTree = "<group>"; };
+		C9F61478243471E200450B6C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C9F61480243471E200450B6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9F61485243471E200450B6C /* SmartColonyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartColonyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9F61489243471E200450B6C /* SmartColonyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyTests.swift; sourceTree = "<group>"; };
+		C9F6148B243471E200450B6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C9F61469243471D500450B6C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9B1D2092434757600033791 /* SmartAILibrary.framework in Frameworks */,
+				C9B1D221243479E200033791 /* Rswift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F61482243471E200450B6C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C9B1D203243474E800033791 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D2182434784800033791 /* SplashViewController.swift */,
+				C9B1D21A2434788000033791 /* MenuViewController.swift */,
+				C9B1D204243474F900033791 /* GameViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		C9B1D2062434752E00033791 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D20C2434768900033791 /* GameScene.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		C9B1D2072434757600033791 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D2082434757600033791 /* SmartAILibrary.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9B1D217243477AC00033791 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C9F61480243471E200450B6C /* Info.plist */,
+				C9F61473243471D500450B6C /* SmartColony.xcdatamodeld */,
+				C9F61478243471E200450B6C /* Assets.xcassets */,
+				C9B1D222243481D900033791 /* Main.storyboard */,
+				C9B1D22724348C6E00033791 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C9B1D21C243478DF00033791 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D21D243478F400033791 /* CoreDataManager.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		C9F61463243471D500450B6C = {
+			isa = PBXGroup;
+			children = (
+				C9F6146E243471D500450B6C /* SmartColony */,
+				C9F61488243471E200450B6C /* SmartColonyTests */,
+				C9F6146D243471D500450B6C /* Products */,
+				C9B1D2072434757600033791 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C9F6146D243471D500450B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9F6146C243471D500450B6C /* SmartColony.app */,
+				C9F61485243471E200450B6C /* SmartColonyTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C9F6146E243471D500450B6C /* SmartColony */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D21C243478DF00033791 /* Data */,
+				C9B1D2062434752E00033791 /* Scenes */,
+				C9B1D203243474E800033791 /* ViewControllers */,
+				C9B1D217243477AC00033791 /* Resources */,
+				C9F6146F243471D500450B6C /* AppDelegate.swift */,
+				C9B1D22524348BD300033791 /* R.generated.swift */,
+			);
+			path = SmartColony;
+			sourceTree = "<group>";
+		};
+		C9F61488243471E200450B6C /* SmartColonyTests */ = {
+			isa = PBXGroup;
+			children = (
+				C9F61489243471E200450B6C /* SmartColonyTests.swift */,
+				C9F6148B243471E200450B6C /* Info.plist */,
+			);
+			path = SmartColonyTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C9F6146B243471D500450B6C /* SmartColony */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9F6148E243471E200450B6C /* Build configuration list for PBXNativeTarget "SmartColony" */;
+			buildPhases = (
+				C9B1D2242434869E00033791 /* ShellScript */,
+				C9F61468243471D500450B6C /* Sources */,
+				C9F61469243471D500450B6C /* Frameworks */,
+				C9F6146A243471D500450B6C /* Resources */,
+				C9B1D20B2434757600033791 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartColony;
+			packageProductDependencies = (
+				C9B1D220243479E200033791 /* Rswift */,
+			);
+			productName = SmartColony;
+			productReference = C9F6146C243471D500450B6C /* SmartColony.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C9F61484243471E200450B6C /* SmartColonyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9F61491243471E200450B6C /* Build configuration list for PBXNativeTarget "SmartColonyTests" */;
+			buildPhases = (
+				C9F61481243471E200450B6C /* Sources */,
+				C9F61482243471E200450B6C /* Frameworks */,
+				C9F61483243471E200450B6C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C9F61487243471E200450B6C /* PBXTargetDependency */,
+			);
+			name = SmartColonyTests;
+			productName = SmartColonyTests;
+			productReference = C9F61485243471E200450B6C /* SmartColonyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C9F61464243471D500450B6C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1140;
+				LastUpgradeCheck = 1140;
+				ORGANIZATIONNAME = "Michael Rommel";
+				TargetAttributes = {
+					C9F6146B243471D500450B6C = {
+						CreatedOnToolsVersion = 11.4;
+					};
+					C9F61484243471E200450B6C = {
+						CreatedOnToolsVersion = 11.4;
+						TestTargetID = C9F6146B243471D500450B6C;
+					};
+				};
+			};
+			buildConfigurationList = C9F61467243471D500450B6C /* Build configuration list for PBXProject "SmartColony" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C9F61463243471D500450B6C;
+			packageReferences = (
+				C9B1D21F243479E200033791 /* XCRemoteSwiftPackageReference "R.swift" */,
+			);
+			productRefGroup = C9F6146D243471D500450B6C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C9F6146B243471D500450B6C /* SmartColony */,
+				C9F61484243471E200450B6C /* SmartColonyTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C9F6146A243471D500450B6C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */,
+				C9B1D223243481D900033791 /* Main.storyboard in Resources */,
+				C9F61479243471E200450B6C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F61483243471E200450B6C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C9B1D2242434869E00033791 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$TEMP_DIR/rswift-lastrun",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				$SRCROOT/SmartColony/R.generated.swift,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"$SRCROOT/rswift\" generate \"$SRCROOT/SmartColony/R.generated.swift\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C9F61468243471D500450B6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9F61470243471D500450B6C /* AppDelegate.swift in Sources */,
+				C9B1D21B2434788000033791 /* MenuViewController.swift in Sources */,
+				C9B1D205243474F900033791 /* GameViewController.swift in Sources */,
+				C9B1D22624348BD300033791 /* R.generated.swift in Sources */,
+				C9B1D20D2434768900033791 /* GameScene.swift in Sources */,
+				C9F61475243471D500450B6C /* SmartColony.xcdatamodeld in Sources */,
+				C9B1D21E243478F400033791 /* CoreDataManager.swift in Sources */,
+				C9B1D2192434784800033791 /* SplashViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F61481243471E200450B6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9F6148A243471E200450B6C /* SmartColonyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C9F61487243471E200450B6C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9F6146B243471D500450B6C /* SmartColony */;
+			targetProxy = C9F61486243471E200450B6C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C9F6148C243471E200450B6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C9F6148D243471E200450B6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C9F6148F243471E200450B6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 3XR2XX99JT;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SmartColony/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColony;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C9F61490243471E200450B6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 3XR2XX99JT;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SmartColony/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColony;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C9F61492243471E200450B6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3XR2XX99JT;
+				INFOPLIST_FILE = SmartColonyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartColony.app/SmartColony";
+			};
+			name = Debug;
+		};
+		C9F61493243471E200450B6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3XR2XX99JT;
+				INFOPLIST_FILE = SmartColonyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartColony.app/SmartColony";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C9F61467243471D500450B6C /* Build configuration list for PBXProject "SmartColony" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F6148C243471E200450B6C /* Debug */,
+				C9F6148D243471E200450B6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9F6148E243471E200450B6C /* Build configuration list for PBXNativeTarget "SmartColony" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F6148F243471E200450B6C /* Debug */,
+				C9F61490243471E200450B6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9F61491243471E200450B6C /* Build configuration list for PBXNativeTarget "SmartColonyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F61492243471E200450B6C /* Debug */,
+				C9F61493243471E200450B6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C9B1D21F243479E200033791 /* XCRemoteSwiftPackageReference "R.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mac-cain13/R.swift.Library";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C9B1D220243479E200033791 /* Rswift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9B1D21F243479E200033791 /* XCRemoteSwiftPackageReference "R.swift" */;
+			productName = Rswift;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		C9F61473243471D500450B6C /* SmartColony.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C9F61474243471D500450B6C /* SmartColony.xcdatamodel */,
+			);
+			currentVersion = C9F61474243471D500450B6C /* SmartColony.xcdatamodel */;
+			path = SmartColony.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = C9F61464243471D500450B6C /* Project object */;
+}

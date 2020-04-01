@@ -229,12 +229,16 @@ class DiplomaticAI {
 
     func doDeclareWar(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
-        guard let otherPlayer = otherPlayer else {
-            fatalError("cant get otherPlayer")
-        }
-
         guard let gameModel = gameModel else {
             fatalError("no game model given")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get otherPlayer")
         }
 
         // Only do it if we are not already at war.
@@ -262,13 +266,9 @@ class DiplomaticAI {
 
         self.playerDict.declaredWar(towards: otherPlayer, in: gameModel.turnsElapsed)
 
+        // inform player that some declared war
         if otherPlayer.isHuman() {
-
-            if let humanPlayer = gameModel.players.first(where: { $0.isHuman() }) {
-
-                let text = "war"
-                gameModel.add(message: DeclarationOfWarMessage(text: text))
-            }
+            gameModel.add(message: DeclarationOfWarMessage(by: player))
         }
     }
 
@@ -1179,7 +1179,7 @@ class DiplomaticAI {
         }
     }
 
-    private func updateProximity(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+    func updateProximity(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")

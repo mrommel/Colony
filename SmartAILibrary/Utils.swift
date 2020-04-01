@@ -8,12 +8,6 @@
 
 import Foundation
 
-extension Int {
-    public static func random(number: Int) -> Int {
-        return Int(arc4random_uniform(UInt32(number)))
-    }
-}
-
 extension Double {
 
     // Returns a random floating point number between 0.0 and 1.0, inclusive.
@@ -41,6 +35,54 @@ extension Collection {
     }
 }
 
+// http://stackoverflow.com/questions/27259332/get-random-elements-from-array-in-swift
+extension Array {
+
+    /// Returns an array containing this sequence shuffled
+    public var shuffled: Array {
+        var elements = self
+        return elements.shuffle()
+    }
+
+    /// Shuffles this sequence in place
+    @discardableResult
+    public mutating func shuffle() -> Array {
+        indices.dropLast().forEach {
+            guard case let index = Int(arc4random_uniform(UInt32(count - $0))) + $0, index != $0 else { return }
+            self.swapAt($0, index)
+        }
+        return self
+    }
+
+    public var chooseOne: Element { return self[Int(arc4random_uniform(UInt32(count)))] }
+
+    public func choose(_ number: Int) -> Array { return Array(shuffled.prefix(number)) }
+}
+
+extension Array {
+
+    public func randomItem() -> Element {
+        let index = Int.random(minimum: 0, maximum: self.count - 1)
+        return self[index]
+    }
+}
+
+extension Array {
+
+    func unique<T:Hashable>(map: ((Element) -> (T))) -> [Element] {
+        var set = Set<T>() //the unique list kept in a Set for fast retrieval
+        var arrayOrdered = [Element]() //keeping the unique list of elements but ordered
+        for value in self {
+            if !set.contains(map(value)) {
+                set.insert(map(value))
+                arrayOrdered.append(value)
+            }
+        }
+
+        return arrayOrdered
+    }
+}
+
 extension Array {
 
     mutating func prepend(_ newItem: Element) {
@@ -57,5 +99,36 @@ extension IteratorProtocol {
     mutating func skip(_ n: Int) -> Element? {
         guard n > 0 else { return next() }
         return skip(n-1)
+    }
+}
+
+extension Int {
+
+    // Returns a random Int point number between 0 and Int.max.
+    public static var random: Int {
+        return Int.random(number: Int.max)
+    }
+
+    /**
+    Random integer between 0 and n-1.
+    
+    - parameter number: Int
+    
+    - returns: Int
+    */
+    public static func random(number: Int) -> Int {
+        return Int(arc4random_uniform(UInt32(number)))
+    }
+
+    /**
+    Random integer between min and max
+    
+    - parameter minimum: Int
+    - parameter maximum: Int
+    
+    - returns: Int
+    */
+    public static func random(minimum: Int = 0, maximum: Int) -> Int {
+        return Int.random(number: maximum - minimum + 1) + minimum
     }
 }

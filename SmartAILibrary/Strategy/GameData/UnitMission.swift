@@ -311,7 +311,6 @@ class UnitMission {
                             done = true
                         }
                     } else {
-                        var eta = 0
                         let cost = unit.doMoveOnPath(towards: self.target!, previousETA: 0, buildingRoute: false, in: gameModel)
                             
                         if cost > unit.movesLeft() {

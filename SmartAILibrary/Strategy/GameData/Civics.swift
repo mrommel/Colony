@@ -23,8 +23,16 @@ protocol AbstractCivics {
     func possibleCivics() -> [CivicType]
     func setCurrent(civic: CivicType) throws
     func currentCivic() -> CivicType?
-    func add(culture: Int, in gameModel: GameModel?)
     func chooseNextCivic() -> CivicType
+    
+    func add(culture: Double)
+    func checkCultureProgress(in gameModel: GameModel?) throws
+    
+    // eurekas
+    func eurekaValue(for civicType: CivicType) -> Int
+    func changeEurekaValue(for civicType: CivicType, change: Int)
+    func eurekaTriggered(for civicType: CivicType) -> Bool
+    func triggerEureka(for civicType: CivicType)
 }
 
 class Civics: AbstractCivics {
@@ -35,8 +43,11 @@ class Civics: AbstractCivics {
     // user properties / values
     var player: Player?
     private var currentCivicVal: CivicType? = nil
-    var currentProgress: Int = 0
-    var lastCultureInput: Int = 1
+    var currentProgress: Double = 0.0
+    var lastCultureInput: Double = 1.0
+    
+    // heureka
+    private var eurekas: Eurekas
     
     // MARK: internal types
     
@@ -64,11 +75,62 @@ class Civics: AbstractCivics {
         }
     }
     
+    private class Eurekas {
+        
+        var eurekaCounter: EurekaCounterList
+        var eurakaTrigger: EurekaTriggeredList
+        
+        class EurekaCounterList: WeightedList<CivicType> {
+            
+            override func fill() {
+                
+                for civicType in CivicType.all {
+                    self.add(weight: 0, for: civicType)
+                }
+            }
+        }
+
+        class EurekaTriggeredList: WeightedList<CivicType> {
+            
+            override func fill() {
+                
+                for civicType in CivicType.all {
+                    self.add(weight: 0, for: civicType)
+                }
+            }
+            
+            func trigger(for civicType: CivicType) {
+                
+                self.set(weight: 1.0, for: civicType)
+            }
+            
+            func triggered(for civicType: CivicType) -> Bool {
+                
+                return self.weight(of: civicType) > 0.0
+            }
+        }
+        
+        init() {
+            self.eurekaCounter = EurekaCounterList()
+            self.eurekaCounter.fill()
+            
+            self.eurakaTrigger = EurekaTriggeredList()
+            self.eurakaTrigger.fill()
+        }
+        
+        func triggered(for civic: CivicType) -> Bool {
+            
+            return self.eurakaTrigger.triggered(for: civic)
+        }
+    }
+    
     // MARK: constructor
     
     init(player: Player?) {
         
         self.player = player
+        
+        self.eurekas = Eurekas()
     }
     
     // MARK: manage progress
@@ -144,45 +206,10 @@ class Civics: AbstractCivics {
         return returnCivics
     }
     
-    func add(culture: Int, in gameModel: GameModel?) {
-        
-        guard let currentCivic = self.currentCivicVal else {
-            fatalError("Can't add culture - no civic selected")
-        }
-        
-        guard let player = self.player else {
-            fatalError("Can't add culture - no player present")
-        }
-        
+    func add(culture: Double) {
+
         self.currentProgress += culture
         self.lastCultureInput = culture
-        
-        if self.currentProgress >= currentCivic.cost() {
-            
-            do {
-                try self.discover(civic: currentCivic)
-                
-                // trigger event to user
-                if player.isHuman() {
-                    //gameModel?.civicDiscoveredNotification?(currentCivic)
-                    gameModel?.add(message: CivicDiscoveredMessage(with: currentCivic))
-                }
-
-                // enter era
-                if currentCivic.era() > player.currentEra() {
-                    
-                    if player.isHuman() {
-                        // gameModel?.eraEnteredNotification?(currentCivic.era())
-                        gameModel?.add(message: EnteredEraMessage(with: currentCivic.era()))
-                    }
-                }
-                
-                self.currentCivicVal = nil
-                
-            } catch {
-                fatalError("Can't discover civic - already discovered")
-            }
-        }
     }
     
     func chooseNextCivic() -> CivicType {
@@ -222,7 +249,7 @@ class Civics: AbstractCivics {
             }
             
             // revalue based on cost / number of turns
-            let numberOfTurnsLeft = possibleCivic.cost() / self.lastCultureInput
+            let numberOfTurnsLeft = self.cost(of: possibleCivic) / self.lastCultureInput
             let additionalTurnCostFactor = 0.015 * Double(numberOfTurnsLeft)
             let totalCostFactor = 0.15 + additionalTurnCostFactor
             let weightDivisor = pow(Double(numberOfTurnsLeft), totalCostFactor)
@@ -241,5 +268,76 @@ class Civics: AbstractCivics {
         let selectedTech = weightedCivics.civics[selectedIndex].civic
         
         return selectedTech
+    }
+    
+    func checkCultureProgress(in gameModel: GameModel?) throws {
+        
+        guard let currentCivic = self.currentCivicVal else {
+            fatalError("Can't add culture - no civic selected")
+        }
+        
+        guard let player = self.player else {
+            fatalError("Can't add culture - no player present")
+        }
+        
+        if self.currentProgress >= self.cost(of: currentCivic) {
+            
+            do {
+                try self.discover(civic: currentCivic)
+                
+                // trigger event to user
+                if player.isHuman() {
+                    //gameModel?.civicDiscoveredNotification?(currentCivic)
+                    gameModel?.add(message: CivicDiscoveredMessage(with: currentCivic))
+                }
+
+                // enter era
+                if currentCivic.era() > player.currentEra() {
+                    
+                    if player.isHuman() {
+                        // gameModel?.eraEnteredNotification?(currentCivic.era())
+                        gameModel?.add(message: EnteredEraMessage(with: currentCivic.era()))
+                    }
+                }
+                
+                self.currentCivicVal = nil
+                
+            } catch {
+                fatalError("Can't discover civic - already discovered")
+            }
+        }
+    }
+    
+    // eurekas
+    private func cost(of civicType: CivicType) -> Double {
+        
+        var costValue = Double(civicType.cost())
+    
+        // eureka gives 50% off
+        if self.eurekas.triggered(for: civicType) {
+            costValue /= 2.0
+        }
+        
+        return costValue
+    }
+    
+    func eurekaValue(for civicType: CivicType) -> Int {
+        
+        return Int(self.eurekas.eurekaCounter.weight(of: civicType))
+    }
+    
+    func changeEurekaValue(for civicType: CivicType, change: Int) {
+        
+        self.eurekas.eurekaCounter.add(weight: change, for: civicType)
+    }
+    
+    func eurekaTriggered(for civicType: CivicType) -> Bool {
+        
+        return self.eurekas.eurakaTrigger.triggered(for: civicType)
+    }
+    
+    func triggerEureka(for civicType: CivicType) {
+        
+        self.eurekas.eurakaTrigger.trigger(for: civicType)
     }
 }

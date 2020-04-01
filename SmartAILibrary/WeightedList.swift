@@ -83,6 +83,11 @@ class WeightedList<T : Equatable>: CustomDebugStringConvertible {
         self.items.sort(by: { $0.weight > $1.weight })
     }
     
+    func sortReverse() {
+        
+        self.items.sort(by: { $0.weight < $1.weight })
+    }
+    
     func chooseBest() -> T? {
         
         if self.items.count < 1 {

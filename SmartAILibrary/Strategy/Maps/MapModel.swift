@@ -20,6 +20,7 @@ class MapModel {
     internal var continents: [Continent] = []
     internal var oceans: [Ocean] = []
     internal var areas: [HexArea]
+    internal var rivers: [River]
     
     init(size: MapSize) {
         
@@ -28,6 +29,7 @@ class MapModel {
         self.units = []
         self.tiles = TileArray2D(size: size)
         self.areas = []
+        self.rivers = []
         
         for x in 0..<size.width() {
             for y in 0..<size.height() {
@@ -153,7 +155,7 @@ class MapModel {
     }
     
     func discover(by player: AbstractPlayer?, at point: HexPoint) {
-        
+
         if let tile = self.tile(at: point) {
             tile.discover(by: player)
         }
@@ -177,6 +179,21 @@ class MapModel {
         
         if let tile = self.tile(at: point) {
             tile.set(terrain: terrainType)
+        }
+    }
+    
+    
+    func set(hills: Bool, at point: HexPoint) {
+        
+        if self.valid(point: point) {
+            self.tiles[point.x, point.y]?.set(hills: hills)
+        }
+    }
+    
+    func set(feature featureType: FeatureType, at point: HexPoint) {
+        
+        if let tile = self.tile(at: point) {
+            tile.set(feature: featureType)
         }
     }
     
@@ -207,6 +224,28 @@ class MapModel {
         
         if let tile = self.tile(at: point) {
             tile.set(continent: continent)
+        }
+    }
+    
+    // MARK: river hangling
+    
+    public func add(river: River) {
+        
+        self.rivers.append(river)
+        
+        for riverPoint in river.points {
+            
+            // check bounds
+            guard self.valid(point: riverPoint.point) else {
+                continue
+            }
+            
+            let tile = self.tile(at: riverPoint.point)
+            do {
+                try tile?.set(river: river, with: riverPoint.flowDirection)
+            } catch {
+                print("something weird happend")
+            }
         }
     }
 }

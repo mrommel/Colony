@@ -9,7 +9,7 @@
 import Foundation
 
 // https://civilization.fandom.com/wiki/Terrain_(Civ6)
-enum TerrainType {
+enum TerrainType: Int, Codable {
     
     case grass
     case plains

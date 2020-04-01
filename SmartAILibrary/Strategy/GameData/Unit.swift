@@ -619,7 +619,8 @@ class Unit: AbstractUnit {
                 
                 if !diplomacyAI.isAtWar(with: defenderUnit.player) {
                 
-                    gameModel.add(message: DeclarationOfWarMessage(text: "Really? War with \(defenderUnit.player)"))
+                    gameModel.userInterface?.showPopup(popupType: .declareWarQuestion, data: PopupData(player: defenderUnit.player))
+                    // gameModel.add(message: DeclarationOfWarMessage(text: "Really? War with \(defenderUnit.player)"))
                     return false
                 }
             }
@@ -630,7 +631,7 @@ class Unit: AbstractUnit {
         }
 
         var attack = false
-        var adjacent = path.count == 2
+        let adjacent = path.count == 2
 
         if adjacent {
             
