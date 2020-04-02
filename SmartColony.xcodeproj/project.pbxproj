@@ -10,6 +10,13 @@
 		C9108F46243630550023C76D /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = C9108F45243630550023C76D /* Rswift */; };
 		C9108F49243630A70023C76D /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = C9108F48243630A70023C76D /* XMLCoder */; };
 		C9108F4A243630B80023C76D /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D22524348BD300033791 /* R.generated.swift */; };
+		C957AA49243641A100203024 /* MapSizeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA46243641A000203024 /* MapSizeDialog.xml */; };
+		C957AA4A243641A100203024 /* MapTypeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA47243641A000203024 /* MapTypeDialog.xml */; };
+		C957AA4B243641A100203024 /* MapSeaLevelDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA48243641A000203024 /* MapSeaLevelDialog.xml */; };
+		C957AA50243641D300203024 /* MapLoadingDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA4C243641D200203024 /* MapLoadingDialog.xml */; };
+		C957AA51243641D300203024 /* MapRainfallDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA4D243641D300203024 /* MapRainfallDialog.xml */; };
+		C957AA52243641D300203024 /* MapClimateDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA4E243641D300203024 /* MapClimateDialog.xml */; };
+		C957AA53243641D300203024 /* MapAgeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA4F243641D300203024 /* MapAgeDialog.xml */; };
 		C9B1D205243474F900033791 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D204243474F900033791 /* GameViewController.swift */; };
 		C9B1D2092434757600033791 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B1D2082434757600033791 /* SmartAILibrary.framework */; };
 		C9B1D20A2434757600033791 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9B1D2082434757600033791 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -41,13 +48,6 @@
 		C9B1D25F2435166700033791 /* MessageBoxButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D25E2435166700033791 /* MessageBoxButtonNode.swift */; };
 		C9B1D2612435177E00033791 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2602435177E00033791 /* CGPointExtension.swift */; };
 		C9B1D263243517D600033791 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D262243517D600033791 /* SKNodeExtension.swift */; };
-		C9B1D26C24351C1C00033791 /* MapRainfallDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26524351C1C00033791 /* MapRainfallDialog.xml */; };
-		C9B1D26D24351C1C00033791 /* MapTypeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26624351C1C00033791 /* MapTypeDialog.xml */; };
-		C9B1D26E24351C1C00033791 /* MapSizeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26724351C1C00033791 /* MapSizeDialog.xml */; };
-		C9B1D26F24351C1C00033791 /* MapClimateDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26824351C1C00033791 /* MapClimateDialog.xml */; };
-		C9B1D27024351C1C00033791 /* MapAgeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26924351C1C00033791 /* MapAgeDialog.xml */; };
-		C9B1D27124351C1C00033791 /* MapSeaLevelDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26A24351C1C00033791 /* MapSeaLevelDialog.xml */; };
-		C9B1D27224351C1C00033791 /* MapLoadingDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26B24351C1C00033791 /* MapLoadingDialog.xml */; };
 		C9B1D27824351F3500033791 /* UIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27424351F3400033791 /* UIParser.swift */; };
 		C9B1D27924351F3500033791 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27524351F3500033791 /* Dialog.swift */; };
 		C9B1D27A24351F3500033791 /* DialogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27624351F3500033791 /* DialogItem.swift */; };
@@ -93,6 +93,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C957AA46243641A000203024 /* MapSizeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapSizeDialog.xml; sourceTree = "<group>"; };
+		C957AA47243641A000203024 /* MapTypeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapTypeDialog.xml; sourceTree = "<group>"; };
+		C957AA48243641A000203024 /* MapSeaLevelDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapSeaLevelDialog.xml; sourceTree = "<group>"; };
+		C957AA4C243641D200203024 /* MapLoadingDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapLoadingDialog.xml; sourceTree = "<group>"; };
+		C957AA4D243641D300203024 /* MapRainfallDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapRainfallDialog.xml; sourceTree = "<group>"; };
+		C957AA4E243641D300203024 /* MapClimateDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapClimateDialog.xml; sourceTree = "<group>"; };
+		C957AA4F243641D300203024 /* MapAgeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapAgeDialog.xml; sourceTree = "<group>"; };
 		C9B1D204243474F900033791 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		C9B1D2082434757600033791 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B1D20C2434768900033791 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -124,13 +131,6 @@
 		C9B1D25E2435166700033791 /* MessageBoxButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxButtonNode.swift; sourceTree = "<group>"; };
 		C9B1D2602435177E00033791 /* CGPointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
 		C9B1D262243517D600033791 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
-		C9B1D26524351C1C00033791 /* MapRainfallDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapRainfallDialog.xml; path = Colony/Ressources/UI/MapRainfallDialog.xml; sourceTree = SOURCE_ROOT; };
-		C9B1D26624351C1C00033791 /* MapTypeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapTypeDialog.xml; path = Colony/Ressources/UI/MapTypeDialog.xml; sourceTree = SOURCE_ROOT; };
-		C9B1D26724351C1C00033791 /* MapSizeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapSizeDialog.xml; path = Colony/Ressources/UI/MapSizeDialog.xml; sourceTree = SOURCE_ROOT; };
-		C9B1D26824351C1C00033791 /* MapClimateDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapClimateDialog.xml; path = Colony/Ressources/UI/MapClimateDialog.xml; sourceTree = SOURCE_ROOT; };
-		C9B1D26924351C1C00033791 /* MapAgeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapAgeDialog.xml; path = Colony/Ressources/UI/MapAgeDialog.xml; sourceTree = SOURCE_ROOT; };
-		C9B1D26A24351C1C00033791 /* MapSeaLevelDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapSeaLevelDialog.xml; path = Colony/Ressources/UI/MapSeaLevelDialog.xml; sourceTree = SOURCE_ROOT; };
-		C9B1D26B24351C1C00033791 /* MapLoadingDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapLoadingDialog.xml; path = Colony/Ressources/UI/MapLoadingDialog.xml; sourceTree = SOURCE_ROOT; };
 		C9B1D27424351F3400033791 /* UIParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIParser.swift; sourceTree = "<group>"; };
 		C9B1D27524351F3500033791 /* Dialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		C9B1D27624351F3500033791 /* DialogItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialogItem.swift; sourceTree = "<group>"; };
@@ -285,13 +285,13 @@
 		C9B1D26424351BF200033791 /* Dialogs */ = {
 			isa = PBXGroup;
 			children = (
-				C9B1D26924351C1C00033791 /* MapAgeDialog.xml */,
-				C9B1D26824351C1C00033791 /* MapClimateDialog.xml */,
-				C9B1D26B24351C1C00033791 /* MapLoadingDialog.xml */,
-				C9B1D26524351C1C00033791 /* MapRainfallDialog.xml */,
-				C9B1D26A24351C1C00033791 /* MapSeaLevelDialog.xml */,
-				C9B1D26724351C1C00033791 /* MapSizeDialog.xml */,
-				C9B1D26624351C1C00033791 /* MapTypeDialog.xml */,
+				C957AA4F243641D300203024 /* MapAgeDialog.xml */,
+				C957AA4E243641D300203024 /* MapClimateDialog.xml */,
+				C957AA4C243641D200203024 /* MapLoadingDialog.xml */,
+				C957AA4D243641D300203024 /* MapRainfallDialog.xml */,
+				C957AA48243641A000203024 /* MapSeaLevelDialog.xml */,
+				C957AA46243641A000203024 /* MapSizeDialog.xml */,
+				C957AA47243641A000203024 /* MapTypeDialog.xml */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -454,24 +454,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C957AA53243641D300203024 /* MapAgeDialog.xml in Resources */,
 				C9B1D2492434B9AE00033791 /* DINNext-Heavy.ttf in Resources */,
 				C9B1D2482434B9AE00033791 /* DINNext-Regular.ttf in Resources */,
-				C9B1D26D24351C1C00033791 /* MapTypeDialog.xml in Resources */,
-				C9B1D27224351C1C00033791 /* MapLoadingDialog.xml in Resources */,
+				C957AA4B243641A100203024 /* MapSeaLevelDialog.xml in Resources */,
 				C9B1D2902435B09A00033791 /* earth_standard.map in Resources */,
 				C9B1D2462434B9AE00033791 /* DINNext-Light.ttf in Resources */,
-				C9B1D26C24351C1C00033791 /* MapRainfallDialog.xml in Resources */,
 				C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */,
-				C9B1D27024351C1C00033791 /* MapAgeDialog.xml in Resources */,
+				C957AA49243641A100203024 /* MapSizeDialog.xml in Resources */,
 				C9B1D28F2435B08F00033791 /* earth_small.map in Resources */,
 				C9B1D28D2435B07A00033791 /* earth_huge.map in Resources */,
+				C957AA4A243641A100203024 /* MapTypeDialog.xml in Resources */,
 				C9B1D28E2435B08500033791 /* earth_large.map in Resources */,
 				C9B1D2472434B9AE00033791 /* DINNext-Bold.ttf in Resources */,
+				C957AA50243641D300203024 /* MapLoadingDialog.xml in Resources */,
 				C9B1D223243481D900033791 /* Main.storyboard in Resources */,
 				C9F61479243471E200450B6C /* Assets.xcassets in Resources */,
-				C9B1D27124351C1C00033791 /* MapSeaLevelDialog.xml in Resources */,
-				C9B1D26F24351C1C00033791 /* MapClimateDialog.xml in Resources */,
-				C9B1D26E24351C1C00033791 /* MapSizeDialog.xml in Resources */,
+				C957AA52243641D300203024 /* MapClimateDialog.xml in Resources */,
+				C957AA51243641D300203024 /* MapRainfallDialog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

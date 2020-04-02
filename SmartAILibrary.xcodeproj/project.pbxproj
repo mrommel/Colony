@@ -74,6 +74,9 @@
 		C957AA3B2436372D00203024 /* Civ5Terrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA3A2436372D00203024 /* Civ5Terrain.swift */; };
 		C957AA3D2436377C00203024 /* Civ5MapReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA3C2436377C00203024 /* Civ5MapReader.swift */; };
 		C957AA3F2436379800203024 /* Civ5Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA3E2436379800203024 /* Civ5Map.swift */; };
+		C957AA432436411E00203024 /* MapGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA402436411D00203024 /* MapGenerator.swift */; };
+		C957AA442436411E00203024 /* HeightMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA412436411E00203024 /* HeightMap.swift */; };
+		C957AA452436411E00203024 /* PerlinGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA422436411E00203024 /* PerlinGenerator.swift */; };
 		C9588ABD2417F3A900304E9A /* BuilderTaskingAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9588ABB2417EF8900304E9A /* BuilderTaskingAI.swift */; };
 		C9588ABF2417F62D00304E9A /* BuildType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9588ABE2417F62D00304E9A /* BuildType.swift */; };
 		C9588AC12417FEB100304E9A /* CityConnections.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9588AC02417FEB100304E9A /* CityConnections.swift */; };
@@ -105,10 +108,7 @@
 		C97A38E323F3E3CD008A8AE9 /* TileArray2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97A38E223F3E3CD008A8AE9 /* TileArray2D.swift */; };
 		C97A38E523F562F3008A8AE9 /* DiplomaticPact.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97A38E423F562F3008A8AE9 /* DiplomaticPact.swift */; };
 		C97A38E723F57DD9008A8AE9 /* DiplomaticApproachWeights.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97A38E623F57DD9008A8AE9 /* DiplomaticApproachWeights.swift */; };
-		C98CBE0024338C02005EE397 /* HeightMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBDFC24338C02005EE397 /* HeightMap.swift */; };
 		C98CBE0124338C02005EE397 /* ClimateZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBDFD24338C02005EE397 /* ClimateZone.swift */; };
-		C98CBE0224338C02005EE397 /* PerlinGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBDFE24338C02005EE397 /* PerlinGenerator.swift */; };
-		C98CBE0324338C02005EE397 /* MapGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBDFF24338C02005EE397 /* MapGenerator.swift */; };
 		C98CBE0624338D12005EE397 /* MapOptionClimate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBE0524338D12005EE397 /* MapOptionClimate.swift */; };
 		C98CBE0824338D25005EE397 /* MapOptionSeaLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBE0724338D25005EE397 /* MapOptionSeaLevel.swift */; };
 		C98CBE0A24338D47005EE397 /* MapOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBE0924338D47005EE397 /* MapOptions.swift */; };
@@ -283,6 +283,9 @@
 		C957AA3A2436372D00203024 /* Civ5Terrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Terrain.swift; sourceTree = "<group>"; };
 		C957AA3C2436377C00203024 /* Civ5MapReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapReader.swift; sourceTree = "<group>"; };
 		C957AA3E2436379800203024 /* Civ5Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Map.swift; sourceTree = "<group>"; };
+		C957AA402436411D00203024 /* MapGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapGenerator.swift; sourceTree = "<group>"; };
+		C957AA412436411E00203024 /* HeightMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeightMap.swift; sourceTree = "<group>"; };
+		C957AA422436411E00203024 /* PerlinGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerlinGenerator.swift; sourceTree = "<group>"; };
 		C9588ABB2417EF8900304E9A /* BuilderTaskingAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderTaskingAI.swift; sourceTree = "<group>"; };
 		C9588ABE2417F62D00304E9A /* BuildType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildType.swift; sourceTree = "<group>"; };
 		C9588AC02417FEB100304E9A /* CityConnections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityConnections.swift; sourceTree = "<group>"; };
@@ -314,10 +317,7 @@
 		C97A38E223F3E3CD008A8AE9 /* TileArray2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileArray2D.swift; sourceTree = "<group>"; };
 		C97A38E423F562F3008A8AE9 /* DiplomaticPact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticPact.swift; sourceTree = "<group>"; };
 		C97A38E623F57DD9008A8AE9 /* DiplomaticApproachWeights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticApproachWeights.swift; sourceTree = "<group>"; };
-		C98CBDFC24338C02005EE397 /* HeightMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeightMap.swift; path = Colony/Map/Creation/HeightMap.swift; sourceTree = SOURCE_ROOT; };
 		C98CBDFD24338C02005EE397 /* ClimateZone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClimateZone.swift; path = SmartAILibrary/Strategy/MapGeneration/Enums/ClimateZone.swift; sourceTree = SOURCE_ROOT; };
-		C98CBDFE24338C02005EE397 /* PerlinGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PerlinGenerator.swift; path = Colony/Map/Creation/PerlinGenerator.swift; sourceTree = SOURCE_ROOT; };
-		C98CBDFF24338C02005EE397 /* MapGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapGenerator.swift; path = Colony/Map/Creation/MapGenerator.swift; sourceTree = SOURCE_ROOT; };
 		C98CBE0524338D12005EE397 /* MapOptionClimate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptionClimate.swift; sourceTree = "<group>"; };
 		C98CBE0724338D25005EE397 /* MapOptionSeaLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptionSeaLevel.swift; sourceTree = "<group>"; };
 		C98CBE0924338D47005EE397 /* MapOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptions.swift; sourceTree = "<group>"; };
@@ -684,10 +684,10 @@
 		C98CBDFB24338B90005EE397 /* MapGeneration */ = {
 			isa = PBXGroup;
 			children = (
+				C957AA412436411E00203024 /* HeightMap.swift */,
+				C957AA402436411D00203024 /* MapGenerator.swift */,
+				C957AA422436411E00203024 /* PerlinGenerator.swift */,
 				C98CBE0424338CF5005EE397 /* Enums */,
-				C98CBDFC24338C02005EE397 /* HeightMap.swift */,
-				C98CBDFF24338C02005EE397 /* MapGenerator.swift */,
-				C98CBDFE24338C02005EE397 /* PerlinGenerator.swift */,
 				C98CBE0924338D47005EE397 /* MapOptions.swift */,
 			);
 			path = MapGeneration;
@@ -990,7 +990,6 @@
 				C9C003BD23FEDCE00031C7F9 /* Operation.swift in Sources */,
 				C906144E23E3362200D316B5 /* Buildings.swift in Sources */,
 				C964BA2B23EBF55500CA379C /* AdvisorType.swift in Sources */,
-				C98CBE0024338C02005EE397 /* HeightMap.swift in Sources */,
 				C9C2FE4523FB289300185235 /* DangerPlotsAI.swift in Sources */,
 				C9ABAF2223F69CE70023AC1B /* Projects.swift in Sources */,
 				C920E99A23DB17EB008DEAB4 /* DiplomaticAI.swift in Sources */,
@@ -998,7 +997,6 @@
 				C98DBFA323DF219100B6CE25 /* City.swift in Sources */,
 				C9DFCF8223F30BDC0032243D /* StrengthType.swift in Sources */,
 				C964BA2723EB6C4700CA379C /* MilitaryAI.swift in Sources */,
-				C98CBE0224338C02005EE397 /* PerlinGenerator.swift in Sources */,
 				C92D221123E20ECF00BB9238 /* Government.swift in Sources */,
 				C90FC39723D8909F00720B32 /* LeaderType.swift in Sources */,
 				C957AA3B2436372D00203024 /* Civ5Terrain.swift in Sources */,
@@ -1030,7 +1028,6 @@
 				C9C003BF23FEDD0B0031C7F9 /* UnitFormationType.swift in Sources */,
 				C9FE141024140F8B008CC6B3 /* HomelandAI.swift in Sources */,
 				C97A38E323F3E3CD008A8AE9 /* TileArray2D.swift in Sources */,
-				C98CBE0324338C02005EE397 /* MapGenerator.swift in Sources */,
 				C9A0574124293EAC00D0FEAB /* WonderType.swift in Sources */,
 				C9ABAF2023F68E4A0023AC1B /* ProjectType.swift in Sources */,
 				C964BA2D23EBF58E00CA379C /* AdvisorMessage.swift in Sources */,
@@ -1040,6 +1037,7 @@
 				C98CBE0A24338D47005EE397 /* MapOptions.swift in Sources */,
 				C955561823FEB41600A4E312 /* UnitMissionTypes.swift in Sources */,
 				C92317CA23D77B36001FC723 /* GrandStrategyAI.swift in Sources */,
+				C957AA452436411E00203024 /* PerlinGenerator.swift in Sources */,
 				C92317B423D62AD2001FC723 /* Stack.swift in Sources */,
 				C9DFCF7823F2A3590032243D /* BitArray.swift in Sources */,
 				C91BE62D23FED34C00912962 /* UnitOperationType.swift in Sources */,
@@ -1069,12 +1067,14 @@
 				C98CBE1024338E4E005EE397 /* MapType.swift in Sources */,
 				C906144C23E3337300D316B5 /* BuildingType.swift in Sources */,
 				C98CBE0824338D25005EE397 /* MapOptionSeaLevel.swift in Sources */,
+				C957AA432436411E00203024 /* MapGenerator.swift in Sources */,
 				C90FC3A223D8D00000720B32 /* Utils.swift in Sources */,
 				C907085623EC5F5600281161 /* Unit.swift in Sources */,
 				C9DFCF7223F29D540032243D /* OceanFinder.swift in Sources */,
 				C90FC39C23D8961C00720B32 /* Player.swift in Sources */,
 				C9EF13992423E1EA003B3DAD /* AggressivePostureType.swift in Sources */,
 				C92D221323E20F6700BB9238 /* PolicyCardType.swift in Sources */,
+				C957AA442436411E00203024 /* HeightMap.swift in Sources */,
 				C904DFB323F5D05700491A16 /* BuildingProductionAI.swift in Sources */,
 				C907086623ED578100281161 /* TileDiscovered.swift in Sources */,
 				C9A0573C24291C3E00D0FEAB /* Wonders.swift in Sources */,
