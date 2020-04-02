@@ -93,12 +93,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C9108F2B24361D0A0023C76D /* Civ5Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Civ5Feature.swift; path = ../../../Colony/Map/Civ5Map/Civ5Feature.swift; sourceTree = "<group>"; };
-		C9108F2C24361D0A0023C76D /* Civ5Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Civ5Map.swift; path = ../../../Colony/Map/Civ5Map/Civ5Map.swift; sourceTree = "<group>"; };
-		C9108F2D24361D0A0023C76D /* Civ5MapHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Civ5MapHeader.swift; path = ../../../Colony/Map/Civ5Map/Civ5MapHeader.swift; sourceTree = "<group>"; };
-		C9108F2E24361D0A0023C76D /* Civ5MapPlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Civ5MapPlot.swift; path = ../../../Colony/Map/Civ5Map/Civ5MapPlot.swift; sourceTree = "<group>"; };
-		C9108F2F24361D0A0023C76D /* Civ5MapReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Civ5MapReader.swift; path = ../../../Colony/Map/Civ5Map/Civ5MapReader.swift; sourceTree = "<group>"; };
-		C9108F3024361D0A0023C76D /* Civ5Terrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Civ5Terrain.swift; path = ../../../Colony/Map/Civ5Map/Civ5Terrain.swift; sourceTree = "<group>"; };
 		C9B1D204243474F900033791 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		C9B1D2082434757600033791 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B1D20C2434768900033791 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -182,19 +176,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C9108F3124361D0A0023C76D /* Civ5Map */ = {
-			isa = PBXGroup;
-			children = (
-				C9108F2B24361D0A0023C76D /* Civ5Feature.swift */,
-				C9108F2C24361D0A0023C76D /* Civ5Map.swift */,
-				C9108F2D24361D0A0023C76D /* Civ5MapHeader.swift */,
-				C9108F2E24361D0A0023C76D /* Civ5MapPlot.swift */,
-				C9108F2F24361D0A0023C76D /* Civ5MapReader.swift */,
-				C9108F3024361D0A0023C76D /* Civ5Terrain.swift */,
-			);
-			path = Civ5Map;
-			sourceTree = "<group>";
-		};
 		C9B1D203243474E800033791 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -266,7 +247,6 @@
 		C9B1D2322434B0B400033791 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				C9108F3124361D0A0023C76D /* Civ5Map */,
 				C9B1D23D2434B7BE00033791 /* Globals.swift */,
 				C9B1D23B2434B77500033791 /* NineGridTextureSprite.swift */,
 				C9B1D2332434B0BE00033791 /* CGRectExtension.swift */,

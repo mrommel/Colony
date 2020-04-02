@@ -53,6 +53,11 @@ public class MapModel: Codable {
         }
     }
     
+    public convenience init(width: Int, height: Int) {
+        
+        self.init(size: MapSize.custom(width: width, height: height))
+    }
+    
     public required init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)

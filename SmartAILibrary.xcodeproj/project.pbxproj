@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -67,6 +67,13 @@
 		C93D66AC24044EA700F5157B /* TacticalAnalysisMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66AB24044EA700F5157B /* TacticalAnalysisMap.swift */; };
 		C955561823FEB41600A4E312 /* UnitMissionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C955561723FEB41600A4E312 /* UnitMissionTypes.swift */; };
 		C955561A23FEB47100A4E312 /* UnitCommandTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C955561923FEB47100A4E312 /* UnitCommandTypes.swift */; };
+		C957AA322436357E00203024 /* Civ5Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA312436357E00203024 /* Civ5Feature.swift */; };
+		C957AA34243635B300203024 /* Civ5MapHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA33243635B300203024 /* Civ5MapHeader.swift */; };
+		C957AA37243635D500203024 /* BinarySwift in Frameworks */ = {isa = PBXBuildFile; productRef = C957AA36243635D500203024 /* BinarySwift */; };
+		C957AA392436368200203024 /* Civ5MapPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA382436368200203024 /* Civ5MapPlot.swift */; };
+		C957AA3B2436372D00203024 /* Civ5Terrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA3A2436372D00203024 /* Civ5Terrain.swift */; };
+		C957AA3D2436377C00203024 /* Civ5MapReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA3C2436377C00203024 /* Civ5MapReader.swift */; };
+		C957AA3F2436379800203024 /* Civ5Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA3E2436379800203024 /* Civ5Map.swift */; };
 		C9588ABD2417F3A900304E9A /* BuilderTaskingAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9588ABB2417EF8900304E9A /* BuilderTaskingAI.swift */; };
 		C9588ABF2417F62D00304E9A /* BuildType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9588ABE2417F62D00304E9A /* BuildType.swift */; };
 		C9588AC12417FEB100304E9A /* CityConnections.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9588AC02417FEB100304E9A /* CityConnections.swift */; };
@@ -270,6 +277,12 @@
 		C93D66AB24044EA700F5157B /* TacticalAnalysisMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalAnalysisMap.swift; sourceTree = "<group>"; };
 		C955561723FEB41600A4E312 /* UnitMissionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMissionTypes.swift; sourceTree = "<group>"; };
 		C955561923FEB47100A4E312 /* UnitCommandTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitCommandTypes.swift; sourceTree = "<group>"; };
+		C957AA312436357E00203024 /* Civ5Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Feature.swift; sourceTree = "<group>"; };
+		C957AA33243635B300203024 /* Civ5MapHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapHeader.swift; sourceTree = "<group>"; };
+		C957AA382436368200203024 /* Civ5MapPlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapPlot.swift; sourceTree = "<group>"; };
+		C957AA3A2436372D00203024 /* Civ5Terrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Terrain.swift; sourceTree = "<group>"; };
+		C957AA3C2436377C00203024 /* Civ5MapReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapReader.swift; sourceTree = "<group>"; };
+		C957AA3E2436379800203024 /* Civ5Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Map.swift; sourceTree = "<group>"; };
 		C9588ABB2417EF8900304E9A /* BuilderTaskingAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderTaskingAI.swift; sourceTree = "<group>"; };
 		C9588ABE2417F62D00304E9A /* BuildType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildType.swift; sourceTree = "<group>"; };
 		C9588AC02417FEB100304E9A /* CityConnections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityConnections.swift; sourceTree = "<group>"; };
@@ -404,6 +417,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C957AA37243635D500203024 /* BinarySwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +474,7 @@
 				C90FC39823D890D400720B32 /* Base */,
 				C907085E23ED489600281161 /* Maps */,
 				C98CBDFB24338B90005EE397 /* MapGeneration */,
+				C957AA302436353500203024 /* MapLoading */,
 				C90FC39123D88E6B00720B32 /* Enums */,
 				C98DBFA423DF21D000B6CE25 /* GameData */,
 				C92317C923D77B36001FC723 /* GrandStrategyAI.swift */,
@@ -641,6 +656,20 @@
 			path = "Rule-based System";
 			sourceTree = "<group>";
 		};
+		C957AA302436353500203024 /* MapLoading */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D2912435B11600033791 /* MapLoader.swift */,
+				C957AA312436357E00203024 /* Civ5Feature.swift */,
+				C957AA33243635B300203024 /* Civ5MapHeader.swift */,
+				C957AA382436368200203024 /* Civ5MapPlot.swift */,
+				C957AA3A2436372D00203024 /* Civ5Terrain.swift */,
+				C957AA3C2436377C00203024 /* Civ5MapReader.swift */,
+				C957AA3E2436379800203024 /* Civ5Map.swift */,
+			);
+			path = MapLoading;
+			sourceTree = "<group>";
+		};
 		C965A52A23FC402700BCEB54 /* Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -660,7 +689,6 @@
 				C98CBDFF24338C02005EE397 /* MapGenerator.swift */,
 				C98CBDFE24338C02005EE397 /* PerlinGenerator.swift */,
 				C98CBE0924338D47005EE397 /* MapOptions.swift */,
-				C9B1D2912435B11600033791 /* MapLoader.swift */,
 			);
 			path = MapGeneration;
 			sourceTree = "<group>";
@@ -803,6 +831,7 @@
 			);
 			name = SmartAILibrary;
 			packageProductDependencies = (
+				C957AA36243635D500203024 /* BinarySwift */,
 			);
 			productName = SmartAILibrary;
 			productReference = C923179723D62A6B001FC723 /* SmartAILibrary.framework */;
@@ -854,6 +883,7 @@
 			);
 			mainGroup = C923178D23D62A6B001FC723;
 			packageReferences = (
+				C957AA35243635D500203024 /* XCRemoteSwiftPackageReference "BinarySwift" */,
 			);
 			productRefGroup = C923179823D62A6B001FC723 /* Products */;
 			projectDirPath = "";
@@ -918,6 +948,7 @@
 				C965A53423FC6B0300BCEB54 /* FlowDirection.swift in Sources */,
 				C97A38E523F562F3008A8AE9 /* DiplomaticPact.swift in Sources */,
 				C98DBFA123DDFE2C00B6CE25 /* DiplomaticDeal.swift in Sources */,
+				C957AA3F2436379800203024 /* Civ5Map.swift in Sources */,
 				C98CBE0C24338E06005EE397 /* MapOptionRainfall.swift in Sources */,
 				C91BE62B23FED2F300912962 /* Operations.swift in Sources */,
 				C9EE60AA2401DCC300535B93 /* TacticalAI.swift in Sources */,
@@ -925,6 +956,8 @@
 				C98CBE0624338D12005EE397 /* MapOptionClimate.swift in Sources */,
 				C97A38E723F57DD9008A8AE9 /* DiplomaticApproachWeights.swift in Sources */,
 				C964BA1D23EAE76C00CA379C /* CityStrategyType.swift in Sources */,
+				C957AA392436368200203024 /* Civ5MapPlot.swift in Sources */,
+				C957AA34243635B300203024 /* Civ5MapHeader.swift in Sources */,
 				C964BA1F23EAF01A00CA379C /* CityStrategyAI.swift in Sources */,
 				C9C2FE4123F9DD0700185235 /* PlayerStateAllWars.swift in Sources */,
 				C907086423ED525400281161 /* HexArea.swift in Sources */,
@@ -940,6 +973,7 @@
 				C9D8DF7823F147DF0091C917 /* ApproachBias.swift in Sources */,
 				C907086023ED48A000281161 /* MapSize.swift in Sources */,
 				C965A53623FC6B2F00BCEB54 /* RiverEdge.swift in Sources */,
+				C957AA322436357E00203024 /* Civ5Feature.swift in Sources */,
 				C9A057452429E61700D0FEAB /* WonderProductionAI.swift in Sources */,
 				C9DFCF6E23F29BBE0032243D /* SiteEvaluator.swift in Sources */,
 				C9A0573E24293D4F00D0FEAB /* MoveTypeIgnoreUnitsPathfinderDataSource.swift in Sources */,
@@ -967,6 +1001,7 @@
 				C98CBE0224338C02005EE397 /* PerlinGenerator.swift in Sources */,
 				C92D221123E20ECF00BB9238 /* Government.swift in Sources */,
 				C90FC39723D8909F00720B32 /* LeaderType.swift in Sources */,
+				C957AA3B2436372D00203024 /* Civ5Terrain.swift in Sources */,
 				C90FC3A023D8968D00720B32 /* GameModel.swift in Sources */,
 				C92317C123D6EB21001FC723 /* HierarchicalState.swift in Sources */,
 				C9ABAF2423F6BCF00023AC1B /* Districts.swift in Sources */,
@@ -1017,6 +1052,7 @@
 				C9DFCF7E23F2C66D0032243D /* CitySiteEvaluator.swift in Sources */,
 				C9F76AAD242EA54C0018672A /* InfluencePathfinderDataSource.swift in Sources */,
 				C98DBFA623DF2EEC00B6CE25 /* HexPoint.swift in Sources */,
+				C957AA3D2436377C00203024 /* Civ5MapReader.swift in Sources */,
 				C98DBFB423E07C7C00B6CE25 /* TechType.swift in Sources */,
 				C9DFCF7623F29E140032243D /* Continent.swift in Sources */,
 				C9C2FE3D23F89FF800185235 /* Treasury.swift in Sources */,
@@ -1330,6 +1366,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C957AA35243635D500203024 /* XCRemoteSwiftPackageReference "BinarySwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mrommel/BinarySwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C957AA36243635D500203024 /* BinarySwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C957AA35243635D500203024 /* XCRemoteSwiftPackageReference "BinarySwift" */;
+			productName = BinarySwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C923178E23D62A6B001FC723 /* Project object */;
 }
