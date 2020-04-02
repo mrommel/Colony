@@ -1,6 +1,6 @@
 //
 //  Dialog.swift
-//  Colony
+//  SmartColony
 //
 //  Created by Michael Rommel on 11.06.19.
 //  Copyright © 2019 Michael Rommel. All rights reserved.
@@ -26,7 +26,7 @@ class Dialog: NineGridTextureSprite {
             size: configuration.size)
 
         self.position = configuration.position
-        self.zPosition = GameScene.Constants.ZLevels.dialogs
+        self.zPosition = Globals.ZLevels.dialogs
 
         // position of childs
         // https://stackoverflow.com/questions/33099051/how-to-position-child-skspritenodes-inside-their-parents
@@ -59,7 +59,7 @@ class Dialog: NineGridTextureSprite {
                     })
                     buttonItem.name = item.identifier
                     buttonItem.position = item.positionIn(parent: self.size)
-                    buttonItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
+                    buttonItem.zPosition = Globals.ZLevels.dialogs + 1.0
                     self.addChild(buttonItem)
                     
                 } else {
@@ -83,7 +83,7 @@ class Dialog: NineGridTextureSprite {
                     })
                     buttonItem.name = item.identifier
                     buttonItem.position = item.positionIn(parent: self.size)
-                    buttonItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
+                    buttonItem.zPosition = Globals.ZLevels.dialogs + 1.0
                     self.addChild(buttonItem)
                 }
 
@@ -93,7 +93,7 @@ class Dialog: NineGridTextureSprite {
                     let imageItem = SKSpriteNode(texture: texture, size: item.size)
                     imageItem.name = item.identifier
                     imageItem.position = item.positionIn(parent: self.size)
-                    imageItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
+                    imageItem.zPosition = Globals.ZLevels.dialogs + 1.0
                     self.addChild(imageItem)
                 } else {
                     fatalError("Image without texture")
@@ -103,9 +103,9 @@ class Dialog: NineGridTextureSprite {
                 let labelItem = SKLabelNode(text: item.title)
                 labelItem.name = item.identifier
                 labelItem.position = item.positionIn(parent: self.size)
-                labelItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
+                labelItem.zPosition = Globals.ZLevels.dialogs + 1.0
                 labelItem.fontSize = item.fontSize
-                labelItem.fontName = Formatters.Fonts.customFontFamilyname
+                labelItem.fontName = Globals.Fonts.customFontFamilyname
                 labelItem.numberOfLines = 0
                 labelItem.preferredMaxLayoutWidth = item.size.width
                 self.addChild(labelItem)
@@ -117,7 +117,7 @@ class Dialog: NineGridTextureSprite {
                 imageItem.centerRect = CGRect.init(x: 0.3333, y: 0.3333, width: 0.3333, height: 0.3333) // 9 grid
                 imageItem.name = "textField"
                 imageItem.position = item.positionIn(parent: self.size)
-                imageItem.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
+                imageItem.zPosition = Globals.ZLevels.dialogs + 1.0
                 self.addChild(imageItem)
 
                 self.didAddTo = { scene in
@@ -130,7 +130,7 @@ class Dialog: NineGridTextureSprite {
                 progressBar.set(progress: 0.0)
                 progressBar.name = item.identifier
                 progressBar.position = item.positionIn(parent: self.size)
-                progressBar.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
+                progressBar.zPosition = Globals.ZLevels.dialogs + 1.0
                 self.addChild(progressBar)
                 
             case .dropdown:
@@ -147,7 +147,7 @@ class Dialog: NineGridTextureSprite {
                 let dropdown = DropdownNode(items: items, selectedIndex: dropdownSelectedIndex, size: item.size)
                 dropdown.name = item.identifier
                 dropdown.position = item.positionIn(parent: self.size)
-                dropdown.zPosition = GameScene.Constants.ZLevels.dialogs + 1.0
+                dropdown.zPosition = Globals.ZLevels.dialogs + 1.0
                 dropdown.delegate = self
                 self.addChild(dropdown)
                 
@@ -176,7 +176,7 @@ class Dialog: NineGridTextureSprite {
                 self.textField?.backgroundColor = .clear
                 self.textField?.tintColor = .white
                 self.textField?.textColor = .white
-                self.textField?.font = Formatters.Fonts.customFont
+                self.textField?.font = Globals.Fonts.customFont
                 self.textField?.delegate = self
 
                 if let textField = self.textField {
@@ -220,7 +220,7 @@ class Dialog: NineGridTextureSprite {
         spriteNode.texture = texture
     }
     
-    func set(progress: CGFloat, identifier: String) {
+    func set(progress: Double, identifier: String) {
         
         guard let node = self.children.first(where: { $0.name == identifier }) else {
             fatalError("Can't find \(identifier)")

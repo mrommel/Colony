@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum YieldType {
+enum YieldType: Int, Codable {
     
     case none
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum UnitActivityType {
+enum UnitActivityType: Int, Codable {
     
     case none
     case awake // ACTIVITY_AWAKE,
@@ -20,7 +20,7 @@ enum UnitActivityType {
     case mission // ACTIVITY_MISSION
 }
 
-protocol AbstractUnit: class {
+protocol AbstractUnit: class, Codable {
 
     var location: HexPoint { get }
     var player: AbstractPlayer? { get }
@@ -130,15 +130,8 @@ protocol AbstractUnit: class {
     func doDisembark(into point: HexPoint?, in gameModel: GameModel?) -> Bool
     func isEmbarked() -> Bool
     
-    func suppression() -> Int
-    func isSuppressed() -> Bool
-    func set(suppression: Int)
-    
     func canFortify() -> Bool
     func doFortify()
-    func isEntrenched() -> Bool
-    func entrenchment() -> Int
-    func decreaseEntrenchment(by amount: Int)
     func setFortifiedThisTurn(fortified: Bool)
     
     func finishMoves()
@@ -189,6 +182,31 @@ class Unit: AbstractUnit {
     
     static let maxHealth: Double = 100.0
     
+    enum CodingKeys: CodingKey {
+        
+        case type
+        case location
+        case player
+        case promotions
+        case task
+        case deathDelay
+        
+        case tacticalMove
+        case tacticalTarget
+        case garrisoned
+        
+        case moves
+        case experience
+        case isEmbarked
+        case healthPoints
+        
+        case processedInTurn
+        
+        case activityType
+        case buildType
+        case automation
+    }
+    
     private let type: UnitType
     var location: HexPoint
     private(set) var player: AbstractPlayer?
@@ -206,8 +224,6 @@ class Unit: AbstractUnit {
     var experienceValue: Int // 0..400
     var isEmbarkedValue: Bool = false
     var healthPointsValue: Int // 0..100 - https://civilization.fandom.com/wiki/Hit_Points
-    var suppressionValue: Int
-    var entrenchmentValue: Int
     var processedInTurnValue: Bool = false
     
     // missions
@@ -228,8 +244,6 @@ class Unit: AbstractUnit {
 
         self.healthPointsValue = Int(Unit.maxHealth)
         self.experienceValue = 0
-        self.suppressionValue = 0
-        self.entrenchmentValue = 0
         self.movesValue = type.moves()
         
         self.missions = Stack<UnitMission>()
@@ -237,6 +251,67 @@ class Unit: AbstractUnit {
         self.activityTypeValue = .none
         
         self.promotions = Promotions(unit: self)
+    }
+    
+    required init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.type = try container.decode(UnitType.self, forKey: .type)
+        self.location = try container.decode(HexPoint.self, forKey: .location)
+        //self.player = try container.decode(LeaderType.self, forKey: .player)
+        self.promotions = try container.decode(Promotions.self, forKey: .promotions)
+        self.task = try container.decode(UnitTaskType.self, forKey: .task)
+        self.deathDelay = try container.decode(Bool.self, forKey: .deathDelay)
+        
+        self.tacticalMoveValue = try container.decode(TacticalMoveType.self, forKey: .tacticalMove)
+        self.tacticalTargetValue = try container.decode(HexPoint.self, forKey: .tacticalTarget)
+        self.garrisonedValue = try container.decode(Bool.self, forKey: .garrisoned)
+        
+        self.movesValue = try container.decode(Int.self, forKey: .moves)
+        self.experienceValue = try container.decode(Int.self, forKey: .experience)
+        self.isEmbarkedValue = try container.decode(Bool.self, forKey: .isEmbarked)
+        self.healthPointsValue = try container.decode(Int.self, forKey: .healthPoints)
+        
+        self.processedInTurnValue = try container.decode(Bool.self, forKey: .processedInTurn)
+        
+        self.missions = Stack<UnitMission>()
+        self.missionTimerValue = 0
+        
+        self.activityTypeValue = try container.decode(UnitActivityType.self, forKey: .activityType)
+        self.buildTypeValue = try container.decode(BuildType.self, forKey: .buildType)
+        self.automation = try container.decode(UnitAutomationType.self, forKey: .automation)
+        
+        // post process
+        self.promotions?.postProcess(by: self)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.type, forKey: .type)
+        try container.encode(self.location, forKey: .location)
+        try container.encode(self.player!.leader, forKey: .player)
+        let promotionsWrapper = self.promotions as? Promotions
+        try container.encode(promotionsWrapper, forKey: .promotions)
+        try container.encode(self.task, forKey: .task)
+        try container.encode(self.deathDelay, forKey: .deathDelay)
+        
+        try container.encode(self.tacticalMoveValue, forKey: .tacticalMove)
+        try container.encode(self.tacticalTargetValue, forKey: .tacticalTarget)
+        try container.encode(self.garrisonedValue, forKey: .garrisoned)
+        
+        try container.encode(self.movesValue, forKey: .moves)
+        try container.encode(self.experienceValue, forKey: .experience)
+        try container.encode(self.isEmbarkedValue, forKey: .isEmbarked)
+        try container.encode(self.healthPointsValue, forKey: .healthPoints)
+        
+        try container.encode(self.processedInTurnValue, forKey: .processedInTurn)
+        
+        try container.encode(self.activityTypeValue, forKey: .activityType)
+        try container.encode(self.buildTypeValue, forKey: .buildType)
+        try container.encode(self.automation, forKey: .automation)
     }
     
     // MARK: public methods
@@ -347,11 +422,6 @@ class Unit: AbstractUnit {
         
         let ratio = Double(self.healthPointsValue) / (2.0 * Unit.maxHealth) /* => 0..0.5 */ + 0.5 /* => 0.5..1.0 */
         return Int(powerVal * ratio)
-    }
-    
-    func effectiveStrength() -> Int {
-        
-        return self.healthPointsValue - self.suppressionValue
     }
     
     func isOutOfAttacks() -> Bool {
@@ -1232,24 +1302,7 @@ class Unit: AbstractUnit {
         }
     }
     
-    // MARK: suppression
-    
-    func suppression() -> Int {
-        
-        return self.suppressionValue
-    }
-    
-    func isSuppressed() -> Bool {
-        
-        return self.suppressionValue > 0
-    }
-    
-    func set(suppression: Int) {
-        
-        self.suppressionValue = suppression
-    }
-    
-    // MARK: entrechment / fortification
+    // MARK: fortification
     
     func canFortify() -> Bool {
         
@@ -1259,20 +1312,6 @@ class Unit: AbstractUnit {
     func doFortify() {
         
         //self.fortifyTurns += 1
-        fatalError("not implemented")
-    }
-    
-    func isEntrenched() -> Bool {
-        
-        return false
-    }
-    
-    func entrenchment() -> Int {
-        
-        return 0
-    }
-    
-    func decreaseEntrenchment(by amount: Int = 1) {
         fatalError("not implemented")
     }
     

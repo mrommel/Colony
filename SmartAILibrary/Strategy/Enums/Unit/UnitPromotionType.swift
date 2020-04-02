@@ -9,7 +9,7 @@
 import Foundation
 
 // https://civilization.fandom.com/wiki/Promotions_(Civ6)
-enum UnitPromotionType {
+enum UnitPromotionType: Int, Codable {
 
     // fallback
     case healthBoostRecon // 50% boost

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ProjectType {
+enum ProjectType: Int, Codable {
 
     // ancient
     case stonehenge

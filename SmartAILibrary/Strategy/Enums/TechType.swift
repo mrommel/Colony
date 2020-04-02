@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TechType {
+enum TechType: Int, Codable {
     
     // ancient
     case mining

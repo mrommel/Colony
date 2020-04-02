@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum RouteType {
+enum RouteType: Int, Codable {
     
     case none
     

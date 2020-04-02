@@ -8,17 +8,17 @@
 
 import Foundation
 
-class OceanFinder {
+public class OceanFinder {
     
     private var oceanIdentifiers: Array2D<Int>
     
-    init(width: Int, height: Int) {
+    public init(width: Int, height: Int) {
         
         self.oceanIdentifiers = Array2D<Int>(columns: width, rows: height)
         self.oceanIdentifiers.fill(with: OceanConstants.kNotAnalyzed)
     }
     
-    convenience init(size: MapSize) {
+    public convenience init(size: MapSize) {
         
         self.init(width: size.width(), height: size.height())
     }
@@ -29,7 +29,7 @@ class OceanFinder {
     }
     
     @discardableResult
-    func execute(on map: MapModel?) -> [Ocean] {
+    public func execute(on map: MapModel?) -> [Ocean] {
         
         for x in 0..<self.oceanIdentifiers.columns {
             for y in 0..<self.oceanIdentifiers.rows {

@@ -8,17 +8,17 @@
 
 import Foundation
 
-class ContinentFinder {
+public class ContinentFinder {
 
     private var continentIdentifiers: Array2D<Int>
 
-    init(width: Int, height: Int) {
+    public init(width: Int, height: Int) {
 
         self.continentIdentifiers = Array2D<Int>(columns: width, rows: height)
         self.continentIdentifiers.fill(with: ContinentConstants.kNotAnalyzed)
     }
     
-    convenience init(size: MapSize) {
+    public convenience init(size: MapSize) {
         
         self.init(width: size.width(), height: size.height())
     }
@@ -29,7 +29,7 @@ class ContinentFinder {
     }
 
     @discardableResult
-    func execute(on map: MapModel?) -> [Continent] {
+    public func execute(on map: MapModel?) -> [Continent] {
 
         for x in 0..<self.continentIdentifiers.columns {
             for y in 0..<self.continentIdentifiers.rows {

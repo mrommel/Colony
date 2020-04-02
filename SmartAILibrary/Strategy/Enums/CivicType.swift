@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CivicType {
+enum CivicType: Int, Codable {
 
     // ancient
     case stateWorkforce

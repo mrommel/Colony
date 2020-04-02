@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CitySpecializationType {
+enum CitySpecializationType: Int, Codable {
     
     case none
     

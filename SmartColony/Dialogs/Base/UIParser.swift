@@ -1,6 +1,6 @@
 //
 //  UIParser.swift
-//  Colony
+//  SmartColony
 //
 //  Created by Michael Rommel on 10.06.19.
 //  Copyright © 2019 Michael Rommel. All rights reserved.

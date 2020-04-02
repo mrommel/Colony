@@ -41,7 +41,7 @@ class BuildProgressList: WeightedList<BuildType> {
     }
 }
 
-protocol AbstractTile {
+protocol AbstractTile: Codable {
     
     var point: HexPoint { get }
     var area: HexArea? { get set }
@@ -152,6 +152,30 @@ protocol AbstractTile {
 
 class Tile: AbstractTile {
 
+    enum CodingKeys: CodingKey {
+        
+        case point
+        case terrain
+        case hills
+        case resource
+        case resourceQuantity
+        case feature
+        case improvement
+        case improvementPillaged
+        case route
+        case routePillaged
+        
+        case discovered
+        // case owner
+        
+        case riverName
+        case riverFlowNorth
+        case riverFlowNorthEast
+        case riverFlowSouthEast
+        
+        case buildProgress
+    }
+    
     var point: HexPoint
     var area: HexArea?
     
@@ -181,7 +205,7 @@ class Tile: AbstractTile {
     
     private var buildProgressList: BuildProgressList
     
-    private var builderAIScrtchPadValue: BuilderAIScratchPad
+    private var builderAIScratchPadValue: BuilderAIScratchPad
     
     init(point: HexPoint, terrain: TerrainType, hills: Bool = false, feature: FeatureType = .none) {
 
@@ -189,14 +213,15 @@ class Tile: AbstractTile {
         self.terrainVal = terrain
         self.hillsVal = hills
 
+        self.resourceValue = .none
+        self.resourceQuantityValue = 0
+        self.featureValue = feature
         self.improvementValue = .none
         self.improvementPillagedValue = false
         self.routeValue = .none
         self.routePillagedValue = false
-        self.resourceValue = .none
-        self.resourceQuantityValue = 0
-        self.featureValue = feature
         
+
         self.ownerValue = nil
         self.discovered = TileDiscovered()
         
@@ -207,7 +232,66 @@ class Tile: AbstractTile {
         self.buildProgressList = BuildProgressList()
         self.buildProgressList.fill()
         
-        self.builderAIScrtchPadValue = BuilderAIScratchPad(turn: -1, routeType: .none, leader: .none, value: -1)
+        self.builderAIScratchPadValue = BuilderAIScratchPad(turn: -1, routeType: .none, leader: .none, value: -1)
+    }
+    
+    required init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.point = try container.decode(HexPoint.self, forKey: .point)
+        self.terrainVal = try container.decode(TerrainType.self, forKey: .terrain)
+        self.hillsVal = try container.decode(Bool.self, forKey: .hills)
+        
+        self.resourceValue = try container.decode(ResourceType.self, forKey: .resource)
+        self.resourceQuantityValue = try container.decode(Int.self, forKey: .resourceQuantity)
+        self.featureValue = try container.decode(FeatureType.self, forKey: .feature)
+        self.improvementValue = try container.decode(TileImprovementType.self, forKey: .improvement)
+        self.improvementPillagedValue = try container.decode(Bool.self, forKey: .improvementPillaged)
+        self.routeValue = try container.decode(RouteType.self, forKey: .route)
+        self.routePillagedValue = try container.decode(Bool.self, forKey: .routePillaged)
+        
+        self.ownerValue = nil
+        self.discovered = try container.decode(TileDiscovered.self, forKey: .discovered)
+        
+        self.area = nil
+        self.ocean = nil
+        self.continent = nil
+        
+        self.riverName = try container.decode(String.self, forKey: .riverName)
+        self.riverFlowNorth = try container.decode(FlowDirection.self, forKey: .riverFlowNorth)
+        self.riverFlowNorthEast = try container.decode(FlowDirection.self, forKey: .riverFlowNorthEast)
+        self.riverFlowSouthEast = try container.decode(FlowDirection.self, forKey: .riverFlowSouthEast)
+        
+        self.buildProgressList = try container.decode(BuildProgressList.self, forKey: .buildProgress)
+        
+        self.builderAIScratchPadValue = BuilderAIScratchPad(turn: -1, routeType: .none, leader: .none, value: -1)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.point, forKey: .point)
+        try container.encode(self.terrainVal, forKey: .terrain)
+        try container.encode(self.hillsVal, forKey: .hills)
+        try container.encode(self.resourceValue, forKey: .resource)
+        try container.encode(self.resourceQuantityValue, forKey: .resourceQuantity)
+        try container.encode(self.featureValue, forKey: .feature)
+        try container.encode(self.improvementValue, forKey: .improvement)
+        try container.encode(self.improvementPillagedValue, forKey: .improvementPillaged)
+        try container.encode(self.routeValue, forKey: .route)
+        try container.encode(self.routePillagedValue, forKey: .routePillaged)
+        
+        try container.encode(self.discovered, forKey: .discovered)
+        // case owner
+        
+        try container.encode(self.riverName, forKey: .riverName)
+        try container.encode(self.riverFlowNorth, forKey: .riverFlowNorth)
+        try container.encode(self.riverFlowNorthEast, forKey: .riverFlowNorthEast)
+        try container.encode(self.riverFlowSouthEast, forKey: .riverFlowSouthEast)
+        
+        try container.encode(self.buildProgressList, forKey: .buildProgress)
     }
     
     // for tests
@@ -1230,12 +1314,12 @@ class Tile: AbstractTile {
     // scratch pad
     func builderAIScratchPad() -> BuilderAIScratchPad {
         
-        return self.builderAIScrtchPadValue
+        return self.builderAIScratchPadValue
     }
     
     func set(builderAIScratchPad: BuilderAIScratchPad) {
         
-        self.builderAIScrtchPadValue = builderAIScratchPad
+        self.builderAIScratchPadValue = builderAIScratchPad
     }
     
     // MARK: build progress

@@ -8,7 +8,12 @@
 
 import Foundation
 
-class TileDiscovered {
+class TileDiscovered: Codable {
+    
+    enum CodingKeys: CodingKey {
+        
+        case items
+    }
     
     // MARK: private properties
     
@@ -16,17 +21,42 @@ class TileDiscovered {
  
     // MARK: internal classes
     
-    class TileDiscoveredItem {
+    class TileDiscoveredItem: Codable {
         
-        let player: AbstractPlayer?
+        enum CodingKeys: CodingKey {
+            
+            case leader
+            case discovered
+            case sighted
+        }
+        
+        let leader: LeaderType
         var discovered: Bool
         var sighted: Bool
         
-        init(by player: AbstractPlayer?, discovered: Bool = true, sighted: Bool = true) {
+        init(by leader: LeaderType, discovered: Bool = true, sighted: Bool = true) {
             
-            self.player = player
+            self.leader = leader
             self.discovered = discovered
             self.sighted = sighted
+        }
+        
+        required init(from decoder: Decoder) throws {
+            
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            
+            self.leader = try container.decode(LeaderType.self, forKey: .leader)
+            self.discovered = try container.decode(Bool.self, forKey: .discovered)
+            self.sighted = try container.decode(Bool.self, forKey: .sighted)
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            
+            try container.encode(self.leader, forKey: .leader)
+            try container.encode(self.discovered, forKey: .discovered)
+            try container.encode(self.sighted, forKey: .sighted)
         }
     }
     
@@ -37,9 +67,23 @@ class TileDiscovered {
         self.items = []
     }
     
+    required init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.items = try container.decode([TileDiscoveredItem].self, forKey: .items)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.items, forKey: .items)
+    }
+    
     func isDiscovered(by player: AbstractPlayer?) -> Bool {
         
-        if let item = self.items.first(where: { $0.player?.leader == player?.leader }) {
+        if let item = self.items.first(where: { $0.leader == player?.leader }) {
             
             return item.discovered
         }
@@ -49,16 +93,16 @@ class TileDiscovered {
     
     func discover(by player: AbstractPlayer?) {
         
-        if let item = self.items.first(where: { $0.player?.leader == player?.leader }) {
+        if let item = self.items.first(where: { $0.leader == player?.leader }) {
             item.discovered = true
         } else {
-            self.items.append(TileDiscoveredItem(by: player, discovered: true))
+            self.items.append(TileDiscoveredItem(by: player!.leader, discovered: true))
         }
     }
     
     func isVisible(to player: AbstractPlayer?) -> Bool {
         
-        if let item = self.items.first(where: { $0.player?.leader == player?.leader }) {
+        if let item = self.items.first(where: { $0.leader == player?.leader }) {
             
             return item.sighted
         }
@@ -68,19 +112,19 @@ class TileDiscovered {
     
     func sight(by player: AbstractPlayer?) {
         
-        if let item = self.items.first(where: { $0.player?.leader == player?.leader }) {
+        if let item = self.items.first(where: { $0.leader == player?.leader }) {
             item.sighted = true
         } else {
-            self.items.append(TileDiscoveredItem(by: player, discovered: true, sighted: true))
+            self.items.append(TileDiscoveredItem(by: player!.leader, discovered: true, sighted: true))
         }
     }
     
     func conceal(to player: AbstractPlayer?) {
         
-        if let item = self.items.first(where: { $0.player?.leader == player?.leader }) {
+        if let item = self.items.first(where: { $0.leader == player?.leader }) {
             item.sighted = false
         } else {
-            self.items.append(TileDiscoveredItem(by: player, discovered: false, sighted: false))
+            self.items.append(TileDiscoveredItem(by: player!.leader, discovered: false, sighted: false))
         }
     }
 }

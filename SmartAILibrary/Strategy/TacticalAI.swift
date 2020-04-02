@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TacticalTargetType {
+enum TacticalTargetType: Int, Codable {
 
     case none
     case city
@@ -31,7 +31,7 @@ enum TacticalTargetType {
     case veryHighPriorityCivilian
 }
 
-enum TacticalMoveType {
+enum TacticalMoveType: Int, Codable {
     
     case none
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum UnitAutomationType {
+enum UnitAutomationType: Int, Codable {
     
     case none
     

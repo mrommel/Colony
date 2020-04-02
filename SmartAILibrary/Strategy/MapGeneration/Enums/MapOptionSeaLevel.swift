@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum MapOptionSeaLevel {
+public enum MapOptionSeaLevel {
     
     case low
     case normal

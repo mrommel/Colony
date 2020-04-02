@@ -9,20 +9,34 @@
 import Foundation
 
 
-public class MapModel {
+public class MapModel: Codable {
     
-    let size: MapSize
+    enum CodingKeys: CodingKey {
+        
+        case size
+        case cities
+        case units
+        case tiles
+        
+        case continents
+        case oceans
+        case areas
+        case rivers
+    }
+    
+    public let size: MapSize
     private var cities: [AbstractCity?]
     private var units: [AbstractUnit?]
     private var tiles: TileArray2D
     
-    // prepared
+    // prepared values
     internal var continents: [Continent] = []
     internal var oceans: [Ocean] = []
     internal var areas: [HexArea]
     internal var rivers: [River]
     
-    init(size: MapSize) {
+    
+    public init(size: MapSize) {
         
         self.size = size
         self.cities = []
@@ -37,6 +51,47 @@ public class MapModel {
                 self.set(tile: Tile(point: point, terrain: .ocean), at: point)
             }
         }
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.size = try container.decode(MapSize.self, forKey: .size)
+        self.cities = try container.decode([City?].self, forKey: .cities)
+        self.units = try container.decode([Unit?].self, forKey: .units)
+        self.tiles = try container.decode(TileArray2D.self, forKey: .tiles)
+        
+        self.continents = try container.decode([Continent].self, forKey: .continents)
+        self.oceans = try container.decode([Ocean].self, forKey: .oceans)
+        self.areas = try container.decode([HexArea].self, forKey: .areas)
+        self.rivers = try container.decode([River].self, forKey: .rivers)
+        
+        // post processing
+        for ocean in self.oceans {
+            ocean.map = self
+        }
+        
+        for continent in self.continents {
+            continent.map = self
+        }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.size, forKey: .size)
+        let wrappedCities: [City?] = self.cities.map { $0 as? City }
+        try container.encode(wrappedCities, forKey: .cities)
+        let wrappedUnits: [Unit?] = self.units.map { $0 as? Unit }
+        try container.encode(wrappedUnits, forKey: .units)
+        try container.encode(self.tiles, forKey: .tiles)
+        
+        try container.encode(self.continents, forKey: .continents)
+        try container.encode(self.oceans, forKey: .oceans)
+        try container.encode(self.areas, forKey: .areas)
+        try container.encode(self.rivers, forKey: .rivers)
     }
     
     func analyze() {
@@ -182,7 +237,6 @@ public class MapModel {
         }
     }
     
-    
     func set(hills: Bool, at point: HexPoint) {
         
         if self.valid(point: point) {
@@ -213,11 +267,21 @@ public class MapModel {
     
     // MARK: ocean / continent methods
     
+    public func set(oceans: [Ocean]) {
+        
+        self.oceans = oceans
+    }
+    
     func set(ocean: Ocean?, at point: HexPoint) {
         
         if let tile = self.tile(at: point) {
             tile.set(ocean: ocean)
         }
+    }
+    
+    public func set(continents: [Continent]) {
+        
+        self.continents = continents
     }
     
     func set(continent: Continent?, at point: HexPoint) {

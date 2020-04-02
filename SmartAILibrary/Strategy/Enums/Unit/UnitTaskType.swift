@@ -9,7 +9,7 @@
 import Foundation
 
 // UnitAITypes
-enum UnitTaskType {
+enum UnitTaskType: Int, Codable {
     
     case none
     case unknown

@@ -22,9 +22,7 @@ enum CombatResultType {
 struct CombatResult {
 
     let defenderDamage: Int
-    let defenderSuppression: Int
     let attackerDamage: Int
-    let attackerSuppression: Int
     
     let value: CombatResultType
 }
@@ -93,7 +91,7 @@ class Combat {
 
         // no damage for attacker
         let value = Combat.evaluteResult(defenderHealth: defender.healthPoints(), defenderDamage: damage, attackerHealth: attacker.healthPoints(), attackerDamage: 0)
-        return CombatResult(defenderDamage: damage, defenderSuppression: 1, attackerDamage: 0, attackerSuppression: 0, value: value)
+        return CombatResult(defenderDamage: damage, attackerDamage: 0, value: value)
     }
 
     /// attack against city - no fire back
@@ -127,7 +125,7 @@ class Combat {
 
         // no damage for attacker, no suppression to cities
         let value = Combat.evaluteResult(defenderHealth: city.healthPoints(), defenderDamage: damage, attackerHealth: attacker.healthPoints(), attackerDamage: 0)
-        return CombatResult(defenderDamage: damage, defenderSuppression: 0, attackerDamage: 0, attackerSuppression: 0, value: value)
+        return CombatResult(defenderDamage: damage, attackerDamage: 0, value: value)
     }
     
     static func predictRangedAttack(between attacker: AbstractCity?, and unit: AbstractUnit?, in gameModel: GameModel?) -> CombatResult {
@@ -160,7 +158,7 @@ class Combat {
 
         // no damage for attacker, no suppression to cities
         let value = Combat.evaluteResult(defenderHealth: defender.healthPoints(), defenderDamage: damage, attackerHealth: attacker.healthPoints(), attackerDamage: 0)
-        return CombatResult(defenderDamage: damage, defenderSuppression: 0, attackerDamage: 0, attackerSuppression: 0, value: value)
+        return CombatResult(defenderDamage: damage, attackerDamage: 0, value: value)
     }
 
     static func predictMeleeAttack(between attacker: AbstractUnit?, and city: AbstractCity?, in gameModel: GameModel?) -> CombatResult {
@@ -210,7 +208,7 @@ class Combat {
         
         // no damage for attacker, no suppression to cities
         let value = Combat.evaluteResult(defenderHealth: city.healthPoints(), defenderDamage: defenderDamage, attackerHealth: attacker.healthPoints(), attackerDamage: attackerDamage)
-        return CombatResult(defenderDamage: defenderDamage, defenderSuppression: 0, attackerDamage: attackerDamage, attackerSuppression: 1, value: value)
+        return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)
     }
 
     static func predictMeleeAttack(between attacker: AbstractUnit?, and defender: AbstractUnit?, in gameModel: GameModel?) -> CombatResult {
@@ -260,6 +258,6 @@ class Combat {
         
         // no damage for attacker, no suppression to cities
         let value = Combat.evaluteResult(defenderHealth: defender.healthPoints(), defenderDamage: defenderDamage, attackerHealth: attacker.healthPoints(), attackerDamage: attackerDamage)
-        return CombatResult(defenderDamage: defenderDamage, defenderSuppression: 0, attackerDamage: attackerDamage, attackerSuppression: 1, value: value)
+        return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)
     }
 }

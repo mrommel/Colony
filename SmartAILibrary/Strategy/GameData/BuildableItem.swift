@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum BuildableItemType {
+enum BuildableItemType: Int, Codable {
     
     case unit
     case building
@@ -17,7 +17,18 @@ enum BuildableItemType {
     case project
 }
 
-class BuildableItem {
+class BuildableItem: Codable {
+    
+    enum CodingKeys: CodingKey {
+        
+        case type
+        case unit
+        case building
+        case wonder
+        case district
+        case project
+        case production
+    }
     
     let type: BuildableItemType
     
@@ -88,6 +99,62 @@ class BuildableItem {
         self.projectType = projectType
         
         self.production = 0.0
+    }
+    
+    required init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.type = try container.decode(BuildableItemType.self, forKey: .type)
+        
+        switch self.type {
+            
+        case .unit:
+            self.unitType = try container.decode(UnitType.self, forKey: .unit)
+            self.buildingType = nil
+            self.wonderType = nil
+            self.districtType = nil
+            self.projectType = nil
+        case .building:
+            self.unitType = nil
+            self.buildingType = try container.decode(BuildingType.self, forKey: .building)
+            self.wonderType = nil
+            self.districtType = nil
+            self.projectType = nil
+        case .wonder:
+            self.unitType = nil
+            self.buildingType = nil
+            self.wonderType = try container.decode(WonderType.self, forKey: .wonder)
+            self.districtType = nil
+            self.projectType = nil
+        case .district:
+            self.unitType = nil
+            self.buildingType = nil
+            self.wonderType = nil
+            self.districtType = try container.decode(DistrictType.self, forKey: .district)
+            self.projectType = nil
+        case .project:
+            self.unitType = nil
+            self.buildingType = nil
+            self.wonderType = nil
+            self.districtType = nil
+            self.projectType = try container.decode(ProjectType.self, forKey: .project)
+        }
+        
+        self.production = try container.decode(Double.self, forKey: .production)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.type, forKey: .type)
+        try container.encode(self.unitType, forKey: .unit)
+        try container.encode(self.buildingType, forKey: .building)
+        try container.encode(self.wonderType, forKey: .wonder)
+        try container.encode(self.districtType, forKey: .district)
+        try container.encode(self.projectType, forKey: .project)
+        try container.encode(self.production, forKey: .production)
     }
     
     func add(production productionDelta: Double) {

@@ -8,36 +8,65 @@
 
 import Foundation
 
-class TileArray2D {
+class TileArray2D: Codable {
     
-    public let columns: Int
-    public let rows: Int
+    enum CodingKeys: CodingKey {
+        
+        case width
+        case height
+        case array
+    }
+    
+    public let width: Int
+    public let height: Int
     fileprivate var array: [AbstractTile?] = [AbstractTile?]()
 
     init(size: MapSize) {
         
-        self.columns = size.width()
-        self.rows = size.height()
-        
-        self.array = [AbstractTile?](repeating: nil, count: self.rows * self.columns)
+        self.width = size.width()
+        self.height = size.height()
+        self.array = [AbstractTile?](repeating: nil, count: self.height * self.width)
     }
     
-    public init(columns: Int, rows: Int) {
-        self.columns = columns
-        self.rows = rows
-        self.array = [AbstractTile?](repeating: nil, count: rows * columns)
+    public init(width: Int, height: Int) {
+        
+        self.width = width
+        self.height = height
+        self.array = [AbstractTile?](repeating: nil, count: height * width)
     }
+    
+    required init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.width = try container.decode(Int.self, forKey: .width)
+        self.height = try container.decode(Int.self, forKey: .height)
+        self.array = try container.decode([Tile?].self, forKey: .array)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.width, forKey: .width)
+        try container.encode(self.height, forKey: .height)
+        
+        let wrappedTiles: [Tile?] = self.array.map { $0 as? Tile }
+        try container.encode(wrappedTiles, forKey: .array)
+    }
+    
+    // MARK methods
 
     public subscript(column: Int, row: Int) -> AbstractTile? {
         get {
-            precondition(column < columns, "Column \(column) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
-            precondition(row < rows, "Row \(row) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
-            return array[row * columns + column]
+            precondition(column < self.width, "Column \(column) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            precondition(row < self.height, "Row \(row) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            return array[row * self.width + column]
         }
         set {
-            precondition(column < columns, "Column \(column) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
-            precondition(row < rows, "Row \(row) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
-            array[row * columns + column] = newValue
+            precondition(column < self.width, "Column \(column) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            precondition(row < self.height, "Row \(row) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            array[row * self.width + column] = newValue
         }
     }
 }
@@ -78,26 +107,30 @@ extension TileArray2D {
 extension TileArray2D {
 
     func fill(with value: AbstractTile) {
-        for x in 0..<self.columns {
-            for y in 0..<self.rows {
+        
+        for x in 0..<self.width {
+            for y in 0..<self.height {
                 self[x, y] = value
             }
         }
     }
 
     func fill(with function: (Int, Int) -> AbstractTile) {
-        for x in 0..<self.columns {
-            for y in 0..<self.rows {
+        
+        for x in 0..<self.width {
+            for y in 0..<self.height {
                 self[x, y] = function(x, y)
             }
         }
     }
 
     func filter(where condition: @escaping (AbstractTile?) -> Bool) -> [AbstractTile?] {
+        
         return self.array.filter(condition)
     }
 
     func count(where condition: @escaping (AbstractTile?) -> Bool) -> Int {
+        
         return self.array.count(where: condition)
     }
 }
@@ -109,11 +142,11 @@ extension TileArray2D {
     subscript(gridPoint: HexPoint) -> AbstractTile? {
         
         get {
-            return array[(gridPoint.y * columns) + gridPoint.x]
+            return self.array[(gridPoint.y * self.width) + gridPoint.x]
         }
         
         set(newValue) {
-            array[(gridPoint.y * columns) + gridPoint.x] = newValue
+            self.array[(gridPoint.y * self.width) + gridPoint.x] = newValue
         }
     }
 }

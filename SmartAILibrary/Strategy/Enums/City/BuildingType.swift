@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum BuildingType {
+enum BuildingType: Int, Codable {
 
     case none
     

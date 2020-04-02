@@ -36,7 +36,7 @@ enum LeaderAbilityType {
 }
 
 // https://civdata.com/
-enum LeaderType {
+enum LeaderType: Int, Codable {
 
     case none
     case barbar

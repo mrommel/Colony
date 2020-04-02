@@ -1,9 +1,9 @@
 //
 //  Civ5Map.swift
-//  Colony
+//  SmartAILibrary
 //
 //  Created by Michael Rommel on 05.08.19.
-//  Copyright © 2019 Michael Rommel. All rights reserved.
+//  Copyright © 2020 Michael Rommel. All rights reserved.
 //
 
 import Foundation

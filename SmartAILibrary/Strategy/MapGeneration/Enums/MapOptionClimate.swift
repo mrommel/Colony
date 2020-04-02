@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum MapOptionClimate {
+public enum MapOptionClimate {
 
     case hot
     case temperate

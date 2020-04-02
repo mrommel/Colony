@@ -8,11 +8,20 @@
 
 import Foundation
 
-class WeightedList<T : Equatable>: CustomDebugStringConvertible {
+class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertible {
+    
+    enum CodingKeys: CodingKey {
+        case items
+    }
     
     var items: [WeightedItem<T>]
     
-    class WeightedItem<T> {
+    class WeightedItem<T : Codable>: Codable {
+        
+        enum CodingKeys: CodingKey {
+            case item
+            case weight
+        }
         
         let itemType: T
         var weight: Double
@@ -21,6 +30,21 @@ class WeightedList<T : Equatable>: CustomDebugStringConvertible {
             self.itemType = itemType
             self.weight = weight
         }
+        
+        required init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            
+            self.itemType = try container.decode(T.self, forKey: .item)
+            self.weight = try container.decode(Double.self, forKey: .weight)
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            
+            try container.encode(self.itemType, forKey: .item)
+            try container.encode(self.weight, forKey: .weight)
+        }
     }
     
     init() {
@@ -28,6 +52,20 @@ class WeightedList<T : Equatable>: CustomDebugStringConvertible {
         self.items = []
         
         fill()
+    }
+    
+    required init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.items = try container.decode([WeightedItem<T>].self, forKey: .items)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.items, forKey: .items)
     }
     
     func fill() {

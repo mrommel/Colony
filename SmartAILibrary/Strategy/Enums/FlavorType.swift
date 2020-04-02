@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum FlavorType {
+enum FlavorType: Int, Codable {
 
     case cityDefense
     case culture

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum MapOptionRainfall {
+public enum MapOptionRainfall {
     
     case dry
     case normal

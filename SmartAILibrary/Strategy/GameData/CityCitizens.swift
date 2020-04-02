@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CityFocusType {
+enum CityFocusType: Int, Codable {
     
     case none //NO_CITY_AI_FOCUS_TYPE = -1,
 

@@ -15,7 +15,7 @@ enum ResourceUsageType {
     case luxury
 }
 
-enum ResourceType {
+enum ResourceType: Int, Codable {
 
     case none
 

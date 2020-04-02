@@ -16,7 +16,7 @@ enum CivilianAttackPriorityType {
     case low
 }
 
-enum UnitType {
+enum UnitType: Int, Codable {
     
     case barbarianWarrior
     

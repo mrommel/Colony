@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ProductionSpecialization: Equatable {
+enum ProductionSpecialization: Int, Equatable, Codable {
 
     case none
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum MapType {
+public enum MapType {
     
     case earth
     case pangaea

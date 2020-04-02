@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct MapOptionsEnhanced {
+public struct MapOptionsEnhanced {
     
-    var age: MapOptionAge
-    var climate: MapOptionClimate
-    var sealevel: MapOptionSeaLevel
-    var rainfall: MapOptionRainfall
+    public var age: MapOptionAge
+    public var climate: MapOptionClimate
+    public var sealevel: MapOptionSeaLevel
+    public var rainfall: MapOptionRainfall
     
-    init() {
+    public init() {
         self.age = .normal
         self.climate = .temperate
         self.sealevel = .normal
@@ -23,10 +23,10 @@ struct MapOptionsEnhanced {
     }
 }
 
-class MapOptions {
+public class MapOptions {
 
     let size: MapSize
-    var enhanced: MapOptionsEnhanced
+    public var enhanced: MapOptionsEnhanced
 
     required public init(withSize size: MapSize, enhanced: MapOptionsEnhanced = MapOptionsEnhanced()) {
 

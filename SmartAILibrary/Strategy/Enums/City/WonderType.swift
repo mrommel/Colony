@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum WonderType {
+enum WonderType: Int, Codable {
     
     case none
     

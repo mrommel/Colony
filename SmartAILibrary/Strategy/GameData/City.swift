@@ -39,7 +39,7 @@ enum CityTaskResultType {
     case completed
 }
 
-protocol AbstractCity {
+protocol AbstractCity: Codable {
 
     var name: String { get }
     var player: AbstractPlayer? { get }
@@ -151,6 +151,15 @@ class City: AbstractCity {
 
     static let workRadius = 3
     
+    enum CodingKeys: CodingKey {
+        
+        case name
+        case population
+        case location
+        case player
+        case capital
+    }
+    
     let name: String
     var populationValue: Double
     let location: HexPoint
@@ -226,6 +235,49 @@ class City: AbstractCity {
         
         self.numPlotsAcquiredList = LeaderWeightList()
         self.numPlotsAcquiredList.fill()
+    }
+    
+    required init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.name = try container.decode(String.self, forKey: .name)
+        self.populationValue = try container.decode(Double.self, forKey: .population)
+        self.location = try container.decode(HexPoint.self, forKey: .location)
+        //let leader = try container.decode(LeaderType.self, forKey: .player)
+        self.capitalValue = try container.decode(Bool.self, forKey: .capital)
+        
+        self.buildQueue = BuildQueue()
+
+        self.foodBasketValue = 1.0
+        
+        self.isFeatureSurroundedValue = false
+        self.threatVal = 0
+        
+        self.healthPointsValue = 200
+        
+        self.baseYieldRateFromSpecialists = YieldList()
+        self.baseYieldRateFromSpecialists.fill()
+        
+        self.extraSpecialistYield = YieldList()
+        self.extraSpecialistYield.fill()
+        self.culturePerTurnFromSpecialists = 0
+        
+        self.productionAutomatedValue = false
+        
+        self.numPlotsAcquiredList = LeaderWeightList()
+        self.numPlotsAcquiredList.fill()
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.name, forKey: .name)
+        try container.encode(self.populationValue, forKey: .population)
+        try container.encode(self.location, forKey: .location)
+        try container.encode(self.player!.leader, forKey: .player)
+        try container.encode(self.capitalValue, forKey: .capital)
     }
 
     func initialize(in gameModel: GameModel?) {

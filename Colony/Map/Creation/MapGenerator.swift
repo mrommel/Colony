@@ -10,7 +10,7 @@ import SpriteKit
 
 public typealias ProgressHandler = (Double, String) -> Void
 
-class MapGenerator {
+public class MapGenerator {
 
     let options: MapOptions
 	let width: Int
@@ -21,7 +21,7 @@ class MapGenerator {
 	let distanceToCoast: Array2D<Int>
 	var springLocations: [HexPoint]
 
-	var progressHandler: ProgressHandler?
+	public var progressHandler: ProgressHandler?
 
 	/**
 	creates a new grid generator for a map of `width`x`height` dimension
@@ -42,7 +42,7 @@ class MapGenerator {
 		self.springLocations = []
 	}
 
-	func generate() -> MapModel? {
+	public func generate() -> MapModel? {
 
 		// prepare result value
         let grid = MapModel(size: MapSize.custom(width: self.width, height: self.height))

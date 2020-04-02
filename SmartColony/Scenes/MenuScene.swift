@@ -84,7 +84,7 @@ class MenuScene: BaseScene {
         self.freePlayButton = MenuButtonNode(imageNamed: "free_play", title: "Free Play",
             buttonAction: {
                 self.rootNode.blurWith(completion: {
-                    //self.requestMapType()
+                    self.requestMapType()
                 })
             })
         self.freePlayButton?.zPosition = 2
@@ -108,9 +108,9 @@ class MenuScene: BaseScene {
         
         // pedia
         self.pediaButton = MenuButtonNode(imageNamed: "pedia", title: "Pedia",
-                                          buttonAction: {
-                                            self.menuDelegate?.startPedia()
-        })
+            buttonAction: {
+                self.menuDelegate?.startPedia()
+            })
         self.pediaButton?.zPosition = 2
         self.rootNode.addChild(self.pediaButton!)
 

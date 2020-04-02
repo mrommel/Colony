@@ -1,6 +1,6 @@
 //
 //  DialogConfiguration.swift
-//  Colony
+//  SmartColony
 //
 //  Created by Michael Rommel on 12.06.19.
 //  Copyright © 2019 Michael Rommel. All rights reserved.
@@ -8,6 +8,7 @@
 
 import XMLCoder
 import SpriteKit
+import SmartAILibrary
 
 enum DialogAnchor: String, Codable {
     
@@ -68,6 +69,94 @@ enum DialogResultType: String, Codable {
     case mapSeaLevelLow = "SEALEVEL_LOW"
     case mapSeaLevelNormal = "SEALEVEL_NORMAL"
     case mapSeaLevelHigh = "SEALEVEL_HIGH"
+    
+    func toMapType() -> MapType {
+        
+        if self == .mapTypeEarth {
+            return .earth
+        } else if self == .mapTypePangaea {
+            return .pangaea
+        } else if self == .mapTypeInlandsea {
+            return .inlandsea
+        } else if self == .mapTypeContinents {
+            return .continents
+        } else if self == .mapTypeArchipelago {
+            return .archipelago
+        } else if self == .mapTypeRandom {
+            return .random
+        }
+        
+        fatalError("niy")
+    }
+    
+    func toMapSize() -> MapSize {
+        
+        if self == .mapSizeHuge {
+            return .huge
+        } else if self == .mapSizeLarge {
+            return .large
+        } else if self == .mapSizeStandard {
+            return .standard
+        } else if self == .mapSizeSmall {
+            return .small
+        } else if self == .mapSizeTiny {
+            return .tiny
+        }
+        
+        fatalError("niy")
+    }
+    
+    func toMapOptionAge() -> MapOptionAge {
+        
+        if self == .mapAgeOld {
+            return .old
+        } else if self == .mapAgeNormal {
+            return .normal
+        } else if self == .mapAgeYoung {
+            return .young
+        }
+        
+        fatalError("niy")
+    }
+    
+    func toMapOptionClimate() -> MapOptionClimate {
+        
+        if self == .mapClimateHot {
+            return .hot
+        } else if self == .mapClimateTemperate {
+            return .temperate
+        } else if self == .mapClimateCold {
+            return .cold
+        }
+        
+        fatalError("niy")
+    }
+    
+    func toMapOptionRainfall() -> MapOptionRainfall {
+        
+        if self == .mapRainfallDry {
+            return .dry
+        } else if self == .mapRainfallNormal {
+            return .normal
+        } else if self == .mapRainfallWet {
+            return .wet
+        }
+        
+        fatalError("niy")
+    }
+    
+    func toMapOptionSeaLevel() -> MapOptionSeaLevel {
+        
+        if self == .mapSeaLevelLow {
+            return .low
+        } else if self == .mapSeaLevelNormal {
+            return .normal
+        } else if self == .mapSeaLevelHigh {
+            return .high
+        }
+        
+        fatalError("niy")
+    }
 }
 
 struct DialogConfiguration: Decodable {

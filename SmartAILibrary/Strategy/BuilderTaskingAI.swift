@@ -20,7 +20,7 @@ import Foundation
     case removeRoad // REMOVE_ROAD
 }*/
 
-enum BuilderDirectiveType {
+enum BuilderDirectiveType: Int, Codable {
     
     case none
     
@@ -32,13 +32,52 @@ enum BuilderDirectiveType {
     case removeRoad // REMOVE_ROAD,                   // remove a road from a plot
 }
 
-struct BuilderDirective: Equatable {
+class BuilderDirective: Equatable, Codable {
 
+    enum CodingKeys: CodingKey {
+        case type
+        case build
+        case resource
+        case target
+        case moveTurnsAway
+    }
+    
     var type: BuilderDirectiveType
     var build: BuildType
     let resource: ResourceType
     var target: HexPoint
     var moveTurnsAway: Int
+    
+    init(type: BuilderDirectiveType, build: BuildType, resource: ResourceType, target: HexPoint, moveTurnsAway: Int) {
+        
+        self.type = type
+        self.build = build
+        self.resource = resource
+        self.target = target
+        self.moveTurnsAway = moveTurnsAway
+    }
+    
+    required init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.type = try container.decode(BuilderDirectiveType.self, forKey: .type)
+        self.build = try container.decode(BuildType.self, forKey: .build)
+        self.resource = try container.decode(ResourceType.self, forKey: .resource)
+        self.target = try container.decode(HexPoint.self, forKey: .target)
+        self.moveTurnsAway = try container.decode(Int.self, forKey: .moveTurnsAway)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.type, forKey: .type)
+        try container.encode(self.build, forKey: .build)
+        try container.encode(self.resource, forKey: .resource)
+        try container.encode(self.target, forKey: .target)
+        try container.encode(self.moveTurnsAway, forKey: .moveTurnsAway)
+    }
     
     static func == (lhs: BuilderDirective, rhs: BuilderDirective) -> Bool {
         return lhs.type == rhs.type && lhs.build == rhs.build && lhs.target == rhs.target

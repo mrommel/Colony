@@ -1,6 +1,6 @@
 //
 //  DialogItem.swift
-//  Colony
+//  SmartColony
 //
 //  Created by Michael Rommel on 22.10.19.
 //  Copyright © 2019 Michael Rommel. All rights reserved.

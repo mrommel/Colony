@@ -33,6 +33,35 @@
 		C9B1D2472434B9AE00033791 /* DINNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2432434B9AE00033791 /* DINNext-Bold.ttf */; };
 		C9B1D2482434B9AE00033791 /* DINNext-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2442434B9AE00033791 /* DINNext-Regular.ttf */; };
 		C9B1D2492434B9AE00033791 /* DINNext-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2452434B9AE00033791 /* DINNext-Heavy.ttf */; };
+		C9B1D24B2434C3D600033791 /* MenuSceneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D24A2434C3D600033791 /* MenuSceneExtension.swift */; };
+		C9B1D24E2434C4F700033791 /* MapTypeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D24D2434C4F700033791 /* MapTypeDialog.swift */; };
+		C9B1D2592434C7FC00033791 /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = C9B1D2582434C7FC00033791 /* XMLCoder */; };
+		C9B1D25B2434C82F00033791 /* DropdownNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D25A2434C82F00033791 /* DropdownNode.swift */; };
+		C9B1D25D2435160800033791 /* ProgressBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D25C2435160800033791 /* ProgressBarNode.swift */; };
+		C9B1D25F2435166700033791 /* MessageBoxButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D25E2435166700033791 /* MessageBoxButtonNode.swift */; };
+		C9B1D2612435177E00033791 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2602435177E00033791 /* CGPointExtension.swift */; };
+		C9B1D263243517D600033791 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D262243517D600033791 /* SKNodeExtension.swift */; };
+		C9B1D26C24351C1C00033791 /* MapRainfallDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26524351C1C00033791 /* MapRainfallDialog.xml */; };
+		C9B1D26D24351C1C00033791 /* MapTypeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26624351C1C00033791 /* MapTypeDialog.xml */; };
+		C9B1D26E24351C1C00033791 /* MapSizeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26724351C1C00033791 /* MapSizeDialog.xml */; };
+		C9B1D26F24351C1C00033791 /* MapClimateDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26824351C1C00033791 /* MapClimateDialog.xml */; };
+		C9B1D27024351C1C00033791 /* MapAgeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26924351C1C00033791 /* MapAgeDialog.xml */; };
+		C9B1D27124351C1C00033791 /* MapSeaLevelDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26A24351C1C00033791 /* MapSeaLevelDialog.xml */; };
+		C9B1D27224351C1C00033791 /* MapLoadingDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D26B24351C1C00033791 /* MapLoadingDialog.xml */; };
+		C9B1D27824351F3500033791 /* UIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27424351F3400033791 /* UIParser.swift */; };
+		C9B1D27924351F3500033791 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27524351F3500033791 /* Dialog.swift */; };
+		C9B1D27A24351F3500033791 /* DialogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27624351F3500033791 /* DialogItem.swift */; };
+		C9B1D27B24351F3500033791 /* DialogConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27724351F3500033791 /* DialogConfiguration.swift */; };
+		C9B1D27D24351FB900033791 /* MapAgeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27C24351FB900033791 /* MapAgeDialog.swift */; };
+		C9B1D27F2435208300033791 /* MapSizeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27E2435208300033791 /* MapSizeDialog.swift */; };
+		C9B1D2812435215400033791 /* MapSeaLevelDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2802435215400033791 /* MapSeaLevelDialog.swift */; };
+		C9B1D283243521A500033791 /* MapRainfallDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D282243521A500033791 /* MapRainfallDialog.swift */; };
+		C9B1D285243521FF00033791 /* MapClimateDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D284243521FF00033791 /* MapClimateDialog.swift */; };
+		C9B1D2872435363500033791 /* MapLoadingDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2862435363500033791 /* MapLoadingDialog.swift */; };
+		C9B1D28D2435B07A00033791 /* earth_huge.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D28A2435B00F00033791 /* earth_huge.map */; };
+		C9B1D28E2435B08500033791 /* earth_large.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D28B2435B00F00033791 /* earth_large.map */; };
+		C9B1D28F2435B08F00033791 /* earth_small.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D28C2435B00F00033791 /* earth_small.map */; };
+		C9B1D2902435B09A00033791 /* earth_standard.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2892435B00F00033791 /* earth_standard.map */; };
 		C9F61470243471D500450B6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6146F243471D500450B6C /* AppDelegate.swift */; };
 		C9F61475243471D500450B6C /* SmartColony.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C9F61473243471D500450B6C /* SmartColony.xcdatamodeld */; };
 		C9F61479243471E200450B6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F61478243471E200450B6C /* Assets.xcassets */; };
@@ -88,6 +117,34 @@
 		C9B1D2432434B9AE00033791 /* DINNext-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Bold.ttf"; sourceTree = "<group>"; };
 		C9B1D2442434B9AE00033791 /* DINNext-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Regular.ttf"; sourceTree = "<group>"; };
 		C9B1D2452434B9AE00033791 /* DINNext-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Heavy.ttf"; sourceTree = "<group>"; };
+		C9B1D24A2434C3D600033791 /* MenuSceneExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSceneExtension.swift; sourceTree = "<group>"; };
+		C9B1D24D2434C4F700033791 /* MapTypeDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypeDialog.swift; sourceTree = "<group>"; };
+		C9B1D25A2434C82F00033791 /* DropdownNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownNode.swift; sourceTree = "<group>"; };
+		C9B1D25C2435160800033791 /* ProgressBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarNode.swift; sourceTree = "<group>"; };
+		C9B1D25E2435166700033791 /* MessageBoxButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxButtonNode.swift; sourceTree = "<group>"; };
+		C9B1D2602435177E00033791 /* CGPointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
+		C9B1D262243517D600033791 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
+		C9B1D26524351C1C00033791 /* MapRainfallDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapRainfallDialog.xml; path = Colony/Ressources/UI/MapRainfallDialog.xml; sourceTree = SOURCE_ROOT; };
+		C9B1D26624351C1C00033791 /* MapTypeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapTypeDialog.xml; path = Colony/Ressources/UI/MapTypeDialog.xml; sourceTree = SOURCE_ROOT; };
+		C9B1D26724351C1C00033791 /* MapSizeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapSizeDialog.xml; path = Colony/Ressources/UI/MapSizeDialog.xml; sourceTree = SOURCE_ROOT; };
+		C9B1D26824351C1C00033791 /* MapClimateDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapClimateDialog.xml; path = Colony/Ressources/UI/MapClimateDialog.xml; sourceTree = SOURCE_ROOT; };
+		C9B1D26924351C1C00033791 /* MapAgeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapAgeDialog.xml; path = Colony/Ressources/UI/MapAgeDialog.xml; sourceTree = SOURCE_ROOT; };
+		C9B1D26A24351C1C00033791 /* MapSeaLevelDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapSeaLevelDialog.xml; path = Colony/Ressources/UI/MapSeaLevelDialog.xml; sourceTree = SOURCE_ROOT; };
+		C9B1D26B24351C1C00033791 /* MapLoadingDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MapLoadingDialog.xml; path = Colony/Ressources/UI/MapLoadingDialog.xml; sourceTree = SOURCE_ROOT; };
+		C9B1D27424351F3400033791 /* UIParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIParser.swift; sourceTree = "<group>"; };
+		C9B1D27524351F3500033791 /* Dialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
+		C9B1D27624351F3500033791 /* DialogItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialogItem.swift; sourceTree = "<group>"; };
+		C9B1D27724351F3500033791 /* DialogConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialogConfiguration.swift; sourceTree = "<group>"; };
+		C9B1D27C24351FB900033791 /* MapAgeDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAgeDialog.swift; sourceTree = "<group>"; };
+		C9B1D27E2435208300033791 /* MapSizeDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSizeDialog.swift; sourceTree = "<group>"; };
+		C9B1D2802435215400033791 /* MapSeaLevelDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSeaLevelDialog.swift; sourceTree = "<group>"; };
+		C9B1D282243521A500033791 /* MapRainfallDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRainfallDialog.swift; sourceTree = "<group>"; };
+		C9B1D284243521FF00033791 /* MapClimateDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapClimateDialog.swift; sourceTree = "<group>"; };
+		C9B1D2862435363500033791 /* MapLoadingDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingDialog.swift; sourceTree = "<group>"; };
+		C9B1D2892435B00F00033791 /* earth_standard.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_standard.map; sourceTree = "<group>"; };
+		C9B1D28A2435B00F00033791 /* earth_huge.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_huge.map; sourceTree = "<group>"; };
+		C9B1D28B2435B00F00033791 /* earth_large.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_large.map; sourceTree = "<group>"; };
+		C9B1D28C2435B00F00033791 /* earth_small.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_small.map; sourceTree = "<group>"; };
 		C9F6146C243471D500450B6C /* SmartColony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartColony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F6146F243471D500450B6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9F61474243471D500450B6C /* SmartColony.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartColony.xcdatamodel; sourceTree = "<group>"; };
@@ -103,6 +160,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9B1D2592434C7FC00033791 /* XMLCoder in Frameworks */,
 				C9B1D2092434757600033791 /* SmartAILibrary.framework in Frameworks */,
 				C9B1D221243479E200033791 /* Rswift in Frameworks */,
 			);
@@ -133,6 +191,7 @@
 			children = (
 				C9B1D22B2434955300033791 /* BaseScene.swift */,
 				C9B1D2292434934600033791 /* MenuScene.swift */,
+				C9B1D24A2434C3D600033791 /* MenuSceneExtension.swift */,
 				C9B1D20C2434768900033791 /* GameScene.swift */,
 			);
 			path = Scenes;
@@ -149,6 +208,8 @@
 		C9B1D217243477AC00033791 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C9B1D2882435AFE300033791 /* Maps */,
+				C9B1D26424351BF200033791 /* Dialogs */,
 				C9B1D2412434B98600033791 /* Fonts */,
 				C9F61480243471E200450B6C /* Info.plist */,
 				C9F61473243471D500450B6C /* SmartColony.xcdatamodeld */,
@@ -175,6 +236,10 @@
 				C9B1D2302434960000033791 /* BlurrableNode.swift */,
 				C9B1D2372434B71900033791 /* MenuButtonNode.swift */,
 				C9B1D2392434B74F00033791 /* SpriteButtonNode.swift */,
+				C9B1D25A2434C82F00033791 /* DropdownNode.swift */,
+				C9B1D25C2435160800033791 /* ProgressBarNode.swift */,
+				C9B1D25E2435166700033791 /* MessageBoxButtonNode.swift */,
+				C9B1D262243517D600033791 /* SKNodeExtension.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -186,6 +251,7 @@
 				C9B1D23B2434B77500033791 /* NineGridTextureSprite.swift */,
 				C9B1D2332434B0BE00033791 /* CGRectExtension.swift */,
 				C9B1D23F2434B83800033791 /* CGSizeExtension.swift */,
+				C9B1D2602435177E00033791 /* CGPointExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -199,6 +265,57 @@
 				C9B1D2442434B9AE00033791 /* DINNext-Regular.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		C9B1D24C2434C4E800033791 /* Dialogs */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D27324351ED900033791 /* Base */,
+				C9B1D24D2434C4F700033791 /* MapTypeDialog.swift */,
+				C9B1D27C24351FB900033791 /* MapAgeDialog.swift */,
+				C9B1D27E2435208300033791 /* MapSizeDialog.swift */,
+				C9B1D2802435215400033791 /* MapSeaLevelDialog.swift */,
+				C9B1D282243521A500033791 /* MapRainfallDialog.swift */,
+				C9B1D284243521FF00033791 /* MapClimateDialog.swift */,
+				C9B1D2862435363500033791 /* MapLoadingDialog.swift */,
+			);
+			path = Dialogs;
+			sourceTree = "<group>";
+		};
+		C9B1D26424351BF200033791 /* Dialogs */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D26924351C1C00033791 /* MapAgeDialog.xml */,
+				C9B1D26824351C1C00033791 /* MapClimateDialog.xml */,
+				C9B1D26B24351C1C00033791 /* MapLoadingDialog.xml */,
+				C9B1D26524351C1C00033791 /* MapRainfallDialog.xml */,
+				C9B1D26A24351C1C00033791 /* MapSeaLevelDialog.xml */,
+				C9B1D26724351C1C00033791 /* MapSizeDialog.xml */,
+				C9B1D26624351C1C00033791 /* MapTypeDialog.xml */,
+			);
+			path = Dialogs;
+			sourceTree = "<group>";
+		};
+		C9B1D27324351ED900033791 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D27524351F3500033791 /* Dialog.swift */,
+				C9B1D27724351F3500033791 /* DialogConfiguration.swift */,
+				C9B1D27624351F3500033791 /* DialogItem.swift */,
+				C9B1D27424351F3400033791 /* UIParser.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		C9B1D2882435AFE300033791 /* Maps */ = {
+			isa = PBXGroup;
+			children = (
+				C9B1D28A2435B00F00033791 /* earth_huge.map */,
+				C9B1D28B2435B00F00033791 /* earth_large.map */,
+				C9B1D28C2435B00F00033791 /* earth_small.map */,
+				C9B1D2892435B00F00033791 /* earth_standard.map */,
+			);
+			path = Maps;
 			sourceTree = "<group>";
 		};
 		C9F61463243471D500450B6C = {
@@ -223,6 +340,7 @@
 		C9F6146E243471D500450B6C /* SmartColony */ = {
 			isa = PBXGroup;
 			children = (
+				C9B1D24C2434C4E800033791 /* Dialogs */,
 				C9B1D2322434B0B400033791 /* Utils */,
 				C9B1D21C243478DF00033791 /* Data */,
 				C9B1D22D243495C600033791 /* Nodes */,
@@ -264,6 +382,7 @@
 			name = SmartColony;
 			packageProductDependencies = (
 				C9B1D220243479E200033791 /* Rswift */,
+				C9B1D2582434C7FC00033791 /* XMLCoder */,
 			);
 			productName = SmartColony;
 			productReference = C9F6146C243471D500450B6C /* SmartColony.app */;
@@ -317,6 +436,7 @@
 			mainGroup = C9F61463243471D500450B6C;
 			packageReferences = (
 				C9B1D21F243479E200033791 /* XCRemoteSwiftPackageReference "R.swift" */,
+				C9B1D2572434C7FC00033791 /* XCRemoteSwiftPackageReference "XMLCoder" */,
 			);
 			productRefGroup = C9F6146D243471D500450B6C /* Products */;
 			projectDirPath = "";
@@ -335,11 +455,22 @@
 			files = (
 				C9B1D2492434B9AE00033791 /* DINNext-Heavy.ttf in Resources */,
 				C9B1D2482434B9AE00033791 /* DINNext-Regular.ttf in Resources */,
+				C9B1D26D24351C1C00033791 /* MapTypeDialog.xml in Resources */,
+				C9B1D27224351C1C00033791 /* MapLoadingDialog.xml in Resources */,
+				C9B1D2902435B09A00033791 /* earth_standard.map in Resources */,
 				C9B1D2462434B9AE00033791 /* DINNext-Light.ttf in Resources */,
+				C9B1D26C24351C1C00033791 /* MapRainfallDialog.xml in Resources */,
 				C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */,
+				C9B1D27024351C1C00033791 /* MapAgeDialog.xml in Resources */,
+				C9B1D28F2435B08F00033791 /* earth_small.map in Resources */,
+				C9B1D28D2435B07A00033791 /* earth_huge.map in Resources */,
+				C9B1D28E2435B08500033791 /* earth_large.map in Resources */,
 				C9B1D2472434B9AE00033791 /* DINNext-Bold.ttf in Resources */,
 				C9B1D223243481D900033791 /* Main.storyboard in Resources */,
 				C9F61479243471E200450B6C /* Assets.xcassets in Resources */,
+				C9B1D27124351C1C00033791 /* MapSeaLevelDialog.xml in Resources */,
+				C9B1D26F24351C1C00033791 /* MapClimateDialog.xml in Resources */,
+				C9B1D26E24351C1C00033791 /* MapSizeDialog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,23 +511,40 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9F61470243471D500450B6C /* AppDelegate.swift in Sources */,
+				C9B1D24E2434C4F700033791 /* MapTypeDialog.swift in Sources */,
 				C9B1D21B2434788000033791 /* MenuViewController.swift in Sources */,
+				C9B1D263243517D600033791 /* SKNodeExtension.swift in Sources */,
+				C9B1D2812435215400033791 /* MapSeaLevelDialog.swift in Sources */,
+				C9B1D285243521FF00033791 /* MapClimateDialog.swift in Sources */,
 				C9B1D205243474F900033791 /* GameViewController.swift in Sources */,
 				C9B1D22A2434934600033791 /* MenuScene.swift in Sources */,
 				C9B1D22624348BD300033791 /* R.generated.swift in Sources */,
 				C9B1D20D2434768900033791 /* GameScene.swift in Sources */,
+				C9B1D27824351F3500033791 /* UIParser.swift in Sources */,
 				C9B1D22F243495D000033791 /* SafeAreaNode.swift in Sources */,
+				C9B1D27B24351F3500033791 /* DialogConfiguration.swift in Sources */,
+				C9B1D2872435363500033791 /* MapLoadingDialog.swift in Sources */,
 				C9F61475243471D500450B6C /* SmartColony.xcdatamodeld in Sources */,
+				C9B1D2612435177E00033791 /* CGPointExtension.swift in Sources */,
 				C9B1D23E2434B7BE00033791 /* Globals.swift in Sources */,
 				C9B1D2342434B0BE00033791 /* CGRectExtension.swift in Sources */,
 				C9B1D21E243478F400033791 /* CoreDataManager.swift in Sources */,
 				C9B1D2402434B83800033791 /* CGSizeExtension.swift in Sources */,
 				C9B1D23A2434B74F00033791 /* SpriteButtonNode.swift in Sources */,
 				C9B1D23C2434B77500033791 /* NineGridTextureSprite.swift in Sources */,
+				C9B1D27D24351FB900033791 /* MapAgeDialog.swift in Sources */,
+				C9B1D25F2435166700033791 /* MessageBoxButtonNode.swift in Sources */,
 				C9B1D2362434B10000033791 /* SKSpriteNodeExtension.swift in Sources */,
+				C9B1D25B2434C82F00033791 /* DropdownNode.swift in Sources */,
+				C9B1D27F2435208300033791 /* MapSizeDialog.swift in Sources */,
+				C9B1D27924351F3500033791 /* Dialog.swift in Sources */,
+				C9B1D24B2434C3D600033791 /* MenuSceneExtension.swift in Sources */,
 				C9B1D2192434784800033791 /* SplashViewController.swift in Sources */,
+				C9B1D25D2435160800033791 /* ProgressBarNode.swift in Sources */,
 				C9B1D22C2434955300033791 /* BaseScene.swift in Sources */,
+				C9B1D283243521A500033791 /* MapRainfallDialog.swift in Sources */,
 				C9B1D2382434B71900033791 /* MenuButtonNode.swift in Sources */,
+				C9B1D27A24351F3500033791 /* DialogItem.swift in Sources */,
 				C9B1D2312434960000033791 /* BlurrableNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -540,14 +688,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 3XR2XX99JT;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SmartColony/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColony;
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/**",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -560,14 +712,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 3XR2XX99JT;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SmartColony/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColony;
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/**",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -659,6 +815,14 @@
 				minimumVersion = 5.1.0;
 			};
 		};
+		C9B1D2572434C7FC00033791 /* XCRemoteSwiftPackageReference "XMLCoder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MaxDesiatov/XMLCoder.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -666,6 +830,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C9B1D21F243479E200033791 /* XCRemoteSwiftPackageReference "R.swift" */;
 			productName = Rswift;
+		};
+		C9B1D2582434C7FC00033791 /* XMLCoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9B1D2572434C7FC00033791 /* XCRemoteSwiftPackageReference "XMLCoder" */;
+			productName = XMLCoder;
 		};
 /* End XCSwiftPackageProductDependency section */
 
