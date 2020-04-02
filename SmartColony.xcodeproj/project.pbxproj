@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9108F46243630550023C76D /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = C9108F45243630550023C76D /* Rswift */; };
+		C9108F49243630A70023C76D /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = C9108F48243630A70023C76D /* XMLCoder */; };
+		C9108F4A243630B80023C76D /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D22524348BD300033791 /* R.generated.swift */; };
 		C9B1D205243474F900033791 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D204243474F900033791 /* GameViewController.swift */; };
 		C9B1D2092434757600033791 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B1D2082434757600033791 /* SmartAILibrary.framework */; };
 		C9B1D20A2434757600033791 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9B1D2082434757600033791 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -14,9 +17,7 @@
 		C9B1D2192434784800033791 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2182434784800033791 /* SplashViewController.swift */; };
 		C9B1D21B2434788000033791 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D21A2434788000033791 /* MenuViewController.swift */; };
 		C9B1D21E243478F400033791 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D21D243478F400033791 /* CoreDataManager.swift */; };
-		C9B1D221243479E200033791 /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = C9B1D220243479E200033791 /* Rswift */; };
 		C9B1D223243481D900033791 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D222243481D900033791 /* Main.storyboard */; };
-		C9B1D22624348BD300033791 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D22524348BD300033791 /* R.generated.swift */; };
 		C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D22724348C6E00033791 /* LaunchScreen.storyboard */; };
 		C9B1D22A2434934600033791 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D2292434934600033791 /* MenuScene.swift */; };
 		C9B1D22C2434955300033791 /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D22B2434955300033791 /* BaseScene.swift */; };
@@ -35,7 +36,6 @@
 		C9B1D2492434B9AE00033791 /* DINNext-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2452434B9AE00033791 /* DINNext-Heavy.ttf */; };
 		C9B1D24B2434C3D600033791 /* MenuSceneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D24A2434C3D600033791 /* MenuSceneExtension.swift */; };
 		C9B1D24E2434C4F700033791 /* MapTypeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D24D2434C4F700033791 /* MapTypeDialog.swift */; };
-		C9B1D2592434C7FC00033791 /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = C9B1D2582434C7FC00033791 /* XMLCoder */; };
 		C9B1D25B2434C82F00033791 /* DropdownNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D25A2434C82F00033791 /* DropdownNode.swift */; };
 		C9B1D25D2435160800033791 /* ProgressBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D25C2435160800033791 /* ProgressBarNode.swift */; };
 		C9B1D25F2435166700033791 /* MessageBoxButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D25E2435166700033791 /* MessageBoxButtonNode.swift */; };
@@ -93,6 +93,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C9108F2B24361D0A0023C76D /* Civ5Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Civ5Feature.swift; path = ../../../Colony/Map/Civ5Map/Civ5Feature.swift; sourceTree = "<group>"; };
+		C9108F2C24361D0A0023C76D /* Civ5Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Civ5Map.swift; path = ../../../Colony/Map/Civ5Map/Civ5Map.swift; sourceTree = "<group>"; };
+		C9108F2D24361D0A0023C76D /* Civ5MapHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Civ5MapHeader.swift; path = ../../../Colony/Map/Civ5Map/Civ5MapHeader.swift; sourceTree = "<group>"; };
+		C9108F2E24361D0A0023C76D /* Civ5MapPlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Civ5MapPlot.swift; path = ../../../Colony/Map/Civ5Map/Civ5MapPlot.swift; sourceTree = "<group>"; };
+		C9108F2F24361D0A0023C76D /* Civ5MapReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Civ5MapReader.swift; path = ../../../Colony/Map/Civ5Map/Civ5MapReader.swift; sourceTree = "<group>"; };
+		C9108F3024361D0A0023C76D /* Civ5Terrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Civ5Terrain.swift; path = ../../../Colony/Map/Civ5Map/Civ5Terrain.swift; sourceTree = "<group>"; };
 		C9B1D204243474F900033791 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		C9B1D2082434757600033791 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B1D20C2434768900033791 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -160,9 +166,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9B1D2592434C7FC00033791 /* XMLCoder in Frameworks */,
+				C9108F49243630A70023C76D /* XMLCoder in Frameworks */,
 				C9B1D2092434757600033791 /* SmartAILibrary.framework in Frameworks */,
-				C9B1D221243479E200033791 /* Rswift in Frameworks */,
+				C9108F46243630550023C76D /* Rswift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +182,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C9108F3124361D0A0023C76D /* Civ5Map */ = {
+			isa = PBXGroup;
+			children = (
+				C9108F2B24361D0A0023C76D /* Civ5Feature.swift */,
+				C9108F2C24361D0A0023C76D /* Civ5Map.swift */,
+				C9108F2D24361D0A0023C76D /* Civ5MapHeader.swift */,
+				C9108F2E24361D0A0023C76D /* Civ5MapPlot.swift */,
+				C9108F2F24361D0A0023C76D /* Civ5MapReader.swift */,
+				C9108F3024361D0A0023C76D /* Civ5Terrain.swift */,
+			);
+			path = Civ5Map;
+			sourceTree = "<group>";
+		};
 		C9B1D203243474E800033791 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +266,7 @@
 		C9B1D2322434B0B400033791 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C9108F3124361D0A0023C76D /* Civ5Map */,
 				C9B1D23D2434B7BE00033791 /* Globals.swift */,
 				C9B1D23B2434B77500033791 /* NineGridTextureSprite.swift */,
 				C9B1D2332434B0BE00033791 /* CGRectExtension.swift */,
@@ -381,8 +401,8 @@
 			);
 			name = SmartColony;
 			packageProductDependencies = (
-				C9B1D220243479E200033791 /* Rswift */,
-				C9B1D2582434C7FC00033791 /* XMLCoder */,
+				C9108F45243630550023C76D /* Rswift */,
+				C9108F48243630A70023C76D /* XMLCoder */,
 			);
 			productName = SmartColony;
 			productReference = C9F6146C243471D500450B6C /* SmartColony.app */;
@@ -435,8 +455,9 @@
 			);
 			mainGroup = C9F61463243471D500450B6C;
 			packageReferences = (
-				C9B1D21F243479E200033791 /* XCRemoteSwiftPackageReference "R.swift" */,
-				C9B1D2572434C7FC00033791 /* XCRemoteSwiftPackageReference "XMLCoder" */,
+				C9108F4124362FD50023C76D /* XCRemoteSwiftPackageReference "BinarySwift" */,
+				C9108F44243630550023C76D /* XCRemoteSwiftPackageReference "R.swift" */,
+				C9108F47243630A70023C76D /* XCRemoteSwiftPackageReference "XMLCoder" */,
 			);
 			productRefGroup = C9F6146D243471D500450B6C /* Products */;
 			projectDirPath = "";
@@ -518,10 +539,10 @@
 				C9B1D285243521FF00033791 /* MapClimateDialog.swift in Sources */,
 				C9B1D205243474F900033791 /* GameViewController.swift in Sources */,
 				C9B1D22A2434934600033791 /* MenuScene.swift in Sources */,
-				C9B1D22624348BD300033791 /* R.generated.swift in Sources */,
 				C9B1D20D2434768900033791 /* GameScene.swift in Sources */,
 				C9B1D27824351F3500033791 /* UIParser.swift in Sources */,
 				C9B1D22F243495D000033791 /* SafeAreaNode.swift in Sources */,
+				C9108F4A243630B80023C76D /* R.generated.swift in Sources */,
 				C9B1D27B24351F3500033791 /* DialogConfiguration.swift in Sources */,
 				C9B1D2872435363500033791 /* MapLoadingDialog.swift in Sources */,
 				C9F61475243471D500450B6C /* SmartColony.xcdatamodeld in Sources */,
@@ -695,10 +716,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/**",
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -719,10 +737,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/**",
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -807,7 +822,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C9B1D21F243479E200033791 /* XCRemoteSwiftPackageReference "R.swift" */ = {
+		C9108F4124362FD50023C76D /* XCRemoteSwiftPackageReference "BinarySwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mrommel/BinarySwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.6;
+			};
+		};
+		C9108F44243630550023C76D /* XCRemoteSwiftPackageReference "R.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mac-cain13/R.swift.Library";
 			requirement = {
@@ -815,9 +838,9 @@
 				minimumVersion = 5.1.0;
 			};
 		};
-		C9B1D2572434C7FC00033791 /* XCRemoteSwiftPackageReference "XMLCoder" */ = {
+		C9108F47243630A70023C76D /* XCRemoteSwiftPackageReference "XMLCoder" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MaxDesiatov/XMLCoder.git";
+			repositoryURL = "https://github.com/MaxDesiatov/XMLCoder";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.9.0;
@@ -826,14 +849,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C9B1D220243479E200033791 /* Rswift */ = {
+		C9108F45243630550023C76D /* Rswift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C9B1D21F243479E200033791 /* XCRemoteSwiftPackageReference "R.swift" */;
+			package = C9108F44243630550023C76D /* XCRemoteSwiftPackageReference "R.swift" */;
 			productName = Rswift;
 		};
-		C9B1D2582434C7FC00033791 /* XMLCoder */ = {
+		C9108F48243630A70023C76D /* XMLCoder */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C9B1D2572434C7FC00033791 /* XCRemoteSwiftPackageReference "XMLCoder" */;
+			package = C9108F47243630A70023C76D /* XCRemoteSwiftPackageReference "XMLCoder" */;
 			productName = XMLCoder;
 		};
 /* End XCSwiftPackageProductDependency section */

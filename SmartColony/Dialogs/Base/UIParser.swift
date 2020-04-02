@@ -6,7 +6,7 @@
 //  Copyright © 2019 Michael Rommel. All rights reserved.
 //
 
-import XMLCoder
+//import XMLCoder
 import SpriteKit
 
 class UIParser: NSObject {
@@ -19,7 +19,7 @@ class UIParser: NSObject {
 
     func parse(from name: String) -> DialogConfiguration? {
 
-        if let filePath = Bundle.main.url(forResource: name, withExtension: "xml") {
+        /*if let filePath = Bundle.main.url(forResource: name, withExtension: "xml") {
             do {
                 let data = try Data(contentsOf: filePath)
 
@@ -36,7 +36,7 @@ class UIParser: NSObject {
             }
         } else {
             fatalError("file \(name) could not be found")
-        }
+        }*/
 
         return nil
     }
