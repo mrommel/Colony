@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum EraType {
+public enum EraType {
     
     case ancient
     case classical
@@ -35,11 +35,11 @@ enum EraType {
 
 extension EraType: Comparable {
     
-    static func == (lhs: EraType, rhs: EraType) -> Bool {
+    public static func == (lhs: EraType, rhs: EraType) -> Bool {
         return lhs.value() == rhs.value()
     }
     
-    static func < (lhs: EraType, rhs: EraType) -> Bool {
+    public static func < (lhs: EraType, rhs: EraType) -> Bool {
         return lhs.value() < rhs.value()
     }
 }

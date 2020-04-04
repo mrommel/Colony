@@ -40,7 +40,9 @@ public struct Globals {
         static let discovered: CGFloat = 0.5
     }
 
-    static let initialScale: CGFloat = 0.25
+    struct Constants {
+        static let initialScale: Double = 0.25
+    }
 }
 
 public extension Globals {

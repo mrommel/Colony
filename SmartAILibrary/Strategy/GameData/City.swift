@@ -10,7 +10,7 @@ import Foundation
 
 // Amenities https://www.youtube.com/watch?v=I_LH7BdkrWc
 
-enum GrowthStatusType {
+public enum GrowthStatusType {
 
     case none
 
@@ -19,7 +19,7 @@ enum GrowthStatusType {
     case growth
 }
 
-enum CityError: Error {
+public enum CityError: Error {
 
     case tileOwned
     case tileOwnedByAnotherCity
@@ -28,18 +28,18 @@ enum CityError: Error {
     case cantWorkCenter
 }
 
-enum CityTaskType {
+public enum CityTaskType {
     
     case rangedAttack
 }
 
-enum CityTaskResultType {
+public enum CityTaskResultType {
     
     case aborted
     case completed
 }
 
-protocol AbstractCity: Codable {
+public protocol AbstractCity: Codable {
 
     var name: String { get }
     var player: AbstractPlayer? { get }

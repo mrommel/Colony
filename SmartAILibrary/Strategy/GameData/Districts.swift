@@ -12,7 +12,7 @@ enum DistrictError: Error {
     case alreadyBuild
 }
 
-protocol AbstractDistricts {
+public protocol AbstractDistricts {
     
     // districts
     func has(district: DistrictType) -> Bool

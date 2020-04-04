@@ -47,7 +47,7 @@ struct YieldValue: Comparable {
 //!    specialize, switch production, etc.
 //!  - Oversees both the city governor AI and the AI managing what the city is building
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-class CityStrategyAI {
+public class CityStrategyAI {
 
     let city: AbstractCity?
     let cityStrategyAdoption: CityStrategyAdoption

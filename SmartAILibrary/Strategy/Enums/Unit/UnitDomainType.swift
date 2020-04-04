@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum UnitDomainType {
+public enum UnitDomainType {
     
     case none
     

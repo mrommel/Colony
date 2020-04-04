@@ -17,7 +17,7 @@ enum BuildableItemType: Int, Codable {
     case project
 }
 
-class BuildableItem: Codable {
+public class BuildableItem: Codable {
     
     enum CodingKeys: CodingKey {
         
@@ -101,7 +101,7 @@ class BuildableItem: Codable {
         self.production = 0.0
     }
     
-    required init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -144,7 +144,7 @@ class BuildableItem: Codable {
         self.production = try container.decode(Double.self, forKey: .production)
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         
         var container = encoder.container(keyedBy: CodingKeys.self)
 
@@ -207,7 +207,7 @@ class BuildableItem: Codable {
 
 extension BuildableItem: Equatable {
     
-    static func == (lhs: BuildableItem, rhs: BuildableItem) -> Bool {
+    public static func == (lhs: BuildableItem, rhs: BuildableItem) -> Bool {
         
         if lhs.type != rhs.type {
             return false
@@ -231,7 +231,7 @@ extension BuildableItem: Equatable {
 
 extension BuildableItem: CustomDebugStringConvertible {
     
-    var debugDescription: String {
+    public var debugDescription: String {
         
         switch self.type {
             

@@ -10,26 +10,26 @@ import Foundation
 
 public class Array2D<T: Equatable & Codable>: Codable {
     
-    public let columns: Int
-    public let rows: Int
+    public let width: Int
+    public let height: Int
     fileprivate var array: [T?] = [T?]()
 
-    public init(columns: Int, rows: Int) {
-        self.columns = columns
-        self.rows = rows
-        self.array = [T?](repeating: nil, count: rows * columns)
+    public init(width: Int, height: Int) {
+        self.width = width
+        self.height = height
+        self.array = [T?](repeating: nil, count: self.height * self.width)
     }
 
-    public subscript(column: Int, row: Int) -> T? {
+    public subscript(x: Int, y: Int) -> T? {
         get {
-            precondition(column < columns, "Column \(column) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
-            precondition(row < rows, "Row \(row) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
-            return array[row * columns + column]
+            precondition(x < self.width, "Column \(x) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            precondition(y < self.height, "Row \(y) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            return array[y * self.width + x]
         }
         set {
-            precondition(column < columns, "Column \(column) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
-            precondition(row < rows, "Row \(row) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
-            array[row * columns + column] = newValue
+            precondition(x < self.width, "Column \(x) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            precondition(y < self.height, "Row \(y) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            array[y * self.width + x] = newValue
         }
     }
 }
@@ -39,8 +39,8 @@ extension Array2D where T: Comparable {
     var minimum: T {
         var minimumValue: T = self[0, 0]!
 
-        for x in 0..<self.columns {
-            for y in 0..<self.rows {
+        for x in 0..<self.width {
+            for y in 0..<self.height {
                 if minimumValue > self[x, y]! {
                     minimumValue = self[x, y]!
                 }
@@ -53,8 +53,8 @@ extension Array2D where T: Comparable {
     var maximum: T {
         var maximumValue: T = self[0, 0]!
 
-        for x in 0..<self.columns {
-            for y in 0..<self.rows {
+        for x in 0..<self.width {
+            for y in 0..<self.height {
                 if maximumValue < self[x, y]! {
                     maximumValue = self[x, y]!
                 }
@@ -70,16 +70,16 @@ extension Array2D where T: Comparable {
 extension Array2D {
 
     func fill(with value: T) {
-        for x in 0..<self.columns {
-            for y in 0..<self.rows {
+        for x in 0..<self.width {
+            for y in 0..<self.height {
                 self[x, y] = value
             }
         }
     }
 
     func fill(with function: (Int, Int) -> T) {
-        for x in 0..<self.columns {
-            for y in 0..<self.rows {
+        for x in 0..<self.width {
+            for y in 0..<self.height {
                 self[x, y] = function(x, y)
             }
         }
@@ -101,11 +101,11 @@ extension Array2D {
     subscript(gridPoint: HexPoint) -> T? {
         
         get {
-            return array[(gridPoint.y * columns) + gridPoint.x]
+            return array[(gridPoint.y * self.width) + gridPoint.x]
         }
         
         set(newValue) {
-            array[(gridPoint.y * columns) + gridPoint.x] = newValue
+            array[(gridPoint.y * self.width) + gridPoint.x] = newValue
         }
     }
 }

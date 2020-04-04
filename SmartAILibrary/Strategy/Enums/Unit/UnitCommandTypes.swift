@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum UnitCommandTypes {
+public enum UnitCommandTypes {
     
     case automate
     case cancel

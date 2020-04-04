@@ -123,9 +123,14 @@ public class MapModel: Codable {
         }
     }
     
-    func valid(point: HexPoint) -> Bool {
+    public func valid(point: HexPoint) -> Bool {
         
         return 0 <= point.x && point.x < self.size.width() && 0 <= point.y && point.y < self.size.height()
+    }
+    
+    public func valid(x: Int, y: Int) -> Bool {
+        
+        return 0 <= x && x < self.size.width() && 0 <= y && y < self.size.height()
     }
     
     func area(of location: HexPoint) -> HexArea? {
@@ -198,10 +203,19 @@ public class MapModel: Codable {
     
     // MARK: tile methods
     
-    func tile(at point: HexPoint) -> AbstractTile? {
+    public func tile(at point: HexPoint) -> AbstractTile? {
         
         if self.valid(point: point) {
             return self.tiles[point]
+        }
+        
+        return nil
+    }
+    
+    public func tile(x: Int, y: Int) -> AbstractTile? {
+        
+        if self.valid(x: x, y: y) {
+            return self.tiles[x, y]
         }
         
         return nil

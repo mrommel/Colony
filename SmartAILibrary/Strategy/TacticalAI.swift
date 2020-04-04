@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TacticalTargetType: Int, Codable {
+public enum TacticalTargetType: Int, Codable {
 
     case none
     case city
@@ -31,7 +31,7 @@ enum TacticalTargetType: Int, Codable {
     case veryHighPriorityCivilian
 }
 
-enum TacticalMoveType: Int, Codable {
+public enum TacticalMoveType: Int, Codable {
     
     case none
     
@@ -309,7 +309,7 @@ class TacticalUnit: Comparable {
 //!  - Handed units to control by the operational AI
 //!  - Handles moves for these units until dead or objective completed
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-class TacticalAI {
+public class TacticalAI {
 
     var player: Player?
 

@@ -39,7 +39,7 @@ class MapLoadingTests: XCTestCase {
         let data = try encoder.encode(map)
         let string = String(data: data, encoding: .utf8)!
         
-        let filename = downloadsFolder.appendingPathComponent("duel.map")
+        let filename = downloadsFolder.appendingPathComponent("earth_duel.map")
         
         do {
             try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
@@ -65,7 +65,7 @@ class MapLoadingTests: XCTestCase {
         let data = try encoder.encode(map)
         let string = String(data: data, encoding: .utf8)!
         
-        let filename = downloadsFolder.appendingPathComponent("tiny.map")
+        let filename = downloadsFolder.appendingPathComponent("earth_tiny.map")
         
         do {
             try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
@@ -91,7 +91,7 @@ class MapLoadingTests: XCTestCase {
         let data = try encoder.encode(map)
         let string = String(data: data, encoding: .utf8)!
         
-        let filename = downloadsFolder.appendingPathComponent("small.map")
+        let filename = downloadsFolder.appendingPathComponent("earth_small.map")
         
         do {
             try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
@@ -117,7 +117,59 @@ class MapLoadingTests: XCTestCase {
         let data = try encoder.encode(map)
         let string = String(data: data, encoding: .utf8)!
         
-        let filename = downloadsFolder.appendingPathComponent("standard.map")
+        let filename = downloadsFolder.appendingPathComponent("earth_standard.map")
+        
+        do {
+            try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+        } catch {
+            
+        }
+
+        XCTAssertNotNil(map)
+    }
+    
+    func testLoadLargeMap() throws {
+        
+        let testBundle = Bundle(for: type(of: self))
+        let path = testBundle.path(forResource: "Earth_Large", ofType: "Civ5Map")
+        let url = URL(fileURLWithPath: path!)
+
+        let civ5MapLoader = Civ5MapReader()
+        let civ5Map = civ5MapLoader.load(from: url)
+        
+        let map = civ5Map?.toMap()
+        
+        let encoder = JSONEncoder()
+        let data = try encoder.encode(map)
+        let string = String(data: data, encoding: .utf8)!
+        
+        let filename = downloadsFolder.appendingPathComponent("earth_large.map")
+        
+        do {
+            try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+        } catch {
+            
+        }
+
+        XCTAssertNotNil(map)
+    }
+    
+    func testLoadHugeMap() throws {
+        
+        let testBundle = Bundle(for: type(of: self))
+        let path = testBundle.path(forResource: "Earth_Huge", ofType: "Civ5Map")
+        let url = URL(fileURLWithPath: path!)
+
+        let civ5MapLoader = Civ5MapReader()
+        let civ5Map = civ5MapLoader.load(from: url)
+        
+        let map = civ5Map?.toMap()
+        
+        let encoder = JSONEncoder()
+        let data = try encoder.encode(map)
+        let string = String(data: data, encoding: .utf8)!
+        
+        let filename = downloadsFolder.appendingPathComponent("earth_huge.map")
         
         do {
             try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CivilizationType {
+public enum CivilizationType {
     
     case barbarian
     
@@ -38,5 +38,4 @@ enum CivilizationType {
             return ["Rome", "Ostia", "Antium", "Cumae", "Aquileia", "Ravenna", "Puteoli", "Arretium", "Mediolanum", "Lugdunum", "Arpinum", "Setia"]
         }
     }
-    
 }

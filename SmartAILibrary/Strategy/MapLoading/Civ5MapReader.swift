@@ -39,7 +39,7 @@ class Civ5MapReader {
             let header = try Civ5MapHeader(reader: reader)
             //print("success: type=\(header.type)")
             
-            let plots: Array2D<Civ5MapPlot> = Array2D<Civ5MapPlot>(columns: Int(header.width), rows: Int(header.height))
+            let plots: Array2D<Civ5MapPlot> = Array2D<Civ5MapPlot>(width: Int(header.width), height: Int(header.height))
             
             for y in 0..<Int(header.height) {
                 for x in 0..<Int(header.width) {

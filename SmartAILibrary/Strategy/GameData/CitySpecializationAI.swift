@@ -49,7 +49,7 @@ class CitySpecializationList: WeightedList<CitySpecializationType> {
     }
 }
 
-class CitySpecializationAI {
+public class CitySpecializationAI {
     
     var player: Player?
     private var lastTurnEvaluated: Int  = 0

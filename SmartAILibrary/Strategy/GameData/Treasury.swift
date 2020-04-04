@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AbstractTreasury {
+public protocol AbstractTreasury {
     
     func add(gold goldDelta: Double)
     func value() -> Double

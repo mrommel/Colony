@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ArmyState {
+public enum ArmyState {
 
     case waitingForUnitsToReinforce
     case movingToDestination
@@ -24,7 +24,7 @@ enum ArmyState {
 //!  - Uses step path finder to find muster points before it has units
 //!  - Uses main path finder to plot route once it has units
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-class Army {
+public class Army {
 
     let operation: Operation?
     let owner: AbstractPlayer?

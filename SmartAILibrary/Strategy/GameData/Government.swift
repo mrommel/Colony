@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AbstractPolicyCardSet {
+public protocol AbstractPolicyCardSet {
     
     func add(card: PolicyCardType)
     func has(card: PolicyCardType) -> Bool
@@ -48,7 +48,7 @@ class PolicyCardSet: AbstractPolicyCardSet {
     }
 }
 
-protocol AbstractGovernment {
+public protocol AbstractGovernment {
     
     func currentGovernment() -> GovernmentType?
     func set(governmentType: GovernmentType)

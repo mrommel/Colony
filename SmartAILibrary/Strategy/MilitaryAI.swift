@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MilitaryAI {
+public class MilitaryAI {
 
     var player: Player?
     let militaryStrategyAdoption: MilitaryStrategyAdoption

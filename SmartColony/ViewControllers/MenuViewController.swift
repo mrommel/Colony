@@ -14,6 +14,8 @@ class MenuViewController: UIViewController {
     
     var menuScene: MenuScene?
     
+    private var currentMap: MapModel? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,6 +30,37 @@ class MenuViewController: UIViewController {
         view.presentScene(self.menuScene)
         view.ignoresSiblingOrder = false
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == R.segue.menuViewController.gotoGame.identifier {
+            let gameViewController = segue.destination as? GameViewController
+            
+            if self.currentMap != nil {
+                gameViewController?.viewModel = GameViewModel(with: self.currentMap)
+            }
+        }
+            
+        /*if segue.identifier == R.segue.menuViewController.gotoOptions.identifier {
+            // NOOP
+        }
+        
+        if segue.identifier == R.segue.menuViewController.gotoQuests.identifier {
+            // NOOP
+        }
+        
+        if segue.identifier == R.segue.menuViewController.gotoStore.identifier {
+            // NOOP
+        }
+        
+        if segue.identifier == R.segue.menuViewController.gotoPedia.identifier {
+            // NOOP
+        }*/
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 }
 
 extension MenuViewController: MenuDelegate {
@@ -40,8 +73,11 @@ extension MenuViewController: MenuDelegate {
         
     }
     
+    /// the scene gives us a map
     func startWith(map: MapModel?) {
         
+        self.currentMap = map // store for handover
+        self.performSegue(withIdentifier: R.segue.menuViewController.gotoGame.identifier, sender: nil)
     }
     
     func startOptions() {

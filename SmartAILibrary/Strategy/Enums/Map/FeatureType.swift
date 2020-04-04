@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum FeatureType: Int, Codable {
+public enum FeatureType: Int, Codable {
 
     case none
     

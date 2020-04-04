@@ -14,7 +14,7 @@ enum CivicError: Error {
     case alreadyDiscovered
 }
 
-protocol AbstractCivics {
+public protocol AbstractCivics {
     
     // civics
     func has(civic: CivicType) -> Bool

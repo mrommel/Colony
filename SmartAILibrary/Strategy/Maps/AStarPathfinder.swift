@@ -56,9 +56,13 @@ extension AStarPathStep: CustomDebugStringConvertible {
 }
 
 /** A pathfinder based on the A* algorithm to find the shortest path between two locations */
-class AStarPathfinder {
+public class AStarPathfinder {
 
     var dataSource: PathfinderDataSource!
+    
+    public init() {
+        
+    }
 
     private func insertStep(step: AStarPathStep, inOpenSteps openSteps: inout [AStarPathStep]) {
         openSteps.append(step)

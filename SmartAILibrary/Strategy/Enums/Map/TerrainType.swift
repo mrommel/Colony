@@ -9,7 +9,7 @@
 import Foundation
 
 // https://civilization.fandom.com/wiki/Terrain_(Civ6)
-enum TerrainType: Int, Codable {
+public enum TerrainType: Int, Codable {
     
     case grass
     case plains
@@ -42,7 +42,7 @@ enum TerrainType: Int, Codable {
         }
     }
     
-    func isLand() -> Bool {
+    public func isLand() -> Bool {
         
         switch self {
         case .grass, .plains, .desert, .tundra, .snow:
@@ -52,7 +52,7 @@ enum TerrainType: Int, Codable {
         }
     }
     
-    func isWater() -> Bool {
+    public func isWater() -> Bool {
         
         switch self {
         case .grass, .plains, .desert, .tundra, .snow:

@@ -8,14 +8,14 @@
 
 import Foundation
 
-enum ResourceUsageType {
+public enum ResourceUsageType {
 
     case bonus
     case strategic
     case luxury
 }
 
-enum ResourceType: Int, Codable {
+public enum ResourceType: Int, Codable {
 
     case none
 

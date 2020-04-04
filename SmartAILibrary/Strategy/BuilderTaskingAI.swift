@@ -88,7 +88,7 @@ class BuilderDirectiveWeightedList: WeightedList<BuilderDirective> {
     
 }
 
-class BuilderTaskingAI {
+public class BuilderTaskingAI {
 
     var player: Player?
     

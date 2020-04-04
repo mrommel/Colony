@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AbstractTechs {
+public protocol AbstractTechs {
     
     // techs
     func has(tech: TechType) -> Bool

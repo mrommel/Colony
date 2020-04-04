@@ -14,7 +14,7 @@ public class OceanFinder {
     
     public init(width: Int, height: Int) {
         
-        self.oceanIdentifiers = Array2D<Int>(columns: width, rows: height)
+        self.oceanIdentifiers = Array2D<Int>(width: width, height: height)
         self.oceanIdentifiers.fill(with: OceanConstants.kNotAnalyzed)
     }
     
@@ -31,8 +31,8 @@ public class OceanFinder {
     @discardableResult
     public func execute(on map: MapModel?) -> [Ocean] {
         
-        for x in 0..<self.oceanIdentifiers.columns {
-            for y in 0..<self.oceanIdentifiers.rows {
+        for x in 0..<self.oceanIdentifiers.width {
+            for y in 0..<self.oceanIdentifiers.height {
                 
                 self.evaluate(x: x, y: y, on: map)
             }
@@ -40,8 +40,8 @@ public class OceanFinder {
         
         var oceans = [Ocean]()
         
-        for x in 0..<self.oceanIdentifiers.columns {
-            for y in 0..<self.oceanIdentifiers.rows {
+        for x in 0..<self.oceanIdentifiers.width {
+            for y in 0..<self.oceanIdentifiers.height {
                 
                 let oceanIdentifier = self.oceanIdentifiers[x, y]
                 
@@ -111,8 +111,8 @@ public class OceanFinder {
             freeIdentifiers.setValueOfBit(value: true, at: i)
         }
         
-        for x in 0..<self.oceanIdentifiers.columns {
-            for y in 0..<self.oceanIdentifiers.rows {
+        for x in 0..<self.oceanIdentifiers.width {
+            for y in 0..<self.oceanIdentifiers.height {
                 
                 if let oceanIndex = self.oceanIdentifiers[x, y] {
                     if oceanIndex >= 0 && oceanIndex < 256 {
@@ -133,8 +133,8 @@ public class OceanFinder {
     
     private func replace(oldIdentifier: Int, withIdentifier newIdentifier: Int) {
         
-        for x in 0..<self.oceanIdentifiers.columns {
-            for y in 0..<self.oceanIdentifiers.rows {
+        for x in 0..<self.oceanIdentifiers.width {
+            for y in 0..<self.oceanIdentifiers.height {
                 
                 if self.oceanIdentifiers[x, y] == oldIdentifier {
                     self.oceanIdentifiers[x, y] = newIdentifier

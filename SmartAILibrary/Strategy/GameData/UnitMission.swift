@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UnitMission {
+public class UnitMission {
     
     weak var unit: AbstractUnit?
     let type: UnitMissionType

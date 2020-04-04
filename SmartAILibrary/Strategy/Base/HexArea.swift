@@ -37,7 +37,7 @@ class BoundingBox: Codable {
     }
 }
 
-class HexArea: Codable {
+public class HexArea: Codable {
     
     var points: [HexPoint]
     private var value: Double = 0.0
@@ -141,7 +141,7 @@ class HexArea: Codable {
 
 extension HexArea: Equatable {
     
-    static func == (lhs: HexArea, rhs: HexArea) -> Bool {
+    public static func == (lhs: HexArea, rhs: HexArea) -> Bool {
         
         return lhs.points.elementsEqual(rhs.points)
     }
@@ -149,12 +149,12 @@ extension HexArea: Equatable {
 
 extension HexArea: Sequence {
     
-    func makeIterator() -> HexAreaIterator {
+    public func makeIterator() -> HexAreaIterator {
         return HexAreaIterator(area: self)
     }
 }
 
-struct HexAreaIterator: IteratorProtocol {
+public struct HexAreaIterator: IteratorProtocol {
     
     private let area: HexArea
     private var index = 0
@@ -163,7 +163,7 @@ struct HexAreaIterator: IteratorProtocol {
         self.area = area
     }
     
-    mutating func next() -> HexPoint? {
+    mutating public func next() -> HexPoint? {
         
         guard 0 <= index else {
             return nil

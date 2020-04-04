@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AbstractReligion {
+public protocol AbstractReligion {
     
     func add(faith faithDelta: Double)
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DangerPlotsAI {
+public class DangerPlotsAI {
     
     let player: AbstractPlayer
     var dangerPlots: Array2D<Double>?
@@ -26,7 +26,7 @@ class DangerPlotsAI {
         }
         
         let mapSize = gameModel.mapSize()
-        self.dangerPlots = Array2D<Double>(columns: mapSize.width(), rows: mapSize.height())
+        self.dangerPlots = Array2D<Double>(width: mapSize.width(), height: mapSize.height())
         self.dangerPlots?.fill(with: 0)
     }
     

@@ -9,7 +9,7 @@
 import Foundation
 
 /// Information about the Grand Strategy of a single AI player
-class GrandStrategyAI {
+public class GrandStrategyAI {
 
     var activeStrategy: GrandStrategyAIType
     var player: Player?

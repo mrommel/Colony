@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum UnitAutomationType: Int, Codable {
+public enum UnitAutomationType: Int, Codable {
     
     case none
     
@@ -17,7 +17,7 @@ enum UnitAutomationType: Int, Codable {
 }
 
 // CIV5Missions.xml
-enum UnitMissionType {
+public enum UnitMissionType {
    
     case found
     case moveTo

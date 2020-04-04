@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum UnitActivityType: Int, Codable {
+public enum UnitActivityType: Int, Codable {
     
     case none
     case awake // ACTIVITY_AWAKE,
@@ -20,7 +20,7 @@ enum UnitActivityType: Int, Codable {
     case mission // ACTIVITY_MISSION
 }
 
-protocol AbstractUnit: class, Codable {
+public protocol AbstractUnit: class, Codable {
 
     var location: HexPoint { get }
     var player: AbstractPlayer? { get }

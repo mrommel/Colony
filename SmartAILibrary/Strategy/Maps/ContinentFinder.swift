@@ -14,7 +14,7 @@ public class ContinentFinder {
 
     public init(width: Int, height: Int) {
 
-        self.continentIdentifiers = Array2D<Int>(columns: width, rows: height)
+        self.continentIdentifiers = Array2D<Int>(width: width, height: height)
         self.continentIdentifiers.fill(with: ContinentConstants.kNotAnalyzed)
     }
     
@@ -31,8 +31,8 @@ public class ContinentFinder {
     @discardableResult
     public func execute(on map: MapModel?) -> [Continent] {
 
-        for x in 0..<self.continentIdentifiers.columns {
-            for y in 0..<self.continentIdentifiers.rows {
+        for x in 0..<self.continentIdentifiers.width {
+            for y in 0..<self.continentIdentifiers.height {
 
                 self.evaluate(x: x, y: y, on: map)
             }
@@ -40,8 +40,8 @@ public class ContinentFinder {
 
         var continents = [Continent]()
 
-        for x in 0..<self.continentIdentifiers.columns {
-            for y in 0..<self.continentIdentifiers.rows {
+        for x in 0..<self.continentIdentifiers.width {
+            for y in 0..<self.continentIdentifiers.height {
 
                 let continentIdentifier = self.continentIdentifiers[x, y]
 
@@ -111,8 +111,8 @@ public class ContinentFinder {
             freeIdentifiers.setValueOfBit(value: true, at: i)
         }
 
-        for x in 0..<self.continentIdentifiers.columns {
-            for y in 0..<self.continentIdentifiers.rows {
+        for x in 0..<self.continentIdentifiers.width {
+            for y in 0..<self.continentIdentifiers.height {
 
                 if let continentIndex = self.continentIdentifiers[x, y] {
                     if continentIndex >= 0 && continentIndex < 256 {
@@ -133,8 +133,8 @@ public class ContinentFinder {
 
     func replace(oldIdentifier: Int, withIdentifier newIdentifier: Int) {
 
-        for x in 0..<self.continentIdentifiers.columns {
-            for y in 0..<self.continentIdentifiers.rows {
+        for x in 0..<self.continentIdentifiers.width {
+            for y in 0..<self.continentIdentifiers.height {
 
                 if self.continentIdentifiers[x, y] == oldIdentifier {
                     self.continentIdentifiers[x, y] = newIdentifier

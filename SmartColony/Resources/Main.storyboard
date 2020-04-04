@@ -57,6 +57,9 @@
                         <viewLayoutGuide key="safeArea" id="laT-nq-6FF"/>
                     </view>
                     <navigationItem key="navigationItem" id="JLT-3I-xPX"/>
+                    <connections>
+                        <segue destination="ol5-rr-Yn5" kind="show" identifier="gotoGame" id="432-Kg-opu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qYm-Ih-Jkq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -66,16 +69,17 @@
         <scene sceneID="m3e-lB-6kA">
             <objects>
                 <viewController id="ol5-rr-Yn5" customClass="GameViewController" customModule="SmartColony" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="cBN-99-QeC">
+                    <view key="view" contentMode="scaleToFill" id="cBN-99-QeC" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="0pX-b6-u3f"/>
                     </view>
+                    <navigationItem key="navigationItem" id="DYo-oE-YPv"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HbT-6Y-gYe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="626.08695652173913" y="45.535714285714285"/>
+            <point key="canvasLocation" x="667" y="46"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="EBE-SU-eFl">
@@ -83,6 +87,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="eqn-wi-ApM" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="MFp-dO-uWA">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

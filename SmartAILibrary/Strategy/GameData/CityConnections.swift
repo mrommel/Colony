@@ -49,7 +49,7 @@ class PlotRouteInfos {
     }
 }
 
-class CityConnections {
+public class CityConnections {
     
     var player: Player?
     

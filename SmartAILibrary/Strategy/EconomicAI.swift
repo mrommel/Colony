@@ -8,7 +8,7 @@
 
 import Foundation
 
-class EconomicAI {
+public class EconomicAI {
 
     var player: Player?
     private let economicStrategyAdoption: EconomicStrategyAdoption

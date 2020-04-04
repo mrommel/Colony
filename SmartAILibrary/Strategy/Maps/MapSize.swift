@@ -30,7 +30,7 @@ public enum MapSize {
         }
     }
     
-    func width() -> Int {
+    public func width() -> Int {
         
         switch self {
 
@@ -51,7 +51,7 @@ public enum MapSize {
         }
     }
     
-    func height() -> Int {
+    public func height() -> Int {
         
         switch self {
 

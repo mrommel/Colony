@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CivilianAttackPriorityType {
+public enum CivilianAttackPriorityType {
     
     case none
     case high
@@ -16,7 +16,7 @@ enum CivilianAttackPriorityType {
     case low
 }
 
-enum UnitType: Int, Codable {
+public enum UnitType: Int, Codable {
     
     case barbarianWarrior
     

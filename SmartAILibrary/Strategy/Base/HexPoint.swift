@@ -43,7 +43,7 @@ struct HexLayout {
     // odd-q
 }
 
-enum HexDirection: Int {
+public enum HexDirection: Int {
 
     case north
     case northeast
@@ -52,12 +52,12 @@ enum HexDirection: Int {
     case southwest
     case northwest
 
-    static var all: [HexDirection] {
+    public static var all: [HexDirection] {
         
         return [.north, .northeast, .southeast, .south, .southwest, .northwest]
     }
 
-    var short: String {
+    public func short() -> String {
         
         switch self {
         case .north:
@@ -132,14 +132,14 @@ enum HexDirection: Int {
 
 import Foundation
 
-class HexPoint: Codable {
+public class HexPoint: Codable {
     
     static let zero = HexPoint(x: 0, y: 0)
     
-    let x: Int
-    let y: Int
+    public let x: Int
+    public let y: Int
     
-    init(x: Int, y: Int) {
+    public init(x: Int, y: Int) {
         self.x = x
         self.y = y
     }
@@ -196,6 +196,18 @@ class HexCube {
     convenience init(hex: HexPoint) {
         self.init(q: hex.x - (hex.y + (hex.y&1)) / 2, s: hex.y) // even-q
         //self.init(q: hex.x - (hex.y - (hex.y&1)) / 2, s: hex.y) // odd-q
+    }
+    
+    convenience init(screen: CGPoint) {
+
+        let layout = HexLayout(orientation: HexOrientation.flat, size: CGSize(width: 24, height: 18), origin: CGPoint.zero)
+        let orientationMatrix = layout.orientation
+        let point = CGPoint(x: (Double(screen.x) - Double(layout.origin.x)) / Double(layout.size.width),
+            y: (Double(screen.y) - Double(layout.origin.y)) / Double(layout.size.height))
+        let q = orientationMatrix.b0 * Double(point.x) + orientationMatrix.b1 * Double(point.y)
+        let r = orientationMatrix.b2 * Double(point.x) + orientationMatrix.b3 * Double(point.y)
+        
+        self.init(qDouble: q, rDouble: r, sDouble: -q - r)
     }
     
     func distance(to cube: HexCube) -> Int {
@@ -293,6 +305,17 @@ extension HexPoint {
         //self.init(x: cube.q + (cube.s - (cube.s&1)) / 2, y: cube.s) // odd-q
     }
     
+    public convenience init(screen: CGPoint) {
+    
+        var screenPoint = screen
+        
+        // FIXME: hm, not sure why this is needed
+        screenPoint.x -= 20
+        screenPoint.y -= 15
+        
+        self.init(cube: HexCube(screen: screenPoint))
+    }
+    
     /*func neighbor(in direction: HexDirection) -> HexPoint {
         let parity = self.x & 1
         return self + (parity == 0 ? direction.axialDirectionOdd : direction.axialDirectionEven)
@@ -303,7 +326,7 @@ extension HexPoint {
         return self.distance(to: point) == 1
     }
     
-    func neighbor(in direction: HexDirection) -> HexPoint {
+    public func neighbor(in direction: HexDirection) -> HexPoint {
         let cubeNeighbor = HexCube(hex: self) + direction.cubeDirection
         return HexPoint(cube: cubeNeighbor)
     }
@@ -411,7 +434,7 @@ extension HexPoint {
         return CGPoint(x: x + Double(layout.origin.x), y: y + Double(layout.origin.y))
     }
 
-    static func toScreen(hex: HexPoint) -> CGPoint {
+    public static func toScreen(hex: HexPoint) -> CGPoint {
 
         return toScreen(cube: HexCube(hex: hex))
     }
@@ -449,7 +472,7 @@ extension HexPoint {
 
 extension HexPoint: Hashable, Equatable {
     
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(self.x)
         hasher.combine(self.y)
     }
@@ -459,7 +482,7 @@ extension HexPoint: Hashable, Equatable {
 // to the requirements of the Equatable protocol, you need
 // to implement the == operation (which returns true if two objects
 // are the same, and false if they aren't)
-func == (first: HexPoint, second: HexPoint) -> Bool {
+public func == (first: HexPoint, second: HexPoint) -> Bool {
     return first.x == second.x && first.y == second.y
 }
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PolicyCardSlots {
+public struct PolicyCardSlots {
     
     let military: Int // red
     let economic: Int // yellow
@@ -16,7 +16,7 @@ struct PolicyCardSlots {
     let wildcard: Int // lila
 }
 
-enum GovernmentType {
+public enum GovernmentType {
     
     // ancient
     case chiefdom

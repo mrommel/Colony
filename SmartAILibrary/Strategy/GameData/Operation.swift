@@ -72,7 +72,7 @@ struct OperationSearchUnit {
 //!  - AI operations are launched by some player strategies
 //!  - Each operations manages one or more armies (multiple armies in an operation not yet tested)
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-class Operation: Equatable {
+public class Operation: Equatable {
 
     let type: UnitOperationType
     var state: OperationStateType = .none
@@ -617,7 +617,7 @@ class Operation: Equatable {
         return true
     }
     
-    static func == (lhs: Operation, rhs: Operation) -> Bool {
+    public static func == (lhs: Operation, rhs: Operation) -> Bool {
         
         return lhs.type == rhs.type && lhs.area == rhs.area && lhs.enemy?.leader == rhs.enemy?.leader && lhs.moveType == rhs.moveType && lhs.targetPosition == rhs.targetPosition
     }

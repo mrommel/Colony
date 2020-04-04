@@ -17,6 +17,23 @@
 		C957AA51243641D300203024 /* MapRainfallDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA4D243641D300203024 /* MapRainfallDialog.xml */; };
 		C957AA52243641D300203024 /* MapClimateDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA4E243641D300203024 /* MapClimateDialog.xml */; };
 		C957AA53243641D300203024 /* MapAgeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA4F243641D300203024 /* MapAgeDialog.xml */; };
+		C95B3DEE243726CD002F5A86 /* GameLoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3DED243726CD002F5A86 /* GameLoadingScene.swift */; };
+		C95B3DF02437975D002F5A86 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3DEF2437975D002F5A86 /* GameViewModel.swift */; };
+		C95B3DF224386E8A002F5A86 /* GameSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3DF124386E8A002F5A86 /* GameSceneViewModel.swift */; };
+		C95B3DF424387100002F5A86 /* MapNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3DF324387100002F5A86 /* MapNode.swift */; };
+		C95B3DF624387125002F5A86 /* BottomLeftBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3DF524387125002F5A86 /* BottomLeftBar.swift */; };
+		C95B3DF824387188002F5A86 /* BottomRightBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3DF724387188002F5A86 /* BottomRightBar.swift */; };
+		C95B3DFA243871A6002F5A86 /* SizedNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3DF9243871A6002F5A86 /* SizedNode.swift */; };
+		C95B3DFC243871DD002F5A86 /* MapOverviewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3DFB243871DD002F5A86 /* MapOverviewNode.swift */; };
+		C95B3DFE243872E0002F5A86 /* TouchableSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3DFD243872E0002F5A86 /* TouchableSpriteNode.swift */; };
+		C95B3E0024387485002F5A86 /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3DFF24387485002F5A86 /* PixelBuffer.swift */; };
+		C95B3E02243874E5002F5A86 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3E01243874E5002F5A86 /* UIImageExtension.swift */; };
+		C95B3E0424387528002F5A86 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3E0324387528002F5A86 /* UIColorExtension.swift */; };
+		C95B3E072438E780002F5A86 /* TerrainLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3E062438E780002F5A86 /* TerrainLayer.swift */; };
+		C95B3E092438E78E002F5A86 /* FeatureLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3E082438E78E002F5A86 /* FeatureLayer.swift */; };
+		C95B3E0B2438E79B002F5A86 /* BoardLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3E0A2438E79B002F5A86 /* BoardLayer.swift */; };
+		C95B3E0D2438E7A8002F5A86 /* RiverLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3E0C2438E7A8002F5A86 /* RiverLayer.swift */; };
+		C95B3E0F2439244D002F5A86 /* Tiles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C95B3E0E2439244D002F5A86 /* Tiles.xcassets */; };
 		C9B1D205243474F900033791 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D204243474F900033791 /* GameViewController.swift */; };
 		C9B1D2092434757600033791 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B1D2082434757600033791 /* SmartAILibrary.framework */; };
 		C9B1D20A2434757600033791 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9B1D2082434757600033791 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -100,6 +117,25 @@
 		C957AA4D243641D300203024 /* MapRainfallDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapRainfallDialog.xml; sourceTree = "<group>"; };
 		C957AA4E243641D300203024 /* MapClimateDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapClimateDialog.xml; sourceTree = "<group>"; };
 		C957AA4F243641D300203024 /* MapAgeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapAgeDialog.xml; sourceTree = "<group>"; };
+		C95B3DEB24371025002F5A86 /* earth_duel.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = earth_duel.map; sourceTree = "<group>"; };
+		C95B3DEC24371025002F5A86 /* earth_tiny.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = earth_tiny.map; sourceTree = "<group>"; };
+		C95B3DED243726CD002F5A86 /* GameLoadingScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLoadingScene.swift; sourceTree = "<group>"; };
+		C95B3DEF2437975D002F5A86 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		C95B3DF124386E8A002F5A86 /* GameSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneViewModel.swift; sourceTree = "<group>"; };
+		C95B3DF324387100002F5A86 /* MapNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapNode.swift; sourceTree = "<group>"; };
+		C95B3DF524387125002F5A86 /* BottomLeftBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomLeftBar.swift; sourceTree = "<group>"; };
+		C95B3DF724387188002F5A86 /* BottomRightBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomRightBar.swift; sourceTree = "<group>"; };
+		C95B3DF9243871A6002F5A86 /* SizedNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizedNode.swift; sourceTree = "<group>"; };
+		C95B3DFB243871DD002F5A86 /* MapOverviewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewNode.swift; sourceTree = "<group>"; };
+		C95B3DFD243872E0002F5A86 /* TouchableSpriteNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableSpriteNode.swift; sourceTree = "<group>"; };
+		C95B3DFF24387485002F5A86 /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
+		C95B3E01243874E5002F5A86 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		C95B3E0324387528002F5A86 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		C95B3E062438E780002F5A86 /* TerrainLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainLayer.swift; sourceTree = "<group>"; };
+		C95B3E082438E78E002F5A86 /* FeatureLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLayer.swift; sourceTree = "<group>"; };
+		C95B3E0A2438E79B002F5A86 /* BoardLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardLayer.swift; sourceTree = "<group>"; };
+		C95B3E0C2438E7A8002F5A86 /* RiverLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverLayer.swift; sourceTree = "<group>"; };
+		C95B3E0E2439244D002F5A86 /* Tiles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Tiles.xcassets; sourceTree = "<group>"; };
 		C9B1D204243474F900033791 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		C9B1D2082434757600033791 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B1D20C2434768900033791 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -176,12 +212,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C95B3E052438E775002F5A86 /* Layer */ = {
+			isa = PBXGroup;
+			children = (
+				C95B3E062438E780002F5A86 /* TerrainLayer.swift */,
+				C95B3E082438E78E002F5A86 /* FeatureLayer.swift */,
+				C95B3E0A2438E79B002F5A86 /* BoardLayer.swift */,
+				C95B3E0C2438E7A8002F5A86 /* RiverLayer.swift */,
+			);
+			path = Layer;
+			sourceTree = "<group>";
+		};
 		C9B1D203243474E800033791 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				C9B1D2182434784800033791 /* SplashViewController.swift */,
 				C9B1D21A2434788000033791 /* MenuViewController.swift */,
 				C9B1D204243474F900033791 /* GameViewController.swift */,
+				C95B3DEF2437975D002F5A86 /* GameViewModel.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -189,10 +237,13 @@
 		C9B1D2062434752E00033791 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				C95B3E052438E775002F5A86 /* Layer */,
 				C9B1D22B2434955300033791 /* BaseScene.swift */,
 				C9B1D2292434934600033791 /* MenuScene.swift */,
 				C9B1D24A2434C3D600033791 /* MenuSceneExtension.swift */,
 				C9B1D20C2434768900033791 /* GameScene.swift */,
+				C95B3DF124386E8A002F5A86 /* GameSceneViewModel.swift */,
+				C95B3DED243726CD002F5A86 /* GameLoadingScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -216,6 +267,7 @@
 				C9F61478243471E200450B6C /* Assets.xcassets */,
 				C9B1D222243481D900033791 /* Main.storyboard */,
 				C9B1D22724348C6E00033791 /* LaunchScreen.storyboard */,
+				C95B3E0E2439244D002F5A86 /* Tiles.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -240,6 +292,12 @@
 				C9B1D25C2435160800033791 /* ProgressBarNode.swift */,
 				C9B1D25E2435166700033791 /* MessageBoxButtonNode.swift */,
 				C9B1D262243517D600033791 /* SKNodeExtension.swift */,
+				C95B3DF324387100002F5A86 /* MapNode.swift */,
+				C95B3DF524387125002F5A86 /* BottomLeftBar.swift */,
+				C95B3DF724387188002F5A86 /* BottomRightBar.swift */,
+				C95B3DF9243871A6002F5A86 /* SizedNode.swift */,
+				C95B3DFB243871DD002F5A86 /* MapOverviewNode.swift */,
+				C95B3DFD243872E0002F5A86 /* TouchableSpriteNode.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -252,6 +310,9 @@
 				C9B1D2332434B0BE00033791 /* CGRectExtension.swift */,
 				C9B1D23F2434B83800033791 /* CGSizeExtension.swift */,
 				C9B1D2602435177E00033791 /* CGPointExtension.swift */,
+				C95B3DFF24387485002F5A86 /* PixelBuffer.swift */,
+				C95B3E01243874E5002F5A86 /* UIImageExtension.swift */,
+				C95B3E0324387528002F5A86 /* UIColorExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -310,6 +371,8 @@
 		C9B1D2882435AFE300033791 /* Maps */ = {
 			isa = PBXGroup;
 			children = (
+				C95B3DEB24371025002F5A86 /* earth_duel.map */,
+				C95B3DEC24371025002F5A86 /* earth_tiny.map */,
 				C9B1D28A2435B00F00033791 /* earth_huge.map */,
 				C9B1D28B2435B00F00033791 /* earth_large.map */,
 				C9B1D28C2435B00F00033791 /* earth_small.map */,
@@ -468,6 +531,7 @@
 				C9B1D28E2435B08500033791 /* earth_large.map in Resources */,
 				C9B1D2472434B9AE00033791 /* DINNext-Bold.ttf in Resources */,
 				C957AA50243641D300203024 /* MapLoadingDialog.xml in Resources */,
+				C95B3E0F2439244D002F5A86 /* Tiles.xcassets in Resources */,
 				C9B1D223243481D900033791 /* Main.storyboard in Resources */,
 				C9F61479243471E200450B6C /* Assets.xcassets in Resources */,
 				C957AA52243641D300203024 /* MapClimateDialog.xml in Resources */,
@@ -515,17 +579,24 @@
 				C9B1D24E2434C4F700033791 /* MapTypeDialog.swift in Sources */,
 				C9B1D21B2434788000033791 /* MenuViewController.swift in Sources */,
 				C9B1D263243517D600033791 /* SKNodeExtension.swift in Sources */,
+				C95B3E0D2438E7A8002F5A86 /* RiverLayer.swift in Sources */,
+				C95B3DF424387100002F5A86 /* MapNode.swift in Sources */,
 				C9B1D2812435215400033791 /* MapSeaLevelDialog.swift in Sources */,
 				C9B1D285243521FF00033791 /* MapClimateDialog.swift in Sources */,
 				C9B1D205243474F900033791 /* GameViewController.swift in Sources */,
+				C95B3E092438E78E002F5A86 /* FeatureLayer.swift in Sources */,
 				C9B1D22A2434934600033791 /* MenuScene.swift in Sources */,
 				C9B1D20D2434768900033791 /* GameScene.swift in Sources */,
 				C9B1D27824351F3500033791 /* UIParser.swift in Sources */,
+				C95B3E0424387528002F5A86 /* UIColorExtension.swift in Sources */,
+				C95B3E02243874E5002F5A86 /* UIImageExtension.swift in Sources */,
 				C9B1D22F243495D000033791 /* SafeAreaNode.swift in Sources */,
 				C9108F4A243630B80023C76D /* R.generated.swift in Sources */,
 				C9B1D27B24351F3500033791 /* DialogConfiguration.swift in Sources */,
 				C9B1D2872435363500033791 /* MapLoadingDialog.swift in Sources */,
 				C9F61475243471D500450B6C /* SmartColony.xcdatamodeld in Sources */,
+				C95B3DFA243871A6002F5A86 /* SizedNode.swift in Sources */,
+				C95B3E072438E780002F5A86 /* TerrainLayer.swift in Sources */,
 				C9B1D2612435177E00033791 /* CGPointExtension.swift in Sources */,
 				C9B1D23E2434B7BE00033791 /* Globals.swift in Sources */,
 				C9B1D2342434B0BE00033791 /* CGRectExtension.swift in Sources */,
@@ -535,18 +606,27 @@
 				C9B1D23C2434B77500033791 /* NineGridTextureSprite.swift in Sources */,
 				C9B1D27D24351FB900033791 /* MapAgeDialog.swift in Sources */,
 				C9B1D25F2435166700033791 /* MessageBoxButtonNode.swift in Sources */,
+				C95B3E0B2438E79B002F5A86 /* BoardLayer.swift in Sources */,
+				C95B3E0024387485002F5A86 /* PixelBuffer.swift in Sources */,
+				C95B3DF824387188002F5A86 /* BottomRightBar.swift in Sources */,
 				C9B1D2362434B10000033791 /* SKSpriteNodeExtension.swift in Sources */,
 				C9B1D25B2434C82F00033791 /* DropdownNode.swift in Sources */,
 				C9B1D27F2435208300033791 /* MapSizeDialog.swift in Sources */,
 				C9B1D27924351F3500033791 /* Dialog.swift in Sources */,
+				C95B3DFE243872E0002F5A86 /* TouchableSpriteNode.swift in Sources */,
+				C95B3DEE243726CD002F5A86 /* GameLoadingScene.swift in Sources */,
 				C9B1D24B2434C3D600033791 /* MenuSceneExtension.swift in Sources */,
 				C9B1D2192434784800033791 /* SplashViewController.swift in Sources */,
+				C95B3DF224386E8A002F5A86 /* GameSceneViewModel.swift in Sources */,
 				C9B1D25D2435160800033791 /* ProgressBarNode.swift in Sources */,
 				C9B1D22C2434955300033791 /* BaseScene.swift in Sources */,
+				C95B3DF624387125002F5A86 /* BottomLeftBar.swift in Sources */,
 				C9B1D283243521A500033791 /* MapRainfallDialog.swift in Sources */,
+				C95B3DF02437975D002F5A86 /* GameViewModel.swift in Sources */,
 				C9B1D2382434B71900033791 /* MenuButtonNode.swift in Sources */,
 				C9B1D27A24351F3500033791 /* DialogItem.swift in Sources */,
 				C9B1D2312434960000033791 /* BlurrableNode.swift in Sources */,
+				C95B3DFC243871DD002F5A86 /* MapOverviewNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

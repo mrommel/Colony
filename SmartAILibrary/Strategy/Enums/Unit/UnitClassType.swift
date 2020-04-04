@@ -9,7 +9,7 @@
 import Foundation
 
 // https://civilization.fandom.com/wiki/Units_(Civ6)
-enum UnitClassType {
+public enum UnitClassType {
     
     case civilian
     

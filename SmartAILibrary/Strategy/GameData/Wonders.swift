@@ -12,7 +12,7 @@ enum WonderError: Error {
     case alreadyBuild
 }
 
-protocol AbstractWonders {
+public protocol AbstractWonders {
     
     // wonders
     func has(wonder: WonderType) -> Bool

@@ -71,7 +71,7 @@ public class GameModel {
     
     private var gameStateValue: GameStateType
 
-    init(victoryTypes: [VictoryType], turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
+    public init(victoryTypes: [VictoryType], turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
         self.victoryTypes = victoryTypes
         self.turnsElapsed = turnsElapsed
         self.players = players
@@ -87,7 +87,7 @@ public class GameModel {
         self.wondersBuilt = Wonders(city: nil)
     }
     
-    func update() {
+    public func update() {
         
         guard let userInterface = self.userInterface else {
             fatalError("no UI")
@@ -696,9 +696,14 @@ public class GameModel {
         return self.map.valid(point: point)
     }
 
-    func tile(at point: HexPoint) -> AbstractTile? {
+    public func tile(at point: HexPoint) -> AbstractTile? {
 
         return self.map.tile(at: point)
+    }
+    
+    public func tile(x: Int, y: Int) -> AbstractTile? {
+
+        return self.map.tile(x: x, y: y)
     }
     
     func terrain(at point: HexPoint) -> TerrainType? {
@@ -799,12 +804,12 @@ public class GameModel {
         return 100 * numberOfTilesMap / numberOfTilesStandard
     }
 
-    func mapSize() -> MapSize {
+    public func mapSize() -> MapSize {
 
         return self.map.size
     }
     
-    func humanPlayer() -> AbstractPlayer? {
+    public func humanPlayer() -> AbstractPlayer? {
         
         return self.players.first(where: { $0.isHuman() })
     }

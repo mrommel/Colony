@@ -23,7 +23,7 @@ enum TileError: Error {
     case alreadyWorked
 }
 
-struct BuilderAIScratchPad {
+public struct BuilderAIScratchPad {
     
     var turn: Int
     var routeType: RouteType
@@ -41,7 +41,7 @@ class BuildProgressList: WeightedList<BuildType> {
     }
 }
 
-protocol AbstractTile: Codable {
+public protocol AbstractTile: Codable {
     
     var point: HexPoint { get }
     var area: HexArea? { get set }

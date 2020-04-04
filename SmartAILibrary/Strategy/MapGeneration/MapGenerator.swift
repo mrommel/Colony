@@ -36,9 +36,9 @@ public class MapGenerator {
         self.height = options.size.height()
 
 		// prepare terrain, distanceToCoast and zones
-		self.terrain = Array2D<TerrainType>(columns: self.width, rows: self.height)
-		self.distanceToCoast = Array2D<Int>(columns: self.width, rows: self.height)
-		self.zones = Array2D<ClimateZone>(columns: self.width, rows: self.height)
+        self.terrain = Array2D<TerrainType>(width: self.width, height: self.height)
+        self.distanceToCoast = Array2D<Int>(width: self.width, height: self.height)
+        self.zones = Array2D<ClimateZone>(width: self.width, height: self.height)
 		self.springLocations = []
 	}
 

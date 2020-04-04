@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TileImprovementType: Int, Codable {
+public enum TileImprovementType: Int, Codable {
 
     case none
     

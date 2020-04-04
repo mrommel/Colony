@@ -42,11 +42,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let gameViewController = viewController as? GameViewController {
                 
                 // check if we have the game
-                if let _ = gameViewController.gameScene?.game {
+                //if let _ = gameViewController.gameScene?.game {
                     
                     //game.pause()
                     print("game paused")
-                }
+                //}
             }
         }
     }
@@ -68,11 +68,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let gameViewController = viewController as? GameViewController {
                 
                 // check if we have the game
-                if let game = gameViewController.gameScene?.game {
+                //if let game = gameViewController.gameScene?.game {
                     
                     //game.resume()
                     //print("resume game: \(game.title)")
-                }
+                //}
             }
         }
     }
@@ -88,10 +88,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let gameViewController = viewController as? GameViewController {
                 
                 // check if we have the game
-                if let game = gameViewController.gameScene?.game {
+                //if let game = gameViewController.gameScene?.game {
                     // let gameUsecase = GameUsecase()
                     // gameUsecase.backup(game: game)
-                }
+                //}
             }
         }
 

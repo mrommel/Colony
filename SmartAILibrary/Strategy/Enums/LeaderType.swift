@@ -36,7 +36,7 @@ enum LeaderAbilityType {
 }
 
 // https://civdata.com/
-enum LeaderType: Int, Codable {
+public enum LeaderType: Int, Codable {
 
     case none
     case barbar
@@ -66,7 +66,7 @@ enum LeaderType: Int, Codable {
         }
     }
     
-    func civilization() -> CivilizationType {
+    public func civilization() -> CivilizationType {
         
         switch self {
 

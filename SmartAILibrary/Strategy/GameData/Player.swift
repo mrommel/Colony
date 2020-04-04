@@ -28,7 +28,7 @@ class ImprovementCountList: WeightedList<TileImprovementType> {
     }
 }
 
-protocol AbstractPlayer {
+public protocol AbstractPlayer: class {
 
     var leader: LeaderType { get }
     var techs: AbstractTechs? { get }
@@ -147,38 +147,38 @@ protocol AbstractPlayer {
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
 
-class Player: AbstractPlayer {
+public class Player: AbstractPlayer {
 
-    internal var leader: LeaderType
+    public var leader: LeaderType
     //internal let relations: PlayerRelationDict
     internal var isAliveVal: Bool
     internal let isHumanVal: Bool
 
-    internal var grandStrategyAI: GrandStrategyAI?
-    internal var diplomacyAI: DiplomaticAI?
-    internal var economicAI: EconomicAI?
-    internal var militaryAI: MilitaryAI?
-    internal var tacticalAI: TacticalAI?
-    internal var dangerPlotsAI: DangerPlotsAI?
+    public var grandStrategyAI: GrandStrategyAI?
+    public var diplomacyAI: DiplomaticAI?
+    public var economicAI: EconomicAI?
+    public var militaryAI: MilitaryAI?
+    public var tacticalAI: TacticalAI?
+    public var dangerPlotsAI: DangerPlotsAI?
     internal var homelandAI: HomelandAI?
-    internal var builderTaskingAI: BuilderTaskingAI?
-    internal var citySpecializationAI: CitySpecializationAI?
-    internal var wonderProductionAI: WonderProductionAI?
+    public var builderTaskingAI: BuilderTaskingAI?
+    public var citySpecializationAI: CitySpecializationAI?
+    public var wonderProductionAI: WonderProductionAI?
     
-    internal var cityConnections: CityConnections?
+    public var cityConnections: CityConnections?
 
-    internal var techs: AbstractTechs?
-    internal var civics: AbstractCivics?
-    internal var religion: AbstractReligion?
-    internal var treasury: AbstractTreasury?
+    public var techs: AbstractTechs?
+    public var civics: AbstractCivics?
+    public var religion: AbstractReligion?
+    public var treasury: AbstractTreasury?
 
-    internal var government: AbstractGovernment? = nil
+    public var government: AbstractGovernment? = nil
     internal var currentEraVal: EraType = .ancient
 
     internal var operations: Operations? = nil
     internal var armies: Armies? = nil
     
-    internal var plots: [AbstractTile?]
+    public var plots: [AbstractTile?]
     internal var numPlotsBoughtValue: Int
     
     internal var resourceInventory: ResourceInventory?
@@ -192,7 +192,7 @@ class Player: AbstractPlayer {
 
     // MARK: constructor
 
-    init(leader: LeaderType, isHuman: Bool = false) {
+    public init(leader: LeaderType, isHuman: Bool = false) {
 
         self.leader = leader
         //self.relations = PlayerRelationDict()
@@ -209,7 +209,7 @@ class Player: AbstractPlayer {
 
     // public methods
 
-    func initialize() {
+    public func initialize() {
 
         self.grandStrategyAI = GrandStrategyAI(player: self)
         self.diplomacyAI = DiplomaticAI(player: self)
@@ -237,12 +237,12 @@ class Player: AbstractPlayer {
         self.resourceInventory?.fill()
     }
     
-    func hasActiveDiplomacyRequests() -> Bool {
+    public func hasActiveDiplomacyRequests() -> Bool {
         
         return false
     }
     
-    func canFinishTurn() -> Bool {
+    public func canFinishTurn() -> Bool {
         
         if !self.isHuman() {
             return false
@@ -263,34 +263,34 @@ class Player: AbstractPlayer {
         return true
     }
     
-    func finishTurnButtonPressed() -> Bool {
+    public func finishTurnButtonPressed() -> Bool {
         
         return self.finishTurnButtonPressedValue
     }
     
-    func finishTurn() {
+    public func finishTurn() {
         
         self.finishTurnButtonPressedValue = true
     }
     
-    func lastSliceMoved() -> Int {
+    public func lastSliceMoved() -> Int {
         
         return self.lastSliceMovedValue
     }
 
-    func setLastSliceMoved(to value: Int) {
+    public func setLastSliceMoved(to value: Int) {
         
         self.lastSliceMovedValue = value
     }
     
     // MARK: ----
 
-    func valueOfPersonalityFlavor(of flavor: FlavorType) -> Int {
+    public func valueOfPersonalityFlavor(of flavor: FlavorType) -> Int {
 
         return self.leader.flavor(for: flavor)
     }
 
-    func valueOfStrategyAndPersonalityFlavor(of flavor: FlavorType) -> Int {
+    public func valueOfStrategyAndPersonalityFlavor(of flavor: FlavorType) -> Int {
 
         guard let activeStrategy = self.grandStrategyAI?.activeStrategy else {
             fatalError("cant get active strategy")
@@ -303,17 +303,17 @@ class Player: AbstractPlayer {
         return self.leader.flavor(for: flavor) + activeStrategy.flavor(for: flavor)
     }
 
-    func valueOfStrategyAndPersonalityApproach(of approach: PlayerApproachType) -> Int {
+    public func valueOfStrategyAndPersonalityApproach(of approach: PlayerApproachType) -> Int {
 
         return self.leader.approachBias(for: approach)
     }
     
-    func isBarbarian() -> Bool {
+    public func isBarbarian() -> Bool {
         
         return self.leader == .barbar
     }
 
-    func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+    public func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get other player")
@@ -338,13 +338,13 @@ class Player: AbstractPlayer {
 
     // MARK: defensive pact handling
 
-    func doDefensivePact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+    public func doDefensivePact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         self.diplomacyAI?.doDefensivePact(with: otherPlayer, in: gameModel)
         otherPlayer?.diplomacyAI?.doDefensivePact(with: self, in: gameModel)
     }
 
-    func isDefensivePactActive(with otherPlayer: AbstractPlayer?) -> Bool {
+    public func isDefensivePactActive(with otherPlayer: AbstractPlayer?) -> Bool {
 
         if let diplomacyAI = self.diplomacyAI {
 
@@ -370,7 +370,7 @@ class Player: AbstractPlayer {
         return diplomacyAI.isAtWar()
     }
 
-    func atWarCount() -> Int {
+    public func atWarCount() -> Int {
 
         guard let diplomacyAI = self.diplomacyAI else {
             fatalError("cant get diplomacyAI")
@@ -379,7 +379,7 @@ class Player: AbstractPlayer {
         return diplomacyAI.atWarCount()
     }
     
-    func updateNotifications() {
+    public func updateNotifications() {
         
         /*if (GetNotifications())
         {
@@ -392,12 +392,12 @@ class Player: AbstractPlayer {
         }*/
     }
     
-    func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+    public func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
         
         self.diplomacyAI?.updateProximity(to: otherPlayer, in: gameModel)
     }
 
-    func hasMet(with otherPlayer: AbstractPlayer?) -> Bool {
+    public func hasMet(with otherPlayer: AbstractPlayer?) -> Bool {
 
         guard let diplomacyAI = self.diplomacyAI else {
             fatalError("cant get diplomacyAI")
@@ -412,22 +412,22 @@ class Player: AbstractPlayer {
         return false
     }
 
-    func isAlive() -> Bool {
+    public func isAlive() -> Bool {
 
         return self.isAliveVal
     }
     
-    func isActive() -> Bool {
+    public func isActive() -> Bool {
         
         return self.turnActive
     }
 
-    func isHuman() -> Bool {
+    public func isHuman() -> Bool {
 
         return self.isHumanVal
     }
     
-    func hasGoldenAge() -> Bool {
+    public func hasGoldenAge() -> Bool {
         
         return false
     }
@@ -442,7 +442,7 @@ class Player: AbstractPlayer {
         return self.turnActive
     }
     
-    func prepareTurn(in gamemModel: GameModel?) {
+    public func prepareTurn(in gamemModel: GameModel?) {
         
         // Barbarians get all Techs that 3/4 of alive players get
         if isBarbarian() {
@@ -479,7 +479,7 @@ class Player: AbstractPlayer {
         testCircumnavigated();*/
     }
     
-    func startTurn(in gameModel: GameModel?) {
+    public func startTurn(in gameModel: GameModel?) {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -534,7 +534,7 @@ class Player: AbstractPlayer {
         // self.doWarnings()
     }
     
-    func endTurn(in gameModel: GameModel?) {
+    public func endTurn(in gameModel: GameModel?) {
         
         guard isTurnActive() == true else {
             fatalError("try to end an inactive turn")
@@ -734,7 +734,7 @@ class Player: AbstractPlayer {
         //ProcessGreatPeople();
     }
     
-    func unitUpdate(in gameModel: GameModel?) {
+    public func unitUpdate(in gameModel: GameModel?) {
         
         // Now its the homeland AI's turn.
         if self.isHuman() {
@@ -1040,7 +1040,7 @@ class Player: AbstractPlayer {
         return score
     }
 
-    func personalAndGrandStrategyFlavor(for flavorType: FlavorType) -> Int {
+    public func personalAndGrandStrategyFlavor(for flavorType: FlavorType) -> Int {
 
         guard let grandStrategyAI = self.grandStrategyAI else {
             fatalError("grandStrategyAI not initialized")
@@ -1059,17 +1059,17 @@ class Player: AbstractPlayer {
         return value
     }
 
-    func currentEra() -> EraType {
+    public func currentEra() -> EraType {
 
         return self.currentEraVal
     }
 
-    func set(era: EraType) {
+    public func set(era: EraType) {
 
         self.currentEraVal = era
     }
 
-    func has(tech techType: TechType) -> Bool {
+    public func has(tech techType: TechType) -> Bool {
         
         if let techs = self.techs {
             return techs.has(tech: techType)
@@ -1078,7 +1078,7 @@ class Player: AbstractPlayer {
         return false
     }
 
-    func numberOfDiscoveredTechs() -> Int {
+    public func numberOfDiscoveredTechs() -> Int {
 
         if let techs = self.techs {
             return techs.numberOfDiscoveredTechs()
@@ -1087,12 +1087,12 @@ class Player: AbstractPlayer {
         return 0
     }
 
-    func canEmbark() -> Bool {
+    public func canEmbark() -> Bool {
 
         return self.has(tech: .sailing)
     }
 
-    func has(civic civicType: CivicType) -> Bool {
+    public func has(civic civicType: CivicType) -> Bool {
 
         if let civics = self.civics {
             return civics.has(civic: civicType)
@@ -1101,7 +1101,7 @@ class Player: AbstractPlayer {
         return false
     }
 
-    func advisorMessages() -> [AdvisorMessage] {
+    public func advisorMessages() -> [AdvisorMessage] {
 
         var messages: [AdvisorMessage] = []
 
@@ -1120,7 +1120,7 @@ class Player: AbstractPlayer {
         return messages
     }
 
-    func militaryMight(in gameModel: GameModel?) -> Int {
+    public func militaryMight(in gameModel: GameModel?) -> Int {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1146,7 +1146,7 @@ class Player: AbstractPlayer {
         return Int(might)
     }
 
-    func economicMight(in gameModel: GameModel?) -> Int {
+    public func economicMight(in gameModel: GameModel?) -> Int {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1164,7 +1164,7 @@ class Player: AbstractPlayer {
 
     // MARK: city methods
 
-    func cityStrengthModifier() -> Int {
+    public func cityStrengthModifier() -> Int {
 
         guard let government = self.government else {
             fatalError("cant get government")
@@ -1198,7 +1198,7 @@ class Player: AbstractPlayer {
 
     // MARK: AI
 
-    func operationsOf(type: UnitOperationType) -> [Operation] {
+    public func operationsOf(type: UnitOperationType) -> [Operation] {
 
         guard let operations = self.operations else {
             fatalError("cant get operations")
@@ -1207,7 +1207,7 @@ class Player: AbstractPlayer {
         return operations.operationsOf(type: type)
     }
 
-    func hasOperationsOf(type: UnitOperationType) -> Bool {
+    public func hasOperationsOf(type: UnitOperationType) -> Bool {
 
         guard let operations = self.operations else {
             fatalError("cant get operations")
@@ -1216,7 +1216,7 @@ class Player: AbstractPlayer {
         return operations.operationsOf(type: type).count > 0
     }
 
-    func numberOfOperationsOf(type: UnitOperationType) -> Int {
+    public func numberOfOperationsOf(type: UnitOperationType) -> Int {
 
         guard let operations = self.operations else {
             fatalError("cant get operations")
@@ -1225,7 +1225,7 @@ class Player: AbstractPlayer {
         return operations.operationsOf(type: type).count
     }
 
-    func addOperation(of type: UnitOperationType, towards otherPlayer: AbstractPlayer?, target city: AbstractCity?, in area: HexArea?, in gameModel: GameModel?) {
+    public func addOperation(of type: UnitOperationType, towards otherPlayer: AbstractPlayer?, target city: AbstractCity?, in area: HexArea?, in gameModel: GameModel?) {
 
         switch type {
 
@@ -1277,7 +1277,7 @@ class Player: AbstractPlayer {
     }
 
     /// Find the best spot in the entire world for this unit to settle
-    func bestSettlePlot(for firstSettler: AbstractUnit?, in gameModel: GameModel?, escorted: Bool, area: HexArea? = nil) -> AbstractTile? {
+    public func bestSettlePlot(for firstSettler: AbstractUnit?, in gameModel: GameModel?, escorted: Bool, area: HexArea? = nil) -> AbstractTile? {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1377,7 +1377,7 @@ class Player: AbstractPlayer {
         return bestFoundPlot
     }
 
-    func canFound(at location: HexPoint, in gameModel: GameModel?) -> Bool {
+    public func canFound(at location: HexPoint, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1398,7 +1398,7 @@ class Player: AbstractPlayer {
     }
     
     /// Can we eBuild on pPlot?
-    func canBuild(build: BuildType, at point: HexPoint, testVisible: Bool, testGold: Bool, in gameModel: GameModel?) -> Bool {
+    public func canBuild(build: BuildType, at point: HexPoint, testVisible: Bool, testGold: Bool, in gameModel: GameModel?) -> Bool {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1456,7 +1456,7 @@ class Player: AbstractPlayer {
         return true
     }
 
-    func bestSettleAreasWith(minimumSettleFertility minScore: Int, in gameModel: GameModel?) -> (Int, HexArea?, HexArea?) {
+    public func bestSettleAreasWith(minimumSettleFertility minScore: Int, in gameModel: GameModel?) -> (Int, HexArea?, HexArea?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1556,7 +1556,7 @@ class Player: AbstractPlayer {
     }
     
     /// This determines what plots the player has under control
-    func updatePlots(in gameModel: GameModel?) {
+    public func updatePlots(in gameModel: GameModel?) {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1582,7 +1582,7 @@ class Player: AbstractPlayer {
     }
     
     @discardableResult
-    func addPlot(tile: AbstractTile?) -> Bool {
+    public func addPlot(tile: AbstractTile?) -> Bool {
         
         if self.isEqual(to: tile?.owner()) {
             self.plots.append(tile)
@@ -1593,7 +1593,7 @@ class Player: AbstractPlayer {
     }
     
     /// Gold cost of buying a new Plot
-    func buyPlotCost() -> Int {
+    public func buyPlotCost() -> Int {
         
         var cost = 50 /* PLOT_BASE_COST */
         cost += (5 /* PLOT_ADDITIONAL_COST_PER_PLOT */ * self.numPlotsBought())
@@ -1613,12 +1613,12 @@ class Player: AbstractPlayer {
         return self.numPlotsBoughtValue
     }
     
-    func changeNumPlotsBought(change: Int) {
+    public func changeNumPlotsBought(change: Int) {
         
         self.numPlotsBoughtValue += change
     }
     
-    func numAvailable(resource: ResourceType) -> Int {
+    public func numAvailable(resource: ResourceType) -> Int {
         
         if let resourceInventory = self.resourceInventory {
             return Int(resourceInventory.weight(of: resource))
@@ -1627,7 +1627,7 @@ class Player: AbstractPlayer {
         return 0
     }
     
-    func changeNumAvailable(resource: ResourceType, change: Int) {
+    public func changeNumAvailable(resource: ResourceType, change: Int) {
         
         guard let resourceInventory = self.resourceInventory else {
             fatalError("cant get resourceInventory")
@@ -1636,7 +1636,7 @@ class Player: AbstractPlayer {
         resourceInventory.add(weight: change, for: resource)
     }
     
-    func numUnitsNeededToBeBuilt() -> Int {
+    public func numUnitsNeededToBeBuilt() -> Int {
 
         guard let operations = self.operations else {
             fatalError("cant get operations")
@@ -1645,7 +1645,7 @@ class Player: AbstractPlayer {
         return operations.numUnitsNeededToBeBuilt()
     }
     
-    func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool {
+    public func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1665,18 +1665,18 @@ class Player: AbstractPlayer {
         return false
     }
     
-    func hasBusyUnitOrCity() -> Bool {
+    public func hasBusyUnitOrCity() -> Bool {
         
         // FIXME
         return false
     }
     
-    func isAutoMoves() -> Bool {
+    public func isAutoMoves() -> Bool {
         
         return self.autoMovesValue
     }
     
-    func setAutoMoves(value: Bool) {
+    public func setAutoMoves(value: Bool) {
         
         if self.autoMovesValue != value {
             self.autoMovesValue = value
@@ -1684,17 +1684,17 @@ class Player: AbstractPlayer {
         }
     }
     
-    func hasProcessedAutoMoves() -> Bool {
+    public func hasProcessedAutoMoves() -> Bool {
         
         return self.processedAutoMovesValue
     }
     
-    func setProcessedAutoMoves(value: Bool) {
+    public func setProcessedAutoMoves(value: Bool) {
         
         self.processedAutoMovesValue = value
     }
     
-    func countReadyUnits(in gameModel: GameModel?) -> Int {
+    public func countReadyUnits(in gameModel: GameModel?) -> Int {
         
         guard let gameModel = gameModel else {
             
@@ -1723,17 +1723,17 @@ class Player: AbstractPlayer {
         return 0
     }
     
-    func changeImprovementCount(of improvement: TileImprovementType, change: Int) {
+    public func changeImprovementCount(of improvement: TileImprovementType, change: Int) {
         
         self.improvementCountList.add(weight: change, for: improvement)
     }
     
-    func changeTotalImprovementsBuilt(change: Int) {
+    public func changeTotalImprovementsBuilt(change: Int) {
         
         fatalError("niy")
     }
     
-    func isEqual(to other: AbstractPlayer?) -> Bool {
+    public func isEqual(to other: AbstractPlayer?) -> Bool {
         
         return self.leader == other?.leader
     }
@@ -1741,7 +1741,7 @@ class Player: AbstractPlayer {
 
 extension Player: Equatable {
 
-    static func == (lhs: Player, rhs: Player) -> Bool {
+    public static func == (lhs: Player, rhs: Player) -> Bool {
         return lhs.leader == rhs.leader
     }
 }

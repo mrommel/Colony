@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum UnitMovementType {
+public enum UnitMovementType {
     
     static let max = 1000.0
     

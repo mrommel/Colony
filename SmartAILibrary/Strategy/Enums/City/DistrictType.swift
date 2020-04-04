@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DistrictType: Int, Codable {
+public enum DistrictType: Int, Codable {
     
     case cityCenter
     case campus

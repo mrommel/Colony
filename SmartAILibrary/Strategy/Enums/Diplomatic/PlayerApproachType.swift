@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PlayerApproachType: Int, Codable {
+public enum PlayerApproachType: Int, Codable {
 
     case none
     

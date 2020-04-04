@@ -15,7 +15,7 @@ enum PlayerWarGoalType {
     case prepare
 }
 
-class DiplomaticAI {
+public class DiplomaticAI {
 
     var player: AbstractPlayer?
 

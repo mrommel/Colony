@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AdvisorMessage {
+public class AdvisorMessage {
     
     let advisor: AdvisorType
     let message: String
@@ -24,7 +24,7 @@ class AdvisorMessage {
 
 extension AdvisorMessage: CustomDebugStringConvertible {
     
-    var debugDescription: String {
+    public var debugDescription: String {
         
         return "(Advisor advisor=\(self.advisor), message=\(self.message), importance=\(self.importance))"
     }

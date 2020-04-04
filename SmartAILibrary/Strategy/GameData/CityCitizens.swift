@@ -63,7 +63,7 @@ class GreatPersonProgressList: WeightedList<SpecialistType> {
 //!  Key Attributes:
 //!  - One instance for each city
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-class CityCitizens {
+public class CityCitizens {
     
     private var city: AbstractCity?
     

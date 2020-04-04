@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Yields {
+public class Yields {
     
     var food: Double
     var production: Double

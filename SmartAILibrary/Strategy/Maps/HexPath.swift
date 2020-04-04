@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HexPath: Decodable {
+public class HexPath: Decodable {
     
     fileprivate var points: [HexPoint]
     fileprivate var costs: [Double]
@@ -36,7 +36,7 @@ class HexPath: Decodable {
         self.costs = costs
     }
     
-    required init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -127,7 +127,7 @@ class HexPath: Decodable {
     }
 }
 
-struct HexPathIterator: IteratorProtocol {
+public struct HexPathIterator: IteratorProtocol {
     
     private let path: HexPath
     private var index = 0
@@ -136,7 +136,7 @@ struct HexPathIterator: IteratorProtocol {
         self.path = path
     }
     
-    mutating func next() -> HexPoint? {
+    mutating public func next() -> HexPoint? {
         
         guard 0 <= index else {
             return nil
@@ -155,14 +155,14 @@ struct HexPathIterator: IteratorProtocol {
 
 extension HexPath: Sequence {
     
-    func makeIterator() -> HexPathIterator {
+    public func makeIterator() -> HexPathIterator {
         return HexPathIterator(path: self)
     }
 }
 
 extension HexPath: Encodable {
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         try container.encode(self.points, forKey: .points)

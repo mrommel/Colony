@@ -10,9 +10,9 @@ import Foundation
 
 class HeightMap: Array2D<Double> {
 
-	required init(width: Int, height: Int) {
+    required override init(width: Int, height: Int) {
 
-		super.init(columns: width, rows: height)
+        super.init(width: width, height: height)
 
 		self.generate(withOctaves: 4, zoom: 80, andPersistence: 0.52)
 		self.normalize()
@@ -20,7 +20,7 @@ class HeightMap: Array2D<Double> {
 
 	required init(width: Int, height: Int, octaves: Int, zoom: Double, andPersistence persistence: Double) {
 
-		super.init(columns: width, rows: height)
+        super.init(width: width, height: height)
 
 		self.generate(withOctaves: octaves, zoom: zoom, andPersistence: persistence)
 		self.normalize()
@@ -45,8 +45,8 @@ class HeightMap: Array2D<Double> {
 		generator.zoom = zoom
 		generator.persistence = persistence
 
-		for x in 0..<self.columns {
-			for y in 0..<self.rows {
+		for x in 0..<self.width {
+			for y in 0..<self.height {
 
 				let value0 = 1.00 * generator.perlinNoise(x: 1.0 * Double(x), y: 1.0 * Double(y), z: 0, t: 0)
 				let value1 = 0.50 * generator.perlinNoise(x: 2.0 * Double(x), y: 2.0 * Double(y), z: 0, t: 0)
@@ -67,8 +67,8 @@ class HeightMap: Array2D<Double> {
 		var belowNum: Double = 0
 		var aboveNum: Double = 0
 
-		for x in 0..<self.columns {
-			for y in 0..<self.rows {
+		for x in 0..<self.width {
+			for y in 0..<self.height {
 				let value = self[x, y]
 				if value! < threshold {
 					belowNum += 1.0
@@ -86,8 +86,8 @@ class HeightMap: Array2D<Double> {
         var belowNum: Double = 0
         var aboveNum: Double = 0
         
-        for x in 0..<self.columns {
-            for y in 0..<self.rows {
+        for x in 0..<self.width {
+            for y in 0..<self.height {
                 let value = self[x, y]
                 if value! < threshold {
                     belowNum += 1.0
@@ -132,8 +132,8 @@ class HeightMap: Array2D<Double> {
 		var minValue: Double = Double.greatestFiniteMagnitude
 
 		// find min / max
-		for x in 0..<self.columns {
-			for y in 0..<self.rows {
+		for x in 0..<self.width {
+			for y in 0..<self.height {
 				if let value = self[x, y] {
 					maxValue = max(maxValue, value)
 					minValue = min(minValue, value)
@@ -143,8 +143,8 @@ class HeightMap: Array2D<Double> {
 
 		// scale
 		// min:2 - max:4 => 3 = 0.5
-		for x in 0..<self.columns {
-			for y in 0..<self.rows {
+		for x in 0..<self.width {
+			for y in 0..<self.height {
 				if let value = self[x, y] {
 					self[x, y] = (value - minValue) / (maxValue - minValue)
 				}

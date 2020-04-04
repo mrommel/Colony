@@ -9,7 +9,7 @@
 import Foundation
 
 // CIV5Builds.xml
-enum BuildType: Int, Codable {
+public enum BuildType: Int, Codable {
     
     case none
     case repair

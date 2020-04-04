@@ -292,7 +292,7 @@ class TacticalAnalysisMap {
 
         self.unitStrengthMultiplier = 10 * self.tacticalRange
 
-        self.plots = Array2D<TacticalAnalysisCell>(columns: mapSize.width(), rows: mapSize.height())
+        self.plots = Array2D<TacticalAnalysisCell>(width: mapSize.width(), height: mapSize.height())
         self.turnBuild = -1
         self.isBuild = false
         self.enemyUnits = []
@@ -322,8 +322,8 @@ class TacticalAnalysisMap {
                 self.dominanceZones.removeAll()
                 self.addTemporaryZones(in: gameModel)
 
-                for x in 0..<self.plots.columns {
-                    for y in 0..<self.plots.rows {
+                for x in 0..<self.plots.width {
+                    for y in 0..<self.plots.height {
 
                         let pt = HexPoint(x: x, y: y)
                         if let tile = gameModel.tile(at: pt) {
@@ -983,8 +983,8 @@ class TacticalAnalysisMap {
         let pathFinder = AStarPathfinder()
 
         // Look at every cell on the map
-        for x in 0..<self.plots.columns {
-            for y in 0..<self.plots.rows {
+        for x in 0..<self.plots.width {
+            for y in 0..<self.plots.height {
 
                 var marked = false
 

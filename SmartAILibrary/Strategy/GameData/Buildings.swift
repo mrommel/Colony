@@ -12,7 +12,7 @@ enum BuildingError: Error {
     case alreadyBuild
 }
 
-protocol AbstractBuildings {
+public protocol AbstractBuildings {
     
     // buildings
     func has(building: BuildingType) -> Bool

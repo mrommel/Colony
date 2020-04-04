@@ -9,7 +9,7 @@
 import Foundation
 
 // https://civilization.fandom.com/wiki/Specialists_(Civ6)
-enum SpecialistType: Int, Codable {
+public enum SpecialistType: Int, Codable {
     
     case none
     
