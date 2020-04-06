@@ -22,8 +22,8 @@ class TileFertilityEvaluator: BaseSiteEvaluator {
             return 0
         }
         
-        // FIXME features, buildings
+        // FIXME improvements
         
-        return tile.terrain().yields().food
+        return tile.yields(ignoreFeature: false).food
     }
 }

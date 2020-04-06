@@ -16,6 +16,7 @@
 - global events - climate cycles / volcano events (winter)
 - current unit indicator
 - show losses as animation not dialog
+- snow-to-water-n-sw-nw
 
 ## Links
 
@@ -147,3 +148,10 @@
 Swimat Fix
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f /Applications/Xcode.app
 
+
+
+Asset:
+Icon made by Freepik from www.flaticon.com
+
+96x96
+144x144

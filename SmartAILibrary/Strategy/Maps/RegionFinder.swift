@@ -8,20 +8,20 @@
 
 import Foundation
 
-class RegionFinder {
+public class RegionFinder {
     
     weak var map: MapModel?
     var evaluator: SiteEvaluator?
     var player: AbstractPlayer?
     
-    init(map: MapModel?, evaluator: SiteEvaluator?, for player: AbstractPlayer?) {
+    public init(map: MapModel?, evaluator: SiteEvaluator?, for player: AbstractPlayer?) {
         
         self.map = map
         self.evaluator = evaluator
         self.player = player
     }
     
-    func divideInto(regions: Int) -> [HexArea] {
+    public func divideInto(regions: Int) -> [HexArea] {
         
         var areas: [HexArea] = []
         

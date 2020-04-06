@@ -72,6 +72,17 @@ public class MapModel: Codable {
         self.areas = try container.decode([HexArea].self, forKey: .areas)
         self.rivers = try container.decode([River].self, forKey: .rivers)
         
+        if self.oceans.count == 0 || self.continents.count == 0 {
+            
+            let continentFinder = ContinentFinder(size: self.size)
+            let continents = continentFinder.execute(on: self)
+            self.set(continents: continents)
+            
+            let oceanFinder = OceanFinder(size: self.size)
+            let oceans = oceanFinder.execute(on: self)
+            self.set(oceans: oceans)
+        }
+        
         // post processing
         for ocean in self.oceans {
             ocean.map = self
@@ -158,6 +169,13 @@ public class MapModel: Codable {
                     fatalError("cant build city - no tile")
                 }
             }
+            
+            for pt in city.location.areaWith(radius: 3) {
+                    
+                let tile = self.tile(at: pt)
+                tile?.discover(by: city.player)
+                tile?.sight(by: city.player)
+            }
         }
     }
     
@@ -179,7 +197,18 @@ public class MapModel: Codable {
     
     func add(unit: AbstractUnit?) {
         
-        self.units.append(unit)
+        if let unit = unit {
+        
+            self.units.append(unit)
+            
+            for pt in unit.location.areaWith(radius: unit.sight()) {
+                    
+                let tile = self.tile(at: pt)
+                tile?.discover(by: unit.player)
+                
+                tile?.sight(by: unit.player)
+            }
+        }
     }
     
     func units(for player: AbstractPlayer) -> [AbstractUnit?] {

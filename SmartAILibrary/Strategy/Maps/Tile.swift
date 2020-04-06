@@ -258,7 +258,7 @@ class Tile: AbstractTile {
         self.ocean = nil
         self.continent = nil
         
-        self.riverName = try container.decode(String.self, forKey: .riverName)
+        self.riverName = try container.decodeIfPresent(String.self, forKey: .riverName)
         self.riverFlowNorth = try container.decode(FlowDirection.self, forKey: .riverFlowNorth)
         self.riverFlowNorthEast = try container.decode(FlowDirection.self, forKey: .riverFlowNorthEast)
         self.riverFlowSouthEast = try container.decode(FlowDirection.self, forKey: .riverFlowSouthEast)

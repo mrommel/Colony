@@ -640,7 +640,6 @@ public class GameModel {
                 techs.triggerEureka(for: .sailing)
             }
         }
-        
     }
 
     func cities(of player: AbstractPlayer) -> [AbstractCity?] {
@@ -669,7 +668,7 @@ public class GameModel {
 
     // MARK: unit methods
 
-    func add(unit: AbstractUnit?) {
+    public func add(unit: AbstractUnit?) {
 
         self.map.add(unit: unit)
     }

@@ -8,13 +8,13 @@
 
 import Foundation
 
-class CitySiteEvaluator: BaseSiteEvaluator {
+public class CitySiteEvaluator: BaseSiteEvaluator {
 
     let map: MapModel?
     let tileFertilityEvaluator: TileFertilityEvaluator
     let minCityDistance = 2
     
-    init(map: MapModel?) {
+    public init(map: MapModel?) {
         self.map = map
         self.tileFertilityEvaluator = TileFertilityEvaluator(map: map)
     }
@@ -62,7 +62,7 @@ class CitySiteEvaluator: BaseSiteEvaluator {
         return true
     }
     
-    override func value(of point: HexPoint, for player: AbstractPlayer?) -> Double {
+    public override func value(of point: HexPoint, for player: AbstractPlayer?) -> Double {
 
         guard let map = self.map else {
             return 0

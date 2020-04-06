@@ -71,7 +71,7 @@ class GameScene: BaseScene {
         self.bottomLeftBar = BottomLeftBar(sized: CGSize(width: 200, height: 112))
         self.safeAreaNode.addChild(self.bottomLeftBar!)
         self.bottomRightBar = BottomRightBar(for: viewModel.game, sized: CGSize(width: 200, height: 112))
-        //self.bottomRightBar?.delegate = self
+        self.bottomRightBar?.delegate = self
         self.safeAreaNode.addChild(self.bottomRightBar!)
 
         self.viewHex.name = "ViewHex"
@@ -283,5 +283,25 @@ class GameScene: BaseScene {
         self.selectedUnitForMovement = nil
 
         self.hideAttackSymbol()*/
+    }
+    
+    func centerCamera(on hex: HexPoint) {
+
+        var screenPosition = HexPoint.toScreen(hex: hex)
+        // FIXME: hm, not sure why this is needed
+        screenPosition.x += 20
+        screenPosition.y += 15
+
+        let cameraPositionInScene = self.convert(screenPosition, from: self.viewHex)
+
+        self.cameraNode.position = cameraPositionInScene
+        print("center camera on: \(cameraPositionInScene)")
+    }
+}
+
+extension GameScene: BottomRightBarDelegate {
+
+    func focus(on point: HexPoint) {
+        self.centerCamera(on: point)
     }
 }

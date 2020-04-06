@@ -8,20 +8,20 @@
 
 import Foundation
 
-protocol SiteEvaluator {
+public protocol SiteEvaluator {
     
     func value(of point: HexPoint, for player: AbstractPlayer?) -> Double
     func value(of area: HexArea, for player: AbstractPlayer?) -> Double
 }
 
-class BaseSiteEvaluator: SiteEvaluator {
+public class BaseSiteEvaluator: SiteEvaluator {
    
-    func value(of point: HexPoint, for player: AbstractPlayer?) -> Double {
+    public func value(of point: HexPoint, for player: AbstractPlayer?) -> Double {
         
         fatalError("must be overloaded by sub class")
     }
     
-    func value(of area: HexArea, for player: AbstractPlayer?) -> Double {
+    public func value(of area: HexArea, for player: AbstractPlayer?) -> Double {
         
         var sum = 0.0
         
@@ -32,9 +32,9 @@ class BaseSiteEvaluator: SiteEvaluator {
         return sum
     }
     
-    func bestPoint(of area: HexArea, for player: AbstractPlayer?) -> (HexPoint, Double) {
+    public func bestPoint(of area: HexArea, for player: AbstractPlayer?) -> (HexPoint, Double) {
         
-        var bestValue = DBL_MIN
+        var bestValue = Double.leastNormalMagnitude
         var bestPoint: HexPoint = area.first
         
         for point in area {

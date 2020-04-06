@@ -24,7 +24,7 @@ class MapLoadingTests: XCTestCase {
         return folder
     }()
     
-    func testLoadDuelMap() throws {
+    func testConvertDuelMap() throws {
         
         let testBundle = Bundle(for: type(of: self))
         let path = testBundle.path(forResource: "Earth_Duel", ofType: "Civ5Map")
@@ -50,7 +50,7 @@ class MapLoadingTests: XCTestCase {
         XCTAssertNotNil(map)
     }
     
-    func testLoadTinyMap() throws {
+    func testConvertTinyMap() throws {
         
         let testBundle = Bundle(for: type(of: self))
         let path = testBundle.path(forResource: "Earth_Tiny", ofType: "Civ5Map")
@@ -76,7 +76,7 @@ class MapLoadingTests: XCTestCase {
         XCTAssertNotNil(map)
     }
     
-    func testLoadSmallMap() throws {
+    func testConvertSmallMap() throws {
         
         let testBundle = Bundle(for: type(of: self))
         let path = testBundle.path(forResource: "Earth_Small", ofType: "Civ5Map")
@@ -102,7 +102,7 @@ class MapLoadingTests: XCTestCase {
         XCTAssertNotNil(map)
     }
     
-    func testLoadStandardMap() throws {
+    func testConvertStandardMap() throws {
         
         let testBundle = Bundle(for: type(of: self))
         let path = testBundle.path(forResource: "Earth_Standard", ofType: "Civ5Map")
@@ -128,7 +128,7 @@ class MapLoadingTests: XCTestCase {
         XCTAssertNotNil(map)
     }
     
-    func testLoadLargeMap() throws {
+    func testConvertLargeMap() throws {
         
         let testBundle = Bundle(for: type(of: self))
         let path = testBundle.path(forResource: "Earth_Large", ofType: "Civ5Map")
@@ -154,7 +154,7 @@ class MapLoadingTests: XCTestCase {
         XCTAssertNotNil(map)
     }
     
-    func testLoadHugeMap() throws {
+    func testConvertHugeMap() throws {
         
         let testBundle = Bundle(for: type(of: self))
         let path = testBundle.path(forResource: "Earth_Huge", ofType: "Civ5Map")
@@ -178,5 +178,26 @@ class MapLoadingTests: XCTestCase {
         }
 
         XCTAssertNotNil(map)
+    }
+    
+    func testLoadDuelMap() throws {
+        
+        let testBundle = Bundle(for: type(of: self))
+        let path = testBundle.path(forResource: "Earth_Duel", ofType: "Civ5Map")
+        let url = URL(fileURLWithPath: path!)
+
+        let civ5MapLoader = Civ5MapReader()
+        let civ5Map = civ5MapLoader.load(from: url)
+        
+        let map = civ5Map?.toMap()
+        
+        let encoder = JSONEncoder()
+        let data = try encoder.encode(map)
+        //let string = String(data: data, encoding: .utf8)!
+        
+        let decoder = JSONDecoder()
+        let decodedMap = try decoder.decode(MapModel.self, from: data)
+        
+        XCTAssertNotNil(decodedMap)
     }
 }
