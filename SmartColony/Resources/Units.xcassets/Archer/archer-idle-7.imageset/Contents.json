@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "archer-idle-7.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "archer-idle-7.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
