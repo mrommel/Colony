@@ -32,13 +32,13 @@ class TileDiscovered: Codable {
         
         let leader: LeaderType
         var discovered: Bool
-        var sighted: Bool
+        var sighted: Int // number of units / cities seeing this tile
         
         init(by leader: LeaderType, discovered: Bool = true, sighted: Bool = true) {
             
             self.leader = leader
             self.discovered = discovered
-            self.sighted = sighted
+            self.sighted = sighted ? 0 : 1
         }
         
         required init(from decoder: Decoder) throws {
@@ -47,7 +47,7 @@ class TileDiscovered: Codable {
             
             self.leader = try container.decode(LeaderType.self, forKey: .leader)
             self.discovered = try container.decode(Bool.self, forKey: .discovered)
-            self.sighted = try container.decode(Bool.self, forKey: .sighted)
+            self.sighted = try container.decode(Int.self, forKey: .sighted)
         }
         
         func encode(to encoder: Encoder) throws {
@@ -104,7 +104,7 @@ class TileDiscovered: Codable {
         
         if let item = self.items.first(where: { $0.leader == player?.leader }) {
             
-            return item.sighted
+            return item.sighted > 0
         }
         
         return false
@@ -113,7 +113,7 @@ class TileDiscovered: Codable {
     func sight(by player: AbstractPlayer?) {
         
         if let item = self.items.first(where: { $0.leader == player?.leader }) {
-            item.sighted = true
+            item.sighted += 1
         } else {
             self.items.append(TileDiscoveredItem(by: player!.leader, discovered: true, sighted: true))
         }
@@ -122,7 +122,7 @@ class TileDiscovered: Codable {
     func conceal(to player: AbstractPlayer?) {
         
         if let item = self.items.first(where: { $0.leader == player?.leader }) {
-            item.sighted = false
+            item.sighted -= 1
         } else {
             self.items.append(TileDiscoveredItem(by: player!.leader, discovered: false, sighted: false))
         }

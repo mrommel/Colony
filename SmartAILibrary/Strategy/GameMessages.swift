@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AbstractGameMessage {
+public protocol AbstractGameMessage {
 
     var title: String { get }
     var text: String { get }
@@ -245,6 +245,53 @@ class PromotionGainedMessage: AbstractGameMessage {
     init(unit: AbstractUnit?) {
         
         self.title = "\(unit!.name()) has gained a promotion."
+        self.text = "..."
+    }
+}
+
+class EnemyInTerritoryMessage: AbstractGameMessage {
+
+    let title: String
+    let text: String
+
+    init(at location: HexPoint, of type: UnitType) {
+        
+        self.title = "An Enemy is Near!"
+        self.text = "An enemy unit has been spotted in our territory!"
+    }
+}
+
+class UnitCapturedMessage: AbstractGameMessage {
+
+    let title: String
+    let text: String
+    let player: AbstractPlayer?
+
+    init(by player: AbstractPlayer?, unitType: UnitType) {
+        
+        self.player = player
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if player.isBarbarian() {
+            self.title = "A civilian was captured by Barbarians!"
+            self.text = "\(unitType) was captured by the Barbarians! They will take it to their nearest Encampment. If you wish to recover your unit you will have to track it down!"
+        } else {
+            self.title = "A Civilian was captured!"
+            self.text = "\(unitType) was captured by \(player.leader)!"
+        }
+    }
+}
+
+class LostUnitMessage: AbstractGameMessage {
+
+    let title: String
+    let text: String
+
+    init(by player: AbstractPlayer?) {        
+        self.title = "A Unit was Killed!"
         self.text = "..."
     }
 }

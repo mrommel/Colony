@@ -35,6 +35,8 @@ class GameViewController: UIViewController {
             fatalError("ViewModel not initilized")
         }
         
+        
+        
         self.start(game: self.viewModel?.game)
         
         /*switch viewModel.type {
@@ -127,6 +129,7 @@ extension GameViewController {
             self.gameScene?.viewModel = GameSceneViewModel(with: game)
             self.gameScene?.scaleMode = .resizeFill
             self.gameScene?.gameDelegate = self
+            game?.userInterface = self.gameScene
             
             view.presentScene(self.gameScene)
             view.ignoresSiblingOrder = false

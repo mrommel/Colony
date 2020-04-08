@@ -11,6 +11,8 @@ import Foundation
 // https://civilization.fandom.com/wiki/Promotions_(Civ6)
 enum UnitPromotionType: Int, Codable {
 
+    case embarkation
+    
     // fallback
     case healthBoostRecon // 50% boost
     case healthBoostMelee // 50% boost
@@ -92,6 +94,8 @@ enum UnitPromotionType: Int, Codable {
 
         switch self {
 
+        case .embarkation: return PromotionData(name: "Embarkation", tier: 0, unitClass: .melee, required: [], consumable: false)
+            
             // general
         case .healthBoostRecon: return PromotionData(name: "Health Boost", tier: 0, unitClass: .recon, required: [], consumable: true)
         case .healthBoostMelee: return PromotionData(name: "Health Boost", tier: 0, unitClass: .melee, required: [], consumable: true)
@@ -141,6 +145,8 @@ enum UnitPromotionType: Int, Codable {
 
         switch self {
 
+        case .embarkation: return [Flavor(type: .navalGrowth, value: 2)]
+            
             // general
         case .healthBoostRecon: return [Flavor(type: .happiness, value: 2)]
         case .healthBoostMelee: return [Flavor(type: .happiness, value: 2)]

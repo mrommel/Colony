@@ -15,14 +15,15 @@ class MapNode: SKNode {
 
     var terrainLayer: TerrainLayer
     var featureLayer: FeatureLayer
+    var resourceLayer: ResourceLayer
     var boardLayer: BoardLayer
     var riverLayer: RiverLayer
+    
+    var unitLayer: UnitLayer
 
     // MARK: properties
 
     private var game: GameModel?
-    //weak var gameObjectManager: GameObjectManager?
-    //let userUsecase: UserUsecase
 
     // MARK: constructors
     
@@ -35,48 +36,34 @@ class MapNode: SKNode {
         }
         
         let humanPlayer = game.humanPlayer()
-        
-        /*self.userUsecase = UserUsecase()
-        
-        guard let currentUser = self.userUsecase.currentUser() else {
-            fatalError("can't get current user")
-        }*/
-        
-        //self.map = level.map
-        //self.gameObjectManager = level.gameObjectManager
-        //self.gameObjectManager?.map = self.map
-
-        // TODO: make objects generic
 
         self.terrainLayer = TerrainLayer(player: humanPlayer)
         self.terrainLayer.populate(with: self.game)
 
         self.featureLayer = FeatureLayer(player: humanPlayer)
         self.featureLayer.populate(with: self.game)
+        
+        self.resourceLayer = ResourceLayer(player: humanPlayer)
+        self.resourceLayer.populate(with: self.game)
 
         self.boardLayer = BoardLayer(player: humanPlayer)
         self.boardLayer.populate(with: self.game)
 
         self.riverLayer = RiverLayer(player: humanPlayer)
         self.riverLayer.populate(with: self.game)
+        
+        self.unitLayer = UnitLayer(player: humanPlayer)
+        self.unitLayer.populate(with: self.game)
 
         super.init()
-        self.zPosition = 0 // GameScene.Constants.ZLevels.labels
+        self.zPosition = 0
 
         self.addChild(self.terrainLayer)
         self.addChild(self.featureLayer)
+        self.addChild(self.resourceLayer)
         self.addChild(self.boardLayer)
         self.addChild(self.riverLayer)
-
-        /*for objectRef in self.gameObjectManager?.objects ?? [] {
-            if let object = objectRef {
-                object.addTo(node: self)
-                //unit.idle()
-            }
-        }
-
-        level.gameObjectManager.gameObjectUnitDelegates.addDelegate(self)
-        level.gameObjectManager.node = self*/
+        self.addChild(self.unitLayer)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -139,14 +126,3 @@ class MapNode: SKNode {
         
     }
 }
-
-/*extension MapNode: GameObjectUnitDelegate {
-    
-    func selectedUnitChanged(to unit: Unit?) {
-        // NOOP
-    }
-    
-    func removed(unit: Unit?) {
-        // NOOP
-    }
-}*/

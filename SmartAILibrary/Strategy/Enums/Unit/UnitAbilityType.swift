@@ -18,13 +18,14 @@ enum UnitAbilityType {
     case canEmbark
     case experienceFromTribal // Gains XP when activating Tribal Villages (+5 XP) and discovering Natural Wonders (+10 XP
     case oceanImpassable // Can only operate on coastal waters, until the research of Cartography.
+    case canCapture
 
     static var all: [UnitAbilityType] {
         
         return [
-            .canFound, .canImprove,
+            .canFound, .canImprove, .canImproveSea,
             
-            .canEmbark, .experienceFromTribal, .oceanImpassable
+            .canEmbark, .experienceFromTribal, .oceanImpassable, .canCapture
         ]
     }
 
@@ -61,6 +62,7 @@ enum UnitAbilityType {
         case .canEmbark: return AbilityData(name: "Can Embark", required: [])
         case .experienceFromTribal: return AbilityData(name: "Experience from tribal", required: [])
         case .oceanImpassable: return AbilityData(name: "Ocean impassable", required: [])
+        case .canCapture: return AbilityData(name: "Can capture", required: [])
         }
     }
 }

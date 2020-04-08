@@ -305,3 +305,39 @@ extension GameScene: BottomRightBarDelegate {
         self.centerCamera(on: point)
     }
 }
+
+extension GameScene: UserInterfaceProtocol {
+    
+    func isDiplomaticScreenActive() -> Bool {
+        return false
+    }
+    
+    func isPopupShown() -> Bool {
+        return false
+    }
+    
+    func showPopup(popupType: PopupType, data: PopupData?) {
+        
+    }
+    
+    func showScreen(screenType: ScreenType) {
+        
+    }
+    
+    func showMessage(message: AbstractGameMessage) {
+        
+    }
+    
+    func show(unit: AbstractUnit?) { // unit gets visible
+    }
+    
+    func hide(unit: AbstractUnit?) { // unit gets hidden
+    }
+    func move(unit: AbstractUnit?, on points: [HexPoint]) {
+        
+    }
+    
+    func showTooltip(at point: HexPoint, text: String, delay: Double) {
+        
+    }
+}

@@ -46,7 +46,7 @@ public class HexPath: Decodable {
     
     // MARK: properties
     
-    var count: Int {
+    public var count: Int {
         return self.points.count
     }
     
@@ -55,11 +55,11 @@ public class HexPath: Decodable {
         return self.costs.reduce(0.0, +)
     }
     
-    var isEmpty: Bool {
+    public var isEmpty: Bool {
         return self.points.isEmpty
     }
     
-    var first: (HexPoint, Double)? {
+    public var first: (HexPoint, Double)? {
         
         if let firstPoint = self.points.first, let firstCost = self.costs.first {
             return (firstPoint, firstCost)
@@ -77,7 +77,7 @@ public class HexPath: Decodable {
         return (self.points[1], self.costs[1])
     }
     
-    var last: (HexPoint, Double)? {
+    public var last: (HexPoint, Double)? {
         
         if let lastPoint = self.points.last, let lastCost = self.costs.last {
             return (lastPoint, lastCost)
@@ -111,7 +111,7 @@ public class HexPath: Decodable {
         self.costs.prepend(cost)
     }
     
-    func pathWithoutFirst() -> HexPath {
+    public func pathWithoutFirst() -> HexPath {
         let newPoints = Array(self.points.suffix(from: 1))
         let newCosts = Array(self.costs.suffix(from: 1))
         

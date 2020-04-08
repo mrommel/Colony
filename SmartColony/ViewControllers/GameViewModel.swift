@@ -15,13 +15,10 @@ class GameViewModel {
     
     init(with map: MapModel?) {
         
-        guard let map = map else {
+        guard var map = map else {
             fatalError("cant get map")
         }
-        
-        // make sure we have continents and oceans
-        //if map.has
-        
+
         // find good starting locations
         let citySiteEvaluator = CitySiteEvaluator(map: map)
         let finder: RegionFinder = RegionFinder(map: map, evaluator: citySiteEvaluator, for: nil)
@@ -54,9 +51,9 @@ class GameViewModel {
         
         
         // debug - FIXME - TODO
-        //GameViewModel.discover(mapModel: &map, by: playerAugustus)
+        GameViewModel.discover(mapModel: &map, by: playerAugustus)
         
-        self.game = GameModel(victoryTypes: [.domination], turnsElapsed: 0, players: [playerAlexander, playerBarbar, playerAugustus], on: map)
+        self.game = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [playerAlexander, playerBarbar, playerAugustus], on: map)
         
         self.game?.add(unit: warriorAlexander)
         self.game?.add(unit: settlerAlexander)
@@ -65,7 +62,7 @@ class GameViewModel {
         self.game?.add(unit: settlerAugustus)
     }
     
-    /*static func discover(mapModel: inout MapModel, by player: AbstractPlayer?) {
+    static func discover(mapModel: inout MapModel, by player: AbstractPlayer?) {
         
         let mapSize = mapModel.size
         for x in 0..<mapSize.width() {
@@ -78,7 +75,7 @@ class GameViewModel {
         }
     }
     
-    static func discover(area: HexArea, mapModel: inout MapModel, by player: AbstractPlayer?) {
+    /*static func discover(area: HexArea, mapModel: inout MapModel, by player: AbstractPlayer?) {
             
         for pt in area {
                 

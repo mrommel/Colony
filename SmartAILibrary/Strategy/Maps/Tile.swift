@@ -518,7 +518,24 @@ class Tile: AbstractTile {
 
     func removeImprovement() {
 
-        self.improvementValue = .none
+        self.set(improvement: .none)
+    }
+    
+    func removeGoodyHut(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        self.set(improvement: .none)
+        
+        // Make sure the player's know to recalculate their goody hut searches
+        for player in gameModel.players {
+            
+            if player.isAlive() {
+                player.economicAI?.setExplorationPlotsDirty()
+            }
+        }
     }
     
     func has(improvement: TileImprovementType) -> Bool {

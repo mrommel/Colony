@@ -10,6 +10,7 @@
 		C9108F46243630550023C76D /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = C9108F45243630550023C76D /* Rswift */; };
 		C9108F49243630A70023C76D /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = C9108F48243630A70023C76D /* XMLCoder */; };
 		C9108F4A243630B80023C76D /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D22524348BD300033791 /* R.generated.swift */; };
+		C91B0025243DEE8A00C422C8 /* UnitTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B0024243DEE8A00C422C8 /* UnitTypeExtension.swift */; };
 		C957AA49243641A100203024 /* MapSizeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA46243641A000203024 /* MapSizeDialog.xml */; };
 		C957AA4A243641A100203024 /* MapTypeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA47243641A000203024 /* MapTypeDialog.xml */; };
 		C957AA4B243641A100203024 /* MapSeaLevelDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA48243641A000203024 /* MapSeaLevelDialog.xml */; };
@@ -39,6 +40,10 @@
 		C97CD3A3243A3F3700FABCC0 /* TerrainTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3A2243A3F3700FABCC0 /* TerrainTypeExtension.swift */; };
 		C97CD3A5243A586500FABCC0 /* FeatureTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3A4243A586500FABCC0 /* FeatureTypeExtension.swift */; };
 		C97CD3A7243B00CB00FABCC0 /* ResourceTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3A6243B00CB00FABCC0 /* ResourceTypeExtension.swift */; };
+		C97CD3A9243B4EC100FABCC0 /* Units.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C97CD3A8243B4EC100FABCC0 /* Units.xcassets */; };
+		C97CD3AB243B56F600FABCC0 /* UnitLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3AA243B56F600FABCC0 /* UnitLayer.swift */; };
+		C97CD3AE243B669500FABCC0 /* GameObjectAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3AD243B669500FABCC0 /* GameObjectAtlas.swift */; };
+		C97CD3B0243B685200FABCC0 /* UnitObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3AF243B685200FABCC0 /* UnitObject.swift */; };
 		C9B1D205243474F900033791 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D204243474F900033791 /* GameViewController.swift */; };
 		C9B1D2092434757600033791 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B1D2082434757600033791 /* SmartAILibrary.framework */; };
 		C9B1D20A2434757600033791 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9B1D2082434757600033791 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -115,6 +120,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C91B0024243DEE8A00C422C8 /* UnitTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTypeExtension.swift; sourceTree = "<group>"; };
 		C957AA46243641A000203024 /* MapSizeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapSizeDialog.xml; sourceTree = "<group>"; };
 		C957AA47243641A000203024 /* MapTypeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapTypeDialog.xml; sourceTree = "<group>"; };
 		C957AA48243641A000203024 /* MapSeaLevelDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapSeaLevelDialog.xml; sourceTree = "<group>"; };
@@ -146,6 +152,10 @@
 		C97CD3A2243A3F3700FABCC0 /* TerrainTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainTypeExtension.swift; sourceTree = "<group>"; };
 		C97CD3A4243A586500FABCC0 /* FeatureTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureTypeExtension.swift; sourceTree = "<group>"; };
 		C97CD3A6243B00CB00FABCC0 /* ResourceTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceTypeExtension.swift; sourceTree = "<group>"; };
+		C97CD3A8243B4EC100FABCC0 /* Units.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Units.xcassets; sourceTree = "<group>"; };
+		C97CD3AA243B56F600FABCC0 /* UnitLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitLayer.swift; sourceTree = "<group>"; };
+		C97CD3AD243B669500FABCC0 /* GameObjectAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObjectAtlas.swift; sourceTree = "<group>"; };
+		C97CD3AF243B685200FABCC0 /* UnitObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitObject.swift; sourceTree = "<group>"; };
 		C9B1D204243474F900033791 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		C9B1D2082434757600033791 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B1D20C2434768900033791 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -225,17 +235,28 @@
 		C95B3E052438E775002F5A86 /* Layer */ = {
 			isa = PBXGroup;
 			children = (
-				C97CD3A2243A3F3700FABCC0 /* TerrainTypeExtension.swift */,
-				C97CD3A4243A586500FABCC0 /* FeatureTypeExtension.swift */,
-				C97CD3A6243B00CB00FABCC0 /* ResourceTypeExtension.swift */,
 				C95B3E062438E780002F5A86 /* TerrainLayer.swift */,
 				C95B3E082438E78E002F5A86 /* FeatureLayer.swift */,
 				C97CD39E243A3E9C00FABCC0 /* ResourceLayer.swift */,
 				C95B3E0A2438E79B002F5A86 /* BoardLayer.swift */,
 				C95B3E0C2438E7A8002F5A86 /* RiverLayer.swift */,
-				C97CD3A0243A3F1200FABCC0 /* TextureUtils.swift */,
+				C97CD3AA243B56F600FABCC0 /* UnitLayer.swift */,
 			);
 			path = Layer;
+			sourceTree = "<group>";
+		};
+		C97CD3AC243B570C00FABCC0 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C97CD3A2243A3F3700FABCC0 /* TerrainTypeExtension.swift */,
+				C97CD3A4243A586500FABCC0 /* FeatureTypeExtension.swift */,
+				C97CD3A6243B00CB00FABCC0 /* ResourceTypeExtension.swift */,
+				C91B0024243DEE8A00C422C8 /* UnitTypeExtension.swift */,
+				C97CD3A0243A3F1200FABCC0 /* TextureUtils.swift */,
+				C97CD3AD243B669500FABCC0 /* GameObjectAtlas.swift */,
+				C97CD3AF243B685200FABCC0 /* UnitObject.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 		C9B1D203243474E800033791 /* ViewControllers */ = {
@@ -252,6 +273,7 @@
 		C9B1D2062434752E00033791 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				C97CD3AC243B570C00FABCC0 /* Base */,
 				C95B3E052438E775002F5A86 /* Layer */,
 				C9B1D22B2434955300033791 /* BaseScene.swift */,
 				C9B1D2292434934600033791 /* MenuScene.swift */,
@@ -283,6 +305,7 @@
 				C9B1D222243481D900033791 /* Main.storyboard */,
 				C9B1D22724348C6E00033791 /* LaunchScreen.storyboard */,
 				C95B3E0E2439244D002F5A86 /* Tiles.xcassets */,
+				C97CD3A8243B4EC100FABCC0 /* Units.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -533,6 +556,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C957AA53243641D300203024 /* MapAgeDialog.xml in Resources */,
+				C97CD3A9243B4EC100FABCC0 /* Units.xcassets in Resources */,
 				C9B1D2492434B9AE00033791 /* DINNext-Heavy.ttf in Resources */,
 				C9B1D2482434B9AE00033791 /* DINNext-Regular.ttf in Resources */,
 				C957AA4B243641A100203024 /* MapSeaLevelDialog.xml in Resources */,
@@ -598,13 +622,16 @@
 				C95B3DF424387100002F5A86 /* MapNode.swift in Sources */,
 				C97CD3A7243B00CB00FABCC0 /* ResourceTypeExtension.swift in Sources */,
 				C9B1D2812435215400033791 /* MapSeaLevelDialog.swift in Sources */,
+				C91B0025243DEE8A00C422C8 /* UnitTypeExtension.swift in Sources */,
 				C9B1D285243521FF00033791 /* MapClimateDialog.swift in Sources */,
 				C9B1D205243474F900033791 /* GameViewController.swift in Sources */,
+				C97CD3B0243B685200FABCC0 /* UnitObject.swift in Sources */,
 				C95B3E092438E78E002F5A86 /* FeatureLayer.swift in Sources */,
 				C9B1D22A2434934600033791 /* MenuScene.swift in Sources */,
 				C9B1D20D2434768900033791 /* GameScene.swift in Sources */,
 				C9B1D27824351F3500033791 /* UIParser.swift in Sources */,
 				C95B3E0424387528002F5A86 /* UIColorExtension.swift in Sources */,
+				C97CD3AB243B56F600FABCC0 /* UnitLayer.swift in Sources */,
 				C95B3E02243874E5002F5A86 /* UIImageExtension.swift in Sources */,
 				C9B1D22F243495D000033791 /* SafeAreaNode.swift in Sources */,
 				C9108F4A243630B80023C76D /* R.generated.swift in Sources */,
@@ -630,6 +657,7 @@
 				C97CD3A1243A3F1200FABCC0 /* TextureUtils.swift in Sources */,
 				C9B1D25B2434C82F00033791 /* DropdownNode.swift in Sources */,
 				C9B1D27F2435208300033791 /* MapSizeDialog.swift in Sources */,
+				C97CD3AE243B669500FABCC0 /* GameObjectAtlas.swift in Sources */,
 				C97CD39F243A3E9C00FABCC0 /* ResourceLayer.swift in Sources */,
 				C9B1D27924351F3500033791 /* Dialog.swift in Sources */,
 				C95B3DFE243872E0002F5A86 /* TouchableSpriteNode.swift in Sources */,

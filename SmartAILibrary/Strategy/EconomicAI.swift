@@ -248,6 +248,11 @@ public class EconomicAI {
         }
     }
     
+    func setExplorationPlotsDirty() {
+        
+        self.explorationPlotsDirty = true
+    }
+    
     func incrementExplorersDisbanded() {
         
         self.explorersDisbandedValue += 1

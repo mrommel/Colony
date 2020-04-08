@@ -101,6 +101,7 @@ public protocol AbstractCity: Codable {
     func maxHealthPoints() -> Int
     
     func power() -> Int
+    func updateStrengthValue()
     
     func garrisonedUnit() -> AbstractUnit?
     func hasGarrison() -> Bool
@@ -468,7 +469,7 @@ class City: AbstractCity {
             //   }
             // }
 
-            //self.updateStrengthValue()
+            self.updateStrengthValue()
 
             // self.doNearbyEnemy()
 
@@ -531,6 +532,10 @@ class City: AbstractCity {
         yields.production = 0
 
         return yields*/
+    }
+    
+    func updateStrengthValue() {
+        
     }
     
     private func doGrowth(in gameModel: GameModel?) {

@@ -565,12 +565,12 @@ public enum UnitType: Int, Codable {
         case .builder: return [.canImprove]
             
         case .scout: return [.experienceFromTribal]
-        case .warrior: return []
-        case .slinger: return []
-        case .archer: return []
-        case .spearman: return []
-        case .heavyChariot: return []
-        case .galley: return [.oceanImpassable]
+        case .warrior: return [.canCapture]
+        case .slinger: return [.canCapture]
+        case .archer: return [.canCapture]
+        case .spearman: return [.canCapture]
+        case .heavyChariot: return [.canCapture]
+        case .galley: return [.oceanImpassable, .canCapture]
             
         case .artist: return  []
         case .engineer: return []
@@ -651,5 +651,14 @@ public enum UnitType: Int, Codable {
         }
         
         return 0
+    }
+    
+    func captureType() -> UnitType? {
+        
+        if self == .builder || self == .settler {
+            return .builder
+        }
+        
+        return nil
     }
 }

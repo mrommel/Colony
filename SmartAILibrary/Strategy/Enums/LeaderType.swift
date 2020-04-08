@@ -10,6 +10,8 @@ import Foundation
 
 enum LeaderAbilityType {
     
+    case none
+    
     case convertLandBarbarians
     case cityStateFriendship
     case capitalBuildsCheaper
@@ -252,8 +254,8 @@ public enum LeaderType: Int, Codable {
         
         switch self {
             
-        case .none: return .capitalBuildsCheaper
-        case .barbar: return .capitalBuildsCheaper // FIXME
+        case .none: return .none
+        case .barbar: return .none
             
         case .alexander: return .cityStateFriendship
         case .augustus: return .capitalBuildsCheaper

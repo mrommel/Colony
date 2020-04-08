@@ -56,23 +56,26 @@ enum GameStateType {
 public class GameModel {
 
     let victoryTypes: [VictoryType]
+    let handicap: HandicapType
     var turnsElapsed: Int
     var turnSliceValue: Int = 0
-    let players: [AbstractPlayer]
+    public let players: [AbstractPlayer]
     
     static let turnFrequency = 25 /* PROGRESS_POPUP_TURN_FREQUENCY */
 
     private let map: MapModel
-    private var messagesVal: [AbstractGameMessage]
+    private var messagesVal: [AbstractGameMessage] // for human only !!
     private let tacticalAnalysisMapVal: TacticalAnalysisMap
-    weak var userInterface: UserInterfaceProtocol?
+    public weak var userInterface: UserInterfaceProtocol?
     private var waitDiploPlayer: AbstractPlayer? = nil
     private var wondersBuilt: AbstractWonders? = nil
     
     private var gameStateValue: GameStateType
 
-    public init(victoryTypes: [VictoryType], turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
+    public init(victoryTypes: [VictoryType], handicap: HandicapType, turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
+        
         self.victoryTypes = victoryTypes
+        self.handicap = handicap
         self.turnsElapsed = turnsElapsed
         self.players = players
         self.map = map
@@ -159,6 +162,18 @@ public class GameModel {
         {
             GC.GetEngineUserInterface()->setInAdvancedStart(true);
         }*/
+    }
+    
+    func activePlayer() -> AbstractPlayer? {
+    
+        for player in self.players {
+        
+            if player.isAlive() && player.isActive() {
+                return player
+            }
+        }
+        
+        return nil
     }
     
     func updatePlayers() {
@@ -673,12 +688,12 @@ public class GameModel {
         self.map.add(unit: unit)
     }
 
-    func units(of player: AbstractPlayer) -> [AbstractUnit?] {
+    public func units(of player: AbstractPlayer) -> [AbstractUnit?] {
 
         return self.map.units(for: player)
     }
 
-    func unit(at point: HexPoint) -> AbstractUnit? {
+    public func unit(at point: HexPoint) -> AbstractUnit? {
 
         return self.map.unit(at: point)
     }
@@ -968,5 +983,25 @@ public class GameModel {
         }
         
         return 0
+    }
+    
+    func conceal(at location: HexPoint, sight: Int, for player: AbstractPlayer?) {
+        
+        for pt in location.areaWith(radius: sight) {
+            
+            if let tile = self.tile(at: pt) {
+                tile.conceal(to: player)
+            }
+        }
+    }
+    
+    func sight(at location: HexPoint, sight: Int, for player: AbstractPlayer?) {
+        
+        for pt in location.areaWith(radius: sight) {
+            
+            if let tile = self.tile(at: pt) {
+                tile.sight(by: player)
+            }
+        }
     }
 }

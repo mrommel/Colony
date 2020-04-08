@@ -293,4 +293,9 @@ public enum TechType: Int, Codable {
 
         }
     }
+    
+    func isGoodyTech() -> Bool {
+        
+        return self.era() == .ancient
+    }
 }

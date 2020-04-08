@@ -1388,7 +1388,7 @@ class HomelandAI {
                             
                             if !foundPath {
                                 self.unitProcessed(unit: unit)
-                                unit.doKill(delayed: false, in: gameModel)
+                                unit.doKill(delayed: false, by: nil, in: gameModel)
                                 player.economicAI?.incrementExplorersDisbanded()
                             }
                         } else if unit.has(task: .exploreSea) {

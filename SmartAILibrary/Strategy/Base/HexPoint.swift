@@ -378,7 +378,7 @@ extension HexPoint {
     }
     
     // returns the direction of the neighbor (or nil when this is not a neighbor)
-    func direction(towards hex: HexPoint) -> HexDirection? {
+    public func direction(towards hex: HexPoint) -> HexDirection? {
         
         for direction in HexDirection.all {
             if self.neighbor(in: direction) == hex {
@@ -388,19 +388,6 @@ extension HexPoint {
         
         let angle = HexPoint.screenAngle(from: self, towards: hex)
         return HexPoint.degreesToDirection(degrees: angle)
-        
-        //return nil
-    }
-    
-    static func screenAngle(from: HexPoint, towards: HexPoint) -> Int {
-
-        let fromScreenPoint = self.toScreen(hex: from)
-        let towardsScreenPoint = self.toScreen(hex: towards)
-
-        let deltax = towardsScreenPoint.x - fromScreenPoint.x
-        let deltay = towardsScreenPoint.y - fromScreenPoint.y
-
-        return Int(atan2(deltax, deltay) * (180.0 / CGFloat(Double.pi)))
     }
 
     static func degreesToDirection(degrees: Int) -> HexDirection {
@@ -437,6 +424,45 @@ extension HexPoint {
     public static func toScreen(hex: HexPoint) -> CGPoint {
 
         return toScreen(cube: HexCube(hex: hex))
+    }
+    
+    public static func screenAngle(from: HexPoint, towards: HexPoint) -> Int {
+
+        let fromScreenPoint = HexPoint.self.toScreen(hex: from)
+        let towardsScreenPoint = HexPoint.self.toScreen(hex: towards)
+
+        let deltax = towardsScreenPoint.x - fromScreenPoint.x
+        let deltay = towardsScreenPoint.y - fromScreenPoint.y
+
+        return Int(atan2(deltax, deltay) * (180.0 / CGFloat(Double.pi)))
+    }
+
+    func degreesToDirection(degrees: Int) -> HexDirection {
+
+        var degrees = degrees
+        if (degrees < 0) {
+            degrees += 360
+        }
+
+        if 30 < degrees && degrees <= 90 {
+            return .northeast
+        } else if 90 < degrees && degrees <= 150 {
+            return .southeast
+        } else if 150 < degrees && degrees <= 210 {
+            return .south
+        } else if 210 < degrees && degrees <= 270 {
+            return .southwest
+        } else if 270 < degrees && degrees <= 330 {
+            return .northwest
+        } else {
+            return .north
+        }
+    }
+
+    public static func screenDirection(from: HexPoint, towards: HexPoint) -> HexDirection {
+
+        let angle = HexPoint.screenAngle(from: from, towards: towards)
+        return degreesToDirection(degrees: angle)
     }
     
     func adjacentPoints(of corner: HexPointCorner) -> [HexPoint] {
