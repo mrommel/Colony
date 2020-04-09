@@ -12,7 +12,6 @@ import SmartAILibrary
 class UnitObject {
     
     static let idleActionKey: String = "idleActionKey"
-    static let focusActionKey: String = "focusActionKey"
     static let alphaVisible: CGFloat = 1.0
     static let alphaInvisible: CGFloat = 0.0
     
@@ -33,7 +32,6 @@ class UnitObject {
     
     // internal UI elements
     private var sprite: SKSpriteNode
-    private var pathSpriteBuffer: [SKSpriteNode] = []
     
     init(unit: AbstractUnit?, in gameModel: GameModel?) {
      
@@ -61,6 +59,8 @@ class UnitObject {
     
     private func animate(to hex: HexPoint, on atlas: GameObjectAtlas?, completion block: @escaping () -> Swift.Void) {
 
+        print("\(unit!.location) => \(hex)")
+        
         if let atlas = atlas {
             let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
             let walkFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
@@ -70,9 +70,15 @@ class UnitObject {
 
             let animate = SKAction.group([walk, move])
             self.sprite.run(animate, completion: {
-                self.updatePosition(to: hex)
+                self.unit?.doMove(on: hex, in: self.gameModel)
                 block()
             })
+        } else {
+            // if no atlas
+            print("missing atlas")
+            self.sprite.position = HexPoint.toScreen(hex: hex)
+            self.unit?.doMove(on: hex, in: self.gameModel)
+            block()
         }
     }
 
@@ -91,102 +97,6 @@ class UnitObject {
             self.animate(to: to, on: self.atlasLeft, completion: block)
         }
     }
-    
-    private func updatePosition(to position: HexPoint) {
-
-        self.unit?.doMove(on: position, in: self.gameModel)
-    }
-
-    func clearPathSpriteBuffer() {
-
-        for sprite in self.pathSpriteBuffer {
-            sprite.removeFromParent()
-        }
-    }
-
-    func show(path: HexPath) {
-
-        var costSum: Double = 0.0
-        let movementInCurrentTurn = Double(self.unit?.movesLeft() ?? 0)
-        self.clearPathSpriteBuffer()
-
-        guard path.count > 1 else {
-            return
-        }
-
-        let (firstPoint, _) = path[0]
-        let (secondPoint, secondCost) = path[1]
-        
-        let isMovementLeft = movementInCurrentTurn >= secondCost
-
-        if let dir = firstPoint.direction(towards: secondPoint) {
-            var textureName = "path-start-\(dir.short())"
-            
-            if !isMovementLeft {
-                textureName = textureName + "-out"
-            }
-
-            let pathSprite = SKSpriteNode(imageNamed: textureName)
-            pathSprite.position = HexPoint.toScreen(hex: firstPoint)
-            pathSprite.zPosition = Globals.ZLevels.path
-            pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-            self.sprite.parent?.addChild(pathSprite)
-
-            self.pathSpriteBuffer.append(pathSprite)
-        }
-
-        for i in 1..<path.count - 1 {
-            let (previousPoint, _) = path[i - 1]
-            let (currentPoint, currentCost) = path[i]
-            let (nextPoint, _) = path[i + 1]
-
-            costSum = costSum + currentCost
-            let isMovementLeft = movementInCurrentTurn > costSum
-            
-            if let dir = currentPoint.direction(towards: previousPoint),
-                let dir2 = currentPoint.direction(towards: nextPoint) {
-
-                var textureName = "path-\(dir.short())-\(dir2.short())"
-                if dir.rawValue > dir2.rawValue {
-                    textureName = "path-\(dir2.short())-\(dir.short())"
-                }
-                
-                if !isMovementLeft {
-                    textureName = textureName + "-out"
-                }
-
-                let pathSprite = SKSpriteNode(imageNamed: textureName)
-                pathSprite.position = HexPoint.toScreen(hex: currentPoint)
-                pathSprite.zPosition = Globals.ZLevels.path
-                pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-                self.sprite.parent?.addChild(pathSprite)
-
-                self.pathSpriteBuffer.append(pathSprite)
-            }
-        }
-
-        let (secondlastItem, _) = path[path.count - 2]
-        let (lastPoint, lastCost) = path[path.count - 1]
-        
-        costSum = costSum + lastCost
-        let isMovementLeftLast = movementInCurrentTurn > costSum
-
-        if let dir = lastPoint.direction(towards: secondlastItem) {
-            var textureName = "path-start-\(dir.short())"
-            
-            if !isMovementLeftLast {
-                textureName = textureName + "-out"
-            }
-
-            let pathSprite = SKSpriteNode(imageNamed: textureName)
-            pathSprite.position = HexPoint.toScreen(hex: lastPoint)
-            pathSprite.zPosition = Globals.ZLevels.path
-            pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-            self.sprite.parent?.addChild(pathSprite)
-
-            self.pathSpriteBuffer.append(pathSprite)
-        }
-    }
 
     func showTexture(named spriteName: String) {
 
@@ -198,7 +108,7 @@ class UnitObject {
 
     func showIdle() {
 
-        self.clearPathSpriteBuffer()
+        //self.clearPathSpriteBuffer()
 
         if let atlas = self.atlasIdle {
             let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
@@ -211,8 +121,11 @@ class UnitObject {
 
     func showWalk(on path: HexPath, completion block: @escaping () -> Swift.Void) {
 
+        //print("---> path: \(path.count)")
+        
         guard !path.isEmpty else {
-            self.clearPathSpriteBuffer()
+            //self.clearPathSpriteBuffer()
+            print("path empty")
             block()
             return
         }
@@ -223,8 +136,9 @@ class UnitObject {
 
         if let (_, cost) = path.first {
             if Double(unit.movesLeft()) < cost {
+                //self.clearPathSpriteBuffer()
                 print("movement limited")
-                self.clearPathSpriteBuffer()
+                block()
                 return
             }
         }
@@ -244,9 +158,6 @@ class UnitObject {
         if let (point, _) = path.first {
             let pathWithoutFirst = path.pathWithoutFirst()
 
-            // reduce the movementInCurrentTurn
-            self.unit?.doMove(on: point, in: self.gameModel)
-            
             self.walk(from: unit.location, to: point, completion: {
                 self.showWalk(on: pathWithoutFirst, completion: block)
             })

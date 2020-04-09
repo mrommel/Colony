@@ -705,7 +705,7 @@ public class GameModel {
 
     // MARK: tile methods
 
-    func valid(point: HexPoint) -> Bool {
+    public func valid(point: HexPoint) -> Bool {
 
         return self.map.valid(point: point)
     }
@@ -877,7 +877,7 @@ public class GameModel {
         return self.tacticalAnalysisMapVal
     }
     
-    func ignoreUnitsPathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?) -> PathfinderDataSource {
+    public func ignoreUnitsPathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?) -> PathfinderDataSource {
 
         return MoveTypeIgnoreUnitsPathfinderDataSource(in: self.map, for: movementType, for: player)
     }

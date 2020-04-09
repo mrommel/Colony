@@ -68,7 +68,7 @@ public class HexPath: Decodable {
         return nil
     }
     
-    var second: (HexPoint, Double)? {
+    public var second: (HexPoint, Double)? {
         
         if self.count < 2 {
             return nil
@@ -86,7 +86,7 @@ public class HexPath: Decodable {
         return nil
     }
     
-    func firstSegment(for moves: Int) -> HexPath {
+    public func firstSegment(for moves: Int) -> HexPath {
         
         let result: HexPath = HexPath()
         var index = 0
@@ -101,12 +101,12 @@ public class HexPath: Decodable {
     
     // MARK: methods
     
-    func append(point: HexPoint, cost: Double) {
+    public func append(point: HexPoint, cost: Double) {
         self.points.append(point)
         self.costs.append(cost)
     }
     
-    func prepend(point: HexPoint, cost: Double) {
+    public func prepend(point: HexPoint, cost: Double) {
         self.points.prepend(point)
         self.costs.prepend(cost)
     }

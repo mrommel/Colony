@@ -509,14 +509,15 @@ extension HexPoint: Hashable, Equatable {
 // to implement the == operation (which returns true if two objects
 // are the same, and false if they aren't)
 public func == (first: HexPoint, second: HexPoint) -> Bool {
+    
     return first.x == second.x && first.y == second.y
 }
 
 extension HexPoint: CustomStringConvertible {
     
     public var description: String {
-        return "HexPoint(\(self.x), \(self.y))"
         
+        return "HexPoint(\(self.x), \(self.y))"
     }
 }
 

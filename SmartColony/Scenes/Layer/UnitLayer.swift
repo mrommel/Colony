@@ -11,19 +11,29 @@ import SmartAILibrary
 
 class UnitLayer: SKNode {
     
+    static let focusActionKey: String = "focusActionKey"
+    
     let player: AbstractPlayer?
     weak var gameModel: GameModel?
     var textureUtils: TextureUtils?
     
     var unitObjects: [UnitObject]
     
+    // focus
+    private var focusNode: SKSpriteNode?
+    private var atlasFocus: GameObjectAtlas?
+    
+    // path
+    private var pathSpriteBuffer: [SKSpriteNode] = []
+    
     init(player: AbstractPlayer?) {
         
         self.player = player
         self.unitObjects = []
         
+        self.atlasFocus = GameObjectAtlas(atlasName: "focus", textures: ["focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "focus6", "focus5", "focus4", "focus3", "focus2", "focus1"])
+        
         super.init()
-        //self.zPosition = Globals.ZLevel
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -49,8 +59,202 @@ class UnitLayer: SKNode {
                 
                 // add to canvas
                 unitObject.addTo(node: self)
+                
+                // make idle
                 unitObject.showIdle()
+                
+                // keep reference
                 unitObjects.append(unitObject)
+            }
+        }
+    }
+    
+    func unitObject(at location: HexPoint) -> UnitObject? {
+        
+        for object in self.unitObjects {
+            if object.unit?.location == location {
+                return object
+            }
+        }
+        
+        return nil
+    }
+    
+    func showFocus(for unit: AbstractUnit?) {
+        
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        if self.focusNode != nil {
+            self.focusNode?.removeAction(forKey: UnitLayer.focusActionKey)
+            self.focusNode?.removeFromParent()
+            self.focusNode = nil
+        }
+        
+        let texture = SKTexture(imageNamed: "focus1")
+        self.focusNode = SKSpriteNode(texture: texture)
+        self.focusNode?.position = HexPoint.toScreen(hex: unit.location)
+        self.focusNode?.zPosition = Globals.ZLevels.focus
+        self.focusNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+        
+        if let atlas = self.atlasFocus {
+            
+            let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
+            let focusFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
+            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: 2.0 / Double(focusFrames.count)))
+
+            self.focusNode?.run(focusAnimation, withKey: UnitLayer.focusActionKey, completion: { })
+        }
+        
+        if let focusNode = self.focusNode {
+            self.addChild(focusNode)
+        }
+    }
+    
+    func hideFocus() {
+        
+        if self.focusNode != nil {
+            self.focusNode?.removeAction(forKey: UnitLayer.focusActionKey)
+            self.focusNode?.removeFromParent()
+            self.focusNode = nil
+        }
+    }
+    
+    func clearPathSpriteBuffer() {
+
+        for sprite in self.pathSpriteBuffer {
+            sprite.removeFromParent()
+        }
+    }
+
+    func show(path: HexPath, for unit: AbstractUnit?) {
+
+        var costSum: Double = 0.0
+        let movementInCurrentTurn = Double(unit?.movesLeft() ?? 0)
+        self.clearPathSpriteBuffer()
+
+        guard path.count > 1 else {
+            return
+        }
+
+        let (firstPoint, _) = path[0]
+        let (secondPoint, secondCost) = path[1]
+        
+        let isMovementLeft = movementInCurrentTurn >= secondCost
+
+        if let dir = firstPoint.direction(towards: secondPoint) {
+            var textureName = "path-start-\(dir.short())"
+            
+            if !isMovementLeft {
+                textureName = textureName + "-out"
+            }
+
+            let pathSprite = SKSpriteNode(imageNamed: textureName)
+            pathSprite.position = HexPoint.toScreen(hex: firstPoint)
+            pathSprite.zPosition = Globals.ZLevels.path
+            pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+            self.addChild(pathSprite)
+
+            self.pathSpriteBuffer.append(pathSprite)
+        }
+
+        for i in 1..<path.count - 1 {
+            let (previousPoint, _) = path[i - 1]
+            let (currentPoint, currentCost) = path[i]
+            let (nextPoint, _) = path[i + 1]
+
+            costSum = costSum + currentCost
+            let isMovementLeft = movementInCurrentTurn > costSum
+            
+            if let dir = currentPoint.direction(towards: previousPoint),
+                let dir2 = currentPoint.direction(towards: nextPoint) {
+
+                var textureName = "path-\(dir.short())-\(dir2.short())"
+                if dir.rawValue > dir2.rawValue {
+                    textureName = "path-\(dir2.short())-\(dir.short())"
+                }
+                
+                if !isMovementLeft {
+                    textureName = textureName + "-out"
+                }
+
+                let pathSprite = SKSpriteNode(imageNamed: textureName)
+                pathSprite.position = HexPoint.toScreen(hex: currentPoint)
+                pathSprite.zPosition = Globals.ZLevels.path
+                pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+                self.addChild(pathSprite)
+
+                self.pathSpriteBuffer.append(pathSprite)
+            }
+        }
+
+        let (secondlastItem, _) = path[path.count - 2]
+        let (lastPoint, lastCost) = path[path.count - 1]
+        
+        costSum = costSum + lastCost
+        let isMovementLeftLast = movementInCurrentTurn > costSum
+
+        if let dir = lastPoint.direction(towards: secondlastItem) {
+            var textureName = "path-start-\(dir.short())"
+            
+            if !isMovementLeftLast {
+                textureName = textureName + "-out"
+            }
+
+            let pathSprite = SKSpriteNode(imageNamed: textureName)
+            pathSprite.position = HexPoint.toScreen(hex: lastPoint)
+            pathSprite.zPosition = Globals.ZLevels.path
+            pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+            self.addChild(pathSprite)
+
+            self.pathSpriteBuffer.append(pathSprite)
+        }
+    }
+    
+    func move(unit: AbstractUnit?, to hex: HexPoint) {
+
+        guard let gameModel = self.gameModel else {
+            fatalError("gameModel not set")
+        }
+        
+        /*guard let currentCivilization = self.userUsecase.currentUser()?.civilization else {
+            return
+        }*/
+        
+        if let selectedUnit = unit {
+
+            /*guard selectedUnit.civilization == currentCivilization else {
+                // FIXME: show x
+                //self.showCross(at: hex)
+                return
+            }*/
+            
+            // can only select new target when unit is idle
+            /*guard selectedUnit.state.state == .idle else {
+                // FIXME: show x
+                self.showCross(at: hex)
+                return
+            }*/
+            
+            guard let unitObject = self.unitObject(at: selectedUnit.location) else {
+                fatalError("cant get unitObject")
+            }
+            
+            if gameModel.valid(point: hex) {
+                
+                let pathFinder = AStarPathfinder()
+                
+                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player)
+                
+                if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: hex) {
+                    
+                    unitObject.showWalk(on: path, completion: {
+                        unitObject.showIdle()
+                    })
+
+                    return
+                }
             }
         }
     }

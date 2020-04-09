@@ -51,7 +51,7 @@ class GameViewModel {
         
         
         // debug - FIXME - TODO
-        GameViewModel.discover(mapModel: &map, by: playerAugustus)
+        //GameViewModel.discover(mapModel: &map, by: playerAugustus)
         
         self.game = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [playerAlexander, playerBarbar, playerAugustus], on: map)
         

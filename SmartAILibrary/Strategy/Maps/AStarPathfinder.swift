@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol PathfinderDataSource {
+public protocol PathfinderDataSource {
     func walkableAdjacentTilesCoords(forTileCoord tileCoord: HexPoint) -> [HexPoint]
     func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Double
 }
@@ -58,7 +58,7 @@ extension AStarPathStep: CustomDebugStringConvertible {
 /** A pathfinder based on the A* algorithm to find the shortest path between two locations */
 public class AStarPathfinder {
 
-    var dataSource: PathfinderDataSource!
+    public var dataSource: PathfinderDataSource!
     
     public init() {
         
@@ -74,7 +74,7 @@ public class AStarPathfinder {
         return Double(fromCoord.distance(to: toCoord))
     }
 
-    func shortestPath(fromTileCoord: HexPoint, toTileCoord: HexPoint) -> HexPath? {
+    public func shortestPath(fromTileCoord: HexPoint, toTileCoord: HexPoint) -> HexPath? {
 
         var closedSteps = Set<AStarPathStep>()
 

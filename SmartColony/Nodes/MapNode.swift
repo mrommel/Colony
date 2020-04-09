@@ -86,42 +86,6 @@ class MapNode: SKNode {
         crossSprite.run(SKAction.sequence([delayAction, hideAction]))
     }
 
-    func moveSelectedUnit(to hex: HexPoint) {
-
-        /*guard let currentCivilization = self.userUsecase.currentUser()?.civilization else {
-            return
-        }*/
-        
-        /*if let selectedUnit = self.gameObjectManager?.selected {
-
-            guard selectedUnit.civilization == currentCivilization else {
-                // FIXME: show x
-                self.showCross(at: hex)
-                return
-            }
-            
-            // can only select new target when unit is idle
-            /*guard selectedUnit.state.state == .idle else {
-                // FIXME: show x
-                self.showCross(at: hex)
-                return
-            }*/
-            
-            if self.map?.valid(point: hex) ?? false {
-                let pathFinder = AStarPathfinder()
-                
-                pathFinder.dataSource = map?.pathfinderDataSource(with: self.gameObjectManager, movementType: selectedUnit.unitType.movementType, civilization: currentCivilization, ignoreSight: false)
-                
-                if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.position, toTileCoord: hex) {
-                    selectedUnit.gameObject?.showWalk(on: path, completion: {
-                        selectedUnit.gameObject?.showIdle()
-                    })
-                    return
-                }
-            }
-        }*/
-    }
-
     func updateLayout() {
         
     }

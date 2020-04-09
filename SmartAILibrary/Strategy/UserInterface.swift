@@ -52,6 +52,9 @@ public protocol UserInterfaceProtocol: class {
     func showScreen(screenType: ScreenType)
     func showMessage(message: AbstractGameMessage)
     
+    func select(unit: AbstractUnit?)
+    func unselect()
+    
     func show(unit: AbstractUnit?) // unit gets visible
     func hide(unit: AbstractUnit?) // unit gets hidden
     func move(unit: AbstractUnit?, on points: [HexPoint])

@@ -31,6 +31,8 @@ class GameScene: BaseScene {
     // view model
     var viewModel: GameSceneViewModel?
     
+    var selectedUnit: AbstractUnit? = nil
+    
     // delegate
     weak var gameDelegate: GameDelegate?
     
@@ -155,6 +157,12 @@ class GameScene: BaseScene {
         let touchLocation = touch.location(in: self.viewHex)
         let position = HexPoint(screen: touchLocation)
 
+        if let unit = viewModel?.game?.unit(at: position) {
+            self.select(unit: unit)
+        } else {
+            self.unselect()
+        }
+        
         /*guard let units = self.game?.getUnits(at: position) else {
             fatalError("cant get units at \(position)")
         }
@@ -175,20 +183,7 @@ class GameScene: BaseScene {
                 self.showAttackSymbol(at: position, real: false)
                 return
             }
-        }
-
-        if units.count > 0 {
-
-            let unit = units.first!
-            if unit?.civilization == user.civilization {
-                self.selectedUnitForMovement = unit
-                self.selectedUnitForMovement?.gameObject?.showFocus()
-                return
-            }
-        }
-
-        self.selectedUnitForMovement?.gameObject?.hideFocus()
-        self.selectedUnitForMovement = nil*/
+        }*/
     }
 
     // moving the map around
@@ -214,23 +209,23 @@ class GameScene: BaseScene {
                 self.showAttackSymbol(at: position, real: false)
                 return
             }
-        }
+        }*/
 
-        if let selectedUnit = self.selectedUnitForMovement {
+        if let selectedUnit = self.selectedUnit {
 
-            if position != selectedUnit.position {
+            if position != selectedUnit.location {
 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = self.game?.pathfinderDataSource(for: selectedUnit.unitType.movementType, civilization: selectedUnit.civilization, ignoreSight: false)
+                pathFinder.dataSource = self.viewModel?.game?.ignoreUnitsPathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player)
 
-                if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.position, toTileCoord: position) {
-                    path.prepend(point: selectedUnit.position, cost: 0.0)
-                    selectedUnit.gameObject?.show(path: path)
+                if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
+                    path.prepend(point: selectedUnit.location, cost: 0.0)
+                    self.mapNode?.unitLayer.show(path: path, for: selectedUnit)
                 } else {
-                    selectedUnit.gameObject?.clearPathSpriteBuffer()
+                    self.mapNode?.unitLayer.clearPathSpriteBuffer()
                 }
             }
-        } else {*/
+        } else {
 
             let cameraLocation = touch.location(in: self.cameraNode)
 
@@ -249,7 +244,7 @@ class GameScene: BaseScene {
 
             self.cameraNode.position.x -= deltaX * 0.7
             self.cameraNode.position.y -= deltaY * 0.7
-        //}
+        }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -273,16 +268,17 @@ class GameScene: BaseScene {
 
             self.showBattleDialog(between: self.game?.getSelectedUnitOfUser(), and: selectedUnit)
             self.selectedUnitForAttack = nil
-        }
+        }*/
 
-        if let selectedUnit = self.selectedUnitForMovement {
-            selectedUnit.gameObject?.clearPathSpriteBuffer()
-            selectedUnit.gameObject?.hideFocus()
-            self.mapNode?.moveSelectedUnit(to: position)
+        if let selectedUnit = self.selectedUnit {
+            self.mapNode?.unitLayer.clearPathSpriteBuffer()
+            self.mapNode?.unitLayer.hideFocus()
+            self.mapNode?.unitLayer.move(unit: selectedUnit, to: position)
         }
-        self.selectedUnitForMovement = nil
+        
+        self.unselect()
 
-        self.hideAttackSymbol()*/
+        /*self.hideAttackSymbol()*/
     }
     
     func centerCamera(on hex: HexPoint) {
@@ -307,6 +303,18 @@ extension GameScene: BottomRightBarDelegate {
 }
 
 extension GameScene: UserInterfaceProtocol {
+    
+    func select(unit: AbstractUnit?) {
+        
+        self.mapNode?.unitLayer.showFocus(for: unit)
+        self.selectedUnit = unit
+    }
+    
+    func unselect() {
+        
+        self.mapNode?.unitLayer.hideFocus()
+        self.selectedUnit = nil
+    }
     
     func isDiplomaticScreenActive() -> Bool {
         return false
