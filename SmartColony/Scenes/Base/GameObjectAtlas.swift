@@ -17,4 +17,12 @@ class GameObjectAtlas: Codable {
         self.atlasName = atlasName
         self.textures = textures
     }
+    
+    init(atlasName: String, template: String, range: Range<Int>) {
+        self.atlasName = atlasName
+        
+        self.textures = range.map { index in
+            template + "\(index)"
+        }
+    }
 }

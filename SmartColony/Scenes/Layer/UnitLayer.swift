@@ -44,11 +44,13 @@ class UnitLayer: SKNode {
             
             for unit in gameModel.units(of: player) {
                 
-                print("-- \(player.leader) -> \(unit?.type)")
+                //print("-- \(player.leader) -> \(unit?.type)")
                 let unitObject = UnitObject(unit: unit, in: self.gameModel)
-                unitObjects.append(unitObject)
                 
+                // add to canvas
                 unitObject.addTo(node: self)
+                unitObject.showIdle()
+                unitObjects.append(unitObject)
             }
         }
     }

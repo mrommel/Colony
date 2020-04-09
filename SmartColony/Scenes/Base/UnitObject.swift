@@ -29,7 +29,7 @@ class UnitObject {
     var atlasLeft: GameObjectAtlas?
 
     var lastTime: CFTimeInterval = 0
-    var animationSpeed = 2.0
+    var animationSpeed = 4.0
     
     // internal UI elements
     private var sprite: SKSpriteNode
@@ -50,7 +50,8 @@ class UnitObject {
         self.sprite.zPosition = Globals.ZLevels.sprite
         self.sprite.anchorPoint = unit.type.anchorPoint
 
-        // self.setupAtlases()
+        // setup atlases
+        self.atlasIdle = unit.type.idleAtlas
     }
     
     func addTo(node parent: SKNode) {
