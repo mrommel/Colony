@@ -68,9 +68,19 @@ class TextureUtils {
         self.tileTextures?[point.x, point.y]?.terrainSprite = terrainSprite
     }
     
+    func terrainSprite(at point: HexPoint) -> SKSpriteNode? {
+        
+        return self.tileTextures?[point.x, point.y]?.terrainSprite
+    }
+    
     func set(snowSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.snowSprite = snowSprite
+    }
+    
+    func snowSprite(at point: HexPoint) -> SKSpriteNode? {
+        
+        return self.tileTextures?[point.x, point.y]?.snowSprite
     }
     
     func set(boardSprite: SKSpriteNode?, at point: HexPoint) {
@@ -83,6 +93,11 @@ class TextureUtils {
         self.tileTextures?[point.x, point.y]?.featureSprite = featureSprite
     }
     
+    func featureSprite(at point: HexPoint) -> SKSpriteNode? {
+        
+        return self.tileTextures?[point.x, point.y]?.featureSprite
+    }
+    
     func set(resourceSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.resourceSprite = resourceSprite
@@ -91,6 +106,11 @@ class TextureUtils {
     func set(iceSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.iceSprite = iceSprite
+    }
+    
+    func iceSprite(at point: HexPoint) -> SKSpriteNode? {
+        
+        return self.tileTextures?[point.x, point.y]?.iceSprite
     }
     
     func coastTexture(at point: HexPoint) -> String? {

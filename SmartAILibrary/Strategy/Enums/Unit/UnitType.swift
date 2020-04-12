@@ -661,4 +661,13 @@ public enum UnitType: Int, Codable {
         
         return nil
     }
+    
+    func canPillage() -> Bool {
+        
+        if self == .builder || self == .settler {
+            return false
+        }
+        
+        return true
+    }
 }

@@ -108,6 +108,7 @@ public protocol AbstractUnit: class, Codable {
     
     func canFound(at location: HexPoint, in gameModel: GameModel?) -> Bool
     func isFound() -> Bool
+    @discardableResult
     func doFound(with name: String?, in gameModel: GameModel?) -> Bool
     
     func canBuild(build: BuildType, at point: HexPoint, testVisible: Bool, testGold: Bool, in gameModel: GameModel?) -> Bool
@@ -178,6 +179,8 @@ public protocol AbstractUnit: class, Codable {
     func doDelayedDeath(in gameModel: GameModel?) -> Bool
     func isDelayedDeath() -> Bool
     func startDelayedDeath()
+    
+    func commands(in gameModel: GameModel?) -> [Command]
     
     func isBusy() -> Bool
 }
@@ -729,7 +732,7 @@ public class Unit: AbstractUnit {
                 if self.canRangeStrike(at: destination, needWar: false, noncombatAllowed: true) {
                     //CvUnitCombat::AttackAir(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
                     fatalError("niy")
-                    attack = true;
+                    attack = true
                 }
             } else if destPlot.isCity() { // City combat
                 if let city = gameModel.city(at: destination) {
@@ -1267,7 +1270,8 @@ public class Unit: AbstractUnit {
                                     doCapture = true
 
                                     if loopPlayer.isHuman() {
-                                        gameModel.add(message: UnitCapturedMessage(by: player, unitType: loopUnit.type))
+                                        //gameModel.add(message: UnitCapturedMessage(by: player, unitType: loopUnit.type))
+                                        //self.player.notifications().add()
                                     }
                                 } else { // Unit was killed instead
                                     
@@ -1276,7 +1280,8 @@ public class Unit: AbstractUnit {
                                     }
 
                                     if loopPlayer.isHuman() {
-                                        gameModel.add(message: LostUnitMessage(by: player))
+                                        //gameModel.add(message: LostUnitMessage(by: player))
+                                        //self.player.notifications().add()
                                     }
 
                                     player.reportCultureFromKills(at: newLocation, culture: loopUnit.baseCombatStrength(ignoreEmbarked: true), wasBarbarian: loopPlayer.isBarbarian(), in: gameModel)
@@ -1538,7 +1543,8 @@ public class Unit: AbstractUnit {
             if diplomacyAI.isAtWar(with: newPlot.owner()) {
                 
                 if gameModel.humanPlayer()?.isEqual(to: newPlot.owner()) ?? false {
-                    gameModel.add(message: EnemyInTerritoryMessage(at: newLocation, of: self.type))
+                    //gameModel.add(message: EnemyInTerritoryMessage(at: newLocation, of: self.type))
+                    self.player?.notifications()?.add(type: .enemyInTerritory, message: "An enemy unit has been spotted in our territory!", summary: "An Enemy is Near!", at: newLocation)
                 }
             }
         }
@@ -1864,7 +1870,8 @@ public class Unit: AbstractUnit {
         if promotions.count() < (level - 1) {
             
             if player.isHuman() {
-                gameModel?.add(message: PromotionGainedMessage(unit: self))
+                //gameModel?.add(message: PromotionGainedMessage(unit: self))
+                self.player?.notifications()?.add(type: .unitPromotion, message: "\(self.name()) has gained a promotion.", summary: "promotion", at: self.location)
             } else {
                 let promotion = self.choosePromotion()
                 
@@ -2082,8 +2089,11 @@ public class Unit: AbstractUnit {
             return
         }
         
-        // FIXME - add die visualization
+        if other != nil {
+            // FIXME - add die visualization
+        }
         
+        gameModel.userInterface?.hide(unit: self)
         gameModel.remove(unit: self)
     }
     
@@ -2331,6 +2341,72 @@ public class Unit: AbstractUnit {
     public func buildType() -> BuildType {
         
         return self.buildTypeValue
+    }
+    
+    func canPillage(at point: HexPoint, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let tile = gameModel.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+        
+        if self.isEmbarked() {
+            return false
+        }
+
+        if !self.type.canPillage() {
+            return false
+        }
+
+        // Barbarian boats not allowed to pillage, as they're too annoying :)
+        if self.isBarbarian() && self.domain() == .sea {
+            return false
+        }
+
+        if tile.isCity() {
+            return false
+        }
+
+        let improvementType = tile.improvement()
+        if improvementType == .none {
+            if tile.has(route: .none) {
+                return false
+            }
+        } else if improvementType == .ruins {
+            return false
+        } else if improvementType == .goodyHut {
+            return false
+        }
+
+        // Either nothing to pillage or everything is pillaged to its max
+        if (improvementType == .none || tile.isImprovementPillaged()) &&
+            (tile.has(route: .none) || tile.isRoutePillaged()) {
+            return false
+        }
+
+        /*if tile.hasOwner() {
+            if (!potentialWarAction(pPlot))
+            {
+                if ((eImprovementType == NO_IMPROVEMENT && !pPlot->isRoute()) || (pPlot->getOwner() != getOwner()))
+                {
+                    return false;
+                }
+            }
+        }*/
+
+        // can no longer pillage our tiles
+        if player.isEqual(to: tile.owner()) {
+            return false
+        }
+
+        return true
     }
     
     public func doPillage(in gameModel: GameModel?) -> Bool {
@@ -2978,5 +3054,58 @@ extension Unit {
     public func clearMissions() {
         
         self.missions.clear()
+    }
+    
+    public func commands(in gameModel: GameModel?) -> [Command] {
+        
+        guard let techs = self.player?.techs else {
+            fatalError("cant get techs")
+        }
+        
+        var commandArray: [Command] = []
+        
+        if self.type.canFound() {
+            commandArray.append(Command(type: .found, location: self.location))
+        }
+        
+        if self.type.canBuild(build: .farm) {
+            var requiredTech = true
+            if let tech = TileImprovementType.farm.required() {
+                requiredTech = techs.has(tech: tech)
+            }
+            
+            if requiredTech {
+                commandArray.append(Command(type: .buildFarm, location: self.location))
+            }
+        }
+        
+        if self.type.canBuild(build: .mine) {
+            var requiredTech = true
+            if let tech = TileImprovementType.mine.required() {
+                requiredTech = techs.has(tech: tech)
+            }
+            
+            if requiredTech {
+                commandArray.append(Command(type: .buildMine, location: self.location))
+            }
+        }
+        
+        if self.canFortify() {
+            commandArray.append(Command(type: .fortify, location: self.location))
+        }
+        
+        if self.canHold(at: self.location, in: gameModel) {
+            commandArray.append(Command(type: .hold, location: self.location))
+        }
+        
+        if self.canGarrison(at: self.location, in: gameModel) {
+            commandArray.append(Command(type: .garrison, location: self.location))
+        }
+        
+        if self.canPillage(at: self.location, in: gameModel) {
+            commandArray.append(Command(type: .pillage, location: self.location))
+        }
+        
+        return commandArray
     }
 }

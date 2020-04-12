@@ -287,8 +287,8 @@ class Civics: AbstractCivics {
                 
                 // trigger event to user
                 if player.isHuman() {
-                    //gameModel?.civicDiscoveredNotification?(currentCivic)
-                    gameModel?.add(message: CivicDiscoveredMessage(with: currentCivic))
+                    //gameModel?.add(message: CivicDiscoveredMessage(with: currentCivic))
+                    self.player?.notifications()?.add(type: .civic, message: "You have discovered the civic '\(currentCivic)'.", summary: "Civic discovered", at: HexPoint.zero)
                 }
 
                 // enter era
@@ -296,7 +296,7 @@ class Civics: AbstractCivics {
                     
                     if player.isHuman() {
                         // gameModel?.eraEnteredNotification?(currentCivic.era())
-                        gameModel?.add(message: EnteredEraMessage(with: currentCivic.era()))
+                        // gameModel?.add(message: EnteredEraMessage(with: currentCivic.era()))
                     }
                 }
                 

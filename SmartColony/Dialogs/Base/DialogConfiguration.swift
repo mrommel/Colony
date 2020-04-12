@@ -70,6 +70,16 @@ enum DialogResultType: String, Codable {
     case mapSeaLevelNormal = "SEALEVEL_NORMAL"
     case mapSeaLevelHigh = "SEALEVEL_HIGH"
     
+    // commands
+    case commandFound = "COMMAND_FOUND"
+    case commandBuildFarm = "COMMAND_BUILD_FARM"
+    case commandBuildMine = "COMMAND_BUILD_MINE"
+    case commandBuildRoute = "COMMAND_BUILD_ROUTE"
+    case commandPillage = "COMMAND_PILLAGE"
+    case commandFortify = "COMMAND_FORTIFY"
+    case commandHold = "COMMAND_HOLD"
+    case commandGarrison = "COMMAND_GARRISON"
+    
     func toMapType() -> MapType {
         
         if self == .mapTypeEarth {

@@ -567,7 +567,8 @@ class City: AbstractCity {
             
             // notify human about starvation
             if player.isHuman() {
-                gameModel?.add(message: CityStarvingMessage(in: self))
+                //gameModel?.add(message: CityStarvingMessage(in: self))
+                self.player?.notifications()?.add(type: .starving, message: "The City of \(self.name) is starving! If it runs out of stored [ICON_FOOD] Food, a [ICON_CITIZEN] Citizen will die!", summary: "\(self.name) is Starving!", at: self.location)
             }
         }
         
@@ -608,7 +609,8 @@ class City: AbstractCity {
                 if self.populationValue <= 5 {
                     
                     if player.isHuman() {
-                        gameModel?.add(message: CityGrowthMessage(in: self))
+                        //gameModel?.add(message: CityGrowthMessage(in: self))
+                        self.player?.notifications()?.add(type: .cityGrowth, message: "The City of \(self.name) now has \(self.population()) [ICON_CITIZEN] Citizens! The new Citizen will automatically work the land near the City for additional [ICON_FOOD] Food, [ICON_PRODUCTION] Production or [ICON_GOLD] Gold.", summary: "\(self.name) has Grown!", at: self.location)
                     }
                 }
             }
@@ -771,7 +773,8 @@ class City: AbstractCity {
         }*/
 
         if !self.isProduction() && player.isHuman() && !self.isProductionAutomated() {
-            gameModel?.add(message: CityNeedsBuildableMessage(city: self))
+            //gameModel?.add(message: CityNeedsBuildableMessage(city: self))
+            self.player?.notifications()?.add(type: .production, message: "Your city \(self.name) needs something to work on.", summary: "need production", at: self.location)
             return okay
         }
 
@@ -1469,7 +1472,8 @@ class City: AbstractCity {
                         //self.build(building: buildingType)
 
                         if player.isHuman() {
-                            gameModel?.add(message: CityHasFinishedTrainingMessage(city: self, unit: unitType))
+                            //gameModel?.add(message: CityHasFinishedTrainingMessage(city: self, unit: unitType))
+                            //self.player?.notifications()?.add(type: <#T##NotificationType#>, message: <#T##String#>, summary: <#T##String#>, at: <#T##HexPoint#>)
                         }
                     }
 
@@ -1480,7 +1484,7 @@ class City: AbstractCity {
                         self.build(building: buildingType)
 
                         if player.isHuman() {
-                            gameModel?.add(message: CityHasFinishedBuildingMessage(city: self, building: buildingType))
+                            //gameModel?.add(message: CityHasFinishedBuildingMessage(city: self, building: buildingType))
                         }
                     }
                     
@@ -1503,7 +1507,7 @@ class City: AbstractCity {
                         self.build(districtType: districtType)
 
                         if player.isHuman() {
-                            gameModel?.add(message: CityHasFinishedDistrictMessage(city: self, district: districtType))
+                            //gameModel?.add(message: CityHasFinishedDistrictMessage(city: self, district: districtType))
                         }
                     }
                     
@@ -1520,7 +1524,7 @@ class City: AbstractCity {
         } else {
 
             if player.isHuman() {
-                gameModel?.add(message: CityNeedsBuildableMessage(city: self))
+                //gameModel?.add(message: CityNeedsBuildableMessage(city: self))
             } else {
                 self.cityStrategy?.chooseProduction(in: gameModel)
             }

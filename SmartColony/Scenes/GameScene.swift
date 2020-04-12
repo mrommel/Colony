@@ -14,12 +14,21 @@ protocol GameDelegate: class {
     func exit()
 }
 
+enum UITurnState {
+
+    case aiTurns // => lock UI
+    case humanTurns // => UI enabled
+}
+
 class GameScene: BaseScene {
-    
+
+    // Constants
+    let forceTouchLevel: CGFloat = 2.0
+
     // UI variables
     private var mapNode: MapNode?
     private let viewHex: SKSpriteNode
-    
+
     private var backgroundNode: SKSpriteNode?
     private var frameTopLeft: SKSpriteNode?
     private var frameTopRight: SKSpriteNode?
@@ -27,26 +36,34 @@ class GameScene: BaseScene {
     private var frameBottomRight: SKSpriteNode?
     private var bottomLeftBar: BottomLeftBar?
     private var bottomRightBar: BottomRightBar?
-    
+
+    private var turnButton: MessageBoxButtonNode?
+    private var turnDialog: TurnDialog?
+
     // view model
     var viewModel: GameSceneViewModel?
-    
+
     var selectedUnit: AbstractUnit? = nil
-    
+    var lastExecuted: TimeInterval = -1
+    let queue = DispatchQueue(label: "update_queue")
+    var readyUpdatingAI: Bool = true
+    var uiTurnState: UITurnState = .aiTurns
+    var blockingNotification: Notifications.Notification? = nil
+
     // delegate
     weak var gameDelegate: GameDelegate?
-    
+
     override init(size: CGSize) {
-        
+
         self.viewHex = SKSpriteNode()
-        
+
         super.init(size: size, layerOrdering: .nodeLayerOnTop)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func didMove(to view: SKView) {
 
         super.didMove(to: view)
@@ -68,7 +85,7 @@ class GameScene: BaseScene {
         self.backgroundNode?.zPosition = -100
         self.backgroundNode?.size = viewSize
         self.cameraNode.addChild(backgroundNode!)
-        
+
         self.mapNode = MapNode(with: viewModel.game)
         self.bottomLeftBar = BottomLeftBar(sized: CGSize(width: 200, height: 112))
         self.safeAreaNode.addChild(self.bottomLeftBar!)
@@ -110,10 +127,19 @@ class GameScene: BaseScene {
         self.frameBottomRight?.zPosition = 3
         self.frameBottomRight?.anchorPoint = CGPoint.lowerRight
         self.safeAreaNode.addChild(self.frameBottomRight!)
-        
+
+        self.turnButton = MessageBoxButtonNode(imageNamed: "next", title: "Turn", buttonAction: {
+            self.handleTurnButtonClick()
+        })
+        self.turnButton?.zPosition = 200
+        self.safeAreaNode.addChild(self.turnButton!)
+
+        // disable turn button
+        self.changeUITurnState(to: .aiTurns)
+
         self.updateLayout()
     }
-    
+
     override func updateLayout() {
 
         super.updateLayout()
@@ -122,7 +148,7 @@ class GameScene: BaseScene {
 
         self.backgroundNode?.position = CGPoint(x: 0, y: 0)
         self.backgroundNode?.aspectFillTo(size: viewSize)
-        
+
         self.mapNode?.updateLayout()
 
         self.frameTopLeft?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight)
@@ -141,15 +167,156 @@ class GameScene: BaseScene {
         self.bottomRightBar?.updateLayout()
 
         //self.menuButton?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth + 35, y: self.safeAreaNode.frame.halfHeight - 35)
-        //self.turnButton?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth - 50, y: -self.safeAreaNode.frame.halfHeight + 112 + 21)
+        self.turnButton?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth - 50, y: -self.safeAreaNode.frame.halfHeight + 112 + 21)
     }
-    
+
     func zoom(to zoomScale: Double) {
         let zoomInAction = SKAction.scale(to: CGFloat(zoomScale), duration: 0.1)
         self.cameraNode.run(zoomInAction)
     }
-    
+
+    // MARK: game loop
+
+    override func update(_ currentTime: TimeInterval) {
+
+        // only check once per 1 sec
+        if self.lastExecuted + 1 < currentTime {
+
+            guard let gameModel = self.viewModel?.game else {
+                fatalError("cant get game")
+            }
+
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                fatalError("cant get human")
+            }
+
+            if self.readyUpdatingAI && humanPlayer.isActive() {
+                self.changeUITurnState(to: .humanTurns)
+            } else {
+                if self.readyUpdatingAI {
+                    self.readyUpdatingAI = false
+                    queue.async {
+                        print("-----------> before AI processing")
+                        gameModel.update()
+                        print("-----------> after AI processing")
+                        self.readyUpdatingAI = true
+                    }
+                }
+            }
+
+            self.lastExecuted = currentTime
+        }
+    }
+
     // MARK: touch handling
+
+    func handleTurnButtonClick() {
+
+        print("---- turn pressed ------")
+
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+
+        // debug
+        /*for player in gameModel.players {
+            print("-- score of \(player.leader) = \(player.score(for: gameModel))")
+        }*/
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        if self.uiTurnState == .humanTurns {
+
+            if humanPlayer.canFinishTurn() {
+
+                humanPlayer.endTurn(in: gameModel)
+                self.changeUITurnState(to: .aiTurns)
+            } else {
+
+                if let blockingNotification = humanPlayer.blockingNotification() {
+                    blockingNotification.activate(in: gameModel)
+                }
+            }
+        }
+    }
+
+    func changeUITurnState(to state: UITurnState) {
+
+        switch state {
+
+        case .aiTurns:
+            // disable turn Button
+            self.turnButton?.disable()
+
+            // show AI turn banner
+            self.turnDialog = TurnDialog()
+            self.turnDialog?.zPosition = 250
+            self.cameraNode.addChild(self.turnDialog!)
+
+        case .humanTurns:
+            // enable turn Button
+            self.turnButton?.enable()
+
+            // update state
+            self.updateTurnButton()
+
+            // hide AI turn banner
+            if self.turnDialog != nil {
+                self.turnDialog?.close()
+                self.turnDialog = nil
+            }
+        }
+
+        self.uiTurnState = state
+    }
+
+    func updateTurnButton() {
+
+        self.viewModel?.game?.updateTestEndTurn()
+
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        if let blockingNotification = humanPlayer.blockingNotification() {
+            self.turnButton?.title = blockingNotification.summary
+        } else {
+            self.turnButton?.title = "Turn"
+        }
+    }
+    
+    func showPopup(for commands: [Command], of unit: AbstractUnit?) {
+        
+        if commands.count == 0 {
+            return
+        }
+        
+        let commandsDialog = CommandsDialog(for: commands)
+        commandsDialog.zPosition = 250
+        
+        commandsDialog.addResultHandler(handler: { commandResult in
+            
+            if commandResult == .commandFound {
+                unit?.doFound(with: "abc", in: self.viewModel?.game)
+            } else {
+                fatalError("unhandled: \(commandResult)")
+            }
+            
+            commandsDialog .close()
+        })
+               
+        commandsDialog.addCancelAction(handler: {
+            commandsDialog.close()
+        })
+        
+        self.cameraNode.addChild(commandsDialog)
+    }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
@@ -157,33 +324,31 @@ class GameScene: BaseScene {
         let touchLocation = touch.location(in: self.viewHex)
         let position = HexPoint(screen: touchLocation)
 
-        if let unit = viewModel?.game?.unit(at: position) {
-            self.select(unit: unit)
-        } else {
-            self.unselect()
-        }
-        
-        /*guard let units = self.game?.getUnits(at: position) else {
-            fatalError("cant get units at \(position)")
-        }
-
         if touch.force > self.forceTouchLevel {
             // force touch
-            print("force touch: \(touch.force)")
-
-            let target = self.target(at: position)
-
-            if let newTarget = target {
-
-                self.selectedUnitForAttack = newTarget
-                self.showAttackSymbol(at: position, real: true)
-                return
-            } else {
-
-                self.showAttackSymbol(at: position, real: false)
-                return
+            if let unit = viewModel?.game?.unit(at: position) {
+                print("force touch: \(touch.force) at \(unit.type)")
+                
+                let commands = unit.commands(in: viewModel?.game)
+                //print("commands: \(commands)")
+                self.showPopup(for: commands, of: unit)
             }
-        }*/
+        }
+        
+        //print("touch began with \(touch.tapCount) taps")
+        if touch.tapCount == 2 {
+            // double tap
+            if let unit = viewModel?.game?.unit(at: position) {
+                print("double tapped: \(unit.type)")
+            }
+        } else {
+        
+            if let unit = viewModel?.game?.unit(at: position) {
+                self.select(unit: unit)
+            } else {
+                self.unselect()
+            }
+        }
     }
 
     // moving the map around
@@ -193,23 +358,6 @@ class GameScene: BaseScene {
 
         let touchLocation = touch.location(in: self.viewHex)
         let position = HexPoint(screen: touchLocation)
-
-        /*if touch.force > self.forceTouchLevel {
-            // force touch
-            let target = self.target(at: position)
-
-            if let newTarget = target {
-
-                self.selectedUnitForAttack = newTarget
-                self.showAttackSymbol(at: position, real: true)
-                return
-            } else {
-
-                self.selectedUnitForAttack = nil
-                self.showAttackSymbol(at: position, real: false)
-                return
-            }
-        }*/
 
         if let selectedUnit = self.selectedUnit {
 
@@ -264,32 +412,19 @@ class GameScene: BaseScene {
             return
         }
 
-        /*if let selectedUnit = self.selectedUnitForAttack {
-
-            self.showBattleDialog(between: self.game?.getSelectedUnitOfUser(), and: selectedUnit)
-            self.selectedUnitForAttack = nil
-        }*/
-
         if let selectedUnit = self.selectedUnit {
             self.mapNode?.unitLayer.clearPathSpriteBuffer()
             self.mapNode?.unitLayer.hideFocus()
             self.mapNode?.unitLayer.move(unit: selectedUnit, to: position)
         }
-        
-        self.unselect()
 
-        /*self.hideAttackSymbol()*/
+        self.unselect()
     }
-    
+
     func centerCamera(on hex: HexPoint) {
 
-        var screenPosition = HexPoint.toScreen(hex: hex)
-        // FIXME: hm, not sure why this is needed
-        screenPosition.x += 20
-        screenPosition.y += 15
-
+        let screenPosition = HexPoint.toScreen(hex: hex)
         let cameraPositionInScene = self.convert(screenPosition, from: self.viewHex)
-
         self.cameraNode.position = cameraPositionInScene
         print("center camera on: \(cameraPositionInScene)")
     }
@@ -303,49 +438,64 @@ extension GameScene: BottomRightBarDelegate {
 }
 
 extension GameScene: UserInterfaceProtocol {
-    
+
     func select(unit: AbstractUnit?) {
-        
+
         self.mapNode?.unitLayer.showFocus(for: unit)
         self.selectedUnit = unit
+        self.bottomLeftBar?.selectedUnitChanged(to: unit)
     }
-    
+
     func unselect() {
-        
+
         self.mapNode?.unitLayer.hideFocus()
         self.selectedUnit = nil
     }
-    
+
     func isDiplomaticScreenActive() -> Bool {
         return false
     }
-    
+
     func isPopupShown() -> Bool {
         return false
     }
-    
+
     func showPopup(popupType: PopupType, data: PopupData?) {
-        
+        print("popup")
     }
-    
+
     func showScreen(screenType: ScreenType) {
-        
+        print("screen")
     }
-    
-    func showMessage(message: AbstractGameMessage) {
-        
-    }
-    
+
     func show(unit: AbstractUnit?) { // unit gets visible
+        print("show")
     }
-    
+
     func hide(unit: AbstractUnit?) { // unit gets hidden
+        print("hide")
+        self.mapNode?.unitLayer.hide(unit: unit)
+        self.bottomLeftBar?.selectedUnitChanged(to: nil)
     }
+
     func move(unit: AbstractUnit?, on points: [HexPoint]) {
-        
+        print("move")
     }
     
+    func show(city: AbstractCity?) {
+        print("show city")
+    }
+
     func showTooltip(at point: HexPoint, text: String, delay: Double) {
-        
+        print("tooltip")
+    }
+
+    func show(notification: Notifications.Notification) {
+        fatalError("cant display: \(notification.type)")
+    }
+
+    func refresh(tile: AbstractTile?) {
+        self.mapNode?.terrainLayer.update(tile: tile)
+        self.mapNode?.featureLayer.update(tile: tile)
     }
 }

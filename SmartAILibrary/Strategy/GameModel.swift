@@ -64,7 +64,7 @@ public class GameModel {
     static let turnFrequency = 25 /* PROGRESS_POPUP_TURN_FREQUENCY */
 
     private let map: MapModel
-    private var messagesVal: [AbstractGameMessage] // for human only !!
+    //private var messagesVal: [AbstractGameMessage] // for human only !!
     private let tacticalAnalysisMapVal: TacticalAnalysisMap
     public weak var userInterface: UserInterfaceProtocol?
     private var waitDiploPlayer: AbstractPlayer? = nil
@@ -80,7 +80,7 @@ public class GameModel {
         self.players = players
         self.map = map
 
-        self.messagesVal = []
+        // self.messagesVal = []
 
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
         self.map.analyze()
@@ -137,7 +137,7 @@ public class GameModel {
                 
                 //self.updateTimers()
 
-                self.updatePlayers() // slewis added!
+                self.updatePlayers(in: self) // slewis added!
 
                 //self.testAlive()
 
@@ -176,12 +176,12 @@ public class GameModel {
         return nil
     }
     
-    func updatePlayers() {
+    func updatePlayers(in gameModel: GameModel?) {
     
         for player in self.players {
         
             if player.isAlive() && player.isActive() {
-                player.updateNotifications()
+                player.updateNotifications(in: gameModel)
             }
         }
     }
@@ -259,11 +259,6 @@ public class GameModel {
                                         if nextPlayer.isAlive() {
                                             //the player is alive and also running sequential turns.  they're up!
                                             nextPlayer.startTurn(in: self)
-                                            
-                                            // show stacked messages
-                                            if player.isHuman() {
-                                                self.showMessages()
-                                            }
                                             //self.resetTurnTimer(false)
                                             
                                             break
@@ -572,9 +567,9 @@ public class GameModel {
                 player.startTurn(in: self)
                 
                 // show stacked messages
-                if player.isHuman() {
+                /*if player.isHuman() {
                     self.showMessages()
-                }
+                }*/
                 break
             }
         }
@@ -597,30 +592,46 @@ public class GameModel {
         }
     }
     
+    public func updateTestEndTurn() {
+        
+        if let activePlayer = self.activePlayer() {
+            
+            if activePlayer.isTurnActive() {
+                
+                var blockingNotification: Notifications.Notification? = nil
+                
+                // check notifications
+                if let notifications = activePlayer.notifications() {
+                    
+                    blockingNotification = notifications.endTurnBlockingNotification()
+                }
+                
+                if blockingNotification == nil {
+                    
+                    // No notifications are blocking, check units/cities
+                    
+                    // promotions
+                    
+                    for unitRef in self.units(of: activePlayer) {
+                    
+                        guard let unit = unitRef else {
+                            continue
+                        }
+                        
+                        if unit.movesLeft() > 0 {
+                            blockingNotification = Notifications.Notification(type: .unitNeedsOrders, message: "Unit needs orders", summary: "Orders needed", at: unit.location)
+                        }
+                    }
+                }
+                
+                activePlayer.set(blockingNotification: blockingNotification)
+            }
+        }
+    }
+    
     func updateTacticalAnalysisMap(for player: AbstractPlayer?) {
         
         self.tacticalAnalysisMapVal.refresh(for: player, in: self)
-    }
-
-    // MARK: message handling
-
-    func add(message: AbstractGameMessage) {
-
-        self.messagesVal.append(message)
-    }
-    
-    func showMessages() {
-        
-        for message in self.messagesVal {
-            self.userInterface?.showMessage(message: message)
-        }
-        
-        self.messagesVal.removeAll()
-    }
-    
-    func messages() -> [AbstractGameMessage] {
-
-        return self.messagesVal
     }
 
     // MARK: getter
@@ -648,6 +659,7 @@ public class GameModel {
         }
         
         self.map.add(city: city)
+        self.userInterface?.show(city: city)
         
         // update eureka
         if !techs.eurekaTriggered(for: .sailing) {
@@ -991,6 +1003,7 @@ public class GameModel {
             
             if let tile = self.tile(at: pt) {
                 tile.conceal(to: player)
+                self.userInterface?.refresh(tile: tile)
             }
         }
     }
@@ -1001,6 +1014,7 @@ public class GameModel {
             
             if let tile = self.tile(at: pt) {
                 tile.sight(by: player)
+                self.userInterface?.refresh(tile: tile)
             }
         }
     }

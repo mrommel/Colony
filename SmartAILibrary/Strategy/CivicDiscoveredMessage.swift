@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AbstractGameMessage {
+/*public protocol AbstractGameMessage {
 
     var title: String { get }
     var text: String { get }
@@ -294,4 +294,4 @@ class LostUnitMessage: AbstractGameMessage {
         self.title = "A Unit was Killed!"
         self.text = "..."
     }
-}
+}*/

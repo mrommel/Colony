@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>center</anchory>
+    <offsetx>-385</offsetx>
+    <offsety>-160</offsety>
+    <width>350</width>
+    <height>120</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        <item>
+            <identifier>dialog_image</identifier>
+            <type>image</type>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-3</offsety>
+            <width>60</width>
+            <height>60</height>
+            <image>globe0</image>
+        </item>
+        <item>
+            <identifier>summary</identifier>
+            <type>label</type>
+            <title>Other players are taking their turns, please wait ...</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-13</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+    </items>
+</context>

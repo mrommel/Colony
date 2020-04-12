@@ -48,10 +48,10 @@ class BoardLayer: SKNode {
 
                     if let calderaName = self.textureUtils?.calderaTexure(at: tile.point) {
                         
-                        if tile.isDiscovered(by: self.player) {
-                            self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 0.5)
-                        } else if tile.isVisible(to: self.player) {
+                        if tile.isVisible(to: self.player) {
                             self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 1.0)
+                        } else if tile.isDiscovered(by: self.player) {
+                            self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 0.5)
                         }
                     }
                 }

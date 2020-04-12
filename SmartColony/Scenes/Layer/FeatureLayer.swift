@@ -46,10 +46,11 @@ class FeatureLayer: SKNode {
                 
                 if let tile = gameModel.tile(at: pt) {
                     let screenPoint = HexPoint.toScreen(hex: pt)
-                    if tile.isDiscovered(by: self.player) {
-                        self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
-                    } else if tile.isVisible(to: self.player) {
+                    
+                    if tile.isVisible(to: self.player) {
                         self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                    } else if tile.isDiscovered(by: self.player) {
+                        self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
                     }
                 }
             }
@@ -92,18 +93,37 @@ class FeatureLayer: SKNode {
         }
     }
 
-    func clearTileHex(at pt: HexPoint) {
+    func clear(tile: AbstractTile?) {
         
-        /*guard let map = self.map else {
-            fatalError("map not set")
+        guard let textureUtils = self.textureUtils else {
+            fatalError("cant get textureUtils")
         }
         
-        if let tile = map.tile(at: pt) {
-            self.removeChildren(in: tile.featureSprites)
+        if let tile = tile {
+            if let featureSprite = textureUtils.featureSprite(at: tile.point) {
+                self.removeChildren(in: [featureSprite])
+            }
             
-            if let iceSprite = tile.iceSprite {
+            if let iceSprite = textureUtils.iceSprite(at: tile.point) {
                 self.removeChildren(in: [iceSprite])
             }
-        }*/
+        }
+    }
+    
+    func update(tile: AbstractTile?) {
+        
+        if let tile = tile {
+            let pt = tile.point
+            
+            self.clear(tile: tile)
+            
+            let screenPoint = HexPoint.toScreen(hex: pt)
+            
+            if tile.isVisible(to: self.player) {
+                self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+            } else if tile.isDiscovered(by: self.player) {
+                self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+            }
+        }
     }
 }

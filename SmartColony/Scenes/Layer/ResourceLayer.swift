@@ -47,10 +47,11 @@ class ResourceLayer: SKNode {
                 if let tile = gameModel.tile(at: pt) {
                     
                     let screenPoint = HexPoint.toScreen(hex: pt)
-                    if tile.isDiscovered(by: self.player) {
-                        self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
-                    } else if tile.isVisible(to: self.player) {
+                    
+                    if tile.isVisible(to: self.player) {
                         self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+                    } else if tile.isDiscovered(by: self.player) {
+                        self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
                     }
                 }
             }

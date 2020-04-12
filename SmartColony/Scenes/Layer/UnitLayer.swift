@@ -69,6 +69,28 @@ class UnitLayer: SKNode {
         }
     }
     
+    func hide(unit: AbstractUnit?) {
+        
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        var unitObjectRef: UnitObject? = nil
+        
+        for object in self.unitObjects {
+            if unit.isEqual(to: object.unit) {
+                unitObjectRef = object
+            }
+        }
+        
+        if let unitObject = unitObjectRef {
+            
+            unitObject.sprite.removeFromParent()
+            
+            self.unitObjects.removeAll(where: { $0.identifier == unitObject.identifier })
+        }
+    }
+    
     func unitObject(at location: HexPoint) -> UnitObject? {
         
         for object in self.unitObjects {
@@ -218,24 +240,7 @@ class UnitLayer: SKNode {
             fatalError("gameModel not set")
         }
         
-        /*guard let currentCivilization = self.userUsecase.currentUser()?.civilization else {
-            return
-        }*/
-        
         if let selectedUnit = unit {
-
-            /*guard selectedUnit.civilization == currentCivilization else {
-                // FIXME: show x
-                //self.showCross(at: hex)
-                return
-            }*/
-            
-            // can only select new target when unit is idle
-            /*guard selectedUnit.state.state == .idle else {
-                // FIXME: show x
-                self.showCross(at: hex)
-                return
-            }*/
             
             guard let unitObject = self.unitObject(at: selectedUnit.location) else {
                 fatalError("cant get unitObject")

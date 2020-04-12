@@ -73,7 +73,7 @@ public class DiplomaticAI {
             if otherPlayer.isHuman() {
 
                 // Put in the list of people to greet human when the human turn comes up.
-                gameModel.add(message: FirstContactMessage(with: player))
+                //gameModel.add(message: FirstContactMessage(with: player))
             }
         }
     }
@@ -108,7 +108,8 @@ public class DiplomaticAI {
                     let playerBName = metB ? otherPlayer.leader.name() : "An Unmet Player"
 
                     let text = "\(playerAName) and \(playerBName) have made a public Trade Alliance, forging a strong bond between the two empires."
-                    gameModel.add(message: DeclarationOfFriendshipMessage(text: text))
+                    //gameModel.add(message: DeclarationOfFriendshipMessage(text: text))
+                    self.player?.notifications()?.add(type: .diplomaticDeclaration, message: text, summary: "declaration of friendship", at: HexPoint.zero)
                 }
             }
         }
@@ -149,7 +150,8 @@ public class DiplomaticAI {
                     let playerBName = metB ? otherPlayer.leader.name() : "An Unmet Player"
 
                     let text = "\(playerAName) has denounced \(playerBName)."
-                    gameModel.add(message: DenouncementMessage(text: text))
+                    //gameModel.add(message: DenouncementMessage(text: text))
+                    self.player?.notifications()?.add(type: .diplomaticDeclaration, message: text, summary: "Denounced", at: HexPoint.zero)
                 }
             }
         }
@@ -268,7 +270,10 @@ public class DiplomaticAI {
 
         // inform player that some declared war
         if otherPlayer.isHuman() {
-            gameModel.add(message: DeclarationOfWarMessage(by: player))
+            //gameModel.add(message: DeclarationOfWarMessage(by: player))
+            
+            // TXT_KEY_MISC_DECLARED_WAR_ON_YOU
+            self.player?.notifications()?.add(type: .war, message: "\(player.leader.name()) has declared war on you!", summary: "declaration of war", at: HexPoint.zero)
         }
     }
 

@@ -316,11 +316,6 @@ extension HexPoint {
         self.init(cube: HexCube(screen: screenPoint))
     }
     
-    /*func neighbor(in direction: HexDirection) -> HexPoint {
-        let parity = self.x & 1
-        return self + (parity == 0 ? direction.axialDirectionOdd : direction.axialDirectionEven)
-    }*/
-    
     func isNeighbor(of point: HexPoint) -> Bool {
         
         return self.distance(to: point) == 1

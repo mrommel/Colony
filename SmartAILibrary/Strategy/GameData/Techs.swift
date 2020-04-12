@@ -327,7 +327,8 @@ class Techs: AbstractTechs {
         guard let currentTech = self.currentTechVal else {
             
             if player.isHuman() {
-                gameModel?.add(message: PlayerNeedsTechSelectionMessage())
+                //gameModel?.add(message: PlayerNeedsTechSelectionMessage())
+                // NOOP
             } else {
                 let bestTech = chooseNextTech()
                 try self.setCurrent(tech: bestTech)
@@ -343,14 +344,15 @@ class Techs: AbstractTechs {
                 
                 // trigger event to user
                 if player.isHuman() {
-                    gameModel?.add(message: TechDiscoveredMessage(with: currentTech))
+                    //gameModel?.add(message: TechDiscoveredMessage(with: currentTech))
+                    self.player?.notifications()?.add(type: .tech, message: "You have discovered the new technology '\(currentTech)'.", summary: "Tech discovered", at: HexPoint.zero)
                 }
                 
                 // enter era
                 if currentTech.era() > player.currentEra() {
                     
                     if player.isHuman() {
-                        gameModel?.add(message: EnteredEraMessage(with: currentTech.era()))
+                        //gameModel?.add(message: EnteredEraMessage(with: currentTech.era()))
                     }
                     
                     player.set(era: currentTech.era())

@@ -83,14 +83,19 @@ public protocol AbstractPlayer: class {
     
     func isAlive() -> Bool
     func isActive() -> Bool
+    func isTurnActive() -> Bool
     func isHuman() -> Bool
     func isBarbarian() -> Bool
 
     // diplomatics
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool
     func atWarCount() -> Int
-    func updateNotifications()
     func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
+    
+    // notification
+    func updateNotifications(in gameModel: GameModel?)
+    func set(blockingNotification: Notifications.Notification?)
+    func blockingNotification() -> Notifications.Notification?
 
     // era
     func currentEra() -> EraType
@@ -150,6 +155,10 @@ public protocol AbstractPlayer: class {
     
     func doGoodyHut(at tile: AbstractTile?, by unit: AbstractUnit?, in gameModel: GameModel?)
     
+    func score(for gameModel: GameModel?) -> Int
+    
+    func notifications() -> Notifications?
+    
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
 
@@ -198,6 +207,9 @@ public class Player: AbstractPlayer {
     private var lastSliceMovedValue: Int = 0
     
     private var cultureEarned: Int = 0
+    
+    private var notificationsValue: Notifications?
+    private var blockingNotificationValue: Notifications.Notification? = nil
 
     // MARK: constructor
 
@@ -242,6 +254,7 @@ public class Player: AbstractPlayer {
         self.government = Government()
 
         self.operations = Operations()
+        self.notificationsValue = Notifications(player: self)
         
         self.resourceInventory = ResourceInventory()
         self.resourceInventory?.fill()
@@ -269,6 +282,10 @@ public class Player: AbstractPlayer {
         /*if !self.hasProcessedAutoMoves() {
             return false
         }*/
+        
+        if self.blockingNotification() != nil {
+            return false
+        }
         
         return true
     }
@@ -389,17 +406,31 @@ public class Player: AbstractPlayer {
         return diplomacyAI.atWarCount()
     }
     
-    public func updateNotifications() {
+    public func notifications() -> Notifications? {
         
-        /*if (GetNotifications())
-        {
-            GetNotifications()->Update();
+        return self.notificationsValue
+    }
+    
+    public func updateNotifications(in gameModel: GameModel?) {
+        
+        if let notifications = self.notifications() {
+            notifications.update(in: gameModel)
         }
 
-        if (GetDiplomacyRequests())
+        /*if (GetDiplomacyRequests())
         {
             GetDiplomacyRequests()->Update();
         }*/
+    }
+    
+    public func set(blockingNotification: Notifications.Notification?) {
+        
+        self.blockingNotificationValue = blockingNotification
+    }
+    
+    public func blockingNotification() -> Notifications.Notification? {
+        
+        return self.blockingNotificationValue
     }
     
     public func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
@@ -447,7 +478,7 @@ public class Player: AbstractPlayer {
         return false
     }
     
-    func isTurnActive() -> Bool {
+    public func isTurnActive() -> Bool {
         
         return self.turnActive
     }
@@ -942,7 +973,7 @@ public class Player: AbstractPlayer {
 
     }
 
-    func score(for gameModel: GameModel?) -> Int {
+    public func score(for gameModel: GameModel?) -> Int {
 
         if !self.isAliveVal {
             // no need to update, the player died
@@ -1076,6 +1107,8 @@ public class Player: AbstractPlayer {
 
     public func set(era: EraType) {
 
+        // FIXME: should not be older era
+        
         self.currentEraVal = era
     }
 

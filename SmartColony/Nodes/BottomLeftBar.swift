@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import SmartAILibrary
 
 class BottomLeftBar: SizedNode {
     
@@ -60,25 +61,16 @@ class BottomLeftBar: SizedNode {
         self.unitCanvasNode?.position = self.position
         self.unitImageNode?.position = self.position + CGPoint(x: 3, y: 3)
     }
-}
+   
+    func selectedUnitChanged(to unit: AbstractUnit?) {
 
-/*extension BottomLeftBar: GameObjectUnitDelegate {
-    
-    func selectedUnitChanged(to unit: Unit?) {
+        if let selectedUnit = unit {
+            let selectedUnitTextureString = selectedUnit.type.spriteName
+            let selectedUnitTexture = SKTexture(imageNamed: selectedUnitTextureString)
         
-        guard let gameObject = unit?.gameObject else {
-            fatalError("selected unit set to nil")
+            self.unitImageNode?.texture = selectedUnitTexture
+        } else {
+            self.unitImageNode?.texture = nil
         }
-        
-        print("selected unit changed: \(gameObject.identifier)")
-        
-        let selectedUnitTextureString = (gameObject.atlasIdle?.textures.first)
-        let selectedUnitTexture = SKTexture(imageNamed: selectedUnitTextureString!)
-        
-        self.unitImageNode?.texture = selectedUnitTexture
     }
-    
-    func removed(unit: Unit?) {
-        // NOOP
-    }
-}*/
+}

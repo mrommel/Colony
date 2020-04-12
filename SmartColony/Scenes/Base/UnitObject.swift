@@ -18,7 +18,7 @@ class UnitObject {
     weak var unit: AbstractUnit?
     weak var gameModel: GameModel?
     
-    //let identifier: String
+    let identifier: String
     var spriteName: String
 
     var atlasIdle: GameObjectAtlas?
@@ -31,10 +31,11 @@ class UnitObject {
     var animationSpeed = 4.0
     
     // internal UI elements
-    private var sprite: SKSpriteNode
+    var sprite: SKSpriteNode
     
     init(unit: AbstractUnit?, in gameModel: GameModel?) {
      
+        self.identifier = UUID.init().uuidString
         self.unit = unit
         self.gameModel = gameModel
         
@@ -121,11 +122,7 @@ class UnitObject {
 
     func showWalk(on path: HexPath, completion block: @escaping () -> Swift.Void) {
 
-        //print("---> path: \(path.count)")
-        
         guard !path.isEmpty else {
-            //self.clearPathSpriteBuffer()
-            print("path empty")
             block()
             return
         }
@@ -134,10 +131,8 @@ class UnitObject {
             fatalError("unit not given")
         }
 
-        if let (_, cost) = path.first {
-            if Double(unit.movesLeft()) < cost {
-                //self.clearPathSpriteBuffer()
-                print("movement limited")
+        if let (_, _) = path.first {
+            if Double(unit.movesLeft()) <= 0.0 {
                 block()
                 return
             }

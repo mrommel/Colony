@@ -129,6 +129,15 @@ class SpriteButtonNode: SKNode {
         }
     }
     
+    var title: String {
+        set {
+            self.buttonLabel.text = newValue
+        }
+        get {
+            return self.buttonLabel.text ?? "--"
+        }
+    }
+    
     // state management
     
     func enable() {
