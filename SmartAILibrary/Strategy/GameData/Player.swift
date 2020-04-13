@@ -892,7 +892,7 @@ public class Player: AbstractPlayer {
                 continue
             }
             
-            //loopUnit.promote
+            //loopUnit.promot
         }
     }
     
@@ -2415,7 +2415,7 @@ public class Player: AbstractPlayer {
         
         if culture > 0 {
             
-            var cultureValue = 100 // GetPlayerTraits()->GetCultureFromKills();
+            let cultureValue = 100 // GetPlayerTraits()->GetCultureFromKills();
             //iCultureValue += GetPlayerPolicies()->GetNumericModifier(POLICYMOD_CULTURE_FROM_KILLS);
 
             // Do we get it for barbarians?
@@ -2474,11 +2474,9 @@ public class Player: AbstractPlayer {
 
         if !self.isBarbarian() {
             
-            var everPoppedGoody = true
             tile.removeImprovement()
             
             // Make a list of valid Goodies to pick randomly from
-            //int iValidGoodiesLoop;
             var validGoodies: [GoodyType] = []
 
             for goody in GoodyType.all {

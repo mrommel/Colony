@@ -166,9 +166,9 @@ public enum UnitType: Int, Codable {
         // ability modifiers
         // ***************
         
-        for ability in self.abilities() {
+        /*for ability in self.abilities() {
             // FIXME
-        }
+        }*/
         
         return powerVal
     }

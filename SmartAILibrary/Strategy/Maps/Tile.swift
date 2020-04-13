@@ -348,9 +348,38 @@ class Tile: AbstractTile {
         return modifier
     }
     
+    /// Is this a plot that's friendly to our team? (owned by us or someone we have Open Borders with)
     func isFriendlyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
         
-        fatalError("not implemented yet")
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+        
+        // No friendly territory for barbs!
+        if player.isBarbarian() {
+            return false
+        }
+
+        // Nobody owns this plot
+        if !self.hasOwner() {
+            return false
+        }
+
+        // Our territory
+        if player.isEqual(to: self.owner()) {
+            return true
+        }
+        
+        guard let diplomaticAI = player.diplomacyAI else {
+            fatalError("cant get diplomaticAI")
+        }
+
+        // territory of player we have open border with
+        if diplomaticAI.isOpenBorderAgreementActive(by: self.owner()) {
+            return true
+        }
+
+        return false
     }
     
     func isFriendlyCity(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {

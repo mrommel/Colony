@@ -669,12 +669,12 @@ public class GameModel {
         }
     }
 
-    func cities(of player: AbstractPlayer) -> [AbstractCity?] {
+    public func cities(of player: AbstractPlayer) -> [AbstractCity?] {
 
         return self.map.cities(for: player)
     }
     
-    func city(at location: HexPoint) -> AbstractCity? {
+    public func city(at location: HexPoint) -> AbstractCity? {
 
         return self.map.city(at: location)
     }

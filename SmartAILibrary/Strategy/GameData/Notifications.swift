@@ -38,11 +38,15 @@ public class Notifications {
             
             if self.type == .unitNeedsOrders {
                 gameModel?.userInterface?.focus(on: self.location)
+            } else if self.type == .production {
+                gameModel?.userInterface?.showScreen(screenType: .city)
+            } else {
+                print("activate \(self.type) not handled")
             }
         }
         
         public func dismiss() {
-            
+            print("dismiss: \(self.type)")
         }
         
         func expired() -> Bool {
@@ -77,6 +81,15 @@ public class Notifications {
     }
     
     func add(type: NotificationType, message: String, summary: String, at location: HexPoint) {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if !player.isHuman() {
+            // no notifications for ai player
+            return
+        }
         
         self.notifications.append(Notification(type: type, message: message, summary: summary, at: location))
     }

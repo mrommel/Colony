@@ -46,9 +46,8 @@ public protocol AbstractUnit: class, Codable {
     func movementType() -> UnitMovementType
     func baseMoves(into domain: UnitDomainType, in gameModel: GameModel?) -> Int
     func path(towards target: HexPoint, in gameModel: GameModel?) -> HexPath?
-    func doMoveOnPath(towards target: HexPoint, previousETA: Int, buildingRoute: Bool, in gameModel: GameModel?) -> Int
-    @discardableResult
-    func doMove(on target: HexPoint, in gameModel: GameModel?) -> Bool
+    @discardableResult func doMoveOnPath(towards target: HexPoint, previousETA: Int, buildingRoute: Bool, in gameModel: GameModel?) -> Int
+    @discardableResult func doMove(on target: HexPoint, in gameModel: GameModel?) -> Bool
     func readyToMove() -> Bool
     
     func isImpassable(tile: AbstractTile?) -> Bool
@@ -1014,15 +1013,7 @@ public class Unit: AbstractUnit {
 
                 if pathPlot == nil || !self.canMove(into: target, in: gameModel) {
                     // add route interrupted
-                    fatalError("TXT_KEY_NOTIFICATION_ROUTE_TO_CANCELLED")
-                    //gameModel.add(message: )
-                    /*CvNotifications* pNotifications = GET_PLAYER(getOwner()).GetNotifications();
-                    if (pNotifications)
-                    {
-                        CvString strBuffer = GetLocalizedText("TXT_KEY_NOTIFICATION_ROUTE_TO_CANCELLED");
-                        CvString strSummary = GetLocalizedText("TXT_KEY_NOTIFICATION_SUMMARY_ROUTE_TO_CANCELLED");
-                        pNotifications->Add(NOTIFICATION_GENERIC, strBuffer, strSummary, getX(), getY(), -1);
-                    }*/
+                    gameModel.humanPlayer()?.notifications()?.add(type: .generic, message: "Your worker that was ordered to build a route to a destination is blocked and cancelled his order.", summary: "Route to cancelled!", at: self.location)
 
                     return 0
                 }
@@ -1044,9 +1035,10 @@ public class Unit: AbstractUnit {
         // slewis'd
         if path.count != 0 {
             
-            guard let (firstNode, firstCost) = path.first else {
+            guard let (_, firstCost) = path.first else {
                 fatalError("bla")
             }
+            
             if previousETA >= 0 && Int(firstCost) > previousETA + 2 {
                 //LOG_UNIT_MOVES_MESSAGE_OSTR(std::string("Rejecting move iPrevETA=") << iPrevETA << std::string(", m_iData2=") << kNode.m_iData2);
                 rejectMove = true
@@ -1540,10 +1532,9 @@ public class Unit: AbstractUnit {
             }
 
             // Are we in enemy territory? If so, give notification to owner
-            if diplomacyAI.isAtWar(with: newPlot.owner()) {
+            if diplomacyAI.isAtWar(with: plotOwner) {
                 
-                if gameModel.humanPlayer()?.isEqual(to: newPlot.owner()) ?? false {
-                    //gameModel.add(message: EnemyInTerritoryMessage(at: newLocation, of: self.type))
+                if plotOwner.isEqual(to: gameModel.humanPlayer()) {
                     self.player?.notifications()?.add(type: .enemyInTerritory, message: "An enemy unit has been spotted in our territory!", summary: "An Enemy is Near!", at: newLocation)
                 }
             }
@@ -2255,10 +2246,10 @@ public class Unit: AbstractUnit {
 
         let startedYet = tile.buildProgress(of: buildType)
 
-        // if we are starting something new wipe out the old thing immediately
+        // if we are starting something new, wipe out the old thing immediately
         if startedYet == 0 {
             
-            if let improvement = buildType.improvement() {
+            if buildType.improvement() != nil {
 
                 if tile.improvement() != .none {
                     tile.set(improvement: .none)
@@ -2266,7 +2257,7 @@ public class Unit: AbstractUnit {
             }
 
             // wipe out all build progress also
-            finished = tile.changeBuildProgress(of: buildType, change: self.type.workRate(), for: player, in: gameModel)
+            //finished = tile.changeBuildProgress(of: buildType, change: self.type.workRate(), for: player, in: gameModel)
         }
 
         finished = tile.changeBuildProgress(of: buildType, change: self.type.workRate(), for: player, in: gameModel)

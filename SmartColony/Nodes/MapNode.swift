@@ -20,6 +20,8 @@ class MapNode: SKNode {
     var riverLayer: RiverLayer
     
     var unitLayer: UnitLayer
+    var cityLayer: CityLayer
+    var improvementLayer: ImprovementLayer
 
     // MARK: properties
 
@@ -54,6 +56,12 @@ class MapNode: SKNode {
         
         self.unitLayer = UnitLayer(player: humanPlayer)
         self.unitLayer.populate(with: self.game)
+        
+        self.cityLayer = CityLayer(player: humanPlayer)
+        self.cityLayer.populate(with: self.game)
+        
+        self.improvementLayer = ImprovementLayer(player: humanPlayer)
+        self.improvementLayer.populate(with: self.game)
 
         super.init()
         self.zPosition = 0
@@ -64,6 +72,8 @@ class MapNode: SKNode {
         self.addChild(self.boardLayer)
         self.addChild(self.riverLayer)
         self.addChild(self.unitLayer)
+        self.addChild(self.cityLayer)
+        self.addChild(self.improvementLayer)
     }
     
     required init?(coder aDecoder: NSCoder) {

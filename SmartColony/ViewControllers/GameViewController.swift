@@ -35,18 +35,7 @@ class GameViewController: UIViewController {
             fatalError("ViewModel not initilized")
         }
         
-        
-        
-        self.start(game: self.viewModel?.game)
-        
-        /*switch viewModel.type {
-        case .level:
-            self.startGameWith(levelMeta: self.viewModel?.levelMeta)
-        case .game:
-            self.restart(game: self.viewModel?.game)
-        case .map:
-            self.startGameWith(map: self.viewModel?.map)
-        }*/
+        self.start(game: viewModel.game)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

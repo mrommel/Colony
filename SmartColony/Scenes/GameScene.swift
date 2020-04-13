@@ -326,20 +326,38 @@ class GameScene: BaseScene {
 
         if touch.force > self.forceTouchLevel {
             // force touch
+            if let city = viewModel?.game?.city(at: position) {
+                print("force touch: \(touch.force) at \(city.name)")
+                self.showScreen(screenType: .city)
+                return
+            }
+
             if let unit = viewModel?.game?.unit(at: position) {
                 print("force touch: \(touch.force) at \(unit.type)")
                 
                 let commands = unit.commands(in: viewModel?.game)
                 //print("commands: \(commands)")
                 self.showPopup(for: commands, of: unit)
+                return
             }
         }
         
         //print("touch began with \(touch.tapCount) taps")
         if touch.tapCount == 2 {
             // double tap
+            if let city = viewModel?.game?.city(at: position) {
+                print("double tapped: \(city.name)")
+                self.showScreen(screenType: .city)
+                return
+            }
+            
             if let unit = viewModel?.game?.unit(at: position) {
                 print("double tapped: \(unit.type)")
+                
+                let commands = unit.commands(in: viewModel?.game)
+                //print("commands: \(commands)")
+                self.showPopup(for: commands, of: unit)
+                return
             }
         } else {
         
@@ -465,7 +483,23 @@ extension GameScene: UserInterfaceProtocol {
     }
 
     func showScreen(screenType: ScreenType) {
-        print("screen")
+        print("screen: \(screenType)")
+        
+        if screenType == .city {
+            let cityDialog = CityDialog()
+            cityDialog.zPosition = 250
+            
+            cityDialog.addResultHandler(handler: { commandResult in
+                
+                cityDialog .close()
+            })
+                   
+            cityDialog.addCancelAction(handler: {
+                cityDialog.close()
+            })
+            
+            self.cameraNode.addChild(cityDialog)
+        }
     }
 
     func show(unit: AbstractUnit?) { // unit gets visible
@@ -483,7 +517,8 @@ extension GameScene: UserInterfaceProtocol {
     }
     
     func show(city: AbstractCity?) {
-        print("show city")
+        //print("show city")
+        self.mapNode?.cityLayer.show(city: city)
     }
 
     func showTooltip(at point: HexPoint, text: String, delay: Double) {

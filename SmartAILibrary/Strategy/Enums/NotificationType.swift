@@ -10,6 +10,8 @@ import Foundation
 
 public enum NotificationType {
     
+    case generic
+    
     case tech
     case civic
     case production

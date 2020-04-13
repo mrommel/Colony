@@ -267,7 +267,7 @@ public enum TileImprovementType: Int, Codable {
         }
         
         // Gypsum
-        if self == .quarry && (resource == .stone || resource == .marble) {
+        if self == .quarry && (resource == .stone || resource == .marble) {
             return true
         }
         

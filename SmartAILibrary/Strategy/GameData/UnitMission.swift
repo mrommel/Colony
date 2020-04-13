@@ -9,15 +9,15 @@
 import Foundation
 
 public class UnitMission {
-    
+
     weak var unit: AbstractUnit?
     let type: UnitMissionType
     var target: HexPoint? = nil
     var startedInTurn: Int = -1
     var buildType: BuildType? = nil
-    
+
     init(type: UnitMissionType, target: HexPoint? = nil) {
-        
+
         self.type = type
         self.target = target
 
@@ -25,44 +25,44 @@ public class UnitMission {
             fatalError("need target")
         }
     }
-    
+
     func turn(in gameModel: GameModel?) {
-        
+
         fatalError("not implemented yet")
     }
-    
+
     /// Initiate a mission
     func start(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("gameModel not set")
         }
-        
+
         guard let unit = self.unit else {
             fatalError("unit not set")
         }
-        
+
         guard let player = unit.player else {
             fatalError("player not set")
         }
-        
+
         self.startedInTurn = gameModel.turnsElapsed
-        
+
         var delete = false
         var notify = false
         var action = false
-        
+
         if unit.canMove() {
             unit.set(activityType: .mission)
         } else {
             unit.set(activityType: .hold)
         }
-        
+
         if !unit.canStart(mission: self, in: gameModel) {
             delete = true
-            
+
         } else {
-        
+
             if self.type == .skip {
                 unit.set(activityType: .hold)
                 delete = true
@@ -79,64 +79,64 @@ public class UnitMission {
                 delete = true
                 notify = true
             }
-            
+
             if unit.canMove() {
-                
+
                 if self.type == .fortify {
                     unit.doFortify()
                 } else if self.type == .heal || self.type == .alert {
                     unit.doFortify()
                 } else if self.type == .embark || self.type == .disembark {
-                    
+
                     action = true
                 }
                 // FIXME nuke, paradrop, airlift
-                else if self.type == .rebase {
-                    
-                    guard let target = self.target else {
-                        fatalError("type requires a target")
-                    }
-                    
-                    if unit.doRebase(to: target) {
-                        action = true
-                    }
+                    else if self.type == .rebase {
+
+                        guard let target = self.target else {
+                            fatalError("type requires a target")
+                        }
+
+                        if unit.doRebase(to: target) {
+                            action = true
+                        }
                 } else if self.type == .rangedAttack {
-                    
-                    guard let target = self.target else {
-                        fatalError("type requires a target")
-                    }
-                    
-                    if !unit.canRangeStrike(at: target, needWar: false, noncombatAllowed: false) {
-                        // Invalid, delete the mission
-                        delete = true
-                    }
+
+                        guard let target = self.target else {
+                            fatalError("type requires a target")
+                        }
+
+                        if !unit.canRangeStrike(at: target, needWar: false, noncombatAllowed: false) {
+                            // Invalid, delete the mission
+                            delete = true
+                        }
                 } else if self.type == .pillage {
-                    
-                    if unit.doPillage(in: gameModel) {
-                        action = true
-                    }
+
+                        if unit.doPillage(in: gameModel) {
+                            action = true
+                        }
                 } else if self.type == .found {
-                    
-                    if unit.doFound(with: nil, in: gameModel) {
-                        action = true
-                    }
+
+                        if unit.doFound(with: nil, in: gameModel) {
+                            action = true
+                        }
                 }
             }
         }
-        
+
         if action && player.isHuman() {
-            
+
             let timer = self.calculateMissionTimer(for: unit)
             unit.setMissionTimer(to: timer)
         }
-        
+
         if delete {
             unit.popMission()
         } else if unit.activityType() == .mission {
             self.continueMission(steps: 0, in: gameModel)
         }
     }
-    
+
     //    ---------------------------------------------------------------------------
     //    Update the mission timer to a new value based on the mission (or lack thereof) in the queue
     //    KWG: The mission timer controls when the next time the unit's mission will be checked, not
@@ -147,18 +147,18 @@ public class UnitMission {
     //         i.e. each unit will get a chance to complete a mission segment, rather than a unit
     //         exhausting its mission queue all in one go.
     func calculateMissionTimer(for unit: AbstractUnit?, steps: Int = 0) -> Int {
-        
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         guard let unitPlayer = unit.player else {
             fatalError("cant get unitPlayer")
         }
 
         var time = 0
-        
-        
+
+
 
         if !unitPlayer.isHuman() {
             time = 0
@@ -167,7 +167,7 @@ public class UnitMission {
             time = 1
 
             if peekMission.type == .moveTo /* || peekMission.type == .routeTo || peekMission.type == .moveToUnit*/ {
-                
+
                 var targetPlot: HexPoint? = nil
                 /*if peekMission.type == .moveToUnit {
                     pTargetUnit = GET_PLAYER((PlayerTypes)kMissionData.iData1).getUnit(kMissionData.iData2);
@@ -196,60 +196,60 @@ public class UnitMission {
 
         return time
     }
-    
+
     /*func update() {
         
     }*/
-    
+
     func continueMission(steps: Int, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let unit = self.unit else {
             fatalError("cant get unit")
         }
-        
+
         /*guard let unitPlot = gameModel.tile(at: unit.location) else {
             fatalError("cant get unitPlot")
         }*/
-        
+
         guard let unitPlayer = unit.player else {
             fatalError("cant get unit")
         }
-        
-        var continueMissionRestart = true    // to make this function no longer recursive
+
+        var continueMissionRestart = true // to make this function no longer recursive
         while continueMissionRestart {
-            
+
             continueMissionRestart = false
-            var done = false   // are we done with mission?
+            var done = false // are we done with mission?
             var action = false // are we taking an action this turn?
-            
+
             if self.startedInTurn == gameModel.turnsElapsed {
-                
+
                 if self.type == .moveTo && unit.canMove() {
-                    
+
                     if let target = self.target, let tile = gameModel.tile(at: target) {
-                    
+
                         if unit.isAutomated() && tile.isDiscovered(by: unitPlayer) && unit.canMove(into: target, in: gameModel) {
-                            
+
                             // if we're automated and try to attack, consider this move OVAH
                             done = true
                         } else {
-                            
+
                             // configs
                             let cityAttackInterrupt = false // gDLL->GetAdvisorCityAttackInterrupt();
                             let badAttackInterrupt = true // gDLL->GetAdvisorBadAttackInterrupt();
-                            
+
                             if unitPlayer.isHuman() && badAttackInterrupt {
-                                
+
                                 if unit.canMove(into: target, in: gameModel /*CvUnit::MOVEFLAG_ATTACK*/) && tile.isDiscovered(by: unitPlayer) {
-                                    
+
                                     if tile.isCity() {
-                                        
+
                                         if cityAttackInterrupt {
-                                            
+
                                             // GC.GetEngineUserInterface()->SetDontShowPopups(false);
 
                                             // FIXME: show turotial
@@ -267,9 +267,9 @@ public class UnitMission {
                                             }*/
                                         }
                                     } else if badAttackInterrupt {
-                                        
+
                                         if let defender = gameModel.visibleEnemy(at: target, for: unitPlayer) {
-                                            
+
                                             //CombatPredictionTypes ePrediction = GC.getGame().GetCombatPrediction(hUnit.pointer(), pDefender);
                                             let result = Combat.predictMeleeAttack(between: unit, and: defender, in: gameModel)
                                             if result.value == .totalDefeat || result.value == .majorDefeat {
@@ -299,20 +299,20 @@ public class UnitMission {
                     }
                 }
             }
-       
+
             // If there are units in the selection group, they can all move, and we're not done
             //   then try to follow the mission
             if !done && unit.canMove() /*&& !unit.isDoingPartialMove()*/ {
-                
+
                 if self.type == .moveTo || self.type == .embark || self.type == .disembark {
-                    
+
                     if unit.domain() == .air {
                         if unit.doMoveOnPath(towards: self.target!, previousETA: 0, buildingRoute: false, in: gameModel) > 0 {
                             done = true
                         }
                     } else {
                         let cost = unit.doMoveOnPath(towards: self.target!, previousETA: 0, buildingRoute: false, in: gameModel)
-                            
+
                         if cost > unit.movesLeft() {
                             action = true
                         } else {
@@ -326,16 +326,14 @@ public class UnitMission {
                         done = true
                     }
                 } else if self.type == .swapUnits {
-                    //CvPlot* pOriginationPlot;
-                    //CvPlot* pTargetPlot;
 
                     // Get target plot
-                    if let targetPoint = self.target, let targetPlot = gameModel.tile(at: targetPoint) {
-                    
+                    if let targetPoint = self.target {
+
                         //pOriginationPlot = unit.plot();
 
                         if let unit2 = gameModel.unit(at: targetPoint) {
-                            
+
                             if unit2.hasSameType(as: unit) && unit2.readyToMove() {
                                 // Start the swap
                                 unit.doMoveOnPath(towards: unit2.location, previousETA: 0, buildingRoute: false, in: gameModel)
@@ -344,7 +342,7 @@ public class UnitMission {
                                 unit2.doMoveOnPath(towards: unit.location, previousETA: 0, buildingRoute: false, in: gameModel)
                                 done = true
                             }
-                            
+
                         } else {
                             action = false
                             done = true
@@ -352,11 +350,11 @@ public class UnitMission {
                         }
                     }
                 } else if self.type == .moveToUnit {
-                    
+
                     if let targetUnit = gameModel.unit(at: self.target!) {
-                        
+
                         if unit.has(task: .shadow) && self.type != .group {
-                            
+
                             // FIXME
                             /*if (!unit.plot()->isOwned() || unit.plot()->getOwner() == unit.getOwner())
                             {
@@ -382,7 +380,7 @@ public class UnitMission {
                         done = true
                     }
                 } else if self.type == .garrison {
-                    
+
                     //let targetLocation: HexPoint? = self.target ?? self.unit?.location
                     if let targetPoint = self.target, let targetCity = gameModel.city(at: targetPoint) {
 
@@ -403,7 +401,7 @@ public class UnitMission {
                         }
                     }
                 } else if self.type == .rangedAttack {
-                    
+
                     if let targetPoint = self.target {
                         if unit.doRangeAttack(at: targetPoint, in: gameModel) {
                             done = true
@@ -420,16 +418,16 @@ public class UnitMission {
 
             // slewis - I added this because garrison should not consume any moves, and the logic above checks to see if there are any moves available
             if !done {
-                
+
                 if self.type == .garrison {
-                    
+
                     var targetPoint = self.target
                     if targetPoint == nil {
                         targetPoint = unit.location
                     }
 
                     if let targetPoint = targetPoint, let city = gameModel.city(at: targetPoint) {
-                        
+
                         // check to see if the city exists, is on our team, and does not have a garrisoned unit
                         if city.player?.leader != unitPlayer.leader /*|| gameModel.unit(at: targetPoint) != nil*/ {
                             action = false
@@ -449,7 +447,7 @@ public class UnitMission {
 
             // check to see if mission is done
             if !done {
-                
+
                 if self.type == .moveTo || self.type == .swapUnits || self.type == .embark || self.type == .disembark {
                     if unit.location == target {
                         done = true
@@ -463,21 +461,21 @@ public class UnitMission {
                         fatalError("dont get it")
                     }
                 } else if self.type == .moveToUnit {
-                    
+
                     //UnitHandle pTargetUnit = GET_PLAYER((PlayerTypes)kMissionData.iData1).getUnit(kMissionData.iData2);
                     if let targetUnit = gameModel.unit(at: target!) {
                         fatalError("dont get it")
                         //if ((!pTargetUnit) ||unit. plot() == pTargetUnit->plot()) {
                         done = true
                     }
-                    
+
                 } else if self.type == .garrison {
                     // if the garrison is called from a stationary unit (one just built in a city) then the locations will be -1. If the garrison action is directed from outside the city, then it will be the plot of the city.
-                    
+
                     if self.target == nil && unit.isGarrisoned() {
                         done = true
                     }
-                    
+
                     if let targetPoint = self.target {
                         if unit.location == targetPoint && unit.isGarrisoned() {
                             done = true
@@ -488,10 +486,10 @@ public class UnitMission {
                         self.type == CvTypes::getMISSION_NUKE() ||
                         self.type == CvTypes::getMISSION_PARADROP() ||
                         self.type == CvTypes::getMISSION_AIR_SWEEP() ||*/
-                self.type == .rebase ||
-                self.type == .rangedAttack ||
-                self.type == .pillage ||
-                self.type == .found /*||
+                    self.type == .rebase ||
+                    self.type == .rangedAttack ||
+                    self.type == .pillage ||
+                    self.type == .found /*||
                 self.type == .join ||
                         self.type == CvTypes::getMISSION_CONSTRUCT() ||
                         self.type == CvTypes::getMISSION_DISCOVER() ||
@@ -516,28 +514,28 @@ public class UnitMission {
             }
 
             //if (HeadMissionQueueNode(kMissionQueue) != NULL)
-            
-                // if there is an action, if it's done or there are not moves left, and a player is watching, watch the movement
-                if action && (done || !unit.canMove()) /*&& unit.plot()->isVisibleToWatchingHuman())*/ {
-                    //self.updateMissionTimer(hUnit, steps)
 
-                    /*if (unit.ShowMoves() && GC.getGame().getActivePlayer() != NO_PLAYER && unit.getOwner() != GC.getGame().getActivePlayer() && unit.plot()->isActiveVisible(false))
+            // if there is an action, if it's done or there are not moves left, and a player is watching, watch the movement
+            if action && (done || !unit.canMove()) /*&& unit.plot()->isVisibleToWatchingHuman())*/ {
+                //self.updateMissionTimer(hUnit, steps)
+
+                /*if (unit.ShowMoves() && GC.getGame().getActivePlayer() != NO_PLAYER && unit.getOwner() != GC.getGame().getActivePlayer() && unit.plot()->isActiveVisible(false))
                     {
                         auto_ptr<ICvPlot1> pDllPlot = GC.WrapPlotPointer(unit.plot());
                         GC.GetEngineUserInterface()->lookAt(pDllPlot.get(), CAMERALOOKAT_NORMAL);
                     }*/
-                }
-                
-                if done {
-                    /*if (unit.IsWork())
+            }
+
+            if done {
+                /*if (unit.IsWork())
                     {
                         auto_ptr<ICvUnit1> pDllUnit(new CvDllUnit(hUnit.pointer()));
                         gDLL->GameplayUnitWork(pDllUnit.get(), -1);
                     }*/
 
-                    // Was unit.IsBusy(), but its ok to clear the mission if the unit is just completing a move visualization
-                    if unit.missionTimer() == 0 /*&& !unit.isInCombat()*/ {
-                        /*if unit.owner() == GC.getGame().getActivePlayer() && unit.IsSelected()) {
+                // Was unit.IsBusy(), but its ok to clear the mission if the unit is just completing a move visualization
+                if unit.missionTimer() == 0 /*&& !unit.isInCombat()*/ {
+                    /*if unit.owner() == GC.getGame().getActivePlayer() && unit.IsSelected()) {
                             
                             if self.type == .moveTo || self.type == .routeTo || self.type == .moveToUnit {
                                 // How long does the camera wait before jumping to the next item?
@@ -562,23 +560,23 @@ public class UnitMission {
                             }
                         }*/
 
-                        /*if unit->m_unitMoveLocs.size() > 0 {
+                    /*if unit->m_unitMoveLocs.size() > 0 {
                             unit->PublishQueuedVisualizationMoves();
                         }*/
 
-                        //DeleteMissionQueueNode(hUnit, HeadMissionQueueNode(unit.m_missionQueue));
-                        unit.popMission()
-                    }
-                } else {
-                    // if we can still act, process the mission again
-                    if unit.canMove() /*&& !unit.IsDoingPartialMove()*/ {
-                        //steps *= 1
-                        continueMissionRestart = true    // keep looping
-                    } else if !unit.isBusy() /*&& unit.getOwner() == GC.getGame().getActivePlayer() && unit.IsSelected())*/ {
-                        //GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
-                    }
+                    //DeleteMissionQueueNode(hUnit, HeadMissionQueueNode(unit.m_missionQueue));
+                    unit.popMission()
                 }
-            
+            } else {
+                // if we can still act, process the mission again
+                if unit.canMove() /*&& !unit.IsDoingPartialMove()*/ {
+                    //steps *= 1
+                    continueMissionRestart = true // keep looping
+                } else if !unit.isBusy() /*&& unit.getOwner() == GC.getGame().getActivePlayer() && unit.IsSelected())*/ {
+                    //GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
+                }
+            }
+
         }
     }
 }

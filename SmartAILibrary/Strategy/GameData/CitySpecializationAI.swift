@@ -373,7 +373,7 @@ public class CitySpecializationAI {
             }
 
             // Save yield improvements in a vector we can sort
-            var yieldImprovements: YieldList = YieldList()
+            let yieldImprovements: YieldList = YieldList()
             yieldImprovements.fill()
             
             for yieldType in YieldType.all {

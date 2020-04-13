@@ -15,7 +15,7 @@ class GameViewModel {
     
     init(with map: MapModel?) {
         
-        guard var map = map else {
+        guard let map = map else {
             fatalError("cant get map")
         }
 

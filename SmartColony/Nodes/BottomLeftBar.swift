@@ -37,7 +37,7 @@ class BottomLeftBar: SizedNode {
         }
         
         let selectedUnitTextureString = "no_unit" //(self.gameObjectManager?.selected?.gameObject?.atlasIdle?.textures.first)
-        self.unitImageNode = TouchableSpriteNode(imageNamed: selectedUnitTextureString ?? "", size: CGSize(width: 90, height: 90))
+        self.unitImageNode = TouchableSpriteNode(imageNamed: selectedUnitTextureString, size: CGSize(width: 90, height: 90))
         self.unitImageNode?.position = self.position + CGPoint(x: 3, y: 3)
         self.unitImageNode?.zPosition = self.zPosition + 0.3
         self.unitImageNode?.anchorPoint = .lowerLeft
