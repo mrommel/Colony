@@ -39,7 +39,10 @@ public class Notifications {
             if self.type == .unitNeedsOrders {
                 gameModel?.userInterface?.focus(on: self.location)
             } else if self.type == .production {
-                gameModel?.userInterface?.showScreen(screenType: .city)
+                
+                if let city = gameModel?.city(at: self.location) {
+                    gameModel?.userInterface?.showScreen(screenType: .city, city: city)
+                }
             } else {
                 print("activate \(self.type) not handled")
             }

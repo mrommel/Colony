@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <context>
     <anchorx>center</anchorx>
-    <anchory>center</anchory>
-    <offsetx>-385</offsetx>
-    <offsety>-160</offsety>
+    <anchory>top</anchory>
+    <offsetx>-175</offsetx>
+    <offsety>-180</offsety>
     <width>350</width>
     <height>120</height>
     <background>grid9_dialog</background>

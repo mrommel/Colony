@@ -49,7 +49,7 @@ public protocol UserInterfaceProtocol: class {
     func isPopupShown() -> Bool
     
     func showPopup(popupType: PopupType, data: PopupData?)
-    func showScreen(screenType: ScreenType)
+    func showScreen(screenType: ScreenType, city: AbstractCity?)
     func show(notification: Notifications.Notification)
     
     func select(unit: AbstractUnit?)
@@ -59,6 +59,7 @@ public protocol UserInterfaceProtocol: class {
     func hide(unit: AbstractUnit?) // unit gets hidden
     func move(unit: AbstractUnit?, on points: [HexPoint])
     
+    // on map
     func show(city: AbstractCity?)
     
     func refresh(tile: AbstractTile?)

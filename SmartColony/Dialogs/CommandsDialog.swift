@@ -37,13 +37,13 @@ class CommandsDialog: Dialog {
             fatalError("cant load commandsDialogConfiguration configuration")
         }
         
-        var y = 0
+        var y: CGFloat = 0.0
         for command in commands {
-            commandsDialogConfiguration.items.item.append(DialogItem(identifier: UUID.init().uuidString, type: .button, title: command.title(), fontSize: 18.0, result: command.type.dialogResult(), offsetx: 20, offsety: y + 10, anchorx: .center, anchory: .center, width: 100, height: 20, image: nil, selectedIndex: nil, items: nil))
+            commandsDialogConfiguration.items.item.append(DialogItemConfiguration(identifier: UUID.init().uuidString, type: .button, title: command.title(), fontSize: 18.0, result: command.type.dialogResult(), offsetx: 20, offsety: y + 10.0, anchorx: 0.5, anchory: 0.5, width: 100, height: 20, image: nil, selectedIndex: nil, items: nil))
             y += 25
         }
         
-        commandsDialogConfiguration.items.item.append(DialogItem(identifier: UUID.init().uuidString, type: .button, title: "Cancel", fontSize: 18.0, result: .cancel, offsetx: 20, offsety: y + 10, anchorx: .center, anchory: .center, width: 100, height: 20, image: nil, selectedIndex: nil, items: nil))
+        commandsDialogConfiguration.items.item.append(DialogItemConfiguration(identifier: UUID.init().uuidString, type: .button, title: "Cancel", fontSize: 18.0, result: .cancel, offsetx: 20, offsety: y + 10, anchorx: 0.5, anchory: 0.5, width: 100, height: 20, image: nil, selectedIndex: nil, items: nil))
         
         super.init(from: commandsDialogConfiguration)
     }

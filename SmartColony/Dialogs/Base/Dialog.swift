@@ -22,15 +22,11 @@ class Dialog: NineGridTextureSprite {
     var selectedIndex: Int? = nil
 
     init(from configuration: DialogConfiguration) {
-        super.init(imageNamed: configuration.background,
-            size: configuration.size)
+        super.init(imageNamed: configuration.background, size: configuration.size)
 
-        self.position = configuration.position
+        self.position = configuration.position()
+        self.anchorPoint = configuration.anchorPoint()
         self.zPosition = Globals.ZLevels.dialogs
-
-        // position of childs
-        // https://stackoverflow.com/questions/33099051/how-to-position-child-skspritenodes-inside-their-parents
-        self.anchorPoint = CGPoint(x: 0.0, y: 0.0)
 
         // items
         for item in configuration.items.item {
@@ -38,61 +34,47 @@ class Dialog: NineGridTextureSprite {
             switch item.type {
                 
             case .button:
-                if let imageName = item.image {
-                    let buttonItem = MessageBoxButtonNode(imageNamed: imageName, title: item.title, sized: item.size, buttonAction: { [weak self] in
-                        switch item.result {
-                        case .okay:
-                            if let handler = self?.okayHandler {
-                                handler()
-                            }
-                        case .cancel:
-                            if let handler = self?.cancelHandler {
-                                handler()
-                            }
-                        case .none:
-                            fatalError("Button without action")
-                        default:
-                            if let handler = self?.resultHandler {
-                                handler(item.result)
-                            }
+                
+                var buttonItem: MessageBoxButtonNode
+                
+                let callback = { [weak self] in
+                    switch item.result {
+                    case .okay:
+                        if let handler = self?.okayHandler {
+                            handler()
                         }
-                    })
-                    buttonItem.name = item.identifier
-                    buttonItem.position = item.positionIn(parent: self.size)
-                    buttonItem.zPosition = Globals.ZLevels.dialogs + 1.0
-                    self.addChild(buttonItem)
-                    
-                } else {
-                    let buttonItem = MessageBoxButtonNode(titled: item.title, sized: item.size, buttonAction: { [weak self] in
-                        switch item.result {
-                        case .okay:
-                            if let handler = self?.okayHandler {
-                                handler()
-                            }
-                        case .cancel:
-                            if let handler = self?.cancelHandler {
-                                handler()
-                            }
-                        case .none:
-                            fatalError("Button without action")
-                        default:
-                            if let handler = self?.resultHandler {
-                                handler(item.result)
-                            }
+                    case .cancel:
+                        if let handler = self?.cancelHandler {
+                            handler()
                         }
-                    })
-                    buttonItem.name = item.identifier
-                    buttonItem.position = item.positionIn(parent: self.size)
-                    buttonItem.zPosition = Globals.ZLevels.dialogs + 1.0
-                    self.addChild(buttonItem)
+                    case .none:
+                        fatalError("Button without action")
+                    default:
+                        if let handler = self?.resultHandler {
+                            handler(item.result)
+                        }
+                    }
                 }
+                
+                if let imageName = item.image {
+                    buttonItem = MessageBoxButtonNode(imageNamed: imageName, title: item.title, sized: item.size, buttonAction: callback)
+                } else {
+                    buttonItem = MessageBoxButtonNode(titled: item.title, sized: item.size, buttonAction: callback)
+                }
+                    
+                buttonItem.name = item.identifier
+                buttonItem.position = item.position()
+                buttonItem.zPosition = Globals.ZLevels.dialogs + 1.0
+                self.addChild(buttonItem)
 
             case .image:
+                
                 if let imageName = item.image {
                     let texture = SKTexture(imageNamed: imageName)
                     let imageItem = SKSpriteNode(texture: texture, size: item.size)
                     imageItem.name = item.identifier
-                    imageItem.position = item.positionIn(parent: self.size)
+                    imageItem.anchorPoint = item.anchorPoint()
+                    imageItem.position = item.position()
                     imageItem.zPosition = Globals.ZLevels.dialogs + 1.0
                     self.addChild(imageItem)
                 } else {
@@ -100,9 +82,10 @@ class Dialog: NineGridTextureSprite {
                 }
 
             case .label:
+                
                 let labelItem = SKLabelNode(text: item.title)
                 labelItem.name = item.identifier
-                labelItem.position = item.positionIn(parent: self.size)
+                labelItem.position = item.position()
                 labelItem.zPosition = Globals.ZLevels.dialogs + 1.0
                 labelItem.fontSize = item.fontSize
                 labelItem.fontName = Globals.Fonts.customFontFamilyname
@@ -116,7 +99,8 @@ class Dialog: NineGridTextureSprite {
                 let imageItem = SKSpriteNode(texture: texture, size: item.size)
                 imageItem.centerRect = CGRect.init(x: 0.3333, y: 0.3333, width: 0.3333, height: 0.3333) // 9 grid
                 imageItem.name = "textField"
-                imageItem.position = item.positionIn(parent: self.size)
+                imageItem.position = item.position()
+                imageItem.anchorPoint = item.anchorPoint()
                 imageItem.zPosition = Globals.ZLevels.dialogs + 1.0
                 self.addChild(imageItem)
 
@@ -129,7 +113,7 @@ class Dialog: NineGridTextureSprite {
                 let progressBar = ProgressBarNode(size: item.size)
                 progressBar.set(progress: 0.0)
                 progressBar.name = item.identifier
-                progressBar.position = item.positionIn(parent: self.size)
+                progressBar.position = item.position()
                 progressBar.zPosition = Globals.ZLevels.dialogs + 1.0
                 self.addChild(progressBar)
                 
@@ -146,7 +130,8 @@ class Dialog: NineGridTextureSprite {
                 
                 let dropdown = DropdownNode(items: items, selectedIndex: dropdownSelectedIndex, size: item.size)
                 dropdown.name = item.identifier
-                dropdown.position = item.positionIn(parent: self.size)
+                dropdown.position = item.position()
+                dropdown.anchorPoint = item.anchorPoint()
                 dropdown.zPosition = Globals.ZLevels.dialogs + 1.0
                 dropdown.delegate = self
                 self.addChild(dropdown)
@@ -194,6 +179,7 @@ class Dialog: NineGridTextureSprite {
     }
 
     func set(text: String, identifier: String) {
+        
         guard let node = self.children.first(where: { $0.name == identifier }) else {
             fatalError("Can't find \(identifier)")
         }

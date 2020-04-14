@@ -90,5 +90,6 @@ extension MenuViewController: MenuDelegate {
     
     func startPedia() {
         
+        self.performSegue(withIdentifier: R.segue.menuViewController.gotoPedia.identifier, sender: nil)
     }
 }

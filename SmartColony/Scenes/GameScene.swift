@@ -323,39 +323,16 @@ class GameScene: BaseScene {
         let touch = touches.first!
         let touchLocation = touch.location(in: self.viewHex)
         let position = HexPoint(screen: touchLocation)
-
-        if touch.force > self.forceTouchLevel {
-            // force touch
-            if let city = viewModel?.game?.city(at: position) {
-                print("force touch: \(touch.force) at \(city.name)")
-                self.showScreen(screenType: .city)
-                return
-            }
-
-            if let unit = viewModel?.game?.unit(at: position) {
-                print("force touch: \(touch.force) at \(unit.type)")
-                
-                let commands = unit.commands(in: viewModel?.game)
-                //print("commands: \(commands)")
-                self.showPopup(for: commands, of: unit)
-                return
-            }
-        }
         
-        //print("touch began with \(touch.tapCount) taps")
-        if touch.tapCount == 2 {
+        if touch.tapCount == 2 || touch.force > self.forceTouchLevel {
             // double tap
             if let city = viewModel?.game?.city(at: position) {
-                print("double tapped: \(city.name)")
-                self.showScreen(screenType: .city)
+                self.showScreen(screenType: .city, city: city)
                 return
             }
             
             if let unit = viewModel?.game?.unit(at: position) {
-                print("double tapped: \(unit.type)")
-                
                 let commands = unit.commands(in: viewModel?.game)
-                //print("commands: \(commands)")
                 self.showPopup(for: commands, of: unit)
                 return
             }
@@ -446,6 +423,27 @@ class GameScene: BaseScene {
         self.cameraNode.position = cameraPositionInScene
         print("center camera on: \(cameraPositionInScene)")
     }
+    
+    func prepareForCityScreen() {
+        
+        // hide units
+        self.mapNode?.unitLayer.removeFromParent()
+        
+        self.bottomLeftBar?.removeFromParent()
+        self.bottomRightBar?.removeFromParent()
+        self.turnButton?.removeFromParent()
+    }
+    
+    func restoreFromCityScreen() {
+        
+        // show units
+        self.mapNode?.addChild(self.mapNode!.unitLayer)
+        
+        // re-add bottom controls
+        self.safeAreaNode.addChild(self.bottomLeftBar!)
+        self.safeAreaNode.addChild(self.bottomRightBar!)
+        self.safeAreaNode.addChild(self.turnButton!)
+    }
 }
 
 extension GameScene: BottomRightBarDelegate {
@@ -482,23 +480,30 @@ extension GameScene: UserInterfaceProtocol {
         print("popup")
     }
 
-    func showScreen(screenType: ScreenType) {
-        print("screen: \(screenType)")
-        
+    func showScreen(screenType: ScreenType, city: AbstractCity? = nil) {
+    
         if screenType == .city {
-            let cityDialog = CityDialog()
+            
+            self.prepareForCityScreen()
+            
+            let cityDialog = CityDialog(for: city)
             cityDialog.zPosition = 250
             
             cityDialog.addResultHandler(handler: { commandResult in
                 
-                cityDialog .close()
+                self.restoreFromCityScreen()
+                cityDialog.close()
             })
                    
             cityDialog.addCancelAction(handler: {
+                self.restoreFromCityScreen()
                 cityDialog.close()
             })
             
             self.cameraNode.addChild(cityDialog)
+        } else {
+            print("screen: \(screenType) not handled")
+            
         }
     }
 
@@ -506,8 +511,9 @@ extension GameScene: UserInterfaceProtocol {
         print("show")
     }
 
-    func hide(unit: AbstractUnit?) { // unit gets hidden
-        print("hide")
+    func hide(unit: AbstractUnit?) {
+        
+        // unit gets hidden
         self.mapNode?.unitLayer.hide(unit: unit)
         self.bottomLeftBar?.selectedUnitChanged(to: nil)
     }

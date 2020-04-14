@@ -586,7 +586,7 @@ public class GameModel {
             
                 if self.turnsElapsed % GameModel.turnFrequency == 0 {
                     // This popup his the sync rand, so beware
-                    self.userInterface?.showScreen(screenType: .interimRanking)
+                    self.userInterface?.showScreen(screenType: .interimRanking, city: nil)
                 }
             }
         }
@@ -654,12 +654,27 @@ public class GameModel {
             fatalError("cant get player techs")
         }
         
+        guard let tile = self.tile(at: city.location) else {
+            fatalError("cant get tile")
+        }
+        
         guard let techs = city.player?.techs else {
             fatalError("cant get player techs")
         }
         
+        // check feature removal
+        var featureRemovalSurplus = 0
+        featureRemovalSurplus += tile.productionFromFeatureRemoval(by: .removeForest)
+        featureRemovalSurplus += tile.productionFromFeatureRemoval(by: .removeRainforest)
+        featureRemovalSurplus += tile.productionFromFeatureRemoval(by: .removeMarsh)
+        
+        city.changeFeatureProduction(change: featureRemovalSurplus)
+        
+        tile.set(feature: .none)
+        
         self.map.add(city: city)
         self.userInterface?.show(city: city)
+        self.userInterface?.refresh(tile: tile)
         
         // update eureka
         if !techs.eurekaTriggered(for: .sailing) {

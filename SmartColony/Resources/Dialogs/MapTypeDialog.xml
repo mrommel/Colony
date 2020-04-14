@@ -2,9 +2,9 @@
 <context>
     <anchorx>center</anchorx>
     <anchory>center</anchory>
-    <offsetx>-350</offsetx>
-    <offsety>-670</offsety>
-    <width>300</width>
+    <offsetx>0</offsetx>
+    <offsety>0</offsety>
+    <width>80%</width>
     <height>620</height>
     <background>grid9_dialog</background>
     
@@ -16,7 +16,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>170</offsety>
+            <offsety>230</offsety>
             <width>80</width>
             <height>80</height>
             <image>questionmark</image>
@@ -28,8 +28,8 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>90</offsety>
-            <width>200</width>
+            <offsety>140</offsety>
+            <width>240</width>
             <height>40</height>
         </item>
         <item>
@@ -41,7 +41,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>50</offsety>
+            <offsety>90</offsety>
             <width>200</width>
             <height>42</height>
         </item>
@@ -54,7 +54,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>0</offsety>
+            <offsety>40</offsety>
             <width>200</width>
             <height>42</height>
         </item>
@@ -67,7 +67,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-50</offsety>
+            <offsety>-10</offsety>
             <width>200</width>
             <height>42</height>
         </item>
@@ -80,7 +80,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-100</offsety>
+            <offsety>-60</offsety>
             <width>200</width>
             <height>42</height>
         </item>
@@ -93,7 +93,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-150</offsety>
+            <offsety>-110</offsety>
             <width>200</width>
             <height>42</height>
         </item>
@@ -106,7 +106,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-200</offsety>
+            <offsety>-160</offsety>
             <width>200</width>
             <height>42</height>
         </item>
@@ -118,7 +118,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-270</offsety>
+            <offsety>-230</offsety>
             <width>200</width>
             <height>42</height>
         </item>

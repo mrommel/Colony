@@ -1,36 +1,58 @@
 <?xml version="1.0"?>
 <context>
     <anchorx>center</anchorx>
-    <anchory>center</anchory>
-    <offsetx>-350</offsetx>
-    <offsety>-670</offsety>
-    <width>300</width>
-    <height>620</height>
+    <anchory>top</anchory>
+    <offsetx>0</offsetx>
+    <offsety>45%</offsety>
+    <width>90%</width>
+    <height>90%</height>
     <background>grid9_dialog</background>
     
     <!-- sub items -->
     <items>
         <item>
-            <identifier>dialog_image</identifier>
-            <type>image</type>
-            <anchorx>center</anchorx>
-            <anchory>center</anchory>
-            <offsetx>0</offsetx>
-            <offsety>170</offsety>
-            <width>80</width>
-            <height>80</height>
-            <image>questionmark</image>
-        </item>
-        <item>
-            <identifier>summary</identifier>
+            <identifier>city_name</identifier>
             <type>label</type>
             <title>City</title>
             <anchorx>center</anchorx>
-            <anchory>center</anchory>
+            <anchory>top</anchory>
             <offsetx>0</offsetx>
-            <offsety>90</offsety>
+            <offsety>-70</offsety>
             <width>200</width>
-            <height>40</height>
+            <height>20</height>
+        </item>
+        <item>
+            <identifier>population_label</identifier>
+            <type>label</type>
+            <title>Population:</title>
+            <anchorx>left</anchorx>
+            <anchory>top</anchory>
+            <offsetx>-100</offsetx>
+            <offsety>-95</offsety>
+            <width>200</width>
+            <height>20</height>
+        </item>
+        <item>
+            <identifier>population_value</identifier>
+            <type>label</type>
+            <title>1</title>
+            <anchorx>right</anchorx>
+            <anchory>top</anchory>
+            <offsetx>100</offsetx>
+            <offsety>-95</offsety>
+            <width>200</width>
+            <height>20</height>
+        </item>
+        <item>
+            <identifier>population_icon</identifier>
+            <type>image</type>
+            <anchorx>left</anchorx>
+            <anchory>top</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-72</offsety>
+            <width>20</width>
+            <height>20</height>
+            <image>citizen</image>
         </item>
         <item>
             <identifier>cancel_button</identifier>
@@ -40,7 +62,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-270</offsety>
+            <offsety>-80%</offsety>
             <width>200</width>
             <height>42</height>
         </item>

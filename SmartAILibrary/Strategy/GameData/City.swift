@@ -148,7 +148,7 @@ class LeaderWeightList: WeightedList<LeaderType> {
     }
 }
 
-class City: AbstractCity {
+public class City: AbstractCity {
 
     static let workRadius = 3
     
@@ -161,18 +161,18 @@ class City: AbstractCity {
         case capital
     }
     
-    let name: String
+    public let name: String
     var populationValue: Double
-    let location: HexPoint
-    private(set) var player: AbstractPlayer?
+    public let location: HexPoint
+    private(set) public var player: AbstractPlayer?
     private(set) var growthStatus: GrowthStatusType = .growth
 
-    internal var districts: AbstractDistricts?
-    internal var buildings: AbstractBuildings? // buildings that are currently build in this city
-    internal var wonders: AbstractWonders?
+    public var districts: AbstractDistricts?
+    public var buildings: AbstractBuildings? // buildings that are currently build in this city
+    public var wonders: AbstractWonders?
     internal var projects: AbstractProjects? // projects that are currently build in this city
     internal var buildQueue: BuildQueue
-    internal var cityCitizens: CityCitizens?
+    public var cityCitizens: CityCitizens?
     //internal var cityEmphases: CityEmphases?
 
     private var capitalValue: Bool
@@ -187,7 +187,7 @@ class City: AbstractCity {
     var foodBasketValue: Double
     private var foodLastTurn: Double = 1.0
 
-    internal var cityStrategy: CityStrategyAI?
+    public var cityStrategy: CityStrategyAI?
     
     private var madeAttack: Bool = false
     private var routeToCapitalConnectedThisTurn: Bool = false
@@ -207,7 +207,7 @@ class City: AbstractCity {
 
     // MARK: constructor
 
-    init(name: String, at location: HexPoint, capital: Bool = false, owner: AbstractPlayer?) {
+    public init(name: String, at location: HexPoint, capital: Bool = false, owner: AbstractPlayer?) {
 
         self.name = name
         self.location = location
@@ -238,7 +238,7 @@ class City: AbstractCity {
         self.numPlotsAcquiredList.fill()
     }
     
-    required init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -270,7 +270,7 @@ class City: AbstractCity {
         self.numPlotsAcquiredList.fill()
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         
         var container = encoder.container(keyedBy: CodingKeys.self)
 
@@ -281,7 +281,7 @@ class City: AbstractCity {
         try container.encode(self.capitalValue, forKey: .capital)
     }
 
-    func initialize(in gameModel: GameModel?) {
+    public func initialize(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -353,7 +353,7 @@ class City: AbstractCity {
         self.player?.updatePlots(in: gameModel)
     }
     
-    func isCapital() -> Bool {
+    public func isCapital() -> Bool {
         
         return self.capitalValue
     }
@@ -368,7 +368,7 @@ class City: AbstractCity {
 
     // MARK: public methods
 
-    func turn(in gameModel: GameModel?)  {
+    public func turn(in gameModel: GameModel?)  {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -534,7 +534,7 @@ class City: AbstractCity {
         return yields*/
     }
     
-    func updateStrengthValue() {
+    public func updateStrengthValue() {
         
     }
     
@@ -919,12 +919,12 @@ class City: AbstractCity {
         return false
     }
     
-    func isProductionAutomated() -> Bool {
+    public func isProductionAutomated() -> Bool {
         
         return self.productionAutomatedValue
     }
 
-    func setProductionAutomated(to newValue: Bool, clear: Bool, in gameModel: GameModel?) {
+    public func setProductionAutomated(to newValue: Bool, clear: Bool, in gameModel: GameModel?) {
         
         guard let player = self.player else {
             fatalError("cant get player")
@@ -1076,19 +1076,19 @@ class City: AbstractCity {
         return;
     }
 
-    func foodBasket() -> Double {
+    public func foodBasket() -> Double {
 
         return self.foodBasketValue
     }
 
-    internal func set(foodBasket: Double) {
+    public func set(foodBasket: Double) {
 
         self.foodBasketValue = foodBasket
     }
     
     // MARK: production
     
-    func productionPerTurn() -> Double {
+    public func productionPerTurn() -> Double {
         
         return self.productionLastTurn
     }
@@ -1096,7 +1096,7 @@ class City: AbstractCity {
     //    Be very careful with setting bReassignPop to false.  This assumes that the caller
     //  is manually adjusting the worker assignments *and* handling the setting of
     //  the CityCitizens unassigned worker value.
-    func set(population newPopulation: Int, reassignCitizen: Bool = true, in gameModel: GameModel?) {
+    public func set(population newPopulation: Int, reassignCitizen: Bool = true, in gameModel: GameModel?) {
 
         guard let cityCitizens = self.cityCitizens else {
             fatalError("cant get cityCitizens")
@@ -1131,12 +1131,12 @@ class City: AbstractCity {
         // update yields?
     }
     
-    func change(population change: Int, reassignCitizen: Bool = true, in gameModel: GameModel?) {
+    public func change(population change: Int, reassignCitizen: Bool = true, in gameModel: GameModel?) {
         
         self.set(population: self.population() + change, reassignCitizen: reassignCitizen, in: gameModel)
     }
 
-    func population() -> Int {
+    public func population() -> Int {
 
         return Int(self.populationValue)
     }
@@ -1159,7 +1159,7 @@ class City: AbstractCity {
         }
     }
 
-    func canBuild(building: BuildingType) -> Bool {
+    public func canBuild(building: BuildingType) -> Bool {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -1186,7 +1186,7 @@ class City: AbstractCity {
         return true
     }
     
-    func canBuild(wonder: WonderType, in gameModel: GameModel?) -> Bool {
+    public func canBuild(wonder: WonderType, in gameModel: GameModel?) -> Bool {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1224,7 +1224,7 @@ class City: AbstractCity {
         return true
     }
     
-    func canConstruct(district districtType: DistrictType, in gameModel: GameModel?) -> Bool {
+    public func canConstruct(district districtType: DistrictType, in gameModel: GameModel?) -> Bool {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1259,7 +1259,7 @@ class City: AbstractCity {
         return true
     }
 
-    func canTrain(unit unitType: UnitType) -> Bool {
+    public func canTrain(unit unitType: UnitType) -> Bool {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -1286,12 +1286,12 @@ class City: AbstractCity {
         return true
     }
 
-    func canBuild(project: ProjectType) -> Bool {
+    public func canBuild(project: ProjectType) -> Bool {
 
         return false
     }
 
-    func has(district: DistrictType) -> Bool {
+    public func has(district: DistrictType) -> Bool {
 
         if district == .cityCenter {
             return true
@@ -1304,7 +1304,7 @@ class City: AbstractCity {
         return districts.has(district: district)
     }
     
-    func has(building: BuildingType) -> Bool {
+    public func has(building: BuildingType) -> Bool {
         
         guard let buildings = self.buildings else {
             return false
@@ -1325,32 +1325,32 @@ class City: AbstractCity {
         return nil
     }
     
-    func setRouteToCapitalConnected(value connected: Bool) {
+    public func setRouteToCapitalConnected(value connected: Bool) {
         
         self.routeToCapitalConnectedThisTurn = connected
     }
 
-    func startTraining(unit unitType: UnitType) {
+    public func startTraining(unit unitType: UnitType) {
 
         self.buildQueue.add(item: BuildableItem(unitType: unitType))
     }
 
-    func startBuilding(building buildingType: BuildingType) {
+    public func startBuilding(building buildingType: BuildingType) {
 
         self.buildQueue.add(item: BuildableItem(buildingType: buildingType))
     }
     
-    func startBuilding(wonder wonderType: WonderType) {
+    public func startBuilding(wonder wonderType: WonderType) {
         
         self.buildQueue.add(item: BuildableItem(wonderType: wonderType))
     }
     
-    func startBuilding(district: DistrictType) {
+    public func startBuilding(district: DistrictType) {
         
         self.buildQueue.add(item: BuildableItem(districtType: district))
     }
 
-    func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int {
+    public func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int {
 
         if let buildingTypeItem = self.buildQueue.building(of: buildingType) {
             return Int(buildingTypeItem.productionLeft() / self.productionLastTurn)
@@ -1359,7 +1359,7 @@ class City: AbstractCity {
         return 100
     }
 
-    func unitProductionTurnsLeft(for unitType: UnitType) -> Int {
+    public func unitProductionTurnsLeft(for unitType: UnitType) -> Int {
 
         if let unitTypeItem = self.buildQueue.unit(of: unitType) {
             return Int(unitTypeItem.productionLeft() / self.productionLastTurn)
@@ -1368,7 +1368,7 @@ class City: AbstractCity {
         return 100
     }
 
-    func currentBuildableItem() -> BuildableItem? {
+    public func currentBuildableItem() -> BuildableItem? {
 
         return self.buildQueue.peek()
     }
@@ -1533,7 +1533,7 @@ class City: AbstractCity {
         self.productionLastTurn = productionPerTurn
     }
 
-    func yields(in gameModel: GameModel?) -> Yields {
+    public func yields(in gameModel: GameModel?) -> Yields {
 
         guard let player = self.player else {
             fatalError("no player provided")
@@ -1546,7 +1546,7 @@ class City: AbstractCity {
         // from tiles
         var yieldsVal = self.yieldsFromTiles(in: gameModel)
         
-        // from improvements (one time effect
+        // from improvements (one time effect)
         yieldsVal.production += Double(self.featureProduction())
         self.changeFeatureProduction(change: -self.featureProduction()) // reset to zero
 
@@ -1633,36 +1633,36 @@ class City: AbstractCity {
         return yields
     }
     
-    func featureProduction() -> Int {
+    public func featureProduction() -> Int {
         
         return self.featureProductionValue
     }
     
-    func changeFeatureProduction(change: Int) {
+    public func changeFeatureProduction(change: Int) {
         
         self.featureProductionValue += change
     }
 
-    func foodConsumption() -> Double {
+    public func foodConsumption() -> Double {
 
         return Double(self.population()) * 2.0
     }
     
-    func hasOnlySmallFoodSurplus() -> Bool {
+    public func hasOnlySmallFoodSurplus() -> Bool {
         
         let exceedFood = self.foodLastTurn - Double(self.foodConsumption())
         
         return exceedFood < 2.0 && exceedFood > 0.0
     }
     
-    func hasFoodSurplus() -> Bool {
+    public func hasFoodSurplus() -> Bool {
         
         let exceedFood = self.foodLastTurn - Double(self.foodConsumption())
         
         return exceedFood < 4.0 && exceedFood > 0.0
     }
     
-    func hasEnoughFood() -> Bool {
+    public func hasEnoughFood() -> Bool {
         
         let exceedFood = self.foodLastTurn - Double(self.foodConsumption())
         
@@ -1689,7 +1689,7 @@ class City: AbstractCity {
 
     // MARK: attack / damage
     
-    func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?, attacking: Bool) -> Int {
+    public func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?, attacking: Bool) -> Int {
         
         guard let player = self.player else {
             fatalError("no player provided")
@@ -1717,7 +1717,7 @@ class City: AbstractCity {
         return rangedStrength
     }
     
-    func defensiveStrength(against attacker: AbstractUnit?, on ownTile: AbstractTile?, ranged: Bool) -> Int {
+    public func defensiveStrength(against attacker: AbstractUnit?, on ownTile: AbstractTile?, ranged: Bool) -> Int {
         
         guard let buildings = self.buildings else {
             fatalError("no buildings provided")
@@ -1799,51 +1799,51 @@ class City: AbstractCity {
         }
     }
     
-    func isFeatureSurrounded() -> Bool {
+    public func isFeatureSurrounded() -> Bool {
         
         return self.isFeatureSurroundedValue
     }
     
-    func isBlockaded() -> Bool {
+    public func isBlockaded() -> Bool {
         return false
     }
 
-    func garrisonedUnit() -> AbstractUnit? {
+    public func garrisonedUnit() -> AbstractUnit? {
 
         return self.garrisonedUnitValue
     }
     
-    func hasGarrison() -> Bool {
+    public func hasGarrison() -> Bool {
         
         return self.garrisonedUnitValue != nil
     }
     
-    func setGarrison(unit: AbstractUnit?) {
+    public func setGarrison(unit: AbstractUnit?) {
         
         self.garrisonedUnitValue = unit
     }
 
-    func power() -> Int {
+    public func power() -> Int {
 
         return Int(pow(Double(self.defensiveStrength(against: nil, on: nil, ranged: false)) / 100.0, 1.5))
     }
     
-    func healthPoints() -> Int {
+    public func healthPoints() -> Int {
         
         return self.healthPointsValue
     }
     
-    func set(healthPoints: Int) {
+    public func set(healthPoints: Int) {
         
         self.healthPointsValue = healthPoints
     }
     
-    func damage() -> Int {
+    public func damage() -> Int {
         
         return max(0, self.maxHealthPoints() - self.healthPointsValue)
     }
     
-    func maxHealthPoints() -> Int {
+    public func maxHealthPoints() -> Int {
         
         guard let buildings = self.buildings else {
             fatalError("cant get buildings")
@@ -1860,7 +1860,7 @@ class City: AbstractCity {
 
     // MARK: add citizen to work on tile
 
-    func work(tile: AbstractTile) throws {
+    public func work(tile: AbstractTile) throws {
 
         if !tile.hasOwner() {
             throw CityError.tileOwned
@@ -1882,12 +1882,12 @@ class City: AbstractCity {
         try tile.setWorkingCity(to: self)
     }
     
-    func threatValue() -> Int {
+    public func threatValue() -> Int {
         
         return self.threatVal
     }
     
-    func processSpecialist(specialistType: SpecialistType, change: Int) {
+    public func processSpecialist(specialistType: SpecialistType, change: Int) {
 
         // Civ6: Another difference with the previous game is that Specialists now provide yields only and not Great Person Points, which makes them somewhat less important.
         for yieldType in YieldType.all {
@@ -1954,7 +1954,7 @@ class City: AbstractCity {
         }
     }
     
-    func doTask(taskType: CityTaskType, target: HexPoint? = nil, in gameModel: GameModel?) -> CityTaskResultType {
+    public func doTask(taskType: CityTaskType, target: HexPoint? = nil, in gameModel: GameModel?) -> CityTaskResultType {
         
         switch taskType {
             
@@ -1997,19 +1997,19 @@ class City: AbstractCity {
         return .aborted
     }
     
-    func lastTurnGarrisonAssigned() -> Int {
+    public func lastTurnGarrisonAssigned() -> Int {
         
         return self.lastTurnGarrisonAssignedValue
     }
     
-    func setLastTurnGarrisonAssigned(turn: Int) {
+    public func setLastTurnGarrisonAssigned(turn: Int) {
         
         self.lastTurnGarrisonAssignedValue = turn
     }
     
     /// Buy the plot and set it's owner to us (executed by the network code)
     @discardableResult
-    func doBuyPlot(at point: HexPoint, in gameModel: GameModel?) -> Bool {
+    public func doBuyPlot(at point: HexPoint, in gameModel: GameModel?) -> Bool {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -2041,7 +2041,7 @@ class City: AbstractCity {
     }
     
     /// How much will purchasing this plot cost -- (-1,-1) will return the generic price
-    func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int {
+    public func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -2150,7 +2150,7 @@ class City: AbstractCity {
     }
     
     /// Compute how valuable buying a plot is to this city
-    func buyPlotScore(in gameModel: GameModel?) -> (Int, HexPoint) {
+    public func buyPlotScore(in gameModel: GameModel?) -> (Int, HexPoint) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -2405,7 +2405,7 @@ class City: AbstractCity {
         self.doUpdateCheapestPlotInfluence(in: gameModel)
     }
     
-    func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int) {
+    public func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int) {
         
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
@@ -2414,7 +2414,7 @@ class City: AbstractCity {
         self.numPlotsAcquiredList.add(weight: change, for: otherPlayer.leader)
     }
     
-    func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int {
+    public func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int {
         
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")

@@ -24,8 +24,12 @@ public enum BuildType: Int, Codable {
     case camp
     case pasture
     
+    case removeForest
+    case removeRainforest
+    case removeMarsh
+    
     static var all: [BuildType] {
-        return [.road, .removeRoad, .repair, .farm, .mine, .quarry, .plantation, .camp, .pasture]
+        return [.road, .removeRoad, .repair, .farm, .mine, .quarry, .plantation, .camp, .pasture, .removeForest, .removeRainforest, .removeMarsh]
     }
     
     func name() -> String {
@@ -185,6 +189,21 @@ public enum BuildType: Int, Codable {
             pastureBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 3, isRemove: true))
             pastureBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 5, isRemove: true))
             return pastureBuild
+            
+        case .removeForest:
+            let removeForestBuild = BuildTypeData(name: "Remove Forest", duration: 3)
+            removeForestBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 3, isRemove: true))
+            return removeForestBuild
+            
+        case .removeRainforest:
+            let removeRainforestBuild = BuildTypeData(name: "Remove Rainforest", duration: 6)
+            removeRainforestBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 6, isRemove: true))
+            return removeRainforestBuild
+            
+        case .removeMarsh:
+            let removeMarshBuild = BuildTypeData(name: "Remove Marsh", duration: 5)
+            removeMarshBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 5, isRemove: true))
+            return removeMarshBuild
         }
     }
     

@@ -77,7 +77,7 @@
 		C9B1D263243517D600033791 /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D262243517D600033791 /* SKNodeExtension.swift */; };
 		C9B1D27824351F3500033791 /* UIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27424351F3400033791 /* UIParser.swift */; };
 		C9B1D27924351F3500033791 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27524351F3500033791 /* Dialog.swift */; };
-		C9B1D27A24351F3500033791 /* DialogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27624351F3500033791 /* DialogItem.swift */; };
+		C9B1D27A24351F3500033791 /* DialogItemConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27624351F3500033791 /* DialogItemConfiguration.swift */; };
 		C9B1D27B24351F3500033791 /* DialogConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27724351F3500033791 /* DialogConfiguration.swift */; };
 		C9B1D27D24351FB900033791 /* MapAgeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27C24351FB900033791 /* MapAgeDialog.swift */; };
 		C9B1D27F2435208300033791 /* MapSizeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D27E2435208300033791 /* MapSizeDialog.swift */; };
@@ -99,6 +99,11 @@
 		C9EC4E1D24445873001A0597 /* Cities.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9EC4E1C24445873001A0597 /* Cities.xcassets */; };
 		C9EC4E1F244459B8001A0597 /* CityDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E1E244459B8001A0597 /* CityDialog.swift */; };
 		C9EC4E2124445A16001A0597 /* CityDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9EC4E2024445A16001A0597 /* CityDialog.xml */; };
+		C9EC4E2324458AC4001A0597 /* PediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E2224458AC4001A0597 /* PediaViewController.swift */; };
+		C9EC4E2524458B0E001A0597 /* PediaScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E2424458B0E001A0597 /* PediaScene.swift */; };
+		C9EC4E2A2445ADAE001A0597 /* DialogResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E292445ADAE001A0597 /* DialogResultType.swift */; };
+		C9EC4E2C2445ADD6001A0597 /* DialogItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E2B2445ADD6001A0597 /* DialogItemType.swift */; };
+		C9EC4E2E2445ADE5001A0597 /* DialogAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E2D2445ADE5001A0597 /* DialogAnchor.swift */; };
 		C9F61470243471D500450B6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6146F243471D500450B6C /* AppDelegate.swift */; };
 		C9F61475243471D500450B6C /* SmartColony.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C9F61473243471D500450B6C /* SmartColony.xcdatamodeld */; };
 		C9F61479243471E200450B6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F61478243471E200450B6C /* Assets.xcassets */; };
@@ -199,7 +204,7 @@
 		C9B1D262243517D600033791 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
 		C9B1D27424351F3400033791 /* UIParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIParser.swift; sourceTree = "<group>"; };
 		C9B1D27524351F3500033791 /* Dialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
-		C9B1D27624351F3500033791 /* DialogItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialogItem.swift; sourceTree = "<group>"; };
+		C9B1D27624351F3500033791 /* DialogItemConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialogItemConfiguration.swift; sourceTree = "<group>"; };
 		C9B1D27724351F3500033791 /* DialogConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialogConfiguration.swift; sourceTree = "<group>"; };
 		C9B1D27C24351FB900033791 /* MapAgeDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAgeDialog.swift; sourceTree = "<group>"; };
 		C9B1D27E2435208300033791 /* MapSizeDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSizeDialog.swift; sourceTree = "<group>"; };
@@ -221,6 +226,11 @@
 		C9EC4E1C24445873001A0597 /* Cities.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Cities.xcassets; sourceTree = "<group>"; };
 		C9EC4E1E244459B8001A0597 /* CityDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDialog.swift; sourceTree = "<group>"; };
 		C9EC4E2024445A16001A0597 /* CityDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityDialog.xml; sourceTree = "<group>"; };
+		C9EC4E2224458AC4001A0597 /* PediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaViewController.swift; sourceTree = "<group>"; };
+		C9EC4E2424458B0E001A0597 /* PediaScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaScene.swift; sourceTree = "<group>"; };
+		C9EC4E292445ADAE001A0597 /* DialogResultType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogResultType.swift; sourceTree = "<group>"; };
+		C9EC4E2B2445ADD6001A0597 /* DialogItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogItemType.swift; sourceTree = "<group>"; };
+		C9EC4E2D2445ADE5001A0597 /* DialogAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogAnchor.swift; sourceTree = "<group>"; };
 		C9F6146C243471D500450B6C /* SmartColony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartColony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F6146F243471D500450B6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9F61474243471D500450B6C /* SmartColony.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartColony.xcdatamodel; sourceTree = "<group>"; };
@@ -289,6 +299,7 @@
 				C9B1D21A2434788000033791 /* MenuViewController.swift */,
 				C9B1D204243474F900033791 /* GameViewController.swift */,
 				C95B3DEF2437975D002F5A86 /* GameViewModel.swift */,
+				C9EC4E2224458AC4001A0597 /* PediaViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -304,6 +315,7 @@
 				C9B1D20C2434768900033791 /* GameScene.swift */,
 				C95B3DF124386E8A002F5A86 /* GameSceneViewModel.swift */,
 				C95B3DED243726CD002F5A86 /* GameLoadingScene.swift */,
+				C9EC4E2424458B0E001A0597 /* PediaScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -430,8 +442,11 @@
 			children = (
 				C9B1D27524351F3500033791 /* Dialog.swift */,
 				C9B1D27724351F3500033791 /* DialogConfiguration.swift */,
-				C9B1D27624351F3500033791 /* DialogItem.swift */,
+				C9B1D27624351F3500033791 /* DialogItemConfiguration.swift */,
 				C9B1D27424351F3400033791 /* UIParser.swift */,
+				C9EC4E292445ADAE001A0597 /* DialogResultType.swift */,
+				C9EC4E2B2445ADD6001A0597 /* DialogItemType.swift */,
+				C9EC4E2D2445ADE5001A0597 /* DialogAnchor.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -648,6 +663,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EC4E2E2445ADE5001A0597 /* DialogAnchor.swift in Sources */,
 				C9F61470243471D500450B6C /* AppDelegate.swift in Sources */,
 				C9B1D24E2434C4F700033791 /* MapTypeDialog.swift in Sources */,
 				C9B1D21B2434788000033791 /* MenuViewController.swift in Sources */,
@@ -658,6 +674,8 @@
 				C97CD3A7243B00CB00FABCC0 /* ResourceTypeExtension.swift in Sources */,
 				C9B1D2812435215400033791 /* MapSeaLevelDialog.swift in Sources */,
 				C91B0025243DEE8A00C422C8 /* UnitTypeExtension.swift in Sources */,
+				C9EC4E2324458AC4001A0597 /* PediaViewController.swift in Sources */,
+				C9EC4E2524458B0E001A0597 /* PediaScene.swift in Sources */,
 				C9B1D285243521FF00033791 /* MapClimateDialog.swift in Sources */,
 				C9B1D205243474F900033791 /* GameViewController.swift in Sources */,
 				C97CD3B0243B685200FABCC0 /* UnitObject.swift in Sources */,
@@ -696,6 +714,7 @@
 				C97CD3A1243A3F1200FABCC0 /* TextureUtils.swift in Sources */,
 				C9EC4E1B244454F9001A0597 /* CityObject.swift in Sources */,
 				C9B1D25B2434C82F00033791 /* DropdownNode.swift in Sources */,
+				C9EC4E2C2445ADD6001A0597 /* DialogItemType.swift in Sources */,
 				C9B1D27F2435208300033791 /* MapSizeDialog.swift in Sources */,
 				C97CD3AE243B669500FABCC0 /* GameObjectAtlas.swift in Sources */,
 				C97CD39F243A3E9C00FABCC0 /* ResourceLayer.swift in Sources */,
@@ -704,6 +723,7 @@
 				C95B3DEE243726CD002F5A86 /* GameLoadingScene.swift in Sources */,
 				C9B1D24B2434C3D600033791 /* MenuSceneExtension.swift in Sources */,
 				C9B1D2192434784800033791 /* SplashViewController.swift in Sources */,
+				C9EC4E2A2445ADAE001A0597 /* DialogResultType.swift in Sources */,
 				C95B3DF224386E8A002F5A86 /* GameSceneViewModel.swift in Sources */,
 				C9B1D25D2435160800033791 /* ProgressBarNode.swift in Sources */,
 				C9B1D22C2434955300033791 /* BaseScene.swift in Sources */,
@@ -711,7 +731,7 @@
 				C9B1D283243521A500033791 /* MapRainfallDialog.swift in Sources */,
 				C95B3DF02437975D002F5A86 /* GameViewModel.swift in Sources */,
 				C9B1D2382434B71900033791 /* MenuButtonNode.swift in Sources */,
-				C9B1D27A24351F3500033791 /* DialogItem.swift in Sources */,
+				C9B1D27A24351F3500033791 /* DialogItemConfiguration.swift in Sources */,
 				C9B1D2312434960000033791 /* BlurrableNode.swift in Sources */,
 				C97CD3A3243A3F3700FABCC0 /* TerrainTypeExtension.swift in Sources */,
 				C95B3DFC243871DD002F5A86 /* MapOverviewNode.swift in Sources */,
