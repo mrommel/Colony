@@ -11,7 +11,7 @@ import Foundation
 public class Notifications {
     
     let player: AbstractPlayer?
-    var notifications: [Notification]
+    var notificationsValue: [Notification]
     
     public class Notification {
         
@@ -61,7 +61,7 @@ public class Notifications {
     init(player: AbstractPlayer?) {
         
         self.player = player
-        self.notifications = []
+        self.notificationsValue = []
     }
     
     public func update(in gameModel: GameModel?) {
@@ -70,7 +70,7 @@ public class Notifications {
             fatalError("cant get gameModel")
         }
         
-        for notification in self.notifications {
+        for notification in self.notificationsValue {
             
             if !notification.dismissed {
                 
@@ -81,6 +81,11 @@ public class Notifications {
                 }
             }
         }
+    }
+    
+    public func notifications() -> [Notification] {
+    
+        return self.notificationsValue
     }
     
     func add(type: NotificationType, message: String, summary: String, at location: HexPoint) {
@@ -94,12 +99,12 @@ public class Notifications {
             return
         }
         
-        self.notifications.append(Notification(type: type, message: message, summary: summary, at: location))
+        self.notificationsValue.append(Notification(type: type, message: message, summary: summary, at: location))
     }
     
     func endTurnBlockingNotification() -> Notification? {
         
-        for notification in self.notifications {
+        for notification in self.notificationsValue {
             
             if notification.dismissed {
                 continue

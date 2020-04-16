@@ -137,11 +137,6 @@ class GameScene: BaseScene {
         self.frameBottomRight?.anchorPoint = CGPoint.lowerRight
         self.safeAreaNode.addChild(self.frameBottomRight!)
 
-        /*self.turnButton = MessageBoxButtonNode(imageNamed: "next", title: "Turn", buttonAction: {
-            self.handleTurnButtonClick()
-        })
-        self.turnButton?.zPosition = 200
-        self.safeAreaNode.addChild(self.turnButton!)*/
         self.bannerNode = BannerNode(text: "Other players are taking their turns, please wait ...")
         self.bannerNode?.zPosition = 200
         
@@ -253,40 +248,16 @@ class GameScene: BaseScene {
 
     // MARK: touch handling
 
-    func handleTurnButtonClick() {
-
-        print("---- turn pressed ------")
+    func changeUITurnState(to state: UITurnState) {
 
         guard let gameModel = self.viewModel?.game else {
             fatalError("cant get game")
         }
-
-        // debug
-        /*for player in gameModel.players {
-            print("-- score of \(player.leader) = \(player.score(for: gameModel))")
-        }*/
-
+        
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human")
         }
-
-        if self.uiTurnState == .humanTurns {
-
-            if humanPlayer.canFinishTurn() {
-
-                humanPlayer.endTurn(in: gameModel)
-                self.changeUITurnState(to: .aiTurns)
-            } else {
-
-                if let blockingNotification = humanPlayer.blockingNotification() {
-                    blockingNotification.activate(in: gameModel)
-                }
-            }
-        }
-    }
-
-    func changeUITurnState(to state: UITurnState) {
-
+        
         switch state {
 
         case .aiTurns:
@@ -302,6 +273,12 @@ class GameScene: BaseScene {
 
             // update state
             self.updateTurnButton()
+            
+            // update notifications
+            if let notifications = humanPlayer.notifications() {
+                self.bottomLeftBar?.notifications = notifications.notifications()
+                self.bottomLeftBar?.rebuildNotificationBadges()
+            }
         }
 
         self.uiTurnState = state
@@ -322,39 +299,15 @@ class GameScene: BaseScene {
         }
 
         if let blockingNotification = humanPlayer.blockingNotification() {
-            //self.turnButton?.title = blockingNotification.summary
+            if self.selectedUnit != nil {
+                self.bottomLeftBar?.showBlockingButton(for: blockingNotification)
+            } else {
+                // keep selected unit
+            }
         } else {
-            //self.turnButton?.title = "Turn"
             self.bottomLeftBar?.showTurnButton()
         }
     }
-    
-    /*func showPopup(for commands: [Command], of unit: AbstractUnit?) {
-        
-        if commands.count == 0 {
-            return
-        }
-        
-        let commandsDialog = CommandsDialog(for: commands)
-        commandsDialog.zPosition = 250
-        
-        commandsDialog.addResultHandler(handler: { commandResult in
-            
-            if commandResult == .commandFound {
-                unit?.doFound(with: "abc", in: self.viewModel?.game)
-            } else {
-                fatalError("unhandled: \(commandResult)")
-            }
-            
-            commandsDialog .close()
-        })
-               
-        commandsDialog.addCancelAction(handler: {
-            commandsDialog.close()
-        })
-        
-        self.cameraNode.addChild(commandsDialog)
-    }*/
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
@@ -378,14 +331,14 @@ class GameScene: BaseScene {
                 self.showPopup(for: commands, of: unit)
                 return
             }*/
-            
+            //self.selectedUnit = nil
             self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [])
         } else {
         
             if let unit = viewModel?.game?.unit(at: position) {
                 self.select(unit: unit)
             } else {
-                self.unselect()
+                //self.unselect()
             }
         }
     }
@@ -457,6 +410,7 @@ class GameScene: BaseScene {
             }
             
             self.bottomLeftBar?.touchesEnded(touches, with: event)
+            return
         }
 
         if let selectedUnit = self.selectedUnit {
@@ -467,10 +421,12 @@ class GameScene: BaseScene {
             
             self.mapNode?.unitLayer.clearPathSpriteBuffer()
             self.mapNode?.unitLayer.hideFocus()
-            self.mapNode?.unitLayer.move(unit: selectedUnit, to: position)
+            if selectedUnit.location != position {
+                self.mapNode?.unitLayer.move(unit: selectedUnit, to: position)
+            }
         }
 
-        self.unselect()
+        //self.unselect()
     }
 
     func centerCamera(on hex: HexPoint) {
@@ -488,7 +444,6 @@ class GameScene: BaseScene {
         
         self.bottomLeftBar?.removeFromParent()
         self.bottomRightBar?.removeFromParent()
-        //self.turnButton?.removeFromParent()
     }
     
     func restoreFromCityScreen() {
@@ -499,7 +454,6 @@ class GameScene: BaseScene {
         // re-add bottom controls
         self.safeAreaNode.addChild(self.bottomLeftBar!)
         self.safeAreaNode.addChild(self.bottomRightBar!)
-        //self.safeAreaNode.addChild(self.turnButton!)
     }
 }
 
@@ -514,12 +468,113 @@ extension GameScene: BottomRightBarDelegate {
 extension GameScene: BottomLeftBarDelegate {
     
     func handle(notification: Notifications.Notification?) {
-        print("handle \(notification?.type)")
+        
+        guard let notification = notification else {
+            fatalError("cant get notification")
+        }
+         
+        switch notification.type {
+
+        case .turn:
+            fatalError("should not happen")
+        case .generic:
+            // NOOP
+            break
+        case .tech:
+            // NOOP
+            break
+        case .civic:
+            // NOOP
+            break
+        case .production:
+            // NOOP
+            break
+        case .cityGrowth:
+            // NOOP
+            break
+        case .starving:
+            // NOOP
+            break
+        case .diplomaticDeclaration:
+            // NOOP
+            break
+        case .war:
+            // NOOP
+            break
+        case .enemyInTerritory:
+            // NOOP
+            break
+        case .unitPromotion:
+            // NOOP
+            break
+        case .unitNeedsOrders:
+            // NOOP
+            break
+        }
+    }
+    
+    func handle(command: Command) {
+
+        switch command.type {
+        case .found:
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doFound(with: "abc", in: self.viewModel?.game)
+                self.unselect()
+            }
+        case .buildFarm:
+            // NOOP
+            break
+        case .buildMine:
+            // NOOP
+            break
+        case .buildRoute:
+            // NOOP
+            break
+        case .pillage:
+            // NOOP
+            break
+        case .fortify:
+            // NOOP
+            break
+        case .hold:
+            // NOOP
+            break
+        case .garrison:
+            // NOOP
+            break
+        }
     }
     
     func handleTurnButtonClicked() {
-        
-        print("handleTurnButtonClicked")
+
+        print("---- turn pressed ------")
+
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+
+        // debug
+        /*for player in gameModel.players {
+            print("-- score of \(player.leader) = \(player.score(for: gameModel))")
+        }*/
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        if self.uiTurnState == .humanTurns {
+
+            if humanPlayer.canFinishTurn() {
+
+                humanPlayer.endTurn(in: gameModel)
+                self.changeUITurnState(to: .aiTurns)
+            } else {
+
+                /*if let blockingNotification = humanPlayer.blockingNotification() {
+                    blockingNotification.activate(in: gameModel)
+                }*/
+            }
+        }
     }
 }
 

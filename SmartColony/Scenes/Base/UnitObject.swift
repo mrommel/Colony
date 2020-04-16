@@ -46,7 +46,7 @@ class UnitObject {
         self.spriteName = unit.type.spriteName
         self.sprite = SKSpriteNode(imageNamed: self.spriteName)
         self.sprite.position = HexPoint.toScreen(hex: unit.location)
-        self.sprite.zPosition = Globals.ZLevels.sprite
+        self.sprite.zPosition = Globals.ZLevels.unit
         self.sprite.anchorPoint = unit.type.anchorPoint
 
         // setup atlases

@@ -12,8 +12,8 @@ import SmartAILibrary
 protocol BottomLeftBarDelegate: class {
     
     func handleTurnButtonClicked()
-    //func handleNextUnitButtonClicked(for unit: AbstractUnit?)
     func handle(notification: Notifications.Notification?)
+    func handle(command: Command)
 }
 
 class BottomLeftBar: SizedNode {
@@ -26,8 +26,12 @@ class BottomLeftBar: SizedNode {
     var unitCanvasNode: SKSpriteNode?
     var unitImageNode: SKSpriteNode?
     var glassCanvasNode: SKSpriteNode?
+    var turnButtonNotificationType: NotificationType = .unitNeedsOrders
+    
     var unitCommandsCanvasNode: SKSpriteNode?
     var unitCommandsVisible: Bool = false
+    
+    var commands: [Command] = []
     var commandIconNodes: [TouchableSpriteNode?] = []
     
     var notifications: [Notifications.Notification] = []
@@ -84,8 +88,8 @@ class BottomLeftBar: SizedNode {
         self.notificationBottomNode?.anchorPoint = .lowerLeft
         self.addChild(notificationBottomNode!)
         
-        self.notifications.append(Notifications.Notification(type: .generic, message: "test", summary: "test", at: HexPoint(x: 1, y: 1)))
-        self.notifications.append(Notifications.Notification(type: .tech, message: "test", summary: "test", at: HexPoint(x: 1, y: 1)))
+        // self.notifications.append(Notifications.Notification(type: .generic, message: "test", summary: "test", at: HexPoint(x: 1, y: 1)))
+        // self.notifications.append(Notifications.Notification(type: .tech, message: "test", summary: "test", at: HexPoint(x: 1, y: 1)))
         self.rebuildNotificationBadges()
         
         let notificationTopTexture = SKTexture(imageNamed: "notification_top")
@@ -130,17 +134,31 @@ class BottomLeftBar: SizedNode {
         let location = touch.location(in: self)
 
         if unitImageNode.frame.contains(location) {
-            print("==> main button")
-            //func handleTurnButtonClicked()
+            //print("==> main button")
+            if self.turnButtonNotificationType == .turn {
+                self.delegate?.handleTurnButtonClicked()
+            } else {
+                // self.delegate?.handle(notification: <#T##Notifications.Notification?#>)
+            }
         }
         
         for (index, notificationIconNode) in self.notificationIconNodes.enumerated() {
+            
             if notificationIconNode!.frame.contains(location) {
-                print("==> notification button \(index)")
-                
                 let notification = self.notifications[index]
-                
                 self.delegate?.handle(notification: notification)
+                return
+            }
+        }
+        
+        let commandLocation = touch.location(in: self.unitCommandsCanvasNode!)
+        
+        for (index, commandIconNode) in self.commandIconNodes.enumerated() {
+            
+            if commandIconNode!.frame.contains(commandLocation) {
+                let command = self.commands[index]
+                self.delegate?.handle(command: command)
+                return
             }
         }
     }
@@ -176,11 +194,22 @@ class BottomLeftBar: SizedNode {
             
             self.notificationIconNodes.append(notificationIconNode)
         }
+        
+        self.updateLayout()
     }
     
     func showTurnButton() {
         
         self.unitImageNode?.texture = SKTexture(imageNamed: "button_turn")
+        self.turnButtonNotificationType = .turn
+    }
+    
+    func showBlockingButton(for blockingNotification: Notifications.Notification) {
+        
+        self.unitImageNode?.texture = SKTexture(imageNamed: blockingNotification.type.iconTexture())
+        self.turnButtonNotificationType = blockingNotification.type
+        
+        // todo remove from notifictionslist
     }
     
     func showSpinningGlobe() {
@@ -202,6 +231,8 @@ class BottomLeftBar: SizedNode {
    
     func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command]) {
 
+        self.turnButtonNotificationType = .unitNeedsOrders
+        
         if let selectedUnit = unit {
             
             // move possible shown notifications
@@ -230,12 +261,15 @@ class BottomLeftBar: SizedNode {
                 commandIconNodes.append(commandNode)
             }
             
+            self.commands = commands
+            
             let moveAction = SKAction.move(to: self.position + BottomLeftBar.unitCommandsVisiblePosition, duration:(TimeInterval(0.3)))
             self.unitCommandsCanvasNode?.run(moveAction, withKey: "showUnitCommands", completion: {
                 self.unitCommandsVisible = true
             })
         } else {
-            self.unitImageNode?.texture = nil
+            let selectedUnitTexture = SKTexture(imageNamed: "button_generic")
+            self.unitImageNode?.texture = selectedUnitTexture
             
             // hide commands
             let moveAction = SKAction.move(to: self.position + BottomLeftBar.unitCommandsInvisiblePosition, duration:(TimeInterval(0.3)))
@@ -247,6 +281,7 @@ class BottomLeftBar: SizedNode {
                 }
                 
                 self.commandIconNodes = []
+                self.commands = []
             })
         }
     }
