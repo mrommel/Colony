@@ -878,7 +878,7 @@ public class CityCitizens {
             weight /= 2
         }
 
-        let foodPerTurn = city.yields(in: gameModel).food
+        let foodPerTurn = city.foodPerTurn(in: gameModel)
         let foodEatenPerTurn = city.foodConsumption()
         let surplusFood = foodPerTurn - foodEatenPerTurn
 

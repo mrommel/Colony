@@ -41,29 +41,20 @@ class BottomRightBar: SizedNode {
         self.backgroundBodyNode?.anchorPoint = .lowerLeft
         self.backgroundBodyNode?.position = CGPoint(x: 0, y: 0)
         self.backgroundBodyNode?.zPosition = self.zPosition + 0.1
-        
-        if let backgroundBodyNode = self.backgroundBodyNode {
-            self.addChild(backgroundBodyNode)
-        }
+        self.addChild(self.backgroundBodyNode!)
         
         self.mapOverviewNode = MapOverviewNode(with: gameModel, size: CGSize(width: 157, height: 95))
         self.mapOverviewNode?.position = CGPoint(x: 9, y: 1)
         self.mapOverviewNode?.zPosition = self.zPosition + 0.2
         self.mapOverviewNode?.anchorPoint = .lowerLeft
-        
-        if let mapOverviewNode = self.mapOverviewNode {
-            self.addChild(mapOverviewNode)
-        }
+        self.addChild(self.mapOverviewNode!)
         
         let mapOverlayTexture = SKTexture(imageNamed: "map_overlay")
         self.mapOverlay = SKSpriteNode(texture: mapOverlayTexture, color: .black, size: CGSize(width: 157, height: 95))
         self.mapOverlay?.position = CGPoint(x: 9, y: 1)
         self.mapOverlay?.zPosition = self.zPosition + 0.3
         self.mapOverlay?.anchorPoint = .lowerLeft
-        
-        if let mapOverlay = self.mapOverlay {
-            self.addChild(mapOverlay)
-        }
+        self.addChild(self.mapOverlay!)
     }
     
     required init?(coder aDecoder: NSCoder) {

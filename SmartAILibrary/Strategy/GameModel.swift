@@ -648,7 +648,7 @@ public class GameModel {
     
     // MARK: city methods
     
-    func add(city: AbstractCity?) {
+    public func add(city: AbstractCity?) {
 
         guard let city = city else {
             fatalError("cant get player techs")
@@ -668,7 +668,7 @@ public class GameModel {
         featureRemovalSurplus += tile.productionFromFeatureRemoval(by: .removeRainforest)
         featureRemovalSurplus += tile.productionFromFeatureRemoval(by: .removeMarsh)
         
-        city.changeFeatureProduction(change: featureRemovalSurplus)
+        city.changeFeatureProduction(change: Double(featureRemovalSurplus))
         
         tile.set(feature: .none)
         

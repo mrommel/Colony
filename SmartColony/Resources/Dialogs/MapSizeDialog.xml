@@ -2,10 +2,10 @@
 <context>
     <anchorx>center</anchorx>
     <anchory>center</anchory>
-    <offsetx>-150</offsetx>
-    <offsety>-285</offsety>
-    <width>300</width>
-    <height>570</height>
+    <offsetx>0</offsetx>
+    <offsety>0</offsety>
+    <width>90%</width>
+    <height>620</height>
     <background>grid9_dialog</background>
     
     <!-- sub items -->

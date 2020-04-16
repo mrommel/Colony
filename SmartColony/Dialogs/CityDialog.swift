@@ -12,7 +12,7 @@ class CityDialog: Dialog {
     
     weak var city: AbstractCity?
     
-    init(for city: AbstractCity?) {
+    init(for city: AbstractCity?, in gameModel: GameModel?) {
     
         self.city = city
         
@@ -30,6 +30,13 @@ class CityDialog: Dialog {
         // fill fields
         self.set(text: city.name, identifier: "city_name")
         self.set(text: "\(city.population())", identifier: "population_value")
+        
+        self.set(yieldValue: city.foodPerTurn(in: gameModel), identifier: "food_yield")
+        self.set(yieldValue: city.productionPerTurn(in: gameModel), identifier: "production_yield")
+        self.set(yieldValue: city.goldPerTurn(in: gameModel), identifier: "gold_yield")
+        self.set(yieldValue: city.sciencePerTurn(in: gameModel), identifier: "science_yield")
+        self.set(yieldValue: city.culturePerTurn(in: gameModel), identifier: "culture_yield")
+        self.set(yieldValue: city.faithPerTurn(in: gameModel), identifier: "faith_yield")
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -23,7 +23,7 @@ public class Notifications {
         let turn: Int = -1 // which turn this event was created on
         var dismissed: Bool
         
-        init(type: NotificationType, message: String, summary: String, at location: HexPoint) {
+        public init(type: NotificationType, message: String, summary: String, at location: HexPoint) {
             
             self.type = type
             self.message = message

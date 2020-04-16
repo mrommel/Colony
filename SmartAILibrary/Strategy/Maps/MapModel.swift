@@ -156,7 +156,7 @@ public class MapModel: Codable {
     
     // MARK: city methods
     
-    func add(city: AbstractCity?) {
+    public func add(city: AbstractCity?) {
         
         if let city = city {
             
@@ -278,7 +278,7 @@ public class MapModel: Codable {
         try self.tile(at: point)?.set(owner: player)
     }
     
-    func set(terrain terrainType: TerrainType, at point: HexPoint) {
+    public func set(terrain terrainType: TerrainType, at point: HexPoint) {
         
         if let tile = self.tile(at: point) {
             tile.set(terrain: terrainType)

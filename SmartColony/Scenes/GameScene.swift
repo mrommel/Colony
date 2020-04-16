@@ -37,8 +37,15 @@ class GameScene: BaseScene {
     private var bottomLeftBar: BottomLeftBar?
     private var bottomRightBar: BottomRightBar?
 
-    private var turnButton: MessageBoxButtonNode?
-    private var turnDialog: TurnDialog?
+    //private var turnButton: MessageBoxButtonNode?
+    //private var turnDialog: TurnDialog?
+    private var bannerNode: BannerNode?
+    
+    // yields
+    private var scienceYield: YieldDisplayNode?
+    private var cultureYield: YieldDisplayNode?
+    private var goldYield: YieldDisplayNode?
+    private var faithYield: YieldDisplayNode?
 
     // view model
     var viewModel: GameSceneViewModel?
@@ -87,8 +94,10 @@ class GameScene: BaseScene {
         self.cameraNode.addChild(backgroundNode!)
 
         self.mapNode = MapNode(with: viewModel.game)
-        self.bottomLeftBar = BottomLeftBar(sized: CGSize(width: 200, height: 112))
+        self.bottomLeftBar = BottomLeftBar(sized: CGSize(width: 200, height: viewSize.height))
+        self.bottomLeftBar?.delegate = self
         self.safeAreaNode.addChild(self.bottomLeftBar!)
+        
         self.bottomRightBar = BottomRightBar(for: viewModel.game, sized: CGSize(width: 200, height: 112))
         self.bottomRightBar?.delegate = self
         self.safeAreaNode.addChild(self.bottomRightBar!)
@@ -128,11 +137,34 @@ class GameScene: BaseScene {
         self.frameBottomRight?.anchorPoint = CGPoint.lowerRight
         self.safeAreaNode.addChild(self.frameBottomRight!)
 
-        self.turnButton = MessageBoxButtonNode(imageNamed: "next", title: "Turn", buttonAction: {
+        /*self.turnButton = MessageBoxButtonNode(imageNamed: "next", title: "Turn", buttonAction: {
             self.handleTurnButtonClick()
         })
         self.turnButton?.zPosition = 200
-        self.safeAreaNode.addChild(self.turnButton!)
+        self.safeAreaNode.addChild(self.turnButton!)*/
+        self.bannerNode = BannerNode(text: "Other players are taking their turns, please wait ...")
+        self.bannerNode?.zPosition = 200
+        
+        // yields
+        self.scienceYield = YieldDisplayNode(for: .science, value: 0.0, size: CGSize(width: 60, height: 32))
+        self.scienceYield?.position = CGPoint(x: -self.frame.halfWidth + 10, y: frame.halfHeight - 24)
+        self.scienceYield?.zPosition = 400
+        self.safeAreaNode.addChild(self.scienceYield!)
+        
+        self.cultureYield = YieldDisplayNode(for: .culture, value: 0.0, size: CGSize(width: 60, height: 32))
+        self.cultureYield?.position = CGPoint(x: -self.frame.halfWidth + 75, y: frame.halfHeight - 24)
+        self.cultureYield?.zPosition = 400
+        self.safeAreaNode.addChild(self.cultureYield!)
+        
+        self.goldYield = YieldDisplayNode(for: .gold, value: 0.0, size: CGSize(width: 60, height: 32))
+        self.goldYield?.position = CGPoint(x: -self.frame.halfWidth + 140, y: frame.halfHeight - 24)
+        self.goldYield?.zPosition = 400
+        self.safeAreaNode.addChild(self.goldYield!)
+        
+        self.faithYield = YieldDisplayNode(for: .faith, value: 0.0, size: CGSize(width: 60, height: 32))
+        self.faithYield?.position = CGPoint(x: -self.frame.halfWidth + 205, y: frame.halfHeight - 24)
+        self.faithYield?.zPosition = 400
+        self.safeAreaNode.addChild(self.faithYield!)
 
         // disable turn button
         self.changeUITurnState(to: .aiTurns)
@@ -156,21 +188,23 @@ class GameScene: BaseScene {
         self.frameBottomLeft?.position = CGPoint(x: -self.frame.halfWidth, y: -self.frame.halfHeight)
         self.frameBottomRight?.position = CGPoint(x: self.frame.halfWidth, y: -self.frame.halfHeight)
 
-        //self.coinIconLabel.position = CGPoint(x: -30, y: self.frame.halfHeight - 43)
-        //self.coinLabel.position = CGPoint(x: 0, y: self.frame.halfHeight - 50)
-        //self.timeLabel.position = CGPoint(x: self.frame.halfWidth - 50, y: self.frame.halfHeight - 50)
-
         self.bottomLeftBar?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.bottomLeftBar?.updateLayout()
 
         self.bottomRightBar?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.bottomRightBar?.updateLayout()
-
-        //self.menuButton?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth + 35, y: self.safeAreaNode.frame.halfHeight - 35)
-        self.turnButton?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth - 50, y: -self.safeAreaNode.frame.halfHeight + 112 + 21)
+        
+        // yields
+        self.scienceYield?.position = CGPoint(x: -self.frame.halfWidth + 10, y: frame.halfHeight - 24)
+        self.cultureYield?.position = CGPoint(x: -self.frame.halfWidth + 75, y: frame.halfHeight - 24)
+        self.goldYield?.position = CGPoint(x: -self.frame.halfWidth + 140, y: frame.halfHeight - 24)
+        self.faithYield?.position = CGPoint(x: -self.frame.halfWidth + 205, y: frame.halfHeight - 24)
+        
+        // turn?
     }
 
     func zoom(to zoomScale: Double) {
+        
         let zoomInAction = SKAction.scale(to: CGFloat(zoomScale), duration: 0.1)
         self.cameraNode.run(zoomInAction)
     }
@@ -202,6 +236,15 @@ class GameScene: BaseScene {
                         self.readyUpdatingAI = true
                     }
                 }
+            }
+            
+            // update yields
+            if let techs = humanPlayer.techs {
+                self.scienceYield?.set(yieldValue: techs.currentScienceProgress()) // lastScienceEarned
+            }
+            
+            if let civics = humanPlayer.civics {
+                self.cultureYield?.set(yieldValue: civics.currentCultureProgress()) // lastCultureEarned
             }
 
             self.lastExecuted = currentTime
@@ -247,26 +290,18 @@ class GameScene: BaseScene {
         switch state {
 
         case .aiTurns:
-            // disable turn Button
-            self.turnButton?.disable()
+            // show AI is working banner
+            self.safeAreaNode.addChild(self.bannerNode!)
 
-            // show AI turn banner
-            self.turnDialog = TurnDialog()
-            self.turnDialog?.zPosition = 250
-            self.cameraNode.addChild(self.turnDialog!)
+            // show AI turn
+            self.bottomLeftBar?.showSpinningGlobe()
 
         case .humanTurns:
-            // enable turn Button
-            self.turnButton?.enable()
+            // hide AI is working banner
+            self.bannerNode?.removeFromParent()
 
             // update state
             self.updateTurnButton()
-
-            // hide AI turn banner
-            if self.turnDialog != nil {
-                self.turnDialog?.close()
-                self.turnDialog = nil
-            }
         }
 
         self.uiTurnState = state
@@ -274,7 +309,9 @@ class GameScene: BaseScene {
 
     func updateTurnButton() {
 
-        self.viewModel?.game?.updateTestEndTurn()
+        self.bottomLeftBar?.hideSpinningGlobe()
+        
+        self.viewModel?.game?.updateTestEndTurn() // -> this will update blockingNotification()
 
         guard let gameModel = self.viewModel?.game else {
             fatalError("cant get game")
@@ -285,13 +322,14 @@ class GameScene: BaseScene {
         }
 
         if let blockingNotification = humanPlayer.blockingNotification() {
-            self.turnButton?.title = blockingNotification.summary
+            //self.turnButton?.title = blockingNotification.summary
         } else {
-            self.turnButton?.title = "Turn"
+            //self.turnButton?.title = "Turn"
+            self.bottomLeftBar?.showTurnButton()
         }
     }
     
-    func showPopup(for commands: [Command], of unit: AbstractUnit?) {
+    /*func showPopup(for commands: [Command], of unit: AbstractUnit?) {
         
         if commands.count == 0 {
             return
@@ -316,10 +354,14 @@ class GameScene: BaseScene {
         })
         
         self.cameraNode.addChild(commandsDialog)
-    }
+    }*/
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
+        if self.uiTurnState == .aiTurns {
+            return
+        }
+        
         let touch = touches.first!
         let touchLocation = touch.location(in: self.viewHex)
         let position = HexPoint(screen: touchLocation)
@@ -331,11 +373,13 @@ class GameScene: BaseScene {
                 return
             }
             
-            if let unit = viewModel?.game?.unit(at: position) {
+            /*if let unit = viewModel?.game?.unit(at: position) {
                 let commands = unit.commands(in: viewModel?.game)
                 self.showPopup(for: commands, of: unit)
                 return
-            }
+            }*/
+            
+            self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [])
         } else {
         
             if let unit = viewModel?.game?.unit(at: position) {
@@ -356,6 +400,10 @@ class GameScene: BaseScene {
 
         if let selectedUnit = self.selectedUnit {
 
+            if self.uiTurnState == .aiTurns {
+                return
+            }
+            
             if position != selectedUnit.location {
 
                 let pathFinder = AStarPathfinder()
@@ -391,7 +439,7 @@ class GameScene: BaseScene {
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-
+        
         let touch = touches.first!
         let cameraLocation = touch.location(in: self.cameraNode)
         let touchLocation = touch.location(in: self.viewHex)
@@ -402,12 +450,21 @@ class GameScene: BaseScene {
             return
         }
 
-        guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
+        if let bottomLeftBar = self.bottomLeftBar, bottomLeftBar.frame.contains(cameraLocation) {
+            
+            if self.uiTurnState == .aiTurns {
+                return
+            }
+            
             self.bottomLeftBar?.touchesEnded(touches, with: event)
-            return
         }
 
         if let selectedUnit = self.selectedUnit {
+            
+            if self.uiTurnState == .aiTurns {
+                return
+            }
+            
             self.mapNode?.unitLayer.clearPathSpriteBuffer()
             self.mapNode?.unitLayer.hideFocus()
             self.mapNode?.unitLayer.move(unit: selectedUnit, to: position)
@@ -431,7 +488,7 @@ class GameScene: BaseScene {
         
         self.bottomLeftBar?.removeFromParent()
         self.bottomRightBar?.removeFromParent()
-        self.turnButton?.removeFromParent()
+        //self.turnButton?.removeFromParent()
     }
     
     func restoreFromCityScreen() {
@@ -442,14 +499,27 @@ class GameScene: BaseScene {
         // re-add bottom controls
         self.safeAreaNode.addChild(self.bottomLeftBar!)
         self.safeAreaNode.addChild(self.bottomRightBar!)
-        self.safeAreaNode.addChild(self.turnButton!)
+        //self.safeAreaNode.addChild(self.turnButton!)
     }
 }
 
 extension GameScene: BottomRightBarDelegate {
 
     func focus(on point: HexPoint) {
+        
         self.centerCamera(on: point)
+    }
+}
+
+extension GameScene: BottomLeftBarDelegate {
+    
+    func handle(notification: Notifications.Notification?) {
+        print("handle \(notification?.type)")
+    }
+    
+    func handleTurnButtonClicked() {
+        
+        print("handleTurnButtonClicked")
     }
 }
 
@@ -459,7 +529,10 @@ extension GameScene: UserInterfaceProtocol {
 
         self.mapNode?.unitLayer.showFocus(for: unit)
         self.selectedUnit = unit
-        self.bottomLeftBar?.selectedUnitChanged(to: unit)
+        
+        if let commands = unit?.commands(in: self.viewModel?.game) {
+            self.bottomLeftBar?.selectedUnitChanged(to: unit, commands: commands)
+        }
     }
 
     func unselect() {
@@ -486,7 +559,7 @@ extension GameScene: UserInterfaceProtocol {
             
             self.prepareForCityScreen()
             
-            let cityDialog = CityDialog(for: city)
+            let cityDialog = CityDialog(for: city, in: self.viewModel?.game)
             cityDialog.zPosition = 250
             
             cityDialog.addResultHandler(handler: { commandResult in
@@ -515,7 +588,7 @@ extension GameScene: UserInterfaceProtocol {
         
         // unit gets hidden
         self.mapNode?.unitLayer.hide(unit: unit)
-        self.bottomLeftBar?.selectedUnitChanged(to: nil)
+        self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [])
     }
 
     func move(unit: AbstractUnit?, on points: [HexPoint]) {

@@ -1450,7 +1450,7 @@ class Tile: AbstractTile {
                             fatalError("no city player found")
                         }
                         
-                        city.changeFeatureProduction(change: production)
+                        city.changeFeatureProduction(change: Double(production))
                         
                         if cityPlayer.isHuman() {
                             fatalError("fixme")

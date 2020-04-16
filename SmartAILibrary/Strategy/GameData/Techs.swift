@@ -14,6 +14,9 @@ public protocol AbstractTechs {
     func has(tech: TechType) -> Bool
     func discover(tech: TechType) throws
     
+    func currentScienceProgress() -> Double
+    func lastScienceEarned() -> Double
+    
     func needToChooseTech() -> Bool
     func possibleTechs() -> [TechType]
     func setCurrent(tech: TechType) throws
@@ -45,9 +48,9 @@ class Techs: AbstractTechs {
     
     // user properties / values
     var player: Player?
-    private var currentTechVal: TechType? = nil
-    var currentProgress: Double = 0.0
-    var lastScienceEarned: Double = 1.0
+    private var currentTechValue: TechType? = nil
+    var currentScienceProgressValue: Double = 0.0
+    var lastScienceEarnedValue: Double = 1.0
     
     // heureka
     private var eurekas: Eurekas
@@ -135,6 +138,16 @@ class Techs: AbstractTechs {
         self.eurekas = Eurekas()
     }
     
+    public func currentScienceProgress() -> Double {
+        
+        return self.currentScienceProgressValue
+    }
+    
+    public func lastScienceEarned() -> Double {
+    
+        return self.lastScienceEarnedValue
+    }
+    
     // MARK: manage progress
     
     func flavorWeighted(of tech: TechType, for flavor: FlavorType) -> Double {
@@ -184,7 +197,7 @@ class Techs: AbstractTechs {
             
             // revalue based on cost / number of turns
             let cost = self.cost(of: possibleTech)
-            let numberOfTurnsLeft = cost / self.lastScienceEarned
+            let numberOfTurnsLeft = cost / self.lastScienceEarnedValue
             let additionalTurnCostFactor = 0.015 * Double(numberOfTurnsLeft)
             let totalCostFactor = 0.15 + additionalTurnCostFactor
             let weightDivisor = pow(Double(numberOfTurnsLeft), totalCostFactor)
@@ -223,12 +236,12 @@ class Techs: AbstractTechs {
     
     func needToChooseTech() -> Bool {
         
-        return self.currentTechVal == nil
+        return self.currentTechValue == nil
     }
     
     func currentTech() -> TechType? {
         
-        return self.currentTechVal
+        return self.currentTechValue
     }
     
     private func cost(of techType: TechType) -> Double {
@@ -282,7 +295,7 @@ class Techs: AbstractTechs {
             throw TechError.cantSelectCurrentTech
         }
         
-        self.currentTechVal = tech
+        self.currentTechValue = tech
     }
     
     func possibleTechs() -> [TechType] {
@@ -314,8 +327,8 @@ class Techs: AbstractTechs {
     
     func add(science: Double) {
         
-        self.currentProgress += science
-        self.lastScienceEarned = science
+        self.currentScienceProgressValue += science
+        self.lastScienceEarnedValue = science
     }
     
     func checkScienceProgress(in gameModel: GameModel?) throws {
@@ -324,7 +337,7 @@ class Techs: AbstractTechs {
             fatalError("Can't add science - no player present")
         }
         
-        guard let currentTech = self.currentTechVal else {
+        guard let currentTech = self.currentTechValue else {
             
             if player.isHuman() {
                 //gameModel?.add(message: PlayerNeedsTechSelectionMessage())
@@ -337,7 +350,7 @@ class Techs: AbstractTechs {
             return
         }
         
-        if self.currentProgress >= self.cost(of: currentTech) {
+        if self.currentScienceProgressValue >= self.cost(of: currentTech) {
             
             do {
                 try self.discover(tech: currentTech)
@@ -358,8 +371,8 @@ class Techs: AbstractTechs {
                     player.set(era: currentTech.era())
                 }
                 
-                self.currentTechVal = nil
-                self.currentProgress = 0.0
+                self.currentTechValue = nil
+                self.currentScienceProgressValue = 0.0
                 
             } catch {
                 fatalError("Can't discover science - already discovered")

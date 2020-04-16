@@ -751,7 +751,7 @@ public class Player: AbstractPlayer {
                 continue
             }
             
-            scienceVal += city.yields(in: gameModel).science
+            scienceVal += city.sciencePerTurn(in: gameModel)
         }
         
         return scienceVal

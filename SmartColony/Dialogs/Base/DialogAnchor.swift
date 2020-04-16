@@ -6,7 +6,7 @@
 //  Copyright © 2020 Michael Rommel. All rights reserved.
 //
 
-import Foundation
+import SpriteKit
 
 enum DialogAnchor: String, Codable {
 
@@ -16,3 +16,5 @@ enum DialogAnchor: String, Codable {
     case top = "top"
     case bottom = "bottom"
 }
+
+

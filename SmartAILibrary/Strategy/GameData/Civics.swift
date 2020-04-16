@@ -20,6 +20,9 @@ public protocol AbstractCivics {
     func has(civic: CivicType) -> Bool
     func discover(civic: CivicType) throws
     
+    func currentCultureProgress() -> Double
+    func lastCultureInput() -> Double
+    
     func possibleCivics() -> [CivicType]
     func setCurrent(civic: CivicType) throws
     func currentCivic() -> CivicType?
@@ -43,8 +46,8 @@ class Civics: AbstractCivics {
     // user properties / values
     var player: Player?
     private var currentCivicVal: CivicType? = nil
-    var currentProgress: Double = 0.0
-    var lastCultureInput: Double = 1.0
+    var currentCultureProgressValue: Double = 0.0
+    var lastCultureInputValue: Double = 1.0
     
     // heureka
     private var eurekas: Eurekas
@@ -133,6 +136,16 @@ class Civics: AbstractCivics {
         self.eurekas = Eurekas()
     }
     
+    public func currentCultureProgress() -> Double {
+        
+        return self.currentCultureProgressValue
+    }
+    
+    public func lastCultureInput() -> Double {
+        
+        return self.lastCultureInputValue
+    }
+    
     // MARK: manage progress
     
     func flavorWeighted(of civic: CivicType, for flavor: FlavorType) -> Double {
@@ -208,8 +221,8 @@ class Civics: AbstractCivics {
     
     func add(culture: Double) {
 
-        self.currentProgress += culture
-        self.lastCultureInput = culture
+        self.currentCultureProgressValue += culture
+        self.lastCultureInputValue = culture
     }
     
     func chooseNextCivic() -> CivicType {
@@ -249,7 +262,7 @@ class Civics: AbstractCivics {
             }
             
             // revalue based on cost / number of turns
-            let numberOfTurnsLeft = self.cost(of: possibleCivic) / self.lastCultureInput
+            let numberOfTurnsLeft = self.cost(of: possibleCivic) / self.lastCultureInputValue
             let additionalTurnCostFactor = 0.015 * Double(numberOfTurnsLeft)
             let totalCostFactor = 0.15 + additionalTurnCostFactor
             let weightDivisor = pow(Double(numberOfTurnsLeft), totalCostFactor)
@@ -280,7 +293,7 @@ class Civics: AbstractCivics {
             fatalError("Can't add culture - no player present")
         }
         
-        if self.currentProgress >= self.cost(of: currentCivic) {
+        if self.currentCultureProgressValue >= self.cost(of: currentCivic) {
             
             do {
                 try self.discover(civic: currentCivic)

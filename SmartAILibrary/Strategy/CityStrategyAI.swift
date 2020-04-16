@@ -635,6 +635,9 @@ public class CityStrategyAI {
         case .production: return 0.8 // AI_CITYSTRATEGY_YIELD_DEFICIENT_PRODUCTION
         case .gold: return 0.0 // AI_CITYSTRATEGY_YIELD_DEFICIENT_GOLD
         case .science: return 0.0 // AI_CITYSTRATEGY_YIELD_DEFICIENT_SCIENCE
+            
+        case .culture: return 0.0
+        case .faith: return 0.0
         }
     }
     

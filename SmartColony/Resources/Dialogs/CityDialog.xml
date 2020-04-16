@@ -21,25 +21,15 @@
             <width>200</width>
             <height>20</height>
         </item>
-        <item>
-            <identifier>population_label</identifier>
-            <type>label</type>
-            <title>Population:</title>
-            <anchorx>left</anchorx>
-            <anchory>top</anchory>
-            <offsetx>-100</offsetx>
-            <offsety>-95</offsety>
-            <width>200</width>
-            <height>20</height>
-        </item>
+        
         <item>
             <identifier>population_value</identifier>
             <type>label</type>
             <title>1</title>
             <anchorx>right</anchorx>
             <anchory>top</anchory>
-            <offsetx>100</offsetx>
-            <offsety>-95</offsety>
+            <offsetx>80</offsetx>
+            <offsety>-70</offsety>
             <width>200</width>
             <height>20</height>
         </item>
@@ -48,12 +38,85 @@
             <type>image</type>
             <anchorx>left</anchorx>
             <anchory>top</anchory>
-            <offsetx>120</offsetx>
-            <offsety>-72</offsety>
+            <offsetx>110</offsetx>
+            <offsety>-50</offsety>
             <width>20</width>
             <height>20</height>
             <image>citizen</image>
         </item>
+        
+        <item>
+            <identifier>food_yield</identifier>
+            <type>yieldInfo</type>
+            <yieldType>food</yieldType>
+            <anchorx>left</anchorx>
+            <anchory>top</anchory>
+            <offsetx>-100</offsetx>
+            <offsety>-120</offsety>
+            <width>60</width>
+            <height>32</height>
+        </item>
+        
+        <item>
+            <identifier>production_yield</identifier>
+            <type>yieldInfo</type>
+            <yieldType>production</yieldType>
+            <anchorx>left</anchorx>
+            <anchory>top</anchory>
+            <offsetx>-30</offsetx>
+            <offsety>-120</offsety>
+            <width>60</width>
+            <height>32</height>
+        </item>
+        
+        <item>
+            <identifier>gold_yield</identifier>
+            <type>yieldInfo</type>
+            <yieldType>gold</yieldType>
+            <anchorx>left</anchorx>
+            <anchory>top</anchory>
+            <offsetx>40</offsetx>
+            <offsety>-120</offsety>
+            <width>60</width>
+            <height>32</height>
+        </item>
+        
+        <item>
+            <identifier>science_yield</identifier>
+            <type>yieldInfo</type>
+            <yieldType>science</yieldType>
+            <anchorx>left</anchorx>
+            <anchory>top</anchory>
+            <offsetx>-100</offsetx>
+            <offsety>-160</offsety>
+            <width>60</width>
+            <height>32</height>
+        </item>
+        
+        <item>
+            <identifier>culture_yield</identifier>
+            <type>yieldInfo</type>
+            <yieldType>culture</yieldType>
+            <anchorx>left</anchorx>
+            <anchory>top</anchory>
+            <offsetx>-30</offsetx>
+            <offsety>-160</offsety>
+            <width>60</width>
+            <height>32</height>
+        </item>
+        
+        <item>
+            <identifier>faith_yield</identifier>
+            <type>yieldInfo</type>
+            <yieldType>faith</yieldType>
+            <anchorx>left</anchorx>
+            <anchory>top</anchory>
+            <offsetx>40</offsetx>
+            <offsety>-160</offsety>
+            <width>60</width>
+            <height>32</height>
+        </item>
+        
         <item>
             <identifier>cancel_button</identifier>
             <type>button</type>

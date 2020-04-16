@@ -16,4 +16,5 @@ enum DialogItemType: String, Codable {
     case textfield = "textfield"
     case progressbar = "progressbar"
     case dropdown = "dropdown"
+    case yieldInfo = "yieldInfo"
 }

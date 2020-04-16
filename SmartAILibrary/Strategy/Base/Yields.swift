@@ -42,6 +42,9 @@ public class Yields {
         case .production: return self.production
         case .gold: return self.gold
         case .science: return self.science
+            
+        case .culture: return self.culture
+        case .faith: return self.faith
         }
     }
 }

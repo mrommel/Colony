@@ -83,8 +83,16 @@ class PediaScene: BaseScene {
     func showCityDialog() {
         
         let player = Player(leader: .alexander, isHuman: false)
+        player.initialize()
+        
+        let mapModel = PediaScene.mapFilled(with: .grass, sized: .duel)
+        let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [player], on: mapModel)
+        
         let city = City(name: "Berlin", at: HexPoint(x: 2, y: 2), capital: false, owner: player)
-        let cityDialog = CityDialog(for: city)
+        city.initialize(in: gameModel)
+        gameModel.add(city: city)
+        
+        let cityDialog = CityDialog(for: city, in: gameModel)
         cityDialog.zPosition = 250
                
         cityDialog.addCancelAction(handler: {
@@ -92,5 +100,21 @@ class PediaScene: BaseScene {
         })
         
         self.cameraNode.addChild(cityDialog)
+    }
+    
+    static func mapFilled(with terrain: TerrainType, sized size: MapSize) -> MapModel {
+        
+        let mapModel = MapModel(size: size)
+        
+        let mapSize = mapModel.size
+        for x in 0..<mapSize.width() {
+            
+            for y in 0..<mapSize.height() {
+                
+                mapModel.set(terrain: terrain, at: HexPoint(x: x, y: y))
+            }
+        }
+        
+        return mapModel
     }
 }

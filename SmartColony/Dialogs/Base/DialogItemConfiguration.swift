@@ -8,6 +8,7 @@
 
 import SpriteKit
 import CoreGraphics
+import SmartAILibrary
 
 struct DialogItemConfiguration: Codable {
     
@@ -17,6 +18,7 @@ struct DialogItemConfiguration: Codable {
     
     var title: String
     var fontSize: CGFloat
+    var textAlign: DialogTextAlign = .center // SKLabelHorizontalAlignmentMode = .center
     var result: DialogResultType
     
     var offsetx: CGFloat = 0.0
@@ -27,20 +29,30 @@ struct DialogItemConfiguration: Codable {
     var width: CGFloat
     var height: CGFloat
     
+    // imageview specific fields
     var image: String?
     
+    // dropdown specific fields
     struct DropdownItems: Codable {
         var item: [String] = []
     }
     var selectedIndex: Int? = 0
     var items: DropdownItems? = DropdownItems()
     
-    init(identifier: String, type: DialogItemType, title: String, fontSize: CGFloat, result: DialogResultType, offsetx: CGFloat, offsety: CGFloat, anchorx: CGFloat, anchory: CGFloat, width: CGFloat, height: CGFloat, image: String?, selectedIndex: Int?, items: DropdownItems?) {
+    // yield view specific fields
+    var yieldType: YieldType = .none
+    
+    enum CodingKeys: String, CodingKey {
+        case identifier, type, title, fontSize, textAlign, result, offsetx, offsety, anchorx, anchory, width, height, image, selectedIndex, items, yieldType
+    }
+    
+    init(identifier: String, type: DialogItemType, title: String, fontSize: CGFloat, textAlign: DialogTextAlign, result: DialogResultType, offsetx: CGFloat, offsety: CGFloat, anchorx: CGFloat, anchory: CGFloat, width: CGFloat, height: CGFloat, image: String?, selectedIndex: Int?, items: DropdownItems?, yieldType: YieldType) {
         
         self.identifier = identifier
         self.type = type
         self.title = title
         self.fontSize = fontSize
+        self.textAlign = textAlign
         self.result = result
         self.offsetx = offsetx
         self.offsety = offsety
@@ -51,6 +63,7 @@ struct DialogItemConfiguration: Codable {
         self.image = image
         self.selectedIndex = selectedIndex
         self.items = items
+        self.yieldType = yieldType
     }
     
     init(from decoder: Decoder) throws {
@@ -61,6 +74,7 @@ struct DialogItemConfiguration: Codable {
         let type = try values.decode(DialogItemType.self, forKey: .type)
         let title = try values.decodeIfPresent(String.self, forKey: .title) ?? ""
         let fontSize = try values.decodeIfPresent(CGFloat.self, forKey: .fontSize) ?? 18
+        let textAlign = try values.decodeIfPresent(DialogTextAlign.self, forKey: .textAlign) ?? .center
         let result = try values.decodeIfPresent(DialogResultType.self, forKey: .result) ?? .none
         let offsetxValue = try values.decodeIfPresent(String.self, forKey: .offsetx) ?? "0"
         let offsetyValue = try values.decodeIfPresent(String.self, forKey: .offsety) ?? "0"
@@ -150,7 +164,9 @@ struct DialogItemConfiguration: Codable {
         let selectedIndex = try values.decodeIfPresent(Int.self, forKey: .selectedIndex) ?? nil
         let items: DropdownItems? = try values.decodeIfPresent(DropdownItems.self, forKey: .items) ?? nil
         
-        self.init(identifier: identifier, type: type, title: title, fontSize: fontSize, result: result, offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, image: image, selectedIndex: selectedIndex, items: items)
+        let yieldType = try values.decodeIfPresent(YieldType.self, forKey: .yieldType) ?? .none
+        
+        self.init(identifier: identifier, type: type, title: title, fontSize: fontSize, textAlign: textAlign, result: result, offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, image: image, selectedIndex: selectedIndex, items: items, yieldType: yieldType)
     }
     
     func anchorPoint() -> CGPoint {

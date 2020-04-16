@@ -712,6 +712,12 @@ public class BuilderTaskingAI {
                 
             case .science:
                 yieldDifferenceWeight += deltaYield.value(of: yieldType) * Double(player.valueOfPersonalityFlavor(of: .science)) * 1.0 /* BUILDER_TASKING_PLOT_EVAL_MULTIPLIER_SCIENCE */
+             
+            case .culture:
+                yieldDifferenceWeight += deltaYield.value(of: yieldType) * Double(player.valueOfPersonalityFlavor(of: .culture)) * 1.0 /* BUILDER_TASKING_PLOT_EVAL_MULTIPLIER_CULTURE */
+                
+            case .faith:
+                yieldDifferenceWeight += deltaYield.value(of: yieldType) * Double(player.valueOfPersonalityFlavor(of: .religion)) * 1.0 /* BUILDER_TASKING_PLOT_EVAL_MULTIPLIER_CULTURE */
                 
             case .none:
                 // NOOP

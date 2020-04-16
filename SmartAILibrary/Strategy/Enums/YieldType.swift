@@ -8,17 +8,20 @@
 
 import Foundation
 
-enum YieldType: Int, Codable {
+public enum YieldType: String, Codable {
     
-    case none
+    case none = "none"
     
-    case food // YIELD_FOOD,
-    case production // YIELD_PRODUCTION,
-    case gold // YIELD_GOLD,
-    case science // YIELD_SCIENCE
+    case food = "food" // YIELD_FOOD,
+    case production = "production" // YIELD_PRODUCTION,
+    case gold = "gold" // YIELD_GOLD,
+    case science = "science" // YIELD_SCIENCE
+    
+    case culture = "culture"
+    case faith = "faith"
     
     static var all: [YieldType] {
         
-        return [.food, .production, .gold, .science]
+        return [.food, .production, .gold, .science, .culture, .faith]
     }
 }

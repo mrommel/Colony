@@ -8,6 +8,7 @@
 
 import SpriteKit
 import UIKit
+import SmartAILibrary
 
 class Dialog: NineGridTextureSprite {
 
@@ -90,6 +91,7 @@ class Dialog: NineGridTextureSprite {
                 labelItem.fontSize = item.fontSize
                 labelItem.fontName = Globals.Fonts.customFontFamilyname
                 labelItem.numberOfLines = 0
+                labelItem.horizontalAlignmentMode = item.textAlign.toHorizontalAlignmentMode()
                 labelItem.preferredMaxLayoutWidth = item.size.width
                 self.addChild(labelItem)
 
@@ -138,6 +140,15 @@ class Dialog: NineGridTextureSprite {
                 
                 self.selectedIndex = dropdownSelectedIndex
                 self.selectedItem = items[dropdownSelectedIndex]
+                
+            case .yieldInfo:
+                
+                let yieldInfo = YieldDisplayNode(for: item.yieldType, value: 0.0, size: item.size)
+                yieldInfo.name = item.identifier
+                yieldInfo.position = item.position()
+                //yieldInfo.anchorPoint = item.anchorPoint()
+                yieldInfo.zPosition = Globals.ZLevels.dialogs + 1.0
+                self.addChild(yieldInfo)
             }
         }
     }
@@ -217,6 +228,19 @@ class Dialog: NineGridTextureSprite {
         }
         
         progressBarNode.set(progress: progress)
+    }
+    
+    func set(yieldValue: Double, identifier: String) {
+        
+        guard let node = self.children.first(where: { $0.name == identifier }) else {
+            fatalError("Can't find \(identifier)")
+        }
+        
+        guard let yieldDisplayNode = node as? YieldDisplayNode else {
+            fatalError("identifier does not identify a YieldDisplayNode")
+        }
+        
+        yieldDisplayNode.set(yieldValue: yieldValue)
     }
 
     func getTextFieldInput(for identifier: String = "textField") -> String {

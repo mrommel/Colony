@@ -86,7 +86,7 @@ public class WonderProductionAI {
             return (.none, 0)
         }
 
-        var estimatedProductionPerTurn = wonderCity.productionPerTurn() // getProduction
+        var estimatedProductionPerTurn = wonderCity.productionLastTurn() // getProduction
         if estimatedProductionPerTurn < 1.0 {
             estimatedProductionPerTurn = 1.0
         }

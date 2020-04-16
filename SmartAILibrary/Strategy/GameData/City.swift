@@ -55,7 +55,7 @@ public protocol AbstractCity: class, Codable {
     //static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
     func initialize(in gameModel: GameModel?)
     
-    func yields(in gameModel: GameModel?) -> Yields
+    //func yields(in gameModel: GameModel?) -> Yields
     func foodConsumption() -> Double
     
     func isCapital() -> Bool
@@ -82,10 +82,19 @@ public protocol AbstractCity: class, Codable {
 
     func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int
     func unitProductionTurnsLeft(for unitType: UnitType) -> Int
-    func featureProduction() -> Int
-    func changeFeatureProduction(change: Int)
+    
+    func featureProduction() -> Double
+    func changeFeatureProduction(change: Double)
+    func setFeatureProduction(to: Double)
 
     func currentBuildableItem() -> BuildableItem?
+    
+    func foodPerTurn(in gameModel: GameModel?) -> Double
+    func productionPerTurn(in gameModel: GameModel?) -> Double
+    func goldPerTurn(in gameModel: GameModel?) -> Double
+    func sciencePerTurn(in gameModel: GameModel?) -> Double
+    func culturePerTurn(in gameModel: GameModel?) -> Double
+    func faithPerTurn(in gameModel: GameModel?) -> Double
 
     func foodBasket() -> Double
     func set(foodBasket: Double)
@@ -93,7 +102,7 @@ public protocol AbstractCity: class, Codable {
     func hasFoodSurplus() -> Bool // < 4 food surplus
     func hasEnoughFood() -> Bool
     
-    func productionPerTurn() -> Double
+    func productionLastTurn() -> Double
 
     func healthPoints() -> Int
     func set(healthPoints: Int)
@@ -181,8 +190,8 @@ public class City: AbstractCity {
     private var threatVal: Int
     
     private var isFeatureSurroundedValue: Bool
-    private var productionLastTurn: Double = 1.0
-    private var featureProductionValue: Int = 0
+    private var productionLastTurnValue: Double = 1.0
+    private var featureProductionValue: Double = 0
 
     var foodBasketValue: Double
     private var foodLastTurn: Double = 1.0
@@ -520,22 +529,94 @@ public class City: AbstractCity {
                 self.routeToCapitalConnectedLastTurn = self.routeToCapitalConnectedThisTurn
             }
         }
-        
-        /*
-        let yields = self.yields(in: gameModel)
-
-        self.updateGrowth(for: yields.food, in: gameModel)
-        self.updateProduction(for: yields.production, in: gameModel)
-
-        // reset food and production
-        yields.food = 0
-        yields.production = 0
-
-        return yields*/
     }
     
     public func updateStrengthValue() {
         
+    }
+    
+    func foodFromTiles(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+        
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
+        
+        var foodValue: Double = 0.0
+        
+        if let centerTile = gameModel.tile(at: self.location) {
+            
+            foodValue += centerTile.yields(ignoreFeature: false).food
+
+            // The yield of the tile occupied by the city center will be increased to 2 Food and 1 Production, if either was previously lower (before any bonus yields are applied).
+            if foodValue < 2.0 {
+                foodValue = 2.0
+            }
+        }
+        
+        for point in cityCitizens.workingTileLocations() {
+            if cityCitizens.isWorked(at: point) {
+                if let adjacentTile = gameModel.tile(at: point) {
+                    foodValue += adjacentTile.yields(ignoreFeature: false).food
+                }
+            }
+        }
+        
+        return foodValue
+    }
+    
+    func foodFromGovernmentType() -> Double {
+        
+        guard let player = self.player else {
+            fatalError("no player provided")
+        }
+        
+        var foodFromGovernmentType: Double = 0.0
+        
+        // yields from government
+        if let government = player.government {
+
+            // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
+            // Capital receives +1 boost to all yields.
+            if government.currentGovernment() == .autocracy && self.capitalValue == true {
+
+                foodFromGovernmentType += 1
+            }
+        }
+
+        return foodFromGovernmentType
+    }
+    
+    func foodFromBuilding() -> Double {
+        
+        guard let buildings = self.buildings else {
+            fatalError("no buildings set")
+        }
+        
+        var foodFromBuilding: Double = 0.0
+        
+        // gather food from builds
+        for building in BuildingType.all {
+            if buildings.has(building: building) {
+                foodFromBuilding += building.yields().food
+            }
+        }
+        
+        return foodFromBuilding
+    }
+    
+    public func foodPerTurn(in gameModel: GameModel?) -> Double {
+        
+        var foodPerTurn: Double = 0.0
+        
+        foodPerTurn += self.foodFromTiles(in: gameModel)
+        foodPerTurn += self.foodFromGovernmentType()
+        foodPerTurn += self.foodFromBuilding()
+        
+        return foodPerTurn
     }
     
     private func doGrowth(in gameModel: GameModel?) {
@@ -557,9 +638,9 @@ public class City: AbstractCity {
             return
         }*/
         
-        let yields = self.yields(in: gameModel)
+        //let yields = self.yields(in: gameModel)
 
-        let foodPerTurn = yields.food
+        let foodPerTurn = self.foodPerTurn(in: gameModel)
         let foodEatenPerTurn = self.foodConsumption()
         var foodDiff = foodPerTurn - foodEatenPerTurn
 
@@ -575,7 +656,7 @@ public class City: AbstractCity {
         // housing
         // https://civilization.fandom.com/wiki/Housing_(Civ6)
         var housing = self.baseHousing(in: gameModel)
-        housing += yields.housing
+        housing += 5 // yields.housing
         housing += buildings.housing()
         
         let housingDiff = Int(housing) - Int(self.populationValue)
@@ -950,6 +1031,439 @@ public class City: AbstractCity {
         }
     }
     
+    private func goldFromTiles(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+        
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
+        
+        var goldValue: Double = 0.0
+        
+        if let centerTile = gameModel.tile(at: self.location) {
+            
+            goldValue += centerTile.yields(ignoreFeature: false).gold
+        }
+        
+        for point in cityCitizens.workingTileLocations() {
+            if cityCitizens.isWorked(at: point) {
+                if let adjacentTile = gameModel.tile(at: point) {
+                    goldValue += adjacentTile.yields(ignoreFeature: false).gold
+                }
+            }
+        }
+        
+        return goldValue
+    }
+    
+    private func goldFromGovernmentType() -> Double {
+        
+        guard let player = self.player else {
+            fatalError("no player provided")
+        }
+        
+        var foodFromGovernmentType: Double = 0.0
+        
+        // yields from government
+        if let government = player.government {
+
+            // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
+            // Capital receives +1 boost to all yields.
+            if government.currentGovernment() == .autocracy && self.capitalValue == true {
+
+                foodFromGovernmentType += 1
+            }
+
+            // godKing
+            if government.has(card: .godKing) && self.capitalValue == true {
+
+                foodFromGovernmentType += 1
+            }
+        }
+        
+        return foodFromGovernmentType
+    }
+    
+    private func goldFromBuildings() -> Double {
+        
+        guard let buildings = self.buildings else {
+            fatalError("Cant get buildings")
+        }
+        
+        var goldFromBuildings: Double = 0.0
+        
+        // gather yields from builds
+        for building in BuildingType.all {
+            if buildings.has(building: building) {
+                goldFromBuildings += building.yields().gold
+            }
+        }
+        
+        return goldFromBuildings
+    }
+    
+    public func goldPerTurn(in gameModel: GameModel?) -> Double {
+        
+        var goldPerTurn: Double = 0.0
+        
+        goldPerTurn += self.goldFromTiles(in: gameModel)
+        goldPerTurn += self.goldFromGovernmentType()
+        goldPerTurn += self.goldFromBuildings()
+        
+        return goldPerTurn
+    }
+    
+    private func scienceFromTiles(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+        
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
+        
+        var scienceFromTiles: Double = 0.0
+        
+        if let centerTile = gameModel.tile(at: self.location) {
+            
+            scienceFromTiles += centerTile.yields(ignoreFeature: false).science
+        }
+        
+        for point in cityCitizens.workingTileLocations() {
+            if cityCitizens.isWorked(at: point) {
+                if let adjacentTile = gameModel.tile(at: point) {
+                    scienceFromTiles += adjacentTile.yields(ignoreFeature: false).science
+                }
+            }
+        }
+        
+        return scienceFromTiles
+    }
+    
+    private func scienceFromGovernmentType() -> Double {
+        
+        guard let player = self.player else {
+            fatalError("Cant get player")
+        }
+        
+        var scienceFromGovernmentValue: Double = 0.0
+        
+        // yields from government
+        if let government = player.government {
+
+            // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
+            // Capital receives +1 boost to all yields.
+            if government.currentGovernment() == .autocracy && self.capitalValue == true {
+
+                scienceFromGovernmentValue += 1
+            }
+        }
+        
+        return scienceFromGovernmentValue
+    }
+    
+    private func scienceFromBuildings() -> Double {
+        
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+         
+        var scienceFromBuildings: Double = 0.0
+        
+        // gather yields from builds
+        for building in BuildingType.all {
+            if buildings.has(building: building) {
+                scienceFromBuildings += building.yields().science
+            }
+        }
+        
+        return scienceFromBuildings
+    }
+    
+    private func scienceFromPopulation() -> Double {
+        
+        // science & culture from population
+        return self.populationValue * 0.5
+    }
+    
+    public func sciencePerTurn(in gameModel: GameModel?) -> Double {
+        
+        var sciencePerTurn: Double = 0.0
+        
+        sciencePerTurn += self.scienceFromTiles(in: gameModel)
+        sciencePerTurn += self.scienceFromGovernmentType()
+        sciencePerTurn += self.scienceFromBuildings()
+        sciencePerTurn += self.scienceFromPopulation()
+        
+        return sciencePerTurn
+    }
+    
+    private func cultureFromTiles(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+        
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
+        
+        var cultureFromTiles: Double = 0.0
+        
+        if let centerTile = gameModel.tile(at: self.location) {
+            
+            cultureFromTiles += centerTile.yields(ignoreFeature: false).culture
+        }
+        
+        for point in cityCitizens.workingTileLocations() {
+            if cityCitizens.isWorked(at: point) {
+                if let adjacentTile = gameModel.tile(at: point) {
+                    cultureFromTiles += adjacentTile.yields(ignoreFeature: false).culture
+                }
+            }
+        }
+        
+        return cultureFromTiles
+    }
+    
+    private func cultureFromGovernmentType() -> Double {
+        
+        guard let player = self.player else {
+            fatalError("Cant get player")
+        }
+        
+        var cultureFromGovernmentValue: Double = 0.0
+        
+        // yields from government
+        if let government = player.government {
+
+            // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
+            // Capital receives +1 boost to all yields.
+            if government.currentGovernment() == .autocracy && self.capitalValue == true {
+
+                cultureFromGovernmentValue += 1
+            }
+        }
+        
+        return cultureFromGovernmentValue
+    }
+    
+    private func cultureFromBuildings() -> Double {
+        
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+         
+        var cultureFromBuildings: Double = 0.0
+        
+        // gather yields from builds
+        for building in BuildingType.all {
+            if buildings.has(building: building) {
+                cultureFromBuildings += building.yields().culture
+            }
+        }
+        
+        return cultureFromBuildings
+    }
+    
+    private func cultureFromPopulation() -> Double {
+        
+        // science & culture from population
+        return self.populationValue * 0.3
+    }
+    
+    public func culturePerTurn(in gameModel: GameModel?) -> Double {
+        
+        var culturePerTurn: Double = 0.0
+        
+        culturePerTurn += self.cultureFromTiles(in: gameModel)
+        culturePerTurn += self.cultureFromGovernmentType()
+        culturePerTurn += self.cultureFromBuildings()
+        culturePerTurn += self.cultureFromPopulation()
+        
+        return culturePerTurn
+    }
+    
+    private func faithFromTiles(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+        
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
+        
+        var faithFromTiles: Double = 0.0
+        
+        if let centerTile = gameModel.tile(at: self.location) {
+            
+            faithFromTiles += centerTile.yields(ignoreFeature: false).faith
+        }
+        
+        for point in cityCitizens.workingTileLocations() {
+            if cityCitizens.isWorked(at: point) {
+                if let adjacentTile = gameModel.tile(at: point) {
+                    faithFromTiles += adjacentTile.yields(ignoreFeature: false).faith
+                }
+            }
+        }
+        
+        return faithFromTiles
+    }
+    
+    private func faithFromGovernmentType() -> Double {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        var faithFromGovernmentValue: Double = 0.0
+        
+        // yields from government
+        if let government = player.government {
+
+            // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
+            // Capital receives +1 boost to all yields.
+            if government.currentGovernment() == .autocracy && self.capitalValue == true {
+
+                faithFromGovernmentValue += 1
+            }
+
+            // godKing
+            if government.has(card: .godKing) && self.capitalValue == true {
+
+                faithFromGovernmentValue += 1
+            }
+        }
+        
+        return faithFromGovernmentValue
+    }
+    
+    private func faithFromBuildings() -> Double {
+        
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
+        var faithFromBuildings: Double = 0.0
+        
+        // gather yields from builds
+        for building in BuildingType.all {
+            if buildings.has(building: building) {
+                faithFromBuildings += building.yields().faith
+            }
+        }
+        
+        return faithFromBuildings
+    }
+    
+    public func faithPerTurn(in gameModel: GameModel?) -> Double {
+        
+        var faithPerTurn: Double = 0.0
+        
+        faithPerTurn += self.faithFromTiles(in: gameModel)
+        faithPerTurn += self.faithFromGovernmentType()
+        faithPerTurn += self.faithFromBuildings()
+        
+        return faithPerTurn
+    }
+    
+    public func productionPerTurn(in gameModel: GameModel?) -> Double {
+    
+        var productionPerTurn: Double = 0.0
+        
+        productionPerTurn += self.productionFromTiles(in: gameModel)
+        productionPerTurn += self.productionFromGovernmentType()
+        productionPerTurn += self.productionFromBuilding()
+        productionPerTurn += self.featureProduction()
+        
+        return productionPerTurn
+    }
+    
+    private func productionFromTiles(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+        
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
+        
+        var productionValue: Double = 0.0
+        
+        if let centerTile = gameModel.tile(at: self.location) {
+            
+            productionValue += centerTile.yields(ignoreFeature: false).production
+
+            // The yield of the tile occupied by the city center will be increased to 2 Food and 1 Production, if either was previously lower (before any bonus yields are applied).
+            if productionValue < 1.0 {
+                productionValue = 1.0
+            }
+        }
+        
+        for point in cityCitizens.workingTileLocations() {
+            if cityCitizens.isWorked(at: point) {
+                if let adjacentTile = gameModel.tile(at: point) {
+                    productionValue += adjacentTile.yields(ignoreFeature: false).production
+                }
+            }
+        }
+        
+        return productionValue
+    }
+    
+    func productionFromGovernmentType() -> Double {
+        
+        guard let player = self.player else {
+            fatalError("no player provided")
+        }
+        
+        var productionFromGovernmentType: Double = 0.0
+        
+        // yields from government
+        if let government = player.government {
+
+            // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
+            // Capital receives +1 boost to all yields.
+            if government.currentGovernment() == .autocracy && self.capitalValue == true {
+
+                productionFromGovernmentType += 1
+            }
+
+            // urbanPlanning: +1 Production in all cities.
+            if government.has(card: .urbanPlanning) {
+
+                productionFromGovernmentType += 1
+            }
+        }
+
+        return productionFromGovernmentType
+    }
+    
+    func productionFromBuilding() -> Double {
+        
+        guard let buildings = self.buildings else {
+            fatalError("no buildings set")
+        }
+        
+        var foodFromBuilding: Double = 0.0
+        
+        // gather food from builds
+        for building in BuildingType.all {
+            if buildings.has(building: building) {
+                foodFromBuilding += building.yields().production
+            }
+        }
+        
+        return foodFromBuilding
+    }
+    
     //    --------------------------------------------------------------------------------
     func doProduction(allowNoProduction: Bool, in gameModel: GameModel?) {
 
@@ -998,11 +1512,11 @@ public class City: AbstractCity {
                 }
             }*/
 
-            let production = self.yields(in: gameModel).production
+            let production = self.productionPerTurn(in: gameModel)
             self.updateProduction(for: production, in: gameModel)
             
             //setOverflowProduction(0);
-            //setFeatureProduction(0);
+            self.setFeatureProduction(to: 0.0)
         } else {
             // changeOverflowProductionTimes100(getCurrentProductionDifferenceTimes100(false, false));
             fatalError("shfdfgj")
@@ -1088,9 +1602,9 @@ public class City: AbstractCity {
     
     // MARK: production
     
-    public func productionPerTurn() -> Double {
+    public func productionLastTurn() -> Double {
         
-        return self.productionLastTurn
+        return self.productionLastTurnValue
     }
 
     //    Be very careful with setting bReassignPop to false.  This assumes that the caller
@@ -1353,7 +1867,7 @@ public class City: AbstractCity {
     public func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int {
 
         if let buildingTypeItem = self.buildQueue.building(of: buildingType) {
-            return Int(buildingTypeItem.productionLeft() / self.productionLastTurn)
+            return Int(buildingTypeItem.productionLeft() / self.productionLastTurnValue)
         }
 
         return 100
@@ -1362,7 +1876,7 @@ public class City: AbstractCity {
     public func unitProductionTurnsLeft(for unitType: UnitType) -> Int {
 
         if let unitTypeItem = self.buildQueue.unit(of: unitType) {
-            return Int(unitTypeItem.productionLeft() / self.productionLastTurn)
+            return Int(unitTypeItem.productionLeft() / self.productionLastTurnValue)
         }
 
         return 100
@@ -1530,117 +2044,24 @@ public class City: AbstractCity {
             }
         }
 
-        self.productionLastTurn = productionPerTurn
+        self.productionLastTurnValue = productionPerTurn
     }
 
-    public func yields(in gameModel: GameModel?) -> Yields {
-
-        guard let player = self.player else {
-            fatalError("no player provided")
-        }
-
-        guard let buildings = self.buildings else {
-            fatalError("no buildings set")
-        }
-
-        // from tiles
-        var yieldsVal = self.yieldsFromTiles(in: gameModel)
-        
-        // from improvements (one time effect)
-        yieldsVal.production += Double(self.featureProduction())
-        self.changeFeatureProduction(change: -self.featureProduction()) // reset to zero
-
-        // yields from government
-        if let government = player.government {
-
-            // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
-            // Capital receives +1 boost to all yields.
-            if government.currentGovernment() == .autocracy && self.capitalValue == true {
-
-                yieldsVal.food += 1
-                yieldsVal.production += 1
-                yieldsVal.gold += 1
-
-                // these too?
-                yieldsVal.science += 1
-                yieldsVal.culture += 1
-                yieldsVal.faith += 1
-            }
-
-            // godKing
-            if government.has(card: .godKing) && self.capitalValue == true {
-
-                yieldsVal.gold += 1
-                yieldsVal.faith += 1
-            }
-
-            // urbanPlanning: +1 Production in all cities.
-            if government.has(card: .urbanPlanning) {
-
-                yieldsVal.production += 1
-            }
-        }
-
-        // gather yields from builds
-        for building in BuildingType.all {
-            if buildings.has(building: building) {
-                yieldsVal += building.yields()
-            }
-        }
-
-        // science & culture from population
-        yieldsVal.science += (self.populationValue * 0.5)
-        yieldsVal.culture += (self.populationValue * 0.3)
-
-        // reduce gold by maintenance costs
-        //yieldsVal.gold -= self.maintenanceCostsPerTurn()
-
-        return yieldsVal
-    }
-
-    func yieldsFromTiles(in gameModel: GameModel?) -> Yields {
-
-        guard let gameModel = gameModel else {
-            fatalError("no game model provided")
-        }
-        
-        guard let cityCitizens = self.cityCitizens else {
-            fatalError("no cityCitizens provided")
-        }
-
-        var yields = Yields(food: 0, production: 0, gold: 0)
-
-        if let centerTile = gameModel.tile(at: self.location) {
-            yields += centerTile.yields(ignoreFeature: false)
-
-            // The yield of the tile occupied by the city center will be increased to 2 Food and 1 Production, if either was previously lower (before any bonus yields are applied).
-            if yields.food < 2.0 {
-                yields.food = 2.0
-            }
-            if yields.production < 1.0 {
-                yields.production = 1.0
-            }
-        }
-
-        for point in cityCitizens.workingTileLocations() {
-            if cityCitizens.isWorked(at: point) {
-                if let adjacentTile = gameModel.tile(at: point) {
-                    yields += adjacentTile.yields(ignoreFeature: false)
-                }
-            }
-        }
-
-        return yields
-    }
     
-    public func featureProduction() -> Int {
+    
+    public func featureProduction() -> Double {
         
         return self.featureProductionValue
     }
     
-    public func changeFeatureProduction(change: Int) {
+    public func changeFeatureProduction(change: Double) {
         
         self.featureProductionValue += change
+    }
+    
+    public func setFeatureProduction(to value: Double) {
+        
+        self.featureProductionValue = value
     }
 
     public func foodConsumption() -> Double {
