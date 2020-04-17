@@ -12,7 +12,6 @@ import SmartAILibrary
 protocol BottomLeftBarDelegate: class {
     
     func handleTurnButtonClicked()
-    func handle(notification: Notifications.Notification?)
     func handle(command: Command)
 }
 
@@ -33,12 +32,6 @@ class BottomLeftBar: SizedNode {
     
     var commands: [Command] = []
     var commandIconNodes: [TouchableSpriteNode?] = []
-    
-    var notifications: [Notifications.Notification] = []
-    var notificationTopNode: SKSpriteNode?
-    var notificationBagdeNodes: [SKSpriteNode?] = []
-    var notificationIconNodes: [TouchableSpriteNode?] = []
-    var notificationBottomNode: SKSpriteNode?
     
     weak var delegate: BottomLeftBarDelegate?
 
@@ -81,23 +74,6 @@ class BottomLeftBar: SizedNode {
         self.unitCommandsCanvasNode?.anchorPoint = .lowerLeft
         self.addChild(self.unitCommandsCanvasNode!)
         
-        // notifications
-        let notificationBottomTexture = SKTexture(imageNamed: "notification_bottom")
-        self.notificationBottomNode = SKSpriteNode(texture: notificationBottomTexture, size: CGSize(width: 61, height: 95))
-        self.notificationBottomNode?.zPosition = self.zPosition + 0.1
-        self.notificationBottomNode?.anchorPoint = .lowerLeft
-        self.addChild(notificationBottomNode!)
-        
-        // self.notifications.append(Notifications.Notification(type: .generic, message: "test", summary: "test", at: HexPoint(x: 1, y: 1)))
-        // self.notifications.append(Notifications.Notification(type: .tech, message: "test", summary: "test", at: HexPoint(x: 1, y: 1)))
-        self.rebuildNotificationBadges()
-        
-        let notificationTopTexture = SKTexture(imageNamed: "notification_top")
-        self.notificationTopNode = SKSpriteNode(texture: notificationTopTexture, size: CGSize(width: 61, height: 38))
-        self.notificationTopNode?.zPosition = self.zPosition + 0.1
-        self.notificationTopNode?.anchorPoint = .lowerLeft
-        self.addChild(notificationTopNode!)
-        
         self.updateLayout()
     }
     
@@ -112,15 +88,6 @@ class BottomLeftBar: SizedNode {
         self.unitImageNode?.position = self.position + CGPoint(x: 3, y: 3)
         self.glassCanvasNode?.position = self.position + CGPoint(x: 3, y: 3)
         self.unitCommandsCanvasNode?.position = self.position + (self.unitCommandsVisible ? BottomLeftBar.unitCommandsVisiblePosition : BottomLeftBar.unitCommandsInvisiblePosition)
-        
-        self.notificationBottomNode?.position = self.position + CGPoint(x: 0, y: 25)
-        for (index, notificationBagdeNode) in self.notificationBagdeNodes.enumerated() {
-            notificationBagdeNode?.position = self.position + CGPoint(x: 0, y: 25 + 95 + (index * 65))
-        }
-        for (index, notificationIconNode) in self.notificationIconNodes.enumerated() {
-            notificationIconNode?.position = self.position + CGPoint(x: 14, y: 25 + 106 + (index * 65))
-        }
-        self.notificationTopNode?.position = self.position + CGPoint(x: 0, y: 25 + 95 + (self.notificationBagdeNodes.count * 65))
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -142,15 +109,6 @@ class BottomLeftBar: SizedNode {
             }
         }
         
-        for (index, notificationIconNode) in self.notificationIconNodes.enumerated() {
-            
-            if notificationIconNode!.frame.contains(location) {
-                let notification = self.notifications[index]
-                self.delegate?.handle(notification: notification)
-                return
-            }
-        }
-        
         let commandLocation = touch.location(in: self.unitCommandsCanvasNode!)
         
         for (index, commandIconNode) in self.commandIconNodes.enumerated() {
@@ -163,41 +121,6 @@ class BottomLeftBar: SizedNode {
         }
     }
     
-    func rebuildNotificationBadges() {
-        
-        for notificationBagdeNode in self.notificationBagdeNodes {
-            notificationBagdeNode?.removeFromParent()
-        }
-        
-        for notificationIconNode in self.notificationIconNodes {
-            notificationIconNode?.removeFromParent()
-        }
-        
-        self.notificationBagdeNodes.removeAll()
-        self.notificationIconNodes.removeAll()
-        
-        for notification in self.notifications {
-            
-            let notificationBadgeTexture = SKTexture(imageNamed: "notification_bagde")
-            let notificationBadgeNode = SKSpriteNode(texture: notificationBadgeTexture, color: .black, size: CGSize(width: 61, height: 65))
-            notificationBadgeNode.zPosition = self.zPosition + 0.1
-            notificationBadgeNode.anchorPoint = .lowerLeft
-            self.addChild(notificationBadgeNode)
-            
-            self.notificationBagdeNodes.append(notificationBadgeNode)
-            
-            let buttonIconTextureName = notification.type.iconTexture()
-            let notificationIconNode = TouchableSpriteNode(imageNamed: buttonIconTextureName, size: CGSize(width: 40, height: 40))
-            notificationIconNode.zPosition = self.zPosition + 0.2
-            notificationIconNode.anchorPoint = .lowerLeft
-            self.addChild(notificationIconNode)
-            
-            self.notificationIconNodes.append(notificationIconNode)
-        }
-        
-        self.updateLayout()
-    }
-    
     func showTurnButton() {
         
         self.unitImageNode?.texture = SKTexture(imageNamed: "button_turn")
@@ -208,8 +131,6 @@ class BottomLeftBar: SizedNode {
         
         self.unitImageNode?.texture = SKTexture(imageNamed: blockingNotification.type.iconTexture())
         self.turnButtonNotificationType = blockingNotification.type
-        
-        // todo remove from notifictionslist
     }
     
     func showSpinningGlobe() {
@@ -234,9 +155,7 @@ class BottomLeftBar: SizedNode {
         self.turnButtonNotificationType = .unitNeedsOrders
         
         if let selectedUnit = unit {
-            
-            // move possible shown notifications
-            
+
             // make current unit visible
             let selectedUnitTextureString = selectedUnit.type.spriteName
             let selectedUnitTexture = SKTexture(imageNamed: selectedUnitTextureString)

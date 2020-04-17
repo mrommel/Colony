@@ -36,6 +36,7 @@ class GameScene: BaseScene {
     private var frameBottomRight: SKSpriteNode?
     private var bottomLeftBar: BottomLeftBar?
     private var bottomRightBar: BottomRightBar?
+    private var notificationsNode: NotificationsNode?
 
     //private var turnButton: MessageBoxButtonNode?
     //private var turnDialog: TurnDialog?
@@ -94,13 +95,17 @@ class GameScene: BaseScene {
         self.cameraNode.addChild(backgroundNode!)
 
         self.mapNode = MapNode(with: viewModel.game)
-        self.bottomLeftBar = BottomLeftBar(sized: CGSize(width: 200, height: viewSize.height))
+        self.bottomLeftBar = BottomLeftBar(sized: CGSize(width: 200, height: 112))
         self.bottomLeftBar?.delegate = self
         self.safeAreaNode.addChild(self.bottomLeftBar!)
         
         self.bottomRightBar = BottomRightBar(for: viewModel.game, sized: CGSize(width: 200, height: 112))
         self.bottomRightBar?.delegate = self
         self.safeAreaNode.addChild(self.bottomRightBar!)
+        
+        self.notificationsNode = NotificationsNode(sized: CGSize(width: 61, height: 300))
+        self.notificationsNode?.delegate = self
+        self.safeAreaNode.addChild(self.notificationsNode!)
 
         self.viewHex.name = "ViewHex"
         self.viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.5)
@@ -189,6 +194,9 @@ class GameScene: BaseScene {
         self.bottomRightBar?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.bottomRightBar?.updateLayout()
         
+        self.notificationsNode?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
+        self.notificationsNode?.updateLayout()
+        
         // yields
         self.scienceYield?.position = CGPoint(x: -self.frame.halfWidth + 10, y: frame.halfHeight - 24)
         self.cultureYield?.position = CGPoint(x: -self.frame.halfWidth + 75, y: frame.halfHeight - 24)
@@ -276,8 +284,8 @@ class GameScene: BaseScene {
             
             // update notifications
             if let notifications = humanPlayer.notifications() {
-                self.bottomLeftBar?.notifications = notifications.notifications()
-                self.bottomLeftBar?.rebuildNotificationBadges()
+                self.notificationsNode?.notifications = notifications.notifications()
+                self.notificationsNode?.rebuildNotificationBadges()
             }
         }
 
@@ -299,7 +307,9 @@ class GameScene: BaseScene {
         }
 
         if let blockingNotification = humanPlayer.blockingNotification() {
-            if self.selectedUnit != nil {
+            
+            if self.selectedUnit == nil {
+                // no unit selected - show blocking button
                 self.bottomLeftBar?.showBlockingButton(for: blockingNotification)
             } else {
                 // keep selected unit
@@ -316,8 +326,19 @@ class GameScene: BaseScene {
         }
         
         let touch = touches.first!
+        let cameraLocation = touch.location(in: self.cameraNode)
         let touchLocation = touch.location(in: self.viewHex)
         let position = HexPoint(screen: touchLocation)
+        
+        if let bottomLeftBar = self.bottomLeftBar, bottomLeftBar.frame.contains(cameraLocation) {
+            
+            if self.uiTurnState == .aiTurns {
+                return
+            }
+            
+            self.bottomLeftBar?.touchesEnded(touches, with: event)
+            return
+        }
         
         if touch.tapCount == 2 || touch.force > self.forceTouchLevel {
             // double tap
@@ -325,20 +346,14 @@ class GameScene: BaseScene {
                 self.showScreen(screenType: .city, city: city)
                 return
             }
-            
-            /*if let unit = viewModel?.game?.unit(at: position) {
-                let commands = unit.commands(in: viewModel?.game)
-                self.showPopup(for: commands, of: unit)
-                return
-            }*/
-            //self.selectedUnit = nil
-            self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [])
+
+            self.unselect()
         } else {
         
             if let unit = viewModel?.game?.unit(at: position) {
                 self.select(unit: unit)
             } else {
-                //self.unselect()
+                self.unselect()
             }
         }
     }
@@ -403,7 +418,7 @@ class GameScene: BaseScene {
             return
         }
 
-        if let bottomLeftBar = self.bottomLeftBar, bottomLeftBar.frame.contains(cameraLocation) {
+        /*if let bottomLeftBar = self.bottomLeftBar, bottomLeftBar.frame.contains(cameraLocation) {
             
             if self.uiTurnState == .aiTurns {
                 return
@@ -411,6 +426,17 @@ class GameScene: BaseScene {
             
             self.bottomLeftBar?.touchesEnded(touches, with: event)
             return
+        }*/
+        
+        if let notificationsNode = self.notificationsNode, notificationsNode.frame.contains(cameraLocation) {
+            
+            if self.uiTurnState == .aiTurns {
+                return
+            }
+            
+            if notificationsNode.handleTouches(touches, with: event) {
+                return
+            }
         }
 
         if let selectedUnit = self.selectedUnit {
@@ -425,8 +451,6 @@ class GameScene: BaseScene {
                 self.mapNode?.unitLayer.move(unit: selectedUnit, to: position)
             }
         }
-
-        //self.unselect()
     }
 
     func centerCamera(on hex: HexPoint) {
@@ -466,52 +490,6 @@ extension GameScene: BottomRightBarDelegate {
 }
 
 extension GameScene: BottomLeftBarDelegate {
-    
-    func handle(notification: Notifications.Notification?) {
-        
-        guard let notification = notification else {
-            fatalError("cant get notification")
-        }
-         
-        switch notification.type {
-
-        case .turn:
-            fatalError("should not happen")
-        case .generic:
-            // NOOP
-            break
-        case .tech:
-            // NOOP
-            break
-        case .civic:
-            // NOOP
-            break
-        case .production:
-            // NOOP
-            break
-        case .cityGrowth:
-            // NOOP
-            break
-        case .starving:
-            // NOOP
-            break
-        case .diplomaticDeclaration:
-            // NOOP
-            break
-        case .war:
-            // NOOP
-            break
-        case .enemyInTerritory:
-            // NOOP
-            break
-        case .unitPromotion:
-            // NOOP
-            break
-        case .unitNeedsOrders:
-            // NOOP
-            break
-        }
-    }
     
     func handle(command: Command) {
 
@@ -578,6 +556,55 @@ extension GameScene: BottomLeftBarDelegate {
     }
 }
 
+extension GameScene: NotificationsDelegate {
+
+    func handle(notification: Notifications.Notification?) {
+        
+        guard let notification = notification else {
+            fatalError("cant get notification")
+        }
+         
+        switch notification.type {
+
+        case .turn:
+            fatalError("should not happen")
+        case .generic:
+            // NOOP
+            break
+        case .tech:
+            // NOOP
+            break
+        case .civic:
+            // NOOP
+            break
+        case .production:
+            notification.activate(in: self.viewModel?.game)
+            break
+        case .cityGrowth:
+            // NOOP
+            break
+        case .starving:
+            // NOOP
+            break
+        case .diplomaticDeclaration:
+            // NOOP
+            break
+        case .war:
+            // NOOP
+            break
+        case .enemyInTerritory:
+            // NOOP
+            break
+        case .unitPromotion:
+            // NOOP
+            break
+        case .unitNeedsOrders:
+            // NOOP
+            break
+        }
+    }
+}
+
 extension GameScene: UserInterfaceProtocol {
 
     func select(unit: AbstractUnit?) {
@@ -593,6 +620,7 @@ extension GameScene: UserInterfaceProtocol {
     func unselect() {
 
         self.mapNode?.unitLayer.hideFocus()
+        self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [])
         self.selectedUnit = nil
     }
 
