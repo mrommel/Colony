@@ -27,4 +27,6 @@ public enum NotificationType {
     
     case unitPromotion
     case unitNeedsOrders
+    
+    case era
 }

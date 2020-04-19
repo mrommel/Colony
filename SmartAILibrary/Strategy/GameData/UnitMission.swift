@@ -560,11 +560,9 @@ public class UnitMission {
                             }
                         }*/
 
-                    /*if unit->m_unitMoveLocs.size() > 0 {
-                            unit->PublishQueuedVisualizationMoves();
-                        }*/
+                    
+                    unit.publishQueuedVisualizationMoves(in: gameModel)
 
-                    //DeleteMissionQueueNode(hUnit, HeadMissionQueueNode(unit.m_missionQueue));
                     unit.popMission()
                 }
             } else {

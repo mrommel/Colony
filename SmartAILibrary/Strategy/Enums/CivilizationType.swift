@@ -38,4 +38,20 @@ public enum CivilizationType {
             return ["Rome", "Ostia", "Antium", "Cumae", "Aquileia", "Ravenna", "Puteoli", "Arretium", "Mediolanum", "Lugdunum", "Arpinum", "Setia"]
         }
     }
+    
+    func name() -> String {
+        
+        switch self {
+            
+        case .barbarian: return "Barbarians"
+        case .greek: return "Greeks"
+        case .roman: return "Romans"
+        case .english: return "English"
+        }
+    }
+    
+    func isPlural() -> Bool {
+        
+        return true
+    }
 }

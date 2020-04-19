@@ -67,4 +67,44 @@ class ImprovementLayer: SKNode {
             fatalError("not handled yet")
         }
     }
+    
+    func clear(tile: AbstractTile?) {
+        
+        guard let textureUtils = self.textureUtils else {
+            fatalError("cant get textureUtils")
+        }
+        
+        if let tile = tile {
+            
+            let improvement = tile.improvement()
+            
+            if improvement != .none {
+                fatalError("not handled yet")
+                /*if let featureSprite = textureUtils.featureSprite(at: tile.point) {
+                    self.removeChildren(in: [featureSprite])
+                }
+                
+                if let iceSprite = textureUtils.iceSprite(at: tile.point) {
+                    self.removeChildren(in: [iceSprite])
+                }*/
+            }
+        }
+    }
+    
+    func update(tile: AbstractTile?) {
+        
+        if let tile = tile {
+            let pt = tile.point
+            
+            self.clear(tile: tile)
+            
+            let screenPoint = HexPoint.toScreen(hex: pt)
+            
+            if tile.isVisible(to: self.player) {
+                self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
+            } else if tile.isDiscovered(by: self.player) {
+                self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
+            }
+        }
+    }
 }

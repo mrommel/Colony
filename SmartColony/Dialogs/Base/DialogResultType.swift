@@ -59,6 +59,30 @@ enum DialogResultType: String, Codable {
     case commandFortify = "COMMAND_FORTIFY"
     case commandHold = "COMMAND_HOLD"
     case commandGarrison = "COMMAND_GARRISON"
+    
+    // techs - ancient
+    case mining = "MINING"
+    case pottery = "POTTERY"
+    case animalHusbandry = "ANIMALHUSBANDRY"
+    case sailing = "SAILING"
+    case astrology = "ASTROLOGY"
+    case irrigation = "IRRIGATION"
+    case writing = "WRITING"
+    case masonry = "MASONRY"
+    case archery = "ARCHERY"
+    case bronzeWorking = "BRONZEWORKING"
+    case wheel = "WHEEL"
+    
+    // techs - classic
+    
+    // civics - ancient
+    case stateWorkforce = "STATEWORKFORCE"
+    case craftsmanship = "CRAFTMANSHIP"
+    case codeOfLaws = "CODEOFLAWS"
+    case earlyEmpire = "EARLYEMPIRE"
+    case foreignTrade = "FOREIGNTRADE"
+    case mysticism = "MYSTICISM"
+    case militaryTradition = "MILITARYTRADITION"
 
     func toMapType() -> MapType {
 
@@ -145,6 +169,56 @@ enum DialogResultType: String, Codable {
             return .high
         }
 
+        fatalError("niy")
+    }
+    
+    func toTech() -> TechType {
+
+        if self == .writing {
+            return .writing
+        } else if self == .irrigation {
+            return .irrigation
+        } else if self == .animalHusbandry {
+            return .animalHusbandry
+        } else if self == .pottery {
+            return .pottery
+        } else if self == .mining {
+            return .mining
+        } else if self == .sailing {
+            return .sailing
+        } else if self == .astrology {
+            return .astrology
+        } else if self == .masonry {
+            return .masonry
+        } else if self == .archery {
+            return .archery
+        } else if self == .bronzeWorking {
+            return .bronzeWorking
+        } else if self == .wheel {
+            return .wheel
+        }
+
+        fatalError("niy")
+    }
+    
+    func toCivic() -> CivicType {
+        
+        if self == .stateWorkforce {
+            return .stateWorkforce
+        } else if self == .craftsmanship {
+            return .craftsmanship
+        } else if self == .codeOfLaws {
+            return .codeOfLaws
+        } else if self == .earlyEmpire {
+            return .earlyEmpire
+        } else if self == .foreignTrade {
+            return .foreignTrade
+        } else if self == .mysticism {
+            return .mysticism
+        } else if self == .militaryTradition {
+            return .militaryTraining
+        }
+        
         fatalError("niy")
     }
 }

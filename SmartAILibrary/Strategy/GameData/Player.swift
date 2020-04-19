@@ -117,6 +117,8 @@ public protocol AbstractPlayer: class {
     func economicMight(in gameModel: GameModel?) -> Int
 
     // city methods
+    func found(at location: HexPoint, named name: String?, in gameModel: GameModel?)
+    func newCityName(in gameModel: GameModel?) -> String
     func cityStrengthModifier() -> Int
     func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool)
 
@@ -737,7 +739,7 @@ public class Player: AbstractPlayer {
         return max(value, 0)
     }
     
-    func scienceFromCities(in gameModel: GameModel?) -> Double {
+    private func scienceFromCities(in gameModel: GameModel?) -> Double {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -755,6 +757,38 @@ public class Player: AbstractPlayer {
         }
         
         return scienceVal
+    }
+    
+    func culture(in gameModel: GameModel?) -> Double {
+        
+        var value = 0.0
+
+        // culture from our Cities
+        value += self.cultureFromCities(in: gameModel)
+        
+        // ....
+        
+        return value
+    }
+    
+    private func cultureFromCities(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var cultureVal = 0.0
+        
+        for cityRef in gameModel.cities(of: self) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            cultureVal += city.culturePerTurn(in: gameModel)
+        }
+        
+        return cultureVal
     }
     
     func doTurnPost() {
@@ -1206,6 +1240,96 @@ public class Player: AbstractPlayer {
     }
 
     // MARK: city methods
+    
+    public func found(at location: HexPoint, named name: String?, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let techs = self.techs else {
+            fatalError("cant get techs")
+        }
+        
+        guard let civics = self.civics else {
+            fatalError("cant get civics")
+        }
+        
+        let cityName = name ?? self.newCityName(in: gameModel)
+        let isCapital = gameModel.cities(of: self).count == 0
+        
+        let city = City(name: cityName, at: location, capital: isCapital, owner: self)
+        city.initialize(in: gameModel)
+        
+        gameModel.add(city: city)
+        
+        if self.isHuman() {
+            
+            // Human player is prompted to choose production BEFORE the AI runs for the turn.
+            // So we'll force the AI strategies on the city now, just after it is founded.
+            // And if the very first turn, we haven't even run player strategies once yet, so do that too.
+            if gameModel.turnsElapsed == 0 {
+                self.economicAI?.turn(in: gameModel)
+                self.militaryAI?.turn(in: gameModel)
+            }
+            
+            city.cityStrategy?.turn(with: gameModel)
+            
+            if self.isActive() {
+                let isOrAre = self.leader.civilization().isPlural() ? "are" : "is"
+                let message = "\(self.leader.civilization()) \(isOrAre) ready for a new construction project."
+                self.notifications()?.add(type: .production, message: message, summary: message, at: location)
+            }
+            
+            city.doFoundMessage()
+
+            // If this is the first city (or we still aren't getting tech for some other reason) notify the player
+            if techs.needToChooseTech() && self.science(in: gameModel) > 0.0 {
+                
+                if self.isActive() {
+                    self.notifications()?.add(type: .tech, message: "You may select a new research project.", summary: "Choose Research", at: HexPoint.zero)
+                }
+            }
+            
+            // If this is the first city (or ..) notify the player
+            if civics.needToChooseCivic() && self.culture(in: gameModel) > 0.0 {
+                
+                if self.isActive() {
+                    self.notifications()?.add(type: .civic, message: "You may select a new civic project.", summary: "Choose Civic", at: HexPoint.zero)
+                }
+            }
+            
+        } else {
+            city.doFoundMessage()
+
+            // AI civ, may need to redo city specializations
+            self.citySpecializationAI?.setSpecializationsDirty()
+        }
+    }
+    
+    public func newCityName(in gameModel: GameModel?) -> String {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var possibleNames = self.leader.civilization().cityNames()
+        
+        for cityRef in gameModel.cities(of: self) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            possibleNames.removeAll(where: { $0 == city.name })
+        }
+        
+        if let firstName = possibleNames.first {
+            return firstName
+        }
+        
+        return "TXT_KEY_CITY"
+    }
 
     public func cityStrengthModifier() -> Int {
 

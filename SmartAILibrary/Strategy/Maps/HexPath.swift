@@ -20,17 +20,17 @@ public class HexPath: Decodable {
     
     // MARK: constructors
     
-    init() {
+    public init() {
         self.points = []
         self.costs = []
     }
     
-    init(point: HexPoint, cost: Double, path: HexPath) {
+    public init(point: HexPoint, cost: Double, path: HexPath) {
         self.points = [point] + path.points
         self.costs = [cost] + path.costs
     }
     
-    init(points: [HexPoint], costs: [Double]) {
+    public init(points: [HexPoint], costs: [Double]) {
         
         self.points = points
         self.costs = costs

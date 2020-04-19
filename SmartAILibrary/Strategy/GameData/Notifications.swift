@@ -34,18 +34,29 @@ public class Notifications {
         }
         
         public func activate(in gameModel: GameModel?) {
-            print("active: \(self.type)")
             
-            if self.type == .unitNeedsOrders {
-                gameModel?.userInterface?.focus(on: self.location)
-            } else if self.type == .production {
+            switch self.type {
                 
+            case .tech:
+                print("activate \(self.type) not handled")
+                
+            case .civic:
+                print("activate \(self.type) not handled")
+                
+            case .production:
                 if let city = gameModel?.city(at: self.location) {
                     gameModel?.userInterface?.showScreen(screenType: .city, city: city)
                 }
-            } else {
+                
+            case .unitNeedsOrders:
+                gameModel?.userInterface?.focus(on: self.location)
+                
+            default:
                 print("activate \(self.type) not handled")
             }
+            
+            
+                
         }
         
         public func dismiss() {
@@ -88,7 +99,7 @@ public class Notifications {
         return self.notificationsValue
     }
     
-    func add(type: NotificationType, message: String, summary: String, at location: HexPoint) {
+    func add(type: NotificationType, message: String, summary: String, at location: HexPoint = HexPoint.zero) {
         
         guard let player = self.player else {
             fatalError("cant get player")

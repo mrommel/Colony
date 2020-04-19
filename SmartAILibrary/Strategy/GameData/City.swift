@@ -59,6 +59,7 @@ public protocol AbstractCity: class, Codable {
     func foodConsumption() -> Double
     
     func isCapital() -> Bool
+    func doFoundMessage()
 
     func population() -> Int
     func set(population: Int, reassignCitizen: Bool, in gameModel: GameModel?)
@@ -360,6 +361,12 @@ public class City: AbstractCity {
         }
         
         self.player?.updatePlots(in: gameModel)
+    }
+    
+    public func doFoundMessage() {
+        
+        print("show popup func doFoundMessage()")
+        return
     }
     
     public func isCapital() -> Bool {

@@ -73,6 +73,7 @@ class CityLayer: SKNode {
         
             // keep reference
             cityObjects.append(cityObject)
+            
         } else if tile.isDiscovered(by: city.player) {
             let cityObject = CityObject(city: city, in: self.gameModel)
             

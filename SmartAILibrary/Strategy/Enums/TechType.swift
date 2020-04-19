@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum TechType: Int, Codable {
+public enum TechType: String, Codable {
     
     // ancient
     case mining
@@ -55,168 +55,39 @@ public enum TechType: Int, Codable {
     case siegeTactics
 
     static var all: [TechType] {
-        return [.mining, .pottery, .animalHusbandry, .sailing, .astrology, .irrigation, .writing, .masonry, .archery, .bronzeWorking, .wheel,
-                    .celestialNavigation, horsebackRiding, .currency, .construction, .ironWorking, .shipBuilding, .mathematics, .engineering,
-                    .militaryTactics, .buttress, .apprenticesship, .stirrups, .machinery, .education, .militaryEngineering, .castles,
-                    .cartography, .massProduction, .banking, .gunpowder, .printing, .squareRigging, .astronomy, .metalCasting, .siegeTactics]
+        return [
+            // ancient
+            .mining, .pottery, .animalHusbandry, .sailing, .astrology, .irrigation, .writing, .masonry, .archery, .bronzeWorking, .wheel,
+            
+            // classical
+            .celestialNavigation, horsebackRiding, .currency, .construction, .ironWorking, .shipBuilding, .mathematics, .engineering,
+            
+            // medieval
+            .militaryTactics, .buttress, .apprenticesship, .stirrups, .machinery, .education, .militaryEngineering, .castles,
+            
+            // renaissance
+            .cartography, .massProduction, .banking, .gunpowder, .printing, .squareRigging, .astronomy, .metalCasting, .siegeTactics]
+    }
+    
+    public func name() -> String {
+        
+        return self.data().name
     }
 
     func era() -> EraType {
 
-        switch self {
-
-            // ancient
-        case .pottery: return .ancient
-        case .animalHusbandry: return .ancient
-        case .mining: return .ancient
-        case .sailing: return .ancient
-        case .astrology: return .ancient
-        case .irrigation: return .ancient
-        case .writing: return .ancient
-        case .archery: return .ancient
-        case .masonry: return .ancient
-        case .bronzeWorking: return .ancient
-        case .wheel: return .ancient
-
-            // classical
-        case .celestialNavigation: return .classical
-        case .currency: return .classical
-        case .horsebackRiding: return .classical
-        case .ironWorking: return .classical
-        case .shipBuilding: return .classical
-        case .mathematics: return .classical
-        case .construction: return .classical
-        case .engineering: return .classical
-
-            // medieval
-        case .militaryTactics: return .medieval
-        case .buttress: return .medieval
-        case .apprenticesship: return .medieval
-        case .stirrups: return .medieval
-        case .machinery: return .medieval
-        case .education: return .medieval
-        case .militaryEngineering: return .medieval
-        case .castles: return .medieval
-
-            // renaissance
-        case .cartography: return .renaissance
-        case .massProduction: return .renaissance
-        case .banking: return .renaissance
-        case .gunpowder: return .renaissance
-        case .printing: return .renaissance
-        case .squareRigging: return .renaissance
-        case .astronomy: return .renaissance
-        case .metalCasting: return .renaissance
-        case .siegeTactics: return .renaissance
-
-            // industrial
-        }
+        return self.data().era
     }
 
     func cost() -> Int {
 
-        switch self {
-
-            // ancient
-        case .pottery: return 25
-        case .mining: return 25
-        case .animalHusbandry: return 25
-        case .sailing: return 50
-        case .astrology: return 50
-        case .irrigation: return 50
-        case .writing: return 50
-        case .archery: return 50
-        case .masonry: return 80
-        case .bronzeWorking: return 80
-        case .wheel: return 80
-
-            // classical
-        case .celestialNavigation: return 120
-        case .currency: return 120
-        case .horsebackRiding: return 120
-        case .ironWorking: return 120
-        case .shipBuilding: return 200
-        case .mathematics: return 200
-        case .construction: return 200
-        case .engineering: return 200
-
-            // medieval
-        case .militaryTactics: return 275
-        case .buttress: return 300
-        case .apprenticesship: return 275
-        case .stirrups: return 360
-        case .machinery: return 275
-        case .education: return 335
-        case .militaryEngineering: return 335
-        case .castles: return 390
-
-            // renaissance
-        case .cartography: return 490
-        case .massProduction: return 490
-        case .banking: return 490
-        case .gunpowder: return 490
-        case .printing: return 490
-        case .squareRigging: return 600
-        case .astronomy: return 600
-        case .metalCasting: return 660
-        case .siegeTactics: return 660
-
-            // industrial
-        }
+        return self.data().cost
     }
 
     // https://github.com/caiobelfort/civ6_personal_mod/blob/9fdf8736016d855990556c71cc76a62f124f5822/Gameplay/Data/Technologies.xml
     func required() -> [TechType] {
 
-        switch self {
-
-            // ancient
-        case .pottery: return []
-        case .mining: return []
-        case .animalHusbandry: return []
-        case .sailing: return []
-        case .astrology: return []
-        case .irrigation: return [.pottery]
-        case .writing: return [.pottery]
-        case .archery: return [.animalHusbandry]
-        case .masonry: return [.mining]
-        case .bronzeWorking: return [.mining]
-        case .wheel: return [.mining]
-
-            // classical
-        case .celestialNavigation: return [.sailing, .astrology]
-        case .currency: return [.writing]
-        case .horsebackRiding: return [.animalHusbandry]
-        case .ironWorking: return [.bronzeWorking]
-        case .shipBuilding: return [.sailing]
-        case .mathematics: return [.currency]
-        case .construction: return [.masonry, .horsebackRiding]
-        case .engineering: return [.wheel]
-
-            // medieval
-        case .militaryTactics: return [.mathematics]
-        case .buttress: return [.shipBuilding, .mathematics]
-        case .apprenticesship: return [.currency, .horsebackRiding]
-        case .stirrups: return [.horsebackRiding]
-        case .machinery: return [.ironWorking, .engineering]
-        case .education: return [.apprenticesship, .mathematics]
-        case .militaryEngineering: return [.construction]
-        case .castles: return [.construction]
-
-            // renaissance
-        case .cartography: return [.shipBuilding]
-        case .massProduction: return [.education, .shipBuilding]
-        case .banking: return [.education, .apprenticesship, .stirrups]
-        case .gunpowder: return [.militaryEngineering, .stirrups, .apprenticesship]
-        case .printing: return [.machinery]
-        case .squareRigging: return [.cartography]
-        case .astronomy: return [.education]
-        case .metalCasting: return [.gunpowder]
-        case .siegeTactics: return [.castles]
-
-            // industrial
-
-        }
+        return self.data().required
     }
 
     func leadsTo() -> [TechType] {
@@ -243,59 +114,254 @@ public enum TechType: Int, Codable {
 
     func flavours() -> [Flavor] {
 
-        switch self {
-
-            // ancient
-        case .pottery: return [Flavor(type: .growth, value: 5)]
-        case .mining: return [Flavor(type: .production, value: 3), Flavor(type: .tileImprovement, value: 2)]
-        case .animalHusbandry: return [Flavor(type: .mobile, value: 4), Flavor(type: .tileImprovement, value: 1)]
-        case .sailing: return [Flavor(type: .naval, value: 3), Flavor(type: .navalTileImprovement, value: 3), Flavor(type: .wonder, value: 3), Flavor(type: .navalRecon, value: 2)]
-        case .astrology: return [Flavor(type: .happiness, value: 10), Flavor(type: .tileImprovement, value: 2), Flavor(type: .wonder, value: 4)]
-        case .irrigation: return [Flavor(type: .growth, value: 5)]
-        case .writing: return [Flavor(type: .science, value: 6), Flavor(type: .wonder, value: 2), Flavor(type: .diplomacy, value: 2)]
-        case .archery: return [Flavor(type: .ranged, value: 4), Flavor(type: .offense, value: 1)]
-        case .masonry: return [Flavor(type: .cityDefense, value: 4), Flavor(type: .happiness, value: 2), Flavor(type: .tileImprovement, value: 2), Flavor(type: .wonder, value: 2)]
-        case .bronzeWorking: return [Flavor(type: .defense, value: 4), Flavor(type: .militaryTraining, value: 4), Flavor(type: .wonder, value: 2)]
-        case .wheel: return [Flavor(type: .mobile, value: 2), Flavor(type: .growth, value: 2), Flavor(type: .ranged, value: 2), Flavor(type: .infrastructure, value: 2), Flavor(type: .gold, value: 6)]
-
-            // classical
-        case .celestialNavigation: return [Flavor(type: .naval, value: 5), Flavor(type: .navalGrowth, value: 5)]
-        case .currency: return [Flavor(type: .gold, value: 8), Flavor(type: .wonder, value: 2)]
-        case .horsebackRiding: return [Flavor(type: .mobile, value: 7), Flavor(type: .happiness, value: 3)]
-        case .ironWorking: return [Flavor(type: .offense, value: 12), Flavor(type: .defense, value: 6), Flavor(type: .militaryTraining, value: 3)]
-        case .shipBuilding: return [Flavor(type: .naval, value: 5), Flavor(type: .navalGrowth, value: 3), Flavor(type: .navalRecon, value: 2)]
-        case .mathematics: return [Flavor(type: .ranged, value: 8), Flavor(type: .wonder, value: 2)]
-        case .construction: return [Flavor(type: .happiness, value: 17), Flavor(type: .infrastructure, value: 2), Flavor(type: .wonder, value: 2)]
-        case .engineering: return [Flavor(type: .defense, value: 2), Flavor(type: .production, value: 5), Flavor(type: .tileImprovement, value: 5)]
-
-            // medieval
-        case .militaryTactics: return [Flavor(type: .offense, value: 3), Flavor(type: .mobile, value: 3), Flavor(type: .cityDefense, value: 2), Flavor(type: .wonder, value: 2),]
-        case .buttress: return [Flavor(type: .wonder, value: 2)]
-        case .apprenticesship: return [Flavor(type: .gold, value: 5), Flavor(type: .production, value: 3)]
-        case .stirrups: return [Flavor(type: .offense, value: 3), Flavor(type: .mobile, value: 3), Flavor(type: .defense, value: 2), Flavor(type: .wonder, value: 2)]
-        case .machinery: return [Flavor(type: .ranged, value: 8), Flavor(type: .infrastructure, value: 2),]
-        case .education: return [Flavor(type: .science, value: 8), Flavor(type: .wonder, value: 2)]
-        case .militaryEngineering: return [Flavor(type: .defense, value: 5), Flavor(type: .production, value: 2)]
-        case .castles: return [Flavor(type: .cityDefense, value: 5)]
-
-            // renaissance
-        case .cartography: return [Flavor(type: .navalRecon, value: 5)]
-        case .massProduction: return [Flavor(type: .production, value: 7)]
-        case .banking: return [Flavor(type: .gold, value: 6)]
-        case .gunpowder: return [Flavor(type: .production, value: 2), Flavor(type: .defense, value: 3), Flavor(type: .cityDefense, value: 2)]
-        case .printing: return [Flavor(type: .science, value: 7)]
-        case .squareRigging: return [Flavor(type: .naval, value: 5), Flavor(type: .navalGrowth, value: 2), Flavor(type: .navalRecon, value: 3)]
-        case .astronomy: return [Flavor(type: .science, value: 4)]
-        case .metalCasting: return [Flavor(type: .production, value: 3)]
-        case .siegeTactics: return [Flavor(type: .ranged, value: 5), Flavor(type: .offense, value: 3)]
-
-            // industrial
-
-        }
+        return self.data().flavors
     }
     
     func isGoodyTech() -> Bool {
         
         return self.era() == .ancient
+    }
+    
+    // MARK private
+    
+    private struct TechTypeData {
+        
+        let name: String
+        let era: EraType
+        let cost: Int
+        let required: [TechType]
+        let flavors: [Flavor]
+    }
+    
+    private func data() -> TechTypeData {
+        
+        switch self {
+
+            // ancient
+        case .mining:
+            return TechTypeData(name: "Mining",
+                                era: .ancient,
+                                cost: 25,
+                                required: [],
+                                flavors: [Flavor(type: .production, value: 3), Flavor(type: .tileImprovement, value: 2)])
+        case .pottery:
+            return TechTypeData(name: "Pottery",
+                                era: .ancient,
+                                cost: 25,
+                                required: [],
+                                flavors: [Flavor(type: .growth, value: 5)])
+        case .animalHusbandry:
+            return TechTypeData(name: "Animal Husbandry",
+                                era: .ancient,
+                                cost: 25,
+                                required: [],
+                                flavors: [Flavor(type: .mobile, value: 4), Flavor(type: .tileImprovement, value: 1)])
+        case .sailing:
+            return TechTypeData(name: "Sailing",
+                                era: .ancient,
+                                cost: 50,
+                                required: [],
+                                flavors: [Flavor(type: .naval, value: 3), Flavor(type: .navalTileImprovement, value: 3), Flavor(type: .wonder, value: 3), Flavor(type: .navalRecon, value: 2)])
+        case .astrology:
+            return TechTypeData(name: "Astrology",
+                                era: .ancient,
+                                cost: 50,
+                                required: [],
+                                flavors: [Flavor(type: .happiness, value: 10), Flavor(type: .tileImprovement, value: 2), Flavor(type: .wonder, value: 4)])
+        case .irrigation:
+            return TechTypeData(name: "Irrigation",
+                                era: .ancient,
+                                cost: 50,
+                                required: [.pottery],
+                                flavors: [Flavor(type: .growth, value: 5)])
+        case .writing:
+            return TechTypeData(name: "Writing",
+                                era: .ancient,
+                                cost: 50,
+                                required: [.pottery],
+                                flavors: [Flavor(type: .science, value: 6), Flavor(type: .wonder, value: 2), Flavor(type: .diplomacy, value: 2)])
+        case .masonry:
+            return TechTypeData(name: "Masonry",
+                                era: .ancient,
+                                cost: 80,
+                                required: [.mining],
+                                flavors: [Flavor(type: .cityDefense, value: 4), Flavor(type: .happiness, value: 2), Flavor(type: .tileImprovement, value: 2), Flavor(type: .wonder, value: 2)])
+        case .archery:
+            return TechTypeData(name: "Archery",
+                                era: .ancient,
+                                cost: 50,
+                                required: [.animalHusbandry],
+                                flavors: [Flavor(type: .ranged, value: 4), Flavor(type: .offense, value: 1)])
+        case .bronzeWorking:
+            return TechTypeData(name: "Bronze Working",
+                                era: .ancient,
+                                cost: 80,
+                                required: [.mining],
+                                flavors: [Flavor(type: .defense, value: 4), Flavor(type: .militaryTraining, value: 4), Flavor(type: .wonder, value: 2)])
+        case .wheel:
+            return TechTypeData(name: "Wheel",
+                                era: .ancient,
+                                cost: 80,
+                                required: [.mining],
+                                flavors: [Flavor(type: .mobile, value: 2), Flavor(type: .growth, value: 2), Flavor(type: .ranged, value: 2), Flavor(type: .infrastructure, value: 2), Flavor(type: .gold, value: 6)])
+            
+            // classical
+        case .celestialNavigation:
+            return TechTypeData(name: "Celestrial Navigation",
+                                era: .classical,
+                                cost: 120,
+                                required: [.sailing, .astrology],
+                                flavors: [Flavor(type: .naval, value: 5), Flavor(type: .navalGrowth, value: 5)])
+        case .horsebackRiding:
+            return TechTypeData(name: "Horseback Riding",
+                                era: .classical,
+                                cost: 120,
+                                required: [.animalHusbandry],
+                                flavors: [Flavor(type: .mobile, value: 7), Flavor(type: .happiness, value: 3)])
+        case .currency:
+            return TechTypeData(name: "Currency",
+                                era: .classical,
+                                cost: 120,
+                                required: [.writing],
+                                flavors: [Flavor(type: .gold, value: 8), Flavor(type: .wonder, value: 2)])
+        case .construction:
+            return TechTypeData(name: "Construction",
+                                era: .classical,
+                                cost: 200,
+                                required: [.masonry, .horsebackRiding],
+                                flavors: [Flavor(type: .happiness, value: 17), Flavor(type: .infrastructure, value: 2), Flavor(type: .wonder, value: 2)])
+        case .ironWorking:
+            return TechTypeData(name: "Iron Working",
+                                era: .classical,
+                                cost: 120,
+                                required: [.bronzeWorking],
+                                flavors: [Flavor(type: .offense, value: 12), Flavor(type: .defense, value: 6), Flavor(type: .militaryTraining, value: 3)])
+        case .shipBuilding:
+            return TechTypeData(name: "Ship Building",
+                                era: .classical,
+                                cost: 200,
+                                required: [.sailing],
+                                flavors: [Flavor(type: .naval, value: 5), Flavor(type: .navalGrowth, value: 3), Flavor(type: .navalRecon, value: 2)])
+        case .mathematics:
+            return TechTypeData(name: "Mathematics",
+                                era: .classical,
+                                cost: 200,
+                                required: [.currency],
+                                flavors: [Flavor(type: .ranged, value: 8), Flavor(type: .wonder, value: 2)])
+        case .engineering:
+            return TechTypeData(name: "Engeneering",
+                                era: .classical,
+                                cost: 200,
+                                required: [.wheel],
+                                flavors: [Flavor(type: .defense, value: 2), Flavor(type: .production, value: 5), Flavor(type: .tileImprovement, value: 5)])
+            
+            // medieval
+        case .militaryTactics:
+            return TechTypeData(name: "Military Tactics",
+                                era: .medieval,
+                                cost: 275,
+                                required: [.mathematics],
+                                flavors: [Flavor(type: .offense, value: 3), Flavor(type: .mobile, value: 3), Flavor(type: .cityDefense, value: 2), Flavor(type: .wonder, value: 2),])
+        case .buttress:
+            return TechTypeData(name: "Buttress",
+                                era: .medieval,
+                                cost: 300,
+                                required: [.shipBuilding, .mathematics],
+                                flavors: [Flavor(type: .wonder, value: 2)])
+        case .apprenticesship:
+            return TechTypeData(name: "Apprenticesship",
+                                era: .medieval,
+                                cost: 275,
+                                required: [.currency, .horsebackRiding],
+                                flavors: [Flavor(type: .gold, value: 5), Flavor(type: .production, value: 3)])
+        case .stirrups:
+            return TechTypeData(name: "Stirrups",
+                                era: .medieval,
+                                cost: 360,
+                                required: [.horsebackRiding],
+                                flavors: [Flavor(type: .offense, value: 3), Flavor(type: .mobile, value: 3), Flavor(type: .defense, value: 2), Flavor(type: .wonder, value: 2)])
+        case .machinery:
+            return TechTypeData(name: "Machinery",
+                                era: .medieval,
+                                cost: 275,
+                                required: [.ironWorking, .engineering],
+                                flavors: [Flavor(type: .ranged, value: 8), Flavor(type: .infrastructure, value: 2),])
+        case .education:
+            return TechTypeData(name: "Education",
+                                era: .medieval,
+                                cost: 335,
+                                required: [.apprenticesship, .mathematics],
+                                flavors: [Flavor(type: .science, value: 8), Flavor(type: .wonder, value: 2)])
+        case .militaryEngineering:
+            return TechTypeData(name: "Military Engineering",
+                                era: .medieval,
+                                cost: 335,
+                                required: [.construction],
+                                flavors: [Flavor(type: .defense, value: 5), Flavor(type: .production, value: 2)])
+        case .castles:
+            return TechTypeData(name: "Castles",
+                                era: .medieval,
+                                cost: 390,
+                                required: [.construction],
+                                flavors: [Flavor(type: .cityDefense, value: 5)])
+            
+            // renaissance
+        case .cartography:
+            return TechTypeData(name: "Cartography",
+                                era: .renaissance,
+                                cost: 490,
+                                required: [.shipBuilding],
+                                flavors: [Flavor(type: .navalRecon, value: 5)])
+        case .massProduction:
+            return TechTypeData(name: "Mass Production",
+                                era: .renaissance,
+                                cost: 490,
+                                required: [.education, .shipBuilding],
+                                flavors: [Flavor(type: .production, value: 7)])
+        case .banking:
+            return TechTypeData(name: "Banking",
+                                era: .renaissance,
+                                cost: 490,
+                                required: [.education, .apprenticesship, .stirrups],
+                                flavors: [Flavor(type: .gold, value: 6)])
+        case .gunpowder:
+            return TechTypeData(name: "Gunpowder",
+                                era: .renaissance,
+                                cost: 490,
+                                required: [.militaryEngineering, .stirrups, .apprenticesship],
+                                flavors: [Flavor(type: .production, value: 2), Flavor(type: .defense, value: 3), Flavor(type: .cityDefense, value: 2)])
+        case .printing:
+            return TechTypeData(name: "Printing",
+                                era: .renaissance,
+                                cost: 490,
+                                required: [.machinery],
+                                flavors: [Flavor(type: .science, value: 7)])
+        case .squareRigging:
+            return TechTypeData(name: "Square Rigging",
+                                era: .renaissance,
+                                cost: 600,
+                                required: [.cartography],
+                                flavors: [Flavor(type: .naval, value: 5), Flavor(type: .navalGrowth, value: 2), Flavor(type: .navalRecon, value: 3)])
+        case .astronomy:
+            return TechTypeData(name: "Astronomy",
+                                era: .renaissance,
+                                cost: 600,
+                                required: [.education],
+                                flavors: [Flavor(type: .science, value: 4)])
+        case .metalCasting:
+            return TechTypeData(name: "Metal Casting",
+                                era: .renaissance,
+                                cost: 660,
+                                required: [.gunpowder],
+                                flavors: [Flavor(type: .production, value: 3)])
+        case .siegeTactics:
+            return TechTypeData(name: "Siege Tactics",
+                                era: .renaissance,
+                                cost: 660,
+                                required: [.castles],
+                                flavors: [Flavor(type: .ranged, value: 5), Flavor(type: .offense, value: 3)])
+
+            // industrial
+        }
     }
 }

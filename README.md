@@ -4,35 +4,31 @@
 
 - other leaders
 - game rating screen
-- ask for city name during founding
-- give AI players automatic city names
 - advisor screen
 - tech select screen
 - civic select screen
 - enhance city screen
     - add build queue
     - add list of built items
-- second unit is sometimes in water
 - add turn counter to UI
 - fix UI of map overview
 
 ## Defects
+- second unit is sometimes in water
 - no tech is requested after city is founded
 - no civic is requested after city is founded
 - no production is requested after city is founded (but next turn)
 - unit is below city banner
 - starting locations are bad
-- bottomleft has too much space
 
 ## Missing Tiles
 - snow-to-water-n-sw-nw
 
-## Links
-
-- units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245
-- tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-location-hexes-medieval-fantasy-59271
 
 ## Done
+- give AI players automatic city names
+- bottomleft has too much space
+- ask for city name during founding
 - snow textures from wesnoth as layer
 - mountain textures as layer
 - add new player input / add player switcher in options (logout)
@@ -147,3 +143,7 @@ Icon made by Freepik from www.flaticon.com
 
 96x96
 144x144
+
+## Links
+- units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245
+- tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-location-hexes-medieval-fantasy-59271

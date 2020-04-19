@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum CivicType: Int, Codable {
+public enum CivicType: String, Codable {
 
     // ancient
     case stateWorkforce
@@ -84,6 +84,74 @@ public enum CivicType: Int, Codable {
                 .culturalHeritage, .coldWar, .professionalSports, .rapidDeployment, .spaceRace
         ]
     }
+    
+    public func name() -> String {
+        
+        switch self {
+
+                // ancient
+            case .stateWorkforce: return "State Workforce"
+            case .craftsmanship: return "Craftmanship"
+            case .codeOfLaws: return "Code of Laws"
+            case .earlyEmpire: return "Early Empire"
+            case .foreignTrade: return "Foreign Trade"
+            case .mysticism: return "Mysticism"
+            case .militaryTradition: return "Military Tradition"
+
+                // classical
+            case .defensiveTactics: return "Civic Default"
+            case .gamesAndRecreation: return "Civic Default"
+            case .politicalPhilosophy: return "Civic Default"
+            case .recordedHistory: return "Civic Default"
+            case .dramaAndPoetry: return "Civic Default"
+            case .theology: return "Civic Default"
+            case .militaryTraining: return "Civic Default"
+
+                // medieval
+            case .navalTradition: return "Civic Default"
+            case .medievalFaires: return "Civic Default"
+            case .guilds: return "Civic Default"
+            case .feudalism: return "Civic Default"
+            case .civilService: return "Civic Default"
+            case .mercenaries: return "Civic Default"
+            case .divineRight: return "Civic Default"
+
+                // renaissance
+            case .humanism: return "Civic Default"
+            case .mercantilism: return "Civic Default"
+            case .enlightenment: return "Civic Default"
+            case .diplomaticService: return "Civic Default"
+            case .reformedChurch: return "Civic Default"
+            case .exploration: return "Civic Default"
+
+                // industrial
+            case .civilEngineering: return "Civic Default"
+            case .colonialism: return "Civic Default"
+            case .nationalism: return "Civic Default"
+            case .operaAndBallet: return "Civic Default"
+            case .naturalHistory: return "Civic Default"
+            case .urbanization: return "Civic Default"
+            case .scorchedEarth: return "Civic Default"
+
+                // modern
+            case .conservation: return "Civic Default"
+            case .massMedia: return "Civic Default"
+            case .mobilization: return "Civic Default"
+            case .capitalism: return "Civic Default"
+            case .ideology: return "Civic Default"
+            case .nuclearProgram: return "Civic Default"
+            case .suffrage: return "Civic Default"
+            case .totalitarianism: return "Civic Default"
+            case .classStruggle: return "Civic Default"
+
+                // atomic
+            case .culturalHeritage: return "Civic Default"
+            case .coldWar: return "Civic Default"
+            case .professionalSports: return "Civic Default"
+            case .rapidDeployment: return "Civic Default"
+            case .spaceRace: return "Civic Default"
+            }
+        }
 
     func era() -> EraType {
 

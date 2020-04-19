@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>top</anchory>
+    <offsetx>0</offsetx>
+    <offsety>45%</offsety>
+    <width>90%</width>
+    <height>90%</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        <item>
+            <identifier>dialog_image</identifier>
+            <type>image</type>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-70</offsety>
+            <width>80</width>
+            <height>80</height>
+            <image>button_tech_needed</image>
+        </item>
+        <item>
+            <identifier>summary</identifier>
+            <type>label</type>
+            <title>Manage your tech research</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-140</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>tech_pottery</identifier>
+            <type>techInfo</type>
+            <techType>pottery</techType>
+            <result>POTTERY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-170</offsetx>
+            <offsety>-160</offsety>
+            <width>110</width>
+            <height>50</height>
+        </item>
+        <item>
+            <identifier>tech_animalHusbandry</identifier>
+            <type>techInfo</type>
+            <techType>animalHusbandry</techType>
+            <result>ANIMALHUSBANDRY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-55</offsetx>
+            <offsety>-160</offsety>
+            <width>110</width>
+            <height>50</height>
+        </item>
+        <item>
+            <identifier>tech_mining</identifier>
+            <type>techInfo</type>
+            <techType>mining</techType>
+            <result>MINING</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>60</offsetx>
+            <offsety>-160</offsety>
+            <width>110</width>
+            <height>50</height>
+        </item>
+        
+        <item>
+            <identifier>okay_button</identifier>
+            <type>button</type>
+            <title>Cancel</title>
+            <result>CANCEL</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-250</offsety>
+            <width>100</width>
+            <height>42</height>
+        </item>
+    </items>
+</context>

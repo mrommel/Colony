@@ -41,12 +41,14 @@ struct DialogItemConfiguration: Codable {
     
     // yield view specific fields
     var yieldType: YieldType = .none
+    var techType: TechType = .mining
+    var civicType: CivicType = .codeOfLaws
     
     enum CodingKeys: String, CodingKey {
-        case identifier, type, title, fontSize, textAlign, result, offsetx, offsety, anchorx, anchory, width, height, image, selectedIndex, items, yieldType
+        case identifier, type, title, fontSize, textAlign, result, offsetx, offsety, anchorx, anchory, width, height, image, selectedIndex, items, yieldType, techType, civicType
     }
     
-    init(identifier: String, type: DialogItemType, title: String, fontSize: CGFloat, textAlign: DialogTextAlign, result: DialogResultType, offsetx: CGFloat, offsety: CGFloat, anchorx: CGFloat, anchory: CGFloat, width: CGFloat, height: CGFloat, image: String?, selectedIndex: Int?, items: DropdownItems?, yieldType: YieldType) {
+    init(identifier: String, type: DialogItemType, title: String, fontSize: CGFloat, textAlign: DialogTextAlign, result: DialogResultType, offsetx: CGFloat, offsety: CGFloat, anchorx: CGFloat, anchory: CGFloat, width: CGFloat, height: CGFloat, image: String?, selectedIndex: Int?, items: DropdownItems?, yieldType: YieldType, techType: TechType, civicType: CivicType) {
         
         self.identifier = identifier
         self.type = type
@@ -64,6 +66,8 @@ struct DialogItemConfiguration: Codable {
         self.selectedIndex = selectedIndex
         self.items = items
         self.yieldType = yieldType
+        self.techType = techType
+        self.civicType = civicType
     }
     
     init(from decoder: Decoder) throws {
@@ -165,8 +169,10 @@ struct DialogItemConfiguration: Codable {
         let items: DropdownItems? = try values.decodeIfPresent(DropdownItems.self, forKey: .items) ?? nil
         
         let yieldType = try values.decodeIfPresent(YieldType.self, forKey: .yieldType) ?? .none
+        let techType = try values.decodeIfPresent(TechType.self, forKey: .techType) ?? .mining
+        let civicType = try values.decodeIfPresent(CivicType.self, forKey: .civicType) ?? .codeOfLaws
         
-        self.init(identifier: identifier, type: type, title: title, fontSize: fontSize, textAlign: textAlign, result: result, offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, image: image, selectedIndex: selectedIndex, items: items, yieldType: yieldType)
+        self.init(identifier: identifier, type: type, title: title, fontSize: fontSize, textAlign: textAlign, result: result, offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, image: image, selectedIndex: selectedIndex, items: items, yieldType: yieldType, techType: techType, civicType: civicType)
     }
     
     func anchorPoint() -> CGPoint {

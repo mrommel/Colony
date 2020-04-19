@@ -12,6 +12,8 @@ import SmartAILibrary
 protocol BottomLeftBarDelegate: class {
     
     func handleTurnButtonClicked()
+    func handleFocusOnUnit()
+    
     func handle(command: Command)
 }
 
@@ -90,22 +92,26 @@ class BottomLeftBar: SizedNode {
         self.unitCommandsCanvasNode?.position = self.position + (self.unitCommandsVisible ? BottomLeftBar.unitCommandsVisiblePosition : BottomLeftBar.unitCommandsInvisiblePosition)
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    func handleTouches(_ touches: Set<UITouch>, with event: UIEvent?) -> Bool {
     
         let touch = touches.first!
     
         guard let unitImageNode = self.unitImageNode else {
-            return
+            return false
         }
     
         let location = touch.location(in: self)
 
         if unitImageNode.frame.contains(location) {
-            //print("==> main button")
+            
             if self.turnButtonNotificationType == .turn {
                 self.delegate?.handleTurnButtonClicked()
+                return true
+            } else if turnButtonNotificationType == .unitNeedsOrders {
+                self.delegate?.handleFocusOnUnit()
+                return true
             } else {
-                // self.delegate?.handle(notification: <#T##Notifications.Notification?#>)
+                print("--- unhandle notification type: \(turnButtonNotificationType)")
             }
         }
         
@@ -116,9 +122,11 @@ class BottomLeftBar: SizedNode {
             if commandIconNode!.frame.contains(commandLocation) {
                 let command = self.commands[index]
                 self.delegate?.handle(command: command)
-                return
+                return true
             }
         }
+        
+        return false
     }
     
     func showTurnButton() {

@@ -18,6 +18,7 @@ enum UITurnState {
 
     case aiTurns // => lock UI
     case humanTurns // => UI enabled
+    case humanBlocked // dialog shown
 }
 
 class GameScene: BaseScene {
@@ -287,6 +288,10 @@ class GameScene: BaseScene {
                 self.notificationsNode?.notifications = notifications.notifications()
                 self.notificationsNode?.rebuildNotificationBadges()
             }
+            
+        case .humanBlocked:
+            // NOOP
+            break
         }
 
         self.uiTurnState = state
@@ -321,7 +326,15 @@ class GameScene: BaseScene {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-        if self.uiTurnState == .aiTurns {
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+        
+        guard self.uiTurnState == .humanTurns else {
             return
         }
         
@@ -332,30 +345,36 @@ class GameScene: BaseScene {
         
         if let bottomLeftBar = self.bottomLeftBar, bottomLeftBar.frame.contains(cameraLocation) {
             
-            if self.uiTurnState == .aiTurns {
+            guard self.uiTurnState == .humanTurns else {
                 return
             }
             
-            self.bottomLeftBar?.touchesEnded(touches, with: event)
-            return
+            if bottomLeftBar.handleTouches(touches, with: event) {
+                return
+            }
         }
         
         if touch.tapCount == 2 || touch.force > self.forceTouchLevel {
-            // double tap
+            
+            // double tap opens city
             if let city = viewModel?.game?.city(at: position) {
-                self.showScreen(screenType: .city, city: city)
-                return
+                
+                if humanPlayer.isEqual(to: city.player) {
+                    self.showScreen(screenType: .city, city: city)
+                    return
+                }
             }
-
-            self.unselect()
         } else {
         
             if let unit = viewModel?.game?.unit(at: position) {
-                self.select(unit: unit)
-            } else {
-                self.unselect()
+                if humanPlayer.isEqual(to: unit.player) {
+                    self.select(unit: unit)
+                    return
+                }
             }
         }
+    
+        self.unselect()
     }
 
     // moving the map around
@@ -368,7 +387,7 @@ class GameScene: BaseScene {
 
         if let selectedUnit = self.selectedUnit {
 
-            if self.uiTurnState == .aiTurns {
+            guard self.uiTurnState == .humanTurns else {
                 return
             }
             
@@ -417,22 +436,12 @@ class GameScene: BaseScene {
             self.bottomRightBar?.touchesEnded(touches, with: event)
             return
         }
-
-        /*if let bottomLeftBar = self.bottomLeftBar, bottomLeftBar.frame.contains(cameraLocation) {
-            
-            if self.uiTurnState == .aiTurns {
-                return
-            }
-            
-            self.bottomLeftBar?.touchesEnded(touches, with: event)
+        
+        guard self.uiTurnState == .humanTurns else {
             return
-        }*/
+        }
         
         if let notificationsNode = self.notificationsNode, notificationsNode.frame.contains(cameraLocation) {
-            
-            if self.uiTurnState == .aiTurns {
-                return
-            }
             
             if notificationsNode.handleTouches(touches, with: event) {
                 return
@@ -440,10 +449,6 @@ class GameScene: BaseScene {
         }
 
         if let selectedUnit = self.selectedUnit {
-            
-            if self.uiTurnState == .aiTurns {
-                return
-            }
             
             self.mapNode?.unitLayer.clearPathSpriteBuffer()
             self.mapNode?.unitLayer.hideFocus()
@@ -458,19 +463,25 @@ class GameScene: BaseScene {
         let screenPosition = HexPoint.toScreen(hex: hex)
         let cameraPositionInScene = self.convert(screenPosition, from: self.viewHex)
         self.cameraNode.position = cameraPositionInScene
-        print("center camera on: \(cameraPositionInScene)")
+        //print("center camera on: \(cameraPositionInScene)")
     }
     
     func prepareForCityScreen() {
         
+        self.uiTurnState = .humanBlocked
+        
         // hide units
         self.mapNode?.unitLayer.removeFromParent()
         
+        // hide bottom controls
         self.bottomLeftBar?.removeFromParent()
         self.bottomRightBar?.removeFromParent()
+        self.notificationsNode?.removeFromParent()
     }
     
     func restoreFromCityScreen() {
+        
+        self.uiTurnState = .humanTurns
         
         // show units
         self.mapNode?.addChild(self.mapNode!.unitLayer)
@@ -478,6 +489,7 @@ class GameScene: BaseScene {
         // re-add bottom controls
         self.safeAreaNode.addChild(self.bottomLeftBar!)
         self.safeAreaNode.addChild(self.bottomRightBar!)
+        self.safeAreaNode.addChild(self.notificationsNode!)
     }
 }
 
@@ -493,11 +505,47 @@ extension GameScene: BottomLeftBarDelegate {
     
     func handle(command: Command) {
 
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+        
         switch command.type {
         case .found:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.doFound(with: "abc", in: self.viewModel?.game)
-                self.unselect()
+                
+                self.prepareForCityScreen()
+                
+                let cityName = humanPlayer.newCityName(in: gameModel)
+                let location = selectedUnit.location
+                
+                let cityNameDialog = CityNameDialog()
+                cityNameDialog.zPosition = 250
+                
+                cityNameDialog.addOkayAction(handler: {
+                    
+                    if cityNameDialog.isValid() {
+                        selectedUnit.doFound(with: cityNameDialog.getCityName(), in: self.viewModel?.game)
+                        self.unselect()
+                        cityNameDialog.close()
+                        self.restoreFromCityScreen()
+                        
+                        if let city = self.viewModel?.game?.city(at: location) {
+                            self.showScreen(screenType: .city, city: city)
+                        }
+                    }
+                })
+                       
+                cityNameDialog.addCancelAction(handler: {
+                    cityNameDialog.close()
+                    self.restoreFromCityScreen()
+                })
+                
+                self.cameraNode.add(dialog: cityNameDialog)
+                cityNameDialog.set(textFieldInput: cityName)
             }
         case .buildFarm:
             // NOOP
@@ -554,6 +602,11 @@ extension GameScene: BottomLeftBarDelegate {
             }
         }
     }
+    
+    func handleFocusOnUnit() {
+        
+        print("click on unit icon - \(self.selectedUnit?.type)")
+    }
 }
 
 extension GameScene: NotificationsDelegate {
@@ -599,6 +652,9 @@ extension GameScene: NotificationsDelegate {
             // NOOP
             break
         case .unitNeedsOrders:
+            // NOOP
+            break
+        case .era:
             // NOOP
             break
         }
@@ -656,30 +712,33 @@ extension GameScene: UserInterfaceProtocol {
                 cityDialog.close()
             })
             
-            self.cameraNode.addChild(cityDialog)
+            self.cameraNode.add(dialog: cityDialog)
         } else {
             print("screen: \(screenType) not handled")
-            
         }
     }
 
-    func show(unit: AbstractUnit?) { // unit gets visible
-        print("show")
+    func show(unit: AbstractUnit?) {
+        
+        // unit gets visible again
+        self.mapNode?.unitLayer.show(unit: unit)
     }
 
     func hide(unit: AbstractUnit?) {
         
         // unit gets hidden
         self.mapNode?.unitLayer.hide(unit: unit)
-        self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [])
+        self.unselect()
     }
 
     func move(unit: AbstractUnit?, on points: [HexPoint]) {
         print("move")
+        let costs: [Double] = [Double].init(repeating: 0.0, count: points.count)
+        self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
     }
     
     func show(city: AbstractCity?) {
-        //print("show city")
+
         self.mapNode?.cityLayer.show(city: city)
     }
 
@@ -694,5 +753,6 @@ extension GameScene: UserInterfaceProtocol {
     func refresh(tile: AbstractTile?) {
         self.mapNode?.terrainLayer.update(tile: tile)
         self.mapNode?.featureLayer.update(tile: tile)
+        self.mapNode?.improvementLayer.update(tile: tile)
     }
 }

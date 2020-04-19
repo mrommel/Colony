@@ -839,6 +839,11 @@ public class CitySpecializationAI {
         
         return self.nextWonderDesiredValue
     }
+    
+    func setSpecializationsDirty() {
+        
+        self.specializationsDirty = true
+    }
 }
 
 /*

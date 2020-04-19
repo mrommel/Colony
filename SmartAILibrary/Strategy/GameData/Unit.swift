@@ -49,6 +49,7 @@ public protocol AbstractUnit: class, Codable {
     @discardableResult func doMoveOnPath(towards target: HexPoint, previousETA: Int, buildingRoute: Bool, in gameModel: GameModel?) -> Int
     @discardableResult func doMove(on target: HexPoint, in gameModel: GameModel?) -> Bool
     func readyToMove() -> Bool
+    func publishQueuedVisualizationMoves(in gameModel: GameModel?)
     
     func isImpassable(tile: AbstractTile?) -> Bool
     func canEnterTerrain(of tile: AbstractTile?) -> Bool
@@ -1588,11 +1589,13 @@ public class Unit: AbstractUnit {
         fatalError("niy")
     }
     
-    func publishQueuedVisualizationMoves(in gameModel: GameModel?) {
+    public func publishQueuedVisualizationMoves(in gameModel: GameModel?) {
         
-        gameModel?.userInterface?.move(unit: self, on: self.moveLocations)
+        if self.moveLocations.count > 0 {
+            gameModel?.userInterface?.move(unit: self, on: self.moveLocations)
         
-        self.moveLocations = []
+            self.moveLocations = []
+        }
     }
     
     func queueMoveForVisualization(at point: HexPoint, in gameModel: GameModel?) {
@@ -2056,14 +2059,7 @@ public class Unit: AbstractUnit {
             return false
         }
         
-        let cityName = name ?? "no name" // FIXME
-        let isCapital = gameModel.cities(of: player).count == 0
-        
-        let city = City(name: cityName, at: self.location, capital: isCapital, owner: player)
-        city.initialize(in: gameModel)
-        
-        gameModel.add(city: city)
-        
+        player.found(at: self.location, named: name, in: gameModel)        
         self.doKill(delayed: false, by: nil, in: gameModel)
         
         return true

@@ -860,6 +860,11 @@ public class GameModel {
         return self.players.first(where: { $0.leader == .barbar })
     }
 
+    func enter(era: EraType, for player: AbstractPlayer?) {
+        
+        fatalError("niy")
+    }
+    
     func areas() -> [HexArea] {
 
         return self.map.areas

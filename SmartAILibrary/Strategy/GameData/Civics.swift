@@ -23,6 +23,7 @@ public protocol AbstractCivics {
     func currentCultureProgress() -> Double
     func lastCultureInput() -> Double
     
+    func needToChooseCivic() -> Bool
     func possibleCivics() -> [CivicType]
     func setCurrent(civic: CivicType) throws
     func currentCivic() -> CivicType?
@@ -300,16 +301,16 @@ class Civics: AbstractCivics {
                 
                 // trigger event to user
                 if player.isHuman() {
-                    //gameModel?.add(message: CivicDiscoveredMessage(with: currentCivic))
-                    self.player?.notifications()?.add(type: .civic, message: "You have discovered the civic '\(currentCivic)'.", summary: "Civic discovered", at: HexPoint.zero)
+                    self.player?.notifications()?.add(type: .civic, message: "You have discovered the civic '\(currentCivic)'.", summary: "Civic discovered")
                 }
 
                 // enter era
                 if currentCivic.era() > player.currentEra() {
                     
                     if player.isHuman() {
-                        // gameModel?.eraEnteredNotification?(currentCivic.era())
+                        gameModel?.enter(era: currentCivic.era(), for: player)
                         // gameModel?.add(message: EnteredEraMessage(with: currentCivic.era()))
+                        self.player?.notifications()?.add(type: .era, message: "You have entered a new Era", summary: "New era")
                     }
                 }
                 

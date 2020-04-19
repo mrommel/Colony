@@ -29,6 +29,8 @@ extension NotificationType {
         case .war: return "abc"
         case .enemyInTerritory: return "abc"
         case .unitPromotion: return "abc"
+            
+        case .era: return "era"
         }
     }
 }

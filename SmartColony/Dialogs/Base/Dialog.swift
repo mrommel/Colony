@@ -149,6 +149,32 @@ class Dialog: NineGridTextureSprite {
                 //yieldInfo.anchorPoint = item.anchorPoint()
                 yieldInfo.zPosition = Globals.ZLevels.dialogs + 1.0
                 self.addChild(yieldInfo)
+                
+            case .techInfo:
+                
+                let techInfo = TechDisplayNode(techType: item.techType, size: item.size)
+                techInfo.name = item.identifier
+                techInfo.position = item.position()
+                techInfo.zPosition = Globals.ZLevels.dialogs + 1.0
+                techInfo.touchHandler = {
+                    if let handler = self.resultHandler {
+                        handler(item.result)
+                    }
+                }
+                self.addChild(techInfo)
+                
+            case .civicInfo:
+            
+                let civicInfo = CivicDisplayNode(civicType: item.civicType, size: item.size)
+                civicInfo.name = item.identifier
+                civicInfo.position = item.position()
+                civicInfo.zPosition = Globals.ZLevels.dialogs + 1.0
+                civicInfo.touchHandler = {
+                    if let handler = self.resultHandler {
+                        handler(item.result)
+                    }
+                }
+                self.addChild(civicInfo)
             }
         }
     }
@@ -242,6 +268,11 @@ class Dialog: NineGridTextureSprite {
         
         yieldDisplayNode.set(yieldValue: yieldValue)
     }
+    
+    func set(textFieldInput: String, for identifier: String = "textField") {
+        
+        self.textField?.text = textFieldInput
+    }
 
     func getTextFieldInput(for identifier: String = "textField") -> String {
 
@@ -290,6 +321,12 @@ extension Dialog: UITextFieldDelegate {
         if let text = self.textField?.text {
             print("text input: \(text)")
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        //scene?.view?.endEditing(true)
+        textField.resignFirstResponder()
+        return true
     }
 }
 

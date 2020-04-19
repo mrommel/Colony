@@ -20,6 +20,8 @@ class PediaScene: BaseScene {
     var backgroundNode: SKSpriteNode?
     
     var cityDialogButton: MenuButtonNode?
+    var scienceDialogButton: MenuButtonNode?
+    var civicDialogButton: MenuButtonNode?
     
     var backButton: MenuButtonNode?
     
@@ -54,6 +56,22 @@ class PediaScene: BaseScene {
         self.cityDialogButton?.zPosition = 2
         self.rootNode.addChild(self.cityDialogButton!)
         
+        // science
+        self.scienceDialogButton = MenuButtonNode(titled: "ScienceDialog",
+            buttonAction: {
+                self.showScienceDialog()
+            })
+        self.scienceDialogButton?.zPosition = 2
+        self.rootNode.addChild(self.scienceDialogButton!)
+        
+        // civic
+        self.civicDialogButton = MenuButtonNode(titled: "CivicDialog",
+            buttonAction: {
+                self.showCivicDialog()
+            })
+        self.civicDialogButton?.zPosition = 2
+        self.rootNode.addChild(self.civicDialogButton!)
+        
         // back
         self.backButton = MenuButtonNode(titled: "Back",
             buttonAction: {
@@ -74,6 +92,9 @@ class PediaScene: BaseScene {
         self.backgroundNode?.position = CGPoint(x: 0, y: 0)
         self.backgroundNode?.aspectFillTo(size: viewSize)
 
+        self.civicDialogButton?.position = CGPoint(x: 0, y: -50)
+        self.scienceDialogButton?.position = CGPoint(x: 0, y: -100)
+        self.cityDialogButton?.position = CGPoint(x: 0, y: -150)
         
         self.backButton?.position = CGPoint(x: 0, y: -viewSize.halfHeight + 50)
     }
@@ -99,7 +120,53 @@ class PediaScene: BaseScene {
             cityDialog.close()
         })
         
-        self.cameraNode.addChild(cityDialog)
+        self.cameraNode.add(dialog: cityDialog)
+    }
+    
+    func showScienceDialog() {
+        
+        let player = Player(leader: .alexander, isHuman: false)
+        player.initialize()
+        
+        // debug
+        try! player.techs?.discover(tech: .mining)
+    
+        let scienceDialog = ScienceDialog(with: player.techs)
+        scienceDialog.zPosition = 250
+               
+        scienceDialog.addCancelAction(handler: {
+            scienceDialog.close()
+        })
+        
+        scienceDialog.addResultHandler(handler: { result in
+            print("result: \(result) => \(result.toTech())")
+            scienceDialog.close()
+        })
+        
+        self.cameraNode.add(dialog: scienceDialog)
+    }
+    
+    func showCivicDialog() {
+        
+        let player = Player(leader: .alexander, isHuman: false)
+        player.initialize()
+        
+        // debug
+        try! player.civics?.discover(civic: .codeOfLaws)
+    
+        let civicDialog = CivicDialog(with: player.civics)
+        civicDialog.zPosition = 250
+               
+        civicDialog.addCancelAction(handler: {
+            civicDialog.close()
+        })
+        
+        civicDialog.addResultHandler(handler: { result in
+            print("result: \(result) => \(result.toCivic())")
+            civicDialog.close()
+        })
+        
+        self.cameraNode.add(dialog: civicDialog)
     }
     
     static func mapFilled(with terrain: TerrainType, sized size: MapSize) -> MapModel {

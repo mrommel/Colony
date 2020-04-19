@@ -69,6 +69,24 @@ class UnitLayer: SKNode {
         }
     }
     
+    func show(unit: AbstractUnit?) {
+    
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        let unitObject = UnitObject(unit: unit, in: self.gameModel)
+        
+        // add to canvas
+        unitObject.addTo(node: self)
+        
+        // make idle
+        unitObject.showIdle()
+        
+        // keep reference
+        unitObjects.append(unitObject)
+    }
+    
     func hide(unit: AbstractUnit?) {
         
         guard let unit = unit else {
@@ -261,6 +279,20 @@ class UnitLayer: SKNode {
                     return
                 }
             }
+        }
+    }
+    
+    func move(unit: AbstractUnit?, on path: HexPath) {
+
+        if let selectedUnit = unit {
+            
+            guard let unitObject = self.unitObject(at: selectedUnit.location) else {
+                fatalError("cant get unitObject")
+            }
+
+            unitObject.showWalk(on: path, completion: {
+                unitObject.showIdle()
+            })
         }
     }
 }

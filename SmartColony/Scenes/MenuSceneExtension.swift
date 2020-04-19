@@ -32,7 +32,7 @@ extension MenuScene {
             })
         })
         
-        self.cameraNode.addChild(mapTypeDialog)
+        self.cameraNode.add(dialog: mapTypeDialog)
     }
 
     func requestMapSizeFor(type: MapType) {
@@ -93,7 +93,7 @@ extension MenuScene {
             })
         })
        
-        self.cameraNode.addChild(mapSizeDialog)
+        self.cameraNode.add(dialog: mapSizeDialog)
     }
        
     func requestMapAge(for size: MapSize) {
@@ -117,7 +117,7 @@ extension MenuScene {
             })
         })
                
-        self.cameraNode.addChild(mapAgeDialog)
+        self.cameraNode.add(dialog: mapAgeDialog)
     }
        
     func requestMapRainfall(for size: MapSize, age: MapOptionAge) {
@@ -141,7 +141,7 @@ extension MenuScene {
             })
         })
                
-        self.cameraNode.addChild(mapRainfallDialog)
+        self.cameraNode.add(dialog: mapRainfallDialog)
     }
        
     func requestMapClimate(for size: MapSize, age: MapOptionAge, rainfall: MapOptionRainfall) {
@@ -165,7 +165,7 @@ extension MenuScene {
             })
         })
                
-        self.cameraNode.addChild(mapClimateDialog)
+        self.cameraNode.add(dialog: mapClimateDialog)
     }
        
     func requestMapSeaLevel(for size: MapSize, age: MapOptionAge, rainfall: MapOptionRainfall, climate: MapOptionClimate) {
@@ -198,7 +198,7 @@ extension MenuScene {
             })
         })
                
-        self.cameraNode.addChild(mapSeaLevelDialog)
+        self.cameraNode.add(dialog: mapSeaLevelDialog)
     }
 }
 
@@ -210,7 +210,7 @@ extension MenuScene {
             
         mapLoadingDialog.zPosition = 250
             
-        self.cameraNode.addChild(mapLoadingDialog)
+        self.cameraNode.add(dialog: mapLoadingDialog)
             
         DispatchQueue.global(qos: .background).async {
             self.generateMapAsync(from: options, progressHandler: { progress, text in
@@ -234,7 +234,7 @@ extension MenuScene {
             
         mapLoadingDialog.zPosition = 250
         
-        self.cameraNode.addChild(mapLoadingDialog)
+        self.cameraNode.add(dialog: mapLoadingDialog)
         
         var url: URL? = nil
         switch size {
