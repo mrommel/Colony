@@ -17,16 +17,18 @@ class YieldDisplayNode: SKNode {
     var yieldIconNode: SKSpriteNode?
     var yieldLabelNode: SKLabelNode?
     
-    init(for yieldType: YieldType, value: Double, size: CGSize) {
+    init(for yieldType: YieldType, value: Double, withBackground showBackground: Bool = true, size: CGSize) {
         
         self.yieldType = yieldType
         
         super.init()
         
-        let textureName = self.yieldType.backgroundTexture()
-        self.backgroundNode = NineGridTextureSprite(imageNamed: textureName, size: size)
-        self.backgroundNode?.position = CGPoint(x: size.halfWidth, y: -size.halfHeight)
-        self.addChild(self.backgroundNode!)
+        if showBackground {
+            let textureName = self.yieldType.backgroundTexture()
+            self.backgroundNode = NineGridTextureSprite(imageNamed: textureName, size: size)
+            self.backgroundNode?.position = CGPoint(x: size.halfWidth, y: -size.halfHeight)
+            self.addChild(self.backgroundNode!)
+        }
         
         let yieldIconTexture = SKTexture(imageNamed: self.yieldType.iconTexture())
         self.yieldIconNode = SKSpriteNode(texture: yieldIconTexture, size: CGSize(width: 20, height: 20))

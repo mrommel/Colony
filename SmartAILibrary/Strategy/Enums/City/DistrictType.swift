@@ -16,17 +16,17 @@ public enum DistrictType: Int, Codable {
     case encampment
     case harbor
     
-    var all: [DistrictType] {
-        return [ .campus, .holySite, .encampment, .harbor]
+    public static var all: [DistrictType] {
+        return [.cityCenter, .campus, .holySite, .encampment, .harbor]
     }
     
-    func name() -> String {
+    public func name() -> String {
 
         return self.data().name
     }
     
     // in production units
-    func productionCost() -> Int {
+    public func productionCost() -> Int {
 
         return self.data().productionCost
     }

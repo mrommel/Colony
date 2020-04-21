@@ -109,9 +109,13 @@ class PediaScene: BaseScene {
         let mapModel = PediaScene.mapFilled(with: .grass, sized: .duel)
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [player], on: mapModel)
         
-        let city = City(name: "Berlin", at: HexPoint(x: 2, y: 2), capital: false, owner: player)
+        let city = City(name: "Berlin", at: HexPoint(x: 2, y: 2), capital: true, owner: player)
         city.initialize(in: gameModel)
         gameModel.add(city: city)
+        
+        // debug
+        try! city.buildings?.build(building: .monument)
+        try! city.buildings?.build(building: .granary)
         
         let cityDialog = CityDialog(for: city, in: gameModel)
         cityDialog.zPosition = 250

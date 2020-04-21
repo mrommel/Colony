@@ -14,20 +14,23 @@ class BaseDisplayNode: SKNode {
     var backgroundNode: NineGridTextureSprite?
     var iconNode: SKSpriteNode?
     var labelNode: SKLabelNode?
+    var costNode: SpriteButtonNode?
     
     var touchHandler: (()->Void)?
     
-    init(texture: String, name: String, size: CGSize) {
+    init(texture: String, name: String, cost: Int, size: CGSize) {
         
         super.init()
         
         self.isUserInteractionEnabled = true
         
+        // background
         let textureName = "tech_background"
         self.backgroundNode = NineGridTextureSprite(imageNamed: textureName, size: size)
         self.backgroundNode?.position = CGPoint(x: size.halfWidth, y: -size.halfHeight)
         self.addChild(self.backgroundNode!)
         
+        // icon
         let iconTexture = SKTexture(imageNamed: texture)
         self.iconNode = SKSpriteNode(texture: iconTexture, size: CGSize(width: 22, height: 22))
         self.iconNode?.position = CGPoint(x: 10, y: -10)
@@ -35,6 +38,7 @@ class BaseDisplayNode: SKNode {
         self.iconNode?.anchorPoint = CGPoint.upperLeft
         self.addChild(self.iconNode!)
         
+        // name
         self.labelNode = SKLabelNode(text: name)
         self.labelNode?.position = CGPoint(x: 35, y: -7)
         self.labelNode?.zPosition = self.zPosition + 1
@@ -46,6 +50,14 @@ class BaseDisplayNode: SKNode {
         self.labelNode?.verticalAlignmentMode = .top
         self.labelNode?.preferredMaxLayoutWidth = size.width - 40
         self.addChild(self.labelNode!)
+        
+        // cost
+        self.costNode = SpriteButtonNode(titled: "\(cost)", defaultButtonImage: "tech_blue", activeButtonImage: "tech_blue", size: CGSize(width: 32, height: 24), buttonAction: {})
+        self.costNode?.position = CGPoint(x: 92, y: -43)
+        self.costNode?.zPosition = self.zPosition + 1
+        self.costNode?.fontSize = 14
+        self.costNode?.fontColor = .white
+        self.addChild(self.costNode!)
         
         // icons
         // eureka
@@ -60,6 +72,14 @@ class BaseDisplayNode: SKNode {
         if let handler = self.touchHandler {
             handler()
         }
+    }
+    
+    func select() {
+        
+        let textureName = "tech_red"
+        self.backgroundNode?.texture = SKTexture(imageNamed: textureName)
+        
+        self.touchHandler = nil
     }
     
     func disable() {

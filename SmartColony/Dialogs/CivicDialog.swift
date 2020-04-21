@@ -38,7 +38,9 @@ class CivicDialog: Dialog {
             
             if let civicDisplayNode = item as? CivicDisplayNode {
                 
-                if civics.has(civic: civicDisplayNode.civicType) {
+                if civics.currentCivic() == civicDisplayNode.civicType {
+                    civicDisplayNode.select()
+                } else if civics.has(civic: civicDisplayNode.civicType) {
                     civicDisplayNode.activate()
                 } else if !possibleCivics.contains(civicDisplayNode.civicType) {
                     civicDisplayNode.disable()

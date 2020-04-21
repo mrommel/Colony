@@ -467,7 +467,7 @@ public class CityStrategyAI {
                 continue
             }
             
-            let yields = workingTile.yields(ignoreFeature: false)
+            let yields = workingTile.yields(for: player, ignoreFeature: false)
             bestFoodYields.append(YieldValue(location: workingTileLocation, value: yields.food))
             bestProductionYields.append(YieldValue(location: workingTileLocation, value: yields.production))
             bestGoldYields.append(YieldValue(location: workingTileLocation, value: yields.gold))
@@ -613,7 +613,7 @@ public class CityStrategyAI {
             }
 
             tilesWorked += 1
-            yieldAmount += plot.yields(ignoreFeature: false).value(of: yieldType)
+            yieldAmount += plot.yields(for: player, ignoreFeature: false).value(of: yieldType)
         }
 
         var ratio = 0.0;

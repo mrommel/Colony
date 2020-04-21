@@ -19,9 +19,12 @@ class GameViewModel {
             fatalError("cant get map")
         }
 
+        let player = Player(leader: .alexander)
+        player.initialize()
+        
         // find good starting locations
         let citySiteEvaluator = CitySiteEvaluator(map: map)
-        let finder: RegionFinder = RegionFinder(map: map, evaluator: citySiteEvaluator, for: nil)
+        let finder: RegionFinder = RegionFinder(map: map, evaluator: citySiteEvaluator, for: player)
 
         let regions = finder.divideInto(regions: 2)
         

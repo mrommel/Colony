@@ -24,6 +24,6 @@ class TileFertilityEvaluator: BaseSiteEvaluator {
         
         // FIXME improvements
         
-        return tile.yields(ignoreFeature: false).food
+        return tile.yields(for: player, ignoreFeature: false).food
     }
 }

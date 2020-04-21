@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum BuildableItemType: Int, Codable {
+public enum BuildableItemType: Int, Codable {
     
     case unit
     case building
@@ -30,16 +30,16 @@ public class BuildableItem: Codable {
         case production
     }
     
-    let type: BuildableItemType
+    public let type: BuildableItemType
     
     // one or the other
-    let unitType: UnitType?
-    let buildingType: BuildingType?
-    let wonderType: WonderType?
-    let districtType: DistrictType?
-    let projectType: ProjectType?
+    public let unitType: UnitType?
+    public let buildingType: BuildingType?
+    public let wonderType: WonderType?
+    public let districtType: DistrictType?
+    public let projectType: ProjectType?
     
-    var production: Double
+    public var production: Double
 
     init(unitType: UnitType) {
         

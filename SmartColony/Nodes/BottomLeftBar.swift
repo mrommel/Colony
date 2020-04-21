@@ -135,7 +135,7 @@ class BottomLeftBar: SizedNode {
         self.turnButtonNotificationType = .turn
     }
     
-    func showBlockingButton(for blockingNotification: Notifications.Notification) {
+    func showBlockingButton(for blockingNotification: NotificationItem) {
         
         self.unitImageNode?.texture = SKTexture(imageNamed: blockingNotification.type.iconTexture())
         self.turnButtonNotificationType = blockingNotification.type

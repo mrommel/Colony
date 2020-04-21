@@ -358,7 +358,7 @@ class Techs: AbstractTechs {
                 // trigger event to user
                 if player.isHuman() {
                     //gameModel?.add(message: TechDiscoveredMessage(with: currentTech))
-                    self.player?.notifications()?.add(type: .tech, message: "You have discovered the new technology '\(currentTech)'.", summary: "Tech discovered", at: HexPoint.zero)
+                    self.player?.notifications()?.add(type: .tech, for: self.player, message: "You have discovered the new technology '\(currentTech)'.", summary: "Tech discovered", at: HexPoint.zero)
                 }
                 
                 // enter era

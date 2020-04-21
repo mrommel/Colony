@@ -35,11 +35,12 @@ public enum ResourceType: Int, Codable {
     case diamonds
     case furs // https://civilization.fandom.com/wiki/Furs_(Civ6)
     case citrus
+    case tea // https://civilization.fandom.com/wiki/Tea_(Civ6)
 
     // strategic
     //case coal
     case horses
-    case iron
+    case iron // https://civilization.fandom.com/wiki/Iron_(Civ6)
     
     // Special
     // Antiquity Site
@@ -47,7 +48,14 @@ public enum ResourceType: Int, Codable {
 
     static var all: [ResourceType] {
         return [
-            .wheat, .rice, .horses, .deer, .sheep, .iron, .diamonds, .copper, .stone, .marble, .bananas, .citrus, .furs, .cattle, .fish
+            // bonus
+            .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .fish,
+            
+            // luxury
+            .marble, .diamonds, .furs, .citrus, tea,
+            
+            // strategic
+            .horses, .iron,
         ]
     }
 
@@ -63,7 +71,7 @@ public enum ResourceType: Int, Codable {
         case .wheat, .rice, .sheep, .deer, .copper, .stone, .bananas, .cattle, .fish:
             return .bonus
 
-        case .diamonds, .marble, .furs, .citrus:
+        case .diamonds, .marble, .furs, .citrus, .tea:
             return .luxury
 
         case .iron, .horses /*, .coal*/:
@@ -87,17 +95,49 @@ public enum ResourceType: Int, Codable {
         case .bananas: return Yields(food: 1, production: 0, gold: 0, science: 0)
         case .cattle: return Yields(food: 1, production: 0, gold: 0, science: 0)
         case .fish: return Yields(food: 1, production: 0, gold: 0, science: 0)
-
-            // strategic
-            //case .coal: return Yields(food: 0, production: 2, gold: 0, science: 0)
-        case .iron: return Yields(food: 0, production: 0, gold: 0, science: 1)
-        case .horses: return Yields(food: 1, production: 1, gold: 0, science: 0)
             
             // luxury
         case .diamonds: return Yields(food: 0, production: 0, gold: 3, science: 0)
         case .citrus: return Yields(food: 2, production: 0, gold: 0, science: 0)
         case .furs: return Yields(food: 1, production: 0, gold: 1, science: 0)
         case .marble: return Yields(food: 0, production: 0, gold: 0, science: 0, culture: 1)
+        case .tea: return Yields(food: 0, production: 0, gold: 0, science: 0, culture: 1)
+
+            // strategic
+        //case .coal: return Yields(food: 0, production: 2, gold: 0, science: 0)
+        case .iron: return Yields(food: 0, production: 0, gold: 0, science: 1)
+        case .horses: return Yields(food: 1, production: 1, gold: 0, science: 0)
+            
+        }
+    }
+    
+    func accessImprovement() -> TileImprovementType {
+        
+        switch self {
+
+        case .none:
+            return .none
+            
+        case .wheat, .rice:
+            return .farm
+            
+        case .cattle, .sheep, .horses:
+            return .pasture
+
+        case .stone, .marble:
+            return .quarry
+            
+        case .bananas, .citrus, .tea:
+            return .plantation
+            
+        case .deer, .furs:
+            return .camp
+            
+        case .fish:
+            return .fishingBoats
+
+        case .diamonds, .iron, .copper:
+            return .mine
         }
     }
     
@@ -116,6 +156,7 @@ public enum ResourceType: Int, Codable {
 
         case .none: return []
             
+            // bonus
         case .wheat:
             return [
                 Flavor(type: .growth, value: 10)
@@ -153,16 +194,6 @@ public enum ResourceType: Int, Codable {
                 Flavor(type: .navalTileImprovement, value: 10)
             ]
             
-            // strategic
-        case .iron:
-            return [
-                Flavor(type: .offense, value: 10)
-            ]
-        case .horses:
-            return [
-                Flavor(type: .mobile, value: 10)
-            ]
-            
             // luxury
         case .diamonds:
             return [
@@ -179,6 +210,20 @@ public enum ResourceType: Int, Codable {
         case .citrus:
             return [
                 Flavor(type: .happiness, value: 10)
+            ]
+        case .tea:
+            return [
+                Flavor(type: .happiness, value: 10)
+            ]
+            
+            // strategic
+        case .iron:
+            return [
+                Flavor(type: .offense, value: 10)
+            ]
+        case .horses:
+            return [
+                Flavor(type: .mobile, value: 10)
             ]
         }
     }
@@ -207,6 +252,7 @@ public enum ResourceType: Int, Codable {
         case .marble: return 5
         case .furs: return 5
         case .citrus: return 5
+        case .tea: return 5
         }
     }
     
@@ -226,16 +272,16 @@ public enum ResourceType: Int, Codable {
         case .cattle: return .animalHusbandry
         case .fish: return .celestialNavigation
             
-            // strategic
-        case .iron: return .ironWorking
-        case .horses: return .animalHusbandry
-            
             // luxury
         case .diamonds: return .mining
         case .marble: return .mining
         case .furs: return .animalHusbandry
         case .citrus: return .irrigation
-        
+        case .tea: return .irrigation
+            
+            // strategic
+        case .iron: return .ironWorking
+        case .horses: return .animalHusbandry
         }
     }
     
@@ -265,7 +311,7 @@ public enum ResourceType: Int, Codable {
         case .marble: return []
         case .furs: return []
         case .citrus: return []
-        
+        case .tea: return []
         }
     }
     
@@ -285,15 +331,17 @@ public enum ResourceType: Int, Codable {
         case .cattle: return .animalHusbandry
         case .fish: return .celestialNavigation
             
-            // strategic
-        case .iron: return .bronzeWorking
-        case .horses: return .animalHusbandry
-
             // luxury
         case .diamonds: return .mining
         case .marble: return .mining
         case .furs: return .animalHusbandry
         case .citrus: return .irrigation
+        case .tea: return .irrigation
+            
+            // strategic
+        case .iron: return .bronzeWorking
+        case .horses: return .animalHusbandry
+
         }
     }
 }

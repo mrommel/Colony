@@ -301,7 +301,7 @@ class Civics: AbstractCivics {
                 
                 // trigger event to user
                 if player.isHuman() {
-                    self.player?.notifications()?.add(type: .civic, message: "You have discovered the civic '\(currentCivic)'.", summary: "Civic discovered")
+                    self.player?.notifications()?.add(type: .civic, for: player, message: "You have discovered the civic '\(currentCivic)'.", summary: "Civic discovered")
                 }
 
                 // enter era
@@ -310,7 +310,7 @@ class Civics: AbstractCivics {
                     if player.isHuman() {
                         gameModel?.enter(era: currentCivic.era(), for: player)
                         // gameModel?.add(message: EnteredEraMessage(with: currentCivic.era()))
-                        self.player?.notifications()?.add(type: .era, message: "You have entered a new Era", summary: "New era")
+                        self.player?.notifications()?.add(type: .era, for: player, message: "You have entered a new Era", summary: "New era")
                     }
                 }
                 

@@ -129,6 +129,15 @@ class SpriteButtonNode: SKNode {
         }
     }
     
+    var fontSize: CGFloat {
+        set {
+            self.buttonLabel.fontSize = newValue
+        }
+        get {
+            return self.buttonLabel.fontSize
+        }
+    }
+    
     var title: String {
         set {
             self.buttonLabel.text = newValue

@@ -46,9 +46,9 @@ public protocol AbstractTile: Codable {
     var point: HexPoint { get }
     var area: HexArea? { get set }
     
-    func yields(ignoreFeature: Bool) -> Yields
-    func hasYield() -> Bool
-    func yieldsWith(buildType: BuildType, ignoreFeature: Bool) -> Yields
+    func yields(for player: AbstractPlayer?, ignoreFeature: Bool) -> Yields
+    //func hasYield() -> Bool
+    func yieldsWith(buildType: BuildType, for player: AbstractPlayer?, ignoreFeature: Bool) -> Yields
     
     // terrain & hills
     func set(terrain: TerrainType)
@@ -428,7 +428,7 @@ class Tile: AbstractTile {
     
     // end for tests
 
-    func yields(ignoreFeature: Bool) -> Yields {
+    func yields(for player: AbstractPlayer?, ignoreFeature: Bool) -> Yields {
 
         var returnYields = Yields(food: 0, production: 0, gold: 0, science: 0)
 
@@ -443,10 +443,11 @@ class Tile: AbstractTile {
             returnYields += self.featureValue.yields()
         }
         
-        returnYields += self.resourceValue.yields()
+        let visibleResource = self.resource(for: player)
+        returnYields += visibleResource.yields()
 
         if self.improvementValue != .none && !self.isImprovementPillaged() {
-            returnYields += self.improvementValue.yields()
+            returnYields += self.improvementValue.yields(for: player)
         }
         
         if self.routeValue != .none && !self.isRoutePillaged() {
@@ -456,7 +457,7 @@ class Tile: AbstractTile {
         return returnYields
     }
     
-    func hasYield() -> Bool {
+    /*func hasYield() -> Bool {
         
         let yield = self.yields(ignoreFeature: false)
         
@@ -473,9 +474,9 @@ class Tile: AbstractTile {
         }
         
         return false
-    }
+    }*/
     
-    func yieldsWith(buildType: BuildType, ignoreFeature: Bool = false) -> Yields {
+    func yieldsWith(buildType: BuildType, for player: AbstractPlayer?, ignoreFeature: Bool = false) -> Yields {
         
         // Will the build remove the feature?
         var ignoreFeatureValue = ignoreFeature
@@ -486,7 +487,7 @@ class Tile: AbstractTile {
             }
         }
         
-        var yields = self.yields(ignoreFeature: ignoreFeatureValue)
+        var yields = self.yields(for: player, ignoreFeature: ignoreFeatureValue)
         
         // //////////////
         var improvementFromBuild = buildType.improvement()
@@ -499,7 +500,7 @@ class Tile: AbstractTile {
         
         if let improvementFromBuild = improvementFromBuild {
             
-            yields += improvementFromBuild.yields()
+            yields += improvementFromBuild.yields(for: player)
         }
         
         // //////////////
@@ -670,7 +671,7 @@ class Tile: AbstractTile {
             if improvementType != .none {
                 
                 // Culture from Improvement
-                let culture = improvementType.yields().culture //ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
+                let culture = improvementType.yields(for: self.owner()).culture //ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
                 if culture != 0 {
                     //self.changeCulture(culture)
                 }

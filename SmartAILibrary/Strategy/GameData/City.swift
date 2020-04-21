@@ -48,6 +48,8 @@ public protocol AbstractCity: class, Codable {
     var districts: AbstractDistricts? { get }
     var location: HexPoint { get }
     
+    var buildQueue: BuildQueue { get }
+    
     var cityStrategy: CityStrategyAI? { get }
     var cityCitizens: CityCitizens? { get }
     //var cityEmphases: CityEmphases? { get }
@@ -181,7 +183,7 @@ public class City: AbstractCity {
     public var buildings: AbstractBuildings? // buildings that are currently build in this city
     public var wonders: AbstractWonders?
     internal var projects: AbstractProjects? // projects that are currently build in this city
-    internal var buildQueue: BuildQueue
+    public var buildQueue: BuildQueue
     public var cityCitizens: CityCitizens?
     //internal var cityEmphases: CityEmphases?
 
@@ -306,6 +308,8 @@ public class City: AbstractCity {
         }
         
         self.districts = Districts(city: self)
+        try! self.districts?.build(district: .cityCenter)
+        
         self.buildings = Buildings(city: self)
         self.wonders = Wonders(city: self)
         self.projects = Projects(city: self)
@@ -556,7 +560,7 @@ public class City: AbstractCity {
         
         if let centerTile = gameModel.tile(at: self.location) {
             
-            foodValue += centerTile.yields(ignoreFeature: false).food
+            foodValue += centerTile.yields(for: self.player, ignoreFeature: false).food
 
             // The yield of the tile occupied by the city center will be increased to 2 Food and 1 Production, if either was previously lower (before any bonus yields are applied).
             if foodValue < 2.0 {
@@ -567,7 +571,7 @@ public class City: AbstractCity {
         for point in cityCitizens.workingTileLocations() {
             if cityCitizens.isWorked(at: point) {
                 if let adjacentTile = gameModel.tile(at: point) {
-                    foodValue += adjacentTile.yields(ignoreFeature: false).food
+                    foodValue += adjacentTile.yields(for: self.player, ignoreFeature: false).food
                 }
             }
         }
@@ -656,7 +660,7 @@ public class City: AbstractCity {
             // notify human about starvation
             if player.isHuman() {
                 //gameModel?.add(message: CityStarvingMessage(in: self))
-                self.player?.notifications()?.add(type: .starving, message: "The City of \(self.name) is starving! If it runs out of stored [ICON_FOOD] Food, a [ICON_CITIZEN] Citizen will die!", summary: "\(self.name) is Starving!", at: self.location)
+                self.player?.notifications()?.add(type: .starving, for: self.player, message: "The City of \(self.name) is starving! If it runs out of stored [ICON_FOOD] Food, a [ICON_CITIZEN] Citizen will die!", summary: "\(self.name) is Starving!", at: self.location)
             }
         }
         
@@ -698,7 +702,7 @@ public class City: AbstractCity {
                     
                     if player.isHuman() {
                         //gameModel?.add(message: CityGrowthMessage(in: self))
-                        self.player?.notifications()?.add(type: .cityGrowth, message: "The City of \(self.name) now has \(self.population()) [ICON_CITIZEN] Citizens! The new Citizen will automatically work the land near the City for additional [ICON_FOOD] Food, [ICON_PRODUCTION] Production or [ICON_GOLD] Gold.", summary: "\(self.name) has Grown!", at: self.location)
+                        self.player?.notifications()?.add(type: .cityGrowth, for: self.player, message: "The City of \(self.name) now has \(self.population()) [ICON_CITIZEN] Citizens! The new Citizen will automatically work the land near the City for additional [ICON_FOOD] Food, [ICON_PRODUCTION] Production or [ICON_GOLD] Gold.", summary: "\(self.name) has Grown!", at: self.location)
                     }
                 }
             }
@@ -862,7 +866,7 @@ public class City: AbstractCity {
 
         if !self.isProduction() && player.isHuman() && !self.isProductionAutomated() {
             //gameModel?.add(message: CityNeedsBuildableMessage(city: self))
-            self.player?.notifications()?.add(type: .production, message: "Your city \(self.name) needs something to work on.", summary: "need production", at: self.location)
+            self.player?.notifications()?.add(type: .production, for: self.player, message: "Your city \(self.name) needs something to work on.", summary: "need production", at: self.location)
             return okay
         }
 
@@ -1052,13 +1056,13 @@ public class City: AbstractCity {
         
         if let centerTile = gameModel.tile(at: self.location) {
             
-            goldValue += centerTile.yields(ignoreFeature: false).gold
+            goldValue += centerTile.yields(for: self.player, ignoreFeature: false).gold
         }
         
         for point in cityCitizens.workingTileLocations() {
             if cityCitizens.isWorked(at: point) {
                 if let adjacentTile = gameModel.tile(at: point) {
-                    goldValue += adjacentTile.yields(ignoreFeature: false).gold
+                    goldValue += adjacentTile.yields(for: self.player, ignoreFeature: false).gold
                 }
             }
         }
@@ -1137,13 +1141,13 @@ public class City: AbstractCity {
         
         if let centerTile = gameModel.tile(at: self.location) {
             
-            scienceFromTiles += centerTile.yields(ignoreFeature: false).science
+            scienceFromTiles += centerTile.yields(for: self.player, ignoreFeature: false).science
         }
         
         for point in cityCitizens.workingTileLocations() {
             if cityCitizens.isWorked(at: point) {
                 if let adjacentTile = gameModel.tile(at: point) {
-                    scienceFromTiles += adjacentTile.yields(ignoreFeature: false).science
+                    scienceFromTiles += adjacentTile.yields(for: self.player, ignoreFeature: false).science
                 }
             }
         }
@@ -1223,13 +1227,13 @@ public class City: AbstractCity {
         
         if let centerTile = gameModel.tile(at: self.location) {
             
-            cultureFromTiles += centerTile.yields(ignoreFeature: false).culture
+            cultureFromTiles += centerTile.yields(for: self.player, ignoreFeature: false).culture
         }
         
         for point in cityCitizens.workingTileLocations() {
             if cityCitizens.isWorked(at: point) {
                 if let adjacentTile = gameModel.tile(at: point) {
-                    cultureFromTiles += adjacentTile.yields(ignoreFeature: false).culture
+                    cultureFromTiles += adjacentTile.yields(for: self.player, ignoreFeature: false).culture
                 }
             }
         }
@@ -1309,13 +1313,13 @@ public class City: AbstractCity {
         
         if let centerTile = gameModel.tile(at: self.location) {
             
-            faithFromTiles += centerTile.yields(ignoreFeature: false).faith
+            faithFromTiles += centerTile.yields(for: self.player, ignoreFeature: false).faith
         }
         
         for point in cityCitizens.workingTileLocations() {
             if cityCitizens.isWorked(at: point) {
                 if let adjacentTile = gameModel.tile(at: point) {
-                    faithFromTiles += adjacentTile.yields(ignoreFeature: false).faith
+                    faithFromTiles += adjacentTile.yields(for: self.player, ignoreFeature: false).faith
                 }
             }
         }
@@ -1406,7 +1410,7 @@ public class City: AbstractCity {
         
         if let centerTile = gameModel.tile(at: self.location) {
             
-            productionValue += centerTile.yields(ignoreFeature: false).production
+            productionValue += centerTile.yields(for: self.player, ignoreFeature: false).production
 
             // The yield of the tile occupied by the city center will be increased to 2 Food and 1 Production, if either was previously lower (before any bonus yields are applied).
             if productionValue < 1.0 {
@@ -1417,7 +1421,7 @@ public class City: AbstractCity {
         for point in cityCitizens.workingTileLocations() {
             if cityCitizens.isWorked(at: point) {
                 if let adjacentTile = gameModel.tile(at: point) {
-                    productionValue += adjacentTile.yields(ignoreFeature: false).production
+                    productionValue += adjacentTile.yields(for: self.player, ignoreFeature: false).production
                 }
             }
         }
@@ -2739,7 +2743,7 @@ public class City: AbstractCity {
         // Valuate the yields from this plot
         for yieldType in YieldType.all {
 
-            yieldValue = Int(tile.yields(ignoreFeature: false).value(of: yieldType))
+            yieldValue = Int(tile.yields(for: self.player, ignoreFeature: false).value(of: yieldType))
             var tempValue = 0
 
             if yieldType == specializationYield {

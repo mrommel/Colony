@@ -38,15 +38,17 @@ extension ResourceType {
         case .marble:
             return ["hex_marble"]
         case .diamonds:
-            return []
+            return ["hex_diamonds"]
         case .furs:
             return ["hex_furs"]
         case .citrus:
-            return []
+            return ["hex_citrus"]
         case .horses:
             return ["hex_horse"]
         case .iron:
             return ["hex_iron"]
+        case .tea:
+            return ["hex_tea"]
         }
     }
     

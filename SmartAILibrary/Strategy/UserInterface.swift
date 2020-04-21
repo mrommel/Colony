@@ -40,7 +40,10 @@ public enum ScreenType {
     
     case interimRanking
     case diplomatic
+    
     case city
+    case techs
+    case civics
 }
 
 public protocol UserInterfaceProtocol: class {
@@ -50,7 +53,9 @@ public protocol UserInterfaceProtocol: class {
     
     func showPopup(popupType: PopupType, data: PopupData?)
     func showScreen(screenType: ScreenType, city: AbstractCity?)
-    func show(notification: Notifications.Notification)
+    
+    func add(notification: NotificationItem)
+    func remove(notification: NotificationItem)
     
     func select(unit: AbstractUnit?)
     func unselect()

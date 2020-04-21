@@ -34,8 +34,16 @@ public enum TileImprovementType: Int, Codable {
     }
 
     // https://civilization.fandom.com/wiki/Tile_improvement_(Civ6)
-    func yields() -> Yields {
+    func yields(for player: AbstractPlayer?) -> Yields {
 
+        guard let techs = player?.techs else {
+            fatalError("cant get techs")
+        }
+        
+        guard let civics = player?.civics else {
+            fatalError("cant get civics")
+        }
+        
         switch self {
 
         case .none: return Yields(food: 0, production: 0, gold: 0, science: 0)
@@ -45,14 +53,86 @@ public enum TileImprovementType: Int, Codable {
         case .ruins: return Yields(food: 0, production: 0, gold: 0, science: 0)
 
         case .farm:
-            // FIXME: https://civilization.fandom.com/wiki/Wheat_(Civ6)
-            return Yields(food: 1, production: 0, gold: 0, science: 0)
-        case .mine: return Yields(food: 0, production: 1, gold: 0, science: 0)
-        case .quarry: return Yields(food: 0, production: 1, gold: 0, science: 0)
+            // https://civilization.fandom.com/wiki/Farm_(Civ6)
+            let yield = Yields(food: 1, production: 0, gold: 0, science: 0, housing: 0.5)
+            
+            if civics.has(civic: .feudalism) {
+                yield.food += 1
+            }
+            
+            /*if techs.has(tech: .replaceableParts) {
+                yield.food += 1
+            }*/
+            
+            return yield
+        case .mine:
+            // https://civilization.fandom.com/wiki/Mine_(Civ6)
+            let yield =  Yields(food: 0, production: 1, gold: 0, science: 0, appeal: -1.0)
+            
+            if techs.has(tech: .apprenticesship) {
+                yield.production += 1
+            }
+            
+            /*if techs.has(tech: .industrialization) {
+                yield.production += 1
+            }*/
+            
+            return yield
+        case .quarry:
+            let yield = Yields(food: 0, production: 1, gold: 0, science: 0, appeal: -1.0)
+            
+            if techs.has(tech: .banking) {
+                yield.gold += 2
+            }
+            
+            return yield
         case .camp: return Yields(food: 0, production: 0, gold: 1, science: 0)
-        case .pasture: return Yields(food: 0, production: 1, gold: 0, science: 0)
-        case .plantation: return Yields(food: 0, production: 0, gold: 2, science: 0)
-        case .fishingBoats: return Yields(food: 1, production: 0, gold: 0, science: 0)
+        case .pasture:
+            let yield = Yields(food: 0, production: 1, gold: 0, science: 0, housing: 0.5)
+            
+            if civics.has(civic: .exploration) {
+                yield.food += 1
+            }
+            
+            return yield
+        case .plantation:
+            // https://civilization.fandom.com/wiki/Plantation_(Civ6)
+            let yield = Yields(food: 0, production: 0, gold: 2, science: 0, housing: 0.5)
+            
+            if civics.has(civic: .feudalism) {
+                yield.food += 1
+            }
+            
+            /*if techs.has(tech: .scientificTheory) {
+                yield.food += 1
+            }*/
+            
+            /*if civics.has(civic: .globalization) {
+                yield.gold += 2
+            }*/
+            
+            // 'goddess of festivals' pantheon
+            
+            return yield
+        case .fishingBoats:
+            // https://civilization.fandom.com/wiki/Fishing_Boats_(Civ6)
+            let yield = Yields(food: 1, production: 0, gold: 0, science: 0, housing: 0.5)
+            
+            if techs.has(tech: .cartography) {
+                yield.gold += 2
+            }
+            
+            if civics.has(civic: .colonialism) {
+                yield.production += 1
+            }
+            
+            /*if techs.has(tech: .plastics) {
+                yield.food += 1
+            }*/
+            
+            // 'god of the sea' pantheon
+            
+            return yield
         
         case .fort: return Yields(food: 0, production: 0, gold: 0)
         case .citadelle: return Yields(food: 0, production: 0, gold: 0)
@@ -99,11 +179,11 @@ public enum TileImprovementType: Int, Codable {
 
         case .farm: return self.isFarmPossible(on: tile)
         case .mine: return self.isMinePossible(on: tile)
-        case .quarry: return false // FIXME
-        case .camp: return false // FIXME
-        case .pasture: return false // FIXME
-        case .plantation: return false // FIXME
-        case .fishingBoats: return false // FIXME
+        case .quarry: return self.isQuarryPossible(on: tile)
+        case .camp: return self.isCampPossible(on: tile)
+        case .pasture: return self.isPasturePossible(on: tile)
+        case .plantation: return self.isPlantationPossible(on: tile)
+        case .fishingBoats: return self.isFishingBoatsPossible(on: tile)
             
         case .fort: return true // FIXME
         case .citadelle: return false // FIXME
@@ -205,6 +285,73 @@ public enum TileImprovementType: Int, Codable {
         
         return true
     }
+    
+    private func isQuarryPossible(on tile: Tile) -> Bool {
+    
+        guard let owner = tile.owner() else {
+            fatalError("can check without owner")
+        }
+        
+        if !owner.has(tech: .animalHusbandry) {
+            return false
+        }
+        
+        return tile.has(resource: .stone, for: owner) || tile.has(resource: .marble, for: owner) /* || tile.has(resource: .gypsum, for: owner) */
+    }
+    
+    private func isCampPossible(on tile: Tile) -> Bool {
+    
+        guard let owner = tile.owner() else {
+            fatalError("can check without owner")
+        }
+        
+        if !owner.has(tech: .animalHusbandry) {
+            return false
+        }
+        
+        return tile.has(resource: .deer, for: owner) || tile.has(resource: .furs, for: owner) /*|| tile.has(resource: .ivory, for: owner) || tile.has(resource: .truffles, for: owner) */
+    }
+    
+    private func isPasturePossible(on tile: Tile) -> Bool {
+    
+        guard let owner = tile.owner() else {
+            fatalError("can check without owner")
+        }
+        
+        if !owner.has(tech: .animalHusbandry) {
+            return false
+        }
+        
+        return tile.has(resource: .cattle, for: owner) || tile.has(resource: .sheep, for: owner) || tile.has(resource: .horses, for: owner)
+    }
+    
+    private func isPlantationPossible(on tile: Tile) -> Bool {
+    
+        guard let owner = tile.owner() else {
+            fatalError("can check without owner")
+        }
+        
+        if !owner.has(tech: .animalHusbandry) {
+            return false
+        }
+        
+        return tile.has(resource: .bananas, for: owner) || tile.has(resource: .citrus, for: owner) || tile.has(resource: .tea, for: owner)
+        // FIXME: cocoa, cotton, coffee, dyes, incense, silk, spices, sugar, tobacco, wine, olives
+    }
+    
+    private func isFishingBoatsPossible(on tile: Tile) -> Bool {
+    
+        guard let owner = tile.owner() else {
+            fatalError("can check without owner")
+        }
+        
+        if !owner.has(tech: .animalHusbandry) {
+            return false
+        }
+        
+        return tile.has(resource: .fish, for: owner)
+        // FIXME: whales, crabs, pearls, amber, turtles
+    }
 
     func required() -> TechType? {
 
@@ -272,7 +419,7 @@ public enum TileImprovementType: Int, Codable {
         }
         
         // Bananas Citrus Cocoa Coffee Cotton Dyes Silk Sugar Tea Tobacco Wine Olives (Civ6) Olives
-        if self == .plantation && (resource == .bananas || resource == .citrus) {
+        if self == .plantation && (resource == .bananas || resource == .citrus || resource == .tea) {
             return true
         }
         

@@ -598,7 +598,7 @@ public class GameModel {
             
             if activePlayer.isTurnActive() {
                 
-                var blockingNotification: Notifications.Notification? = nil
+                var blockingNotification: NotificationItem? = nil
                 
                 // check notifications
                 if let notifications = activePlayer.notifications() {
@@ -619,7 +619,7 @@ public class GameModel {
                         }
                         
                         if unit.movesLeft() > 0 {
-                            blockingNotification = Notifications.Notification(type: .unitNeedsOrders, message: "Unit needs orders", summary: "Orders needed", at: unit.location)
+                            blockingNotification = NotificationItem(type: .unitNeedsOrders, for: activePlayer, message: "Unit needs orders", summary: "Orders needed", at: unit.location)
                         }
                     }
                 }

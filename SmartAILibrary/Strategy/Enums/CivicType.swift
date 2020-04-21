@@ -269,7 +269,7 @@ public enum CivicType: String, Codable {
         }
     }
 
-    func cost() -> Int {
+    public func cost() -> Int {
 
         switch self {
 

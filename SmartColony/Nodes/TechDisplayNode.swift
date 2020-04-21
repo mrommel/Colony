@@ -17,7 +17,7 @@ class TechDisplayNode: BaseDisplayNode {
         
         self.techType = techType
         
-        super.init(texture: self.techType.iconTexture(), name: self.techType.name(), size: size)
+        super.init(texture: self.techType.iconTexture(), name: self.techType.name(), cost: self.techType.cost(), size: size)
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -79,7 +79,7 @@ public enum TechType: String, Codable {
         return self.data().era
     }
 
-    func cost() -> Int {
+    public func cost() -> Int {
 
         return self.data().cost
     }

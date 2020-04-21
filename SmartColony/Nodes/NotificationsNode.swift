@@ -11,12 +11,14 @@ import SmartAILibrary
 
 protocol NotificationsDelegate: class {
     
-    func handle(notification: Notifications.Notification?)
+    func handle(notification: NotificationItem?)
 }
 
 class NotificationsNode: SizedNode {
     
-    var notifications: [Notifications.Notification] = []
+    // TODO: model?
+    private var notifications: [NotificationItem] = []
+    
     var notificationTopNode: SKSpriteNode?
     var notificationBagdeNodes: [SKSpriteNode?] = []
     var notificationIconNodes: [TouchableSpriteNode?] = []
@@ -81,42 +83,45 @@ class NotificationsNode: SizedNode {
         return false
     }
     
-    func rebuildNotificationBadges() {
+    private func rebuildNotificationBadges() {
         
-        for notificationBagdeNode in self.notificationBagdeNodes {
-            notificationBagdeNode?.removeFromParent()
+        // ensure that this runs on UI thread
+        DispatchQueue.main.async {
+            for notificationBagdeNode in self.notificationBagdeNodes {
+                notificationBagdeNode?.removeFromParent()
+            }
+            
+            for notificationIconNode in self.notificationIconNodes {
+                notificationIconNode?.removeFromParent()
+            }
+            
+            self.notificationBagdeNodes.removeAll()
+            self.notificationIconNodes.removeAll()
+            
+            for notification in self.notifications {
+                
+                let notificationBadgeTexture = SKTexture(imageNamed: "notification_bagde")
+                let notificationBadgeNode = SKSpriteNode(texture: notificationBadgeTexture, color: .black, size: CGSize(width: 61, height: 65))
+                notificationBadgeNode.zPosition = self.zPosition + 0.1
+                notificationBadgeNode.anchorPoint = .lowerLeft
+                self.addChild(notificationBadgeNode)
+                
+                self.notificationBagdeNodes.append(notificationBadgeNode)
+                
+                let buttonIconTextureName = notification.type.iconTexture()
+                let notificationIconNode = TouchableSpriteNode(imageNamed: buttonIconTextureName, size: CGSize(width: 40, height: 40))
+                notificationIconNode.zPosition = self.zPosition + 0.2
+                notificationIconNode.anchorPoint = .lowerLeft
+                self.addChild(notificationIconNode)
+                
+                self.notificationIconNodes.append(notificationIconNode)
+            }
+            
+            self.updateLayout()
         }
-        
-        for notificationIconNode in self.notificationIconNodes {
-            notificationIconNode?.removeFromParent()
-        }
-        
-        self.notificationBagdeNodes.removeAll()
-        self.notificationIconNodes.removeAll()
-        
-        for notification in self.notifications {
-            
-            let notificationBadgeTexture = SKTexture(imageNamed: "notification_bagde")
-            let notificationBadgeNode = SKSpriteNode(texture: notificationBadgeTexture, color: .black, size: CGSize(width: 61, height: 65))
-            notificationBadgeNode.zPosition = self.zPosition + 0.1
-            notificationBadgeNode.anchorPoint = .lowerLeft
-            self.addChild(notificationBadgeNode)
-            
-            self.notificationBagdeNodes.append(notificationBadgeNode)
-            
-            let buttonIconTextureName = notification.type.iconTexture()
-            let notificationIconNode = TouchableSpriteNode(imageNamed: buttonIconTextureName, size: CGSize(width: 40, height: 40))
-            notificationIconNode.zPosition = self.zPosition + 0.2
-            notificationIconNode.anchorPoint = .lowerLeft
-            self.addChild(notificationIconNode)
-            
-            self.notificationIconNodes.append(notificationIconNode)
-        }
-        
-        self.updateLayout()
     }
     
-    func showBlockingButton(for blockingNotification: Notifications.Notification) {
+    func showBlockingButton(for blockingNotification: NotificationItem) {
 
         // todo remove from notifictionslist
         if self.notifications.first(where: { $0.type == blockingNotification.type }) != nil {
@@ -124,5 +129,17 @@ class NotificationsNode: SizedNode {
             self.notifications.removeAll(where: { $0.type == blockingNotification.type })
             self.rebuildNotificationBadges()
         }
+    }
+    
+    func add(notification: NotificationItem) {
+        
+        self.notifications.append(notification)
+        self.rebuildNotificationBadges()
+    }
+    
+    func remove(notification: NotificationItem) {
+        
+        self.notifications.removeAll(where: { $0.type == notification.type })
+        self.rebuildNotificationBadges()
     }
 }

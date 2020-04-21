@@ -109,7 +109,7 @@ public class DiplomaticAI {
 
                     let text = "\(playerAName) and \(playerBName) have made a public Trade Alliance, forging a strong bond between the two empires."
                     //gameModel.add(message: DeclarationOfFriendshipMessage(text: text))
-                    self.player?.notifications()?.add(type: .diplomaticDeclaration, message: text, summary: "declaration of friendship", at: HexPoint.zero)
+                    self.player?.notifications()?.add(type: .diplomaticDeclaration, for: self.player, message: text, summary: "declaration of friendship", at: HexPoint.zero)
                 }
             }
         }
@@ -151,7 +151,7 @@ public class DiplomaticAI {
 
                     let text = "\(playerAName) has denounced \(playerBName)."
                     //gameModel.add(message: DenouncementMessage(text: text))
-                    self.player?.notifications()?.add(type: .diplomaticDeclaration, message: text, summary: "Denounced", at: HexPoint.zero)
+                    self.player?.notifications()?.add(type: .diplomaticDeclaration, for: self.player, message: text, summary: "Denounced", at: HexPoint.zero)
                 }
             }
         }
@@ -273,7 +273,7 @@ public class DiplomaticAI {
             //gameModel.add(message: DeclarationOfWarMessage(by: player))
             
             // TXT_KEY_MISC_DECLARED_WAR_ON_YOU
-            self.player?.notifications()?.add(type: .war, message: "\(player.leader.name()) has declared war on you!", summary: "declaration of war", at: HexPoint.zero)
+            self.player?.notifications()?.add(type: .war, for: self.player, message: "\(player.leader.name()) has declared war on you!", summary: "declaration of war", at: HexPoint.zero)
         }
     }
 

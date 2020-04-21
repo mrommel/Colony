@@ -124,6 +124,12 @@
 		C9F91B43244B9B3E0081EDC8 /* Civics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F91B42244B9B3E0081EDC8 /* Civics.xcassets */; };
 		C9F91B45244B9B9A0081EDC8 /* CivicDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B44244B9B9A0081EDC8 /* CivicDisplayNode.swift */; };
 		C9F91B47244C3FA10081EDC8 /* BaseDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B46244C3FA10081EDC8 /* BaseDisplayNode.swift */; };
+		C9F91B49244DF2570081EDC8 /* BuildingDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B48244DF2560081EDC8 /* BuildingDisplayNode.swift */; };
+		C9F91B4B244E407A0081EDC8 /* DistrictDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B4A244E407A0081EDC8 /* DistrictDisplayNode.swift */; };
+		C9F91B4D244ECB230081EDC8 /* FrameNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B4C244ECB230081EDC8 /* FrameNode.swift */; };
+		C9F91B4F244EE87E0081EDC8 /* SectionHeaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B4E244EE87E0081EDC8 /* SectionHeaderButton.swift */; };
+		C9F91B51244EEB1F0081EDC8 /* ScrollNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B50244EEB1F0081EDC8 /* ScrollNode.swift */; };
+		C9F91B53244F3C010081EDC8 /* UnitDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B52244F3C000081EDC8 /* UnitDisplayNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -271,6 +277,12 @@
 		C9F91B42244B9B3E0081EDC8 /* Civics.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Civics.xcassets; sourceTree = "<group>"; };
 		C9F91B44244B9B9A0081EDC8 /* CivicDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDisplayNode.swift; sourceTree = "<group>"; };
 		C9F91B46244C3FA10081EDC8 /* BaseDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDisplayNode.swift; sourceTree = "<group>"; };
+		C9F91B48244DF2560081EDC8 /* BuildingDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingDisplayNode.swift; sourceTree = "<group>"; };
+		C9F91B4A244E407A0081EDC8 /* DistrictDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictDisplayNode.swift; sourceTree = "<group>"; };
+		C9F91B4C244ECB230081EDC8 /* FrameNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameNode.swift; sourceTree = "<group>"; };
+		C9F91B4E244EE87E0081EDC8 /* SectionHeaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderButton.swift; sourceTree = "<group>"; };
+		C9F91B50244EEB1F0081EDC8 /* ScrollNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollNode.swift; sourceTree = "<group>"; };
+		C9F91B52244F3C000081EDC8 /* UnitDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitDisplayNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -408,8 +420,8 @@
 				C95D9D63244A3280007C522E /* Extensions */,
 				C9B1D22E243495D000033791 /* SafeAreaNode.swift */,
 				C9B1D2302434960000033791 /* BlurrableNode.swift */,
-				C9B1D2372434B71900033791 /* MenuButtonNode.swift */,
 				C9B1D2392434B74F00033791 /* SpriteButtonNode.swift */,
+				C9B1D2372434B71900033791 /* MenuButtonNode.swift */,
 				C9B1D25A2434C82F00033791 /* DropdownNode.swift */,
 				C9B1D25C2435160800033791 /* ProgressBarNode.swift */,
 				C9B1D25E2435166700033791 /* MessageBoxButtonNode.swift */,
@@ -425,6 +437,12 @@
 				C9F91B46244C3FA10081EDC8 /* BaseDisplayNode.swift */,
 				C95D9D64244A32A0007C522E /* TechDisplayNode.swift */,
 				C9F91B44244B9B9A0081EDC8 /* CivicDisplayNode.swift */,
+				C9F91B48244DF2560081EDC8 /* BuildingDisplayNode.swift */,
+				C9F91B4A244E407A0081EDC8 /* DistrictDisplayNode.swift */,
+				C9F91B52244F3C000081EDC8 /* UnitDisplayNode.swift */,
+				C9F91B4C244ECB230081EDC8 /* FrameNode.swift */,
+				C9F91B4E244EE87E0081EDC8 /* SectionHeaderButton.swift */,
+				C9F91B50244EEB1F0081EDC8 /* ScrollNode.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -773,17 +791,22 @@
 				C9B1D25F2435166700033791 /* MessageBoxButtonNode.swift in Sources */,
 				C95B3E0B2438E79B002F5A86 /* BoardLayer.swift in Sources */,
 				C97CD3A5243A586500FABCC0 /* FeatureTypeExtension.swift in Sources */,
+				C9F91B4F244EE87E0081EDC8 /* SectionHeaderButton.swift in Sources */,
+				C9F91B4D244ECB230081EDC8 /* FrameNode.swift in Sources */,
 				C95B3E0024387485002F5A86 /* PixelBuffer.swift in Sources */,
 				C9F91B45244B9B9A0081EDC8 /* CivicDisplayNode.swift in Sources */,
 				C95B3DF824387188002F5A86 /* BottomRightBar.swift in Sources */,
 				C9B1D2362434B10000033791 /* SKSpriteNodeExtension.swift in Sources */,
+				C9F91B4B244E407A0081EDC8 /* DistrictDisplayNode.swift in Sources */,
 				C97CD3A1243A3F1200FABCC0 /* TextureUtils.swift in Sources */,
 				C9EC4E1B244454F9001A0597 /* CityObject.swift in Sources */,
 				C9B1D25B2434C82F00033791 /* DropdownNode.swift in Sources */,
 				C9EC4E2C2445ADD6001A0597 /* DialogItemType.swift in Sources */,
 				C9B1D27F2435208300033791 /* MapSizeDialog.swift in Sources */,
 				C97CD3AE243B669500FABCC0 /* GameObjectAtlas.swift in Sources */,
+				C9F91B51244EEB1F0081EDC8 /* ScrollNode.swift in Sources */,
 				C97CD39F243A3E9C00FABCC0 /* ResourceLayer.swift in Sources */,
+				C9F91B53244F3C010081EDC8 /* UnitDisplayNode.swift in Sources */,
 				C9B1D27924351F3500033791 /* Dialog.swift in Sources */,
 				C95B3DFE243872E0002F5A86 /* TouchableSpriteNode.swift in Sources */,
 				C95B3DEE243726CD002F5A86 /* GameLoadingScene.swift in Sources */,
@@ -794,6 +817,7 @@
 				C95B3DF224386E8A002F5A86 /* GameSceneViewModel.swift in Sources */,
 				C9B1D25D2435160800033791 /* ProgressBarNode.swift in Sources */,
 				C9B1D22C2434955300033791 /* BaseScene.swift in Sources */,
+				C9F91B49244DF2570081EDC8 /* BuildingDisplayNode.swift in Sources */,
 				C95B3DF624387125002F5A86 /* BottomLeftBar.swift in Sources */,
 				C9B1D283243521A500033791 /* MapRainfallDialog.swift in Sources */,
 				C9F91B3B244B91CA0081EDC8 /* TechTypeExtension.swift in Sources */,

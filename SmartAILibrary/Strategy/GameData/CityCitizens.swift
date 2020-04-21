@@ -1333,7 +1333,7 @@ public class CityCitizens {
         
         var value = 0.0
         
-        let yields = tile.yields(ignoreFeature: false)
+        let yields = tile.yields(for: self.city?.player, ignoreFeature: false)
 
         // Yield Values
         var foodYieldValue = 12 /* AI_CITIZEN_VALUE_FOOD */ * yields.value(of: .food)
@@ -1437,7 +1437,7 @@ public class CityCitizens {
             return false
         }
 
-        if !tile.hasYield() && tile.yields(ignoreFeature: false).culture <= 0 {
+        if tile.yields(for: self.city?.player, ignoreFeature: false).culture <= 0 {
             return false
         }
 

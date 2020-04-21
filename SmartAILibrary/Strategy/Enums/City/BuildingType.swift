@@ -23,7 +23,7 @@ public enum BuildingType: Int, Codable {
     
     // harbor
 
-    static var all: [BuildingType] {
+    public static var all: [BuildingType] {
         return [
             // ancient
                 .palace, .granary, .monument, .library, .shrine, .ancientWalls, .barracks
@@ -32,7 +32,7 @@ public enum BuildingType: Int, Codable {
 
     // MARK: methods
     
-    func name() -> String {
+    public func name() -> String {
         
         switch self {
             
@@ -153,7 +153,7 @@ public enum BuildingType: Int, Codable {
         }
     }
 
-    func district() -> DistrictType {
+    public func district() -> DistrictType {
 
         switch self {
 

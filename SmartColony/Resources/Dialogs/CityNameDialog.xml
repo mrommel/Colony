@@ -50,8 +50,8 @@
             <result>OKAY</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>-120</offsetx>
-            <offsety>-150</offsety>
+            <offsetx>-60</offsetx>
+            <offsety>-100</offsety>
             <width>100</width>
             <height>42</height>
         </item>
@@ -62,8 +62,8 @@
             <result>CANCEL</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>20</offsetx>
-            <offsety>-150</offsety>
+            <offsetx>60</offsetx>
+            <offsety>-100</offsety>
             <width>100</width>
             <height>42</height>
         </item>

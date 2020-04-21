@@ -38,7 +38,9 @@ class ScienceDialog: Dialog {
             
             if let techDisplayNode = item as? TechDisplayNode {
                 
-                if techs.has(tech: techDisplayNode.techType) {
+                if techs.currentTech() == techDisplayNode.techType {
+                    techDisplayNode.select()
+                } else if techs.has(tech: techDisplayNode.techType) {
                     techDisplayNode.activate()
                 } else if !possibleTechs.contains(techDisplayNode.techType) {
                     techDisplayNode.disable()

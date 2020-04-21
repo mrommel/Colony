@@ -39,8 +39,6 @@ class GameScene: BaseScene {
     private var bottomRightBar: BottomRightBar?
     private var notificationsNode: NotificationsNode?
 
-    //private var turnButton: MessageBoxButtonNode?
-    //private var turnDialog: TurnDialog?
     private var bannerNode: BannerNode?
     
     // yields
@@ -56,8 +54,9 @@ class GameScene: BaseScene {
     var lastExecuted: TimeInterval = -1
     let queue = DispatchQueue(label: "update_queue")
     var readyUpdatingAI: Bool = true
+    var readyUpdatingHuman: Bool = true
     var uiTurnState: UITurnState = .aiTurns
-    var blockingNotification: Notifications.Notification? = nil
+    var blockingNotification: Notification? = nil
 
     // delegate
     weak var gameDelegate: GameDelegate?
@@ -230,6 +229,18 @@ class GameScene: BaseScene {
 
             if self.readyUpdatingAI && humanPlayer.isActive() {
                 self.changeUITurnState(to: .humanTurns)
+                
+                if self.readyUpdatingHuman {
+                    
+                    self.readyUpdatingHuman = false
+                    queue.async {
+                        //print("-----------> before human processing")
+                        gameModel.update()
+                        //print("-----------> after human processing")
+                        self.readyUpdatingHuman = true
+                    }
+                }
+                
             } else {
                 if self.readyUpdatingAI {
                     self.readyUpdatingAI = false
@@ -284,10 +295,10 @@ class GameScene: BaseScene {
             self.updateTurnButton()
             
             // update notifications
-            if let notifications = humanPlayer.notifications() {
+            /*if let notifications = humanPlayer.notifications() {
                 self.notificationsNode?.notifications = notifications.notifications()
                 self.notificationsNode?.rebuildNotificationBadges()
-            }
+            }*/
             
         case .humanBlocked:
             // NOOP
@@ -609,9 +620,9 @@ extension GameScene: BottomLeftBarDelegate {
     }
 }
 
-extension GameScene: NotificationsDelegate {
+extension GameScene : NotificationsDelegate {
 
-    func handle(notification: Notifications.Notification?) {
+    func handle(notification: NotificationItem?) {
         
         guard let notification = notification else {
             fatalError("cant get notification")
@@ -625,10 +636,10 @@ extension GameScene: NotificationsDelegate {
             // NOOP
             break
         case .tech:
-            // NOOP
+            notification.activate(in: self.viewModel?.game)
             break
         case .civic:
-            // NOOP
+            notification.activate(in: self.viewModel?.game)
             break
         case .production:
             notification.activate(in: self.viewModel?.game)
@@ -662,7 +673,7 @@ extension GameScene: NotificationsDelegate {
 }
 
 extension GameScene: UserInterfaceProtocol {
-
+    
     func select(unit: AbstractUnit?) {
 
         self.mapNode?.unitLayer.showFocus(for: unit)
@@ -713,6 +724,67 @@ extension GameScene: UserInterfaceProtocol {
             })
             
             self.cameraNode.add(dialog: cityDialog)
+            
+        } else if screenType == .techs {
+            
+            guard let gameModel = self.viewModel?.game else {
+                fatalError("cant get game")
+            }
+
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                fatalError("cant get human")
+            }
+            
+            let scienceDialog = ScienceDialog(with: humanPlayer.techs)
+            scienceDialog.zPosition = 250
+                   
+            scienceDialog.addCancelAction(handler: {
+                scienceDialog.close()
+            })
+            
+            scienceDialog.addResultHandler(handler: { result in
+                //print("result: \(result) => \(result.toTech())")
+                do {
+                    try humanPlayer.techs?.setCurrent(tech: result.toTech())
+                    //humanPlayer.notifications()?.update(in: self.viewModel?.game)
+                    scienceDialog.close()
+                } catch {
+                    print("cant select tech \(error)")
+                }
+            })
+            
+            self.cameraNode.add(dialog: scienceDialog)
+            
+        } else if screenType == .civics {
+            
+            guard let gameModel = self.viewModel?.game else {
+                fatalError("cant get game")
+            }
+
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                fatalError("cant get human")
+            }
+            
+            let civicDialog = CivicDialog(with: humanPlayer.civics)
+            civicDialog.zPosition = 250
+                   
+            civicDialog.addCancelAction(handler: {
+                civicDialog.close()
+            })
+            
+            civicDialog.addResultHandler(handler: { result in
+                
+                //print("result: \(result) => \(result.toCivic())")
+                do {
+                    try humanPlayer.civics?.setCurrent(civic: result.toCivic())
+                    civicDialog.close()
+                } catch {
+                    print("cant select tech \(error)")
+                }
+            })
+            
+            self.cameraNode.add(dialog: civicDialog)
+            
         } else {
             print("screen: \(screenType) not handled")
         }
@@ -746,8 +818,14 @@ extension GameScene: UserInterfaceProtocol {
         print("tooltip")
     }
 
-    func show(notification: Notifications.Notification) {
-        fatalError("cant display: \(notification.type)")
+    func add(notification: NotificationItem) {
+
+        self.notificationsNode?.add(notification: notification)
+    }
+    
+    func remove(notification: NotificationItem) {
+        
+        self.notificationsNode?.remove(notification: notification)
     }
 
     func refresh(tile: AbstractTile?) {

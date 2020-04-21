@@ -19,8 +19,9 @@ public class Yields {
     var faith: Double
     
     var housing: Double
+    var appeal: Double
     
-    init(food: Double, production: Double, gold: Double, science: Double = 0.0, culture: Double = 0.0, faith: Double = 0.0, housing: Double = 0.0) {
+    init(food: Double, production: Double, gold: Double, science: Double = 0.0, culture: Double = 0.0, faith: Double = 0.0, housing: Double = 0.0, appeal: Double = 0.0) {
         
         self.food = food
         self.production = production
@@ -31,6 +32,7 @@ public class Yields {
         self.faith = faith
         
         self.housing = housing
+        self.appeal = appeal
     }
     
     func value(of yieldType: YieldType) -> Double {
@@ -61,6 +63,7 @@ extension Yields {
         lhs.faith += rhs.faith
         
         lhs.housing += rhs.housing
+        lhs.appeal += rhs.appeal
     }
     
     static func -=(lhs: inout Yields, rhs: Yields) {
@@ -73,10 +76,11 @@ extension Yields {
         lhs.faith -= rhs.faith
         
         lhs.housing -= rhs.housing
+        lhs.appeal -= rhs.appeal
     }
     
     static func -(lhs: Yields, rhs: Yields) -> Yields {
         
-        return Yields(food: lhs.food - rhs.food, production: lhs.production - rhs.production, gold: lhs.gold - rhs.gold, science: lhs.science - rhs.science, culture: lhs.culture - rhs.culture, faith: lhs.faith - rhs.faith, housing: lhs.housing - rhs.housing)
+        return Yields(food: lhs.food - rhs.food, production: lhs.production - rhs.production, gold: lhs.gold - rhs.gold, science: lhs.science - rhs.science, culture: lhs.culture - rhs.culture, faith: lhs.faith - rhs.faith, housing: lhs.housing - rhs.housing, appeal: lhs.appeal - rhs.appeal)
     }
 }

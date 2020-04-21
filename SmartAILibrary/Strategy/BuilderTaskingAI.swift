@@ -585,8 +585,8 @@ public class BuilderTaskingAI {
             if tmpBuildType == .repair {
                 directiveType = .repair
                 weight = 200 /* BUILDER_TASKING_BASELINE_REPAIR */
-            } else if improvement.yields().culture > 0 {
-                weight = Int(100 /* BUILDER_TASKING_BASELINE_ADDS_CULTURE */ * improvement.yields().culture)
+            } else if improvement.yields(for: player).culture > 0 {
+                weight = Int(100 /* BUILDER_TASKING_BASELINE_ADDS_CULTURE */ * improvement.yields(for: player).culture)
                 /*let adjacentCulture = pImprovement->GetCultureAdjacentSameType();
 
                 if (iAdjacentCulture > 0)
@@ -692,8 +692,8 @@ public class BuilderTaskingAI {
         for yieldType in YieldType.all {
             
             // calculate natural yields
-            let previousYield = pPlot.yieldsWith(buildType: chopBuild, ignoreFeature: false)
-            let newYield = pPlot.yieldsWith(buildType: chopBuild, ignoreFeature: true) 
+            let previousYield = pPlot.yieldsWith(buildType: chopBuild, for: player, ignoreFeature: false)
+            let newYield = pPlot.yieldsWith(buildType: chopBuild, for: player, ignoreFeature: true)
             let deltaYield = newYield - previousYield
 
             if deltaYield.value(of: yieldType) == 0 {
@@ -921,8 +921,8 @@ public class BuilderTaskingAI {
         }
         
         // preparation
-        let currentYields = pTargetPlot.yields(ignoreFeature: false)
-        let projectedYields = pTargetPlot.yieldsWith(buildType: buildType, ignoreFeature: false)
+        let currentYields = pTargetPlot.yields(for: player, ignoreFeature: false)
+        let projectedYields = pTargetPlot.yieldsWith(buildType: buildType, for: player, ignoreFeature: false)
 
         var score = 0.0
         var anyNegativeMultiplier = false;

@@ -620,7 +620,7 @@ public class CitySpecializationAI {
                 }
             }
 
-            potentialYield = loopPlot.yields(ignoreFeature: false).food + loopPlot.yields(ignoreFeature: false).science
+            potentialYield = loopPlot.yields(for: self.player, ignoreFeature: false).food + loopPlot.yields(for: self.player, ignoreFeature: false).science
 
             // If owned by someone else, not worth anything
             if loopPlot.hasOwner() && loopPlot.owner()?.leader != self.player?.leader {
@@ -671,7 +671,7 @@ public class CitySpecializationAI {
             }
             
             
-            potentialYield = loopPlot.yields(ignoreFeature: false).value(of: yield)
+            potentialYield = loopPlot.yields(for: self.player, ignoreFeature: false).value(of: yield)
 
             // If owned by someone else, not worth anything
             if loopPlot.hasOwner() && loopPlot.owner()?.leader != self.player?.leader {

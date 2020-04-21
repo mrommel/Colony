@@ -8,66 +8,96 @@
 
 import Foundation
 
-public class Notifications {
+public class NotificationItem {
     
+    public let type: NotificationType
     let player: AbstractPlayer?
-    var notificationsValue: [Notification]
+    let location: HexPoint
+    public let message: String
+    public let summary: String
+    let turn: Int = -1 // which turn this event was created on
+    var dismissed: Bool
+    var needsBroadcasting: Bool
     
-    public class Notification {
+    public init(type: NotificationType, for player: AbstractPlayer?, message: String, summary: String, at location: HexPoint) {
         
-        public let type: NotificationType
-        //let player: AbstractPlayer?
-        let location: HexPoint
-        public let message: String
-        public let summary: String
-        let turn: Int = -1 // which turn this event was created on
-        var dismissed: Bool
+        self.type = type
+        self.player = player
+        self.message = message
+        self.summary = summary
+        self.location = location
         
-        public init(type: NotificationType, message: String, summary: String, at location: HexPoint) {
-            
-            self.type = type
-            self.message = message
-            self.summary = summary
-            self.location = location
-            
-            self.dismissed = false
-        }
+        self.dismissed = false
+        self.needsBroadcasting = true
+    }
+    
+    public func activate(in gameModel: GameModel?) {
         
-        public func activate(in gameModel: GameModel?) {
+        switch self.type {
             
-            switch self.type {
-                
-            case .tech:
-                print("activate \(self.type) not handled")
-                
-            case .civic:
-                print("activate \(self.type) not handled")
-                
-            case .production:
-                if let city = gameModel?.city(at: self.location) {
-                    gameModel?.userInterface?.showScreen(screenType: .city, city: city)
-                }
-                
-            case .unitNeedsOrders:
-                gameModel?.userInterface?.focus(on: self.location)
-                
-            default:
-                print("activate \(self.type) not handled")
+        case .tech:
+            gameModel?.userInterface?.showScreen(screenType: .techs, city: nil)
+            
+        case .civic:
+            gameModel?.userInterface?.showScreen(screenType: .civics, city: nil)
+            
+        case .production:
+            if let city = gameModel?.city(at: self.location) {
+                gameModel?.userInterface?.showScreen(screenType: .city, city: city)
             }
             
+        case .unitNeedsOrders:
+            gameModel?.userInterface?.focus(on: self.location)
             
-                
+        default:
+            print("activate \(self.type) not handled")
         }
+    }
+    
+    public func dismiss(in gameModel: GameModel?) {
+        print("dismiss: \(self.type)")
+        self.dismissed = true
+        gameModel?.userInterface?.remove(notification: self)
+    }
+    
+    func expired(in gameModel: GameModel?) -> Bool {
         
-        public func dismiss() {
-            print("dismiss: \(self.type)")
-        }
-        
-        func expired() -> Bool {
+        switch self.type {
             
+        case .tech:
+            guard let techs = self.player?.techs else {
+                fatalError("cant get techs")
+            }
+            
+            if !techs.needToChooseTech() {
+                // already selected a tech
+                return true
+            }
+            
+            return false
+            
+        case .civic:
+            guard let civics = self.player?.civics else {
+                fatalError("cant get civics")
+            }
+            
+            if !civics.needToChooseCivic() {
+                // already selected a civic
+                return true
+            }
+            
+            return false
+            
+        default:
             return false
         }
     }
+}
+
+public class Notifications {
+    
+    let player: AbstractPlayer?
+    var notificationsValue: [NotificationItem]
     
     init(player: AbstractPlayer?) {
         
@@ -85,21 +115,24 @@ public class Notifications {
             
             if !notification.dismissed {
                 
-                if notification.expired() {
-                    notification.dismiss()
+                if notification.expired(in: gameModel) {
+                    notification.dismiss(in: gameModel)
                 } else {
-                    gameModel.userInterface?.show(notification: notification)
+                    if notification.needsBroadcasting {
+                        gameModel.userInterface?.add(notification: notification)
+                        notification.needsBroadcasting = false
+                    }
                 }
             }
         }
     }
     
-    public func notifications() -> [Notification] {
+    public func notifications() -> [NotificationItem] {
     
         return self.notificationsValue
     }
     
-    func add(type: NotificationType, message: String, summary: String, at location: HexPoint = HexPoint.zero) {
+    func add(type: NotificationType, for player: AbstractPlayer?, message: String, summary: String, at location: HexPoint = HexPoint.zero) {
         
         guard let player = self.player else {
             fatalError("cant get player")
@@ -110,10 +143,10 @@ public class Notifications {
             return
         }
         
-        self.notificationsValue.append(Notification(type: type, message: message, summary: summary, at: location))
+        self.notificationsValue.append(NotificationItem(type: type, for: player, message: message, summary: summary, at: location))
     }
     
-    func endTurnBlockingNotification() -> Notification? {
+    func endTurnBlockingNotification() -> NotificationItem? {
         
         for notification in self.notificationsValue {
             

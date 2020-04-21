@@ -94,8 +94,8 @@ public protocol AbstractPlayer: class {
     
     // notification
     func updateNotifications(in gameModel: GameModel?)
-    func set(blockingNotification: Notifications.Notification?)
-    func blockingNotification() -> Notifications.Notification?
+    func set(blockingNotification: NotificationItem?)
+    func blockingNotification() -> NotificationItem?
 
     // era
     func currentEra() -> EraType
@@ -211,7 +211,7 @@ public class Player: AbstractPlayer {
     private var cultureEarned: Int = 0
     
     private var notificationsValue: Notifications?
-    private var blockingNotificationValue: Notifications.Notification? = nil
+    private var blockingNotificationValue: NotificationItem? = nil
 
     // MARK: constructor
 
@@ -425,12 +425,12 @@ public class Player: AbstractPlayer {
         }*/
     }
     
-    public func set(blockingNotification: Notifications.Notification?) {
+    public func set(blockingNotification: NotificationItem?) {
         
         self.blockingNotificationValue = blockingNotification
     }
     
-    public func blockingNotification() -> Notifications.Notification? {
+    public func blockingNotification() -> NotificationItem? {
         
         return self.blockingNotificationValue
     }
@@ -1278,7 +1278,7 @@ public class Player: AbstractPlayer {
             if self.isActive() {
                 let isOrAre = self.leader.civilization().isPlural() ? "are" : "is"
                 let message = "\(self.leader.civilization()) \(isOrAre) ready for a new construction project."
-                self.notifications()?.add(type: .production, message: message, summary: message, at: location)
+                self.notifications()?.add(type: .production, for: self, message: message, summary: message, at: location)
             }
             
             city.doFoundMessage()
@@ -1287,7 +1287,7 @@ public class Player: AbstractPlayer {
             if techs.needToChooseTech() && self.science(in: gameModel) > 0.0 {
                 
                 if self.isActive() {
-                    self.notifications()?.add(type: .tech, message: "You may select a new research project.", summary: "Choose Research", at: HexPoint.zero)
+                    self.notifications()?.add(type: .tech, for: self, message: "You may select a new research project.", summary: "Choose Research", at: HexPoint.zero)
                 }
             }
             
@@ -1295,7 +1295,7 @@ public class Player: AbstractPlayer {
             if civics.needToChooseCivic() && self.culture(in: gameModel) > 0.0 {
                 
                 if self.isActive() {
-                    self.notifications()?.add(type: .civic, message: "You may select a new civic project.", summary: "Choose Civic", at: HexPoint.zero)
+                    self.notifications()?.add(type: .civic, for: self, message: "You may select a new civic project.", summary: "Choose Civic", at: HexPoint.zero)
                 }
             }
             

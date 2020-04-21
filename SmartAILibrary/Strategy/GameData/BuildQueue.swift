@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BuildQueue {
+public class BuildQueue {
     
     fileprivate var items: [BuildableItem]
     
@@ -45,7 +45,7 @@ class BuildQueue {
         return nil
     }
     
-    func peek() -> BuildableItem? {
+    public func peek() -> BuildableItem? {
         
         return self.items.first
     }
@@ -63,12 +63,12 @@ class BuildQueue {
 
 extension BuildQueue: Sequence {
     
-    func makeIterator() -> BuildQueueIterator {
+    public func makeIterator() -> BuildQueueIterator {
         return BuildQueueIterator(queue: self)
     }
 }
 
-struct BuildQueueIterator: IteratorProtocol {
+public struct BuildQueueIterator: IteratorProtocol {
     
     private let queue: BuildQueue
     private var index = 0
@@ -77,7 +77,7 @@ struct BuildQueueIterator: IteratorProtocol {
         self.queue = queue
     }
     
-    mutating func next() -> BuildableItem? {
+    mutating public func next() -> BuildableItem? {
         
         guard 0 <= index else {
             return nil

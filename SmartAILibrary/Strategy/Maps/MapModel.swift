@@ -118,9 +118,13 @@ public class MapModel: Codable {
         let continentFinder = ContinentFinder(size: self.size)
         self.continents = continentFinder.execute(on: self)
         
+        // dummy player
+        let player = Player(leader: .alexander)
+        player.initialize()
+        
         // map is divided into regions
         let fertilityEvaluator = CitySiteEvaluator(map: self)
-        let finder = RegionFinder(map: self, evaluator: fertilityEvaluator, for: nil)
+        let finder = RegionFinder(map: self, evaluator: fertilityEvaluator, for: player)
         self.areas = finder.divideInto(regions: 2) // <- FIXME
         
         // set area to tile

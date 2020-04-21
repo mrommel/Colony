@@ -83,7 +83,7 @@ public enum UnitType: Int, Codable {
         let moves: Int
     }
 
-    static var all: [UnitType] {
+    public static var all: [UnitType] {
 
         return [
             // barbarians
@@ -98,6 +98,11 @@ public enum UnitType: Int, Codable {
             // great people
             .artist, .engineer, .merchant, .scientist, .admiral, .general, .prophet
         ]
+    }
+    
+    public func name() -> String {
+
+        return self.data().name
     }
 
     func range() -> Int {
@@ -218,11 +223,6 @@ public enum UnitType: Int, Codable {
         case .prophet:
             return UnitTypeData(name: "prophet", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
         }
-    }
-
-    func name() -> String {
-
-        return self.data().name
     }
 
     // https://github.com/Thalassicus/cep-bnw/blob/9196a4d3fc84c173013a900691222ee072eb5c8a/Ceg/Ceg/AI/Flavors/Custom%20AI%20Flavors/Ancient%20-%20Early.xml
@@ -496,7 +496,7 @@ public enum UnitType: Int, Codable {
         }
     }
 
-    func required() -> TechType? {
+    public func required() -> TechType? {
 
         switch self {
 
@@ -526,7 +526,7 @@ public enum UnitType: Int, Codable {
     }
 
     // is unit type special to any civ? nil if not
-    func civilization() -> CivilizationType? {
+    public func civilization() -> CivilizationType? {
 
         switch self {
 
