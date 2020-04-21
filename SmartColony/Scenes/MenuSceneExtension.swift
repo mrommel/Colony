@@ -52,12 +52,6 @@ extension MenuScene {
             case .earth:
                 self.loadEarthMap(sized: size)
                
-            case .pangaea:
-                print("not handled: pangaea")
-                fatalError("not implemented")
-               
-               // one main continent, some small islands
-               
             case .continents:
                 // 3-4 main continents, some small islands
                 let mapOptions = MapOptions(withSize: size)
@@ -65,6 +59,12 @@ extension MenuScene {
                
                 self.generateMap(from: mapOptions)
 
+            case .pangaea:
+                print("not handled: pangaea")
+                fatalError("not implemented")
+            
+                // one main continent, some small islands
+                
             case .archipelago:
                 print("not handled: archipelago")
                 fatalError("not implemented")

@@ -126,6 +126,15 @@ class CityDialog: Dialog {
 
         for districtType in DistrictType.all {
             
+            var valid = true
+            if let requiredTech = districtType.required() {
+                valid = techs.has(tech: requiredTech)
+            }
+            
+            if !valid {
+                continue
+            }
+            
             if districts.has(district: districtType) {
                 
                 let districtNode = DistrictDisplayNode(districtType: districtType, active: true, size: CGSize(width: 200, height: 40))

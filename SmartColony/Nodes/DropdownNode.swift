@@ -36,7 +36,7 @@ class DropdownPanelNode: NineGridTextureSprite {
         var y = -26
         for item in self.items {
 
-            let itemLabel = SpriteButtonNode(imageNamed: item.imageName, title: item.title, defaultButtonImage: "grid9_dropdown_background_normal", hoverButtonImage: "grid9_dropdown_background_hover", activeButtonImage: "grid9_dropdown_background_selected", size: CGSize(width: 180, height: 35), buttonAction: { })
+            let itemLabel = SpriteButtonNode(imageNamed: item.imageName, title: item.title, enabledButtonImage: "grid9_dropdown_background_normal", disabledButtonImage: "grid9_dropdown_background_selected", size: CGSize(width: 180, height: 35), buttonAction: { })
             itemLabel.position = CGPoint(x: 2, y: y + 5)
             itemLabel.zPosition = self.zPosition + 1
             self.addChild(itemLabel)

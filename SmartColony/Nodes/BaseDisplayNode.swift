@@ -52,7 +52,7 @@ class BaseDisplayNode: SKNode {
         self.addChild(self.labelNode!)
         
         // cost
-        self.costNode = SpriteButtonNode(titled: "\(cost)", defaultButtonImage: "tech_blue", activeButtonImage: "tech_blue", size: CGSize(width: 32, height: 24), buttonAction: {})
+        self.costNode = SpriteButtonNode(titled: "\(cost)", enabledButtonImage: "tech_blue", disabledButtonImage: "tech_blue", size: CGSize(width: 32, height: 24), buttonAction: {})
         self.costNode?.position = CGPoint(x: 92, y: -43)
         self.costNode?.zPosition = self.zPosition + 1
         self.costNode?.fontSize = 14

@@ -15,10 +15,10 @@ class SectionHeaderButton: SpriteButtonNode {
     init(titled title: String, sized size: CGSize = CGSize(width: 200, height: 42), buttonAction: @escaping () -> Void) {
 
         super.init(titled: title,
-            defaultButtonImage: "segment_button",
-            activeButtonImage: "segment_button",
-            size: size,
-            buttonAction: buttonAction)
+                   enabledButtonImage: "segment_button",
+                   disabledButtonImage: "segment_button",
+                   size: size,
+                   buttonAction: buttonAction)
         
         self.fontColor = SKColor(hex: "#16344f")
     }

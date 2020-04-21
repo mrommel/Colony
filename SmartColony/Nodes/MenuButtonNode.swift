@@ -13,8 +13,8 @@ class MenuButtonNode: SpriteButtonNode {
     init(titled title: String, sized size: CGSize = CGSize(width: 200, height: 42)) {
         
         super.init(titled: title,
-                   defaultButtonImage: "grid9_button_active",
-                   activeButtonImage: "grid9_button_highlighted",
+                   enabledButtonImage: "grid9_button_active",
+                   disabledButtonImage: "grid9_button_disabled",
                    size: size,
                    buttonAction: {})
     }
@@ -22,8 +22,8 @@ class MenuButtonNode: SpriteButtonNode {
     init(titled title: String, sized size: CGSize = CGSize(width: 200, height: 42), buttonAction: @escaping () -> Void) {
         
         super.init(titled: title,
-                   defaultButtonImage: "grid9_button_active",
-                   activeButtonImage: "grid9_button_highlighted",
+                   enabledButtonImage: "grid9_button_active",
+                   disabledButtonImage: "grid9_button_disabled",
                    size: size,
                    buttonAction: buttonAction)
     }
@@ -32,8 +32,8 @@ class MenuButtonNode: SpriteButtonNode {
         
         super.init(imageNamed: imageName,
                    title: title,
-                   defaultButtonImage: "grid9_button_active",
-                   activeButtonImage: "grid9_button_highlighted",
+                   enabledButtonImage: "grid9_button_active",
+                   disabledButtonImage: "grid9_button_disabled",
                    size: size,
                    buttonAction: buttonAction)
     }

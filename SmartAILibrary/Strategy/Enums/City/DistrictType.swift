@@ -31,7 +31,7 @@ public enum DistrictType: Int, Codable {
         return self.data().productionCost
     }
     
-    func required() -> TechType? {
+    public func required() -> TechType? {
         
         return self.data().required
     }

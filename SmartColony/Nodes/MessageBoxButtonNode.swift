@@ -13,20 +13,20 @@ class MessageBoxButtonNode: SpriteButtonNode {
     init(titled title: String, sized size: CGSize = CGSize(width: 100, height: 42), buttonAction: @escaping () -> Void) {
 
         super.init(titled: title,
-            defaultButtonImage: "grid9_button_active",
-            activeButtonImage: "grid9_button_highlighted",
-            size: size,
-            buttonAction: buttonAction)
+                   enabledButtonImage: "grid9_button_active",
+                   disabledButtonImage: "grid9_button_disabled",
+                   size: size,
+                   buttonAction: buttonAction)
     }
 
     init(imageNamed imageName: String, title: String, sized size: CGSize = CGSize(width: 100, height: 42), buttonAction: @escaping () -> Void) {
 
         super.init(imageNamed: imageName,
-            title: title,
-            defaultButtonImage: "grid9_button_active",
-            activeButtonImage: "grid9_button_highlighted",
-            size: size,
-            buttonAction: buttonAction)
+                   title: title,
+                   enabledButtonImage: "grid9_button_active",
+                   disabledButtonImage: "grid9_button_disabled",
+                   size: size,
+                   buttonAction: buttonAction)
     }
 
     /**

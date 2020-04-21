@@ -31,16 +31,16 @@ class ScrollNode: SKCropNode {
         self.isUserInteractionEnabled = true
         
         // background
-        let textureName = "scroll_background" // <= replace?
+        let textureName = "scroll_background"
         self.backgroundNode = NineGridTextureSprite(imageNamed: textureName, size: size)
         self.backgroundNode?.position = CGPoint(x: 0.0, y: 0.0)
         self.backgroundNode?.zPosition = self.zPosition
-        self.addChild(self.backgroundNode!)
+        super.addChild(self.backgroundNode!)
         
         self.scrollNode = SKNode()
-        self.scrollNode?.position = CGPoint(x: 0, y: 0)
-        self.scrollNode?.zPosition = self.zPosition + 1
-        self.addChild(self.scrollNode!)
+        self.scrollNode?.position = CGPoint(x: 0.0, y: 0.0)
+        self.scrollNode?.zPosition = self.zPosition + 1.0
+        super.addChild(self.scrollNode!)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -48,7 +48,7 @@ class ScrollNode: SKCropNode {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+
         let touch = touches.first!
         
         let touchLocation = touch.location(in: self)
@@ -60,9 +60,7 @@ class ScrollNode: SKCropNode {
         }
         
         var newPositionY = self.scrollNode!.position.y + deltaY
-        
-        //print("swipe by: \(deltaY) to \(newPositionY)")
-        
+ 
         if newPositionY > self.contentSize.height - self.size.height {
             newPositionY = self.contentSize.height - self.size.height
         }
@@ -73,14 +71,14 @@ class ScrollNode: SKCropNode {
         
         self.scrollNode?.position.y = newPositionY
     }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        
-    }
 
     func addScrolling(child: SKNode) {
         
         self.scrollNode?.addChild(child)
+    }
+    
+    override func addChild(_ node: SKNode) {
+        
+        fatalError("use addScrolling(child:) instead")
     }
 }

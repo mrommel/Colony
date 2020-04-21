@@ -61,13 +61,37 @@ class UnitDisplayNode: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        // propergate to scrollview
+        if let scrollView = self.parent?.parent as? ScrollNode {
+            scrollView.touchesBegan(touches, with: event)
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        // propergate to scrollview
+        if let scrollView = self.parent?.parent as? ScrollNode {
+            scrollView.touchesMoved(touches, with: event)
+        }
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if let touch: UITouch = touches.first {
             let location: CGPoint = touch.location(in: self)
             
-            if self.backgroundNode!.contains(location) {
-                self.action(self.unitType)
+            // propergate to scrollview
+            if let scrollView = self.parent?.parent as? ScrollNode {
+                
+                if !scrollView.backgroundNode!.contains(location) {
+                    return
+                }
+                
+                if self.backgroundNode!.contains(location) {
+                    self.action(self.unitType)
+                }
             }
         }
     }

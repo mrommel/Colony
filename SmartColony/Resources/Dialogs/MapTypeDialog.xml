@@ -70,6 +70,7 @@
             <offsety>-10</offsety>
             <width>200</width>
             <height>42</height>
+            <active>false</active>
         </item>
         <item>
             <identifier>inlandsea_button</identifier>
@@ -83,6 +84,7 @@
             <offsety>-60</offsety>
             <width>200</width>
             <height>42</height>
+            <active>false</active>
         </item>
         <item>
             <identifier>archipelago_button</identifier>
@@ -96,6 +98,7 @@
             <offsety>-110</offsety>
             <width>200</width>
             <height>42</height>
+            <active>false</active>
         </item>
         <item>
             <identifier>random_button</identifier>

@@ -66,6 +66,9 @@ class Dialog: NineGridTextureSprite {
                 buttonItem.name = item.identifier
                 buttonItem.position = item.position()
                 buttonItem.zPosition = Globals.ZLevels.dialogs + 1.0
+                if !item.active {
+                    buttonItem.disable()
+                }
                 self.addChild(buttonItem)
 
             case .image:
