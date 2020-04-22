@@ -601,7 +601,7 @@ public class City: AbstractCity {
         return foodFromGovernmentType
     }
     
-    func foodFromBuilding() -> Double {
+    func foodFromBuilding(in gameModel: GameModel?) -> Double {
         
         guard let buildings = self.buildings else {
             fatalError("no buildings set")
@@ -616,7 +616,58 @@ public class City: AbstractCity {
             }
         }
         
+        // handle special building rules
+        if buildings.has(building: .waterMill) {
+            foodFromBuilding += self.amountOfNearby(resource: .rice, in: gameModel)
+            foodFromBuilding += self.amountOfNearby(resource: .wheat, in: gameModel)
+        }
+        
+        if buildings.has(building: .lighthouse) {
+            foodFromBuilding += self.amountOfNearby(terrain: .shore, in: gameModel)
+            // fixme: lake feature
+        }
+        
         return foodFromBuilding
+    }
+    
+    private func amountOfNearby(resource: ResourceType, in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var resourceValue = 0.0
+        
+        for neighbor in self.location.areaWith(radius: 2) {
+            
+            if let neighborTile = gameModel.tile(at: neighbor) {
+                if neighborTile.resource(for: self.player) == resource {
+                    resourceValue += 1.0
+                }
+            }
+        }
+        
+        return resourceValue
+    }
+    
+    private func amountOfNearby(terrain: TerrainType, in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var terrainValue = 0.0
+        
+        for neighbor in self.location.areaWith(radius: 2) {
+            
+            if let neighborTile = gameModel.tile(at: neighbor) {
+                if neighborTile.terrain() == terrain {
+                    terrainValue += 1.0
+                }
+            }
+        }
+        
+        return terrainValue
     }
     
     public func foodPerTurn(in gameModel: GameModel?) -> Double {
@@ -625,7 +676,7 @@ public class City: AbstractCity {
         
         foodPerTurn += self.foodFromTiles(in: gameModel)
         foodPerTurn += self.foodFromGovernmentType()
-        foodPerTurn += self.foodFromBuilding()
+        foodPerTurn += self.foodFromBuilding(in: gameModel)
         
         return foodPerTurn
     }
@@ -1698,8 +1749,14 @@ public class City: AbstractCity {
             return false
         }
 
-        if let requiredTech = building.required() {
+        if let requiredTech = building.requiredTech() {
             if !player.has(tech: requiredTech) {
+                return false
+            }
+        }
+        
+        if let requiredCivic = building.requiredCivic() {
+            if !player.has(civic: requiredCivic) {
                 return false
             }
         }
@@ -1764,8 +1821,14 @@ public class City: AbstractCity {
             return false
         }
         
-        if let requiredTech = districtType.required() {
+        if let requiredTech = districtType.requiredTech() {
             if !player.has(tech: requiredTech) {
+                return false
+            }
+        }
+        
+        if let requiredCivic = districtType.requiredCivic() {
+            if !player.has(civic: requiredCivic) {
                 return false
             }
         }

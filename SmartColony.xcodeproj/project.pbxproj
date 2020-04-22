@@ -130,6 +130,9 @@
 		C9F91B4F244EE87E0081EDC8 /* SectionHeaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B4E244EE87E0081EDC8 /* SectionHeaderButton.swift */; };
 		C9F91B51244EEB1F0081EDC8 /* ScrollNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B50244EEB1F0081EDC8 /* ScrollNode.swift */; };
 		C9F91B53244F3C010081EDC8 /* UnitDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B52244F3C000081EDC8 /* UnitDisplayNode.swift */; };
+		C9F91B552450292B0081EDC8 /* WonderDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B54245029290081EDC8 /* WonderDisplayNode.swift */; };
+		C9F91B57245038F20081EDC8 /* Buildings.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F91B56245038F20081EDC8 /* Buildings.xcassets */; };
+		C9F91B59245045350081EDC8 /* BuildingTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B58245045340081EDC8 /* BuildingTypeExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -283,6 +286,9 @@
 		C9F91B4E244EE87E0081EDC8 /* SectionHeaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderButton.swift; sourceTree = "<group>"; };
 		C9F91B50244EEB1F0081EDC8 /* ScrollNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollNode.swift; sourceTree = "<group>"; };
 		C9F91B52244F3C000081EDC8 /* UnitDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitDisplayNode.swift; sourceTree = "<group>"; };
+		C9F91B54245029290081EDC8 /* WonderDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderDisplayNode.swift; sourceTree = "<group>"; };
+		C9F91B56245038F20081EDC8 /* Buildings.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Buildings.xcassets; sourceTree = "<group>"; };
+		C9F91B58245045340081EDC8 /* BuildingTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingTypeExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -331,6 +337,7 @@
 				C99234AF2448759300F4B4AB /* CommandTypeExtension.swift */,
 				C9F91B3A244B91C90081EDC8 /* TechTypeExtension.swift */,
 				C9F91B3C244B93380081EDC8 /* CivicTypeExtension.swift */,
+				C9F91B58245045340081EDC8 /* BuildingTypeExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -402,6 +409,7 @@
 				C9EC4E1C24445873001A0597 /* Cities.xcassets */,
 				C9F91B38244A3E920081EDC8 /* Techs.xcassets */,
 				C9F91B42244B9B3E0081EDC8 /* Civics.xcassets */,
+				C9F91B56245038F20081EDC8 /* Buildings.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -437,9 +445,10 @@
 				C9F91B46244C3FA10081EDC8 /* BaseDisplayNode.swift */,
 				C95D9D64244A32A0007C522E /* TechDisplayNode.swift */,
 				C9F91B44244B9B9A0081EDC8 /* CivicDisplayNode.swift */,
-				C9F91B48244DF2560081EDC8 /* BuildingDisplayNode.swift */,
 				C9F91B4A244E407A0081EDC8 /* DistrictDisplayNode.swift */,
+				C9F91B48244DF2560081EDC8 /* BuildingDisplayNode.swift */,
 				C9F91B52244F3C000081EDC8 /* UnitDisplayNode.swift */,
+				C9F91B54245029290081EDC8 /* WonderDisplayNode.swift */,
 				C9F91B4C244ECB230081EDC8 /* FrameNode.swift */,
 				C9F91B4E244EE87E0081EDC8 /* SectionHeaderButton.swift */,
 				C9F91B50244EEB1F0081EDC8 /* ScrollNode.swift */,
@@ -697,6 +706,7 @@
 				C9F91B43244B9B3E0081EDC8 /* Civics.xcassets in Resources */,
 				C95D9D60244A3147007C522E /* ScienceDialog.xml in Resources */,
 				C922D2BC2449A1A1009E182F /* CityNameDialog.xml in Resources */,
+				C9F91B57245038F20081EDC8 /* Buildings.xcassets in Resources */,
 				C9F61479243471E200450B6C /* Assets.xcassets in Resources */,
 				C957AA52243641D300203024 /* MapClimateDialog.xml in Resources */,
 				C957AA51243641D300203024 /* MapRainfallDialog.xml in Resources */,
@@ -794,6 +804,7 @@
 				C9F91B4F244EE87E0081EDC8 /* SectionHeaderButton.swift in Sources */,
 				C9F91B4D244ECB230081EDC8 /* FrameNode.swift in Sources */,
 				C95B3E0024387485002F5A86 /* PixelBuffer.swift in Sources */,
+				C9F91B59245045350081EDC8 /* BuildingTypeExtension.swift in Sources */,
 				C9F91B45244B9B9A0081EDC8 /* CivicDisplayNode.swift in Sources */,
 				C95B3DF824387188002F5A86 /* BottomRightBar.swift in Sources */,
 				C9B1D2362434B10000033791 /* SKSpriteNodeExtension.swift in Sources */,
@@ -825,6 +836,7 @@
 				C9B1D2382434B71900033791 /* MenuButtonNode.swift in Sources */,
 				C95D9D62244A3244007C522E /* ScienceDialog.swift in Sources */,
 				C9B1D27A24351F3500033791 /* DialogItemConfiguration.swift in Sources */,
+				C9F91B552450292B0081EDC8 /* WonderDisplayNode.swift in Sources */,
 				C99234B02448759300F4B4AB /* CommandTypeExtension.swift in Sources */,
 				C9B1D2312434960000033791 /* BlurrableNode.swift in Sources */,
 				C99234A624460EE800F4B4AB /* DialogTextAlign.swift in Sources */,

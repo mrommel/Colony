@@ -20,6 +20,7 @@ extension DistrictType {
         case .holySite: return "district_holy_site"
         case .encampment: return "district_encampment"
         case .harbor: return "district_harbor"
+        case .entertainment: return "district_entertainment"
         }
     }
 }

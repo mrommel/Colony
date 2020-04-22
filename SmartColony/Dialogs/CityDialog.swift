@@ -9,7 +9,7 @@
 import SmartAILibrary
 import SpriteKit
 
-struct CityDistrictProduction {
+struct CityDistrictProductionNodeGroup {
     
     let districtNode: DistrictDisplayNode?
     let buildingNodes: [BuildingDisplayNode?]
@@ -22,10 +22,13 @@ class CityDialog: Dialog {
     // nodes
     var scrollNode: ScrollNode?
     var buildingsAndDistrictsSectionButton: SectionHeaderButton?
-    var unitsSectionButton: SectionHeaderButton?
+    var districtProductionNodes: [CityDistrictProductionNodeGroup] = []
     
-    var districtProductions: [CityDistrictProduction] = []
-    var unitProductions: [UnitDisplayNode] = []
+    var unitsSectionButton: SectionHeaderButton?
+    var unitProductionNodes: [UnitDisplayNode] = []
+    
+    var wondersSectionButton: SectionHeaderButton?
+    var wonderProductionNodes: [WonderDisplayNode] = []
 
     init(for city: AbstractCity?, in gameModel: GameModel?) {
 
@@ -33,18 +36,6 @@ class CityDialog: Dialog {
 
         guard let city = self.city else {
             fatalError("cant get city")
-        }
-        
-        guard let techs = city.player?.techs else {
-            fatalError("cant get player techs")
-        }
-
-        guard let buildings = city.buildings else {
-            fatalError("cant get city buildings")
-        }
-
-        guard let districts = city.districts else {
-            fatalError("cant get city districts")
         }
         
         let buildQueue = city.buildQueue
@@ -67,7 +58,6 @@ class CityDialog: Dialog {
         self.set(yieldValue: city.culturePerTurn(in: gameModel), identifier: "culture_yield")
         self.set(yieldValue: city.faithPerTurn(in: gameModel), identifier: "faith_yield")
 
-        var y = -200
         // show current building item (queue expandable)
         if let currentBuilding = buildQueue.peek() {
             
@@ -80,7 +70,7 @@ class CityDialog: Dialog {
                 let buildingNode = BuildingDisplayNode(buildingType: buildingType, size: CGSize(width: 100, height: 50), buttonAction: { buildingType in
                     //print("\(buildingType)")
                 })
-                buildingNode.position = CGPoint(x: -50, y: y)
+                buildingNode.position = CGPoint(x: -50, y: -200)
                 buildingNode.zPosition = 200
             
                 self.addChild(buildingNode)
@@ -92,17 +82,44 @@ class CityDialog: Dialog {
                 }
                 
                 let districtNode = DistrictDisplayNode(districtType: districtType, active: false, size: CGSize(width: 100, height: 50))
-                districtNode.position = CGPoint(x: -50, y: y)
+                districtNode.position = CGPoint(x: -50, y: -200)
                 districtNode.zPosition = 200
                 self.addChild(districtNode)
             }
         }
+
+        self.setupProductionScrollArea()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupProductionScrollArea() {
         
-        y -= 65
+        guard let city = self.city else {
+            fatalError("cant get city")
+        }
+
+        guard let techs = city.player?.techs else {
+            fatalError("cant get player techs")
+        }
+
+        guard let civics = city.player?.civics else {
+            fatalError("cant get player civics")
+        }
+
+        guard let buildings = city.buildings else {
+            fatalError("cant get city buildings")
+        }
+
+        guard let districts = city.districts else {
+            fatalError("cant get city districts")
+        }
         
         // scroll area
         self.scrollNode = ScrollNode(size: CGSize(width: 250, height: 300), contentSize: CGSize(width: 250, height: 500))
-        self.scrollNode?.position = CGPoint(x: 0, y: y - 150)
+        self.scrollNode?.position = CGPoint(x: 0, y: -415)
         self.scrollNode?.zPosition = 200
         self.addChild(self.scrollNode!)
         
@@ -122,13 +139,25 @@ class CityDialog: Dialog {
         self.unitsSectionButton?.zPosition = 200
         scrollNode?.addScrolling(child: self.unitsSectionButton!)
         
+        // units section
+        self.wondersSectionButton = SectionHeaderButton(titled: "Wonders",
+                                                               buttonAction: {
+                                                                self.toggleWonderProductions()
+        })
+        self.wondersSectionButton?.zPosition = 200
+        scrollNode?.addScrolling(child: self.wondersSectionButton!)
+        
         // show currently built buildings grouped by district
 
         for districtType in DistrictType.all {
             
             var valid = true
-            if let requiredTech = districtType.required() {
-                valid = techs.has(tech: requiredTech)
+            if let requiredTech = districtType.requiredTech() {
+                valid = valid && techs.has(tech: requiredTech)
+            }
+            
+            if let requiredCivic = districtType.requiredCivic() {
+                valid = valid && civics.has(civic: requiredCivic)
             }
             
             if !valid {
@@ -144,10 +173,24 @@ class CityDialog: Dialog {
                 var buildingNodes: [BuildingDisplayNode?] = []
                 
                 for buildingType in BuildingType.all {
-                    if buildings.has(building: buildingType) && buildingType.district() == districtType {
+                    
+                    var valid = true
+                    if let requiredTech = buildingType.requiredTech() {
+                        valid = valid && techs.has(tech: requiredTech)
+                    }
+                    
+                    if let requiredCivic = buildingType.requiredCivic() {
+                        valid = valid && civics.has(civic: requiredCivic)
+                    }
+                    
+                    /*if let civilization = buildingType.civilization() {
+                        valid = valid && (civilization == city.player?.leader.civilization())
+                    }*/
+                    
+                    if valid && !buildings.has(building: buildingType) && buildingType.district() == districtType {
 
                         let buildingNode = BuildingDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 40), buttonAction: { buildingType in
-                            print("buildingType: \(buildingType)")
+                            print("select buildingType: \(buildingType)")
                         })
                         buildingNode.zPosition = 200
                         scrollNode?.addScrolling(child: buildingNode)
@@ -156,15 +199,17 @@ class CityDialog: Dialog {
                     }
                 }
                 
-                let cityDistrictProduction = CityDistrictProduction(districtNode: districtNode, buildingNodes: buildingNodes)
-                self.districtProductions.append(cityDistrictProduction)
+                let cityDistrictProduction = CityDistrictProductionNodeGroup(districtNode: districtNode, buildingNodes: buildingNodes)
+                self.districtProductionNodes.append(cityDistrictProduction)
+                
             } else {
+                
                 let districtNode = DistrictDisplayNode(districtType: districtType, active: false, size: CGSize(width: 200, height: 40))
                 districtNode.zPosition = 200
                 scrollNode?.addScrolling(child: districtNode)
                 
-                let cityDistrictProduction = CityDistrictProduction(districtNode: districtNode, buildingNodes: [])
-                self.districtProductions.append(cityDistrictProduction)
+                let cityDistrictProduction = CityDistrictProductionNodeGroup(districtNode: districtNode, buildingNodes: [])
+                self.districtProductionNodes.append(cityDistrictProduction)
             }
         }
         
@@ -182,20 +227,39 @@ class CityDialog: Dialog {
             if valid {
                 
                 let unitProduction = UnitDisplayNode(unitType: unitType, size: CGSize(width: 200, height: 40), buttonAction: { unitType in
-                    print("unitType: \(unitType)")
+                    print("select unitType: \(unitType)")
                 })
                 unitProduction.zPosition = 200
                 scrollNode?.addScrolling(child: unitProduction)
                 
-                self.unitProductions.append(unitProduction)
+                self.unitProductionNodes.append(unitProduction)
+            }
+        }
+        
+        for wonderType in WonderType.all {
+            
+            var valid = true
+            if let requiredTech = wonderType.requiredTech() {
+                valid = techs.has(tech: requiredTech)
+            }
+            
+            if let requiredCivic = wonderType.requiredCivic() {
+                valid = civics.has(civic: requiredCivic)
+            }
+            
+            if valid {
+                
+                let wonderProductionNode = WonderDisplayNode(wonderType: wonderType, size: CGSize(width: 200, height: 40), buttonAction: { wonderType in
+                    print("select wonderType: \(wonderType)")
+                })
+                wonderProductionNode.zPosition = 200
+                scrollNode?.addScrolling(child: wonderProductionNode)
+                
+                self.wonderProductionNodes.append(wonderProductionNode)
             }
         }
         
         self.calculateProductionContentSize()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     private func toogleDistrictAndBuildingProductions() {
@@ -205,8 +269,6 @@ class CityDialog: Dialog {
         
         // calculate contentsize
         self.calculateProductionContentSize()
-        
-        // hide buildings
     }
     
     private func toggleUnitProductions() {
@@ -216,8 +278,15 @@ class CityDialog: Dialog {
         
         // calculate contentsize
         self.calculateProductionContentSize()
+    }
+    
+    private func toggleWonderProductions() {
         
-        // hide units
+        //print("toggle units")
+        self.wondersSectionButton?.expanded = !self.wondersSectionButton!.expanded // .toogle()
+        
+        // calculate contentsize
+        self.calculateProductionContentSize()
     }
     
     private func calculateProductionContentSize() {
@@ -226,12 +295,12 @@ class CityDialog: Dialog {
         
         if let buildingsAndDistrictsSectionButton = self.buildingsAndDistrictsSectionButton {
             
-            self.buildingsAndDistrictsSectionButton?.position = CGPoint(x: 0, y: 120 - calculatedHeight)
+            buildingsAndDistrictsSectionButton.position = CGPoint(x: 0, y: 120 - calculatedHeight)
             calculatedHeight += 50
             
             if buildingsAndDistrictsSectionButton.expanded {
                 
-                for districtProduction in self.districtProductions {
+                for districtProduction in self.districtProductionNodes {
                     
                     districtProduction.districtNode?.position = CGPoint(x: -100, y: 120 - calculatedHeight + 20)
                     calculatedHeight += 50
@@ -244,7 +313,7 @@ class CityDialog: Dialog {
                 }
             } else {
                 
-                for districtProduction in self.districtProductions {
+                for districtProduction in self.districtProductionNodes {
                     
                     districtProduction.districtNode?.position = CGPoint(x: 200, y: 120)
                     
@@ -258,20 +327,40 @@ class CityDialog: Dialog {
 
         if let unitsSectionButton = self.unitsSectionButton {
         
-            self.unitsSectionButton?.position = CGPoint(x: 0, y: 120 - calculatedHeight)
+            unitsSectionButton.position = CGPoint(x: 0, y: 120 - calculatedHeight)
             calculatedHeight += 50
             
             if unitsSectionButton.expanded {
                 
-                for unitProduction in self.unitProductions {
+                for unitProduction in self.unitProductionNodes {
                     
                     unitProduction.position = CGPoint(x: -100, y: 120 - calculatedHeight + 20)
                     calculatedHeight += 50
                 }
             } else {
-                for unitProduction in self.unitProductions {
+                for unitProduction in self.unitProductionNodes {
                     
                     unitProduction.position = CGPoint(x: 200, y: 120)
+                }
+            }
+        }
+        
+        if let wondersSectionButton = self.wondersSectionButton {
+        
+            wondersSectionButton.position = CGPoint(x: 0, y: 120 - calculatedHeight)
+            calculatedHeight += 50
+            
+            if wondersSectionButton.expanded {
+                
+                for wonderProductionNode in self.wonderProductionNodes {
+                    
+                    wonderProductionNode.position = CGPoint(x: -100, y: 120 - calculatedHeight + 20)
+                    calculatedHeight += 50
+                }
+            } else {
+                for wonderProductionNode in self.wonderProductionNodes {
+                    
+                    wonderProductionNode.position = CGPoint(x: 200, y: 120)
                 }
             }
         }

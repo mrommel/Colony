@@ -28,14 +28,14 @@ extension TechType {
         case .wheel: return "tech_wheel"
             
             // classical
-        case .celestialNavigation: return "tech_none"
-        case .horsebackRiding: return "tech_none"
-        case .currency: return "tech_none"
-        case .construction: return "tech_none"
-        case .ironWorking: return "tech_none"
-        case .shipBuilding: return "tech_none"
-        case .mathematics: return "tech_none"
-        case .engineering: return "tech_none"
+        case .celestialNavigation: return "tech_celestialNavigation"
+        case .horsebackRiding: return "tech_horsebackRiding"
+        case .currency: return "tech_currency"
+        case .construction: return "tech_construction"
+        case .ironWorking: return "tech_ironWorking"
+        case .shipBuilding: return "tech_shipBuilding"
+        case .mathematics: return "tech_mathematics"
+        case .engineering: return "tech_engineering"
             
             // medieval
         case .militaryTactics: return "tech_none"

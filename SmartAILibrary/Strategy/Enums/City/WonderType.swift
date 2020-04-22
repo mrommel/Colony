@@ -20,7 +20,7 @@ public enum WonderType: Int, Codable {
     case stonehenge
     case templeOfArtemis
     
-    static var all: [WonderType] {
+    public static var all: [WonderType] {
         
         return [
             // ancient
@@ -28,7 +28,23 @@ public enum WonderType: Int, Codable {
         ]
     }
     
-    func productionCost() -> Int {
+    public func name() -> String {
+        
+        switch self {
+
+        case .none: return "---"
+            
+            // ancient
+        case .greatBath: return "Great Bath"
+        case .pyramids: return "Pyramids"
+        case .hangingGardens: return "Hanging Gardens"
+        case .oracle: return "Oracle"
+        case .stonehenge: return "Stonehenge"
+        case .templeOfArtemis: return "Temple of Artemis"
+        }
+    }
+    
+    public func productionCost() -> Int {
         
         switch self {
             
@@ -45,7 +61,7 @@ public enum WonderType: Int, Codable {
         }
     }
     
-    func requiredTech() -> TechType? {
+    public func requiredTech() -> TechType? {
         
         switch self {
     
@@ -62,7 +78,7 @@ public enum WonderType: Int, Codable {
         }
     }
     
-    func requiredCivic() -> CivicType? {
+    public func requiredCivic() -> CivicType? {
         
         switch self {
             

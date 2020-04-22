@@ -410,7 +410,7 @@ public enum UnitType: Int, Codable {
     }
 
     /// cost in production
-    func productionCost() -> Int {
+    public func productionCost() -> Int {
 
         switch self {
 

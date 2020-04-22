@@ -42,7 +42,7 @@ class YieldDisplayNode: SKNode {
         self.yieldLabelNode?.zPosition = self.zPosition + 1
         self.yieldLabelNode?.fontSize = 14
         self.yieldLabelNode?.fontName = Globals.Fonts.customFontFamilyname
-        self.yieldLabelNode?.fontColor = self.yieldType.fontColor()
+        self.yieldLabelNode?.fontColor = showBackground ? self.yieldType.fontColor() : .white
         self.yieldLabelNode?.numberOfLines = 0
         self.yieldLabelNode?.horizontalAlignmentMode = .right
         self.yieldLabelNode?.preferredMaxLayoutWidth = size.width - 20

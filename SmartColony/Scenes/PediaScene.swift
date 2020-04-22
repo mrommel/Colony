@@ -114,8 +114,10 @@ class PediaScene: BaseScene {
         gameModel.add(city: city)
         
         // debug
+        try! player.techs?.discover(tech: .masonry)
+        try! player.techs?.discover(tech: .mining)
         try! city.buildings?.build(building: .monument)
-        try! city.buildings?.build(building: .granary)
+        //try! city.buildings?.build(building: .granary)
         
         let cityDialog = CityDialog(for: city, in: gameModel)
         cityDialog.zPosition = 250

@@ -11,14 +11,19 @@ import SmartAILibrary
 
 class UnitDisplayNode: SKNode {
     
+    // variables
     let unitType: UnitType
     
     // nodes
     var backgroundNode: NineGridTextureSprite?
     var iconNode: SKSpriteNode?
     var labelNode: SKLabelNode?
+    var costNode: YieldDisplayNode?
     
+    // callback
     var action: (_ unitType: UnitType) -> Void
+    
+    // MARK: constructors
     
     init(unitType: UnitType, size: CGSize, buttonAction: @escaping (_ unitType: UnitType) -> Void) {
         
@@ -55,11 +60,19 @@ class UnitDisplayNode: SKNode {
         self.labelNode?.verticalAlignmentMode = .top
         self.labelNode?.preferredMaxLayoutWidth = size.width - 40
         self.addChild(self.labelNode!)
+        
+        // add costs
+        self.costNode = YieldDisplayNode(for: .production, value: Double(unitType.productionCost()), withBackground: false, size: CGSize(width: 70, height: 28))
+        self.costNode?.position = CGPoint(x: 134, y: -3)
+        self.costNode?.zPosition = self.zPosition + 2
+        self.addChild(self.costNode!)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: touch handlers
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -85,12 +98,11 @@ class UnitDisplayNode: SKNode {
             // propergate to scrollview
             if let scrollView = self.parent?.parent as? ScrollNode {
                 
-                if !scrollView.backgroundNode!.contains(location) {
-                    return
-                }
+                if scrollView.backgroundNode!.contains(location) {
                 
-                if self.backgroundNode!.contains(location) {
-                    self.action(self.unitType)
+                    if self.backgroundNode!.contains(location) {
+                        self.action(self.unitType)
+                    }
                 }
             }
         }

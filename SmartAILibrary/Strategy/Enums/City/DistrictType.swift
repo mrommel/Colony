@@ -15,9 +15,10 @@ public enum DistrictType: Int, Codable {
     case holySite
     case encampment
     case harbor
+    case entertainment
     
     public static var all: [DistrictType] {
-        return [.cityCenter, .campus, .holySite, .encampment, .harbor]
+        return [.cityCenter, .campus, .holySite, .encampment, .harbor, .entertainment]
     }
     
     public func name() -> String {
@@ -31,9 +32,14 @@ public enum DistrictType: Int, Codable {
         return self.data().productionCost
     }
     
-    public func required() -> TechType? {
+    public func requiredTech() -> TechType? {
         
-        return self.data().required
+        return self.data().requiredTech
+    }
+    
+    public func requiredCivic() -> CivicType? {
+        
+        return self.data().requiredCivic
     }
     
     // MARK: private methods / classes
@@ -42,19 +48,21 @@ public enum DistrictType: Int, Codable {
         
         let name: String
         let productionCost: Int
-        let required: TechType?
+        let requiredTech: TechType?
+        let requiredCivic: CivicType?
     }
     
     func data() -> DistrictTypeData {
         
         switch self {
             
-        case .cityCenter: return DistrictTypeData(name: "CityCenter", productionCost: 0, required: nil)
+        case .cityCenter: return DistrictTypeData(name: "CityCenter", productionCost: 0, requiredTech: nil, requiredCivic: nil)
             
-        case .campus: return DistrictTypeData(name: "Campus", productionCost: 54, required: .writing)
-        case .holySite: return DistrictTypeData(name: "HolySite", productionCost: 54, required: .astrology)
-        case .encampment:  return DistrictTypeData(name: "Encampment", productionCost: 54, required: .bronzeWorking)
-        case .harbor: return DistrictTypeData(name: "Harbor", productionCost: 54, required: .celestialNavigation)
+        case .campus: return DistrictTypeData(name: "Campus", productionCost: 54, requiredTech: .writing, requiredCivic: nil)
+        case .holySite: return DistrictTypeData(name: "HolySite", productionCost: 54, requiredTech: .astrology, requiredCivic: nil)
+        case .encampment:  return DistrictTypeData(name: "Encampment", productionCost: 54, requiredTech: .bronzeWorking, requiredCivic: nil)
+        case .harbor: return DistrictTypeData(name: "Harbor", productionCost: 54, requiredTech: .celestialNavigation, requiredCivic: nil)
+        case .entertainment: return DistrictTypeData(name: "Entertainment", productionCost: 54, requiredTech: nil, requiredCivic: .dramaAndPoetry)
         }
     }
 
