@@ -334,10 +334,10 @@
 				C95B3E062438E780002F5A86 /* TerrainLayer.swift */,
 				C95B3E082438E78E002F5A86 /* FeatureLayer.swift */,
 				C97CD39E243A3E9C00FABCC0 /* ResourceLayer.swift */,
+				C9EC4E1624444F2E001A0597 /* ImprovementLayer.swift */,
 				C95B3E0A2438E79B002F5A86 /* BoardLayer.swift */,
 				C95B3E0C2438E7A8002F5A86 /* RiverLayer.swift */,
 				C97CD3AA243B56F600FABCC0 /* UnitLayer.swift */,
-				C9EC4E1624444F2E001A0597 /* ImprovementLayer.swift */,
 				C9EC4E1824445082001A0597 /* CityLayer.swift */,
 			);
 			path = Layer;

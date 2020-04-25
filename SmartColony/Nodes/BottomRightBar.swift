@@ -88,4 +88,12 @@ class BottomRightBar: SizedNode {
         self.mapOverviewNode?.position = self.position + CGPoint(x: 59, y: 1)
         self.mapOverlay?.position = self.position + CGPoint(x: 59, y: 1)
     }
+    
+    func update(tile: AbstractTile?) {
+        
+        if let tile = tile {
+
+            self.mapOverviewNode?.changed(at: tile.point)
+        }
+    }
 }

@@ -80,13 +80,6 @@ class ImprovementLayer: SKNode {
             
             if improvement != .none {
                 fatalError("not handled yet")
-                /*if let featureSprite = textureUtils.featureSprite(at: tile.point) {
-                    self.removeChildren(in: [featureSprite])
-                }
-                
-                if let iceSprite = textureUtils.iceSprite(at: tile.point) {
-                    self.removeChildren(in: [iceSprite])
-                }*/
             }
         }
     }

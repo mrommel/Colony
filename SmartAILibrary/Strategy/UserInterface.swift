@@ -65,6 +65,7 @@ public protocol UserInterfaceProtocol: class {
     func move(unit: AbstractUnit?, on points: [HexPoint])
     
     func select(tech: TechType)
+    func select(civic: CivicType)
     
     // on map
     func show(city: AbstractCity?)

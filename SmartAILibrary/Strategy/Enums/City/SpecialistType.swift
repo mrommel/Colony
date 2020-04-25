@@ -27,15 +27,6 @@ public enum SpecialistType: Int, Codable {
         return [.citizen, .artist, .captain, .commander, .scientist, .merchant, .engineer, .priest]
     }
     
-    func cutlurePerTurn() -> Int {
-        
-        if self == .artist {
-            return 2
-        }
-        
-        return 0
-    }
-    
     func yields() -> Yields {
         
         switch self {
@@ -44,7 +35,7 @@ public enum SpecialistType: Int, Codable {
         
         case .citizen: return Yields(food: 0.0, production: 0.0, gold: 0.0)
             
-        case .artist: return Yields(food: 0.0, production: 0.0, gold: 0.0) // culture cant
+        case .artist: return Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 2.0) 
         case .scientist: return Yields(food: 0.0, production: 0.0, gold: 0.0, science: 2.0)
         case .merchant: return Yields(food: 0.0, production: 0.0, gold: 2.0)
         case .engineer: return Yields(food: 0.0, production: 2.0, gold: 0.0)

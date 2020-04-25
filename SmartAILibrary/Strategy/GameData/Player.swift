@@ -693,6 +693,22 @@ public class Player: AbstractPlayer {
     
     func doCivics(in gameModel: GameModel?) {
         
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let civics = self.civics else {
+            fatalError("cant get techs")
+        }
+        
+        let cultureVal = self.culture(in: gameModel)
+        civics.add(culture: cultureVal)
+        
+        do {
+            try civics.checkCultureProgress(in: gameModel)
+        } catch {
+            fatalError("cant check culture progress: \(error)")
+        }
     }
 
     /// How long until a RA with a player takes effect

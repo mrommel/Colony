@@ -1060,6 +1060,7 @@ public class GameModel {
             
             if let tile = self.tile(at: pt) {
                 tile.sight(by: player)
+                tile.discover(by: player)
                 self.userInterface?.refresh(tile: tile)
             }
         }

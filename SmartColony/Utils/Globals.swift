@@ -26,15 +26,19 @@ public struct Globals {
         static let resource: CGFloat = 4.9
         static let staticSprite: CGFloat = 5.0
         static let mountain: CGFloat = 5.4 // 2.2 FIXME
+        static let improvement: CGFloat = 5.45
         static let cityName: CGFloat = 5.5
         static let city: CGFloat = 5.9
         static let unit: CGFloat = 6.0
         static let unitType: CGFloat = 8.0
         static let unitStrength: CGFloat = 10.0
         static let labels: CGFloat = 50.0
+        
         static let sceneElements: CGFloat = 51.0
         static let dialogs: CGFloat = 52.0
-        static let messages: CGFloat = 60.0
+        static let progressIndicator: CGFloat = 60.0
+        static let notifications: CGFloat = 60.0
+        static let bottomElements: CGFloat = 61.0
     }
 
     struct Visibility {

@@ -46,7 +46,7 @@
             <height>42</height>
         </item>
         
-        <item>
+        <!--<item>
             <identifier>connections</identifier>
             <type>image</type>
             <anchorx>center</anchorx>
@@ -56,11 +56,11 @@
             <width>350</width>
             <height>800</height>
             <image>tech_connections</image>
-        </item>
+        </item>-->
         
         <!-- ancient -->
         
-        <!-- 1st row -->
+        <!-- 1st row: 150 -->
         <item>
             <identifier>tech_pottery</identifier>
             <type>techInfo</type>
@@ -69,7 +69,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>-170</offsetx>
-            <offsety>-160</offsety>
+            <offsety>150</offsety>
             <width>110</width>
             <height>50</height>
         </item>
@@ -81,7 +81,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>-55</offsetx>
-            <offsety>-160</offsety>
+            <offsety>150</offsety>
             <width>110</width>
             <height>50</height>
         </item>
@@ -93,12 +93,12 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>60</offsetx>
-            <offsety>-160</offsety>
+            <offsety>150</offsety>
             <width>110</width>
             <height>50</height>
         </item>
         
-        <!-- 2nd row -->
+        <!-- 2nd row: 70 -->
         <item>
             <identifier>tech_sailing</identifier>
             <type>techInfo</type>
@@ -107,7 +107,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>-112</offsetx>
-            <offsety>-240</offsety>
+            <offsety>70</offsety>
             <width>110</width>
             <height>50</height>
         </item>
@@ -119,12 +119,12 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>2</offsetx>
-            <offsety>-240</offsety>
+            <offsety>70</offsety>
             <width>110</width>
             <height>50</height>
         </item>
         
-        <!-- 3rd row -->
+        <!-- 3rd row: -10 -->
         <item>
             <identifier>tech_writing</identifier>
             <type>techInfo</type>
@@ -133,7 +133,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>-170</offsetx>
-            <offsety>-320</offsety>
+            <offsety>-10</offsety>
             <width>110</width>
             <height>50</height>
         </item>
@@ -145,7 +145,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>-55</offsetx>
-            <offsety>-320</offsety>
+            <offsety>-10</offsety>
             <width>110</width>
             <height>50</height>
         </item>
@@ -157,12 +157,12 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>60</offsetx>
-            <offsety>-320</offsety>
+            <offsety>-10</offsety>
             <width>110</width>
             <height>50</height>
         </item>
         
-        <!-- 4th row -->
+        <!-- 4th row: -90 -->
         <item>
             <identifier>tech_wheel</identifier>
             <type>techInfo</type>
@@ -171,7 +171,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>-170</offsetx>
-            <offsety>-400</offsety>
+            <offsety>-90</offsety>
             <width>110</width>
             <height>50</height>
         </item>
@@ -183,7 +183,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>-55</offsetx>
-            <offsety>-400</offsety>
+            <offsety>-90</offsety>
             <width>110</width>
             <height>50</height>
         </item>
@@ -195,12 +195,12 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>60</offsetx>
-            <offsety>-400</offsety>
+            <offsety>-90</offsety>
             <width>110</width>
             <height>50</height>
         </item>
         
-        <!-- classical -->
+        <!-- classical: -170 -->
         
         
     </items>

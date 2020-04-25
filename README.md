@@ -1,31 +1,33 @@
 # Colony
 
 ## Todo
-
 - other leaders
 - game rating screen
 - advisor screen
 - tech select screen (/)
+    - make scrollable
 - civic select screen (/)
+    - make scrollable
 - enhance city screen
     - add build queue
-    - add list of built items (/)
+    - add list of built items
 - fix UI of map overview
+- show border of owned land
 
 ## Defects
 - second unit is sometimes in water
 - unit is below city banner
 - starting locations are bad
-- overview is not updated
-- layer of units < features
-- citizen not placed
 - border is above ui
 
 ## Missing Tiles
 - snow-to-water-n-sw-nw
 
-
 ## Done
+- layer of units < features
+- board layer not updated
+- overview is not updated
+- citizen not placed
 - add turn counter to UI
 - no tech is requested after city is founded
 - no civic is requested after city is founded

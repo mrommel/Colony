@@ -211,7 +211,6 @@ public class City: AbstractCity {
     // yields
     private var baseYieldRateFromSpecialists: YieldList
     private var extraSpecialistYield: YieldList
-    private var culturePerTurnFromSpecialists: Int
     
     private var productionAutomatedValue: Bool
     
@@ -242,7 +241,6 @@ public class City: AbstractCity {
         
         self.extraSpecialistYield = YieldList()
         self.extraSpecialistYield.fill()
-        self.culturePerTurnFromSpecialists = 0
         
         self.productionAutomatedValue = false
         
@@ -274,7 +272,6 @@ public class City: AbstractCity {
         
         self.extraSpecialistYield = YieldList()
         self.extraSpecialistYield.fill()
-        self.culturePerTurnFromSpecialists = 0
         
         self.productionAutomatedValue = false
         
@@ -1260,6 +1257,7 @@ public class City: AbstractCity {
         sciencePerTurn += self.scienceFromGovernmentType()
         sciencePerTurn += self.scienceFromBuildings()
         sciencePerTurn += self.scienceFromPopulation()
+        sciencePerTurn += self.baseYieldRateFromSpecialists.weight(of: .science)
         
         return sciencePerTurn
     }
@@ -1346,6 +1344,7 @@ public class City: AbstractCity {
         culturePerTurn += self.cultureFromGovernmentType()
         culturePerTurn += self.cultureFromBuildings()
         culturePerTurn += self.cultureFromPopulation()
+        culturePerTurn += self.baseYieldRateFromSpecialists.weight(of: .culture)
         
         return culturePerTurn
     }
@@ -2390,10 +2389,6 @@ public class City: AbstractCity {
         }
 
         self.updateExtraSpecialistYield()
-        
-        // Culture
-        let culturePerSpecialist = specialistType.cutlurePerTurn()
-        self.culturePerTurnFromSpecialists += culturePerSpecialist * change
     }
     
     func updateExtraSpecialistYield() {

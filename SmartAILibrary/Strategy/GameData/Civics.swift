@@ -25,7 +25,7 @@ public protocol AbstractCivics {
     
     func needToChooseCivic() -> Bool
     func possibleCivics() -> [CivicType]
-    func setCurrent(civic: CivicType) throws
+    func setCurrent(civic: CivicType, in gameModel: GameModel?) throws
     func currentCivic() -> CivicType?
     func chooseNextCivic() -> CivicType
     
@@ -184,13 +184,25 @@ class Civics: AbstractCivics {
         return self.currentCivicVal
     }
     
-    func setCurrent(civic: CivicType) throws {
+    func setCurrent(civic: CivicType, in gameModel: GameModel?) throws {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("Can't add science - no player present")
+        }
         
         if !self.possibleCivics().contains(civic) {
             throw CivicError.cantSelectCurrentCivic
         }
         
         self.currentCivicVal = civic
+        
+        if player.isHuman() {
+            gameModel.userInterface?.select(civic: civic)
+        }
     }
     
     func possibleCivics() -> [CivicType] {
@@ -285,13 +297,22 @@ class Civics: AbstractCivics {
     }
     
     func checkCultureProgress(in gameModel: GameModel?) throws {
-        
-        guard let currentCivic = self.currentCivicVal else {
-            fatalError("Can't add culture - no civic selected")
-        }
-        
+
         guard let player = self.player else {
             fatalError("Can't add culture - no player present")
+        }
+        
+        guard let currentCivic = self.currentCivicVal else {
+            
+            if player.isHuman() {
+                //gameModel?.add(message: PlayerNeedsTechSelectionMessage())
+                // NOOP
+            } else {
+                let bestCivic = chooseNextCivic()
+                try self.setCurrent(civic: bestCivic, in: gameModel)
+            }
+            
+            return
         }
         
         if self.currentCultureProgressValue >= self.cost(of: currentCivic) {

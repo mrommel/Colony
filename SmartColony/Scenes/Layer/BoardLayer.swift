@@ -10,33 +10,33 @@ import SpriteKit
 import SmartAILibrary
 
 class BoardLayer: SKNode {
-    
+
     let player: AbstractPlayer?
     weak var gameModel: GameModel?
     var textureUtils: TextureUtils?
-    
+
     init(player: AbstractPlayer?) {
-        
+
         self.player = player
-        
+
         super.init()
         self.zPosition = Globals.ZLevels.labels
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func populate(with gameModel: GameModel?) {
-        
+
         self.gameModel = gameModel
 
         guard let gameModel = self.gameModel else {
             fatalError("gameModel not set")
         }
-        
+
         self.textureUtils = TextureUtils(with: gameModel)
-        
+
         // map.fogManager?.delegates.addDelegate(self)
         let mapSize = gameModel.mapSize()
 
@@ -47,7 +47,7 @@ class BoardLayer: SKNode {
                     let screenPoint = HexPoint.toScreen(hex: tile.point)
 
                     if let calderaName = self.textureUtils?.calderaTexure(at: tile.point) {
-                        
+
                         if tile.isVisible(to: self.player) {
                             self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 1.0)
                         } else if tile.isDiscovered(by: self.player) {
@@ -73,16 +73,35 @@ class BoardLayer: SKNode {
         self.textureUtils?.set(boardSprite: boardSprite, at: tile.point)
     }
 
-    func clearTileHex(at pt: HexPoint) {
+    func clear(tile: AbstractTile?) {
 
-        /*guard let map = self.map else {
-            fatalError("map not set")
+        guard let textureUtils = self.textureUtils else {
+            fatalError("cant get textureUtils")
         }
-
-        if let tile = map.tile(at: pt) {
-            if let boardSprite = tile.boardSprite {
+        
+        if let tile = tile {
+            if let boardSprite = textureUtils.boardSprite(at: tile.point) {
                 self.removeChildren(in: [boardSprite])
             }
-        }*/
+        }
+    }
+
+    func update(tile: AbstractTile?) {
+
+        if let tile = tile {
+            let pt = tile.point
+
+            self.clear(tile: tile)
+
+            let screenPoint = HexPoint.toScreen(hex: pt)
+
+            if let calderaName = self.textureUtils?.calderaTexure(at: tile.point) {
+                if tile.isVisible(to: self.player) {
+                    self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 1.0)
+                } else if tile.isDiscovered(by: self.player) {
+                    self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 0.5)
+                }
+            }
+        }
     }
 }

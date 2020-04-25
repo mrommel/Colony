@@ -19,7 +19,7 @@
             <offsety>-70</offsety>
             <width>80</width>
             <height>80</height>
-            <image>button_tech_needed</image>
+            <image>button_civic_needed</image>
         </item>
         <item>
             <identifier>summary</identifier>
@@ -34,6 +34,21 @@
         </item>
         
         <item>
+            <identifier>cancel_button</identifier>
+            <type>button</type>
+            <title>Cancel</title>
+            <result>CANCEL</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-70</offsety>
+            <width>80</width>
+            <height>42</height>
+        </item>
+        
+        <!-- 1st row -->
+        
+        <item>
             <identifier>civic_codeOfLaws</identifier>
             <type>civicInfo</type>
             <civicType>codeOfLaws</civicType>
@@ -41,46 +56,94 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>-55</offsetx>
-            <offsety>-160</offsety>
+            <offsety>150</offsety>
             <width>110</width>
             <height>50</height>
         </item>
-        <!--<item>
-            <identifier>tech_animalHusbandry</identifier>
-            <type>techInfo</type>
-            <techType>animalHusbandry</techType>
-            <result>ANIMALHUSBANDRY</result>
-            <anchorx>center</anchorx>
-            <anchory>center</anchory>
-            <offsetx>-55</offsetx>
-            <offsety>-160</offsety>
-            <width>110</width>
-            <height>50</height>
-        </item>
-        <item>
-            <identifier>tech_mining</identifier>
-            <type>techInfo</type>
-            <techType>mining</techType>
-            <result>MINING</result>
-            <anchorx>center</anchorx>
-            <anchory>center</anchory>
-            <offsetx>60</offsetx>
-            <offsety>-160</offsety>
-            <width>110</width>
-            <height>50</height>
-        </item>-->
+        
+        <!-- 2nd row: 70 -->
         
         <item>
-            <identifier>okay_button</identifier>
-            <type>button</type>
-            <title>Cancel</title>
-            <result>CANCEL</result>
+            <identifier>civic_craftsmanship</identifier>
+            <type>civicInfo</type>
+            <civicType>craftsmanship</civicType>
+            <result>CRAFTSMANSHIP</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>0</offsetx>
-            <offsety>-250</offsety>
-            <width>100</width>
-            <height>42</height>
+            <offsetx>-112</offsetx>
+            <offsety>70</offsety>
+            <width>110</width>
+            <height>50</height>
         </item>
+        
+        <item>
+            <identifier>civic_foreignTrade</identifier>
+            <type>civicInfo</type>
+            <civicType>foreignTrade</civicType>
+            <result>FOREIGNTRADE</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>2</offsetx>
+            <offsety>70</offsety>
+            <width>110</width>
+            <height>50</height>
+        </item>
+        
+        <!-- 3rd row: -10 -->
+        
+        <item>
+            <identifier>civic_militaryTradition</identifier>
+            <type>civicInfo</type>
+            <civicType>militaryTradition</civicType>
+            <result>MILITARYTRADITION</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-112</offsetx>
+            <offsety>-10</offsety>
+            <width>110</width>
+            <height>50</height>
+        </item>
+        
+        <item>
+            <identifier>civic_earlyEmpire</identifier>
+            <type>civicInfo</type>
+            <civicType>earlyEmpire</civicType>
+            <result>EARLYEMPIRE</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>2</offsetx>
+            <offsety>-10</offsety>
+            <width>110</width>
+            <height>50</height>
+        </item>
+        
+        <!-- 4th row: -90 -->
+        
+        <item>
+            <identifier>civic_stateWorkforce</identifier>
+            <type>civicInfo</type>
+            <civicType>stateWorkforce</civicType>
+            <result>STATEWORKFORCE</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-112</offsetx>
+            <offsety>-90</offsety>
+            <width>110</width>
+            <height>50</height>
+        </item>
+        
+        <item>
+            <identifier>civic_mysticism</identifier>
+            <type>civicInfo</type>
+            <civicType>mysticism</civicType>
+            <result>MYSTICISM</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>2</offsetx>
+            <offsety>-90</offsety>
+            <width>110</width>
+            <height>50</height>
+        </item>
+        
     </items>
 </context>

@@ -76,11 +76,11 @@ enum DialogResultType: String, Codable {
     // techs - classic
     
     // civics - ancient
-    case stateWorkforce = "STATEWORKFORCE"
-    case craftsmanship = "CRAFTMANSHIP"
     case codeOfLaws = "CODEOFLAWS"
-    case earlyEmpire = "EARLYEMPIRE"
+    case craftsmanship = "CRAFTSMANSHIP"
     case foreignTrade = "FOREIGNTRADE"
+    case stateWorkforce = "STATEWORKFORCE"
+    case earlyEmpire = "EARLYEMPIRE"
     case mysticism = "MYSTICISM"
     case militaryTradition = "MILITARYTRADITION"
 

@@ -128,24 +128,26 @@ class GameScene: BaseScene {
         self.safeAreaNode.addChild(self.rightHeaderBarNode!)
         
         self.scienceProgressNode = ScienceProgressNode()
-        self.scienceProgressNode?.zPosition = 4
+        self.scienceProgressNode?.zPosition = Globals.ZLevels.progressIndicator
         self.safeAreaNode.addChild(self.scienceProgressNode!)
         
         self.cultureProgressNode = CultureProgressNode()
-        self.cultureProgressNode?.zPosition = 4
+        self.cultureProgressNode?.zPosition = Globals.ZLevels.progressIndicator
         self.safeAreaNode.addChild(self.cultureProgressNode!)
-
-        self.mapNode = MapNode(with: viewModel.game)
+        
         self.bottomLeftBar = BottomLeftBar(sized: CGSize(width: 200, height: 112))
         self.bottomLeftBar?.delegate = self
+        self.bottomLeftBar?.zPosition = Globals.ZLevels.bottomElements
         self.safeAreaNode.addChild(self.bottomLeftBar!)
 
         self.bottomRightBar = BottomRightBar(for: viewModel.game, sized: CGSize(width: 200, height: 112))
         self.bottomRightBar?.delegate = self
+        self.bottomRightBar?.zPosition = Globals.ZLevels.bottomElements
         self.safeAreaNode.addChild(self.bottomRightBar!)
 
         self.notificationsNode = NotificationsNode(sized: CGSize(width: 61, height: 300))
         self.notificationsNode?.delegate = self
+        self.notificationsNode?.zPosition = Globals.ZLevels.notifications
         self.safeAreaNode.addChild(self.notificationsNode!)
 
         self.viewHex.name = "ViewHex"
@@ -153,7 +155,10 @@ class GameScene: BaseScene {
         self.viewHex.zPosition = 1.0
         self.viewHex.xScale = deviceScale
         self.viewHex.yScale = deviceScale
+        
+        self.mapNode = MapNode(with: viewModel.game)
         self.viewHex.addChild(self.mapNode!)
+        
         self.rootNode.addChild(self.viewHex)
 
         // position the camera on the gamescene.
@@ -872,10 +877,8 @@ extension GameScene: UserInterfaceProtocol {
             })
 
             scienceDialog.addResultHandler(handler: { result in
-                //print("result: \(result) => \(result.toTech())")
                 do {
                     try humanPlayer.techs?.setCurrent(tech: result.toTech(), in: gameModel)
-                    //humanPlayer.notifications()?.update(in: self.viewModel?.game)
                     scienceDialog.close()
                 } catch {
                     print("cant select tech \(error)")
@@ -903,9 +906,8 @@ extension GameScene: UserInterfaceProtocol {
 
             civicDialog.addResultHandler(handler: { result in
 
-                //print("result: \(result) => \(result.toCivic())")
                 do {
-                    try humanPlayer.civics?.setCurrent(civic: result.toCivic())
+                    try humanPlayer.civics?.setCurrent(civic: result.toCivic(), in: gameModel)
                     civicDialog.close()
                 } catch {
                     print("cant select tech \(error)")
@@ -952,6 +954,11 @@ extension GameScene: UserInterfaceProtocol {
         self.scienceProgressNode?.update(tech: tech, progress: 0)
     }
     
+    func select(civic: CivicType) {
+        
+        self.cultureProgressNode?.update(civic: civic, progress: 0)
+    }
+    
     func add(notification: NotificationItem) {
 
         self.notificationsNode?.add(notification: notification)
@@ -963,8 +970,8 @@ extension GameScene: UserInterfaceProtocol {
     }
 
     func refresh(tile: AbstractTile?) {
-        self.mapNode?.terrainLayer.update(tile: tile)
-        self.mapNode?.featureLayer.update(tile: tile)
-        self.mapNode?.improvementLayer.update(tile: tile)
+        
+        self.mapNode?.update(tile: tile)
+        self.bottomRightBar?.update(tile: tile)
     }
 }

@@ -41,27 +41,34 @@ class MapNode: SKNode {
 
         self.terrainLayer = TerrainLayer(player: humanPlayer)
         self.terrainLayer.populate(with: self.game)
+        self.terrainLayer.zPosition = Globals.ZLevels.terrain
 
         self.featureLayer = FeatureLayer(player: humanPlayer)
         self.featureLayer.populate(with: self.game)
+        self.featureLayer.zPosition = Globals.ZLevels.feature
         
         self.resourceLayer = ResourceLayer(player: humanPlayer)
         self.resourceLayer.populate(with: self.game)
+        self.resourceLayer.zPosition = Globals.ZLevels.resource
 
         self.boardLayer = BoardLayer(player: humanPlayer)
         self.boardLayer.populate(with: self.game)
+        self.boardLayer.zPosition = Globals.ZLevels.caldera
 
         self.riverLayer = RiverLayer(player: humanPlayer)
         self.riverLayer.populate(with: self.game)
         
         self.unitLayer = UnitLayer(player: humanPlayer)
         self.unitLayer.populate(with: self.game)
+        self.unitLayer.zPosition = Globals.ZLevels.unit
         
         self.cityLayer = CityLayer(player: humanPlayer)
         self.cityLayer.populate(with: self.game)
+        self.cityLayer.zPosition = Globals.ZLevels.city
         
         self.improvementLayer = ImprovementLayer(player: humanPlayer)
         self.improvementLayer.populate(with: self.game)
+        self.improvementLayer.zPosition = Globals.ZLevels.improvement
 
         super.init()
         self.zPosition = 0
@@ -98,5 +105,14 @@ class MapNode: SKNode {
 
     func updateLayout() {
         
+    }
+    
+    func update(tile: AbstractTile?) {
+        
+        self.terrainLayer.update(tile: tile)
+        self.featureLayer.update(tile: tile)
+        self.resourceLayer.update(tile: tile)
+        self.improvementLayer.update(tile: tile)
+        self.boardLayer.update(tile: tile)
     }
 }

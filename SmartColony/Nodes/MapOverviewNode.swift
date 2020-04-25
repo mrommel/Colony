@@ -49,12 +49,6 @@ class MapOverviewNode: SKSpriteNode {
 
     init(with game: GameModel?, size: CGSize) {
         
-        /*self.userUsecase = UserUsecase()
-        
-        guard let currentUser = self.userUsecase.currentUser() else {
-            fatalError("can't get current user")
-        }*/
-        
         self.game = game
         
         guard let game = self.game else {
@@ -82,8 +76,6 @@ class MapOverviewNode: SKSpriteNode {
         }
 
         self.updateTextureFromBuffer()
-
-        //self.map?.fogManager?.delegates.addDelegate(self)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -163,14 +155,12 @@ class MapOverviewNode: SKSpriteNode {
 
         self.texture = SKTexture(image: image)
     }
-}
+    
+    func changed(at pt: HexPoint) {
 
-/*extension MapOverviewNode: FogStateChangedDelegate {
-
-    func changed(for civilization: Civilization, to newState: FogState, at pt: HexPoint) {
-
-        self.updateBufferAt(x: pt.x, y: pt.y)
-
-        self.updateTextureFromBuffer()
+        DispatchQueue.main.async() {
+            self.updateBufferAt(x: pt.x, y: pt.y)
+            self.updateTextureFromBuffer()
+        }
     }
-}*/
+}

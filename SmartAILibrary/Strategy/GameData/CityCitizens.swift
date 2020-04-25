@@ -148,6 +148,8 @@ public class CityCitizens {
         
         // always work the home plot (center)
         self.setWorked(at: city.location, worked: true, useUnassignedPool: false)
+        
+        self.doAddBestCitizenFromUnassigned(in: gameModel)
     }
     
     func doTurn(with gameModel: GameModel?) {
@@ -718,7 +720,7 @@ public class CityCitizens {
         if focusType == .science {
             value += Int(specialistType.yields().science) * 3
         } else if focusType == .culture {
-            value += specialistType.cutlurePerTurn() * 3
+            value += Int(specialistType.yields().culture) * 3
         } else if focusType == .gold {
             value += Int(specialistType.yields().gold) * 3
         } else if focusType == .production {
@@ -937,7 +939,7 @@ public class CityCitizens {
                     // Can't add more than the max
                     if self.isCanAddSpecialistToBuilding(buildingType: buildingType) {
                         
-                        if buildingType.specialistType().cutlurePerTurn() > 0 {
+                        if buildingType.specialistType().yields().value(of: .culture) > 0 {
                             weight *= 3
                             break
                         }
