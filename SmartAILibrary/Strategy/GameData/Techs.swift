@@ -19,7 +19,7 @@ public protocol AbstractTechs {
     
     func needToChooseTech() -> Bool
     func possibleTechs() -> [TechType]
-    func setCurrent(tech: TechType) throws
+    func setCurrent(tech: TechType, in gameModel: GameModel?) throws
     func currentTech() -> TechType?
     func numberOfDiscoveredTechs() -> Int
     
@@ -289,13 +289,25 @@ class Techs: AbstractTechs {
         return number
     }
     
-    func setCurrent(tech: TechType) throws {
+    func setCurrent(tech: TechType, in gameModel: GameModel?) throws {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("Can't add science - no player present")
+        }
         
         if !self.possibleTechs().contains(tech) {
             throw TechError.cantSelectCurrentTech
         }
         
         self.currentTechValue = tech
+        
+        if player.isHuman() {
+            gameModel.userInterface?.select(tech: tech)
+        }
     }
     
     func possibleTechs() -> [TechType] {
@@ -344,7 +356,7 @@ class Techs: AbstractTechs {
                 // NOOP
             } else {
                 let bestTech = chooseNextTech()
-                try self.setCurrent(tech: bestTech)
+                try self.setCurrent(tech: bestTech, in: gameModel)
             }
             
             return

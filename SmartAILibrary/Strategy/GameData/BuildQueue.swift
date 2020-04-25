@@ -17,7 +17,7 @@ public class BuildQueue {
         self.items = []
     }
     
-    func add(item: BuildableItem) {
+    public func add(item: BuildableItem) {
         
         self.items.append(item)
     }
@@ -43,6 +43,11 @@ public class BuildQueue {
         }
         
         return nil
+    }
+    
+    public func hasBuildable() -> Bool {
+        
+        return self.items.count > 0
     }
     
     public func peek() -> BuildableItem? {

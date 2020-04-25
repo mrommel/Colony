@@ -88,6 +88,19 @@ public class NotificationItem {
             
             return false
             
+        case .production:
+            
+            guard let city = gameModel?.city(at: self.location) else {
+                fatalError("cant get city to check")
+            }
+            
+            if city.buildQueue.hasBuildable() {
+                // already has something to build
+                return true
+            }
+            
+            return false
+                
         default:
             return false
         }

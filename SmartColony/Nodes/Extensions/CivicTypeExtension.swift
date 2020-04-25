@@ -13,13 +13,18 @@ extension CivicType {
     func iconTexture() -> String {
     
         switch self {
-        case .stateWorkforce: return "civic_default"
-        case .craftsmanship: return "civic_default"
-        case .codeOfLaws: return "civic_codeOfLaws"
-        case .earlyEmpire: return "civic_default"
-        case .foreignTrade: return "civic_default"
-        case .mysticism:return "civic_default"
+        
+        case .none: return "civic_default"
             
+            // ancient
+        case .stateWorkforce: return "civic_stateWorkforce"
+        case .craftsmanship: return "civic_craftsmanship"
+        case .codeOfLaws: return "civic_codeOfLaws"
+        case .earlyEmpire: return "civic_earlyEmpire"
+        case .foreignTrade: return "civic_foreignTrade"
+        case .mysticism:return "civic_mysticism"
+            
+            // classical
         case .militaryTradition: return "civic_default"
         case .defensiveTactics: return "civic_default"
         case .gamesAndRecreation: return "civic_default"

@@ -6,44 +6,6 @@
 //  Copyright © 2020 Michael Rommel. All rights reserved.
 //
 
-
-
-//player.turn(in: self)
-//player.turnUnits(in: self)
-
-/*var goldPerTurn = 0.0
-var sciencePerTurn = 0.0
-
-// loop all cities of this player
-for city in self.map.cities(for: player) {
-
-    if let cityYields = city?.turn(in: self) {
-
-        // FIXME sum yields to player
-        goldPerTurn += cityYields.gold
-        player.religion?.add(faith: cityYields.faith)
-        sciencePerTurn += cityYields.science
-    }
-}
-
-player.treasury?.add(gold: goldPerTurn)
-
-// is player in depts?
-if player.treasury!.value() < 0.0 {
-
-}
-
-player.techs?.add(science: sciencePerTurn)
-try! player.techs?.checkScienceProgress(in: self)
-
-// loop all units of this player
-for unit in self.map.units(for: player) {
-
-    unit?.turn(in: self)
-}*/
-
-
-
 import Foundation
 
 enum GameStateType {
@@ -592,6 +554,64 @@ public class GameModel {
         }
     }
     
+    // https://gaming.stackexchange.com/questions/51233/what-is-the-turn-length-in-civilization
+    public func turnYear() -> String {
+        
+        if self.turnsElapsed <= 250 {
+            
+            // 4000 BC - 1000 AD: 20 years per turn (total of 250 turns)
+            let year = -4000 + (self.turnsElapsed * 20)
+            if year < 0 {
+                return "\(-year) BC"
+            } else if year == 0 {
+                return "0 BC"
+            } else {
+                return "\(year) AD"
+            }
+            
+        } else if self.turnsElapsed <= 300 {
+            
+            // 1000 AD - 1500 AD: 10 years per turn (total of 50 turns)
+            let year = 1000 + (self.turnsElapsed - 250) * 10
+            return "\(year) AD"
+        } else if self.turnsElapsed <= 350 {
+            
+            // 1500 AD - 1750 AD: 5 years per turn (total of 50 turns)
+            let year = 1500 + (self.turnsElapsed - 300) * 5
+            return "\(year) AD"
+        } else if self.turnsElapsed <= 400 {
+            
+            // 1750 AD - 1850 AD: 2 years per turn (total of 50 turns)
+            let year = 1750 + (self.turnsElapsed - 350) * 2
+            return "\(year) AD"
+        } else {
+            // 1850 AD - End of game: 1 year per turn (total of 170 to 250 turns)
+            let year = 1850 + (self.turnsElapsed - 400) * 1
+            return "\(year) AD"
+        }
+    }
+    
+    // https://gaming.stackexchange.com/questions/51233/what-is-the-turn-length-in-civilization
+    public func totalTurns() -> Int {
+        
+        /*Chieftan - 2100 AD (total of 650 turns)
+        Warlord - 2080 AD (total of 630 turns)
+        Prince - 2060 AD (total of 610 turns)
+        King - 2040 AD (total of 590 turns)
+        Emperor - 2020 AD (total of 570 turns)*/
+        switch self.handicap {
+            
+        case .settler: return 700
+        case .chieftain: return 650
+        case .warlord: return 630
+        case .prince: return 610
+        case .king: return 590
+        case .emperor: return 570
+        case .immortal: return 550
+        case .deity: return 530
+        }
+    }
+    
     public func updateTestEndTurn() {
         
         if let activePlayer = self.activePlayer() {
@@ -647,6 +667,12 @@ public class GameModel {
     }
     
     // MARK: city methods
+    
+    // check if a city (of player or not) is in neighborhood
+    public func nearestCity(at pt: HexPoint, of player: AbstractPlayer?) -> AbstractCity? {
+        
+        return self.map.nearestCity(at: pt, of: player)
+    }
     
     public func add(city: AbstractCity?) {
 

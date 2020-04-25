@@ -25,6 +25,12 @@ enum ProductionSpecialization: Int, Equatable, Codable {
 }
 
 class ProductionSpecializationList: WeightedList<ProductionSpecialization> {
+    
+    override func fill() {
+        for productionSpecialization in ProductionSpecialization.all {
+            self.add(weight: 0.0, for: productionSpecialization)
+        }
+    }
 }
 
 class CitySpecializationData {
@@ -67,7 +73,9 @@ public class CitySpecializationAI {
     private var nextWonderDesiredValue: WonderType
     
     private var numSpecializationsForThisYield: YieldList
-    private var numSpecializationsForThisSubtype: CitySpecializationList
+    private var numSpecializationsForThisSubtype: ProductionSpecializationList
+    
+    private var bestValue: YieldList
     
     // MARK: constructors
 
@@ -85,8 +93,11 @@ public class CitySpecializationAI {
         
         self.numSpecializationsForThisYield = YieldList()
         self.numSpecializationsForThisYield.fill()
-        self.numSpecializationsForThisSubtype = CitySpecializationList()
+        self.numSpecializationsForThisSubtype = ProductionSpecializationList()
         self.numSpecializationsForThisSubtype.fill()
+        
+        self.bestValue = YieldList()
+        self.bestValue.fill()
     }
     
     func turn(in gameModel: GameModel?) {
@@ -355,7 +366,7 @@ public class CitySpecializationAI {
             self.specializationsNeeded.removeAll(where: { $0 == self.specializationsNeeded.first })
         } else {
             // Find best possible sites for each of the yield types
-            self.findBestSites()
+            self.findBestSites(in: gameModel)
 
             // Compute the yield which we can improve the most with a new city
             //int iCurrentDelta;
@@ -365,7 +376,7 @@ public class CitySpecializationAI {
             for cityWithoutSpecialization in citiesWithoutSpecialization {
                 
                 for yieldType in YieldType.all {
-                    let currentDelta = cityWithoutSpecialization.weight.weight(of: yieldType) - bestDelta.weight(of: yieldType)
+                    let currentDelta = cityWithoutSpecialization.weight.weight(of: yieldType) - bestValue.weight(of: yieldType)
                     if currentDelta > bestDelta.weight(of: yieldType) {
                         bestDelta.set(weight: currentDelta, for: yieldType)
                     }
@@ -470,9 +481,62 @@ public class CitySpecializationAI {
         return
     }
     
-    func findBestSites() {
+    /// Find the best nearby city site for all yield types
+    func findBestSites(in gameModel: GameModel?) {
      
-        fatalError("niy")
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var plotValue: Double = 0.0
+        
+        // Clear output
+        for yieldType in YieldType.all {
+            self.bestValue.set(weight: 0.0, for: yieldType)
+        }
+
+        // Found value drops off based on distance, so safe to only look halfway out
+        let evalDistance = 30 /* SETTLER_EVALUATION_DISTANCE */ / 2
+
+        let citySiteEvaluator = gameModel.citySiteEvaluator()
+        
+        let mapSize = gameModel.mapSize()
+
+        for x in 0..<mapSize.width() {
+            for y in 0..<mapSize.height() {
+
+                let pt = HexPoint(x: x, y: y)
+                if let tile = gameModel.tile(at: pt) {
+                    if citySiteEvaluator.canCityBeFound(on: tile, by: self.player) {
+                        
+                        // Check if within range of any of our cities
+                        // pNearestCity = GC.getMap().findCity(pPlot->getX(), pPlot->getY(), m_pPlayer->GetID(), NO_TEAM, true /* bSameArea */);
+                        if let nearestCity: AbstractCity = gameModel.nearestCity(at: pt, of: self.player) {
+                            
+                            if pt.distance(to: nearestCity.location) <= evalDistance {
+                                
+                                for yieldType in YieldType.all {
+                                    
+                                    if yieldType != .science {
+                                        plotValue = self.plotValueFor(yield: yieldType, at: pt, in: gameModel)
+                                    } else {
+                                        plotValue = self.plotValueForScience(at: pt, in: gameModel)
+                                    }
+
+                                    if plotValue > self.bestValue.weight(of: yieldType) {
+                                        self.bestValue.set(weight: plotValue, for: yieldType)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        //LogBestSites();
+
+        return
     }
     
     /// Find specializations needed (including for the next city we build)
@@ -486,7 +550,6 @@ public class CitySpecializationAI {
             fatalError("cant get player")
         }
         
-        let specialization: CitySpecializationType = .none
         let specializationsToAssign = gameModel.cities(of: player).count + 1
         var oldWeight = 0.0
         var reductionAmount = 0.0
@@ -500,9 +563,11 @@ public class CitySpecializationAI {
         self.numSpecializationsForThisYield.set(weight: 0.0, for: .production)
         self.numSpecializationsForThisYield.set(weight: 0.0, for: .gold)
         self.numSpecializationsForThisYield.set(weight: 0.0, for: .science)
+        self.numSpecializationsForThisYield.set(weight: 0.0, for: .culture)
+        self.numSpecializationsForThisYield.set(weight: 0.0, for: .faith)
 
-        for citySpecialization in CitySpecializationType.all {
-            self.numSpecializationsForThisSubtype.set(weight: 0.0, for: citySpecialization)
+        for productionSpecialization in ProductionSpecialization.all {
+            self.numSpecializationsForThisSubtype.set(weight: 0.0, for: productionSpecialization)
         }
 
         var wonderType: WonderType? = nil
@@ -525,7 +590,7 @@ public class CitySpecializationAI {
             self.productionSubtypeWeights.set(weight: 0.0, for: self.wonderSubtype())
             self.wonderChosen = true
         } else {
-            // wonderCityID = -1
+            self.wonderCity = nil
         }
 
         // LOOP as many times as we have cities PLUS ONE
@@ -539,31 +604,84 @@ public class CitySpecializationAI {
                 fatalError("explode")
             }
             
-            fatalError("niy")
-            /*if (GC.GetGameCitySpecializations()->GetNumSpecializationsForYield(eYield) > 1)
-            {
-                if (eYield == YIELD_PRODUCTION) {
-                    eSpecialization = SelectProductionSpecialization(iReductionAmount);
+            var tmpCitySpecializationType: CitySpecializationType = .none
+            
+            if self.numSpecializationsForThisYield.weight(of: yield.itemType) > 1.0 {
+                
+                if yield.itemType == .production {
+                    tmpCitySpecializationType = self.selectProductionSpecialization(reductionAmount: &reductionAmount)
 
-                    iOldWeight = m_YieldWeights.GetWeight(0);
-                    m_iNumSpecializationsForThisYield[1 + (int)eYield]++;
-                    iNewWeight = iOldWeight - iReductionAmount;
-                    m_YieldWeights.SetWeight(0, iNewWeight);
-                } else {
-                    FAssertMsg(false, "Code does not support > 1 specialization for yields other than production.");
+                    let oldWeight = yield.weight
+                    self.numSpecializationsForThisYield.add(weight: 1, for: yield.itemType)
+                    let newWeight = oldWeight - reductionAmount
+                    self.yieldWeights.set(weight: newWeight, for: yield.itemType)
                 }
             } else {
-                eSpecialization = GC.GetGameCitySpecializations()->GetFirstSpecializationForYield(eYield);
+                tmpCitySpecializationType = self.firstSpecialization(for: yield.itemType)
 
                 // Reduce weight for this specialization based on dividing original weight by <num of this type + 1>
-                iOldWeight = m_YieldWeights.GetWeight(0);
-                m_iNumSpecializationsForThisYield[1 + (int)eYield]++;
-                iNewWeight = iOldWeight * m_iNumSpecializationsForThisYield[1 + (int)eYield] / (m_iNumSpecializationsForThisYield[1 + (int)eYield] + 1);
-                m_YieldWeights.SetWeight(0, iNewWeight);
-            }*/
+                let oldWeight = yield.weight
+                self.numSpecializationsForThisYield.add(weight: 1, for: yield.itemType)
+                let newWeight = oldWeight * self.numSpecializationsForThisYield.weight(of: yield.itemType) / (self.numSpecializationsForThisYield.weight(of: yield.itemType) + 1.0)
+                self.yieldWeights.set(weight: newWeight, for: yield.itemType)
+            }
             
-            self.specializationsNeeded.append(specialization)
+            self.specializationsNeeded.append(tmpCitySpecializationType)
         }
+    }
+    
+    func firstSpecialization(for yieldType: YieldType) -> CitySpecializationType {
+        
+        for citySpecializationType in CitySpecializationType.all {
+            if let citySpecializationTypeYieldType = citySpecializationType.yieldType() {
+                if citySpecializationTypeYieldType == yieldType {
+                    return citySpecializationType
+                }
+            }
+        }
+        
+        return .generalEconomic
+    }
+    
+    /// Find production specializations needed
+    func selectProductionSpecialization(reductionAmount: inout Double) -> CitySpecializationType {
+         
+        var specialization: CitySpecializationType = .none
+
+        // Find highest weighted subtype
+        self.productionSubtypeWeights.sort()
+
+        let subtype: ProductionSpecialization = self.productionSubtypeWeights.chooseBest() ?? .militaryTraining
+
+        // If this is the wonder type, make sure we have a city to build it
+        if subtype == .wonder {
+            
+            if let city = self.findBestWonderCity() {
+                self.wonderCity = city
+                self.wonderChosen = true
+            } else {
+                // No wonder city, substitute default specialization instead
+                specialization = .generalEconomic
+            }
+            
+            reductionAmount = self.productionSubtypeWeights.weight(of: subtype)
+            self.productionSubtypeWeights.set(weight: 0.0, for: subtype)
+            
+        } else {
+            // Reduce weight for this subtype based on dividing original weight by <num of this type + 1>
+            let oldWeight = self.productionSubtypeWeights.weight(of: subtype)
+            self.numSpecializationsForThisSubtype.add(weight: 1, for: subtype)
+            let newWeight = oldWeight * self.numSpecializationsForThisSubtype.weight(of: subtype) / (self.numSpecializationsForThisSubtype.weight(of: subtype) + 1.0)
+            reductionAmount = oldWeight - newWeight
+            self.productionSubtypeWeights.set(weight: newWeight, for: subtype)
+        }
+
+        return specialization
+    }
+    
+    func findBestWonderCity() -> AbstractCity? {
+        
+        return nil
     }
     
     func wonderBuildCity() -> AbstractCity? {
@@ -605,7 +723,7 @@ public class CitySpecializationAI {
             }
             
             guard let loopPlot = gameModel.tile(at: loopPoint) else {
-                fatalError("cant get loopPlot")
+                continue
             }
             
             var isClear = false
@@ -667,9 +785,8 @@ public class CitySpecializationAI {
             }
             
             guard let loopPlot = gameModel.tile(at: loopPoint) else {
-                fatalError("cant get loopPlot")
+                continue
             }
-            
             
             potentialYield = loopPlot.yields(for: self.player, ignoreFeature: false).value(of: yield)
 

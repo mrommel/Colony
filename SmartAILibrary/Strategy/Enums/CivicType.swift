@@ -10,6 +10,8 @@ import Foundation
 
 public enum CivicType: String, Codable {
 
+    case none
+    
     // ancient
     case stateWorkforce
     case craftsmanship
@@ -89,6 +91,8 @@ public enum CivicType: String, Codable {
         
         switch self {
 
+            case .none: return "---"
+            
                 // ancient
             case .stateWorkforce: return "State Workforce"
             case .craftsmanship: return "Craftmanship"
@@ -157,6 +161,9 @@ public enum CivicType: String, Codable {
 
         switch self {
 
+        case .none:
+            return .ancient
+            
             // ancient
         case .stateWorkforce:
             return .ancient
@@ -273,6 +280,9 @@ public enum CivicType: String, Codable {
 
         switch self {
 
+        case .none:
+            return -1
+            
             // ancient
         case .stateWorkforce:
             return 70
@@ -390,6 +400,9 @@ public enum CivicType: String, Codable {
 
         switch self {
 
+        case .none:
+            return []
+            
             // ancient
         case .stateWorkforce:
             return [.craftsmanship]
@@ -527,6 +540,10 @@ public enum CivicType: String, Codable {
     func flavours() -> [Flavor] {
 
         switch self {
+            
+        case .none: return [
+            ]
+            
             // ancient
         case .stateWorkforce: return [
             ]

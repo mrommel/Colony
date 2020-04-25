@@ -64,6 +64,8 @@ public protocol UserInterfaceProtocol: class {
     func hide(unit: AbstractUnit?) // unit gets hidden
     func move(unit: AbstractUnit?, on points: [HexPoint])
     
+    func select(tech: TechType)
+    
     // on map
     func show(city: AbstractCity?)
     

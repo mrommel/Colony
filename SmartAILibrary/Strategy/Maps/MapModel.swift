@@ -160,6 +160,37 @@ public class MapModel: Codable {
     
     // MARK: city methods
     
+    public func nearestCity(at pt: HexPoint, of player: AbstractPlayer?) -> AbstractCity? {
+        
+        var bestCity: AbstractCity? = nil
+        var bestDistance: Int = Int.max
+        
+        for cityRef in self.cities {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            // need to check the owner?
+            if let playerToCheck = player {
+                
+                // if owner does not match, skip this city
+                if !playerToCheck.isEqual(to: city.player) {
+                    continue
+                }
+            }
+            
+            let distance = city.location.distance(to: pt)
+            
+            if distance < bestDistance {
+                bestDistance = distance
+                bestCity = cityRef
+            }
+        }
+        
+        return bestCity
+    }
+    
     public func add(city: AbstractCity?) {
         
         if let city = city {

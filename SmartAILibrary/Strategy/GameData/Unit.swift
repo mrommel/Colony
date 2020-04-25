@@ -1393,7 +1393,7 @@ public class Unit: AbstractUnit {
             if let adjacentPlot = gameModel.tile(at: adjacentPoint) {
                 
                 // Owned by someone
-                if adjacentPlot.hasOwner() {
+                if adjacentPlot.hasOwner() && !player.isEqual(to: adjacentPlot.owner()) {
                     diplomacyAI.doFirstContact(with: adjacentPlot.owner(), in: gameModel)
                 }
 

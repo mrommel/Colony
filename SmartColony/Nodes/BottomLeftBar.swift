@@ -148,7 +148,7 @@ class BottomLeftBar: SizedNode {
         // start animation
         let textureAtlasGlobe = SKTextureAtlas(named: globeAtlas.atlasName)
         let globeFrames: [SKTexture] = globeAtlas.textures.map { textureAtlasGlobe.textureNamed($0) }
-        let globeRotation = SKAction.repeatForever(SKAction.animate(with: globeFrames, timePerFrame: 0.2))
+        let globeRotation = SKAction.repeatForever(SKAction.animate(with: globeFrames, timePerFrame: 0.07))
         
         self.unitImageNode?.run(globeRotation, withKey: BottomLeftBar.globeActionKey)
     }

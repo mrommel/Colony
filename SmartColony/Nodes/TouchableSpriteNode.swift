@@ -19,8 +19,11 @@ class TouchableSpriteNode : SKSpriteNode {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        if let handler = self.touchHandler {
-            handler()
-        }
+        /*let touch = touches.first!
+        if self.frame.contains(touch.location(in: self.parent!)) {*/
+            if let handler = self.touchHandler {
+                handler()
+            }
+        //}
     }
 }

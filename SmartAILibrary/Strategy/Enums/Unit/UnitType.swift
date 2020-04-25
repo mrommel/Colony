@@ -59,10 +59,10 @@ public enum UnitType: Int, Codable {
     case engineer
     case general
     case merchant
-    // case musician
+    case musician
     case prophet
     case scientist
-    // case writer
+    case writer
 
     struct UnitTypeData {
 
@@ -208,20 +208,26 @@ public enum UnitType: Int, Codable {
             return UnitTypeData(name: "galley", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .navalMelee, meleeAttack: 0, rangedAttack: 0, moves: 3)
 
 
-        case .artist:
-            return UnitTypeData(name: "Artist", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
-        case .engineer:
-            return UnitTypeData(name: "engineer", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
-        case .merchant:
-            return UnitTypeData(name: "merchant", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
-        case .scientist:
-            return UnitTypeData(name: "scientist", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
         case .admiral:
             return UnitTypeData(name: "admiral", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+        case .artist:
+            return UnitTypeData(name: "artist", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+        case .engineer:
+            return UnitTypeData(name: "engineer", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
         case .general:
             return UnitTypeData(name: "general", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+        case .merchant:
+            return UnitTypeData(name: "merchant", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+        case .musician:
+            return UnitTypeData(name: "musician", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
         case .prophet:
             return UnitTypeData(name: "prophet", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+        case .scientist:
+            return UnitTypeData(name: "scientist", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+        case .writer:
+            return UnitTypeData(name: "writer", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+        
+        
         }
     }
 
@@ -282,13 +288,16 @@ public enum UnitType: Int, Codable {
             ]
         case .galley: return []
 
+        case .admiral: return []
         case .artist: return []
         case .engineer: return []
-        case .merchant: return []
-        case .scientist: return []
         case .general: return []
-        case .admiral: return []
+        case .merchant: return []
+        case .musician: return []
         case .prophet: return []
+        case .scientist: return []
+        case .writer: return []
+        
         }
     }
 
@@ -310,13 +319,15 @@ public enum UnitType: Int, Codable {
         case .galley: return .sea
 
             // great people
+        case .admiral: return .land
         case .artist: return .land
         case .engineer: return .land
-        case .merchant: return .land
-        case .scientist: return .land
         case .general: return .land
-        case .admiral: return .land
+        case .merchant: return .land
+        case .musician: return .land
         case .prophet: return .land
+        case .scientist: return .land
+        case .writer: return .land
         }
     }
 
@@ -343,13 +354,15 @@ public enum UnitType: Int, Codable {
         case .galley: return [.exploreSea, .attackSea, .escortSea, .reserveSea]
 
             // great people
+        case .admiral: return []
         case .artist: return []
         case .engineer: return []
-        case .merchant: return []
-        case .scientist: return []
         case .general: return []
-        case .admiral: return []
+        case .merchant: return []
+        case .musician: return []
         case .prophet: return []
+        case .scientist: return []
+        case .writer: return []
         }
     }
 
@@ -371,13 +384,15 @@ public enum UnitType: Int, Codable {
         case .galley: return .exploreSea
 
             // great people
+        case .admiral: return .general
         case .artist: return .general
         case .engineer: return .general
-        case .merchant: return .general
-        case .scientist: return .general
         case .general: return .general
-        case .admiral: return .general
+        case .merchant: return .general
+        case .musician: return .general
         case .prophet: return .general
+        case .scientist: return .general
+        case .writer: return .general
         }
     }
 
@@ -400,12 +415,14 @@ public enum UnitType: Int, Codable {
 
             // great people
         case .artist: return .walk
-        case .engineer: return .walk
-        case .merchant: return .walk
-        case .scientist: return .walk
-        case .general: return .walk
         case .admiral: return .walk
+        case .engineer: return .walk
+        case .general: return .walk
+        case .merchant: return .walk
+        case .musician: return .walk
         case .prophet: return .walk
+        case .scientist: return .walk
+        case .writer: return .walk
         }
     }
 
@@ -428,13 +445,15 @@ public enum UnitType: Int, Codable {
         case .galley: return 65
 
             // great people
-        case .artist: return 0
-        case .engineer: return 0
-        case .merchant: return 0
-        case .scientist: return 0
-        case .general: return 0
-        case .admiral: return 0
-        case .prophet: return 0
+        case .artist: return -1
+        case .admiral: return -1
+        case .engineer: return -1
+        case .general: return -1
+        case .merchant: return -1
+        case .musician: return -1
+        case .prophet: return -1
+        case .scientist: return -1
+        case .writer: return -1
         }
     }
 
@@ -457,13 +476,15 @@ public enum UnitType: Int, Codable {
         case .galley: return 260
 
             // great people
-        case .artist: return 0
-        case .engineer: return 0
-        case .merchant: return 0
-        case .scientist: return 0
-        case .general: return 0
-        case .admiral: return 0
-        case .prophet: return 0
+        case .artist: return -1
+        case .admiral: return -1
+        case .engineer: return -1
+        case .general: return -1
+        case .merchant: return -1
+        case .musician: return -1
+        case .prophet: return -1
+        case .scientist: return -1
+        case .writer: return -1
         }
     }
 
@@ -486,13 +507,15 @@ public enum UnitType: Int, Codable {
         case .galley: return 1
 
             // great people
+        case .admiral: return 0
         case .artist: return 0
         case .engineer: return 0
         case .merchant: return 0
-        case .scientist: return 0
+        case .musician: return 0
         case .general: return 0
-        case .admiral: return 0
         case .prophet: return 0
+        case .scientist: return 0
+        case .writer: return 0
         }
     }
 
@@ -515,13 +538,15 @@ public enum UnitType: Int, Codable {
         case .galley: return .sailing
 
             // great people
+        case .admiral: return nil
         case .artist: return nil
         case .engineer: return nil
-        case .merchant: return nil
-        case .scientist: return nil
         case .general: return nil
-        case .admiral: return nil
+        case .merchant: return nil
+        case .musician: return nil
         case .prophet: return nil
+        case .scientist: return nil
+        case .writer: return nil
         }
     }
 
@@ -544,13 +569,16 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return nil
         case .galley: return nil
 
+            // great people
+        case .admiral: return nil
         case .artist: return nil
         case .engineer: return nil
-        case .merchant: return nil
-        case .scientist: return nil
         case .general: return nil
-        case .admiral: return nil
+        case .merchant: return nil
+        case .musician: return nil
         case .prophet: return nil
+        case .scientist: return nil
+        case .writer: return nil
         }
     }
 
@@ -572,13 +600,16 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return [.canCapture]
         case .galley: return [.oceanImpassable, .canCapture]
 
+            // great people
+        case .admiral: return []
         case .artist: return []
         case .engineer: return []
-        case .merchant: return []
-        case .scientist: return []
         case .general: return []
-        case .admiral: return []
+        case .merchant: return []
+        case .musician: return []
         case .prophet: return []
+        case .scientist: return []
+        case .writer: return []
         }
     }
 

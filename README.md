@@ -5,27 +5,31 @@
 - other leaders
 - game rating screen
 - advisor screen
-- tech select screen
-- civic select screen
+- tech select screen (/)
+- civic select screen (/)
 - enhance city screen
     - add build queue
-    - add list of built items
-- add turn counter to UI
+    - add list of built items (/)
 - fix UI of map overview
 
 ## Defects
 - second unit is sometimes in water
-- no tech is requested after city is founded
-- no civic is requested after city is founded
-- no production is requested after city is founded (but next turn)
 - unit is below city banner
 - starting locations are bad
+- overview is not updated
+- layer of units < features
+- citizen not placed
+- border is above ui
 
 ## Missing Tiles
 - snow-to-water-n-sw-nw
 
 
 ## Done
+- add turn counter to UI
+- no tech is requested after city is founded
+- no civic is requested after city is founded
+- no production is requested after city is founded (but next turn)
 - give AI players automatic city names
 - bottomleft has too much space
 - ask for city name during founding

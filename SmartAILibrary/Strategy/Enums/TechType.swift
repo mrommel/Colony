@@ -8,7 +8,15 @@
 
 import Foundation
 
+public struct TechAchievements {
+    
+    public let buildingTypes: [BuildingType]
+    public let unitTypes: [UnitType]
+}
+
 public enum TechType: String, Codable {
+    
+    case none
     
     // ancient
     case mining
@@ -122,6 +130,32 @@ public enum TechType: String, Codable {
         return self.era() == .ancient
     }
     
+    public func achievements() -> TechAchievements {
+        
+        let buildings = BuildingType.all.filter({
+            if let tech = $0.requiredTech() {
+                return tech == self
+                
+            } else {
+                return false
+            }
+        })
+        
+        let units = UnitType.all.filter({
+            if let tech = $0.required() {
+                return tech == self
+            } else {
+                return false
+            }
+        })
+        
+        // districts
+        // wonders
+        // buildtypes
+            
+        return TechAchievements(buildingTypes: buildings, unitTypes: units)
+    }
+    
     // MARK private
     
     private struct TechTypeData {
@@ -137,6 +171,13 @@ public enum TechType: String, Codable {
         
         switch self {
 
+        case .none:
+            return TechTypeData(name: "---",
+                                era: .ancient,
+                                cost: -1,
+                                required: [],
+                                flavors: [])
+            
             // ancient
         case .mining:
             return TechTypeData(name: "Mining",

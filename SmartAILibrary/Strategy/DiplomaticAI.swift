@@ -74,6 +74,7 @@ public class DiplomaticAI {
 
                 // Put in the list of people to greet human when the human turn comes up.
                 //gameModel.add(message: FirstContactMessage(with: player))
+                otherPlayer.notifications()?.add(type: .diplomaticDeclaration, for: otherPlayer, message: "First Contact to \(player.leader)", summary: "First Contact with other player")
             }
         }
     }
@@ -1445,7 +1446,7 @@ public class DiplomaticAI {
 
         for otherPlayer in gameModel.players {
             
-            if otherPlayer.isAlive() && otherPlayer.isEqual(to: self.player) {
+            if otherPlayer.isAlive() && !otherPlayer.isEqual(to: self.player) && self.hasMet(with: otherPlayer) {
                 
                 switch self.landDisputeLevel(with: otherPlayer) {
                     

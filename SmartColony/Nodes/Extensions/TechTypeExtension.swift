@@ -14,6 +14,8 @@ extension TechType {
         
         switch self {
             
+        case .none: return "tech_default"
+            
             // ancient
         case .mining: return "tech_mining"
         case .pottery: return "tech_pottery"
@@ -38,25 +40,25 @@ extension TechType {
         case .engineering: return "tech_engineering"
             
             // medieval
-        case .militaryTactics: return "tech_none"
-        case .buttress: return "tech_none"
-        case .apprenticesship: return "tech_none"
-        case .stirrups: return "tech_none"
-        case .machinery: return "tech_none"
-        case .education: return "tech_none"
-        case .militaryEngineering: return "tech_none"
-        case .castles: return "tech_none"
+        case .militaryTactics: return "tech_default"
+        case .buttress: return "tech_default"
+        case .apprenticesship: return "tech_default"
+        case .stirrups: return "tech_default"
+        case .machinery: return "tech_default"
+        case .education: return "tech_default"
+        case .militaryEngineering: return "tech_default"
+        case .castles: return "tech_default"
             
             // renaissance
-        case .cartography: return "tech_none"
-        case .massProduction: return "tech_none"
-        case .banking: return "tech_none"
-        case .gunpowder: return "tech_none"
-        case .printing: return "tech_none"
-        case .squareRigging: return "tech_none"
-        case .astronomy: return "tech_none"
-        case .metalCasting: return "tech_none"
-        case .siegeTactics: return "tech_none"
+        case .cartography: return "tech_default"
+        case .massProduction: return "tech_default"
+        case .banking: return "tech_default"
+        case .gunpowder: return "tech_default"
+        case .printing: return "tech_default"
+        case .squareRigging: return "tech_default"
+        case .astronomy: return "tech_default"
+        case .metalCasting: return "tech_default"
+        case .siegeTactics: return "tech_default"
         }
     }
 }
