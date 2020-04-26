@@ -11,7 +11,19 @@ import SmartAILibrary
 
 extension CivilizationType {
     
-    func overviewColor() -> UIColor {
+    func iconColor() -> UIColor {
+        
+        switch self {
+            
+        case .barbarian: return UIColor(hex: "#be0000")
+            
+        case .greek: return UIColor(hex: "#418dfe")
+        case .roman: return UIColor(hex: "#f0c800")
+        case .english: return UIColor(hex: "#ffffff")
+        }
+    }
+    
+    func backgroundColor() -> UIColor {
         
         switch self {
             
@@ -95,8 +107,13 @@ class MapOverviewNode: SKSpriteNode {
             if tile.isDiscovered(by: self.player) {
                 
                 if let owner = tile.owner() {
-                    let color = owner.leader.civilization().overviewColor()
-                    self.buffer.set(color: color, at: index)
+                    if tile.isCity() {
+                        let color = owner.leader.civilization().iconColor()
+                        self.buffer.set(color: color, at: index)
+                    } else {
+                        let color = owner.leader.civilization().backgroundColor()
+                        self.buffer.set(color: color, at: index)
+                    }
                 } else {
                     var color = tile.terrain().overviewColor()
                     
@@ -115,22 +132,6 @@ class MapOverviewNode: SKSpriteNode {
                 self.buffer.set(color: UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.5), at: index)
             }
         }
-        
-        /*if map.fogManager?.neverVisitedAt(x: x, y: y, by: self.civilization) ?? false {
-            self.buffer.set(color: UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.5), at: index)
-        } else {
-
-            if let tile = map.tile(x: x, y: y) {
-
-                if let player = tile.owner() {
-                    let color = city.civilization.overviewColor
-                    self.buffer.set(color: color, at: index)
-                } else {
-                    let color = tile.terrain.overviewColor
-                    self.buffer.set(color: color, at: index)
-                }
-            }
-        }*/
     }
 
     private func updateTextureFromBuffer() {

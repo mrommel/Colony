@@ -22,6 +22,7 @@ class MapNode: SKNode {
     var unitLayer: UnitLayer
     var cityLayer: CityLayer
     var improvementLayer: ImprovementLayer
+    var borderLayer: BorderLayer
 
     // MARK: properties
 
@@ -42,6 +43,10 @@ class MapNode: SKNode {
         self.terrainLayer = TerrainLayer(player: humanPlayer)
         self.terrainLayer.populate(with: self.game)
         self.terrainLayer.zPosition = Globals.ZLevels.terrain
+        
+        self.borderLayer = BorderLayer(player: humanPlayer)
+        self.borderLayer.populate(with: self.game)
+        self.borderLayer.zPosition = Globals.ZLevels.border
 
         self.featureLayer = FeatureLayer(player: humanPlayer)
         self.featureLayer.populate(with: self.game)
@@ -81,6 +86,7 @@ class MapNode: SKNode {
         self.addChild(self.unitLayer)
         self.addChild(self.cityLayer)
         self.addChild(self.improvementLayer)
+        self.addChild(self.borderLayer)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -110,6 +116,7 @@ class MapNode: SKNode {
     func update(tile: AbstractTile?) {
         
         self.terrainLayer.update(tile: tile)
+        self.borderLayer.update(tile: tile)
         self.featureLayer.update(tile: tile)
         self.resourceLayer.update(tile: tile)
         self.improvementLayer.update(tile: tile)

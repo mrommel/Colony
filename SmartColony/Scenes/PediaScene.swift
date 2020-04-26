@@ -19,6 +19,7 @@ class PediaScene: BaseScene {
     // variables
     var backgroundNode: SKSpriteNode?
     
+    var interimRankingDialogButton: MenuButtonNode?
     var cityDialogButton: MenuButtonNode?
     var scienceDialogButton: MenuButtonNode?
     var civicDialogButton: MenuButtonNode?
@@ -47,6 +48,14 @@ class PediaScene: BaseScene {
         self.backgroundNode?.zPosition = 0
         self.backgroundNode?.size = viewSize
         self.rootNode.addChild(self.backgroundNode!)
+        
+        // interim
+        self.interimRankingDialogButton = MenuButtonNode(titled: "InterimRanking",
+            buttonAction: {
+                self.showInterimRaking()
+            })
+        self.interimRankingDialogButton?.zPosition = 2
+        self.rootNode.addChild(self.interimRankingDialogButton!)
         
         // city
         self.cityDialogButton = MenuButtonNode(titled: "CityDialog",
@@ -95,6 +104,7 @@ class PediaScene: BaseScene {
         self.civicDialogButton?.position = CGPoint(x: 0, y: -50)
         self.scienceDialogButton?.position = CGPoint(x: 0, y: -100)
         self.cityDialogButton?.position = CGPoint(x: 0, y: -150)
+        self.interimRankingDialogButton?.position = CGPoint(x: 0, y: -200)
         
         self.backButton?.position = CGPoint(x: 0, y: -viewSize.halfHeight + 50)
     }
@@ -173,6 +183,31 @@ class PediaScene: BaseScene {
         })
         
         self.cameraNode.add(dialog: civicDialog)
+    }
+    
+    func showInterimRaking() {
+        
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+        
+        let aiPlayer = Player(leader: .augustus, isHuman: false)
+        aiPlayer.initialize()
+        
+        let rankingData = RankingData(players: [humanPlayer, aiPlayer])
+        rankingData.add(score: 0, for: .alexander)
+        rankingData.add(score: 0, for: .augustus)
+        
+        rankingData.add(score: 8, for: .alexander)
+        rankingData.add(score: 12, for: .augustus)
+        
+        let interimRankingDialog = InterimRankingDialog(for: humanPlayer, with: rankingData)
+        interimRankingDialog.zPosition = 250
+
+        interimRankingDialog.addOkayAction(handler: {
+            interimRankingDialog.close()
+        })
+
+        self.cameraNode.add(dialog: interimRankingDialog)
     }
     
     static func mapFilled(with terrain: TerrainType, sized size: MapSize) -> MapModel {

@@ -23,16 +23,23 @@ class BoundingBox: Codable {
     
     init(points: [HexPoint]) {
         
-        self.minX = points[0].x
-        self.maxX = points[0].x
-        self.minY = points[0].y
-        self.maxY = points[0].y
-        
-        for i in 1..<points.count {
-            self.minX = min(self.minX, points[i].x)
-            self.maxX = max(self.maxX, points[i].x)
-            self.minY = min(self.minY, points[i].y)
-            self.maxY = max(self.maxY, points[i].y)
+        if points.count > 0 {
+            self.minX = points[0].x
+            self.maxX = points[0].x
+            self.minY = points[0].y
+            self.maxY = points[0].y
+            
+            for i in 1..<points.count {
+                self.minX = min(self.minX, points[i].x)
+                self.maxX = max(self.maxX, points[i].x)
+                self.minY = min(self.minY, points[i].y)
+                self.maxY = max(self.maxY, points[i].y)
+            }
+        } else {
+            self.minX = -1
+            self.minY = -1
+            self.maxX = -1
+            self.maxY = -1
         }
     }
 }

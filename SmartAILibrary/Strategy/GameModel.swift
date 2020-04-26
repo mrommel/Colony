@@ -26,13 +26,14 @@ public class GameModel {
     static let turnFrequency = 25 /* PROGRESS_POPUP_TURN_FREQUENCY */
 
     private let map: MapModel
-    //private var messagesVal: [AbstractGameMessage] // for human only !!
     private let tacticalAnalysisMapVal: TacticalAnalysisMap
     public weak var userInterface: UserInterfaceProtocol?
     private var waitDiploPlayer: AbstractPlayer? = nil
     private var wondersBuilt: AbstractWonders? = nil
     
     private var gameStateValue: GameStateType
+    
+    public var rankingData: RankingData
 
     public init(victoryTypes: [VictoryType], handicap: HandicapType, turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
         
@@ -42,14 +43,14 @@ public class GameModel {
         self.players = players
         self.map = map
 
-        // self.messagesVal = []
-
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
         self.map.analyze()
         
         self.gameStateValue = .on
         
         self.wondersBuilt = Wonders(city: nil)
+        
+        self.rankingData = RankingData(players: players)
     }
     
     public func update() {
@@ -87,8 +88,6 @@ public class GameModel {
 
         // Check for paused again, the doTurn call might have called something that paused the game and we don't want an update to sneak through
         if !self.isPaused()  {
-            
-            //self.updateScore()
 
             //self.updateWar()
 
@@ -491,7 +490,7 @@ public class GameModel {
 
         //DoUpdateCachedWorldReligionTechProgress();
 
-        //updateScore();
+        self.updateScore()
 
         //m_kGameDeals.DoTurn();
 
@@ -653,6 +652,15 @@ public class GameModel {
         
         self.tacticalAnalysisMapVal.refresh(for: player, in: self)
     }
+    
+    func updateScore() {
+        
+        for player in self.players {
+            let score = player.score(for: self)
+            
+            self.rankingData.add(score: score, for: player.leader)
+        }
+    }
 
     // MARK: getter
 
@@ -700,7 +708,13 @@ public class GameModel {
         
         self.map.add(city: city)
         self.userInterface?.show(city: city)
-        self.userInterface?.refresh(tile: tile)
+        
+        // update area around the city
+        for pt in city.location.areaWith(radius: 3) {
+            if let neighborTile = self.tile(at: pt) {
+                self.userInterface?.refresh(tile: neighborTile)
+            }
+        }
         
         // update eureka
         if !techs.eurekaTriggered(for: .sailing) {

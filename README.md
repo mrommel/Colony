@@ -2,28 +2,33 @@
 
 ## Todo
 - other leaders
-- game rating screen
 - advisor screen
 - tech select screen (/)
-    - make scrollable
+    - make scrollable (/)
+    - add missing techs
 - civic select screen (/)
-    - make scrollable
+    - make scrollable (/)
+    - add missing civics
 - enhance city screen
     - add build queue
     - add list of built items
 - fix UI of map overview
-- show border of owned land
+    - colors
+- textures of mountains
 
 ## Defects
+- starting locations are bad
 - second unit is sometimes in water
 - unit is below city banner
-- starting locations are bad
-- border is above ui
+- unit is placed by dialog button click
 
 ## Missing Tiles
 - snow-to-water-n-sw-nw
 
 ## Done
+- show border of owned land
+- game rating screen
+- board is above ui
 - layer of units < features
 - board layer not updated
 - overview is not updated

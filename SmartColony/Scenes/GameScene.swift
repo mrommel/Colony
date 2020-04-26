@@ -916,6 +916,25 @@ extension GameScene: UserInterfaceProtocol {
 
             self.cameraNode.add(dialog: civicDialog)
 
+        } else if screenType == .interimRanking {
+            
+            guard let gameModel = self.viewModel?.game else {
+                fatalError("cant get game")
+            }
+            
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                fatalError("cant get human")
+            }
+
+            let interimRankingDialog = InterimRankingDialog(for: humanPlayer, with: gameModel.rankingData)
+            interimRankingDialog.zPosition = 250
+
+            interimRankingDialog.addOkayAction(handler: {
+                interimRankingDialog.close()
+            })
+
+            self.cameraNode.add(dialog: interimRankingDialog)
+            
         } else {
             print("screen: \(screenType) not handled")
         }

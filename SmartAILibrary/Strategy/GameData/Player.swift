@@ -50,6 +50,7 @@ public protocol AbstractPlayer: class {
     var cityConnections: CityConnections? { get }
     
     var plots: [AbstractTile?] { get }
+    var area: HexArea { get }
 
     func initialize()
     
@@ -197,6 +198,7 @@ public class Player: AbstractPlayer {
     internal var armies: Armies? = nil
     
     public var plots: [AbstractTile?]
+    public var area: HexArea
     internal var numPlotsBoughtValue: Int
     
     internal var resourceInventory: ResourceInventory?
@@ -223,6 +225,7 @@ public class Player: AbstractPlayer {
         self.isHumanVal = isHuman
         
         self.plots = []
+        self.area = HexArea(points: [])
         
         self.numPlotsBoughtValue = 0
         
@@ -1023,6 +1026,16 @@ public class Player: AbstractPlayer {
 
     }
 
+    // https://civilization.fandom.com/wiki/Victory_(Civ6)
+    /*
+     2 points for each district owned (4 points if it is a unique district).
+     5 points for each GreatPerson6 Great Person earned.
+     3 points for each civic researched.
+     10 points for founding a religion.
+     2 points for each foreign city following the player's religion.
+     2 points for each technology researched.
+     Era Score points.
+     */
     public func score(for gameModel: GameModel?) -> Int {
 
         if !self.isAliveVal {
@@ -1033,20 +1046,24 @@ public class Player: AbstractPlayer {
         var scoreVal = 0
 
         scoreVal += self.scoreFromCities(for: gameModel)
+        scoreVal += self.scoreFromBuildings(for: gameModel)
         scoreVal += self.scoreFromPopulation(for: gameModel)
+        scoreVal += self.scoreFromTechs(for: gameModel)
         scoreVal += self.scoreFromLand(for: gameModel)
+        scoreVal += self.scoreFromCivics(for: gameModel)
         scoreVal += self.scoreFromWonder(for: gameModel)
         scoreVal += self.scoreFromTech(for: gameModel)
 
         return scoreVal
     }
 
+    // 5 points for each city owned.
     private func scoreFromCities(for gameModel: GameModel?) -> Int {
 
         if let cities = gameModel?.cities(of: self),
             let mapSizeModifier = gameModel?.mapSizeModifier() {
 
-            var score = cities.count * 10
+            var score = cities.count * 5
 
             // weight with map size
             score *= 100
@@ -1057,7 +1074,33 @@ public class Player: AbstractPlayer {
 
         return 0
     }
+    
+    // 1 point for each building (including the Palace).
+    private func scoreFromBuildings(for gameModel: GameModel?) -> Int {
+        
+        if let cities = gameModel?.cities(of: self), let mapSizeModifier = gameModel?.mapSizeModifier() {
+            
+            var score = 0
 
+            for cityRef in cities {
+                guard let cityBuildings = cityRef?.buildings else {
+                    continue
+                }
+                   
+                score += cityBuildings.numOfBuildings()
+            }
+
+            // weight with map size
+            score *= 100
+            score /= mapSizeModifier
+
+            return score
+        }
+        
+        return 0
+    }
+
+    // 1 point for each Citizen6 Citizen in the player's empire.
     private func scoreFromPopulation(for gameModel: GameModel?) -> Int {
 
         if let cities = gameModel?.cities(of: self),
@@ -1067,7 +1110,7 @@ public class Player: AbstractPlayer {
 
             for cityRef in cities {
                 if let city = cityRef {
-                    score += city.population() * 4
+                    score += city.population() * 1
                 }
             }
 
@@ -1080,14 +1123,25 @@ public class Player: AbstractPlayer {
 
         return 0
     }
+    
+    // 2 points for each technology researched.
+    private func scoreFromTechs(for gameModel: GameModel?) -> Int {
+        
+        guard let techs = self.techs else {
+            fatalError("cant get techs")
+        }
+        
+        return techs.numberOfDiscoveredTechs() * 2
+    }
 
+    // 2 points for each district owned
     private func scoreFromLand(for gameModel: GameModel?) -> Int {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
 
-        var score = self.plots.count * 1 /*SCORE_LAND_MULTIPLIER */
+        var score = self.plots.count * 2 /*SCORE_LAND_MULTIPLIER */
 
         // weight with map size
         let mapSizeModifier = gameModel.mapSizeModifier()
@@ -1097,7 +1151,17 @@ public class Player: AbstractPlayer {
         return score
     }
     
-    // Score from world wonders: 40 per
+    // 3 points for each civic researched.
+    private func scoreFromCivics(for gameModel: GameModel?) -> Int {
+        
+        guard let civics = self.civics else {
+            fatalError("cant get civics")
+        }
+        
+        return civics.numberOfDiscoveredCivics() * 3
+    }
+    
+    // Score from world wonders: 15 points for each wonder owned.
     private func scoreFromWonder(for gameModel: GameModel?) -> Int {
 
         guard let gameModel = gameModel else {
@@ -1115,7 +1179,7 @@ public class Player: AbstractPlayer {
             number += cityWonders.numberOfBuiltWonders()
         }
         
-        let score = number * 40 /* SCORE_WONDER_MULTIPLIER */
+        let score = number * 15 /* SCORE_WONDER_MULTIPLIER */
         return score
     }
 
@@ -1747,6 +1811,7 @@ public class Player: AbstractPlayer {
         
         // init
         self.plots = []
+        self.area = HexArea(points: [])
         
         let mapSize = gameModel.mapSize()
         self.plots.reserveCapacity(mapSize.numberOfTiles())
@@ -1754,10 +1819,12 @@ public class Player: AbstractPlayer {
         for x in 0..<mapSize.width() {
             for y in 0..<mapSize.height() {
                 
-                if let tile = gameModel.tile(at: HexPoint(x: x, y: y)) {
+                let pt = HexPoint(x: x, y: y)
+                if let tile = gameModel.tile(at: pt) {
 
                     if self.isEqual(to: tile.owner()) {
                         self.plots.append(tile)
+                        self.area.add(point: pt)
                     }
                 }
             }

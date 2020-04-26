@@ -27,6 +27,7 @@ class TextureUtils {
         var snowSprite: SKSpriteNode? = nil
         var boardSprite: SKSpriteNode? = nil
         var iceSprite: SKSpriteNode? = nil
+        var borderSprite: SKSpriteNode? = nil
         
         init(point: HexPoint) {
             
@@ -111,6 +112,16 @@ class TextureUtils {
     func resourceSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.resourceSprite
+    }
+    
+    func set(borderSprite: SKSpriteNode?, at point: HexPoint) {
+        
+        self.tileTextures?[point.x, point.y]?.borderSprite = borderSprite
+    }
+    
+    func borderSprite(at point: HexPoint) -> SKSpriteNode? {
+        
+        return self.tileTextures?[point.x, point.y]?.borderSprite
     }
     
     func set(iceSprite: SKSpriteNode?, at point: HexPoint) {

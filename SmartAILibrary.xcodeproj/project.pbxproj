@@ -195,6 +195,7 @@
 		C9DFCF8423F30C310032243D /* PlayerWarFaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DFCF8323F30C310032243D /* PlayerWarFaceType.swift */; };
 		C9E0D57024424C0C001AA97A /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D56F24424C0C001AA97A /* Notifications.swift */; };
 		C9E0D57224424C66001AA97A /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D57124424C66001AA97A /* NotificationType.swift */; };
+		C9EB9F642454C6C500F13B02 /* RankingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F632454C6C400F13B02 /* RankingData.swift */; };
 		C9EC4E132443AE97001A0597 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E122443AE97001A0597 /* Command.swift */; };
 		C9EC4E152443AECA001A0597 /* CommandType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E142443AECA001A0597 /* CommandType.swift */; };
 		C9EE60AA2401DCC300535B93 /* TacticalAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE60A92401DCC300535B93 /* TacticalAI.swift */; };
@@ -412,6 +413,7 @@
 		C9DFCF8323F30C310032243D /* PlayerWarFaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerWarFaceType.swift; sourceTree = "<group>"; };
 		C9E0D56F24424C0C001AA97A /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C9E0D57124424C66001AA97A /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
+		C9EB9F632454C6C400F13B02 /* RankingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingData.swift; sourceTree = "<group>"; };
 		C9EC4E122443AE97001A0597 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		C9EC4E142443AECA001A0597 /* CommandType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandType.swift; sourceTree = "<group>"; };
 		C9EE60A92401DCC300535B93 /* TacticalAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalAI.swift; sourceTree = "<group>"; };
@@ -757,6 +759,7 @@
 				C91B0022243DCE6000C422C8 /* GoodyHuts.swift */,
 				C9E0D56F24424C0C001AA97A /* Notifications.swift */,
 				C9EC4E122443AE97001A0597 /* Command.swift */,
+				C9EB9F632454C6C400F13B02 /* RankingData.swift */,
 			);
 			path = GameData;
 			sourceTree = "<group>";
@@ -963,6 +966,7 @@
 				C965A53023FC6A7E00BCEB54 /* HexPointWithCorner.swift in Sources */,
 				C9588AC92419897300304E9A /* CitySpecializationType.swift in Sources */,
 				C9DFCF7423F29DA90032243D /* Array2D.swift in Sources */,
+				C9EB9F642454C6C500F13B02 /* RankingData.swift in Sources */,
 				C98DBFAC23E01A2600B6CE25 /* Tile.swift in Sources */,
 				C964BA2323EB564300CA379C /* EconomicStrategyType.swift in Sources */,
 				C907085823EC5F9A00281161 /* UnitClassType.swift in Sources */,

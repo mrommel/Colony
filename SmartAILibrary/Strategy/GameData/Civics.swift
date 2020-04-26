@@ -28,6 +28,7 @@ public protocol AbstractCivics {
     func setCurrent(civic: CivicType, in gameModel: GameModel?) throws
     func currentCivic() -> CivicType?
     func chooseNextCivic() -> CivicType
+    func numberOfDiscoveredCivics() -> Int
     
     func add(culture: Double)
     func checkCultureProgress(in gameModel: GameModel?) throws
@@ -294,6 +295,19 @@ class Civics: AbstractCivics {
         let selectedTech = weightedCivics.civics[selectedIndex].civic
         
         return selectedTech
+    }
+    
+    func numberOfDiscoveredCivics() -> Int {
+        
+        var number = 0
+
+        for civic in CivicType.all {
+            if self.has(civic: civic) {
+                number += 1
+            }
+        }
+        
+        return number
     }
     
     func checkCultureProgress(in gameModel: GameModel?) throws {

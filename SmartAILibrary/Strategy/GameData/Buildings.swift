@@ -22,6 +22,7 @@ public protocol AbstractBuildings {
     func defense() -> Int
     func defenseModifier() -> Int
     func housing() -> Double
+    func numOfBuildings() -> Int
 }
 
 class Buildings: AbstractBuildings {
@@ -95,5 +96,10 @@ class Buildings: AbstractBuildings {
     func housing() -> Double {
         
         return self.housingVal
+    }
+    
+    func numOfBuildings() -> Int {
+        
+        return self.buildings.count
     }
 }
