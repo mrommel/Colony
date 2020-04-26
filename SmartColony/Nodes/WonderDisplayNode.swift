@@ -39,7 +39,7 @@ class WonderDisplayNode: SKNode {
         self.addChild(self.backgroundNode!)
         
         // icon
-        let iconTexture = SKTexture(imageNamed: "wonder_default")
+        let iconTexture = SKTexture(imageNamed: wonderType.iconTexture())
         self.iconNode = SKSpriteNode(texture: iconTexture, size: CGSize(width: 20, height: 20))
         self.iconNode?.position = CGPoint(x: 10, y: -10)
         self.iconNode?.zPosition = self.zPosition + 1

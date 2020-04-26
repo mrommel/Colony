@@ -112,6 +112,8 @@
 		C9EB9F622454B47100F13B02 /* BorderLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F612454B47100F13B02 /* BorderLayer.swift */; };
 		C9EB9F662454CD4900F13B02 /* InterimRankingDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F652454CD4900F13B02 /* InterimRankingDialog.swift */; };
 		C9EB9F68245564F200F13B02 /* InterimRankingDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9EB9F67245564F100F13B02 /* InterimRankingDialog.xml */; };
+		C9EB9F6A24557CA700F13B02 /* Wonders.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9EB9F6924557CA700F13B02 /* Wonders.xcassets */; };
+		C9EB9F6C24557CD600F13B02 /* WonderTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F6B24557CD600F13B02 /* WonderTypeExtension.swift */; };
 		C9EC4E1724444F2E001A0597 /* ImprovementLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E1624444F2E001A0597 /* ImprovementLayer.swift */; };
 		C9EC4E1924445082001A0597 /* CityLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E1824445082001A0597 /* CityLayer.swift */; };
 		C9EC4E1B244454F9001A0597 /* CityObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E1A244454F9001A0597 /* CityObject.swift */; };
@@ -275,6 +277,8 @@
 		C9EB9F612454B47100F13B02 /* BorderLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderLayer.swift; sourceTree = "<group>"; };
 		C9EB9F652454CD4900F13B02 /* InterimRankingDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterimRankingDialog.swift; sourceTree = "<group>"; };
 		C9EB9F67245564F100F13B02 /* InterimRankingDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = InterimRankingDialog.xml; sourceTree = "<group>"; };
+		C9EB9F6924557CA700F13B02 /* Wonders.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Wonders.xcassets; sourceTree = "<group>"; };
+		C9EB9F6B24557CD600F13B02 /* WonderTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderTypeExtension.swift; sourceTree = "<group>"; };
 		C9EC4E1624444F2E001A0597 /* ImprovementLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementLayer.swift; sourceTree = "<group>"; };
 		C9EC4E1824445082001A0597 /* CityLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLayer.swift; sourceTree = "<group>"; };
 		C9EC4E1A244454F9001A0597 /* CityObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityObject.swift; sourceTree = "<group>"; };
@@ -362,6 +366,7 @@
 				C9F91B3C244B93380081EDC8 /* CivicTypeExtension.swift */,
 				C9F91B58245045340081EDC8 /* BuildingTypeExtension.swift */,
 				C9EB9F5F245309AE00F13B02 /* UnitTypeExtension.swift */,
+				C9EB9F6B24557CD600F13B02 /* WonderTypeExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -434,6 +439,7 @@
 				C9F91B38244A3E920081EDC8 /* Techs.xcassets */,
 				C9F91B42244B9B3E0081EDC8 /* Civics.xcassets */,
 				C9F91B56245038F20081EDC8 /* Buildings.xcassets */,
+				C9EB9F6924557CA700F13B02 /* Wonders.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -728,6 +734,7 @@
 				C9B1D2462434B9AE00033791 /* DINNext-Light.ttf in Resources */,
 				C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */,
 				C957AA49243641A100203024 /* MapSizeDialog.xml in Resources */,
+				C9EB9F6A24557CA700F13B02 /* Wonders.xcassets in Resources */,
 				C9B1D28F2435B08F00033791 /* earth_small.map in Resources */,
 				C9F91B39244A3E920081EDC8 /* Techs.xcassets in Resources */,
 				C9B1D28D2435B07A00033791 /* earth_huge.map in Resources */,
@@ -864,6 +871,7 @@
 				C9B1D27924351F3500033791 /* Dialog.swift in Sources */,
 				C95B3DFE243872E0002F5A86 /* TouchableSpriteNode.swift in Sources */,
 				C95B3DEE243726CD002F5A86 /* GameLoadingScene.swift in Sources */,
+				C9EB9F6C24557CD600F13B02 /* WonderTypeExtension.swift in Sources */,
 				C9B1D24B2434C3D600033791 /* MenuSceneExtension.swift in Sources */,
 				C9B1D2192434784800033791 /* SplashViewController.swift in Sources */,
 				C9EC4E2A2445ADAE001A0597 /* DialogResultType.swift in Sources */,

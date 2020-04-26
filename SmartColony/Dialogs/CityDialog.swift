@@ -131,10 +131,10 @@ class CityDialog: Dialog {
     
     private func updateLayout() {
         
-        self.currentProductionNode?.position = CGPoint(x: -50, y: -200)
+        self.currentProductionNode?.position = CGPoint(x: 0, y: -200)
         
-        self.manageProductionDialogButton?.position = CGPoint(x: -50, y: -250)
-        self.chooseProductionDialogButton?.position = CGPoint(x: -50, y: -300)
+        self.manageProductionDialogButton?.position = CGPoint(x: 0, y: -250)
+        self.chooseProductionDialogButton?.position = CGPoint(x: 0, y: -300)
     }
     
     private func showChooseProductionDialog() {

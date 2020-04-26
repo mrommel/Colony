@@ -10,10 +10,11 @@
     - make scrollable (/)
     - add missing civics
 - enhance city screen
+    - distorted button
     - add build queue
     - add list of built items
 - fix UI of map overview
-    - colors
+    - colors (/)
 - textures of mountains
 
 ## Defects

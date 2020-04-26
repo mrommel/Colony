@@ -41,7 +41,7 @@ class UnitDisplayNode: SKNode {
         self.addChild(self.backgroundNode!)
         
         // icon
-        let iconTexture = SKTexture(imageNamed: "unit_default")
+        let iconTexture = SKTexture(imageNamed: unitType.iconTexture())
         self.iconNode = SKSpriteNode(texture: iconTexture, size: CGSize(width: 20, height: 20))
         self.iconNode?.position = CGPoint(x: 10, y: -10)
         self.iconNode?.zPosition = self.zPosition + 1
