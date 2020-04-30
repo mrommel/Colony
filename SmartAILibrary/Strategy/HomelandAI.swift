@@ -790,10 +790,10 @@ class HomelandAI {
 
         if let bestUnit = bestUnit {
             
-            if bestUnit.location == target.point && bestUnit.canFortify() {
+            if bestUnit.location == target.point && bestUnit.canFortify(at: bestUnit.location, in: gameModel) {
                 
                 bestUnit.push(mission: UnitMission(type: .fortify), in: gameModel)
-                bestUnit.setFortifiedThisTurn(fortified: true)
+                bestUnit.doFortify(in: gameModel)
                 self.unitProcessed(unit: bestUnit)
                 return
                 
@@ -828,10 +828,10 @@ class HomelandAI {
                 }
             }
 
-            if loopUnit.location == target.point && loopUnit.canFortify() {
+            if loopUnit.location == target.point && loopUnit.canFortify(at: loopUnit.location, in: gameModel) {
                 
                 loopUnit.push(mission: UnitMission(type: .fortify), in: gameModel)
-                loopUnit.setFortifiedThisTurn(fortified: true)
+                loopUnit.doFortify(in: gameModel)
                 self.unitProcessed(unit: loopUnit)
                 return
             } else if garrisonIfPossible && loopUnit.location == target.point && loopUnit.canGarrison(at: target.point, in: gameModel) {
@@ -856,10 +856,10 @@ class HomelandAI {
                 continue
             }
 
-            if loopUnit.location == target.point && loopUnit.canFortify() {
+            if loopUnit.location == target.point && loopUnit.canFortify(at: loopUnit.location, in: gameModel) {
                 
                 loopUnit.push(mission: UnitMission(type: .fortify), in: gameModel)
-                loopUnit.setFortifiedThisTurn(fortified: true)
+                loopUnit.doFortify(in: gameModel)
                 self.unitProcessed(unit: loopUnit)
                 return
             } else if currentMoveUnit!.movesToTarget  < 8 /* AI_HOMELAND_ESTIMATE_TURNS_DISTANCE */ || loopUnit.turnsToReach(at: target.point, in: gameModel) != Int.max {

@@ -46,6 +46,7 @@ class BoundingBox: Codable {
 
 public class HexArea: Codable {
     
+    let identifier: String
     var points: [HexPoint]
     private var value: Double = 0.0
     private(set) var boundingBox: BoundingBox
@@ -66,6 +67,8 @@ public class HexArea: Codable {
     
     init(center: HexPoint, radius: Int) {
         
+        self.identifier = UUID().uuidString
+        
         var tmp = Set([center])
         
         for _ in 0..<radius {
@@ -83,6 +86,8 @@ public class HexArea: Codable {
     }
     
     init(points: [HexPoint]) {
+        
+        self.identifier = UUID().uuidString
         self.points = points
         self.boundingBox = BoundingBox(points: points)
     }
@@ -150,7 +155,8 @@ extension HexArea: Equatable {
     
     public static func == (lhs: HexArea, rhs: HexArea) -> Bool {
         
-        return lhs.points.elementsEqual(rhs.points)
+        //return lhs.points.elementsEqual(rhs.points)
+        return lhs.identifier == rhs.identifier
     }
 }
 

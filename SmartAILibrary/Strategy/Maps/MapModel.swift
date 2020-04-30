@@ -35,6 +35,7 @@ public class MapModel: Codable {
     internal var areas: [HexArea]
     internal var rivers: [River]
     
+    public var startLocations: [StartLocation] = []
     
     public init(size: MapSize) {
         
@@ -394,5 +395,105 @@ public class MapModel: Codable {
                 print("something weird happend")
             }
         }
+    }
+    
+    func river(at point: HexPoint) -> Bool {
+
+        guard let tile = self.tile(at: point) else {
+            return false
+        }
+
+        if tile.isRiver() {
+            return true
+        }
+
+        let neighborNW = point.neighbor(in: .northwest)
+        if let tileNW = self.tile(at: neighborNW) {
+            if tileNW.isRiverInSouthEast() {
+                return true
+            }
+        }
+
+        let neighborSW = point.neighbor(in: .southwest)
+        if let tileSW = self.tile(at: neighborSW) {
+            if tileSW.isRiverInNorthEast() {
+                return true
+            }
+        }
+
+        let neighborS = point.neighbor(in: .south)
+        if let tileS = self.tile(at: neighborS) {
+            if tileS.isRiverInNorth() {
+                return true
+            }
+        }
+
+        return false
+    }
+    
+    func isFreshWater(at point: HexPoint) -> Bool {
+        
+        if let tile = self.tile(at: point) {
+            
+            if tile.terrain().isWater() || tile.isImpassable() {
+                return false
+            }
+            
+            if self.river(at: point) {
+                return true
+            }
+            
+            for neighbors in point.neighbors() {
+                
+                if let loopTile = self.tile(at: neighbors) {
+                    if loopTile.feature() == .lake {
+                        return true
+                    }
+                    
+                    if loopTile.feature() != .oasis {
+                        return true
+                    }
+                }
+            }
+        }
+        
+        return false
+    }
+    
+    func isCoastal(at point: HexPoint) -> Bool {
+
+        guard let terrain = self.tile(at: point)?.terrain else {
+            fatalError("cant get terrain")
+        }
+
+        // we are only coastal if we are on land
+        if terrain().isWater() {
+            return false
+        }
+
+        for neighbor in point.neighbors() {
+
+            if let neighborTerrain = self.tile(at: neighbor)?.terrain {
+
+                if neighborTerrain().isWater() {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
+    
+    // MARK: continents
+    
+    func continent(by identifier: String) -> Continent? {
+        
+        for continent in self.continents {
+            if "\(continent.identifier)" == identifier {
+                return continent
+            }
+        }
+        
+        return nil
     }
 }

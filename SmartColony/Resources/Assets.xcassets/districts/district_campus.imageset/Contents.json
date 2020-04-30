@@ -1,7 +1,6 @@
 {
   "images" : [
     {
-      "filename" : "district_campus.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -10,6 +9,7 @@
       "scale" : "2x"
     },
     {
+      "filename" : "district_campus@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

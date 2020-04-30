@@ -18,6 +18,7 @@ class MapNode: SKNode {
     var resourceLayer: ResourceLayer
     var boardLayer: BoardLayer
     var riverLayer: RiverLayer
+    var yieldLayer: YieldLayer
     
     var unitLayer: UnitLayer
     var cityLayer: CityLayer
@@ -75,6 +76,10 @@ class MapNode: SKNode {
         self.improvementLayer.populate(with: self.game)
         self.improvementLayer.zPosition = Globals.ZLevels.improvement
 
+        self.yieldLayer = YieldLayer(player: humanPlayer)
+        self.yieldLayer.populate(with: self.game)
+        self.yieldLayer.zPosition = Globals.ZLevels.yields
+        
         super.init()
         self.zPosition = 0
 
@@ -87,6 +92,7 @@ class MapNode: SKNode {
         self.addChild(self.cityLayer)
         self.addChild(self.improvementLayer)
         self.addChild(self.borderLayer)
+        self.addChild(self.yieldLayer)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -98,7 +104,7 @@ class MapNode: SKNode {
     func showCross(at hex: HexPoint) {
         
         let crossSprite = SKSpriteNode(imageNamed: "cross")
-        crossSprite.position = HexPoint.toScreen(hex: hex) //HexMapDisplay.shared.toScreen(hex: hex)
+        crossSprite.position = HexPoint.toScreen(hex: hex)
         crossSprite.zPosition = 500
         crossSprite.anchorPoint = CGPoint(x: 0, y: 0)
         self.addChild(crossSprite)
@@ -121,5 +127,6 @@ class MapNode: SKNode {
         self.resourceLayer.update(tile: tile)
         self.improvementLayer.update(tile: tile)
         self.boardLayer.update(tile: tile)
+        self.yieldLayer.update(tile: tile)
     }
 }

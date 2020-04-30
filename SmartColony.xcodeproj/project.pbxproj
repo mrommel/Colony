@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C90791792459D69700248596 /* GameHandicapDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90791782459D69600248596 /* GameHandicapDialog.swift */; };
+		C907917B2459D6A600248596 /* GameLeaderDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C907917A2459D6A600248596 /* GameLeaderDialog.swift */; };
+		C907917D2459D71F00248596 /* GameHandicapDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C907917C2459D71F00248596 /* GameHandicapDialog.xml */; };
+		C907917F2459D73100248596 /* GameLeaderDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C907917E2459D73100248596 /* GameLeaderDialog.xml */; };
+		C9079181245A20D800248596 /* YieldLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9079180245A20D800248596 /* YieldLayer.swift */; };
 		C9108F46243630550023C76D /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = C9108F45243630550023C76D /* Rswift */; };
 		C9108F49243630A70023C76D /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = C9108F48243630A70023C76D /* XMLCoder */; };
 		C9108F4A243630B80023C76D /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D22524348BD300033791 /* R.generated.swift */; };
@@ -15,6 +20,7 @@
 		C922D2BE2449A24C009E182F /* CityNameDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C922D2BD2449A24C009E182F /* CityNameDialog.swift */; };
 		C94DE1D624516B0B00B13F4D /* CircularProgressBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94DE1D524516B0B00B13F4D /* CircularProgressBarNode.swift */; };
 		C94DE1D824516BAC00B13F4D /* CGFloatExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94DE1D724516BAC00B13F4D /* CGFloatExtension.swift */; };
+		C95503C12456FD0100D4B3D8 /* Commands.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C95503C02456FD0100D4B3D8 /* Commands.xcassets */; };
 		C957AA49243641A100203024 /* MapSizeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA46243641A000203024 /* MapSizeDialog.xml */; };
 		C957AA4A243641A100203024 /* MapTypeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA47243641A000203024 /* MapTypeDialog.xml */; };
 		C957AA4B243641A100203024 /* MapSeaLevelDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA48243641A000203024 /* MapSeaLevelDialog.xml */; };
@@ -114,6 +120,10 @@
 		C9EB9F68245564F200F13B02 /* InterimRankingDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9EB9F67245564F100F13B02 /* InterimRankingDialog.xml */; };
 		C9EB9F6A24557CA700F13B02 /* Wonders.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9EB9F6924557CA700F13B02 /* Wonders.xcassets */; };
 		C9EB9F6C24557CD600F13B02 /* WonderTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F6B24557CD600F13B02 /* WonderTypeExtension.swift */; };
+		C9EB9F6E245584EB00F13B02 /* Builds.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9EB9F6D245584EB00F13B02 /* Builds.xcassets */; };
+		C9EB9F702455850500F13B02 /* BuildTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F6F2455850500F13B02 /* BuildTypeExtension.swift */; };
+		C9EB9F722455B12100F13B02 /* PolicyCardsTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F712455B12100F13B02 /* PolicyCardsTypeExtension.swift */; };
+		C9EB9F7424561D8300F13B02 /* DistrictTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F7324561D8300F13B02 /* DistrictTypeExtension.swift */; };
 		C9EC4E1724444F2E001A0597 /* ImprovementLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E1624444F2E001A0597 /* ImprovementLayer.swift */; };
 		C9EC4E1924445082001A0597 /* CityLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E1824445082001A0597 /* CityLayer.swift */; };
 		C9EC4E1B244454F9001A0597 /* CityObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E1A244454F9001A0597 /* CityObject.swift */; };
@@ -173,11 +183,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C90791782459D69600248596 /* GameHandicapDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHandicapDialog.swift; sourceTree = "<group>"; };
+		C907917A2459D6A600248596 /* GameLeaderDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLeaderDialog.swift; sourceTree = "<group>"; };
+		C907917C2459D71F00248596 /* GameHandicapDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GameHandicapDialog.xml; sourceTree = "<group>"; };
+		C907917E2459D73100248596 /* GameLeaderDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GameLeaderDialog.xml; sourceTree = "<group>"; };
+		C9079180245A20D800248596 /* YieldLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldLayer.swift; sourceTree = "<group>"; };
 		C91B0024243DEE8A00C422C8 /* UnitTypeSprites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTypeSprites.swift; sourceTree = "<group>"; };
 		C922D2BB2449A1A1009E182F /* CityNameDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityNameDialog.xml; sourceTree = "<group>"; };
 		C922D2BD2449A24C009E182F /* CityNameDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityNameDialog.swift; sourceTree = "<group>"; };
 		C94DE1D524516B0B00B13F4D /* CircularProgressBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressBarNode.swift; sourceTree = "<group>"; };
 		C94DE1D724516BAC00B13F4D /* CGFloatExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloatExtension.swift; sourceTree = "<group>"; };
+		C95503C02456FD0100D4B3D8 /* Commands.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Commands.xcassets; sourceTree = "<group>"; };
 		C957AA46243641A000203024 /* MapSizeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapSizeDialog.xml; sourceTree = "<group>"; };
 		C957AA47243641A000203024 /* MapTypeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapTypeDialog.xml; sourceTree = "<group>"; };
 		C957AA48243641A000203024 /* MapSeaLevelDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapSeaLevelDialog.xml; sourceTree = "<group>"; };
@@ -279,6 +295,10 @@
 		C9EB9F67245564F100F13B02 /* InterimRankingDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = InterimRankingDialog.xml; sourceTree = "<group>"; };
 		C9EB9F6924557CA700F13B02 /* Wonders.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Wonders.xcassets; sourceTree = "<group>"; };
 		C9EB9F6B24557CD600F13B02 /* WonderTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderTypeExtension.swift; sourceTree = "<group>"; };
+		C9EB9F6D245584EB00F13B02 /* Builds.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Builds.xcassets; sourceTree = "<group>"; };
+		C9EB9F6F2455850500F13B02 /* BuildTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildTypeExtension.swift; sourceTree = "<group>"; };
+		C9EB9F712455B12100F13B02 /* PolicyCardsTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardsTypeExtension.swift; sourceTree = "<group>"; };
+		C9EB9F7324561D8300F13B02 /* DistrictTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictTypeExtension.swift; sourceTree = "<group>"; };
 		C9EC4E1624444F2E001A0597 /* ImprovementLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementLayer.swift; sourceTree = "<group>"; };
 		C9EC4E1824445082001A0597 /* CityLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLayer.swift; sourceTree = "<group>"; };
 		C9EC4E1A244454F9001A0597 /* CityObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityObject.swift; sourceTree = "<group>"; };
@@ -350,6 +370,7 @@
 				C97CD3AA243B56F600FABCC0 /* UnitLayer.swift */,
 				C9EC4E1824445082001A0597 /* CityLayer.swift */,
 				C9EB9F612454B47100F13B02 /* BorderLayer.swift */,
+				C9079180245A20D800248596 /* YieldLayer.swift */,
 			);
 			path = Layer;
 			sourceTree = "<group>";
@@ -367,6 +388,9 @@
 				C9F91B58245045340081EDC8 /* BuildingTypeExtension.swift */,
 				C9EB9F5F245309AE00F13B02 /* UnitTypeExtension.swift */,
 				C9EB9F6B24557CD600F13B02 /* WonderTypeExtension.swift */,
+				C9EB9F6F2455850500F13B02 /* BuildTypeExtension.swift */,
+				C9EB9F712455B12100F13B02 /* PolicyCardsTypeExtension.swift */,
+				C9EB9F7324561D8300F13B02 /* DistrictTypeExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -440,6 +464,8 @@
 				C9F91B42244B9B3E0081EDC8 /* Civics.xcassets */,
 				C9F91B56245038F20081EDC8 /* Buildings.xcassets */,
 				C9EB9F6924557CA700F13B02 /* Wonders.xcassets */,
+				C9EB9F6D245584EB00F13B02 /* Builds.xcassets */,
+				C95503C02456FD0100D4B3D8 /* Commands.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -534,6 +560,8 @@
 				C95D9D61244A3244007C522E /* ScienceDialog.swift */,
 				C9F91B3E244B98900081EDC8 /* CivicDialog.swift */,
 				C9EB9F652454CD4900F13B02 /* InterimRankingDialog.swift */,
+				C90791782459D69600248596 /* GameHandicapDialog.swift */,
+				C907917A2459D6A600248596 /* GameLeaderDialog.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -554,6 +582,8 @@
 				C95D9D5F244A3147007C522E /* ScienceDialog.xml */,
 				C9F91B40244B98BD0081EDC8 /* CivicDialog.xml */,
 				C9EB9F67245564F100F13B02 /* InterimRankingDialog.xml */,
+				C907917C2459D71F00248596 /* GameHandicapDialog.xml */,
+				C907917E2459D73100248596 /* GameLeaderDialog.xml */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -735,7 +765,10 @@
 				C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */,
 				C957AA49243641A100203024 /* MapSizeDialog.xml in Resources */,
 				C9EB9F6A24557CA700F13B02 /* Wonders.xcassets in Resources */,
+				C95503C12456FD0100D4B3D8 /* Commands.xcassets in Resources */,
+				C907917F2459D73100248596 /* GameLeaderDialog.xml in Resources */,
 				C9B1D28F2435B08F00033791 /* earth_small.map in Resources */,
+				C9EB9F6E245584EB00F13B02 /* Builds.xcassets in Resources */,
 				C9F91B39244A3E920081EDC8 /* Techs.xcassets in Resources */,
 				C9B1D28D2435B07A00033791 /* earth_huge.map in Resources */,
 				C957AA4A243641A100203024 /* MapTypeDialog.xml in Resources */,
@@ -752,6 +785,7 @@
 				C9F61479243471E200450B6C /* Assets.xcassets in Resources */,
 				C957AA52243641D300203024 /* MapClimateDialog.xml in Resources */,
 				C957AA51243641D300203024 /* MapRainfallDialog.xml in Resources */,
+				C907917D2459D71F00248596 /* GameHandicapDialog.xml in Resources */,
 				C9EC4E2124445A16001A0597 /* CityDialog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -813,6 +847,7 @@
 				C9B1D285243521FF00033791 /* MapClimateDialog.swift in Sources */,
 				C9B1D205243474F900033791 /* GameViewController.swift in Sources */,
 				C94DE1D624516B0B00B13F4D /* CircularProgressBarNode.swift in Sources */,
+				C9EB9F722455B12100F13B02 /* PolicyCardsTypeExtension.swift in Sources */,
 				C9EB9F562451A95500F13B02 /* LeftHeaderBarNode.swift in Sources */,
 				C97CD3B0243B685200FABCC0 /* UnitObject.swift in Sources */,
 				C95B3E092438E78E002F5A86 /* FeatureLayer.swift in Sources */,
@@ -826,7 +861,9 @@
 				C99234A8244641FF00F4B4AB /* YieldDisplayNode.swift in Sources */,
 				C95B3E02243874E5002F5A86 /* UIImageExtension.swift in Sources */,
 				C922D2BE2449A24C009E182F /* CityNameDialog.swift in Sources */,
+				C9EB9F702455850500F13B02 /* BuildTypeExtension.swift in Sources */,
 				C9B1D22F243495D000033791 /* SafeAreaNode.swift in Sources */,
+				C9EB9F7424561D8300F13B02 /* DistrictTypeExtension.swift in Sources */,
 				C9108F4A243630B80023C76D /* R.generated.swift in Sources */,
 				C9B1D27B24351F3500033791 /* DialogConfiguration.swift in Sources */,
 				C9F91B47244C3FA10081EDC8 /* BaseDisplayNode.swift in Sources */,
@@ -845,6 +882,7 @@
 				C9B1D2402434B83800033791 /* CGSizeExtension.swift in Sources */,
 				C9B1D23A2434B74F00033791 /* SpriteButtonNode.swift in Sources */,
 				C9B1D23C2434B77500033791 /* NineGridTextureSprite.swift in Sources */,
+				C907917B2459D6A600248596 /* GameLeaderDialog.swift in Sources */,
 				C9B1D27D24351FB900033791 /* MapAgeDialog.swift in Sources */,
 				C9B1D25F2435166700033791 /* MessageBoxButtonNode.swift in Sources */,
 				C95B3E0B2438E79B002F5A86 /* BoardLayer.swift in Sources */,
@@ -867,6 +905,7 @@
 				C9F91B51244EEB1F0081EDC8 /* ScrollNode.swift in Sources */,
 				C97CD39F243A3E9C00FABCC0 /* ResourceLayer.swift in Sources */,
 				C9F91B53244F3C010081EDC8 /* UnitDisplayNode.swift in Sources */,
+				C90791792459D69700248596 /* GameHandicapDialog.swift in Sources */,
 				C9EB9F5E2452F4F300F13B02 /* RightHeaderBarNode.swift in Sources */,
 				C9B1D27924351F3500033791 /* Dialog.swift in Sources */,
 				C95B3DFE243872E0002F5A86 /* TouchableSpriteNode.swift in Sources */,
@@ -881,6 +920,7 @@
 				C9B1D25D2435160800033791 /* ProgressBarNode.swift in Sources */,
 				C9B1D22C2434955300033791 /* BaseScene.swift in Sources */,
 				C9F91B49244DF2570081EDC8 /* BuildingDisplayNode.swift in Sources */,
+				C9079181245A20D800248596 /* YieldLayer.swift in Sources */,
 				C95B3DF624387125002F5A86 /* BottomLeftBar.swift in Sources */,
 				C9B1D283243521A500033791 /* MapRainfallDialog.swift in Sources */,
 				C9F91B3B244B91CA0081EDC8 /* TechTypeExtension.swift in Sources */,

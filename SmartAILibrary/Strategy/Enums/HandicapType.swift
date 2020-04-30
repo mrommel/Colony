@@ -8,6 +8,7 @@
 
 import Foundation
 
+// https://civ6.gamepedia.com/Game_difficulty   
 public enum HandicapType {
 
     case settler
@@ -46,6 +47,52 @@ public enum HandicapType {
         case .emperor: return [.population, .culture, .gold, .map, .tech, .revealNearbyBarbarians, .upgradeUnit]
         case .immortal: return [.population, .culture, .gold, .map, .tech, .revealNearbyBarbarians, .upgradeUnit]
         case .deity: return [.population, .culture, .gold, .map, .tech, .revealNearbyBarbarians, .upgradeUnit]
+        }
+    }
+    
+    public func freeHumanTechs() -> [TechType] {
+        
+        switch self {
+        
+        case .settler:
+            return [.pottery, .animalHusbandry, .mining]
+        case .chieftain:
+            return [.pottery, .animalHusbandry]
+        case .warlord:
+            return [.pottery]
+        case .prince:
+            return []
+        case .king:
+            return []
+        case .emperor:
+            return []
+        case .immortal:
+            return []
+        case .deity:
+            return []
+        }
+    }
+    
+    public func freeAITechs() -> [TechType] {
+        
+        switch self {
+        
+        case .settler:
+            return []
+        case .chieftain:
+            return []
+        case .warlord:
+            return []
+        case .prince:
+            return []
+        case .king:
+            return [.pottery]
+        case .emperor:
+            return [.pottery, .animalHusbandry]
+        case .immortal:
+            return [.pottery, .animalHusbandry]
+        case .deity:
+            return [.pottery, .animalHusbandry, .mining, .wheel]
         }
     }
 }

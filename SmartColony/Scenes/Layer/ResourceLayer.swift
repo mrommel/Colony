@@ -61,11 +61,12 @@ class ResourceLayer: SKNode {
     func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
 
         let resource = tile.resource(for: self.player)
+        //let resource = tile.resource(for: nil)
         
         // place forests etc
         if resource != .none {
 
-            let textureName = resource.textureNamesHex().randomItem()
+            let textureName = resource.textureNamesHex()
 
             let resourceSprite = SKSpriteNode(imageNamed: textureName)
             resourceSprite.position = position

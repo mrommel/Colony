@@ -35,7 +35,7 @@ class GrandStrategyAITests: XCTestCase {
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAugustus, playerAlexander, playerElizabeth], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander, playerElizabeth], on: mapModel)
         
         // augustus has met alexander
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
@@ -66,7 +66,7 @@ class GrandStrategyAITests: XCTestCase {
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAugustus, playerAlexander, playerElizabeth], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander, playerElizabeth], on: mapModel)
         
         // augustus has met alexander
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)

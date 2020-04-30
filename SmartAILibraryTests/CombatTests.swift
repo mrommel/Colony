@@ -30,6 +30,7 @@ class CombatTests: XCTestCase {
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
+                                  handicap: .chieftain,
                                   turnsElapsed: 0,
                                   players: [playerAlexander, playerAugustus],
                                   on: mapModel)
@@ -65,6 +66,7 @@ class CombatTests: XCTestCase {
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
+                                  handicap: .chieftain,
                                   turnsElapsed: 0,
                                   players: [playerAlexander, playerAugustus],
                                   on: mapModel)
@@ -104,6 +106,7 @@ class CombatTests: XCTestCase {
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
+                                  handicap: .chieftain,
                                   turnsElapsed: 0,
                                   players: [playerAlexander, playerAugustus],
                                   on: mapModel)
@@ -149,6 +152,7 @@ class CombatTests: XCTestCase {
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
+                                  handicap: .chieftain,
                                   turnsElapsed: 0,
                                   players: [playerAlexander, playerAugustus],
                                   on: mapModel)
@@ -185,6 +189,7 @@ class CombatTests: XCTestCase {
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
+                                  handicap: .chieftain,
                                   turnsElapsed: 0,
                                   players: [playerAlexander, playerAugustus],
                                   on: mapModel)
@@ -222,6 +227,7 @@ class CombatTests: XCTestCase {
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
+                                  handicap: .chieftain,
                                   turnsElapsed: 0,
                                   players: [playerAlexander, playerAugustus],
                                   on: mapModel)
@@ -257,6 +263,7 @@ class CombatTests: XCTestCase {
 
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
+                                  handicap: .chieftain,
                                   turnsElapsed: 0,
                                   players: [playerAlexander, playerAugustus],
                                   on: mapModel)

@@ -367,9 +367,9 @@ class GameScene: BaseScene {
                 
                 if let currentTech = techs.currentTech() {
                     let progressPercentage = techs.currentScienceProgress() / Double(currentTech.cost()) * 100.0
-                    self.scienceProgressNode?.update(tech: currentTech, progress: Int(progressPercentage))
+                    self.scienceProgressNode?.update(tech: currentTech, progress: Int(progressPercentage), turnsRemaining: techs.currentScienceTurnsRemaining())
                 } else {
-                    self.scienceProgressNode?.update(tech: .none, progress: 0)
+                    self.scienceProgressNode?.update(tech: .none, progress: 0, turnsRemaining: 0)
                 }
                 
                 self.scienceYield?.set(yieldValue: techs.currentScienceProgress()) // lastScienceEarned
@@ -379,9 +379,9 @@ class GameScene: BaseScene {
                 
                 if let currentCivic = civics.currentCivic() {
                     let progressPercentage = civics.currentCultureProgress() / Double(currentCivic.cost()) * 100.0
-                    self.cultureProgressNode?.update(civic: currentCivic, progress: Int(progressPercentage))
+                    self.cultureProgressNode?.update(civic: currentCivic, progress: Int(progressPercentage), turnsRemaining: civics.currentCultureTurnsRemaining())
                 } else {
-                    self.cultureProgressNode?.update(civic: .none, progress: 0)
+                    self.cultureProgressNode?.update(civic: .none, progress: 0, turnsRemaining: 0)
                 }
                 
                 self.cultureYield?.set(yieldValue: civics.currentCultureProgress()) // lastCultureEarned
@@ -485,6 +485,16 @@ class GameScene: BaseScene {
 
         let touchLocation = touch.location(in: self.viewHex)
         let position = HexPoint(screen: touchLocation)
+        
+        let cameraLocation = touch.location(in: self.cameraNode)
+
+        guard let bottomRightBar = self.bottomRightBar, !bottomRightBar.frame.contains(cameraLocation) else {
+            return
+        }
+
+        guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
+            return
+        }
 
         if let selectedUnit = self.selectedUnit {
 
@@ -506,16 +516,6 @@ class GameScene: BaseScene {
             }
         } else {
 
-            let cameraLocation = touch.location(in: self.cameraNode)
-
-            guard let bottomRightBar = self.bottomRightBar, !bottomRightBar.frame.contains(cameraLocation) else {
-                return
-            }
-
-            guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
-                return
-            }
-
             let previousLocation = touch.previousLocation(in: self.viewHex)
 
             let deltaX = (touchLocation.x) - (previousLocation.x)
@@ -535,6 +535,11 @@ class GameScene: BaseScene {
 
         guard let bottomRightBar = self.bottomRightBar, !bottomRightBar.frame.contains(cameraLocation) else {
             self.bottomRightBar?.touchesEnded(touches, with: event)
+            return
+        }
+        
+        guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
+            print("touch ended in left bar")
             return
         }
 
@@ -678,7 +683,9 @@ extension GameScene: BottomLeftBarDelegate {
             // NOOP
             break
         case .fortify:
-            // NOOP
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doFortify(in: gameModel)
+            }
             break
         case .hold:
             // NOOP
@@ -970,12 +977,12 @@ extension GameScene: UserInterfaceProtocol {
 
     func select(tech: TechType) {
         
-        self.scienceProgressNode?.update(tech: tech, progress: 0)
+        self.scienceProgressNode?.update(tech: tech, progress: 0, turnsRemaining: 0)
     }
     
     func select(civic: CivicType) {
         
-        self.cultureProgressNode?.update(civic: civic, progress: 0)
+        self.cultureProgressNode?.update(civic: civic, progress: 0, turnsRemaining: 0)
     }
     
     func add(notification: NotificationItem) {

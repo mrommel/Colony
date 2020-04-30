@@ -12,8 +12,8 @@ import SmartAILibrary
 protocol MenuDelegate: class {
 
     func startTutorials()
-    func startQuests()
-    func startWith(map: MapModel?)
+    func startQuick()
+    func startWith(map: MapModel?, leader: LeaderType, handicap: HandicapType)
     func startOptions()
     func startStore()
     
@@ -74,19 +74,19 @@ class MenuScene: BaseScene {
         self.rootNode.addChild(self.tutorialButton!)
 
         // quests
-        self.questsButton = MenuButtonNode(imageNamed: "quests", title: "Missions",
+        self.questsButton = MenuButtonNode(imageNamed: "quests", title: "Quick",
             buttonAction: {
-                self.menuDelegate?.startQuests()
+                self.menuDelegate?.startQuick()
             })
         self.questsButton?.zPosition = 2
         self.questsButton?.disable() // FIXME
         self.rootNode.addChild(self.questsButton!)
 
         // quests
-        self.freePlayButton = MenuButtonNode(imageNamed: "free_play", title: "Free Play",
+        self.freePlayButton = MenuButtonNode(imageNamed: "free_play", title: "Setup Game",
             buttonAction: {
                 self.rootNode.blurWith(completion: {
-                    self.requestMapType()
+                    self.requestLeader()
                 })
             })
         self.freePlayButton?.zPosition = 2

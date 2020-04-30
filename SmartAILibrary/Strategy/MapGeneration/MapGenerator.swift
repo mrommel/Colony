@@ -55,7 +55,7 @@ public class MapGenerator {
 			completionHandler(0.2, "initialized")
 		}
         
-        usleep(100000) // will sleep for 100 milliseconds
+        usleep(10000) // will sleep for 10 milliseconds
 
 		// 1st step: land / water
 		self.fillFromElevation(withWaterPercentage: options.waterPercentage, on: heightMap)
@@ -64,7 +64,7 @@ public class MapGenerator {
 			completionHandler(0.4, "elevation map created")
 		}
         
-        usleep(100000) // will sleep for 100 milliseconds
+        usleep(10000) // will sleep for 10 milliseconds
 
 		// 2nd step: climate
         self.setClimateZones()
@@ -73,7 +73,7 @@ public class MapGenerator {
 			completionHandler(0.45, "climate zones generated")
 		}
         
-        usleep(100000) // will sleep for 100 milliseconds
+        usleep(10000) // will sleep for 10 milliseconds
 
 		// 2.1nd step: refine climate based on cost distance
 		self.prepareDistanceToCoast()
@@ -83,7 +83,7 @@ public class MapGenerator {
 			completionHandler(0.5, "coastal distance calculated")
 		}
         
-        usleep(100000) // will sleep for 100 milliseconds
+        usleep(10000) // will sleep for 10 milliseconds
 
 		// 3rd step: refine terrain
 		self.refineTerrain(on: grid, with: heightMap, and: moistureMap)
@@ -92,7 +92,15 @@ public class MapGenerator {
 			completionHandler(0.65, "terrain refined")
 		}
         
-        usleep(100000) // will sleep for 100 milliseconds
+        usleep(10000) // will sleep for 10 milliseconds
+        
+        self.placeResources(on: grid)
+        
+        if let completionHandler = self.progressHandler {
+            completionHandler(0.75, "added resouces")
+        }
+        
+        usleep(10000) // will sleep for 10 milliseconds
 
 		// 4th step: rivers
 		self.identifySpringLocations(on: heightMap)
@@ -103,22 +111,32 @@ public class MapGenerator {
 			completionHandler(0.8, "springs and rivers identified")
 		}
         
-        usleep(100000) // will sleep for 100 milliseconds
+        usleep(10000) // will sleep for 10 milliseconds
         
         // 5th step: continents & oceans
         self.identifyContinents(on: grid)
         
         if let completionHandler = self.progressHandler {
-            completionHandler(0.9, "continents identified")
+            completionHandler(0.8, "continents identified")
         }
+        
+        usleep(10000) // will sleep for 10 milliseconds
         
         self.identifyOceans(on: grid)
         
         if let completionHandler = self.progressHandler {
-            completionHandler(1.0, "oceans identified")
+            completionHandler(0.9, "oceans identified")
         }
         
-        usleep(100000) // will sleep for 100 milliseconds
+        usleep(10000) // will sleep for 10 milliseconds
+        
+        self.identifyStartPositions(on: grid)
+        
+        if let completionHandler = self.progressHandler {
+            completionHandler(0.9, "start positions identified")
+        }
+        
+        usleep(10000) // will sleep for 10 milliseconds
 
 		return grid
 	}
@@ -263,6 +281,142 @@ public class MapGenerator {
 			}
 		}
 	}
+    
+    // https://github.com/Gedemon/Civ5-YnAEMP/blob/db7cd1bc6a0684411aba700838184bcc6272b166/Override/WorldBuilderRandomItems.lua
+    private func numOfResourcesToAdd(for resource: ResourceType, on grid: MapModel?) -> Int {
+        
+        guard let grid = grid else {
+            fatalError("cant get grid")
+        }
+        
+        // Calculate resourceCount, the amount of this resource to be placed:
+        let rand1 = Int.random(maximum: resource.propability())
+        let rand2 = Int.random(maximum: resource.propability())
+        let baseCount = resource.basePropability() + rand1 + rand2
+        
+        // Calculate numPossible, the number of plots that are eligible to have this resource:
+        var numPossible = 0
+        var alreadyPlaced = 0
+        var landTiles = 0
+        
+        for x in 0..<width {
+            for y in 0..<height {
+                let gridPoint = HexPoint(x: x, y: y)
+                
+                if let tile = grid.tile(at: gridPoint) {
+                    if tile.canHave(resource: resource, ignoreLatitude: false, in: grid) {
+                        numPossible += 1
+                    } else if tile.resource(for: nil) == resource {
+                        numPossible += 1
+                        alreadyPlaced += 1
+                    }
+                }
+            }
+        }
+        
+        if resource.tilesPerPossible() > 0 {
+            landTiles = (numPossible / resource.tilesPerPossible())
+        }
+        
+        let realNumCivAlive = self.options.numberOfPlayers
+        let players = Int((realNumCivAlive * resource.playerScale()) / 100)
+        var resourceCount = (baseCount * (landTiles + players)) / 100
+        resourceCount = max(1, resourceCount)
+
+        if resourceCount < alreadyPlaced {
+            resourceCount = 0
+        } else {
+            resourceCount = resourceCount - alreadyPlaced
+        }
+        
+        print("try to place \(resourceCount) \(resource.name()) (\(alreadyPlaced) already placed)" )
+
+        return resourceCount
+    }
+    
+    func canPlace(resource: ResourceType, at point: HexPoint) -> Bool {
+        
+        return true
+    }
+    
+    func addNonUnique(resource: ResourceType, on grid: MapModel?) {
+        
+        guard let grid = grid else {
+            fatalError("cant get grid")
+        }
+        
+        var resourceCount = self.numOfResourcesToAdd(for: resource, on: grid)
+        
+        if resourceCount == 0 {
+            return
+        }
+        
+        var points: [HexPoint] = []
+        
+        for x in 0..<width {
+            for y in 0..<height {
+                points.append(HexPoint(x: x, y: y))
+            }
+        }
+        
+        points.shuffle()
+        
+        for point in points {
+            
+            if self.canPlace(resource: resource, at: point) {
+                
+                if let tile = grid.tile(at: point) {
+                    
+                    let resourceNum = 50 + Int.random(maximum: 20) // FIXME
+                
+                    tile.set(resourceQuantity: resourceNum)
+                    tile.set(resource: resource)
+                    
+                    resourceCount -= 1
+                    
+                    // FIXME: groups
+                }
+                
+                if resourceCount == 0 {
+                    return
+                }
+            }
+        }
+    }
+    
+    func placeResources(on grid: MapModel?) {
+        
+        guard let grid = grid else {
+            fatalError("cant get grid")
+        }
+        
+        let resources = ResourceType.all.sorted(by: { $0.placementOrder() > $1.placementOrder() })
+        
+        // Add resources
+        for resource in resources {
+            self.addNonUnique(resource: resource, on: grid)
+        }
+        
+        print("-------------------------------")
+        
+        // Show number of resources placed
+        for resource in resources {
+            
+            var resourcePlaced = 0
+            for x in 0..<width {
+                for y in 0..<height {
+
+                    if let tile = grid.tile(x: x, y: y) {
+                        if tile.resource(for: nil) == resource {
+                            resourcePlaced += 1
+                        }
+                    }
+                }
+            }
+            
+            print("Counted \(resourcePlaced) of \(resource.name()) placed on map")
+        }
+    }
 
 	// from http://www.redblobgames.com/maps/terrain-from-noise/
     func updateBiome(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double, climate: ClimateZone) {
@@ -540,6 +694,15 @@ public class MapGenerator {
         let continents = finder.execute(on: grid)
         
         grid.continents = continents
+        
+        // set area on plots
+        for continent in continents {
+            for point in continent.points {
+                grid.set(continent: continent, at: point)
+            }
+        }
+        
+        print("found: \(continents.count) continents")
     }
     
     func identifyOceans(on grid: MapModel?) {
@@ -552,5 +715,23 @@ public class MapGenerator {
         let oceans = finder.execute(on: grid)
         
         grid.oceans = oceans
+    }
+    
+    func identifyStartPositions(on grid: MapModel?) {
+        
+        guard let grid = grid else {
+            return
+        }
+        
+        let numberOfPlayers = self.options.numberOfPlayers
+
+        let startPositioner = StartPositioner(on: grid, for: numberOfPlayers)
+        startPositioner.generateRegions()
+        
+        var aiLeaders: [LeaderType] = LeaderType.all.filter({ $0 != self.options.leader }).choose(numberOfPlayers - 1)
+
+        startPositioner.chooseLocations(for: aiLeaders, human: self.options.leader)
+    
+        grid.startLocations = startPositioner.startLocations
     }
 }

@@ -280,7 +280,7 @@ public enum BuildingType: Int, Codable {
         case .lighthouse: return .harbor
         case .stable: return .encampment
         case .arena: return .entertainment
-        case .market: return .cityCenter // commercial hub ??
+        case .market: return .commercialHub
         case .temple: return .holySite
         }
     }

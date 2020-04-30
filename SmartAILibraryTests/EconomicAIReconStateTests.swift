@@ -40,7 +40,7 @@ class EconomicAIReconStateTests: XCTestCase {
         mapModel.discover(by: playerAlexander, at: HexPoint(x: 0, y: 2))
         mapModel.discover(by: playerAlexander, at: HexPoint(x: 0, y: 1))
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         // WHEN
         self.objectToTest?.updateReconState(in: gameModel)
@@ -59,7 +59,7 @@ class EconomicAIReconStateTests: XCTestCase {
         
         var mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         MapModelHelper.discover(mapModel: &mapModel, by: playerAlexander)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         // WHEN
         self.objectToTest?.updateReconState(in: gameModel)

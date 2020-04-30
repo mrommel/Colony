@@ -28,6 +28,7 @@ class TextureUtils {
         var boardSprite: SKSpriteNode? = nil
         var iceSprite: SKSpriteNode? = nil
         var borderSprite: SKSpriteNode? = nil
+        var yieldsSprite: SKSpriteNode? = nil
         
         init(point: HexPoint) {
             
@@ -132,6 +133,16 @@ class TextureUtils {
     func iceSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.iceSprite
+    }
+    
+    func set(yieldsSprite: SKSpriteNode?, at point: HexPoint) {
+        
+        self.tileTextures?[point.x, point.y]?.yieldsSprite = yieldsSprite
+    }
+    
+    func yieldsSprite(at point: HexPoint) -> SKSpriteNode? {
+        
+        return self.tileTextures?[point.x, point.y]?.yieldsSprite
     }
     
     func coastTexture(at point: HexPoint) -> String? {
@@ -303,5 +314,18 @@ class TextureUtils {
         }
 
         return nil
+    }
+    
+    func yieldTexture(for yields: Yields) -> String? {
+        
+        let food = Int(yields.food)
+        let production = Int(yields.production)
+        let gold = Int(yields.gold)
+        
+        if food == 0 && production == 0 && gold == 0 {
+            return nil
+        }
+        
+        return "yield_\(food)_\(production)_\(gold)"
     }
 }

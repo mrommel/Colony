@@ -85,7 +85,7 @@ extension Array {
 
 extension Array {
 
-    mutating func prepend(_ newItem: Element) {
+    public mutating func prepend(_ newItem: Element) {
         let copy = self
         self = []
         self.append(newItem)

@@ -120,6 +120,7 @@ class TechTests: XCTestCase {
          
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
+                                   handicap: .chieftain,
                                    turnsElapsed: 0,
                                    players: [playerAlexander],
                                    on: mapModel)
@@ -153,6 +154,7 @@ class TechTests: XCTestCase {
          
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
+                                   handicap: .chieftain,
                                    turnsElapsed: 0,
                                    players: [playerAlexander],
                                    on: mapModel)
@@ -201,6 +203,7 @@ class TechTests: XCTestCase {
         
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
+                                   handicap: .chieftain,
                                    turnsElapsed: 0,
                                    players: [playerAlexander],
                                    on: mapModel)

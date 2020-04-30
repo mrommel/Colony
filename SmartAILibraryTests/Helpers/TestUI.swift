@@ -11,7 +11,7 @@ import Foundation
 @testable import SmartAILibrary
 
 class TestUI: UserInterfaceProtocol {
-    
+
     func isDiplomaticScreenActive() -> Bool {
         return false
     }
@@ -20,15 +20,30 @@ class TestUI: UserInterfaceProtocol {
         return false
     }
     
-    func showPopup(popupType: PopupType, data: PopupData?) {
-        
-    }
+    func showPopup(popupType: PopupType, data: PopupData?) { }
     
-    func showScreen(screenType: ScreenType) {
-        
-    }
+    func showScreen(screenType: ScreenType) { }
     
-    func showMessage(message: AbstractGameMessage) {
-        
-    }
+    func showScreen(screenType: ScreenType, city: AbstractCity?) { }
+    
+    func add(notification: NotificationItem) {}
+    func remove(notification: NotificationItem) {}
+    
+    func select(unit: AbstractUnit?) {}
+    func unselect() {}
+    
+    func show(unit: AbstractUnit?) {}
+    func hide(unit: AbstractUnit?) {}
+    func move(unit: AbstractUnit?, on points: [HexPoint]) {}
+    
+    func select(tech: TechType) {}
+    func select(civic: CivicType) {}
+    
+    func show(city: AbstractCity?) { }
+    
+    func refresh(tile: AbstractTile?) { }
+    
+    func showTooltip(at point: HexPoint, text: String, delay: Double) { }
+    
+    func focus(on location: HexPoint) { }
 }

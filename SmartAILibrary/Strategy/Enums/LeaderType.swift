@@ -17,6 +17,7 @@ enum LeaderAbilityType {
     case capitalBuildsCheaper
     case oceanMovement
     case enhancedGoldenAges
+    case giftsForTheTlatoani
     
     func extraEmbarkMoves() -> Int {
         
@@ -48,9 +49,11 @@ public enum LeaderType: Int, Codable {
     case elizabeth
     
     case darius
+    case montezuma
+    case napoleon
 
     static var all: [LeaderType] {
-        return [.alexander, .augustus, .elizabeth, .darius]
+        return [.alexander, .augustus, .elizabeth, .darius, .montezuma, .napoleon]
     }
     
     func name() -> String {
@@ -65,6 +68,8 @@ public enum LeaderType: Int, Codable {
         case .elizabeth: return "Elizabeth"
             
         case .darius: return "Darius"
+        case .montezuma: return "Montezuma"
+        case .napoleon: return "Napoleon"
         }
     }
     
@@ -79,7 +84,9 @@ public enum LeaderType: Int, Codable {
         case .augustus: return .roman
         case .elizabeth: return .english
             
-        case .darius: return .english
+        case .darius: return .persian
+        case .montezuma: return .aztecs
+        case .napoleon: return .french
         }
     }
 
@@ -164,6 +171,8 @@ public enum LeaderType: Int, Codable {
             ]
         
         case .darius: return []
+        case .montezuma: return []
+        case .napoleon: return []
         }
     }
 
@@ -190,6 +199,10 @@ public enum LeaderType: Int, Codable {
         case .elizabeth:
             return [Trait(type: .boldness, value: 4)]
         case .darius:
+            return []
+        case .montezuma:
+            return []
+        case .napoleon:
             return []
         }
     }
@@ -238,6 +251,8 @@ public enum LeaderType: Int, Codable {
             ApproachBias(approach: .war, bias: 4)
             ]
         case .darius: return []
+        case .montezuma: return []
+        case .napoleon: return []
         }
     }
     
@@ -262,6 +277,8 @@ public enum LeaderType: Int, Codable {
         case .elizabeth: return .oceanMovement
             
         case .darius: return .enhancedGoldenAges
+        case .montezuma: return .giftsForTheTlatoani
+        case .napoleon: return .enhancedGoldenAges
         }
     }
 }

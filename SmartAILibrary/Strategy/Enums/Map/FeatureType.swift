@@ -19,8 +19,10 @@ public enum FeatureType: Int, Codable {
     case oasis
     case reef
     case ice
+    case atoll
     
     case mountains
+    case lake
     
     // natural wonders
     case delicateArch
@@ -36,9 +38,9 @@ public enum FeatureType: Int, Codable {
 
     static var all: [FeatureType] {
         return [
-            .forest, .rainforest, .floodplains, .marsh, .oasis, .reef, .ice,
+            .forest, .rainforest, .floodplains, .marsh, .oasis, .reef, .ice, .atoll,
             
-            .mountains
+            .mountains, .lake
         ]
     }
     
@@ -81,8 +83,10 @@ public enum FeatureType: Int, Codable {
         case .oasis: return false
         case .reef: return false
         case .ice: return false
+        case .atoll: return false
             
         case .mountains: return self.isMountainPossible(on: tile)
+        case .lake: return self.isLakePossible(on: tile)
             
         // natural wonders
         case .delicateArch: return false
@@ -105,11 +109,14 @@ public enum FeatureType: Int, Codable {
         case .forest: return true
         case .rainforest: return true
         case .floodplains: return true
-        case .mountains: return false
         case .marsh: return true
         case .oasis: return false
         case .reef: return false
         case .ice: return false
+        case .atoll: return false
+            
+        case .mountains: return false
+        case .lake: return false
             
         // natural wonders
         case .delicateArch: return false
@@ -132,11 +139,14 @@ public enum FeatureType: Int, Codable {
         case .forest: return true
         case .rainforest: return true
         case .floodplains: return false
-        case .mountains: return true
         case .marsh: return false
         case .oasis: return false
         case .reef: return false
         case .ice: return false
+        case .atoll: return false
+            
+        case .mountains: return true
+        case .lake: return false
             
         // natural wonders
         case .delicateArch: return true
@@ -159,11 +169,14 @@ public enum FeatureType: Int, Codable {
         case .forest: return 0
         case .rainforest: return 0
         case .floodplains: return 0
-        case .mountains: return 0
         case .marsh: return 0
         case .oasis: return 0
         case .reef: return 0
         case .ice: return 0
+        case .atoll: return 0
+            
+        case .mountains: return 0
+        case .lake: return 0
             
         // natural wonders
         case .delicateArch: return 0
@@ -186,11 +199,14 @@ public enum FeatureType: Int, Codable {
         case .forest: return 3
         case .rainforest: return 3
         case .floodplains: return -2
-        case .mountains: return 0
         case .marsh: return -2
         case .oasis: return 0
         case .reef: return 0
         case .ice: return 0
+        case .atoll: return 0
+            
+        case .mountains: return 0
+        case .lake: return 0
             
         // natural wonders
         case .delicateArch: return 0
@@ -213,11 +229,14 @@ public enum FeatureType: Int, Codable {
         case .forest: return 2
         case .rainforest: return 2
         case .floodplains: return 1
-        case .mountains: return -1 // impassable
         case .marsh: return 2
         case .oasis: return 0
         case .reef: return 2
         case .ice: return -1
+        case .atoll: return 2
+            
+        case .mountains: return -1 // impassable
+        case .lake: return -1 // impassable
             
         // natural wonders
         case .delicateArch: return -1
@@ -241,11 +260,14 @@ public enum FeatureType: Int, Codable {
         case .forest: return 1
         case .rainforest: return -1
         case .floodplains: return -1
-        case .mountains: return 1
         case .marsh: return -1
         case .oasis: return 1
         case .reef: return 2
         case .ice: return -1
+        case .atoll: return 1
+            
+        case .mountains: return 1
+        case .lake: return 2
             
         // natural wonders
         case .delicateArch: return 2
@@ -274,8 +296,10 @@ public enum FeatureType: Int, Codable {
         case .oasis: return FeatureData(name: "Oasis", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWonder: false)
         case .reef: return FeatureData(name: "Reef", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWonder: false)
         case .ice: return FeatureData(name: "Marsh", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
+        case .atoll: return FeatureData(name: "Atoll", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWonder: false)
             
         case .mountains: return FeatureData(name: "Mountains", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
+        case .lake: return FeatureData(name: "Lake", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
             
         // natural wonders
         case .delicateArch: return FeatureData(name: "Delicate Arch", yields: Yields(food: 0, production: 0, gold: 1, science: 0, faith: 2), isWonder: true)
@@ -334,6 +358,15 @@ public enum FeatureType: Int, Codable {
         }
 
         return false
+    }
+    
+    private func isLakePossible(on tile: Tile) -> Bool {
+
+        if tile.hasHills() {
+            return false
+        }
+
+        return true
     }
     
     func movementCost(for movementType: UnitMovementType) -> Double {

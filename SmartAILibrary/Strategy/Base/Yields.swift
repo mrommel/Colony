@@ -10,16 +10,16 @@ import Foundation
 
 public class Yields {
     
-    var food: Double
-    var production: Double
-    var gold: Double
+    public var food: Double
+    public var production: Double
+    public var gold: Double
     
-    var science: Double
-    var culture: Double
-    var faith: Double
+    public var science: Double
+    public var culture: Double
+    public var faith: Double
     
-    var housing: Double
-    var appeal: Double
+    public var housing: Double
+    public var appeal: Double
     
     init(food: Double, production: Double, gold: Double, science: Double = 0.0, culture: Double = 0.0, faith: Double = 0.0, housing: Double = 0.0, appeal: Double = 0.0) {
         
@@ -35,7 +35,7 @@ public class Yields {
         self.appeal = appeal
     }
     
-    func value(of yieldType: YieldType) -> Double {
+    public func value(of yieldType: YieldType) -> Double {
         
         switch yieldType {
         

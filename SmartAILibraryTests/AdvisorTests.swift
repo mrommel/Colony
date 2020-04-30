@@ -35,12 +35,14 @@ class AdvisorTests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .small)
         
         mapModel.discover(by: playerAlexander, at: HexPoint(x: 1, y: 1))
+        try! mapModel.set(owner: playerAlexander, at: HexPoint(x: 1, y: 1))
         mapModel.set(improvement: .farm, at: HexPoint(x: 1, y: 1))
         
         mapModel.discover(by: playerAlexander, at: HexPoint(x: 1, y: 2))
+        try! mapModel.set(owner: playerAlexander, at: HexPoint(x: 1, y: 2))
         mapModel.set(improvement: .farm, at: HexPoint(x: 1, y: 2))
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         // add the city to the map
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
@@ -76,7 +78,7 @@ class AdvisorTests: XCTestCase {
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel) //MapModel(size: .standard)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
@@ -127,7 +129,7 @@ class AdvisorTests: XCTestCase {
         try! playerAugustus.techs?.discover(tech: .mining)
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         let ui = TestUI()
         gameModel.userInterface = ui

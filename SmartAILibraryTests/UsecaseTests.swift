@@ -34,6 +34,7 @@ class UsecaseTests: XCTestCase {
         
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
+                                  handicap: .chieftain,
                                   turnsElapsed: 0,
                                   players: [playerAugustus, playerBarbarian, playerAlexander],
                                   on: mapModel)
@@ -105,6 +106,7 @@ class UsecaseTests: XCTestCase {
         
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
+                                  handicap: .chieftain,
                                   turnsElapsed: 0,
                                   players: [playerAugustus, playerBarbarian, playerAlexander],
                                   on: mapModel)
@@ -181,6 +183,7 @@ class UsecaseTests: XCTestCase {
          
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
+                                   handicap: .chieftain,
                                    turnsElapsed: 0,
                                    players: [playerAugustus, playerBarbarian, playerAlexander],
                                    on: mapModel)
@@ -243,6 +246,7 @@ class UsecaseTests: XCTestCase {
          
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
+                                   handicap: .chieftain,
                                    turnsElapsed: 0,
                                    players: [playerAugustus, playerBarbarian, playerAlexander],
                                    on: mapModel)
@@ -308,6 +312,7 @@ class UsecaseTests: XCTestCase {
          
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
+                                   handicap: .chieftain,
                                    turnsElapsed: 0,
                                    players: [playerAugustus, playerBarbarian, playerAlexander],
                                    on: mapModel)

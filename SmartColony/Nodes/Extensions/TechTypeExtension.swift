@@ -59,6 +59,49 @@ extension TechType {
         case .astronomy: return "tech_default"
         case .metalCasting: return "tech_default"
         case .siegeTactics: return "tech_default"
+            
+            // industrial
+        case .industrialization: return "tech_default"
+        case .scientificTheory: return "tech_default"
+        case .ballistics: return "tech_default"
+        case .militaryScience: return "tech_default"
+        case .steamPower: return "tech_default"
+        case .sanitation: return "tech_default"
+        case .economics: return "tech_default"
+        case .rifling: return "tech_default"
+            
+            // modern
+        case .flight: return "tech_default"
+        case .replaceableParts: return "tech_default"
+        case .steel: return "tech_default"
+        case .refining: return "tech_default"
+        case .electricity: return "tech_default"
+        case .radio: return "tech_default"
+        case .chemistry: return "tech_default"
+        case .combustrion: return "tech_default"
+            
+            // atomic
+        case .advancedFlight: return "tech_default"
+        case .rocketry: return "tech_default"
+        case .advancedBallistics: return "tech_default"
+        case .combinedArms: return "tech_default"
+        case .plastics: return "tech_default"
+        case .computers: return "tech_default"
+        case .nuclearFission: return "tech_default"
+        case .syntheticMaterials: return "tech_default"
+            
+            // information
+        case .telecommunications: return "tech_default"
+        case .satellites: return "tech_default"
+        case .guidanceSystems: return "tech_default"
+        case .lasers: return "tech_default"
+        case .composites: return "tech_default"
+        case .stealthTechnology: return "tech_default"
+        case .robotics: return "tech_default"
+        case .nuclearFusion: return "tech_default"
+        case .nanotechnology: return "tech_default"
+            
+        case .futureTech: return "tech_default"
         }
     }
 }

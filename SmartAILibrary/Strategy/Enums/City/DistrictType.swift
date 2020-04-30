@@ -16,9 +16,10 @@ public enum DistrictType: Int, Codable {
     case encampment
     case harbor
     case entertainment
+    case commercialHub
     
     public static var all: [DistrictType] {
-        return [.cityCenter, .campus, .holySite, .encampment, .harbor, .entertainment]
+        return [.cityCenter, .campus, .holySite, .encampment, .harbor, .entertainment, .commercialHub]
     }
     
     public func name() -> String {
@@ -63,6 +64,7 @@ public enum DistrictType: Int, Codable {
         case .encampment:  return DistrictTypeData(name: "Encampment", productionCost: 54, requiredTech: .bronzeWorking, requiredCivic: nil)
         case .harbor: return DistrictTypeData(name: "Harbor", productionCost: 54, requiredTech: .celestialNavigation, requiredCivic: nil)
         case .entertainment: return DistrictTypeData(name: "Entertainment", productionCost: 54, requiredTech: nil, requiredCivic: .dramaAndPoetry)
+        case .commercialHub: return DistrictTypeData(name: "Commercial Hub", productionCost: 54, requiredTech: .currency, requiredCivic: nil)
         }
     }
 

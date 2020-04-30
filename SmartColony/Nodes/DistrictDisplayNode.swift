@@ -9,22 +9,6 @@
 import SpriteKit
 import SmartAILibrary
 
-extension DistrictType {
-    
-    func iconTexture() -> String {
-        
-        switch self {
-            
-        case .cityCenter: return "district_city_center"
-        case .campus: return "district_campus"
-        case .holySite: return "district_holy_site"
-        case .encampment: return "district_encampment"
-        case .harbor: return "district_harbor"
-        case .entertainment: return "district_entertainment"
-        }
-    }
-}
-
 class DistrictDisplayNode: SKNode {
     
     let districtType: DistrictType

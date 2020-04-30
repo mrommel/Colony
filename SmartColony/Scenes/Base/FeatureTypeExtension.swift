@@ -30,8 +30,14 @@ extension FeatureType {
             return []
         case .ice:
             return ["hex_ice1", "hex_ice2", "hex_ice3", "hex_ice4", "hex_ice5", "hex_ice6"]
+        case .atoll:
+            return []
+            
         case .mountains:
             return ["mountains1", "mountains2", "mountains3"]
+        case .lake:
+            return ["lake"]
+            
         case .delicateArch:
             return []
         case .galapagos:

@@ -20,6 +20,9 @@ extension CivilizationType {
         case .greek: return UIColor(hex: "#418dfe")
         case .roman: return UIColor(hex: "#f0c800")
         case .english: return UIColor(hex: "#ffffff")
+        case .aztecs: return UIColor(hex: "#A43E25")
+        case .persian: return UIColor(hex: "#9A2B22")
+        case .french: return UIColor(hex: "#EBEB8B")
         }
     }
     
@@ -32,6 +35,9 @@ extension CivilizationType {
         case .greek: return UIColor(hex: "#ffffff")
         case .roman: return UIColor(hex: "#460076")
         case .english: return UIColor(hex: "#ff92fd")
+        case .aztecs: return UIColor(hex: "#9CE8C2")
+        case .persian: return UIColor(hex: "#7BACF8")
+        case .french: return UIColor(hex: "#0000CD")
         }
     }
 }

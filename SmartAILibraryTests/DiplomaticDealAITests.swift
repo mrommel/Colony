@@ -35,7 +35,7 @@ class DiplomaticDealAITests: XCTestCase {
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
         
         // WHEN
         let response = self.objectToTest!.offer(deal: deal, with: gameModel)
@@ -56,7 +56,7 @@ class DiplomaticDealAITests: XCTestCase {
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
         
         // WHEN
         let response = self.objectToTest!.offer(deal: deal, with: gameModel)
@@ -78,7 +78,7 @@ class DiplomaticDealAITests: XCTestCase {
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
         
         // WHEN
         let response = self.objectToTest!.offer(deal: deal, with: gameModel)
@@ -100,7 +100,7 @@ class DiplomaticDealAITests: XCTestCase {
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
         
         // WHEN
         let response = self.objectToTest!.offer(deal: deal, with: gameModel)

@@ -32,19 +32,47 @@ class CityDialog: Dialog {
         self.city = city
         self.gameModel = gameModel
 
-        guard let city = self.city else {
-            fatalError("cant get city")
-        }
-        
-        let buildQueue = city.buildQueue
-
         let uiParser = UIParser()
         guard let cityDialogConfiguration = uiParser.parse(from: "CityDialog") else {
             fatalError("cant load cityDialogConfiguration configuration")
         }
 
         super.init(from: cityDialogConfiguration)
+        
+        self.setup()
+    }
 
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: public methods
+    
+    func hide() {
+        
+        self.position = CGPoint(x: 1000, y: 1000)
+    }
+    
+    func show() {
+        
+        let uiParser = UIParser()
+        guard let cityDialogConfiguration = uiParser.parse(from: "CityDialog") else {
+            fatalError("cant load cityDialogConfiguration configuration")
+        }
+        
+        self.position = cityDialogConfiguration.position()
+    }
+    
+    // MARK: private methods
+    
+    private func setup() {
+        
+        guard let city = self.city else {
+            fatalError("cant get city")
+        }
+        
+        let buildQueue = city.buildQueue
+        
         // fill fields
         self.set(text: city.name, identifier: "city_name")
         self.set(text: "\(city.population())", identifier: "population_value")
@@ -56,6 +84,14 @@ class CityDialog: Dialog {
         self.set(yieldValue: city.culturePerTurn(in: gameModel), identifier: "culture_yield")
         self.set(yieldValue: city.faithPerTurn(in: gameModel), identifier: "faith_yield")
 
+        // reset
+        self.currentProductionNode?.removeFromParent()
+        self.currentProductionNode = nil
+        self.chooseProductionDialogButton?.removeFromParent()
+        self.chooseProductionDialogButton = nil
+        self.manageProductionDialogButton?.removeFromParent()
+        self.manageProductionDialogButton = nil
+        
         // show current building item (queue expandable)
         if let currentBuilding = buildQueue.peek() {
             
@@ -65,7 +101,7 @@ class CityDialog: Dialog {
                     fatalError("cant get buildingType")
                 }
                 
-                self.currentProductionNode = BuildingDisplayNode(buildingType: buildingType, size: CGSize(width: 100, height: 50), buttonAction: { buildingType in
+                self.currentProductionNode = BuildingDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 42), buttonAction: { buildingType in
                     //print("\(buildingType)")
                 })
                 self.currentProductionNode?.zPosition = 200
@@ -78,7 +114,7 @@ class CityDialog: Dialog {
                     fatalError("cant get districtType")
                 }
                 
-                self.currentProductionNode = DistrictDisplayNode(districtType: districtType, active: false, size: CGSize(width: 100, height: 50))
+                self.currentProductionNode = DistrictDisplayNode(districtType: districtType, active: false, size: CGSize(width: 200, height: 42))
                 currentProductionNode?.zPosition = 200
                 self.addChild(currentProductionNode!)
             } else {
@@ -105,36 +141,13 @@ class CityDialog: Dialog {
         
         self.updateLayout()
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: public methods
-    
-    func hide() {
-        
-        self.position = CGPoint(x: 1000, y: 1000)
-    }
-    
-    func show() {
-        
-        let uiParser = UIParser()
-        guard let cityDialogConfiguration = uiParser.parse(from: "CityDialog") else {
-            fatalError("cant load cityDialogConfiguration configuration")
-        }
-        
-        self.position = cityDialogConfiguration.position()
-    }
-    
-    // MARK: private methods
     
     private func updateLayout() {
         
-        self.currentProductionNode?.position = CGPoint(x: 0, y: -200)
+        self.currentProductionNode?.position = CGPoint(x: -100, y: -200)
         
-        self.manageProductionDialogButton?.position = CGPoint(x: 0, y: -250)
-        self.chooseProductionDialogButton?.position = CGPoint(x: 0, y: -300)
+        self.manageProductionDialogButton?.position = CGPoint(x: 0, y: -300)
+        self.chooseProductionDialogButton?.position = CGPoint(x: 0, y: -200)
     }
     
     private func showChooseProductionDialog() {

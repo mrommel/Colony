@@ -31,7 +31,7 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
          
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
@@ -53,7 +53,7 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
@@ -76,7 +76,7 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
@@ -99,7 +99,7 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
@@ -121,7 +121,7 @@ class CityStrategyAITests: XCTestCase {
         playerAlexander.initialize()
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
@@ -145,7 +145,7 @@ class CityStrategyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
@@ -168,7 +168,7 @@ class CityStrategyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)
@@ -191,7 +191,7 @@ class CityStrategyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
         mapModel.tile(at: HexPoint(x: 2, y: 1))?.set(terrain: .ocean)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 31, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 31, players: [playerAlexander], on: mapModel)
         
         let city = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         city.initialize(in: gameModel)

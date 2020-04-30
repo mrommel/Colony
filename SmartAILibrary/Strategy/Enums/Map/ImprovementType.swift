@@ -25,12 +25,13 @@ public enum TileImprovementType: Int, Codable {
     case plantation
     case fishingBoats
     /*case lumberMill*/
+    case oilWell
     
     case fort // Occupying unit receives +4 Civ6StrengthIcon Defense Strength, and automatically gains 2 turns of fortification.
     case citadelle
 
     static var all: [TileImprovementType] {
-        return [.farm, .mine, .quarry, .camp, .pasture, .plantation, .fishingBoats, .fort, .citadelle]
+        return [.farm, .mine, .quarry, .camp, .pasture, .plantation, .fishingBoats, .oilWell, .fort, .citadelle]
     }
 
     // https://civilization.fandom.com/wiki/Tile_improvement_(Civ6)
@@ -133,6 +134,8 @@ public enum TileImprovementType: Int, Codable {
             // 'god of the sea' pantheon
             
             return yield
+        case .oilWell:
+            return Yields(food: 0, production: 2, gold: 0, appeal: -1)
         
         case .fort: return Yields(food: 0, production: 0, gold: 0)
         case .citadelle: return Yields(food: 0, production: 0, gold: 0)
@@ -156,6 +159,7 @@ public enum TileImprovementType: Int, Codable {
         case .pasture: return 1
         case .plantation: return 1
         case .fishingBoats: return 1
+        case .oilWell: return 1
             
         case .fort: return 1
         case .citadelle: return 1
@@ -184,6 +188,7 @@ public enum TileImprovementType: Int, Codable {
         case .pasture: return self.isPasturePossible(on: tile)
         case .plantation: return self.isPlantationPossible(on: tile)
         case .fishingBoats: return self.isFishingBoatsPossible(on: tile)
+        case .oilWell: return self.isOilWellPossible(on: tile)
             
         case .fort: return true // FIXME
         case .citadelle: return false // FIXME
@@ -194,7 +199,7 @@ public enum TileImprovementType: Int, Codable {
         
         switch self {
             
-        case .none, .barbarianCamp, .goodyHut, .ruins, .farm, .mine, .quarry, .camp, .pasture, .plantation, .fishingBoats:
+        case .none, .barbarianCamp, .goodyHut, .ruins, .farm, .mine, .quarry, .camp, .pasture, .plantation, .fishingBoats, .oilWell:
             return 0
         case .fort:
             return 4
@@ -221,6 +226,8 @@ public enum TileImprovementType: Int, Codable {
         case .pasture: return true
         case .plantation: return true
         case .fishingBoats: return true
+        case .oilWell: return true
+            
         case .fort: return true
         case .citadelle: return true
         }
@@ -349,8 +356,21 @@ public enum TileImprovementType: Int, Codable {
             return false
         }
         
-        return tile.has(resource: .fish, for: owner)
-        // FIXME: whales, crabs, pearls, amber, turtles
+        return tile.has(resource: .fish, for: owner) || tile.has(resource: .whales, for: owner) || tile.has(resource: .pearls, for: owner)
+        // FIXME: crabs, amber, turtles
+    }
+    
+    private func isOilWellPossible(on tile: Tile) -> Bool {
+    
+        guard let owner = tile.owner() else {
+            fatalError("can check without owner")
+        }
+        
+        if !owner.has(tech: .refining) {
+            return false
+        }
+        
+        return tile.has(resource: .oil, for: owner)
     }
 
     func required() -> TechType? {
@@ -366,6 +386,7 @@ public enum TileImprovementType: Int, Codable {
         case .pasture: return .animalHusbandry
         case .plantation: return .irrigation
         case .fishingBoats: return .sailing
+        case .oilWell: return .refining
      
         case .fort: return .siegeTactics
         case .citadelle: return .siegeTactics
@@ -397,6 +418,8 @@ public enum TileImprovementType: Int, Codable {
         case .pasture: return []
         case .plantation: return []
         case .fishingBoats: return []
+        case .oilWell: return []
+            
         case .fort: return []
         case .citadelle: return []
         }
@@ -434,7 +457,12 @@ public enum TileImprovementType: Int, Codable {
         }
         
         // Fish Crabs Whales Pearls Amber Turtles
-        if self == .fishingBoats && (resource == .fish) {
+        if self == .fishingBoats && (resource == .fish || resource == .whales || resource == .pearls) {
+            return true
+        }
+        
+        // oil
+        if self == .oilWell && resource == .oil {
             return true
         }
         

@@ -8,10 +8,19 @@
 
 import Foundation
 
+public struct CivicAchievements {
+
+    public let buildingTypes: [BuildingType]
+    public let unitTypes: [UnitType]
+    public let wonderTypes: [WonderType]
+    public let buildTypes: [BuildType]
+    public let policyCards: [PolicyCardType]
+}
+
 public enum CivicType: String, Codable {
 
     case none
-    
+
     // ancient
     case stateWorkforce
     case craftsmanship
@@ -77,442 +86,53 @@ public enum CivicType: String, Codable {
 
     static var all: [CivicType] {
         return [
-                .stateWorkforce, .craftsmanship, .codeOfLaws, .earlyEmpire, .foreignTrade, .mysticism, .militaryTradition,
-                .defensiveTactics, .gamesAndRecreation, .politicalPhilosophy, .recordedHistory, .dramaAndPoetry, .theology, .militaryTraining,
-                .navalTradition, .feudalism, .medievalFaires, .civilService, .guilds, .mercenaries, .divineRight,
-                .enlightenment, .humanism, .mercantilism, .diplomaticService, .exploration, .reformedChurch,
-                .civilEngineering, .colonialism, .nationalism, .operaAndBallet, .naturalHistory, .urbanization, .scorchedEarth,
-                .conservation, .massMedia, .mobilization, .capitalism, .ideology, .nuclearProgram, .suffrage, .totalitarianism, .classStruggle,
-                .culturalHeritage, .coldWar, .professionalSports, .rapidDeployment, .spaceRace
-        ]
-    }
-    
-    public func name() -> String {
-        
-        switch self {
-
-            case .none: return "---"
-            
-                // ancient
-            case .stateWorkforce: return "State Workforce"
-            case .craftsmanship: return "Craftmanship"
-            case .codeOfLaws: return "Code of Laws"
-            case .earlyEmpire: return "Early Empire"
-            case .foreignTrade: return "Foreign Trade"
-            case .mysticism: return "Mysticism"
-            case .militaryTradition: return "Military Tradition"
-
-                // classical
-            case .defensiveTactics: return "Civic Default"
-            case .gamesAndRecreation: return "Civic Default"
-            case .politicalPhilosophy: return "Civic Default"
-            case .recordedHistory: return "Civic Default"
-            case .dramaAndPoetry: return "Civic Default"
-            case .theology: return "Civic Default"
-            case .militaryTraining: return "Civic Default"
-
-                // medieval
-            case .navalTradition: return "Civic Default"
-            case .medievalFaires: return "Civic Default"
-            case .guilds: return "Civic Default"
-            case .feudalism: return "Civic Default"
-            case .civilService: return "Civic Default"
-            case .mercenaries: return "Civic Default"
-            case .divineRight: return "Civic Default"
-
-                // renaissance
-            case .humanism: return "Civic Default"
-            case .mercantilism: return "Civic Default"
-            case .enlightenment: return "Civic Default"
-            case .diplomaticService: return "Civic Default"
-            case .reformedChurch: return "Civic Default"
-            case .exploration: return "Civic Default"
-
-                // industrial
-            case .civilEngineering: return "Civic Default"
-            case .colonialism: return "Civic Default"
-            case .nationalism: return "Civic Default"
-            case .operaAndBallet: return "Civic Default"
-            case .naturalHistory: return "Civic Default"
-            case .urbanization: return "Civic Default"
-            case .scorchedEarth: return "Civic Default"
-
-                // modern
-            case .conservation: return "Civic Default"
-            case .massMedia: return "Civic Default"
-            case .mobilization: return "Civic Default"
-            case .capitalism: return "Civic Default"
-            case .ideology: return "Civic Default"
-            case .nuclearProgram: return "Civic Default"
-            case .suffrage: return "Civic Default"
-            case .totalitarianism: return "Civic Default"
-            case .classStruggle: return "Civic Default"
-
-                // atomic
-            case .culturalHeritage: return "Civic Default"
-            case .coldWar: return "Civic Default"
-            case .professionalSports: return "Civic Default"
-            case .rapidDeployment: return "Civic Default"
-            case .spaceRace: return "Civic Default"
-            }
-        }
-
-    func era() -> EraType {
-
-        switch self {
-
-        case .none:
-            return .ancient
-            
             // ancient
-        case .stateWorkforce:
-            return .ancient
-        case .craftsmanship:
-            return .ancient
-        case .codeOfLaws:
-            return .ancient
-        case .earlyEmpire:
-            return .ancient
-        case .foreignTrade:
-            return .ancient
-        case .mysticism:
-            return .ancient
-        case .militaryTradition:
-            return .ancient
+            .stateWorkforce, .craftsmanship, .codeOfLaws, .earlyEmpire, .foreignTrade, .mysticism, .militaryTradition,
 
             // classical
-        case .defensiveTactics:
-            return .classical
-        case .gamesAndRecreation:
-            return .classical
-        case .politicalPhilosophy:
-            return .classical
-        case .recordedHistory:
-            return .classical
-        case .dramaAndPoetry:
-            return .classical
-        case .theology:
-            return .classical
-        case .militaryTraining:
-            return .classical
+            .defensiveTactics, .gamesAndRecreation, .politicalPhilosophy, .recordedHistory, .dramaAndPoetry, .theology, .militaryTraining,
 
             // medieval
-        case .navalTradition:
-            return .medieval
-        case .medievalFaires:
-            return .medieval
-        case .guilds:
-            return .medieval
-        case .feudalism:
-            return .medieval
-        case .civilService:
-            return .medieval
-        case .mercenaries:
-            return .medieval
-        case .divineRight:
-            return .medieval
+            .navalTradition, .feudalism, .medievalFaires, .civilService, .guilds, .mercenaries, .divineRight,
 
             // renaissance
-        case .humanism:
-            return .renaissance
-        case .mercantilism:
-            return .renaissance
-        case .enlightenment:
-            return .renaissance
-        case .diplomaticService:
-            return .renaissance
-        case .reformedChurch:
-            return .renaissance
-        case .exploration:
-            return .renaissance
+            .enlightenment, .humanism, .mercantilism, .diplomaticService, .exploration, .reformedChurch,
 
             // industrial
-        case .civilEngineering:
-            return .industrial
-        case .colonialism:
-            return .industrial
-        case .nationalism:
-            return .industrial
-        case .operaAndBallet:
-            return .industrial
-        case .naturalHistory:
-            return .industrial
-        case .urbanization:
-            return .industrial
-        case .scorchedEarth:
-            return .industrial
+            .civilEngineering, .colonialism, .nationalism, .operaAndBallet, .naturalHistory, .urbanization, .scorchedEarth,
 
             // modern
-        case .conservation:
-            return .modern
-        case .massMedia:
-            return .modern
-        case .mobilization:
-            return .modern
-        case .capitalism:
-            return .modern
-        case .ideology:
-            return .modern
-        case .nuclearProgram:
-            return .modern
-        case .suffrage:
-            return .modern
-        case .totalitarianism:
-            return .modern
-        case .classStruggle:
-            return .modern
+            .conservation, .massMedia, .mobilization, .capitalism, .ideology, .nuclearProgram, .suffrage, .totalitarianism, .classStruggle,
 
             // atomic
-        case .culturalHeritage:
-            return .atomic
-        case .coldWar:
-            return .atomic
-        case .professionalSports:
-            return .atomic
-        case .rapidDeployment:
-            return .atomic
-        case .spaceRace:
-            return .atomic
-        }
+            .culturalHeritage, .coldWar, .professionalSports, .rapidDeployment, .spaceRace
+        ]
+    }
+
+    public func name() -> String {
+
+        return self.data().name
+    }
+
+    public func eurekaSummary() -> String {
+
+        return self.data().eurekaSummary
+    }
+
+    public func era() -> EraType {
+
+        return self.data().era
     }
 
     public func cost() -> Int {
 
-        switch self {
-
-        case .none:
-            return -1
-            
-            // ancient
-        case .stateWorkforce:
-            return 70
-        case .craftsmanship:
-            return 40
-        case .codeOfLaws:
-            return 20
-        case .earlyEmpire:
-            return 70
-        case .foreignTrade:
-            return 40
-        case .mysticism:
-            return 50
-        case .militaryTradition:
-            return 50
-
-            // classical
-        case .defensiveTactics:
-            return 175
-        case .gamesAndRecreation:
-            return 110
-        case .politicalPhilosophy:
-            return 110
-        case .recordedHistory:
-            return 175
-        case .dramaAndPoetry:
-            return 110
-        case .theology:
-            return 120
-        case .militaryTraining:
-            return 120
-
-            // medieval
-        case .navalTradition:
-            return 200
-        case .feudalism:
-            return 275
-        case .guilds:
-            return 385
-        case .medievalFaires:
-            return 385
-        case .civilService:
-            return 275
-        case .divineRight:
-            return 290
-        case .mercenaries:
-            return 290
-
-            // renaissance
-        case .humanism:
-            return 540
-        case .mercantilism:
-            return 655
-        case .enlightenment:
-            return 655
-        case .diplomaticService:
-            return 540
-        case .exploration:
-            return 400
-        case .reformedChurch:
-            return 400
-
-            // industrial
-        case .civilEngineering:
-            return 920
-        case .colonialism:
-            return 725
-        case .nationalism:
-            return 920
-        case .operaAndBallet:
-            return 725
-        case .naturalHistory:
-            return 870
-        case .urbanization:
-            return 1060
-        case .scorchedEarth:
-            return 1060
-
-            // modern
-        case .conservation:
-            return 1255
-        case .massMedia:
-            return 1410
-        case .mobilization:
-            return 1410
-        case .capitalism:
-            return 1560
-        case .ideology:
-            return 660
-        case .nuclearProgram:
-            return 1715
-        case .suffrage:
-            return 1715
-        case .totalitarianism:
-            return 1715
-        case .classStruggle:
-            return 1715
-
-            // atomic
-        case .culturalHeritage:
-            return 1955
-        case .coldWar:
-            return 2185
-        case .professionalSports:
-            return 2185
-        case .rapidDeployment:
-            return 2415
-        case .spaceRace:
-            return 2415
-        }
+        return self.data().cost
     }
 
     // https://github.com/caiobelfort/civ6_personal_mod/blob/9fdf8736016d855990556c71cc76a62f124f5822/Gameplay/Data/Civics.xml
     func required() -> [CivicType] {
 
-        switch self {
-
-        case .none:
-            return []
-            
-            // ancient
-        case .stateWorkforce:
-            return [.craftsmanship]
-        case .craftsmanship:
-            return [.codeOfLaws]
-        case .codeOfLaws:
-            return []
-        case .earlyEmpire:
-            return [.foreignTrade]
-        case .foreignTrade:
-            return [.codeOfLaws]
-        case .mysticism:
-            return [.foreignTrade]
-        case .militaryTradition:
-            return [.craftsmanship]
-
-            // classical
-        case .defensiveTactics:
-            return [.gamesAndRecreation, .politicalPhilosophy]
-        case .gamesAndRecreation:
-            return [.stateWorkforce]
-        case .politicalPhilosophy:
-            return [.stateWorkforce, .earlyEmpire]
-        case .recordedHistory:
-            return [.politicalPhilosophy, .dramaAndPoetry]
-        case .dramaAndPoetry:
-            return [.earlyEmpire]
-        case .theology:
-            return [.dramaAndPoetry, .mysticism]
-        case .militaryTraining:
-            return [.militaryTradition, .gamesAndRecreation]
-
-            // medieval
-        case .navalTradition:
-            return [.defensiveTactics]
-        case .feudalism:
-            return [.defensiveTactics]
-        case .medievalFaires:
-            return [.feudalism]
-        case .guilds:
-            return [.feudalism, .civilService]
-        case .civilService:
-            return [.defensiveTactics, .recordedHistory]
-        case .divineRight:
-            return []
-        case .mercenaries:
-            return [.feudalism, .militaryTraining]
-
-            // renaissance
-        case .humanism:
-            return [.guilds, .medievalFaires]
-        case .mercantilism:
-            return [.humanism]
-        case .enlightenment:
-            return [.diplomaticService]
-        case .diplomaticService:
-            return [.guilds]
-        case .exploration:
-            return [.mercenaries, .medievalFaires]
-        case .reformedChurch:
-            return [.divineRight]
-
-            // industrial
-        case .civilEngineering:
-            return [.mercantilism]
-        case .colonialism:
-            return [.mercantilism]
-        case .nationalism:
-            return [.enlightenment]
-        case .operaAndBallet:
-            return [.enlightenment]
-        case .naturalHistory:
-            return [.colonialism]
-        case .urbanization:
-            return [.civilEngineering, .nationalism]
-        case .scorchedEarth:
-            return [.nationalism]
-
-            // modern
-        case .conservation:
-            return [.naturalHistory, .urbanization]
-        case .massMedia:
-            return [.urbanization]
-        case .mobilization:
-            return [.urbanization]
-        case .capitalism:
-            return [.massMedia]
-        case .ideology:
-            return [.massMedia, .mobilization]
-        case .nuclearProgram:
-            return [.ideology]
-        case .suffrage:
-            return [.ideology]
-        case .totalitarianism:
-            return [.ideology]
-        case .classStruggle:
-            return [.ideology]
-
-            // atomic
-        case .culturalHeritage:
-            return [.conservation]
-        case .coldWar:
-            return [.ideology]
-        case .professionalSports:
-            return [.ideology]
-        case .rapidDeployment:
-            return [.coldWar]
-        case .spaceRace:
-            return [.coldWar]
-        }
+        return self.data().required
     }
 
     func leadsTo() -> [CivicType] {
@@ -539,110 +159,421 @@ public enum CivicType: String, Codable {
 
     func flavours() -> [Flavor] {
 
+        return self.data().flavors
+    }
+
+    public func achievements() -> CivicAchievements {
+
+        let buildings = BuildingType.all.filter({
+            if let civic = $0.requiredCivic() {
+                return civic == self
+            } else {
+                return false
+            }
+        })
+
+        /*let units = UnitType.all.filter({
+            if let civic = $0.required() {
+                return civic == self
+            } else {
+                return false
+            }
+        })*/
+
+        // districts
+        // wonders
+        let wonders = WonderType.all.filter({
+            if let civic = $0.requiredCivic() {
+                return civic == self
+            } else {
+                return false
+            }
+        })
+
+        // buildtypes
+        /*let builds = BuildType.all.filter({
+            if let civic = $0.required() {
+                return civic == self
+            } else {
+                return false
+            }
+        })*/
+
+        // policyCards
+        let policyCards = PolicyCardType.all.filter({
+            return self == $0.required()
+        })
+
+        return CivicAchievements(buildingTypes: buildings, unitTypes: [], wonderTypes: wonders, buildTypes: [], policyCards: policyCards)
+    }
+
+    // MARK private
+
+    private struct CivicTypeData {
+
+        let name: String
+        let eurekaSummary: String
+        let era: EraType
+        let cost: Int
+        let required: [CivicType]
+        let flavors: [Flavor]
+    }
+
+    private func data() -> CivicTypeData {
+
         switch self {
-            
-        case .none: return [
-            ]
-            
+
+        case .none: return CivicTypeData(name: "---", eurekaSummary: "---", era: .ancient, cost: -1, required: [], flavors: [])
+
             // ancient
-        case .stateWorkforce: return [
-            ]
-        case .craftsmanship: return [
-            ]
-        case .codeOfLaws: return [
-            ]
-        case .earlyEmpire: return [
-            ]
-        case .foreignTrade: return [
-            ]
-        case .mysticism: return [
-            ]
-        case .militaryTradition: return [
-            ]
-            
+        case .stateWorkforce:
+            return CivicTypeData(name: "State Workforce",
+                                 eurekaSummary: "",
+                                 era: .ancient,
+                                 cost: 70,
+                                 required: [.craftsmanship],
+                                 flavors: [])
+        case .craftsmanship:
+            return CivicTypeData(name: "Craftmanship",
+                                 eurekaSummary: "",
+                                 era: .ancient,
+                                 cost: 40,
+                                 required: [.codeOfLaws],
+                                 flavors: [])
+        case .codeOfLaws:
+            return CivicTypeData(name: "Code of Laws",
+                                 eurekaSummary: "",
+                                 era: .ancient,
+                                 cost: 20,
+                                 required: [],
+                                 flavors: [])
+        case .earlyEmpire:
+            return CivicTypeData(name: "Early Empire",
+                                 eurekaSummary: "",
+                                 era: .ancient,
+                                 cost: 70,
+                                 required: [.foreignTrade],
+                                 flavors: [])
+        case .foreignTrade:
+            return CivicTypeData(name: "Foreign Trade",
+                                 eurekaSummary: "",
+                                 era: .ancient,
+                                 cost: 40,
+                                 required: [.codeOfLaws],
+                                 flavors: [])
+        case .mysticism:
+            return CivicTypeData(name: "Mysticism",
+                                 eurekaSummary: "",
+                                 era: .ancient,
+                                 cost: 50,
+                                 required: [.foreignTrade],
+                                 flavors: [])
+        case .militaryTradition:
+            return CivicTypeData(name: "Military Tradition",
+                                 eurekaSummary: "",
+                                 era: .ancient,
+                                 cost: 50,
+                                 required: [.craftsmanship],
+                                 flavors: [])
+
             // classical
-        case .defensiveTactics: return [
-            ]
-        case .gamesAndRecreation: return [
-            ]
-        case .politicalPhilosophy: return [
-            ]
-        case .recordedHistory: return [
-            ]
-        case .dramaAndPoetry: return [
-            ]
-        case .theology: return [
-            ]
-        case .militaryTraining: return [
-            ]
-        case .navalTradition: return [
-            ]
-        case .feudalism: return [
-            ]
-        case .medievalFaires: return [
-            ]
-        case .civilService: return [
-            ]
-        case .guilds: return [
-            ]
-        case .mercenaries: return [
-            ]
-        case .divineRight: return [
-            ]
-        case .enlightenment: return [
-            ]
-        case .humanism: return [
-            ]
-        case .mercantilism: return [
-            ]
-        case .diplomaticService: return [
-            ]
-        case .exploration: return [
-            ]
-        case .reformedChurch: return [
-            ]
-        case .civilEngineering: return [
-            ]
-        case .colonialism: return [
-            ]
-        case .nationalism: return [
-            ]
-        case .operaAndBallet: return [
-            ]
-        case .naturalHistory: return [
-            ]
-        case .urbanization: return [
-            ]
-        case .scorchedEarth: return [
-            ]
-        case .conservation: return [
-            ]
-        case .massMedia: return [
-            ]
-        case .mobilization: return [
-            ]
-        case .capitalism: return [
-            ]
-        case .ideology: return [
-            ]
-        case .nuclearProgram: return [
-            ]
-        case .suffrage: return [
-            ]
-        case .totalitarianism: return [
-            ]
-        case .classStruggle: return [
-            ]
-        case .culturalHeritage: return [
-            ]
-        case .coldWar: return [
-            ]
-        case .professionalSports: return [
-            ]
-        case .rapidDeployment: return [
-            ]
-        case .spaceRace: return [
-            ]
+        case .defensiveTactics:
+            return CivicTypeData(name: "Defensive Tactics",
+                                 eurekaSummary: "",
+                                 era: .classical,
+                                 cost: 175,
+                                 required: [.gamesAndRecreation, .politicalPhilosophy],
+                                 flavors: [])
+        case .gamesAndRecreation:
+            return CivicTypeData(name: "Games and Recreation",
+                                 eurekaSummary: "",
+                                 era: .classical,
+                                 cost: 110,
+                                 required: [.stateWorkforce],
+                                 flavors: [])
+        case .politicalPhilosophy:
+            return CivicTypeData(name: "Political Philosophy",
+                                 eurekaSummary: "",
+                                 era: .classical,
+                                 cost: 110,
+                                 required: [.stateWorkforce, .earlyEmpire],
+                                 flavors: [])
+        case .recordedHistory:
+            return CivicTypeData(name: "Recorded History",
+                                 eurekaSummary: "",
+                                 era: .classical,
+                                 cost: 175,
+                                 required: [.politicalPhilosophy, .dramaAndPoetry],
+                                 flavors: [])
+        case .dramaAndPoetry:
+            return CivicTypeData(name: "Dramaa nd Poetry",
+                                 eurekaSummary: "",
+                                 era: .classical,
+                                 cost: 110,
+                                 required: [.earlyEmpire],
+                                 flavors: [])
+        case .theology:
+            return CivicTypeData(name: "Theology",
+                                 eurekaSummary: "",
+                                 era: .classical,
+                                 cost: 120,
+                                 required: [.dramaAndPoetry, .mysticism],
+                                 flavors: [])
+        case .militaryTraining:
+            return CivicTypeData(name: "Military Training",
+                                 eurekaSummary: "",
+                                 era: .classical,
+                                 cost: 120,
+                                 required: [.militaryTradition, .gamesAndRecreation],
+                                 flavors: [])
+
+            // medieval
+        case .navalTradition:
+            return CivicTypeData(name: "Naval Tradition",
+                                 eurekaSummary: "",
+                                 era: .medieval,
+                                 cost: 200,
+                                 required: [.defensiveTactics],
+                                 flavors: [])
+        case .medievalFaires:
+            return CivicTypeData(name: "Medieval Faires",
+                                 eurekaSummary: "",
+                                 era: .medieval,
+                                 cost: 385,
+                                 required: [.feudalism],
+                                 flavors: [])
+        case .guilds:
+            return CivicTypeData(name: "Guilds",
+                                 eurekaSummary: "",
+                                 era: .medieval,
+                                 cost: 385,
+                                 required: [.feudalism, .civilService],
+                                 flavors: [])
+        case .feudalism:
+            return CivicTypeData(name: "Feudalism",
+                                 eurekaSummary: "",
+                                 era: .medieval,
+                                 cost: 275,
+                                 required: [.defensiveTactics],
+                                 flavors: [])
+        case .civilService:
+            return CivicTypeData(name: "Civil Service",
+                                 eurekaSummary: "",
+                                 era: .medieval,
+                                 cost: 275,
+                                 required: [.defensiveTactics, .recordedHistory],
+                                 flavors: [])
+        case .mercenaries:
+            return CivicTypeData(name: "Mercenaries",
+                                 eurekaSummary: "",
+                                 era: .medieval,
+                                 cost: 290,
+                                 required: [.feudalism, .militaryTraining],
+                                 flavors: [])
+        case .divineRight:
+            return CivicTypeData(name: "Divine Right",
+                                 eurekaSummary: "",
+                                 era: .medieval,
+                                 cost: 290,
+                                 required: [.civilService, .theology],
+                                 flavors: [])
+
+            // renaissance
+        case .humanism:
+            return CivicTypeData(name: "Humanism",
+                                 eurekaSummary: "",
+                                 era: .renaissance,
+                                 cost: 540,
+                                 required: [.guilds, .medievalFaires],
+                                 flavors: [])
+        case .mercantilism:
+            return CivicTypeData(name: "Mercantilism",
+                                 eurekaSummary: "",
+                                 era: .renaissance,
+                                 cost: 655,
+                                 required: [.humanism],
+                                 flavors: [])
+        case .enlightenment:
+            return CivicTypeData(name: "Enlightenment",
+                                 eurekaSummary: "",
+                                 era: .renaissance,
+                                 cost: 655,
+                                 required: [.diplomaticService],
+                                 flavors: [])
+        case .diplomaticService:
+            return CivicTypeData(name: "Diplomatic Service",
+                                 eurekaSummary: "",
+                                 era: .renaissance,
+                                 cost: 540,
+                                 required: [.guilds],
+                                 flavors: [])
+        case .reformedChurch:
+            return CivicTypeData(name: "Reformed Church",
+                                 eurekaSummary: "",
+                                 era: .renaissance,
+                                 cost: 400,
+                                 required: [.divineRight],
+                                 flavors: [])
+        case .exploration:
+            return CivicTypeData(name: "Exploration",
+                                 eurekaSummary: "",
+                                 era: .renaissance,
+                                 cost: 400,
+                                 required: [.mercenaries, .medievalFaires],
+                                 flavors: [])
+
+            // industrial
+        case .civilEngineering:
+            return CivicTypeData(name: "Civil Engineering",
+                                 eurekaSummary: "",
+                                 era: .industrial,
+                                 cost: 920,
+                                 required: [.mercantilism],
+                                 flavors: [])
+        case .colonialism:
+            return CivicTypeData(name: "Colonialism",
+                                 eurekaSummary: "",
+                                 era: .industrial,
+                                 cost: 725,
+                                 required: [.mercantilism],
+                                 flavors: [])
+        case .nationalism:
+            return CivicTypeData(name: "Nationalism",
+                                 eurekaSummary: "",
+                                 era: .industrial,
+                                 cost: 920,
+                                 required: [.enlightenment],
+                                 flavors: [])
+        case .operaAndBallet:
+            return CivicTypeData(name: "Opera and Ballet",
+                                 eurekaSummary: "",
+                                 era: .industrial,
+                                 cost: 725,
+                                 required: [.enlightenment],
+                                 flavors: [])
+        case .naturalHistory:
+            return CivicTypeData(name: "Natural History",
+                                 eurekaSummary: "",
+                                 era: .industrial,
+                                 cost: 870,
+                                 required: [.colonialism],
+                                 flavors: [])
+        case .urbanization:
+            return CivicTypeData(name: "Urbanization",
+                                 eurekaSummary: "",
+                                 era: .industrial,
+                                 cost: 1060,
+                                 required: [.civilEngineering, .nationalism],
+                                 flavors: [])
+        case .scorchedEarth:
+            return CivicTypeData(name: "Scorched Earth",
+                                 eurekaSummary: "",
+                                 era: .industrial,
+                                 cost: 1060,
+                                 required: [.nationalism],
+                                 flavors: [])
+
+            // modern
+        case .conservation:
+            return CivicTypeData(name: "Conservation",
+                                 eurekaSummary: "",
+                                 era: .modern,
+                                 cost: 1255,
+                                 required: [.naturalHistory, .urbanization],
+                                 flavors: [])
+        case .massMedia:
+            return CivicTypeData(name: "MassMedia",
+                                 eurekaSummary: "",
+                                 era: .modern,
+                                 cost: 1410,
+                                 required: [.urbanization],
+                                 flavors: [])
+        case .mobilization:
+            return CivicTypeData(name: "Mobilization",
+                                 eurekaSummary: "",
+                                 era: .modern,
+                                 cost: 1410,
+                                 required: [.urbanization],
+                                 flavors: [])
+        case .capitalism:
+            return CivicTypeData(name: "Capitalism",
+                                 eurekaSummary: "",
+                                 era: .modern,
+                                 cost: 1560,
+                                 required: [.massMedia],
+                                 flavors: [])
+        case .ideology:
+            return CivicTypeData(name: "Ideology",
+                                 eurekaSummary: "",
+                                 era: .modern,
+                                 cost: 660,
+                                 required: [.massMedia, .mobilization],
+                                 flavors: [])
+        case .nuclearProgram:
+            return CivicTypeData(name: "Nuclear Program",
+                                 eurekaSummary: "",
+                                 era: .modern,
+                                 cost: 1715,
+                                 required: [.ideology],
+                                 flavors: [])
+        case .suffrage:
+            return CivicTypeData(name: "Suffrage",
+                                 eurekaSummary: "",
+                                 era: .modern,
+                                 cost: 1715,
+                                 required: [.ideology],
+                                 flavors: [])
+        case .totalitarianism:
+            return CivicTypeData(name: "Totalitarianism",
+                                 eurekaSummary: "",
+                                 era: .modern,
+                                 cost: 1715,
+                                 required: [.ideology],
+                                 flavors: [])
+        case .classStruggle:
+            return CivicTypeData(name: "Class Struggle",
+                                 eurekaSummary: "",
+                                 era: .modern,
+                                 cost: 1715,
+                                 required: [.ideology],
+                                 flavors: [])
+
+            // atomic
+        case .culturalHeritage:
+            return CivicTypeData(name: "Cultural Heritage",
+                                 eurekaSummary: "",
+                                 era: .atomic,
+                                 cost: 1955,
+                                 required: [.conservation],
+                                 flavors: [])
+        case .coldWar:
+            return CivicTypeData(name: "Cold War",
+                                 eurekaSummary: "",
+                                 era: .atomic,
+                                 cost: 2185,
+                                 required: [.ideology],
+                                 flavors: [])
+        case .professionalSports:
+            return CivicTypeData(name: "Professional Sports",
+                                 eurekaSummary: "",
+                                 era: .atomic,
+                                 cost: 2185,
+                                 required: [.ideology],
+                                 flavors: [])
+        case .rapidDeployment:
+            return CivicTypeData(name: "Rapid Deployment",
+                                 eurekaSummary: "",
+                                 era: .atomic,
+                                 cost: 2415,
+                                 required: [.coldWar],
+                                 flavors: [])
+        case .spaceRace:
+            return CivicTypeData(name: "Space Race",
+                                 eurekaSummary: "",
+                                 era: .atomic,
+                                 cost: 2415,
+                                 required: [.coldWar],
+                                 flavors: [])
         }
     }
 }

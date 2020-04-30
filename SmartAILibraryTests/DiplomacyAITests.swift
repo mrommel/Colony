@@ -31,7 +31,7 @@ class DiplomacyAITests: XCTestCase {
         playerAugustus.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
         // add UI
         let userInterface = TestUI()
@@ -62,7 +62,7 @@ class DiplomacyAITests: XCTestCase {
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 1), type: .warrior, owner: playerAugustus))
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 2), type: .warrior, owner: playerAugustus))
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
 
         // add UI
         let userInterface = TestUI()
@@ -93,7 +93,7 @@ class DiplomacyAITests: XCTestCase {
         mapModel.add(unit: Unit(at: HexPoint(x: 1, y: 0), type: .warrior, owner: playerAlexander))
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus))
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         // add UI
         let userInterface = TestUI()
@@ -120,7 +120,7 @@ class DiplomacyAITests: XCTestCase {
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 10), type: .warrior, owner: playerAlexander))
         let cityAlexander = City(name: "Alexander", at: HexPoint(x: 0, y: 10), capital: true, owner: playerAlexander)
@@ -157,7 +157,7 @@ class DiplomacyAITests: XCTestCase {
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         mapModel.add(unit: Unit(at: HexPoint(x: 8, y: 10), type: .warrior, owner: playerAlexander))
         let cityAlexander = City(name: "Alexander", at: HexPoint(x: 8, y: 10), capital: true, owner: playerAlexander)
@@ -198,7 +198,7 @@ class DiplomacyAITests: XCTestCase {
 
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus))
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         // add UI
         let userInterface = TestUI()
@@ -232,7 +232,7 @@ class DiplomacyAITests: XCTestCase {
 
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus))
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         // add UI
         let userInterface = TestUI()
@@ -267,7 +267,7 @@ class DiplomacyAITests: XCTestCase {
 
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus))
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         // add UI
         let userInterface = TestUI()
@@ -301,7 +301,7 @@ class DiplomacyAITests: XCTestCase {
 
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus))
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         // add UI
         let userInterface = TestUI()
@@ -331,7 +331,7 @@ class DiplomacyAITests: XCTestCase {
         playerAugustus.initialize()
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
         
         // add UI
         let userInterface = TestUI()
@@ -366,7 +366,7 @@ class DiplomacyAITests: XCTestCase {
 
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus))
 
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander, playerAugustus, playerElizabeth], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus, playerElizabeth], on: mapModel)
         
         // add UI
         let userInterface = TestUI()

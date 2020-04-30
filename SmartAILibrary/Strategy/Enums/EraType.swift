@@ -17,6 +17,8 @@ public enum EraType {
     case industrial
     case modern
     case atomic
+    case information
+    case future
     
     internal func value() -> Int {
         
@@ -29,6 +31,8 @@ public enum EraType {
         case .industrial: return 4
         case .modern: return 5
         case .atomic: return 6
+        case .information: return 7
+        case .future: return 8
         }
     }
 }

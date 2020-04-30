@@ -101,11 +101,11 @@
             <active>false</active>
         </item>
         <item>
-            <identifier>random_button</identifier>
+            <identifier>custom_button</identifier>
             <type>button</type>
-            <image>MapType_Random</image>
-            <title>Random</title>
-            <result>TYPERANDOM</result>
+            <image>MapType_Custom</image>
+            <title>Custom</title>
+            <result>TYPECUSTOM</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>

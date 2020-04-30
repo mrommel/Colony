@@ -15,5 +15,5 @@ public enum MapType {
     case continents
     case archipelago
     case inlandsea
-    case random
+    case custom
 }

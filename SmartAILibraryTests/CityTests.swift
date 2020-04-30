@@ -33,19 +33,19 @@ class CityTests: XCTestCase {
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
         
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
         
         // WHEN
         let _ = self.objectToTest?.turn(in: gameModel)
-        let messages = gameModel.messages()
+        let notifications = playerAlexander.notifications()?.notifications()
         
         // THEN
         XCTAssertEqual(self.objectToTest!.population(), 2)
         //XCTAssertEqual(returnedStatus, .none) // no notification as no starving and no growth
-        XCTAssertEqual(messages.count, 2) // don't notify user about any change
+        XCTAssertEqual(notifications?.count, 2) // don't notify user about any change
     }
     
     func testOneCityGrowth() {
@@ -63,7 +63,7 @@ class CityTests: XCTestCase {
         centerTile?.set(hills: false)
         centerTile?.set(improvement: .farm)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAugustus, playerAlexander], on: mapModel)
         
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
@@ -71,11 +71,11 @@ class CityTests: XCTestCase {
         
         // WHEN
         let _ = self.objectToTest?.turn(in: gameModel)
-        let messages = gameModel.messages()
+        let notifications = playerAlexander.notifications()?.notifications()
         
         // THEN
         XCTAssertEqual(self.objectToTest!.population(), 2)
-        XCTAssertEqual(messages.count, 2) // notify user about growth
+        XCTAssertEqual(notifications?.count, 2) // notify user about growth
     }
     
     func testYields() {
@@ -88,7 +88,7 @@ class CityTests: XCTestCase {
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
@@ -108,18 +108,20 @@ class CityTests: XCTestCase {
         anotherTile?.set(improvement: .mine)
         
         // WHEN
-        let yields = self.objectToTest?.yields(in: gameModel)
+        let foodYield = self.objectToTest?.foodPerTurn(in: gameModel)
+        let productionYield = self.objectToTest?.productionPerTurn(in: gameModel)
+        let goldYield = self.objectToTest?.goldPerTurn(in: gameModel)
         
         // THEN
-        XCTAssertEqual(yields?.food, 4.0)
-        XCTAssertEqual(yields?.production, 4.0)
-        XCTAssertEqual(yields?.gold, 6.0)
+        XCTAssertEqual(foodYield, 4.0)
+        XCTAssertEqual(productionYield, 4.0)
+        XCTAssertEqual(goldYield, 6.0)
         
-        XCTAssertEqual(yields?.culture, 2.6)
+        /*XCTAssertEqual(yields?.culture, 2.6)
         XCTAssertEqual(yields?.science, 4.0)
         XCTAssertEqual(yields?.faith, 1.0)
         
-        XCTAssertEqual(yields?.housing, 1.0)
+        XCTAssertEqual(yields?.housing, 1.0)*/
     }
     
     func testBuildGranary() {
@@ -133,7 +135,7 @@ class CityTests: XCTestCase {
         try! playerAlexander.techs?.discover(tech: .masonry)
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
@@ -160,7 +162,7 @@ class CityTests: XCTestCase {
         try! playerAlexander.techs?.discover(tech: .masonry)
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
@@ -186,7 +188,7 @@ class CityTests: XCTestCase {
         playerAlexander.government?.set(governmentType: .autocracy)
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         // WHEN
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)

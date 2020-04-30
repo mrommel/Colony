@@ -1006,7 +1006,7 @@ public class TacticalAI {
                     } else {
                         
                         // Civilian (or embarked) units always flee from danger
-                        if !currentUnit.canFortify() {
+                        if !currentUnit.canFortify(at: currentUnit.location, in: gameModel) {
                             addUnit = true
                         }
                     }
@@ -1206,10 +1206,10 @@ public class TacticalAI {
                 }
             }
 
-            if unit.location == target.point && unit.canFortify() {
+            if unit.location == target.point && unit.canFortify(at: target.point, in: gameModel) {
                 
                 unit.push(mission: UnitMission(type: .fortify), in: gameModel)
-                unit.setFortifiedThisTurn(fortified: true)
+                unit.doFortify(in: gameModel)
                 self.unitProcessed(unit: unit, in: gameModel)
                 return
                 
@@ -1240,10 +1240,10 @@ public class TacticalAI {
                 continue
             }
 
-            if unit.location == target.point && unit.canFortify() {
+            if unit.location == target.point && unit.canFortify(at: unit.location, in: gameModel) {
 
                 unit.push(mission: UnitMission(type: .fortify), in: gameModel)
-                unit.setFortifiedThisTurn(fortified: true)
+                unit.doFortify(in: gameModel)
                 self.unitProcessed(unit: unit, in: gameModel)
                 return
                 

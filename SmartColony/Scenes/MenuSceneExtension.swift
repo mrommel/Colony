@@ -11,50 +11,50 @@ import SpriteKit
 
 extension MenuScene {
     
-    func requestMapType() {
+    func requestLeader() {
         
-        let mapTypeDialog = MapTypeDialog()
+        let gameLeaderDialog = GameLeaderDialog()
             
-        mapTypeDialog.zPosition = 250
+        gameLeaderDialog.zPosition = 250
         
-        mapTypeDialog.addResultHandler(handler: { typeResult in
+        gameLeaderDialog.addResultHandler(handler: { typeResult in
             
-            let type = typeResult.toMapType()
+            let leaderType = typeResult.toLeaderType()
             
-            mapTypeDialog.close()
+            gameLeaderDialog.close()
             
-            self.requestMapSizeFor(type: type)
+            self.requestMapType(for: leaderType)
         })
         
-        mapTypeDialog.addCancelAction(handler: {
+        gameLeaderDialog.addCancelAction(handler: {
             self.rootNode.sharpWith(completion: {
-                mapTypeDialog.close()
+                gameLeaderDialog.close()
             })
         })
         
-        self.cameraNode.add(dialog: mapTypeDialog)
+        self.cameraNode.add(dialog: gameLeaderDialog)
     }
-
-    func requestMapSizeFor(type: MapType) {
-           
-        let mapSizeDialog = MapSizeDialog()
-               
-        mapSizeDialog.zPosition = 250
-       
-        mapSizeDialog.addResultHandler(handler: { sizeResult in
-           
-            mapSizeDialog.close()
-           
-            let size = sizeResult.toMapSize()
-           
+    
+    func requestHandicapFor(type: MapType, size: MapSize, and leader: LeaderType) {
+        
+        let gameHandicapDialog = GameHandicapDialog()
+            
+        gameHandicapDialog.zPosition = 250
+        
+        gameHandicapDialog.addResultHandler(handler: { typeResult in
+            
+            let handicapType = typeResult.toHandicapType()
+            
+            gameHandicapDialog.close()
+            
             // handle earth maps
             switch type {
             case .earth:
-                self.loadEarthMap(sized: size)
+                self.loadEarthMap(sized: size, leader: leader, handicap: handicapType)
                
             case .continents:
                 // 3-4 main continents, some small islands
-                let mapOptions = MapOptions(withSize: size)
+                let mapOptions = MapOptions(withSize: size, leader: leader, handicap: handicapType)
                 mapOptions.enhanced.sealevel = .low
                
                 self.generateMap(from: mapOptions)
@@ -77,14 +77,62 @@ extension MenuScene {
                
                 // all landmass - ocean in the middle
                
-            case .random:
+            case .custom:
                 // age (magnitude of hills/mountains)
                 // rainfall (more or less vegetation)
                 // temperature (climate zones change)
                 // sea level: low, middle, high
                
-                self.requestMapAge(for: size)
+                self.requestMapAge(for: size, and: leader, handicap: handicapType)
             }
+        })
+        
+        gameHandicapDialog.addCancelAction(handler: {
+            self.rootNode.sharpWith(completion: {
+                gameHandicapDialog.close()
+            })
+        })
+        
+        self.cameraNode.add(dialog: gameHandicapDialog)
+    }
+    
+    func requestMapType(for leader: LeaderType) {
+        
+        let mapTypeDialog = MapTypeDialog()
+            
+        mapTypeDialog.zPosition = 250
+        
+        mapTypeDialog.addResultHandler(handler: { typeResult in
+            
+            let type = typeResult.toMapType()
+            
+            mapTypeDialog.close()
+            
+            self.requestMapSizeFor(type: type, and: leader)
+        })
+        
+        mapTypeDialog.addCancelAction(handler: {
+            self.rootNode.sharpWith(completion: {
+                mapTypeDialog.close()
+            })
+        })
+        
+        self.cameraNode.add(dialog: mapTypeDialog)
+    }
+
+    func requestMapSizeFor(type: MapType, and leader: LeaderType) {
+           
+        let mapSizeDialog = MapSizeDialog()
+               
+        mapSizeDialog.zPosition = 250
+       
+        mapSizeDialog.addResultHandler(handler: { sizeResult in
+           
+            mapSizeDialog.close()
+           
+            let size = sizeResult.toMapSize()
+           
+            self.requestHandicapFor(type: type, size: size, and: leader)
         })
        
         mapSizeDialog.addCancelAction(handler: {
@@ -96,7 +144,7 @@ extension MenuScene {
         self.cameraNode.add(dialog: mapSizeDialog)
     }
        
-    func requestMapAge(for size: MapSize) {
+    func requestMapAge(for size: MapSize, and leader: LeaderType, handicap: HandicapType) {
            
         let mapAgeDialog = MapAgeDialog()
                
@@ -108,7 +156,7 @@ extension MenuScene {
                    
             mapAgeDialog.close()
                    
-            self.requestMapRainfall(for: size, age: age)
+            self.requestMapRainfall(for: size, leader: leader, handicap: handicap, age: age)
         })
                
         mapAgeDialog.addCancelAction(handler: {
@@ -120,7 +168,7 @@ extension MenuScene {
         self.cameraNode.add(dialog: mapAgeDialog)
     }
        
-    func requestMapRainfall(for size: MapSize, age: MapOptionAge) {
+    func requestMapRainfall(for size: MapSize, leader: LeaderType, handicap: HandicapType, age: MapOptionAge) {
 
         let mapRainfallDialog = MapRainfallDialog()
                
@@ -132,7 +180,7 @@ extension MenuScene {
                    
             mapRainfallDialog.close()
                    
-            self.requestMapClimate(for: size, age: age, rainfall: rainfall)
+            self.requestMapClimate(for: size, leader: leader, handicap: handicap, age: age, rainfall: rainfall)
         })
                
         mapRainfallDialog.addCancelAction(handler: {
@@ -144,7 +192,7 @@ extension MenuScene {
         self.cameraNode.add(dialog: mapRainfallDialog)
     }
        
-    func requestMapClimate(for size: MapSize, age: MapOptionAge, rainfall: MapOptionRainfall) {
+    func requestMapClimate(for size: MapSize, leader: LeaderType, handicap: HandicapType, age: MapOptionAge, rainfall: MapOptionRainfall) {
            
         let mapClimateDialog = MapClimateDialog()
                
@@ -156,7 +204,7 @@ extension MenuScene {
                    
             mapClimateDialog.close()
                    
-            self.requestMapSeaLevel(for: size, age: age, rainfall: rainfall, climate: climate)
+            self.requestMapSeaLevel(for: size, leader: leader, handicap: handicap, age: age, rainfall: rainfall, climate: climate)
         })
                
         mapClimateDialog.addCancelAction(handler: {
@@ -168,7 +216,7 @@ extension MenuScene {
         self.cameraNode.add(dialog: mapClimateDialog)
     }
        
-    func requestMapSeaLevel(for size: MapSize, age: MapOptionAge, rainfall: MapOptionRainfall, climate: MapOptionClimate) {
+    func requestMapSeaLevel(for size: MapSize, leader: LeaderType, handicap: HandicapType, age: MapOptionAge, rainfall: MapOptionRainfall, climate: MapOptionClimate) {
            
         let mapSeaLevelDialog = MapSeaLevelDialog()
                
@@ -180,16 +228,18 @@ extension MenuScene {
                    
             mapSeaLevelDialog.close()
                
-            let options = MapOptions(withSize: size)
+            let options = MapOptions(withSize: size, leader: leader, handicap: handicap)
+            
             var enhancedOptions = MapOptionsEnhanced()
             enhancedOptions.age = age
             enhancedOptions.rainfall = rainfall
             enhancedOptions.climate = climate
             enhancedOptions.sealevel = seaLevel
+            enhancedOptions.resources = .standard // <== ???
+            
             options.enhanced = enhancedOptions
                
             self.generateMap(from: options)
-            //self.requestMapTemperature(for: size, age: age, rainfall: rainfall)
         })
                
         mapSeaLevelDialog.addCancelAction(handler: {
@@ -213,6 +263,7 @@ extension MenuScene {
         self.cameraNode.add(dialog: mapLoadingDialog)
             
         DispatchQueue.global(qos: .background).async {
+            
             self.generateMapAsync(from: options, progressHandler: { progress, text in
                 
                 DispatchQueue.main.async {
@@ -228,7 +279,7 @@ extension MenuScene {
         }
     }
     
-    func loadEarthMap(sized size: MapSize) {
+    func loadEarthMap(sized size: MapSize, leader: LeaderType, handicap: HandicapType) {
         
         let mapLoadingDialog = MapLoadingDialog()
             
@@ -253,7 +304,7 @@ extension MenuScene {
         }
         
         DispatchQueue.global(qos: .background).async {
-            self.loadMapAsync(from: url, progressHandler: { progress, text in
+            self.loadMapAsync(from: url, leader: leader, with: handicap, progressHandler: { progress, text in
                 
                 DispatchQueue.main.async {
                     mapLoadingDialog.showProgress(value: progress, text: text)
@@ -270,6 +321,7 @@ extension MenuScene {
     func generateMapAsync(from options: MapOptions, progressHandler: @escaping (Double, String) -> Void) {
         
         let generator = MapGenerator(with: options)
+        
         generator.progressHandler = { progress, text in
             progressHandler(progress, text)
         }
@@ -277,13 +329,13 @@ extension MenuScene {
         if let map = generator.generate() {
             self.rootNode.sharpWith(completion: {
                 DispatchQueue.main.async {
-                    self.menuDelegate?.startWith(map: map)
+                    self.menuDelegate?.startWith(map: map, leader: options.leader, handicap: options.handicap)
                 }
             })
         }
     }
     
-    func loadMapAsync(from url: URL?, progressHandler: @escaping (Double, String) -> Void) {
+    func loadMapAsync(from url: URL?, leader: LeaderType, with handicap: HandicapType, progressHandler: @escaping (Double, String) -> Void) {
         
         let mapLoader = MapLoader()
         if let map = mapLoader.load(from: url) {
@@ -311,7 +363,7 @@ extension MenuScene {
             self.rootNode.sharpWith(completion: {
                 DispatchQueue.main.async {
                     
-                    self.menuDelegate?.startWith(map: map)
+                    self.menuDelegate?.startWith(map: map, leader: leader, handicap: handicap)
                     print("ready 2")
                 }
             })

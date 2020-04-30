@@ -68,6 +68,7 @@ class CivicTests: XCTestCase {
          
         // game
         let gameModel = GameModel(victoryTypes: [.domination],
+                                   handicap: .chieftain,
                                    turnsElapsed: 0,
                                    players: [playerAlexander],
                                    on: mapModel)

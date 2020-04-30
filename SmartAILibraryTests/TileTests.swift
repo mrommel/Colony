@@ -100,4 +100,21 @@ class TileTests: XCTestCase {
         XCTAssertFalse(improvements!.contains(.quarry))
     }
 
+    func testContinentAssigned() {
+        
+        // GIVEN
+        self.objectToTest = Tile(point: HexPoint(x: 0, y: 0), terrain: .grass, hills: false)
+        
+        let mapModel = MapModel(size: MapSize.duel)
+        
+        let continent = Continent(identifier: 1, name: "Europa", on: mapModel)
+        continent.add(point: HexPoint(x: 0, y: 0))
+        
+        // WHEN
+        self.objectToTest?.set(continent: continent)
+        let isOnContinent = self.objectToTest?.isOn(continent: continent)
+        
+        // THEN
+        XCTAssertEqual(isOnContinent, true)
+    }
 }

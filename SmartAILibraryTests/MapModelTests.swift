@@ -92,6 +92,7 @@ class MapModelTests: XCTestCase {
         
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
+                                  handicap: .chieftain,
                                   turnsElapsed: 0,
                                   players: [playerAlexander],
                                   on: self.objectToTest!)
@@ -132,6 +133,7 @@ class MapModelTests: XCTestCase {
         
         // game
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic],
+                                  handicap: .chieftain,
                                   turnsElapsed: 0,
                                   players: [playerAlexander],
                                   on: self.objectToTest!)

@@ -14,12 +14,14 @@ public struct MapOptionsEnhanced {
     public var climate: MapOptionClimate
     public var sealevel: MapOptionSeaLevel
     public var rainfall: MapOptionRainfall
+    public var resources: MapOptionResources
     
     public init() {
         self.age = .normal
         self.climate = .temperate
         self.sealevel = .normal
         self.rainfall = .normal
+        self.resources = .abundant
     }
 }
 
@@ -27,11 +29,15 @@ public class MapOptions {
 
     let size: MapSize
     public var enhanced: MapOptionsEnhanced
+    public let leader: LeaderType
+    public let handicap: HandicapType
 
-    required public init(withSize size: MapSize, enhanced: MapOptionsEnhanced = MapOptionsEnhanced()) {
+    required public init(withSize size: MapSize, leader: LeaderType, handicap: HandicapType, enhanced: MapOptionsEnhanced = MapOptionsEnhanced()) {
 
         self.size = size
         self.enhanced = enhanced
+        self.leader = leader
+        self.handicap = handicap
     }
     
     var rivers: Int {
@@ -65,6 +71,27 @@ public class MapOptions {
             return 0.6
         case .high:
             return 0.6
+        }
+    }
+    
+    var numberOfPlayers: Int {
+        
+        switch self.size {
+
+        case .duel:
+            return 2
+        case .tiny:
+            return 3
+        case .small:
+            return 4
+        case .standard:
+            return 6
+        case .large:
+            return 8
+        case .huge:
+            return 10
+        default:
+            return 4
         }
     }
 }

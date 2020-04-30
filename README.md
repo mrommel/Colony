@@ -1,21 +1,28 @@
 # Colony
 
 ## Todo
+- add resources (incl show in layer) to maps
 - other leaders
 - advisor screen
 - tech select screen (/)
     - make scrollable (/)
+    - add classical techs
     - add missing techs
 - civic select screen (/)
     - make scrollable (/)
+    - add classical civics
     - add missing civics
 - enhance city screen
-    - distorted button
-    - add build queue
+    - defect: distorted button
+    - add build queue display / manage build queue
+    - show citizen
+    - show growth in x turns
     - add list of built items
 - fix UI of map overview
     - colors (/)
-- textures of mountains
+- textures of mountains - outskirts
+- map options
+    - yield icons
 
 ## Defects
 - starting locations are bad

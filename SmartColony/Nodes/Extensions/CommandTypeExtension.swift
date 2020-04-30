@@ -14,14 +14,14 @@ extension CommandType {
         
         switch self {
 
-        case .found: return "Command_Found"
-        case .buildFarm: return "Command_Farm"
-        case .buildMine: return "Command_Mine"
-        case .buildRoute: return "Command_Route"
-        case .pillage: return "Command_Pillage"
-        case .fortify: return "Command_Fortify"
-        case .hold: return "Command_Hold"
-        case .garrison: return "Command_Garrison"
+        case .found: return "command_found"
+        case .buildFarm: return "command_farm"
+        case .buildMine: return "command_mine"
+        case .buildRoute: return "command_route"
+        case .pillage: return "command_pillage"
+        case .fortify: return "command_fortify"
+        case .hold: return "command_hold"
+        case .garrison: return "command_garrison"
         }
     }
 }

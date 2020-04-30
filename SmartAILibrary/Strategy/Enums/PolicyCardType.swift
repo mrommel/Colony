@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PolicyCardSlotType {
+public enum PolicyCardSlotType {
 
     case military
     case economic
@@ -55,7 +55,7 @@ public enum PolicyCardType {
         ]
     }
 
-    func slot() -> PolicyCardSlotType {
+    public func slot() -> PolicyCardSlotType {
 
         switch self {
 

@@ -14,6 +14,23 @@ enum DialogResultType: String, Codable {
     case none
     case okay = "OKAY"
     case cancel = "CANCEL"
+    
+    // handicaps
+    case handicapSettler = "HANDICAP_SETTLER"
+    case handicapChieftain = "HANDICAP_CHIEFTAIN"
+    case handicapWarlord = "HANDICAP_WARLORD"
+    case handicapPrince = "HANDICAP_PRINCE"
+    case handicapKing = "HANDICAP_KING"
+    case handicapEmperor = "HANDICAP_EMPEROR"
+    case handicapImmortal = "HANDICAP_IMMORTAL"
+    case handicapDeity = "HANDICAP_DEITY"
+    
+    // leaders
+    case leaderAlexander = "LEADER_ALEXANDER"
+    case leaderAugustus = "LEADER_AUGUSTUS"
+    case leaderElizabeth = "LEADER_ELIZABETH"
+    case leaderMontezuma = "LEADER_MONTEZUMA"
+    case leaderNapoloen = "LEADER_NAPOLEAN"
 
     // map types
     case mapTypeEarth = "EARTH"
@@ -21,7 +38,7 @@ enum DialogResultType: String, Codable {
     case mapTypeContinents = "CONTINENTS"
     case mapTypeArchipelago = "ARCHIPELAGO"
     case mapTypeInlandsea = "INLANDSEA"
-    case mapTypeRandom = "TYPERANDOM"
+    case mapTypeCustom = "TYPECUSTOM"
 
     // map sizes
     case mapSizeHuge = "HUGE"
@@ -84,6 +101,7 @@ enum DialogResultType: String, Codable {
     case mysticism = "MYSTICISM"
     case militaryTradition = "MILITARYTRADITION"
 
+
     func toMapType() -> MapType {
 
         if self == .mapTypeEarth {
@@ -96,8 +114,8 @@ enum DialogResultType: String, Codable {
             return .continents
         } else if self == .mapTypeArchipelago {
             return .archipelago
-        } else if self == .mapTypeRandom {
-            return .random
+        } else if self == .mapTypeCustom {
+            return .custom
         }
 
         fatalError("niy")
@@ -117,6 +135,46 @@ enum DialogResultType: String, Codable {
             return .tiny
         }
 
+        fatalError("niy")
+    }
+    
+    func toHandicapType() -> HandicapType {
+        
+        if self == .handicapSettler {
+            return .settler
+        } else if self == .handicapChieftain {
+            return .chieftain
+        } else if self == .handicapWarlord {
+            return .warlord
+        } else if self == .handicapPrince {
+            return .prince
+        } else if self == .handicapKing {
+            return .king
+        } else if self == .handicapEmperor {
+            return .emperor
+        } else if self == .handicapImmortal {
+            return .immortal
+        } else if self == .handicapDeity {
+            return .deity
+        }
+        
+        fatalError("niy")
+    }
+    
+    func toLeaderType() -> LeaderType {
+        
+        if self == .leaderAugustus {
+            return .augustus
+        } else if self == .leaderAlexander {
+            return .alexander
+        } else if self == .leaderElizabeth {
+            return .elizabeth
+        } else if self == .leaderMontezuma {
+            return .montezuma
+        } else if self == .leaderNapoloen {
+            return .napoleon
+        }
+        
         fatalError("niy")
     }
 

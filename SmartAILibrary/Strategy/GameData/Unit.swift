@@ -135,9 +135,9 @@ public protocol AbstractUnit: class, Codable {
     func doDisembark(into point: HexPoint?, in gameModel: GameModel?) -> Bool
     func isEmbarked() -> Bool
     
-    func canFortify() -> Bool
-    func doFortify()
-    func setFortifiedThisTurn(fortified: Bool)
+    func canFortify(at point: HexPoint, in gameModel: GameModel?) -> Bool
+    func doFortify(in gameModel: GameModel?)
+    func doMobilize(in gameModel: GameModel?)
     
     func finishMoves()
     func resetMoves(in gameModel: GameModel?)
@@ -1307,6 +1307,9 @@ public class Unit: AbstractUnit {
             //auto_ptr<ICvUnit1> pDllUnit(new CvDllUnit(this));
             //gDLL->GameplayUnitVisibility(pDllUnit.get(), pNewPlot != NULL && !this->isInvisible(activeTeam, false));
             if newPlot.isVisible(to: gameModel.humanPlayer()) {
+                
+                // FIXME: no correct
+                self.location = newPlot.point
                 gameModel.userInterface?.show(unit: self)
             }
         }
@@ -1339,7 +1342,7 @@ public class Unit: AbstractUnit {
             gameModel.userInterface?.hide(unit: self)
         }
 
-        self.mobilize() // unfortify
+        self.doMobilize(in: gameModel) // unfortify
 
         // needs to be here so that the square is considered visible when we move into it...
         gameModel.sight(at: newLocation, sight: self.sight(), for: player)
@@ -1819,24 +1822,71 @@ public class Unit: AbstractUnit {
     
     // MARK: fortification
     
-    public func canFortify() -> Bool {
+    public func canFortify(at point: HexPoint, in gameModel: GameModel?) -> Bool {
         
-        return false // FIXME
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if player.isHuman() && self.fortifyValue == 0 {
+            // num firendly units
+        }
+        
+        // a unit can either fortify or garrison. Never both.
+        if self.canGarrison(at: point, in: gameModel) {
+            return false
+        }
+        
+        if !self.isFortifyable(canWaitForNextTurn: true, in: gameModel) {
+            return false
+        }
+
+        if self.isWaiting() {
+            return false
+        }
+
+        return true
     }
     
-    public func doFortify() {
+    func isFortifyable(canWaitForNextTurn: Bool, in gameModel: GameModel?) -> Bool {
         
-        self.fortifyValue += 1
-        fatalError("not implemented")
+        // Can't fortify if you've already used any moves this turn
+        if !canWaitForNextTurn {
+            if self.hasMoved(in: gameModel) {
+                return false
+            }
+        }
+
+        if !self.isEverFortifyable() {
+            return false
+        }
+
+        return true
     }
     
-    func mobilize() {
+    // Can this Unit EVER fortify? (may be redundant with some other stuff)
+    func isEverFortifyable() -> Bool {
+
+        /*|| noDefensiveBonus()*/
+        if !self.isCombatUnit()  || (self.domain() != .land && self.domain() != .immobile) {
+            return false
+        }
+
+        return true
+    }
+    
+    public func doFortify(in gameModel: GameModel?) {
+        
+        self.fortifyValue = 1
+        
+        // todo: notify UI
+    }
+    
+    public func doMobilize(in gameModel: GameModel?) {
         // opposite of fortify
         self.fortifyValue = 0
-    }
-    
-    public func setFortifiedThisTurn(fortified: Bool) {
-        fatalError("not implemented")
+        
+        // todo: notify UI
     }
     
     // MARK: experience
@@ -2859,7 +2909,7 @@ extension Unit {
                 return true
             }*/
         case .fortify:
-            if self.canFortify() {
+            if self.canFortify(at: self.location, in: gameModel) {
                 return true
             }
         case .alert:
@@ -3077,7 +3127,7 @@ extension Unit {
             }
         }
         
-        if self.canFortify() {
+        if self.canFortify(at: self.location, in: gameModel) {
             commandArray.append(Command(type: .fortify, location: self.location))
         }
         

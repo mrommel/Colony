@@ -794,36 +794,7 @@ public class GameModel {
 
     func river(at point: HexPoint) -> Bool {
 
-        guard let tile = self.map.tile(at: point) else {
-            return false
-        }
-
-        if tile.isRiver() {
-            return true
-        }
-
-        let neighborNW = point.neighbor(in: .northwest)
-        if let tileNW = self.map.tile(at: neighborNW) {
-            if tileNW.isRiverInSouthEast() {
-                return true
-            }
-        }
-
-        let neighborSW = point.neighbor(in: .southwest)
-        if let tileSW = self.map.tile(at: neighborSW) {
-            if tileSW.isRiverInNorthEast() {
-                return true
-            }
-        }
-
-        let neighborS = point.neighbor(in: .south)
-        if let tileS = self.map.tile(at: neighborS) {
-            if tileS.isRiverInNorth() {
-                return true
-            }
-        }
-
-        return false
+        return self.map.river(at: point)
     }
 
     func homeFront(at point: HexPoint, for player: AbstractPlayer) -> Bool {
@@ -854,26 +825,7 @@ public class GameModel {
 
     func isCoastal(at point: HexPoint) -> Bool {
 
-        guard let terrain = self.tile(at: point)?.terrain else {
-            fatalError("cant get terrain")
-        }
-
-        // we are only coastal if we are on land
-        if terrain().isWater() {
-            return false
-        }
-
-        for neighbor in point.neighbors() {
-
-            if let neighborTerrain = self.tile(at: neighbor)?.terrain {
-
-                if neighborTerrain().isWater() {
-                    return true
-                }
-            }
-        }
-
-        return false
+        return map.isCoastal(at: point)
     }
 
     // percentage of size compared standard map

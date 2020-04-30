@@ -356,7 +356,7 @@ public class City: AbstractCity {
                     try tile.set(owner: self.player)
                     try tile.setWorkingCity(to: self)
                 } catch {
-                    fatalError("cant set owner")
+                    //fatalError("cant set owner")
                 }
             }
         }

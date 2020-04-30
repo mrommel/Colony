@@ -47,6 +47,8 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         }
     }
     
+    // MARK: constructors
+    
     init() {
 
         self.items = []
@@ -61,11 +63,23 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         self.items = try container.decode([WeightedItem<T>].self, forKey: .items)
     }
     
+    // MARK: methods
+    
     func encode(to encoder: Encoder) throws {
         
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         try container.encode(self.items, forKey: .items)
+    }
+    
+    func has(itemType: T) -> Bool {
+        
+        return self.items.first(where: { $0.itemType == itemType }) != nil
+    }
+    
+    var count: Int {
+        
+        return self.items.count
     }
     
     func fill() {
@@ -77,7 +91,8 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         if let item = self.items.first(where: { $0.itemType == itemType }) {
             item.weight = weight
         } else {
-            fatalError("not gonna happen")
+            let newItem = WeightedItem<T>(itemType: itemType, weight: weight)
+            self.items.append(newItem)
         }
     }
 
@@ -86,7 +101,6 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         if let item = self.items.first(where: { $0.itemType == itemType }) {
             item.weight += weight
         } else {
-            //fatalError("not gonna happen")
             let newItem = WeightedItem<T>(itemType: itemType, weight: weight)
             self.items.append(newItem)
         }
@@ -97,7 +111,6 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         if let item = self.items.first(where: { $0.itemType == itemType }) {
             item.weight += Double(weight)
         } else {
-            //fatalError("not gonna happen")
             let newItem = WeightedItem<T>(itemType: itemType, weight: Double(weight))
             self.items.append(newItem)
         }
@@ -112,10 +125,6 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         }
     }
 
-    /*func sorted() -> [T] {
-
-        return self.items.sorted(by: { $0.weight > $1.weight }).map({ $0.itemType })
-    }*/
     func sort() {
 
         self.items.sort(by: { $0.weight > $1.weight })
