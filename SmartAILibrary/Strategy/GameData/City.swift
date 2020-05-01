@@ -223,7 +223,7 @@ public class City: AbstractCity {
         self.name = name
         self.location = location
         self.capitalValue = capital
-        self.populationValue = 1
+        self.populationValue = 0
 
         self.buildQueue = BuildQueue()
 
@@ -321,7 +321,6 @@ public class City: AbstractCity {
 
         self.cityStrategy = CityStrategyAI(city: self)
         self.cityCitizens = CityCitizens(city: self)
-        self.cityCitizens?.doFound(in: gameModel)
         
         // Update Proximity between this Player and all others
         for otherPlayer in gameModel.players {
@@ -361,7 +360,11 @@ public class City: AbstractCity {
             }
         }
         
+        self.cityCitizens?.doFound(in: gameModel)
+        
         self.player?.updatePlots(in: gameModel)
+        
+        self.set(population: 1, in: gameModel)
     }
     
     public func doFoundMessage() {
@@ -564,8 +567,16 @@ public class City: AbstractCity {
                 foodValue = 2.0
             }
         }
-        
+
         for point in cityCitizens.workingTileLocations() {
+            
+            // DEBUG
+            /*if cityCitizens.isWorked(at: point) {
+                print("-- working tile at: \(point)")
+            } else {
+                print("-- non working tile at: \(point)")
+            }*/
+            
             if cityCitizens.isWorked(at: point) {
                 if let adjacentTile = gameModel.tile(at: point) {
                     foodValue += adjacentTile.yields(for: self.player, ignoreFeature: false).food

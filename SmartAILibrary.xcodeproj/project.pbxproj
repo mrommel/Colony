@@ -212,6 +212,7 @@
 		C9FE141024140F8B008CC6B3 /* HomelandAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FE140F24140F8B008CC6B3 /* HomelandAI.swift */; };
 		C9FE1412241517D2008CC6B3 /* UnitMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FE1411241517D2008CC6B3 /* UnitMission.swift */; };
 		C9FE141424154B93008CC6B3 /* RegionFinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FE141324154B93008CC6B3 /* RegionFinderTests.swift */; };
+		C9FEEB9C245B5C2E00C51552 /* CityCitizensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FEEB9B245B5C2E00C51552 /* CityCitizensTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -432,6 +433,7 @@
 		C9FE140F24140F8B008CC6B3 /* HomelandAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomelandAI.swift; sourceTree = "<group>"; };
 		C9FE1411241517D2008CC6B3 /* UnitMission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMission.swift; sourceTree = "<group>"; };
 		C9FE141324154B93008CC6B3 /* RegionFinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFinderTests.swift; sourceTree = "<group>"; };
+		C9FEEB9B245B5C2E00C51552 /* CityCitizensTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCitizensTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -624,6 +626,7 @@
 				C9D8DF7523EF6D0B0091C917 /* DiplomacyAITests.swift */,
 				C98DBFA923DF34ED00B6CE25 /* CityTests.swift */,
 				C965A53723FD186E00BCEB54 /* CityStrategyAITests.swift */,
+				C9FEEB9B245B5C2E00C51552 /* CityCitizensTests.swift */,
 				C98DBFB123E0580E00B6CE25 /* TileTests.swift */,
 				C98DBFB723E0D86000B6CE25 /* TechTests.swift */,
 				C9F76AAE243314B80018672A /* CivicTests.swift */,
@@ -1135,6 +1138,7 @@
 			files = (
 				C92D220923E1DC3300BB9238 /* PlayerTechTests.swift in Sources */,
 				C92317BD23D6EAB5001FC723 /* HierarchicalStateMachineTests.swift in Sources */,
+				C9FEEB9C245B5C2E00C51552 /* CityCitizensTests.swift in Sources */,
 				C9DFCF7A23F2AFB10032243D /* MapModelTests.swift in Sources */,
 				C92D221523E2118400BB9238 /* GovernmentTypeTests.swift in Sources */,
 				C965A53823FD186E00BCEB54 /* CityStrategyAITests.swift in Sources */,

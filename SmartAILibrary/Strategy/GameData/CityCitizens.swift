@@ -93,17 +93,30 @@ public class CityCitizens {
     
     // internal classes
     
-    struct WorkingPlot {
+    class WorkingPlot {
         
         let location: HexPoint
         var worked: Bool
         var workedForced: Bool = false
+        
+        init(location: HexPoint, worked: Bool, workedForced: Bool = false) {
+            
+            self.location = location
+            self.worked = worked
+            self.workedForced = workedForced
+        }
     }
     
-    struct SpecialistBuildingTuple {
+    class SpecialistBuildingTuple {
         
         let buildingType: BuildingType
         var specialists: Int
+        
+        init(buildingType: BuildingType, specialists: Int) {
+            
+            self.buildingType = buildingType
+            self.specialists = specialists
+        }
     }
     
     // MARK: constructor
@@ -148,8 +161,6 @@ public class CityCitizens {
         
         // always work the home plot (center)
         self.setWorked(at: city.location, worked: true, useUnassignedPool: false)
-        
-        self.doAddBestCitizenFromUnassigned(in: gameModel)
     }
     
     func doTurn(with gameModel: GameModel?) {
@@ -173,6 +184,8 @@ public class CityCitizens {
         guard let economicAI = player.economicAI else {
             fatalError("no economicAI set")
         }
+        
+        // print("working: \(self.numCitizensWorkingPlots()) + spec: \(self.totalSpecialistCount()) + unassigned: \(self.numUnassignedCitizens()) for \(city.population())")
         
         self.doVerifyWorkingPlots(in: gameModel)
 
@@ -270,7 +283,24 @@ public class CityCitizens {
             }
         }
 
+        // print("working: \(self.numCitizensWorkingPlots()) + spec: \(self.totalSpecialistCount()) + unassigned: \(self.numUnassignedCitizens()) for \(city.population())")
+        
         self.doReallocateCitizens(in: gameModel)
+        
+        assert((self.numCitizensWorkingPlots() + self.totalSpecialistCount() + self.numUnassignedCitizens()) <= city.population(), "Gameplay: More workers than population in the city.")
+        // print("working: \(self.numCitizensWorkingPlots()) + spec: \(self.totalSpecialistCount()) + unassigned: \(self.numUnassignedCitizens()) for \(city.population())")
+    }
+    
+    /// Count up all the Specialists we have here
+    func totalSpecialistCount() -> Int {
+        
+        var numSpecialists = 0
+        
+        for specialistType in SpecialistType.all {
+            numSpecialists += self.specialistCount(of: specialistType)
+        }
+
+        return numSpecialists
     }
     
     /// Optimize our Citizen Placement
@@ -1439,7 +1469,8 @@ public class CityCitizens {
             return false
         }
 
-        if tile.yields(for: self.city?.player, ignoreFeature: false).culture <= 0 {
+        let yields = tile.yields(for: self.city?.player, ignoreFeature: false)
+        if yields.food <= 0 && yields.production <= 0 && yields.gold <= 0 && yields.science <= 0 && yields.culture <= 0 {
             return false
         }
 

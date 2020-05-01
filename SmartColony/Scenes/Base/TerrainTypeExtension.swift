@@ -11,22 +11,41 @@ import SmartAILibrary
 
 extension TerrainType {
     
-    func textureNameHex() -> [String] {
+    func textureNames() -> [String] {
         switch self {
             case .ocean:
-                return ["hex_ocean"]
+                return ["terrain_ocean"]
             case .shore:
-                return ["hex_shore"]
+                return ["terrain_shore"]
             case .plains:
-                return ["hex_plains"]
+                return ["terrain_plains"]
             case .grass:
-                return ["hex_grass"]
+                return ["terrain_grass"]
             case .desert:
-                return ["hex_desert"]
+                return ["terrain_desert"]
             case .tundra:
-                return ["hex_tundra"]
+                return ["terrain_tundra", "terrain_tundra2", "terrain_tundra3"]
             case .snow:
-                return ["hex_snow"]
+                return ["terrain_snow"]
+        }
+    }
+    
+    func textureNamesHills() -> [String] {
+        switch self {
+            case .ocean:
+                return []
+            case .shore:
+                return []
+            case .plains:
+                return ["terrain_plains_hills", "terrain_plains_hills2", "terrain_plains_hills3"]
+            case .grass:
+                return ["terrain_grass_hills", "terrain_grass_hills2", "terrain_grass_hills3"]
+            case .desert:
+                return ["terrain_desert_hills", "terrain_desert_hills2", "terrain_desert_hills3"]
+            case .tundra:
+                return ["terrain_tundra_hills"]
+            case .snow:
+                return ["terrain_snow_hills", "terrain_snow_hills2", "terrain_snow_hills3"]
         }
     }
     

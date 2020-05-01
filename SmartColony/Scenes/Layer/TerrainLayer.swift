@@ -66,7 +66,11 @@ class TerrainLayer: SKNode {
         if let coastTexture = self.textureUtils?.coastTexture(at: tile.point) {
             textureName = coastTexture
         } else {
-            textureName = tile.terrain().textureNameHex().randomItem()
+            if tile.hasHills() {
+                textureName = tile.terrain().textureNamesHills().randomItem()
+            } else {
+                textureName = tile.terrain().textureNames().randomItem()
+            }
         }
 
         let terrainSprite = SKSpriteNode(imageNamed: textureName)
@@ -95,24 +99,6 @@ class TerrainLayer: SKNode {
                 self.textureUtils?.set(snowSprite: snowSprite, at: tile.point)
             }
         }
-        
-        // mountain
-        /*if tile.terrain != .mountain {
-            if let tilePoint = tile.point {
-                if let mountainTexture = self.map?.mountainTexture(at: tilePoint) {
-                    
-                    let mountainSprite = SKSpriteNode(imageNamed: mountainTexture)
-                    mountainSprite.position = position
-                    mountainSprite.zPosition = GameScene.Constants.ZLevels.mountain
-                    mountainSprite.anchorPoint = CGPoint(x: 0, y: 0)
-                    mountainSprite.color = .black
-                    mountainSprite.colorBlendFactor = 1.0 - alpha
-                    self.addChild(mountainSprite)
-
-                    tile.mountainSprite = mountainSprite
-                }
-            }
-        }*/
     }
     
     func clear(tile: AbstractTile?) {
