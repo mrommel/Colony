@@ -9,7 +9,7 @@
 import SpriteKit
 import SmartAILibrary
 
-class BaseProgressNode: SKNode {
+class BaseProgressNode: SizedNode {
 
     // variables
     let progressBarType: ProgressBarType
@@ -37,19 +37,19 @@ class BaseProgressNode: SKNode {
         self.eureka = eureka
         self.progress = progress
 
-        super.init()
-
+        super.init(sized: CGSize(width: 200, height: 64))
+        
+        self.anchorPoint = .lowerLeft
+        
         // background
         let backgroundTexture = SKTexture(imageNamed: "science_progress")
         self.backgroundNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: CGSize(width: 200, height: 64))
-        self.backgroundNode?.position = CGPoint(x: 0.0, y: 0.0)
         self.backgroundNode?.anchorPoint = CGPoint.upperLeft
         self.backgroundNode?.zPosition = self.zPosition
         super.addChild(self.backgroundNode!)
 
         // name
         self.labelNode = SKLabelNode(text: self.title)
-        self.labelNode?.position = CGPoint(x: 44, y: 1)
         self.labelNode?.zPosition = self.zPosition + 1
         self.labelNode?.fontSize = 16
         self.labelNode?.fontName = Globals.Fonts.customFontFamilyname
@@ -62,7 +62,6 @@ class BaseProgressNode: SKNode {
 
         // progress
         self.progressNode = CircularProgressBarNode(type: self.progressBarType, size: CGSize(width: 40, height: 40))
-        self.progressNode?.position = CGPoint(x: 21, y: -23)
         self.progressNode?.zPosition = self.zPosition + 1
         self.progressNode?.anchorPoint = CGPoint.middleCenter
         self.progressNode?.value = self.progress
@@ -71,14 +70,12 @@ class BaseProgressNode: SKNode {
         // icon
         let iconTexture = SKTexture(imageNamed: self.iconTexture)
         self.iconNode = SKSpriteNode(texture: iconTexture, size: CGSize(width: 28, height: 28))
-        self.iconNode?.position = CGPoint(x: 21, y: -23)
         self.iconNode?.zPosition = self.zPosition + 2
         self.iconNode?.anchorPoint = CGPoint.middleCenter
         self.addChild(self.iconNode!)
 
         // eureka
         self.eurekaNode = SKLabelNode(text: self.eureka)
-        self.eurekaNode?.position = CGPoint(x: 53, y: -50)
         self.eurekaNode?.zPosition = self.zPosition + 1
         self.eurekaNode?.fontSize = 10
         self.eurekaNode?.fontName = Globals.Fonts.customFontFamilyname
@@ -91,7 +88,6 @@ class BaseProgressNode: SKNode {
         
         // turns remaining
         self.turnsRemainingNode = SKLabelNode(text: "?")
-        self.turnsRemainingNode?.position = CGPoint(x: 20, y: -50)
         self.turnsRemainingNode?.zPosition = self.zPosition + 1
         self.turnsRemainingNode?.fontSize = 6
         self.turnsRemainingNode?.fontName = Globals.Fonts.customFontFamilyname
@@ -127,6 +123,16 @@ class BaseProgressNode: SKNode {
         self.addChild(newIconNode)
 
         self.iconNodes.append(newIconNode)
+    }
+    
+    override func updateLayout() {
+        
+        self.backgroundNode?.position = self.position + CGPoint(x: 0.0, y: 0.0)
+        self.labelNode?.position = self.position + CGPoint(x: 44, y: 1)
+        self.progressNode?.position = self.position + CGPoint(x: 21, y: -23)
+        self.iconNode?.position = self.position + CGPoint(x: 21, y: -23)
+        self.eurekaNode?.position = self.position + CGPoint(x: 53, y: -50)
+        self.turnsRemainingNode?.position = self.position + CGPoint(x: 20, y: -50)
     }
 }
 

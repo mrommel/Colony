@@ -257,6 +257,8 @@ class GameScene: BaseScene {
         }
         self.scienceProgressNode?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight - offsetY - 86.0 + scienceProgressNodeDelta)
         self.cultureProgressNode?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight - offsetY - 150.0 + cultureProgressNodeDelta)
+        self.scienceProgressNode?.updateLayout()
+        self.cultureProgressNode?.updateLayout()
 
         self.scienceYield?.position = CGPoint(x: -self.frame.halfWidth + 10, y: frame.halfHeight - offsetY - 2)
         self.cultureYield?.position = CGPoint(x: -self.frame.halfWidth + 75, y: frame.halfHeight - offsetY - 2)
@@ -540,6 +542,16 @@ class GameScene: BaseScene {
         
         guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
             print("touch ended in left bar")
+            return
+        }
+        
+        guard let scienceProgressNode = self.scienceProgressNode, self.scienceProgressNodeHidden, !scienceProgressNode.frame.contains(cameraLocation) else {
+            print("science progress touched")
+            return
+        }
+        
+        guard let cultureProgressNode = self.cultureProgressNode, self.cultureProgressNodeHidden, !cultureProgressNode.frame.contains(cameraLocation) else {
+            print("culture progress touched")
             return
         }
 
