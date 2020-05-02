@@ -92,7 +92,6 @@ class MapNode: SKNode {
         self.addChild(self.cityLayer)
         self.addChild(self.improvementLayer)
         self.addChild(self.borderLayer)
-        self.addChild(self.yieldLayer)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -113,6 +112,16 @@ class MapNode: SKNode {
         let hideAction = SKAction.run { crossSprite.removeFromParent() }
         
         crossSprite.run(SKAction.sequence([delayAction, hideAction]))
+    }
+    
+    func showYields() {
+        
+        self.addChild(self.yieldLayer)
+    }
+    
+    func hideYields() {
+        
+        self.yieldLayer.removeFromParent()
     }
 
     func updateLayout() {

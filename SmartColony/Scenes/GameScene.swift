@@ -622,6 +622,14 @@ extension GameScene: BottomRightBarDelegate {
 
         self.centerCamera(on: point)
     }
+    
+    func showYields() {
+        self.mapNode?.showYields()
+    }
+    
+    func hideYields() {
+        self.mapNode?.hideYields()
+    }
 }
 
 extension GameScene: BottomLeftBarDelegate {

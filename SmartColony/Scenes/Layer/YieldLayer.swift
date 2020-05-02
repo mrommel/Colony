@@ -70,8 +70,6 @@ class YieldLayer: SKNode {
         // yield textures
         if let textureName = textureUtils.yieldTexture(for: yields) {
 
-        
-        
         let yieldsSprite = SKSpriteNode(imageNamed: textureName)
         yieldsSprite.position = position
         yieldsSprite.zPosition = tile.terrain().zLevel
