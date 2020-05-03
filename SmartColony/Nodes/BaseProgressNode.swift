@@ -39,7 +39,7 @@ class BaseProgressNode: SizedNode {
 
         super.init(sized: CGSize(width: 200, height: 64))
         
-        self.anchorPoint = .lowerLeft
+        self.anchorPoint = .upperLeft
         
         // background
         let backgroundTexture = SKTexture(imageNamed: "science_progress")

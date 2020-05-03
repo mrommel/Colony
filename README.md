@@ -23,15 +23,39 @@
 - textures of mountains - outskirts
 - map options
     - yield icons
+- rework river generation
+    - A river will also turn adjacent flat desert tiles into flood plains, adjacent snow tiles to tundra tiles, and adjacent tundra tiles to plains.
+
 
 ## Defects
-- starting locations are bad
-- second unit is sometimes in water
 - unit is below city banner
-- unit is placed by dialog button click
+- players are placed to closely
 
 ## Missing Tiles
-- snow-to-water-n-sw-nw
+- snow-se-sw
+- snow-ne-se-sw-nw
+- snow-ne-se-s-sw-nw
+- snow-n-ne-se-sw-nw
+- snow-n-ne-s-sw
+- snow-n-ne-se-sw
+- snow-ne-sw-nw
+- snow-n-se-s
+- snow-se-s-nw
+- resource_pearls
+- resource_uranium
+- resource_niter
+- resource_oil
+- resource_silk
+- yield_2_0_1
+- yield_1_2_1
+- yield_1_2_3
+- yield_3_2_0
+- yield_3_0_1
+- yield_3_1_0
+- yield_2_0_3
+- yield_1_0_3
+- yield_0_1_1
+- yield_2_1_3
 
 ## Done
 - show border of owned land

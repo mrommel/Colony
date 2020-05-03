@@ -334,9 +334,13 @@ public class MapGenerator {
         return resourceCount
     }
     
-    func canPlace(resource: ResourceType, at point: HexPoint) -> Bool {
+    func canPlace(resource: ResourceType, at tile: AbstractTile?, on grid: MapModel?) -> Bool {
         
-        return true
+        if let tile = tile {
+            return tile.canHave(resource: resource, ignoreLatitude: true, in: grid)
+        }
+        
+        return false
     }
     
     func addNonUnique(resource: ResourceType, on grid: MapModel?) {
@@ -363,9 +367,9 @@ public class MapGenerator {
         
         for point in points {
             
-            if self.canPlace(resource: resource, at: point) {
+            if let tile = grid.tile(at: point) {
                 
-                if let tile = grid.tile(at: point) {
+                if self.canPlace(resource: resource, at: tile, on: grid) {
                     
                     let resourceNum = 50 + Int.random(maximum: 20) // FIXME
                 
@@ -437,24 +441,24 @@ public class MapGenerator {
 
 	func updateBiomeForSubpolar(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
 
-        if elevation > 0.9 {
+        if elevation > 0.9 && Double.random > 0.5 {
             grid?.set(feature: .mountains, at: point)
             grid?.set(terrain: .snow, at: point)
             return
         }
         
-        if elevation > 0.75 {
+        if elevation > 0.75 && Double.random > 0.5 {
             grid?.set(hills: true, at: point)
             grid?.set(terrain: .snow, at: point)
             return
         }
         
-		if elevation > 0.5 {
+		if elevation > 0.5 && Double.random > 0.2 {
             grid?.set(terrain: .snow, at: point)
 			return
 		}
 
-        if moisture > 0.5 && Double.random > 0.8 {
+        if moisture > 0.5 && Double.random > 0.5 {
             grid?.set(feature: .forest, at: point)
         }
         grid?.set(terrain: .tundra, at: point)
@@ -463,13 +467,13 @@ public class MapGenerator {
 
 	func updateBiomeForTemperate(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
 
-        if elevation > 0.9 {
+        if elevation > 0.9 && Double.random > 0.5 {
             grid?.set(feature: .mountains, at: point)
             grid?.set(terrain: .grass, at: point)
             return
         }
         
-        if elevation > 0.8 {
+        if elevation > 0.8 && Double.random > 0.5 {
             grid?.set(hills: true, at: point)
             grid?.set(terrain: .grass, at: point)
             return
@@ -479,7 +483,7 @@ public class MapGenerator {
 			grid?.set(terrain: .plains, at: point)
             return
 		} else {
-            if Double.random > 0.8 {
+            if Double.random > 0.5 {
                 grid?.set(feature: .forest, at: point)
             }
 			grid?.set(terrain: .grass, at: point)
@@ -489,23 +493,29 @@ public class MapGenerator {
 
 	func updateBiomeForSubtropic(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
 
-		if elevation > 0.9 {
+		if elevation > 0.9 && Double.random > 0.5 {
 			grid?.set(feature: .mountains, at: point)
             grid?.set(terrain: .grass, at: point)
             return
 		}
         
-        if elevation > 0.8 {
+        if elevation > 0.8 && Double.random > 0.5 {
             grid?.set(hills: true, at: point)
             grid?.set(terrain: .plains, at: point)
             return
         }
 
 		if moisture < 0.2 {
-            if Double.random > 0.9 {
-                grid?.set(feature: .oasis, at: point)
+            if Double.random < 0.3 {
+                // 30% desert
+                if Double.random > 0.9 {
+                    grid?.set(feature: .oasis, at: point)
+                }
+                grid?.set(terrain: .desert, at: point)
+            } else {
+                // 70% plains
+                grid?.set(terrain: .plains, at: point)
             }
-			grid?.set(terrain: .desert, at: point)
             return
 		} else if moisture < 0.6 {
             if moisture > 0.5 && Double.random > 0.8 {
@@ -524,23 +534,31 @@ public class MapGenerator {
 
 	func updateBiomeForTropic(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
 
-		if elevation > 0.9 {
+		if elevation > 0.9 && Double.random > 0.5 {
 			grid?.set(feature: .mountains, at: point)
             grid?.set(terrain: .plains, at: point)
             return
 		}
         
-        if elevation > 0.8 {
+        if elevation > 0.8 && Double.random > 0.5 {
             grid?.set(hills: true, at: point)
             grid?.set(terrain: .plains, at: point)
             return
         }
 
+        // arid
 		if moisture < 0.3 {
-            if Double.random > 0.9 {
-                grid?.set(feature: .oasis, at: point)
+            
+            if Double.random < 0.4 {
+                // 70% desert
+                if Double.random > 0.9 {
+                    grid?.set(feature: .oasis, at: point)
+                }
+                grid?.set(terrain: .desert, at: point)
+            } else {
+                // 30% plains
+                grid?.set(terrain: .plains, at: point)
             }
-			grid?.set(terrain: .desert, at: point)
             return
 		} else {
             if moisture > 0.5 && Double.random > 0.8 {
@@ -561,7 +579,7 @@ public class MapGenerator {
 			for y in 0..<height {
 
 				if let height = heightMap[x, y] {
-					if height > 0.9 {
+					if height > 0.8 {
 						let gridPoint = HexPoint(x: x, y: y)
 						self.springLocations.append(gridPoint)
 					}
@@ -677,9 +695,33 @@ public class MapGenerator {
 
 	func put(rivers: [River], onto grid: MapModel?) {
 
+        // put river to map
 		for river in rivers {
             grid?.add(river: river)
 		}
+        
+        // update terrain if terrain is adjacent to river
+        // A river will also turn adjacent flat desert tiles into flood plains, adjacent snow tiles to tundra tiles, and adjacent tundra tiles to plains.
+        for x in 0..<width {
+            for y in 0..<height {
+                if let tile = grid?.tile(x: x, y: y) {
+                
+                    if tile.isRiver() {
+                        if tile.terrain() == .desert {
+                            tile.set(feature: .floodplains)
+                        }
+                        
+                        if tile.terrain() == .tundra {
+                            tile.set(terrain: .plains)
+                        }
+                        
+                        if tile.terrain() == .snow {
+                            tile.set(terrain: .tundra)
+                        }
+                    }
+                }
+            }
+        }
 	}
     
     // MARK: 5th continents

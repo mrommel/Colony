@@ -941,6 +941,11 @@ public class GameModel {
         return false
     }
     
+    public func isFreshWater(at point: HexPoint) -> Bool {
+        
+        return self.map.isFreshWater(at: point)
+    }
+    
     
     func isWithinCityRadius(plot: AbstractTile?, of player: AbstractPlayer?) -> Bool {
         

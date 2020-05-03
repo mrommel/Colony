@@ -165,9 +165,7 @@ class MapOverviewNode: SKSpriteNode {
     
     func changed(at pt: HexPoint) {
 
-        DispatchQueue.main.async() {
-            self.updateBufferAt(x: pt.x, y: pt.y)
-            self.updateTextureFromBuffer()
-        }
+        self.updateBufferAt(x: pt.x, y: pt.y)
+        self.updateTextureFromBuffer()
     }
 }

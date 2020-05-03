@@ -144,6 +144,7 @@ public protocol AbstractTile: Codable {
     func isRiverInSouthEast() -> Bool
     func isRiverToCross(towards target: AbstractTile) -> Bool
     func set(river: River?, with flow: FlowDirection) throws
+    func isRiverIn(flow: FlowDirection) -> Bool
 
     func movementCost(for movementType: UnitMovementType, from source: AbstractTile) -> Double
 

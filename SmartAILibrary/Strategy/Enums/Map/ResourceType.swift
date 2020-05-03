@@ -69,7 +69,7 @@ public enum ResourceType: Int, Codable {
             .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .fish,
 
             // luxury
-            .marble, .gems, .furs, .citrus, tea, .whales, .pearls, .whales, .pearls, .ivory, .wine, .cotton, .dyes, .incense, .silk, .silver, .gold, .spices,
+            .marble, .gems, .furs, .citrus, tea, .whales, .pearls, .ivory, .wine, .cotton, .dyes, .incense, .silk, .silver, .gold, .spices,
 
             // strategic
             .horses, .iron, .coal, .oil, .aluminium, .uranium, .niter
@@ -677,7 +677,7 @@ public enum ResourceType: Int, Codable {
         case .marble:
             return terrain == .grass || terrain == .plains
         case .gems:
-            return terrain == .grass || terrain == .plains || terrain == .desert || terrain == .tundra
+            return terrain == .grass || terrain == .plains || terrain == .desert || terrain == .tundra
         case .furs:
             return terrain == .tundra
         case .citrus:

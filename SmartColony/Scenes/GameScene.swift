@@ -255,8 +255,8 @@ class GameScene: BaseScene {
         if self.cultureProgressNodeHidden {
             cultureProgressNodeDelta = 400.0
         }
-        self.scienceProgressNode?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight - offsetY - 86.0 + scienceProgressNodeDelta)
-        self.cultureProgressNode?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight - offsetY - 150.0 + cultureProgressNodeDelta)
+        self.scienceProgressNode?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight - offsetY - 22.0 + scienceProgressNodeDelta)
+        self.cultureProgressNode?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight - offsetY - 86 + cultureProgressNodeDelta)
         self.scienceProgressNode?.updateLayout()
         self.cultureProgressNode?.updateLayout()
 
@@ -545,14 +545,20 @@ class GameScene: BaseScene {
             return
         }
         
-        guard let scienceProgressNode = self.scienceProgressNode, self.scienceProgressNodeHidden, !scienceProgressNode.frame.contains(cameraLocation) else {
-            print("science progress touched")
-            return
+        if let scienceProgressNode = self.scienceProgressNode {
+            
+            if !self.scienceProgressNodeHidden && scienceProgressNode.contains(cameraLocation) {
+                print("science progress touched")
+                return
+            }
         }
         
-        guard let cultureProgressNode = self.cultureProgressNode, self.cultureProgressNodeHidden, !cultureProgressNode.frame.contains(cameraLocation) else {
-            print("culture progress touched")
-            return
+        if let cultureProgressNode = self.cultureProgressNode {
+            
+            if !self.cultureProgressNodeHidden && cultureProgressNode.contains(cameraLocation) {
+                print("culture progress touched")
+                return
+            }
         }
 
         guard self.uiTurnState == .humanTurns else {
@@ -641,6 +647,14 @@ extension GameScene: BottomRightBarDelegate {
     
     func hideYields() {
         self.mapNode?.hideYields()
+    }
+    
+    func showWater() {
+        self.mapNode?.showWater()
+    }
+    
+    func hideWater() {
+        self.mapNode?.hideWater()
     }
 }
 
@@ -1017,7 +1031,9 @@ extension GameScene: UserInterfaceProtocol {
 
     func refresh(tile: AbstractTile?) {
         
-        self.mapNode?.update(tile: tile)
-        self.bottomRightBar?.update(tile: tile)
+        DispatchQueue.main.async() {
+            self.mapNode?.update(tile: tile)
+            self.bottomRightBar?.update(tile: tile)
+        }
     }
 }

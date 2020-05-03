@@ -431,7 +431,7 @@ public class MapModel: Codable {
         return false
     }
     
-    func isFreshWater(at point: HexPoint) -> Bool {
+    public func isFreshWater(at point: HexPoint) -> Bool {
         
         if let tile = self.tile(at: point) {
             
@@ -450,7 +450,7 @@ public class MapModel: Codable {
                         return true
                     }
                     
-                    if loopTile.feature() != .oasis {
+                    if loopTile.feature() == .oasis {
                         return true
                     }
                 }

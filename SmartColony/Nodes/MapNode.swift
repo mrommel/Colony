@@ -18,7 +18,10 @@ class MapNode: SKNode {
     var resourceLayer: ResourceLayer
     var boardLayer: BoardLayer
     var riverLayer: RiverLayer
+    
+    // can be shown by map options
     var yieldLayer: YieldLayer
+    var waterLayer: WaterLayer
     
     var unitLayer: UnitLayer
     var cityLayer: CityLayer
@@ -80,6 +83,10 @@ class MapNode: SKNode {
         self.yieldLayer.populate(with: self.game)
         self.yieldLayer.zPosition = Globals.ZLevels.yields
         
+        self.waterLayer = WaterLayer(player: humanPlayer)
+        self.waterLayer.populate(with: self.game)
+        self.waterLayer.zPosition = Globals.ZLevels.water
+        
         super.init()
         self.zPosition = 0
 
@@ -100,20 +107,6 @@ class MapNode: SKNode {
     
     // MARK: methods
     
-    func showCross(at hex: HexPoint) {
-        
-        let crossSprite = SKSpriteNode(imageNamed: "cross")
-        crossSprite.position = HexPoint.toScreen(hex: hex)
-        crossSprite.zPosition = 500
-        crossSprite.anchorPoint = CGPoint(x: 0, y: 0)
-        self.addChild(crossSprite)
-        
-        let delayAction = SKAction.wait(forDuration: 0.5)
-        let hideAction = SKAction.run { crossSprite.removeFromParent() }
-        
-        crossSprite.run(SKAction.sequence([delayAction, hideAction]))
-    }
-    
     func showYields() {
         
         self.addChild(self.yieldLayer)
@@ -122,6 +115,16 @@ class MapNode: SKNode {
     func hideYields() {
         
         self.yieldLayer.removeFromParent()
+    }
+    
+    func showWater() {
+        
+        self.addChild(self.waterLayer)
+    }
+    
+    func hideWater() {
+        
+        self.waterLayer.removeFromParent()
     }
 
     func updateLayout() {
@@ -134,8 +137,11 @@ class MapNode: SKNode {
         self.borderLayer.update(tile: tile)
         self.featureLayer.update(tile: tile)
         self.resourceLayer.update(tile: tile)
+        self.riverLayer.update(tile: tile)
         self.improvementLayer.update(tile: tile)
         self.boardLayer.update(tile: tile)
+        
         self.yieldLayer.update(tile: tile)
+        self.waterLayer.update(tile: tile)
     }
 }

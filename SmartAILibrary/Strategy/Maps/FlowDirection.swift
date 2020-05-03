@@ -25,7 +25,7 @@ public enum FlowDirection: String, Codable {
     case northEast = "ne"
     case southWest = "sw"
 
-    static var all: [FlowDirection] {
+    public static var all: [FlowDirection] {
         return [.west, .east, .northWest, .southEast, .northEast, .southWest]
     }
     

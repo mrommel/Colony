@@ -45,19 +45,19 @@ public class MapOptions {
         switch self.size {
 
         case .duel:
-            return 4
+            return 14
         case .tiny:
-            return 5
+            return 16
         case .small:
-            return 6
+            return 18
         case .standard:
-            return 10
-        case .large:
-            return 15
-        case .huge:
             return 20
+        case .large:
+            return 24
+        case .huge:
+            return 28
         default:
-            return 0
+            return 8
         }
     }
     

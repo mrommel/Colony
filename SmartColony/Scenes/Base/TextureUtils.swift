@@ -29,6 +29,8 @@ class TextureUtils {
         var iceSprite: SKSpriteNode? = nil
         var borderSprite: SKSpriteNode? = nil
         var yieldsSprite: SKSpriteNode? = nil
+        var waterSprite: SKSpriteNode? = nil
+        var riverSprite: SKSpriteNode? = nil
         
         init(point: HexPoint) {
             
@@ -144,6 +146,28 @@ class TextureUtils {
         
         return self.tileTextures?[point.x, point.y]?.yieldsSprite
     }
+    
+    func set(waterSprite: SKSpriteNode?, at point: HexPoint) {
+        
+        self.tileTextures?[point.x, point.y]?.waterSprite = waterSprite
+    }
+    
+    func waterSprite(at point: HexPoint) -> SKSpriteNode? {
+        
+        return self.tileTextures?[point.x, point.y]?.waterSprite
+    }
+    
+    func set(riverSprite: SKSpriteNode?, at point: HexPoint) {
+        
+        self.tileTextures?[point.x, point.y]?.riverSprite = riverSprite
+    }
+    
+    func riverSprite(at point: HexPoint) -> SKSpriteNode? {
+        
+        return self.tileTextures?[point.x, point.y]?.riverSprite
+    }
+
+    // MARK -
     
     func coastTexture(at point: HexPoint) -> String? {
         
@@ -314,6 +338,91 @@ class TextureUtils {
         }
 
         return nil
+    }
+    
+    func riverTexture(at point: HexPoint) -> String? {
+        
+        guard let gameModel = self.gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let tile = gameModel.tile(at: point) else {
+            return nil
+        }
+        
+        if !tile.isRiver() {
+            
+            // river deltas can be at ocean only
+            if tile.terrain() == .shore || tile.terrain() == .ocean {
+                
+                let southwestNeightbor = point.neighbor(in: .southwest)
+                if let southwestTile = gameModel.tile(at: southwestNeightbor) {
+                    
+                    // 1. river end west
+                    if southwestTile.isRiverInNorth() {
+                        return "river-mouth-w"
+                    }
+                    
+                    // 2. river end south west
+                    if southwestTile.isRiverInSouthEast(){
+                        return "river-mouth-sw"
+                    }
+                }
+                
+                let northwestNeightbor = point.neighbor(in: .northwest)
+                if let northwestTile = gameModel.tile(at: northwestNeightbor) {
+                    
+                    // 3
+                    if northwestTile.isRiverInNorthEast() {
+                        return "river-mouth-nw"
+                    }
+                }
+                
+                let northNeightbor = point.neighbor(in: .north)
+                if let northTile = gameModel.tile(at: northNeightbor) {
+                    
+                    // 4
+                    if northTile.isRiverInSouthEast() {
+                        return "river-mouth-ne"
+                    }
+                }
+                
+                let southeastNeightbor = point.neighbor(in: .southeast)
+                if let southeastTile = gameModel.tile(at: southeastNeightbor) {
+                    
+                    // 5
+                    if southeastTile.isRiverInNorth() {
+                        return "river-mouth-e"
+                    }
+                }
+                
+                let southNeightbor = point.neighbor(in: .south)
+                if let southTile = gameModel.tile(at: southNeightbor) {
+                    
+                    // 6
+                    if southTile.isRiverInNorthEast() {
+                        return "river-mouth-se"
+                    }
+                }
+            }
+            
+            return nil
+        }
+        
+        
+        var texture = "river" // "river-n-ne-se-s-sw-nw"
+        for flow in FlowDirection.all {
+            
+            if tile.isRiverIn(flow: flow) {
+                texture += ("-" + flow.short)
+            }
+        }
+        
+        if texture == "river" {
+            return nil
+        }
+        
+        return texture
     }
     
     func yieldTexture(for yields: Yields) -> String? {

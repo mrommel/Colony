@@ -15,6 +15,9 @@ protocol BottomRightBarDelegate: class {
     
     func showYields()
     func hideYields()
+    
+    func showWater()
+    func hideWater()
 }
 
 class BottomRightBar: SizedNode {
@@ -24,6 +27,8 @@ class BottomRightBar: SizedNode {
     var mapOverlay: SKSpriteNode?
     var yieldsButton: SKSpriteNode?
     var yieldsShown: Bool = false
+    var waterButton: SKSpriteNode?
+    var waterShown: Bool = false
     
     let mapSize: CGSize!
     weak var delegate: BottomRightBarDelegate?
@@ -64,6 +69,12 @@ class BottomRightBar: SizedNode {
         self.yieldsButton?.anchorPoint = .lowerLeft
         self.addChild(self.yieldsButton!)
         
+        let mapOptionWaterTexture = SKTexture(imageNamed: "map_option_water_disabled")
+        self.waterButton = SKSpriteNode(texture: mapOptionWaterTexture, size: CGSize(width: 43, height: 37))
+        self.waterButton?.zPosition = self.zPosition + 0.3
+        self.waterButton?.anchorPoint = .lowerLeft
+        self.addChild(self.waterButton!)
+        
         self.updateLayout()
     }
     
@@ -85,13 +96,27 @@ class BottomRightBar: SizedNode {
         if self.yieldsButton?.contains(location) ?? false {
             // print("inside yields")
             if self.yieldsShown {
-                self.delegate?.showYields()
-                self.yieldsButton?.texture = SKTexture(imageNamed: "map_option_yields")
-                self.yieldsShown = false
-            } else {
                 self.delegate?.hideYields()
                 self.yieldsButton?.texture = SKTexture(imageNamed: "map_option_yields_disabled")
+                self.yieldsShown = false
+            } else {
+                self.delegate?.showYields()
+                self.yieldsButton?.texture = SKTexture(imageNamed: "map_option_yields")
                 self.yieldsShown = true
+            }
+            return
+        }
+        
+        if self.waterButton?.contains(location) ?? false {
+            // print("inside water")
+            if self.waterShown {
+                self.delegate?.hideWater()
+                self.waterButton?.texture = SKTexture(imageNamed: "map_option_water_disabled")
+                self.waterShown = false
+            } else {
+                self.delegate?.showWater()
+                self.waterButton?.texture = SKTexture(imageNamed: "map_option_water")
+                self.waterShown = true
             }
             return
         }
@@ -110,6 +135,7 @@ class BottomRightBar: SizedNode {
         self.mapOverviewNode?.position = self.position + CGPoint(x: 59, y: 1)
         self.mapOverlay?.position = self.position + CGPoint(x: 59, y: 1)
         self.yieldsButton?.position = self.position + CGPoint(x: 135, y: 90)
+        self.waterButton?.position = self.position + CGPoint(x: 135 - 43, y: 90)
     }
     
     func update(tile: AbstractTile?) {

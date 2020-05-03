@@ -156,6 +156,7 @@
 		C9F91B552450292B0081EDC8 /* WonderDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B54245029290081EDC8 /* WonderDisplayNode.swift */; };
 		C9F91B57245038F20081EDC8 /* Buildings.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F91B56245038F20081EDC8 /* Buildings.xcassets */; };
 		C9F91B59245045350081EDC8 /* BuildingTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B58245045340081EDC8 /* BuildingTypeExtension.swift */; };
+		C9FEEB9E245DF76200C51552 /* WaterLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FEEB9D245DF76200C51552 /* WaterLayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -335,6 +336,7 @@
 		C9F91B54245029290081EDC8 /* WonderDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderDisplayNode.swift; sourceTree = "<group>"; };
 		C9F91B56245038F20081EDC8 /* Buildings.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Buildings.xcassets; sourceTree = "<group>"; };
 		C9F91B58245045340081EDC8 /* BuildingTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingTypeExtension.swift; sourceTree = "<group>"; };
+		C9FEEB9D245DF76200C51552 /* WaterLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterLayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -371,6 +373,7 @@
 				C9EC4E1824445082001A0597 /* CityLayer.swift */,
 				C9EB9F612454B47100F13B02 /* BorderLayer.swift */,
 				C9079180245A20D800248596 /* YieldLayer.swift */,
+				C9FEEB9D245DF76200C51552 /* WaterLayer.swift */,
 			);
 			path = Layer;
 			sourceTree = "<group>";
@@ -879,6 +882,7 @@
 				C9B1D23E2434B7BE00033791 /* Globals.swift in Sources */,
 				C9B1D2342434B0BE00033791 /* CGRectExtension.swift in Sources */,
 				C9B1D21E243478F400033791 /* CoreDataManager.swift in Sources */,
+				C9FEEB9E245DF76200C51552 /* WaterLayer.swift in Sources */,
 				C9B1D2402434B83800033791 /* CGSizeExtension.swift in Sources */,
 				C9B1D23A2434B74F00033791 /* SpriteButtonNode.swift in Sources */,
 				C9B1D23C2434B77500033791 /* NineGridTextureSprite.swift in Sources */,

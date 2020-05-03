@@ -39,6 +39,16 @@ class SizedNode: SKNode {
         }
     }
     
+    override func contains(_ p: CGPoint) -> Bool {
+        
+        let offsetX = self.frame.width * self.anchorPoint.x
+        let offsetY = self.frame.height * self.anchorPoint.y
+        
+        let pointToCheck = p + CGPoint(x: offsetX, y: offsetY)
+        
+        return self.internalFrame.contains(pointToCheck)
+    }
+    
     func updateLayout() {
         
         for child in self.children {
