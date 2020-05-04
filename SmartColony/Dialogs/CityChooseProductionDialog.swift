@@ -24,7 +24,7 @@ class CityChooseProductionDialog: Dialog {
     var districtProductionNodes: [CityDistrictProductionNodeGroup] = []
     
     var unitsSectionButton: SectionHeaderButton?
-    var unitProductionNodes: [UnitDisplayNode] = []
+    var unitProductionNodes: [UnitBuildingItemDisplayNode] = []
     
     var wondersSectionButton: SectionHeaderButton?
     var wonderProductionNodes: [WonderDisplayNode] = []
@@ -135,11 +135,13 @@ class CityChooseProductionDialog: Dialog {
             
             if districts.has(district: districtType) {
                 
-                let districtNode = DistrictDisplayNode(districtType: districtType, active: true, size: CGSize(width: 200, height: 40))
+                let districtNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: true, size: CGSize(width: 200, height: 40), buttonAction: { districtType in
+                    
+                })
                 districtNode.zPosition = 200
                 scrollNode?.addScrolling(child: districtNode)
                 
-                var buildingNodes: [BuildingDisplayNode?] = []
+                var buildingNodes: [BuildingBuildingItemDisplayNode?] = []
                 
                 for buildingType in BuildingType.all {
                     
@@ -158,7 +160,7 @@ class CityChooseProductionDialog: Dialog {
                     
                     if valid && !buildings.has(building: buildingType) && buildingType.district() == districtType {
 
-                        let buildingNode = BuildingDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 40), buttonAction: { buildingType in
+                        let buildingNode = BuildingBuildingItemDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 40), buttonAction: { buildingType in
                             //print("select buildingType: \(buildingType)")
                             
                             if let handler = self.buildingTypeResultHandler {
@@ -177,7 +179,9 @@ class CityChooseProductionDialog: Dialog {
                 
             } else {
                 
-                let districtNode = DistrictDisplayNode(districtType: districtType, active: false, size: CGSize(width: 200, height: 40))
+                let districtNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: false, size: CGSize(width: 200, height: 40), buttonAction: { districtType in
+                    
+                })
                 districtNode.zPosition = 200
                 scrollNode?.addScrolling(child: districtNode)
                 
@@ -204,7 +208,7 @@ class CityChooseProductionDialog: Dialog {
             
             if valid {
                 
-                let unitProduction = UnitDisplayNode(unitType: unitType, size: CGSize(width: 200, height: 40), buttonAction: { unitType in
+                let unitProduction = UnitBuildingItemDisplayNode(unitType: unitType, size: CGSize(width: 200, height: 40), buttonAction: { unitType in
                     print("select unitType: \(unitType)")
                 })
                 unitProduction.zPosition = 200

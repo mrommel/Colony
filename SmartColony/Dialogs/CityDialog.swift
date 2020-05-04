@@ -11,10 +11,46 @@ import SpriteKit
 
 struct CityDistrictProductionNodeGroup {
     
-    let districtNode: DistrictDisplayNode?
-    let buildingNodes: [BuildingDisplayNode?]
+    let districtNode: DistrictBuildingItemDisplayNode?
+    let buildingNodes: [BuildingBuildingItemDisplayNode?]
 }
 
+/**
+ main city dialog
+ 
+ sections
+ - citizen management (fields, buildings) / buy tiles
+ - citizen growth overview
+    - food per turn
+    - food consumption
+    - food surplus per turn = sum
+    - amenities growth bonus (in percent)
+    - other growth bonuses (in percent) (which?)
+    - modified food surplus per turn = sum
+    - housing multiplier (in percent 25%)
+    - occupied city multiplier (???)
+    - total food surplus
+    - growth in turns
+ - amenities
+    - number / required = status
+    - #luxuries
+    - #civics
+    - enterteinment buildings
+    - great people
+    - religion
+    - national park
+    - war weariness ?
+    - bankruptcy (?)
+ - housing
+    - number / required = status
+    - from buildings
+    - civics
+    - districts
+    - improvements
+ - buildings (already build)
+ - build queue mgmt
+ -
+ */
 class CityDialog: Dialog {
 
     weak var city: AbstractCity?
@@ -24,6 +60,7 @@ class CityDialog: Dialog {
     var currentProductionNode: SKNode?
     var manageProductionDialogButton: MenuButtonNode?
     var chooseProductionDialogButton: MenuButtonNode?
+    var growthDialogButton: MenuButtonNode?
 
     // MARK: constructors
     
@@ -76,7 +113,9 @@ class CityDialog: Dialog {
         // fill fields
         self.set(text: city.name, identifier: "city_name")
         self.set(text: "\(city.population())", identifier: "population_value")
+        self.set(text: city.name, identifier: "city_name")
 
+        // fill yields
         self.set(yieldValue: city.foodPerTurn(in: gameModel), identifier: "food_yield")
         self.set(yieldValue: city.productionPerTurn(in: gameModel), identifier: "production_yield")
         self.set(yieldValue: city.goldPerTurn(in: gameModel), identifier: "gold_yield")
@@ -101,7 +140,7 @@ class CityDialog: Dialog {
                     fatalError("cant get buildingType")
                 }
                 
-                self.currentProductionNode = BuildingDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 42), buttonAction: { buildingType in
+                self.currentProductionNode = BuildingBuildingItemDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 42), buttonAction: { buildingType in
                     //print("\(buildingType)")
                 })
                 self.currentProductionNode?.zPosition = 200
@@ -114,40 +153,53 @@ class CityDialog: Dialog {
                     fatalError("cant get districtType")
                 }
                 
-                self.currentProductionNode = DistrictDisplayNode(districtType: districtType, active: false, size: CGSize(width: 200, height: 42))
+                self.currentProductionNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: false, size: CGSize(width: 200, height: 42), buttonAction: { districtType in
+                    //print("\(districtType)")
+                })
                 currentProductionNode?.zPosition = 200
                 self.addChild(currentProductionNode!)
             } else {
                 fatalError("not handled: \(currentBuilding.type)")
             }
-            
-            // add manage queue dialog
-            self.manageProductionDialogButton = MenuButtonNode(titled: "Manage Production",
-                buttonAction: {
-                    print("choose production")
-                })
-            self.manageProductionDialogButton?.zPosition = 200
-            self.addChild(self.manageProductionDialogButton!)
         } else {
-            // choose production dialog
-            self.chooseProductionDialogButton = MenuButtonNode(titled: "Choose Production",
-                buttonAction: {
-                    print("choose production")
-                    self.showChooseProductionDialog()
-                })
-            self.chooseProductionDialogButton?.zPosition = 200
-            self.addChild(self.chooseProductionDialogButton!)
+            //asdf
         }
+        
+        // add manage queue dialog
+        self.manageProductionDialogButton = MenuButtonNode(titled: "Manage Production",
+            buttonAction: {
+                print("manage production")
+            })
+        self.manageProductionDialogButton?.zPosition = 200
+        self.addChild(self.manageProductionDialogButton!)
+        
+        // choose production dialog
+        self.chooseProductionDialogButton = MenuButtonNode(titled: "Choose Production",
+            buttonAction: {
+                print("choose production")
+                self.showChooseProductionDialog()
+            })
+        self.chooseProductionDialogButton?.zPosition = 200
+        self.addChild(self.chooseProductionDialogButton!)
+        
+        self.growthDialogButton = MenuButtonNode(titled: "Population Growth",
+            buttonAction: {
+                print("growth")
+                self.showPopulationGrowthDialog()
+            })
+        self.growthDialogButton?.zPosition = 200
+        self.addChild(self.growthDialogButton!)
         
         self.updateLayout()
     }
     
     private func updateLayout() {
         
-        self.currentProductionNode?.position = CGPoint(x: -100, y: -200)
+        self.currentProductionNode?.position = CGPoint(x: -100, y: -270)
         
-        self.manageProductionDialogButton?.position = CGPoint(x: 0, y: -300)
-        self.chooseProductionDialogButton?.position = CGPoint(x: 0, y: -200)
+        self.manageProductionDialogButton?.position = CGPoint(x: 0, y: -320)
+        self.chooseProductionDialogButton?.position = CGPoint(x: 0, y: -370)
+        self.growthDialogButton?.position = CGPoint(x: 0, y: -420)
     }
     
     private func showChooseProductionDialog() {
@@ -176,5 +228,33 @@ class CityDialog: Dialog {
         } else {
             fatalError("Must be started from a BaseScene")
         }
+    }
+    
+    func showPopulationGrowthDialog() {
+        
+        /*self.hide()
+        
+        let cityChooseProductionDialog = CityChooseProductionDialog(for: self.city, in: self.gameModel)
+        cityChooseProductionDialog.zPosition = 260
+               
+        cityChooseProductionDialog.addCancelAction(handler: {
+            cityChooseProductionDialog.close()
+            self.show()
+        })
+        
+        cityChooseProductionDialog.addBuildingTypeResultHandler(handler: { buildingType in
+            print("result: \(buildingType))")
+            
+            self.city?.startBuilding(building: buildingType)
+            
+            cityChooseProductionDialog.close()
+            self.show()
+        })
+        
+        if let baseScene = self.scene as? BaseScene {
+            baseScene.cameraNode.add(dialog: cityChooseProductionDialog)
+        } else {
+            fatalError("Must be started from a BaseScene")
+        }*/
     }
 }

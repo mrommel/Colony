@@ -95,4 +95,27 @@ public enum HandicapType {
             return [.pottery, .animalHusbandry, .mining, .wheel]
         }
     }
+    
+    public func freeAIStartingUnitTypes() -> [UnitType] {
+        
+        switch self {
+        
+        case .settler:
+            return [.settler, .warrior]
+        case .chieftain:
+            return [.settler, .warrior]
+        case .warlord:
+            return [.settler, .warrior]
+        case .prince:
+            return [.settler, .warrior]
+        case .king:
+            return [.settler, .warrior, .warrior, .builder]
+        case .emperor:
+            return [.settler, .settler, .warrior, .warrior, .warrior, .builder]
+        case .immortal:
+            return [.settler, .settler, .warrior, .warrior, .warrior, .warrior, .builder, .builder]
+        case .deity:
+            return [.settler, .settler, .settler, .warrior, .warrior, .warrior, .warrior, .warrior, .builder, .builder]
+        }
+    }
 }

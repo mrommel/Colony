@@ -9,7 +9,7 @@
 import Foundation
 
 public enum UnitActivityType: Int, Codable {
-    
+
     case none
     case awake // ACTIVITY_AWAKE,
     case hold // ACTIVITY_HOLD,
@@ -26,20 +26,20 @@ public protocol AbstractUnit: class, Codable {
     var type: UnitType { get }
     var player: AbstractPlayer? { get }
     var task: UnitTaskType { get }
-    
+
     func name() -> String
     func classClass() -> UnitClassType
-    
+
     func civilianAttackPriority() -> CivilianAttackPriorityType
-    
+
     func isOf(unitType: UnitType) -> Bool
     func hasSameType(as otherUnit: AbstractUnit?) -> Bool
     func isOf(unitClass: UnitClassType) -> Bool
     func has(task: UnitTaskType) -> Bool
     func domain() -> UnitDomainType
-    
+
     func canMove() -> Bool
-    func canMove(into point: HexPoint, in gameModel: GameModel?) -> Bool 
+    func canMove(into point: HexPoint, in gameModel: GameModel?) -> Bool
     func moves() -> Int
     func movesLeft() -> Int
     func maxMoves(in gameModel: GameModel?) -> Int
@@ -50,13 +50,14 @@ public protocol AbstractUnit: class, Codable {
     @discardableResult func doMove(on target: HexPoint, in gameModel: GameModel?) -> Bool
     func readyToMove() -> Bool
     func publishQueuedVisualizationMoves(in gameModel: GameModel?)
-    
+    func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool
+
     func isImpassable(tile: AbstractTile?) -> Bool
     func canEnterTerrain(of tile: AbstractTile?) -> Bool
     func canMoveAllTerrain() -> Bool
     func validTarget(at target: HexPoint, in gameModel: GameModel?) -> Bool
     func canHold(at point: HexPoint, in gameModel: GameModel?) -> Bool
-    
+
     func healthPoints() -> Int
     func maxHealthPoints() -> Int
     func set(healthPoints: Int)
@@ -74,10 +75,10 @@ public protocol AbstractUnit: class, Codable {
     func sight() -> Int
     func range() -> Int
     func search(range: Int, in gameModel: GameModel?) -> Int
-    
+
     func experience() -> Int
     func changeExperience(experience delta: Int, in gameModel: GameModel?)
-    
+
     func power() -> Int
     func combatStrength() -> Int
     func rangedStrength() -> Int
@@ -85,11 +86,11 @@ public protocol AbstractUnit: class, Codable {
     func isRanged() -> Bool
     func defenseModifier() -> Int
     func attackModifier() -> Int
- 
+
     func turn(in gameModel: GameModel?)
     func set(turnProcessed: Bool)
     func processedInTurn() -> Bool
-    
+
     func canMoveOrAttack(into point: HexPoint) -> Bool
     func canAttack() -> Bool
     func doAttack(into destination: HexPoint, /* flags */ steps: Int, in gameModel: GameModel?) -> Bool
@@ -98,56 +99,56 @@ public protocol AbstractUnit: class, Codable {
     func doRangeAttack(at target: HexPoint, in gameModel: GameModel?) -> Bool
     func canDefend() -> Bool
     func canSentry(in gameModel: GameModel?) -> Bool
-    
+
     func canDo(command: UnitCommandTypes) -> Bool
-    
+
     func can(automate: UnitAutomationType) -> Bool
     func isAutomated() -> Bool
     func automateType() -> UnitAutomationType
     func automate(with type: UnitAutomationType)
-    
+
     func canFound(at location: HexPoint, in gameModel: GameModel?) -> Bool
     func isFound() -> Bool
     @discardableResult
     func doFound(with name: String?, in gameModel: GameModel?) -> Bool
-    
+
     func canBuild(build: BuildType, at point: HexPoint, testVisible: Bool, testGold: Bool, in gameModel: GameModel?) -> Bool
     func canContinueBuild(build buildType: BuildType, in gameModel: GameModel?) -> Bool
     func doBuild(build: BuildType, in gameModel: GameModel?) -> Bool
     func buildType() -> BuildType
-    
+
     func doPillage(in gameModel: GameModel?) -> Bool
     func doRebase(to point: HexPoint) -> Bool
-    
+
     func canReach(at point: HexPoint, in turns: Int, in gameModel: GameModel?) -> Bool
     func turnsToReach(at point: HexPoint, in gameModel: GameModel?) -> Int
-    
+
     func canGarrison(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func isGarrisoned() -> Bool
     @discardableResult
     func doGarrison(in gameModel: GameModel?) -> Bool
     func unGarrison(in gameModel: GameModel?)
-    
+
     func canEverEmbark() -> Bool
     func canEmbark(into point: HexPoint?, in gameModel: GameModel?) -> Bool
     func doEmbark(into point: HexPoint?, in gameModel: GameModel?) -> Bool
     func canDisembark(into point: HexPoint?, in gameModel: GameModel?) -> Bool
     func doDisembark(into point: HexPoint?, in gameModel: GameModel?) -> Bool
     func isEmbarked() -> Bool
-    
+
     func canFortify(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func doFortify(in gameModel: GameModel?)
     func doMobilize(in gameModel: GameModel?)
-    
+
     func finishMoves()
     func resetMoves(in gameModel: GameModel?)
     func hasMoved(in gameModel: GameModel?) -> Bool
-    
+
     // mission / tactical move
     func activityType() -> UnitActivityType
     func set(activityType: UnitActivityType)
     func isWaiting() -> Bool
-    
+
     func canStart(mission: UnitMission, in gameModel: GameModel?) -> Bool
     func push(mission: UnitMission, in gameModel: GameModel?)
     func updateMission(in gameModel: GameModel?)
@@ -158,63 +159,63 @@ public protocol AbstractUnit: class, Codable {
     func autoMission(in gameModel: GameModel?)
     func hasCompletedMoveMission(in gameModel: GameModel?) -> Bool
     func clearMissions()
-    
+
     func set(tacticalMove: TacticalMoveType)
     func tacticalMove() -> TacticalMoveType?
     func set(tacticalTarget: HexPoint)
     func tacticalTarget() -> HexPoint?
     func isUnderTacticalControl() -> Bool
     func resetTacticalMove()
-    
+
     // army
     func army() -> Army?
     func assign(to army: Army?)
-    
+
     func isEqual(to other: AbstractUnit?) -> Bool
-    
+
     // so sad
     func doKill(delayed: Bool, by other: AbstractPlayer?, in gameModel: GameModel?)
-    
+
     @discardableResult
     func doDelayedDeath(in gameModel: GameModel?) -> Bool
     func isDelayedDeath() -> Bool
     func startDelayedDeath()
-    
+
     func commands(in gameModel: GameModel?) -> [Command]
-    
+
     func isBusy() -> Bool
 }
 
 public class Unit: AbstractUnit {
 
     static let maxHealth: Double = 100.0
-    
+
     enum CodingKeys: CodingKey {
-        
+
         case type
         case location
         case player
         case promotions
         case task
         case deathDelay
-        
+
         case tacticalMove
         case tacticalTarget
         case garrisoned
-        
+
         case moves
         case experience
         case fortify
         case isEmbarked
         case healthPoints
-        
+
         case processedInTurn
-        
+
         case activityType
         case buildType
         case automation
     }
-    
+
     public let type: UnitType
     private(set) public var location: HexPoint
     private var facingDirection: HexDirection = .south
@@ -227,7 +228,7 @@ public class Unit: AbstractUnit {
     private var tacticalMoveValue: TacticalMoveType? = nil
     private var tacticalTargetValue: HexPoint? = nil
     private var garrisonedValue: Bool = false
-    
+
     //
     var movesValue: Int
     var experienceValue: Int // 0..400
@@ -235,17 +236,17 @@ public class Unit: AbstractUnit {
     var isEmbarkedValue: Bool = false
     var healthPointsValue: Int // 0..100 - https://civilization.fandom.com/wiki/Hit_Points
     var processedInTurnValue: Bool = false
-    
+
     // missions
     internal var missions: Stack<UnitMission>
     internal var missionTimerValue: Int
     internal var activityTypeValue: UnitActivityType
     internal var buildTypeValue: BuildType = .none
-    
+
     // automations
     internal var automation: UnitAutomationType = .none
     private var moveLocations: [HexPoint] = []
-    
+
     public init(at location: HexPoint, type: UnitType, owner: AbstractPlayer?) {
 
         self.type = type
@@ -257,52 +258,52 @@ public class Unit: AbstractUnit {
         self.experienceValue = 0
         self.movesValue = type.moves()
         self.fortifyValue = 0
-        
+
         self.missions = Stack<UnitMission>()
         self.missionTimerValue = 0
         self.activityTypeValue = .none
-        
+
         self.promotions = Promotions(unit: self)
     }
-    
+
     required public init(from decoder: Decoder) throws {
-        
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.type = try container.decode(UnitType.self, forKey: .type)
         self.location = try container.decode(HexPoint.self, forKey: .location)
         //self.player = try container.decode(LeaderType.self, forKey: .player)
         self.promotions = try container.decode(Promotions.self, forKey: .promotions)
         self.task = try container.decode(UnitTaskType.self, forKey: .task)
         self.deathDelay = try container.decode(Bool.self, forKey: .deathDelay)
-        
+
         self.tacticalMoveValue = try container.decode(TacticalMoveType.self, forKey: .tacticalMove)
         self.tacticalTargetValue = try container.decode(HexPoint.self, forKey: .tacticalTarget)
         self.garrisonedValue = try container.decode(Bool.self, forKey: .garrisoned)
-        
+
         self.movesValue = try container.decode(Int.self, forKey: .moves)
         self.experienceValue = try container.decode(Int.self, forKey: .experience)
         self.isEmbarkedValue = try container.decode(Bool.self, forKey: .isEmbarked)
         self.healthPointsValue = try container.decode(Int.self, forKey: .healthPoints)
         self.fortifyValue = try container.decode(Int.self, forKey: .fortify)
-        
+
         self.processedInTurnValue = try container.decode(Bool.self, forKey: .processedInTurn)
-        
+
         self.missions = Stack<UnitMission>()
         self.missionTimerValue = 0
-        
+
         self.activityTypeValue = try container.decode(UnitActivityType.self, forKey: .activityType)
         self.buildTypeValue = try container.decode(BuildType.self, forKey: .buildType)
         self.automation = try container.decode(UnitAutomationType.self, forKey: .automation)
-        
+
         // post process
         self.promotions?.postProcess(by: self)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-        
+
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
+
         try container.encode(self.type, forKey: .type)
         try container.encode(self.location, forKey: .location)
         try container.encode(self.player!.leader, forKey: .player)
@@ -310,141 +311,141 @@ public class Unit: AbstractUnit {
         try container.encode(promotionsWrapper, forKey: .promotions)
         try container.encode(self.task, forKey: .task)
         try container.encode(self.deathDelay, forKey: .deathDelay)
-        
+
         try container.encode(self.tacticalMoveValue, forKey: .tacticalMove)
         try container.encode(self.tacticalTargetValue, forKey: .tacticalTarget)
         try container.encode(self.garrisonedValue, forKey: .garrisoned)
-        
+
         try container.encode(self.movesValue, forKey: .moves)
         try container.encode(self.experienceValue, forKey: .experience)
         try container.encode(self.fortifyValue, forKey: .fortify)
         try container.encode(self.isEmbarkedValue, forKey: .isEmbarked)
         try container.encode(self.healthPointsValue, forKey: .healthPoints)
-        
+
         try container.encode(self.processedInTurnValue, forKey: .processedInTurn)
-        
+
         try container.encode(self.activityTypeValue, forKey: .activityType)
         try container.encode(self.buildTypeValue, forKey: .buildType)
         try container.encode(self.automation, forKey: .automation)
     }
-    
+
     // MARK: public methods
-    
+
     public func name() -> String {
-        
+
         return self.type.name()
     }
-    
+
     public func classClass() -> UnitClassType {
-        
+
         return self.type.unitClass()
     }
-    
+
     public func civilianAttackPriority() -> CivilianAttackPriorityType {
-        
+
         return self.type.civilianAttackPriority()
     }
-    
+
     // MARK: health related methods
-    
+
     public func healthPoints() -> Int {
-        
+
         return self.healthPointsValue
     }
-    
+
     public func maxHealthPoints() -> Int {
-        
+
         return Int(Unit.maxHealth)
     }
-    
+
     public func set(healthPoints: Int) {
-        
+
         self.healthPointsValue = healthPoints
     }
-    
+
     private func healRate(at point: HexPoint, in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             return 0
         }
-        
+
         var totalHeal = 0
-        
+
         if gameModel.city(at: point) != nil {
             totalHeal += 6 // CITY_HEAL_RATE
         }
-        
+
         fatalError("add fiendly / hostile territory")
-        
+
         return totalHeal
     }
-    
+
     public func canHeal(in gameModel: GameModel?) -> Bool {
-        
+
         // No barb healing
         if self.player?.leader == .barbar {
             return false
         }
-        
+
         if self.damage() == 0 {
             return false
         }
-        
+
         // Embarked Units can't heal
         if isEmbarked() {
             return false
         }
-        
+
         if self.healRate(at: self.location, in: gameModel) == 0 {
             return false
         }
-        
+
         return true
     }
-    
+
     public func damage() -> Int {
-        
+
         return max(0, Int(Unit.maxHealth) - self.healthPointsValue)
     }
-    
+
     public func isHurt() -> Bool {
-        
+
         return self.damage() > 0
     }
-    
+
     public func doHeal(in gameModel: GameModel?) {
-        
+
         // no heal for barbarians
         if self.isBarbarian() {
             return
         }
-        
+
         self.healthPointsValue += self.healRate(at: self.location, in: gameModel)
-        
+
         if self.healthPointsValue > Int(Unit.maxHealth) {
             self.healthPointsValue = Int(Unit.maxHealth)
         }
     }
-    
+
     /// Current power of unit (raw unit type power adjusted for health)
     public func power() -> Int {
-        
+
         var powerVal: Double = Double(self.type.power())
-        
+
         // Take promotions into account: unit with 4 promotions worth ~50% more
         powerVal = powerVal * pow(Double(self.experienceLevel()), 0.3)
-        
+
         let ratio = Double(self.healthPointsValue) / (2.0 * Unit.maxHealth) /* => 0..0.5 */ + 0.5 /* => 0.5..1.0 */
         return Int(powerVal * ratio)
     }
-    
+
     public func isOutOfAttacks() -> Bool {
-        
+
         return false
     }
-    
+
     public func baseCombatStrength(ignoreEmbarked: Bool = true) -> Int {
-         
+
         // FIXME
         if self.isEmbarked() && !ignoreEmbarked {
             if self.classClass() == .civilian {
@@ -453,93 +454,93 @@ public class Unit: AbstractUnit {
                 return 500 // FIXME
             }
         }
-        
+
         return self.type.meleeStrength()
     }
-    
+
     public func rangedCombatStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, attacking: Bool) -> Int {
-                
+
         if self.baseRangedCombatStrength() == 0 {
             return 0
         }
-        
+
         if self.range() == 0 {
             return 0
         }
 
         var modifier = 0
-        
+
         ////////////////////////
         // KNOWN DESTINATION PLOT
         ////////////////////////
-        
+
         if let tile = toTile {
 
             modifier -= tile.defenseModifier(for: self.player)
         }
-        
+
         ////////////////////////
         // KNOWN CITY
         ////////////////////////
-        
+
         // FIXME
-        
+
         ////////////////////////
         // KNOWN DEFENDER
         ////////////////////////
-        
+
         if let defender = defender {
-            
+
             return self.combatStrength(against: defender) + modifier
         }
-        
+
         return self.combatStrength(towards: toTile) + modifier
     }
-    
+
     /// What is the max strength of this Unit when attacking?
     public func attackStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile? = nil) -> Int {
-        
+
         let isEmbarkedAttackingLand = isEmbarked() && (toTile != nil && toTile!.terrain().isLand())
-        
+
         if self.isEmbarked() && !isEmbarkedAttackingLand {
             return 0
         }
-        
+
         if self.baseCombatStrength(ignoreEmbarked: isEmbarkedAttackingLand) == 0 {
             return 0
         }
 
         var modifier = 0
-        
+
         ////////////////////////
         // KNOWN DESTINATION PLOT
         ////////////////////////
-        
+
         if let tile = toTile {
 
             modifier -= tile.defenseModifier(for: self.player)
         }
-        
+
         ////////////////////////
         // KNOWN CITY
         ////////////////////////
-        
+
         // FIXME
-        
+
         ////////////////////////
         // KNOWN DEFENDER
         ////////////////////////
-        
+
         if let defender = defender {
-            
+
             return self.combatStrength(against: defender) + modifier
         }
-        
+
         return self.combatStrength(towards: toTile) + modifier
     }
-    
+
     public func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool) -> Int {
-        
+
         if self.isEmbarked() {
             if self.classClass() == .civilian {
                 return 0
@@ -547,162 +548,162 @@ public class Unit: AbstractUnit {
                 return 500 // FIXME
             }
         }
-        
+
         if self.combatStrength() == 0 {
             return 0
         }
-        
+
         var modifier = 0
-        
+
         ////////////////////////
         // KNOWN DEFENSE PLOT
         ////////////////////////
-        
+
         if let tile = toTile {
 
             modifier += tile.defenseModifier(for: self.player)
         }
-        
+
         ////////////////////////
         // KNOWN ATTACKER
         ////////////////////////
-        
+
         if let attacker = attacker {
-            
+
             return self.combatStrength(against: attacker) + modifier
         }
-        
+
         return self.combatStrength(towards: toTile) + modifier
     }
-    
+
     // https://civilization.fandom.com/wiki/Combat_(Civ6)
     public func combatStrength() -> Int {
         // Damage of wounded units is diminished up to a half of the original strength (formula is 1/2 + 1/2 * HP Portion), which means that units with 1/2 HP deal 3/4 of normal damage and units with 1% HP deal just above 1/2 of normal damage).
-        
+
         let ratio = Double(self.healthPointsValue) / (2.0 * Unit.maxHealth) /* => 0..0.5 */ + 0.5 /* => 0.5..1.0 */
         return Int(Double(self.type.meleeStrength()) * ratio)
     }
-    
+
     func combatStrength(towards tile: AbstractTile?) -> Int {
-        
+
         if tile == nil {
             return self.combatStrength()
         }
-        
+
         //fatalError("not implemented yet")
         return self.combatStrength()
     }
-    
+
     func combatStrength(against unit: AbstractUnit?) -> Int {
-        
+
         if unit == nil {
             return self.combatStrength()
         }
-        
+
         if let unit = unit {
-            
+
             let distance = unit.location.distance(to: self.location)
-            
+
             if self.range() > 0 && distance <= self.range() {
-                
+
                 // ranged attack
                 var strength = self.type.rangedStrength()
-                
+
                 strength += self.type.unitClassModifier(for: unit.classClass())
-                
+
                 let healthRatio = Double(self.healthPointsValue) / (2.0 * Unit.maxHealth) /* => 0..0.5 */ + 0.5 /* => 0.5..1.0 */
-                
+
                 return Int(Double(strength) * healthRatio)
-                
+
             } else if self.range() == 0 && distance == 1 {
-                
+
                 // normal attack
                 var strength = self.type.meleeStrength()
-                
+
                 strength += self.type.unitClassModifier(for: unit.classClass())
-                
+
                 let healthRatio = Double(self.healthPointsValue) / (2.0 * Unit.maxHealth) /* => 0..0.5 */ + 0.5 /* => 0.5..1.0 */
-                
+
                 return Int(Double(strength) * healthRatio)
             }
-            
+
             return 0
         }
-        
+
         fatalError("not gonna happen")
     }
-    
+
     // Combat eligibility routines
     public func isCombatUnit() -> Bool {
-        
+
         return self.type.meleeStrength() > 0
     }
-    
+
     public func rangedStrength() -> Int {
-        
+
         let ratio = Double(self.healthPointsValue) / (2.0 * Unit.maxHealth) /* => 0..0.5 */ + 0.5 /* => 0.5..1.0 */
         return Int(Double(self.type.rangedStrength()) * ratio)
     }
-    
+
     public func isRanged() -> Bool {
-        
+
         return self.type.range() > 0
     }
-    
+
     public func defenseModifier() -> Int {
-        
+
         return 0
     }
-    
+
     public func attackModifier() -> Int {
-        
+
         return 0
     }
-    
+
     public func canMoveOrAttack(into point: HexPoint) -> Bool {
-        
+
         fatalError("not implemented")
     }
-    
+
     func canAttackWithMove() -> Bool {
-        
+
         if self.isCombatUnit() {
             return true
         }
-        
+
         return false
     }
-    
+
     public func canAttack() -> Bool {
-        
+
         return self.canAttackWithMove() || canAttackRanged()
     }
-    
+
     // Returns true if attack was made...
     public func doAttack(into destination: HexPoint, /* flags */ steps: Int, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let destPlot = gameModel.tile(at: destination) else {
             return false
         }
-        
+
         guard let unitPlayer = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let diplomacyAI = self.player?.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
 
         if unitPlayer.isHuman() {
-            
+
             if let defenderUnit = gameModel.unit(at: destination) {
-                
+
                 if !diplomacyAI.isAtWar(with: defenderUnit.player) {
-                
+
                     gameModel.userInterface?.showPopup(popupType: .declareWarQuestion, data: PopupData(player: defenderUnit.player))
                     // gameModel.add(message: DeclarationOfWarMessage(text: "Really? War with \(defenderUnit.player)"))
                     return false
@@ -718,17 +719,17 @@ public class Unit: AbstractUnit {
         let adjacent = path.count == 2
 
         if adjacent {
-            
+
             //if (!isOutOfAttacks()) {
-                // don't allow an attack if we already have one
-                /*if (isFighting() || pDestPlot->isFighting())
+            // don't allow an attack if we already have one
+            /*if (isFighting() || pDestPlot->isFighting())
                 {
                     return true;
                 }*/
 
-                // Air mission
+            // Air mission
             if self.domain() == .air && self.baseCombatStrength() == 0 {
-                    
+
                 if self.canRangeStrike(at: destination, needWar: false, noncombatAllowed: true) {
                     //CvUnitCombat::AttackAir(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
                     fatalError("niy")
@@ -775,25 +776,25 @@ public class Unit: AbstractUnit {
 
         return attack
     }
-    
+
     func baseRangedCombatStrength() -> Int {
-        
+
         return self.type.rangedStrength()
     }
-    
+
     /// Does this unit have a ranged attack?
     public func canAttackRanged() -> Bool {
-        
-        return self.range() > 0 &&  self.baseRangedCombatStrength() > 0
+
+        return self.range() > 0 && self.baseRangedCombatStrength() > 0
     }
-    
+
     public func doRangeAttack(at target: HexPoint, in gameModel: GameModel?) -> Bool {
-        
+
         fatalError("niy")
     }
-    
+
     public func canRangeStrike(at point: HexPoint, needWar: Bool, noncombatAllowed: Bool) -> Bool {
-        
+
         if !self.canAttackRanged() {
             return false
         }
@@ -873,49 +874,49 @@ public class Unit: AbstractUnit {
 
         return true
     }
-    
+
     /// Unit able to fight back when attacked?
     public func canDefend() -> Bool {
-        
+
         // This will catch both embarked units and noncombatants
         if self.baseCombatStrength() == 0 {
             return false
         }
-        
+
         return true
     }
-    
+
     public func canSentry(in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("Cant get gameModel")
         }
-        
+
         guard let tile = gameModel.tile(at: self.location) else {
             fatalError("Cant get tile")
         }
-        
+
         // you're not allowed to sentry in a city
         if tile.isCity() {
             return false
         }
-        
+
         if !self.canDefend() {
             return false
         }
-        
+
         if self.isWaiting() {
             return false
         }
-        
+
         return true
     }
-    
+
     public func isWaiting() -> Bool {
-        
+
         return self.activityTypeValue == .hold || self.activityTypeValue == .sleep || self.activityTypeValue == .heal || self.activityTypeValue == .sentry || self.activityTypeValue == .intercept
     }
-    
+
     //    ---------------------------------------------------------------------------
     // Get the base movement points for the unit.
     // Parameters:
@@ -924,88 +925,88 @@ public class Unit: AbstractUnit {
     //                      Passing in DOMAIN_SEA will return the units baseMoves as if it were already embarked.
     //                      Passing in DOMAIN_LAND will return the units baseMoves as if it were on land, even if it is currently embarked.
     public func baseMoves(into domain: UnitDomainType = .none, in gameModel: GameModel?) -> Int {
-        
+
         guard let ability = self.player?.leader.ability() else {
             fatalError("cant get ability")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         if (domain == .sea && self.canEmbark(in: gameModel)) || (domain == .none && self.isEmbarked()) {
-            
+
             return 2 /* EMBARKED_UNIT_MOVEMENT */
         }
-        
+
         var extraNavalMoves = 0
         if domain == .sea {
-         
+
             extraNavalMoves = self.extraNavalMoves()
-            
+
             if self.baseCombatStrength() == 0 {
                 extraNavalMoves = ability.extraEmbarkMoves()
             }
         }
-        
+
         var extraGoldenAgeMoves = 0
         if player.hasGoldenAge() {
             extraGoldenAgeMoves += ability.goldenAgeMovesChange()
         }
-        
+
         let extraUnitCombatTypeMoves = 0 // ???
         return self.type.moves() /*+ self.extraMoves()*/ + extraNavalMoves + extraGoldenAgeMoves + extraUnitCombatTypeMoves
     }
-    
+
     public func path(towards target: HexPoint, in gameModel: GameModel?) -> HexPath? {
-        
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(for: self.movementType(), for: self.player)
-        
+
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
-        
+
             // add current location
             path.prepend(point: self.location, cost: 0.0)
-        
+
             return path
         }
-        
+
         return nil
     }
-    
+
     // Returns true if move was made...
     public func doMoveOnPath(towards target: HexPoint, previousETA: Int, buildingRoute: Bool, in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if self.location == target {
             print("Already at location")
             return 0
         }
-        
+
         var pathPlot: AbstractTile? = nil
-        
+
         guard let targetPlot = gameModel.tile(at: target) else {
             print("Destination is not a valid plot location")
             return 0
         }
-        
+
         guard let path = self.path(towards: target, in: gameModel) else {
             print("Unable to generate path with BuildRouteFinder")
             return 0
         }
-        
+
         if self.domain() == .air {
-            
+
             if !self.canMove(into: target, in: gameModel) {
                 return 0
             }
 
             pathPlot = targetPlot
         } else {
-            
+
             if buildingRoute {
 
                 if let (secondPlot, _) = path.second {
@@ -1019,7 +1020,7 @@ public class Unit: AbstractUnit {
                     return 0
                 }
             } else {
-                
+
                 guard let path = self.path(towards: target, in: gameModel) else {
                     print("Unable to Generate path")
                     return 0
@@ -1035,11 +1036,11 @@ public class Unit: AbstractUnit {
 
         // slewis'd
         if path.count != 0 {
-            
+
             guard let (_, firstCost) = path.first else {
                 fatalError("bla")
             }
-            
+
             if previousETA >= 0 && Int(firstCost) > previousETA + 2 {
                 //LOG_UNIT_MOVES_MESSAGE_OSTR(std::string("Rejecting move iPrevETA=") << iPrevETA << std::string(", m_iData2=") << kNode.m_iData2);
                 rejectMove = true
@@ -1084,79 +1085,79 @@ public class Unit: AbstractUnit {
         if path.count > 0 {
             eta = Int(path.cost)
         }
-        
+
         return eta
     }
-    
+
     public func doMove(on target: HexPoint, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let targetPlot = gameModel.tile(at: target) else {
             fatalError("cant get targetPlot")
         }
-        
+
         guard let oldPlot = gameModel.tile(at: self.location) else {
             fatalError("cant get oldPlot")
         }
-        
+
         let costDataSource = gameModel.ignoreUnitsPathfinderDataSource(for: self.movementType(), for: self.player)
-        
+
         if !self.canMove() {
             return false
         }
-        
+
         var shouldDeductCost: Bool = true
         let moveCost = costDataSource.costToMove(fromTileCoord: self.location, toAdjacentTileCoord: target)
-        
+
         // we need to get our dis/embarking on
         if self.canEverEmbark() && targetPlot.terrain().isWater() != oldPlot.terrain().isWater() {
-            
+
             if oldPlot.terrain().isWater() {
-                
+
                 if self.isEmbarked() {
-                    
+
                     // moving from water to the land
                     if self.moveLocations.count > 0 {
                         // If we have some queued moves, execute them now, so that the disembark is done at the proper location visually
                         self.publishQueuedVisualizationMoves(in: gameModel)
                     }
-                    
+
                     self.doDisembark(in: gameModel)
                 }
             } else {
                 if !self.isEmbarked() && self.canEmbark(into: target, in: gameModel) {
-                    
+
                     // moving from land to the water
                     if self.moveLocations.count > 0 {
                         // If we have some queued moves, execute them now, so that the disembark is done at the proper location visually
                         self.publishQueuedVisualizationMoves(in: gameModel)
                     }
-                    
+
                     self.doEmbark(in: gameModel)
                     self.finishMoves()
                     shouldDeductCost = false
                 }
             }
         }
-        
+
         if shouldDeductCost {
             self.movesValue -= Int(moveCost)
-        
+
             if self.movesValue < 0 {
                 self.movesValue = 0
             }
         }
-        
+
         self.set(location: target, in: gameModel)
-        
+
         return true
     }
-    
+
     private func captureDefinition(by capturePlayer: AbstractPlayer?) -> UnitCaptureDefinition? {
-        
+
         var captureDef = UnitCaptureDefinition(oldPlayer: self.player,
                                                originalOwner: self.player,
                                                oldType: self.type,
@@ -1167,10 +1168,10 @@ public class Unit: AbstractUnit {
 
         // Barbs captured this unit, or a player capturing this unit from the barbs
         if self.isBarbarian() || captureDef.capturingPlayer != nil && captureDef.capturingPlayer!.isBarbarian() {
-            
+
             // Must be able to capture this unit normally... don't want the barbs picking up Workboats, Generals, etc.
             if captureDef.capturingPlayer != nil /*&& getCaptureUnitType(GET_PLAYER(kCaptureDef.eCapturingPlayer).getCivilizationType()) != NO_UNIT*/ {
-                
+
                 // Unit type is the same as what it was
                 captureDef.captureUnitType = self.type
             }
@@ -1184,32 +1185,32 @@ public class Unit: AbstractUnit {
 
         return captureDef.capturingPlayer == nil || captureDef.captureUnitType == nil ? nil : captureDef
     }
-    
+
     private func set(location newLocation: HexPoint, group: Bool = false, update: Bool = false, show showValue: Bool = false, checkPlotVisible: Bool = false, noMove: Bool = false, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let diplomacyAI = player.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         var unitCaptureDefinition: UnitCaptureDefinition? = nil
-        
+
         var show = showValue
-        
+
         let ownerIsActivePlayer = player.isEqual(to: gameModel.activePlayer())
-        
+
         // Delay any popups that might be caused by our movement (goody huts, natural wonders, etc.) so the unit movement event gets sent before the popup event.
         if ownerIsActivePlayer {
             //DLLUI->SetDontShowPopups(true);
         }
-        
+
         let oldActivityType = self.activityType()
 
         /*if self.isSetUpForRangedAttack() {
@@ -1219,7 +1220,7 @@ public class Unit: AbstractUnit {
         /*if !group || self.isCargo() {
             show = false
         }*/
-        
+
         guard let oldPlot = gameModel.tile(at: self.location) else {
             fatalError("cant get old tile")
         }
@@ -1229,7 +1230,7 @@ public class Unit: AbstractUnit {
         }
 
         if !noMove {
-            
+
             /*if let transportUnit = self.transportUnit() {
                 if (!(pTransportUnit->atPlot(*pNewPlot)))
                 {
@@ -1240,26 +1241,26 @@ public class Unit: AbstractUnit {
             if self.isCombatUnit() {
 
                 if let loopUnit = gameModel.unit(at: newLocation) {
-                    
+
                     guard let loopPlayer = loopUnit.player else {
                         fatalError("cant get loop player")
                     }
 
                     if !loopUnit.isDelayedDeath() {
-                        
+
                         if diplomacyAI.isAtWar(with: loopUnit.player) {
-                        
+
                             if loopUnit.type.captureType() == nil && loopUnit.canDefend() { // Unit somehow ended up on top of an enemy combat unit
-                            
+
                                 fatalError("should not happen - this is a combat scenario")
 
                             } else { // Ran into a noncombat unit
 
                                 var doCapture = false
-                                
+
                                 // Some units can't capture civilians. Embarked units are also not captured, they're simply killed. And some aren't a type that gets captured.
                                 if self.type.has(ability: .canCapture) && !loopUnit.isEmbarked() && loopUnit.type.captureType() != nil {
-                                    
+
                                     doCapture = true
 
                                     if loopPlayer.isHuman() {
@@ -1267,7 +1268,7 @@ public class Unit: AbstractUnit {
                                         //self.player.notifications().add()
                                     }
                                 } else { // Unit was killed instead
-                                    
+
                                     if loopUnit.isEmbarked() {
                                         self.changeExperience(experience: 1, in: gameModel)
                                     }
@@ -1293,10 +1294,10 @@ public class Unit: AbstractUnit {
 
                                 loopUnit.doKill(delayed: false, by: self.player, in: gameModel)
                             }
-                            
+
                         }
                     }
-                 }
+                }
             }
         }
 
@@ -1307,7 +1308,7 @@ public class Unit: AbstractUnit {
             //auto_ptr<ICvUnit1> pDllUnit(new CvDllUnit(this));
             //gDLL->GameplayUnitVisibility(pDllUnit.get(), pNewPlot != NULL && !this->isInvisible(activeTeam, false));
             if newPlot.isVisible(to: gameModel.humanPlayer()) {
-                
+
                 // FIXME: no correct
                 self.location = newPlot.point
                 gameModel.userInterface?.show(unit: self)
@@ -1351,14 +1352,14 @@ public class Unit: AbstractUnit {
 
         // Moving into a City (friend or foe)
         if let newCity = newCityRef {
-            
+
             newCity.updateStrengthValue()
 
             if diplomacyAI.isAtWar(with: newCity.player) {
-                
+
                 player.acquire(city: newCity, conquest: true, gift: false)
                 newCityRef = nil
-                
+
                 // TODO liberation city for ally
             }
         }
@@ -1366,7 +1367,7 @@ public class Unit: AbstractUnit {
         if oldCity != nil {
             oldCity?.updateStrengthValue()
         }
-        
+
         // carrier ?
         /*if shouldLoadOnMove(pNewPlot) {
             load();
@@ -1374,13 +1375,13 @@ public class Unit: AbstractUnit {
 
         // Can someone can see the plot we moved our Unit into?
         for loopPlayer in gameModel.players {
-            
+
             if player.isEqual(to: loopPlayer) {
                 continue
             }
-            
+
             if loopPlayer.isAlive() {
-                
+
                 // Human can't be met by an AI spotting him.
                 if !player.isHuman() || loopPlayer.isHuman() {
                     if newPlot.isVisible(to: loopPlayer) {
@@ -1392,9 +1393,9 @@ public class Unit: AbstractUnit {
 
         // If a Unit is adjacent to someone's borders, meet them
         for adjacentPoint in newLocation.neighbors() {
-            
+
             if let adjacentPlot = gameModel.tile(at: adjacentPoint) {
-                
+
                 // Owned by someone
                 if adjacentPlot.hasOwner() && !player.isEqual(to: adjacentPlot.owner()) {
                     diplomacyAI.doFirstContact(with: adjacentPlot.owner(), in: gameModel)
@@ -1402,7 +1403,7 @@ public class Unit: AbstractUnit {
 
                 // Have a naval unit here?
                 if self.isBarbarian() && self.domain() == .sea && adjacentPlot.terrain().isWater() {
-                    
+
                     /*UnitHandle pAdjacentUnit = pAdjacentPlot->getBestDefender(NO_PLAYER, BARBARIAN_PLAYER, NULL, true);
                     if (pAdjacentUnit)
                     {
@@ -1413,7 +1414,7 @@ public class Unit: AbstractUnit {
                 // Natural wonder that provides free promotions?
                 let feature = adjacentPlot.feature()
                 if feature.isWonder() {
-                    
+
                     /*PromotionTypes ePromotion = (PromotionTypes)GC.getFeatureInfo(eFeature)->getAdjacentUnitFreePromotion();
                     if (ePromotion != NO_PROMOTION)
                     {
@@ -1462,15 +1463,15 @@ public class Unit: AbstractUnit {
         }*/
 
         if !noMove {
-            
+
             if newPlot.has(improvement: .goodyHut) {
                 self.player?.doGoodyHut(at: newPlot, by: self, in: gameModel)
             }
-            
+
             if !self.isBarbarian() {
-                
+
                 if newPlot.improvement() == .barbarianCamp {
-                    
+
                     // See if we need to remove a temporary dominance zone
                     player.tacticalAI?.deleteTemporaryZone(at: newPlot.point)
 
@@ -1494,9 +1495,9 @@ public class Unit: AbstractUnit {
 
                     // If it's the active player then show the popup
                     if player.isEqual(to: gameModel.humanPlayer()) {
-                        
+
                         gameModel.userInterface?.showPopup(popupType: .barbarianCampCleared, data: PopupData(money: numGold))
-                            
+
                         // We are adding a popup that the player must make a choice in, make sure they are not in the end-turn phase.
                         // FIXME self.cancelActivePlayerEndTurn();
                     }
@@ -1506,12 +1507,12 @@ public class Unit: AbstractUnit {
 
         // New plot location is owned by someone
         if let plotOwner = newPlot.owner() {
-            
+
             // If we're in friendly territory and we can embark, give the promotion for free
             if newPlot.isFriendlyTerritory(for: self.player, in: gameModel) {
-                
+
                 if player.canEmbark() {
-                    
+
                     // PromotionTypes ePromotionEmbarkation = player.GetEmbarkationPromotion();
 
                     var givePromotion = false
@@ -1537,7 +1538,7 @@ public class Unit: AbstractUnit {
 
             // Are we in enemy territory? If so, give notification to owner
             if diplomacyAI.isAtWar(with: plotOwner) {
-                
+
                 if plotOwner.isEqual(to: gameModel.humanPlayer()) {
                     self.player?.notifications()?.add(type: .enemyInTerritory, for: self.player, message: "An enemy unit has been spotted in our territory!", summary: "An Enemy is Near!", at: newLocation)
                 }
@@ -1574,12 +1575,72 @@ public class Unit: AbstractUnit {
                 }
             }
         }*/
-        
+
         if ownerIsActivePlayer {
             // DLLUI->SetDontShowPopups(false);
         }
     }
-    
+
+    public func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("Cant get gameModel")
+        }
+
+        guard let player = self.player else {
+            fatalError("Cant get player")
+        }
+
+        guard let currentTile = gameModel.tile(at: self.location) else {
+            fatalError("Cant get current tile")
+        }
+
+        var bestValue = Int.max
+        var bestPlot: AbstractTile? = nil
+
+        for pt in self.location.areaWith(radius: range) {
+
+            guard let loopPlot = gameModel.tile(at: pt) else {
+                continue
+            }
+
+            if loopPlot.isValidDomainFor(unit: self) {
+
+                if self.canMove(into: loopPlot.point, in: gameModel) {
+
+                    if gameModel.unit(at: loopPlot.point) == nil {
+                        if !loopPlot.hasOwner() || player.isEqual(to: loopPlot.owner()) {
+
+                            if loopPlot.isDiscovered(by: player) {
+
+                                var value = loopPlot.point.distance(to: self.location)
+
+                                if loopPlot.continentIdentifier() != currentTile.continentIdentifier() {
+                                    value = value * 3
+                                }
+
+                                if value < bestValue {
+                                    bestValue = value
+                                    bestPlot = loopPlot
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if let bestPlot = bestPlot {
+            print("Jump to nearest valid plot within range by \(self.type) , X: \(bestPlot.point.x), Y: \(bestPlot.point.y), From X: \(self.location.x), Y: \(self.location.y)")
+            self.set(location: bestPlot.point, in: gameModel)
+        } else {
+            print("Can't find a valid plot within range. for \(self.type), at X: \(self.location.x), Y: \(self.location.y)")
+            return false
+        }
+
+        return true
+    }
+
     //    ---------------------------------------------------------------------------
     //    Create a new unit using a capture definition.
     //    Returns the unit if create or NULL is the definition is not valid, or something else
@@ -1588,143 +1649,143 @@ public class Unit: AbstractUnit {
     //    Please note this method is static because it is often called AFTER the original unit
     //    has been deleted.
     func createCaptureUnit(from definition: UnitCaptureDefinition) {
-        
+
         fatalError("niy")
     }
-    
+
     public func publishQueuedVisualizationMoves(in gameModel: GameModel?) {
-        
+
         if self.moveLocations.count > 0 {
             gameModel?.userInterface?.move(unit: self, on: self.moveLocations)
-        
+
             self.moveLocations = []
         }
     }
-    
+
     func queueMoveForVisualization(at point: HexPoint, in gameModel: GameModel?) {
-        
+
         self.moveLocations.append(point)
-        
+
         if self.moveLocations.count == 20 {
             self.publishQueuedVisualizationMoves(in: gameModel)
         }
     }
-    
+
     public func isImpassable(tile: AbstractTile?) -> Bool {
-        
+
         guard let tile = tile else {
             fatalError("cant get tile")
         }
-        
+
         let terrain = tile.terrain()
-        
+
         if terrain == .ocean && self.type.abilities().contains(.oceanImpassable) {
-            
+
             return true
         }
-        
+
         if tile.has(feature: .mountains) {
             return true
         }
-        
+
         return false
     }
-    
+
     func extraNavalMoves() -> Int {
-        
+
         // check promotions here?
-        
+
         // FIXME
         //self.promotions?.has(promotion: <#T##UnitPromotionType#>)
         return 0
     }
-    
+
     public func canMove() -> Bool {
-        
+
         return self.moves() > 0
     }
-    
+
     public func canMove(into point: HexPoint, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if self.location == point {
             return true
         }
-        
+
         guard let tile = gameModel.tile(at: point) else {
             return false
         }
-        
+
         if self.isImpassable(tile: tile) {
             return false
         }
-        
+
         if gameModel.isEnemyVisible(at: point, for: self.player) {
             return false
         }
-        
-        if gameModel.unit(at: point ) != nil {
+
+        if gameModel.unit(at: point) != nil {
             return false
         }
-        
+
         return true
     }
-    
+
     public func canGarrison(at point: HexPoint, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         // garrison only in cities
         guard gameModel.city(at: point) != nil else {
             return false
         }
-        
+
         // only one unit per tile
         guard gameModel.unit(at: point) != nil else {
             return false
         }
-        
+
         return true
     }
-    
+
     public func isGarrisoned() -> Bool {
-        
+
         return self.garrisonedValue
     }
-    
+
     @discardableResult
     public func doGarrison(in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         // garrison only in cities
         guard let city = gameModel.city(at: self.location) else {
             return false
         }
-        
+
         if !self.canGarrison(at: self.location, in: gameModel) {
             return false
         }
-        
+
         city.setGarrison(unit: self)
         self.garrisonedValue = true
-        
+
         return true
     }
-    
+
     public func unGarrison(in gameModel: GameModel?) {
-        
+
     }
-    
+
     public func readyToMove() -> Bool {
-    
+
         if !self.canMove() {
             return false
         }
@@ -1734,7 +1795,7 @@ public class Unit: AbstractUnit {
         }
 
         if self.missions.count != 0 {
-            return false;
+            return false
         }
 
         if self.activityTypeValue != .awake {
@@ -1751,64 +1812,64 @@ public class Unit: AbstractUnit {
 
         return true
     }
-    
+
     public func moves() -> Int {
-        
+
         return self.movesValue
     }
-    
+
     public func finishMoves() {
-        
+
         self.movesValue = 0
     }
-    
+
     public func resetMoves(in gameModel: GameModel?) {
-        
+
         self.movesValue = self.maxMoves(in: gameModel)
     }
-    
+
     public func maxMoves(in gameModel: GameModel?) -> Int {
-        
+
         return self.baseMoves(in: gameModel) //self.type.moves()
     }
-    
+
     public func hasMoved(in gameModel: GameModel?) -> Bool {
-        
+
         return self.moves() < self.maxMoves(in: gameModel)
     }
-    
+
     public func movesLeft() -> Int {
-        
+
         return max(0, self.moves())
     }
-    
+
     public func movementType() -> UnitMovementType {
-        
+
         return self.type.movementType()
     }
-    
+
     public func sight() -> Int {
-        
+
         var sightValue = self.type.sight()
-        
+
         if let promotions = self.promotions {
-            
+
             // +1 sight range.
             if promotions.has(promotion: .spyglass) {
                 sightValue += 1
             }
         }
-        
+
         return sightValue
     }
-    
+
     public func range() -> Int {
-        
+
         return self.type.range()
     }
-    
+
     public func search(range: Int, in gameModel: GameModel?) -> Int {
-        
+
         if range == 0 {
             return 0
         }
@@ -1819,24 +1880,24 @@ public class Unit: AbstractUnit {
             return ((range + 1) * (self.baseMoves(in: gameModel) + 1))
         }
     }
-    
+
     // MARK: fortification
-    
+
     public func canFortify(at point: HexPoint, in gameModel: GameModel?) -> Bool {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         if player.isHuman() && self.fortifyValue == 0 {
             // num firendly units
         }
-        
+
         // a unit can either fortify or garrison. Never both.
         if self.canGarrison(at: point, in: gameModel) {
             return false
         }
-        
+
         if !self.isFortifyable(canWaitForNextTurn: true, in: gameModel) {
             return false
         }
@@ -1847,9 +1908,9 @@ public class Unit: AbstractUnit {
 
         return true
     }
-    
+
     func isFortifyable(canWaitForNextTurn: Bool, in gameModel: GameModel?) -> Bool {
-        
+
         // Can't fortify if you've already used any moves this turn
         if !canWaitForNextTurn {
             if self.hasMoved(in: gameModel) {
@@ -1863,62 +1924,62 @@ public class Unit: AbstractUnit {
 
         return true
     }
-    
+
     // Can this Unit EVER fortify? (may be redundant with some other stuff)
     func isEverFortifyable() -> Bool {
 
         /*|| noDefensiveBonus()*/
-        if !self.isCombatUnit()  || (self.domain() != .land && self.domain() != .immobile) {
+        if !self.isCombatUnit() || (self.domain() != .land && self.domain() != .immobile) {
             return false
         }
 
         return true
     }
-    
+
     public func doFortify(in gameModel: GameModel?) {
-        
+
         self.fortifyValue = 1
-        
+
         // todo: notify UI
     }
-    
+
     public func doMobilize(in gameModel: GameModel?) {
         // opposite of fortify
         self.fortifyValue = 0
-        
+
         // todo: notify UI
     }
-    
+
     // MARK: experience
-    
+
     public func experience() -> Int {
-        
+
         return self.experienceValue
     }
-    
+
     public func changeExperience(experience delta: Int, in gameModel: GameModel?) {
-        
+
         guard let promotions = self.promotions else {
             fatalError("cant get promotions")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get promotions")
         }
-        
+
         self.experienceValue += delta
-        
+
         let level = self.experienceLevel()
-        
+
         // promotion message
         if promotions.count() < (level - 1) {
-            
+
             if player.isHuman() {
                 //gameModel?.add(message: PromotionGainedMessage(unit: self))
                 self.player?.notifications()?.add(type: .unitPromotion, for: self.player, message: "\(self.name()) has gained a promotion.", summary: "promotion", at: self.location)
             } else {
                 let promotion = self.choosePromotion()
-                
+
                 do {
                     try promotions.earn(promotion: promotion)
                 } catch PromotionError.alreadyEarned {
@@ -1929,9 +1990,9 @@ public class Unit: AbstractUnit {
             }
         }
     }
-    
+
     private func experienceLevel() -> Int {
-        
+
         if self.experienceValue < 15 {
             return 1
         } else if self.experienceValue < 45 {
@@ -1950,136 +2011,136 @@ public class Unit: AbstractUnit {
             return 8
         }
     }
-    
+
     private func choosePromotion() -> UnitPromotionType {
-        
+
         guard let promotions = self.promotions else {
             fatalError("cant get promotions")
         }
-        
+
         let possiblePromotions = promotions.possiblePromotions()
-        
+
         // only one promotion possible - take this
         if possiblePromotions.count == 1 {
             return possiblePromotions[0]
         }
-        
+
         // get best promotion
         let weightedPromotion = WeightedList<UnitPromotionType>()
         for promotion in possiblePromotions {
             weightedPromotion.add(weight: Double(self.valueOf(promotion: promotion)), for: promotion)
         }
-        
+
         if let bestPromotion = weightedPromotion.chooseBest() {
-        
+
             return bestPromotion
         }
-        
+
         fatalError("cant get promotion - not gonna happen")
     }
-    
+
     private func valueOf(promotion: UnitPromotionType) -> Int {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         var val = 0
-        
+
         for flavorType in FlavorType.all {
             val += player.personalAndGrandStrategyFlavor(for: flavorType) * promotion.flavor(for: flavorType)
         }
-        
+
         return val
     }
-    
+
     // MARK: types
-    
+
     public func isOf(unitType: UnitType) -> Bool {
-        
+
         return self.type == unitType
     }
-    
+
     public func hasSameType(as otherUnit: AbstractUnit?) -> Bool {
-        
+
         return otherUnit?.isOf(unitType: self.type) ?? false
     }
-    
+
     public func isOf(unitClass: UnitClassType) -> Bool {
-        
+
         return self.type.unitClass() == unitClass
     }
-    
+
     public func has(task: UnitTaskType) -> Bool {
-        
+
         return self.type.unitTasks().contains(task)
     }
-    
+
     public func domain() -> UnitDomainType {
-        
+
         return self.type.domain()
     }
 
     public func canDo(command: UnitCommandTypes) -> Bool {
-        
+
         return false
     }
-    
+
     public func can(automate: UnitAutomationType) -> Bool {
-        
+
         switch automate {
-            
+
         case .none:
             return false
         case .build:
             if !self.type.abilities().contains(.canImprove) && !self.type.abilities().contains(.canImproveSea) {
                 return false
             }
-            
+
             return true
         case .explore:
             if self.baseCombatStrength(ignoreEmbarked: true) == 0 {
                 return false
             }
-            
+
             if self.type.domain() == .air {
                 return false
             }
-            
+
             if self.type.domain() == .immobile {
                 return false
             }
-            
+
             return true
         }
     }
-    
+
     public func isAutomated() -> Bool {
-        
+
         return self.automation != .none
     }
-    
+
     public func automateType() -> UnitAutomationType {
-        
+
         return self.automation
     }
-    
+
     public func automate(with type: UnitAutomationType) {
-        
+
         self.automation = type
     }
-   
+
     public func isFound() -> Bool {
-        
+
         return self.type.canFound()
     }
-    
+
     public func canFound(at location: HexPoint, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
@@ -2087,67 +2148,67 @@ public class Unit: AbstractUnit {
         if !self.type.canFound() {
             return false
         }
-        
+
         if !player.canFound(at: location, in: gameModel) {
             return false
         }
-        
+
         return true
     }
-    
+
     public func doFound(with name: String? = nil, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         if !self.canFound(at: self.location, in: gameModel) {
             return false
         }
-        
-        player.found(at: self.location, named: name, in: gameModel)        
+
+        player.found(at: self.location, named: name, in: gameModel)
         self.doKill(delayed: false, by: nil, in: gameModel)
-        
+
         return true
     }
-    
+
     public func doKill(delayed: Bool, by other: AbstractPlayer?, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if delayed {
             self.startDelayedDeath()
             return
         }
-        
+
         if other != nil {
             // FIXME - add die visualization
         }
-        
+
         gameModel.userInterface?.hide(unit: self)
         gameModel.remove(unit: self)
     }
-    
+
     public func isDelayedDeath() -> Bool {
-        
+
         return self.deathDelay
     }
-    
+
     public func startDelayedDeath() {
-        
+
         self.deathDelay = true
     }
-    
+
     // Returns true if killed...
     @discardableResult
     public func doDelayedDeath(in gameModel: GameModel?) -> Bool {
-        
+
         if self.deathDelay /*&& !self.isFighting() && !IsBusy())*/ {
             self.doKill(delayed: false, by: nil, in: gameModel)
             return true
@@ -2155,19 +2216,19 @@ public class Unit: AbstractUnit {
 
         return false
     }
-    
+
     // MARK build
-    
+
     public func canBuild(build: BuildType, at point: HexPoint, testVisible: Bool = false, testGold: Bool = true, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let tile = gameModel.tile(at: point) else {
             fatalError("cant get tile")
         }
@@ -2177,7 +2238,7 @@ public class Unit: AbstractUnit {
         }
 
         if !player.canBuild(build: build, at: point, testVisible: testVisible, testGold: testGold, in: gameModel) {
-            return false;
+            return false
         }
 
         if self.isEmbarked() && tile.terrain().isWater() {
@@ -2185,7 +2246,7 @@ public class Unit: AbstractUnit {
         }
 
         if !testVisible {
-            
+
             // check for any other units working in this plot
             /*gameModel.unit(at: <#T##HexPoint#>)
             pPlot = plot();
@@ -2209,13 +2270,13 @@ public class Unit: AbstractUnit {
 
         return true
     }
-    
+
     public func canContinueBuild(build buildType: BuildType, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         /*guard let player = self.player else {
             fatalError("cant get player")
         }
@@ -2223,8 +2284,8 @@ public class Unit: AbstractUnit {
         guard let tile = gameModel.tile(at: self.location) else {
             fatalError("cant get tile")
         }*/
-        
-        var continueToBuild = false;
+
+        var continueToBuild = false
 
         /*if let improvement = buildType.improvement() {
             
@@ -2255,25 +2316,25 @@ public class Unit: AbstractUnit {
 
         return continueToBuild
     }
-    
+
     // Returns true if build finished...
     // bool CvUnit::build(BuildTypes eBuild)
     public func doBuild(build buildType: BuildType, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let tile = gameModel.tile(at: self.location) else {
             fatalError("Cant get tile")
         }
-        
+
         //self.buildTypeValue = build
-        
+
         /*if let tile = gameModel.tile(at: self.location) {
         if tile.resource() != .none {
             if let player = tile.owner() {
@@ -2282,7 +2343,7 @@ public class Unit: AbstractUnit {
             }
         }
         }*/
-        
+
         var finished: Bool = false
 
         // Don't test Gold
@@ -2294,7 +2355,7 @@ public class Unit: AbstractUnit {
 
         // if we are starting something new, wipe out the old thing immediately
         if startedYet == 0 {
-            
+
             if buildType.improvement() != nil {
 
                 if tile.improvement() != .none {
@@ -2356,7 +2417,7 @@ public class Unit: AbstractUnit {
         } else {
             // we are not done doing this
             if startedYet == 0 {
-                
+
                 if tile.isVisible(to: player) {
                     if buildType.improvement() != nil {
                         //pPlot->setLayoutDirty(true);
@@ -2369,31 +2430,31 @@ public class Unit: AbstractUnit {
 
         return finished
     }
-    
+
     func isGreatPerson() -> Bool {
-        
+
         return self.type == .general || self.type == .artist || self.type == .admiral || self.type == .engineer || self.type == .general || self.type == .merchant || self.type == .prophet || self.type == .scientist
     }
-    
+
     public func buildType() -> BuildType {
-        
+
         return self.buildTypeValue
     }
-    
+
     func canPillage(at point: HexPoint, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let tile = gameModel.tile(at: point) else {
             fatalError("cant get tile")
         }
-        
+
         if self.isEmbarked() {
             return false
         }
@@ -2445,323 +2506,323 @@ public class Unit: AbstractUnit {
 
         return true
     }
-    
+
     public func doPillage(in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         // FIXME
         /*if !self.canPillage(at: self.location, in: gameModel) {
             return false
         }*/
-        
+
         if let tile = gameModel.tile(at: self.location) {
-            
+
             let improvement = tile.improvement()
             if !improvement.canBePillaged() {
                 return false
             } else {
                 tile.removeImprovement()
-                
+
                 if tile.resource(for: player) != .none {
                     if let player = tile.owner() {
                         let resourceQuantity = tile.resourceQuantity()
                         player.changeNumAvailable(resource: tile.resource(for: player), change: -resourceQuantity)
                     }
                 }
-                
+
                 return true
             }
         }
-        
+
         return false
     }
-    
+
     public func doRebase(to point: HexPoint) -> Bool {
-        
+
         // FIXME
         return false
     }
-    
+
     public func canReach(at point: HexPoint, in turns: Int, in gameModel: GameModel?) -> Bool {
-        
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(for: self.movementType(), for: self.player)
-        
+
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
-        
+
             let turnsNeeded = path.count / self.moves()
             return turnsNeeded <= turns
         }
-        
+
         return false
     }
-    
+
     public func turnsToReach(at point: HexPoint, in gameModel: GameModel?) -> Int {
-        
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(for: self.movementType(), for: self.player)
-        
+
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
-            
+
             path.prepend(point: self.location, cost: 0.0)
-            
+
             let turnsNeeded = path.cost / Double(self.moves())
             return Int(turnsNeeded)
         }
-        
+
         return Int.max
     }
-    
+
     func isAmphibious() -> Bool {
-        
+
         if let promotions = self.promotions {
             if promotions.has(promotion: .amphibious) {
                 return true
             }
         }
-        
+
         return false
     }
 
     func isBarbarian() -> Bool {
-        
+
         if let civ = self.player?.leader.civilization() {
             return civ == .barbarian
         }
-        
+
         return false
     }
-    
+
     public func canEverEmbark() -> Bool {
-        
+
         if self.domain() == .land && self.type.has(ability: .canEmbark) {
             return true
         } else {
             return false
         }
     }
-    
+
     public func canEmbark(into point: HexPoint? = nil, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if self.domain() != .land {
-            
+
             return false
         }
-        
+
         if self.isEmbarked() {
-            
+
             return false
         }
-        
+
         if self.movesLeft() <= 0 {
-            
+
             return false
         }
-        
+
         if !gameModel.isCoastal(at: self.location) {
             return false
         }
-        
+
         // check target
         if let point = point {
-            
+
             if !gameModel.valid(point: point) {
                 return false
             }
-            
+
             if let targetTile = gameModel.tile(at: point) {
                 if targetTile.terrain().isLand() {
                     return false
                 }
             }
         }
-        
+
         return true
     }
-    
+
     @discardableResult
     public func doEmbark(into point: HexPoint? = nil, in gameModel: GameModel?) -> Bool {
-        
+
         if !self.canEmbark(into: point, in: gameModel) {
             fatalError("throw")
         }
-        
+
         self.isEmbarkedValue = true
-        
+
         return true
     }
-    
+
     public func canDisembark(into point: HexPoint? = nil, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if self.domain() != .land {
-            
+
             return false
         }
-        
+
         if !self.isEmbarked() {
-            
+
             return false
         }
-        
+
         if self.movesLeft() <= 0 {
-            
+
             return false
         }
-        
+
         /*if !gameModel.isCoastal(at: self.location) {
             return false
         }*/
-        
+
         // check target
         if let point = point {
-            
+
             if !gameModel.valid(point: point) {
                 return false
             }
-            
+
             if let targetTile = gameModel.tile(at: point) {
                 if targetTile.terrain().isWater() {
                     return false
                 }
             }
         }
-        
+
         return true
     }
-    
+
     @discardableResult
     public func doDisembark(into point: HexPoint? = nil, in gameModel: GameModel?) -> Bool {
-        
+
         if !self.canDisembark(into: point, in: gameModel) {
             fatalError("throw")
         }
-        
+
         self.isEmbarkedValue = false
-        
+
         return true
     }
-    
+
     public func isEmbarked() -> Bool {
-        
+
         return self.isEmbarkedValue
     }
-    
+
     public func turn(in gameModel: GameModel?) {
-        
+
         // damage from features?
-        
+
         // FIXME
 
     }
-    
+
     public func set(turnProcessed: Bool) {
-        
+
         self.processedInTurnValue = turnProcessed
     }
-    
+
     public func processedInTurn() -> Bool {
-        
+
         return self.processedInTurnValue
     }
-    
+
     public func set(tacticalMove: TacticalMoveType) {
-        
+
         self.tacticalMoveValue = tacticalMove
     }
-    
+
     public func tacticalMove() -> TacticalMoveType? {
-        
+
         return self.tacticalMoveValue
     }
-    
+
     public func isUnderTacticalControl() -> Bool {
-        
+
         return self.tacticalMoveValue != TacticalMoveType.none
     }
-    
+
     public func set(tacticalTarget: HexPoint) {
-        
+
         self.tacticalTargetValue = tacticalTarget
     }
-    
+
     public func tacticalTarget() -> HexPoint? {
-        
+
         return self.tacticalTargetValue
     }
-    
+
     public func resetTacticalMove() {
-        
+
         self.tacticalMoveValue = nil
         self.tacticalTargetValue = nil
     }
-    
+
     public func army() -> Army? {
-        
+
         return self.armyRef
     }
-    
+
     public func assign(to army: Army?) {
-        
+
         self.armyRef = army
     }
-    
+
     public func isEqual(to other: AbstractUnit?) -> Bool {
-        
+
         guard let other = other else {
             fatalError("cant get other")
         }
-        
+
         return self.location == other.location && other.isOf(unitType: self.type)
     }
-    
+
     public func canEnterTerrain(of tile: AbstractTile?) -> Bool {
-        
+
         // FIXME
         return true
     }
-    
+
     public func canMoveAllTerrain() -> Bool {
-        
+
         // FIXME
         return false
     }
-    
+
     // Can the unit skip their turn at the specified plot
     public func canHold(at point: HexPoint, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         // no hold / skip in cities (need to fortify) for land attack units
         if gameModel.city(at: point) != nil && self.baseCombatStrength() > 0 && self.domain() != .sea {
             return false
         }
-        
+
         return false
     }
-    
+
     public func validTarget(at target: HexPoint, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let tile = gameModel.tile(at: self.location) else {
             fatalError("cant get tile")
         }
-        
+
         guard let targetTile = gameModel.tile(at: target) else {
             fatalError("cant get targetTile")
         }
@@ -2777,45 +2838,45 @@ public class Unit: AbstractUnit {
             } else if targetTile.isFriendlyCity(for: self.player, in: gameModel) && gameModel.isCoastal(at: self.location) {
                 return true
             }
-            break;
+            break
 
         case .air:
             return true
 
         case .land:
             if tile.sameContinent(as: targetTile) || self.canMoveAllTerrain() {
-                return true;
+                return true
             }
-            break;
+            break
 
         case .immobile:
             // NOOP
-            break;
+            break
         case .none:
             // NOOP
-            break;
+            break
         }
 
         return false
     }
-    
+
     func willRevealByMove(tile: AbstractTile?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let tile = tile else {
             fatalError("cant get tile")
         }
-        
+
         let visRange = self.sight()
         let range = visRange + 1
-        
+
         for point in tile.point.areaWith(radius: range) {
-        
+
             if let neighborTile = gameModel.tile(at: point) {
-                
+
                 if !neighborTile.isDiscovered(by: self.player) && tile.canSee(tile: neighborTile, for: self.player, range: visRange, in: gameModel) {
                     return true
                 }
@@ -2824,9 +2885,9 @@ public class Unit: AbstractUnit {
 
         return false
     }
-    
+
     public func isBusy() -> Bool {
-        
+
         if self.missionTimer() > 0 {
             return true
         }
@@ -2842,26 +2903,26 @@ public class Unit: AbstractUnit {
 
 // MARK: mission methods
 extension Unit {
-    
+
     public func activityType() -> UnitActivityType {
-        
+
         return self.activityTypeValue
     }
-    
+
     public func set(activityType: UnitActivityType) {
-        
+
         self.activityTypeValue = activityType
     }
-    
+
     /// Eligible to start a new mission?
     public func canStart(mission: UnitMission, in gameModel: GameModel?) -> Bool {
-         
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         switch mission.type {
-            
+
         case .found:
             if let target = mission.unit?.location {
                 if self.canFound(at: target, in: gameModel) {
@@ -2946,7 +3007,7 @@ extension Unit {
                     return true
                 }
             }
-        /*case .routeTo:
+            /*case .routeTo:
             <#code#>
         case .swapUnits:
             <#code#>
@@ -2956,59 +3017,59 @@ extension Unit {
             // NOOP
             break
         }
-        
+
         return false
     }
-    
+
     public func push(mission: UnitMission, in gameModel: GameModel?) {
-        
+
         self.missions.push(mission)
         print(">>> pushed mission: \(mission.type) \(mission.type.needsTarget() ? "\(mission.target!)" : "") for \(self.type)")
-        
+
         mission.unit = self
-        
+
         mission.start(in: gameModel)
     }
-    
+
     public func popMission() {
-        
+
         self.missions.pop()
-        
+
         if self.missions.count == 0 {
             self.activityTypeValue = .none
         }
     }
-    
+
     public func peekMission() -> UnitMission? {
-        
+
         return self.missions.peek()
     }
-    
+
     public func setMissionTimer(to timer: Int) {
-        
+
         self.missionTimerValue = timer
     }
-    
+
     public func missionTimer() -> Int {
-        
+
         return self.missionTimerValue
     }
-    
+
     /// Perform automated mission
     public func autoMission(in gameModel: GameModel?) {
-        
+
         guard let dangerPlotAI = self.player?.dangerPlotsAI else {
             fatalError("cant get dangerPlotAI")
         }
-        
+
         if let missionNode = self.peekMission() {
-            
+
             if !self.isBusy() && !self.isDelayedDeath() {
-                
+
                 // Builders which are being escorted shouldn't wake up every turn... this is annoying!
                 var escortedBuilder = false
                 if missionNode.type == .build {
-                    
+
                     /*if (hUnit->plot()->getNumDefenders(hUnit->getOwner()) > 0) {
                         escortedBuilder = true
                     }*/
@@ -3031,26 +3092,26 @@ extension Unit {
         //self.ignoreDestruction(true);
         self.doDelayedDeath(in: gameModel)
     }
-    
+
     //    Returns true if the is a move mission at the head of the unit queue and it is complete
     public func hasCompletedMoveMission(in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if let missionNode = self.peekMission() {
-            
+
             if missionNode.type == .moveTo || missionNode.type == .routeTo || missionNode.type == .moveToUnit {
-                
+
                 var targetPlot: AbstractTile? = nil
 
                 if missionNode.type == .moveToUnit {
-                    
+
                     if let targetPoint = missionNode.target {
                         targetPlot = gameModel.tile(at: targetPoint)
                     } else {
-                        return true    // Our unit is gone, assume we are done.
+                        return true // Our unit is gone, assume we are done.
                     }
                 } else {
                     if let targetPoint = missionNode.target {
@@ -3066,17 +3127,17 @@ extension Unit {
 
         return false
     }
-    
+
     public func updateMission(in gameModel: GameModel?) {
-        
+
         if self.missionTimerValue > 0 {
-            
+
             self.missionTimerValue -= 1
-            
+
             if self.missionTimerValue == 0 {
-                
+
                 if self.activityTypeValue == .mission {
-                    
+
                     if let headMission = self.missions.peek() {
                         headMission.continueMission(steps: 0, in: gameModel)
                     }
@@ -3087,62 +3148,62 @@ extension Unit {
             headMission.update()
         }*/
     }
-    
+
     public func clearMissions() {
-        
+
         self.missions.clear()
     }
-    
+
     public func commands(in gameModel: GameModel?) -> [Command] {
-        
+
         guard let techs = self.player?.techs else {
             fatalError("cant get techs")
         }
-        
+
         var commandArray: [Command] = []
-        
+
         if self.type.canFound() {
             commandArray.append(Command(type: .found, location: self.location))
         }
-        
+
         if self.type.canBuild(build: .farm) {
             var requiredTech = true
             if let tech = TileImprovementType.farm.required() {
                 requiredTech = techs.has(tech: tech)
             }
-            
+
             if requiredTech {
                 commandArray.append(Command(type: .buildFarm, location: self.location))
             }
         }
-        
+
         if self.type.canBuild(build: .mine) {
             var requiredTech = true
             if let tech = TileImprovementType.mine.required() {
                 requiredTech = techs.has(tech: tech)
             }
-            
+
             if requiredTech {
                 commandArray.append(Command(type: .buildMine, location: self.location))
             }
         }
-        
+
         if self.canFortify(at: self.location, in: gameModel) {
             commandArray.append(Command(type: .fortify, location: self.location))
         }
-        
+
         if self.canHold(at: self.location, in: gameModel) {
             commandArray.append(Command(type: .hold, location: self.location))
         }
-        
+
         if self.canGarrison(at: self.location, in: gameModel) {
             commandArray.append(Command(type: .garrison, location: self.location))
         }
-        
+
         if self.canPillage(at: self.location, in: gameModel) {
             commandArray.append(Command(type: .pillage, location: self.location))
         }
-        
+
         return commandArray
     }
 }

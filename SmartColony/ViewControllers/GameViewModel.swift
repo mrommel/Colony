@@ -24,7 +24,7 @@ class GameViewModel {
         
         for startLocation in map.startLocations {
             
-            print("startLocation: \(startLocation.leader) (\(startLocation.isHuman ? "human" : "AI")) => \(startLocation.point)")
+            //print("startLocation: \(startLocation.leader) (\(startLocation.isHuman ? "human" : "AI")) => \(startLocation.point)")
             
             // player
             let player = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)
@@ -44,13 +44,26 @@ class GameViewModel {
             players.append(player)
             
             // units
-            let settlerUnit = Unit(at: startLocation.point, type: .settler, owner: player)
-            units.append(settlerUnit)
+            if startLocation.isHuman {
+                let settlerUnit = Unit(at: startLocation.point, type: .settler, owner: player)
+                units.append(settlerUnit)
+
+                let warriorUnit = Unit(at: startLocation.point, type: .warrior, owner: player)
+                units.append(warriorUnit)
+                
+                let builderUnit = Unit(at: startLocation.point, type: .builder, owner: player)
+                units.append(builderUnit)
+            } else {
+                for unitType in handicap.freeAIStartingUnitTypes() {
+                    let unit = Unit(at: startLocation.point, type: unitType, owner: player)
+                    units.append(unit)
+                }
+            }
             
             // debug - FIXME - TODO
             if startLocation.isHuman {
-                print("remove me - this is cheating")
-                GameViewModel.discover(mapModel: &map, by: player)
+                // print("remove me - this is cheating")
+                // GameViewModel.discover(mapModel: &map, by: player)
             }
         }
         
@@ -61,12 +74,20 @@ class GameViewModel {
         players.prepend(playerBarbar)
 
         // game
-        self.game = GameModel(victoryTypes: [.domination], handicap: handicap, turnsElapsed: 0, players: players, on: map)
+        self.game = GameModel(victoryTypes: [.domination, .cultural, .diplomatic, .science], handicap: handicap, turnsElapsed: 0, players: players, on: map)
         
         // add units
+        var lastLeader: LeaderType? = LeaderType.none
         for unit in units {
 
+            if lastLeader == unit.player?.leader {
+                let jumped = unit.jumpToNearestValidPlotWithin(range: 2, in: self.game)
+                print("--- jumped: \(jumped)")
+            }
+            
             self.game?.add(unit: unit)
+            
+            lastLeader = unit.player?.leader
         }
     }
     

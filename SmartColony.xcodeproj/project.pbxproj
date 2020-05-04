@@ -147,16 +147,17 @@
 		C9F91B43244B9B3E0081EDC8 /* Civics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F91B42244B9B3E0081EDC8 /* Civics.xcassets */; };
 		C9F91B45244B9B9A0081EDC8 /* CivicDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B44244B9B9A0081EDC8 /* CivicDisplayNode.swift */; };
 		C9F91B47244C3FA10081EDC8 /* BaseDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B46244C3FA10081EDC8 /* BaseDisplayNode.swift */; };
-		C9F91B49244DF2570081EDC8 /* BuildingDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B48244DF2560081EDC8 /* BuildingDisplayNode.swift */; };
-		C9F91B4B244E407A0081EDC8 /* DistrictDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B4A244E407A0081EDC8 /* DistrictDisplayNode.swift */; };
+		C9F91B49244DF2570081EDC8 /* BuildingBuildingItemDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B48244DF2560081EDC8 /* BuildingBuildingItemDisplayNode.swift */; };
 		C9F91B4D244ECB230081EDC8 /* FrameNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B4C244ECB230081EDC8 /* FrameNode.swift */; };
 		C9F91B4F244EE87E0081EDC8 /* SectionHeaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B4E244EE87E0081EDC8 /* SectionHeaderButton.swift */; };
 		C9F91B51244EEB1F0081EDC8 /* ScrollNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B50244EEB1F0081EDC8 /* ScrollNode.swift */; };
-		C9F91B53244F3C010081EDC8 /* UnitDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B52244F3C000081EDC8 /* UnitDisplayNode.swift */; };
+		C9F91B53244F3C010081EDC8 /* UnitBuildingItemDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B52244F3C000081EDC8 /* UnitBuildingItemDisplayNode.swift */; };
 		C9F91B552450292B0081EDC8 /* WonderDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B54245029290081EDC8 /* WonderDisplayNode.swift */; };
 		C9F91B57245038F20081EDC8 /* Buildings.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F91B56245038F20081EDC8 /* Buildings.xcassets */; };
 		C9F91B59245045350081EDC8 /* BuildingTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B58245045340081EDC8 /* BuildingTypeExtension.swift */; };
 		C9FEEB9E245DF76200C51552 /* WaterLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FEEB9D245DF76200C51552 /* WaterLayer.swift */; };
+		C9FEEBA024601F8800C51552 /* BaseBuildingItemDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FEEB9F24601F8700C51552 /* BaseBuildingItemDisplayNode.swift */; };
+		C9FEEBA1246024B500C51552 /* DistrictBuildingItemDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F91B4A244E407A0081EDC8 /* DistrictBuildingItemDisplayNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -327,16 +328,17 @@
 		C9F91B42244B9B3E0081EDC8 /* Civics.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Civics.xcassets; sourceTree = "<group>"; };
 		C9F91B44244B9B9A0081EDC8 /* CivicDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDisplayNode.swift; sourceTree = "<group>"; };
 		C9F91B46244C3FA10081EDC8 /* BaseDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDisplayNode.swift; sourceTree = "<group>"; };
-		C9F91B48244DF2560081EDC8 /* BuildingDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingDisplayNode.swift; sourceTree = "<group>"; };
-		C9F91B4A244E407A0081EDC8 /* DistrictDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictDisplayNode.swift; sourceTree = "<group>"; };
+		C9F91B48244DF2560081EDC8 /* BuildingBuildingItemDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingBuildingItemDisplayNode.swift; sourceTree = "<group>"; };
+		C9F91B4A244E407A0081EDC8 /* DistrictBuildingItemDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictBuildingItemDisplayNode.swift; sourceTree = "<group>"; };
 		C9F91B4C244ECB230081EDC8 /* FrameNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameNode.swift; sourceTree = "<group>"; };
 		C9F91B4E244EE87E0081EDC8 /* SectionHeaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderButton.swift; sourceTree = "<group>"; };
 		C9F91B50244EEB1F0081EDC8 /* ScrollNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollNode.swift; sourceTree = "<group>"; };
-		C9F91B52244F3C000081EDC8 /* UnitDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitDisplayNode.swift; sourceTree = "<group>"; };
+		C9F91B52244F3C000081EDC8 /* UnitBuildingItemDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitBuildingItemDisplayNode.swift; sourceTree = "<group>"; };
 		C9F91B54245029290081EDC8 /* WonderDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderDisplayNode.swift; sourceTree = "<group>"; };
 		C9F91B56245038F20081EDC8 /* Buildings.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Buildings.xcassets; sourceTree = "<group>"; };
 		C9F91B58245045340081EDC8 /* BuildingTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingTypeExtension.swift; sourceTree = "<group>"; };
 		C9FEEB9D245DF76200C51552 /* WaterLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterLayer.swift; sourceTree = "<group>"; };
+		C9FEEB9F24601F8700C51552 /* BaseBuildingItemDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBuildingItemDisplayNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -504,9 +506,10 @@
 				C9F91B46244C3FA10081EDC8 /* BaseDisplayNode.swift */,
 				C95D9D64244A32A0007C522E /* TechDisplayNode.swift */,
 				C9F91B44244B9B9A0081EDC8 /* CivicDisplayNode.swift */,
-				C9F91B4A244E407A0081EDC8 /* DistrictDisplayNode.swift */,
-				C9F91B48244DF2560081EDC8 /* BuildingDisplayNode.swift */,
-				C9F91B52244F3C000081EDC8 /* UnitDisplayNode.swift */,
+				C9FEEB9F24601F8700C51552 /* BaseBuildingItemDisplayNode.swift */,
+				C9F91B4A244E407A0081EDC8 /* DistrictBuildingItemDisplayNode.swift */,
+				C9F91B48244DF2560081EDC8 /* BuildingBuildingItemDisplayNode.swift */,
+				C9F91B52244F3C000081EDC8 /* UnitBuildingItemDisplayNode.swift */,
 				C9F91B54245029290081EDC8 /* WonderDisplayNode.swift */,
 				C9F91B4C244ECB230081EDC8 /* FrameNode.swift */,
 				C9F91B4E244EE87E0081EDC8 /* SectionHeaderButton.swift */,
@@ -882,6 +885,7 @@
 				C9B1D23E2434B7BE00033791 /* Globals.swift in Sources */,
 				C9B1D2342434B0BE00033791 /* CGRectExtension.swift in Sources */,
 				C9B1D21E243478F400033791 /* CoreDataManager.swift in Sources */,
+				C9FEEBA024601F8800C51552 /* BaseBuildingItemDisplayNode.swift in Sources */,
 				C9FEEB9E245DF76200C51552 /* WaterLayer.swift in Sources */,
 				C9B1D2402434B83800033791 /* CGSizeExtension.swift in Sources */,
 				C9B1D23A2434B74F00033791 /* SpriteButtonNode.swift in Sources */,
@@ -898,7 +902,6 @@
 				C9F91B45244B9B9A0081EDC8 /* CivicDisplayNode.swift in Sources */,
 				C95B3DF824387188002F5A86 /* BottomRightBar.swift in Sources */,
 				C9B1D2362434B10000033791 /* SKSpriteNodeExtension.swift in Sources */,
-				C9F91B4B244E407A0081EDC8 /* DistrictDisplayNode.swift in Sources */,
 				C97CD3A1243A3F1200FABCC0 /* TextureUtils.swift in Sources */,
 				C9EC4E1B244454F9001A0597 /* CityObject.swift in Sources */,
 				C9B1D25B2434C82F00033791 /* DropdownNode.swift in Sources */,
@@ -908,9 +911,10 @@
 				C97CD3AE243B669500FABCC0 /* GameObjectAtlas.swift in Sources */,
 				C9F91B51244EEB1F0081EDC8 /* ScrollNode.swift in Sources */,
 				C97CD39F243A3E9C00FABCC0 /* ResourceLayer.swift in Sources */,
-				C9F91B53244F3C010081EDC8 /* UnitDisplayNode.swift in Sources */,
+				C9F91B53244F3C010081EDC8 /* UnitBuildingItemDisplayNode.swift in Sources */,
 				C90791792459D69700248596 /* GameHandicapDialog.swift in Sources */,
 				C9EB9F5E2452F4F300F13B02 /* RightHeaderBarNode.swift in Sources */,
+				C9FEEBA1246024B500C51552 /* DistrictBuildingItemDisplayNode.swift in Sources */,
 				C9B1D27924351F3500033791 /* Dialog.swift in Sources */,
 				C95B3DFE243872E0002F5A86 /* TouchableSpriteNode.swift in Sources */,
 				C95B3DEE243726CD002F5A86 /* GameLoadingScene.swift in Sources */,
@@ -923,7 +927,7 @@
 				C95B3DF224386E8A002F5A86 /* GameSceneViewModel.swift in Sources */,
 				C9B1D25D2435160800033791 /* ProgressBarNode.swift in Sources */,
 				C9B1D22C2434955300033791 /* BaseScene.swift in Sources */,
-				C9F91B49244DF2570081EDC8 /* BuildingDisplayNode.swift in Sources */,
+				C9F91B49244DF2570081EDC8 /* BuildingBuildingItemDisplayNode.swift in Sources */,
 				C9079181245A20D800248596 /* YieldLayer.swift in Sources */,
 				C95B3DF624387125002F5A86 /* BottomLeftBar.swift in Sources */,
 				C9B1D283243521A500033791 /* MapRainfallDialog.swift in Sources */,

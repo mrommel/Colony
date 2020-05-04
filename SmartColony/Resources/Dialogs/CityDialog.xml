@@ -118,9 +118,9 @@
         </item>
         
         <item>
-            <identifier>cancel_button</identifier>
+            <identifier>okay_button</identifier>
             <type>button</type>
-            <title>Cancel</title>
+            <title>Okay</title>
             <result>CANCEL</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>

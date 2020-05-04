@@ -147,7 +147,9 @@ public protocol AbstractTile: Codable {
     func isRiverIn(flow: FlowDirection) -> Bool
 
     func movementCost(for movementType: UnitMovementType, from source: AbstractTile) -> Double
-
+    func isValidDomainFor(unit: AbstractUnit?) -> Bool
+    func isValidDomainForAction(of unit: AbstractUnit?) -> Bool
+    
     // scratch pad
     func builderAIScratchPad() -> BuilderAIScratchPad
     func set(builderAIScratchPad: BuilderAIScratchPad)
@@ -1077,6 +1079,34 @@ class Tile: AbstractTile {
         }
 
         return true
+    }
+    
+    func isValidDomainFor(unit: AbstractUnit?) -> Bool {
+        
+        if self.isValidDomainForAction(of: unit) {
+            return true
+        }
+        
+        return self.isCity()
+    }
+    
+    func isValidDomainForAction(of unit: AbstractUnit?) -> Bool {
+        
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        switch unit.domain() {
+            
+        case .none: return false
+            
+        case .land, .immobile:
+            return (!self.terrain().isWater() /*|| unit.IsHoveringUnit()*/ || unit.canMoveAllTerrain() || unit.isEmbarked())
+        case .sea:
+            return (self.terrain().isWater() || unit.canMoveAllTerrain())
+        case .air:
+            return false
+        }
     }
 
     func canHave(resource: ResourceType, ignoreLatitude: Bool = false, in mapModel: MapModel?) -> Bool {

@@ -689,6 +689,72 @@ public class City: AbstractCity {
         return foodPerTurn
     }
     
+    private func housingPerTurn(in gameModel: GameModel?) -> Double {
+        
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
+        var housing = self.baseHousing(in: gameModel)
+        housing += buildings.housing()
+        housing += self.housingFromImprovements(in: gameModel)
+         
+        return housing
+    }
+    
+    // Each Farm, Pasture, Plantation, or Camp supports a small amount of Citizen6 Population — 1 Housing6 Housing for every 2 such improvements.
+    private func housingFromImprovements(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+        
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
+        
+        var farms: Int = 0
+        var pastures: Int = 0
+        var plantations: Int = 0
+        var camps: Int = 0
+        
+        for point in cityCitizens.workingTileLocations() {
+            if cityCitizens.isWorked(at: point) {
+                if let adjacentTile = gameModel.tile(at: point) {
+                    
+                    // farms
+                    if adjacentTile.has(improvement: .farm) {
+                        farms += 1
+                    }
+                    
+                    // pastures
+                    if adjacentTile.has(improvement: .pasture) {
+                        pastures += 1
+                    }
+                    
+                    // plantations
+                    if adjacentTile.has(improvement: .plantation) {
+                        plantations += 1
+                    }
+                    
+                    // camps
+                    if adjacentTile.has(improvement: .camp) {
+                        camps += 1
+                    }
+                }
+            }
+        }
+        
+        var housingValue: Double = 0.0
+        
+        housingValue += Double((farms / 2))
+        housingValue += Double((pastures / 2))
+        housingValue += Double((plantations / 2))
+        housingValue += Double((camps / 2))
+        
+        return housingValue
+    }
+    
     private func doGrowth(in gameModel: GameModel?) {
         
         guard let cityCitizens = self.cityCitizens else {
@@ -698,17 +764,6 @@ public class City: AbstractCity {
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
-        guard let buildings = self.buildings else {
-            fatalError("cant get buildings")
-        }
-        
-        // No growth or starvation if being razed
-        /*if (IsRazing()) {
-            return
-        }*/
-        
-        //let yields = self.yields(in: gameModel)
 
         let foodPerTurn = self.foodPerTurn(in: gameModel)
         let foodEatenPerTurn = self.foodConsumption()
@@ -725,9 +780,7 @@ public class City: AbstractCity {
         
         // housing
         // https://civilization.fandom.com/wiki/Housing_(Civ6)
-        var housing = self.baseHousing(in: gameModel)
-        housing += 5 // yields.housing
-        housing += buildings.housing()
+        let housing = self.housingPerTurn(in: gameModel)
         
         let housingDiff = Int(housing) - Int(self.populationValue)
         
@@ -2032,20 +2085,19 @@ public class City: AbstractCity {
     func growthThreshold() -> Double {
 
         // https://forums.civfanatics.com/threads/formula-thread.600534/
+        // https://forums.civfanatics.com/threads/mathematical-model-comparison.634332/
         //Population growth (food)
-        // 15+8*n+n^1.5
-        // (n is current population-1)
-        
-        //return Double(self.population()) * 4.0
+        // 15+8*n+n^1.5 (n is current population-1)
+        // 15+8*(N-1)+(N-1)^1.5
+        // 1=>2 =>> 15+0+0^1.5=15
+        // 2=>3 =>> 15+8+1^1.5=24
+        // 3=>4 =>> 15+16+2^1.5=34
 
-        var baseThreshold = 15.0 /* BASE_CITY_GROWTH_THRESHOLD */
+        var growthThreshold = 15.0 /* BASE_CITY_GROWTH_THRESHOLD */
+        growthThreshold += (self.populationValue - 1.0) * 8.0 /* CITY_GROWTH_MULTIPLIER */
+        growthThreshold += pow(self.populationValue - 1.0, 1.5 /* CITY_GROWTH_EXPONENT */ )
 
-        var extraPopThreshold = (self.populationValue - 1.0) * 6.0 /* CITY_GROWTH_MULTIPLIER */
-
-        baseThreshold += extraPopThreshold
-        extraPopThreshold = pow(self.populationValue - 1.0, 1.8 /* CITY_GROWTH_EXPONENT */ )
-
-        return baseThreshold + extraPopThreshold
+        return growthThreshold
     }
 
     func updateProduction(for productionPerTurn: Double, in gameModel: GameModel?) {
@@ -2148,6 +2200,7 @@ public class City: AbstractCity {
         self.featureProductionValue = value
     }
 
+    // Each Citizen6 Citizen living in a city consumes 2 Food per turn, which forms the city's total food consumption.
     public func foodConsumption() -> Double {
 
         return Double(self.population()) * 2.0

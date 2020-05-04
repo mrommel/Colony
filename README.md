@@ -1,7 +1,6 @@
 # Colony
 
 ## Todo
-- add resources (incl show in layer) to maps
 - other leaders
 - advisor screen
 - tech select screen (/)
@@ -22,10 +21,14 @@
     - colors (/)
 - textures of mountains - outskirts
 - map options
-    - yield icons
+    - yield icons (/)
+    - water display (/)
+    - ...
 - rework river generation
-    - A river will also turn adjacent flat desert tiles into flood plains, adjacent snow tiles to tundra tiles, and adjacent tundra tiles to plains.
-
+    - A river will also turn adjacent flat desert tiles into flood plains, adjacent snow tiles to tundra tiles, and adjacent tundra tiles to plains. (/)
+    - distibute springs evenly
+- add builder from start
+- add warrior
 
 ## Defects
 - unit is below city banner
@@ -58,6 +61,7 @@
 - yield_2_1_3
 
 ## Done
+- add resources (incl show in layer) to maps
 - show border of owned land
 - game rating screen
 - board is above ui
