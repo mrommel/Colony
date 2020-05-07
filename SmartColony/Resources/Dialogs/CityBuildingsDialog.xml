@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>top</anchory>
+    <offsetx>0</offsetx>
+    <offsety>45%</offsety>
+    <width>90%</width>
+    <height>90%</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        <item>
+            <identifier>city_name</identifier>
+            <type>label</type>
+            <title>City</title>
+            <anchorx>center</anchorx>
+            <anchory>top</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-70</offsety>
+            <width>200</width>
+            <height>20</height>
+        </item>
+        <item>
+            <identifier>summary</identifier>
+            <type>label</type>
+            <title>Sell buildings?</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-140</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <!-- elements are added here programmatically -->
+        
+        <item>
+            <identifier>cancel_button</identifier>
+            <type>button</type>
+            <title>Cancel</title>
+            <result>CANCEL</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-80%</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+    </items>
+</context>
+
+

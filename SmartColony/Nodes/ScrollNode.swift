@@ -26,7 +26,9 @@ class ScrollNode: SKCropNode {
         
         super.init()
         
-        self.maskNode = SKSpriteNode(color: SKColor.black, size: self.size)
+        //self.maskNode = SKSpriteNode(color: SKColor.black, size: self.size /*.reduced(dx: 2, dy: 2)*/)
+        let maskTexture = SKTexture(image: self.maskTexture(size: self.size)!)
+        self.maskNode = SKSpriteNode(texture: maskTexture, size: self.size)
         
         self.isUserInteractionEnabled = true
         
@@ -52,11 +54,16 @@ class ScrollNode: SKCropNode {
         let touch = touches.first!
         
         let touchLocation = touch.location(in: self)
+        
+        if !self.backgroundNode!.contains(touchLocation) {
+            return
+        }
+        
         let previousLocation = touch.previousLocation(in: self)
         let deltaY = (touchLocation.y) - (previousLocation.y)
         
         if abs(deltaY) < 0.1 {
-            return
+            //return
         }
         
         var newPositionY = self.scrollNode!.position.y + deltaY
@@ -71,6 +78,19 @@ class ScrollNode: SKCropNode {
         
         self.scrollNode?.position.y = newPositionY
     }
+    
+    /*override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        let touch = touches.first!
+        
+        let touchLocation = touch.location(in: self)
+        
+        if !self.frame.contains(touchLocation) {
+            return
+        }
+        
+        super.touchesEnded(touches, with: event)
+    }*/
 
     func addScrolling(child: SKNode) {
         
@@ -80,5 +100,18 @@ class ScrollNode: SKCropNode {
     override func addChild(_ node: SKNode) {
         
         fatalError("use addScrolling(child:) instead")
+    }
+    
+    private func maskTexture(size: CGSize) -> UIImage? {
+        
+        var pixelBuffer = PixelBuffer(width: Int(size.width), height: Int(size.height), color: .clear)
+        
+        for x in 1..<Int(size.width-1) {
+            for y in 1..<Int(size.height-1) {
+                pixelBuffer.set(color: .black, x: x, y: y)
+            }
+        }
+        
+        return pixelBuffer.toUIImage()
     }
 }

@@ -36,6 +36,20 @@ public class BuildQueue {
         return nil
     }
     
+    public func isBuilding(buildingType: BuildingType) -> Bool {
+        
+        for item in self.items {
+            
+            if let type = item.buildingType {
+                if type == buildingType {
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
+    
     func unit(of unitType: UnitType) -> BuildableItem? {
         
         if let item = self.items.first(where: { $0.type == .unit && $0.unitType == unitType }) {

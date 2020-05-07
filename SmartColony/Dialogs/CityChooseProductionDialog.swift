@@ -30,7 +30,7 @@ class CityChooseProductionDialog: Dialog {
     var unitProductionNodes: [UnitBuildingItemDisplayNode] = []
     
     var wondersSectionButton: SectionHeaderButton?
-    var wonderProductionNodes: [WonderDisplayNode] = []
+    var wonderProductionNodes: [WonderBuildingItemDisplayNode] = []
 
     init(for city: AbstractCity?, in gameModel: GameModel?) {
 
@@ -104,7 +104,7 @@ class CityChooseProductionDialog: Dialog {
         // scroll area
         self.scrollNode = ScrollNode(size: CGSize(width: 250, height: 300), contentSize: CGSize(width: 250, height: 500))
         self.scrollNode?.position = CGPoint(x: 0, y: -415)
-        self.scrollNode?.zPosition = 200
+        self.scrollNode?.zPosition = 199
         self.addChild(self.scrollNode!)
         
         // buildings/districts section
@@ -112,7 +112,7 @@ class CityChooseProductionDialog: Dialog {
                                                                buttonAction: {
                                                                 self.toogleDistrictAndBuildingProductions()
         })
-        self.buildingsAndDistrictsSectionButton?.zPosition = 200
+        self.buildingsAndDistrictsSectionButton?.zPosition = 199
         scrollNode?.addScrolling(child: self.buildingsAndDistrictsSectionButton!)
         
         // units section
@@ -120,7 +120,7 @@ class CityChooseProductionDialog: Dialog {
                                                                buttonAction: {
                                                                 self.toggleUnitProductions()
         })
-        self.unitsSectionButton?.zPosition = 200
+        self.unitsSectionButton?.zPosition = 199
         scrollNode?.addScrolling(child: self.unitsSectionButton!)
         
         // units section
@@ -128,7 +128,7 @@ class CityChooseProductionDialog: Dialog {
                                                                buttonAction: {
                                                                 self.toggleWonderProductions()
         })
-        self.wondersSectionButton?.zPosition = 200
+        self.wondersSectionButton?.zPosition = 199
         scrollNode?.addScrolling(child: self.wondersSectionButton!)
         
         // show currently built buildings grouped by district
@@ -140,7 +140,7 @@ class CityChooseProductionDialog: Dialog {
                 let districtNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: true, size: CGSize(width: 200, height: 40), buttonAction: { districtType in
                     
                 })
-                districtNode.zPosition = 200
+                districtNode.zPosition = 199
                 scrollNode?.addScrolling(child: districtNode)
                 
                 var buildingNodes: [BuildingBuildingItemDisplayNode?] = []
@@ -155,7 +155,10 @@ class CityChooseProductionDialog: Dialog {
                                 handler(buildingType)
                             }
                         })
-                        buildingNode.zPosition = 200
+                        if city.buildQueue.isBuilding(buildingType: buildingType) {
+                            buildingNode.disable()
+                        }
+                        buildingNode.zPosition = 199
                         scrollNode?.addScrolling(child: buildingNode)
                         
                         buildingNodes.append(buildingNode)
@@ -177,7 +180,7 @@ class CityChooseProductionDialog: Dialog {
                         handler(districtType)
                     }
                 })
-                districtNode.zPosition = 200
+                districtNode.zPosition = 199
                 scrollNode?.addScrolling(child: districtNode)
                 
                 let cityDistrictProduction = CityDistrictProductionNodeGroup(districtNode: districtNode, buildingNodes: [])
@@ -196,7 +199,7 @@ class CityChooseProductionDialog: Dialog {
                         handler(unitType)
                     }
                 })
-                unitProduction.zPosition = 200
+                unitProduction.zPosition = 199
                 scrollNode?.addScrolling(child: unitProduction)
                 
                 self.unitProductionNodes.append(unitProduction)
@@ -207,15 +210,15 @@ class CityChooseProductionDialog: Dialog {
             
             if city.canBuild(wonder: wonderType, in: gameModel) {
                 
-                let wonderProductionNode = WonderDisplayNode(wonderType: wonderType, size: CGSize(width: 200, height: 40), buttonAction: { wonderType in
+                let wonderProductionNode = WonderBuildingItemDisplayNode(wonderType: wonderType, size: CGSize(width: 200, height: 40), buttonAction: { wonderType in
                     
-                    //print("select wonderType: \(wonderType)")
+                    print("select wonderType: \(wonderType)")
                     
                     if let handler = self.wonderTypeResultHandler {
                         handler(wonderType)
                     }
                 })
-                wonderProductionNode.zPosition = 200
+                wonderProductionNode.zPosition = 199
                 scrollNode?.addScrolling(child: wonderProductionNode)
                 
                 self.wonderProductionNodes.append(wonderProductionNode)

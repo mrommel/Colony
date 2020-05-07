@@ -58,4 +58,9 @@ class BaseBuildingItemDisplayNode: SKNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func disable() {
+        
+        self.backgroundNode?.texture = SKTexture(imageNamed: "grid9_button_disabled")
+    }
 }

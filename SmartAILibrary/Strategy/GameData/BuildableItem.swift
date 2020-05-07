@@ -67,7 +67,7 @@ public class BuildableItem: Codable {
     
     init(wonderType: WonderType) {
         
-        self.type = .building
+        self.type = .wonder
         self.unitType = nil
         self.buildingType = nil
         self.wonderType = wonderType
