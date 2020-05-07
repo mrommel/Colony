@@ -2333,16 +2333,16 @@ public class Unit: AbstractUnit {
             fatalError("Cant get tile")
         }
 
-        //self.buildTypeValue = build
+        self.buildTypeValue = buildType
 
-        /*if let tile = gameModel.tile(at: self.location) {
-        if tile.resource() != .none {
-            if let player = tile.owner() {
-                let resourceQuantity = tile.resourceQuantity()
-                player.changeNumAvailable(resource: tile.resource(), change: resourceQuantity)
+        if let tile = gameModel.tile(at: self.location) {
+            if tile.resource(for: self.player) != .none {
+                if let player = tile.owner() {
+                    let resourceQuantity = tile.resourceQuantity()
+                    player.changeNumAvailable(resource: tile.resource(for: self.player), change: resourceQuantity)
+                }
             }
         }
-        }*/
 
         var finished: Bool = false
 
@@ -3168,7 +3168,7 @@ extension Unit {
 
         if self.type.canBuild(build: .farm) {
             var requiredTech = true
-            if let tech = TileImprovementType.farm.required() {
+            if let tech = ImprovementType.farm.required() {
                 requiredTech = techs.has(tech: tech)
             }
 
@@ -3179,7 +3179,7 @@ extension Unit {
 
         if self.type.canBuild(build: .mine) {
             var requiredTech = true
-            if let tech = TileImprovementType.mine.required() {
+            if let tech = ImprovementType.mine.required() {
                 requiredTech = techs.has(tech: tech)
             }
 

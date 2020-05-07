@@ -179,6 +179,19 @@ class StartPositioner {
                 for startPoint in startArea.area {
                     
                     var valueSum: Int = 0
+                    var tooClose: Bool = false
+                    
+                    // other start locations
+                    for otherStartLocation in self.startLocations {
+                        if startPoint.distance(to: otherStartLocation.point) < 10 {
+                            tooClose = true
+                            break
+                        }
+                    }
+                    
+                    if tooClose {
+                        continue
+                    }
                     
                     for loopPoint in startPoint.areaWith(radius: 2) {
                         if let tile = self.map?.tile(at: loopPoint) {
@@ -197,11 +210,14 @@ class StartPositioner {
                 }
             }
             
-            // assign civ
-            //bestArea?.used = true
-            
+            // remove current start area
             if let identifier = bestArea?.area.identifier {
                 self.startAreas = self.startAreas.filter({ $0.area.identifier != identifier })
+            }
+            
+            // sanity check - should restart
+            guard bestLocation != HexPoint.zero else {
+                fatalError("Can't find valid start location")
             }
             
             self.startLocations.append(StartLocation(point: bestLocation, leader: leader, isHuman: leader == human))

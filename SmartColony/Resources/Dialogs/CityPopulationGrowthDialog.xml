@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>top</anchory>
+    <offsetx>0</offsetx>
+    <offsety>45%</offsety>
+    <width>90%</width>
+    <height>90%</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        <item>
+            <identifier>city_name</identifier>
+            <type>label</type>
+            <title>City</title>
+            <anchorx>center</anchorx>
+            <anchory>top</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-70</offsety>
+            <width>200</width>
+            <height>20</height>
+        </item>
+        <item>
+            <identifier>summary</identifier>
+            <type>label</type>
+            <title>Citizen Growth</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-140</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>food_per_turn_title</identifier>
+            <type>label</type>
+            <title>Food per turn</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-210</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>food_per_turn_value</identifier>
+            <type>label</type>
+            <title>2</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-210</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>food_consumption_title</identifier>
+            <type>label</type>
+            <title>Food comsumption</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-250</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>food_consumption_value</identifier>
+            <type>label</type>
+            <title>2</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-250</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>food_surplus_title</identifier>
+            <type>label</type>
+            <title>Food Surplus per turn</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-290</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>food_surplus_value</identifier>
+            <type>label</type>
+            <title>2</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-290</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>amenities_modifier_title</identifier>
+            <type>label</type>
+            <title>Amenities growth bonus</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-330</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>amenities_modifier_value</identifier>
+            <type>label</type>
+            <title>2</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-330</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+        
+        <!-- ... -->
+        
+        <item>
+            <identifier>housing_modifier_title</identifier>
+            <type>label</type>
+            <title>Housing multiplier</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-430</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>housing_modifier_value</identifier>
+            <type>label</type>
+            <title>2</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-430</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>total_food_surplus_title</identifier>
+            <type>label</type>
+            <title>Total Food Surplus</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-470</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>total_food_surplus_value</identifier>
+            <type>label</type>
+            <title>2</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-470</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>growth_in_title</identifier>
+            <type>label</type>
+            <title>Growth in</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-510</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>growth_in_value</identifier>
+            <type>label</type>
+            <title>2</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-510</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+        
+        <!-- elements are added here programmatically -->
+        
+        <item>
+            <identifier>cancel_button</identifier>
+            <type>button</type>
+            <title>Cancel</title>
+            <result>CANCEL</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-80%</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+    </items>
+</context>
+

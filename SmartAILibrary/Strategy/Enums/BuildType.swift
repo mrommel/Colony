@@ -42,7 +42,7 @@ public enum BuildType: Int, Codable {
         return self.data().repair
     }
     
-    func improvement() -> TileImprovementType? {
+    func improvement() -> ImprovementType? {
         
         return self.data().improvement
     }
@@ -118,13 +118,13 @@ public enum BuildType: Int, Codable {
         let name: String
         let repair: Bool
         let required: TechType?
-        let improvement: TileImprovementType?
+        let improvement: ImprovementType?
         let route: RouteType?
         let removeRoad: Bool
         var featureBuilds: [FeatureBuild] = []
         let duration: Int
         
-        init(name: String, repair: Bool = false, required: TechType? = nil, improvement: TileImprovementType? = nil, route: RouteType? = nil, removeRoad: Bool = false, duration: Int) {
+        init(name: String, repair: Bool = false, required: TechType? = nil, improvement: ImprovementType? = nil, route: RouteType? = nil, removeRoad: Bool = false, duration: Int) {
             
             self.name = name
             self.repair = repair

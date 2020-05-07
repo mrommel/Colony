@@ -31,6 +31,7 @@ class TextureUtils {
         var yieldsSprite: SKSpriteNode? = nil
         var waterSprite: SKSpriteNode? = nil
         var riverSprite: SKSpriteNode? = nil
+        var improvementSprite: SKSpriteNode? = nil
         
         init(point: HexPoint) {
             
@@ -166,7 +167,17 @@ class TextureUtils {
         
         return self.tileTextures?[point.x, point.y]?.riverSprite
     }
-
+    
+    func set(improvementSprite: SKSpriteNode?, at point: HexPoint) {
+        
+        self.tileTextures?[point.x, point.y]?.improvementSprite = improvementSprite
+    }
+    
+    func improvementSprite(at point: HexPoint) -> SKSpriteNode? {
+        
+        return self.tileTextures?[point.x, point.y]?.improvementSprite
+    }
+    
     // MARK -
     
     func coastTexture(at point: HexPoint) -> String? {

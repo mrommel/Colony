@@ -18,11 +18,11 @@ class ResourceInventory: WeightedList<ResourceType> {
     }
 }
 
-class ImprovementCountList: WeightedList<TileImprovementType> {
+class ImprovementCountList: WeightedList<ImprovementType> {
     
     override func fill() {
         
-        for improvementType in TileImprovementType.all {
+        for improvementType in ImprovementType.all {
             self.add(weight: 0.0, for: improvementType)
         }
     }
@@ -150,7 +150,7 @@ public protocol AbstractPlayer: class {
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
     func hasBusyUnitOrCity() -> Bool
     
-    func changeImprovementCount(of improvement: TileImprovementType, change: Int)
+    func changeImprovementCount(of improvement: ImprovementType, change: Int)
     func changeTotalImprovementsBuilt(change: Int)
     
     func reportCultureFromKills(at point: HexPoint, culture cultureVal: Int, wasBarbarian: Bool, in gameModel: GameModel?)
@@ -661,6 +661,9 @@ public class Player: AbstractPlayer {
         // Great People gifts from Allied City States (if we have that policy)
         // self.doGreatPeopleSpawnTurn();
 
+        // balance amenities
+        self.doCityAmenities(in: gameModel)
+        
         // Do turn for all Cities
         for cityRef in gameModel.cities(of: self) {
             
@@ -692,6 +695,74 @@ public class Player: AbstractPlayer {
         // GC.GetEngineUserInterface()->setDirty(CityInfo_DIRTY_BIT, true);
 
         self.doTurnPost()
+    }
+    
+    func doCityAmenities(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+        
+        for cityRef in gameModel.cities(of: self) {
+        
+            /*guard let city = cityRef else {
+                fatalError("cant get city")
+            }*/
+            
+            cityRef?.resetLuxuries()
+        }
+        
+        var luxuriesToDistribute: [ResourceType] = []
+        
+        for resource in ResourceType.all {
+            
+            guard resource.usage() == .luxury else {
+                continue
+            }
+            
+            let amountOfResource = self.numForCityAvailable(resource: resource)
+            
+            for _ in 0..<amountOfResource {
+                luxuriesToDistribute.append(resource)
+            }
+        }
+        
+        for luxuryToDistribute in luxuriesToDistribute {
+            
+            if let city = self.cityNeedsMostLuxuriesButHasnt(luxury: luxuryToDistribute, in: gameModel) {
+                city.add(luxury: luxuryToDistribute)
+            }
+        }
+    }
+    
+    private func cityNeedsMostLuxuriesButHasnt(luxury: ResourceType, in gameModel: GameModel?) -> AbstractCity? {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var bestCity: AbstractCity? = nil
+        var bestValue: Double = -1.0
+        
+        for cityRef in gameModel.cities(of: self) {
+        
+            guard let city = cityRef else {
+                fatalError("cant get city")
+            }
+            
+            if city.has(luxury: luxury) {
+                continue
+            }
+            
+            let value = city.luxuriesNeeded()
+            
+            if value > bestValue {
+                bestValue = value
+                bestCity = city
+            }
+        }
+        
+        return bestCity
     }
     
     func doCivics(in gameModel: GameModel?) {
@@ -1877,6 +1948,15 @@ public class Player: AbstractPlayer {
         return 0
     }
     
+    public func numForCityAvailable(resource: ResourceType) -> Int {
+        
+        if let resourceInventory = self.resourceInventory {
+            return Int(resourceInventory.weight(of: resource)) * resource.amenities()
+        }
+        
+        return 0
+    }
+    
     public func changeNumAvailable(resource: ResourceType, change: Int) {
         
         guard let resourceInventory = self.resourceInventory else {
@@ -1973,7 +2053,7 @@ public class Player: AbstractPlayer {
         return 0
     }
     
-    public func changeImprovementCount(of improvement: TileImprovementType, change: Int) {
+    public func changeImprovementCount(of improvement: ImprovementType, change: Int) {
         
         self.improvementCountList.add(weight: change, for: improvement)
     }

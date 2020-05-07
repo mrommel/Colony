@@ -189,7 +189,7 @@ public enum ResourceType: Int, Codable {
         }
     }
 
-    func accessImprovement() -> TileImprovementType {
+    func accessImprovement() -> ImprovementType {
 
         switch self {
 
@@ -205,7 +205,7 @@ public enum ResourceType: Int, Codable {
         case .stone, .marble:
             return .quarry
 
-        case .bananas, .citrus, .tea, .sugar, .spices, .wine, .cotton, .dyes, .incense, .silk, .spices:
+        case .bananas, .citrus, .tea, .sugar, .spices, .wine, .cotton, .dyes, .incense, .silk:
             return .plantation
 
         case .deer, .furs, .ivory:
@@ -369,8 +369,7 @@ public enum ResourceType: Int, Codable {
         }
     }
 
-    // TODO: turn into amenities
-    func happiness() -> Int {
+    func amenities() -> Int {
 
         switch self {
 
@@ -386,23 +385,23 @@ public enum ResourceType: Int, Codable {
         case .fish: return 0
 
             // luxury
-        case .gems: return 5
-        case .marble: return 5
-        case .furs: return 5
-        case .citrus: return 5
-        case .tea: return 5
-        case .sugar: return 5
-        case .whales: return 5
-        case .pearls: return 5
-        case .ivory: return 5
-        case .wine: return 5
-        case .cotton: return 5
-        case .dyes: return 5
-        case .incense: return 5
-        case .silk: return 5
-        case .silver: return 5
-        case .gold: return 5
-        case .spices: return 5
+        case .gems: return 4
+        case .marble: return 4
+        case .furs: return 4
+        case .citrus: return 4
+        case .tea: return 4
+        case .sugar: return 4
+        case .whales: return 4
+        case .pearls: return 4
+        case .ivory: return 4
+        case .wine: return 4
+        case .cotton: return 4
+        case .dyes: return 4
+        case .incense: return 4
+        case .silk: return 4
+        case .silver: return 4
+        case .gold: return 4
+        case .spices: return 4
 
             // strategic
         case .iron: return 0

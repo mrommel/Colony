@@ -194,7 +194,7 @@ class HomelandAI {
         var target: HexPoint? = nil
         var city: AbstractCity? = nil
         var threatValue: Int = 0
-        var improvement: TileImprovementType = .none
+        var improvement: ImprovementType = .none
         
         init(targetType: HomelandTargetType) {
             

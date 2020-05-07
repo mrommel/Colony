@@ -64,7 +64,18 @@ class ImprovementLayer: SKNode {
         
         // place farms/mines, ...
         if improvement != .none {
-            fatalError("not handled yet")
+            
+            let textureName = improvement.textureNamesHex().randomItem()
+
+            let improvementSprite = SKSpriteNode(imageNamed: textureName)
+            improvementSprite.position = position
+            improvementSprite.zPosition = Globals.ZLevels.improvement
+            improvementSprite.anchorPoint = CGPoint(x: 0, y: 0)
+            improvementSprite.color = .black
+            improvementSprite.colorBlendFactor = 1.0 - alpha
+            self.addChild(improvementSprite)
+
+            self.textureUtils?.set(improvementSprite: improvementSprite, at: tile.point)
         }
     }
     
@@ -75,11 +86,8 @@ class ImprovementLayer: SKNode {
         }
         
         if let tile = tile {
-            
-            let improvement = tile.improvement()
-            
-            if improvement != .none {
-                fatalError("not handled yet")
+            if let improvementSprite = textureUtils.improvementSprite(at: tile.point) {
+                self.removeChildren(in: [improvementSprite])
             }
         }
     }

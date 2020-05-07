@@ -13,10 +13,13 @@ import CoreGraphics
 class CityChooseProductionDialog: Dialog {
 
     weak var city: AbstractCity?
-    weak var gameModel: GameModel?
+    var gameModel: GameModel?
     
     // callbacks
-    fileprivate var buildingTypeResultHandler: ((_ type: BuildingType) -> Void)?
+    fileprivate var buildingTypeResultHandler: ((_ buildingType: BuildingType) -> Void)?
+    fileprivate var districtTypeResultHandler: ((_ districtType: DistrictType) -> Void)?
+    fileprivate var unitTypeResultHandler: ((_ unitType: UnitType) -> Void)?
+    fileprivate var wonderTypeResultHandler: ((_ wonderType: WonderType) -> Void)?
     
     // nodes
     var scrollNode: ScrollNode?
@@ -36,6 +39,10 @@ class CityChooseProductionDialog: Dialog {
         
         guard let city = self.city else {
             fatalError("cant get city")
+        }
+        
+        guard let _ = self.gameModel else {
+            fatalError("cant get gameModel")
         }
 
         let uiParser = UIParser()
@@ -59,7 +66,23 @@ class CityChooseProductionDialog: Dialog {
     // MARK: public methods
     
     func addBuildingTypeResultHandler(handler: @escaping (_ type: BuildingType) -> Void) {
+        
         self.buildingTypeResultHandler = handler
+    }
+    
+    func addDistrictTypeResultHandler(handler: @escaping (_ type: DistrictType) -> Void) {
+        
+        self.districtTypeResultHandler = handler
+    }
+    
+    func addUnitTypeResultHandler(handler: @escaping (_ type: UnitType) -> Void) {
+        
+        self.unitTypeResultHandler = handler
+    }
+    
+    func addWonderTypeResultHandler(handler: @escaping (_ type: WonderType) -> Void) {
+        
+        self.wonderTypeResultHandler = handler
     }
     
     // MARK: private methods
@@ -68,14 +91,6 @@ class CityChooseProductionDialog: Dialog {
         
         guard let city = self.city else {
             fatalError("cant get city")
-        }
-
-        guard let techs = city.player?.techs else {
-            fatalError("cant get player techs")
-        }
-
-        guard let civics = city.player?.civics else {
-            fatalError("cant get player civics")
         }
 
         guard let buildings = city.buildings else {
@@ -120,19 +135,6 @@ class CityChooseProductionDialog: Dialog {
 
         for districtType in DistrictType.all {
             
-            var valid = true
-            if let requiredTech = districtType.requiredTech() {
-                valid = valid && techs.has(tech: requiredTech)
-            }
-            
-            if let requiredCivic = districtType.requiredCivic() {
-                valid = valid && civics.has(civic: requiredCivic)
-            }
-            
-            if !valid {
-                continue
-            }
-            
             if districts.has(district: districtType) {
                 
                 let districtNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: true, size: CGSize(width: 200, height: 40), buttonAction: { districtType in
@@ -145,24 +147,10 @@ class CityChooseProductionDialog: Dialog {
                 
                 for buildingType in BuildingType.all {
                     
-                    var valid = true
-                    if let requiredTech = buildingType.requiredTech() {
-                        valid = valid && techs.has(tech: requiredTech)
-                    }
-                    
-                    if let requiredCivic = buildingType.requiredCivic() {
-                        valid = valid && civics.has(civic: requiredCivic)
-                    }
-                    
-                    /*if let civilization = buildingType.civilization() {
-                        valid = valid && (civilization == city.player?.leader.civilization())
-                    }*/
-                    
-                    if valid && !buildings.has(building: buildingType) && buildingType.district() == districtType {
+                    if city.canBuild(building: buildingType) && !buildings.has(building: buildingType) && buildingType.district() == districtType {
 
                         let buildingNode = BuildingBuildingItemDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 40), buttonAction: { buildingType in
-                            //print("select buildingType: \(buildingType)")
-                            
+    
                             if let handler = self.buildingTypeResultHandler {
                                 handler(buildingType)
                             }
@@ -179,8 +167,15 @@ class CityChooseProductionDialog: Dialog {
                 
             } else {
                 
+                if !city.canConstruct(district: districtType, in: gameModel) {
+                    continue
+                }
+                
                 let districtNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: false, size: CGSize(width: 200, height: 40), buttonAction: { districtType in
                     
+                    if let handler = self.districtTypeResultHandler {
+                        handler(districtType)
+                    }
                 })
                 districtNode.zPosition = 200
                 scrollNode?.addScrolling(child: districtNode)
@@ -192,24 +187,14 @@ class CityChooseProductionDialog: Dialog {
         
         for unitType in UnitType.all {
             
-            var valid = true
-            if let requiredTech = unitType.required() {
-                valid = techs.has(tech: requiredTech)
-            }
-            
-            // filter great people
-            if unitType.productionCost() < 0 {
-                valid = false
-            }
-            
-            if let civilization = unitType.civilization() {
-                valid = valid && (civilization == city.player?.leader.civilization())
-            }
-            
-            if valid {
+            if city.canTrain(unit: unitType) {
                 
                 let unitProduction = UnitBuildingItemDisplayNode(unitType: unitType, size: CGSize(width: 200, height: 40), buttonAction: { unitType in
                     print("select unitType: \(unitType)")
+                    
+                    if let handler = self.unitTypeResultHandler {
+                        handler(unitType)
+                    }
                 })
                 unitProduction.zPosition = 200
                 scrollNode?.addScrolling(child: unitProduction)
@@ -220,19 +205,15 @@ class CityChooseProductionDialog: Dialog {
         
         for wonderType in WonderType.all {
             
-            var valid = true
-            if let requiredTech = wonderType.requiredTech() {
-                valid = techs.has(tech: requiredTech)
-            }
-            
-            if let requiredCivic = wonderType.requiredCivic() {
-                valid = civics.has(civic: requiredCivic)
-            }
-            
-            if valid {
+            if city.canBuild(wonder: wonderType, in: gameModel) {
                 
                 let wonderProductionNode = WonderDisplayNode(wonderType: wonderType, size: CGSize(width: 200, height: 40), buttonAction: { wonderType in
-                    print("select wonderType: \(wonderType)")
+                    
+                    //print("select wonderType: \(wonderType)")
+                    
+                    if let handler = self.wonderTypeResultHandler {
+                        handler(wonderType)
+                    }
                 })
                 wonderProductionNode.zPosition = 200
                 scrollNode?.addScrolling(child: wonderProductionNode)

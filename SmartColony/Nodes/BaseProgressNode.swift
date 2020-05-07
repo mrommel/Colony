@@ -117,7 +117,7 @@ class BaseProgressNode: SizedNode {
 
         let iconTexture = SKTexture(imageNamed: named)
         let newIconNode = SKSpriteNode(texture: iconTexture, size: CGSize(width: 20, height: 20))
-        newIconNode.position = CGPoint(x: 55 + self.iconNodes.count * 22, y: -33)
+        newIconNode.position = self.position + CGPoint(x: 55 + self.iconNodes.count * 22, y: -33)
         newIconNode.zPosition = self.zPosition + 2
         newIconNode.anchorPoint = CGPoint.middleCenter
         self.addChild(newIconNode)

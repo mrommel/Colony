@@ -119,4 +119,21 @@ public enum WonderType: Int, Codable {
         case .templeOfArtemis: return [ Flavor(type: .wonder, value: 20), Flavor(type: .growth, value: 10) ]
         }
     }
+    
+    func amenities() -> Double {
+        
+        switch self {
+            
+        case .none: return 0.0
+            
+            // ancient
+        case .greatBath: return 1.0
+        case .hangingGardens: return 0.0
+        case .stonehenge: return  0.0
+        case .templeOfArtemis: return  0.0
+        case .pyramids: return  0.0
+        case .oracle: return  0.0
+            
+        }
+    }
 }

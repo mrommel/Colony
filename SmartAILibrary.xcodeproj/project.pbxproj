@@ -71,6 +71,7 @@
 		C95503C5245864A200D4B3D8 /* StartPositioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95503C4245864A200D4B3D8 /* StartPositioner.swift */; };
 		C955561823FEB41600A4E312 /* UnitMissionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C955561723FEB41600A4E312 /* UnitMissionTypes.swift */; };
 		C955561A23FEB47100A4E312 /* UnitCommandTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C955561923FEB47100A4E312 /* UnitCommandTypes.swift */; };
+		C955FBCE246065D600605618 /* AmenitiesState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C955FBCD246065D600605618 /* AmenitiesState.swift */; };
 		C957AA322436357E00203024 /* Civ5Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA312436357E00203024 /* Civ5Feature.swift */; };
 		C957AA34243635B300203024 /* Civ5MapHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA33243635B300203024 /* Civ5MapHeader.swift */; };
 		C957AA37243635D500203024 /* BinarySwift in Frameworks */ = {isa = PBXBuildFile; productRef = C957AA36243635D500203024 /* BinarySwift */; };
@@ -293,6 +294,7 @@
 		C95503C4245864A200D4B3D8 /* StartPositioner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPositioner.swift; sourceTree = "<group>"; };
 		C955561723FEB41600A4E312 /* UnitMissionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMissionTypes.swift; sourceTree = "<group>"; };
 		C955561923FEB47100A4E312 /* UnitCommandTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitCommandTypes.swift; sourceTree = "<group>"; };
+		C955FBCD246065D600605618 /* AmenitiesState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmenitiesState.swift; sourceTree = "<group>"; };
 		C957AA312436357E00203024 /* Civ5Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Feature.swift; sourceTree = "<group>"; };
 		C957AA33243635B300203024 /* Civ5MapHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapHeader.swift; sourceTree = "<group>"; };
 		C957AA382436368200203024 /* Civ5MapPlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapPlot.swift; sourceTree = "<group>"; };
@@ -783,6 +785,7 @@
 				C964BA1C23EAE76C00CA379C /* CityStrategyType.swift */,
 				C906144F23E36FC200D316B5 /* DistrictType.swift */,
 				C906144B23E3337300D316B5 /* BuildingType.swift */,
+				C955FBCD246065D600605618 /* AmenitiesState.swift */,
 			);
 			path = City;
 			sourceTree = "<group>";
@@ -1040,6 +1043,7 @@
 				C9C2FE3923F6E1A600185235 /* UnitProductionAI.swift in Sources */,
 				C98DBFA323DF219100B6CE25 /* City.swift in Sources */,
 				C9DFCF8223F30BDC0032243D /* StrengthType.swift in Sources */,
+				C955FBCE246065D600605618 /* AmenitiesState.swift in Sources */,
 				C964BA2723EB6C4700CA379C /* MilitaryAI.swift in Sources */,
 				C92D221123E20ECF00BB9238 /* Government.swift in Sources */,
 				C90FC39723D8909F00720B32 /* LeaderType.swift in Sources */,

@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "resource_tea3x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -9,7 +10,6 @@
       "scale" : "2x"
     },
     {
-      "filename" : "hex_tea@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

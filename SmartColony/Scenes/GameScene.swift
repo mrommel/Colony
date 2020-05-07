@@ -705,10 +705,14 @@ extension GameScene: BottomLeftBarDelegate {
                 cityNameDialog.set(textFieldInput: cityName)
             }
         case .buildFarm:
-            // NOOP
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doBuild(build: .farm, in: gameModel)
+            }
             break
         case .buildMine:
-            // NOOP
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doBuild(build: .mine, in: gameModel)
+            }
             break
         case .buildRoute:
             // NOOP

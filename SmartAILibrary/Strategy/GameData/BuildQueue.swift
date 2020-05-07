@@ -64,6 +64,11 @@ public class BuildQueue {
         
         self.items.removeAll()
     }
+    
+    public var count: Int {
+        
+        return self.items.count
+    }
 }
 
 extension BuildQueue: Sequence {

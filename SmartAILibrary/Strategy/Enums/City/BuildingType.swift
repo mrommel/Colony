@@ -206,6 +206,15 @@ public enum BuildingType: Int, Codable {
             return Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 4, housing: 0)
         }
     }
+    
+    public func amenities() -> Int {
+        
+        if self == .arena {
+            return 1
+        }
+        
+        return 0
+    }
 
     public func requiredTech() -> TechType? {
 

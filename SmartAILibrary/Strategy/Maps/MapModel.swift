@@ -335,7 +335,7 @@ public class MapModel: Codable {
         }
     }
     
-    func set(improvement: TileImprovementType, at point: HexPoint) {
+    func set(improvement: ImprovementType, at point: HexPoint) {
         
         if let tile = self.tile(at: point) {
             tile.set(improvement: improvement)

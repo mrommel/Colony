@@ -559,7 +559,7 @@ public class BuilderTaskingAI {
                 }
             } else {
                 // if the plot has an unpillaged great person's creation on it, DO NOT DESTROY
-                if existingImprovement != TileImprovementType.none {
+                if existingImprovement != ImprovementType.none {
                     /*if improvement.->IsCreatedByGreatPerson() || GET_PLAYER(pUnit->getOwner()).isOption(PLAYEROPTION_SAFE_AUTOMATION))
                     {
                         continue;
@@ -804,7 +804,7 @@ public class BuilderTaskingAI {
                 }
             } else {
                 // if the plot has an unpillaged great person's creation on it, DO NOT DESTROY
-                if existingPlotImprovement != TileImprovementType.none {
+                if existingPlotImprovement != ImprovementType.none {
                     
                     //CvImprovementEntry* pkExistingPlotImprovementInfo = GC.getImprovementInfo(eExistingPlotImprovement);
                     /*if(pkExistingPlotImprovementInfo && pkExistingPlotImprovementInfo->IsCreatedByGreatPerson())
@@ -827,7 +827,7 @@ public class BuilderTaskingAI {
 
             // this is to deal with when the plot is already improved with another improvement that doesn't enable the resource
             var investedImprovementTime = 0;
-            if existingPlotImprovement != TileImprovementType.none {
+            if existingPlotImprovement != ImprovementType.none {
                 
                 var existingBuild: BuildType = .none
 
@@ -839,7 +839,7 @@ public class BuilderTaskingAI {
                     }
                 }
 
-                if existingPlotImprovement != TileImprovementType.none {
+                if existingPlotImprovement != ImprovementType.none {
                     investedImprovementTime = existingBuild.buildTime(on: pPlot)
                 }
             }
@@ -1051,7 +1051,7 @@ public class BuilderTaskingAI {
     }
     
     /// Return the weight of this resource
-    func resourceWeight(for resource: ResourceType, improvement: TileImprovementType, quantity: Int ) -> Int {
+    func resourceWeight(for resource: ResourceType, improvement: ImprovementType, quantity: Int ) -> Int {
         
         guard let player = self.player else {
             fatalError("cant get player")
@@ -1083,7 +1083,7 @@ public class BuilderTaskingAI {
         // if the empire is unhappy (or close to it) and this is a luxury resource the player doesn't have, provide a super bonus to getting it
         if resource.usage() == .luxury {
             
-            var modifier = 500 /* GC.getBUILDER_TASKING_PLOT_EVAL_MULTIPLIER_LUXURY_RESOURCE()*/ * resource.happiness()
+            var modifier = 500 /* GC.getBUILDER_TASKING_PLOT_EVAL_MULTIPLIER_LUXURY_RESOURCE()*/ * resource.amenities()
 
             if player.numAvailable(resource: resource) == 0 {
                 // full bonus

@@ -57,7 +57,6 @@ public protocol AbstractCity: class, Codable {
     //static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
     func initialize(in gameModel: GameModel?)
     
-    //func yields(in gameModel: GameModel?) -> Yields
     func foodConsumption() -> Double
     
     func isCapital() -> Bool
@@ -105,7 +104,19 @@ public protocol AbstractCity: class, Codable {
     func hasFoodSurplus() -> Bool // < 4 food surplus
     func hasEnoughFood() -> Bool
     
+    func lastTurnFoodHarvested() -> Double
+    // ...
+    func amenitiesModifier(in gameModel: GameModel?) -> Double
+    func housingModifier(in gameModel: GameModel?) -> Double
+    func lastTurnFoodEarned() -> Double
+    func growthInTurns() -> Int
+    
     func productionLastTurn() -> Double
+    
+    func resetLuxuries()
+    func luxuriesNeeded() -> Double
+    func add(luxury: ResourceType)
+    func has(luxury: ResourceType) -> Bool
 
     func healthPoints() -> Int
     func set(healthPoints: Int)
@@ -197,7 +208,8 @@ public class City: AbstractCity {
     private var featureProductionValue: Double = 0
 
     var foodBasketValue: Double
-    private var foodLastTurn: Double = 1.0
+    private var lastTurnFoodHarvestedValue: Double = 1.0
+    private var lastTurnFoodEarnedValue: Double = 0.0
 
     public var cityStrategy: CityStrategyAI?
     
@@ -207,6 +219,8 @@ public class City: AbstractCity {
     private var lastTurnGarrisonAssignedValue: Int = 0
     
     private var garrisonedUnitValue: AbstractUnit? = nil
+    
+    private var luxuries: [ResourceType] = []
     
     // yields
     private var baseYieldRateFromSpecialists: YieldList
@@ -546,6 +560,26 @@ public class City: AbstractCity {
         
     }
     
+    public func lastTurnFoodHarvested() -> Double {
+        
+        return self.lastTurnFoodHarvestedValue
+    }
+    
+    private func setLastTurn(foodHarvested: Double) {
+        
+        self.lastTurnFoodHarvestedValue = foodHarvested
+    }
+    
+    public func lastTurnFoodEarned() -> Double {
+        
+        return self.lastTurnFoodEarnedValue
+    }
+    
+    private func setLastTurn(foodEarned: Double) {
+        
+        self.lastTurnFoodEarnedValue = foodEarned
+    }
+    
     func foodFromTiles(in gameModel: GameModel?) -> Double {
         
         guard let gameModel = gameModel else {
@@ -755,7 +789,140 @@ public class City: AbstractCity {
         return housingValue
     }
     
-    private func doGrowth(in gameModel: GameModel?) {
+    // https://civilization.fandom.com/wiki/Housing_(Civ6)
+    public func housingModifier(in gameModel: GameModel?) -> Double {
+        
+        let housing = self.housingPerTurn(in: gameModel)
+        let housingDiff = Int(housing) - Int(self.populationValue)
+        
+        if housingDiff >= 2 { // 2 or more    100%
+            return 1.0
+        } else if housingDiff == 1 { // 1    50%
+            return 0.5
+        } else if 0 <= housingDiff && housingDiff <= -4 { // 0 to -4    25%
+            return 0.25
+        } else { // -5 or less    0%
+            return 0.0
+        }
+    }
+    
+    public func resetLuxuries() {
+        
+        self.luxuries = []
+    }
+    
+    public func luxuriesNeeded() -> Double {
+        
+        let amenitiesFromBuildings = self.amenitiesFromBuildings()
+        let amenitiesFromWonders = self.amenitiesFromWonders()
+        return Double(self.population()) - 2.0 - Double(self.luxuries.count) - amenitiesFromBuildings - amenitiesFromWonders
+    }
+    
+    public func add(luxury: ResourceType) {
+        
+        guard luxury.usage() == .luxury else {
+            fatalError("resource must be luxury")
+        }
+        
+        self.luxuries.append(luxury)
+    }
+    
+    public func has(luxury: ResourceType) -> Bool {
+        
+        return self.luxuries.contains(luxury)
+    }
+    
+    private func amenitiesFromLuxuries() -> Double {
+        
+        return Double(self.luxuries.count)
+    }
+    
+    private func amenitiesFromBuildings() -> Double {
+    
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
+        var amenitiesFromBuildings: Double = 0.0
+        
+        // gather amenities from buildingss
+        for building in BuildingType.all {
+            if buildings.has(building: building) {
+                amenitiesFromBuildings += Double(building.amenities())
+            }
+        }
+        
+        return amenitiesFromBuildings
+    }
+
+    private func amenitiesFromWonders() -> Double {
+    
+        guard let wonders = self.wonders else {
+            fatalError("cant get wonders")
+        }
+        
+        var amenitiesFromWonders: Double = 0.0
+        
+        // gather amenities from buildingss
+        for wonder in WonderType.all {
+            if wonders.has(wonder: wonder) {
+                amenitiesFromWonders += Double(wonder.amenities())
+            }
+        }
+        
+        return amenitiesFromWonders
+    }
+    
+    public func amenitiesPerTurn(in gameModel: GameModel?) -> Double {
+        
+        var amenitiesPerTurn: Double = 0.0
+        
+        amenitiesPerTurn += self.amenitiesFromLuxuries()
+        //amenitiesPerTurn += self.amenitiesFromGovernmentType()
+        amenitiesPerTurn += self.amenitiesFromBuildings()
+        amenitiesPerTurn += self.amenitiesFromWonders()
+        
+        return amenitiesPerTurn
+    }
+    
+    public func amenitiesState(in gameModel: GameModel?) -> AmenitiesState {
+        
+        let amenities = self.amenitiesPerTurn(in: gameModel)
+        let amenitiesDiff = amenities - self.populationValue + 2.0 // first two people dont need amentities
+        
+        if amenitiesDiff >= 3.0 {
+            return .ecstatic
+        } else if amenitiesDiff == 1.0 || amenitiesDiff == 2.0 {
+            return .happy
+        } else if amenitiesDiff == 0.0 {
+            return .content
+        } else if amenitiesDiff == -1.0 || amenitiesDiff == -2.0 {
+            return .displeased
+        } else if amenitiesDiff == -3.0 || amenitiesDiff == -4.0 {
+            return .unhappy
+        } else if amenitiesDiff == -5.0 || amenitiesDiff == -6.0 {
+            return .unrest
+        } else {
+            return .revolt
+        }
+    }
+    
+    // https://civilization.fandom.com/wiki/Amenities_(Civ6)
+    public func amenitiesModifier(in gameModel: GameModel?) -> Double {
+        
+        switch self.amenitiesState(in: gameModel) {
+            
+        case .ecstatic: return 1.2
+        case .happy: return 1.1
+        case .content: return 1.0
+        case .displeased: return 0.85
+        case .unhappy: return 0.70
+        case .unrest: return 0.0
+        case .revolt: return 0.0
+        }
+    }
+    
+    public func doGrowth(in gameModel: GameModel?) {
         
         guard let cityCitizens = self.cityCitizens else {
             fatalError("cant get cityCitizens")
@@ -766,6 +933,7 @@ public class City: AbstractCity {
         }
 
         let foodPerTurn = self.foodPerTurn(in: gameModel)
+        self.setLastTurn(foodHarvested: foodPerTurn)
         let foodEatenPerTurn = self.foodConsumption()
         var foodDiff = foodPerTurn - foodEatenPerTurn
 
@@ -773,31 +941,18 @@ public class City: AbstractCity {
             
             // notify human about starvation
             if player.isHuman() {
-                //gameModel?.add(message: CityStarvingMessage(in: self))
-                self.player?.notifications()?.add(type: .starving, for: self.player, message: "The City of \(self.name) is starving! If it runs out of stored [ICON_FOOD] Food, a [ICON_CITIZEN] Citizen will die!", summary: "\(self.name) is Starving!", at: self.location)
+                self.player?.notifications()?.add(type: .starving, for: self.player, message: "The City of \(self.name) is starving! If it runs out of stored Food, a Citizen will die!", summary: "\(self.name) is Starving!", at: self.location)
             }
         }
         
         // housing
-        // https://civilization.fandom.com/wiki/Housing_(Civ6)
-        let housing = self.housingPerTurn(in: gameModel)
+        foodDiff *= self.housingModifier(in: gameModel)
         
-        let housingDiff = Int(housing) - Int(self.populationValue)
-        
-        if housingDiff >= 2 {
-            // 2 or more    100%
-            // NOOP
-        } else if housingDiff == 1 {
-            // 1    50%
-            foodDiff /= 2
-        } else if 0 <= housingDiff && housingDiff <= -4 {
-            // 0 to -4    25%
-            foodDiff /= 4
-        } else {
-            // -5 or less    0%
-            foodDiff = 0
-        }
+        // amenities
+        foodDiff *= self.amenitiesModifier(in: gameModel)
 
+        self.setLastTurn(foodEarned: foodDiff)
+        
         self.set(foodBasket: self.foodBasket() + foodDiff)
 
         if self.foodBasket() >= self.growthThreshold() {
@@ -826,6 +981,17 @@ public class City: AbstractCity {
                 self.set(population: self.population() - 1, in: gameModel)
             }
         }
+    }
+    
+    public func growthInTurns() -> Int {
+        
+        let foodNeeded = self.growthThreshold() - self.foodBasket()
+        
+        if self.lastTurnFoodEarned() == 0.0 {
+            return Int(foodNeeded)
+        }
+
+        return Int(foodNeeded / self.lastTurnFoodEarned())
     }
     
     func baseHousing(in gameModel: GameModel?) -> Double {
@@ -1915,6 +2081,11 @@ public class City: AbstractCity {
         guard let player = self.player else {
             fatalError("cant get player")
         }
+        
+        // filter great people
+        if unitType.productionCost() < 0 {
+            return false
+        }
 
         if let requiredTech = unitType.required() {
             if !player.has(tech: requiredTech) {
@@ -2024,64 +2195,6 @@ public class City: AbstractCity {
         return self.buildQueue.peek()
     }
 
-    // MARK: private methods
-
-    /*private func updateGrowth(for foodPerTurn: Double, in gameModel: GameModel?) {
-
-        guard let player = player else {
-            fatalError("cant get player")
-        }
-
-        let foodNeededForPopulation = self.foodConsumption()
-        self.foodLastTurn = foodPerTurn
-
-        let foodDelta = foodPerTurn - foodNeededForPopulation
-
-        self.foodBasketValue += foodDelta
-
-        if foodDelta == 0 {
-
-            self.growthStatus = .constant
-
-        } else if foodDelta > 0 {
-
-            if self.foodBasketValue > self.growthThreshold() {
-
-                // notify human about growth
-                if player.isHuman() {
-
-                    //gameModel?.growthStatusNotification?(self, .growth)
-                    gameModel?.add(message: GrowthStatusMessage(in: self, growth: .growth))
-                }
-
-                self.populationValue += 1
-                self.foodBasketValue = 0
-            }
-
-            self.growthStatus = .growth
-        } else {
-
-            if self.foodBasketValue <= 0 {
-
-                // notify human about starvation
-                if player.isHuman() {
-
-                    //gameModel?.growthStatusNotification?(self, .starvation)
-                    gameModel?.add(message: GrowthStatusMessage(in: self, growth: .starvation))
-                }
-
-                if self.populationValue > 0 {
-                    self.populationValue -= 1
-                }
-
-                self.growthStatus = .starvation
-            } else {
-
-                self.growthStatus = .constant
-            }
-        }
-    }*/
-
     func growthThreshold() -> Double {
 
         // https://forums.civfanatics.com/threads/formula-thread.600534/
@@ -2183,8 +2296,6 @@ public class City: AbstractCity {
         self.productionLastTurnValue = productionPerTurn
     }
 
-    
-    
     public func featureProduction() -> Double {
         
         return self.featureProductionValue
@@ -2208,21 +2319,21 @@ public class City: AbstractCity {
     
     public func hasOnlySmallFoodSurplus() -> Bool {
         
-        let exceedFood = self.foodLastTurn - Double(self.foodConsumption())
+        let exceedFood = self.lastTurnFoodEarnedValue - Double(self.foodConsumption())
         
         return exceedFood < 2.0 && exceedFood > 0.0
     }
     
     public func hasFoodSurplus() -> Bool {
         
-        let exceedFood = self.foodLastTurn - Double(self.foodConsumption())
+        let exceedFood = self.lastTurnFoodEarnedValue - Double(self.foodConsumption())
         
         return exceedFood < 4.0 && exceedFood > 0.0
     }
     
     public func hasEnoughFood() -> Bool {
         
-        let exceedFood = self.foodLastTurn - Double(self.foodConsumption())
+        let exceedFood = self.lastTurnFoodEarnedValue - Double(self.foodConsumption())
         
         return exceedFood > 0.0
     }

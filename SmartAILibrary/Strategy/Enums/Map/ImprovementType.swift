@@ -1,5 +1,5 @@
 //
-//  TileImprovementType.swift
+//  ImprovementType.swift
 //  SmartAILibrary
 //
 //  Created by Michael Rommel on 29.01.20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum TileImprovementType: Int, Codable {
+public enum ImprovementType: Int, Codable {
 
     case none
     
@@ -30,7 +30,7 @@ public enum TileImprovementType: Int, Codable {
     case fort // Occupying unit receives +4 Civ6StrengthIcon Defense Strength, and automatically gains 2 turns of fortification.
     case citadelle
 
-    static var all: [TileImprovementType] {
+    static var all: [ImprovementType] {
         return [.farm, .mine, .quarry, .camp, .pasture, .plantation, .fishingBoats, .oilWell, .fort, .citadelle]
     }
 

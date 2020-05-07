@@ -62,11 +62,11 @@ public protocol AbstractTile: Codable {
 
     // improvements
     func hasAnyImprovement() -> Bool
-    func improvement() -> TileImprovementType
-    func possibleImprovements() -> [TileImprovementType]
-    func has(improvement: TileImprovementType) -> Bool
+    func improvement() -> ImprovementType
+    func possibleImprovements() -> [ImprovementType]
+    func has(improvement: ImprovementType) -> Bool
     func removeImprovement()
-    func set(improvement improvementType: TileImprovementType)
+    func set(improvement improvementType: ImprovementType)
     func isImprovementPillaged() -> Bool
     func setImprovement(pillaged: Bool)
 
@@ -193,7 +193,7 @@ class Tile: AbstractTile {
     private var resourceValue: ResourceType
     private var resourceQuantityValue: Int
     private var featureValue: FeatureType
-    private var improvementValue: TileImprovementType
+    private var improvementValue: ImprovementType
     private var improvementPillagedValue: Bool
     private var routeValue: RouteType
     private var routePillagedValue: Bool
@@ -251,7 +251,7 @@ class Tile: AbstractTile {
         self.resourceValue = try container.decode(ResourceType.self, forKey: .resource)
         self.resourceQuantityValue = try container.decode(Int.self, forKey: .resourceQuantity)
         self.featureValue = try container.decode(FeatureType.self, forKey: .feature)
-        self.improvementValue = try container.decode(TileImprovementType.self, forKey: .improvement)
+        self.improvementValue = try container.decode(ImprovementType.self, forKey: .improvement)
         self.improvementPillagedValue = try container.decode(Bool.self, forKey: .improvementPillaged)
         self.routeValue = try container.decode(RouteType.self, forKey: .route)
         self.routePillagedValue = try container.decode(Bool.self, forKey: .routePillaged)
@@ -532,16 +532,16 @@ class Tile: AbstractTile {
         return self.improvementValue != .none
     }
 
-    func improvement() -> TileImprovementType {
+    func improvement() -> ImprovementType {
 
         return self.improvementValue
     }
 
-    func possibleImprovements() -> [TileImprovementType] {
+    func possibleImprovements() -> [ImprovementType] {
 
-        var possibleTileImprovements: [TileImprovementType] = []
+        var possibleTileImprovements: [ImprovementType] = []
 
-        for improvementType in TileImprovementType.all {
+        for improvementType in ImprovementType.all {
 
             if improvementType.isPossible(on: self) {
                 possibleTileImprovements.append(improvementType)
@@ -573,12 +573,12 @@ class Tile: AbstractTile {
         }
     }
 
-    func has(improvement: TileImprovementType) -> Bool {
+    func has(improvement: ImprovementType) -> Bool {
 
         return self.improvementValue == improvement
     }
 
-    func set(improvement improvementType: TileImprovementType) {
+    func set(improvement improvementType: ImprovementType) {
 
         let oldImprovement = self.improvement()
 
@@ -1635,7 +1635,7 @@ class Tile: AbstractTile {
         return finished
     }
 
-    func updateEurekas(with improvementType: TileImprovementType, for player: AbstractPlayer) {
+    func updateEurekas(with improvementType: ImprovementType, for player: AbstractPlayer) {
 
         guard let techs = player.techs else {
             fatalError("Cant get techs of player")

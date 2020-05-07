@@ -15,11 +15,11 @@ public struct Globals {
         static let terrain: CGFloat = 1.0
         static let water: CGFloat = 1.1
         static let underwater: CGFloat = 1.2
-        static let border: CGFloat = 1.3
         static let caldera: CGFloat = 1.5
         static let snow: CGFloat = 2.0
-        static let hill: CGFloat = 2.1
         static let focus: CGFloat = 3.0
+        static let improvement: CGFloat = 3.5
+        static let border: CGFloat = 3.7
         static let feature: CGFloat = 4.0
         static let road: CGFloat = 4.1
         static let river: CGFloat = 4.2
@@ -28,7 +28,6 @@ public struct Globals {
         static let resource: CGFloat = 4.9
         //static let staticSprite: CGFloat = 5.0
         static let mountain: CGFloat = 5.4 // 2.2 FIXME
-        static let improvement: CGFloat = 5.45
         static let cityName: CGFloat = 5.5
         static let city: CGFloat = 5.8
         static let yields: CGFloat = 5.9
