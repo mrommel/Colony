@@ -168,40 +168,32 @@ class CityManageProductionDialog: Dialog {
 
         cityChooseProductionDialog.addDistrictTypeResultHandler(handler: { districtType in
 
-            print("result: \(districtType)")
-
+            print("startBuilding: \(districtType)")
             self.city?.startBuilding(district: districtType)
-
             cityChooseProductionDialog.close()
             self.show()
         })
 
         cityChooseProductionDialog.addBuildingTypeResultHandler(handler: { buildingType in
 
-            print("result: \(buildingType)")
-
+            print("startBuilding: \(buildingType)")
             self.city?.startBuilding(building: buildingType)
-
             cityChooseProductionDialog.close()
             self.show()
         })
 
         cityChooseProductionDialog.addUnitTypeResultHandler(handler: { unitType in
 
-            print("result: \(unitType)")
-
+            print("startTraining: \(unitType)")
             self.city?.startTraining(unit: unitType)
-
             cityChooseProductionDialog.close()
             self.show()
         })
 
         cityChooseProductionDialog.addWonderTypeResultHandler(handler: { wonderType in
 
-            print("result: \(wonderType)")
-
+            print("startBuilding: \(wonderType)")
             self.city?.startBuilding(wonder: wonderType)
-
             cityChooseProductionDialog.close()
             self.show()
         })

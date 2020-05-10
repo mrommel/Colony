@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CityFocusType: Int, Codable {
+public enum CityFocusType: Int, Codable {
     
     case none //NO_CITY_AI_FOCUS_TYPE = -1,
 
@@ -304,7 +304,7 @@ public class CityCitizens {
     }
     
     /// Optimize our Citizen Placement
-    func doReallocateCitizens(in gameModel: GameModel?) {
+    public func doReallocateCitizens(in gameModel: GameModel?) {
         
         guard let buildings = self.city?.buildings else {
             fatalError("cant get buildings")
@@ -349,22 +349,22 @@ public class CityCitizens {
     }
     
     /// Make sure we don't have more forced working plots than we have citizens to work
-    func doValidateForcedWorkingPlots(in gameModel: GameModel?) {
+    public func doValidateForcedWorkingPlots(in gameModel: GameModel?) {
         
         let numForcedWorkingPlotsToDemote = self.numForcedWorkingPlots() - self.numCitizensWorkingPlots()
 
         if numForcedWorkingPlotsToDemote > 0 {
             for _ in 0..<numForcedWorkingPlotsToDemote {
-                self.doDemoteWorstForcedWorkingPlot(in: gameModel)
+                self.doRemoveWorstForcedWorkingPlot(in: gameModel)
             }
         }
     }
     
     /// Remove the Forced status from the worst ForcedWorking plot
-    func doDemoteWorstForcedWorkingPlot(in gameModel: GameModel?) {
+    func doRemoveWorstForcedWorkingPlot(in gameModel: GameModel?) {
         
-        var bestPlotValue = -1
-        var bestPlotID: HexPoint? = nil
+        var worstPlotValue = -1
+        var worstPlotPoint: HexPoint? = nil
 
         // Look at all workable Plots
         for workableTile in self.workableTiles(in: gameModel) {
@@ -384,18 +384,18 @@ public class CityCitizens {
             
             if self.isForcedWorked(at: workableTile.point) {
             
-                let value = self.GetPlotValue(of: workableTile.point, useAllowGrowthFlag: false, in: gameModel)
+                let value = self.plotValue(of: workableTile.point, useAllowGrowthFlag: false, in: gameModel)
 
                 // First, or worst yet?
-                if bestPlotValue == -1 || value < bestPlotValue {
-                    bestPlotValue = value
-                    bestPlotID = workableTile.point
+                if worstPlotValue == -1 || value < worstPlotValue {
+                    worstPlotValue = value
+                    worstPlotPoint = workableTile.point
                 }
             }
         }
 
-        if let bestPlotID = bestPlotID {
-            self.forceWorkingPlot(at: bestPlotID, force: false)
+        if let worstPlotPoint = worstPlotPoint {
+            self.forceWorkingPlot(at: worstPlotPoint, force: false, in: gameModel)
         }
     }
     
@@ -526,7 +526,7 @@ public class CityCitizens {
         self.numDefaultSpecialistsValue += change
     }
     
-    func setFocusType(focus: CityFocusType) {
+    public func setFocusType(focus: CityFocusType) {
         
         self.focusTypeValue = focus
     }
@@ -567,7 +567,7 @@ public class CityCitizens {
     }
     
     /// Is our City working a CvPlot?
-    func isWorked(at location: HexPoint) -> Bool {
+    public func isWorked(at location: HexPoint) -> Bool {
         
         if let plot = self.workingPlots.first(where: { $0.location == location }) {
             return plot.worked
@@ -578,7 +578,7 @@ public class CityCitizens {
     
     
     /// Has our City been told it MUST a particular CvPlot?
-    private func isForcedWorked(at location: HexPoint) -> Bool {
+    public func isForcedWorked(at location: HexPoint) -> Bool {
         if let plot = self.workingPlots.first(where: { $0.location == location }) {
             return plot.workedForced
         }
@@ -586,17 +586,37 @@ public class CityCitizens {
         fatalError("not a valid plot to check for this city")
     }
     
-    private func forceWorkingPlot(at location: HexPoint, force: Bool) {
+    /// Tell our City it MUST work a particular CvPlot
+    public func forceWorkingPlot(at location: HexPoint, force newValue: Bool, in gameModel: GameModel?) {
         
-        if var plot = self.workingPlots.first(where: { $0.location == location }) {
-            plot.workedForced = force
+        if let plot = self.workingPlots.first(where: { $0.location == location }) {
+            
+            if plot.workedForced != newValue {
+                
+                plot.workedForced = newValue
+                
+                // Change the count of how many are forced
+                if newValue {
+                    self.changeNumForcedWorkingPlots(change: 1)
+
+                    // More forced plots than we have citizens working?
+                    // If so, then pick someone to lose their forced status
+                    if self.numForcedWorkingPlots() > self.numCitizensWorkingPlots() {
+                        self.doValidateForcedWorkingPlots(in: gameModel)
+                    }
+                } else {
+                    self.changeNumForcedWorkingPlots(change: -1)
+                }
+            }
+            
+            return
         }
         
         fatalError("not a valid plot to check for this city")
     }
     
     /// Tell a City to start or stop working a Plot.  Citizens will go to/from the Unassigned Pool if the 3rd argument is true
-    func setWorked(at location: HexPoint, worked: Bool, useUnassignedPool: Bool = true) {
+    public func setWorked(at location: HexPoint, worked: Bool, useUnassignedPool: Bool = true) {
         
         guard let city = self.city else {
             fatalError("no city set")
@@ -634,7 +654,7 @@ public class CityCitizens {
         fatalError("not a valid plot to check for this city")
     }
     
-    func workingTileLocations() -> [HexPoint] {
+    public func workingTileLocations() -> [HexPoint] {
         
         var locations: [HexPoint] = []
         
@@ -1206,7 +1226,7 @@ public class CityCitizens {
             // If we were force-working this Plot, turn it off
             if removeForcedStatus {
                 if self.isForcedWorked(at: worstPlot) {
-                    self.forceWorkingPlot(at: worstPlot, force: false)
+                    self.forceWorkingPlot(at: worstPlot, force: false, in: gameModel)
                 }
             }
 
@@ -1319,7 +1339,7 @@ public class CityCitizens {
                 // Working the Plot or CAN work the Plot?
                 if wantWorked || self.isCanWork(at: workableTile.point, in: gameModel) {
                     
-                    var value = self.GetPlotValue(of: workableTile.point, useAllowGrowthFlag: wantBest, in: gameModel)
+                    var value = self.plotValue(of: workableTile.point, useAllowGrowthFlag: wantBest, in: gameModel)
 
                     let slotForceWorked = self.isForcedWorked(at: workableTile.point)
 
@@ -1349,7 +1369,7 @@ public class CityCitizens {
     }
     
     /// What is the overall value of the current Plot?
-    func GetPlotValue(of point: HexPoint, useAllowGrowthFlag: Bool, in gameModel: GameModel?) -> Int {
+    func plotValue(of point: HexPoint, useAllowGrowthFlag: Bool, in gameModel: GameModel?) -> Int {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")

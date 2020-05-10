@@ -19,6 +19,11 @@
 		C922D2BC2449A1A1009E182F /* CityNameDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C922D2BB2449A1A1009E182F /* CityNameDialog.xml */; };
 		C922D2BE2449A24C009E182F /* CityNameDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C922D2BD2449A24C009E182F /* CityNameDialog.swift */; };
 		C948684C24649CED00495988 /* WonderBuildingItemDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948684B24649CEC00495988 /* WonderBuildingItemDisplayNode.swift */; };
+		C948684E24657AB400495988 /* CityManageCitizenDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948684D24657AB400495988 /* CityManageCitizenDialog.swift */; };
+		C948685024657B4C00495988 /* CityManageCitizenDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C948684F24657B4C00495988 /* CityManageCitizenDialog.xml */; };
+		C948685224657C3F00495988 /* CitizenMapNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948685124657C3F00495988 /* CitizenMapNode.swift */; };
+		C948685424669D2700495988 /* CivilizationTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948685324669D2700495988 /* CivilizationTypeExtension.swift */; };
+		C948685624669EB000495988 /* CitizenLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948685524669EB000495988 /* CitizenLayer.swift */; };
 		C94DE1D624516B0B00B13F4D /* CircularProgressBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94DE1D524516B0B00B13F4D /* CircularProgressBarNode.swift */; };
 		C94DE1D824516BAC00B13F4D /* CGFloatExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94DE1D724516BAC00B13F4D /* CGFloatExtension.swift */; };
 		C95503C12456FD0100D4B3D8 /* Commands.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C95503C02456FD0100D4B3D8 /* Commands.xcassets */; };
@@ -201,6 +206,11 @@
 		C922D2BB2449A1A1009E182F /* CityNameDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityNameDialog.xml; sourceTree = "<group>"; };
 		C922D2BD2449A24C009E182F /* CityNameDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityNameDialog.swift; sourceTree = "<group>"; };
 		C948684B24649CEC00495988 /* WonderBuildingItemDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderBuildingItemDisplayNode.swift; sourceTree = "<group>"; };
+		C948684D24657AB400495988 /* CityManageCitizenDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityManageCitizenDialog.swift; sourceTree = "<group>"; };
+		C948684F24657B4C00495988 /* CityManageCitizenDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityManageCitizenDialog.xml; sourceTree = "<group>"; };
+		C948685124657C3F00495988 /* CitizenMapNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitizenMapNode.swift; sourceTree = "<group>"; };
+		C948685324669D2700495988 /* CivilizationTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilizationTypeExtension.swift; sourceTree = "<group>"; };
+		C948685524669EB000495988 /* CitizenLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitizenLayer.swift; sourceTree = "<group>"; };
 		C94DE1D524516B0B00B13F4D /* CircularProgressBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressBarNode.swift; sourceTree = "<group>"; };
 		C94DE1D724516BAC00B13F4D /* CGFloatExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloatExtension.swift; sourceTree = "<group>"; };
 		C95503C02456FD0100D4B3D8 /* Commands.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Commands.xcassets; sourceTree = "<group>"; };
@@ -390,6 +400,7 @@
 				C9EB9F612454B47100F13B02 /* BorderLayer.swift */,
 				C9079180245A20D800248596 /* YieldLayer.swift */,
 				C9FEEB9D245DF76200C51552 /* WaterLayer.swift */,
+				C948685524669EB000495988 /* CitizenLayer.swift */,
 			);
 			path = Layer;
 			sourceTree = "<group>";
@@ -410,6 +421,7 @@
 				C9EB9F6F2455850500F13B02 /* BuildTypeExtension.swift */,
 				C9EB9F712455B12100F13B02 /* PolicyCardsTypeExtension.swift */,
 				C9EB9F7324561D8300F13B02 /* DistrictTypeExtension.swift */,
+				C948685324669D2700495988 /* CivilizationTypeExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -533,6 +545,7 @@
 				C9EB9F552451A95500F13B02 /* LeftHeaderBarNode.swift */,
 				C9EB9F5D2452F4F300F13B02 /* RightHeaderBarNode.swift */,
 				C9EB9F572451B8AE00F13B02 /* BaseProgressNode.swift */,
+				C948685124657C3F00495988 /* CitizenMapNode.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -581,6 +594,7 @@
 				C99A5910246437EE006431EE /* CityBuildingsDialog.swift */,
 				C922D2BD2449A24C009E182F /* CityNameDialog.swift */,
 				C9FEEBA2246035F100C51552 /* CityPopulationGrowthDialog.swift */,
+				C948684D24657AB400495988 /* CityManageCitizenDialog.swift */,
 				C95D9D61244A3244007C522E /* ScienceDialog.swift */,
 				C9F91B3E244B98900081EDC8 /* CivicDialog.swift */,
 				C9EB9F652454CD4900F13B02 /* InterimRankingDialog.swift */,
@@ -606,6 +620,7 @@
 				C99A591224643831006431EE /* CityBuildingsDialog.xml */,
 				C922D2BB2449A1A1009E182F /* CityNameDialog.xml */,
 				C9FEEBA42460367800C51552 /* CityPopulationGrowthDialog.xml */,
+				C948684F24657B4C00495988 /* CityManageCitizenDialog.xml */,
 				C95D9D5F244A3147007C522E /* ScienceDialog.xml */,
 				C9F91B40244B98BD0081EDC8 /* CivicDialog.xml */,
 				C9EB9F67245564F100F13B02 /* InterimRankingDialog.xml */,
@@ -795,6 +810,7 @@
 				C9EB9F6A24557CA700F13B02 /* Wonders.xcassets in Resources */,
 				C95503C12456FD0100D4B3D8 /* Commands.xcassets in Resources */,
 				C907917F2459D73100248596 /* GameLeaderDialog.xml in Resources */,
+				C948685024657B4C00495988 /* CityManageCitizenDialog.xml in Resources */,
 				C9B1D28F2435B08F00033791 /* earth_small.map in Resources */,
 				C9EB9F6E245584EB00F13B02 /* Builds.xcassets in Resources */,
 				C9F91B39244A3E920081EDC8 /* Techs.xcassets in Resources */,
@@ -868,6 +884,7 @@
 				C95B3DF424387100002F5A86 /* MapNode.swift in Sources */,
 				C9EB9F60245309AF00F13B02 /* UnitTypeExtension.swift in Sources */,
 				C97CD3A7243B00CB00FABCC0 /* ResourceTypeExtension.swift in Sources */,
+				C948685624669EB000495988 /* CitizenLayer.swift in Sources */,
 				C9EB9F5A2452C4E400F13B02 /* CityChooseProductionDialog.swift in Sources */,
 				C9F91B3D244B93380081EDC8 /* CivicTypeExtension.swift in Sources */,
 				C9B1D2812435215400033791 /* MapSeaLevelDialog.swift in Sources */,
@@ -876,6 +893,7 @@
 				C9EC4E2524458B0E001A0597 /* PediaScene.swift in Sources */,
 				C9B1D285243521FF00033791 /* MapClimateDialog.swift in Sources */,
 				C9B1D205243474F900033791 /* GameViewController.swift in Sources */,
+				C948684E24657AB400495988 /* CityManageCitizenDialog.swift in Sources */,
 				C94DE1D624516B0B00B13F4D /* CircularProgressBarNode.swift in Sources */,
 				C9EB9F722455B12100F13B02 /* PolicyCardsTypeExtension.swift in Sources */,
 				C9EB9F562451A95500F13B02 /* LeftHeaderBarNode.swift in Sources */,
@@ -920,6 +938,7 @@
 				C907917B2459D6A600248596 /* GameLeaderDialog.swift in Sources */,
 				C9B1D27D24351FB900033791 /* MapAgeDialog.swift in Sources */,
 				C9B1D25F2435166700033791 /* MessageBoxButtonNode.swift in Sources */,
+				C948685224657C3F00495988 /* CitizenMapNode.swift in Sources */,
 				C95B3E0B2438E79B002F5A86 /* BoardLayer.swift in Sources */,
 				C97CD3A5243A586500FABCC0 /* FeatureTypeExtension.swift in Sources */,
 				C9F91B4F244EE87E0081EDC8 /* SectionHeaderButton.swift in Sources */,
@@ -938,6 +957,7 @@
 				C9EB9F582451B8AE00F13B02 /* BaseProgressNode.swift in Sources */,
 				C97CD3AE243B669500FABCC0 /* GameObjectAtlas.swift in Sources */,
 				C9F91B51244EEB1F0081EDC8 /* ScrollNode.swift in Sources */,
+				C948685424669D2700495988 /* CivilizationTypeExtension.swift in Sources */,
 				C97CD39F243A3E9C00FABCC0 /* ResourceLayer.swift in Sources */,
 				C9F91B53244F3C010081EDC8 /* UnitBuildingItemDisplayNode.swift in Sources */,
 				C90791792459D69700248596 /* GameHandicapDialog.swift in Sources */,
@@ -1043,7 +1063,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1097,7 +1117,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

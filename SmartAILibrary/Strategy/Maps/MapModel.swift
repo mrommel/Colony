@@ -321,21 +321,28 @@ public class MapModel: Codable {
         }
     }
     
-    func set(hills: Bool, at point: HexPoint) {
+    public func set(hills: Bool, at point: HexPoint) {
         
         if self.valid(point: point) {
             self.tiles[point.x, point.y]?.set(hills: hills)
         }
     }
     
-    func set(feature featureType: FeatureType, at point: HexPoint) {
+    public func set(feature featureType: FeatureType, at point: HexPoint) {
         
         if let tile = self.tile(at: point) {
             tile.set(feature: featureType)
         }
     }
     
-    func set(improvement: ImprovementType, at point: HexPoint) {
+    public func set(resource resourceType: ResourceType, at point: HexPoint) {
+        
+        if let tile = self.tile(at: point) {
+            tile.set(resource: resourceType)
+        }
+    }
+    
+    public func set(improvement: ImprovementType, at point: HexPoint) {
         
         if let tile = self.tile(at: point) {
             tile.set(improvement: improvement)

@@ -9,55 +9,6 @@
 import SpriteKit
 import SmartAILibrary
 
-extension CivilizationType {
-    
-    func iconColor() -> UIColor {
-        
-        switch self {
-            
-        case .barbarian: return UIColor(hex: "#be0000")
-            
-        case .greek: return UIColor(hex: "#418dfe")
-        case .roman: return UIColor(hex: "#f0c800")
-        case .english: return UIColor(hex: "#ffffff")
-        case .aztecs: return UIColor(hex: "#A43E25")
-        case .persian: return UIColor(hex: "#9A2B22")
-        case .french: return UIColor(hex: "#EBEB8B")
-        }
-    }
-    
-    func backgroundColor() -> UIColor {
-        
-        switch self {
-            
-        case .barbarian: return UIColor(hex: "#000000")
-            
-        case .greek: return UIColor(hex: "#ffffff")
-        case .roman: return UIColor(hex: "#460076")
-        case .english: return UIColor(hex: "#ff92fd")
-        case .aztecs: return UIColor(hex: "#9CE8C2")
-        case .persian: return UIColor(hex: "#7BACF8")
-        case .french: return UIColor(hex: "#0000CD")
-        }
-    }
-}
-
-extension TerrainType {
-    
-    func overviewColor() -> UIColor {
-        
-        switch self {
-        case .ocean: return UIColor(red: 79, green: 112, blue: 141)
-        case .shore: return UIColor(red: 91, green: 129, blue: 166)
-        case .plains: return UIColor(red: 98, green: 122, blue: 32)
-        case .grass: return UIColor(red: 75, green: 113, blue: 21)
-        case .desert: return UIColor(red: 197, green: 174, blue: 108)
-        case .tundra: return UIColor(red: 140, green: 106, blue: 68)
-        case .snow: return UIColor(red: 237, green: 240, blue: 240)
-        }
-    }
-}
-
 class MapOverviewNode: SKSpriteNode {
 
     private var buffer: PixelBuffer

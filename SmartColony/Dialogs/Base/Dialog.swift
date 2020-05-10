@@ -217,6 +217,24 @@ class Dialog: NineGridTextureSprite {
         
         self.textField?.resignFirstResponder()
     }
+    
+    func item(with identifier: String) -> SKNode? {
+        
+        if let node = self.children.first(where: { $0.name == identifier }) {
+            return node
+        }
+        
+        fatalError("Can't find \(identifier)")
+    }
+    
+    func button(with identifier: String) -> MessageBoxButtonNode? {
+        
+        if let node = self.children.first(where: { $0.name == identifier }) {
+            return node as? MessageBoxButtonNode
+        }
+        
+        fatalError("Can't find \(identifier)")
+    }
 
     func set(text: String, identifier: String) {
         

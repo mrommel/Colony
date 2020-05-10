@@ -113,11 +113,19 @@ class PediaScene: BaseScene {
     
     func showCityDialog() {
         
-        let player = Player(leader: .alexander, isHuman: false)
+        let player = Player(leader: .alexander, isHuman: true)
         player.initialize()
         
-        let mapModel = PediaScene.mapFilled(with: .grass, sized: .duel)
+        var mapModel = PediaScene.mapFilled(with: .grass, sized: .duel)
+        mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
+        mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
+        mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
+        mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
+        mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
+        
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [player], on: mapModel)
+        
+        GameViewModel.discover(mapModel: &mapModel, by: player)
         
         let city = City(name: "Berlin", at: HexPoint(x: 2, y: 2), capital: true, owner: player)
         city.initialize(in: gameModel)

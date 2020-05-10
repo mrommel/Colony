@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 enum GameStateType {
     
@@ -1035,5 +1036,45 @@ public class GameModel {
                 self.userInterface?.refresh(tile: tile)
             }
         }
+    }
+}
+
+extension GameModel {
+    
+    public func contentSize() -> CGSize {
+        
+        let mapSize = self.mapSize()
+        
+        var tmpPoint: CGPoint = CGPoint.zero
+        var minX: CGFloat = CGFloat(Float.greatestFiniteMagnitude)
+        var maxX: CGFloat = CGFloat(Float.leastNormalMagnitude)
+        var minY: CGFloat = CGFloat(Float.greatestFiniteMagnitude)
+        var maxY: CGFloat = CGFloat(Float.leastNormalMagnitude)
+        
+        tmpPoint = HexPoint.toScreen(hex: HexPoint(x: mapSize.width(), y: mapSize.height()))
+        minX = min(minX, tmpPoint.x)
+        maxX = max(maxX, tmpPoint.x)
+        minY = min(minY, tmpPoint.y)
+        maxY = max(maxY, tmpPoint.y)
+        
+        tmpPoint = HexPoint.toScreen(hex: HexPoint(x: 0, y: mapSize.height()))
+        minX = min(minX, tmpPoint.x)
+        maxX = max(maxX, tmpPoint.x)
+        minY = min(minY, tmpPoint.y)
+        maxY = max(maxY, tmpPoint.y)
+        
+        tmpPoint = HexPoint.toScreen(hex: HexPoint(x: mapSize.width(), y: 0))
+        minX = min(minX, tmpPoint.x)
+        maxX = max(maxX, tmpPoint.x)
+        minY = min(minY, tmpPoint.y)
+        maxY = max(maxY, tmpPoint.y)
+        
+        tmpPoint = HexPoint.toScreen(hex: HexPoint(x: 0, y: 0))
+        minX = min(minX, tmpPoint.x)
+        maxX = max(maxX, tmpPoint.x)
+        minY = min(minY, tmpPoint.y)
+        maxY = max(maxY, tmpPoint.y)
+        
+        return CGSize(width: maxX - minX, height: maxY - minY)
     }
 }

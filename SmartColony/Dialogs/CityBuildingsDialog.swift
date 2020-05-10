@@ -101,6 +101,7 @@ class CityBuildingsDialog: Dialog {
                 
                 let districtNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: true, size: CGSize(width: 200, height: 40), buttonAction: { districtType in
                     
+                    print("select districtType: \(districtType)")
                 })
                 districtNode.zPosition = 200
                 scrollNode?.addScrolling(child: districtNode)

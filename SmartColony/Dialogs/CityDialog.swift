@@ -216,7 +216,7 @@ class CityDialog: Dialog {
 
         self.manageCitizenDialogButton = MenuButtonNode(titled: "Manage Citizen",
                                                         buttonAction: {
-                                                            print("citizen")
+                                                            self.showManageCitizenDialog()
                                                         })
         self.manageCitizenDialogButton?.zPosition = 200
         self.addChild(self.manageCitizenDialogButton!)
@@ -364,6 +364,25 @@ class CityDialog: Dialog {
 
         if let baseScene = self.scene as? BaseScene {
             baseScene.cameraNode.add(dialog: cityBuildingsDialog)
+        } else {
+            fatalError("Must be started from a BaseScene")
+        }
+    }
+    
+    func showManageCitizenDialog() {
+        
+        self.hide()
+
+        let cityManageCitizenDialog = CityManageCitizenDialog(for: self.city, in: self.gameModel)
+        cityManageCitizenDialog.zPosition = 260
+
+        cityManageCitizenDialog.addCancelAction(handler: {
+            cityManageCitizenDialog.close()
+            self.show()
+        })
+
+        if let baseScene = self.scene as? BaseScene {
+            baseScene.cameraNode.add(dialog: cityManageCitizenDialog)
         } else {
             fatalError("Must be started from a BaseScene")
         }

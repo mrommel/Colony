@@ -63,7 +63,7 @@ class ScrollNode: SKCropNode {
         let deltaY = (touchLocation.y) - (previousLocation.y)
         
         if abs(deltaY) < 0.1 {
-            //return
+            return
         }
         
         var newPositionY = self.scrollNode!.position.y + deltaY
