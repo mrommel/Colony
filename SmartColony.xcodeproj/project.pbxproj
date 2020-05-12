@@ -24,6 +24,8 @@
 		C948685224657C3F00495988 /* CitizenMapNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948685124657C3F00495988 /* CitizenMapNode.swift */; };
 		C948685424669D2700495988 /* CivilizationTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948685324669D2700495988 /* CivilizationTypeExtension.swift */; };
 		C948685624669EB000495988 /* CitizenLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948685524669EB000495988 /* CitizenLayer.swift */; };
+		C9486858246994BC00495988 /* ScienceProgressNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9486857246994BB00495988 /* ScienceProgressNode.swift */; };
+		C948685A246994E300495988 /* CultureProgressNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9486859246994E300495988 /* CultureProgressNode.swift */; };
 		C94DE1D624516B0B00B13F4D /* CircularProgressBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94DE1D524516B0B00B13F4D /* CircularProgressBarNode.swift */; };
 		C94DE1D824516BAC00B13F4D /* CGFloatExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94DE1D724516BAC00B13F4D /* CGFloatExtension.swift */; };
 		C95503C12456FD0100D4B3D8 /* Commands.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C95503C02456FD0100D4B3D8 /* Commands.xcassets */; };
@@ -211,6 +213,8 @@
 		C948685124657C3F00495988 /* CitizenMapNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitizenMapNode.swift; sourceTree = "<group>"; };
 		C948685324669D2700495988 /* CivilizationTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilizationTypeExtension.swift; sourceTree = "<group>"; };
 		C948685524669EB000495988 /* CitizenLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitizenLayer.swift; sourceTree = "<group>"; };
+		C9486857246994BB00495988 /* ScienceProgressNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceProgressNode.swift; sourceTree = "<group>"; };
+		C9486859246994E300495988 /* CultureProgressNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultureProgressNode.swift; sourceTree = "<group>"; };
 		C94DE1D524516B0B00B13F4D /* CircularProgressBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressBarNode.swift; sourceTree = "<group>"; };
 		C94DE1D724516BAC00B13F4D /* CGFloatExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloatExtension.swift; sourceTree = "<group>"; };
 		C95503C02456FD0100D4B3D8 /* Commands.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Commands.xcassets; sourceTree = "<group>"; };
@@ -545,6 +549,8 @@
 				C9EB9F552451A95500F13B02 /* LeftHeaderBarNode.swift */,
 				C9EB9F5D2452F4F300F13B02 /* RightHeaderBarNode.swift */,
 				C9EB9F572451B8AE00F13B02 /* BaseProgressNode.swift */,
+				C9486857246994BB00495988 /* ScienceProgressNode.swift */,
+				C9486859246994E300495988 /* CultureProgressNode.swift */,
 				C948685124657C3F00495988 /* CitizenMapNode.swift */,
 			);
 			path = Nodes;
@@ -877,6 +883,7 @@
 				C9F61470243471D500450B6C /* AppDelegate.swift in Sources */,
 				C9B1D24E2434C4F700033791 /* MapTypeDialog.swift in Sources */,
 				C9B1D21B2434788000033791 /* MenuViewController.swift in Sources */,
+				C948685A246994E300495988 /* CultureProgressNode.swift in Sources */,
 				C9B1D263243517D600033791 /* SKNodeExtension.swift in Sources */,
 				C9EC4E1724444F2E001A0597 /* ImprovementLayer.swift in Sources */,
 				C95B3E0D2438E7A8002F5A86 /* RiverLayer.swift in Sources */,
@@ -921,6 +928,7 @@
 				C9B1D2872435363500033791 /* MapLoadingDialog.swift in Sources */,
 				C9F91B3F244B98900081EDC8 /* CivicDialog.swift in Sources */,
 				C99234AA24475DCC00F4B4AB /* BannerNode.swift in Sources */,
+				C9486858246994BC00495988 /* ScienceProgressNode.swift in Sources */,
 				C9F61475243471D500450B6C /* SmartColony.xcdatamodeld in Sources */,
 				C95B3DFA243871A6002F5A86 /* SizedNode.swift in Sources */,
 				C95B3E072438E780002F5A86 /* TerrainLayer.swift in Sources */,

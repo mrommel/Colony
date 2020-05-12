@@ -11,8 +11,12 @@ import SmartAILibrary
 
 class YieldDisplayNode: SKNode {
 
+    // properties
+    
     var yieldType: YieldType
 
+    // nodes
+    
     var backgroundNode: NineGridTextureSprite?
     var yieldIconNode: SKSpriteNode?
     var yieldLabelNode: SKLabelNode?
@@ -21,6 +25,8 @@ class YieldDisplayNode: SKNode {
     
     var action: ((_ yieldType: YieldType) -> Void)?
 
+    // MARK: constructors
+    
     init(for yieldType: YieldType, value: Double, withBackground showBackground: Bool = true, size: CGSize) {
 
         self.yieldType = yieldType
@@ -77,6 +83,22 @@ class YieldDisplayNode: SKNode {
         let prefix = value >= 0.0 ? "+" : ""
         self.yieldLabelNode?.text = "\(prefix)\(value)"
     }
+    
+    // elements
+    
+    func enable() {
+        
+        let textureName = self.yieldType.backgroundTexture()
+        self.backgroundNode?.texture = SKTexture(imageNamed: textureName)
+    }
+    
+    func disable() {
+        
+        let textureName = self.yieldType.backgroundTexture() + "_inactive"
+        self.backgroundNode?.texture = SKTexture(imageNamed: textureName)
+    }
+    
+    // MARK: touch handling
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 

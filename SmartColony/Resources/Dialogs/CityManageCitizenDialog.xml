@@ -42,7 +42,7 @@
             <anchorx>left</anchorx>
             <anchory>top</anchory>
             <offsetx>-100</offsetx>
-            <offsety>-70%</offsety>
+            <offsety>-65%</offsety>
             <width>60</width>
             <height>32</height>
         </item>
@@ -53,7 +53,7 @@
             <anchorx>left</anchorx>
             <anchory>top</anchory>
             <offsetx>-30</offsetx>
-            <offsety>-70%</offsety>
+            <offsety>-65%</offsety>
             <width>60</width>
             <height>32</height>
         </item>
@@ -64,7 +64,7 @@
             <anchorx>left</anchorx>
             <anchory>top</anchory>
             <offsetx>40</offsetx>
-            <offsety>-70%</offsety>
+            <offsety>-65%</offsety>
             <width>60</width>
             <height>32</height>
         </item>
@@ -76,7 +76,7 @@
             <anchorx>left</anchorx>
             <anchory>top</anchory>
             <offsetx>-100</offsetx>
-            <offsety>-75%</offsety>
+            <offsety>-70%</offsety>
             <width>60</width>
             <height>32</height>
         </item>
@@ -87,7 +87,7 @@
             <anchorx>left</anchorx>
             <anchory>top</anchory>
             <offsetx>-30</offsetx>
-            <offsety>-75%</offsety>
+            <offsety>-70%</offsety>
             <width>60</width>
             <height>32</height>
         </item>
@@ -98,9 +98,21 @@
             <anchorx>left</anchorx>
             <anchory>top</anchory>
             <offsetx>40</offsetx>
-            <offsety>-75%</offsety>
+            <offsety>-70%</offsety>
             <width>60</width>
             <height>32</height>
+        </item>
+        
+        <item>
+            <identifier>focus_label</identifier>
+            <type>label</type>
+            <title>Focus: </title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-80%</offsety>
+            <width>300</width>
+            <height>40</height>
         </item>
         
         <item>

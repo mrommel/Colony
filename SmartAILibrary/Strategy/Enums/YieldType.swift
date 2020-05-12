@@ -24,4 +24,19 @@ public enum YieldType: String, Codable {
         
         return [.food, .production, .gold, .science, .culture, .faith]
     }
+    
+    public func focusType() -> CityFocusType {
+        
+        switch self {
+            
+        case .none: return .none
+            
+        case .food: return .food
+        case .production: return .production
+        case .gold: return .gold
+        case .science: return .science
+        case .culture: return .culture
+        case .faith: return .faith
+        }
+    }
 }

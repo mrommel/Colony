@@ -53,12 +53,6 @@
 - yield_1_2_1
 - yield_1_2_3
 - yield_3_2_0
-- yield_3_0_1
-- yield_3_1_0
-- yield_2_0_3
-- yield_1_0_3
-- yield_0_1_1
-- yield_2_1_3
 
 ## Done
 - add resources (incl show in layer) to maps

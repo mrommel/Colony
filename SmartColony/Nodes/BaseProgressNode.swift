@@ -27,7 +27,7 @@ class BaseProgressNode: SizedNode {
     var eurekaNode: SKLabelNode?
     var turnsRemainingNode: SKLabelNode?
 
-    var iconNodes: [SKSpriteNode?] = []
+    private var iconNodes: [SKSpriteNode?] = []
 
     init(progressBarType: ProgressBarType, title: String, iconTexture: String, eureka: String, progress: Int) {
 
@@ -122,6 +122,7 @@ class BaseProgressNode: SizedNode {
         newIconNode.anchorPoint = CGPoint.middleCenter
         self.addChild(newIconNode)
 
+        // keep a reference to icons
         self.iconNodes.append(newIconNode)
     }
     
@@ -133,110 +134,9 @@ class BaseProgressNode: SizedNode {
         self.iconNode?.position = self.position + CGPoint(x: 21, y: -23)
         self.eurekaNode?.position = self.position + CGPoint(x: 53, y: -50)
         self.turnsRemainingNode?.position = self.position + CGPoint(x: 20, y: -50)
-    }
-}
-
-class ScienceProgressNode: BaseProgressNode {
-
-    var techType: TechType
-
-    init() {
-
-        self.techType = .none
-
-        super.init(progressBarType: .science, title: "Choose Research", iconTexture: "tech_default", eureka: "---", progress: 0)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    func update(tech: TechType, progress value: Int, turnsRemaining: Int) {
-
-        if self.techType != tech {
-
-            self.iconNode?.texture = SKTexture(imageNamed: tech.iconTexture())
-            self.labelNode?.text = tech.name()
-            self.eurekaNode?.text = tech.eurekaSummary()
-            self.turnsRemainingNode?.text = "\(turnsRemaining)"
-
-            self.resetIcons()
-
-            let achievements = tech.achievements()
-
-            for buildingType in achievements.buildingTypes {
-                self.addIcon(named: buildingType.iconTexture())
-            }
-
-            for unitType in achievements.unitTypes {
-                self.addIcon(named: unitType.iconTexture())
-            }
-
-            for wonderType in achievements.wonderTypes {
-                self.addIcon(named: wonderType.iconTexture())
-            }
-
-            for buildType in achievements.buildTypes {
-                self.addIcon(named: buildType.iconTexture())
-            }
-
-            self.techType = tech
+        
+        for (index, iconNode) in self.iconNodes.enumerated() {
+            iconNode?.position = self.position + CGPoint(x: 55 + index * 22, y: -33)
         }
-
-        self.progressNode?.value = value
-    }
-}
-
-class CultureProgressNode: BaseProgressNode {
-
-    var civicType: CivicType
-
-    init() {
-
-        self.civicType = .codeOfLaws
-
-        super.init(progressBarType: .culture, title: "Choose Research", iconTexture: "civic_default", eureka: "---", progress: 0)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    func update(civic: CivicType, progress value: Int, turnsRemaining: Int) {
-
-        if self.civicType != civic {
-            self.iconNode?.texture = SKTexture(imageNamed: civic.iconTexture())
-            self.labelNode?.text = civic.name()
-            self.eurekaNode?.text = civic.eurekaSummary()
-            self.turnsRemainingNode?.text = "\(turnsRemaining)"
-
-            self.resetIcons()
-
-            let achievements = civic.achievements()
-
-            for buildingType in achievements.buildingTypes {
-                self.addIcon(named: buildingType.iconTexture())
-            }
-
-            for unitType in achievements.unitTypes {
-                self.addIcon(named: unitType.iconTexture())
-            }
-
-            for wonderType in achievements.wonderTypes {
-                self.addIcon(named: wonderType.iconTexture())
-            }
-
-            for buildType in achievements.buildTypes {
-                self.addIcon(named: buildType.iconTexture())
-            }
-
-            for policyCardsType in achievements.policyCards {
-                self.addIcon(named: policyCardsType.iconTexture())
-            }
-
-            self.civicType = civic
-        }
-
-        self.progressNode?.value = value
     }
 }

@@ -31,6 +31,10 @@ class CityManageCitizenDialog: Dialog {
             fatalError("cant get city")
         }
 
+        guard let cityCitizens = city.cityCitizens else {
+            fatalError("cant get cityCitizens")
+        }
+        
         let uiParser = UIParser()
         guard let cityManageCitizenDialogConfiguration = uiParser.parse(from: "CityManageCitizenDialog") else {
             fatalError("cant load CityManageCitizenDialog configuration")
@@ -40,6 +44,12 @@ class CityManageCitizenDialog: Dialog {
 
         // fill fields
         self.set(text: city.name, identifier: "city_name")
+        if cityCitizens.focusType() == .productionGrowth {
+            self.set(text: "---", identifier: "focus_label")
+        } else {
+            self.set(text: "\(cityCitizens.focusType())", identifier: "focus_label")
+        }
+        self.toggle(focusType: cityCitizens.focusType())
 
         let contentSize = game.contentSize()
         
@@ -63,16 +73,42 @@ class CityManageCitizenDialog: Dialog {
         if let food_yield = self.item(with: "food_yield") as? YieldDisplayNode {
             food_yield.zPosition = 500
             food_yield.action = { yieldType in
-                city.cityCitizens?.setFocusType(focus: .food)
-                self.update()
+                self.toggle(focusType: yieldType.focusType())
             }
         }
         
         if let production_yield = self.item(with: "production_yield") as? YieldDisplayNode {
             production_yield.zPosition = 500
             production_yield.action = { yieldType in
-                city.cityCitizens?.setFocusType(focus: .production)
-                self.update()
+                self.toggle(focusType: yieldType.focusType())
+            }
+        }
+        
+        if let gold_yield = self.item(with: "gold_yield") as? YieldDisplayNode {
+            gold_yield.zPosition = 500
+            gold_yield.action = { yieldType in
+                self.toggle(focusType: yieldType.focusType())
+            }
+        }
+        
+        if let science_yield = self.item(with: "science_yield") as? YieldDisplayNode {
+            science_yield.zPosition = 500
+            science_yield.action = { yieldType in
+                self.toggle(focusType: yieldType.focusType())
+            }
+        }
+        
+        if let culture_yield = self.item(with: "culture_yield") as? YieldDisplayNode {
+            culture_yield.zPosition = 500
+            culture_yield.action = { yieldType in
+                self.toggle(focusType: yieldType.focusType())
+            }
+        }
+        
+        if let faith_yield = self.item(with: "faith_yield") as? YieldDisplayNode {
+            faith_yield.zPosition = 500
+            faith_yield.action = { yieldType in
+                self.toggle(focusType: yieldType.focusType())
             }
         }
     }
@@ -87,7 +123,72 @@ class CityManageCitizenDialog: Dialog {
         self.scrollNode?.contentSize = CGSize(width: 250, height: 400)
     }
     
-    func update() {
+    func toggle(focusType: CityFocusType) {
+
+        guard let cityCitizens = self.city?.cityCitizens else {
+            fatalError("cant get cityCitizens")
+        }
+        
+        if let food_yield = self.item(with: "food_yield") as? YieldDisplayNode {
+            if focusType == .food {
+                food_yield.enable()
+            } else {
+                food_yield.disable()
+            }
+        }
+        
+        if let production_yield = self.item(with: "production_yield") as? YieldDisplayNode {
+            if focusType == .production {
+                production_yield.enable()
+            } else {
+                production_yield.disable()
+            }
+        }
+        
+        if let gold_yield = self.item(with: "gold_yield") as? YieldDisplayNode {
+            if focusType == .gold {
+                gold_yield.enable()
+            } else {
+                gold_yield.disable()
+            }
+        }
+        
+        if let science_yield = self.item(with: "science_yield") as? YieldDisplayNode {
+            if focusType == .science {
+                science_yield.enable()
+            } else {
+                science_yield.disable()
+            }
+        }
+        
+        if let culture_yield = self.item(with: "culture_yield") as? YieldDisplayNode {
+            if focusType == .culture {
+                culture_yield.enable()
+            } else {
+                culture_yield.disable()
+            }
+        }
+        
+        if let faith_yield = self.item(with: "faith_yield") as? YieldDisplayNode {
+            if focusType == .faith {
+                faith_yield.enable()
+            } else {
+                faith_yield.disable()
+            }
+        }
+        
+        if cityCitizens.focusType() == focusType {
+            cityCitizens.set(focusType: .productionGrowth) // default
+            self.set(text: "---", identifier: "focus_label")
+        } else {
+            cityCitizens.set(focusType: focusType)
+            self.set(text: "\(focusType)", identifier: "focus_label")
+        }
+        
+        self.updateNodes()
+    }
+    
+    func updateNodes() {
         
         guard let city = self.city else {
             fatalError("cant get city")
@@ -124,6 +225,6 @@ extension CityManageCitizenDialog: CitizenMapNodeDelegate {
             cityCitizens.forceWorkingPlot(at: point, force: true, in: self.gameModel)
         }
         
-        self.update()
+        self.updateNodes()
     }
 }

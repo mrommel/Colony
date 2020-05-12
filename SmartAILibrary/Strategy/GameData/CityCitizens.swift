@@ -18,7 +18,7 @@ public enum CityFocusType: Int, Codable {
     case greatPeople // CITY_AI_FOCUS_TYPE_GREAT_PEOPLE,
     case science // CITY_AI_FOCUS_TYPE_SCIENCE,
     case culture // CITY_AI_FOCUS_TYPE_CULTURE,
-    case productionGrowth // CITY_AI_FOCUS_TYPE_PROD_GROWTH,
+    case productionGrowth // CITY_AI_FOCUS_TYPE_PROD_GROWTH, // default
     case goldGrowth // CITY_AI_FOCUS_TYPE_GOLD_GROWTH,
     case faith // CITY_AI_FOCUS_TYPE_FAITH,
 }
@@ -193,63 +193,63 @@ public class CityCitizens {
             
             if gameModel.turnsElapsed % 8 == 0 {
                 
-                self.setFocusType(focus: .goldGrowth)
+                self.set(focusType: .goldGrowth)
                 self.setNoAutoAssignSpecialists(true, in: gameModel)
                 self.setForcedAvoidGrowth(false, in: gameModel)
                 
                 if city.hasOnlySmallFoodSurplus() {
-                    self.setFocusType(focus: .none)
+                    self.set(focusType: .none)
                     self.setNoAutoAssignSpecialists(true, in: gameModel)
                 }
             }
             
             if city.isCapital() && cityStrategy.specialization() == .productionWonder {
                 
-                self.setFocusType(focus: .none)
+                self.set(focusType: .none)
                 self.setNoAutoAssignSpecialists(false, in: gameModel)
                 self.setForcedAvoidGrowth(false, in: gameModel)
                 
                 if city.hasFoodSurplus() {
-                    self.setFocusType(focus: .food)
+                    self.set(focusType: .food)
                     self.setNoAutoAssignSpecialists(true, in: gameModel)
                 }
             } else if cityStrategy.specialization() == .productionWonder {
                 
-                self.setFocusType(focus: .production)
+                self.set(focusType: .production)
                 self.setNoAutoAssignSpecialists(false, in: gameModel)
                 self.setForcedAvoidGrowth(false, in: gameModel)
                 
                 if city.hasOnlySmallFoodSurplus() {
-                    self.setFocusType(focus: .none)
+                    self.set(focusType: .none)
                     self.setNoAutoAssignSpecialists(true, in: gameModel)
                     self.setForcedAvoidGrowth(false, in: gameModel)
                 }
             } else if city.population() < 5 {
                 // we want a balanced growth
-                self.setFocusType(focus: .none)
+                self.set(focusType: .none)
                 self.setNoAutoAssignSpecialists(true, in: gameModel)
                 self.setForcedAvoidGrowth(false, in: gameModel)
             } else {
                 // Are we running at a deficit?
                 let inDeficit = economicAI.adopted(economicStrategy: .losingMoney)
                 if inDeficit {
-                    self.setFocusType(focus: .goldGrowth)
+                    self.set(focusType: .goldGrowth)
                     self.setNoAutoAssignSpecialists(false, in: gameModel)
                     self.setForcedAvoidGrowth(false, in: gameModel)
                     
                     if city.hasOnlySmallFoodSurplus() {
-                        self.setFocusType(focus: .none);
+                        self.set(focusType: .none);
                         self.setNoAutoAssignSpecialists(true, in: gameModel);
                     }
                 }
                 else if gameModel.turnsElapsed % 3 == 0 && player.grandStrategyAI?.activeStrategy == .culture {
                     
-                    self.setFocusType(focus: .culture)
+                    self.set(focusType: .culture)
                     self.setNoAutoAssignSpecialists(true, in: gameModel)
                     self.setForcedAvoidGrowth(false, in: gameModel)
                     
                     if city.hasOnlySmallFoodSurplus() {
-                        self.setFocusType(focus: .none);
+                        self.set(focusType: .none);
                         self.setNoAutoAssignSpecialists(true, in: gameModel)
                     }
                 } else {
@@ -263,21 +263,21 @@ public class CityCitizens {
                         if let yieldType = currentSpecialization.yieldType() {
 
                             if yieldType == .food {
-                                self.setFocusType(focus: .food)
+                                self.set(focusType: .food)
                             } else if yieldType == .production {
-                                self.setFocusType(focus: .productionGrowth)
+                                self.set(focusType: .productionGrowth)
                             } else if yieldType == .gold {
-                                self.setFocusType(focus: .gold)
+                                self.set(focusType: .gold)
                             } else if yieldType == .science {
-                                self.setFocusType(focus: .science)
+                                self.set(focusType: .science)
                             } else {
-                                self.setFocusType(focus: .none)
+                                self.set(focusType: .none)
                             }
                         } else {
-                            self.setFocusType(focus: .none)
+                            self.set(focusType: .none)
                         }
                     } else {
-                        self.setFocusType(focus: .none)
+                        self.set(focusType: .none)
                     }
                 }
             }
@@ -526,12 +526,12 @@ public class CityCitizens {
         self.numDefaultSpecialistsValue += change
     }
     
-    public func setFocusType(focus: CityFocusType) {
+    public func set(focusType: CityFocusType) {
         
-        self.focusTypeValue = focus
+        self.focusTypeValue = focusType
     }
     
-    func focusType() -> CityFocusType {
+    public func focusType() -> CityFocusType {
         
         return self.focusTypeValue
     }

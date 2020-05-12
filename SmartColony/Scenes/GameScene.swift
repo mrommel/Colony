@@ -549,6 +549,7 @@ class GameScene: BaseScene {
             
             if !self.scienceProgressNodeHidden && scienceProgressNode.contains(cameraLocation) {
                 print("science progress touched")
+                self.showScreen(screenType: .sc)
                 return
             }
         }

@@ -16,21 +16,21 @@ extension NotificationType {
             
         case .turn: return "button_turn"
             
-        case .generic: return "button_generic"
+        case .generic: return "button_generic" // #
             
         case .tech: return "button_tech_needed"
         case .civic: return "button_civic_needed"
         case .production: return "button_production_needed"
-        case .unitNeedsOrders: return "button_generic"
+        case .unitNeedsOrders: return "button_unit_needs_orders"
             
-        case .cityGrowth: return "abc"
-        case .starving: return "abc"
-        case .diplomaticDeclaration: return "abc"
-        case .war: return "abc"
-        case .enemyInTerritory: return "abc"
-        case .unitPromotion: return "abc"
+        case .cityGrowth: return "button_city_growth"
+        case .starving: return "button_starving"
+        case .diplomaticDeclaration: return "button_diplomatic_declaration" // #
+        case .war: return "button_war" // #
+        case .enemyInTerritory: return "button_enemy_in_territory" // #
+        case .unitPromotion: return "button_promotion" // #
             
-        case .era: return "era"
+        case .era: return "button_era" // #
         }
     }
 }
