@@ -816,12 +816,25 @@ extension GameScene: NotificationsDelegate {
 
 extension GameScene: UserInterfaceProtocol {
     
-    func showPopup(popupType: PopupType, data: PopupData?) {
+    func showPopup(popupType: PopupType, with data: PopupData?, at location: HexPoint) {
         
-    }
-    
-    func isPopupShown() -> Bool {
-        false
+        print("show popup: \(popupType)")
+        
+        switch popupType {
+            
+        case .none:
+            // NOOP
+            break
+        case .declareWarQuestion:
+            // NOOP
+            break
+        case .barbarianCampCleared:
+            // NOOP
+            break
+        case .featureGivesProduction:
+            // Das Entfernen der Geländeart {@1_FeatName} hat {2_Num} [ICON_PRODUCTION] für die Stadt {@3_CityName} eingebracht.
+            break
+        }
     }
 
     func select(unit: AbstractUnit?) {

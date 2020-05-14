@@ -704,8 +704,7 @@ public class Unit: AbstractUnit {
 
                 if !diplomacyAI.isAtWar(with: defenderUnit.player) {
 
-                    gameModel.userInterface?.showPopup(popupType: .declareWarQuestion, data: PopupData(player: defenderUnit.player))
-                    // gameModel.add(message: DeclarationOfWarMessage(text: "Really? War with \(defenderUnit.player)"))
+                    gameModel.userInterface?.showPopup(popupType: .declareWarQuestion, with: PopupData(player: defenderUnit.player), at: defenderUnit.location)
                     return false
                 }
             }
@@ -1496,7 +1495,7 @@ public class Unit: AbstractUnit {
                     // If it's the active player then show the popup
                     if player.isEqual(to: gameModel.humanPlayer()) {
 
-                        gameModel.userInterface?.showPopup(popupType: .barbarianCampCleared, data: PopupData(money: numGold))
+                        gameModel.userInterface?.showPopup(popupType: .barbarianCampCleared, with: PopupData(money: numGold), at: newPlot.point)
 
                         // We are adding a popup that the player must make a choice in, make sure they are not in the end-turn phase.
                         // FIXME self.cancelActivePlayerEndTurn();

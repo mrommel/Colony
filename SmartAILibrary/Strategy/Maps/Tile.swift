@@ -1603,11 +1603,7 @@ class Tile: AbstractTile {
                         city.changeFeatureProduction(change: Double(production))
 
                         if cityPlayer.isHuman() {
-                            fatalError("fixme")
-                            // Das Entfernen der Geländeart {@1_FeatName} hat {2_Num} [ICON_PRODUCTION] für die Stadt {@3_CityName} eingebracht.
-                            // gameModel.add(message: <#T##AbstractGameMessage#>)
-                            /*    strBuffer = GetLocalizedText("TXT_KEY_MISC_CLEARING_FEATURE_RESOURCE", GC.getFeatureInfo(getFeatureType())->GetTextKey(), iProduction, pCity->getNameKey());
-                             GC.GetEngineUserInterface()->AddCityMessage(0, pCity->GetIDInfo(), pCity->getOwner(), false, GC.getEVENT_MESSAGE_TIME(), strBuffer);*/
+                            gameModel?.userInterface?.showPopup(popupType: .featureGivesProduction, with: PopupData(featureType: self.feature(), production: production, cityName: city.name), at: city.location)
                         }
                     }
 

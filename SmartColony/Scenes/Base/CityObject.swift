@@ -50,6 +50,10 @@ class CityObject {
             fatalError("cant get unit")
         }
         
+        guard let player = city.player else {
+            fatalError("cant get player")
+        }
+        
         if self.nameLabel != nil {
             self.nameLabel?.removeFromParent()
             self.nameLabel = nil
@@ -57,19 +61,24 @@ class CityObject {
             self.nameBackground = nil
         }
 
-        let texture = SKTexture(imageNamed: "city_label_background")
+        let texture = SKTexture(imageNamed: "city_banner")
         self.nameBackground = SKSpriteNode(texture: texture, size: CGSize(width: 48, height: 48))
         self.nameBackground?.zPosition = Globals.ZLevels.cityName - 0.1
         self.nameBackground?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+        self.nameBackground?.colorBlendFactor = 0.7
+        self.nameBackground?.color = player.leader.civilization().backgroundColor()
+        
         if let nameBackground = self.nameBackground {
             self.sprite.addChild(nameBackground)
         }
 
         self.nameLabel = SKLabelNode(text: city.name)
-        self.nameLabel?.fontSize = 8
-        self.nameLabel?.position = CGPoint(x: 24, y: 0)
+        self.nameLabel?.fontSize = 6
+        self.nameLabel?.position = CGPoint(x: 24, y: 36)
         self.nameLabel?.zPosition = Globals.ZLevels.cityName
         self.nameLabel?.fontName = Globals.Fonts.customFontBoldFamilyname
+        self.nameLabel?.fontColor = player.leader.civilization().iconColor()
+        self.nameLabel?.preferredMaxLayoutWidth = 30
 
         if let nameLabel = self.nameLabel {
             self.sprite.addChild(nameLabel)

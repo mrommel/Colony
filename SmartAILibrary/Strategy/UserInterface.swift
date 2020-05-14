@@ -12,8 +12,9 @@ public enum PopupType {
     
     case none
     
-    case declareWarQuestion
+    case declareWarQuestion  // ??
     case barbarianCampCleared
+    case featureGivesProduction // Das Entfernen der Geländeart {@1_FeatName} hat {2_Num} [ICON_PRODUCTION] für die Stadt {@3_CityName} eingebracht.
 }
 
 public class PopupData {
@@ -21,16 +22,38 @@ public class PopupData {
     let player: AbstractPlayer?
     let money: Int
     
+    let featureType: FeatureType
+    let production: Int
+    let cityName: String
+    
     init(player: AbstractPlayer?) {
         
         self.player = player
         self.money = -1
+        
+        self.featureType = .none
+        self.production = -1
+        self.cityName = ""
     }
     
     init(money: Int) {
         
         self.player = nil
         self.money = money
+        
+        self.featureType = .none
+        self.production = -1
+        self.cityName = ""
+    }
+    
+    init(featureType: FeatureType, production: Int, cityName: String) {
+        
+        self.player = nil
+        self.money = -1
+        
+        self.featureType = featureType
+        self.production = production
+        self.cityName = cityName
     }
 }
 
@@ -48,8 +71,7 @@ public enum ScreenType {
 
 public protocol UserInterfaceProtocol: class {
     
-    func showPopup(popupType: PopupType, data: PopupData?)
-    func isPopupShown() -> Bool
+    func showPopup(popupType: PopupType, with data: PopupData?, at location: HexPoint)
 
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?)
     func isShown(screen: ScreenType) -> Bool

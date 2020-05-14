@@ -13,10 +13,6 @@ import Foundation
 class TestUI: UserInterfaceProtocol {
 
     func showPopup(popupType: PopupType, data: PopupData?) { }
-    
-    func isPopupShown() -> Bool {
-        return false
-    }
 
     func showScreen(screenType: ScreenType, city: AbstractCity?) { }
     
