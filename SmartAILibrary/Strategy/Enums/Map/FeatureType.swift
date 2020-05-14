@@ -220,7 +220,7 @@ public enum FeatureType: Int, Codable {
         }
     }
     
-    func movementCosts() -> Int {
+    func movementCosts() -> Double {
         
         switch self {
         
@@ -232,21 +232,21 @@ public enum FeatureType: Int, Codable {
         case .marsh: return 2
         case .oasis: return 0
         case .reef: return 2
-        case .ice: return -1
+        case .ice: return UnitMovementType.max
         case .atoll: return 2
             
-        case .mountains: return -1 // impassable
-        case .lake: return -1 // impassable
+        case .mountains: return UnitMovementType.max // impassable
+        case .lake: return UnitMovementType.max // impassable
             
         // natural wonders
-        case .delicateArch: return -1
-        case .galapagos: return -1
+        case .delicateArch: return UnitMovementType.max
+        case .galapagos: return UnitMovementType.max
         case .greatBarrierReef: return 1
-        case .mountEverest: return -1
-        case .mountKilimanjaro: return -1
+        case .mountEverest: return UnitMovementType.max
+        case .mountKilimanjaro: return UnitMovementType.max
         case .pantanal: return 2
-        case .yosemite: return -1
-        case .uluru: return -1
+        case .yosemite: return UnitMovementType.max
+        case .uluru: return UnitMovementType.max
         }
     }
     

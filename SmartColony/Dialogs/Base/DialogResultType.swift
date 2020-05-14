@@ -100,6 +100,10 @@ enum DialogResultType: String, Codable {
     case earlyEmpire = "EARLYEMPIRE"
     case mysticism = "MYSTICISM"
     case militaryTradition = "MILITARYTRADITION"
+    
+    // diplomatic responses
+    case responseFirstMeetNearRecipientPositive = "DIPLO_CHOICE_FIRST_MEET_NEAR_RECIPIENT_POSITIVE"
+    case responseFirstMeetNearRecipientBusy = "DIPLO_CHOICE_FIRST_MEET_NEAR_RECIPIENT_BUSY"
 
 
     func toMapType() -> MapType {

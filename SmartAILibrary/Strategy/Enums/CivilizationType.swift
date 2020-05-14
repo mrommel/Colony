@@ -18,6 +18,9 @@ public enum CivilizationType {
     case aztecs
     case persian
     case french
+    case egyptian
+    case german
+    case russian
     
     func cityNames() -> [String] {
         
@@ -53,6 +56,15 @@ public enum CivilizationType {
             // https://civilization.fandom.com/wiki/French_cities_(Civ6)
             return ["Paris", "Alba-La-Romaine", "Amboise", "Amiens", "Avignon", "Briançon", "Blois", "Bordeaux", "Boulogne", "Calais", "Carcassonne", "Chartres", "Dieppe", "Dijon", "Grenoble", "La Rochelle", "Limoges", "Lyon", "Marseille"]
             
+        case .egyptian:
+            // https://civilization.fandom.com/wiki/Egyptian_cities_(Civ6)
+            return ["Râ-Kedet", "Thebes", "Memphis", "Akhetaten", "Shedet", "Swenett", "Nekhen", "Abydos", "Apu", "Edfu", "Mendes", "Cyrene", "Giza", "Oryx", "Arsinoe", "Karnak"]
+        case .german:
+            // https://civilization.fandom.com/wiki/German_cities_(Civ6)
+            return ["Aachen", "Cologne", "Frankfurt", "Magdeburg", "Mainz", "Heidelberg", "Trier", "Berlin", "Ulm", "Hamburg", "Munich", "Dortmund", "Nuremberg", "Bremen", "Augsburg", "Münster", "Regensburg", "Erfurt", "Lübeck", "Freiburg", "Würzburg", "Hannover", "Rostock"]
+        case .russian:
+            // https://civilization.fandom.com/wiki/Russian_cities_(Civ6)
+            return ["St. Petersburg", "Moscow", "Novgorod", "Kazan", "Astrakhan", "Yaroslavl", "Smolensk", "Voronezh", "Tula", "Solikamsk", "Tver", "Nizhniy Novgorod", "Arkhangelsk", "Vologda", "Olonets", "Saratov", "Tambov", "Pskov", "Krasnoyarsk"]
         }
     }
     
@@ -68,6 +80,9 @@ public enum CivilizationType {
         case .aztecs: return "Aztecs"
         case .persian: return "Persians"
         case .french: return "French"
+        case .egyptian: return "Egyptian"
+        case .german: return "German"
+        case .russian: return "Russian"
         }
     }
     
@@ -97,6 +112,9 @@ public enum CivilizationType {
         case .aztecs: return tile.feature() == .rainforest ? 2 : 0
         case .french: return 0 // no special bias
         case .persian: return 0 // no special bias
+        case .egyptian: return tile.feature() == .forest || tile.feature() == .rainforest ? -2 : 0
+        case .german: return 0 // no special bias
+        case .russian: return tile.terrain() == .tundra ? 2 : 0
         }
     }
 }

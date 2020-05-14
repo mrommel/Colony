@@ -39,6 +39,7 @@ public protocol AbstractPlayer: class {
 
     var grandStrategyAI: GrandStrategyAI? { get }
     var diplomacyAI: DiplomaticAI? { get }
+    var diplomacyRequests: DiplomacyRequests? { get }
     var economicAI: EconomicAI? { get }
     var militaryAI: MilitaryAI? { get }
     var tacticalAI: TacticalAI? { get }
@@ -58,6 +59,7 @@ public protocol AbstractPlayer: class {
     func canFinishTurn() -> Bool
     func finishTurnButtonPressed() -> Bool // TODO: rename to finishedTurn
     func finishTurn()
+    func updateTimers(in gameModel: GameModel?)
     
     func hasProcessedAutoMoves() -> Bool
     func setProcessedAutoMoves(value: Bool)
@@ -174,6 +176,7 @@ public class Player: AbstractPlayer {
 
     public var grandStrategyAI: GrandStrategyAI?
     public var diplomacyAI: DiplomaticAI?
+    public var diplomacyRequests: DiplomacyRequests?
     public var economicAI: EconomicAI?
     public var militaryAI: MilitaryAI?
     public var tacticalAI: TacticalAI?
@@ -239,6 +242,7 @@ public class Player: AbstractPlayer {
 
         self.grandStrategyAI = GrandStrategyAI(player: self)
         self.diplomacyAI = DiplomaticAI(player: self)
+        self.diplomacyRequests = DiplomacyRequests(player: self)
         self.economicAI = EconomicAI(player: self)
         self.militaryAI = MilitaryAI(player: self)
         self.tacticalAI = TacticalAI(player: self)
@@ -1079,7 +1083,7 @@ public class Player: AbstractPlayer {
         }
     }
     
-    func updateTimers(in gameModel: GameModel?) {
+    public func updateTimers(in gameModel: GameModel?) {
         
         guard let gameModel = gameModel else {
             return
@@ -1095,6 +1099,7 @@ public class Player: AbstractPlayer {
             unit.doDelayedDeath(in: gameModel)
         }
 
+        self.diplomacyAI?.update(in: gameModel)
     }
 
     // https://civilization.fandom.com/wiki/Victory_(Civ6)

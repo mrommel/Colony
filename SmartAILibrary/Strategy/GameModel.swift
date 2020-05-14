@@ -61,7 +61,7 @@ public class GameModel {
         }
         
         if self.isWaitingForBlockingInput() {
-            if userInterface.isDiplomaticScreenActive() {
+            if userInterface.isShown(screen: .diplomatic) {
                 // when diplomatic screen is visible - we can't update
                 return
             } else {
@@ -97,7 +97,7 @@ public class GameModel {
             // And again, the player can change after the automoves and that can pause the game
             if !isPaused() {
                 
-                //self.updateTimers()
+                self.updateTimers()
 
                 self.updatePlayers(in: self) // slewis added!
 
@@ -202,7 +202,7 @@ public class GameModel {
                             // In that case, the local human is (should be) the player we just deactivated the turn for
                             // and the AI players will be activated all at once in CvGame::doTurn, once we have received
                             // all the moves from the other human players
-                            if !userInterface.isDiplomaticScreenActive() {
+                            if !userInterface.isShown(screen: .diplomatic) {
                                 
                                 if player.isAlive() || !player.isHuman() {        // If it is a hotseat game and the player is human and is dead, don't advance the player, we want them to get the defeat screen
                                 
@@ -548,8 +548,18 @@ public class GameModel {
             
                 if self.turnsElapsed % GameModel.turnFrequency == 0 {
                     // This popup his the sync rand, so beware
-                    self.userInterface?.showScreen(screenType: .interimRanking, city: nil)
+                    self.userInterface?.showScreen(screenType: .interimRanking, city: nil, other: nil)
                 }
+            }
+        }
+    }
+    
+    func updateTimers() {
+            
+        for player in self.players {
+
+            if player.isAlive() {
+                player.updateTimers(in: self)
             }
         }
     }
@@ -639,7 +649,7 @@ public class GameModel {
                         }
                         
                         if unit.movesLeft() > 0 {
-                            blockingNotification = NotificationItem(type: .unitNeedsOrders, for: activePlayer, message: "Unit needs orders", summary: "Orders needed", at: unit.location)
+                            blockingNotification = NotificationItem(type: .unitNeedsOrders, for: activePlayer, message: "Unit needs orders", summary: "Orders needed", at: unit.location, other: nil)
                         }
                     }
                 }

@@ -48,11 +48,11 @@ public enum ScreenType {
 
 public protocol UserInterfaceProtocol: class {
     
-    func isDiplomaticScreenActive() -> Bool
-    func isPopupShown() -> Bool
-    
     func showPopup(popupType: PopupType, data: PopupData?)
-    func showScreen(screenType: ScreenType, city: AbstractCity?)
+    func isPopupShown() -> Bool
+
+    func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?)
+    func isShown(screen: ScreenType) -> Bool
     
     func add(notification: NotificationItem)
     func remove(notification: NotificationItem)

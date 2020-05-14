@@ -12,19 +12,17 @@ import Foundation
 
 class TestUI: UserInterfaceProtocol {
 
-    func isDiplomaticScreenActive() -> Bool {
-        return false
-    }
+    func showPopup(popupType: PopupType, data: PopupData?) { }
     
     func isPopupShown() -> Bool {
         return false
     }
-    
-    func showPopup(popupType: PopupType, data: PopupData?) { }
-    
-    func showScreen(screenType: ScreenType) { }
-    
+
     func showScreen(screenType: ScreenType, city: AbstractCity?) { }
+    
+    func isShown(screen: ScreenType) -> Bool {
+        return false
+    }
     
     func add(notification: NotificationItem) {}
     func remove(notification: NotificationItem) {}

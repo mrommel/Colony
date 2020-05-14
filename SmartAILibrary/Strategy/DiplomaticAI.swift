@@ -21,6 +21,8 @@ public class DiplomaticAI {
 
     private var playerDict: DiplomaticPlayerDict
     internal var stateOfAllWars: PlayerStateAllWars
+    
+    private var greetPlayers: [AbstractPlayer?] = []
 
     // MARK: constructors
 
@@ -35,6 +37,10 @@ public class DiplomaticAI {
 
     func turn(in gameModel: GameModel?) {
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
         self.updateMilitaryStrengths(in: gameModel)
         self.updateEconomicStrengths(in: gameModel)
         self.updateMilitaryThreats(in: gameModel)
@@ -47,6 +53,105 @@ public class DiplomaticAI {
         
         self.doUpdateExpansionAggressivePostures(in: gameModel)
         self.doUpdatePlotBuyingAggressivePosture(in: gameModel)
+        
+        // These functions actually DO things, and we don't want the shadow AI behind a human player doing things for him
+        if !player.isHuman() {
+            
+            //MakeWar();
+            //DoMakePeaceWithMinors();
+
+            //DoUpdateDemands();
+
+            //DoUpdatePlanningExchanges();
+            //DoContactMinorCivs();
+            self.doContactMajorCivs(in: gameModel)
+        }
+        
+        // Update Counters
+        self.doCounters()
+    }
+    
+    func doCounters() {
+        
+    }
+    
+    // Anyone we want to chat with?
+    func doContactMajorCivs(in gameModel: GameModel?) {
+        
+        // NOTE: This function is broken up into two sections: AI contact opportunities, and then human contact opportunities
+        // This is to prevent a nasty bug where the AI will continue making decisions as the diplo screen is firing up. Making humans
+        // handled at the end prevents the Diplo AI from having this problem
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        // Loop through AI Players
+        for otherPlayer in gameModel.players {
+            
+            if player.isEqual(to: otherPlayer) || !otherPlayer.isAlive() || otherPlayer.isBarbarian() {
+                continue
+            }
+            
+            if !player.hasMet(with: otherPlayer){
+                continue
+            }
+            
+            // No humans
+            if otherPlayer.isHuman() {
+                continue
+            }
+            
+            self.doContact(player: otherPlayer)
+        }
+
+        // Loop through HUMAN Players - if we're not in MP
+
+        for otherPlayer in gameModel.players {
+            
+            if player.isEqual(to: otherPlayer) || !otherPlayer.isAlive() || otherPlayer.isBarbarian() {
+                continue
+            }
+            
+            if !player.hasMet(with: otherPlayer){
+                continue
+            }
+            
+            // No AI
+            if !otherPlayer.isHuman() {
+                continue
+            }
+            
+            self.doContact(player: otherPlayer)
+        }
+    }
+    
+    // Individual contact opportunity
+    func doContact(player otherPlayer: AbstractPlayer?) {
+        
+        print("\(self.player?.leader) tries to contact \(otherPlayer?.leader)")
+    }
+    
+    func update(in gameModel: GameModel?) {
+        
+        if let activePlayer = gameModel?.activePlayer() {
+            
+            if self.greetPlayers.contains(where: { activePlayer.isEqual(to: $0) }) {
+                
+                self.player?.diplomacyRequests?.sendRequest(for: activePlayer, state: .intro,message: "", emotion: .neutral, in: gameModel)
+                
+                self.greetPlayers.removeAll(where: { activePlayer.isEqual(to: $0) })
+            }
+            /*const char* szText = GetDiploStringForMessage(DIPLO_MESSAGE_INTRO);
+            CvDiplomacyRequests::SendRequest(GetPlayer()->GetID(), eActivePlayer, DIPLO_UI_STATE_DEFAULT_ROOT, szText, LEADERHEAD_ANIM_INTRO);*/
+        }
+        
+        //sadfdsgf
+        //otherPlayer.notifications()?.add(type: .diplomaticDeclaration, for: otherPlayer, message: "First Contact to \(player.leader)", summary: "First Contact with other player")
     }
 
     func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
@@ -72,9 +177,10 @@ public class DiplomaticAI {
             // Should fire off a diplo message, when we meet a human
             if otherPlayer.isHuman() {
 
-                // Put in the list of people to greet human when the human turn comes up.
-                //gameModel.add(message: FirstContactMessage(with: player))
-                otherPlayer.notifications()?.add(type: .diplomaticDeclaration, for: otherPlayer, message: "First Contact to \(player.leader)", summary: "First Contact with other player")
+                // Put in the list of people to greet human, when the human turn comes up.
+                if !self.hasMet(with: otherPlayer) {
+                    self.greetPlayers.append(otherPlayer)
+                }
             }
         }
     }

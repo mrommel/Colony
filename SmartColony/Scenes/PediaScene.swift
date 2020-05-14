@@ -23,6 +23,7 @@ class PediaScene: BaseScene {
     var cityDialogButton: MenuButtonNode?
     var scienceDialogButton: MenuButtonNode?
     var civicDialogButton: MenuButtonNode?
+    var diplomaticDialogButton: MenuButtonNode?
     
     var backButton: MenuButtonNode?
     
@@ -81,6 +82,14 @@ class PediaScene: BaseScene {
         self.civicDialogButton?.zPosition = 2
         self.rootNode.addChild(self.civicDialogButton!)
         
+        // civic
+        self.diplomaticDialogButton = MenuButtonNode(titled: "DiplomaticDialog",
+            buttonAction: {
+                self.showDiplomaticDialog()
+            })
+        self.diplomaticDialogButton?.zPosition = 2
+        self.rootNode.addChild(self.diplomaticDialogButton!)
+        
         // back
         self.backButton = MenuButtonNode(titled: "Back",
             buttonAction: {
@@ -105,6 +114,7 @@ class PediaScene: BaseScene {
         self.scienceDialogButton?.position = CGPoint(x: 0, y: -100)
         self.cityDialogButton?.position = CGPoint(x: 0, y: -150)
         self.interimRankingDialogButton?.position = CGPoint(x: 0, y: -200)
+        self.diplomaticDialogButton?.position = CGPoint(x: 0, y: -250)
         
         self.backButton?.position = CGPoint(x: 0, y: -viewSize.halfHeight + 50)
     }
@@ -218,6 +228,25 @@ class PediaScene: BaseScene {
         })
 
         self.cameraNode.add(dialog: interimRankingDialog)
+    }
+    
+    func showDiplomaticDialog() {
+        
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+        
+        let otherPlayer = Player(leader: .augustus, isHuman: false)
+        otherPlayer.initialize()
+        
+        let diplomaticDialog = DiplomaticDialog(for: humanPlayer, and: otherPlayer)
+        diplomaticDialog.zPosition = 250
+
+        diplomaticDialog.addResultHandler(handler: { result in
+            print("result: \(result)")
+            diplomaticDialog.close()
+        })
+
+        self.cameraNode.add(dialog: diplomaticDialog)
     }
     
     static func mapFilled(with terrain: TerrainType, sized size: MapSize) -> MapModel {

@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>top</anchory>
+    <offsetx>0</offsetx>
+    <offsety>45%</offsety>
+    <width>90%</width>
+    <height>90%</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        
+        <!-- other player -->
+        
+        <item>
+            <identifier>player_image</identifier>
+            <type>image</type>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-120</offsety>
+            <width>160</width>
+            <height>160</height>
+            <image>questionmark</image>
+        </item>
+        <item>
+            <identifier>player_name</identifier>
+            <type>label</type>
+            <title>Player</title>
+            <anchorx>center</anchorx>
+            <anchory>top</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-220</offsety>
+            <width>200</width>
+            <height>20</height>
+        </item>
+        <item>
+            <identifier>player_message</identifier>
+            <type>label</type>
+            <title>Hello</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-250</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <!-- options -->
+        
+        <item>
+            <identifier>reponse_positive_button</identifier>
+            <type>button</type>
+            <title>abc</title>
+            <result>DIPLO_CHOICE_FIRST_MEET_NEAR_RECIPIENT_POSITIVE</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-70%</offsety>
+            <width>300</width>
+            <height>64</height>
+        </item>
+        
+        <item>
+            <identifier>reponse_busy_button</identifier>
+            <type>button</type>
+            <title>def</title>
+            <result>DIPLO_CHOICE_FIRST_MEET_NEAR_RECIPIENT_BUSY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-80%</offsety>
+            <width>300</width>
+            <height>64</height>
+        </item>
+    </items>
+</context>

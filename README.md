@@ -12,11 +12,11 @@
     - add classical civics
     - add missing civics
 - enhance city screen
-    - defect: distorted button
-    - add build queue display / manage build queue
-    - show citizen
-    - show growth in x turns
-    - add list of built items
+    - defect: distorted button (/)
+    - add build queue display / manage build queue (/)
+    - show citizen (/)
+    - show growth in x turns (/)
+    - add list of built items (/)
 - fix UI of map overview
     - colors (/)
 - textures of mountains - outskirts
@@ -27,12 +27,9 @@
 - rework river generation
     - A river will also turn adjacent flat desert tiles into flood plains, adjacent snow tiles to tundra tiles, and adjacent tundra tiles to plains. (/)
     - distibute springs evenly
-- add builder from start
-- add warrior
 
 ## Defects
-- unit is below city banner
-- players are placed to closely
+...
 
 ## Missing Tiles
 - snow-se-sw
@@ -49,12 +46,11 @@
 - resource_niter
 - resource_oil
 - resource_silk
-- yield_2_0_1
-- yield_1_2_1
 - yield_1_2_3
-- yield_3_2_0
 
 ## Done
+- add builder from start
+- add warrior
 - add resources (incl show in layer) to maps
 - show border of owned land
 - game rating screen

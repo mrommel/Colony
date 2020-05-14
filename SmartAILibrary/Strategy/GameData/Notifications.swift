@@ -15,17 +15,20 @@ public class NotificationItem {
     let location: HexPoint
     public let message: String
     public let summary: String
+    public let otherPlayer: AbstractPlayer?
+    
     let turn: Int = -1 // which turn this event was created on
     var dismissed: Bool
     var needsBroadcasting: Bool
     
-    public init(type: NotificationType, for player: AbstractPlayer?, message: String, summary: String, at location: HexPoint) {
+    public init(type: NotificationType, for player: AbstractPlayer?, message: String, summary: String, at location: HexPoint, other otherPlayer: AbstractPlayer?) {
         
         self.type = type
         self.player = player
         self.message = message
         self.summary = summary
         self.location = location
+        self.otherPlayer = otherPlayer
         
         self.dismissed = false
         self.needsBroadcasting = true
@@ -36,18 +39,28 @@ public class NotificationItem {
         switch self.type {
             
         case .tech:
-            gameModel?.userInterface?.showScreen(screenType: .techs, city: nil)
+            gameModel?.userInterface?.showScreen(screenType: .techs, city: nil, other: nil)
             
         case .civic:
-            gameModel?.userInterface?.showScreen(screenType: .civics, city: nil)
+            gameModel?.userInterface?.showScreen(screenType: .civics, city: nil, other: nil)
             
-        case .production:
-            if let city = gameModel?.city(at: self.location) {
-                gameModel?.userInterface?.showScreen(screenType: .city, city: city)
+        case .production, .starving, .cityGrowth:
+            guard let city = gameModel?.city(at: self.location) else {
+                fatalError("cant get city")
+            }
+            
+            gameModel?.userInterface?.showScreen(screenType: .city, city: city, other: nil)
+            
+            if self.type == .starving || self.type == .cityGrowth {
+                self.dismiss(in: gameModel)
             }
             
         case .unitNeedsOrders:
             gameModel?.userInterface?.focus(on: self.location)
+            
+        case .diplomaticDeclaration:
+            gameModel?.userInterface?.showScreen(screenType: .diplomatic, city: nil, other: self.otherPlayer)
+            self.dismiss(in: gameModel)
             
         default:
             print("activate \(self.type) not handled")
@@ -145,7 +158,7 @@ public class Notifications {
         return self.notificationsValue
     }
     
-    func add(type: NotificationType, for player: AbstractPlayer?, message: String, summary: String, at location: HexPoint = HexPoint.zero) {
+    func add(type: NotificationType, for player: AbstractPlayer?, message: String, summary: String, at location: HexPoint = HexPoint.zero, other otherPlayer: AbstractPlayer? = nil) {
         
         guard let player = self.player else {
             fatalError("cant get player")
@@ -156,7 +169,7 @@ public class Notifications {
             return
         }
         
-        self.notificationsValue.append(NotificationItem(type: type, for: player, message: message, summary: summary, at: location))
+        self.notificationsValue.append(NotificationItem(type: type, for: player, message: message, summary: summary, at: location, other: otherPlayer))
     }
     
     func endTurnBlockingNotification() -> NotificationItem? {

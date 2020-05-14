@@ -3156,6 +3156,10 @@ extension Unit {
 
     public func commands(in gameModel: GameModel?) -> [Command] {
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
         guard let techs = self.player?.techs else {
             fatalError("cant get techs")
         }
@@ -3166,7 +3170,8 @@ extension Unit {
             commandArray.append(Command(type: .found, location: self.location))
         }
 
-        if self.type.canBuild(build: .farm) {
+        if self.type.canBuild(build: .farm) && player.canBuild(build: .farm, at: self.location, testVisible: true, testGold: true, in: gameModel) {
+            
             var requiredTech = true
             if let tech = ImprovementType.farm.required() {
                 requiredTech = techs.has(tech: tech)
@@ -3177,7 +3182,8 @@ extension Unit {
             }
         }
 
-        if self.type.canBuild(build: .mine) {
+        if self.type.canBuild(build: .mine) && player.canBuild(build: .farm, at: self.location, testVisible: true, testGold: true, in: gameModel) {
+            
             var requiredTech = true
             if let tech = ImprovementType.mine.required() {
                 requiredTech = techs.has(tech: tech)

@@ -76,7 +76,7 @@ class BaseDisplayNode: SKNode {
     
     func select() {
         
-        let textureName = "tech_red"
+        let textureName = "tech_blue"
         self.backgroundNode?.texture = SKTexture(imageNamed: textureName)
         
         self.touchHandler = nil

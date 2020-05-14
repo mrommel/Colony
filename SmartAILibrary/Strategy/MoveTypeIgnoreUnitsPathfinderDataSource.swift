@@ -40,6 +40,11 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
 
                 if let toTile = mapModel.tile(at: neighbor) {
                     
+                    // walkable ?
+                    if toTile.isImpassable() {
+                        continue
+                    }
+                    
                     // use sight?
                     if !self.ignoreSight {
 

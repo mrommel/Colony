@@ -95,6 +95,7 @@ class Dialog: NineGridTextureSprite {
                 labelItem.fontName = Globals.Fonts.customFontFamilyname
                 labelItem.numberOfLines = 0
                 labelItem.horizontalAlignmentMode = item.textAlign.toHorizontalAlignmentMode()
+                labelItem.verticalAlignmentMode = .top
                 labelItem.preferredMaxLayoutWidth = item.size.width
                 self.addChild(labelItem)
 
@@ -242,11 +243,17 @@ class Dialog: NineGridTextureSprite {
             fatalError("Can't find \(identifier)")
         }
 
-        guard let label = node as? SKLabelNode else {
-            fatalError("identifier does not identify a label")
+        if let label = node as? SKLabelNode {
+            label.text = text
+            return
         }
 
-        label.text = text
+        if let button = node as? MessageBoxButtonNode {
+            button.title = text
+            return
+        }
+        
+        fatalError("identifier does not identify a label or button")
     }
 
     func set(imageNamed imageName: String, identifier: String) {

@@ -71,7 +71,7 @@ class BorderLayer: SKNode {
                 
                 let borderSprite = SKSpriteNode(imageNamed: textureName)
                 borderSprite.position = position
-                borderSprite.zPosition = tile.terrain().zLevel
+                borderSprite.zPosition = Globals.ZLevels.border
                 borderSprite.anchorPoint = CGPoint(x: 0, y: 0)
                 borderSprite.color = player.leader.civilization().backgroundColor()
                 borderSprite.colorBlendFactor = 1.0

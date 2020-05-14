@@ -20,7 +20,7 @@ class ImprovementLayer: SKNode {
         self.player = player
         
         super.init()
-        self.zPosition = Globals.ZLevels.feature
+        self.zPosition = Globals.ZLevels.improvement
     }
     
     required init?(coder aDecoder: NSCoder) {

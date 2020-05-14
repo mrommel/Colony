@@ -9,31 +9,31 @@
 import Foundation
 
 enum LeaderAbilityType {
-    
+
     case none
-    
+
     case convertLandBarbarians
     case cityStateFriendship
     case capitalBuildsCheaper
     case oceanMovement
     case enhancedGoldenAges
     case giftsForTheTlatoani
-    
+
     func extraEmbarkMoves() -> Int {
-        
+
         if self == .oceanMovement {
             return 2
         }
-        
+
         return 0
     }
-    
+
     func goldenAgeMovesChange() -> Int {
-        
+
         if self == .oceanMovement {
             return 1
         }
-        
+
         return 0
     }
 }
@@ -43,60 +43,79 @@ public enum LeaderType: Int, Codable {
 
     case none
     case barbar
-    
+
     case alexander
     case augustus
     case elizabeth
-    
     case darius
     case montezuma
     case napoleon
+    case cleopatra
+    case barbarossa
+    case peterTheGreat
 
     static var all: [LeaderType] {
-        return [.alexander, .augustus, .elizabeth, .darius, .montezuma, .napoleon]
+        return [.alexander, .augustus, .elizabeth, .darius, .montezuma, .napoleon, .cleopatra, .barbarossa, .peterTheGreat]
     }
-    
-    func name() -> String {
-        
+
+    public func name() -> String {
+
         switch self {
 
         case .none: return "None"
         case .barbar: return "Barbar"
-            
+
         case .alexander: return "Alexander"
         case .augustus: return "Augustus"
         case .elizabeth: return "Elizabeth"
-            
         case .darius: return "Darius"
         case .montezuma: return "Montezuma"
         case .napoleon: return "Napoleon"
+        case .cleopatra: return "Cleopatra"
+        case .barbarossa: return "Barbarossa"
+        case .peterTheGreat: return "Peter the Great"
         }
     }
-    
-    public func civilization() -> CivilizationType {
+
+    public func firstGreeting(of leader: LeaderType) -> String {
+
+        if self == .augustus {
+            return "Hail, stranger. I am the Imperator Caesar Augustus of far-reaching Rome. Who are you and what lands can you claim as your own?"
+        }
         
+        if self == .elizabeth {
+            return "Greetings. We are by the Grace of God, Elizabeth, Queen of the United Kingdom of Great Britain and Ireland. And soon, dare I say, the empire."
+        }
+        
+        return "Greetings traveler. You should know that you stand in the presence of greatness!"
+    }
+
+    public func civilization() -> CivilizationType {
+
         switch self {
 
         case .none: return .barbarian
         case .barbar: return .barbarian
-            
+
         case .alexander: return .greek
         case .augustus: return .roman
         case .elizabeth: return .english
-            
         case .darius: return .persian
         case .montezuma: return .aztecs
         case .napoleon: return .french
+        case .cleopatra: return .egyptian
+        case .barbarossa: return .german
+        case .peterTheGreat: return .russian
         }
     }
 
     func flavors() -> [Flavor] {
 
         switch self {
-        
+
         case .none: return []
         case .barbar: return []
-            
+
         case .alexander:
             return [
                 Flavor(type: .cityDefense, value: 5),
@@ -169,10 +188,13 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .tileImprovement, value: 6),
                 Flavor(type: .wonder, value: 5),
             ]
-        
+
         case .darius: return []
         case .montezuma: return []
         case .napoleon: return []
+        case .cleopatra: return []
+        case .barbarossa: return []
+        case .peterTheGreat: return []
         }
     }
 
@@ -188,7 +210,7 @@ public enum LeaderType: Int, Codable {
     func traits() -> [Trait] {
 
         switch self {
-            
+
         case .none: return []
         case .barbar: return []
 
@@ -203,6 +225,12 @@ public enum LeaderType: Int, Codable {
         case .montezuma:
             return []
         case .napoleon:
+            return []
+        case .cleopatra:
+            return []
+        case .barbarossa:
+            return []
+        case .peterTheGreat:
             return []
         }
     }
@@ -222,40 +250,49 @@ public enum LeaderType: Int, Codable {
 
         case .none: return []
         case .barbar: return []
-            
+
         case .alexander: return [
-            ApproachBias(approach: .afraid, bias: 3),
-            ApproachBias(approach: .deceptive, bias: 4),
-            ApproachBias(approach: .friendly, bias: 5),
-            ApproachBias(approach: .guarded, bias: 5),
-            ApproachBias(approach: .hostile, bias: 7),
-            ApproachBias(approach: .neutrally, bias: 4),
-            ApproachBias(approach: .war, bias: 6)
+                ApproachBias(approach: .afraid, bias: 3),
+                ApproachBias(approach: .deceptive, bias: 4),
+                ApproachBias(approach: .friendly, bias: 5),
+                ApproachBias(approach: .guarded, bias: 5),
+                ApproachBias(approach: .hostile, bias: 7),
+                ApproachBias(approach: .neutrally, bias: 4),
+                ApproachBias(approach: .war, bias: 6)
             ]
         case .augustus: return [
-            ApproachBias(approach: .afraid, bias: 5),
-            ApproachBias(approach: .deceptive, bias: 6),
-            ApproachBias(approach: .friendly, bias: 4),
-            ApproachBias(approach: .guarded, bias: 6),
-            ApproachBias(approach: .hostile, bias: 5),
-            ApproachBias(approach: .neutrally, bias: 5),
-            ApproachBias(approach: .war, bias: 5)
+                ApproachBias(approach: .afraid, bias: 5),
+                ApproachBias(approach: .deceptive, bias: 6),
+                ApproachBias(approach: .friendly, bias: 4),
+                ApproachBias(approach: .guarded, bias: 6),
+                ApproachBias(approach: .hostile, bias: 5),
+                ApproachBias(approach: .neutrally, bias: 5),
+                ApproachBias(approach: .war, bias: 5)
             ]
         case .elizabeth: return [
-            ApproachBias(approach: .afraid, bias: 5),
-            ApproachBias(approach: .deceptive, bias: 6),
-            ApproachBias(approach: .friendly, bias: 4),
-            ApproachBias(approach: .guarded, bias: 7),
-            ApproachBias(approach: .hostile, bias: 7),
-            ApproachBias(approach: .neutrally, bias: 5),
-            ApproachBias(approach: .war, bias: 4)
+                ApproachBias(approach: .afraid, bias: 5),
+                ApproachBias(approach: .deceptive, bias: 6),
+                ApproachBias(approach: .friendly, bias: 4),
+                ApproachBias(approach: .guarded, bias: 7),
+                ApproachBias(approach: .hostile, bias: 7),
+                ApproachBias(approach: .neutrally, bias: 5),
+                ApproachBias(approach: .war, bias: 4)
             ]
-        case .darius: return []
-        case .montezuma: return []
-        case .napoleon: return []
+        case .darius:
+            return []
+        case .montezuma:
+            return []
+        case .napoleon:
+            return []
+        case .cleopatra:
+            return []
+        case .barbarossa:
+            return []
+        case .peterTheGreat:
+            return []
         }
     }
-    
+
     func approachBias(for approachType: PlayerApproachType) -> Int {
 
         if let approachBias = self.approachBiases().first(where: { $0.approach == approachType }) {
@@ -264,21 +301,23 @@ public enum LeaderType: Int, Codable {
 
         return 0
     }
-    
+
     func ability() -> LeaderAbilityType {
-        
+
         switch self {
-            
+
         case .none: return .none
         case .barbar: return .none
-            
+
         case .alexander: return .cityStateFriendship
         case .augustus: return .capitalBuildsCheaper
         case .elizabeth: return .oceanMovement
-            
         case .darius: return .enhancedGoldenAges
         case .montezuma: return .giftsForTheTlatoani
         case .napoleon: return .enhancedGoldenAges
+        case .cleopatra: return .enhancedGoldenAges
+        case .barbarossa: return .enhancedGoldenAges
+        case .peterTheGreat: return .enhancedGoldenAges
         }
     }
 }

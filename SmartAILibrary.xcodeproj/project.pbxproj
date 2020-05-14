@@ -155,6 +155,7 @@
 		C9B1D2AD2436131700033791 /* Earth_Tiny.Civ5Map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2A72436131400033791 /* Earth_Tiny.Civ5Map */; };
 		C9B1D2AE2436131700033791 /* Earth_Small.Civ5Map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2A82436131700033791 /* Earth_Small.Civ5Map */; };
 		C9B6321E23DCDAB500E15A5F /* DiplomaticDealAITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B6321D23DCDAB400E15A5F /* DiplomaticDealAITests.swift */; };
+		C9BB750C246D5813004BE448 /* DiplomacyRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BB750B246D5813004BE448 /* DiplomacyRequests.swift */; };
 		C9C003BD23FEDCE00031C7F9 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C003BC23FEDCE00031C7F9 /* Operation.swift */; };
 		C9C003BF23FEDD0B0031C7F9 /* UnitFormationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C003BE23FEDD0B0031C7F9 /* UnitFormationType.swift */; };
 		C9C2FE3323F6DEE300185235 /* WeightedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3223F6DEE300185235 /* WeightedList.swift */; };
@@ -377,6 +378,7 @@
 		C9B1D2A72436131400033791 /* Earth_Tiny.Civ5Map */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_Tiny.Civ5Map; sourceTree = "<group>"; };
 		C9B1D2A82436131700033791 /* Earth_Small.Civ5Map */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_Small.Civ5Map; sourceTree = "<group>"; };
 		C9B6321D23DCDAB400E15A5F /* DiplomaticDealAITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDealAITests.swift; sourceTree = "<group>"; };
+		C9BB750B246D5813004BE448 /* DiplomacyRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomacyRequests.swift; sourceTree = "<group>"; };
 		C9C003BC23FEDCE00031C7F9 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		C9C003BE23FEDD0B0031C7F9 /* UnitFormationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitFormationType.swift; sourceTree = "<group>"; };
 		C9C2FE3223F6DEE300185235 /* WeightedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightedList.swift; sourceTree = "<group>"; };
@@ -510,6 +512,7 @@
 				C920E99B23DB1DBA008DEAB4 /* DiplomaticDealAI.swift */,
 				C98DBFA023DDFE2C00B6CE25 /* DiplomaticDeal.swift */,
 				C97A38E623F57DD9008A8AE9 /* DiplomaticApproachWeights.swift */,
+				C9BB750B246D5813004BE448 /* DiplomacyRequests.swift */,
 				C90FC39F23D8968D00720B32 /* GameModel.swift */,
 				C9A0573D24293D4F00D0FEAB /* MoveTypeIgnoreUnitsPathfinderDataSource.swift */,
 				C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */,
@@ -966,6 +969,7 @@
 				C965A52C23FC628400BCEB54 /* ResourceType.swift in Sources */,
 				C92317BF23D6EAEA001FC723 /* HierarchicalStateMachine.swift in Sources */,
 				C9C2FE3B23F89F2E00185235 /* Religion.swift in Sources */,
+				C9BB750C246D5813004BE448 /* DiplomacyRequests.swift in Sources */,
 				C9DFCF6323F14D9D0032243D /* MilitaryThreatType.swift in Sources */,
 				C92317BB23D665AD001FC723 /* FiniteStateTransition.swift in Sources */,
 				C92317B923D6375B001FC723 /* FiniteState.swift in Sources */,

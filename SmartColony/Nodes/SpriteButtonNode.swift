@@ -20,6 +20,8 @@ class SpriteButtonNode: SKNode {
     
     private var active: Bool = true
     
+    // MARK: constructors
+    
     init(titled title: String, enabledButtonImage: String, hoverButtonImage: String = "", disabledButtonImage: String, size: CGSize, isNineGrid: Bool = true, buttonAction: @escaping () -> Void) {
         
         // default button state
@@ -36,12 +38,14 @@ class SpriteButtonNode: SKNode {
         self.action = buttonAction
         
         self.buttonLabel = SKLabelNode(text: title)
+        self.buttonLabel.name = "buttonLabel"
         self.buttonLabel.position = CGPoint(x: 0, y: 0)
         self.buttonLabel.fontColor = UIColor.white
         self.buttonLabel.fontSize = 18
         self.buttonLabel.fontName = Globals.Fonts.customFontFamilyname
         self.buttonLabel.verticalAlignmentMode = .center
-        self.buttonLabel.name = "buttonLabel"
+        self.buttonLabel.numberOfLines = 0
+        self.buttonLabel.preferredMaxLayoutWidth = size.width
         
         super.init()
         
@@ -81,13 +85,15 @@ class SpriteButtonNode: SKNode {
         self.buttonIcon?.position = CGPoint(x: iconPosX, y: 0)
         
         self.buttonLabel = SKLabelNode(text: title)
+        self.buttonLabel.name = "buttonLabel"
         self.buttonLabel.position = CGPoint(x: 0, y: 0)
         self.buttonLabel.fontColor = UIColor.white
         self.buttonLabel.fontSize = 18
         self.buttonLabel.fontName = Globals.Fonts.customFontFamilyname
         self.buttonLabel.verticalAlignmentMode = .center
         self.buttonLabel.horizontalAlignmentMode = .center // left
-        self.buttonLabel.name = "buttonLabel"
+        self.buttonLabel.numberOfLines = 0
+        self.buttonLabel.preferredMaxLayoutWidth = size.width - iconWidth - 8
         
         super.init()
         
@@ -115,7 +121,16 @@ class SpriteButtonNode: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // properties
+    // MARK: properties
+    
+    var title: String {
+        set {
+            self.buttonLabel.text = newValue
+        }
+        get {
+            return self.buttonLabel.text ?? "--"
+        }
+    }
     
     var fontColor: UIColor? {
         set {
@@ -135,16 +150,18 @@ class SpriteButtonNode: SKNode {
         }
     }
     
-    var title: String {
+    var size: CGSize {
         set {
-            self.buttonLabel.text = newValue
+            self.enabledButton.size = newValue
+            self.hoverButton.size = newValue
+            self.disabledButton.size = newValue
         }
         get {
-            return self.buttonLabel.text ?? "--"
+            return self.enabledButton.size
         }
     }
     
-    // state management
+    // MARK: state management
     
     func enable() {
         

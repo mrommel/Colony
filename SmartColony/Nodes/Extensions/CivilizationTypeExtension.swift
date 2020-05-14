@@ -23,6 +23,9 @@ extension CivilizationType {
         case .aztecs: return UIColor(hex: "#A43E25")
         case .persian: return UIColor(hex: "#9A2B22")
         case .french: return UIColor(hex: "#EBEB8B")
+        case .egyptian: return UIColor(hex: "#5400d1")
+        case .german: return UIColor(hex: "#252b21")
+        case .russian: return UIColor(hex: "#000000")
         }
     }
     
@@ -38,6 +41,9 @@ extension CivilizationType {
         case .aztecs: return UIColor(hex: "#9CE8C2")
         case .persian: return UIColor(hex: "#7BACF8")
         case .french: return UIColor(hex: "#0000CD")
+        case .egyptian: return UIColor(hex: "#fffd03")
+        case .german: return UIColor(hex: "#b4b3b9")
+        case .russian: return UIColor(hex: "#f0b400")
         }
     }
 }

@@ -68,6 +68,7 @@ class GameScene: BaseScene {
     var readyUpdatingHuman: Bool = true
     var uiTurnState: UITurnState = .aiTurns
     var blockingNotification: Notification? = nil
+    var currentScreenType: ScreenType = .none
 
     // delegate
     weak var gameDelegate: GameDelegate?
@@ -548,8 +549,8 @@ class GameScene: BaseScene {
         if let scienceProgressNode = self.scienceProgressNode {
             
             if !self.scienceProgressNodeHidden && scienceProgressNode.contains(cameraLocation) {
-                print("science progress touched")
-                self.showScreen(screenType: .sc)
+                //print("science progress touched")
+                self.showScreen(screenType: .techs)
                 return
             }
         }
@@ -557,7 +558,8 @@ class GameScene: BaseScene {
         if let cultureProgressNode = self.cultureProgressNode {
             
             if !self.cultureProgressNodeHidden && cultureProgressNode.contains(cameraLocation) {
-                print("culture progress touched")
+                //print("culture progress touched")
+                self.showScreen(screenType: .civics)
                 return
             }
         }
@@ -807,52 +809,20 @@ extension GameScene: NotificationsDelegate {
         guard let notification = notification else {
             fatalError("cant get notification")
         }
-
-        switch notification.type {
-
-        case .turn:
-            fatalError("should not happen")
-        case .generic:
-            // NOOP
-            break
-        case .tech:
-            notification.activate(in: self.viewModel?.game)
-            break
-        case .civic:
-            notification.activate(in: self.viewModel?.game)
-            break
-        case .production:
-            notification.activate(in: self.viewModel?.game)
-            break
-        case .cityGrowth:
-            // NOOP
-            break
-        case .starving:
-            // NOOP
-            break
-        case .diplomaticDeclaration:
-            // NOOP
-            break
-        case .war:
-            // NOOP
-            break
-        case .enemyInTerritory:
-            // NOOP
-            break
-        case .unitPromotion:
-            // NOOP
-            break
-        case .unitNeedsOrders:
-            // NOOP
-            break
-        case .era:
-            // NOOP
-            break
-        }
+        
+        notification.activate(in: self.viewModel?.game)
     }
 }
 
 extension GameScene: UserInterfaceProtocol {
+    
+    func showPopup(popupType: PopupType, data: PopupData?) {
+        
+    }
+    
+    func isPopupShown() -> Bool {
+        false
+    }
 
     func select(unit: AbstractUnit?) {
 
@@ -871,22 +841,11 @@ extension GameScene: UserInterfaceProtocol {
         self.selectedUnit = nil
     }
 
-    func isDiplomaticScreenActive() -> Bool {
-        return false
-    }
-
-    func isPopupShown() -> Bool {
-        return false
-    }
-
-    func showPopup(popupType: PopupType, data: PopupData?) {
-        print("popup")
-    }
-
-    func showScreen(screenType: ScreenType, city: AbstractCity? = nil) {
+    func showScreen(screenType: ScreenType, city: AbstractCity? = nil, other: AbstractPlayer? = nil) {
 
         if screenType == .city {
 
+            self.currentScreenType = .city
             self.prepareForCityScreen()
 
             let cityDialog = CityDialog(for: city, in: self.viewModel?.game)
@@ -896,11 +855,13 @@ extension GameScene: UserInterfaceProtocol {
 
                 self.restoreFromCityScreen()
                 cityDialog.close()
+                self.currentScreenType = .none
             })
 
             cityDialog.addCancelAction(handler: {
                 self.restoreFromCityScreen()
                 cityDialog.close()
+                self.currentScreenType = .none
             })
 
             self.cameraNode.add(dialog: cityDialog)
@@ -914,18 +875,22 @@ extension GameScene: UserInterfaceProtocol {
             guard let humanPlayer = gameModel.humanPlayer() else {
                 fatalError("cant get human")
             }
+            
+            self.currentScreenType = .techs
 
             let scienceDialog = ScienceDialog(with: humanPlayer.techs)
             scienceDialog.zPosition = 250
 
             scienceDialog.addCancelAction(handler: {
                 scienceDialog.close()
+                self.currentScreenType = .none
             })
 
             scienceDialog.addResultHandler(handler: { result in
                 do {
                     try humanPlayer.techs?.setCurrent(tech: result.toTech(), in: gameModel)
                     scienceDialog.close()
+                    self.currentScreenType = .none
                 } catch {
                     print("cant select tech \(error)")
                 }
@@ -943,11 +908,14 @@ extension GameScene: UserInterfaceProtocol {
                 fatalError("cant get human")
             }
 
+            self.currentScreenType = .civics
+            
             let civicDialog = CivicDialog(with: humanPlayer.civics)
             civicDialog.zPosition = 250
 
             civicDialog.addCancelAction(handler: {
                 civicDialog.close()
+                self.currentScreenType = .none
             })
 
             civicDialog.addResultHandler(handler: { result in
@@ -955,6 +923,7 @@ extension GameScene: UserInterfaceProtocol {
                 do {
                     try humanPlayer.civics?.setCurrent(civic: result.toCivic(), in: gameModel)
                     civicDialog.close()
+                    self.currentScreenType = .none
                 } catch {
                     print("cant select tech \(error)")
                 }
@@ -971,19 +940,47 @@ extension GameScene: UserInterfaceProtocol {
             guard let humanPlayer = gameModel.humanPlayer() else {
                 fatalError("cant get human")
             }
+            
+            self.currentScreenType = .interimRanking
 
             let interimRankingDialog = InterimRankingDialog(for: humanPlayer, with: gameModel.rankingData)
             interimRankingDialog.zPosition = 250
 
             interimRankingDialog.addOkayAction(handler: {
                 interimRankingDialog.close()
+                self.currentScreenType = .none
             })
 
             self.cameraNode.add(dialog: interimRankingDialog)
             
+        } else if screenType == .diplomatic {
+            
+            guard let gameModel = self.viewModel?.game else {
+                fatalError("cant get game")
+            }
+            
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                fatalError("cant get human")
+            }
+            
+            let diplomaticDialog = DiplomaticDialog(for: humanPlayer, and: other)
+            diplomaticDialog.zPosition = 250
+
+            diplomaticDialog.addOkayAction(handler: {
+                diplomaticDialog.close()
+                self.currentScreenType = .none
+            })
+
+            self.cameraNode.add(dialog: diplomaticDialog)
+            
         } else {
             print("screen: \(screenType) not handled")
         }
+    }
+    
+    func isShown(screen screenType: ScreenType) -> Bool {
+        
+        return self.currentScreenType == screenType
     }
 
     func show(unit: AbstractUnit?) {

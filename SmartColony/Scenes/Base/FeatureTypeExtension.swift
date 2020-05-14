@@ -21,7 +21,7 @@ extension FeatureType {
         case .rainforest:
             return ["hex_forest_rain", "hex_forest_rain2"]
         case .floodplains:
-            return ["water"] // <== fixme
+            return ["hex_floodplains"] // <== fixme
         case .marsh:
             return ["hex_marsh"]
         case .oasis:
