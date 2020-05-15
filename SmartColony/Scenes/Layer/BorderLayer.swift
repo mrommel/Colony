@@ -86,7 +86,7 @@ class BorderLayer: SKNode {
     
     private func texture(for point: HexPoint, in area: HexArea) -> String {
 
-        var textureName = "hex_border_"
+        var textureName = "border_"
 
         if !area.contains(where: { $0 == point.neighbor(in: .north) }) {
             textureName += "n_"
@@ -112,8 +112,8 @@ class BorderLayer: SKNode {
             textureName += "nw_"
         }
 
-        if textureName == "hex_border_" {
-            return "hex_border_all"
+        if textureName == "border_" {
+            return "border_all"
         }
 
         textureName.removeLast()
