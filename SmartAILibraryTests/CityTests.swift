@@ -193,7 +193,7 @@ class CityTests: XCTestCase {
         // WHEN
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
-        mapModel.add(city: self.objectToTest)
+        mapModel.add(city: self.objectToTest, in: gameModel)
 
         // THEN
         for cityPoint in HexPoint(x: 1, y: 1).areaWith(radius: 1) {

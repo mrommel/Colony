@@ -8,6 +8,35 @@
 
 import SmartAILibrary
 
+class CityPopulationGrowthViewModel {
+    
+    let cityName: String
+    let lastTurnFoodHarvested: String
+    let foodConsumption: String
+    let foodSurplus: String
+    let amenitiesModifier: String
+    let housingModifier: String
+    let lastTurnFoodEarned: String
+    let growthInTurns: String
+    
+    init(for city: AbstractCity?, in gameModel: GameModel?) {
+        
+        guard let city = city else {
+            fatalError("cant get city")
+        }
+        
+        self.cityName = city.name
+        
+        self.lastTurnFoodHarvested = String(format: "%.1", city.lastTurnFoodHarvested())
+        self.foodConsumption = String(format: "%.1", city.foodConsumption())
+        self.foodSurplus = String(format: "%.1", (city.lastTurnFoodHarvested() - city.foodConsumption()))
+        self.amenitiesModifier = String(format: "%.1", city.amenitiesModifier(in: gameModel))
+        self.housingModifier = String(format: "%.1", city.housingModifier(in: gameModel))
+        self.lastTurnFoodEarned = String(format: "%.1", city.lastTurnFoodEarned())
+        self.growthInTurns = "\(city.growthInTurns())"
+    }
+}
+
 /*
  - citizen growth overview
      - food per turn (/)
@@ -23,17 +52,14 @@ import SmartAILibrary
  */
 class CityPopulationGrowthDialog: Dialog {
     
-    weak var city: AbstractCity?
-    weak var gameModel: GameModel?
+    //weak var city: AbstractCity?
+    //weak var gameModel: GameModel?
     
-    init(for city: AbstractCity?, in gameModel: GameModel?) {
+    let viewModel: CityPopulationGrowthViewModel
+    
+    init(with viewModel: CityPopulationGrowthViewModel) {
 
-        self.city = city
-        self.gameModel = gameModel
-        
-        guard let city = self.city else {
-            fatalError("cant get city")
-        }
+        self.viewModel = viewModel
 
         let uiParser = UIParser()
         guard let cityPopulationGrowthDialogConfiguration = uiParser.parse(from: "CityPopulationGrowthDialog") else {
@@ -43,22 +69,22 @@ class CityPopulationGrowthDialog: Dialog {
         super.init(from: cityPopulationGrowthDialogConfiguration)
         
         // fill fields
-        self.set(text: city.name, identifier: "city_name")
+        self.set(text: self.viewModel.cityName, identifier: "city_name")
         
-        self.set(text: "\(city.lastTurnFoodHarvested())", identifier: "food_per_turn_value")
-        self.set(text: "\(city.foodConsumption())", identifier: "food_consumption_value")
+        self.set(text: self.viewModel.lastTurnFoodHarvested, identifier: "food_per_turn_value")
+        self.set(text: self.viewModel.foodConsumption, identifier: "food_consumption_value")
         // ----------
-        self.set(text: "\(city.lastTurnFoodHarvested() - city.foodConsumption())", identifier: "food_surplus_value")
-        self.set(text: "\(city.amenitiesModifier(in: gameModel))", identifier: "amenities_modifier_value")
+        self.set(text: self.viewModel.foodSurplus, identifier: "food_surplus_value")
+        self.set(text: self.viewModel.amenitiesModifier, identifier: "amenities_modifier_value")
         // ... other growth bonus
         // ----------
         // ... modified food per turn
-        self.set(text: "\(city.housingModifier(in: gameModel))", identifier: "housing_modifier_value")
+        self.set(text: self.viewModel.housingModifier, identifier: "housing_modifier_value")
         // ... occupied
         // ----------
-        self.set(text: "\(city.lastTurnFoodEarned())", identifier: "total_food_surplus_value")
+        self.set(text: self.viewModel.lastTurnFoodEarned, identifier: "total_food_surplus_value")
         // ----------
-        self.set(text: "\(city.growthInTurns())", identifier: "growth_in_value")
+        self.set(text: self.viewModel.growthInTurns, identifier: "growth_in_value")
     }
     
     required init?(coder aDecoder: NSCoder) {

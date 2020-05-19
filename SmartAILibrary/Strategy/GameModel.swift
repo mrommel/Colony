@@ -648,6 +648,10 @@ public class GameModel {
                             continue
                         }
                         
+                        if unit.peekMission() != nil {
+                            continue
+                        }
+                        
                         if unit.movesLeft() > 0 {
                             blockingNotification = NotificationItem(type: .unitNeedsOrders, for: activePlayer, message: "Unit needs orders", summary: "Orders needed", at: unit.location, other: nil)
                         }
@@ -717,7 +721,7 @@ public class GameModel {
         
         tile.set(feature: .none)
         
-        self.map.add(city: city)
+        self.map.add(city: city, in: self)
         self.userInterface?.show(city: city)
         
         // update area around the city
@@ -730,7 +734,7 @@ public class GameModel {
         // update eureka
         if !techs.eurekaTriggered(for: .sailing) {
             if self.isCoastal(at: city.location) {
-                techs.triggerEureka(for: .sailing)
+                techs.triggerEureka(for: .sailing, in: self)
             }
         }
     }
@@ -763,7 +767,7 @@ public class GameModel {
 
     public func add(unit: AbstractUnit?) {
 
-        self.map.add(unit: unit)
+        self.map.add(unit: unit, in: self)
     }
 
     public func units(of player: AbstractPlayer) -> [AbstractUnit?] {
@@ -1036,13 +1040,13 @@ public class GameModel {
         }
     }
     
-    func sight(at location: HexPoint, sight: Int, for player: AbstractPlayer?) {
+    func sight(at location: HexPoint, sight: Int, for player: AbstractPlayer?, in gameModel: GameModel?) {
         
         for pt in location.areaWith(radius: sight) {
             
             if let tile = self.tile(at: pt) {
                 tile.sight(by: player)
-                tile.discover(by: player)
+                tile.discover(by: player, in: gameModel)
                 self.userInterface?.refresh(tile: tile)
             }
         }

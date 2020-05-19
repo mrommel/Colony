@@ -192,7 +192,7 @@ public class MapModel: Codable {
         return bestCity
     }
     
-    public func add(city: AbstractCity?) {
+    public func add(city: AbstractCity?, in gameModel: GameModel?) {
         
         if let city = city {
             
@@ -209,7 +209,7 @@ public class MapModel: Codable {
             for pt in city.location.areaWith(radius: 3) {
                     
                 let tile = self.tile(at: pt)
-                tile?.discover(by: city.player)
+                tile?.discover(by: city.player, in: gameModel)
                 tile?.sight(by: city.player)
             }
         }
@@ -231,7 +231,7 @@ public class MapModel: Codable {
     
     // MARK: unit methods
     
-    func add(unit: AbstractUnit?) {
+    func add(unit: AbstractUnit?, in gameModel: GameModel?) {
         
         if let unit = unit {
         
@@ -240,7 +240,7 @@ public class MapModel: Codable {
             for pt in unit.location.areaWith(radius: unit.sight()) {
                     
                 let tile = self.tile(at: pt)
-                tile?.discover(by: unit.player)
+                tile?.discover(by: unit.player, in: gameModel)
                 
                 tile?.sight(by: unit.player)
             }
@@ -293,10 +293,10 @@ public class MapModel: Codable {
         }
     }
     
-    func discover(by player: AbstractPlayer?, at point: HexPoint) {
+    func discover(by player: AbstractPlayer?, at point: HexPoint, in gameModel: GameModel?) {
 
         if let tile = self.tile(at: point) {
-            tile.discover(by: player)
+            tile.discover(by: player, in: gameModel)
         }
     }
     

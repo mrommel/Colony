@@ -82,4 +82,19 @@ public enum DistrictType: Int, Codable {
         
         return true // FIXME
     }
+    
+    // in gold
+    func maintenanceCost() -> Int {
+
+        switch self {
+
+        case .cityCenter: return 0
+        case .campus: return 1
+        case .holySite: return 1
+        case .encampment: return 0
+        case .harbor: return 0
+        case .entertainment: return 1 // ???
+        case .commercialHub: return 0
+        }
+    }
 }

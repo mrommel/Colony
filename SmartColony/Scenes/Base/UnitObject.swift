@@ -60,7 +60,7 @@ class UnitObject {
     
     private func animate(to hex: HexPoint, on atlas: GameObjectAtlas?, completion block: @escaping () -> Swift.Void) {
 
-        print("\(unit!.location) => \(hex)")
+        // print("\(unit!.location) => \(hex)")
         
         if let atlas = atlas {
             let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
@@ -76,7 +76,7 @@ class UnitObject {
             })
         } else {
             // if no atlas
-            print("missing atlas")
+            // print("missing atlas")
             self.sprite.position = HexPoint.toScreen(hex: hex)
             self.unit?.doMove(on: hex, in: self.gameModel)
             block()
@@ -109,8 +109,6 @@ class UnitObject {
 
     func showIdle() {
 
-        //self.clearPathSpriteBuffer()
-
         if let atlas = self.atlasIdle {
             let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
             let idleFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
@@ -139,16 +137,6 @@ class UnitObject {
         }
         
         self.sprite.removeAction(forKey: UnitObject.idleActionKey)
-
-        /*guard let currentUserCivilization = self.userUsecase?.currentUser()?.civilization else {
-            fatalError("Can't get current users civilization")
-        }
-
-        if let civilization = self.connectedUnit()?.civilization {
-            if civilization == currentUserCivilization {
-                self.show(path: HexPath(point: self.position, cost: 0.0, path: path))
-            }
-        }*/
 
         if let (point, _) = path.first {
             let pathWithoutFirst = path.pathWithoutFirst()

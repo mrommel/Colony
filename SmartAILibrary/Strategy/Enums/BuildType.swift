@@ -28,8 +28,12 @@ public enum BuildType: Int, Codable {
     case removeRainforest
     case removeMarsh
     
-    static var all: [BuildType] {
+    public static var all: [BuildType] {
         return [.road, .removeRoad, .repair, .farm, .mine, .quarry, .plantation, .camp, .pasture, .removeForest, .removeRainforest, .removeMarsh]
+    }
+    
+    public static var allImprovements: [BuildType] {
+        return [.farm, .mine, .quarry, .plantation, .camp, .pasture]
     }
     
     func name() -> String {
@@ -150,59 +154,59 @@ public enum BuildType: Int, Codable {
         switch self {
             
         case .none: return BuildTypeData(name: "None", duration: 0)
-        case .repair: return BuildTypeData(name: "Repair", repair: true, duration: 3)
+        case .repair: return BuildTypeData(name: "Repair", repair: true, duration: 300)
             
-        case .road: return BuildTypeData(name: "Road", required: .wheel, route: .road, duration: 3)
-        case .removeRoad: return BuildTypeData(name: "Remove Road", required: .wheel, removeRoad: true, duration: 3)
+        case .road: return BuildTypeData(name: "Road", required: .wheel, route: .road, duration: 300)
+        case .removeRoad: return BuildTypeData(name: "Remove Road", required: .wheel, removeRoad: true, duration: 300)
             
         case .farm:
-            let farmBuild = BuildTypeData(name: "Farm", improvement: .farm, duration: 6)
-            farmBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 6, isRemove: true))
-            farmBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 3, isRemove: true))
-            farmBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 5, isRemove: true))
+            let farmBuild = BuildTypeData(name: "Farm", improvement: .farm, duration: 600)
+            farmBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 600, isRemove: true))
+            farmBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 300, isRemove: true))
+            farmBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 500, isRemove: true))
             return farmBuild
         case .mine:
-            let mineBuild = BuildTypeData(name: "Mine", required: .mining, improvement: .mine, duration: 6)
-            mineBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 6, isRemove: true))
-            mineBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 3, isRemove: true))
-            mineBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 5, isRemove: true))
+            let mineBuild = BuildTypeData(name: "Mine", required: .mining, improvement: .mine, duration: 600)
+            mineBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 600, isRemove: true))
+            mineBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 300, isRemove: true))
+            mineBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 500, isRemove: true))
             return mineBuild
         case .quarry:
-            let quarryBuild = BuildTypeData(name: "Quarry", required: .mining, improvement: .quarry, duration: 7)
-            quarryBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 6, isRemove: true))
-            quarryBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 3, isRemove: true))
-            quarryBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 5, isRemove: true))
+            let quarryBuild = BuildTypeData(name: "Quarry", required: .mining, improvement: .quarry, duration: 700)
+            quarryBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 600, isRemove: true))
+            quarryBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 300, isRemove: true))
+            quarryBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 500, isRemove: true))
             return quarryBuild
         case .plantation:
-            let plantationBuild = BuildTypeData(name: "Plantation", required: .irrigation, improvement: .plantation, duration: 5)
-            plantationBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 6, isRemove: true))
-            plantationBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 3, isRemove: true))
-            plantationBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 5, isRemove: true))
+            let plantationBuild = BuildTypeData(name: "Plantation", required: .irrigation, improvement: .plantation, duration: 500)
+            plantationBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 600, isRemove: true))
+            plantationBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 300, isRemove: true))
+            plantationBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 500, isRemove: true))
             return plantationBuild
         case .camp:
-            let campBuild = BuildTypeData(name: "Camp", required: .animalHusbandry, improvement: .camp, duration: 6)
+            let campBuild = BuildTypeData(name: "Camp", required: .animalHusbandry, improvement: .camp, duration: 600)
             
             return campBuild
         case .pasture:
-            let pastureBuild = BuildTypeData(name: "Pasture", required: .animalHusbandry, improvement: .pasture, duration: 7)
-            pastureBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 6, isRemove: true))
-            pastureBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 3, isRemove: true))
-            pastureBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 5, isRemove: true))
+            let pastureBuild = BuildTypeData(name: "Pasture", required: .animalHusbandry, improvement: .pasture, duration: 700)
+            pastureBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 600, isRemove: true))
+            pastureBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 300, isRemove: true))
+            pastureBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 500, isRemove: true))
             return pastureBuild
             
         case .removeForest:
-            let removeForestBuild = BuildTypeData(name: "Remove Forest", duration: 3)
-            removeForestBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 3, isRemove: true))
+            let removeForestBuild = BuildTypeData(name: "Remove Forest", duration: 300)
+            removeForestBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 300, isRemove: true))
             return removeForestBuild
             
         case .removeRainforest:
-            let removeRainforestBuild = BuildTypeData(name: "Remove Rainforest", duration: 6)
-            removeRainforestBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 6, isRemove: true))
+            let removeRainforestBuild = BuildTypeData(name: "Remove Rainforest", duration: 600)
+            removeRainforestBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 600, isRemove: true))
             return removeRainforestBuild
             
         case .removeMarsh:
-            let removeMarshBuild = BuildTypeData(name: "Remove Marsh", duration: 5)
-            removeMarshBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 5, isRemove: true))
+            let removeMarshBuild = BuildTypeData(name: "Remove Marsh", duration: 500)
+            removeMarshBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 500, isRemove: true))
             return removeMarshBuild
         }
     }

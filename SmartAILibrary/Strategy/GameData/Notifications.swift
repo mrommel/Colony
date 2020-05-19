@@ -38,18 +38,20 @@ public class NotificationItem {
         
         switch self.type {
             
-        case .tech:
+        case .techNeeded:
             gameModel?.userInterface?.showScreen(screenType: .techs, city: nil, other: nil)
             
-        case .civic:
+        case .civicNeeded:
             gameModel?.userInterface?.showScreen(screenType: .civics, city: nil, other: nil)
-            
-        case .production, .starving, .cityGrowth:
+
+        case .productionNeeded, .starving, .cityGrowth:
             guard let city = gameModel?.city(at: self.location) else {
                 fatalError("cant get city")
             }
             
             gameModel?.userInterface?.showScreen(screenType: .city, city: city, other: nil)
+            
+            // FIXME: give hint on screen if city grown or starving
             
             if self.type == .starving || self.type == .cityGrowth {
                 self.dismiss(in: gameModel)
@@ -77,7 +79,7 @@ public class NotificationItem {
         
         switch self.type {
             
-        case .tech:
+        case .techNeeded:
             guard let techs = self.player?.techs else {
                 fatalError("cant get techs")
             }
@@ -89,7 +91,7 @@ public class NotificationItem {
             
             return false
             
-        case .civic:
+        case .civicNeeded:
             guard let civics = self.player?.civics else {
                 fatalError("cant get civics")
             }
@@ -101,7 +103,7 @@ public class NotificationItem {
             
             return false
             
-        case .production:
+        case .productionNeeded:
             
             guard let city = gameModel?.city(at: self.location) else {
                 fatalError("cant get city to check")
@@ -183,19 +185,19 @@ public class Notifications {
             // NOTIFICATION_DIPLO_VOTE
             
             // NOTIFICATION_PRODUCTION
-            if notification.type == .production {
+            if notification.type == .productionNeeded {
                 return notification
             }
             
             // NOTIFICATION_POLICY
-            if notification.type == .civic {
+            if notification.type == .civicNeeded {
                 return notification
             }
             
             // NOTIFICATION_FREE_POLICY
             
             // NOTIFICATION_TECH
-            if notification.type == .tech {
+            if notification.type == .techNeeded {
                 return notification
             }
             
@@ -210,5 +212,6 @@ public class Notifications {
     // removing notifications at the end turns
     func cleanUp() {
         
+        self.notificationsValue.removeAll(where: { $0.dismissed })
     }
 }

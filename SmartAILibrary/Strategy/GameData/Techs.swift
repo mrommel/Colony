@@ -33,7 +33,7 @@ public protocol AbstractTechs {
     func eurekaValue(for techType: TechType) -> Int
     func changeEurekaValue(for techType: TechType, change: Int)
     func eurekaTriggered(for techType: TechType) -> Bool
-    func triggerEureka(for techType: TechType)
+    func triggerEureka(for techType: TechType, in gameModel: GameModel?)
 }
 
 enum TechError: Error {
@@ -288,9 +288,18 @@ class Techs: AbstractTechs {
         return self.eurekas.eurakaTrigger.triggered(for: techType)
     }
 
-    func triggerEureka(for techType: TechType) {
+    func triggerEureka(for techType: TechType, in gameModel: GameModel?) {
 
+        guard let player = self.player else {
+            fatalError("Can't trigger eurake - no player present")
+        }
+        
         self.eurekas.eurakaTrigger.trigger(for: techType)
+        
+        // trigger event to user
+        if player.isHuman() {
+            gameModel?.userInterface?.showPopup(popupType: .eurekaActivated, with: PopupData(tech: techType))
+        }
     }
 
     func numberOfDiscoveredTechs() -> Int {
@@ -368,10 +377,7 @@ class Techs: AbstractTechs {
 
         guard let currentTech = self.currentTechValue else {
 
-            if player.isHuman() {
-                //gameModel?.add(message: PlayerNeedsTechSelectionMessage())
-                // NOOP
-            } else {
+            if !player.isHuman() {
                 let bestTech = chooseNextTech()
                 try self.setCurrent(tech: bestTech, in: gameModel)
             }
@@ -386,15 +392,16 @@ class Techs: AbstractTechs {
 
                 // trigger event to user
                 if player.isHuman() {
-                    //gameModel?.add(message: TechDiscoveredMessage(with: currentTech))
-                    self.player?.notifications()?.add(type: .tech, for: self.player, message: "You have discovered the new technology '\(currentTech)'.", summary: "Tech discovered", at: HexPoint.zero)
+                    gameModel?.userInterface?.showPopup(popupType: .techDiscovered, with: PopupData(tech: currentTech))
                 }
 
                 // enter era
                 if currentTech.era() > player.currentEra() {
 
+                    gameModel?.enter(era: currentTech.era(), for: player)
+                    
                     if player.isHuman() {
-                        //gameModel?.add(message: EnteredEraMessage(with: currentTech.era()))
+                        gameModel?.userInterface?.showPopup(popupType: .eraEntered, with: PopupData(era: currentTech.era()))
                     }
 
                     player.set(era: currentTech.era())

@@ -15,6 +15,11 @@ public enum PopupType {
     case declareWarQuestion  // ??
     case barbarianCampCleared
     case featureGivesProduction // Das Entfernen der Geländeart {@1_FeatName} hat {2_Num} [ICON_PRODUCTION] für die Stadt {@3_CityName} eingebracht.
+    
+    case techDiscovered
+    case civicDiscovered
+    case eraEntered
+    case eurekaActivated
 }
 
 public class PopupData {
@@ -26,6 +31,11 @@ public class PopupData {
     let production: Int
     let cityName: String
     
+    let tech: TechType
+    let civic: CivicType
+    
+    let era: EraType
+    
     init(player: AbstractPlayer?) {
         
         self.player = player
@@ -34,6 +44,11 @@ public class PopupData {
         self.featureType = .none
         self.production = -1
         self.cityName = ""
+        
+        self.tech = .none
+        self.civic = .none
+        
+        self.era = .none
     }
     
     init(money: Int) {
@@ -44,6 +59,11 @@ public class PopupData {
         self.featureType = .none
         self.production = -1
         self.cityName = ""
+        
+        self.tech = .none
+        self.civic = .none
+        
+        self.era = .none
     }
     
     init(featureType: FeatureType, production: Int, cityName: String) {
@@ -54,6 +74,56 @@ public class PopupData {
         self.featureType = featureType
         self.production = production
         self.cityName = cityName
+        
+        self.tech = .none
+        self.civic = .none
+        
+        self.era = .none
+    }
+    
+    init(tech: TechType) {
+        
+        self.player = nil
+        self.money = -1
+        
+        self.featureType = .none
+        self.production = -1
+        self.cityName = ""
+        
+        self.tech = tech
+        self.civic = .none
+        
+        self.era = .none
+    }
+    
+    init(civic: CivicType) {
+        
+        self.player = nil
+        self.money = -1
+        
+        self.featureType = .none
+        self.production = -1
+        self.cityName = ""
+        
+        self.tech = .none
+        self.civic = civic
+        
+        self.era = .none
+    }
+    
+    init(era: EraType) {
+        
+        self.player = nil
+        self.money = -1
+        
+        self.featureType = .none
+        self.production = -1
+        self.cityName = ""
+        
+        self.tech = .none
+        self.civic = .none
+        
+        self.era = era
     }
 }
 
@@ -67,11 +137,13 @@ public enum ScreenType {
     case city
     case techs
     case civics
+    
+    case treasury
 }
 
 public protocol UserInterfaceProtocol: class {
     
-    func showPopup(popupType: PopupType, with data: PopupData?, at location: HexPoint)
+    func showPopup(popupType: PopupType, with data: PopupData?)
 
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?)
     func isShown(screen: ScreenType) -> Bool
@@ -91,6 +163,7 @@ public protocol UserInterfaceProtocol: class {
     
     // on map
     func show(city: AbstractCity?)
+    func update(city: AbstractCity?)
     
     func refresh(tile: AbstractTile?)
     

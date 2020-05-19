@@ -10,6 +10,8 @@ import Foundation
 
 public enum EraType {
     
+    case none
+    
     case ancient
     case classical
     case medieval
@@ -23,6 +25,8 @@ public enum EraType {
     internal func value() -> Int {
         
         switch self {
+            
+        case .none: return -1
             
         case .ancient: return 0
         case .classical: return 1

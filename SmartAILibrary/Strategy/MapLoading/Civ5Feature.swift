@@ -24,13 +24,15 @@ extension FeatureType {
         case "FEATURE_OASIS":
             return .oasis
         case "FEATURE_FLOOD_PLAINS": // FIXME
-            return nil
+            return .floodplains
             
         // special
         case "FEATURE_FALLOUT": // FIXME
             return nil
-        case "FEATURE_ATOLL", "FEATURE_REEF": // FIXME
-            return .reef // => Riff?
+        case "FEATURE_ATOLL":
+            return .atoll
+        case "FEATURE_REEF":
+            return .reef
         case "FEATURE_ULURU": // FIXME
             return .uluru
         case "FEATURE_CRATER": // FIXME

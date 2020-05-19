@@ -285,11 +285,11 @@ class TextureUtils {
             fatalError("cant get gameModel")
         }
         
-        var texture = "ice" // "snow-n-ne-se-s-sw-nw"
+        var texture = "feature_ice" // "snow-n-ne-se-s-sw-nw"
         
         if let tile = gameModel.tile(at: point) {
             if tile.terrain().isWater() {
-                texture = "ice-to-water"
+                texture = "feature_ice-to-water"
             }
         }
         
@@ -304,7 +304,7 @@ class TextureUtils {
             }
         }
         
-        if texture == "ice" || texture == "ice-to-water" {
+        if texture == "feature_ice" || texture == "feature_ice-to-water" {
             return nil
         }
         

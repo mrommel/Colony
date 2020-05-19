@@ -104,7 +104,7 @@ public protocol AbstractTile: Codable {
 
     // discovered
     func isDiscovered(by player: AbstractPlayer?) -> Bool
-    func discover(by player: AbstractPlayer?)
+    func discover(by player: AbstractPlayer?, in gameModel: GameModel?)
 
     // visible
     func isVisible(to player: AbstractPlayer?) -> Bool
@@ -149,7 +149,7 @@ public protocol AbstractTile: Codable {
     func movementCost(for movementType: UnitMovementType, from source: AbstractTile) -> Double
     func isValidDomainFor(unit: AbstractUnit?) -> Bool
     func isValidDomainForAction(of unit: AbstractUnit?) -> Bool
-    
+
     // scratch pad
     func builderAIScratchPad() -> BuilderAIScratchPad
     func set(builderAIScratchPad: BuilderAIScratchPad)
@@ -676,9 +676,11 @@ class Tile: AbstractTile {
             if improvementType != .none {
 
                 // Culture from Improvement
-                let culture = improvementType.yields(for: self.owner()).culture //ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
-                if culture != 0 {
+                if let player = self.owner() {
+                    let culture = improvementType.yields(for:player).culture //ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
+                    if culture != 0 {
                     //self.changeCulture(culture)
+                    }
                 }
 
                 // If this improvement can add culture to nearby improvements, update them as well
@@ -776,8 +778,6 @@ class Tile: AbstractTile {
                     }
                 }
             }
-
-            // self.updateYield();
         }
     }
 
@@ -947,7 +947,7 @@ class Tile: AbstractTile {
         return self.discovered.isDiscovered(by: player)
     }
 
-    func discover(by player: AbstractPlayer?) {
+    func discover(by player: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let player = player else {
             fatalError("cant get player")
@@ -961,7 +961,7 @@ class Tile: AbstractTile {
 
             if !techs.eurekaTriggered(for: .astrology) {
                 if self.featureValue.isWonder() {
-                    techs.triggerEureka(for: .astrology)
+                    techs.triggerEureka(for: .astrology, in: gameModel)
                 }
             }
 
@@ -1053,9 +1053,9 @@ class Tile: AbstractTile {
 
         return self.resource(for: player).usage() == resourceType
     }
-    
+
     func set(resourceQuantity: Int) {
-        
+
         self.resourceQuantityValue = resourceQuantity
     }
 
@@ -1080,26 +1080,26 @@ class Tile: AbstractTile {
 
         return true
     }
-    
+
     func isValidDomainFor(unit: AbstractUnit?) -> Bool {
-        
+
         if self.isValidDomainForAction(of: unit) {
             return true
         }
-        
+
         return self.isCity()
     }
-    
+
     func isValidDomainForAction(of unit: AbstractUnit?) -> Bool {
-        
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         switch unit.domain() {
-            
+
         case .none: return false
-            
+
         case .land, .immobile:
             return (!self.terrain().isWater() /*|| unit.IsHoveringUnit()*/ || unit.canMoveAllTerrain() || unit.isEmbarked())
         case .sea:
@@ -1497,13 +1497,13 @@ class Tile: AbstractTile {
 
         return otherTile.isOn(continent: self.continentValue)
     }
-    
+
     func continentIdentifier() -> String? {
-        
+
         if let identifier = self.continentValue?.identifier {
             return "\(identifier)"
         }
-        
+
         return nil
     }
 
@@ -1551,63 +1551,43 @@ class Tile: AbstractTile {
                 if let improvementType = buildType.improvement() {
 
                     // eurekas
-                    self.updateEurekas(with: improvementType, for: player)
+                    self.updateEurekas(with: improvementType, for: player, in: gameModel)
 
                     self.set(improvement: improvementType)
-
-                    // Unowned plot, someone has to foot the bill
-                    if !self.hasOwner() {
-                        fatalError("someone must pay")
-                        /*if (MustPayMaintenanceHere(ePlayer))
-                         {
-                         GET_PLAYER(ePlayer).GetTreasury()->ChangeBaseImprovementGoldMaintenance(GC.getImprovementInfo(eImprovement)->GetGoldMaintenance());
-                         }
-                         SetPlayerResponsibleForImprovement(ePlayer);*/
-                    }
                 }
 
                 // Constructed Route
                 if let routeType = buildType.route() {
 
                     self.set(route: routeType)
-
-                    // Unowned plot, someone has to foot the bill
-                    if !self.hasOwner() {
-                        fatalError("someone must pay")
-                        /*if (MustPayMaintenanceHere(ePlayer))
-                         {
-                         GET_PLAYER(ePlayer).GetTreasury()->ChangeBaseImprovementGoldMaintenance(pkRouteInfo->GetGoldMaintenance());
-                         }
-                         SetPlayerResponsibleForRoute(ePlayer);*/
-                    }
                 }
-            }
 
-            // Remove Feature
-            if self.hasAnyFeature() {
+                // Remove Feature
+                if self.hasAnyFeature() {
 
-                if buildType.canRemove(feature: self.feature()) {
+                    if buildType.canRemove(feature: self.feature()) {
 
-                    let (production, cityRef) = self.featureProduction(by: buildType, for: player)
+                        let (production, cityRef) = self.featureProduction(by: buildType, for: player)
 
-                    if production > 0 {
+                        if production > 0 {
 
-                        guard let city = cityRef else {
-                            fatalError("no city found")
+                            guard let city = cityRef else {
+                                fatalError("no city found")
+                            }
+
+                            guard let cityPlayer = city.player else {
+                                fatalError("no city player found")
+                            }
+
+                            city.changeFeatureProduction(change: Double(production))
+
+                            if cityPlayer.isHuman() {
+                                gameModel?.userInterface?.showPopup(popupType: .featureGivesProduction, with: PopupData(featureType: self.feature(), production: production, cityName: city.name))
+                            }
                         }
 
-                        guard let cityPlayer = city.player else {
-                            fatalError("no city player found")
-                        }
-
-                        city.changeFeatureProduction(change: Double(production))
-
-                        if cityPlayer.isHuman() {
-                            gameModel?.userInterface?.showPopup(popupType: .featureGivesProduction, with: PopupData(featureType: self.feature(), production: production, cityName: city.name), at: city.location)
-                        }
+                        self.set(feature: .none)
                     }
-
-                    self.set(feature: .none)
                 }
 
                 // Repairing a Pillaged Tile
@@ -1631,7 +1611,7 @@ class Tile: AbstractTile {
         return finished
     }
 
-    func updateEurekas(with improvementType: ImprovementType, for player: AbstractPlayer) {
+    func updateEurekas(with improvementType: ImprovementType, for player: AbstractPlayer, in gameModel: GameModel?) {
 
         guard let techs = player.techs else {
             fatalError("Cant get techs of player")
@@ -1647,35 +1627,35 @@ class Tile: AbstractTile {
         // Masonry - To Boost: Build a quarry
         if !techs.eurekaTriggered(for: .masonry) {
             if improvementType == .quarry {
-                techs.triggerEureka(for: .masonry)
+                techs.triggerEureka(for: .masonry, in: gameModel)
             }
         }
 
         // Wheel - To Boost: Mine a resource
         if !techs.eurekaTriggered(for: .wheel) {
             if improvementType == .mine && self.hasAnyResource(for: player) {
-                techs.triggerEureka(for: .wheel)
+                techs.triggerEureka(for: .wheel, in: gameModel)
             }
         }
 
         // Irrigation - To Boost: Farm a resource
         if !techs.eurekaTriggered(for: .irrigation) {
             if improvementType == .farm && self.hasAnyResource(for: player) {
-                techs.triggerEureka(for: .irrigation)
+                techs.triggerEureka(for: .irrigation, in: gameModel)
             }
         }
 
         // Horseback Riding - To Boost: Build a pasture
         if !techs.eurekaTriggered(for: .horsebackRiding) {
             if improvementType == .pasture {
-                techs.triggerEureka(for: .horsebackRiding)
+                techs.triggerEureka(for: .horsebackRiding, in: gameModel)
             }
         }
 
         // Iron Working - To Boost: Build a Iron Mine
         if !techs.eurekaTriggered(for: .ironWorking) {
             if improvementType == .mine && self.resourceValue == .iron {
-                techs.triggerEureka(for: .ironWorking)
+                techs.triggerEureka(for: .ironWorking, in: gameModel)
             }
         }
 
@@ -1685,7 +1665,7 @@ class Tile: AbstractTile {
                 techs.changeEurekaValue(for: .militaryTactics, change: 1)
 
                 if techs.eurekaValue(for: .militaryTactics) >= 3 {
-                    techs.triggerEureka(for: .militaryTactics)
+                    techs.triggerEureka(for: .militaryTactics, in: gameModel)
                 }
             }
         }
@@ -1717,7 +1697,7 @@ class Tile: AbstractTile {
             civics.changeEurekaValue(for: .craftsmanship, change: 1)
 
             if civics.eurekaValue(for: .craftsmanship) >= 3 {
-                civics.triggerEureka(for: .craftsmanship)
+                civics.triggerEureka(for: .craftsmanship, in: gameModel)
             }
         }
     }

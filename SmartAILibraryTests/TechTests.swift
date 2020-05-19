@@ -180,9 +180,16 @@ class TechTests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
         mapModel.set(feature: .greatBarrierReef, at: HexPoint(x: 0, y: 0))
 
+        // game
+        let gameModel = GameModel(victoryTypes: [.domination],
+                                   handicap: .chieftain,
+                                   turnsElapsed: 0,
+                                   players: [playerAlexander],
+                                   on: mapModel)
+        
         // WHEN
         let beforeEureka = self.objectToTest?.eurekaTriggered(for: .astrology)
-        mapModel.discover(by: playerAlexander, at: HexPoint(x: 0, y: 0))
+        mapModel.discover(by: playerAlexander, at: HexPoint(x: 0, y: 0), in: gameModel)
         let afterEureka = self.objectToTest?.eurekaTriggered(for: .astrology)
         
         // THEN

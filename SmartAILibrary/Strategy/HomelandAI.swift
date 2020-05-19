@@ -807,7 +807,7 @@ class HomelandAI {
             } else {
                 
                 // Best units have already had a full path check to the target, so just add the move
-                bestUnit.push(mission: UnitMission(type: .moveTo, target: target.point), in: gameModel)
+                bestUnit.push(mission: UnitMission(type: .moveTo, at: target.point), in: gameModel)
                 bestUnit.finishMoves()
                 self.unitProcessed(unit: bestUnit)
                 return
@@ -842,7 +842,7 @@ class HomelandAI {
                 return
             } else if currentMoveHighPriorityUnit!.movesToTarget < 8 /* AI_HOMELAND_ESTIMATE_TURNS_DISTANCE */ || loopUnit.turnsToReach(at: target.point, in: gameModel) != Int.max {
                 
-                loopUnit.push(mission: UnitMission(type: .moveTo, target: target.point), in: gameModel)
+                loopUnit.push(mission: UnitMission(type: .moveTo, at: target.point), in: gameModel)
                 loopUnit.finishMoves()
                 self.unitProcessed(unit: loopUnit)
                 return
@@ -864,7 +864,7 @@ class HomelandAI {
                 return
             } else if currentMoveUnit!.movesToTarget  < 8 /* AI_HOMELAND_ESTIMATE_TURNS_DISTANCE */ || loopUnit.turnsToReach(at: target.point, in: gameModel) != Int.max {
                 
-                loopUnit.push(mission: UnitMission(type: .moveTo, target: target.point), in: gameModel)
+                loopUnit.push(mission: UnitMission(type: .moveTo, at: target.point), in: gameModel)
                 loopUnit.finishMoves()
                 self.unitProcessed(unit: loopUnit)
                 return
@@ -1231,7 +1231,7 @@ class HomelandAI {
                                 
                                 print("Unit \(unit.name()) Moving to goody hut, from \(unit.location)")
                                 
-                                unit.push(mission: UnitMission(type: .moveTo, target: stepPoint), in: gameModel)
+                                unit.push(mission: UnitMission(type: .moveTo, at: stepPoint), in: gameModel)
                                 
                                 unit.finishMoves()
                                 self.unitProcessed(unit: unit)
@@ -1356,7 +1356,7 @@ class HomelandAI {
                 }
 
                 if let bestPlot = bestPlot {
-                    unit.push(mission: UnitMission(type: .moveTo, target: bestPlot.point), in: gameModel)
+                    unit.push(mission: UnitMission(type: .moveTo, at: bestPlot.point), in: gameModel)
 
                     // Only mark as done if out of movement
                     if unit.moves() <= 0 {
@@ -1577,7 +1577,7 @@ class HomelandAI {
                         self.unitProcessed(unit: unit)
                         
                     } else {
-                        unit.push(mission: UnitMission(type: .moveTo, target: directive.target), in: gameModel)
+                        unit.push(mission: UnitMission(type: .moveTo, at: directive.target), in: gameModel)
                         unit.finishMoves()
                         self.unitProcessed(unit: unit)
                     }
@@ -1695,7 +1695,7 @@ class HomelandAI {
             } else {
                 
                 print("\(unit.name()) moving to safety, \(bestPlot.point)")
-                unit.push(mission: UnitMission(type: .moveTo, target: bestPlot.point), in: gameModel)
+                unit.push(mission: UnitMission(type: .moveTo, at: bestPlot.point), in: gameModel)
                 return true
             }
             

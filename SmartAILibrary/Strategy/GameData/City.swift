@@ -111,6 +111,8 @@ public protocol AbstractCity: class, Codable {
     func lastTurnFoodEarned() -> Double
     func growthInTurns() -> Int
     
+    func maintenanceCostsPerTurn() -> Double
+    
     func productionLastTurn() -> Double
     
     func resetLuxuries()
@@ -356,7 +358,7 @@ public class City: AbstractCity {
         for pointToDiscover in self.location.areaWith(radius: 2) {
          
             if let tile = gameModel.tile(at: pointToDiscover) {
-                tile.discover(by: self.player)
+                tile.discover(by: self.player, in: gameModel)
             }
         }
         
@@ -964,6 +966,8 @@ public class City: AbstractCity {
                 self.set(foodBasket: 0)
                 self.set(population: self.population() + 1, in: gameModel)
 
+                gameModel?.userInterface?.update(city: self)
+                
                 // Only show notification if the city is small
                 if self.populationValue <= 5 {
                     
@@ -1144,7 +1148,7 @@ public class City: AbstractCity {
 
         if !self.isProduction() && player.isHuman() && !self.isProductionAutomated() {
             //gameModel?.add(message: CityNeedsBuildableMessage(city: self))
-            self.player?.notifications()?.add(type: .production, for: self.player, message: "Your city \(self.name) needs something to work on.", summary: "need production", at: self.location)
+            self.player?.notifications()?.add(type: .productionNeeded, for: self.player, message: "Your city \(self.name) needs something to work on.", summary: "need production", at: self.location)
             return okay
         }
 
@@ -1383,6 +1387,11 @@ public class City: AbstractCity {
         }
         
         var goldFromBuildings: Double = 0.0
+        
+        // 
+        if buildings.has(building: .palace) {
+            goldFromBuildings += BuildingType.palace.yields().gold
+        }
         
         // gather yields from builds
         for building in BuildingType.all {
@@ -2338,18 +2347,29 @@ public class City: AbstractCity {
         return exceedFood > 0.0
     }
 
-    func maintenanceCostsPerTurn() -> Double {
+    public func maintenanceCostsPerTurn() -> Double {
 
+        guard let districts = self.districts else {
+            fatalError("no districts set")
+        }
+        
         guard let buildings = self.buildings else {
             fatalError("no buildings set")
         }
 
         var costs = 0.0
 
-        // gather costs from builds
+        // gather costs from districts
+        for district in DistrictType.all {
+            if districts.has(district: district) {
+                costs += Double(district.maintenanceCost())
+            }
+        }
+        
+        // gather costs from buildings
         for building in BuildingType.all {
             if buildings.has(building: building) {
-                costs += Double(building.maintenanceCosts())
+                costs += Double(building.maintenanceCost())
             }
         }
 
@@ -2685,7 +2705,7 @@ public class City: AbstractCity {
         }
         
         let cost = self.buyPlotCost(at: point, in: gameModel)
-        player.treasury?.add(gold: Double(-cost))
+        player.treasury?.changeGold(by: Double(-cost))
         player.changeNumPlotsBought(change: 1)
         
         // See if there's anyone else nearby that could get upset by this action

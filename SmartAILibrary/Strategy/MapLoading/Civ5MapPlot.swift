@@ -41,7 +41,6 @@ struct Civ5MapPlot: Codable {
         if self.elevation == 1 {
             self.hills = true
         } else if self.elevation == 2 {
-            //self.terrain = .mountain
             if self.feature1stType != nil {
                 fatalError("cant set mountain")
             }

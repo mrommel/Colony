@@ -116,6 +116,7 @@ public protocol AbstractUnit: class, Codable {
     func canContinueBuild(build buildType: BuildType, in gameModel: GameModel?) -> Bool
     func doBuild(build: BuildType, in gameModel: GameModel?) -> Bool
     func buildType() -> BuildType
+    func continueBuilding(build buildType: BuildType, in gameModel: GameModel?) -> Bool
 
     func doPillage(in gameModel: GameModel?) -> Bool
     func doRebase(to point: HexPoint) -> Bool
@@ -213,6 +214,7 @@ public class Unit: AbstractUnit {
 
         case activityType
         case buildType
+        case buildCharges
         case automation
     }
 
@@ -242,6 +244,7 @@ public class Unit: AbstractUnit {
     internal var missionTimerValue: Int
     internal var activityTypeValue: UnitActivityType
     internal var buildTypeValue: BuildType = .none
+    internal var buildChargesValue: Int = 0
 
     // automations
     internal var automation: UnitAutomationType = .none
@@ -264,6 +267,8 @@ public class Unit: AbstractUnit {
         self.activityTypeValue = .none
 
         self.promotions = Promotions(unit: self)
+        
+        self.buildChargesValue = type.buildCharges()
     }
 
     required public init(from decoder: Decoder) throws {
@@ -294,6 +299,7 @@ public class Unit: AbstractUnit {
 
         self.activityTypeValue = try container.decode(UnitActivityType.self, forKey: .activityType)
         self.buildTypeValue = try container.decode(BuildType.self, forKey: .buildType)
+        self.buildChargesValue = try container.decode(Int.self, forKey: .buildCharges)
         self.automation = try container.decode(UnitAutomationType.self, forKey: .automation)
 
         // post process
@@ -326,6 +332,7 @@ public class Unit: AbstractUnit {
 
         try container.encode(self.activityTypeValue, forKey: .activityType)
         try container.encode(self.buildTypeValue, forKey: .buildType)
+        try container.encode(self.buildChargesValue, forKey: .buildCharges)
         try container.encode(self.automation, forKey: .automation)
     }
 
@@ -704,7 +711,7 @@ public class Unit: AbstractUnit {
 
                 if !diplomacyAI.isAtWar(with: defenderUnit.player) {
 
-                    gameModel.userInterface?.showPopup(popupType: .declareWarQuestion, with: PopupData(player: defenderUnit.player), at: defenderUnit.location)
+                    gameModel.userInterface?.showPopup(popupType: .declareWarQuestion, with: PopupData(player: defenderUnit.player))
                     return false
                 }
             }
@@ -1345,7 +1352,7 @@ public class Unit: AbstractUnit {
         self.doMobilize(in: gameModel) // unfortify
 
         // needs to be here so that the square is considered visible when we move into it...
-        gameModel.sight(at: newLocation, sight: self.sight(), for: player)
+        gameModel.sight(at: newLocation, sight: self.sight(), for: player, in: gameModel)
         //newPlot->area()->changeUnitsPerPlayer(getOwner(), 1);
         var newCityRef = gameModel.city(at: newPlot.point)
 
@@ -1487,7 +1494,7 @@ public class Unit: AbstractUnit {
 
                     // CvBarbarians::DoBarbCampCleared(pNewPlot);
 
-                    player.treasury?.add(gold: Double(numGold))
+                    player.treasury?.changeGold(by: Double(numGold))
 
                     // Set who last cleared the camp here
                     //newPlot->SetPlayerThatClearedBarbCampHere(getOwner());
@@ -1495,7 +1502,7 @@ public class Unit: AbstractUnit {
                     // If it's the active player then show the popup
                     if player.isEqual(to: gameModel.humanPlayer()) {
 
-                        gameModel.userInterface?.showPopup(popupType: .barbarianCampCleared, with: PopupData(money: numGold), at: newPlot.point)
+                        gameModel.userInterface?.showPopup(popupType: .barbarianCampCleared, with: PopupData(money: numGold))
 
                         // We are adding a popup that the player must make a choice in, make sure they are not in the end-turn phase.
                         // FIXME self.cancelActivePlayerEndTurn();
@@ -2308,7 +2315,8 @@ public class Unit: AbstractUnit {
         if self.canBuild(build: buildType, at: self.location, testVisible: false, testGold: false, in: gameModel) {
             continueToBuild = true
 
-            if self.doBuild(build: buildType, in: gameModel) {
+            // fixme: need to call tile changeBuildProgress
+            if self.continueBuilding(build: buildType, in: gameModel) {
                 continueToBuild = false
             }
         }
@@ -2316,6 +2324,20 @@ public class Unit: AbstractUnit {
         return continueToBuild
     }
 
+    func changeBuildCharges(change: Int) {
+        
+        guard self.buildChargesValue + change >= 0 else {
+            fatalError("buildCharges cant be negative")
+        }
+        
+        self.buildChargesValue += change
+    }
+    
+    func hasBuildCharges() -> Bool {
+        
+        return self.buildChargesValue > 0
+    }
+    
     // Returns true if build finished...
     // bool CvUnit::build(BuildTypes eBuild)
     public func doBuild(build buildType: BuildType, in gameModel: GameModel?) -> Bool {
@@ -2363,43 +2385,18 @@ public class Unit: AbstractUnit {
             }
 
             // wipe out all build progress also
-            //finished = tile.changeBuildProgress(of: buildType, change: self.type.workRate(), for: player, in: gameModel)
         }
 
-        finished = tile.changeBuildProgress(of: buildType, change: self.type.workRate(), for: player, in: gameModel)
+        let rate = self.type.workRate()
+        finished = tile.changeBuildProgress(of: buildType, change: rate, for: player, in: gameModel)
 
-        self.finishMoves() // needs to be at bottom because movesLeft() can affect workRate()...
+        // needs to be at bottom because movesLeft() can affect workRate()...
+        self.finishMoves()
 
         if finished {
 
-            // Update the amount of a Resource used up by popped Build
-            /*for resourceLoop in ResourceType.all {
-                
-                var numResource = 0
-                
-                if let improvment = buildType.improvement() {
-                    
-                        CvImprovementEntry* pkImprovementInfo = GC.getImprovementInfo(eImprovement);
-                        if(pkImprovementInfo)
-                        {
-                            numResource = pkImprovementInfo->GetResourceQuantityRequirement(iResourceLoop);
-                        }
-                    }
-                    else if (eRoute != NO_ROUTE)
-                    {
-                        CvRouteInfo* pkRouteInfo = GC.getRouteInfo(eRoute);
-                        if(pkRouteInfo)
-                        {
-                            numResource = pkRouteInfo->getResourceQuantityRequirement(iResourceLoop);
-                        }
-                    }
-
-                    if numResource > 0 {
-                        kPlayer.changeNumResourceUsed((ResourceTypes) iResourceLoop, -iNumResource);
-                    }
-                }*/
-
             if buildType.isKill() {
+
                 if self.isGreatPerson() {
                     fatalError("niy")
                     //player.doGreatPersonExpended(of: self.type)
@@ -2408,20 +2405,32 @@ public class Unit: AbstractUnit {
                 self.doKill(delayed: true, by: nil, in: gameModel)
             }
 
+            // handle builder expended
+            if self.type == .builder {
+                self.changeBuildCharges(change: -1)
+                
+                if !self.hasBuildCharges() {
+                    self.doKill(delayed: true, by: nil, in: gameModel)
+                }
+            }
+
             // Add to player's Improvement count, which will increase cost of future Improvements
             if buildType.improvement() != nil || buildType.route() != nil {
                 // Prevents chopping Forest or Jungle from counting
                 player.changeTotalImprovementsBuilt(change: 1)
             }
+            
+            gameModel.userInterface?.refresh(tile: tile)
+            
         } else {
             // we are not done doing this
             if startedYet == 0 {
 
                 if tile.isVisible(to: player) {
                     if buildType.improvement() != nil {
-                        //pPlot->setLayoutDirty(true);
+                        gameModel.userInterface?.refresh(tile: tile)
                     } else if buildType.route() != nil {
-                        //pPlot->setLayoutDirty(true);
+                        gameModel.userInterface?.refresh(tile: tile)
                     }
                 }
             }
@@ -2438,6 +2447,43 @@ public class Unit: AbstractUnit {
     public func buildType() -> BuildType {
 
         return self.buildTypeValue
+    }
+
+    // Returns true if build should continue...
+    public func continueBuilding(build buildType: BuildType, in gameModel: GameModel?) -> Bool {
+
+        var canContinue = false
+
+        guard let plot = gameModel?.tile(at: self.location) else {
+            return false
+        }
+
+        if self.isAutomated() {
+
+            if plot.improvement() != .none && plot.improvement() != .ruins {
+                    
+                let resource = plot.resource(for: self.player)
+                //ResourceTypes eResource = (ResourceTypes)pPlot->getNonObsoleteResourceType(GET_PLAYER(getOwner()).getTeam());
+                /*if resource == .none || resource.techCityTrade() {
+                        if (GC.getImprovementInfo(eImprovement)->GetImprovementPillage() != NO_IMPROVEMENT)
+                        {
+                            return false;
+                        }
+                    }*/
+            }
+        }
+
+        // Don't check for Gold cost here (2nd false) because this function is called from continueMission... we spend the Gold then check to see if we can Build
+        if self.canBuild(build: buildType, at: self.location, testVisible: false, testGold: false, in: gameModel) {
+            
+            canContinue = true
+
+            if self.doBuild(build: buildType, in: gameModel) {
+                canContinue = false
+            }
+        }
+
+        return canContinue
     }
 
     func canPillage(at point: HexPoint, in gameModel: GameModel?) -> Bool {
@@ -2722,7 +2768,7 @@ public class Unit: AbstractUnit {
         // damage from features?
 
         // FIXME
-
+        
     }
 
     public func set(turnProcessed: Bool) {
@@ -3129,11 +3175,11 @@ extension Unit {
 
     public func updateMission(in gameModel: GameModel?) {
 
-        if self.missionTimerValue > 0 {
+        /*if self.missionTimerValue > 0 {
 
             self.missionTimerValue -= 1
 
-            if self.missionTimerValue == 0 {
+            if self.missionTimerValue == 0 {*/
 
                 if self.activityTypeValue == .mission {
 
@@ -3141,8 +3187,8 @@ extension Unit {
                         headMission.continueMission(steps: 0, in: gameModel)
                     }
                 }
-            }
-        }
+            /*}
+        }*/
         /*if let headMission = self.missions.peek() {
             headMission.update()
         }*/
@@ -3158,7 +3204,7 @@ extension Unit {
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let techs = self.player?.techs else {
             fatalError("cant get techs")
         }
@@ -3170,7 +3216,7 @@ extension Unit {
         }
 
         if self.type.canBuild(build: .farm) && player.canBuild(build: .farm, at: self.location, testVisible: true, testGold: true, in: gameModel) {
-            
+
             var requiredTech = true
             if let tech = ImprovementType.farm.required() {
                 requiredTech = techs.has(tech: tech)
@@ -3182,7 +3228,7 @@ extension Unit {
         }
 
         if self.type.canBuild(build: .mine) && player.canBuild(build: .farm, at: self.location, testVisible: true, testGold: true, in: gameModel) {
-            
+
             var requiredTech = true
             if let tech = ImprovementType.mine.required() {
                 requiredTech = techs.has(tech: tech)

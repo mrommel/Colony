@@ -316,7 +316,9 @@ class CityDialog: Dialog {
 
         self.hide()
 
-        let cityPopulationGrowthDialog = CityPopulationGrowthDialog(for: self.city, in: self.gameModel)
+        let viewModel = CityPopulationGrowthViewModel(for: self.city, in: self.gameModel)
+        
+        let cityPopulationGrowthDialog = CityPopulationGrowthDialog(with: viewModel)
         cityPopulationGrowthDialog.zPosition = 260
 
         cityPopulationGrowthDialog.addCancelAction(handler: {

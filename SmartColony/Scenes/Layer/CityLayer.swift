@@ -84,4 +84,17 @@ class CityLayer: SKNode {
             cityObjects.append(cityObject)
         }
     }
+    
+    func update(city: AbstractCity?) {
+        
+        guard let city = city else {
+            fatalError("no city provided")
+        }
+        
+        for cityLoopObject in self.cityObjects {
+            if city.location == cityLoopObject.city?.location {
+                cityLoopObject.showCityName()
+            }
+        }
+    }
 }

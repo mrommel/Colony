@@ -21,6 +21,7 @@ class CityObject {
     var sprite: SKSpriteNode
     private var nameLabel: SKLabelNode?
     private var nameBackground: SKSpriteNode?
+    private var sizeLabel: SKLabelNode?
     
     init(city: AbstractCity?, in gameModel: GameModel?) {
      
@@ -59,6 +60,8 @@ class CityObject {
             self.nameLabel = nil
             self.nameBackground?.removeFromParent()
             self.nameBackground = nil
+            self.sizeLabel?.removeFromParent()
+            self.sizeLabel = nil
         }
 
         let texture = SKTexture(imageNamed: "city_banner")
@@ -71,10 +74,22 @@ class CityObject {
         if let nameBackground = self.nameBackground {
             self.sprite.addChild(nameBackground)
         }
+        
+        self.sizeLabel = SKLabelNode(text: "\(city.population())")
+        self.sizeLabel?.fontSize = 8
+        self.sizeLabel?.position = CGPoint(x: 8, y: 35)
+        self.sizeLabel?.zPosition = Globals.ZLevels.cityName
+        self.sizeLabel?.fontName = Globals.Fonts.customFontBoldFamilyname
+        self.sizeLabel?.fontColor = player.leader.civilization().iconColor()
+        self.sizeLabel?.preferredMaxLayoutWidth = 12
+
+        if let sizeLabel = self.sizeLabel {
+            self.sprite.addChild(sizeLabel)
+        }
 
         self.nameLabel = SKLabelNode(text: city.name)
-        self.nameLabel?.fontSize = 6
-        self.nameLabel?.position = CGPoint(x: 24, y: 36)
+        self.nameLabel?.fontSize = 8
+        self.nameLabel?.position = CGPoint(x: 24, y: 35)
         self.nameLabel?.zPosition = Globals.ZLevels.cityName
         self.nameLabel?.fontName = Globals.Fonts.customFontBoldFamilyname
         self.nameLabel?.fontColor = player.leader.civilization().iconColor()
@@ -90,6 +105,7 @@ class CityObject {
         if self.nameLabel != nil {
             self.nameLabel?.removeFromParent()
             self.nameBackground?.removeFromParent()
+            self.sizeLabel?.removeFromParent()
         }
     }
 }

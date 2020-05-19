@@ -10,7 +10,7 @@ import Foundation
 import SmartAILibrary
 import SpriteKit
 
-class ScienceDialog: Dialog {
+class TechDialog: Dialog {
     
     // nodes
     var scrollNode: ScrollNode?
@@ -19,11 +19,11 @@ class ScienceDialog: Dialog {
 
     init(with techs: AbstractTechs?) {
         let uiParser = UIParser()
-        guard let scienceDialogConfiguration = uiParser.parse(from: "ScienceDialog") else {
-            fatalError("cant load ScienceDialog configuration")
+        guard let techDialogConfiguration = uiParser.parse(from: "TechDialog") else {
+            fatalError("cant load TechDialog configuration")
         }
 
-        super.init(from: scienceDialogConfiguration)
+        super.init(from: techDialogConfiguration)
         
         self.check(techs: techs)
         

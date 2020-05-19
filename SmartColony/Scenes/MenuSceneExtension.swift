@@ -338,7 +338,7 @@ extension MenuScene {
     func loadMapAsync(from url: URL?, leader: LeaderType, with handicap: HandicapType, progressHandler: @escaping (Double, String) -> Void) {
         
         let mapLoader = MapLoader()
-        if let map = mapLoader.load(from: url) {
+        if let map = mapLoader.load(from: url, for: leader) {
             
             progressHandler(0.4, "map loaded")
             
@@ -357,7 +357,6 @@ extension MenuScene {
             // not sure why
             // map.fogManager?.map = map
             
-            print("ready 0")
             progressHandler(1.0, "ready")
             
             self.rootNode.sharpWith(completion: {

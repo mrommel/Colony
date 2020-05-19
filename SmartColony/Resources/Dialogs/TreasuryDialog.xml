@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>top</anchory>
+    <offsetx>0</offsetx>
+    <offsety>45%</offsety>
+    <width>90%</width>
+    <height>90%</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        <item>
+            <identifier>dialog_name</identifier>
+            <type>label</type>
+            <title>Teasury</title>
+            <anchorx>center</anchorx>
+            <anchory>top</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-70</offsety>
+            <width>200</width>
+            <height>20</height>
+        </item>
+        <item>
+            <identifier>summary</identifier>
+            <type>label</type>
+            <title>Gold per Turn</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-140</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <!-- in -->
+        
+        <item>
+            <identifier>gold_from_cities_title</identifier>
+            <type>label</type>
+            <title>Gold from Cities</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-210</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>gold_from_cities_value</identifier>
+            <type>label</type>
+            <title>-</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-210</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>gold_from_deals_title</identifier>
+            <type>label</type>
+            <title>Gold from Deals</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-250</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>gold_from_deals_value</identifier>
+            <type>label</type>
+            <title>-</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-250</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+
+        <!-- out -->
+        
+        <item>
+            <identifier>gold_for_cities_title</identifier>
+            <type>label</type>
+            <title>City Maintenance</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-330</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>gold_for_cities_value</identifier>
+            <type>label</type>
+            <title>-</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-330</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>gold_for_units_title</identifier>
+            <type>label</type>
+            <title>Unit Maintenance</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-370</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>gold_for_units_value</identifier>
+            <type>label</type>
+            <title>-</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-370</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>gold_for_deals_title</identifier>
+            <type>label</type>
+            <title>Gold for Deals</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-410</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>gold_for_deals_value</identifier>
+            <type>label</type>
+            <title>-</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-410</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+        
+        <!-- saldo -->
+        
+        <item>
+            <identifier>income_title</identifier>
+            <type>label</type>
+            <title>Income</title>
+            <textAlign>left</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>-120</offsetx>
+            <offsety>-490</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>income_value</identifier>
+            <type>label</type>
+            <title>-</title>
+            <textAlign>right</textAlign>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>120</offsetx>
+            <offsety>-490</offsety>
+            <width>100</width>
+            <height>40</height>
+        </item>
+        
+        <!-- button -->
+        
+        <item>
+            <identifier>okay_button</identifier>
+            <type>button</type>
+            <title>Okay</title>
+            <result>OKAY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-80%</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+    </items>
+</context>
+

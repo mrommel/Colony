@@ -17,43 +17,43 @@ extension FeatureType {
         case .none:
             return []
         case .forest:
-            return ["hex_forest_mixed_summer1"]
+            return ["feature_forest1", "feature_forest2"]
         case .rainforest:
-            return ["hex_forest_rain", "hex_forest_rain2"]
+            return ["feature_rainforest1", "feature_rainforest2"]
         case .floodplains:
-            return ["hex_floodplains"] // <== fixme
+            return ["feature_floodplains"]
         case .marsh:
-            return ["hex_marsh"]
+            return ["feature_marsh"]
         case .oasis:
-            return ["hex_oasis1", "hex_oasis2"]
+            return ["feature_oasis1", "feature_oasis2"]
         case .reef:
-            return []
+            return ["feature_reef"]
         case .ice:
-            return ["hex_ice1", "hex_ice2", "hex_ice3", "hex_ice4", "hex_ice5", "hex_ice6"]
+            return ["feature_ice1", "feature_ice2", "feature_ice3", "feature_ice4", "feature_ice5", "feature_ice6"]
         case .atoll:
-            return []
+            return ["feature_atoll"]
             
         case .mountains:
-            return ["mountains1", "mountains2", "mountains3"]
+            return ["feature_mountains1", "feature_mountains2", "feature_mountains3"]
         case .lake:
-            return ["lake"]
+            return ["feature_lake"]
             
         case .delicateArch:
-            return []
+            return ["feature_delicateArch"]
         case .galapagos:
-            return []
+            return ["feature_galapagos"]
         case .greatBarrierReef:
-            return []
+            return ["feature_greatBarrierReef"]
         case .mountEverest:
-            return []
+            return ["feature_mountEverest"]
         case .mountKilimanjaro:
-            return []
+            return ["feature_mountKilimanjaro"]
         case .pantanal:
-            return []
+            return ["feature_pantanal"]
         case .yosemite:
-            return []
+            return ["feature_yosemite"]
         case .uluru:
-            return []
+            return ["feature_uluru"]
         }
     }
     

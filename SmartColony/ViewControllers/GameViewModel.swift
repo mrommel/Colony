@@ -91,7 +91,7 @@ class GameViewModel {
         }
     }
     
-    static func discover(mapModel: inout MapModel, by player: AbstractPlayer?) {
+    static func discover(mapModel: inout MapModel, by player: AbstractPlayer?, in gameModel: GameModel?) {
         
         let mapSize = mapModel.size
         for x in 0..<mapSize.width() {
@@ -99,7 +99,7 @@ class GameViewModel {
             for y in 0..<mapSize.height() {
                 
                 let tile = mapModel.tile(at: HexPoint(x: x, y: y))
-                tile?.discover(by: player)
+                tile?.discover(by: player, in: gameModel)
             }
         }
     }

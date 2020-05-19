@@ -21,13 +21,25 @@ enum UITurnState {
     case humanBlocked // dialog shown
 }
 
+class GameScenePopupData {
+    
+    let popupType: PopupType
+    let popupData: PopupData?
+    
+    init(popupType: PopupType, popupData: PopupData?) {
+        
+        self.popupType = popupType
+        self.popupData = popupData
+    }
+}
+
 class GameScene: BaseScene {
 
     // Constants
     let forceTouchLevel: CGFloat = 2.0
 
     // UI variables
-    private var mapNode: MapNode?
+    internal var mapNode: MapNode?
     private let viewHex: SKSpriteNode
 
     private var backgroundNode: SKSpriteNode?
@@ -35,18 +47,18 @@ class GameScene: BaseScene {
     private var topBarNode: SKSpriteNode?
     private var leftHeaderBarNode: LeftHeaderBarNode?
     private var rightHeaderBarNode: RightHeaderBarNode?
-    private var scienceProgressNode: ScienceProgressNode?
+    internal var scienceProgressNode: ScienceProgressNode?
     private var scienceProgressNodeHidden: Bool = false
-    private var cultureProgressNode: CultureProgressNode?
+    internal var cultureProgressNode: CultureProgressNode?
     private var cultureProgressNodeHidden: Bool = false
 
     private var frameTopLeft: SKSpriteNode?
     private var frameTopRight: SKSpriteNode?
     private var frameBottomLeft: SKSpriteNode?
     private var frameBottomRight: SKSpriteNode?
-    private var bottomLeftBar: BottomLeftBar?
-    private var bottomRightBar: BottomRightBar?
-    private var notificationsNode: NotificationsNode?
+    internal var bottomLeftBar: BottomLeftBar?
+    internal var bottomRightBar: BottomRightBar?
+    internal var notificationsNode: NotificationsNode?
 
     private var bannerNode: BannerNode?
 
@@ -63,16 +75,21 @@ class GameScene: BaseScene {
 
     var selectedUnit: AbstractUnit? = nil
     var lastExecuted: TimeInterval = -1
-    let queue = DispatchQueue(label: "update_queue")
+    let queue: DispatchQueue = DispatchQueue(label: "update_queue")
     var readyUpdatingAI: Bool = true
     var readyUpdatingHuman: Bool = true
     var uiTurnState: UITurnState = .aiTurns
     var blockingNotification: Notification? = nil
     var currentScreenType: ScreenType = .none
+    var currentPopupType: PopupType = .none
+    
+    var popups: [GameScenePopupData] = []
 
     // delegate
     weak var gameDelegate: GameDelegate?
 
+    // MARK: constructors
+    
     override init(size: CGSize) {
 
         self.viewHex = SKSpriteNode()
@@ -83,6 +100,8 @@ class GameScene: BaseScene {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: methods
 
     override func didMove(to view: SKView) {
 
@@ -203,6 +222,9 @@ class GameScene: BaseScene {
 
         self.goldYield = YieldDisplayNode(for: .gold, value: 0.0, size: CGSize(width: 60, height: 32))
         self.goldYield?.zPosition = 400
+        self.goldYield?.action = { yieldType in
+            self.showScreen(screenType: .treasury)
+        }
         self.safeAreaNode.addChild(self.goldYield!)
 
         self.faithYield = YieldDisplayNode(for: .faith, value: 0.0, size: CGSize(width: 60, height: 32))
@@ -297,8 +319,8 @@ class GameScene: BaseScene {
 
     override func update(_ currentTime: TimeInterval) {
 
-        // only check once per 1 sec
-        if self.lastExecuted + 1 < currentTime {
+        // only check once per 0.5 sec
+        if self.lastExecuted + 0.5 < currentTime {
 
             guard let gameModel = self.viewModel?.game else {
                 fatalError("cant get game")
@@ -314,7 +336,7 @@ class GameScene: BaseScene {
                 if self.readyUpdatingHuman {
 
                     self.readyUpdatingHuman = false
-                    queue.async {
+                    self.queue.async {
                         //print("-----------> before human processing")
                         gameModel.update()
                         //print("-----------> after human processing")
@@ -325,10 +347,10 @@ class GameScene: BaseScene {
             } else {
                 if self.readyUpdatingAI {
                     self.readyUpdatingAI = false
-                    queue.async {
-                        print("-----------> before AI processing")
+                    self.queue.async {
+                        //print("-----------> before AI processing")
                         gameModel.update()
-                        print("-----------> after AI processing")
+                        //print("-----------> after AI processing")
                         self.readyUpdatingAI = true
                     }
                 }
@@ -390,6 +412,10 @@ class GameScene: BaseScene {
                 self.cultureYield?.set(yieldValue: civics.currentCultureProgress()) // lastCultureEarned
             }
             
+            if let treasury = humanPlayer.treasury {
+                self.goldYield?.set(yieldValue: treasury.value())
+            }
+            
             // update state
             self.updateTurnButton()
 
@@ -414,14 +440,25 @@ class GameScene: BaseScene {
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human")
         }
+        
+        if self.currentScreenType == .none {
+            
+            if self.popups.count > 0 && self.currentPopupType == .none {
+                self.displayPopups()
+                return
+            }
+        }
 
         if let blockingNotification = humanPlayer.blockingNotification() {
 
-            if self.selectedUnit == nil {
+            if let unit = self.selectedUnit {
+                // keep selected unit
+                if unit.movesLeft() <= 0 {
+                    self.unselect()
+                }
+            } else {
                 // no unit selected - show blocking button
                 self.bottomLeftBar?.showBlockingButton(for: blockingNotification)
-            } else {
-                // keep selected unit
             }
         } else {
             self.bottomLeftBar?.showTurnButton()
@@ -679,15 +716,14 @@ extension GameScene: BottomLeftBarDelegate {
 
                 self.prepareForCityScreen()
 
-                let cityName = humanPlayer.newCityName(in: gameModel)
-                let location = selectedUnit.location
-
                 let cityNameDialog = CityNameDialog()
                 cityNameDialog.zPosition = 250
 
                 cityNameDialog.addOkayAction(handler: {
 
                     if cityNameDialog.isValid() {
+                        
+                        let location = selectedUnit.location
                         selectedUnit.doFound(with: cityNameDialog.getCityName(), in: self.viewModel?.game)
                         self.unselect()
                         cityNameDialog.close()
@@ -705,16 +741,20 @@ extension GameScene: BottomLeftBarDelegate {
                 })
 
                 self.cameraNode.add(dialog: cityNameDialog)
+                
+                let cityName = humanPlayer.newCityName(in: gameModel)
                 cityNameDialog.set(textFieldInput: cityName)
             }
         case .buildFarm:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.doBuild(build: .farm, in: gameModel)
+                let farmBuildMission = UnitMission(type: .build, buildType: .farm, at: selectedUnit.location)
+                selectedUnit.push(mission: farmBuildMission, in: gameModel)
             }
             break
         case .buildMine:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.doBuild(build: .mine, in: gameModel)
+                let mineBuildMission = UnitMission(type: .build, buildType: .mine, at: selectedUnit.location)
+                selectedUnit.push(mission: mineBuildMission, in: gameModel)
             }
             break
         case .buildRoute:
@@ -761,7 +801,7 @@ extension GameScene: BottomLeftBarDelegate {
                 humanPlayer.endTurn(in: gameModel)
                 self.changeUITurnState(to: .aiTurns)
             } else {
-
+                print("cant finish turn")
                 /*if let blockingNotification = humanPlayer.blockingNotification() {
                     blockingNotification.activate(in: gameModel)
                 }*/
@@ -796,8 +836,6 @@ extension GameScene: BottomLeftBarDelegate {
                     }
                 }
             }
-
-
         }
     }
 }
@@ -811,244 +849,5 @@ extension GameScene: NotificationsDelegate {
         }
         
         notification.activate(in: self.viewModel?.game)
-    }
-}
-
-extension GameScene: UserInterfaceProtocol {
-    
-    func showPopup(popupType: PopupType, with data: PopupData?, at location: HexPoint) {
-        
-        print("show popup: \(popupType)")
-        
-        switch popupType {
-            
-        case .none:
-            // NOOP
-            break
-        case .declareWarQuestion:
-            // NOOP
-            break
-        case .barbarianCampCleared:
-            // NOOP
-            break
-        case .featureGivesProduction:
-            // Das Entfernen der Geländeart {@1_FeatName} hat {2_Num} [ICON_PRODUCTION] für die Stadt {@3_CityName} eingebracht.
-            break
-        }
-    }
-
-    func select(unit: AbstractUnit?) {
-
-        self.mapNode?.unitLayer.showFocus(for: unit)
-        self.selectedUnit = unit
-
-        if let commands = unit?.commands(in: self.viewModel?.game) {
-            self.bottomLeftBar?.selectedUnitChanged(to: unit, commands: commands)
-        }
-    }
-
-    func unselect() {
-
-        self.mapNode?.unitLayer.hideFocus()
-        self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [])
-        self.selectedUnit = nil
-    }
-
-    func showScreen(screenType: ScreenType, city: AbstractCity? = nil, other: AbstractPlayer? = nil) {
-
-        if screenType == .city {
-
-            self.currentScreenType = .city
-            self.prepareForCityScreen()
-
-            let cityDialog = CityDialog(for: city, in: self.viewModel?.game)
-            cityDialog.zPosition = 250
-
-            cityDialog.addResultHandler(handler: { commandResult in
-
-                self.restoreFromCityScreen()
-                cityDialog.close()
-                self.currentScreenType = .none
-            })
-
-            cityDialog.addCancelAction(handler: {
-                self.restoreFromCityScreen()
-                cityDialog.close()
-                self.currentScreenType = .none
-            })
-
-            self.cameraNode.add(dialog: cityDialog)
-
-        } else if screenType == .techs {
-
-            guard let gameModel = self.viewModel?.game else {
-                fatalError("cant get game")
-            }
-
-            guard let humanPlayer = gameModel.humanPlayer() else {
-                fatalError("cant get human")
-            }
-            
-            self.currentScreenType = .techs
-
-            let scienceDialog = ScienceDialog(with: humanPlayer.techs)
-            scienceDialog.zPosition = 250
-
-            scienceDialog.addCancelAction(handler: {
-                scienceDialog.close()
-                self.currentScreenType = .none
-            })
-
-            scienceDialog.addResultHandler(handler: { result in
-                do {
-                    try humanPlayer.techs?.setCurrent(tech: result.toTech(), in: gameModel)
-                    scienceDialog.close()
-                    self.currentScreenType = .none
-                } catch {
-                    print("cant select tech \(error)")
-                }
-            })
-
-            self.cameraNode.add(dialog: scienceDialog)
-
-        } else if screenType == .civics {
-
-            guard let gameModel = self.viewModel?.game else {
-                fatalError("cant get game")
-            }
-
-            guard let humanPlayer = gameModel.humanPlayer() else {
-                fatalError("cant get human")
-            }
-
-            self.currentScreenType = .civics
-            
-            let civicDialog = CivicDialog(with: humanPlayer.civics)
-            civicDialog.zPosition = 250
-
-            civicDialog.addCancelAction(handler: {
-                civicDialog.close()
-                self.currentScreenType = .none
-            })
-
-            civicDialog.addResultHandler(handler: { result in
-
-                do {
-                    try humanPlayer.civics?.setCurrent(civic: result.toCivic(), in: gameModel)
-                    civicDialog.close()
-                    self.currentScreenType = .none
-                } catch {
-                    print("cant select tech \(error)")
-                }
-            })
-
-            self.cameraNode.add(dialog: civicDialog)
-
-        } else if screenType == .interimRanking {
-            
-            guard let gameModel = self.viewModel?.game else {
-                fatalError("cant get game")
-            }
-            
-            guard let humanPlayer = gameModel.humanPlayer() else {
-                fatalError("cant get human")
-            }
-            
-            self.currentScreenType = .interimRanking
-
-            let interimRankingDialog = InterimRankingDialog(for: humanPlayer, with: gameModel.rankingData)
-            interimRankingDialog.zPosition = 250
-
-            interimRankingDialog.addOkayAction(handler: {
-                interimRankingDialog.close()
-                self.currentScreenType = .none
-            })
-
-            self.cameraNode.add(dialog: interimRankingDialog)
-            
-        } else if screenType == .diplomatic {
-            
-            guard let gameModel = self.viewModel?.game else {
-                fatalError("cant get game")
-            }
-            
-            guard let humanPlayer = gameModel.humanPlayer() else {
-                fatalError("cant get human")
-            }
-            
-            let diplomaticDialog = DiplomaticDialog(for: humanPlayer, and: other)
-            diplomaticDialog.zPosition = 250
-
-            diplomaticDialog.addOkayAction(handler: {
-                diplomaticDialog.close()
-                self.currentScreenType = .none
-            })
-
-            self.cameraNode.add(dialog: diplomaticDialog)
-            
-        } else {
-            print("screen: \(screenType) not handled")
-        }
-    }
-    
-    func isShown(screen screenType: ScreenType) -> Bool {
-        
-        return self.currentScreenType == screenType
-    }
-
-    func show(unit: AbstractUnit?) {
-
-        // unit gets visible again
-        self.mapNode?.unitLayer.show(unit: unit)
-    }
-
-    func hide(unit: AbstractUnit?) {
-
-        // unit gets hidden
-        self.mapNode?.unitLayer.hide(unit: unit)
-        self.unselect()
-    }
-
-    func move(unit: AbstractUnit?, on points: [HexPoint]) {
-        print("move")
-        let costs: [Double] = [Double].init(repeating: 0.0, count: points.count)
-        self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
-    }
-
-    func show(city: AbstractCity?) {
-
-        self.mapNode?.cityLayer.show(city: city)
-    }
-
-    func showTooltip(at point: HexPoint, text: String, delay: Double) {
-        print("tooltip")
-    }
-
-    func select(tech: TechType) {
-        
-        self.scienceProgressNode?.update(tech: tech, progress: 0, turnsRemaining: 0)
-    }
-    
-    func select(civic: CivicType) {
-        
-        self.cultureProgressNode?.update(civic: civic, progress: 0, turnsRemaining: 0)
-    }
-    
-    func add(notification: NotificationItem) {
-
-        self.notificationsNode?.add(notification: notification)
-    }
-
-    func remove(notification: NotificationItem) {
-
-        self.notificationsNode?.remove(notification: notification)
-    }
-
-    func refresh(tile: AbstractTile?) {
-        
-        DispatchQueue.main.async() {
-            self.mapNode?.update(tile: tile)
-            self.bottomRightBar?.update(tile: tile)
-        }
     }
 }

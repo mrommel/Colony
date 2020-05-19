@@ -681,8 +681,18 @@ public enum UnitType: Int, Codable {
 
     func workRate() -> Int {
 
+        // in civ6 builders are building improvements immediately
         if self == .builder {
-            return 100
+            return 1000 // used to be 100
+        }
+
+        return 0
+    }
+    
+    func buildCharges() -> Int {
+        
+        if self == .builder {
+            return 3
         }
 
         return 0

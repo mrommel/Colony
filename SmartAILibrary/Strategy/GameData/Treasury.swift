@@ -10,10 +10,22 @@ import Foundation
 
 public protocol AbstractTreasury {
     
-    func add(gold goldDelta: Double)
     func value() -> Double
     
     func turn(in gameModel: GameModel?)
+    
+    func changeGold(by amount: Double)
+    
+    func calculateGrossGold(in gameModel: GameModel?) -> Double
+    
+    // in
+    func goldFromCities(in gameModel: GameModel?) -> Double
+    func goldPerTurnFromDiplomacy(in gameModel: GameModel?) -> Double
+    
+    // out
+    func goldForUnitMaintenance(in gameModel: GameModel?) -> Double
+    func goldForBuildingMaintenance(in gameModel: GameModel?) -> Double
+    func goldPerTurnForDiplomacy(in gameModel: GameModel?) -> Double
 }
 
 class Treasury: AbstractTreasury {
@@ -30,7 +42,7 @@ class Treasury: AbstractTreasury {
     init(player: Player?) {
         
         self.player = player
-        self.gold = 0.0
+        self.gold = 10.0 //
         
         self.tradeRouteGoldChangeValue = 0
     }
@@ -38,11 +50,6 @@ class Treasury: AbstractTreasury {
     func value() -> Double {
         
         return self.gold
-    }
-    
-    func add(gold goldDelta: Double) {
-        
-        self.gold += goldDelta
     }
     
     /// Get the amount of gold granted by connecting the city
@@ -98,19 +105,152 @@ class Treasury: AbstractTreasury {
     /// Update treasury for a turn
     func turn(in gameModel: GameModel?) {
         
-        //let goldChange = m_pPlayer->calculateGoldRateTimes100();
-
-        /*int iGoldAfterThisTurn = iGoldChange + GetGoldTimes100();
-        if (iGoldAfterThisTurn < 0)
-        {
-            SetGold(0);
-
-            if (iGoldAfterThisTurn <= /*-5*/ GC.getDEFICIT_UNIT_DISBANDING_THRESHOLD() * 100)
-                m_pPlayer->DoDeficit();
+        guard let player = self.player else {
+            fatalError("cant get player")
         }
-        else
-        {
-            ChangeGoldTimes100(iGoldChange);
-        }*/
+        
+        let goldChange = player.calculateGoldPerTurn(in: gameModel)
+
+        // predict treasury
+        let goldAfterThisTurn = self.gold + goldChange
+        
+        // check if we are running low
+        if goldAfterThisTurn < 0 {
+            
+            self.gold = 0
+
+            if goldAfterThisTurn <= -5 /* DEFICIT_UNIT_DISBANDING_THRESHOLD */ {
+                // player.doDeficit()
+            }
+        } else {
+            self.changeGold(by: goldChange)
+        }
+        
+        // Update the amount of gold grossed across lifetime of game
+        
+    }
+    
+    func changeGold(by amount: Double) {
+        
+        self.gold += amount
+    }
+    
+    // Gross income for turn
+    func calculateGrossGold(in gameModel: GameModel?) -> Double {
+        
+        var netGold = 0.0
+        
+        // Income
+        // //////////////////
+
+        // Gold from Cities
+        netGold += self.goldFromCities(in: gameModel)
+
+        // Gold per Turn from Diplomacy
+        netGold += self.goldPerTurnFromDiplomacy(in: gameModel)
+
+        // City connection bonuses
+        //netGold += cityConnectionGold(in: gameModel)
+        
+        // Costs
+        // //////////////////
+        
+        // Gold for Unit Maintenance
+        netGold -= self.goldForUnitMaintenance(in: gameModel)
+        
+        // Gold for Building Maintenance
+        netGold -= self.goldForBuildingMaintenance(in: gameModel)
+        
+        // Gold per Turn for Diplomacy
+        netGold += self.goldPerTurnForDiplomacy(in: gameModel)
+        
+        return netGold
+    }
+    
+    // MARK: income
+    
+    // Gold from Cities
+    func goldFromCities(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        var goldValue = 0.0
+
+        for cityRef in gameModel.cities(of: player) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            goldValue += city.goldPerTurn(in: gameModel)
+        }
+
+        return goldValue
+    }
+    
+    func goldPerTurnFromDiplomacy(in gameModel: GameModel?) -> Double {
+        
+        return 0.0
+    }
+    
+    // MARK: costs
+    
+    func goldForUnitMaintenance(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        var maintenanceCost = 0.0
+        
+        for unitRef in gameModel.units(of: player) {
+            
+            guard let unit = unitRef else {
+                continue
+            }
+            
+            maintenanceCost += Double(unit.type.maintenanceCost())
+        }
+        
+        return maintenanceCost
+    }
+    
+    func goldForBuildingMaintenance(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        var maintenanceCost = 0.0
+        
+        for cityRef in gameModel.cities(of: player) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            maintenanceCost += city.maintenanceCostsPerTurn()
+        }
+        
+        return maintenanceCost
+    }
+    
+    func goldPerTurnForDiplomacy(in gameModel: GameModel?) -> Double {
+    
+        return 0.0
     }
 }

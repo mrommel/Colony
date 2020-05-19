@@ -18,6 +18,12 @@
 		C91B0025243DEE8A00C422C8 /* UnitTypeSprites.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B0024243DEE8A00C422C8 /* UnitTypeSprites.swift */; };
 		C922D2BC2449A1A1009E182F /* CityNameDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C922D2BB2449A1A1009E182F /* CityNameDialog.xml */; };
 		C922D2BE2449A24C009E182F /* CityNameDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C922D2BD2449A24C009E182F /* CityNameDialog.swift */; };
+		C94787172472845D00FAAC99 /* TreasuryDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94787162472845D00FAAC99 /* TreasuryDialog.swift */; };
+		C9478719247285DF00FAAC99 /* TreasuryDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9478718247285DF00FAAC99 /* TreasuryDialog.xml */; };
+		C947871B2472C80B00FAAC99 /* GameSceneDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947871A2472C80B00FAAC99 /* GameSceneDialogs.swift */; };
+		C947871D2472ECF700FAAC99 /* GameSceneUserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947871C2472ECF700FAAC99 /* GameSceneUserInterface.swift */; };
+		C94787202473F14400FAAC99 /* EurekaActivatedPopup.xml in Resources */ = {isa = PBXBuildFile; fileRef = C947871F2473F14300FAAC99 /* EurekaActivatedPopup.xml */; };
+		C94787232473F1A400FAAC99 /* EurekaActivatedPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94787222473F1A400FAAC99 /* EurekaActivatedPopup.swift */; };
 		C948684C24649CED00495988 /* WonderBuildingItemDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948684B24649CEC00495988 /* WonderBuildingItemDisplayNode.swift */; };
 		C948684E24657AB400495988 /* CityManageCitizenDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C948684D24657AB400495988 /* CityManageCitizenDialog.swift */; };
 		C948685024657B4C00495988 /* CityManageCitizenDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C948684F24657B4C00495988 /* CityManageCitizenDialog.xml */; };
@@ -54,8 +60,8 @@
 		C95B3E0B2438E79B002F5A86 /* BoardLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3E0A2438E79B002F5A86 /* BoardLayer.swift */; };
 		C95B3E0D2438E7A8002F5A86 /* RiverLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B3E0C2438E7A8002F5A86 /* RiverLayer.swift */; };
 		C95B3E0F2439244D002F5A86 /* Tiles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C95B3E0E2439244D002F5A86 /* Tiles.xcassets */; };
-		C95D9D60244A3147007C522E /* ScienceDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C95D9D5F244A3147007C522E /* ScienceDialog.xml */; };
-		C95D9D62244A3244007C522E /* ScienceDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95D9D61244A3244007C522E /* ScienceDialog.swift */; };
+		C95D9D60244A3147007C522E /* TechDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C95D9D5F244A3147007C522E /* TechDialog.xml */; };
+		C95D9D62244A3244007C522E /* TechDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95D9D61244A3244007C522E /* TechDialog.swift */; };
 		C95D9D65244A32A0007C522E /* TechDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95D9D64244A32A0007C522E /* TechDisplayNode.swift */; };
 		C97CD39F243A3E9C00FABCC0 /* ResourceLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD39E243A3E9C00FABCC0 /* ResourceLayer.swift */; };
 		C97CD3A1243A3F1200FABCC0 /* TextureUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3A0243A3F1200FABCC0 /* TextureUtils.swift */; };
@@ -210,6 +216,12 @@
 		C91B0024243DEE8A00C422C8 /* UnitTypeSprites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTypeSprites.swift; sourceTree = "<group>"; };
 		C922D2BB2449A1A1009E182F /* CityNameDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityNameDialog.xml; sourceTree = "<group>"; };
 		C922D2BD2449A24C009E182F /* CityNameDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityNameDialog.swift; sourceTree = "<group>"; };
+		C94787162472845D00FAAC99 /* TreasuryDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreasuryDialog.swift; sourceTree = "<group>"; };
+		C9478718247285DF00FAAC99 /* TreasuryDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TreasuryDialog.xml; sourceTree = "<group>"; };
+		C947871A2472C80B00FAAC99 /* GameSceneDialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneDialogs.swift; sourceTree = "<group>"; };
+		C947871C2472ECF700FAAC99 /* GameSceneUserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneUserInterface.swift; sourceTree = "<group>"; };
+		C947871F2473F14300FAAC99 /* EurekaActivatedPopup.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = EurekaActivatedPopup.xml; sourceTree = "<group>"; };
+		C94787222473F1A400FAAC99 /* EurekaActivatedPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaActivatedPopup.swift; sourceTree = "<group>"; };
 		C948684B24649CEC00495988 /* WonderBuildingItemDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderBuildingItemDisplayNode.swift; sourceTree = "<group>"; };
 		C948684D24657AB400495988 /* CityManageCitizenDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityManageCitizenDialog.swift; sourceTree = "<group>"; };
 		C948684F24657B4C00495988 /* CityManageCitizenDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityManageCitizenDialog.xml; sourceTree = "<group>"; };
@@ -248,8 +260,8 @@
 		C95B3E0A2438E79B002F5A86 /* BoardLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardLayer.swift; sourceTree = "<group>"; };
 		C95B3E0C2438E7A8002F5A86 /* RiverLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverLayer.swift; sourceTree = "<group>"; };
 		C95B3E0E2439244D002F5A86 /* Tiles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Tiles.xcassets; sourceTree = "<group>"; };
-		C95D9D5F244A3147007C522E /* ScienceDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ScienceDialog.xml; sourceTree = "<group>"; };
-		C95D9D61244A3244007C522E /* ScienceDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceDialog.swift; sourceTree = "<group>"; };
+		C95D9D5F244A3147007C522E /* TechDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TechDialog.xml; sourceTree = "<group>"; };
+		C95D9D61244A3244007C522E /* TechDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDialog.swift; sourceTree = "<group>"; };
 		C95D9D64244A32A0007C522E /* TechDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDisplayNode.swift; sourceTree = "<group>"; };
 		C97CD39E243A3E9C00FABCC0 /* ResourceLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLayer.swift; sourceTree = "<group>"; };
 		C97CD3A0243A3F1200FABCC0 /* TextureUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureUtils.swift; sourceTree = "<group>"; };
@@ -396,6 +408,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C947871E2473F0FD00FAAC99 /* Popups */ = {
+			isa = PBXGroup;
+			children = (
+				C947871F2473F14300FAAC99 /* EurekaActivatedPopup.xml */,
+			);
+			path = Popups;
+			sourceTree = "<group>";
+		};
+		C94787212473F19100FAAC99 /* Popups */ = {
+			isa = PBXGroup;
+			children = (
+				C94787222473F1A400FAAC99 /* EurekaActivatedPopup.swift */,
+			);
+			path = Popups;
+			sourceTree = "<group>";
+		};
 		C95B3E052438E775002F5A86 /* Layer */ = {
 			isa = PBXGroup;
 			children = (
@@ -474,6 +502,8 @@
 				C9B1D2292434934600033791 /* MenuScene.swift */,
 				C9B1D24A2434C3D600033791 /* MenuSceneExtension.swift */,
 				C9B1D20C2434768900033791 /* GameScene.swift */,
+				C947871A2472C80B00FAAC99 /* GameSceneDialogs.swift */,
+				C947871C2472ECF700FAAC99 /* GameSceneUserInterface.swift */,
 				C95B3DF124386E8A002F5A86 /* GameSceneViewModel.swift */,
 				C95B3DED243726CD002F5A86 /* GameLoadingScene.swift */,
 				C9EC4E2424458B0E001A0597 /* PediaScene.swift */,
@@ -494,6 +524,7 @@
 			children = (
 				C9B1D2882435AFE300033791 /* Maps */,
 				C9B1D26424351BF200033791 /* Dialogs */,
+				C947871E2473F0FD00FAAC99 /* Popups */,
 				C9B1D2412434B98600033791 /* Fonts */,
 				C9F61480243471E200450B6C /* Info.plist */,
 				C9F61473243471D500450B6C /* SmartColony.xcdatamodeld */,
@@ -608,12 +639,13 @@
 				C922D2BD2449A24C009E182F /* CityNameDialog.swift */,
 				C9FEEBA2246035F100C51552 /* CityPopulationGrowthDialog.swift */,
 				C948684D24657AB400495988 /* CityManageCitizenDialog.swift */,
-				C95D9D61244A3244007C522E /* ScienceDialog.swift */,
+				C95D9D61244A3244007C522E /* TechDialog.swift */,
 				C9F91B3E244B98900081EDC8 /* CivicDialog.swift */,
 				C98B3DBF246C1C2600AF3AE4 /* DiplomaticDialog.swift */,
 				C9EB9F652454CD4900F13B02 /* InterimRankingDialog.swift */,
 				C90791782459D69600248596 /* GameHandicapDialog.swift */,
 				C907917A2459D6A600248596 /* GameLeaderDialog.swift */,
+				C94787162472845D00FAAC99 /* TreasuryDialog.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -635,12 +667,13 @@
 				C922D2BB2449A1A1009E182F /* CityNameDialog.xml */,
 				C9FEEBA42460367800C51552 /* CityPopulationGrowthDialog.xml */,
 				C948684F24657B4C00495988 /* CityManageCitizenDialog.xml */,
-				C95D9D5F244A3147007C522E /* ScienceDialog.xml */,
+				C95D9D5F244A3147007C522E /* TechDialog.xml */,
 				C9F91B40244B98BD0081EDC8 /* CivicDialog.xml */,
 				C9EB9F67245564F100F13B02 /* InterimRankingDialog.xml */,
 				C907917C2459D71F00248596 /* GameHandicapDialog.xml */,
 				C907917E2459D73100248596 /* GameLeaderDialog.xml */,
 				C98B3DC1246C1D2000AF3AE4 /* DiplomaticDialog.xml */,
+				C9478718247285DF00FAAC99 /* TreasuryDialog.xml */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -664,6 +697,7 @@
 			isa = PBXGroup;
 			children = (
 				C95B3DEB24371025002F5A86 /* earth_duel.map */,
+				C94787242474399000FAAC99 /* earth_small.map */,
 				C95B3DEC24371025002F5A86 /* earth_tiny.map */,
 				C9B1D28A2435B00F00033791 /* earth_huge.map */,
 				C9B1D28B2435B00F00033791 /* earth_large.map */,
@@ -699,6 +733,7 @@
 				C9B1D21C243478DF00033791 /* Data */,
 				C9B1D22D243495C600033791 /* Nodes */,
 				C9B1D24C2434C4E800033791 /* Dialogs */,
+				C94787212473F19100FAAC99 /* Popups */,
 				C9B1D2062434752E00033791 /* Scenes */,
 				C9B1D203243474E800033791 /* ViewControllers */,
 				C9B1D217243477AC00033791 /* Resources */,
@@ -837,16 +872,18 @@
 				C9B1D2472434B9AE00033791 /* DINNext-Bold.ttf in Resources */,
 				C99A591324643831006431EE /* CityBuildingsDialog.xml in Resources */,
 				C957AA50243641D300203024 /* MapLoadingDialog.xml in Resources */,
+				C94787202473F14400FAAC99 /* EurekaActivatedPopup.xml in Resources */,
 				C95B3E0F2439244D002F5A86 /* Tiles.xcassets in Resources */,
 				C9B1D223243481D900033791 /* Main.storyboard in Resources */,
 				C9F91B43244B9B3E0081EDC8 /* Civics.xcassets in Resources */,
-				C95D9D60244A3147007C522E /* ScienceDialog.xml in Resources */,
+				C95D9D60244A3147007C522E /* TechDialog.xml in Resources */,
 				C922D2BC2449A1A1009E182F /* CityNameDialog.xml in Resources */,
 				C9F91B57245038F20081EDC8 /* Buildings.xcassets in Resources */,
 				C99A590F2464376C006431EE /* CityManageProductionDialog.xml in Resources */,
 				C9F61479243471E200450B6C /* Assets.xcassets in Resources */,
 				C957AA52243641D300203024 /* MapClimateDialog.xml in Resources */,
 				C957AA51243641D300203024 /* MapRainfallDialog.xml in Resources */,
+				C9478719247285DF00FAAC99 /* TreasuryDialog.xml in Resources */,
 				C907917D2459D71F00248596 /* GameHandicapDialog.xml in Resources */,
 				C9EC4E2124445A16001A0597 /* CityDialog.xml in Resources */,
 			);
@@ -913,9 +950,11 @@
 				C948684E24657AB400495988 /* CityManageCitizenDialog.swift in Sources */,
 				C94DE1D624516B0B00B13F4D /* CircularProgressBarNode.swift in Sources */,
 				C9EB9F722455B12100F13B02 /* PolicyCardsTypeExtension.swift in Sources */,
+				C947871B2472C80B00FAAC99 /* GameSceneDialogs.swift in Sources */,
 				C9EB9F562451A95500F13B02 /* LeftHeaderBarNode.swift in Sources */,
 				C97CD3B0243B685200FABCC0 /* UnitObject.swift in Sources */,
 				C99A5911246437EE006431EE /* CityBuildingsDialog.swift in Sources */,
+				C947871D2472ECF700FAAC99 /* GameSceneUserInterface.swift in Sources */,
 				C95B3E092438E78E002F5A86 /* FeatureLayer.swift in Sources */,
 				C9B1D22A2434934600033791 /* MenuScene.swift in Sources */,
 				C9EC4E1924445082001A0597 /* CityLayer.swift in Sources */,
@@ -962,6 +1001,7 @@
 				C9F91B4F244EE87E0081EDC8 /* SectionHeaderButton.swift in Sources */,
 				C9F91B4D244ECB230081EDC8 /* FrameNode.swift in Sources */,
 				C95B3E0024387485002F5A86 /* PixelBuffer.swift in Sources */,
+				C94787172472845D00FAAC99 /* TreasuryDialog.swift in Sources */,
 				C9F91B59245045350081EDC8 /* BuildingTypeExtension.swift in Sources */,
 				C98B3DC0246C1C2600AF3AE4 /* DiplomaticDialog.swift in Sources */,
 				C9F91B45244B9B9A0081EDC8 /* CivicDisplayNode.swift in Sources */,
@@ -989,6 +1029,7 @@
 				C9B1D24B2434C3D600033791 /* MenuSceneExtension.swift in Sources */,
 				C9B1D2192434784800033791 /* SplashViewController.swift in Sources */,
 				C9EC4E2A2445ADAE001A0597 /* DialogResultType.swift in Sources */,
+				C94787232473F1A400FAAC99 /* EurekaActivatedPopup.swift in Sources */,
 				C95D9D65244A32A0007C522E /* TechDisplayNode.swift in Sources */,
 				C94DE1D824516BAC00B13F4D /* CGFloatExtension.swift in Sources */,
 				C95B3DF224386E8A002F5A86 /* GameSceneViewModel.swift in Sources */,
@@ -1001,7 +1042,7 @@
 				C9F91B3B244B91CA0081EDC8 /* TechTypeExtension.swift in Sources */,
 				C95B3DF02437975D002F5A86 /* GameViewModel.swift in Sources */,
 				C9B1D2382434B71900033791 /* MenuButtonNode.swift in Sources */,
-				C95D9D62244A3244007C522E /* ScienceDialog.swift in Sources */,
+				C95D9D62244A3244007C522E /* TechDialog.swift in Sources */,
 				C98B3DC4246C392E00AF3AE4 /* LeaderTypeExtension.swift in Sources */,
 				C9B1D27A24351F3500033791 /* DialogItemConfiguration.swift in Sources */,
 				C99234B02448759300F4B4AB /* CommandTypeExtension.swift in Sources */,

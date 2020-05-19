@@ -880,7 +880,7 @@ public class TacticalAI {
                             // Find a path to this space
                             if unit.canReach(at: neighbor, in: 1, in: gameModel) {
                                 // Go ahead with mission
-                                unit.push(mission: UnitMission(type: .moveTo, target: neighbor), in: gameModel)
+                                unit.push(mission: UnitMission(type: .moveTo, at: neighbor), in: gameModel)
                                 return true
                             }
                         }
@@ -1137,7 +1137,7 @@ public class TacticalAI {
                 if let bestPlot = bestPlot {
                     
                     // Move to the lowest danger value found
-                    currentUnit.push(mission: UnitMission(type: .moveTo, target: bestPlot), in: gameModel) // FIXME: , .ignoreDanger
+                    currentUnit.push(mission: UnitMission(type: .moveTo, at: bestPlot), in: gameModel) // FIXME: , .ignoreDanger
                     currentUnit.finishMoves()
                     self.unitProcessed(unit: currentUnit, in: gameModel)
                     
@@ -1222,7 +1222,7 @@ public class TacticalAI {
                 
             } else if currentMoveHighPriorityUnit.movesToTarget < Int.max {
                 
-                unit.push(mission: UnitMission(type: .moveTo, target: target.point), in: gameModel)
+                unit.push(mission: UnitMission(type: .moveTo, at: target.point), in: gameModel)
                 unit.finishMoves()
                 self.unitProcessed(unit: unit, in: gameModel)
                 return
@@ -1249,7 +1249,7 @@ public class TacticalAI {
                 
             } else if currentMoveUnit.movesToTarget < Int.max {
                 
-                unit.push(mission: UnitMission(type: .moveTo, target: target.point), in: gameModel)
+                unit.push(mission: UnitMission(type: .moveTo, at: target.point), in: gameModel)
                 unit.finishMoves()
                 self.unitProcessed(unit: unit, in: gameModel)
                 return
@@ -1919,14 +1919,14 @@ public class TacticalAI {
             
             if ranged && unit.domain() != .air  {
                 // Air attack is ranged, but it goes through the 'move to' mission.
-                unit.push(mission: UnitMission(type: .rangedAttack, target: target.target), in: gameModel)
+                unit.push(mission: UnitMission(type: .rangedAttack, at: target.target), in: gameModel)
             }
             //else if (pUnit->canNuke(NULL)) // NUKE tactical attack (ouch)
             //{
             //    pUnit->PushMission(CvTypes::getMISSION_NUKE(), pTarget->GetTargetX(), pTarget->GetTargetY());
             //}
             else {
-                unit.push(mission: UnitMission(type: .moveTo, target: target.target), in: gameModel)
+                unit.push(mission: UnitMission(type: .moveTo, at: target.target), in: gameModel)
             }
         }
 

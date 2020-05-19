@@ -76,6 +76,12 @@ class ImprovementLayer: SKNode {
             self.addChild(improvementSprite)
 
             self.textureUtils?.set(improvementSprite: improvementSprite, at: tile.point)
+        } else {
+            for buildType in BuildType.allImprovements {
+                if tile.buildProgress(of: buildType) > 0 {
+                    print("render \(buildType) pre building animation")
+                }
+            }
         }
     }
     

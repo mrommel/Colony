@@ -32,6 +32,7 @@
 ...
 
 ## Missing Tiles
+- beach-n-ne-se-sw-nw
 - snow-se-sw
 - snow-ne-se-sw-nw
 - snow-ne-se-s-sw-nw

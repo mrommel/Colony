@@ -14,9 +14,9 @@ public enum NotificationType {
     
     case generic
     
-    case tech
-    case civic
-    case production
+    case techNeeded
+    case civicNeeded
+    case productionNeeded
     
     case cityGrowth
     case starving
@@ -28,5 +28,9 @@ public enum NotificationType {
     case unitPromotion
     case unitNeedsOrders
     
-    case era
+    // popups ?
+    /*case eraStarted
+    case techCompleted
+    case civicCompleted
+    case eurekaActivated*/
 }

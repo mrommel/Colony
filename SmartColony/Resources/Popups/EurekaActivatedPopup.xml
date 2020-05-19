@@ -3,15 +3,15 @@
     <anchorx>center</anchorx>
     <anchory>center</anchory>
     <offsetx>0</offsetx>
-    <offsety>0</offsety>
+    <offsety>25%</offsety>
     <width>90%</width>
-    <height>300</height>
+    <height>50%</height>
     <background>grid9_dialog</background>
     
     <!-- sub items -->
     <items>
         <item>
-            <identifier>dialog_image</identifier>
+            <identifier>popup_image</identifier>
             <type>image</type>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
@@ -22,27 +22,28 @@
             <image>questionmark</image>
         </item>
         <item>
-            <identifier>summary</identifier>
+            <identifier>popup_title</identifier>
             <type>label</type>
-            <title>What should be the name of the city?</title>
+            <title>Eureka title</title>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-10</offsety>
+            <offsety>10</offsety>
             <width>200</width>
             <height>40</height>
         </item>
         <item>
-            <identifier>name_textfield</identifier>
-            <type>textfield</type>
-            <title>name</title>
+            <identifier>popup_summary</identifier>
+            <type>label</type>
+            <title>Eureka text</title>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-50</offsety>
+            <offsety>-40</offsety>
             <width>200</width>
             <height>40</height>
         </item>
+        
         <item>
             <identifier>okay_button</identifier>
             <type>button</type>
@@ -50,21 +51,9 @@
             <result>OKAY</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>-60</offsetx>
-            <offsety>-100</offsety>
-            <width>100</width>
-            <height>42</height>
-        </item>
-        <item>
-            <identifier>cancel_button</identifier>
-            <type>button</type>
-            <title>Cancel</title>
-            <result>CANCEL</result>
-            <anchorx>center</anchorx>
-            <anchory>center</anchory>
-            <offsetx>60</offsetx>
-            <offsety>-100</offsety>
-            <width>100</width>
+            <offsetx>0</offsetx>
+            <offsety>-120</offsety>
+            <width>200</width>
             <height>42</height>
         </item>
     </items>

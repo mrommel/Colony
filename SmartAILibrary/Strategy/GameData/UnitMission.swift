@@ -16,10 +16,11 @@ public class UnitMission {
     var startedInTurn: Int = -1
     var buildType: BuildType? = nil
 
-    init(type: UnitMissionType, target: HexPoint? = nil) {
+    public init(type: UnitMissionType, buildType: BuildType? = nil, at target: HexPoint? = nil) {
 
         self.type = type
         self.target = target
+        self.buildType = buildType
 
         if type.needsTarget() && target == nil {
             fatalError("need target")
@@ -409,7 +410,7 @@ public class UnitMission {
                     }
                 } else if self.type == .build {
                     if let buildType = self.buildType {
-                        if !unit.canContinueBuild(build: buildType, in: gameModel) {
+                        if !unit.continueBuilding(build: buildType, in: gameModel) {
                             done = true
                         }
                     }
@@ -574,7 +575,6 @@ public class UnitMission {
                     //GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
                 }
             }
-
         }
     }
 }

@@ -56,11 +56,11 @@ class PlayerScoringTests: XCTestCase {
         
         let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
         city1.initialize(in: gameModel)
-        mapModel.add(city: city1)
+        mapModel.add(city: city1, in: gameModel)
         
         let city2 = City(name: "Potsdam", at: HexPoint(x: 3, y: 5), owner: self.objectToTest)
         city2.initialize(in: gameModel)
-        mapModel.add(city: city2)
+        mapModel.add(city: city2, in: gameModel)
 
         // WHEN
         let score = self.objectToTest!.score(for: gameModel)
@@ -83,11 +83,11 @@ class PlayerScoringTests: XCTestCase {
         
         let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
         city1.initialize(in: gameModel)
-        mapModel.add(city: city1)
+        mapModel.add(city: city1, in: gameModel)
         
         let city2 = City(name: "Potsdam", at: HexPoint(x: 3, y: 5), owner: self.objectToTest)
         city2.initialize(in: gameModel)
-        mapModel.add(city: city2)
+        mapModel.add(city: city2, in: gameModel)
 
         // WHEN
         let score = self.objectToTest!.score(for: gameModel)
@@ -147,7 +147,7 @@ class PlayerScoringTests: XCTestCase {
         
         let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
         city1.initialize(in: gameModel)
-        mapModel.add(city: city1)
+        mapModel.add(city: city1, in: gameModel)
         
         try! city1.wonders?.build(wonder: .pyramids)
 
@@ -172,7 +172,7 @@ class PlayerScoringTests: XCTestCase {
         
         let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
         city1.initialize(in: gameModel)
-        mapModel.add(city: city1)
+        mapModel.add(city: city1, in: gameModel)
 
         try! city1.wonders?.build(wonder: .pyramids)
         try! city1.wonders?.build(wonder: .greatBath)
@@ -198,7 +198,7 @@ class PlayerScoringTests: XCTestCase {
         
         let city1 = City(name: "Berlin", at: HexPoint(x: 1, y: 1), owner: self.objectToTest)
         city1.initialize(in: gameModel)
-        mapModel.add(city: city1)
+        mapModel.add(city: city1, in: gameModel)
 
         self.objectToTest?.updatePlots(in: gameModel)
 

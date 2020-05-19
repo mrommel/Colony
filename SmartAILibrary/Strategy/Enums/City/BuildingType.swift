@@ -151,7 +151,7 @@ public enum BuildingType: Int, Codable {
     }
 
     // in gold
-    func maintenanceCosts() -> Int {
+    func maintenanceCost() -> Int {
 
         switch self {
 

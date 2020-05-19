@@ -75,6 +75,7 @@ public protocol AbstractPlayer: class {
     func valueOfStrategyAndPersonalityApproach(of approach: PlayerApproachType) -> Int
     func personalAndGrandStrategyFlavor(for flavorType: FlavorType) -> Int
 
+    func calculateGoldPerTurn(in gamemModel: GameModel?) -> Double
     func hasGoldenAge() -> Bool
     
     func prepareTurn(in gamemModel: GameModel?)
@@ -206,6 +207,7 @@ public class Player: AbstractPlayer {
     
     internal var resourceInventory: ResourceInventory?
     internal var improvementCountList: ImprovementCountList
+    internal var totalImprovementsBuilt: Int
     
     private var turnActive: Bool = false
     private var finishTurnButtonPressedValue: Bool = false
@@ -234,6 +236,8 @@ public class Player: AbstractPlayer {
         
         self.improvementCountList = ImprovementCountList()
         self.improvementCountList.fill()
+        
+        self.totalImprovementsBuilt = 0
     }
 
     // public methods
@@ -368,7 +372,7 @@ public class Player: AbstractPlayer {
         
         // update eureka
         if !techs.eurekaTriggered(for: .writing) {
-            techs.triggerEureka(for: .writing)
+            techs.triggerEureka(for: .writing, in: gameModel)
         }
     }
 
@@ -426,6 +430,7 @@ public class Player: AbstractPlayer {
             notifications.update(in: gameModel)
         }
 
+        //if self.diplomacyRequests.up
         /*if (GetDiplomacyRequests())
         {
             GetDiplomacyRequests()->Update();
@@ -480,6 +485,15 @@ public class Player: AbstractPlayer {
     public func hasGoldenAge() -> Bool {
         
         return false
+    }
+    
+    public func calculateGoldPerTurn(in gameModel: GameModel?) -> Double {
+        
+        guard let treasury = self.treasury else {
+            fatalError("cant get treasury")
+        }
+        
+        return treasury.calculateGrossGold(in: gameModel)
     }
     
     func hasActiveDiploRequestWithHuman() -> Bool {
@@ -1434,7 +1448,7 @@ public class Player: AbstractPlayer {
             if self.isActive() {
                 let isOrAre = self.leader.civilization().isPlural() ? "are" : "is"
                 let message = "\(self.leader.civilization()) \(isOrAre) ready for a new construction project."
-                self.notifications()?.add(type: .production, for: self, message: message, summary: message, at: location)
+                self.notifications()?.add(type: .productionNeeded, for: self, message: message, summary: message, at: location)
             }
             
             city.doFoundMessage()
@@ -1443,7 +1457,7 @@ public class Player: AbstractPlayer {
             if techs.needToChooseTech() && self.science(in: gameModel) > 0.0 {
                 
                 if self.isActive() {
-                    self.notifications()?.add(type: .tech, for: self, message: "You may select a new research project.", summary: "Choose Research", at: HexPoint.zero)
+                    self.notifications()?.add(type: .techNeeded, for: self, message: "You may select a new research project.", summary: "Choose Research", at: HexPoint.zero)
                 }
             }
             
@@ -1451,7 +1465,7 @@ public class Player: AbstractPlayer {
             if civics.needToChooseCivic() && self.culture(in: gameModel) > 0.0 {
                 
                 if self.isActive() {
-                    self.notifications()?.add(type: .civic, for: self, message: "You may select a new civic project.", summary: "Choose Civic", at: HexPoint.zero)
+                    self.notifications()?.add(type: .civicNeeded, for: self, message: "You may select a new civic project.", summary: "Choose Civic", at: HexPoint.zero)
                 }
             }
             
@@ -2065,7 +2079,7 @@ public class Player: AbstractPlayer {
     
     public func changeTotalImprovementsBuilt(change: Int) {
         
-        fatalError("niy")
+        self.totalImprovementsBuilt += change
     }
     
     public func isEqual(to other: AbstractPlayer?) -> Bool {
@@ -2745,7 +2759,7 @@ public class Player: AbstractPlayer {
             
             if gold > 0 {
                 
-                self.treasury?.add(gold: Double(gold))
+                self.treasury?.changeGold(by: Double(gold))
 
                 if self.isHuman() {
                     gameModel.userInterface?.showTooltip(at: point, text: "\(gold)", delay: 2.0)
@@ -2942,7 +2956,7 @@ public class Player: AbstractPlayer {
         let gold = goody.gold() + goody.numGoldRandRolls() * Int.random(maximum: goody.goldRandAmount())
 
         if gold != 0 {
-            self.treasury?.add(gold: Double(gold))
+            self.treasury?.changeGold(by: Double(gold))
 
             //strBuffer += GetLocalizedText("TXT_KEY_MISC_RECEIVED_GOLD", iGold);
         }

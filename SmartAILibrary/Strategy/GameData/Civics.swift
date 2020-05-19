@@ -38,7 +38,7 @@ public protocol AbstractCivics {
     func eurekaValue(for civicType: CivicType) -> Int
     func changeEurekaValue(for civicType: CivicType, change: Int)
     func eurekaTriggered(for civicType: CivicType) -> Bool
-    func triggerEureka(for civicType: CivicType)
+    func triggerEureka(for civicType: CivicType, in gameModel: GameModel?)
 }
 
 class Civics: AbstractCivics {
@@ -351,17 +351,19 @@ class Civics: AbstractCivics {
 
                 // trigger event to user
                 if player.isHuman() {
-                    self.player?.notifications()?.add(type: .civic, for: player, message: "You have discovered the civic '\(currentCivic)'.", summary: "Civic discovered")
+                    gameModel?.userInterface?.showPopup(popupType: .civicDiscovered, with: PopupData(civic: currentCivic))
                 }
 
                 // enter era
                 if currentCivic.era() > player.currentEra() {
 
+                    gameModel?.enter(era: currentCivic.era(), for: player)
+                    
                     if player.isHuman() {
-                        gameModel?.enter(era: currentCivic.era(), for: player)
-                        // gameModel?.add(message: EnteredEraMessage(with: currentCivic.era()))
-                        self.player?.notifications()?.add(type: .era, for: player, message: "You have entered a new Era", summary: "New era")
+                        gameModel?.userInterface?.showPopup(popupType: .eraEntered, with: PopupData(era: currentCivic.era()))
                     }
+                    
+                    player.set(era: currentCivic.era())
                 }
 
                 self.currentCivicValue = nil
@@ -400,8 +402,17 @@ class Civics: AbstractCivics {
         return self.eurekas.eurakaTrigger.triggered(for: civicType)
     }
 
-    func triggerEureka(for civicType: CivicType) {
+    func triggerEureka(for civicType: CivicType, in gameModel: GameModel?) {
 
+        guard let player = self.player else {
+            fatalError("Can't trigger eureka - no player present")
+        }
+        
         self.eurekas.eurakaTrigger.trigger(for: civicType)
+        
+        // trigger event to user
+        if player.isHuman() {
+            gameModel?.userInterface?.showPopup(popupType: .eurekaActivated, with: PopupData(civic: civicType))
+        }
     }
 }

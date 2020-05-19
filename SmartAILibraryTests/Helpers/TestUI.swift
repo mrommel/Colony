@@ -11,8 +11,12 @@ import Foundation
 @testable import SmartAILibrary
 
 class TestUI: UserInterfaceProtocol {
+    
+    func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?) { }
+    
+    func update(city: AbstractCity?) { }
 
-    func showPopup(popupType: PopupType, data: PopupData?) { }
+    func showPopup(popupType: PopupType, with data: PopupData?) { }
 
     func showScreen(screenType: ScreenType, city: AbstractCity?) { }
     

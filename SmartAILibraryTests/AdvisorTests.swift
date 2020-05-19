@@ -34,21 +34,21 @@ class AdvisorTests: XCTestCase {
         // setup the map
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .small)
         
-        mapModel.discover(by: playerAlexander, at: HexPoint(x: 1, y: 1))
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        
+        mapModel.discover(by: playerAlexander, at: HexPoint(x: 1, y: 1), in: gameModel)
         try! mapModel.set(owner: playerAlexander, at: HexPoint(x: 1, y: 1))
         mapModel.set(improvement: .farm, at: HexPoint(x: 1, y: 1))
         
-        mapModel.discover(by: playerAlexander, at: HexPoint(x: 1, y: 2))
+        mapModel.discover(by: playerAlexander, at: HexPoint(x: 1, y: 2), in: gameModel)
         try! mapModel.set(owner: playerAlexander, at: HexPoint(x: 1, y: 2))
         mapModel.set(improvement: .farm, at: HexPoint(x: 1, y: 2))
-        
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
         
         // add the city to the map
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
 
-        mapModel.add(city: self.objectToTest)
+        mapModel.add(city: self.objectToTest, in: gameModel)
         
         let ui = TestUI()
         gameModel.userInterface = ui
@@ -83,7 +83,7 @@ class AdvisorTests: XCTestCase {
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
         
-        mapModel.add(city: self.objectToTest)
+        mapModel.add(city: self.objectToTest, in: gameModel)
         
         let ui = TestUI()
         gameModel.userInterface = ui
@@ -137,7 +137,7 @@ class AdvisorTests: XCTestCase {
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
         self.objectToTest?.set(population: 2, reassignCitizen: false, in: gameModel)
-        mapModel.add(city: self.objectToTest)
+        mapModel.add(city: self.objectToTest, in: gameModel)
         
         // center
         let centerTile = mapModel.tile(at: HexPoint(x: 1, y: 1))
@@ -152,10 +152,10 @@ class AdvisorTests: XCTestCase {
         anotherTile?.set(improvement: .mine)
         
         // units
-        mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAlexander))
-        mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 1), type: .warrior, owner: playerAlexander))
-        mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 2), type: .warrior, owner: playerAlexander))
-        mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 3), type: .warrior, owner: playerAlexander))
+        mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAlexander), in: gameModel)
+        mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 1), type: .warrior, owner: playerAlexander), in: gameModel)
+        mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 2), type: .warrior, owner: playerAlexander), in: gameModel)
+        mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 3), type: .warrior, owner: playerAlexander), in: gameModel)
         
         // WHEN
         for _ in 0..<30 {
