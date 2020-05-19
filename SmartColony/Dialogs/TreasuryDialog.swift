@@ -28,16 +28,16 @@ class TreasuryDialogViewModel {
         }
             
         // in
-        self.goldFromCitiesValue = String(format: "%.1", treasury.goldFromCities(in: gameModel))
-        self.goldFromDiplomacyValue = String(format: "%.1", treasury.goldPerTurnFromDiplomacy(in: gameModel))
+        self.goldFromCitiesValue = String(format: "%.1f", treasury.goldFromCities(in: gameModel))
+        self.goldFromDiplomacyValue = String(format: "%.1f", treasury.goldPerTurnFromDiplomacy(in: gameModel))
         
         // out
-        self.goldForCityMaintenanceValue = String(format: "%.1", treasury.goldForBuildingMaintenance(in: gameModel))
-        self.goldForUnitMaintenanceValue = String(format: "%.1", treasury.goldForUnitMaintenance(in: gameModel))
-        self.goldForDiplomacyValue = String(format: "%.1", treasury.goldPerTurnForDiplomacy(in: gameModel))
+        self.goldForCityMaintenanceValue = String(format: "%.1f", treasury.goldForBuildingMaintenance(in: gameModel))
+        self.goldForUnitMaintenanceValue = String(format: "%.1f", treasury.goldForUnitMaintenance(in: gameModel))
+        self.goldForDiplomacyValue = String(format: "%.1f", treasury.goldPerTurnForDiplomacy(in: gameModel))
         
         // saldo
-        self.incomeValue = String(format: "%.1", treasury.calculateGrossGold(in: gameModel))
+        self.incomeValue = String(format: "%.1f", treasury.calculateGrossGold(in: gameModel))
     }
 }
 

@@ -27,12 +27,12 @@ class CityPopulationGrowthViewModel {
         
         self.cityName = city.name
         
-        self.lastTurnFoodHarvested = String(format: "%.1", city.lastTurnFoodHarvested())
-        self.foodConsumption = String(format: "%.1", city.foodConsumption())
-        self.foodSurplus = String(format: "%.1", (city.lastTurnFoodHarvested() - city.foodConsumption()))
-        self.amenitiesModifier = String(format: "%.1", city.amenitiesModifier(in: gameModel))
-        self.housingModifier = String(format: "%.1", city.housingModifier(in: gameModel))
-        self.lastTurnFoodEarned = String(format: "%.1", city.lastTurnFoodEarned())
+        self.lastTurnFoodHarvested = String(format: "%.1f", city.lastTurnFoodHarvested())
+        self.foodConsumption = String(format: "%.1f", city.foodConsumption())
+        self.foodSurplus = String(format: "%.1f", (city.lastTurnFoodHarvested() - city.foodConsumption()))
+        self.amenitiesModifier = String(format: "%.1f", city.amenitiesModifier(in: gameModel))
+        self.housingModifier = String(format: "%.1f", city.housingModifier(in: gameModel))
+        self.lastTurnFoodEarned = String(format: "%.1f", city.lastTurnFoodEarned())
         self.growthInTurns = "\(city.growthInTurns())"
     }
 }

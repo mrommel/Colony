@@ -49,7 +49,8 @@ class YieldDisplayNode: SKNode {
         self.addChild(self.yieldIconNode!)
 
         let prefix = value >= 0.0 ? "+" : ""
-        self.yieldLabelNode = SKLabelNode(text: "\(prefix)\(value)")
+        let valueStr = String(format: "%.1f", value)
+        self.yieldLabelNode = SKLabelNode(text: "\(prefix)\(valueStr)")
         self.yieldLabelNode?.position = CGPoint(x: 54, y: -26)
         self.yieldLabelNode?.zPosition = self.zPosition + 1
         self.yieldLabelNode?.fontSize = 14
