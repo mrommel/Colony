@@ -31,8 +31,8 @@ public class PopupData {
     let production: Int
     let cityName: String
     
-    let tech: TechType
-    let civic: CivicType
+    public let tech: TechType
+    public let civic: CivicType
     
     let era: EraType
     

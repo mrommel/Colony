@@ -49,35 +49,26 @@ class Civics: AbstractCivics {
     // user properties / values
     var player: Player?
     private var currentCivicValue: CivicType? = nil
-    var currentCultureProgressValue: Double = 0.0
     var lastCultureEarnedValue: Double = 1.0
+    private var progress: WeightedCivicList
 
     // heureka
     private var eurekas: Eurekas
 
     // MARK: internal types
 
-    class WeightedCivics {
+    class WeightedCivicList: WeightedList<CivicType> {
 
-        var civics: [WeightedCivic]
+        override func fill() {
 
-        struct WeightedCivic {
-            let civic: CivicType
-            let value: Double
-        }
-
-        init() {
-            self.civics = []
-        }
-
-        func add(civic: CivicType, with weight: Double) {
-
-            self.civics.append(WeightedCivic(civic: civic, value: weight))
+            for techType in CivicType.all {
+                self.add(weight: 0, for: techType)
+            }
         }
 
         func sortByWeight() {
 
-            self.civics.sort { $0.value > $1.value }
+            self.items.sort { $0.weight > $1.weight }
         }
     }
 
@@ -137,22 +128,36 @@ class Civics: AbstractCivics {
         self.player = player
 
         self.eurekas = Eurekas()
+        self.progress = WeightedCivicList()
+        self.progress.fill()
     }
 
     public func currentCultureProgress() -> Double {
 
-        return self.currentCultureProgressValue
+        if let currentCivic = self.currentCivicValue {
+            return self.progress.weight(of: currentCivic)
+        }
+
+        return 0.0
+    }
+    
+    private func turnsRemaining(for civicType: CivicType) -> Int {
+
+        if self.lastCultureEarnedValue > 0.0 {
+
+            let cost: Double = Double(civicType.cost())
+            let remaining = cost - self.progress.weight(of: civicType)
+
+            return Int(remaining / self.lastCultureEarnedValue + 0.5)
+        }
+
+        return 0
     }
 
     public func currentCultureTurnsRemaining() -> Int {
-
-        if self.lastCultureEarnedValue > 0.0 {
-            if let current = self.currentCivicValue {
-                let cost: Double = Double(current.cost())
-                let remaining = cost - self.currentCultureProgressValue
-
-                return Int(remaining / self.lastCultureEarnedValue + 0.5)
-            }
+        
+        if let currentCivic = self.currentCivicValue {
+            return self.turnsRemaining(for: currentCivic)
         }
 
         return 0
@@ -250,13 +255,15 @@ class Civics: AbstractCivics {
 
     func add(culture: Double) {
 
-        self.currentCultureProgressValue += culture
+        if let currentCivic = self.currentCivicValue {
+            self.progress.add(weight: culture, for: currentCivic)
+        }
         self.lastCultureEarnedValue = culture
     }
 
     func chooseNextCivic() -> CivicType {
 
-        let weightedCivics: WeightedCivics = WeightedCivics()
+        let weightedCivics: WeightedCivicList = WeightedCivicList()
         let possibleCivicsList = self.possibleCivics()
 
         for possibleCivic in possibleCivicsList {
@@ -291,7 +298,7 @@ class Civics: AbstractCivics {
             }
 
             // revalue based on cost / number of turns
-            let numberOfTurnsLeft = self.cost(of: possibleCivic) / self.lastCultureEarnedValue
+            let numberOfTurnsLeft = self.turnsRemaining(for: possibleCivic)
             let additionalTurnCostFactor = 0.015 * Double(numberOfTurnsLeft)
             let totalCostFactor = 0.15 + additionalTurnCostFactor
             let weightDivisor = pow(Double(numberOfTurnsLeft), totalCostFactor)
@@ -299,7 +306,7 @@ class Civics: AbstractCivics {
             // modify weight
             weightByFlavor = Double(weightByFlavor) / weightDivisor
 
-            weightedCivics.add(civic: possibleCivic, with: weightByFlavor)
+            weightedCivics.add(weight: weightByFlavor, for: possibleCivic)
         }
 
         // select one
@@ -307,7 +314,7 @@ class Civics: AbstractCivics {
         let selectedIndex = Int.random(number: numberOfSelectable)
 
         weightedCivics.sortByWeight()
-        let selectedTech = weightedCivics.civics[selectedIndex].civic
+        let selectedTech = weightedCivics.items[selectedIndex].itemType
 
         return selectedTech
     }
@@ -344,7 +351,7 @@ class Civics: AbstractCivics {
             return
         }
 
-        if self.currentCultureProgressValue >= self.cost(of: currentCivic) {
+        if self.currentCultureProgress() >= Double(currentCivic.cost()) {
 
             do {
                 try self.discover(civic: currentCivic)
@@ -374,19 +381,6 @@ class Civics: AbstractCivics {
         }
     }
 
-    // eurekas
-    private func cost(of civicType: CivicType) -> Double {
-
-        var costValue = Double(civicType.cost())
-
-        // eureka gives 50% off
-        if self.eurekas.triggered(for: civicType) {
-            costValue /= 2.0
-        }
-
-        return costValue
-    }
-
     func eurekaValue(for civicType: CivicType) -> Int {
 
         return Int(self.eurekas.eurekaCounter.weight(of: civicType))
@@ -408,7 +402,15 @@ class Civics: AbstractCivics {
             fatalError("Can't trigger eureka - no player present")
         }
         
+        // check if already active
+        if self.eurekaTriggered(for: civicType) {
+            return
+        }
+        
         self.eurekas.eurakaTrigger.trigger(for: civicType)
+        
+        // update progress
+        self.progress.add(weight: Double(civicType.cost()) * 0.5, for: civicType)
         
         // trigger event to user
         if player.isHuman() {

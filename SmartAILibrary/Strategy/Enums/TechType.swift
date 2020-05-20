@@ -16,6 +16,7 @@ public struct TechAchievements {
     public let buildTypes: [BuildType]
 }
 
+// https://github.com/fredzgreen/Civilization6_SwedishTranslation/blob/2591dc66a1674477a1857763d0b46e88d00a265b/XMLFiles/Technologies_Text.xml
 public enum TechType: String, Codable {
     
     case none
@@ -147,6 +148,11 @@ public enum TechType: String, Codable {
         
         return self.data().eurekaSummary
     }
+    
+    public func eurekaDescription() -> String {
+        
+        return self.data().eurekaDescription
+    }
 
     func era() -> EraType {
 
@@ -243,6 +249,7 @@ public enum TechType: String, Codable {
         
         let name: String
         let eurekaSummary: String
+        let eurekaDescription: String
         let era: EraType
         let cost: Int
         let required: [TechType]
@@ -256,6 +263,7 @@ public enum TechType: String, Codable {
         case .none:
             return TechTypeData(name: "---",
                                 eurekaSummary: "",
+                                eurekaDescription: "",
                                 era: .ancient,
                                 cost: -1,
                                 required: [],
@@ -265,6 +273,7 @@ public enum TechType: String, Codable {
         case .mining:
             return TechTypeData(name: "Mining",
                                 eurekaSummary: "",
+                                eurekaDescription: "",
                                 era: .ancient,
                                 cost: 25,
                                 required: [],
@@ -272,6 +281,7 @@ public enum TechType: String, Codable {
         case .pottery:
             return TechTypeData(name: "Pottery",
                                 eurekaSummary: "",
+                                eurekaDescription: "",
                                 era: .ancient,
                                 cost: 25,
                                 required: [],
@@ -279,6 +289,7 @@ public enum TechType: String, Codable {
         case .animalHusbandry:
             return TechTypeData(name: "Animal Husbandry",
                                 eurekaSummary: "",
+                                eurekaDescription: "",
                                 era: .ancient,
                                 cost: 25,
                                 required: [],
@@ -286,6 +297,7 @@ public enum TechType: String, Codable {
         case .sailing:
             return TechTypeData(name: "Sailing",
                                 eurekaSummary: "Found a city on the Coast",
+                                eurekaDescription: "Gaining a city on the Coast has given your civilization insight into navigating the waves.",
                                 era: .ancient,
                                 cost: 50,
                                 required: [],
@@ -293,6 +305,7 @@ public enum TechType: String, Codable {
         case .astrology:
             return TechTypeData(name: "Astrology",
                                 eurekaSummary: "Find a Natural Wonder",
+                                eurekaDescription: "Discovering a natural wonder has inspired your people with the majesty of the universe.",
                                 era: .ancient,
                                 cost: 50,
                                 required: [],
@@ -300,6 +313,7 @@ public enum TechType: String, Codable {
         case .irrigation:
             return TechTypeData(name: "Irrigation",
                                 eurekaSummary: "Farm a resource",
+                                eurekaDescription: "Farming a resource has given you an appreciation of the importance of irrigating your crops.",
                                 era: .ancient,
                                 cost: 50,
                                 required: [.pottery],
@@ -307,6 +321,7 @@ public enum TechType: String, Codable {
         case .writing:
             return TechTypeData(name: "Writing",
                                 eurekaSummary: "Meet another civilization",
+                                eurekaDescription: "After meeting another civilization you see the need for new ways to communicate.",
                                 era: .ancient,
                                 cost: 50,
                                 required: [.pottery],
@@ -314,6 +329,7 @@ public enum TechType: String, Codable {
         case .masonry:
             return TechTypeData(name: "Masonry",
                                 eurekaSummary: "Build a Quarry",
+                                eurekaDescription: "Quarrying a resource has given you the raw materials you need to employ masons.",
                                 era: .ancient,
                                 cost: 80,
                                 required: [.mining],
@@ -321,6 +337,7 @@ public enum TechType: String, Codable {
         case .archery:
             return TechTypeData(name: "Archery",
                                 eurekaSummary: "Kill a unit with a Slinger",
+                                eurekaDescription: "After finally killing an enemy with a Slinger, you long for a stronger ranged weapon.",
                                 era: .ancient,
                                 cost: 50,
                                 required: [.animalHusbandry],
@@ -328,6 +345,7 @@ public enum TechType: String, Codable {
         case .bronzeWorking:
             return TechTypeData(name: "Bronze Working",
                                 eurekaSummary: "Kill 3 Barbarians",
+                                eurekaDescription: "Your fights with Barbarians highlight the need for stronger weaponry.",
                                 era: .ancient,
                                 cost: 80,
                                 required: [.mining],
@@ -335,6 +353,7 @@ public enum TechType: String, Codable {
         case .wheel:
             return TechTypeData(name: "Wheel",
                                 eurekaSummary: "Mine a resource",
+                                eurekaDescription: "Your mining operations have given you the ability to create an axle. Will the wheel follow?",
                                 era: .ancient,
                                 cost: 80,
                                 required: [.mining],
@@ -344,6 +363,7 @@ public enum TechType: String, Codable {
         case .celestialNavigation:
             return TechTypeData(name: "Celestrial Navigation",
                                 eurekaSummary: "Improve 2 Sea Resources",
+                                eurekaDescription: "Your fishermen are learning how to guide their travels based on studying the night sky.",
                                 era: .classical,
                                 cost: 120,
                                 required: [.sailing, .astrology],
@@ -351,6 +371,7 @@ public enum TechType: String, Codable {
         case .horsebackRiding:
             return TechTypeData(name: "Horseback Riding",
                                 eurekaSummary: "Build a Pasture",
+                                eurekaDescription: "With animals now domesticated into Pastures, it is time to learn to ride.",
                                 era: .classical,
                                 cost: 120,
                                 required: [.animalHusbandry],
@@ -358,6 +379,7 @@ public enum TechType: String, Codable {
         case .currency:
             return TechTypeData(name: "Currency",
                                 eurekaSummary: "Make a Trade Route",
+                                eurekaDescription: "Your [ICON_TradeRoute] Trade Route directly exchanges goods, but a medium of exchange would make trade more flexible.",
                                 era: .classical,
                                 cost: 120,
                                 required: [.writing],
@@ -365,6 +387,7 @@ public enum TechType: String, Codable {
         case .construction:
             return TechTypeData(name: "Construction",
                                 eurekaSummary: "Build a Water Mill",
+                                eurekaDescription: "Work on the Water Mill has taught your workers much about construction practices.",
                                 era: .classical,
                                 cost: 200,
                                 required: [.masonry, .horsebackRiding],
@@ -372,6 +395,7 @@ public enum TechType: String, Codable {
         case .ironWorking:
             return TechTypeData(name: "Iron Working",
                                 eurekaSummary: "Build an Iron Mine",
+                                eurekaDescription: "Access to a steady source of Iron has enabled you to build better weapons and stronger armor.",
                                 era: .classical,
                                 cost: 120,
                                 required: [.bronzeWorking],
@@ -379,6 +403,7 @@ public enum TechType: String, Codable {
         case .shipBuilding:
             return TechTypeData(name: "Ship Building",
                                 eurekaSummary: "Own 2 Galleys",
+                                eurekaDescription: "Constructing a squadron of Galleys has taught you much about building larger ships.",
                                 era: .classical,
                                 cost: 200,
                                 required: [.sailing],
@@ -386,6 +411,7 @@ public enum TechType: String, Codable {
         case .mathematics:
             return TechTypeData(name: "Mathematics",
                                 eurekaSummary: "Build 3 Specialty Districts",
+                                eurekaDescription: "Your district planners have worked out the basics of geometry. Maybe a full mathematical system will follow soon?",
                                 era: .classical,
                                 cost: 200,
                                 required: [.currency],
@@ -393,6 +419,7 @@ public enum TechType: String, Codable {
         case .engineering:
             return TechTypeData(name: "Engeneering",
                                 eurekaSummary: "Build Ancient Walls",
+                                eurekaDescription: "Completing walls around your city demonstrated the principles of engineering needed for Aqueducts and Catapults.",
                                 era: .classical,
                                 cost: 200,
                                 required: [.wheel],
@@ -402,6 +429,7 @@ public enum TechType: String, Codable {
         case .militaryTactics:
             return TechTypeData(name: "Military Tactics",
                                 eurekaSummary: "Kill a unit with a Spearman",
+                                eurekaDescription: "Your spearmen are proving effective, but now your opponents are stronger and faster. Perhaps a longer weapon is needed?",
                                 era: .medieval,
                                 cost: 275,
                                 required: [.mathematics],
@@ -409,6 +437,7 @@ public enum TechType: String, Codable {
         case .buttress:
             return TechTypeData(name: "Buttress",
                                 eurekaSummary: "Build a Classical Era or later Wonder",
+                                eurekaDescription: "",
                                 era: .medieval,
                                 cost: 300,
                                 required: [.shipBuilding, .mathematics],
@@ -416,6 +445,7 @@ public enum TechType: String, Codable {
         case .apprenticesship:
             return TechTypeData(name: "Apprenticesship",
                                 eurekaSummary: "Build 3 Mines",
+                                eurekaDescription: "With raw materials now coming in from a wide variety of mines, the need to better teach new craftsmen to use them is essential.",
                                 era: .medieval,
                                 cost: 275,
                                 required: [.currency, .horsebackRiding],
@@ -423,6 +453,7 @@ public enum TechType: String, Codable {
         case .stirrups:
             return TechTypeData(name: "Stirrups",
                                 eurekaSummary: "Have the Feudalism civic",
+                                eurekaDescription: "The feudal lords in your realm want a champion to defend their lands. Perhaps mounting an armored warrior will do the trick?",
                                 era: .medieval,
                                 cost: 360,
                                 required: [.horsebackRiding],
@@ -430,6 +461,7 @@ public enum TechType: String, Codable {
         case .machinery:
             return TechTypeData(name: "Machinery",
                                 eurekaSummary: "Own 3 Archers",
+                                eurekaDescription: "You look to machinery to improve the performance of your sizable contingent of ranged troops.",
                                 era: .medieval,
                                 cost: 275,
                                 required: [.ironWorking, .engineering],
@@ -437,6 +469,7 @@ public enum TechType: String, Codable {
         case .education:
             return TechTypeData(name: "Education",
                                 eurekaSummary: "Earn a Great Scientist",
+                                eurekaDescription: "The teachings from your Great Scientist have inspired a renewed interest in learning in your realm.",
                                 era: .medieval,
                                 cost: 335,
                                 required: [.apprenticesship, .mathematics],
@@ -444,6 +477,7 @@ public enum TechType: String, Codable {
         case .militaryEngineering:
             return TechTypeData(name: "Military Engineering",
                                 eurekaSummary: "Build an Aqueduct",
+                                eurekaDescription: "Your military leaders carefully followed the progress on your aqueduct. They see new ways to use these engineering skills.",
                                 era: .medieval,
                                 cost: 335,
                                 required: [.construction],
@@ -451,6 +485,7 @@ public enum TechType: String, Codable {
         case .castles:
             return TechTypeData(name: "Castles",
                                 eurekaSummary: "Have a government with 6 policy slots",
+                                eurekaDescription: "Our new government’s defense minister suggests that we might want to build impressive defenses to protect our bustling capital.",
                                 era: .medieval,
                                 cost: 390,
                                 required: [.construction],
@@ -460,6 +495,7 @@ public enum TechType: String, Codable {
         case .cartography:
             return TechTypeData(name: "Cartography",
                                 eurekaSummary: "Build 2 Harbors",
+                                eurekaDescription: "With so many ships leaving the harbors of your empire you long to document your explorations.",
                                 era: .renaissance,
                                 cost: 490,
                                 required: [.shipBuilding],
@@ -467,6 +503,7 @@ public enum TechType: String, Codable {
         case .massProduction:
             return TechTypeData(name: "Mass Production",
                                 eurekaSummary: "Build a Lumber Mill",
+                                eurekaDescription: "Now that you have a ready supply of standardized boards, your shipping industry will soon take off.",
                                 era: .renaissance,
                                 cost: 490,
                                 required: [.education, .shipBuilding],
@@ -474,6 +511,7 @@ public enum TechType: String, Codable {
         case .banking:
             return TechTypeData(name: "Banking",
                                 eurekaSummary: "Have the Guilds civic",
+                                eurekaDescription: "Your emerging guilds have plans that require a large influx of gold. Perhaps we can find a way to let them take out a loan?",
                                 era: .renaissance,
                                 cost: 490,
                                 required: [.education, .apprenticesship, .stirrups],
@@ -481,6 +519,7 @@ public enum TechType: String, Codable {
         case .gunpowder:
             return TechTypeData(name: "Gunpowder",
                                 eurekaSummary: "Build an Armory",
+                                eurekaDescription: "Your men at the armory are fashioning a new weapon that will devastate opponents.",
                                 era: .renaissance,
                                 cost: 490,
                                 required: [.militaryEngineering, .stirrups, .apprenticesship],
@@ -488,6 +527,7 @@ public enum TechType: String, Codable {
         case .printing:
             return TechTypeData(name: "Printing",
                                 eurekaSummary: "Build 2 Universities",
+                                eurekaDescription: "Out of necessity your scholars are devising methods for quickly copying books.",
                                 era: .renaissance,
                                 cost: 490,
                                 required: [.machinery],
@@ -495,6 +535,7 @@ public enum TechType: String, Codable {
         case .squareRigging:
             return TechTypeData(name: "Square Rigging",
                                 eurekaSummary: "Kill a unit with a Musketman",
+                                eurekaDescription: "The success of your Musketmen on land has spurred a new idea: what if we upgrade to gunpowder weaponry at sea?",
                                 era: .renaissance,
                                 cost: 600,
                                 required: [.cartography],
@@ -502,6 +543,7 @@ public enum TechType: String, Codable {
         case .astronomy:
             return TechTypeData(name: "Astronomy",
                                 eurekaSummary: "Build a University next to a Mountain",
+                                eurekaDescription: "Your scientists are hiking into the mountains for a sharper view of the heavens. Maybe a permanent facility would help?",
                                 era: .renaissance,
                                 cost: 600,
                                 required: [.education],
@@ -509,6 +551,7 @@ public enum TechType: String, Codable {
         case .metalCasting:
             return TechTypeData(name: "Metal Casting",
                                 eurekaSummary: "Own 2 Crossbowmen",
+                                eurekaDescription: "With so many Crossbowmen in the field, we’ve had a lot of practice studying ranged weapons.",
                                 era: .renaissance,
                                 cost: 660,
                                 required: [.gunpowder],
@@ -516,6 +559,7 @@ public enum TechType: String, Codable {
         case .siegeTactics:
             return TechTypeData(name: "Siege Tactics",
                                 eurekaSummary: "Own 2 Bombards",
+                                eurekaDescription: "After creating bombards you realize that castles are not impregnable – you need a stauncher defense!",
                                 era: .renaissance,
                                 cost: 660,
                                 required: [.castles],
@@ -525,6 +569,7 @@ public enum TechType: String, Codable {
         case .industrialization:
             return TechTypeData(name: "Industrialization",
                                 eurekaSummary: "Build 3 Workshops",
+                                eurekaDescription: "The busy workshops of your empire hint at greatness to come. Is an Industrial Revolution about to commence?",
                                 era: .industrial,
                                 cost: 700,
                                 required: [.massProduction, .squareRigging],
@@ -532,6 +577,7 @@ public enum TechType: String, Codable {
         case .scientificTheory:
             return TechTypeData(name: "Scientific Theory",
                                 eurekaSummary: "Have The Enlightenment civic",
+                                eurekaDescription: "The dawning of an age of enlightenment in our realm has sparked a serious discourse on our scientific methods.",
                                 era: .industrial,
                                 cost: 700,
                                 required: [.astronomy, .banking],
@@ -539,6 +585,7 @@ public enum TechType: String, Codable {
         case .ballistics:
             return TechTypeData(name: "Ballistics",
                                 eurekaSummary: "Have 2 Forts in your territory",
+                                eurekaDescription: "Your cities have been protected by multiple fortifications, what if they could be defended by cannons?",
                                 era: .industrial,
                                 cost: 840,
                                 required: [.metalCasting],
@@ -546,6 +593,7 @@ public enum TechType: String, Codable {
         case .militaryScience:
             return TechTypeData(name: "Military Science",
                                 eurekaSummary: "Kill a unit with a Knight",
+                                eurekaDescription: "Your valiant Knight has vanquished his foe. Let us learn from this victory and become students of military affairs.",
                                 era: .industrial,
                                 cost: 845,
                                 required: [.printing, .siegeTactics],
@@ -553,6 +601,7 @@ public enum TechType: String, Codable {
         case .steamPower:
             return TechTypeData(name: "Steam Power",
                                 eurekaSummary: "Build 2 Shipyards",
+                                eurekaDescription: "Let us apply our industrial acumen to your newly-constructed shipyards. Steam-powered naval vessels could rule the seas.",
                                 era: .industrial,
                                 cost: 805,
                                 required: [.industrialization, .squareRigging],
@@ -560,6 +609,7 @@ public enum TechType: String, Codable {
         case .sanitation:
             return TechTypeData(name: "Sanitation",
                                 eurekaSummary: "Build 2 Neighborhoods",
+                                eurekaDescription: "With the introduction of neighborhoods, our cities are growing larger than ever before. Developing a sanitation plan is crucial.",
                                 era: .industrial,
                                 cost: 805,
                                 required: [.scientificTheory],
@@ -567,6 +617,7 @@ public enum TechType: String, Codable {
         case .economics:
             return TechTypeData(name: "Economics",
                                 eurekaSummary: "Build 2 Banks",
+                                eurekaDescription: "The power of your banks in on the rise.  It is time to formally study the forces that are shaping your national economy.",
                                 era: .industrial,
                                 cost: 805,
                                 required: [.metalCasting, .scientificTheory],
@@ -574,6 +625,7 @@ public enum TechType: String, Codable {
         case .rifling:
             return TechTypeData(name: "Rifling",
                                 eurekaSummary: "Build a Niter Mine",
+                                eurekaDescription: "With a source of niter, your firearms industry is switching into top gear. The next step will be to improve our accuracy.",
                                 era: .industrial,
                                 cost: 970,
                                 required: [.ballistics, .militaryScience],
@@ -583,12 +635,14 @@ public enum TechType: String, Codable {
         case .flight:
             return TechTypeData(name: "Flight",
                                 eurekaSummary: "Build an Industrial era or later wonder",
+                                eurekaDescription: "Having completed a modern wonder, our engineers are sure they can tackle anything. What, are they thinking of flying next?",
                                 era: .modern,
                                 cost: 900, required: [.industrialization, .scientificTheory],
                                 flavors: [Flavor(type: .mobile, value: 5)])
         case .replaceableParts:
             return TechTypeData(name: "Replaceable Parts",
                                 eurekaSummary: "Own 3 Musketmen",
+                                eurekaDescription: "Your armament makers are tired of having to hand craft so many muskets.  Perhaps some standardization would help?",
                                 era: .modern,
                                 cost: 1250,
                                 required: [.economics],
@@ -596,6 +650,7 @@ public enum TechType: String, Codable {
         case .steel:
             return TechTypeData(name: "Steel",
                                 eurekaSummary: "Build a Coal Mine",
+                                eurekaDescription: "Your coal-powered blast furnaces should soon allow us to produce the finest-grade steel.",
                                 era: .modern,
                                 cost: 1140,
                                 required: [.rifling],
@@ -603,6 +658,7 @@ public enum TechType: String, Codable {
         case .refining:
             return TechTypeData(name: "Refining",
                                 eurekaSummary: "Build 2 Coal Power Plants",
+                                eurekaDescription: "",
                                 era: .modern,
                                 cost: 1250,
                                 required: [.rifling],
@@ -610,6 +666,7 @@ public enum TechType: String, Codable {
         case .electricity:
             return TechTypeData(name: "Electricity",
                                 eurekaSummary: "Own 3 Privateers",
+                                eurekaDescription: "Your crafty privateers are intrigued by the discovery of electric current. Could they use this to create stealthy propulsion?",
                                 era: .modern,
                                 cost: 985,
                                 required: [.steamPower],
@@ -617,6 +674,7 @@ public enum TechType: String, Codable {
         case .radio:
             return TechTypeData(name: "Radio",
                                 eurekaSummary: "Build a National Park",
+                                eurekaDescription: "Your new national park needs visitors. Perhaps a new form of communications will help advertise it?",
                                 era: .modern,
                                 cost: 985,
                                 required: [.flight, .steamPower],
@@ -624,6 +682,7 @@ public enum TechType: String, Codable {
         case .chemistry:
             return TechTypeData(name: "Chemistry",
                                 eurekaSummary: "Complete a Research Agreement.",
+                                eurekaDescription: "Joining forces with other nations has started a chain reaction of scientific advances.  Will the next push be in chemistry?",
                                 era: .modern,
                                 cost: 985,
                                 required: [.sanitation],
@@ -631,6 +690,7 @@ public enum TechType: String, Codable {
         case .combustrion:
             return TechTypeData(name: "Combustion",
                                 eurekaSummary: "Extract an Artifact.",
+                                eurekaDescription: "Your archaeologist has noticed petroleum seeping out of the rocks. Perhaps your geologists would like to take a look?",
                                 era: .modern,
                                 cost: 1250,
                                 required: [.steel, .rifling],
@@ -640,6 +700,7 @@ public enum TechType: String, Codable {
         case .advancedFlight:
             return TechTypeData(name: "Advanced Flight",
                                 eurekaSummary: "Build 3 Biplanes",
+                                eurekaDescription: "Your extensive experience with biplanes has led to several aeronautic breakthroughs.",
                                 era: .atomic,
                                 cost: 1065,
                                 required: [.radio],
@@ -647,6 +708,7 @@ public enum TechType: String, Codable {
         case .rocketry:
             return TechTypeData(name: "Rocketry",
                                 eurekaSummary: "Boost through Great Scientist or Spy",
+                                eurekaDescription: "",
                                 era: .atomic,
                                 cost: 1065,
                                 required: [.radio, .chemistry],
@@ -654,6 +716,7 @@ public enum TechType: String, Codable {
         case .advancedBallistics:
             return TechTypeData(name: "Advanced Ballistics",
                                 eurekaSummary: "Build 2 Power Plants",
+                                eurekaDescription: "Development of new power plants has spurred on industrial advances that could help your armament production.",
                                 era: .information,
                                 cost: 1410,
                                 required: [.replaceableParts, .steel],
@@ -661,6 +724,7 @@ public enum TechType: String, Codable {
         case .combinedArms:
             return TechTypeData(name: "Combined Arms",
                                 eurekaSummary: "Build an Airstrip",
+                                eurekaDescription: "Now that you know how to build portable airstrips on land, why not try one at sea?",
                                 era: .information,
                                 cost: 1480,
                                 required: [.steel],
@@ -668,6 +732,7 @@ public enum TechType: String, Codable {
         case .plastics:
             return TechTypeData(name: "Plastics",
                                 eurekaSummary: "Build an Oil Well",
+                                eurekaDescription: "Having a source of petrochemicals should lead to many advances. Its plasticity is of particular interest.",
                                 era: .information,
                                 cost: 1065,
                                 required: [.combustrion],
@@ -675,6 +740,7 @@ public enum TechType: String, Codable {
         case .computers:
             return TechTypeData(name: "Computers",
                                 eurekaSummary: "Have a government with 8 policy slots",
+                                eurekaDescription: "A modern government comes with a lot of bureaucracy. Developing ways to efficiently track data will be a huge help.",
                                 era: .atomic,
                                 cost: 1195,
                                 required: [.electricity, .radio],
@@ -682,6 +748,7 @@ public enum TechType: String, Codable {
         case .nuclearFission:
             return TechTypeData(name: "Nuclear Fission",
                                 eurekaSummary: "Boost through Great Scientist or Spy",
+                                eurekaDescription: "",
                                 era: .atomic,
                                 cost: 1195,
                                 required: [.combinedArms, .advancedBallistics],
@@ -689,6 +756,7 @@ public enum TechType: String, Codable {
         case .syntheticMaterials:
             return TechTypeData(name: "Synthetic Materials",
                                 eurekaSummary: "Build 2 Aerodromes",
+                                eurekaDescription: "With facilities for aircrafts in multiple cities, your aeronautic industry is taking off.",
                                 era: .atomic,
                                 cost: 1195,
                                 required: [.plastics],
@@ -698,6 +766,7 @@ public enum TechType: String, Codable {
         case .telecommunications:
             return TechTypeData(name: "Telecommunications",
                                 eurekaSummary: "Build 2 Broadcast Centers",
+                                eurekaDescription: "With your pioneers in radio and television leading the way, you’ve grown adept at transmitting data quickly.",
                                 era: .information,
                                 cost: 1340,
                                 required: [.computers],
@@ -705,6 +774,7 @@ public enum TechType: String, Codable {
         case .satellites:
             return TechTypeData(name: "Satellites",
                                 eurekaSummary: "Boost through Great Scientist or Spy",
+                                eurekaDescription: "",
                                 era: .information,
                                 cost: 1340,
                                 required: [.advancedFlight, .rocketry],
@@ -712,6 +782,7 @@ public enum TechType: String, Codable {
         case .guidanceSystems:
             return TechTypeData(name: "Guidance Systems",
                                 eurekaSummary: "Kill a Fighter",
+                                eurekaDescription: "Your military has defeated an enemy plane. Now it is time to have the best defense against enemy aircraft.",
                                 era: .information,
                                 cost: 1580,
                                 required: [.rocketry, .advancedBallistics],
@@ -719,6 +790,7 @@ public enum TechType: String, Codable {
         case .lasers:
             return TechTypeData(name: "Lasers",
                                 eurekaSummary: "Boost through Great Scientist or Spy.",
+                                eurekaDescription: "",
                                 era: .information,
                                 cost: 1340,
                                 required: [.nuclearFission],
@@ -726,6 +798,7 @@ public enum TechType: String, Codable {
         case .composites:
             return TechTypeData(name: "Composites",
                                 eurekaSummary: "Own 3 Tanks",
+                                eurekaDescription: "Tanks have been the backbone of your army so your scientists are striving for a more advanced model.",
                                 era: .information,
                                 cost: 1340,
                                 required: [.syntheticMaterials],
@@ -733,6 +806,7 @@ public enum TechType: String, Codable {
         case .stealthTechnology:
             return TechTypeData(name: "Stealth Technology",
                                 eurekaSummary: "Boost through Great Scientist or Spy",
+                                eurekaDescription: "",
                                 era: .information,
                                 cost: 1340,
                                 required: [.syntheticMaterials],
@@ -740,6 +814,7 @@ public enum TechType: String, Codable {
         case .robotics:
             return TechTypeData(name: "Robotics",
                                 eurekaSummary: "Have the Globalization civic.",
+                                eurekaDescription: "Having a diverse set of metals to experiment on will help your scientists push into new fields.",
                                 era: .information,
                                 cost: 1560,
                                 required: [.computers],
@@ -747,6 +822,7 @@ public enum TechType: String, Codable {
         case .nuclearFusion:
             return TechTypeData(name: "Nuclear Fusion",
                                 eurekaSummary: "Boost through Great Scientist or Spy",
+                                eurekaDescription: "",
                                 era: .information,
                                 cost: 1560,
                                 required: [.lasers],
@@ -754,6 +830,7 @@ public enum TechType: String, Codable {
         case .nanotechnology:
             return TechTypeData(name: "Nanotechnology",
                                 eurekaSummary: "Build an Aluminum Mine",
+                                eurekaDescription: "Having a diverse set of metals to experiment on will help your scientists push into new fields.",
                                 era: .information,
                                 cost: 1560,
                                 required: [.composites],
@@ -763,6 +840,7 @@ public enum TechType: String, Codable {
         case .futureTech:
             return TechTypeData(name: "Future Tech",
                                 eurekaSummary: "---",
+                                eurekaDescription: "",
                                 era: .future,
                                 cost: 1780,
                                 required: [.robotics, .nuclearFusion],

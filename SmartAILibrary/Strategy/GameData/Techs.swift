@@ -50,34 +50,26 @@ class Techs: AbstractTechs {
     // user properties / values
     var player: Player?
     private var currentTechValue: TechType? = nil
-    var currentScienceProgressValue: Double = 0.0
     var lastScienceEarnedValue: Double = 1.0
+    private var progress: WeightedTechList
 
     // heureka
     private var eurekas: Eurekas
 
     // MARK: internal types
 
-    class WeightedTechs {
+    class WeightedTechList: WeightedList<TechType> {
 
-        var techs: [WeightedTech]
+        override func fill() {
 
-        struct WeightedTech {
-            let tech: TechType
-            let value: Double
-        }
-
-        init() {
-            self.techs = []
-        }
-
-        func add(tech: TechType, with weight: Double) {
-            self.techs.append(WeightedTech(tech: tech, value: weight))
+            for techType in TechType.all {
+                self.add(weight: 0, for: techType)
+            }
         }
 
         func sortByWeight() {
 
-            self.techs.sort { $0.value > $1.value }
+            self.items.sort { $0.weight > $1.weight }
         }
     }
 
@@ -137,24 +129,36 @@ class Techs: AbstractTechs {
         self.player = player
 
         self.eurekas = Eurekas()
+        self.progress = WeightedTechList()
+        self.progress.fill()
     }
 
     public func currentScienceProgress() -> Double {
 
-        return self.currentScienceProgressValue
+        if let currentTech = self.currentTechValue {
+            return self.progress.weight(of: currentTech)
+        }
+
+        return 0.0
+    }
+
+    private func turnsRemaining(for techType: TechType) -> Int {
+
+        if self.lastScienceEarnedValue > 0.0 {
+
+            let cost: Double = Double(techType.cost())
+            let remaining = cost - self.progress.weight(of: techType)
+
+            return Int(remaining / self.lastScienceEarnedValue + 0.5)
+        }
+
+        return 0
     }
 
     public func currentScienceTurnsRemaining() -> Int {
 
-        if self.lastScienceEarnedValue > 0.0 {
-            if let current = self.currentTechValue {
-
-
-                let cost: Double = Double(current.cost())
-                let remaining = cost - self.currentScienceProgressValue
-
-                return Int(remaining / self.lastScienceEarnedValue + 0.5)
-            }
+        if let currentTech = self.currentTechValue {
+            return self.turnsRemaining(for: currentTech)
         }
 
         return 0
@@ -178,7 +182,7 @@ class Techs: AbstractTechs {
 
     func chooseNextTech() -> TechType {
 
-        let weightedTechs: WeightedTechs = WeightedTechs()
+        let weightedTechs: WeightedTechList = WeightedTechList()
         let possibleTechsList = self.possibleTechs()
 
         for possibleTech in possibleTechsList {
@@ -213,8 +217,7 @@ class Techs: AbstractTechs {
             }
 
             // revalue based on cost / number of turns
-            let cost = self.cost(of: possibleTech)
-            let numberOfTurnsLeft = cost / self.lastScienceEarnedValue
+            let numberOfTurnsLeft = self.turnsRemaining(for: possibleTech)
             let additionalTurnCostFactor = 0.015 * Double(numberOfTurnsLeft)
             let totalCostFactor = 0.15 + additionalTurnCostFactor
             let weightDivisor = pow(Double(numberOfTurnsLeft), totalCostFactor)
@@ -222,7 +225,7 @@ class Techs: AbstractTechs {
             // modify weight
             weightByFlavor = Double(weightByFlavor) / weightDivisor
 
-            weightedTechs.add(tech: possibleTech, with: weightByFlavor)
+            weightedTechs.add(weight: weightByFlavor, for: possibleTech)
         }
 
         // select one
@@ -230,7 +233,7 @@ class Techs: AbstractTechs {
         let selectedIndex = Int.random(number: numberOfSelectable)
 
         weightedTechs.sortByWeight()
-        let selectedTech = weightedTechs.techs[selectedIndex].tech
+        let selectedTech = weightedTechs.items[selectedIndex].itemType
 
         return selectedTech
     }
@@ -261,18 +264,6 @@ class Techs: AbstractTechs {
         return self.currentTechValue
     }
 
-    private func cost(of techType: TechType) -> Double {
-
-        var costValue = Double(techType.cost())
-
-        // eureka gives 50% off
-        if self.eurekas.triggered(for: techType) {
-            costValue /= 2.0
-        }
-
-        return costValue
-    }
-
     func eurekaValue(for techType: TechType) -> Int {
 
         return Int(self.eurekas.eurekaCounter.weight(of: techType))
@@ -293,9 +284,17 @@ class Techs: AbstractTechs {
         guard let player = self.player else {
             fatalError("Can't trigger eurake - no player present")
         }
-        
+
+        // check if already active
+        if self.eurekaTriggered(for: techType) {
+            return
+        }
+
         self.eurekas.eurakaTrigger.trigger(for: techType)
-        
+
+        // update progress
+        self.progress.add(weight: Double(techType.cost()) * 0.5, for: techType)
+
         // trigger event to user
         if player.isHuman() {
             gameModel?.userInterface?.showPopup(popupType: .eurekaActivated, with: PopupData(tech: techType))
@@ -365,7 +364,9 @@ class Techs: AbstractTechs {
 
     func add(science: Double) {
 
-        self.currentScienceProgressValue += science
+        if let currentTech = self.currentTechValue {
+            self.progress.add(weight: science, for: currentTech)
+        }
         self.lastScienceEarnedValue = science
     }
 
@@ -385,7 +386,7 @@ class Techs: AbstractTechs {
             return
         }
 
-        if self.currentScienceProgressValue >= self.cost(of: currentTech) {
+        if self.currentScienceProgress() >= Double(currentTech.cost()) {
 
             do {
                 try self.discover(tech: currentTech)
@@ -399,7 +400,7 @@ class Techs: AbstractTechs {
                 if currentTech.era() > player.currentEra() {
 
                     gameModel?.enter(era: currentTech.era(), for: player)
-                    
+
                     if player.isHuman() {
                         gameModel?.userInterface?.showPopup(popupType: .eraEntered, with: PopupData(era: currentTech.era()))
                     }
@@ -408,7 +409,6 @@ class Techs: AbstractTechs {
                 }
 
                 self.currentTechValue = nil
-                self.currentScienceProgressValue = 0.0
 
             } catch {
                 fatalError("Can't discover science - already discovered")

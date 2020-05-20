@@ -11,10 +11,21 @@ import SmartAILibrary
 class EurekaActivatedPopupViewModel {
     
     let iconTexture: String
+    let titleText: String
+    let summaryText: String
     
-    init() {
+    init(techType: TechType) {
         
-        self.iconTexture = "tech_animalHusbandry"
+        self.iconTexture = techType.iconTexture()
+        self.titleText = "Eureka!"
+        self.summaryText = techType.eurekaDescription()
+    }
+    
+    init(civicType: CivicType) {
+        
+        self.iconTexture = civicType.iconTexture()
+        self.titleText = "Eureka!"
+        self.summaryText = civicType.eurekaDescription()
     }
 }
 
@@ -34,6 +45,8 @@ class EurekaActivatedPopup: Dialog {
         super.init(from: eurekaActivatedPopupConfiguration)
         
         self.set(imageNamed: self.viewModel.iconTexture, identifier: "popup_image")
+        self.set(text: self.viewModel.titleText, identifier: "popup_title")
+        self.set(text: self.viewModel.summaryText, identifier: "popup_summary")
     }
     
     required init?(coder aDecoder: NSCoder) {

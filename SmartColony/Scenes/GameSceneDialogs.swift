@@ -206,18 +206,45 @@ extension GameScene {
             case .eraEntered:
                 break
             case .eurekaActivated:
-                self.showEurekaActivatedPopup()
+                if let techType = fistPopup.popupData?.tech {
+                    self.showEurekaActivatedPopup(for: techType)
+                    return
+                }
+                
+                if let civicType = fistPopup.popupData?.civic {
+                    self.showEurekaActivatedPopup(for: civicType)
+                    return
+                }
+                
+                fatalError("popup data did not provide tech nor civic")
             }
             
             self.popups.removeFirst()
         }
     }
 
-    func showEurekaActivatedPopup() {
+    func showEurekaActivatedPopup(for techType: TechType) {
 
         self.currentPopupType = .eurekaActivated
         
-        let eurekaActivatedPopupViewModel = EurekaActivatedPopupViewModel()
+        let eurekaActivatedPopupViewModel = EurekaActivatedPopupViewModel(techType: techType)
+
+        let eurekaActivatedPopup = EurekaActivatedPopup(viewModel: eurekaActivatedPopupViewModel)
+        eurekaActivatedPopup.zPosition = 250
+
+        eurekaActivatedPopup.addOkayAction(handler: {
+            self.currentPopupType = .none
+            eurekaActivatedPopup.close()
+        })
+
+        self.cameraNode.add(dialog: eurekaActivatedPopup)
+    }
+    
+    func showEurekaActivatedPopup(for civicType: CivicType) {
+
+        self.currentPopupType = .eurekaActivated
+        
+        let eurekaActivatedPopupViewModel = EurekaActivatedPopupViewModel(civicType: civicType)
 
         let eurekaActivatedPopup = EurekaActivatedPopup(viewModel: eurekaActivatedPopupViewModel)
         eurekaActivatedPopup.zPosition = 250

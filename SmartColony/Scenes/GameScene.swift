@@ -332,7 +332,7 @@ class GameScene: BaseScene {
 
             if self.readyUpdatingAI && humanPlayer.isActive() {
                 self.changeUITurnState(to: .humanTurns)
-
+ 
                 if self.readyUpdatingHuman {
 
                     self.readyUpdatingHuman = false
@@ -377,6 +377,8 @@ class GameScene: BaseScene {
         case .aiTurns:
             // show AI is working banner
             self.safeAreaNode.addChild(self.bannerNode!)
+            
+            self.view?.preferredFramesPerSecond = 15
 
             // show AI turn
             self.bottomLeftBar?.showSpinningGlobe()
@@ -384,6 +386,8 @@ class GameScene: BaseScene {
         case .humanTurns:
             // hide AI is working banner
             self.bannerNode?.removeFromParent()
+            
+            self.view?.preferredFramesPerSecond = 60
             
             self.turnLabel?.text = gameModel.turnYear()
 
@@ -421,6 +425,9 @@ class GameScene: BaseScene {
 
         case .humanBlocked:
             // NOOP
+            
+            self.view?.preferredFramesPerSecond = 60
+            
             break
         }
 
@@ -837,6 +844,16 @@ extension GameScene: BottomLeftBarDelegate {
                 }
             }
         }
+    }
+    
+    func handleTechNeeded() {
+        
+        self.showTechDialog()
+    }
+    
+    func handleCivicNeeded() {
+        
+        self.showCivicDialog()
     }
 }
 

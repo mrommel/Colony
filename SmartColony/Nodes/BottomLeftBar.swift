@@ -13,6 +13,8 @@ protocol BottomLeftBarDelegate: class {
     
     func handleTurnButtonClicked()
     func handleFocusOnUnit()
+    func handleTechNeeded()
+    func handleCivicNeeded()
     
     func handle(command: Command)
 }
@@ -109,6 +111,12 @@ class BottomLeftBar: SizedNode {
                 return true
             } else if turnButtonNotificationType == .unitNeedsOrders {
                 self.delegate?.handleFocusOnUnit()
+                return true
+            } else if turnButtonNotificationType == .techNeeded {
+                self.delegate?.handleTechNeeded()
+                return true
+            } else if turnButtonNotificationType == .civicNeeded {
+                self.delegate?.handleCivicNeeded()
                 return true
             } else {
                 print("--- unhandle notification type: \(turnButtonNotificationType)")

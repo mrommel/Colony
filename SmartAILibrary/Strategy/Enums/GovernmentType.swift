@@ -31,7 +31,11 @@ public enum GovernmentType {
     case monarchy
     
     // renaissance
-    case theacracy
+    case theocracy
+    
+    case fascism
+    case communism
+    case democracy
     
     // MARK: methods
     
@@ -52,7 +56,12 @@ public enum GovernmentType {
         case .monarchy: return .medieval
 
             // renaissance
-        case .theacracy: return .renaissance
+        case .theocracy: return .renaissance
+            
+            // modern
+        case .fascism: return .modern
+        case .communism: return .modern
+        case .democracy: return .modern
         }
     }
     
@@ -73,7 +82,12 @@ public enum GovernmentType {
         case .monarchy: return .divineRight
 
             // renaissance
-        case .theacracy: return .reformedChurch
+        case .theocracy: return .reformedChurch
+            
+            // modern
+        case .fascism: return .totalitarianism
+        case .communism: return .classStruggle
+        case .democracy: return .suffrage
         }
     }
     
@@ -94,7 +108,37 @@ public enum GovernmentType {
         case .monarchy: return PolicyCardSlots(military: 3, economic: 1, diplomatic: 1, wildcard: 1)
 
             // renaissance
-        case .theacracy: return PolicyCardSlots(military: 2, economic: 2, diplomatic: 1, wildcard: 1)
+        case .theocracy: return PolicyCardSlots(military: 2, economic: 2, diplomatic: 1, wildcard: 1)
+            
+        case .fascism: return PolicyCardSlots(military: 4, economic: 1, diplomatic: 1, wildcard: 2)
+        case .communism: return PolicyCardSlots(military: 3, economic: 3, diplomatic: 1, wildcard: 1)
+        case .democracy: return PolicyCardSlots(military: 1, economic: 3, diplomatic: 2, wildcard: 2)
+        }
+    }
+    
+    func bonusSummay() -> String {
+        
+        switch self {
+            
+            // ancient
+        case .chiefdom: return "No Bonus."
+            
+            // classical
+        case .autocracy: return "Capital receives +1 boost to all yields."
+        case .classicalRepublic: return "All cities with a district receive +1 [ICON_Amenities] Amenity."
+        case .oligarchy: return "All Land Melee units gain +4 [ICON_Strength] Combat Strength."
+            
+            // medieval
+        case .merchantRepublic: return "+2 [ICON_TradeRoute] Trade Routes."
+        case .monarchy: return "+2 [ICON_Housing] Housing in any city with Medieval Walls."
+            
+            // renaissance
+        case .theocracy: return "Can buy land combat units with Faith. All units +5 [ICON_Religion] Religious Strength in theological combat."
+            
+            // modern
+        case .fascism: return "All combat units gain +4 [ICON_Strength] Combat Strength."
+        case .communism: return "Land units gain +4 [ICON_Strength] Defense Strength."
+        case .democracy: return "Patronage of Great People costs 50% less Gold."
         }
     }
 }
