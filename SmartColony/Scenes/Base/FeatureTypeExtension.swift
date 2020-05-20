@@ -23,7 +23,7 @@ extension FeatureType {
         case .floodplains:
             return ["feature_floodplains"]
         case .marsh:
-            return ["feature_marsh"]
+            return ["feature_marsh1", "feature_marsh2"]
         case .oasis:
             return ["feature_oasis1", "feature_oasis2"]
         case .reef:

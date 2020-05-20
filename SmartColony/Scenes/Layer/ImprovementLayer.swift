@@ -65,7 +65,7 @@ class ImprovementLayer: SKNode {
         // place farms/mines, ...
         if improvement != .none {
             
-            let textureName = improvement.textureNamesHex().randomItem()
+            let textureName = improvement.textureNamesHex().item(from: tile.point)
 
             let improvementSprite = SKSpriteNode(imageNamed: textureName)
             improvementSprite.position = position

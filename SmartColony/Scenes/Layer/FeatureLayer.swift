@@ -64,7 +64,12 @@ class FeatureLayer: SKNode {
         // place forests etc
         if feature != .none {
 
-            let textureName = feature.textureNamesHex().randomItem()
+            let textureName: String
+            if tile.terrain() == .tundra && feature == .forest {
+                textureName = ["feature_pine1", "feature_pine2"].item(from: tile.point)
+            } else {
+                textureName = feature.textureNamesHex().item(from: tile.point)
+            }
 
             let featureSprite = SKSpriteNode(imageNamed: textureName)
             featureSprite.position = position

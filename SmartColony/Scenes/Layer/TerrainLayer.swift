@@ -67,9 +67,9 @@ class TerrainLayer: SKNode {
             textureName = coastTexture
         } else {
             if tile.hasHills() {
-                textureName = tile.terrain().textureNamesHills().randomItem()
+                textureName = tile.terrain().textureNamesHills().item(from: tile.point)
             } else {
-                textureName = tile.terrain().textureNames().randomItem()
+                textureName = tile.terrain().textureNames().item(from: tile.point)
             }
         }
 
