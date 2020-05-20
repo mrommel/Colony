@@ -257,18 +257,28 @@ class Tile: AbstractTile {
         self.routePillagedValue = try container.decode(Bool.self, forKey: .routePillaged)
 
         self.ownerValue = nil
-        self.discovered = try container.decode(TileDiscovered.self, forKey: .discovered)
+        
+        if container.contains(.discovered) {
+            self.discovered = try container.decode(TileDiscovered.self, forKey: .discovered)
+        } else {
+            self.discovered = TileDiscovered()
+        }
 
         self.area = nil
         self.ocean = nil
         self.continentValue = nil
 
         self.riverName = try container.decodeIfPresent(String.self, forKey: .riverName)
-        self.riverFlowNorth = try container.decode(FlowDirection.self, forKey: .riverFlowNorth)
-        self.riverFlowNorthEast = try container.decode(FlowDirection.self, forKey: .riverFlowNorthEast)
-        self.riverFlowSouthEast = try container.decode(FlowDirection.self, forKey: .riverFlowSouthEast)
+        self.riverFlowNorth = try container.decodeIfPresent(FlowDirection.self, forKey: .riverFlowNorth) ?? .none
+        self.riverFlowNorthEast = try container.decodeIfPresent(FlowDirection.self, forKey: .riverFlowNorthEast) ?? .none
+        self.riverFlowSouthEast = try container.decodeIfPresent(FlowDirection.self, forKey: .riverFlowSouthEast) ?? .none
 
-        self.buildProgressList = try container.decode(BuildProgressList.self, forKey: .buildProgress)
+        if container.contains(.buildProgress) {
+            self.buildProgressList = try container.decode(BuildProgressList.self, forKey: .buildProgress)
+        } else {
+            self.buildProgressList = BuildProgressList()
+            self.buildProgressList.fill()
+        }
 
         self.builderAIScratchPadValue = BuilderAIScratchPad(turn: -1, routeType: .none, leader: .none, value: -1)
     }
@@ -288,15 +298,25 @@ class Tile: AbstractTile {
         try container.encode(self.routeValue, forKey: .route)
         try container.encode(self.routePillagedValue, forKey: .routePillaged)
 
-        try container.encode(self.discovered, forKey: .discovered)
+        if !self.discovered.isEmpty() {
+            try container.encode(self.discovered, forKey: .discovered)
+        }
         // case owner
 
-        try container.encode(self.riverName, forKey: .riverName)
-        try container.encode(self.riverFlowNorth, forKey: .riverFlowNorth)
-        try container.encode(self.riverFlowNorthEast, forKey: .riverFlowNorthEast)
-        try container.encode(self.riverFlowSouthEast, forKey: .riverFlowSouthEast)
+        try container.encodeIfPresent(self.riverName, forKey: .riverName) // can be nil
+        if self.riverFlowNorth != .none {
+            try container.encode(self.riverFlowNorth, forKey: .riverFlowNorth)
+        }
+        if self.riverFlowNorthEast != .none {
+            try container.encode(self.riverFlowNorthEast, forKey: .riverFlowNorthEast)
+        }
+        if self.riverFlowSouthEast != .none {
+            try container.encode(self.riverFlowSouthEast, forKey: .riverFlowSouthEast)
+        }
 
-        try container.encode(self.buildProgressList, forKey: .buildProgress)
+        if !self.buildProgressList.isZero() {
+            try container.encode(self.buildProgressList, forKey: .buildProgress)
+        }
     }
 
     // for tests

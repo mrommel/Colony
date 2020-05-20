@@ -81,6 +81,11 @@ class TileDiscovered: Codable {
         try container.encode(self.items, forKey: .items)
     }
     
+    func isEmpty() -> Bool {
+        
+        return self.items.count == 0
+    }
+    
     func isDiscovered(by player: AbstractPlayer?) -> Bool {
         
         if let item = self.items.first(where: { $0.leader == player?.leader }) {
