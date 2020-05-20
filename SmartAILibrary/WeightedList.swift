@@ -82,6 +82,17 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         return self.items.count
     }
     
+    func isZero() -> Bool {
+        
+        for item in self.items {
+            if item.weight != 0.0 {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
     func fill() {
         
     }
