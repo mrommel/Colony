@@ -49,7 +49,7 @@ class GameLoadingScene: BaseScene {
         self.fireTimer()
         
         self.preloadAssets(completion: {
-            self.run(SKAction.wait(forDuration: 1.0), completion: {
+            self.run(SKAction.wait(forDuration: 0.3), completion: {
                 self.timer.invalidate()
                 self.completion?()
             })
@@ -79,12 +79,12 @@ class GameLoadingScene: BaseScene {
     }
     
     private func fireTimer() {
-        self.timer = Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(GameLoadingScene.animateLoadingBar), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(GameLoadingScene.animateLoadingBar), userInfo: nil, repeats: true)
     }
     
     @objc func animateLoadingBar() {
 
-        self.progress += 0.25
+        self.progress += 0.1
         self.progressBar?.set(progress: self.progress)
     }
     

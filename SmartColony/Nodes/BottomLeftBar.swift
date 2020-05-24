@@ -15,6 +15,7 @@ protocol BottomLeftBarDelegate: class {
     func handleFocusOnUnit()
     func handleTechNeeded()
     func handleCivicNeeded()
+    func handleProductionNeeded(at location: HexPoint)
     
     func handle(command: Command)
 }
@@ -29,7 +30,9 @@ class BottomLeftBar: SizedNode {
     var unitCanvasNode: SKSpriteNode?
     var unitImageNode: SKSpriteNode?
     var glassCanvasNode: SKSpriteNode?
+    
     var turnButtonNotificationType: NotificationType = .unitNeedsOrders
+    var turnButtonNotificationLocation: HexPoint = HexPoint.zero
     
     var unitCommandsCanvasNode: SKSpriteNode?
     var unitCommandsVisible: Bool = false
@@ -109,17 +112,22 @@ class BottomLeftBar: SizedNode {
             if self.turnButtonNotificationType == .turn {
                 self.delegate?.handleTurnButtonClicked()
                 return true
-            } else if turnButtonNotificationType == .unitNeedsOrders {
+            } else if self.turnButtonNotificationType == .unitNeedsOrders {
                 self.delegate?.handleFocusOnUnit()
                 return true
-            } else if turnButtonNotificationType == .techNeeded {
+            } else if self.turnButtonNotificationType == .techNeeded {
                 self.delegate?.handleTechNeeded()
                 return true
-            } else if turnButtonNotificationType == .civicNeeded {
+            } else if self.turnButtonNotificationType == .civicNeeded {
                 self.delegate?.handleCivicNeeded()
                 return true
+            } else if self.turnButtonNotificationType == .productionNeeded {
+                
+                
+                self.delegate?.handleProductionNeeded(at: self.turnButtonNotificationLocation)
+                return true
             } else {
-                print("--- unhandle notification type: \(turnButtonNotificationType)")
+                print("--- unhandle notification type: \(self.turnButtonNotificationType)")
             }
         }
         
@@ -147,6 +155,7 @@ class BottomLeftBar: SizedNode {
         
         self.unitImageNode?.texture = SKTexture(imageNamed: blockingNotification.type.iconTexture())
         self.turnButtonNotificationType = blockingNotification.type
+        self.turnButtonNotificationLocation = blockingNotification.location
     }
     
     func showSpinningGlobe() {

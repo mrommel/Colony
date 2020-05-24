@@ -208,18 +208,15 @@ extension GameScene {
             case .eurekaActivated:
                 if let techType = fistPopup.popupData?.tech {
                     self.showEurekaActivatedPopup(for: techType)
-                    return
-                }
-                
-                if let civicType = fistPopup.popupData?.civic {
+                } else if let civicType = fistPopup.popupData?.civic {
                     self.showEurekaActivatedPopup(for: civicType)
-                    return
+                } else {
+                    fatalError("popup data did not provide tech nor civic")
                 }
-                
-                fatalError("popup data did not provide tech nor civic")
             }
             
             self.popups.removeFirst()
+            return
         }
     }
 

@@ -855,6 +855,19 @@ extension GameScene: BottomLeftBarDelegate {
         
         self.showCivicDialog()
     }
+    
+    func handleProductionNeeded(at location: HexPoint) {
+        
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+        
+        guard let city = gameModel.city(at: location) else {
+            fatalError("cant get city at \(location)")
+        }
+        
+        self.showCityDialog(for: city)
+    }
 }
 
 extension GameScene: NotificationsDelegate {

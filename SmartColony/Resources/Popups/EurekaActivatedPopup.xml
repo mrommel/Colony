@@ -16,19 +16,20 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>70</offsety>
-            <width>80</width>
-            <height>80</height>
+            <offsety>110</offsety>
+            <width>100</width>
+            <height>100</height>
             <image>questionmark</image>
         </item>
         <item>
             <identifier>popup_title</identifier>
             <type>label</type>
             <title>Eureka title</title>
+            <fontSize>24</fontSize>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>0</offsety>
+            <offsety>50</offsety>
             <width>200</width>
             <height>40</height>
         </item>
@@ -39,7 +40,19 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-30</offsety>
+            <offsety>20</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>popup_subtitle</identifier>
+            <type>label</type>
+            <title>Eureka subtitle</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-70</offsety>
             <width>300</width>
             <height>40</height>
         </item>
@@ -52,7 +65,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-120</offsety>
+            <offsety>-150</offsety>
             <width>200</width>
             <height>42</height>
         </item>

@@ -1311,11 +1311,8 @@ public class Unit: AbstractUnit {
         if oldPlot.isCity() {
             // if pNewPlot is a valid pointer, we are leaving the city and need to visible
             // if pNewPlot is NULL than we are "dead" (e.g. a settler) and need to blend out
-            //auto_ptr<ICvUnit1> pDllUnit(new CvDllUnit(this));
-            //gDLL->GameplayUnitVisibility(pDllUnit.get(), pNewPlot != NULL && !this->isInvisible(activeTeam, false));
             if newPlot.isVisible(to: gameModel.humanPlayer()) {
 
-                // FIXME: no correct
                 self.location = newPlot.point
                 gameModel.userInterface?.show(unit: self)
             }
@@ -1390,8 +1387,15 @@ public class Unit: AbstractUnit {
 
                 // Human can't be met by an AI spotting him.
                 if !player.isHuman() || loopPlayer.isHuman() {
+                    
                     if newPlot.isVisible(to: loopPlayer) {
-                        loopPlayer.doFirstContact(with: player, in: gameModel)
+                        
+                        // check if we have met this guy already
+                        if !player.hasMet(with: loopPlayer) {
+                            
+                            // do the hello, if not
+                            loopPlayer.doFirstContact(with: player, in: gameModel)
+                        }
                     }
                 }
             }
@@ -1438,7 +1442,7 @@ public class Unit: AbstractUnit {
             // player.GetPlayerTraits()->CheckForBarbarianConversion(pNewPlot);
         }
 
-        // override bShow if check plot visible
+        // override show, if check plot visible
         if checkPlotVisible && newPlot.isVisible(to: gameModel.humanPlayer()) || oldPlot.isVisible(to: gameModel.humanPlayer()) {
             show = true
         }

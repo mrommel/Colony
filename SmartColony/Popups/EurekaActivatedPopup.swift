@@ -13,12 +13,14 @@ class EurekaActivatedPopupViewModel {
     let iconTexture: String
     let titleText: String
     let summaryText: String
+    let subtitleText: String
     
     init(techType: TechType) {
         
         self.iconTexture = techType.iconTexture()
         self.titleText = "Eureka!"
         self.summaryText = techType.eurekaDescription()
+        self.subtitleText = "Your knowledge of \(techType.name()) has advanced considerably."
     }
     
     init(civicType: CivicType) {
@@ -26,6 +28,7 @@ class EurekaActivatedPopupViewModel {
         self.iconTexture = civicType.iconTexture()
         self.titleText = "Eureka!"
         self.summaryText = civicType.eurekaDescription()
+        self.subtitleText = "Your knowledge of \(civicType.name()) has advanced considerably."
     }
 }
 
@@ -47,6 +50,7 @@ class EurekaActivatedPopup: Dialog {
         self.set(imageNamed: self.viewModel.iconTexture, identifier: "popup_image")
         self.set(text: self.viewModel.titleText, identifier: "popup_title")
         self.set(text: self.viewModel.summaryText, identifier: "popup_summary")
+        self.set(text: self.viewModel.subtitleText, identifier: "popup_subtitle")
     }
     
     required init?(coder aDecoder: NSCoder) {

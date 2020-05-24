@@ -2951,12 +2951,6 @@ public class City: AbstractCity {
         }
         
         var rtnValue = 0;
-        /*ResourceTypes eResource;
-        int iYield;
-        int iI;
-        YieldTypes eSpecializationYield = NO_YIELD;
-        CitySpecializationTypes eSpecialization;
-        CvCity *pCity;*/
 
         let specializationType = cityStrategyAI.specialization()
         var specializationYield: YieldType = .none

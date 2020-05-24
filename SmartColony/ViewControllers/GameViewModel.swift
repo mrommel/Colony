@@ -13,6 +13,11 @@ class GameViewModel {
     
     var game: GameModel? = nil
     
+    init(game: GameModel?) {
+        
+        self.game = game
+    }
+    
     init(with map: MapModel?, handicap: HandicapType) {
         
         guard var map = map else {

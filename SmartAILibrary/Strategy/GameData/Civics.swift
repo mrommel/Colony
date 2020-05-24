@@ -151,7 +151,7 @@ class Civics: AbstractCivics {
             return Int(remaining / self.lastCultureEarnedValue + 0.5)
         }
 
-        return 0
+        return 1
     }
 
     public func currentCultureTurnsRemaining() -> Int {
@@ -160,7 +160,7 @@ class Civics: AbstractCivics {
             return self.turnsRemaining(for: currentCivic)
         }
 
-        return 0
+        return 1
     }
 
     public func lastCultureInput() -> Double {
@@ -265,6 +265,8 @@ class Civics: AbstractCivics {
 
         let weightedCivics: WeightedCivicList = WeightedCivicList()
         let possibleCivicsList = self.possibleCivics()
+        
+        weightedCivics.items.removeAll()
 
         for possibleCivic in possibleCivicsList {
 
@@ -340,11 +342,8 @@ class Civics: AbstractCivics {
 
         guard let currentCivic = self.currentCivicValue else {
 
-            if player.isHuman() {
-                //gameModel?.add(message: PlayerNeedsTechSelectionMessage())
-                // NOOP
-            } else {
-                let bestCivic = chooseNextCivic()
+            if !player.isHuman() {
+                let bestCivic = self.chooseNextCivic()
                 try self.setCurrent(civic: bestCivic, in: gameModel)
             }
 

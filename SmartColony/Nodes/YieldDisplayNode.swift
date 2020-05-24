@@ -82,7 +82,8 @@ class YieldDisplayNode: SKNode {
     func set(yieldValue value: Double) {
 
         let prefix = value >= 0.0 ? "+" : ""
-        self.yieldLabelNode?.text = "\(prefix)\(value)"
+        let valueText = String(format: "%.1f", value)
+        self.yieldLabelNode?.text = "\(prefix)\(valueText)"
     }
     
     // elements

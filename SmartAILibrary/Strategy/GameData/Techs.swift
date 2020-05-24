@@ -152,7 +152,7 @@ class Techs: AbstractTechs {
             return Int(remaining / self.lastScienceEarnedValue + 0.5)
         }
 
-        return 0
+        return 1
     }
 
     public func currentScienceTurnsRemaining() -> Int {
@@ -161,7 +161,7 @@ class Techs: AbstractTechs {
             return self.turnsRemaining(for: currentTech)
         }
 
-        return 0
+        return 1
     }
 
     public func lastScienceEarned() -> Double {
@@ -184,6 +184,8 @@ class Techs: AbstractTechs {
 
         let weightedTechs: WeightedTechList = WeightedTechList()
         let possibleTechsList = self.possibleTechs()
+        
+        weightedTechs.items.removeAll()
 
         for possibleTech in possibleTechsList {
 

@@ -11,8 +11,8 @@ import Foundation
 public class NotificationItem {
     
     public let type: NotificationType
-    let player: AbstractPlayer?
-    let location: HexPoint
+    public let player: AbstractPlayer?
+    public let location: HexPoint
     public let message: String
     public let summary: String
     public let otherPlayer: AbstractPlayer?
