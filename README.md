@@ -17,8 +17,11 @@
     - show citizen (/)
     - show growth in x turns (/)
     - add list of built items (/)
+    - show current production progress
 - fix UI of map overview
     - colors (/)
+    - fix background
+    - zoom to fix width
 - textures of mountains - outskirts
 - map options
     - yield icons (/)
@@ -27,29 +30,16 @@
 - rework river generation
     - A river will also turn adjacent flat desert tiles into flood plains, adjacent snow tiles to tundra tiles, and adjacent tundra tiles to plains. (/)
     - distibute springs evenly
-    - load earth rivers
+    - load earth rivers (tricky)
+- leave current game
+    - automatically
+- restore current game
 
 ## Defects
 ...
 
 ## Missing Tiles
-- beach-n-ne-se-sw-nw
-- snow-se-sw
-- snow-ne-se-sw-nw
-- snow-ne-se-s-sw-nw
-- snow-n-ne-se-sw-nw
-- snow-n-ne-s-sw
-- snow-n-ne-se-sw
-- snow-ne-sw-nw
-- snow-n-se-s
-- snow-se-s-nw
-- resource_pearls
-- resource_uranium
-- resource_niter
-- resource_oil
-- resource_silk
-- yield_1_2_3
-- yield_5_0_0
+...
 
 ## Done
 - add builder from start
