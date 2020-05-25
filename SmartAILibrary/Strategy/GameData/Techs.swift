@@ -396,6 +396,8 @@ class Techs: AbstractTechs {
                 // trigger event to user
                 if player.isHuman() {
                     gameModel?.userInterface?.showPopup(popupType: .techDiscovered, with: PopupData(tech: currentTech))
+                    
+                    self.player?.notifications()?.add(type: .techNeeded, for: self.player, message: "Please choose a new Research", summary: "Choose Research", at: HexPoint.zero)
                 }
 
                 // enter era

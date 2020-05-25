@@ -79,12 +79,12 @@ class GameLoadingScene: BaseScene {
     }
     
     private func fireTimer() {
-        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(GameLoadingScene.animateLoadingBar), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(GameLoadingScene.animateLoadingBar), userInfo: nil, repeats: true)
     }
     
     @objc func animateLoadingBar() {
 
-        self.progress += 0.1
+        self.progress += 0.0333
         self.progressBar?.set(progress: self.progress)
     }
     

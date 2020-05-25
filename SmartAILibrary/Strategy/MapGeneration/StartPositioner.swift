@@ -225,6 +225,28 @@ class StartPositioner {
         
         // sort human to the end
         self.startLocations.sort(by: { !$0.isHuman && $1.isHuman })
+        
+        // debug
+        var allLeaders = aiLeaders
+        allLeaders.append(human)
+        
+        for leader in allLeaders {
+            if let leaderPos = self.startLocations.first(where: { $0.leader == leader }) {
+                print("- \(leader) (\(leaderPos.isHuman ? "human" : "ai")) has start position \(leaderPos.point)")
+                
+                for leader2 in allLeaders {
+                    
+                    if leader == leader2 {
+                        continue
+                    }
+                    
+                    if let leader2Pos = self.startLocations.first(where: { $0.leader == leader2 }) {
+                        let distance = leaderPos.point.distance(to: leader2Pos.point)
+                        print("   - distance: \(distance) to \(leader2)")
+                    }
+                }
+            }
+        }
     }
     
     private func divideIntoRegions(numOfDivisions: Int, area: HexArea) {

@@ -1456,17 +1456,17 @@ public class Player: AbstractPlayer {
             // If this is the first city (or we still aren't getting tech for some other reason) notify the player
             if techs.needToChooseTech() && self.science(in: gameModel) > 0.0 {
                 
-                if self.isActive() {
+                //if self.isActive() {
                     self.notifications()?.add(type: .techNeeded, for: self, message: "You may select a new research project.", summary: "Choose Research", at: HexPoint.zero)
-                }
+                //}
             }
             
             // If this is the first city (or ..) notify the player
             if civics.needToChooseCivic() && self.culture(in: gameModel) > 0.0 {
                 
-                if self.isActive() {
+                //if self.isActive() {
                     self.notifications()?.add(type: .civicNeeded, for: self, message: "You may select a new civic project.", summary: "Choose Civic", at: HexPoint.zero)
-                }
+                //}
             }
             
         } else {

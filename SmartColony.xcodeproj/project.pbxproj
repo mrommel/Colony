@@ -564,8 +564,8 @@
 				C9B1D25C2435160800033791 /* ProgressBarNode.swift */,
 				C9B1D25E2435166700033791 /* MessageBoxButtonNode.swift */,
 				C95B3DF324387100002F5A86 /* MapNode.swift */,
-				C95B3DF724387188002F5A86 /* BottomRightBar.swift */,
 				C95B3DF524387125002F5A86 /* BottomLeftBar.swift */,
+				C95B3DF724387188002F5A86 /* BottomRightBar.swift */,
 				C99234B12449853900F4B4AB /* NotificationsNode.swift */,
 				C95B3DF9243871A6002F5A86 /* SizedNode.swift */,
 				C95B3DFB243871DD002F5A86 /* MapOverviewNode.swift */,
@@ -697,7 +697,6 @@
 			isa = PBXGroup;
 			children = (
 				C95B3DEB24371025002F5A86 /* earth_duel.map */,
-				C94787242474399000FAAC99 /* earth_small.map */,
 				C95B3DEC24371025002F5A86 /* earth_tiny.map */,
 				C9B1D28A2435B00F00033791 /* earth_huge.map */,
 				C9B1D28B2435B00F00033791 /* earth_large.map */,

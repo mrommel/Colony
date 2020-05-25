@@ -41,4 +41,35 @@ extension UnitType {
             case .writer: return "unit_default"
         }
     }
+    
+    func typeTexture() -> String {
+        
+        switch self {
+            
+            case .barbarianWarrior: return "unit_type_warrior"
+
+                // ancient
+            case .settler: return "unit_type_settler"
+            case .builder: return "unit_type_builder"
+
+            case .scout: return "unit_type_scout"
+            case .warrior: return "unit_type_warrior"
+            case .slinger: return "unit_type_slinger"
+            case .archer: return "unit_type_archer"
+            case .spearman: return "unit_type_spearman"
+            case .heavyChariot: return "unit_type_heavyChariot"
+            case .galley: return "unit_type_galley"
+
+                // great people
+            case .admiral: return "unit_type_default"
+            case .artist: return "unit_type_default"
+            case .engineer: return "unit_type_default"
+            case .general: return "unit_type_default"
+            case .merchant: return "unit_type_default"
+            case .musician: return "unit_type_default"
+            case .prophet: return "unit_type_default"
+            case .scientist: return "unit_type_default"
+            case .writer: return "unit_type_default"
+        }
+    }
 }

@@ -29,6 +29,8 @@ class BottomLeftBar: SizedNode {
     var backgroundCanvasNode: SKSpriteNode?
     var unitCanvasNode: SKSpriteNode?
     var unitImageNode: SKSpriteNode?
+    var unitTypeBackgroundNode: SKSpriteNode?
+    var unitTypeIconNode: SKSpriteNode?
     var glassCanvasNode: SKSpriteNode?
     
     var turnButtonNotificationType: NotificationType = .unitNeedsOrders
@@ -60,6 +62,18 @@ class BottomLeftBar: SizedNode {
         self.unitCanvasNode?.zPosition = self.zPosition + 0.3
         self.unitCanvasNode?.anchorPoint = .lowerLeft
         self.addChild(self.unitCanvasNode!)
+        
+        let unitTypeBackgroundTexture = SKTexture(imageNamed: "unit_type_background")
+        self.unitTypeBackgroundNode = SKSpriteNode(texture: unitTypeBackgroundTexture, color: .black, size: CGSize(width: 16, height: 16))
+        self.unitTypeBackgroundNode?.zPosition = self.zPosition + 0.6
+        self.unitTypeBackgroundNode?.anchorPoint = .lowerLeft
+        self.addChild(self.unitTypeBackgroundNode!)
+        
+        let unitTypeIconTexture = SKTexture(imageNamed: "unit_type_default")
+        self.unitTypeIconNode = SKSpriteNode(texture: unitTypeIconTexture, color: .black, size: CGSize(width: 16, height: 16))
+        self.unitTypeIconNode?.zPosition = self.zPosition + 0.6
+        self.unitTypeIconNode?.anchorPoint = .lowerLeft
+        self.addChild(self.unitTypeIconNode!)
         
         let selectedUnitTexture = SKTexture(imageNamed: "button_generic")
         self.unitImageNode = SKSpriteNode(texture: selectedUnitTexture, color: .black, size: CGSize(width: 90, height: 90))
@@ -93,6 +107,8 @@ class BottomLeftBar: SizedNode {
         self.backgroundCanvasNode?.position = self.position + CGPoint(x: 3, y: 3)
         self.unitCanvasNode?.position = self.position + CGPoint(x: 0, y: 0)
         self.unitImageNode?.position = self.position + CGPoint(x: 3, y: 3)
+        self.unitTypeBackgroundNode?.position = self.position + CGPoint(x: 5, y: 5)
+        self.unitTypeIconNode?.position = self.position + CGPoint(x: 5, y: 5)
         self.glassCanvasNode?.position = self.position + CGPoint(x: 3, y: 3)
         self.unitCommandsCanvasNode?.position = self.position + (self.unitCommandsVisible ? BottomLeftBar.unitCommandsVisiblePosition : BottomLeftBar.unitCommandsInvisiblePosition)
     }
@@ -122,8 +138,6 @@ class BottomLeftBar: SizedNode {
                 self.delegate?.handleCivicNeeded()
                 return true
             } else if self.turnButtonNotificationType == .productionNeeded {
-                
-                
                 self.delegate?.handleProductionNeeded(at: self.turnButtonNotificationLocation)
                 return true
             } else {
@@ -187,6 +201,19 @@ class BottomLeftBar: SizedNode {
         
             self.unitImageNode?.texture = selectedUnitTexture
             
+            // type
+            guard let civilization = selectedUnit.player?.leader.civilization() else {
+                fatalError("cant get civ")
+            }
+            
+            self.unitTypeBackgroundNode?.color = civilization.backgroundColor()
+            self.unitTypeBackgroundNode?.colorBlendFactor = 1.0
+            self.unitTypeIconNode?.texture = SKTexture(imageNamed: selectedUnit.type.typeTexture())
+            self.unitTypeIconNode?.color = civilization.iconColor()
+            self.unitTypeIconNode?.colorBlendFactor = 1.0
+            
+            // commands
+            
             for commandIconNode in self.commandIconNodes {
                 commandIconNode?.removeFromParent()
             }
@@ -214,6 +241,15 @@ class BottomLeftBar: SizedNode {
         } else {
             let selectedUnitTexture = SKTexture(imageNamed: "button_generic")
             self.unitImageNode?.texture = selectedUnitTexture
+            
+            // type
+            self.unitTypeBackgroundNode?.color = SKColor.gray
+            self.unitTypeBackgroundNode?.colorBlendFactor = 1.0
+            
+            let unitTypeIconTexture = SKTexture(imageNamed: "unit_type_default")
+            self.unitTypeIconNode?.texture = unitTypeIconTexture
+            self.unitTypeIconNode?.color = SKColor.white
+            self.unitTypeIconNode?.colorBlendFactor = 1.0
             
             // hide commands
             let moveAction = SKAction.move(to: self.position + BottomLeftBar.unitCommandsInvisiblePosition, duration:(TimeInterval(0.3)))

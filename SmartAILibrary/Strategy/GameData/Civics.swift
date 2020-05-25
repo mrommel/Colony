@@ -358,6 +358,8 @@ class Civics: AbstractCivics {
                 // trigger event to user
                 if player.isHuman() {
                     gameModel?.userInterface?.showPopup(popupType: .civicDiscovered, with: PopupData(civic: currentCivic))
+                    
+                    self.player?.notifications()?.add(type: .techNeeded, for: self.player, message: "Please choose a new Civic", summary: "Choose Civic", at: HexPoint.zero)
                 }
 
                 // enter era

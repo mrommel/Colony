@@ -139,7 +139,7 @@ class PediaScene: BaseScene {
 
         let aiPlayer = Player(leader: .elizabeth, isHuman: false)
         aiPlayer.initialize()
-        
+
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
@@ -151,18 +151,16 @@ class PediaScene: BaseScene {
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
 
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [aiPlayer, humanPlayer], on: mapModel)
-        
-        let aiCity = City(name: "AI Capital", at: HexPoint(x: 8, y: 5), capital: true, owner: aiPlayer)
-        aiCity.initialize(in: gameModel)
-        gameModel.add(city: aiCity)
-        
+
+        // AI
+        aiPlayer.found(at: HexPoint(x: 8, y: 5), named: "AI Capital", in: gameModel)
+
         let aiWarriorUnit = Unit(at: HexPoint(x: 7, y: 5), type: .warrior, owner: aiPlayer)
         gameModel.add(unit: aiWarriorUnit)
-        
-        let humanCity = City(name: "Human Capital", at: HexPoint(x: 3, y: 5), capital: true, owner: humanPlayer)
-        humanCity.initialize(in: gameModel)
-        gameModel.add(city: humanCity)
-        
+
+        // Human
+        humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+
         self.pediaDelegate?.start(game: gameModel)
     }
 

@@ -32,6 +32,8 @@ class UnitObject {
     
     // internal UI elements
     var sprite: SKSpriteNode
+    var typeBackgroundSprite: SKSpriteNode
+    var typeIconSprite: SKSpriteNode
     
     init(unit: AbstractUnit?, in gameModel: GameModel?) {
      
@@ -42,12 +44,32 @@ class UnitObject {
         guard let unit = self.unit else {
             fatalError("cant get unit")
         }
+        
+        guard let civilization = unit.player?.leader.civilization() else {
+            fatalError("cant get civilization")
+        }
 
         self.spriteName = unit.type.spriteName
         self.sprite = SKSpriteNode(imageNamed: self.spriteName)
         self.sprite.position = HexPoint.toScreen(hex: unit.location)
         self.sprite.zPosition = Globals.ZLevels.unit
         self.sprite.anchorPoint = unit.type.anchorPoint
+        
+        let unitTypeBackgroundTexture = SKTexture(imageNamed: "unit_type_background")
+        self.typeBackgroundSprite = SKSpriteNode(texture: unitTypeBackgroundTexture, color: .black, size: CGSize(width: 10, height: 10))
+        self.typeBackgroundSprite.position = CGPoint(x: 8, y: 36)
+        self.typeBackgroundSprite.zPosition = Globals.ZLevels.unit + 0.05
+        self.typeBackgroundSprite.color = civilization.backgroundColor()
+        self.typeBackgroundSprite.colorBlendFactor = 1.0
+        self.sprite.addChild(self.typeBackgroundSprite)
+        
+        let unitTypeIconTexture = SKTexture(imageNamed: unit.type.typeTexture())
+        self.typeIconSprite = SKSpriteNode(texture: unitTypeIconTexture, color: .black, size: CGSize(width: 10, height: 10))
+        self.typeIconSprite.position = CGPoint(x: 8, y: 36)
+        self.typeIconSprite.zPosition = Globals.ZLevels.unit + 0.06
+        self.typeIconSprite.color = civilization.iconColor()
+        self.typeIconSprite.colorBlendFactor = 1.0
+        self.sprite.addChild(self.typeIconSprite)
 
         // setup atlases
         self.atlasIdle = unit.type.idleAtlas

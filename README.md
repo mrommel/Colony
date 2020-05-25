@@ -27,6 +27,7 @@
 - rework river generation
     - A river will also turn adjacent flat desert tiles into flood plains, adjacent snow tiles to tundra tiles, and adjacent tundra tiles to plains. (/)
     - distibute springs evenly
+    - load earth rivers
 
 ## Defects
 ...
@@ -48,6 +49,7 @@
 - resource_oil
 - resource_silk
 - yield_1_2_3
+- yield_5_0_0
 
 ## Done
 - add builder from start

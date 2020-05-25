@@ -69,6 +69,7 @@ class GameScene: BaseScene {
     private var faithYield: YieldDisplayNode?
     
     private var turnLabel: SKLabelNode?
+    private var menuButton: TouchableSpriteNode?
 
     // view model
     var viewModel: GameSceneViewModel?
@@ -239,6 +240,10 @@ class GameScene: BaseScene {
         self.turnLabel?.numberOfLines = 0
         self.turnLabel?.horizontalAlignmentMode = .right
         self.safeAreaNode.addChild(self.turnLabel!)
+        
+        self.menuButton = TouchableSpriteNode(imageNamed: "menu_icon", size: CGSize(width: 24, height: 24))
+        self.menuButton?.zPosition = 400
+        self.safeAreaNode.addChild(self.menuButton!)
 
         // disable turn button
         self.changeUITurnState(to: .aiTurns)
@@ -288,7 +293,8 @@ class GameScene: BaseScene {
         self.goldYield?.position = CGPoint(x: -self.frame.halfWidth + 140, y: frame.halfHeight - offsetY - 2)
         self.faithYield?.position = CGPoint(x: -self.frame.halfWidth + 205, y: frame.halfHeight - offsetY - 2)
         
-        self.turnLabel?.position = CGPoint(x: self.frame.halfWidth - 40, y: frame.halfHeight - offsetY - 2 - 20)
+        self.turnLabel?.position = CGPoint(x: self.frame.halfWidth - 40, y: frame.halfHeight - offsetY - 26)
+        self.menuButton?.position = CGPoint(x: self.frame.halfWidth - 22, y: frame.halfHeight - offsetY - 16)
 
         self.mapNode?.updateLayout()
 
@@ -587,6 +593,11 @@ class GameScene: BaseScene {
         
         guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
             print("touch ended in left bar")
+            return
+        }
+        
+        guard let menuButton = self.menuButton, !menuButton.frame.contains(cameraLocation) else {
+            print("touch ended in menu")
             return
         }
         
