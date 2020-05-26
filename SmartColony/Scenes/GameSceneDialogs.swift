@@ -200,9 +200,17 @@ extension GameScene {
                 // Das Entfernen der Geländeart {@1_FeatName} hat {2_Num} [ICON_PRODUCTION] für die Stadt {@3_CityName} eingebracht.
                 break
             case .techDiscovered:
-                break
+                if let techType = fistPopup.popupData?.tech {
+                    self.showTechDiscoveredPopup(for: techType)
+                } else {
+                    fatalError("popup data did not provide tech")
+                }
             case .civicDiscovered:
-                break
+                if let civicType = fistPopup.popupData?.civic {
+                    self.showCivicDiscoveredPopup(for: civicType)
+                } else {
+                    fatalError("popup data did not provide tech")
+                }
             case .eraEntered:
                 break
             case .eurekaActivated:
@@ -218,6 +226,40 @@ extension GameScene {
             self.popups.removeFirst()
             return
         }
+    }
+    
+    func showTechDiscoveredPopup(for techType: TechType) {
+
+        self.currentPopupType = .techDiscovered
+        
+        let techDiscoveredPopupPopupViewModel = TechDiscoveredPopupViewModel(techType: techType)
+        
+        let techDiscoveredPopup = TechDiscoveredPopup(viewModel: techDiscoveredPopupPopupViewModel)
+        techDiscoveredPopup.zPosition = 250
+
+        techDiscoveredPopup.addOkayAction(handler: {
+            self.currentPopupType = .none
+            techDiscoveredPopup.close()
+        })
+
+        self.cameraNode.add(dialog: techDiscoveredPopup)
+    }
+    
+    func showCivicDiscoveredPopup(for civicType: CivicType) {
+
+        self.currentPopupType = .civicDiscovered
+        
+        let civicDiscoveredPopupPopupViewModel = CivicDiscoveredPopupViewModel(civicType: civicType)
+        
+        let civicDiscoveredPopupPopup = CivicDiscoveredPopup(viewModel: civicDiscoveredPopupPopupViewModel)
+        civicDiscoveredPopupPopup.zPosition = 250
+
+        civicDiscoveredPopupPopup.addOkayAction(handler: {
+            self.currentPopupType = .none
+            civicDiscoveredPopupPopup.close()
+        })
+
+        self.cameraNode.add(dialog: civicDiscoveredPopupPopup)
     }
 
     func showEurekaActivatedPopup(for techType: TechType) {

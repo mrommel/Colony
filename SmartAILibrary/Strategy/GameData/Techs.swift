@@ -286,8 +286,13 @@ class Techs: AbstractTechs {
         guard let player = self.player else {
             fatalError("Can't trigger eurake - no player present")
         }
+        
+        // check if eureka is still needed
+        if self.has(tech: techType) {
+            return
+        }
 
-        // check if already active
+        // check if eureka is already active
         if self.eurekaTriggered(for: techType) {
             return
         }

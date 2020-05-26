@@ -123,6 +123,11 @@ public enum CivicType: String, Codable {
 
         return self.data().eurekaDescription
     }
+    
+    public func quoteText() -> String {
+        
+        return "quote"
+    }
 
     public func era() -> EraType {
 

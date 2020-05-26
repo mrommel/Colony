@@ -20,6 +20,7 @@ class PediaScene: BaseScene {
     // variables
     var backgroundNode: SKSpriteNode?
 
+    var scienceNearlyDiscoveredGameButton: MenuButtonNode?
     var firstContactGameButton: MenuButtonNode?
 
     var interimRankingDialogButton: MenuButtonNode?
@@ -52,6 +53,14 @@ class PediaScene: BaseScene {
         self.backgroundNode?.zPosition = 0
         self.backgroundNode?.size = viewSize
         self.rootNode.addChild(self.backgroundNode!)
+
+        // science
+        self.scienceNearlyDiscoveredGameButton = MenuButtonNode(titled: "Science Nearly Discovered",
+                                                                buttonAction: {
+                                                                    self.startScienceNearlyDiscoveredGame()
+                                                                })
+        self.scienceNearlyDiscoveredGameButton?.zPosition = 2
+        self.rootNode.addChild(self.scienceNearlyDiscoveredGameButton!)
 
         // first contact
         self.firstContactGameButton = MenuButtonNode(titled: "First Contact",
@@ -121,6 +130,7 @@ class PediaScene: BaseScene {
         self.backgroundNode?.position = CGPoint(x: 0, y: 0)
         self.backgroundNode?.aspectFillTo(size: viewSize)
 
+        self.scienceNearlyDiscoveredGameButton?.position = CGPoint(x: 0, y: 60)
         self.firstContactGameButton?.position = CGPoint(x: 0, y: 10)
 
         self.civicDialogButton?.position = CGPoint(x: 0, y: -50)
@@ -132,8 +142,36 @@ class PediaScene: BaseScene {
         self.backButton?.position = CGPoint(x: 0, y: -viewSize.halfHeight + 50)
     }
 
-
     // MARK: games
+
+    func startScienceNearlyDiscoveredGame() {
+
+        let aiPlayer = Player(leader: .elizabeth, isHuman: false)
+        aiPlayer.initialize()
+
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        let mapModel = PediaScene.mapFilled(with: .grass, sized: .duel)
+        mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
+        mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
+        mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
+        mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
+        mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
+
+        let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [aiPlayer, humanPlayer], on: mapModel)
+
+        // AI
+        aiPlayer.found(at: HexPoint(x: 16, y: 5), named: "AI Capital", in: gameModel)
+
+        // Human
+        humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .pottery)
+        try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+        humanPlayer.techs?.add(science: 49.9)
+
+        self.pediaDelegate?.start(game: gameModel)
+    }
 
     func startFirstContactGame() {
 

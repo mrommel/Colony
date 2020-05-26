@@ -403,6 +403,11 @@ class Civics: AbstractCivics {
             fatalError("Can't trigger eureka - no player present")
         }
         
+        // check if eureka is still needed
+        if self.has(civic: civicType) {
+            return
+        }
+        
         // check if already active
         if self.eurekaTriggered(for: civicType) {
             return

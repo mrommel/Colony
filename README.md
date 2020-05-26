@@ -31,6 +31,7 @@
     - A river will also turn adjacent flat desert tiles into flood plains, adjacent snow tiles to tundra tiles, and adjacent tundra tiles to plains. (/)
     - distibute springs evenly
     - load earth rivers (tricky)
+    - river tiles
 - leave current game
     - automatically
 - restore current game
@@ -39,7 +40,7 @@
 ...
 
 ## Missing Tiles
-...
+- rivers
 
 ## Done
 - add builder from start

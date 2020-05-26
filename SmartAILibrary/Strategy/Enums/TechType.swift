@@ -153,6 +153,11 @@ public enum TechType: String, Codable {
         
         return self.data().eurekaDescription
     }
+    
+    public func quoteText() -> String {
+        
+        return "quote"
+    }
 
     func era() -> EraType {
 

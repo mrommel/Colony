@@ -68,7 +68,7 @@ class CityObject {
         self.nameBackground = SKSpriteNode(texture: texture, size: CGSize(width: 48, height: 48))
         self.nameBackground?.zPosition = Globals.ZLevels.cityName - 0.1
         self.nameBackground?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        self.nameBackground?.colorBlendFactor = 0.7
+        self.nameBackground?.colorBlendFactor = 1.0
         self.nameBackground?.color = player.leader.civilization().backgroundColor()
         
         if let nameBackground = self.nameBackground {

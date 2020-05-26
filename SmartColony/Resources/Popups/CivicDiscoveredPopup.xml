@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>center</anchory>
+    <offsetx>0</offsetx>
+    <offsety>0%</offsety>
+    <width>90%</width>
+    <height>50%</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        <item>
+            <identifier>popup_image</identifier>
+            <type>image</type>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>110</offsety>
+            <width>100</width>
+            <height>100</height>
+            <image>questionmark</image>
+        </item>
+        <item>
+            <identifier>popup_title</identifier>
+            <type>label</type>
+            <title>Tech title</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>50</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>popup_summary</identifier>
+            <type>label</type>
+            <title>Tech text</title>
+            <fontSize>24</fontSize>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>20</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>popup_subtitle</identifier>
+            <type>label</type>
+            <title>Unlocked</title>
+            <fontSize>12</fontSize>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-20</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>popup_quote</identifier>
+            <type>label</type>
+            <title>tech quote</title>
+            <fontSize>16</fontSize>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-90</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>okay_button</identifier>
+            <type>button</type>
+            <title>Okay</title>
+            <result>OKAY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-150</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+    </items>
+</context>
