@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum MilitaryStrategyType {
+enum MilitaryStrategyType: Int, Codable {
 
     case needRanged
     case enoughRanged

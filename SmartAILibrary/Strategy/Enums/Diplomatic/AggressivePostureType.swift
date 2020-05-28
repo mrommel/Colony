@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum AggressivePostureType: Int, Comparable {
+enum AggressivePostureType: Int, Comparable, Codable {
     
     case none
     

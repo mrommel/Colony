@@ -9,7 +9,7 @@
 import Foundation
 
 // https://civ6.gamepedia.com/Game_difficulty   
-public enum HandicapType {
+public enum HandicapType: Int, Codable {
 
     case settler
     case chieftain

@@ -564,19 +564,19 @@ public class CityStrategyAI {
     // Determines what yield type is in a deficient state. If none, then NO_YIELD is returned
     func deficientYield(in gameModel: GameModel?) -> YieldType {
         
-        if self.isDeficient(for: .food) {
+        if self.isDeficient(for: .food, in: gameModel) {
             return .food
-        } else if self.isDeficient(for: .production) {
+        } else if self.isDeficient(for: .production, in: gameModel) {
             return .production
         }
         
         return .none
     }
     
-    func isDeficient(for yieldType: YieldType) -> Bool {
+    func isDeficient(for yieldType: YieldType, in gameModel: GameModel?) -> Bool {
         
         var desiredYield = self.deficientYieldValue(for: yieldType)
-        var yieldAverage = self.yieldAverage(for: yieldType)
+        var yieldAverage = self.yieldAverage(for: yieldType, in: gameModel)
 
         desiredYield = round(desiredYield * 100.0)
         yieldAverage = round(yieldAverage * 100.0)
@@ -585,7 +585,7 @@ public class CityStrategyAI {
     }
     
     /// Get the average value of the yield for this city
-    func yieldAverage(for yieldType: YieldType) -> Double {
+    func yieldAverage(for yieldType: YieldType, in gameModel: GameModel?) -> Double {
         
         guard let city = self.city else {
             fatalError("cant get city")
@@ -602,9 +602,9 @@ public class CityStrategyAI {
         var tilesWorked = 0
         var yieldAmount = 0.0
         
-        for plot in player.plots {
+        for point in player.area {
 
-            guard let plot = plot else {
+            guard let plot = gameModel?.tile(at: point) else {
                 continue
             }
             

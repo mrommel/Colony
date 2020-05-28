@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>center</anchory>
+    <offsetx>0</offsetx>
+    <offsety>0</offsety>
+    <width>300</width>
+    <height>570</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        <item>
+            <identifier>dialog_image</identifier>
+            <type>image</type>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>190</offsety>
+            <width>40</width>
+            <height>40</height>
+            <image>questionmark</image>
+        </item>
+        <item>
+            <identifier>summary</identifier>
+            <type>label</type>
+            <title>Menu</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>150</offsety>
+            <width>200</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>return_button</identifier>
+            <type>button</type>
+            <title>Return to Game</title>
+            <result>CANCEL</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>100</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+        <item>
+            <identifier>save_button</identifier>
+            <type>button</type>
+            <title>Save</title>
+            <result>GAME_SAVE</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>50</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+        <item>
+            <identifier>load_button</identifier>
+            <type>button</type>
+            <title>Load</title>
+            <result>GAME_LOAD</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>0</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+        <item>
+            <identifier>retire_button</identifier>
+            <type>button</type>
+            <title>Retire</title>
+            <result>GAME_RETIRE</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-50</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+        <item>
+            <identifier>restart_button</identifier>
+            <type>button</type>
+            <title>Restart</title>
+            <result>GAME_RESTART</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-100</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+        
+        <item>
+            <identifier>exit_button</identifier>
+            <type>button</type>
+            <title>Exit to Main Menu</title>
+            <result>GAME_EXIT</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-180</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+        
+        <!-- current civ -->
+        <!-- current leader -->
+        <!-- current handicap -->
+        
+    </items>
+</context>
+

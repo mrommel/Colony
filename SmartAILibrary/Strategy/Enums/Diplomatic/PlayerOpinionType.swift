@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PlayerOpinionType {
+enum PlayerOpinionType: Int, Codable {
 
     case none
 

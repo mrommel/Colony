@@ -166,8 +166,12 @@ public enum ImprovementType: Int, Codable {
         }
     }
 
-    func isPossible(on tile: Tile) -> Bool {
+    func isPossible(on tile: AbstractTile?) -> Bool {
 
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+        
         // can't set an improvement to unowned tile or can we?
         guard tile.owner() != nil else {
             return false
@@ -248,13 +252,21 @@ public enum ImprovementType: Int, Codable {
     
     // MARK: private methods
     
-    private func isBarbarianCampPossible(on tile: Tile) -> Bool {
+    private func isBarbarianCampPossible(on tile: AbstractTile?) -> Bool {
+        
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
         
         return tile.terrain().isLand()
     }
     
     // Farms can be built on non-desert and non-tundra flat lands, which are the most available tiles in Civilization VI.
-    private func isFarmPossible(on tile: Tile) -> Bool {
+    private func isFarmPossible(on tile: AbstractTile?) -> Bool {
+        
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
         
         guard let owner = tile.owner() else {
             fatalError("can check without owner")
@@ -272,7 +284,11 @@ public enum ImprovementType: Int, Codable {
         return false
     }
     
-    private func isMinePossible(on tile: Tile) -> Bool {
+    private func isMinePossible(on tile: AbstractTile?) -> Bool {
+        
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
         
         guard let owner = tile.owner() else {
             fatalError("can check without owner")
@@ -293,8 +309,12 @@ public enum ImprovementType: Int, Codable {
         return true
     }
     
-    private func isQuarryPossible(on tile: Tile) -> Bool {
+    private func isQuarryPossible(on tile: AbstractTile?) -> Bool {
     
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+        
         guard let owner = tile.owner() else {
             fatalError("can check without owner")
         }
@@ -306,8 +326,12 @@ public enum ImprovementType: Int, Codable {
         return tile.has(resource: .stone, for: owner) || tile.has(resource: .marble, for: owner) /* || tile.has(resource: .gypsum, for: owner) */
     }
     
-    private func isCampPossible(on tile: Tile) -> Bool {
+    private func isCampPossible(on tile: AbstractTile?) -> Bool {
     
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+        
         guard let owner = tile.owner() else {
             fatalError("can check without owner")
         }
@@ -319,8 +343,12 @@ public enum ImprovementType: Int, Codable {
         return tile.has(resource: .deer, for: owner) || tile.has(resource: .furs, for: owner) /*|| tile.has(resource: .ivory, for: owner) || tile.has(resource: .truffles, for: owner) */
     }
     
-    private func isPasturePossible(on tile: Tile) -> Bool {
+    private func isPasturePossible(on tile: AbstractTile?) -> Bool {
     
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+        
         guard let owner = tile.owner() else {
             fatalError("can check without owner")
         }
@@ -332,8 +360,12 @@ public enum ImprovementType: Int, Codable {
         return tile.has(resource: .cattle, for: owner) || tile.has(resource: .sheep, for: owner) || tile.has(resource: .horses, for: owner)
     }
     
-    private func isPlantationPossible(on tile: Tile) -> Bool {
+    private func isPlantationPossible(on tile: AbstractTile?) -> Bool {
     
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+        
         guard let owner = tile.owner() else {
             fatalError("can check without owner")
         }
@@ -346,8 +378,12 @@ public enum ImprovementType: Int, Codable {
         // FIXME: cocoa, cotton, coffee, dyes, incense, silk, spices, sugar, tobacco, wine, olives
     }
     
-    private func isFishingBoatsPossible(on tile: Tile) -> Bool {
+    private func isFishingBoatsPossible(on tile: AbstractTile?) -> Bool {
     
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+        
         guard let owner = tile.owner() else {
             fatalError("can check without owner")
         }
@@ -360,8 +396,12 @@ public enum ImprovementType: Int, Codable {
         // FIXME: crabs, amber, turtles
     }
     
-    private func isOilWellPossible(on tile: Tile) -> Bool {
+    private func isOilWellPossible(on tile: AbstractTile?) -> Bool {
     
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+        
         guard let owner = tile.owner() else {
             fatalError("can check without owner")
         }

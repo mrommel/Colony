@@ -8,7 +8,12 @@
 
 import Foundation
 
-class Flavors {
+class Flavors: Codable {
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case items
+    }
     
     private var items: [Flavor]
     
@@ -20,6 +25,20 @@ class Flavors {
             
             self.items.append(Flavor(type: flavorType, value: 0))
         }
+    }
+    
+    required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.items = try container.decode([Flavor].self, forKey: .items)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.items, forKey: .items)
     }
     
     func reset() {

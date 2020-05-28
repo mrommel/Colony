@@ -13,20 +13,25 @@ public enum CommandType {
     case found
     case buildFarm
     case buildMine
-    case buildRoute // which?
+    // case buildRoute // which?
     case pillage
     case fortify
     case hold
     case garrison
     
-    func title() -> String {
+    public static var all: [CommandType] {
+        
+        return [.found, .buildFarm, .buildMine, .pillage, .fortify, .hold, .garrison]
+    }
+    
+    public func title() -> String {
         
         switch self {
 
         case .found: return "Found City"
         case .buildFarm: return "Build Farm"
         case .buildMine: return "Build Mine"
-        case .buildRoute: return "Build Route"
+        //case .buildRoute: return "Build Route"
         case .pillage: return "Pillage Improvement"
         case .fortify: return "Fortify"
         case .hold: return "Hold"

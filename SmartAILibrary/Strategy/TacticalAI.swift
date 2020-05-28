@@ -309,8 +309,16 @@ class TacticalUnit: Comparable {
 //!  - Handed units to control by the operational AI
 //!  - Handles moves for these units until dead or objective completed
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-public class TacticalAI {
+public class TacticalAI: Codable {
 
+    enum CodingKeys: String, CodingKey {
+        
+        case temporaryZones
+        case allTargets
+        
+        case movePriotityTurn
+    }
+    
     var player: Player?
 
     var temporaryZones: [TemporaryZone]
@@ -328,12 +336,20 @@ public class TacticalAI {
     var movePriotityTurn: Int = 0
     var currentSeriesId: Int = -1
     
-    let recruitRange = 10
-    let repositionRange = 10 // AI_TACTICAL_REPOSITION_RANGE
+    static let recruitRange = 10
+    static let repositionRange = 10 // AI_TACTICAL_REPOSITION_RANGE
 
     // MARK: internal classes
 
-    class TemporaryZone {
+    class TemporaryZone: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+        
+            case location
+            case lastTurn
+            case targetType
+            case navalMission
+        }
 
         var location: HexPoint = HexPoint(x: -1, y: -1)
         var lastTurn: Int = -1
@@ -342,6 +358,26 @@ public class TacticalAI {
 
         init() {
 
+        }
+        
+        required init(from decoder: Decoder) throws {
+            
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+            self.location = try container.decode(HexPoint.self, forKey: .location)
+            self.lastTurn = try container.decode(Int.self, forKey: .lastTurn)
+            self.targetType = try container.decode(TacticalTargetType.self, forKey: .targetType)
+            self.navalMission = try container.decode(Bool.self, forKey: .navalMission)
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(self.location, forKey: .location)
+            try container.encode(self.lastTurn, forKey: .lastTurn)
+            try container.encode(self.targetType, forKey: .targetType)
+            try container.encode(self.navalMission, forKey: .navalMission)
         }
     }
 
@@ -353,11 +389,19 @@ public class TacticalAI {
     //!  - Arises during processing of CvTacticalAI::FindTacticalTargets()
     //!  - Targets are reexamined each turn (so shouldn't need to be serialized)
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    struct TacticalTarget {
+    class TacticalTarget: Codable {
 
+        enum CodingKeys: String, CodingKey {
+        
+            case targetType
+            case target
+            case targetLeader
+            case dominanceZone
+        }
+        
         var targetType: TacticalTargetType
         let target: HexPoint
-        var targetPlayer: AbstractPlayer?
+        var targetLeader: LeaderType
         let dominanceZone: TacticalAnalysisMap.TacticalDominanceZone?
 
         // aux data
@@ -366,6 +410,34 @@ public class TacticalAI {
         var city: AbstractCity? = nil
         var threatValue: Int = 0
         var tile: AbstractTile? = nil
+        
+        init(targetType: TacticalTargetType, target: HexPoint, targetLeader: LeaderType, dominanceZone: TacticalAnalysisMap.TacticalDominanceZone?) {
+            
+            self.targetType = targetType
+            self.target = target
+            self.targetLeader = targetLeader
+            self.dominanceZone = dominanceZone
+        }
+        
+        required init(from decoder: Decoder) throws {
+        
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+            self.targetType = try container.decode(TacticalTargetType.self, forKey: .targetType)
+            self.target = try container.decode(HexPoint.self, forKey: .target)
+            self.targetLeader = try container.decode(LeaderType.self, forKey: .targetLeader)
+            self.dominanceZone = nil // try container.decodeIfPresent(TacticalAnalysisMap.TacticalDominanceZone.self, forKey: .dominanceZone)
+        }
+        
+        func encode(to encoder: Encoder) throws {
+        
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(self.targetType, forKey: .targetType)
+            try container.encode(self.target, forKey: .target)
+            try container.encode(self.targetLeader, forKey: .targetLeader)
+            //try container.encodeIfPresent(self.dominanceZone, forKey: .dominanceZone)
+        }
         
         /// This target make sense for this domain of unit/zone?
         func isTargetValidIn(domain: UnitDomainType) -> Bool {
@@ -453,7 +525,6 @@ public class TacticalAI {
         }
     }
 
-
     // MARK: constructors
 
     init(player: Player?) {
@@ -473,7 +544,37 @@ public class TacticalAI {
         self.currentMoveUnits = []
         self.currentMoveHighPriorityUnits = []
     }
+    
+    required public init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.temporaryZones = try container.decode([TemporaryZone].self, forKey: .temporaryZones)
+        self.allTargets = try container.decode([TacticalTarget].self, forKey: .allTargets)
+        
+        self.queuedAttacks = []
+        self.movePriorityList = []
+        self.postures = []
+        self.zoneTargets = []
+        
+        self.currentTurnUnits = []
+        self.currentMoveCities = []
+        self.currentMoveUnits = []
+        self.currentMoveHighPriorityUnits = []
 
+        self.movePriotityTurn = try container.decode(Int.self, forKey: .movePriotityTurn)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+      
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.temporaryZones, forKey: .temporaryZones)
+        try container.encode(self.allTargets, forKey: .allTargets)
+        
+        try container.encode(self.movePriotityTurn, forKey: .movePriotityTurn)
+    }
+    
     /// Update the AI for units
     func turn(in gameModel: GameModel?) {
 
@@ -834,7 +935,7 @@ public class TacticalAI {
                 // LAND MOVES
                 if unit.domain() == .land {
             
-                    if let bestPlot = self.findNearbyTarget(for: unit, in: self.repositionRange, in: gameModel) {
+                    if let bestPlot = self.findNearbyTarget(for: unit, in: TacticalAI.repositionRange, in: gameModel) {
                         
                         if self.moveToEmptySpaceNearTarget(unit: unit, target: bestPlot, land: unit.domain() == .land, in: gameModel) {
                             
@@ -2158,7 +2259,7 @@ public class TacticalAI {
             isOurCapital = self.player?.leader == city.player?.leader && city.isCapital()
         }
 
-        return (isOurCapital || dominanceZone.rangeClosestEnemyUnit <= (self.recruitRange / 2) ||
+        return (isOurCapital || dominanceZone.rangeClosestEnemyUnit <= (TacticalAI.recruitRange / 2) ||
             (dominanceZone.dominanceFlag != .noUnitsPresent && dominanceZone.dominanceFlag != .notVisible))
     }
     
@@ -2404,7 +2505,7 @@ public class TacticalAI {
                         var newTarget = TacticalTarget(
                             targetType: .none,
                             target: point,
-                            targetPlayer: nil,
+                            targetLeader: .none,
                             dominanceZone: gameModel.tacticalAnalysisMap().plots[point]?.dominanceZone)
 
                         let enemyDominatedPlot = gameModel.tacticalAnalysisMap().isInEnemyDominatedZone(at: point)
@@ -2437,7 +2538,7 @@ public class TacticalAI {
                             if let unit = unitRef {
                                 if diplomacyAI.isAtWar(with: unit.player) {
                                     newTarget.targetType = .lowPriorityUnit
-                                    newTarget.targetPlayer = unit.player
+                                    newTarget.targetLeader = unit.player!.leader
                                     newTarget.unit = unitRef
                                     newTarget.damage = unit.damage()
                                     self.allTargets.append(newTarget)
@@ -2448,7 +2549,7 @@ public class TacticalAI {
                             } else if tile.has(improvement: .barbarianCamp) {
 
                                 newTarget.targetType = .barbarianCamp
-                                newTarget.targetPlayer = gameModel.barbarianPlayer()
+                                newTarget.targetLeader = .barbar
                                 newTarget.tile = tile
                                 self.allTargets.append(newTarget)
 
@@ -2474,7 +2575,7 @@ public class TacticalAI {
                                     } else {
 
                                         newTarget.targetType = .improvement
-                                        newTarget.targetPlayer = tile.owner()
+                                        newTarget.targetLeader = tile.owner()!.leader
                                         newTarget.tile = tile
                                         self.allTargets.append(newTarget)
                                     }
@@ -2484,7 +2585,7 @@ public class TacticalAI {
                                 // Or forts / citadels!
                             } else if diplomacyAI.isAtWar(with: tile.owner()) && (tile.has(improvement: .fort) && tile.has(improvement: .citadelle)) {
                                 newTarget.targetType = .improvement
-                                newTarget.targetPlayer = tile.owner()
+                                newTarget.targetLeader = tile.owner()!.leader
                                 newTarget.tile = tile
                                 self.allTargets.append(newTarget)
 
@@ -2497,7 +2598,7 @@ public class TacticalAI {
                                     if diplomacyAI.isAtWar(with: unit.player) && !unit.canDefend() {
 
                                         newTarget.targetType = .lowPriorityUnit
-                                        newTarget.targetPlayer = unit.player
+                                        newTarget.targetLeader = unit.player!.leader
                                         newTarget.unit = unit
 
                                         if unit.isEmbarked() {

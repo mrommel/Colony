@@ -16,7 +16,7 @@ import Foundation
 //!  - Handles moves for all military units not recruited by the tactical or operational AI
 //!  - Also handles moves for workers and explorers (and settlers on the first turn)
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-class HomelandAI {
+public class HomelandAI {
     
     var player: Player?
     var currentTurnUnits: [AbstractUnit?]
@@ -31,8 +31,8 @@ class HomelandAI {
     var currentBestMoveHighPriorityUnit: AbstractUnit? = nil
     var currentBestMoveHighPriorityUnitTurns: Int = Int.max
     
-    let flavorDampening = 0.3 // AI_TACTICAL_FLAVOR_DAMPENING_FOR_MOVE_PRIORITIZATION
-    let defensiveMoveTurns = 4 // AI_HOMELAND_MAX_DEFENSIVE_MOVE_TURNS
+    static let flavorDampening = 0.3 // AI_TACTICAL_FLAVOR_DAMPENING_FOR_MOVE_PRIORITIZATION
+    static let defensiveMoveTurns = 4 // AI_HOMELAND_MAX_DEFENSIVE_MOVE_TURNS
     
     var targetedCities: [HomelandTarget]
     var targetedSentryPoints: [HomelandTarget]
@@ -43,7 +43,7 @@ class HomelandAI {
     
     // MARK: internal structs / enums
     
-    enum HomelandMoveType {
+    enum HomelandMoveType: Int, Codable {
         
         case none // AI_HOMELAND_MOVE_NONE = -1,
         case unassigned // AI_HOMELAND_MOVE_UNASSIGNED,
@@ -125,7 +125,7 @@ class HomelandAI {
     }
     
     // Object stored in the list of move priorities (movePriorityList)
-    class HomelandMove: Comparable {
+    class HomelandMove: Comparable, Codable {
         
         var type: HomelandMoveType
         var priority: Int
@@ -170,7 +170,7 @@ class HomelandAI {
         }
     }
     
-    enum HomelandTargetType {
+    enum HomelandTargetType: Int, Codable {
         
         case city // AI_HOMELAND_TARGET_CITY
         case sentryPoint // AI_HOMELAND_TARGET_SENTRY_POINT
@@ -484,12 +484,12 @@ class HomelandAI {
             fatalError("no player given")
         }
         
-        let flavorDefense = Int(Double(player.valueOfPersonalityFlavor(of: .defense)) * self.flavorDampening)
+        let flavorDefense = Int(Double(player.valueOfPersonalityFlavor(of: .defense)) * HomelandAI.flavorDampening)
         //let flavorOffense = Int(Double(player.valueOfPersonalityFlavor(of: .offense)) * self.flavorDampening)
         let flavorExpand = player.valueOfPersonalityFlavor(of: .expansion)
         let flavorImprove = 0
         let flavorNavalImprove = 0
-        let flavorExplore = Int(Double(player.valueOfPersonalityFlavor(of: .recon)) * self.flavorDampening)
+        let flavorExplore = Int(Double(player.valueOfPersonalityFlavor(of: .recon)) * HomelandAI.flavorDampening)
         //let flavorGold = player.valueOfPersonalityFlavor(of: .gold)
         //let flavorScience = player.valueOfPersonalityFlavor(of: .science)
         //let flavorWonder = player.valueOfPersonalityFlavor(of: .wonder)
@@ -749,7 +749,7 @@ class HomelandAI {
                     
                     if self.currentMoveHighPriorityUnits.count + self.currentMoveUnits.count > 0 {
                         
-                        if self.bestUnitToReachTarget(target: target, maxTurns: self.defensiveMoveTurns, in: gameModel) {
+                        if self.bestUnitToReachTarget(target: target, maxTurns: HomelandAI.defensiveMoveTurns, in: gameModel) {
                             self.executeMoveToTarget(target: target, garrisonIfPossible: true, in: gameModel)
 
                             city.setLastTurnGarrisonAssigned(turn: gameModel.turnsElapsed)

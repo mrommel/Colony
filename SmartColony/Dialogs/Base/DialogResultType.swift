@@ -105,7 +105,16 @@ enum DialogResultType: String, Codable {
     case responseFirstMeetNearRecipientPositive = "DIPLO_CHOICE_FIRST_MEET_NEAR_RECIPIENT_POSITIVE"
     case responseFirstMeetNearRecipientBusy = "DIPLO_CHOICE_FIRST_MEET_NEAR_RECIPIENT_BUSY"
 
-
+    // game menu options
+    case gameSave = "GAME_SAVE"
+    case gameLoad = "GAME_LOAD"
+    case gameRetire = "GAME_RETIRE"
+    case gameRestart = "GAME_RESTART"
+    case gameExit = "GAME_EXIT"
+    
+    
+    // MARK: methods
+    
     func toMapType() -> MapType {
 
         if self == .mapTypeEarth {

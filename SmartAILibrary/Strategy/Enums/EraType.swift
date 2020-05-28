@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum EraType {
+public enum EraType: Int, Codable {
     
     case none
     

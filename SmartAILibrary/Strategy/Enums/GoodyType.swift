@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum GoodyType {
+enum GoodyType: Int, Codable {
     
     case warrior
     case population

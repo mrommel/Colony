@@ -14,7 +14,7 @@ enum CivicError: Error {
     case alreadyDiscovered
 }
 
-public protocol AbstractCivics {
+public protocol AbstractCivics: class, Codable {
 
     // civics
     func has(civic: CivicType) -> Bool
@@ -43,6 +43,16 @@ public protocol AbstractCivics {
 
 class Civics: AbstractCivics {
 
+    enum CodingKeys: CodingKey {
+
+        case civics
+        case currentCivic
+        case lastCultureEarned
+        case progress
+        
+        case eurekas
+    }
+    
     // civic tree
     var civics: [CivicType] = []
 
@@ -53,7 +63,7 @@ class Civics: AbstractCivics {
     private var progress: WeightedCivicList
 
     // heureka
-    private var eurekas: Eurekas
+    private var eurekas: CivicEurekas
 
     // MARK: internal types
 
@@ -72,64 +82,37 @@ class Civics: AbstractCivics {
         }
     }
 
-    private class Eurekas {
-
-        var eurekaCounter: EurekaCounterList
-        var eurakaTrigger: EurekaTriggeredList
-
-        class EurekaCounterList: WeightedList<CivicType> {
-
-            override func fill() {
-
-                for civicType in CivicType.all {
-                    self.add(weight: 0, for: civicType)
-                }
-            }
-        }
-
-        class EurekaTriggeredList: WeightedList<CivicType> {
-
-            override func fill() {
-
-                for civicType in CivicType.all {
-                    self.add(weight: 0, for: civicType)
-                }
-            }
-
-            func trigger(for civicType: CivicType) {
-
-                self.set(weight: 1.0, for: civicType)
-            }
-
-            func triggered(for civicType: CivicType) -> Bool {
-
-                return self.weight(of: civicType) > 0.0
-            }
-        }
-
-        init() {
-            self.eurekaCounter = EurekaCounterList()
-            self.eurekaCounter.fill()
-
-            self.eurakaTrigger = EurekaTriggeredList()
-            self.eurakaTrigger.fill()
-        }
-
-        func triggered(for civic: CivicType) -> Bool {
-
-            return self.eurakaTrigger.triggered(for: civic)
-        }
-    }
-
     // MARK: constructor
 
     init(player: Player?) {
 
         self.player = player
 
-        self.eurekas = Eurekas()
+        self.eurekas = CivicEurekas()
         self.progress = WeightedCivicList()
         self.progress.fill()
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.civics = try container.decode([CivicType].self, forKey: .civics)
+        self.currentCivicValue = try container.decodeIfPresent(CivicType.self, forKey: .currentCivic)
+        self.lastCultureEarnedValue = try container.decode(Double.self, forKey: .lastCultureEarned)
+        self.progress = try container.decode(WeightedCivicList.self, forKey: .progress)
+        self.eurekas = try container.decode(CivicEurekas.self, forKey: .eurekas)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.civics, forKey: .civics)
+        try container.encode(self.currentCivicValue, forKey: .currentCivic)
+        try container.encode(self.lastCultureEarnedValue, forKey: .lastCultureEarned)
+        try container.encode(self.progress, forKey: .progress)
+        try container.encode(self.eurekas, forKey: .eurekas)
     }
 
     public func currentCultureProgress() -> Double {

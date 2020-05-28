@@ -8,29 +8,120 @@
 
 import Foundation
 
-struct RouteState {
+class RouteState: Codable {
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case hasAnyRoute
+        case hasWaterRoute
+        case hasBestRoute
+    }
     
     var hasAnyRoute: Bool
     var hasWaterRoute: Bool
     var hasBestRoute: Bool
+    
+    init(hasAnyRoute: Bool, hasWaterRoute: Bool, hasBestRoute: Bool) {
+        
+        self.hasAnyRoute = hasAnyRoute
+        self.hasWaterRoute = hasWaterRoute
+        self.hasBestRoute = hasBestRoute
+    }
+    
+    required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.hasAnyRoute = try container.decode(Bool.self, forKey: .hasAnyRoute)
+        self.hasWaterRoute = try container.decode(Bool.self, forKey: .hasWaterRoute)
+        self.hasBestRoute = try container.decode(Bool.self, forKey: .hasBestRoute)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.hasAnyRoute, forKey: .hasAnyRoute)
+        try container.encode(self.hasWaterRoute, forKey: .hasWaterRoute)
+        try container.encode(self.hasBestRoute, forKey: .hasBestRoute)
+    }
 }
 
-struct RouteInfo {
+class RouteInfo: Codable {
     
-    let from: AbstractCity?
-    let to: AbstractCity?
+    enum CodingKeys: String, CodingKey {
+        
+        case from
+        case to
+        case routeState
+        case passEval
+    }
+    
+    let from: HexPoint //AbstractCity?
+    let to: HexPoint // AbstractCity?
     var routeState: RouteState
     var passEval: Int // used to create the data, but should not be referenced as a value
+    
+    init(from: HexPoint, to: HexPoint, routeState: RouteState, passEval: Int) {
+        
+        self.from = from
+        self.to = to
+        self.routeState = routeState
+        self.passEval = passEval
+    }
+    
+    required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.from = try container.decode(HexPoint.self, forKey: .from)
+        self.to = try container.decode(HexPoint.self, forKey: .to)
+        self.routeState = try container.decode(RouteState.self, forKey: .routeState)
+        self.passEval = try container.decode(Int.self, forKey: .passEval)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.from, forKey: .from)
+        try container.encode(self.to, forKey: .to)
+        try container.encode(self.routeState, forKey: .routeState)
+        try container.encode(self.passEval, forKey: .passEval)
+    }
 }
 
-class PlotRouteInfos {
+class PlotRouteInfos: Codable {
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case state
+        case location
+    }
     
     let state: BitArray
     let location: HexPoint
     
     init(location: HexPoint) {
+        
         self.location = location
         self.state = BitArray(count: 3)
+    }
+    
+    required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.state = try container.decode(BitArray.self, forKey: .state)
+        self.location = try container.decode(HexPoint.self, forKey: .location)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.state, forKey: .state)
+        try container.encode(self.location, forKey: .location)
     }
     
     var noConnection: Bool {
@@ -49,7 +140,13 @@ class PlotRouteInfos {
     }
 }
 
-public class CityConnections {
+public class CityConnections: Codable {
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case routeInfos
+        case plotRouteInfos
+    }
     
     var player: Player?
     
@@ -66,6 +163,24 @@ public class CityConnections {
         self.cityPlots = []
         self.routeInfos = []
         self.plotRouteInfos = []
+    }
+    
+    required public init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.player = nil
+        self.cityPlots = []
+        self.routeInfos = try container.decode([RouteInfo].self, forKey: .routeInfos)
+        self.plotRouteInfos = try container.decode([PlotRouteInfos].self, forKey: .plotRouteInfos)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.routeInfos, forKey: .routeInfos)
+        try container.encode(self.plotRouteInfos, forKey: .plotRouteInfos)
     }
     
     /// Update - called from within Player
@@ -382,6 +497,6 @@ public class CityConnections {
     
     func routeInfo(from firstCity: AbstractCity?, to secondCity: AbstractCity?) -> RouteInfo? {
         
-        self.routeInfos.first(where: { $0.from?.location == firstCity?.location && $0.to?.location == secondCity?.location })
+        self.routeInfos.first(where: { $0.from == firstCity?.location && $0.to == secondCity?.location })
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DefenseStateType {
+enum DefenseStateType: Int, Codable {
     
     case none
     case enough

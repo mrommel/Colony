@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AbstractPolicyCardSet {
+public protocol AbstractPolicyCardSet: class, Codable {
     
     func add(card: PolicyCardType)
     func has(card: PolicyCardType) -> Bool
@@ -17,11 +17,32 @@ public protocol AbstractPolicyCardSet {
 
 class PolicyCardSet: AbstractPolicyCardSet {
     
+    enum CodingKeys: CodingKey {
+
+        case cards
+    }
+    
     private var cards: [PolicyCardType]
+    
+    // MARK: constructors
     
     init(cards: [PolicyCardType] = []) {
         
         self.cards = cards
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.cards = try container.decode([PolicyCardType].self, forKey: .cards)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.cards, forKey: .cards)
     }
     
     func add(card: PolicyCardType) {
@@ -48,7 +69,7 @@ class PolicyCardSet: AbstractPolicyCardSet {
     }
 }
 
-public protocol AbstractGovernment {
+public protocol AbstractGovernment: class, Codable {
     
     func currentGovernment() -> GovernmentType?
     func set(governmentType: GovernmentType)
@@ -66,6 +87,12 @@ enum GovernmentError: Error {
 
 class Government: AbstractGovernment {
     
+    enum CodingKeys: CodingKey {
+
+        case currentGovernment
+        case policyCards
+    }
+    
     private var currentGovernmentVal: GovernmentType?
     private var policyCardsVal: AbstractPolicyCardSet
     
@@ -75,6 +102,22 @@ class Government: AbstractGovernment {
         
         self.currentGovernmentVal = nil
         self.policyCardsVal = PolicyCardSet()
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.currentGovernmentVal = try container.decodeIfPresent(GovernmentType.self, forKey: .currentGovernment)
+        self.policyCardsVal = try container.decode(PolicyCardSet.self, forKey: .policyCards)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.currentGovernmentVal, forKey: .currentGovernment)
+        try container.encode(self.policyCardsVal as! PolicyCardSet, forKey: .policyCards)
     }
     
     func currentGovernment() -> GovernmentType? {

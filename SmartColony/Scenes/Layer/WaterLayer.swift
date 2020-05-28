@@ -11,7 +11,7 @@ import SmartAILibrary
 
 class WaterLayer: SKNode {
     
-    let player: AbstractPlayer?
+    var player: AbstractPlayer?
     weak var gameModel: GameModel?
     var textureUtils: TextureUtils?
     

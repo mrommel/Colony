@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum GrandStrategyAIType {
+enum GrandStrategyAIType: Int, Codable {
 
     case none // default
     case conquest

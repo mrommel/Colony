@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum MilitaryThreatType: Int, Comparable {
+enum MilitaryThreatType: Int, Codable {
 
     case none
 

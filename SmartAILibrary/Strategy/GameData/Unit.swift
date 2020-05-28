@@ -100,7 +100,7 @@ public protocol AbstractUnit: class, Codable {
     func canDefend() -> Bool
     func canSentry(in gameModel: GameModel?) -> Bool
 
-    func canDo(command: UnitCommandTypes) -> Bool
+    func canDo(command: CommandType, in gameModel: GameModel?) -> Bool
 
     func can(automate: UnitAutomationType) -> Bool
     func isAutomated() -> Bool
@@ -282,8 +282,8 @@ public class Unit: AbstractUnit {
         self.task = try container.decode(UnitTaskType.self, forKey: .task)
         self.deathDelay = try container.decode(Bool.self, forKey: .deathDelay)
 
-        self.tacticalMoveValue = try container.decode(TacticalMoveType.self, forKey: .tacticalMove)
-        self.tacticalTargetValue = try container.decode(HexPoint.self, forKey: .tacticalTarget)
+        self.tacticalMoveValue = try container.decodeIfPresent(TacticalMoveType.self, forKey: .tacticalMove)
+        self.tacticalTargetValue = try container.decodeIfPresent(HexPoint.self, forKey: .tacticalTarget)
         self.garrisonedValue = try container.decode(Bool.self, forKey: .garrisoned)
 
         self.movesValue = try container.decode(Int.self, forKey: .moves)
@@ -318,8 +318,8 @@ public class Unit: AbstractUnit {
         try container.encode(self.task, forKey: .task)
         try container.encode(self.deathDelay, forKey: .deathDelay)
 
-        try container.encode(self.tacticalMoveValue, forKey: .tacticalMove)
-        try container.encode(self.tacticalTargetValue, forKey: .tacticalTarget)
+        try container.encodeIfPresent(self.tacticalMoveValue, forKey: .tacticalMove)
+        try container.encodeIfPresent(self.tacticalTargetValue, forKey: .tacticalTarget)
         try container.encode(self.garrisonedValue, forKey: .garrisoned)
 
         try container.encode(self.movesValue, forKey: .moves)
@@ -2091,9 +2091,74 @@ public class Unit: AbstractUnit {
         return self.type.domain()
     }
 
-    public func canDo(command: UnitCommandTypes) -> Bool {
+    public func canDo(command: CommandType, in gameModel: GameModel?) -> Bool {
 
-        return false
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let techs = player.techs else {
+            fatalError("cant get techs")
+        }
+        
+        guard let tile = gameModel?.tile(at: self.location) else {
+            fatalError("cant get tile")
+        }
+        
+        switch command {
+            
+        case .found:
+            return self.type.canFound()
+            
+        case .buildFarm:
+            
+            if !self.type.canBuild(build: .farm) {
+                return false
+            }
+            
+            if !player.canBuild(build: .farm, at: self.location, testVisible: true, testGold: true, in: gameModel) {
+                return false
+            }
+            
+            if let tech = ImprovementType.farm.required() {
+                if !techs.has(tech: tech) {
+                    return false
+                }
+            }
+            
+            return true
+            
+        case .buildMine:
+
+            if !self.type.canBuild(build: .mine) {
+                return false
+            }
+            
+            if !player.canBuild(build: .mine, at: self.location, testVisible: true, testGold: true, in: gameModel) {
+                return false
+            }
+            
+            if let tech = ImprovementType.mine.required() {
+                if !techs.has(tech: tech) {
+                    return false
+                }
+            }
+            
+            return true
+            
+        case .fortify:
+            return self.canFortify(at: self.location, in: gameModel)
+            
+        case .hold:
+            return self.canHold(at: self.location, in: gameModel)
+            
+        case .garrison:
+            return self.canGarrison(at: self.location, in: gameModel)
+            
+        case .pillage:
+            return self.canPillage(at: self.location, in: gameModel)
+
+        }
     }
 
     public func can(automate: UnitAutomationType) -> Bool {
@@ -3215,48 +3280,11 @@ extension Unit {
 
         var commandArray: [Command] = []
 
-        if self.type.canFound() {
-            commandArray.append(Command(type: .found, location: self.location))
-        }
-
-        if self.type.canBuild(build: .farm) && player.canBuild(build: .farm, at: self.location, testVisible: true, testGold: true, in: gameModel) {
-
-            var requiredTech = true
-            if let tech = ImprovementType.farm.required() {
-                requiredTech = techs.has(tech: tech)
+        for commandType in CommandType.all {
+            
+            if self.canDo(command: commandType, in: gameModel) {
+                commandArray.append(Command(type: commandType, location: self.location))
             }
-
-            if requiredTech {
-                commandArray.append(Command(type: .buildFarm, location: self.location))
-            }
-        }
-
-        if self.type.canBuild(build: .mine) && player.canBuild(build: .farm, at: self.location, testVisible: true, testGold: true, in: gameModel) {
-
-            var requiredTech = true
-            if let tech = ImprovementType.mine.required() {
-                requiredTech = techs.has(tech: tech)
-            }
-
-            if requiredTech {
-                commandArray.append(Command(type: .buildMine, location: self.location))
-            }
-        }
-
-        if self.canFortify(at: self.location, in: gameModel) {
-            commandArray.append(Command(type: .fortify, location: self.location))
-        }
-
-        if self.canHold(at: self.location, in: gameModel) {
-            commandArray.append(Command(type: .hold, location: self.location))
-        }
-
-        if self.canGarrison(at: self.location, in: gameModel) {
-            commandArray.append(Command(type: .garrison, location: self.location))
-        }
-
-        if self.canPillage(at: self.location, in: gameModel) {
-            commandArray.append(Command(type: .pillage, location: self.location))
         }
 
         return commandArray

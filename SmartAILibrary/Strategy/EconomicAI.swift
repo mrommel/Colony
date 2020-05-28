@@ -8,13 +8,25 @@
 
 import Foundation
 
-public class EconomicAI {
+public class EconomicAI: Codable {
 
+    enum CodingKeys: String, CodingKey {
+        
+        case economicStrategyAdoption
+        case flavors
+        
+        case reconState
+        case navalReconState
+        case lastTurnBuilderDisbanded
+        case explorersDisbanded
+    }
+    
     var player: Player?
+    
+    // MARK: internal variables
+    
     private let economicStrategyAdoption: EconomicStrategyAdoption
     private var flavors: Flavors
-
-    // MARK: internal variables
 
     private var reconStateVal: EconomicReconState
     private var navalReconStateVal: EconomicReconState
@@ -40,8 +52,15 @@ public class EconomicAI {
         let rating: Int
     }
 
-    class EconomicStrategyAdoptionItem {
+    class EconomicStrategyAdoptionItem: Codable {
 
+        enum CodingKeys: String, CodingKey {
+            
+            case economicStrategy
+            case adopted
+            case turnOfAdoption
+        }
+        
         let economicStrategy: EconomicStrategyType
         var adopted: Bool
         var turnOfAdoption: Int
@@ -52,10 +71,33 @@ public class EconomicAI {
             self.adopted = adopted
             self.turnOfAdoption = turnOfAdoption
         }
+        
+        required init(from decoder: Decoder) throws {
+        
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            
+            self.economicStrategy = try container.decode(EconomicStrategyType.self, forKey: .economicStrategy)
+            self.adopted = try container.decode(Bool.self, forKey: .adopted)
+            self.turnOfAdoption = try container.decode(Int.self, forKey: .turnOfAdoption)
+        }
+        
+        func encode(to encoder: Encoder) throws {
+        
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(self.economicStrategy, forKey: .economicStrategy)
+            try container.encode(self.adopted, forKey: .adopted)
+            try container.encode(self.turnOfAdoption, forKey: .turnOfAdoption)
+        }
     }
 
-    class EconomicStrategyAdoption {
+    class EconomicStrategyAdoption: Codable {
 
+        enum CodingKeys: String, CodingKey {
+            
+            case adoptions
+        }
+        
         var adoptions: [EconomicStrategyAdoptionItem]
 
         init() {
@@ -66,6 +108,22 @@ public class EconomicAI {
 
                 adoptions.append(EconomicStrategyAdoptionItem(economicStrategy: economicStrategyType, adopted: false, turnOfAdoption: -1))
             }
+        }
+        
+        required init(from decoder: Decoder) throws {
+        
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+            print("keys: \(container.allKeys)")
+            
+            self.adoptions = try container.decode([EconomicStrategyAdoptionItem].self, forKey: .adoptions)
+        }
+        
+        func encode(to encoder: Encoder) throws {
+        
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(self.adoptions, forKey: .adoptions)
         }
 
         func adopted(economicStrategy: EconomicStrategyType) -> Bool {
@@ -124,6 +182,40 @@ public class EconomicAI {
         self.explorationPlotsArray = []
         self.explorers = []
         self.explorersDisbandedValue = 0
+    }
+    
+    required public init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.player = nil
+        
+        self.economicStrategyAdoption = try container.decode(EconomicStrategyAdoption.self, forKey: .economicStrategyAdoption)
+        self.flavors = try container.decode(Flavors.self, forKey: .economicStrategyAdoption)
+        
+        self.reconStateVal = try container.decode(EconomicReconState.self, forKey: .economicStrategyAdoption)
+        self.navalReconStateVal = try container.decode(EconomicReconState.self, forKey: .navalReconState)
+        self.lastTurnBuilderDisbandedVal = try container.decode(Int.self, forKey: .lastTurnBuilderDisbanded)
+        self.explorersDisbandedValue = try container.decode(Int.self, forKey: .explorersDisbanded)
+        
+        self.explorationPlotsDirty = true
+        self.goodyHutUnitAssignments = []
+        self.explorationPlotsArray = []
+        self.explorers = []
+        self.explorersDisbandedValue = 0
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.economicStrategyAdoption, forKey: .economicStrategyAdoption)
+        try container.encode(self.flavors, forKey: .flavors)
+
+        try container.encode(self.reconStateVal, forKey: .reconState)
+        try container.encode(self.navalReconStateVal, forKey: .navalReconState)
+        try container.encode(self.lastTurnBuilderDisbandedVal, forKey: .lastTurnBuilderDisbanded)
+        try container.encode(self.explorersDisbandedValue, forKey: .explorersDisbanded)
     }
     
     // MARK: methods

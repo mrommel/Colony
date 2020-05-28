@@ -118,14 +118,14 @@ public enum CivicType: String, Codable {
 
         return self.data().eurekaSummary
     }
-    
+
     public func eurekaDescription() -> String {
 
         return self.data().eurekaDescription
     }
-    
+
     public func quoteText() -> String {
-        
+
         return "quote"
     }
 
@@ -234,99 +234,110 @@ public enum CivicType: String, Codable {
 
         switch self {
 
-        case .none: return CivicTypeData(
-            name: "---",
-            eurekaSummary: "---",
-            eurekaDescription: "-",
-            era: .ancient,
-            cost: -1,
-            required: [],
-            flavors: []
+        case .none:
+            return CivicTypeData(
+                name: "---",
+                eurekaSummary: "---",
+                eurekaDescription: "-",
+                era: .ancient,
+                cost: -1,
+                required: [],
+                flavors: []
             )
 
             // ancient
         case .codeOfLaws:
-            return CivicTypeData(name: "Code of Laws",
-                                 eurekaSummary: "-",
-                                 eurekaDescription: "",
-                                 era: .ancient,
-                                 cost: 20,
-                                 required: [],
-                                 flavors: [])
+            return CivicTypeData(
+                name: "Code of Laws",
+                eurekaSummary: "-",
+                eurekaDescription: "",
+                era: .ancient,
+                cost: 20,
+                required: [],
+                flavors: [])
         case .stateWorkforce:
-            return CivicTypeData(name: "State Workforce",
-                                 eurekaSummary: "",
-                                 eurekaDescription: "",
-                                 era: .ancient,
-                                 cost: 70,
-                                 required: [.craftsmanship],
-                                 flavors: [])
+            return CivicTypeData(
+                name: "State Workforce",
+                eurekaSummary: "",
+                eurekaDescription: "",
+                era: .ancient,
+                cost: 70,
+                required: [.craftsmanship],
+                flavors: [])
         case .craftsmanship:
-            return CivicTypeData(name: "Craftmanship",
-                                 eurekaSummary: "",
-                                 eurekaDescription: "With the land around our first city developing nicely, we can fine tune our production techniques.",
-                                 era: .ancient,
-                                 cost: 40,
-                                 required: [.codeOfLaws],
-                                 flavors: [])
+            return CivicTypeData(
+                name: "Craftmanship",
+                eurekaSummary: "",
+                eurekaDescription: "With the land around our first city developing nicely, we can fine tune our production techniques.",
+                era: .ancient,
+                cost: 40,
+                required: [.codeOfLaws],
+                flavors: [])
         case .earlyEmpire:
-            return CivicTypeData(name: "Early Empire",
-                                 eurekaSummary: "",
-                                 eurekaDescription: "The growing number of citizens in your lands dream of having an empire.",
-                                 era: .ancient,
-                                 cost: 70,
-                                 required: [.foreignTrade],
-                                 flavors: [])
+            return CivicTypeData(
+                name: "Early Empire",
+                eurekaSummary: "",
+                eurekaDescription: "The growing number of citizens in your lands dream of having an empire.",
+                era: .ancient,
+                cost: 70,
+                required: [.foreignTrade],
+                flavors: [])
         case .foreignTrade:
-            return CivicTypeData(name: "Foreign Trade",
-                                 eurekaSummary: "",
-                                 eurekaDescription: "Having discovered another continent we realize there is a wide world of trading opportunities.",
-                                 era: .ancient,
-                                 cost: 40,
-                                 required: [.codeOfLaws],
-                                 flavors: [])
+            return CivicTypeData(
+                name: "Foreign Trade",
+                eurekaSummary: "",
+                eurekaDescription: "Having discovered another continent we realize there is a wide world of trading opportunities.",
+                era: .ancient,
+                cost: 40,
+                required: [.codeOfLaws],
+                flavors: [])
         case .mysticism:
-            return CivicTypeData(name: "Mysticism",
-                                 eurekaSummary: "",
-                                 eurekaDescription: "Worship of your pantheon of gods has brought up further questions about spiritual forces in our world.",
-                                 era: .ancient,
-                                 cost: 50,
-                                 required: [.foreignTrade],
-                                 flavors: [])
+            return CivicTypeData(
+                name: "Mysticism",
+                eurekaSummary: "",
+                eurekaDescription: "Worship of your pantheon of gods has brought up further questions about spiritual forces in our world.",
+                era: .ancient,
+                cost: 50,
+                required: [.foreignTrade],
+                flavors: [])
         case .militaryTradition:
-            return CivicTypeData(name: "Military Tradition",
-                                 eurekaSummary: "",
-                                 eurekaDescription: "Your soldiers hope your victory over a Barbarian Outpost is the start of a long line of military successes.",
-                                 era: .ancient,
-                                 cost: 50,
-                                 required: [.craftsmanship],
-                                 flavors: [])
+            return CivicTypeData(
+                name: "Military Tradition",
+                eurekaSummary: "",
+                eurekaDescription: "Your soldiers hope your victory over a Barbarian Outpost is the start of a long line of military successes.",
+                era: .ancient,
+                cost: 50,
+                required: [.craftsmanship],
+                flavors: [])
 
             // classical
         case .defensiveTactics:
-            return CivicTypeData(name: "Defensive Tactics",
-                                 eurekaSummary: "",
-                                 eurekaDescription: "Faced with the threat of invasion, your people are ready to come up with innovative defenses.",
-                                 era: .classical,
-                                 cost: 175,
-                                 required: [.gamesAndRecreation, .politicalPhilosophy],
-                                 flavors: [])
+            return CivicTypeData(
+                name: "Defensive Tactics",
+                eurekaSummary: "",
+                eurekaDescription: "Faced with the threat of invasion, your people are ready to come up with innovative defenses.",
+                era: .classical,
+                cost: 175,
+                required: [.gamesAndRecreation, .politicalPhilosophy],
+                flavors: [])
         case .gamesAndRecreation:
-            return CivicTypeData(name: "Games and Recreation",
-                                 eurekaSummary: "",
-                                 eurekaDescription: "Your new skills in construction will surely help create venues for games and entertainment.",
-                                 era: .classical,
-                                 cost: 110,
-                                 required: [.stateWorkforce],
-                                 flavors: [])
+            return CivicTypeData(
+                name: "Games and Recreation",
+                eurekaSummary: "",
+                eurekaDescription: "Your new skills in construction will surely help create venues for games and entertainment.",
+                era: .classical,
+                cost: 110,
+                required: [.stateWorkforce],
+                flavors: [])
         case .politicalPhilosophy:
-            return CivicTypeData(name: "Political Philosophy",
-                                 eurekaSummary: "",
-                                 eurekaDescription: "Your contact with other states has crystallized your ideas on governing your own people.",
-                                 era: .classical,
-                                 cost: 110,
-                                 required: [.stateWorkforce, .earlyEmpire],
-                                 flavors: [])
+            return CivicTypeData(
+                name: "Political Philosophy",
+                eurekaSummary: "",
+                eurekaDescription: "Your contact with other states has crystallized your ideas on governing your own people.",
+                era: .classical,
+                cost: 110,
+                required: [.stateWorkforce, .earlyEmpire],
+                flavors: [])
         case .recordedHistory:
             return CivicTypeData(name: "Recorded History",
                                  eurekaSummary: "",
@@ -641,7 +652,7 @@ public enum CivicType: String, Codable {
                                  cost: 2415,
                                  required: [.coldWar],
                                  flavors: [])
-        /* <Replace Language="sv_SE" Tag="LOC_BOOST_TRIGGER_LONGDESC_GLOBALIZATION">
+            /* <Replace Language="sv_SE" Tag="LOC_BOOST_TRIGGER_LONGDESC_GLOBALIZATION">
             <Text>With so many airports in place, the world is truly becoming a smaller place.</Text>
         </Replace>
         <Replace Language="sv_SE" Tag="LOC_BOOST_TRIGGER_LONGDESC_SOCIAL_MEDIA">

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PlayerWarStateType: Int, Comparable {
+enum PlayerWarStateType: Int, Comparable, Codable {
 
     case none
 

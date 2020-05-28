@@ -8,7 +8,14 @@
 
 import Foundation
 
-class DiplomaticPact {
+class DiplomaticPact: Codable {
+    
+    enum CodingKeys: CodingKey {
+
+        case enabled
+        case turnOfActivation
+        case duration
+    }
     
     static let noStarted = -1
     static let noDuration = -1
@@ -22,6 +29,24 @@ class DiplomaticPact {
         self.enabled = false
         self.turnOfActivation = DiplomaticPact.noStarted
         self.duration = duration
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.enabled = try container.decode(Bool.self, forKey: .enabled)
+        self.turnOfActivation = try container.decode(Int.self, forKey: .turnOfActivation)
+        self.duration = try container.decode(Int.self, forKey: .duration)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.enabled, forKey: .enabled)
+        try container.encode(self.turnOfActivation, forKey: .turnOfActivation)
+        try container.encode(self.duration, forKey: .duration)
     }
     
     func isActive() -> Bool {

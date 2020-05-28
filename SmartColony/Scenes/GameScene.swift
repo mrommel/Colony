@@ -470,6 +470,7 @@ class GameScene: BaseScene {
                     self.unselect()
                 }
             } else {
+                
                 // no unit selected - show blocking button
                 self.bottomLeftBar?.showBlockingButton(for: blockingNotification)
             }
@@ -597,14 +598,15 @@ class GameScene: BaseScene {
         }
         
         guard let menuButton = self.menuButton, !menuButton.frame.contains(cameraLocation) else {
-            print("touch ended in menu")
+            // print("touch ended in menu")
+            self.showScreen(screenType: .menu)
             return
         }
         
         if let scienceProgressNode = self.scienceProgressNode {
             
             if !self.scienceProgressNodeHidden && scienceProgressNode.contains(cameraLocation) {
-                //print("science progress touched")
+                // print("science progress touched")
                 self.showScreen(screenType: .techs)
                 return
             }
@@ -774,9 +776,6 @@ extension GameScene: BottomLeftBarDelegate {
                 let mineBuildMission = UnitMission(type: .build, buildType: .mine, at: selectedUnit.location)
                 selectedUnit.push(mission: mineBuildMission, in: gameModel)
             }
-            break
-        case .buildRoute:
-            // NOOP
             break
         case .pillage:
             // NOOP

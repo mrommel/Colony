@@ -86,6 +86,11 @@
 		C9956843247C3B990005E9EA /* TechDiscoveredPopup.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9956842247C3B990005E9EA /* TechDiscoveredPopup.xml */; };
 		C9956845247D38660005E9EA /* CivicDiscoveredPopup.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9956844247D38660005E9EA /* CivicDiscoveredPopup.xml */; };
 		C9956847247D388C0005E9EA /* CivicDiscoveredPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9956846247D388C0005E9EA /* CivicDiscoveredPopup.swift */; };
+		C9956849247DAB5B0005E9EA /* EnteredEraPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9956848247DAB5A0005E9EA /* EnteredEraPopup.swift */; };
+		C995684B247E3F9E0005E9EA /* GameMenuDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995684A247E3F9E0005E9EA /* GameMenuDialog.swift */; };
+		C995684D247E40B50005E9EA /* EnteredEraPopup.xml in Resources */ = {isa = PBXBuildFile; fileRef = C995684C247E40B50005E9EA /* EnteredEraPopup.xml */; };
+		C995684F247E41790005E9EA /* GameMenuDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C995684E247E41790005E9EA /* GameMenuDialog.xml */; };
+		C9956851247E4E7A0005E9EA /* GameSceneMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9956850247E4E7A0005E9EA /* GameSceneMenu.swift */; };
 		C99A590D2464351C006431EE /* CityManageProductionDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A590C2464351C006431EE /* CityManageProductionDialog.swift */; };
 		C99A590F2464376C006431EE /* CityManageProductionDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C99A590E2464376C006431EE /* CityManageProductionDialog.xml */; };
 		C99A5911246437EE006431EE /* CityBuildingsDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A5910246437EE006431EE /* CityBuildingsDialog.swift */; };
@@ -290,6 +295,11 @@
 		C9956842247C3B990005E9EA /* TechDiscoveredPopup.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TechDiscoveredPopup.xml; sourceTree = "<group>"; };
 		C9956844247D38660005E9EA /* CivicDiscoveredPopup.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CivicDiscoveredPopup.xml; sourceTree = "<group>"; };
 		C9956846247D388C0005E9EA /* CivicDiscoveredPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDiscoveredPopup.swift; sourceTree = "<group>"; };
+		C9956848247DAB5A0005E9EA /* EnteredEraPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnteredEraPopup.swift; sourceTree = "<group>"; };
+		C995684A247E3F9E0005E9EA /* GameMenuDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMenuDialog.swift; sourceTree = "<group>"; };
+		C995684C247E40B50005E9EA /* EnteredEraPopup.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = EnteredEraPopup.xml; sourceTree = "<group>"; };
+		C995684E247E41790005E9EA /* GameMenuDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GameMenuDialog.xml; sourceTree = "<group>"; };
+		C9956850247E4E7A0005E9EA /* GameSceneMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneMenu.swift; sourceTree = "<group>"; };
 		C99A590C2464351C006431EE /* CityManageProductionDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityManageProductionDialog.swift; sourceTree = "<group>"; };
 		C99A590E2464376C006431EE /* CityManageProductionDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityManageProductionDialog.xml; sourceTree = "<group>"; };
 		C99A5910246437EE006431EE /* CityBuildingsDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBuildingsDialog.swift; sourceTree = "<group>"; };
@@ -422,6 +432,7 @@
 				C947871F2473F14300FAAC99 /* EurekaActivatedPopup.xml */,
 				C9956842247C3B990005E9EA /* TechDiscoveredPopup.xml */,
 				C9956844247D38660005E9EA /* CivicDiscoveredPopup.xml */,
+				C995684C247E40B50005E9EA /* EnteredEraPopup.xml */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -432,6 +443,7 @@
 				C94787222473F1A400FAAC99 /* EurekaActivatedPopup.swift */,
 				C9956840247C3A190005E9EA /* TechDiscoveredPopup.swift */,
 				C9956846247D388C0005E9EA /* CivicDiscoveredPopup.swift */,
+				C9956848247DAB5A0005E9EA /* EnteredEraPopup.swift */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -516,6 +528,7 @@
 				C9B1D20C2434768900033791 /* GameScene.swift */,
 				C947871A2472C80B00FAAC99 /* GameSceneDialogs.swift */,
 				C947871C2472ECF700FAAC99 /* GameSceneUserInterface.swift */,
+				C9956850247E4E7A0005E9EA /* GameSceneMenu.swift */,
 				C95B3DF124386E8A002F5A86 /* GameSceneViewModel.swift */,
 				C95B3DED243726CD002F5A86 /* GameLoadingScene.swift */,
 				C9EC4E2424458B0E001A0597 /* PediaScene.swift */,
@@ -658,6 +671,7 @@
 				C90791782459D69600248596 /* GameHandicapDialog.swift */,
 				C907917A2459D6A600248596 /* GameLeaderDialog.swift */,
 				C94787162472845D00FAAC99 /* TreasuryDialog.swift */,
+				C995684A247E3F9E0005E9EA /* GameMenuDialog.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -686,6 +700,7 @@
 				C907917E2459D73100248596 /* GameLeaderDialog.xml */,
 				C98B3DC1246C1D2000AF3AE4 /* DiplomaticDialog.xml */,
 				C9478718247285DF00FAAC99 /* TreasuryDialog.xml */,
+				C995684E247E41790005E9EA /* GameMenuDialog.xml */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -889,6 +904,7 @@
 				C9B1D223243481D900033791 /* Main.storyboard in Resources */,
 				C9F91B43244B9B3E0081EDC8 /* Civics.xcassets in Resources */,
 				C95D9D60244A3147007C522E /* TechDialog.xml in Resources */,
+				C995684F247E41790005E9EA /* GameMenuDialog.xml in Resources */,
 				C922D2BC2449A1A1009E182F /* CityNameDialog.xml in Resources */,
 				C9F91B57245038F20081EDC8 /* Buildings.xcassets in Resources */,
 				C99A590F2464376C006431EE /* CityManageProductionDialog.xml in Resources */,
@@ -896,6 +912,7 @@
 				C957AA52243641D300203024 /* MapClimateDialog.xml in Resources */,
 				C957AA51243641D300203024 /* MapRainfallDialog.xml in Resources */,
 				C9478719247285DF00FAAC99 /* TreasuryDialog.xml in Resources */,
+				C995684D247E40B50005E9EA /* EnteredEraPopup.xml in Resources */,
 				C9956843247C3B990005E9EA /* TechDiscoveredPopup.xml in Resources */,
 				C907917D2459D71F00248596 /* GameHandicapDialog.xml in Resources */,
 				C9EC4E2124445A16001A0597 /* CityDialog.xml in Resources */,
@@ -951,6 +968,7 @@
 				C95B3DF424387100002F5A86 /* MapNode.swift in Sources */,
 				C9EB9F60245309AF00F13B02 /* UnitTypeExtension.swift in Sources */,
 				C97CD3A7243B00CB00FABCC0 /* ResourceTypeExtension.swift in Sources */,
+				C995684B247E3F9E0005E9EA /* GameMenuDialog.swift in Sources */,
 				C948685624669EB000495988 /* CitizenLayer.swift in Sources */,
 				C9EB9F5A2452C4E400F13B02 /* CityChooseProductionDialog.swift in Sources */,
 				C9F91B3D244B93380081EDC8 /* CivicTypeExtension.swift in Sources */,
@@ -965,6 +983,7 @@
 				C94DE1D624516B0B00B13F4D /* CircularProgressBarNode.swift in Sources */,
 				C9EB9F722455B12100F13B02 /* PolicyCardsTypeExtension.swift in Sources */,
 				C947871B2472C80B00FAAC99 /* GameSceneDialogs.swift in Sources */,
+				C9956849247DAB5B0005E9EA /* EnteredEraPopup.swift in Sources */,
 				C9EB9F562451A95500F13B02 /* LeftHeaderBarNode.swift in Sources */,
 				C97CD3B0243B685200FABCC0 /* UnitObject.swift in Sources */,
 				C99A5911246437EE006431EE /* CityBuildingsDialog.swift in Sources */,
@@ -1003,6 +1022,7 @@
 				C9B1D21E243478F400033791 /* CoreDataManager.swift in Sources */,
 				C9FEEBA024601F8800C51552 /* BaseBuildingItemDisplayNode.swift in Sources */,
 				C9FEEB9E245DF76200C51552 /* WaterLayer.swift in Sources */,
+				C9956851247E4E7A0005E9EA /* GameSceneMenu.swift in Sources */,
 				C9B1D2402434B83800033791 /* CGSizeExtension.swift in Sources */,
 				C9B1D23A2434B74F00033791 /* SpriteButtonNode.swift in Sources */,
 				C9B1D23C2434B77500033791 /* NineGridTextureSprite.swift in Sources */,

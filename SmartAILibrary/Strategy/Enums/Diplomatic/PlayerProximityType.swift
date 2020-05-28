@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PlayerProximityType: Int, Comparable {
+enum PlayerProximityType: Int, Comparable, Codable {
     
     case none
     

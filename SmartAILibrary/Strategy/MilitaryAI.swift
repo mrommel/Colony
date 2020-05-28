@@ -8,8 +8,20 @@
 
 import Foundation
 
-public class MilitaryAI {
+public class MilitaryAI: Codable {
 
+    enum CodingKeys: String, CodingKey {
+        
+        case militaryStrategyAdoption
+        case flavors
+        
+        case baseData
+        case barbarianData
+        case landDefenseState
+        case navalDefenseState
+        case totalThreatWeight
+    }
+    
     var player: Player?
     let militaryStrategyAdoption: MilitaryStrategyAdoption
     var flavors: Flavors
@@ -22,7 +34,7 @@ public class MilitaryAI {
 
     // MARK: internal classes
 
-    class MilitaryBaseData {
+    class MilitaryBaseData: Codable {
 
         var numLandUnits: Int = 0
         var numRangedLandUnits: Int = 0
@@ -52,7 +64,7 @@ public class MilitaryAI {
         }
     }
 
-    class BarbarianData {
+    class BarbarianData: Codable {
 
         var barbarianCampCount = 0
         var visibleBarbarianCount = 0
@@ -68,8 +80,15 @@ public class MilitaryAI {
         }
     }
 
-    class MilitaryStrategyAdoptionItem {
+    class MilitaryStrategyAdoptionItem: Codable {
 
+        enum CodingKeys: String, CodingKey {
+            
+            case militaryStrategy
+            case adopted
+            case turnOfAdoption
+        }
+        
         let militaryStrategy: MilitaryStrategyType
         var adopted: Bool
         var turnOfAdoption: Int
@@ -80,9 +99,27 @@ public class MilitaryAI {
             self.adopted = adopted
             self.turnOfAdoption = turnOfAdoption
         }
+        
+        required init(from decoder: Decoder) throws {
+            
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            
+            self.militaryStrategy = try container.decode(MilitaryStrategyType.self, forKey: .militaryStrategy)
+            self.adopted = try container.decode(Bool.self, forKey: .adopted)
+            self.turnOfAdoption = try container.decode(Int.self, forKey: .turnOfAdoption)
+        }
+        
+        func encode(to encoder: Encoder) throws {
+        
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(self.militaryStrategy, forKey: .militaryStrategy)
+            try container.encode(self.adopted, forKey: .adopted)
+            try container.encode(self.turnOfAdoption, forKey: .turnOfAdoption)
+        }
     }
 
-    class MilitaryStrategyAdoption {
+    class MilitaryStrategyAdoption: Codable {
 
         var adoptions: [MilitaryStrategyAdoptionItem]
 
@@ -148,7 +185,37 @@ public class MilitaryAI {
         self.landDefenseStateVal = .none
         self.navalDefenseStateVal = .none
     }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.player = nil
+        
+        self.militaryStrategyAdoption = try container.decode(MilitaryStrategyAdoption.self, forKey: .militaryStrategyAdoption)
+        self.flavors = try container.decode(Flavors.self, forKey: .flavors)
+        
+        self.baseData = try container.decode(MilitaryBaseData.self, forKey: .baseData)
+        self.barbarianDataVal = try container.decode(BarbarianData.self, forKey: .barbarianData)
+        self.landDefenseStateVal = try container.decode(DefenseStateType.self, forKey: .landDefenseState)
+        self.navalDefenseStateVal = try container.decode(DefenseStateType.self, forKey: .navalDefenseState)
+        self.totalThreatWeight = try container.decode(Int.self, forKey: .totalThreatWeight)
+    }
 
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.militaryStrategyAdoption, forKey: .militaryStrategyAdoption)
+        try container.encode(self.flavors, forKey: .flavors)
+        
+        try container.encode(self.baseData, forKey: .baseData)
+        try container.encode(self.barbarianDataVal, forKey: .barbarianData)
+        try container.encode(self.landDefenseStateVal, forKey: .landDefenseState)
+        try container.encode(self.navalDefenseStateVal, forKey: .navalDefenseState)
+        try container.encode(self.totalThreatWeight, forKey: .totalThreatWeight)
+    }
+    
     func updateMilitaryStrategies(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {

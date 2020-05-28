@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AbstractTechs {
+public protocol AbstractTechs: class, Codable {
 
     // techs
     func has(tech: TechType) -> Bool
@@ -44,6 +44,16 @@ enum TechError: Error {
 
 class Techs: AbstractTechs {
 
+    enum CodingKeys: CodingKey {
+
+        case techs
+        case currentTech
+        case lastScienceEarned
+        case progress
+        
+        case eurekas
+    }
+    
     // tech tree
     var techs: [TechType] = []
 
@@ -54,7 +64,7 @@ class Techs: AbstractTechs {
     private var progress: WeightedTechList
 
     // heureka
-    private var eurekas: Eurekas
+    private var eurekas: TechEurekas
 
     // MARK: internal types
 
@@ -73,64 +83,37 @@ class Techs: AbstractTechs {
         }
     }
 
-    private class Eurekas {
-
-        var eurekaCounter: EurekaCounterList
-        var eurakaTrigger: EurekaTriggeredList
-
-        class EurekaCounterList: WeightedList<TechType> {
-
-            override func fill() {
-
-                for techType in TechType.all {
-                    self.add(weight: 0, for: techType)
-                }
-            }
-        }
-
-        class EurekaTriggeredList: WeightedList<TechType> {
-
-            override func fill() {
-
-                for techType in TechType.all {
-                    self.add(weight: 0, for: techType)
-                }
-            }
-
-            func trigger(for techType: TechType) {
-
-                self.set(weight: 1.0, for: techType)
-            }
-
-            func triggered(for techType: TechType) -> Bool {
-
-                return self.weight(of: techType) > 0.0
-            }
-        }
-
-        init() {
-            self.eurekaCounter = EurekaCounterList()
-            self.eurekaCounter.fill()
-
-            self.eurakaTrigger = EurekaTriggeredList()
-            self.eurakaTrigger.fill()
-        }
-
-        func triggered(for tech: TechType) -> Bool {
-
-            return self.eurakaTrigger.triggered(for: tech)
-        }
-    }
-
     // MARK: constructor
 
     init(player: Player?) {
 
         self.player = player
 
-        self.eurekas = Eurekas()
+        self.eurekas = TechEurekas()
         self.progress = WeightedTechList()
         self.progress.fill()
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.techs = try container.decode([TechType].self, forKey: .techs)
+        self.currentTechValue = try container.decodeIfPresent(TechType.self, forKey: .currentTech)
+        self.lastScienceEarnedValue = try container.decode(Double.self, forKey: .lastScienceEarned)
+        self.progress = try container.decode(WeightedTechList.self, forKey: .progress)
+        self.eurekas = try container.decode(TechEurekas.self, forKey: .eurekas)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.techs, forKey: .techs)
+        try container.encode(self.currentTechValue, forKey: .currentTech)
+        try container.encode(self.lastScienceEarnedValue, forKey: .lastScienceEarned)
+        try container.encode(self.progress, forKey: .progress)
+        try container.encode(self.eurekas, forKey: .eurekas)
     }
 
     public func currentScienceProgress() -> Double {

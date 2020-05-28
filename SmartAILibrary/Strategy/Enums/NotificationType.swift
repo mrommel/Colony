@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum NotificationType {
+public enum NotificationType: Int, Codable {
     
     case turn
     
@@ -27,10 +27,4 @@ public enum NotificationType {
     
     case unitPromotion
     case unitNeedsOrders
-    
-    // popups ?
-    /*case eraStarted
-    case techCompleted
-    case civicCompleted
-    case eurekaActivated*/
 }

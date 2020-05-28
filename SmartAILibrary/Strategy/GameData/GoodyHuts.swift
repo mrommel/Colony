@@ -8,14 +8,34 @@
 
 import Foundation
 
-class GoodyHuts {
+class GoodyHuts: Codable {
     
-    let player: AbstractPlayer?
+    enum CodingKeys: CodingKey {
+
+        case recentGoody
+    }
+    
+    var player: AbstractPlayer?
     var recentGoody: [GoodyType] = []
     
     init(player: AbstractPlayer?) {
         
         self.player = player
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.player = nil
+        self.recentGoody = try container.decode([GoodyType].self, forKey: .recentGoody)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.recentGoody, forKey: .recentGoody)
     }
     
     /// Are we allowed to get this Goody right now?

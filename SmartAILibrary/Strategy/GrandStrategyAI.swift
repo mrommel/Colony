@@ -9,8 +9,15 @@
 import Foundation
 
 /// Information about the Grand Strategy of a single AI player
-public class GrandStrategyAI {
+public class GrandStrategyAI: Codable {
 
+    enum CodingKeys: String, CodingKey {
+        
+        case activeStrategy
+        case turnActiveStrategySet
+        case otherPlayerGuesses
+    }
+    
     var activeStrategy: GrandStrategyAIType
     var player: Player?
     var turnActiveStrategySet: Int
@@ -87,20 +94,57 @@ public class GrandStrategyAI {
         }
     }
     
-    class GrandStrategyAIPlayerGuesses {
+    class GrandStrategyAIPlayerGuesses: Codable {
 
-        struct GrandStrategyAIPlayerGuess: CustomStringConvertible {
+        enum CodingKeys: CodingKey {
 
+            case guesses
+        }
+        
+        class GrandStrategyAIPlayerGuess: Codable, CustomStringConvertible {
+
+            enum CodingKeys: CodingKey {
+
+                case strategy
+                case confidence
+            }
+            
             let player: AbstractPlayer?
             var strategy: GrandStrategyAIType
             var confidence: GrandStrategyAIConfidence
             
-            mutating func update(strategy: GrandStrategyAIType, confidence: GrandStrategyAIConfidence) {
+            init(player: AbstractPlayer?, strategy: GrandStrategyAIType, confidence: GrandStrategyAIConfidence) {
+                
+                self.player = player
+                self.strategy = strategy
+                self.confidence = confidence
+            }
+            
+            public required init(from decoder: Decoder) throws {
+            
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+            
+                self.player = nil
+                self.strategy = try container.decode(GrandStrategyAIType.self, forKey: .strategy)
+                self.confidence = try container.decode(GrandStrategyAIConfidence.self, forKey: .confidence)
+            }
+            
+            public func encode(to encoder: Encoder) throws {
+            
+                var container = encoder.container(keyedBy: CodingKeys.self)
+
+                try container.encode(self.strategy, forKey: .strategy)
+                try container.encode(self.confidence, forKey: .confidence)
+            }
+            
+            func update(strategy: GrandStrategyAIType, confidence: GrandStrategyAIConfidence) {
+                
                 self.strategy = strategy
                 self.confidence = confidence
             }
             
             public var description: String {
+                
                 return "GrandStrategyAIPlayerGuess:\n- player: \(self.player?.leader ?? LeaderType.alexander)\n- strategy: \(self.strategy)\n- confidence: \(self.confidence)\n"
             }
         }
@@ -109,6 +153,20 @@ public class GrandStrategyAI {
         
         init() {
             self.guesses = []
+        }
+        
+        public required init(from decoder: Decoder) throws {
+        
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+            self.guesses = try container.decode([GrandStrategyAIPlayerGuess].self, forKey: .guesses)
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+        
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(self.guesses, forKey: .guesses)
         }
         
         func guess(for player: AbstractPlayer) -> GrandStrategyAIPlayerGuess? {
@@ -124,7 +182,7 @@ public class GrandStrategyAI {
         
         func addOrUpdate(player: AbstractPlayer, strategy: GrandStrategyAIType, confidence: GrandStrategyAIConfidence) {
             
-            if var guess = self.guess(for: player) {
+            if let guess = self.guess(for: player) {
                 guess.update(strategy: strategy, confidence: confidence)
             } else {
                 self.guesses.append(GrandStrategyAIPlayerGuess(player: player, strategy: strategy, confidence: confidence))
@@ -140,6 +198,25 @@ public class GrandStrategyAI {
         self.activeStrategy = .none
         self.turnActiveStrategySet = 0
         self.otherPlayerGuesses = GrandStrategyAIPlayerGuesses()
+    }
+    
+    required public init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.player = nil
+        self.activeStrategy = try container.decode(GrandStrategyAIType.self, forKey: .activeStrategy)
+        self.turnActiveStrategySet = try container.decode(Int.self, forKey: .turnActiveStrategySet)
+        self.otherPlayerGuesses = try container.decode(GrandStrategyAIPlayerGuesses.self, forKey: .otherPlayerGuesses)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.activeStrategy, forKey: .activeStrategy)
+        try container.encode(self.turnActiveStrategySet, forKey: .turnActiveStrategySet)
+        try container.encode(self.otherPlayerGuesses, forKey: .otherPlayerGuesses)
     }
 
     func turn(with gameModel: GameModel?) {

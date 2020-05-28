@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum StrengthType: Int, Comparable {
+enum StrengthType: Int, Codable, Comparable {
 
     case immense
     case powerful

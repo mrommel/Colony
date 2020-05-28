@@ -15,8 +15,14 @@ enum PlayerWarGoalType {
     case prepare
 }
 
-public class DiplomaticAI {
+public class DiplomaticAI: Codable {
 
+    enum CodingKeys: CodingKey {
+
+        case playerDict
+        case stateOfAllWars
+    }
+    
     var player: AbstractPlayer?
 
     private var playerDict: DiplomaticPlayerDict
@@ -33,6 +39,22 @@ public class DiplomaticAI {
         self.playerDict = DiplomaticPlayerDict()
 
         self.stateOfAllWars = .neutral
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.playerDict = try container.decode(DiplomaticPlayerDict.self, forKey: .playerDict)
+        self.stateOfAllWars = try container.decode(PlayerStateAllWars.self, forKey: .stateOfAllWars)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.playerDict, forKey: .playerDict)
+        try container.encode(self.stateOfAllWars, forKey: .stateOfAllWars)
     }
 
     func turn(in gameModel: GameModel?) {
@@ -142,7 +164,7 @@ public class DiplomaticAI {
             
             if self.greetPlayers.contains(where: { activePlayer.isEqual(to: $0) }) {
                 
-                self.player?.diplomacyRequests?.sendRequest(for: activePlayer, state: .intro,message: "", emotion: .neutral, in: gameModel)
+                self.player?.diplomacyRequests?.sendRequest(for: activePlayer.leader, state: .intro,message: "", emotion: .neutral, in: gameModel)
                 
                 self.greetPlayers.removeAll(where: { activePlayer.isEqual(to: $0) })
             }
@@ -276,16 +298,20 @@ public class DiplomaticAI {
         self.playerDict.cancelAllDefensivePacts()
     }
 
-    func allPlayersWithDefensivePacts() -> [AbstractPlayer?] {
+    func allPlayersWithDefensivePacts() -> [LeaderType] {
 
         return self.playerDict.allPlayersWithDefensivePacts()
     }
 
-    func activateDefensivePacts(to otherPlayer: AbstractPlayer?) {
+    func activateDefensivePacts(against otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
-        for friendPlayer in self.allPlayersWithDefensivePacts() {
+        for friendLeader in self.allPlayersWithDefensivePacts() {
 
-            friendPlayer?.diplomacyAI?.doDeclareWarFromDefensivePact(to: otherPlayer)
+            guard let friendPlayer = gameModel?.player(for: friendLeader) else {
+                fatalError("cant get player")
+            }
+            
+            friendPlayer.diplomacyAI?.doDeclareWarFromDefensivePact(to: otherPlayer)
         }
     }
 
@@ -362,7 +388,7 @@ public class DiplomaticAI {
         self.doCancelDeals(with: otherPlayer)
 
         // Update the ATTACKED players' Diplo AI
-        otherPlayer.diplomacyAI?.doHaveBeenDeclaredWar(by: self.player)
+        otherPlayer.diplomacyAI?.doHaveBeenDeclaredWar(by: self.player, in: gameModel)
 
         // If we've made a peace treaty before, this is bad news
         if self.isPeaceTreatyActive(with: otherPlayer) {
@@ -384,10 +410,10 @@ public class DiplomaticAI {
         }
     }
 
-    func doHaveBeenDeclaredWar(by otherPlayer: AbstractPlayer?) {
+    func doHaveBeenDeclaredWar(by otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         // Auto War for Defensive Pacts of other player
-        self.activateDefensivePacts(to: otherPlayer)
+        self.activateDefensivePacts(against: otherPlayer, in: gameModel)
 
         self.playerDict.updateApproach(towards: otherPlayer, to: .war)
         self.playerDict.updateWarState(towards: otherPlayer, to: .offensive)
@@ -804,6 +830,11 @@ public class DiplomaticAI {
     }
 
     func approach(towards player: AbstractPlayer?) -> PlayerApproachType {
+
+        return self.playerDict.approach(towards: player)
+    }
+    
+    func approach(towards leader: LeaderType) -> PlayerApproachType {
 
         return self.playerDict.approach(towards: player)
     }

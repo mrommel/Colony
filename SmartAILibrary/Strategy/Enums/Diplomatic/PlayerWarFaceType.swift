@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PlayerWarFaceType {
+enum PlayerWarFaceType: Int, Codable {
 
     case none
     

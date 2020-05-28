@@ -8,17 +8,61 @@
 
 import Foundation
 
-class DiplomaticPlayerDict {
+class DiplomaticPlayerDict: Codable {
 
+    enum CodingKeys: CodingKey {
+
+        case items
+    }
+    
     // MARK: private properties
 
     private var items: [DiplomaticAIPlayerItem]
 
     // MARK: internal classes
 
-    class DiplomaticAIPlayerItem {
+    class DiplomaticAIPlayerItem: Codable {
+        
+        enum CodingKeys: CodingKey {
 
-        let player: AbstractPlayer?
+            case leader
+            case opinion
+            case turnOfFirstContact
+            case militaryStrengthComparedToUs
+            case militaryThreat
+            case economicStrengthComparedToUs
+            
+            case approach
+            case warState
+            case warFace
+            case targetValue
+            
+            // disputes
+            case landDisputeLevel
+            case lastTurnLandDisputeLevel
+            
+            // postures
+            case expansionAggressivePosture
+            case plotBuyingAggressivePosture
+
+            // pacts
+            case declatationOfWar
+            case declarationOfFriendship
+            case openBorderAgreement
+            case defensivePact
+            case peaceTreaty
+            case alliance
+
+            // deals
+            case deals
+
+            case hasDenounced
+            case isRecklessExpander
+
+            case proximity
+        }
+
+        let leader: LeaderType
         var opinion: PlayerOpinionType
         var turnOfFirstContact: Int
         var militaryStrengthComparedToUs: StrengthType
@@ -54,9 +98,9 @@ class DiplomaticPlayerDict {
 
         var proximity: PlayerProximityType
 
-        init(by player: AbstractPlayer?, turnOfFirstContact: Int = -1) {
+        init(by leader: LeaderType, turnOfFirstContact: Int = -1) {
 
-            self.player = player
+            self.leader = leader
             self.opinion = .none
             self.turnOfFirstContact = turnOfFirstContact
             self.militaryStrengthComparedToUs = .average
@@ -90,6 +134,88 @@ class DiplomaticPlayerDict {
 
             self.proximity = .none
         }
+        
+        public required init(from decoder: Decoder) throws {
+        
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+            self.leader = try container.decode(LeaderType.self, forKey: .leader)
+            self.opinion = try container.decode(PlayerOpinionType.self, forKey: .opinion)
+            self.turnOfFirstContact = try container.decode(Int.self, forKey: .turnOfFirstContact)
+            self.militaryStrengthComparedToUs = try container.decode(StrengthType.self, forKey: .militaryStrengthComparedToUs)
+            self.militaryThreat = try container.decode(MilitaryThreatType.self, forKey: .militaryThreat)
+            self.economicStrengthComparedToUs = try container.decode(StrengthType.self, forKey: .economicStrengthComparedToUs)
+            
+            self.approach = try container.decode(PlayerApproachType.self, forKey: .approach)
+            self.warState = try container.decode(PlayerWarStateType.self, forKey: .warState)
+            self.warFace = try container.decode(PlayerWarFaceType.self, forKey: .warFace)
+            self.targetValue = try container.decode(PlayerTargetValueType.self, forKey: .targetValue)
+            
+            // disputes
+            self.landDisputeLevel = try container.decode(LandDisputeLevelType.self, forKey: .landDisputeLevel)
+            self.lastTurnLandDisputeLevel = try container.decode(LandDisputeLevelType.self, forKey: .lastTurnLandDisputeLevel)
+            
+            // postures
+            self.expansionAggressivePosture = try container.decode(AggressivePostureType.self, forKey: .expansionAggressivePosture)
+            self.plotBuyingAggressivePosture = try container.decode(AggressivePostureType.self, forKey: .plotBuyingAggressivePosture)
+
+            // pacts
+            self.declatationOfWar = try container.decode(DiplomaticPact.self, forKey: .declatationOfWar)
+            self.declarationOfFriendship = try container.decode(DiplomaticPact.self, forKey: .declarationOfFriendship)
+            self.openBorderAgreement = try container.decode(DiplomaticPact.self, forKey: .openBorderAgreement)
+            self.defensivePact = try container.decode(DiplomaticPact.self, forKey: .defensivePact)
+            self.peaceTreaty = try container.decode(DiplomaticPact.self, forKey: .peaceTreaty)
+            self.alliance = try container.decode(DiplomaticPact.self, forKey: .alliance)
+
+            // deals
+            self.deals = try container.decode([DiplomaticDeal].self, forKey: .deals)
+
+            self.hasDenounced = try container.decode(Bool.self, forKey: .hasDenounced)
+            self.isRecklessExpander = try container.decode(Bool.self, forKey: .isRecklessExpander)
+
+            self.proximity = try container.decode(PlayerProximityType.self, forKey: .proximity)
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+        
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(self.leader, forKey: .leader)
+            try container.encode(self.opinion, forKey: .opinion)
+            try container.encode(self.turnOfFirstContact, forKey: .turnOfFirstContact)
+            try container.encode(self.militaryStrengthComparedToUs, forKey: .militaryStrengthComparedToUs)
+            try container.encode(self.militaryThreat, forKey: .militaryThreat)
+            try container.encode(self.economicStrengthComparedToUs, forKey: .economicStrengthComparedToUs)
+            
+            try container.encode(self.approach, forKey: .approach)
+            try container.encode(self.warState, forKey: .warState)
+            try container.encode(self.warFace, forKey: .warFace)
+            try container.encode(self.targetValue, forKey: .targetValue)
+            
+            // disputes
+            try container.encode(self.landDisputeLevel, forKey: .landDisputeLevel)
+            try container.encode(self.lastTurnLandDisputeLevel, forKey: .lastTurnLandDisputeLevel)
+            
+            // postures
+            try container.encode(self.expansionAggressivePosture, forKey: .expansionAggressivePosture)
+            try container.encode(self.plotBuyingAggressivePosture, forKey: .plotBuyingAggressivePosture)
+
+            // pacts
+            try container.encode(self.declatationOfWar, forKey: .declatationOfWar)
+            try container.encode(self.declarationOfFriendship, forKey: .declarationOfFriendship)
+            try container.encode(self.openBorderAgreement, forKey: .openBorderAgreement)
+            try container.encode(self.defensivePact, forKey: .defensivePact)
+            try container.encode(self.peaceTreaty, forKey: .peaceTreaty)
+            try container.encode(self.alliance, forKey: .alliance)
+
+            // deals
+            try container.encode(self.deals, forKey: .deals)
+
+            try container.encode(self.hasDenounced, forKey: .hasDenounced)
+            try container.encode(self.isRecklessExpander, forKey: .isRecklessExpander)
+
+            try container.encode(self.proximity, forKey: .proximity)
+        }
     }
 
     // MARK: constructor
@@ -98,13 +224,31 @@ class DiplomaticPlayerDict {
 
         self.items = []
     }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.items = try container.decode([DiplomaticAIPlayerItem].self, forKey: .items)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.items, forKey: .items)
+    }
 
     func initContact(with otherPlayer: AbstractPlayer?, in turn: Int) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        guard let otherLeader = otherPlayer?.leader else {
+            fatalError("cant get leader")
+        }
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.turnOfFirstContact = turn
         } else {
-            self.items.append(DiplomaticAIPlayerItem(by: otherPlayer, turnOfFirstContact: turn))
+            self.items.append(DiplomaticAIPlayerItem(by: otherLeader, turnOfFirstContact: turn))
         }
     }
     
@@ -112,7 +256,7 @@ class DiplomaticPlayerDict {
 
     func opinion(of otherPlayer: AbstractPlayer?) -> PlayerOpinionType {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.opinion
         } else {
             fatalError("not gonna happen")
@@ -121,7 +265,7 @@ class DiplomaticPlayerDict {
     
     func updateOpinion(towards otherPlayer: AbstractPlayer?, to opinionType: PlayerOpinionType) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.opinion = opinionType
         } else {
             fatalError("not gonna happen")
@@ -132,7 +276,7 @@ class DiplomaticPlayerDict {
 
     func updateMilitaryStrengthComparedToUs(of otherPlayer: AbstractPlayer?, is strengthComparedToUs: StrengthType) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.militaryStrengthComparedToUs = strengthComparedToUs
         } else {
             fatalError("not gonna happen")
@@ -141,7 +285,7 @@ class DiplomaticPlayerDict {
 
     func updateEconomicStrengthComparedToUs(of otherPlayer: AbstractPlayer?, is strengthComparedToUs: StrengthType) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.economicStrengthComparedToUs = strengthComparedToUs
         } else {
             fatalError("not gonna happen")
@@ -150,7 +294,7 @@ class DiplomaticPlayerDict {
 
     func militaryStrengthComparedToUs(of otherPlayer: AbstractPlayer?) -> StrengthType {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.militaryStrengthComparedToUs
         }
 
@@ -159,7 +303,7 @@ class DiplomaticPlayerDict {
 
     func economicStrengthComparedToUs(of otherPlayer: AbstractPlayer?) -> StrengthType {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.economicStrengthComparedToUs
         }
 
@@ -168,7 +312,7 @@ class DiplomaticPlayerDict {
 
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.turnOfFirstContact != -1
         }
 
@@ -179,7 +323,7 @@ class DiplomaticPlayerDict {
 
     func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.approach == .war
         }
 
@@ -207,7 +351,7 @@ class DiplomaticPlayerDict {
 
     func updateApproach(towards otherPlayer: AbstractPlayer?, to approachType: PlayerApproachType) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.approach = approachType
         } else {
             fatalError("not gonna happen")
@@ -216,7 +360,7 @@ class DiplomaticPlayerDict {
 
     func approach(towards otherPlayer: AbstractPlayer?) -> PlayerApproachType {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.approach
         }
 
@@ -228,7 +372,7 @@ class DiplomaticPlayerDict {
 
     func updateWarState(towards otherPlayer: AbstractPlayer?, to warStateType: PlayerWarStateType) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.warState = warStateType
         } else {
             fatalError("not gonna happen")
@@ -237,7 +381,7 @@ class DiplomaticPlayerDict {
 
     func warState(for otherPlayer: AbstractPlayer?) -> PlayerWarStateType {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.warState
         }
 
@@ -249,7 +393,7 @@ class DiplomaticPlayerDict {
 
     func updateWarFace(towards otherPlayer: AbstractPlayer?, to warFaceType: PlayerWarFaceType) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.warFace = warFaceType
         } else {
             fatalError("not gonna happen")
@@ -258,7 +402,7 @@ class DiplomaticPlayerDict {
 
     func warFace(for otherPlayer: AbstractPlayer?) -> PlayerWarFaceType {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.warFace
         }
 
@@ -270,7 +414,7 @@ class DiplomaticPlayerDict {
 
     func updateTargetValue(of otherPlayer: AbstractPlayer?, to targetValue: PlayerTargetValueType) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.targetValue = targetValue
         } else {
             fatalError("not gonna happen")
@@ -279,7 +423,7 @@ class DiplomaticPlayerDict {
 
     func targetValue(of otherPlayer: AbstractPlayer?) -> PlayerTargetValueType {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.targetValue
         }
 
@@ -290,7 +434,7 @@ class DiplomaticPlayerDict {
     
     func declaredWar(towards otherPlayer: AbstractPlayer?, in turn: Int) {
         
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.declatationOfWar.activate(in: turn)
             item.peaceTreaty.abandon() // just in case
         } else {
@@ -303,7 +447,7 @@ class DiplomaticPlayerDict {
     
     func turnsOfWar(with otherPlayer: AbstractPlayer?, in turn: Int) -> Int {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return turn - item.declatationOfWar.pactIsActiveSince()
         } else {
             fatalError("not gonna happen")
@@ -314,7 +458,7 @@ class DiplomaticPlayerDict {
 
     func isDeclarationOfFriendshipActive(by otherPlayer: AbstractPlayer?) -> Bool {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.declarationOfFriendship.isActive()
         }
 
@@ -323,7 +467,7 @@ class DiplomaticPlayerDict {
 
     func establishDeclarationOfFriendship(with otherPlayer: AbstractPlayer?) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.declarationOfFriendship.activate()
         } else {
             fatalError("not gonna happen")
@@ -332,7 +476,7 @@ class DiplomaticPlayerDict {
 
     func abandonDeclarationOfFriendship(with otherPlayer: AbstractPlayer?) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.declarationOfFriendship.abandon()
         } else {
             fatalError("not gonna happen")
@@ -343,7 +487,7 @@ class DiplomaticPlayerDict {
 
     func isOpenBorderAgreementpActive(by otherPlayer: AbstractPlayer?) -> Bool {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.openBorderAgreement.isActive()
         }
 
@@ -352,7 +496,7 @@ class DiplomaticPlayerDict {
 
     func establishOpenBorderAgreement(with otherPlayer: AbstractPlayer?, in turn: Int) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.openBorderAgreement.activate(in: turn)
         } else {
             fatalError("not gonna happen")
@@ -361,7 +505,7 @@ class DiplomaticPlayerDict {
 
     func abandonOpenBorderAgreement(with otherPlayer: AbstractPlayer?) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.openBorderAgreement.abandon()
         } else {
             fatalError("not gonna happen")
@@ -372,7 +516,7 @@ class DiplomaticPlayerDict {
 
     func establishDefensivePact(with otherPlayer: AbstractPlayer?, in turn: Int) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.defensivePact.activate(in: turn)
         } else {
             fatalError("not gonna happen")
@@ -381,7 +525,7 @@ class DiplomaticPlayerDict {
 
     func isDefensivePactActive(with otherPlayer: AbstractPlayer?) -> Bool {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.defensivePact.isActive()
         } else {
             fatalError("not gonna happen")
@@ -390,7 +534,7 @@ class DiplomaticPlayerDict {
 
     func isDefensivePactExpired(with otherPlayer: AbstractPlayer?, in turn: Int) -> Bool {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.defensivePact.isExpired(in: turn)
         } else {
             fatalError("not gonna happen")
@@ -399,7 +543,7 @@ class DiplomaticPlayerDict {
 
     func cancelDefensivePact(with otherPlayer: AbstractPlayer?) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.defensivePact.abandon()
         } else {
             fatalError("not gonna happen")
@@ -416,14 +560,14 @@ class DiplomaticPlayerDict {
         }
     }
 
-    func allPlayersWithDefensivePacts() -> [AbstractPlayer?] {
+    func allPlayersWithDefensivePacts() -> [LeaderType] {
 
-        var defPlayers: [AbstractPlayer?] = []
+        var defPlayers: [LeaderType] = []
 
         for item in self.items {
 
             if item.defensivePact.isActive() {
-                defPlayers.append(item.player)
+                defPlayers.append(item.leader)
             }
         }
 
@@ -434,7 +578,7 @@ class DiplomaticPlayerDict {
 
     func isPeaceTreatyActive(by otherPlayer: AbstractPlayer?) -> Bool {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.peaceTreaty.isActive()
         }
 
@@ -443,7 +587,7 @@ class DiplomaticPlayerDict {
 
     func establishPeaceTreaty(with otherPlayer: AbstractPlayer?) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.peaceTreaty.activate()
             item.declatationOfWar.abandon()
         } else {
@@ -453,7 +597,7 @@ class DiplomaticPlayerDict {
 
     func abandonPeaceTreaty(with otherPlayer: AbstractPlayer?) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.peaceTreaty.abandon()
         } else {
             fatalError("not gonna happen")
@@ -464,7 +608,7 @@ class DiplomaticPlayerDict {
     
     func isAllianceActive(with otherPlayer: AbstractPlayer?) -> Bool {
         
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.alliance.isActive()
         }
 
@@ -475,7 +619,7 @@ class DiplomaticPlayerDict {
 
     func cancelDeals(with otherPlayer: AbstractPlayer?) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
 
             // FIXME: inform someone?
             item.deals.removeAll()
@@ -494,7 +638,7 @@ class DiplomaticPlayerDict {
 
     func denounce(player otherPlayer: AbstractPlayer?) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.hasDenounced = true
         } else {
             fatalError("not gonna happen")
@@ -503,7 +647,7 @@ class DiplomaticPlayerDict {
 
     func hasDenounced(player otherPlayer: AbstractPlayer?) -> Bool {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.hasDenounced
         }
 
@@ -515,7 +659,7 @@ class DiplomaticPlayerDict {
 
     func updateMilitaryThreat(of otherPlayer: AbstractPlayer?, to militaryThreat: MilitaryThreatType) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.militaryThreat = militaryThreat
         } else {
             fatalError("not gonna happen")
@@ -524,7 +668,7 @@ class DiplomaticPlayerDict {
 
     func militaryThreat(of otherPlayer: AbstractPlayer?) -> MilitaryThreatType {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.militaryThreat
         }
 
@@ -536,7 +680,7 @@ class DiplomaticPlayerDict {
 
     func updateProximity(towards otherPlayer: AbstractPlayer?, to proximity: PlayerProximityType) {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.proximity = proximity
         } else {
             fatalError("not gonna happen")
@@ -545,7 +689,7 @@ class DiplomaticPlayerDict {
 
     func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType {
 
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.proximity
         }
 
@@ -564,7 +708,7 @@ class DiplomaticPlayerDict {
     
     func landDisputeLevel(with otherPlayer: AbstractPlayer?) -> LandDisputeLevelType {
         
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.landDisputeLevel
         }
         
@@ -573,7 +717,7 @@ class DiplomaticPlayerDict {
     
     func updateLandDisputeLevel(with otherPlayer: AbstractPlayer?, to dispute: LandDisputeLevelType) {
         
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.landDisputeLevel = dispute
         } else {
             fatalError("not gonna happen")
@@ -582,7 +726,7 @@ class DiplomaticPlayerDict {
     
     func lastTurnLandDisputeLevel(with otherPlayer: AbstractPlayer?) -> LandDisputeLevelType {
         
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.lastTurnLandDisputeLevel
         }
         
@@ -591,7 +735,7 @@ class DiplomaticPlayerDict {
     
     func updateLastTurnLandDisputeLevel(with otherPlayer: AbstractPlayer?, to dispute: LandDisputeLevelType) {
         
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.lastTurnLandDisputeLevel = dispute
         } else {
             fatalError("not gonna happen")
@@ -602,7 +746,7 @@ class DiplomaticPlayerDict {
     
     func expansionAggressivePosture(towards otherPlayer: AbstractPlayer?) -> AggressivePostureType {
         
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.expansionAggressivePosture
         }
         
@@ -611,7 +755,7 @@ class DiplomaticPlayerDict {
     
     func updateExpansionAggressivePosture(for otherPlayer: AbstractPlayer?, posture: AggressivePostureType) {
         
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.expansionAggressivePosture = posture
         } else {
             fatalError("not gonna happen")
@@ -620,7 +764,7 @@ class DiplomaticPlayerDict {
     
     func plotBuyingAggressivePosture(towards otherPlayer: AbstractPlayer?) -> AggressivePostureType {
         
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.plotBuyingAggressivePosture
         }
         
@@ -629,7 +773,7 @@ class DiplomaticPlayerDict {
     
     func updatePlotBuyingAggressivePosture(for otherPlayer: AbstractPlayer?, posture: AggressivePostureType) {
         
-        if let item = self.items.first(where: { $0.player?.leader == otherPlayer?.leader }) {
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.plotBuyingAggressivePosture = posture
         } else {
             fatalError("not gonna happen")

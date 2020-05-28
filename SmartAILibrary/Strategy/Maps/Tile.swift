@@ -873,6 +873,12 @@ class Tile: AbstractTile {
         if buildType == .none {
             return false
         }
+        
+        if let improvement = buildType.improvement() {
+            if !improvement.isPossible(on: self) {
+                return false
+            }
+        }
 
         return true
     }

@@ -427,7 +427,7 @@ public class MapGenerator {
 
 		switch climate {
 		case .polar:
-            grid?.set(terrain: .snow, at: point)
+            self.updateBiomeForPolar(at: point, on: grid, elevation: elevation, moisture: moisture)
 		case .subpolar:
             self.updateBiomeForSubpolar(at: point, on: grid, elevation: elevation, moisture: moisture)
 		case .temperate:
@@ -438,6 +438,15 @@ public class MapGenerator {
 			self.updateBiomeForTropic(at: point, on: grid, elevation: elevation, moisture: moisture)
 		}
 	}
+    
+    func updateBiomeForPolar(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
+        
+        if Double.random > 0.2 {
+            grid?.set(hills: true, at: point)
+        }
+        
+        grid?.set(terrain: .snow, at: point)
+    }
 
 	func updateBiomeForSubpolar(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
 
@@ -453,7 +462,7 @@ public class MapGenerator {
             return
         }
         
-		if elevation > 0.5 && Double.random > 0.2 {
+		if elevation > 0.5 && Double.random > 0.3 {
             grid?.set(terrain: .snow, at: point)
 			return
 		}
@@ -461,6 +470,11 @@ public class MapGenerator {
         if moisture > 0.5 && Double.random > 0.5 {
             grid?.set(feature: .forest, at: point)
         }
+        
+        if Double.random > 0.2 {
+            grid?.set(hills: true, at: point)
+        }
+        
         grid?.set(terrain: .tundra, at: point)
 		return
 	}
@@ -477,6 +491,10 @@ public class MapGenerator {
             grid?.set(hills: true, at: point)
             grid?.set(terrain: .grass, at: point)
             return
+        }
+        
+        if Double.random > 0.2 {
+            grid?.set(hills: true, at: point)
         }
 
 		if moisture < 0.5 {
@@ -503,6 +521,10 @@ public class MapGenerator {
             grid?.set(hills: true, at: point)
             grid?.set(terrain: .plains, at: point)
             return
+        }
+        
+        if Double.random > 0.2 {
+            grid?.set(hills: true, at: point)
         }
 
 		if moisture < 0.2 {

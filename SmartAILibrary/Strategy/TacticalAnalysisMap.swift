@@ -35,7 +35,7 @@ enum TacticalDominanceType {
 //!  - Shared by all players; data is refreshed at start of each AI turn if player at war
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class TacticalAnalysisMap {
-
+    
     let dominancePercentage = 25 // AI_TACTICAL_MAP_DOMINANCE_PERCENTAGE
     let tacticalRange = 10 // AI_TACTICAL_RECRUIT_RANGE
     let unitStrengthMultiplier: Int // 10 AI_TACTICAL_MAP_UNIT_STRENGTH_MULTIPLIER * tacticalRange
@@ -257,7 +257,7 @@ class TacticalAnalysisMap {
     }
 
     struct TacticalDominanceZone: Equatable {
-
+        
         var territoryType: TacticalDominanceTerritoryType
         var dominanceFlag: TacticalDominanceType
         var owner: AbstractPlayer?

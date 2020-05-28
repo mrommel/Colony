@@ -8,21 +8,30 @@
 
 import Foundation
 
-enum DiplomaticDealItemType {
+enum DiplomaticDealItemType: Int, Codable {
 
     case gold
     case goldPerTurn
     case resource
 }
 
-enum DiplomaticDealDirectionType {
+enum DiplomaticDealDirectionType: Int, Codable {
 
     case give
     case receive
 }
 
-class DiplomaticDealItem {
+class DiplomaticDealItem: Codable {
 
+    enum CodingKeys: CodingKey {
+
+        case type
+        case direction
+        case amount
+        case resource
+        case duration
+    }
+    
     let type: DiplomaticDealItemType
     let direction: DiplomaticDealDirectionType
     let amount: Int
@@ -37,12 +46,38 @@ class DiplomaticDealItem {
         self.duration = duration
         self.resource = .none
     }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.type = try container.decode(DiplomaticDealItemType.self, forKey: .type)
+        self.direction = try container.decode(DiplomaticDealDirectionType.self, forKey: .direction)
+        self.amount = try container.decode(Int.self, forKey: .amount)
+        self.resource = try container.decode(ResourceType.self, forKey: .resource)
+        self.duration = try container.decode(Int.self, forKey: .duration)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.type, forKey: .type)
+        try container.encode(self.direction, forKey: .direction)
+        try container.encode(self.amount, forKey: .amount)
+        try container.encode(self.duration, forKey: .duration)
+        try container.encode(self.resource, forKey: .resource)
+    }
 }
 
 class DiplomaticGoldDealItem: DiplomaticDealItem {
 
     init(direction: DiplomaticDealDirectionType, amount: Int) {
         super.init(type: .gold, direction: direction, amount: amount, duration: 0)
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
     }
 }
 
@@ -51,23 +86,52 @@ class DiplomaticGoldPerTurnDealItem: DiplomaticDealItem {
     init(direction: DiplomaticDealDirectionType, amount: Int, duration: Int) {
         super.init(type: .goldPerTurn, direction: direction, amount: amount, duration: duration)
     }
+    
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
 }
 
-class DiplomaticDeal {
+class DiplomaticDeal: Codable {
 
+    enum CodingKeys: CodingKey {
+
+        case from
+        case to
+        case tradeItems
+    }
+    
     typealias DiplomaticDealValue = (value: Int, valueImOffering: Int, valueOtherOffering: Int)
 
-    let from: Player?
-    let to: Player?
+    let from: LeaderType
+    let to: LeaderType
     var tradeItems: [DiplomaticDealItem]
 
     // MARK: constructors
 
-    init(from fromPlayer: Player?, to toPlayer: Player?) {
+    init(from fromLeader: LeaderType, to toLeader: LeaderType) {
 
-        self.from = fromPlayer
-        self.to = toPlayer
+        self.from = fromLeader
+        self.to = toLeader
         self.tradeItems = []
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.from = try container.decode(LeaderType.self, forKey: .from)
+        self.to = try container.decode(LeaderType.self, forKey: .to)
+        self.tradeItems = try container.decode([DiplomaticDealItem].self, forKey: .tradeItems)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.from, forKey: .from)
+        try container.encode(self.to, forKey: .to)
+        try container.encode(self.tradeItems, forKey: .tradeItems)
     }
 
     // MARK: public methods
@@ -113,8 +177,16 @@ class DiplomaticDeal {
         var returnValue = amount * iMultiplier
         var iModifier = 0
 
+        guard let fromPlayer = gameModel?.player(for: self.from) else {
+            fatalError("cant get player")
+        }
+        
+        guard let toPlayer = gameModel?.player(for: self.to) else {
+            fatalError("cant get player")
+        }
+        
         // Approach is important
-        if let approach = self.from?.diplomacyAI?.approach(towards: to) {
+        if let approach = fromPlayer.diplomacyAI?.approach(towards: to) {
 
             switch approach {
 
@@ -136,7 +208,7 @@ class DiplomaticDeal {
         }
 
         // Opinion also matters
-        if let opinion = self.from?.diplomacyAI?.opinion(of: to) {
+        if let opinion = fromPlayer.diplomacyAI?.opinion(of: toPlayer) {
 
             switch opinion {
 
@@ -168,8 +240,16 @@ class DiplomaticDeal {
         var returnValue = amount * duration * iMultiplier
         var iModifier = 0
 
+        guard let fromPlayer = gameModel?.player(for: self.from) else {
+            fatalError("cant get player")
+        }
+        
+        guard let toPlayer = gameModel?.player(for: self.to) else {
+            fatalError("cant get player")
+        }
+        
         // Approach is important
-        if let approach = self.from?.diplomacyAI?.approach(towards: to) {
+        if let approach = fromPlayer.diplomacyAI?.approach(towards: toPlayer) {
 
             switch approach {
 
@@ -191,7 +271,7 @@ class DiplomaticDeal {
         }
 
         // Opinion also matters
-        if let opinion = self.from?.diplomacyAI?.opinion(of: to) {
+        if let opinion = fromPlayer.diplomacyAI?.opinion(of: toPlayer) {
 
             switch opinion {
 
@@ -219,6 +299,14 @@ class DiplomaticDeal {
 
     private func valueForResourcePerTurn(for resource: ResourceType, amount: Int, duration: Int, with gameModel: GameModel?) -> Int {
 
+        guard let fromPlayer = gameModel?.player(for: self.from) else {
+            fatalError("cant get player")
+        }
+        
+        guard let toPlayer = gameModel?.player(for: self.to) else {
+            fatalError("cant get player")
+        }
+        
         var returnValue = 0
         var modifier = 0
         
@@ -242,7 +330,7 @@ class DiplomaticDeal {
         }
         
         // Approach is important
-        if let approach = self.from?.diplomacyAI?.approach(towards: to) {
+        if let approach = fromPlayer.diplomacyAI?.approach(towards: toPlayer) {
 
             switch approach {
 
@@ -264,7 +352,7 @@ class DiplomaticDeal {
         }
 
         // Opinion also matters
-        if let opinion = self.from?.diplomacyAI?.opinion(of: to) {
+        if let opinion = fromPlayer.diplomacyAI?.opinion(of: toPlayer) {
 
             switch opinion {
 

@@ -31,7 +31,6 @@ class ScienceProgressNode: BaseProgressNode {
             self.iconNode?.texture = SKTexture(imageNamed: tech.iconTexture())
             self.labelNode?.text = tech.name()
             self.eurekaNode?.text = tech.eurekaSummary()
-            self.turnsRemainingNode?.text = "\(turnsRemaining)"
 
             self.resetIcons()
 
@@ -57,5 +56,6 @@ class ScienceProgressNode: BaseProgressNode {
         }
 
         self.progressNode?.value = value
+        self.turnsRemainingNode?.text = "\(turnsRemaining)"
     }
 }

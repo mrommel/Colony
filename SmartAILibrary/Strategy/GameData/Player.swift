@@ -28,7 +28,7 @@ class ImprovementCountList: WeightedList<ImprovementType> {
     }
 }
 
-public protocol AbstractPlayer: class {
+public protocol AbstractPlayer: class, Codable {
 
     var leader: LeaderType { get }
     var techs: AbstractTechs? { get }
@@ -50,7 +50,6 @@ public protocol AbstractPlayer: class {
     
     var cityConnections: CityConnections? { get }
     
-    var plots: [AbstractTile?] { get }
     var area: HexArea { get }
 
     func initialize()
@@ -140,8 +139,7 @@ public protocol AbstractPlayer: class {
     
     func updatePlots(in gameModel: GameModel?)
     
-    @discardableResult
-    func addPlot(tile: AbstractTile?) -> Bool
+    func addPlot(at point: HexPoint)
     func buyPlotCost() -> Int
     func changeNumPlotsBought(change: Int)
     
@@ -170,6 +168,44 @@ public protocol AbstractPlayer: class {
 
 public class Player: AbstractPlayer {
 
+    enum CodingKeys: CodingKey {
+
+        case leader
+        case alive
+        case human
+        
+        case area
+        case numPlotsBought
+        case improvementCountList
+        case totalImprovementsBuilt
+        
+        case techs
+        case civics
+        case religion
+        case treasury
+        case government
+        case currentEra
+        
+        case grandStrategyAI
+        case diplomacyAI
+        case diplomacyRequests
+        case economicAI
+        case militaryAI
+        case tacticalAI
+        case dangerPlotsAI
+        case homelandAI
+        case builderTaskingAI
+        case citySpecializationAI
+        case wonderProductionAI
+        
+        case cityConnections
+        case goodyHuts
+        
+        case operations
+        case notifications
+        case resourceInventory
+    }
+    
     public var leader: LeaderType
     //internal let relations: PlayerRelationDict
     internal var isAliveVal: Bool
@@ -182,7 +218,7 @@ public class Player: AbstractPlayer {
     public var militaryAI: MilitaryAI?
     public var tacticalAI: TacticalAI?
     public var dangerPlotsAI: DangerPlotsAI?
-    internal var homelandAI: HomelandAI?
+    public var homelandAI: HomelandAI?
     public var builderTaskingAI: BuilderTaskingAI?
     public var citySpecializationAI: CitySpecializationAI?
     public var wonderProductionAI: WonderProductionAI?
@@ -201,7 +237,6 @@ public class Player: AbstractPlayer {
     internal var operations: Operations? = nil
     internal var armies: Armies? = nil
     
-    public var plots: [AbstractTile?]
     public var area: HexArea
     internal var numPlotsBoughtValue: Int
     
@@ -225,11 +260,9 @@ public class Player: AbstractPlayer {
     public init(leader: LeaderType, isHuman: Bool = false) {
 
         self.leader = leader
-        //self.relations = PlayerRelationDict()
         self.isAliveVal = true
         self.isHumanVal = isHuman
         
-        self.plots = []
         self.area = HexArea(points: [])
         
         self.numPlotsBoughtValue = 0
@@ -238,6 +271,108 @@ public class Player: AbstractPlayer {
         self.improvementCountList.fill()
         
         self.totalImprovementsBuilt = 0
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.leader = try container.decode(LeaderType.self, forKey: .leader)
+        self.isAliveVal = try container.decode(Bool.self, forKey: .alive)
+        self.isHumanVal = try container.decode(Bool.self, forKey: .human)
+        
+        self.area = try container.decode(HexArea.self, forKey: .area)
+
+        self.numPlotsBoughtValue = 0
+        self.improvementCountList = ImprovementCountList()
+        self.improvementCountList.fill()
+        self.totalImprovementsBuilt = 0
+        
+        self.grandStrategyAI = try container.decode(GrandStrategyAI.self, forKey: .grandStrategyAI)
+        self.diplomacyAI = try container.decode(DiplomaticAI.self, forKey: .diplomacyAI)
+        self.diplomacyRequests = try container.decode(DiplomacyRequests.self, forKey: .diplomacyRequests)
+        self.economicAI = try container.decode(EconomicAI.self, forKey: .economicAI)
+        self.militaryAI = try container.decode(MilitaryAI.self, forKey: .militaryAI)
+        self.tacticalAI = try container.decode(TacticalAI.self, forKey: .tacticalAI)
+        self.dangerPlotsAI = try container.decode(DangerPlotsAI.self, forKey: .dangerPlotsAI)
+        self.homelandAI = HomelandAI(player: self) // try container.decode(HomelandAI.self, forKey: .homelandAI)
+        self.builderTaskingAI = BuilderTaskingAI(player: self) // try container.decode(BuilderTaskingAI.self, forKey: .builderTaskingAI)
+        self.citySpecializationAI = CitySpecializationAI(player: self)//try container.decode(CitySpecializationAI.self, forKey: .citySpecializationAI)
+        self.wonderProductionAI = WonderProductionAI(player: self)//try container.decode(WonderProductionAI.self, forKey: .wonderProductionAI)
+        
+        self.cityConnections = try container.decode(CityConnections.self, forKey: .cityConnections)
+        self.goodyHuts = try container.decode(GoodyHuts.self, forKey: .goodyHuts)
+        
+        self.techs = try container.decode(Techs.self, forKey: .techs)
+        self.civics = try container.decode(Civics.self, forKey: .civics)
+        self.religion = try container.decode(Religion.self, forKey: .religion)
+        self.treasury = try container.decode(Treasury.self, forKey: .treasury)
+        
+        self.government = try container.decode(Government.self, forKey: .government)
+        self.currentEraVal = try container.decode(EraType.self, forKey: .currentEra)
+        
+        self.operations = try container.decode(Operations.self, forKey: .operations)
+        self.notificationsValue = try container.decode(Notifications.self, forKey: .notifications)
+        
+        self.resourceInventory = try container.decode(ResourceInventory.self, forKey: .resourceInventory)
+        
+        // setup
+        self.grandStrategyAI?.player = self
+        self.diplomacyAI?.player = self
+        self.diplomacyRequests?.player = self
+        self.economicAI?.player = self
+        self.militaryAI?.player = self
+        self.tacticalAI?.player = self
+        self.dangerPlotsAI?.player = self
+        self.homelandAI?.player = self
+        self.builderTaskingAI?.player = self
+        self.citySpecializationAI?.player = self
+        self.wonderProductionAI?.player = self
+        
+        self.cityConnections?.player = self
+        self.goodyHuts?.player = self
+        self.notificationsValue?.player = self
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.leader, forKey: .leader)
+        try container.encode(self.isAliveVal, forKey: .alive)
+        try container.encode(self.isHumanVal, forKey: .human)
+        
+        try container.encode(self.area, forKey: .area)
+        try container.encode(self.numPlotsBoughtValue, forKey: .numPlotsBought)
+        try container.encode(self.improvementCountList, forKey: .improvementCountList)
+        try container.encode(self.totalImprovementsBuilt, forKey: .totalImprovementsBuilt)
+        
+        try container.encode(self.grandStrategyAI, forKey: .grandStrategyAI)
+        try container.encode(self.diplomacyAI, forKey: .diplomacyAI)
+        try container.encode(self.diplomacyRequests, forKey: .diplomacyRequests)
+        try container.encode(self.economicAI, forKey: .economicAI)
+        try container.encode(self.militaryAI, forKey: .militaryAI)
+        try container.encode(self.tacticalAI, forKey: .tacticalAI)
+        try container.encode(self.dangerPlotsAI, forKey: .dangerPlotsAI)
+        //try container.encode(self.homelandAI, forKey: .homelandAI)
+        //try container.encode(self.builderTaskingAI, forKey: .builderTaskingAI)
+        //try container.encode(self.citySpecializationAI, forKey: .citySpecializationAI)
+        //try container.encode(self.wonderProductionAI, forKey: .wonderProductionAI)
+        
+        try container.encode(self.cityConnections, forKey: .cityConnections)
+        try container.encode(self.goodyHuts, forKey: .goodyHuts)
+        
+        try container.encode(self.techs as! Techs, forKey: .techs)
+        try container.encode(self.civics as! Civics, forKey: .civics)
+        try container.encode(self.religion as! Religion, forKey: .religion)
+        try container.encode(self.treasury as! Treasury, forKey: .treasury)
+
+        try container.encode(self.government as! Government, forKey: .government)
+        try container.encode(self.currentEraVal, forKey: .currentEra)
+        
+        try container.encode(self.operations, forKey: .operations)
+        try container.encode(self.notificationsValue, forKey: .notifications)
+        try container.encode(self.resourceInventory, forKey: .resourceInventory)
     }
 
     // public methods
@@ -272,7 +407,7 @@ public class Player: AbstractPlayer {
         self.resourceInventory = ResourceInventory()
         self.resourceInventory?.fill()
     }
-    
+
     public func hasActiveDiplomacyRequests() -> Bool {
         
         return false
@@ -570,7 +705,6 @@ public class Player: AbstractPlayer {
 
         gameModel.updateTacticalAnalysisMap(for: self)
 
-        //
         //
         self.updateTimers(in: gameModel)
         //self.diplomacyAI?.update(in: gameModel) // extracted from updateTimers
@@ -873,8 +1007,10 @@ public class Player: AbstractPlayer {
 
         // culture from our Cities
         value += self.cultureFromCities(in: gameModel)
-        
+        value += Double(self.cultureEarned)
         // ....
+        
+        self.cultureEarned = 0
         
         return value
     }
@@ -1231,7 +1367,7 @@ public class Player: AbstractPlayer {
             fatalError("cant get gameModel")
         }
 
-        var score = self.plots.count * 2 /*SCORE_LAND_MULTIPLIER */
+        var score = self.area.size * 2 /*SCORE_LAND_MULTIPLIER */
 
         // weight with map size
         let mapSizeModifier = gameModel.mapSizeModifier()
@@ -1900,11 +2036,10 @@ public class Player: AbstractPlayer {
         }
         
         // init
-        self.plots = []
         self.area = HexArea(points: [])
         
         let mapSize = gameModel.mapSize()
-        self.plots.reserveCapacity(mapSize.numberOfTiles())
+        self.area.points.reserveCapacity(mapSize.numberOfTiles())
         
         for x in 0..<mapSize.width() {
             for y in 0..<mapSize.height() {
@@ -1913,7 +2048,6 @@ public class Player: AbstractPlayer {
                 if let tile = gameModel.tile(at: pt) {
 
                     if self.isEqual(to: tile.owner()) {
-                        self.plots.append(tile)
                         self.area.add(point: pt)
                     }
                 }
@@ -1921,15 +2055,9 @@ public class Player: AbstractPlayer {
         }
     }
     
-    @discardableResult
-    public func addPlot(tile: AbstractTile?) -> Bool {
-        
-        if self.isEqual(to: tile?.owner()) {
-            self.plots.append(tile)
-            return true
-        }
-        
-        return false
+    public func addPlot(at point: HexPoint) {
+
+        self.area.add(point: point)
     }
     
     /// Gold cost of buying a new Plot

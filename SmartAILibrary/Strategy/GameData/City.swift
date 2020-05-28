@@ -3000,7 +3000,7 @@ public class City: AbstractCity {
             }
 
             // Deficient? If so, give it a boost
-            if cityStrategyAI.isDeficient(for: yieldType) {
+            if cityStrategyAI.isDeficient(for: yieldType, in: gameModel) {
                 tempValue *= 5 /* AI_PLOT_VALUE_DEFICIENT_YIELD_MULTIPLIER */
             }
 
@@ -3072,14 +3072,14 @@ public class City: AbstractCity {
         guard let tile = gameModel.tile(at: point) else {
             fatalError("cant get tile")
         }
-
-        self.player?.addPlot(tile: tile)
         
         do {
             try tile.set(owner: self.player)
         } catch {
             fatalError("cant set owner")
         }
+        
+        self.player?.addPlot(at: point)
 
         self.doUpdateCheapestPlotInfluence(in: gameModel)
     }

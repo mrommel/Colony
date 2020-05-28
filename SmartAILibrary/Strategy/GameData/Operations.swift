@@ -8,13 +8,32 @@
 
 import Foundation
 
-class Operations {
+class Operations: Codable {
+    
+    enum CodingKeys: CodingKey {
+
+        case operations
+    }
     
     private var operations: [Operation]
     
     init() {
         
         self.operations = []
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.operations = try container.decode([Operation].self, forKey: .operations)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.operations, forKey: .operations)
     }
     
     func turn(in gameMode: GameModel?) {

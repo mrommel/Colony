@@ -953,7 +953,7 @@ public class CityCitizens {
         }
 
         // If we're deficient in Production then we're less likely to want Specialists
-        if cityStrategy.isDeficient(for: .production) {
+        if cityStrategy.isDeficient(for: .production, in: gameModel) {
             weight *= 50
             weight /= 100
         }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum VictoryType {
+public enum VictoryType: Int, Codable {
     
     case domination
     case cultural

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum UnitOperationType {
+public enum UnitOperationType: Int, Codable {
     
     case foundCity
     case cityCloseDefense

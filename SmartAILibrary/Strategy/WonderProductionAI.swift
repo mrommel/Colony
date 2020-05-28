@@ -20,7 +20,7 @@ class WonderWeigths: WeightedList<WonderType> {
 
 public class WonderProductionAI {
     
-    private var player: AbstractPlayer?
+    internal var player: AbstractPlayer?
     private var weights: WonderWeigths
     
     init(player: AbstractPlayer?) {

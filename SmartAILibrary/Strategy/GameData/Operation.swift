@@ -9,7 +9,7 @@
 import Foundation
 import Darwin
 
-enum OperationMoveType {
+enum OperationMoveType: Int, Codable {
 
     case none
 
@@ -21,7 +21,7 @@ enum OperationMoveType {
     //case static
 }
 
-enum OperationAbortReasonType {
+enum OperationAbortReasonType: Int, Codable {
 
     case none
 
@@ -37,7 +37,24 @@ enum OperationAbortReasonType {
     case killed
 }
 
-enum OperationStateType {
+enum OperationStateType: Codable {
+
+    enum Discriminator: String, Codable, CodingKey {
+
+        case none
+
+        case aborted
+        case recruitingUnits
+        case gatheringForces
+        case movingToTarget
+        case atTarget
+        case successful
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case discriminator
+        case abortValue
+    }
 
     case none
 
@@ -47,6 +64,52 @@ enum OperationStateType {
     case movingToTarget
     case atTarget
     case successful
+
+    init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let discriminator = try container.decode(Discriminator.self, forKey: CodingKeys.discriminator)
+
+        switch discriminator {
+        case .none:
+            self = .none
+        case .aborted:
+            let reason = try container.decode(OperationAbortReasonType.self, forKey: .abortValue)
+            self = .aborted(reason: reason)
+        case .recruitingUnits:
+            self = .recruitingUnits
+        case .gatheringForces:
+            self = .gatheringForces
+        case .movingToTarget:
+            self = .movingToTarget
+        case .atTarget:
+            self = .atTarget
+        case .successful:
+            self = .successful
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        switch self {
+        case .none:
+            try container.encode(Discriminator.none, forKey: .discriminator)
+        case .aborted(let reason):
+            try container.encode(Discriminator.aborted, forKey: .discriminator)
+            try container.encode(reason, forKey: .abortValue)
+        case .recruitingUnits:
+            try container.encode(Discriminator.recruitingUnits, forKey: .discriminator)
+        case .gatheringForces:
+            try container.encode(Discriminator.gatheringForces, forKey: .discriminator)
+        case .movingToTarget:
+            try container.encode(Discriminator.movingToTarget, forKey: .discriminator)
+        case .atTarget:
+            try container.encode(Discriminator.atTarget, forKey: .discriminator)
+        case .successful:
+            try container.encode(Discriminator.successful, forKey: .discriminator)
+        }
+    }
 }
 
 struct OperationSlot {
@@ -72,7 +135,26 @@ struct OperationSearchUnit {
 //!  - AI operations are launched by some player strategies
 //!  - Each operations manages one or more armies (multiple armies in an operation not yet tested)
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-public class Operation: Equatable {
+public class Operation: Codable, Equatable {
+
+    enum CodingKeys: CodingKey {
+
+        case type
+        case state
+        // player / enemy
+        case area
+        case moveType
+
+        case army
+
+        case listOfUnitsCitiesHaveCommittedToBuild
+        case listOfUnitsWeStillNeedToBuild
+        case shouldReplaceLossesWithReinforcements
+
+        case startPosition
+        case musterPosition
+        case targetPosition
+    }
 
     let type: UnitOperationType
     var state: OperationStateType = .none
@@ -96,6 +178,33 @@ public class Operation: Equatable {
         self.type = type
     }
 
+    public required init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.type = try container.decode(UnitOperationType.self, forKey: .type)
+        self.state = try container.decode(OperationStateType.self, forKey: .state)
+        self.area = try container.decodeIfPresent(HexArea.self, forKey: .area)
+        self.moveType = try container.decode(OperationMoveType.self, forKey: .moveType)
+
+        self.army = nil // try container.decodeIfPresent(Army.self, forKey: .army)
+
+        self.listOfUnitsCitiesHaveCommittedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
+        self.listOfUnitsWeStillNeedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
+        self.shouldReplaceLossesWithReinforcements = try container.decode(Bool.self, forKey: .army)
+
+        self.startPosition = try container.decodeIfPresent(HexPoint.self, forKey: .army)
+        self.musterPosition = try container.decodeIfPresent(HexPoint.self, forKey: .army)
+        self.targetPosition = try container.decodeIfPresent(HexPoint.self, forKey: .army)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.type, forKey: .type)
+    }
+
     func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
 
         self.player = player
@@ -109,14 +218,14 @@ public class Operation: Equatable {
         self.buildListOfUnitsWeStillNeedToBuild()
         let _ = self.grabUnitsFromTheReserves(at: nil, for: nil, in: gameModel)
     }
-    
+
     func isAllNavalOperation() -> Bool {
-        
+
         return false
     }
-    
+
     func isMixedLandNavalOperation() -> Bool {
-        
+
         return false
     }
 
@@ -598,12 +707,12 @@ public class Operation: Equatable {
     func cancel() {
 
     }
-    
+
     func numUnitsNeededToBeBuilt() -> Int {
-        
+
         fatalError("niy")
     }
-    
+
     /// Delete the operation if marked to go away
     func doDelayedDeath() -> Bool
     {
@@ -616,9 +725,9 @@ public class Operation: Equatable {
         return false;*/
         return true
     }
-    
+
     public static func == (lhs: Operation, rhs: Operation) -> Bool {
-        
+
         return lhs.type == rhs.type && lhs.area == rhs.area && lhs.enemy?.leader == rhs.enemy?.leader && lhs.moveType == rhs.moveType && lhs.targetPosition == rhs.targetPosition
     }
 }
@@ -628,6 +737,10 @@ class BasicCityAttackOperation: Operation {
     init() {
 
         super.init(type: .basicCityAttack)
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
     }
 }
 
@@ -643,12 +756,16 @@ class EscortedOperation: Operation {
 
         super.init(type: type)
     }
-
+    
+    public required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+    
     /// Kick off this operation
     override func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
 
         super.initialize(for: player, enemy: enemy, area: area, in: gameModel)
-        
+
         self.moveType = .singleHex
         self.player = player
 
@@ -673,7 +790,7 @@ class EscortedOperation: Operation {
                 army.add(unit: civilian, to: 0)
 
                 self.army = army
-                
+
                 // Add the escort as a unit we need to build
                 self.listOfUnitsWeStillNeedToBuild.removeAll()
                 let escortSlotIndex = 1
@@ -741,8 +858,8 @@ class EscortedOperation: Operation {
 
             self.state = .aborted(reason: .noTarget)
             return false
-        
-        // If this is a new target, switch to it
+
+            // If this is a new target, switch to it
         } else if betterTarget?.point != self.targetPosition {
 
             self.updateTarget(to: betterTarget)
@@ -767,7 +884,11 @@ class FoundCityOperation: EscortedOperation {
 
         super.init(type: .foundCity, escorted: true, civilianType: .settle)
     }
-
+    
+    public required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+    
     override func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
 
         super.initialize(for: player, enemy: enemy, area: area, target: target, muster: muster, in: gameModel)

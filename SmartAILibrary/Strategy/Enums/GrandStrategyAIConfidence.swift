@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum GrandStrategyAIConfidence {
+enum GrandStrategyAIConfidence: Int, Codable {
 
     case none
     case positive

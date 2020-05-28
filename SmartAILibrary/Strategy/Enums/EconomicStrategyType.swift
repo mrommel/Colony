@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum EconomicReconState {
+enum EconomicReconState: Int, Codable {
 
     case none
     case enough
@@ -16,7 +16,7 @@ enum EconomicReconState {
     case needed
 }
 
-enum EconomicStrategyType {
+enum EconomicStrategyType: Int, Codable {
 
     case needRecon
     case enoughRecon

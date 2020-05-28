@@ -8,18 +8,6 @@
 
 import Foundation
 
-/*enum BuilderDirectiveType {
-    
-    case none
-    
-    case improvementOnResource // IMPROVEMENT_ON_RESOURCE
-    case improvement // BUILD_IMPROVEMENT
-    case repair // BUILD_REPAIR
-    case route // BUILD_ROUTE
-    case chop // CHOP
-    case removeRoad // REMOVE_ROAD
-}*/
-
 enum BuilderDirectiveType: Int, Codable {
     
     case none
@@ -94,9 +82,6 @@ public class BuilderTaskingAI {
     
     var numCities: Int
     var nonTerritoryPlots: [AbstractTile?]
-    
-    // MARK: internal classes / enums
-
 
     // MARK: constructors
 
@@ -418,40 +403,47 @@ public class BuilderTaskingAI {
             return BuilderDirective(type: .buildImprovement, build: unit.buildType(), resource: .none, target: unit.location, moveTurnsAway: 0)
         }
 
-        var plots: [AbstractTile?] = []
+        var tiles: [AbstractTile?] = []
 
         if onlyEvaluateWorkersPlot {
             
             // can't build on plots others own
             if let tile = gameModel.tile(at: unit.location) {
                 if player.isEqual(to: tile.owner()) {
-                    plots.append(tile)
+                    tiles.append(tile)
                 }
             }
         } else {
-            plots = player.plots
+            
+            for point in player.area {
+                if let tile = gameModel.tile(at: point) {
+                    if player.isEqual(to: tile.owner()) {
+                        tiles.append(tile)
+                    }
+                }
+            }
         }
         
         let directives = BuilderDirectiveWeightedList()
 
         // go through all the plots the player has under their control
-        for plot in plots {
+        for tile in tiles {
             
-            if !self.shouldBuilderConsiderPlot(tile: plot, for: unit, in: gameModel) {
+            if !self.shouldBuilderConsiderPlot(tile: tile, for: unit, in: gameModel) {
                 continue
             }
 
             // distance weight
             // find how many turns the plot is away
-            let moveTurnsAway = self.findTurnsAway(unit: unit, on: plot, in: gameModel)
+            let moveTurnsAway = self.findTurnsAway(unit: unit, on: tile, in: gameModel)
             if moveTurnsAway < 0 {
                 continue
             }
 
-            directives.append(contentsOf: self.addRouteDirectives(unit: unit, on: plot, dist: moveTurnsAway, in: gameModel))
-            directives.append(contentsOf: self.addImprovingResourcesDirectives(unit: unit, on: plot, dist: moveTurnsAway, in: gameModel))
-            directives.append(contentsOf: self.addImprovingPlotsDirectives(unit: unit, on: plot, dist: moveTurnsAway, in: gameModel))
-            directives.append(contentsOf: self.addChopDirectives(unit: unit, on: plot, dist: moveTurnsAway, in: gameModel))
+            directives.append(contentsOf: self.addRouteDirectives(unit: unit, on: tile, dist: moveTurnsAway, in: gameModel))
+            directives.append(contentsOf: self.addImprovingResourcesDirectives(unit: unit, on: tile, dist: moveTurnsAway, in: gameModel))
+            directives.append(contentsOf: self.addImprovingPlotsDirectives(unit: unit, on: tile, dist: moveTurnsAway, in: gameModel))
+            directives.append(contentsOf: self.addChopDirectives(unit: unit, on: tile, dist: moveTurnsAway, in: gameModel))
             // FIXME m_aDirectives.append(contentsOf: self.addScrubFalloutDirectives(unit, plot, moveTurnsAway))
         }
 

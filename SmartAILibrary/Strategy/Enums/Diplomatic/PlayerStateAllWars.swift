@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PlayerStateAllWars {
+enum PlayerStateAllWars: Int, Codable {
     
     case neutral
     case winning

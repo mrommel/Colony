@@ -175,6 +175,41 @@ extension GameScene {
 
         self.cameraNode.add(dialog: treasuryDialog)
     }
+
+    func showMenuDialog() {
+
+        self.currentScreenType = .menu
+
+        let gameMenuDialog = GameMenuDialog()
+        gameMenuDialog.zPosition = 250
+
+        gameMenuDialog.addCancelAction(handler: {
+            gameMenuDialog.close()
+            self.currentScreenType = .none
+        })
+        
+        gameMenuDialog.addResultHandler(handler: { result in
+            
+            gameMenuDialog.close()
+            self.currentScreenType = .none
+            
+            if result == .gameSave {
+                self.handleGameSave()
+            } else if result == .gameLoad {
+                self.handleGameLoad()
+            } else if result == .gameRetire {
+                self.handleGameRetire()
+            } else if result == .gameRestart {
+                self.handleGameRestart()
+            } else if result == .gameExit {
+                self.handleGameExit()
+            } else {
+                fatalError("unhandled result of GameMenuDialog: \(result)")
+            }
+        })
+
+        self.cameraNode.add(dialog: gameMenuDialog)
+    }
 }
 
 extension GameScene {
@@ -182,7 +217,7 @@ extension GameScene {
     func displayPopups() {
 
         if let fistPopup = self.popups.first {
-            
+
             print("show popup: \(fistPopup.popupType)")
 
             switch fistPopup.popupType {
@@ -212,29 +247,52 @@ extension GameScene {
                     fatalError("popup data did not provide tech")
                 }
             case .eraEntered:
-                break
+                if let era = fistPopup.popupData?.era {
+                    self.showEnteredEraPopup(for: era)
+                } else {
+                    fatalError("popup data did not provide era")
+                }
             case .eurekaActivated:
-                if let techType = fistPopup.popupData?.tech {
-                    self.showEurekaActivatedPopup(for: techType)
-                } else if let civicType = fistPopup.popupData?.civic {
-                    self.showEurekaActivatedPopup(for: civicType)
+                if let popupData = fistPopup.popupData {
+                    if popupData.tech != .none {
+                        self.showEurekaActivatedPopup(for: popupData.tech)
+                    } else if popupData.civic != .none {
+                        self.showEurekaActivatedPopup(for: popupData.civic)
+                    }
                 } else {
                     fatalError("popup data did not provide tech nor civic")
                 }
             }
-            
+
             self.popups.removeFirst()
             return
         }
     }
-    
+
+    func showEnteredEraPopup(for eraType: EraType) {
+
+        self.currentPopupType = .eraEntered
+
+        let enteredEraPopupViewModel = EnteredEraPopupViewModel(eraType: eraType)
+
+        let enteredEraPopup = EnteredEraPopup(viewModel: enteredEraPopupViewModel)
+        enteredEraPopup.zPosition = 250
+
+        enteredEraPopup.addOkayAction(handler: {
+            self.currentPopupType = .none
+            enteredEraPopup.close()
+        })
+
+        self.cameraNode.add(dialog: enteredEraPopup)
+    }
+
     func showTechDiscoveredPopup(for techType: TechType) {
 
         self.currentPopupType = .techDiscovered
-        
-        let techDiscoveredPopupPopupViewModel = TechDiscoveredPopupViewModel(techType: techType)
-        
-        let techDiscoveredPopup = TechDiscoveredPopup(viewModel: techDiscoveredPopupPopupViewModel)
+
+        let techDiscoveredPopupViewModel = TechDiscoveredPopupViewModel(techType: techType)
+
+        let techDiscoveredPopup = TechDiscoveredPopup(viewModel: techDiscoveredPopupViewModel)
         techDiscoveredPopup.zPosition = 250
 
         techDiscoveredPopup.addOkayAction(handler: {
@@ -244,13 +302,13 @@ extension GameScene {
 
         self.cameraNode.add(dialog: techDiscoveredPopup)
     }
-    
+
     func showCivicDiscoveredPopup(for civicType: CivicType) {
 
         self.currentPopupType = .civicDiscovered
-        
+
         let civicDiscoveredPopupPopupViewModel = CivicDiscoveredPopupViewModel(civicType: civicType)
-        
+
         let civicDiscoveredPopupPopup = CivicDiscoveredPopup(viewModel: civicDiscoveredPopupPopupViewModel)
         civicDiscoveredPopupPopup.zPosition = 250
 
@@ -265,7 +323,7 @@ extension GameScene {
     func showEurekaActivatedPopup(for techType: TechType) {
 
         self.currentPopupType = .eurekaActivated
-        
+
         let eurekaActivatedPopupViewModel = EurekaActivatedPopupViewModel(techType: techType)
 
         let eurekaActivatedPopup = EurekaActivatedPopup(viewModel: eurekaActivatedPopupViewModel)
@@ -278,11 +336,11 @@ extension GameScene {
 
         self.cameraNode.add(dialog: eurekaActivatedPopup)
     }
-    
+
     func showEurekaActivatedPopup(for civicType: CivicType) {
 
         self.currentPopupType = .eurekaActivated
-        
+
         let eurekaActivatedPopupViewModel = EurekaActivatedPopupViewModel(civicType: civicType)
 
         let eurekaActivatedPopup = EurekaActivatedPopup(viewModel: eurekaActivatedPopupViewModel)

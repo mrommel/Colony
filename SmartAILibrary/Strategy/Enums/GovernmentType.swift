@@ -16,7 +16,7 @@ public struct PolicyCardSlots {
     let wildcard: Int // lila
 }
 
-public enum GovernmentType {
+public enum GovernmentType: Int, Codable {
     
     // ancient
     case chiefdom

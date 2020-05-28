@@ -17,7 +17,7 @@ public enum PolicyCardSlotType {
 }
 
 // https://civilization.fandom.com/wiki/Policy_Cards_(Civ6)
-public enum PolicyCardType {
+public enum PolicyCardType: Int, Codable {
 
     // ancient
     case survey // FIXME Doubles experience for recon units.

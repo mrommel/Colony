@@ -136,6 +136,7 @@
 		C98DBFB623E0BF9000B6CE25 /* CivicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB523E0BF9000B6CE25 /* CivicType.swift */; };
 		C98DBFB823E0D86000B6CE25 /* TechTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB723E0D86000B6CE25 /* TechTests.swift */; };
 		C98DBFBA23E0D8C700B6CE25 /* Techs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB923E0D8C700B6CE25 /* Techs.swift */; };
+		C9956853247E90B00005E9EA /* Eurekas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9956852247E90AF0005E9EA /* Eurekas.swift */; };
 		C99C4FC1242682DD00070038 /* TestUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C4FC0242682DD00070038 /* TestUI.swift */; };
 		C99C4FC32426ACD200070038 /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C4FC22426ACD200070038 /* UserInterface.swift */; };
 		C9A0573C24291C3E00D0FEAB /* Wonders.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0573B24291C3E00D0FEAB /* Wonders.swift */; };
@@ -359,6 +360,7 @@
 		C98DBFB523E0BF9000B6CE25 /* CivicType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicType.swift; sourceTree = "<group>"; };
 		C98DBFB723E0D86000B6CE25 /* TechTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechTests.swift; sourceTree = "<group>"; };
 		C98DBFB923E0D8C700B6CE25 /* Techs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Techs.swift; sourceTree = "<group>"; };
+		C9956852247E90AF0005E9EA /* Eurekas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eurekas.swift; sourceTree = "<group>"; };
 		C99C4FC0242682DD00070038 /* TestUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUI.swift; sourceTree = "<group>"; };
 		C99C4FC22426ACD200070038 /* UserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
 		C9A0573B24291C3E00D0FEAB /* Wonders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wonders.swift; sourceTree = "<group>"; };
@@ -749,6 +751,7 @@
 				C9588AC42418F30B00304E9A /* CitySpecializationAI.swift */,
 				C98DBFB923E0D8C700B6CE25 /* Techs.swift */,
 				C92D221823E2CC1200BB9238 /* Civics.swift */,
+				C9956852247E90AF0005E9EA /* Eurekas.swift */,
 				C9C2FE3A23F89F2E00185235 /* Religion.swift */,
 				C9C2FE3C23F89FF800185235 /* Treasury.swift */,
 				C90FC39B23D8961C00720B32 /* Player.swift */,
@@ -1133,6 +1136,7 @@
 				C907086623ED578100281161 /* TileDiscovered.swift in Sources */,
 				C9A0573C24291C3E00D0FEAB /* Wonders.swift in Sources */,
 				C95503C324585F6E00D4B3D8 /* MapOptionResources.swift in Sources */,
+				C9956853247E90B00005E9EA /* Eurekas.swift in Sources */,
 				C92317B323D62AD2001FC723 /* FiniteStateMachine.swift in Sources */,
 				C965A52E23FC6A3600BCEB54 /* River.swift in Sources */,
 				C99C4FC32426ACD200070038 /* UserInterface.swift in Sources */,

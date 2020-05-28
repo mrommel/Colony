@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PlayerTargetValueType: Int, Comparable {
+enum PlayerTargetValueType: Int, Comparable, Codable {
     
     case none
     

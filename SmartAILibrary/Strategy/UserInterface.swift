@@ -34,7 +34,7 @@ public class PopupData {
     public let tech: TechType
     public let civic: CivicType
     
-    let era: EraType
+    public let era: EraType
     
     init(player: AbstractPlayer?) {
         
@@ -139,6 +139,8 @@ public enum ScreenType {
     case civics
     
     case treasury
+    
+    case menu
 }
 
 public protocol UserInterfaceProtocol: class {

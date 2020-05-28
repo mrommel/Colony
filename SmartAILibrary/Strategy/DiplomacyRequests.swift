@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum DiplomacyRequestState {
+public enum DiplomacyRequestState: Int, Codable {
     
     case intro
     case blankDiscussion
@@ -17,14 +17,23 @@ public enum DiplomacyRequestState {
     case discussHumanInvoked // DIPLO_UI_STATE_DISCUSS_HUMAN_INVOKED
 }
 
-enum LeaderEmotionType {
+enum LeaderEmotionType: Int, Codable {
     
     case neutral
 }
 
-class DiplomacyRequest {
+class DiplomacyRequest: Codable {
     
-    let otherPlayer: AbstractPlayer?
+    enum CodingKeys: String, CodingKey {
+        
+        case otherLeader
+        case state
+        case message
+        case emotion
+        case turn
+    }
+    
+    let otherLeader: LeaderType
     let state: DiplomacyRequestState
     let message: String
     let emotion: LeaderEmotionType
@@ -32,17 +41,43 @@ class DiplomacyRequest {
     //let index: Int
     let turn: Int
     
-    init(for otherPlayer: AbstractPlayer?, state: DiplomacyRequestState, message: String, emotion: LeaderEmotionType, turn: Int) {
+    init(for otherLeader: LeaderType, state: DiplomacyRequestState, message: String, emotion: LeaderEmotionType, turn: Int) {
         
-        self.otherPlayer = otherPlayer
+        self.otherLeader = otherLeader
         self.state = state
         self.message = message
         self.emotion = emotion
         self.turn = turn
     }
+    
+    required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.otherLeader = try container.decode(LeaderType.self, forKey: .otherLeader)
+        self.state = try container.decode(DiplomacyRequestState.self, forKey: .state)
+        self.message = try container.decode(String.self, forKey: .message)
+        self.emotion = try container.decode(LeaderEmotionType.self, forKey: .emotion)
+        self.turn = try container.decode(Int.self, forKey: .turn)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.otherLeader, forKey: .otherLeader)
+        try container.encode(self.state, forKey: .state)
+        try container.encode(self.message, forKey: .message)
+        try container.encode(self.emotion, forKey: .emotion)
+        try container.encode(self.turn, forKey: .turn)
+    }
 }
 
-public class DiplomacyRequests {
+public class DiplomacyRequests: Codable {
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case requests
+    }
     
     var player: AbstractPlayer?
     var requests: [DiplomacyRequest]
@@ -56,16 +91,16 @@ public class DiplomacyRequests {
         self.requests = []
     }
     
-    func addRequest(for otherPlayer: AbstractPlayer?, state: DiplomacyRequestState, message: String, emotion: LeaderEmotionType, in gameModel: GameModel?) {
+    func addRequest(for otherLeader: LeaderType, state: DiplomacyRequestState, message: String, emotion: LeaderEmotionType, in gameModel: GameModel?) {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
         
-        self.requests.append(DiplomacyRequest(for: otherPlayer, state: state, message: message, emotion: emotion, turn: gameModel.turnsElapsed))
+        self.requests.append(DiplomacyRequest(for: otherLeader, state: state, message: message, emotion: emotion, turn: gameModel.turnsElapsed))
     }
     
-    func sendRequest(for otherPlayer: AbstractPlayer?, state: DiplomacyRequestState, message: String, emotion: LeaderEmotionType, in gameModel: GameModel?) {
+    func sendRequest(for otherLeader: LeaderType, state: DiplomacyRequestState, message: String, emotion: LeaderEmotionType, in gameModel: GameModel?) {
         
         //gameModel?.in
     }

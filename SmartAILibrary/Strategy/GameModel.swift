@@ -9,15 +9,30 @@
 import Foundation
 import CoreGraphics
 
-enum GameStateType {
+enum GameStateType: Int, Codable {
     
     case on
     case over
     case extended
 }
 
-public class GameModel {
+public class GameModel: Codable {
 
+    enum CodingKeys: CodingKey {
+
+        case victoryTypes
+        case handicap
+        case turnsElapsed
+        case turnSliceValue
+        case players
+        
+        case map
+        case wondersBuilt
+        
+        case gameStateValue
+        case rankingData
+    }
+    
     let victoryTypes: [VictoryType]
     let handicap: HandicapType
     var turnsElapsed: Int
@@ -45,13 +60,57 @@ public class GameModel {
         self.map = map
 
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
-        self.map.analyze()
-        
         self.gameStateValue = .on
         
         self.wondersBuilt = Wonders(city: nil)
         
         self.rankingData = RankingData(players: players)
+        
+        self.map.analyze()
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.victoryTypes = try container.decode([VictoryType].self, forKey: .victoryTypes)
+        self.handicap = try container.decode(HandicapType.self, forKey: .handicap)
+        self.turnsElapsed = try container.decode(Int.self, forKey: .turnsElapsed)
+        self.turnSliceValue = try container.decode(Int.self, forKey: .turnSliceValue)
+        
+        self.players = try container.decode([Player].self, forKey: .players)
+        
+        self.map = try container.decode(MapModel.self, forKey: .map)
+        self.wondersBuilt = try container.decode(Wonders.self, forKey: .wondersBuilt)
+        
+        self.gameStateValue = try container.decode(GameStateType.self, forKey: .gameStateValue)
+        self.rankingData = try container.decode(RankingData.self, forKey: .rankingData)
+        
+        // setup
+        self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
+        
+        self.map.analyze()
+        
+        // self.wondersBuilt.player = self
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.victoryTypes, forKey: .victoryTypes)
+        try container.encode(self.handicap, forKey: .handicap)
+        try container.encode(self.turnsElapsed, forKey: .turnsElapsed)
+        try container.encode(self.turnSliceValue, forKey: .turnSliceValue)
+        
+        let realPlayers = self.players as! [Player]
+        try container.encode(realPlayers, forKey: .players)
+        
+        try container.encode(self.map, forKey: .map)
+        try container.encode(self.wondersBuilt as! Wonders, forKey: .wondersBuilt)
+        
+        try container.encode(self.gameStateValue, forKey: .gameStateValue)
+        try container.encode(self.rankingData, forKey: .rankingData)
     }
     
     public func update() {
@@ -653,7 +712,7 @@ public class GameModel {
                         }
                         
                         if unit.movesLeft() > 0 {
-                            blockingNotification = NotificationItem(type: .unitNeedsOrders, for: activePlayer, message: "Unit needs orders", summary: "Orders needed", at: unit.location, other: nil)
+                            blockingNotification = NotificationItem(type: .unitNeedsOrders, for: activePlayer.leader, message: "Unit needs orders", summary: "Orders needed", at: unit.location, other: .none)
                         }
                     }
                 }
@@ -865,6 +924,11 @@ public class GameModel {
     func barbarianPlayer() -> AbstractPlayer? {
 
         return self.players.first(where: { $0.leader == .barbar })
+    }
+    
+    func player(for leader: LeaderType) -> AbstractPlayer? {
+
+        return self.players.first(where: { $0.leader == leader })
     }
 
     func enter(era: EraType, for player: AbstractPlayer?) {

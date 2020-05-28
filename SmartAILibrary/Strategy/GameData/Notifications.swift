@@ -8,20 +8,34 @@
 
 import Foundation
 
-public class NotificationItem {
+public class NotificationItem: Codable {
+    
+    enum CodingKeys: CodingKey {
+
+        case type
+        case player
+        case location
+        case message
+        case summary
+        case otherPlayer
+        
+        case turn
+        case dismissed
+        case needsBroadcasting
+    }
     
     public let type: NotificationType
-    public let player: AbstractPlayer?
+    public let player: LeaderType
     public let location: HexPoint
     public let message: String
     public let summary: String
-    public let otherPlayer: AbstractPlayer?
+    public let otherPlayer: LeaderType
     
-    let turn: Int = -1 // which turn this event was created on
+    let turn: Int // which turn this event was created on
     var dismissed: Bool
     var needsBroadcasting: Bool
     
-    public init(type: NotificationType, for player: AbstractPlayer?, message: String, summary: String, at location: HexPoint, other otherPlayer: AbstractPlayer?) {
+    public init(type: NotificationType, for player: LeaderType, message: String, summary: String, at location: HexPoint, other otherPlayer: LeaderType) {
         
         self.type = type
         self.player = player
@@ -32,6 +46,39 @@ public class NotificationItem {
         
         self.dismissed = false
         self.needsBroadcasting = true
+        self.turn = -1
+    }
+    
+    required public init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.type = try container.decode(NotificationType.self, forKey: .type)
+        self.player = try container.decode(LeaderType.self, forKey: .player)
+        self.message = try container.decode(String.self, forKey: .message)
+        self.summary = try container.decode(String.self, forKey: .summary)
+        self.location = try container.decode(HexPoint.self, forKey: .location)
+        self.otherPlayer = try container.decode(LeaderType.self, forKey: .otherPlayer)
+        
+        self.dismissed = try container.decode(Bool.self, forKey: .dismissed)
+        self.needsBroadcasting = try container.decode(Bool.self, forKey: .needsBroadcasting)
+        self.turn = try container.decode(Int.self, forKey: .turn)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.type, forKey: .type)
+        try container.encode(self.player, forKey: .player)
+        try container.encode(self.location, forKey: .location)
+        try container.encode(self.message, forKey: .message)
+        try container.encode(self.summary, forKey: .summary)
+        try container.encode(self.otherPlayer, forKey: .otherPlayer)
+        
+        try container.encode(self.turn, forKey: .turn)
+        try container.encode(self.dismissed, forKey: .dismissed)
+        try container.encode(self.needsBroadcasting, forKey: .needsBroadcasting)
     }
     
     public func activate(in gameModel: GameModel?) {
@@ -61,7 +108,11 @@ public class NotificationItem {
             gameModel?.userInterface?.focus(on: self.location)
             
         case .diplomaticDeclaration:
-            gameModel?.userInterface?.showScreen(screenType: .diplomatic, city: nil, other: self.otherPlayer)
+            guard let otherPlayer = gameModel?.player(for: self.otherPlayer) else {
+                fatalError("cant get player")
+            }
+            
+            gameModel?.userInterface?.showScreen(screenType: .diplomatic, city: nil, other: otherPlayer)
             self.dismiss(in: gameModel)
             
         default:
@@ -80,7 +131,12 @@ public class NotificationItem {
         switch self.type {
             
         case .techNeeded:
-            guard let techs = self.player?.techs else {
+            
+            guard let player = gameModel?.player(for: self.player) else {
+                fatalError("cant get player")
+            }
+            
+            guard let techs = player.techs else {
                 fatalError("cant get techs")
             }
             
@@ -92,7 +148,12 @@ public class NotificationItem {
             return false
             
         case .civicNeeded:
-            guard let civics = self.player?.civics else {
+            
+            guard let player = gameModel?.player(for: self.player) else {
+                fatalError("cant get player")
+            }
+            
+            guard let civics = player.civics else {
                 fatalError("cant get civics")
             }
             
@@ -122,15 +183,35 @@ public class NotificationItem {
     }
 }
 
-public class Notifications {
+public class Notifications: Codable {
     
-    let player: AbstractPlayer?
+    enum CodingKeys: CodingKey {
+
+        case notifications
+    }
+    
+    var player: AbstractPlayer?
     var notificationsValue: [NotificationItem]
     
     init(player: AbstractPlayer?) {
         
         self.player = player
         self.notificationsValue = []
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.player = nil
+        self.notificationsValue = try container.decode([NotificationItem].self, forKey: .notifications)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.notificationsValue, forKey: .notifications)
     }
     
     public func update(in gameModel: GameModel?) {
@@ -171,7 +252,12 @@ public class Notifications {
             return
         }
         
-        self.notificationsValue.append(NotificationItem(type: type, for: player, message: message, summary: summary, at: location, other: otherPlayer))
+        var otherLeader: LeaderType = .none
+        if let otherPlayer = otherPlayer {
+            otherLeader = otherPlayer.leader
+        }
+        
+        self.notificationsValue.append(NotificationItem(type: type, for: player.leader, message: message, summary: summary, at: location, other: otherLeader))
     }
     
     func endTurnBlockingNotification() -> NotificationItem? {

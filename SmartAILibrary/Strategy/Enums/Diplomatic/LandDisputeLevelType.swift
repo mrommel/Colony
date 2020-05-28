@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum LandDisputeLevelType {
+enum LandDisputeLevelType: Int, Codable {
     
     case none
     

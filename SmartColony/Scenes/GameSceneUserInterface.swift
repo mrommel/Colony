@@ -37,27 +37,24 @@ extension GameScene: UserInterfaceProtocol {
 
         switch screenType {
             
-        case .none:
-            print("screen: \(screenType) not handled")
-            break
+        
+            
         case .interimRanking:
             self.showInterimRankingDialog()
-            break
         case .diplomatic:
             self.showDiplomaticDialog(with: otherPlayer)
-            break
         case .city:
             self.showCityDialog(for: city)
-            break
         case .techs:
             self.showTechDialog()
-            break
         case .civics:
             self.showCivicDialog()
-            break
         case .treasury:
             self.showTreasuryDialog()
-            break
+        case .menu:
+            self.showMenuDialog()
+        default:
+            print("screen: \(screenType) not handled")
         }
     }
     

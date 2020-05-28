@@ -53,8 +53,12 @@ class DiplomaticDealAI {
         
         if isDealAcceptable {
 
+            guard let fromPlayer = gameModel?.player(for: deal.from) else {
+                fatalError("cant get player")
+            }
+            
             // If it's from a human, send it through the network
-            if let fromPlayer = deal.from, fromPlayer.isHuman() {
+            if fromPlayer.isHuman() {
                 
                 // FIXME ???
             } else {

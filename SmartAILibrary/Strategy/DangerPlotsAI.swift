@@ -8,15 +8,35 @@
 
 import Foundation
 
-public class DangerPlotsAI {
+public class DangerPlotsAI: Codable {
     
-    let player: AbstractPlayer
+    enum CodingKeys: String, CodingKey {
+        
+        case dangerPlots
+    }
+    
+    var player: AbstractPlayer?
     var dangerPlots: Array2D<Double>?
     
     init(player: AbstractPlayer) {
         
         self.player = player
         self.dangerPlots = nil
+    }
+    
+    required public init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.player = nil
+        self.dangerPlots = try container.decodeIfPresent(Array2D<Double>.self, forKey: .dangerPlots)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.dangerPlots, forKey: .dangerPlots)
     }
     
     func initialize(in gameModel: GameModel?) {
@@ -34,6 +54,10 @@ public class DangerPlotsAI {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
         }
         
         // wipe out values
@@ -93,7 +117,7 @@ public class DangerPlotsAI {
     /// Contains the calculations to do the danger value for the plot according to the unit
     func assignDangerValue(for unit: AbstractUnit, at point: HexPoint) {
         
-        let combatValueCalc = 100
+        // let combatValueCalc = 100
         //let baseUnitCombatValue = unit.
         
         fatalError("not implemented yet")

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AbstractTreasury {
+public protocol AbstractTreasury: class, Codable {
     
     func value() -> Double
     
@@ -30,10 +30,15 @@ public protocol AbstractTreasury {
 
 class Treasury: AbstractTreasury {
 
+    enum CodingKeys: CodingKey {
+
+        case gold
+        case tradeRouteGoldChange
+    }
+    
     // user properties / values
     var player: Player?
     var gold: Double
-    //var lastGoldEarned: Double = 1.0
     
     var tradeRouteGoldChangeValue: Int
 
@@ -45,6 +50,22 @@ class Treasury: AbstractTreasury {
         self.gold = 10.0 //
         
         self.tradeRouteGoldChangeValue = 0
+    }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.gold = try container.decode(Double.self, forKey: .gold)
+        self.tradeRouteGoldChangeValue = try container.decode(Int.self, forKey: .tradeRouteGoldChange)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.gold, forKey: .gold)
+        try container.encode(self.tradeRouteGoldChangeValue, forKey: .tradeRouteGoldChange)
     }
     
     func value() -> Double {
