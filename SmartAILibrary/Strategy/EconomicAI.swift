@@ -113,9 +113,7 @@ public class EconomicAI: Codable {
         required init(from decoder: Decoder) throws {
         
             let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-            print("keys: \(container.allKeys)")
-            
+ 
             self.adoptions = try container.decode([EconomicStrategyAdoptionItem].self, forKey: .adoptions)
         }
         
@@ -191,9 +189,9 @@ public class EconomicAI: Codable {
         self.player = nil
         
         self.economicStrategyAdoption = try container.decode(EconomicStrategyAdoption.self, forKey: .economicStrategyAdoption)
-        self.flavors = try container.decode(Flavors.self, forKey: .economicStrategyAdoption)
+        self.flavors = try container.decode(Flavors.self, forKey: .flavors)
         
-        self.reconStateVal = try container.decode(EconomicReconState.self, forKey: .economicStrategyAdoption)
+        self.reconStateVal = try container.decode(EconomicReconState.self, forKey: .reconState)
         self.navalReconStateVal = try container.decode(EconomicReconState.self, forKey: .navalReconState)
         self.lastTurnBuilderDisbandedVal = try container.decode(Int.self, forKey: .lastTurnBuilderDisbanded)
         self.explorersDisbandedValue = try container.decode(Int.self, forKey: .explorersDisbanded)
@@ -202,7 +200,6 @@ public class EconomicAI: Codable {
         self.goodyHutUnitAssignments = []
         self.explorationPlotsArray = []
         self.explorers = []
-        self.explorersDisbandedValue = 0
     }
     
     public func encode(to encoder: Encoder) throws {
