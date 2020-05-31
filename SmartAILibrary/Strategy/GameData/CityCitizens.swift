@@ -63,15 +63,39 @@ class GreatPersonProgressList: WeightedList<SpecialistType> {
 //!  Key Attributes:
 //!  - One instance for each city
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-public class CityCitizens {
+public class CityCitizens: Codable {
     
-    private var city: AbstractCity?
+    enum CodingKeys: String, CodingKey {
+        
+        case workingPlots
+        case focusType
+        
+        case automated
+        case inited
+        
+        case numCitizensWorkingPlots
+        case numForcedWorkingPlots
+        case numUnassignedCitizens
+        case numDefaultSpecialists
+        case numForcedSpecialists
+        
+        case noAutoAssignSpecialists
+        case avoidGrowth
+        case forceAvoidGrowth
+        
+        case numSpecialists
+        case numSpecialistsInBuilding
+        case numForcedSpecialistsInBuilding
+        
+        case specialistGreatPersonProgress
+    }
+    
+    internal var city: AbstractCity?
     
     // surrounding tiles
     private var workingPlots: [WorkingPlot]
     private var focusTypeValue: CityFocusType
     
-    private var forceAvoidGrowth: Bool = false
     private var automated: Bool
     private var inited: Bool
     
@@ -93,7 +117,14 @@ public class CityCitizens {
     
     // internal classes
     
-    class WorkingPlot {
+    class WorkingPlot: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+            
+            case location
+            case worked
+            case workedForced
+        }
         
         let location: HexPoint
         var worked: Bool
@@ -105,9 +136,33 @@ public class CityCitizens {
             self.worked = worked
             self.workedForced = workedForced
         }
+        
+        required public init(from decoder: Decoder) throws {
+        
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+            self.location = try container.decode(HexPoint.self, forKey: .location)
+            self.worked = try container.decode(Bool.self, forKey: .worked)
+            self.workedForced = try container.decode(Bool.self, forKey: .workedForced)
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+        
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(self.location, forKey: .location)
+            try container.encode(self.worked, forKey: .worked)
+            try container.encode(self.workedForced, forKey: .workedForced)
+        }
     }
     
-    class SpecialistBuildingTuple {
+    class SpecialistBuildingTuple: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+            
+            case buildingType
+            case specialists
+        }
         
         let buildingType: BuildingType
         var specialists: Int
@@ -116,6 +171,22 @@ public class CityCitizens {
             
             self.buildingType = buildingType
             self.specialists = specialists
+        }
+        
+        required public init(from decoder: Decoder) throws {
+        
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+            self.buildingType = try container.decode(BuildingType.self, forKey: .buildingType)
+            self.specialists = try container.decode(Int.self, forKey: .specialists)
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+        
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(self.buildingType, forKey: .buildingType)
+            try container.encode(self.specialists, forKey: .specialists)
         }
     }
     
@@ -140,6 +211,60 @@ public class CityCitizens {
         self.specialistGreatPersonProgress.fill()
         
         self.initialize()
+    }
+    
+    required public init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.workingPlots = try container.decode([WorkingPlot].self, forKey: .workingPlots)
+        self.focusTypeValue = try container.decode(CityFocusType.self, forKey: .focusType)
+
+        self.automated = try container.decode(Bool.self, forKey: .automated)
+        self.inited = try container.decode(Bool.self, forKey: .inited)
+        
+        self.numCitizensWorkingPlotsValue = try container.decode(Int.self, forKey: .numCitizensWorkingPlots)
+        self.numForcedWorkingPlotsValue = try container.decode(Int.self, forKey: .numForcedWorkingPlots)
+        self.numUnassignedCitizensValue = try container.decode(Int.self, forKey: .numUnassignedCitizens)
+        self.numDefaultSpecialistsValue = try container.decode(Int.self, forKey: .numDefaultSpecialists)
+        self.numForcedSpecialistsValue = try container.decode(Int.self, forKey: .numForcedSpecialists)
+    
+        self.noAutoAssignSpecialistsValue = try container.decode(Bool.self, forKey: .noAutoAssignSpecialists)
+        self.avoidGrowthValue = try container.decode(Bool.self, forKey: .avoidGrowth)
+        self.forceAvoidGrowthValue = try container.decode(Bool.self, forKey: .forceAvoidGrowth)
+    
+        self.numSpecialists = try container.decode(SpecialistCountList.self, forKey: .numSpecialists)
+        self.numSpecialistsInBuilding = try container.decode([SpecialistBuildingTuple].self, forKey: .numSpecialistsInBuilding)
+        self.numForcedSpecialistsInBuilding = try container.decode([SpecialistBuildingTuple].self, forKey: .numForcedSpecialistsInBuilding)
+    
+        self.specialistGreatPersonProgress = try container.decode(GreatPersonProgressList.self, forKey: .specialistGreatPersonProgress)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.workingPlots, forKey: .workingPlots)
+        try container.encode(self.focusTypeValue, forKey: .focusType)
+    
+        try container.encode(self.automated, forKey: .automated)
+        try container.encode(self.inited, forKey: .inited)
+    
+        try container.encode(self.numCitizensWorkingPlotsValue, forKey: .numCitizensWorkingPlots)
+        try container.encode(self.numForcedWorkingPlotsValue, forKey: .numForcedWorkingPlots)
+        try container.encode(self.numUnassignedCitizensValue, forKey: .numUnassignedCitizens)
+        try container.encode(self.numDefaultSpecialistsValue, forKey: .numDefaultSpecialists)
+        try container.encode(self.numForcedSpecialistsValue, forKey: .numForcedSpecialists)
+    
+        try container.encode(self.noAutoAssignSpecialistsValue, forKey: .noAutoAssignSpecialists)
+        try container.encode(self.avoidGrowthValue, forKey: .avoidGrowth)
+        try container.encode(self.forceAvoidGrowthValue, forKey: .forceAvoidGrowth)
+    
+        try container.encode(self.numSpecialists, forKey: .numSpecialists)
+        try container.encode(self.numSpecialistsInBuilding, forKey: .numSpecialistsInBuilding)
+        try container.encode(self.numForcedSpecialistsInBuilding, forKey: .numForcedSpecialistsInBuilding)
+    
+        try container.encode(self.specialistGreatPersonProgress, forKey: .specialistGreatPersonProgress)
     }
     
     func initialize() {

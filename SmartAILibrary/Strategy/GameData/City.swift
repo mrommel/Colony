@@ -42,7 +42,8 @@ public enum CityTaskResultType {
 public protocol AbstractCity: class, Codable {
 
     var name: String { get }
-    var player: AbstractPlayer? { get }
+    var player: AbstractPlayer? { get set }
+    var leader: LeaderType { get } // for restore from file only
     var buildings: AbstractBuildings? { get }
     var wonders: AbstractWonders? { get }
     var districts: AbstractDistricts? { get }
@@ -182,15 +183,50 @@ public class City: AbstractCity {
         case name
         case population
         case location
-        case player
+        case leader
         case capital
+        
+        case districts
+        case buildings
+        case wonders
+        case projects
+        case buildQueue
+        case cityCitizens
+        
+        case healthPoints
+        
+        case isFeatureSurrounded
+        case productionLastTurn
+        case featureProduction
+
+        case foodBasket
+        case lastTurnFoodHarvested
+        case lastTurnFoodEarned
+
+        case cityStrategy
+        
+        case madeAttack
+        case routeToCapitalConnectedThisTurn
+        case routeToCapitalConnectedLastTurn
+        case lastTurnGarrisonAssigned
+        
+        case luxuries
+        
+        case baseYieldRateFromSpecialists
+        case extraSpecialistYield
+    
+        case productionAutomated
+        
+        case numPlotsAcquiredList
     }
     
     public let name: String
     var populationValue: Double
     public let location: HexPoint
-    private(set) public var player: AbstractPlayer?
+    public var player: AbstractPlayer?
+    private(set) public var leader: LeaderType // for restoring from file
     private(set) var growthStatus: GrowthStatusType = .growth
+    private var capitalValue: Bool
 
     public var districts: AbstractDistricts?
     public var buildings: AbstractBuildings? // buildings that are currently build in this city
@@ -199,8 +235,6 @@ public class City: AbstractCity {
     public var buildQueue: BuildQueue
     public var cityCitizens: CityCitizens?
     //internal var cityEmphases: CityEmphases?
-
-    private var capitalValue: Bool
     
     private var healthPointsValue: Int // 0..200
     private var threatVal: Int
@@ -246,6 +280,7 @@ public class City: AbstractCity {
         self.foodBasketValue = 1.0
 
         self.player = owner
+        self.leader = owner!.leader
 
         self.isFeatureSurroundedValue = false
         self.threatVal = 0
@@ -271,7 +306,7 @@ public class City: AbstractCity {
         self.name = try container.decode(String.self, forKey: .name)
         self.populationValue = try container.decode(Double.self, forKey: .population)
         self.location = try container.decode(HexPoint.self, forKey: .location)
-        //let leader = try container.decode(LeaderType.self, forKey: .player)
+        self.leader = try container.decode(LeaderType.self, forKey: .leader)
         self.capitalValue = try container.decode(Bool.self, forKey: .capital)
         
         self.buildQueue = BuildQueue()
@@ -293,6 +328,51 @@ public class City: AbstractCity {
         
         self.numPlotsAcquiredList = LeaderWeightList()
         self.numPlotsAcquiredList.fill()
+        
+        self.districts = try container.decode(Districts.self, forKey: .districts)
+        self.buildings = try container.decode(Buildings.self, forKey: .buildings)
+        self.wonders = try container.decode(Wonders.self, forKey: .wonders)
+        self.projects = try container.decode(Projects.self, forKey: .projects)
+        self.buildQueue = try container.decode(BuildQueue.self, forKey: .buildQueue)
+        self.cityCitizens = try container.decode(CityCitizens.self, forKey: .cityCitizens)
+        
+        self.healthPointsValue = try container.decode(Int.self, forKey: .healthPoints)
+        
+        self.isFeatureSurroundedValue = try container.decode(Bool.self, forKey: .isFeatureSurrounded)
+        self.productionLastTurnValue = try container.decode(Double.self, forKey: .productionLastTurn)
+        self.featureProductionValue = try container.decode(Double.self, forKey: .featureProduction)
+
+        self.foodBasketValue = try container.decode(Double.self, forKey: .foodBasket)
+        self.lastTurnFoodHarvestedValue = try container.decode(Double.self, forKey: .lastTurnFoodHarvested)
+        self.lastTurnFoodEarnedValue = try container.decode(Double.self, forKey: .lastTurnFoodEarned)
+
+        self.cityStrategy = try container.decode(CityStrategyAI.self, forKey: .cityStrategy)
+        
+        self.madeAttack = try container.decode(Bool.self, forKey: .madeAttack)
+        self.routeToCapitalConnectedThisTurn = try container.decode(Bool.self, forKey: .routeToCapitalConnectedThisTurn)
+        self.routeToCapitalConnectedLastTurn = try container.decode(Bool.self, forKey: .routeToCapitalConnectedLastTurn)
+        self.lastTurnGarrisonAssignedValue = try container.decode(Int.self, forKey: .lastTurnGarrisonAssigned)
+        
+        //self.garrisonedUnitValue = try container.decode(CityCitizens.self, forKey: .cityCitizens): AbstractUnit? = nil
+        
+        self.luxuries = try container.decode([ResourceType].self, forKey: .luxuries)
+        
+        // yields
+        self.baseYieldRateFromSpecialists = try container.decode(YieldList.self, forKey: .baseYieldRateFromSpecialists)
+        self.extraSpecialistYield = try container.decode(YieldList.self, forKey: .extraSpecialistYield)
+        
+        self.productionAutomatedValue = try container.decode(Bool.self, forKey: .productionAutomated)
+        
+        self.numPlotsAcquiredList = try container.decode(LeaderWeightList.self, forKey: .numPlotsAcquiredList)
+        
+        // setup
+        self.districts?.city = self
+        self.buildings?.city = self
+        self.wonders?.city = self
+        self.projects?.city = self
+        self.cityCitizens?.city = self
+        
+        self.cityStrategy?.city = self
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -302,8 +382,44 @@ public class City: AbstractCity {
         try container.encode(self.name, forKey: .name)
         try container.encode(self.populationValue, forKey: .population)
         try container.encode(self.location, forKey: .location)
-        try container.encode(self.player!.leader, forKey: .player)
+        try container.encode(self.player!.leader, forKey: .leader)
         try container.encode(self.capitalValue, forKey: .capital)
+        
+        try container.encode(self.districts as! Districts, forKey: .districts)
+        try container.encode(self.buildings as! Buildings, forKey: .buildings)
+        try container.encode(self.wonders as! Wonders, forKey: .wonders)
+        try container.encode(self.projects as! Projects, forKey: .projects)
+        try container.encode(self.buildQueue, forKey: .buildQueue)
+        try container.encode(self.cityCitizens, forKey: .cityCitizens)
+        
+        try container.encode(self.healthPointsValue, forKey: .healthPoints)
+        
+        try container.encode(self.isFeatureSurroundedValue, forKey: .isFeatureSurrounded)
+        try container.encode(self.productionLastTurnValue, forKey: .productionLastTurn)
+        try container.encode(self.featureProductionValue, forKey: .featureProduction)
+
+        try container.encode(self.foodBasketValue, forKey: .foodBasket)
+        try container.encode(self.lastTurnFoodHarvestedValue, forKey: .lastTurnFoodHarvested)
+        try container.encode(self.lastTurnFoodEarnedValue, forKey: .lastTurnFoodEarned)
+
+        try container.encode(self.cityStrategy, forKey: .cityStrategy)
+        
+        try container.encode(self.madeAttack, forKey: .madeAttack)
+        try container.encode(self.routeToCapitalConnectedThisTurn, forKey: .routeToCapitalConnectedThisTurn)
+        try container.encode(self.routeToCapitalConnectedLastTurn, forKey: .routeToCapitalConnectedLastTurn)
+        try container.encode(self.lastTurnGarrisonAssignedValue, forKey: .lastTurnGarrisonAssigned)
+        
+        //try container.encode(self.featureProductionValue, forKey: .featureProduction)
+        //private var garrisonedUnitValue: AbstractUnit? = nil
+        
+        try container.encode(self.luxuries, forKey: .luxuries)
+        
+        try container.encode(self.baseYieldRateFromSpecialists, forKey: .baseYieldRateFromSpecialists)
+        try container.encode(self.extraSpecialistYield, forKey: .extraSpecialistYield)
+        
+        try container.encode(self.productionAutomatedValue, forKey: .productionAutomated)
+        
+        try container.encode(self.numPlotsAcquiredList, forKey: .numPlotsAcquiredList)
     }
 
     public func initialize(in gameModel: GameModel?) {

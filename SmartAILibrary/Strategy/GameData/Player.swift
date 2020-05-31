@@ -317,6 +317,11 @@ public class Player: AbstractPlayer {
         self.resourceInventory = try container.decode(ResourceInventory.self, forKey: .resourceInventory)
         
         // setup
+        self.techs?.player = self
+        self.civics?.player = self
+        self.religion?.player = self
+        self.treasury?.player = self
+        
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
         self.diplomacyRequests?.player = self

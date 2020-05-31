@@ -37,7 +37,7 @@ class PediaViewController: UIViewController {
             let gameViewController = segue.destination as? GameViewController
 
             if self.currentGame != nil {
-                gameViewController?.viewModel = GameViewModel(game: self.currentGame)
+                gameViewController?.viewModel = GameViewModel(with: self.currentGame)
             }
         }
     }

@@ -11,52 +11,49 @@ import SmartAILibrary
 
 extension GameScene {
     
-    fileprivate func gamesFolder() -> URL {
+    func handleGameQuickSave() {
         
-        let fm = FileManager.default
-        let folder = fm.urls(for: .documentDirectory, in: .userDomainMask)[0]
-
-        var isDirectory: ObjCBool = false
-        if !(fm.fileExists(atPath: folder.path, isDirectory: &isDirectory) && isDirectory.boolValue) {
-            try! fm.createDirectory(at: folder, withIntermediateDirectories: false, attributes: nil)
-        }
-        return folder
+        GameStorage.store(game: self.viewModel?.game, named: "current.game")
     }
     
     func handleGameSave() {
     
-        guard let game = self.viewModel?.game else {
-            fatalError("no game to save")
-        }
+        // ask file name to save
+        let gameNameDialog = GameNameDialog()
+        gameNameDialog.zPosition = 250
+
+        gameNameDialog.addOkayAction(handler: {
+
+            if gameNameDialog.isValid() {
+                
+                /*let location = selectedUnit.location
+                selectedUnit.doFound(with: cityNameDialog.getCityName(), in: self.viewModel?.game)
+                self.unselect()
+                cityNameDialog.close()
+                self.restoreFromCityScreen()
+
+                if let city = self.viewModel?.game?.city(at: location) {
+                    self.showScreen(screenType: .city, city: city)
+                }*/
+            }
+        })
+
+        gameNameDialog.addCancelAction(handler: {
+            gameNameDialog.close()
+        })
+
+        self.cameraNode.add(dialog: gameNameDialog)
         
-        let encoder = JSONEncoder()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
-        do {
-            let data = try encoder.encode(game)
-            let string = String(data: data, encoding: .utf8)!
-        
-            let filename = gamesFolder().appendingPathComponent("current.game")
-        
-            try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-            print("Saved!")
-        } catch {
-            print("Failed to save: \(error)")
-        }
+        let gameName = dateFormatter.string(from: Date())
+        gameNameDialog.set(textFieldInput: gameName)
     }
     
     func handleGameLoad() {
     
-        let decoder = JSONDecoder()
-        
-        do {
-            let filename = gamesFolder().appendingPathComponent("current.game")
-            let jsonData = try Data(contentsOf: filename, options: .mappedIfSafe)
-        
-            let tmpGame = try decoder.decode(GameModel.self, from: jsonData)
-            print("Loaded!")
-        } catch {
-            print("Failed to load: \(error)")
-        }
+        // select file from list
     }
     
     func handleGameRetire() {

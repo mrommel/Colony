@@ -12,7 +12,9 @@ enum BuildingError: Error {
     case alreadyBuild
 }
 
-public protocol AbstractBuildings {
+public protocol AbstractBuildings: Codable {
+    
+    var city: AbstractCity? { get set }
     
     // buildings
     func has(building: BuildingType) -> Bool
@@ -27,8 +29,17 @@ public protocol AbstractBuildings {
 
 class Buildings: AbstractBuildings {
     
+    enum CodingKeys: String, CodingKey {
+        
+        case buildings
+        
+        case defense
+        case defenseModifier
+        case housing
+    }
+    
     private var buildings: [BuildingType]
-    private var city: AbstractCity?
+    internal var city: AbstractCity?
     
     private var defenseVal: Int
     private var defenseModifierVal: Int
@@ -42,6 +53,28 @@ class Buildings: AbstractBuildings {
         self.defenseVal = 0
         self.defenseModifierVal = 0
         self.housingVal = 0.0
+    }
+    
+    required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.buildings = try container.decode([BuildingType].self, forKey: .buildings)
+        
+        self.defenseVal = try container.decode(Int.self, forKey: .defense)
+        self.defenseModifierVal = try container.decode(Int.self, forKey: .defenseModifier)
+        self.housingVal = try container.decode(Double.self, forKey: .housing)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.buildings, forKey: .buildings)
+        
+        try container.encode(self.defenseVal, forKey: .defense)
+        try container.encode(self.defenseModifierVal, forKey: .defenseModifier)
+        try container.encode(self.housingVal, forKey: .housing)
     }
     
     func has(building: BuildingType) -> Bool {

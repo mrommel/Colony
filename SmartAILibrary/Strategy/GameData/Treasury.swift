@@ -10,6 +10,8 @@ import Foundation
 
 public protocol AbstractTreasury: class, Codable {
     
+    var player: AbstractPlayer? { get set }
+    
     func value() -> Double
     
     func turn(in gameModel: GameModel?)
@@ -37,7 +39,7 @@ class Treasury: AbstractTreasury {
     }
     
     // user properties / values
-    var player: Player?
+    var player: AbstractPlayer?
     var gold: Double
     
     var tradeRouteGoldChangeValue: Int

@@ -217,7 +217,12 @@ public class MapModel: Codable {
     
     func cities(for player: AbstractPlayer) -> [AbstractCity?] {
         
-        return self.cities.filter({ $0?.player?.leader == player.leader })
+        return self.cities.filter({ $0?.leader == player.leader })
+    }
+    
+    func cities(for leader: LeaderType) -> [AbstractCity?] {
+        
+        return self.cities.filter({ $0?.leader == leader })
     }
     
     func city(at location: HexPoint) -> AbstractCity? {
@@ -249,7 +254,12 @@ public class MapModel: Codable {
     
     func units(for player: AbstractPlayer) -> [AbstractUnit?] {
         
-        return self.units.filter({ $0?.player?.leader == player.leader })
+        return self.units.filter({ $0?.leader == player.leader })
+    }
+    
+    func units(for leader: LeaderType) -> [AbstractUnit?] {
+        
+        return self.units.filter({ $0?.leader == leader })
     }
     
     func unit(at point: HexPoint) -> AbstractUnit? {

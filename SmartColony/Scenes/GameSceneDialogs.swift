@@ -193,7 +193,9 @@ extension GameScene {
             gameMenuDialog.close()
             self.currentScreenType = .none
             
-            if result == .gameSave {
+            if result == .gameQuickSave {
+                self.handleGameQuickSave()
+            } else if result == .gameSave {
                 self.handleGameSave()
             } else if result == .gameLoad {
                 self.handleGameLoad()

@@ -92,6 +92,36 @@ public class GameModel: Codable {
         self.map.analyze()
         
         // self.wondersBuilt.player = self
+        
+        // init some classes
+        for player in self.players {
+            
+            for cityRef in map.cities(for: player.leader) {
+                
+                guard let city = cityRef else {
+                    continue
+                }
+                
+                guard let cityPlayer = self.player(for: city.leader) else {
+                    fatalError("cant get city player: \(city.leader)")
+                }
+                
+                cityRef?.player = cityPlayer
+            }
+            
+            for unitRef in map.units(for: player.leader) {
+                
+                guard let unit = unitRef else {
+                    continue
+                }
+                
+                guard let unitPlayer = self.player(for: unit.leader) else {
+                    fatalError("cant get city player: \(unit.leader)")
+                }
+                
+                unitRef?.player = unitPlayer
+            }
+        }
     }
     
     public func encode(to encoder: Encoder) throws {

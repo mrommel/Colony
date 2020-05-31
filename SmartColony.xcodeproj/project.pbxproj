@@ -140,6 +140,9 @@
 		C9B1D28E2435B08500033791 /* earth_large.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D28B2435B00F00033791 /* earth_large.map */; };
 		C9B1D28F2435B08F00033791 /* earth_small.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D28C2435B00F00033791 /* earth_small.map */; };
 		C9B1D2902435B09A00033791 /* earth_standard.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2892435B00F00033791 /* earth_standard.map */; };
+		C9DC1C8524839E5600235743 /* GameStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC1C8424839E5600235743 /* GameStorage.swift */; };
+		C9DC1C872483A34900235743 /* GameNameDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC1C862483A34900235743 /* GameNameDialog.swift */; };
+		C9DC1C892483A39000235743 /* GameNameDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9DC1C882483A39000235743 /* GameNameDialog.xml */; };
 		C9EB9F562451A95500F13B02 /* LeftHeaderBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F552451A95500F13B02 /* LeftHeaderBarNode.swift */; };
 		C9EB9F582451B8AE00F13B02 /* BaseProgressNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F572451B8AE00F13B02 /* BaseProgressNode.swift */; };
 		C9EB9F5A2452C4E400F13B02 /* CityChooseProductionDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F592452C4E400F13B02 /* CityChooseProductionDialog.swift */; };
@@ -349,6 +352,9 @@
 		C9B1D28A2435B00F00033791 /* earth_huge.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_huge.map; sourceTree = "<group>"; };
 		C9B1D28B2435B00F00033791 /* earth_large.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_large.map; sourceTree = "<group>"; };
 		C9B1D28C2435B00F00033791 /* earth_small.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_small.map; sourceTree = "<group>"; };
+		C9DC1C8424839E5600235743 /* GameStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStorage.swift; sourceTree = "<group>"; };
+		C9DC1C862483A34900235743 /* GameNameDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameNameDialog.swift; sourceTree = "<group>"; };
+		C9DC1C882483A39000235743 /* GameNameDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GameNameDialog.xml; sourceTree = "<group>"; };
 		C9EB9F552451A95500F13B02 /* LeftHeaderBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftHeaderBarNode.swift; sourceTree = "<group>"; };
 		C9EB9F572451B8AE00F13B02 /* BaseProgressNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseProgressNode.swift; sourceTree = "<group>"; };
 		C9EB9F592452C4E400F13B02 /* CityChooseProductionDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityChooseProductionDialog.swift; sourceTree = "<group>"; };
@@ -631,6 +637,7 @@
 				C95B3E01243874E5002F5A86 /* UIImageExtension.swift */,
 				C95B3E0324387528002F5A86 /* UIColorExtension.swift */,
 				C94DE1D724516BAC00B13F4D /* CGFloatExtension.swift */,
+				C9DC1C8424839E5600235743 /* GameStorage.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -672,6 +679,7 @@
 				C907917A2459D6A600248596 /* GameLeaderDialog.swift */,
 				C94787162472845D00FAAC99 /* TreasuryDialog.swift */,
 				C995684A247E3F9E0005E9EA /* GameMenuDialog.swift */,
+				C9DC1C862483A34900235743 /* GameNameDialog.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -701,6 +709,7 @@
 				C98B3DC1246C1D2000AF3AE4 /* DiplomaticDialog.xml */,
 				C9478718247285DF00FAAC99 /* TreasuryDialog.xml */,
 				C995684E247E41790005E9EA /* GameMenuDialog.xml */,
+				C9DC1C882483A39000235743 /* GameNameDialog.xml */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -882,6 +891,7 @@
 				C9B1D2462434B9AE00033791 /* DINNext-Light.ttf in Resources */,
 				C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */,
 				C957AA49243641A100203024 /* MapSizeDialog.xml in Resources */,
+				C9DC1C892483A39000235743 /* GameNameDialog.xml in Resources */,
 				C9FEEBA52460367900C51552 /* CityPopulationGrowthDialog.xml in Resources */,
 				C9EB9F6A24557CA700F13B02 /* Wonders.xcassets in Resources */,
 				C95503C12456FD0100D4B3D8 /* Commands.xcassets in Resources */,
@@ -969,6 +979,7 @@
 				C9EB9F60245309AF00F13B02 /* UnitTypeExtension.swift in Sources */,
 				C97CD3A7243B00CB00FABCC0 /* ResourceTypeExtension.swift in Sources */,
 				C995684B247E3F9E0005E9EA /* GameMenuDialog.swift in Sources */,
+				C9DC1C8524839E5600235743 /* GameStorage.swift in Sources */,
 				C948685624669EB000495988 /* CitizenLayer.swift in Sources */,
 				C9EB9F5A2452C4E400F13B02 /* CityChooseProductionDialog.swift in Sources */,
 				C9F91B3D244B93380081EDC8 /* CivicTypeExtension.swift in Sources */,
@@ -1020,6 +1031,7 @@
 				C9B1D23E2434B7BE00033791 /* Globals.swift in Sources */,
 				C9B1D2342434B0BE00033791 /* CGRectExtension.swift in Sources */,
 				C9B1D21E243478F400033791 /* CoreDataManager.swift in Sources */,
+				C9DC1C872483A34900235743 /* GameNameDialog.swift in Sources */,
 				C9FEEBA024601F8800C51552 /* BaseBuildingItemDisplayNode.swift in Sources */,
 				C9FEEB9E245DF76200C51552 /* WaterLayer.swift in Sources */,
 				C9956851247E4E7A0005E9EA /* GameSceneMenu.swift in Sources */,

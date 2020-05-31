@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CityStrategyType {
+enum CityStrategyType: Int, Codable {
 
     case tinyCity
     case smallCity

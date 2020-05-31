@@ -16,6 +16,8 @@ enum CivicError: Error {
 
 public protocol AbstractCivics: class, Codable {
 
+    var player: AbstractPlayer? { get set }
+    
     // civics
     func has(civic: CivicType) -> Bool
     func discover(civic: CivicType) throws
@@ -57,7 +59,7 @@ class Civics: AbstractCivics {
     var civics: [CivicType] = []
 
     // user properties / values
-    var player: Player?
+    var player: AbstractPlayer?
     private var currentCivicValue: CivicType? = nil
     var lastCultureEarnedValue: Double = 1.0
     private var progress: WeightedCivicList

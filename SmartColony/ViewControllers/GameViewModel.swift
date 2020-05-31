@@ -13,14 +13,14 @@ class GameViewModel {
     
     var game: GameModel? = nil
     
-    init(game: GameModel?) {
+    init(with game: GameModel?) {
         
         self.game = game
     }
     
     init(with map: MapModel?, handicap: HandicapType) {
         
-        guard var map = map else {
+        guard let map = map else {
             fatalError("cant get map")
         }
         

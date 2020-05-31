@@ -8,8 +8,14 @@
 
 import Foundation
 
-class UnitTypeWeight {
+class UnitTypeWeight: Codable {
 
+    enum CodingKeys: String, CodingKey {
+        
+        case unitType
+        case weight
+    }
+    
     let unitType: UnitType
     var weight: Int
 
@@ -18,21 +24,54 @@ class UnitTypeWeight {
         self.unitType = unitType
         self.weight = weight
     }
+    
+    required init(from decoder: Decoder) throws {
+           
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.unitType = try container.decode(UnitType.self, forKey: .unitType)
+        self.weight = try container.decode(Int.self, forKey: .weight)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.unitType, forKey: .unitType)
+        try container.encode(self.weight, forKey: .weight)
+    }
 }
 
-class UnitProductionAI {
+class UnitProductionAI: Codable {
     
-    private var city: AbstractCity?
+    enum CodingKeys: String, CodingKey {
+        
+        case unitWeights
+    }
+    
     private var unitWeights: [UnitTypeWeight]
 
-    init(city: AbstractCity?) {
+    init() {
 
-        self.city = city
         self.unitWeights = []
 
         for unitType in UnitType.all {
             self.unitWeights.append(UnitTypeWeight(unitType: unitType, weight: 0))
         }
+    }
+    
+    required init(from decoder: Decoder) throws {
+           
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.unitWeights = try container.decode([UnitTypeWeight].self, forKey: .unitWeights)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.unitWeights, forKey: .unitWeights)
     }
 
     func reset() {

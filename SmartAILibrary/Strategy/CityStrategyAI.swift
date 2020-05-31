@@ -47,18 +47,34 @@ struct YieldValue: Comparable {
 //!    specialize, switch production, etc.
 //!  - Oversees both the city governor AI and the AI managing what the city is building
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-public class CityStrategyAI {
+public class CityStrategyAI: Codable {
 
-    let city: AbstractCity?
+    enum CodingKeys: String, CodingKey {
+        
+        case cityStrategyAdoption
+        case flavors
+        case focusYield
+        
+        case buildingProductionAI
+        case unitProductionAI
+        
+        case defaultSpecialization
+        case specialization
+        case flavorWeights
+        
+        case bestYieldAverage
+        case yieldDelta
+    }
+    
+    var city: AbstractCity?
+    
     let cityStrategyAdoption: CityStrategyAdoption
     var flavors: Flavors
     var focusYield: YieldType
     
     private var buildingProductionAI: BuildingProductionAI?
     private var unitProductionAI: UnitProductionAI?
-    
-    
-    
+
     private var defaultSpecializationValue: CitySpecializationType
     private var specializationValue: CitySpecializationType
     private var flavorWeights: FlavorList
@@ -68,8 +84,15 @@ public class CityStrategyAI {
 
     // MARK: internal classes
 
-    class CityStrategyAdoptionItem {
+    class CityStrategyAdoptionItem: Codable {
 
+        enum CodingKeys: String, CodingKey {
+            
+            case cityStrategy
+            case adopted
+            case turnOfAdoption
+        }
+        
         let cityStrategy: CityStrategyType
         var adopted: Bool
         var turnOfAdoption: Int
@@ -80,10 +103,33 @@ public class CityStrategyAI {
             self.adopted = adopted
             self.turnOfAdoption = turnOfAdoption
         }
+        
+        required init(from decoder: Decoder) throws {
+        
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+            self.cityStrategy = try container.decode(CityStrategyType.self, forKey: .cityStrategy)
+            self.adopted = try container.decode(Bool.self, forKey: .adopted)
+            self.turnOfAdoption = try container.decode(Int.self, forKey: .turnOfAdoption)
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(self.cityStrategy, forKey: .cityStrategy)
+            try container.encode(self.adopted, forKey: .adopted)
+            try container.encode(self.turnOfAdoption, forKey: .turnOfAdoption)
+        }
     }
 
-    class CityStrategyAdoption {
+    class CityStrategyAdoption: Codable {
 
+        enum CodingKeys: String, CodingKey {
+            
+            case adoptions
+        }
+        
         var adoptions: [CityStrategyAdoptionItem]
 
         init() {
@@ -94,6 +140,20 @@ public class CityStrategyAI {
 
                 adoptions.append(CityStrategyAdoptionItem(cityStrategy: cityStrategyType, adopted: false, turnOfAdoption: -1))
             }
+        }
+        
+        required init(from decoder: Decoder) throws {
+        
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+            self.adoptions = try container.decode([CityStrategyAdoptionItem].self, forKey: .adoptions)
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(self.adoptions, forKey: .adoptions)
         }
 
         func adopted(cityStrategy: CityStrategyType) -> Bool {
@@ -144,8 +204,8 @@ public class CityStrategyAI {
         self.flavors = Flavors()
         self.focusYield = .none
         
-        self.buildingProductionAI = BuildingProductionAI(city: city)
-        self.unitProductionAI = UnitProductionAI(city: city)
+        self.buildingProductionAI = BuildingProductionAI()
+        self.unitProductionAI = UnitProductionAI()
         
         self.specializationValue = .generalEconomic
         self.defaultSpecializationValue = .generalEconomic
@@ -157,6 +217,46 @@ public class CityStrategyAI {
         
         self.yieldDeltaValue = YieldList()
         self.yieldDeltaValue.fill()
+    }
+    
+    required public init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.cityStrategyAdoption = try container.decode(CityStrategyAdoption.self, forKey: .cityStrategyAdoption)
+        self.flavors = try container.decode(Flavors.self, forKey: .flavors)
+        self.focusYield = try container.decode(YieldType.self, forKey: .focusYield)
+        
+        self.buildingProductionAI = try container.decode(BuildingProductionAI.self, forKey: .buildingProductionAI)
+        self.unitProductionAI = try container.decode(UnitProductionAI.self, forKey: .unitProductionAI)
+        
+        self.defaultSpecializationValue = try container.decode(CitySpecializationType.self, forKey: .defaultSpecialization)
+        self.specializationValue = try container.decode(CitySpecializationType.self, forKey: .specialization)
+        self.flavorWeights = try container.decode(FlavorList.self, forKey: .flavorWeights)
+        
+        self.bestYieldAverage = try container.decode(YieldList.self, forKey: .bestYieldAverage)
+        self.yieldDeltaValue = try container.decode(YieldList.self, forKey: .yieldDelta)
+        
+        // setup
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.cityStrategyAdoption, forKey: .cityStrategyAdoption)
+        try container.encode(self.flavors, forKey: .flavors)
+        try container.encode(self.focusYield, forKey: .focusYield)
+        
+        try container.encode(self.buildingProductionAI, forKey: .buildingProductionAI)
+        try container.encode(self.unitProductionAI, forKey: .unitProductionAI)
+        
+        try container.encode(self.defaultSpecializationValue, forKey: .defaultSpecialization)
+        try container.encode(self.specializationValue, forKey: .specialization)
+        try container.encode(self.flavorWeights, forKey: .flavorWeights)
+        
+        try container.encode(self.bestYieldAverage, forKey: .bestYieldAverage)
+        try container.encode(self.yieldDeltaValue, forKey: .yieldDelta)
     }
     
     func adopted(cityStrategy: CityStrategyType) -> Bool {

@@ -17,6 +17,8 @@ class MenuViewController: UIViewController {
     private var currentMap: MapModel? = nil
     private var currentHandicap: HandicapType = .settler
     private var currentLeader: LeaderType = .none
+    // -- or --
+    private var currentGame: GameModel? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +42,10 @@ class MenuViewController: UIViewController {
             
             if self.currentMap != nil {
                 gameViewController?.viewModel = GameViewModel(with: self.currentMap, handicap: self.currentHandicap)
+            }
+            
+            if self.currentGame != nil {
+                gameViewController?.viewModel = GameViewModel(with: self.currentGame)
             }
         }
             
@@ -71,11 +77,15 @@ extension MenuViewController: MenuDelegate {
         
     }
     
-    func startQuick() {
+    func resume(game: GameModel?) {
         
-        /*self.currentMap = map // store for handover
-        self.currentHandicap = handicap // store for handover
-        self.performSegue(withIdentifier: R.segue.menuViewController.gotoGame.identifier, sender: nil)*/
+        self.currentMap = nil
+        self.currentHandicap = .settler
+        self.currentLeader = .none
+        // -- or --
+        self.currentGame = game
+        
+        self.performSegue(withIdentifier: R.segue.menuViewController.gotoGame.identifier, sender: nil)
     }
     
     /// the scene gives us a map
@@ -84,6 +94,9 @@ extension MenuViewController: MenuDelegate {
         self.currentMap = map // store for handover
         self.currentHandicap = handicap // store for handover
         self.currentLeader = leader // store for handover
+        // -- or --
+        self.currentGame = nil
+        
         self.performSegue(withIdentifier: R.segue.menuViewController.gotoGame.identifier, sender: nil)
     }
     

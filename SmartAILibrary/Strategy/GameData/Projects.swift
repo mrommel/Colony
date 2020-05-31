@@ -12,7 +12,9 @@ enum ProjectError: Error {
     case alreadyBuild
 }
 
-protocol AbstractProjects {
+protocol AbstractProjects: Codable {
+    
+    var city: AbstractCity? { get set }
     
     // projects
     func has(project: ProjectType) -> Bool
@@ -21,13 +23,32 @@ protocol AbstractProjects {
 
 class Projects: AbstractProjects {
     
-    private var city: AbstractCity?
+    enum CodingKeys: String, CodingKey {
+    
+        case projects
+    }
+    
+    internal var city: AbstractCity?
     private var projects: [ProjectType]
     
     init(city: AbstractCity?) {
         
         self.city = city
         self.projects = []
+    }
+    
+    required public init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.projects = try container.decode([ProjectType].self, forKey: .projects)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.projects, forKey: .projects)
     }
     
     func has(project: ProjectType) -> Bool {

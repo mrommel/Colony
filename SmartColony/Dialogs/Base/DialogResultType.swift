@@ -106,6 +106,7 @@ enum DialogResultType: String, Codable {
     case responseFirstMeetNearRecipientBusy = "DIPLO_CHOICE_FIRST_MEET_NEAR_RECIPIENT_BUSY"
 
     // game menu options
+    case gameQuickSave = "GAME_QUICKSAVE"
     case gameSave = "GAME_SAVE"
     case gameLoad = "GAME_LOAD"
     case gameRetire = "GAME_RETIRE"

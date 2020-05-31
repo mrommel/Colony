@@ -24,7 +24,8 @@ public protocol AbstractUnit: class, Codable {
 
     var location: HexPoint { get }
     var type: UnitType { get }
-    var player: AbstractPlayer? { get }
+    var player: AbstractPlayer? { get set }
+    var leader: LeaderType { get } // for restore from file only
     var task: UnitTaskType { get }
 
     func name() -> String
@@ -196,6 +197,7 @@ public class Unit: AbstractUnit {
         case type
         case location
         case player
+        case leader
         case promotions
         case task
         case deathDelay
@@ -221,7 +223,8 @@ public class Unit: AbstractUnit {
     public let type: UnitType
     private(set) public var location: HexPoint
     private var facingDirection: HexDirection = .south
-    private(set) public var player: AbstractPlayer?
+    public var player: AbstractPlayer?
+    private(set) public var leader: LeaderType // for restoring from file
     internal var promotions: AbstractPromotions?
     public var task: UnitTaskType
     private var deathDelay: Bool = false
@@ -255,6 +258,7 @@ public class Unit: AbstractUnit {
         self.type = type
         self.location = location
         self.player = owner
+        self.leader = owner!.leader
         self.task = type.defaultTask()
 
         self.healthPointsValue = Int(Unit.maxHealth)
@@ -277,7 +281,7 @@ public class Unit: AbstractUnit {
 
         self.type = try container.decode(UnitType.self, forKey: .type)
         self.location = try container.decode(HexPoint.self, forKey: .location)
-        //self.player = try container.decode(LeaderType.self, forKey: .player)
+        self.leader = try container.decode(LeaderType.self, forKey: .leader)
         self.promotions = try container.decode(Promotions.self, forKey: .promotions)
         self.task = try container.decode(UnitTaskType.self, forKey: .task)
         self.deathDelay = try container.decode(Bool.self, forKey: .deathDelay)
@@ -312,7 +316,7 @@ public class Unit: AbstractUnit {
 
         try container.encode(self.type, forKey: .type)
         try container.encode(self.location, forKey: .location)
-        try container.encode(self.player!.leader, forKey: .player)
+        try container.encode(self.player!.leader, forKey: .leader)
         let promotionsWrapper = self.promotions as? Promotions
         try container.encode(promotionsWrapper, forKey: .promotions)
         try container.encode(self.task, forKey: .task)

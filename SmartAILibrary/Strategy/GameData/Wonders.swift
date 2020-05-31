@@ -14,6 +14,8 @@ enum WonderError: Error {
 
 public protocol AbstractWonders: class, Codable {
     
+    var city: AbstractCity? { get set }
+    
     // wonders
     func has(wonder: WonderType) -> Bool
     func build(wonder: WonderType) throws

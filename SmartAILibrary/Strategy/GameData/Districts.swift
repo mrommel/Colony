@@ -12,7 +12,9 @@ enum DistrictError: Error {
     case alreadyBuild
 }
 
-public protocol AbstractDistricts {
+public protocol AbstractDistricts: Codable {
+    
+    var city: AbstractCity? { get set }
     
     // districts
     func has(district: DistrictType) -> Bool
@@ -21,13 +23,33 @@ public protocol AbstractDistricts {
 
 class Districts: AbstractDistricts {
     
+    enum CodingKeys: String, CodingKey {
+        
+        case districts
+    }
+    
     private var districts: [DistrictType]
-    private var city: AbstractCity?
+    internal var city: AbstractCity?
 
     init(city: AbstractCity?) {
     
         self.city = city
         self.districts = []
+    }
+    
+    required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.city = nil
+        self.districts = try container.decode([DistrictType].self, forKey: .districts)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(self.districts, forKey: .districts)
     }
     
     func has(district: DistrictType) -> Bool {

@@ -10,6 +10,8 @@ import Foundation
 
 public protocol AbstractReligion: class, Codable {
     
+    var player: AbstractPlayer? { get set }
+    
     func add(faith faithDelta: Double)
 }
  
@@ -21,7 +23,7 @@ class Religion: AbstractReligion {
     }
     
     // user properties / values
-    var player: Player?
+    var player: AbstractPlayer?
     var faith: Double
     
     // MARK: constructor

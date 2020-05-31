@@ -10,6 +10,8 @@ import Foundation
 
 public protocol AbstractTechs: class, Codable {
 
+    var player: AbstractPlayer? { get set }
+    
     // techs
     func has(tech: TechType) -> Bool
     func discover(tech: TechType) throws
@@ -58,7 +60,7 @@ class Techs: AbstractTechs {
     var techs: [TechType] = []
 
     // user properties / values
-    var player: Player?
+    var player: AbstractPlayer?
     private var currentTechValue: TechType? = nil
     var lastScienceEarnedValue: Double = 1.0
     private var progress: WeightedTechList

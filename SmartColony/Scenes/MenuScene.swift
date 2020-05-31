@@ -12,7 +12,7 @@ import SmartAILibrary
 protocol MenuDelegate: class {
 
     func startTutorials()
-    func startQuick()
+    func resume(game: GameModel?)
     func startWith(map: MapModel?, leader: LeaderType, handicap: HandicapType)
     func startOptions()
     func startStore()
@@ -27,7 +27,7 @@ class MenuScene: BaseScene {
     var colonyTitleLabel: SKSpriteNode?
     
     var tutorialButton: MenuButtonNode?
-    var questsButton: MenuButtonNode?
+    var resumeButton: MenuButtonNode?
     var freePlayButton: MenuButtonNode?
     var optionsButton: MenuButtonNode?
     var storeButton: MenuButtonNode?
@@ -74,13 +74,17 @@ class MenuScene: BaseScene {
         self.rootNode.addChild(self.tutorialButton!)
 
         // quests
-        self.questsButton = MenuButtonNode(imageNamed: "quests", title: "Quick",
+        self.resumeButton = MenuButtonNode(imageNamed: "quests", title: "Resume",
             buttonAction: {
-                self.menuDelegate?.startQuick()
+                
+                let currentGame = GameStorage.loadGame(named: "current.game")
+                self.menuDelegate?.resume(game: currentGame)
             })
-        self.questsButton?.zPosition = 2
-        self.questsButton?.disable() // FIXME
-        self.rootNode.addChild(self.questsButton!)
+        self.resumeButton?.zPosition = 2
+        if !GameStorage.hasGame(named: "current.game") {
+            self.resumeButton?.disable()
+        }
+        self.rootNode.addChild(self.resumeButton!)
 
         // quests
         self.freePlayButton = MenuButtonNode(imageNamed: "free_play", title: "Setup Game",
@@ -165,7 +169,7 @@ class MenuScene: BaseScene {
 
         // buttons
         self.tutorialButton?.position = CGPoint(x: 0, y: 100)
-        self.questsButton?.position = CGPoint(x: 0, y: 50)
+        self.resumeButton?.position = CGPoint(x: 0, y: 50)
         self.freePlayButton?.position = CGPoint(x: 0, y: 0)
         self.optionsButton?.position = CGPoint(x: 0, y: -50)
         self.storeButton?.position = CGPoint(x: 0, y: -100)
