@@ -74,9 +74,9 @@ class MapOverviewNode: SKSpriteNode {
                 } else {
                     var color = tile.terrain().overviewColor()
                     
-                    if tile.hasHills() {
+                    /*if tile.hasHills() {
                         color = UIColor(red: 237, green: 240, blue: 240)
-                    }
+                    }*/
                     
                     if tile.has(feature: .mountains) || tile.has(feature: .mountEverest) || tile.has(feature: .mountKilimanjaro) {
                         color = UIColor(red: 237, green: 240, blue: 240)

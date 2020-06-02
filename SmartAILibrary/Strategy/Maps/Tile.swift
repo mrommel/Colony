@@ -88,11 +88,12 @@ public protocol AbstractTile: Codable {
     // methods related to owner of this tile
     func hasOwner() -> Bool
     func owner() -> AbstractPlayer?
+    func ownerLeader() -> LeaderType
     func set(owner: AbstractPlayer?) throws
 
     // methods related to working city
     func isCity() -> Bool
-    func build(city: AbstractCity?) throws
+    func set(city: AbstractCity?) throws
     func isWorked() -> Bool
     func workingCity() -> AbstractCity?
     func setWorkingCity(to city: AbstractCity?) throws
@@ -171,7 +172,7 @@ class Tile: AbstractTile {
         case routePillaged
 
         case discovered
-        // case owner
+        case owner
 
         case riverName
         case riverFlowNorth
@@ -200,6 +201,7 @@ class Tile: AbstractTile {
 
     private var discovered: TileDiscovered
     private var ownerValue: AbstractPlayer?
+    private var ownerLeaderValue: LeaderType
     private var workedBy: AbstractCity? = nil
     private var city: AbstractCity? = nil
 
@@ -226,8 +228,8 @@ class Tile: AbstractTile {
         self.routeValue = .none
         self.routePillagedValue = false
 
-
         self.ownerValue = nil
+        self.ownerLeaderValue = .none
         self.discovered = TileDiscovered()
 
         self.area = nil
@@ -257,6 +259,7 @@ class Tile: AbstractTile {
         self.routePillagedValue = try container.decode(Bool.self, forKey: .routePillaged)
 
         self.ownerValue = nil
+        self.ownerLeaderValue = try container.decodeIfPresent(LeaderType.self, forKey: .owner) ?? .none
         
         if container.contains(.discovered) {
             self.discovered = try container.decode(TileDiscovered.self, forKey: .discovered)
@@ -301,7 +304,10 @@ class Tile: AbstractTile {
         if !self.discovered.isEmpty() {
             try container.encode(self.discovered, forKey: .discovered)
         }
-        // case owner
+        
+        if let leader = self.owner()?.leader {
+            try container.encode(leader, forKey: .owner)
+        }
 
         try container.encodeIfPresent(self.riverName, forKey: .riverName) // can be nil
         if self.riverFlowNorth != .none {
@@ -897,6 +903,7 @@ class Tile: AbstractTile {
         }
 
         self.ownerValue = nil
+        self.ownerLeaderValue = .none
     }
 
     func set(owner: AbstractPlayer?) throws {
@@ -910,6 +917,7 @@ class Tile: AbstractTile {
         }
 
         self.ownerValue = owner
+        self.ownerLeaderValue = owner!.leader
     }
 
     func owner() -> AbstractPlayer? {
@@ -921,6 +929,11 @@ class Tile: AbstractTile {
 
         return self.ownerValue != nil
     }
+    
+    func ownerLeader() -> LeaderType {
+        
+        return self.ownerLeaderValue
+    }
 
     // MARK: work related methods
 
@@ -929,7 +942,7 @@ class Tile: AbstractTile {
         return self.city != nil
     }
 
-    func build(city: AbstractCity?) throws {
+    func set(city: AbstractCity?) throws {
 
         self.city = city
     }

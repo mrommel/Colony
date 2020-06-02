@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class NotificationItem: Codable {
+public class NotificationItem: Codable, Equatable {
     
     enum CodingKeys: CodingKey {
 
@@ -181,6 +181,29 @@ public class NotificationItem: Codable {
             return false
         }
     }
+    
+    public static func == (lhs: NotificationItem, rhs: NotificationItem) -> Bool {
+        
+        if lhs.type == rhs.type {
+            
+            if lhs.type == .techNeeded {
+                return true
+            }
+            
+            if lhs.type == .civicNeeded {
+                return true
+            }
+            
+            if lhs.type == .productionNeeded {
+                
+                if lhs.location == rhs.location {
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
 }
 
 public class Notifications: Codable {
@@ -262,7 +285,12 @@ public class Notifications: Codable {
             otherLeader = otherPlayer.leader
         }
         
-        self.notificationsArray.append(NotificationItem(type: type, for: player.leader, message: message, summary: summary, at: location, other: otherLeader))
+        let notification = NotificationItem(type: type, for: player.leader, message: message, summary: summary, at: location, other: otherLeader)
+        
+        if !self.notificationsArray.contains(where: { $0 == notification }) {
+        
+            self.notificationsArray.append(notification)
+        }
     }
     
     func endTurnBlockingNotification() -> NotificationItem? {

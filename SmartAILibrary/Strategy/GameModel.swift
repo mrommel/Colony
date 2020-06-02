@@ -122,6 +122,21 @@ public class GameModel: Codable {
                 unitRef?.player = unitPlayer
             }
         }
+        
+        // set tile ownership
+        for x in 0..<self.mapSize().width() {
+            
+            for y in 0..<self.mapSize().height() {
+                
+                if let tile = self.tile(x: x, y: y) {
+                    
+                    if tile.ownerLeader() != .none {
+                        
+                        try tile.set(owner: self.player(for: tile.ownerLeader()))
+                    }
+                }
+            }
+        }
     }
     
     public func encode(to encoder: Encoder) throws {

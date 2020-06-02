@@ -35,7 +35,7 @@
 - game management
     - GameMenuDialog (/)
     - automatically save
-    - restore current game
+    - restore current game (/)
 
 ## Defects
 - crash, if turn of unit ends in city and 'next' button is touched next turn

@@ -92,6 +92,19 @@ public class MapModel: Codable {
         for continent in self.continents {
             continent.map = self
         }
+        
+        for cityRef in self.cities {
+            
+            guard let city = cityRef else {
+                fatalError("cant get city")
+            }
+            
+            try! self.tile(at: city.location)?.set(city: cityRef)
+            
+            guard self.city(at: city.location) != nil else {
+                fatalError("city not set")
+            }
+        }
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -200,7 +213,7 @@ public class MapModel: Codable {
             
             if let tile = tile(at: city.location) {
                 do {
-                    try tile.build(city: city)
+                    try tile.set(city: city)
                 } catch {
                     fatalError("cant build city - no tile")
                 }
