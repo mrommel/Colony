@@ -13,7 +13,7 @@ extension GameScene {
     
     func handleGameQuickSave() {
         
-        GameStorage.store(game: self.viewModel?.game, named: "current.game")
+        GameStorage.storeCurrent(game: self.viewModel?.game)
     }
     
     func handleGameSave() {
@@ -26,15 +26,15 @@ extension GameScene {
 
             if gameNameDialog.isValid() {
                 
-                /*let location = selectedUnit.location
-                selectedUnit.doFound(with: cityNameDialog.getCityName(), in: self.viewModel?.game)
-                self.unselect()
-                cityNameDialog.close()
-                self.restoreFromCityScreen()
-
-                if let city = self.viewModel?.game?.city(at: location) {
-                    self.showScreen(screenType: .city, city: city)
-                }*/
+                let gameName = gameNameDialog.gameName()
+                
+                if GameStorage.store(game: self.viewModel?.game, named: gameName) {
+                    gameNameDialog.close()
+                } else {
+                    print("could not save")
+                }
+            } else {
+                print("name is not valid")
             }
         })
 
@@ -53,21 +53,57 @@ extension GameScene {
     
     func handleGameLoad() {
     
-        // select file from list
+        // are you sure?
+        let viewModel = ConfirmationDialogViewModel(question: "Do you really want to quit?")
+        
+        let confirmationDialog = ConfirmationDialog(with: viewModel)
+        confirmationDialog.zPosition = 250
+
+        confirmationDialog.addOkayAction(handler: {
+
+            confirmationDialog.close()
+            self.gameDelegate?.exitAndLoad()
+        })
+
+        confirmationDialog.addCancelAction(handler: {
+            confirmationDialog.close()
+        })
+
+        self.cameraNode.add(dialog: confirmationDialog)
     }
     
     func handleGameRetire() {
         
         print("Retire")
+        
+        // are you sure?
     }
     
     func handleGameRestart() {
         
         print("Restart")
+        
+        // are you sure?
     }
     
     func handleGameExit() {
         
-        print("Exit")
+        // are you sure?
+        let viewModel = ConfirmationDialogViewModel(question: "Do you really want to quit?")
+        
+        let confirmationDialog = ConfirmationDialog(with: viewModel)
+        confirmationDialog.zPosition = 250
+
+        confirmationDialog.addOkayAction(handler: {
+
+            confirmationDialog.close()
+            self.gameDelegate?.exit()
+        })
+
+        confirmationDialog.addCancelAction(handler: {
+            confirmationDialog.close()
+        })
+
+        self.cameraNode.add(dialog: confirmationDialog)
     }
 }

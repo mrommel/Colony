@@ -12,6 +12,7 @@ import SmartAILibrary
 protocol GameDelegate: class {
 
     func exit()
+    func exitAndLoad()
 }
 
 enum UITurnState {

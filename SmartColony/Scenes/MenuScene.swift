@@ -29,17 +29,24 @@ class MenuScene: BaseScene {
     var tutorialButton: MenuButtonNode?
     var resumeButton: MenuButtonNode?
     var freePlayButton: MenuButtonNode?
+    var loadGameButton: MenuButtonNode?
     var optionsButton: MenuButtonNode?
     var storeButton: MenuButtonNode?
     var pediaButton: MenuButtonNode?
     
     var copyrightLabel: SKLabelNode?
     
+    // view model
+    var viewModel: MenuSceneViewModel?
+    
     // delegate
     weak var menuDelegate: MenuDelegate?
     
     override init(size: CGSize) {
+        
         super.init(size: size, layerOrdering: .nodeLayerOnTop)
+        
+        self.viewModel = MenuSceneViewModel(scene: self)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -67,7 +74,7 @@ class MenuScene: BaseScene {
         // tutorial
         self.tutorialButton = MenuButtonNode(imageNamed: "tutorials", title: "Tutorials",
             buttonAction: {
-                self.menuDelegate?.startTutorials()
+                //self.menuDelegate?.startTutorials()
             })
         self.tutorialButton?.zPosition = 2
         self.tutorialButton?.disable() // FIXME
@@ -77,11 +84,11 @@ class MenuScene: BaseScene {
         self.resumeButton = MenuButtonNode(imageNamed: "quests", title: "Resume",
             buttonAction: {
                 
-                let currentGame = GameStorage.loadGame(named: "current.game")
+                let currentGame = GameStorage.loadCurrentGame()
                 self.menuDelegate?.resume(game: currentGame)
             })
         self.resumeButton?.zPosition = 2
-        if !GameStorage.hasGame(named: "current.game") {
+        if !GameStorage.hasCurrentGame() {
             self.resumeButton?.disable()
         }
         self.rootNode.addChild(self.resumeButton!)
@@ -95,9 +102,20 @@ class MenuScene: BaseScene {
             })
         self.freePlayButton?.zPosition = 2
         self.rootNode.addChild(self.freePlayButton!)
+        
+        // load
+        self.loadGameButton = MenuButtonNode(imageNamed: "free_play", title: "Load Game",
+            buttonAction: {
+                self.handleLoadButtonClicked()
+            })
+        self.loadGameButton?.zPosition = 2
+        if GameStorage.listGames().isEmpty {
+            self.loadGameButton?.disable()
+        }
+        self.rootNode.addChild(self.loadGameButton!)
 
         // options
-        self.optionsButton = MenuButtonNode(imageNamed: "settings", title: "Options",
+        self.optionsButton = MenuButtonNode(imageNamed: "settings", title: "Settings",
             buttonAction: {
                 self.menuDelegate?.startOptions()
             })
@@ -171,11 +189,21 @@ class MenuScene: BaseScene {
         self.tutorialButton?.position = CGPoint(x: 0, y: 100)
         self.resumeButton?.position = CGPoint(x: 0, y: 50)
         self.freePlayButton?.position = CGPoint(x: 0, y: 0)
-        self.optionsButton?.position = CGPoint(x: 0, y: -50)
-        self.storeButton?.position = CGPoint(x: 0, y: -100)
-        self.pediaButton?.position = CGPoint(x: 0, y: -170)
+        self.loadGameButton?.position = CGPoint(x: 0, y: -50)
+        self.optionsButton?.position = CGPoint(x: 0, y: -100)
+        self.storeButton?.position = CGPoint(x: 0, y: -150)
+        self.pediaButton?.position = CGPoint(x: 0, y: -220)
 
         // copyright
         self.copyrightLabel?.position = CGPoint(x: 0, y: -self.frame.halfHeight + 18)
+    }
+    
+    // MARK: handlers
+    
+    func handleLoadButtonClicked() {
+        
+        self.rootNode.blurWith(completion: {
+            self.viewModel?.handleLoadGameClicked()
+        })
     }
 }

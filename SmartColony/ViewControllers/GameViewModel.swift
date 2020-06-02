@@ -16,6 +16,9 @@ class GameViewModel {
     init(with game: GameModel?) {
         
         self.game = game
+        
+        // keep backup
+        self.storeBackup()
     }
     
     init(with map: MapModel?, handicap: HandicapType) {
@@ -94,6 +97,14 @@ class GameViewModel {
             
             lastLeader = unit.player?.leader
         }
+        
+        // keep backup
+        self.storeBackup()
+    }
+    
+    func storeBackup() {
+        
+        GameStorage.storeRestart(game: self.game)
     }
     
     static func discover(mapModel: inout MapModel, by player: AbstractPlayer?, in gameModel: GameModel?) {

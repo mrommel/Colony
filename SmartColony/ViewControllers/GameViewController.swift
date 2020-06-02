@@ -139,6 +139,17 @@ extension GameViewController {
 extension GameViewController: GameDelegate {
     
     func exit() {
+        
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func exitAndLoad() {
+        
+        self.navigationController?.popViewController(animated: true)
+        
+        if let menuViewController = self.navigationController?.topViewController as? MenuViewController {
+            
+            menuViewController.menuScene?.handleLoadButtonClicked()
+        }
     }
 }

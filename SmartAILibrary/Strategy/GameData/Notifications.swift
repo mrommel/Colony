@@ -191,12 +191,12 @@ public class Notifications: Codable {
     }
     
     var player: AbstractPlayer?
-    var notificationsValue: [NotificationItem]
+    var notificationsArray: [NotificationItem]
     
     init(player: AbstractPlayer?) {
         
         self.player = player
-        self.notificationsValue = []
+        self.notificationsArray = []
     }
     
     public required init(from decoder: Decoder) throws {
@@ -204,14 +204,19 @@ public class Notifications: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
     
         self.player = nil
-        self.notificationsValue = try container.decode([NotificationItem].self, forKey: .notifications)
+        self.notificationsArray = try container.decode([NotificationItem].self, forKey: .notifications)
+        
+        for item in self.notificationsArray {
+            
+            item.needsBroadcasting = true
+        }
     }
     
     public func encode(to encoder: Encoder) throws {
     
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        try container.encode(self.notificationsValue, forKey: .notifications)
+        try container.encode(self.notificationsArray, forKey: .notifications)
     }
     
     public func update(in gameModel: GameModel?) {
@@ -220,7 +225,7 @@ public class Notifications: Codable {
             fatalError("cant get gameModel")
         }
         
-        for notification in self.notificationsValue {
+        for notification in self.notificationsArray {
             
             if !notification.dismissed {
                 
@@ -238,7 +243,7 @@ public class Notifications: Codable {
     
     public func notifications() -> [NotificationItem] {
     
-        return self.notificationsValue
+        return self.notificationsArray
     }
     
     func add(type: NotificationType, for player: AbstractPlayer?, message: String, summary: String, at location: HexPoint = HexPoint.zero, other otherPlayer: AbstractPlayer? = nil) {
@@ -257,12 +262,12 @@ public class Notifications: Codable {
             otherLeader = otherPlayer.leader
         }
         
-        self.notificationsValue.append(NotificationItem(type: type, for: player.leader, message: message, summary: summary, at: location, other: otherLeader))
+        self.notificationsArray.append(NotificationItem(type: type, for: player.leader, message: message, summary: summary, at: location, other: otherLeader))
     }
     
     func endTurnBlockingNotification() -> NotificationItem? {
         
-        for notification in self.notificationsValue {
+        for notification in self.notificationsArray {
             
             if notification.dismissed {
                 continue
@@ -298,6 +303,6 @@ public class Notifications: Codable {
     // removing notifications at the end turns
     func cleanUp() {
         
-        self.notificationsValue.removeAll(where: { $0.dismissed })
+        self.notificationsArray.removeAll(where: { $0.dismissed })
     }
 }

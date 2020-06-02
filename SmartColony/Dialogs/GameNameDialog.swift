@@ -25,7 +25,13 @@ class GameNameDialog: Dialog {
     
     func gameName() -> String {
         
-        return self.getTextFieldInput()
+        var value = self.getTextFieldInput()
+        
+        if !value.hasSuffix(".game") {
+            value += ".game"
+        }
+        
+        return value
     }
     
     func isValid() -> Bool {
