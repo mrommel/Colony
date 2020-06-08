@@ -372,6 +372,15 @@ public class MapModel: Codable {
         }
     }
     
+    public func improvement(at point: HexPoint) -> ImprovementType {
+        
+        if let tile = self.tile(at: point) {
+            return tile.improvement()
+        }
+        
+        return .none
+    }
+    
     func setWorking(city: AbstractCity?, at point: HexPoint) throws {
         
         if let tile = self.tile(at: point) {

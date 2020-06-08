@@ -140,6 +140,7 @@
 		C9B1D28E2435B08500033791 /* earth_large.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D28B2435B00F00033791 /* earth_large.map */; };
 		C9B1D28F2435B08F00033791 /* earth_small.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D28C2435B00F00033791 /* earth_small.map */; };
 		C9B1D2902435B09A00033791 /* earth_standard.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2892435B00F00033791 /* earth_standard.map */; };
+		C9D84E5F2487D34B00FDAC16 /* LeadersNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D84E5E2487D34B00FDAC16 /* LeadersNode.swift */; };
 		C9DC1C8524839E5600235743 /* GameStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC1C8424839E5600235743 /* GameStorage.swift */; };
 		C9DC1C872483A34900235743 /* GameNameDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC1C862483A34900235743 /* GameNameDialog.swift */; };
 		C9DC1C892483A39000235743 /* GameNameDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9DC1C882483A39000235743 /* GameNameDialog.xml */; };
@@ -358,6 +359,7 @@
 		C9B1D28A2435B00F00033791 /* earth_huge.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_huge.map; sourceTree = "<group>"; };
 		C9B1D28B2435B00F00033791 /* earth_large.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_large.map; sourceTree = "<group>"; };
 		C9B1D28C2435B00F00033791 /* earth_small.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_small.map; sourceTree = "<group>"; };
+		C9D84E5E2487D34B00FDAC16 /* LeadersNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadersNode.swift; sourceTree = "<group>"; };
 		C9DC1C8424839E5600235743 /* GameStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStorage.swift; sourceTree = "<group>"; };
 		C9DC1C862483A34900235743 /* GameNameDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameNameDialog.swift; sourceTree = "<group>"; };
 		C9DC1C882483A39000235743 /* GameNameDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GameNameDialog.xml; sourceTree = "<group>"; };
@@ -635,6 +637,7 @@
 				C9486859246994E300495988 /* CultureProgressNode.swift */,
 				C948685124657C3F00495988 /* CitizenMapNode.swift */,
 				C9DC1C90248671E300235743 /* GameLoadButtonNode.swift */,
+				C9D84E5E2487D34B00FDAC16 /* LeadersNode.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -1063,6 +1066,7 @@
 				C9B1D23C2434B77500033791 /* NineGridTextureSprite.swift in Sources */,
 				C907917B2459D6A600248596 /* GameLeaderDialog.swift in Sources */,
 				C9B1D27D24351FB900033791 /* MapAgeDialog.swift in Sources */,
+				C9D84E5F2487D34B00FDAC16 /* LeadersNode.swift in Sources */,
 				C9B1D25F2435166700033791 /* MessageBoxButtonNode.swift in Sources */,
 				C948685224657C3F00495988 /* CitizenMapNode.swift in Sources */,
 				C95B3E0B2438E79B002F5A86 /* BoardLayer.swift in Sources */,

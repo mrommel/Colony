@@ -219,7 +219,7 @@ public enum TechType: String, Codable {
         })
         
         let units = UnitType.all.filter({
-            if let tech = $0.required() {
+            if let tech = $0.requiredTech() {
                 return tech == self
             } else {
                 return false

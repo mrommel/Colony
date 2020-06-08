@@ -119,19 +119,18 @@ class CombatTests: XCTestCase {
         gameModel.add(city: city)
         
         city.startBuilding(building: .ancientWalls)
-        //city.updateProduction(for: 200, in: gameModel)
+        city.updateProduction(for: 200, in: gameModel)
         
         for _ in 0..<30 {
             city.turn(in: gameModel)
         }
-        
         
         // WHEN
         let result = Combat.predictMeleeAttack(between: attacker, and: city, in: gameModel)
         
         // THEN
         XCTAssertEqual(result.attackerDamage, 21)
-        XCTAssertEqual(result.defenderDamage, 35)
+        XCTAssertEqual(result.defenderDamage, 39)
         XCTAssertEqual(city.maxHealthPoints(), 300)
     }
     

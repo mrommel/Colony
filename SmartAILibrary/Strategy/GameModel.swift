@@ -39,7 +39,7 @@ public class GameModel: Codable {
     var turnSliceValue: Int = 0
     public let players: [AbstractPlayer]
     
-    static let turnFrequency = 25 /* PROGRESS_POPUP_TURN_FREQUENCY */
+    static let turnInterimRankingFrequency = 25 /* PROGRESS_POPUP_TURN_FREQUENCY */
 
     private let map: MapModel
     private let tacticalAnalysisMapVal: TacticalAnalysisMap
@@ -614,16 +614,6 @@ public class GameModel: Codable {
         // incrementGameTurn();
         self.turnsElapsed += 1
         
-        // Configure turn active status for the beginning of the new turn.
-        /*for player in self.players {
-
-            if player.isAlive() && !player.isHuman() {
-                print("--- start turn for AI player \(player.leader) ---")
-                player.startTurn(in: self)
-                
-            }
-        }*/
-        
         // Sequential turns.
         // Activate the <<FIRST>> player we find from the start, human or AI, who wants a sequential turn.
         for player in self.players {
@@ -650,9 +640,9 @@ public class GameModel: Codable {
             
             if human.isAlive() {
             
-                if self.turnsElapsed % GameModel.turnFrequency == 0 {
-                    // This popup his the sync rand, so beware
-                    self.userInterface?.showScreen(screenType: .interimRanking, city: nil, other: nil)
+                if self.turnsElapsed % GameModel.turnInterimRankingFrequency == 0 {
+                    // This popup is the sync rand, so beware
+                    self.userInterface?.showScreen(screenType: .interimRanking, city: nil, other: nil, data: nil)
                 }
             }
         }
@@ -966,12 +956,12 @@ public class GameModel: Codable {
         return self.players.first(where: { $0.isHuman() })
     }
 
-    func barbarianPlayer() -> AbstractPlayer? {
+    public func barbarianPlayer() -> AbstractPlayer? {
 
         return self.players.first(where: { $0.leader == .barbar })
     }
     
-    func player(for leader: LeaderType) -> AbstractPlayer? {
+    public func player(for leader: LeaderType) -> AbstractPlayer? {
 
         return self.players.first(where: { $0.leader == leader })
     }

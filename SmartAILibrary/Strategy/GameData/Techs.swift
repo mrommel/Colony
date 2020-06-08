@@ -386,8 +386,6 @@ class Techs: AbstractTechs {
                 // trigger event to user
                 if player.isHuman() {
                     gameModel?.userInterface?.showPopup(popupType: .techDiscovered, with: PopupData(tech: currentTech))
-                    
-                    self.player?.notifications()?.add(type: .techNeeded, for: self.player, message: "Please choose a new Research", summary: "Choose Research", at: HexPoint.zero)
                 }
 
                 // enter era
@@ -403,6 +401,10 @@ class Techs: AbstractTechs {
                 }
 
                 self.currentTechValue = nil
+                
+                if player.isHuman() {
+                    self.player?.notifications()?.addNotification(of: .techNeeded, for: self.player, message: "Please choose a new Research", summary: "Choose Research", at: HexPoint.zero)
+                }
 
             } catch {
                 fatalError("Can't discover science - already discovered")

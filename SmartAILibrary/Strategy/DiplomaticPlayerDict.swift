@@ -20,7 +20,8 @@ class DiplomaticPlayerDict: Codable {
     private var items: [DiplomaticAIPlayerItem]
 
     // MARK: internal classes
-
+    
+    // class that stores data that belong to one other player
     class DiplomaticAIPlayerItem: Codable {
         
         enum CodingKeys: CodingKey {
@@ -35,7 +36,15 @@ class DiplomaticPlayerDict: Codable {
             case approach
             case warState
             case warFace
+            case warGoal
             case targetValue
+            case warDamageLevel
+            case warProjection
+            case lastWarProjection
+            case warValueLost
+            
+            case hasEmbassy
+            case allowsOpenBorders
             
             // disputes
             case landDisputeLevel
@@ -60,6 +69,22 @@ class DiplomaticPlayerDict: Codable {
             case isRecklessExpander
 
             case proximity
+            
+            // counter
+            case turnsAtWar
+            case recentTradeValue
+            
+            case turnOfLastMeeting
+            case numTurnsLockedIntoWar
+            case wantPeaceCounter
+            
+            // coop
+            case coopAgreements
+            case workingAgainstAgreements
+            
+            // peace treaty willingness
+            case peaceTreatyWillingToOffer
+            case peaceTreatyWillingToAccept
         }
 
         let leader: LeaderType
@@ -72,7 +97,15 @@ class DiplomaticPlayerDict: Codable {
         var approach: PlayerApproachType
         var warState: PlayerWarStateType
         var warFace: PlayerWarFaceType
+        var warGoal: WarGoalType
         var targetValue: PlayerTargetValueType
+        var warDamageLevel: WarDamageLevelType
+        var warProjection: WarProjectionType
+        var lastWarProjection: WarProjectionType
+        var warValueLost: Int
+        
+        var hasEmbassyValue: Bool
+        var allowsOpenBordersValue: Bool
         
         // disputes
         var landDisputeLevel: LandDisputeLevelType
@@ -97,6 +130,24 @@ class DiplomaticPlayerDict: Codable {
         var isRecklessExpander: Bool
 
         var proximity: PlayerProximityType
+        
+        // counter
+        var turnsAtWar: Int
+        var recentTradeValue: Int
+        
+        var turnOfLastMeeting: Int
+        var numTurnsLockedIntoWar: Int
+        var wantPeaceCounter: Int
+        
+        // coop
+        var coopAgreements: DiplomaticPlayerArray<CoopWarState>
+        var workingAgainstAgreements: DiplomaticPlayerArray<Bool>
+        
+        // peace treaty willingness
+        var peaceTreatyWillingToOffer: PeaceTreatyType
+        var peaceTreatyWillingToAccept: PeaceTreatyType
+        
+        // MARK: constructors
 
         init(by leader: LeaderType, turnOfFirstContact: Int = -1) {
 
@@ -110,7 +161,15 @@ class DiplomaticPlayerDict: Codable {
             self.approach = .none
             self.warFace = .none
             self.warState = .none
+            self.warGoal = .none
             self.targetValue = .none
+            self.warDamageLevel = .none
+            self.warProjection = .unknown
+            self.lastWarProjection = .unknown
+            self.warValueLost = 0
+            
+            self.hasEmbassyValue = false
+            self.allowsOpenBordersValue = false
             
             self.landDisputeLevel = .none
             self.lastTurnLandDisputeLevel = .none
@@ -133,6 +192,22 @@ class DiplomaticPlayerDict: Codable {
             self.isRecklessExpander = false
 
             self.proximity = .none
+            
+            // counter
+            self.turnsAtWar = 0
+            self.recentTradeValue = 0
+            
+            self.turnOfLastMeeting = -1
+            self.numTurnsLockedIntoWar = 0
+            self.wantPeaceCounter = 0
+            
+            // agreements
+            self.coopAgreements = DiplomaticPlayerArray<CoopWarState>()
+            self.workingAgainstAgreements = DiplomaticPlayerArray<Bool>()
+            
+            // peace treaty willingness
+            self.peaceTreatyWillingToOffer = .none
+            self.peaceTreatyWillingToAccept = .none
         }
         
         public required init(from decoder: Decoder) throws {
@@ -149,7 +224,15 @@ class DiplomaticPlayerDict: Codable {
             self.approach = try container.decode(PlayerApproachType.self, forKey: .approach)
             self.warState = try container.decode(PlayerWarStateType.self, forKey: .warState)
             self.warFace = try container.decode(PlayerWarFaceType.self, forKey: .warFace)
+            self.warGoal = try container.decode(WarGoalType.self, forKey: .warGoal)
             self.targetValue = try container.decode(PlayerTargetValueType.self, forKey: .targetValue)
+            self.warDamageLevel = try container.decode(WarDamageLevelType.self, forKey: .warDamageLevel)
+            self.warProjection = try container.decode(WarProjectionType.self, forKey: .warProjection)
+            self.lastWarProjection = try container.decode(WarProjectionType.self, forKey: .lastWarProjection)
+            self.warValueLost = try container.decode(Int.self, forKey: .warValueLost)
+            
+            self.hasEmbassyValue = try container.decode(Bool.self, forKey: .hasEmbassy)
+            self.allowsOpenBordersValue = try container.decode(Bool.self, forKey: .allowsOpenBorders)
             
             // disputes
             self.landDisputeLevel = try container.decode(LandDisputeLevelType.self, forKey: .landDisputeLevel)
@@ -174,6 +257,22 @@ class DiplomaticPlayerDict: Codable {
             self.isRecklessExpander = try container.decode(Bool.self, forKey: .isRecklessExpander)
 
             self.proximity = try container.decode(PlayerProximityType.self, forKey: .proximity)
+            
+            // counter
+            self.turnsAtWar = try container.decode(Int.self, forKey: .turnsAtWar)
+            self.recentTradeValue = try container.decode(Int.self, forKey: .recentTradeValue)
+            
+            self.turnOfLastMeeting = try container.decode(Int.self, forKey: .turnOfLastMeeting)
+            self.numTurnsLockedIntoWar = try container.decode(Int.self, forKey: .numTurnsLockedIntoWar)
+            self.wantPeaceCounter = try container.decode(Int.self, forKey: .wantPeaceCounter)
+            
+            // agreements
+            self.coopAgreements = try container.decode(DiplomaticPlayerArray<CoopWarState>.self, forKey: .coopAgreements)
+            self.workingAgainstAgreements = try container.decode(DiplomaticPlayerArray<Bool>.self, forKey: .workingAgainstAgreements)
+            
+            // peace treaty willingness
+            self.peaceTreatyWillingToOffer = try container.decode(PeaceTreatyType.self, forKey: .peaceTreatyWillingToOffer)
+            self.peaceTreatyWillingToAccept = try container.decode(PeaceTreatyType.self, forKey: .peaceTreatyWillingToAccept)
         }
         
         public func encode(to encoder: Encoder) throws {
@@ -190,8 +289,16 @@ class DiplomaticPlayerDict: Codable {
             try container.encode(self.approach, forKey: .approach)
             try container.encode(self.warState, forKey: .warState)
             try container.encode(self.warFace, forKey: .warFace)
+            try container.encode(self.warGoal, forKey: .warGoal)
             try container.encode(self.targetValue, forKey: .targetValue)
+            try container.encode(self.warDamageLevel, forKey: .warDamageLevel)
+            try container.encode(self.warProjection, forKey: .warProjection)
+            try container.encode(self.lastWarProjection, forKey: .lastWarProjection)
+            try container.encode(self.warValueLost, forKey: .warValueLost)
             
+            try container.encode(self.hasEmbassyValue, forKey: .hasEmbassy)
+            try container.encode(self.allowsOpenBordersValue, forKey: .allowsOpenBorders)
+             
             // disputes
             try container.encode(self.landDisputeLevel, forKey: .landDisputeLevel)
             try container.encode(self.lastTurnLandDisputeLevel, forKey: .lastTurnLandDisputeLevel)
@@ -215,6 +322,21 @@ class DiplomaticPlayerDict: Codable {
             try container.encode(self.isRecklessExpander, forKey: .isRecklessExpander)
 
             try container.encode(self.proximity, forKey: .proximity)
+            
+            // counter
+            try container.encode(self.turnsAtWar, forKey: .turnsAtWar)
+            try container.encode(self.recentTradeValue, forKey: .recentTradeValue)
+            
+            try container.encode(self.turnOfLastMeeting, forKey: .turnOfLastMeeting)
+            try container.encode(self.numTurnsLockedIntoWar, forKey: .numTurnsLockedIntoWar)
+            try container.encode(self.wantPeaceCounter, forKey: .wantPeaceCounter)
+            
+            try container.encode(self.coopAgreements, forKey: .coopAgreements)
+            try container.encode(self.workingAgainstAgreements, forKey: .workingAgainstAgreements)
+            
+            // peace treaty willingness
+            try container.encode(self.peaceTreatyWillingToOffer, forKey: .peaceTreatyWillingToOffer)
+            try container.encode(self.peaceTreatyWillingToAccept, forKey: .peaceTreatyWillingToAccept)
         }
     }
 
@@ -258,9 +380,9 @@ class DiplomaticPlayerDict: Codable {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.opinion
-        } else {
-            fatalError("not gonna happen")
         }
+        
+        return .neutral // needed because of coop war questions
     }
     
     func updateOpinion(towards otherPlayer: AbstractPlayer?, to opinionType: PlayerOpinionType) {
@@ -364,8 +486,7 @@ class DiplomaticPlayerDict: Codable {
             return item.approach
         }
 
-        //return .none
-        fatalError("not gonna happen")
+        return .none // can happen because of coop questions
     }
 
     // MARK:  war state methods
@@ -675,6 +796,55 @@ class DiplomaticPlayerDict: Codable {
         //return .none
         fatalError("not gonna happen")
     }
+    
+    // MARK: war damage level
+    
+    func warDamageLevel(of otherPlayer: AbstractPlayer?) -> WarDamageLevelType {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.warDamageLevel
+        }
+
+        fatalError("not gonna happen")
+    }
+    
+    func updateWarDamageLevel(of otherPlayer: AbstractPlayer?, to value: WarDamageLevelType) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.warDamageLevel = value
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    // MARK: war projection
+    
+    func warProjection(against otherPlayer: AbstractPlayer?) -> WarProjectionType {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.warProjection
+        }
+
+        fatalError("not gonna happen")
+    }
+    
+    func updateWarProjection(of otherPlayer: AbstractPlayer?, to value: WarProjectionType) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.warProjection = value
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func updateLastWarProjection(of otherPlayer: AbstractPlayer?, to value: WarProjectionType) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.lastWarProjection = value
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
 
     // MARK: proximity
 
@@ -775,6 +945,284 @@ class DiplomaticPlayerDict: Codable {
         
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.plotBuyingAggressivePosture = posture
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    // MARK: last meeting 
+    
+    func turnOfLastMeeting(with otherPlayer: AbstractPlayer?) -> Int {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.turnOfLastMeeting
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    // MARK: counters
+    
+    // war counter
+    
+    func turnsAtWar(with otherPlayer: AbstractPlayer?) -> Int {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.turnsAtWar
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func changeTurnsAtWar(with otherPlayer: AbstractPlayer?, by delta: Int) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.turnsAtWar += delta
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func updateTurnsAtWar(with otherPlayer: AbstractPlayer?, to value: Int) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.turnsAtWar = value
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    // trade value
+    
+    func recentTradeValue(with otherPlayer: AbstractPlayer?) -> Int {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.recentTradeValue
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func changeRecentTradeValue(with otherPlayer: AbstractPlayer?, by delta: Int) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.recentTradeValue += delta
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func updateRecentTradeValue(with otherPlayer: AbstractPlayer?, to value: Int) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.recentTradeValue = value
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    // coop wars
+    
+    /// does this player promised any coop war against otherPlayer
+    ///
+    /// - Parameters
+    ///     - player: player we have an agreement or not
+    ///     - otherPlayer: player the agreement is against
+    ///
+    func coopWarAcceptedState(of player: AbstractPlayer?, towards otherPlayer: AbstractPlayer?) -> CoopWarState {
+        
+        guard let otherLeader = otherPlayer?.leader else {
+            fatalError("cant get other leader")
+        }
+        
+        if let item = self.items.first(where: { $0.leader == player?.leader }) {
+            
+            if let agreement = item.coopAgreements.agreement(against: otherLeader) {
+                return agreement.value
+            }
+        } else {
+            fatalError("not gonna happen")
+        }
+        
+        // no agreement found
+        return .none
+    }
+    
+    /// when does this player promised any coop war against otherPlayer?
+    ///  counted in turn increments
+    ///
+    /// - Parameters
+    ///     - player: player we have an agreement or not
+    ///     - otherPlayer: player the agreement is against
+    ///
+    func coopWarCounter(of player: AbstractPlayer?, towards otherPlayer: AbstractPlayer?) -> Int {
+        
+        guard let otherLeader = otherPlayer?.leader else {
+            fatalError("cant get other leader")
+        }
+        
+        if let item = self.items.first(where: { $0.leader == player?.leader }) {
+            
+            if let agreement = item.coopAgreements.agreement(against: otherLeader) {
+                return agreement.counter
+            }
+        } else {
+            fatalError("not gonna happen")
+        }
+        
+        // no agreement found
+        return -1
+    }
+    
+    func updateCoopWarAcceptedState(of player: AbstractPlayer?, towards otherPlayer: AbstractPlayer?, to state: CoopWarState) {
+        
+        guard let otherLeader = otherPlayer?.leader else {
+            fatalError("cant get other leader")
+        }
+        
+        if let item = self.items.first(where: { $0.leader == player?.leader }) {
+            
+            if let agreement = item.coopAgreements.agreement(against: otherLeader) {
+                agreement.value = state
+            } else {
+                item.coopAgreements.add(agreement: DiplomaticPlayerArray<CoopWarState>.DiplomaticPlayerArrayItem<CoopWarState>(between: otherLeader, value: state))
+            }
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    public func hasEmbassy(with otherPlayer: AbstractPlayer?) -> Bool {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.hasEmbassyValue
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    public func isAllowsOpenBorders(with otherPlayer: AbstractPlayer?) -> Bool {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.allowsOpenBordersValue
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    // treaty
+    
+    func peaceTreatyWillingToOffer(to otherPlayer: AbstractPlayer?) -> PeaceTreatyType {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.peaceTreatyWillingToOffer
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func updateTreatyWillingToOffer(with otherPlayer: AbstractPlayer?, to treatyWillingToOffer: PeaceTreatyType) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.peaceTreatyWillingToOffer = treatyWillingToOffer
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+
+    func peaceTreatyWillingToAccept(by otherPlayer: AbstractPlayer?) -> PeaceTreatyType {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.peaceTreatyWillingToAccept
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func updateTreatyWillingToAccept(with otherPlayer: AbstractPlayer?, to treatyWillingToAccept: PeaceTreatyType) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.peaceTreatyWillingToAccept = treatyWillingToAccept
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    // MARK: locked into war counter
+    
+    func numTurnsLockedIntoWar(with otherPlayer: AbstractPlayer?) -> Int {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.numTurnsLockedIntoWar
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func updateNumTurnsLockedIntoWar(with otherPlayer: AbstractPlayer?, to value: Int) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.numTurnsLockedIntoWar = value
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    // MARK: ---
+    
+    func warValueLost(with otherPlayer: AbstractPlayer?) -> Int {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.warValueLost
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func updateWarValueLost(with  otherPlayer: AbstractPlayer?, to value: Int) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.warValueLost = value
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    // MARK: war goal
+    
+    func warGoal(towards otherPlayer: AbstractPlayer?) -> WarGoalType {
+
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.warGoal
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func updateWarGoal(towards otherPlayer: AbstractPlayer?, to warGoal: WarGoalType) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.warGoal = warGoal
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    // MARK: want peace counter
+    
+    func wantPeaceCounter(with otherPlayer: AbstractPlayer?) -> Int {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.wantPeaceCounter
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    func updateWantPeaceCounter(with otherPlayer: AbstractPlayer?, to value: Int) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.wantPeaceCounter = value
         } else {
             fatalError("not gonna happen")
         }

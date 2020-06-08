@@ -12,7 +12,7 @@ import Foundation
 
 class TestUI: UserInterfaceProtocol {
     
-    func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?) { }
+    func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData? = nil) { }
     
     func update(city: AbstractCity?) { }
 

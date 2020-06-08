@@ -24,6 +24,7 @@ public protocol AbstractBuildings: Codable {
     func defense() -> Int
     func defenseModifier() -> Int
     func housing() -> Double
+    func updateHousing()
     func numOfBuildings() -> Int
 }
 

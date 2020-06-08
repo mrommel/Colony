@@ -394,7 +394,7 @@ public class CityConnections: Codable {
                     }
 
                     // bail if either are null
-                    guard var routeInfo = self.routeInfo(from: firstCityRef, to: secondCityRef) else {
+                    guard let routeInfo = self.routeInfo(from: firstCityRef, to: secondCityRef) else {
                         continue
                     }
                     

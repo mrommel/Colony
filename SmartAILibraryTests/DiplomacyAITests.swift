@@ -283,7 +283,8 @@ class DiplomacyAITests: XCTestCase {
         
         // THEN
         XCTAssertEqual(approachBefore, .none)
-        XCTAssertEqual(approachAfter, .hostile)
+        let resultList: [PlayerApproachType] = [.hostile, .war]
+        XCTAssertTrue(resultList.contains(approachAfter))
     }
     
     func testApproachAfterDeclarationOfWar() {

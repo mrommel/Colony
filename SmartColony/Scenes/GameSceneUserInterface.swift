@@ -33,16 +33,14 @@ extension GameScene: UserInterfaceProtocol {
         self.selectedUnit = nil
     }
 
-    func showScreen(screenType: ScreenType, city: AbstractCity? = nil, other otherPlayer: AbstractPlayer? = nil) {
+    func showScreen(screenType: ScreenType, city: AbstractCity? = nil, other otherPlayer: AbstractPlayer? = nil, data: DiplomaticData? = nil) {
 
         switch screenType {
-            
-        
-            
+
         case .interimRanking:
             self.showInterimRankingDialog()
         case .diplomatic:
-            self.showDiplomaticDialog(with: otherPlayer)
+            self.showDiplomaticDialog(with: otherPlayer, data: data)
         case .city:
             self.showCityDialog(for: city)
         case .techs:

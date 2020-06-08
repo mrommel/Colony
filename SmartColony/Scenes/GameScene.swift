@@ -60,6 +60,7 @@ class GameScene: BaseScene {
     internal var bottomLeftBar: BottomLeftBar?
     internal var bottomRightBar: BottomRightBar?
     internal var notificationsNode: NotificationsNode?
+    internal var leadersNode: LeadersNode?
 
     private var bannerNode: BannerNode?
 
@@ -171,6 +172,11 @@ class GameScene: BaseScene {
         self.notificationsNode?.delegate = self
         self.notificationsNode?.zPosition = Globals.ZLevels.notifications
         self.safeAreaNode.addChild(self.notificationsNode!)
+        
+        self.leadersNode = LeadersNode(sized: CGSize(width: 61, height: 300))
+        self.leadersNode?.delegate = self
+        self.leadersNode?.zPosition = Globals.ZLevels.leaders
+        self.safeAreaNode.addChild(self.leadersNode!)
 
         self.viewHex.name = "ViewHex"
         self.viewHex.position = CGPoint(x: self.size.width * 0, y: self.size.height * 0.5)
@@ -312,6 +318,9 @@ class GameScene: BaseScene {
 
         self.notificationsNode?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.notificationsNode?.updateLayout()
+        
+        self.leadersNode?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth, y: self.safeAreaNode.frame.halfHeight)
+        self.leadersNode?.updateLayout()
 
         // turn?
     }
@@ -427,6 +436,9 @@ class GameScene: BaseScene {
                 self.goldYield?.set(yieldValue: treasury.value())
             }
             
+            // update
+            self.updateLeaders()
+            
             // update state
             self.updateTurnButton()
 
@@ -439,6 +451,32 @@ class GameScene: BaseScene {
         }
 
         self.uiTurnState = state
+    }
+    
+    func updateLeaders() {
+        
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+        
+        guard let leadersNode = self.leadersNode else {
+            return
+        }
+        
+        for otherPlayer in gameModel.players {
+            
+            if humanPlayer.hasMet(with: otherPlayer) {
+                
+                if !leadersNode.leaders.contains(otherPlayer.leader) {
+                    
+                    self.leadersNode?.add(leader: otherPlayer.leader)
+                }
+            }
+        }
     }
 
     func updateTurnButton() {
@@ -629,6 +667,13 @@ class GameScene: BaseScene {
         if let notificationsNode = self.notificationsNode, notificationsNode.frame.contains(cameraLocation) {
 
             if notificationsNode.handleTouches(touches, with: event) {
+                return
+            }
+        }
+        
+        if let leadersNode = self.leadersNode, leadersNode.frame.contains(cameraLocation) {
+
+            if leadersNode.handleTouches(touches, with: event) {
                 return
             }
         }
@@ -890,5 +935,29 @@ extension GameScene: NotificationsDelegate {
         }
         
         notification.activate(in: self.viewModel?.game)
+    }
+}
+
+extension GameScene: LeadersDelegate {
+
+    func handleClicked(on leader: LeaderType) {
+
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+        
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+        
+        guard let otherPlayer = gameModel.player(for: leader) else {
+            fatalError("cant get otherPlayer")
+        }
+        
+        let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: humanPlayer)
+        let data = DiplomaticData(state: .blankDiscussion, message: szText, emotion: .neutral)
+        
+        print("diplo screen with: \(leader)")
+        self.showScreen(screenType: .diplomatic, city: nil, other: otherPlayer, data: data)
     }
 }

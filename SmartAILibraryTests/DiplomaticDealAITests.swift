@@ -30,7 +30,7 @@ class DiplomaticDealAITests: XCTestCase {
         let playerAugustus = Player(leader: .augustus)
         
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
-        let deal = DiplomaticDeal(from: playerAlexander, to: playerAugustus)
+        let deal = DiplomaticDeal(from: .alexander, to: .augustus)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 2))
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
@@ -51,7 +51,7 @@ class DiplomaticDealAITests: XCTestCase {
         let playerAugustus = Player(leader: .augustus)
         
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
-        let deal = DiplomaticDeal(from: playerAlexander, to: playerAugustus)
+        let deal = DiplomaticDeal(from: .alexander, to: .augustus)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .receive, amount: 2))
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
@@ -72,7 +72,7 @@ class DiplomaticDealAITests: XCTestCase {
         let playerAugustus = Player(leader: .augustus)
         
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
-        let deal = DiplomaticDeal(from: playerAlexander, to: playerAugustus)
+        let deal = DiplomaticDeal(from: .alexander, to: .augustus)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 4))
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .receive, amount: 4))
         
@@ -94,7 +94,7 @@ class DiplomaticDealAITests: XCTestCase {
         let playerAugustus = Player(leader: .augustus)
         
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
-        let deal = DiplomaticDeal(from: playerAlexander, to: playerAugustus)
+        let deal = DiplomaticDeal(from: .alexander, to: .augustus)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 4))
         deal.tradeItems.append(DiplomaticGoldPerTurnDealItem(direction: .receive, amount: 1, duration: 5)) // gold per turn is valued only 80% because of the risk
         

@@ -343,8 +343,6 @@ class Civics: AbstractCivics {
                 // trigger event to user
                 if player.isHuman() {
                     gameModel?.userInterface?.showPopup(popupType: .civicDiscovered, with: PopupData(civic: currentCivic))
-                    
-                    self.player?.notifications()?.add(type: .techNeeded, for: self.player, message: "Please choose a new Civic", summary: "Choose Civic", at: HexPoint.zero)
                 }
 
                 // enter era
@@ -360,6 +358,10 @@ class Civics: AbstractCivics {
                 }
 
                 self.currentCivicValue = nil
+                
+                if player.isHuman() {
+                    self.player?.notifications()?.addNotification(of: .civicNeeded, for: self.player, message: "Please choose a new Civic", summary: "Choose Civic", at: HexPoint.zero)
+                }
 
             } catch {
                 fatalError("Can't discover civic - already discovered")

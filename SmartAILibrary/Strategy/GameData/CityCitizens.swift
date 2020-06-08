@@ -581,7 +581,7 @@ public class CityCitizens: Codable {
     func increaseNumberOfSpecialists(in buildingType: BuildingType) {
         
         // update
-        if var specialistsTuple = self.numSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
+        if let specialistsTuple = self.numSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
             specialistsTuple.specialists = specialistsTuple.specialists + 1
             return
         }
@@ -593,7 +593,7 @@ public class CityCitizens: Codable {
     func decreaseNumberOfSpecialists(in buildingType: BuildingType) {
         
         // update
-        if var specialistsTuple = self.numSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
+        if let specialistsTuple = self.numSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
             specialistsTuple.specialists = specialistsTuple.specialists - 1
             return
         }
@@ -604,7 +604,7 @@ public class CityCitizens: Codable {
     func increaseNumberOfForcedSpecialists(in buildingType: BuildingType) {
         
         // update
-        if var specialistsTuple = self.numForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
+        if let specialistsTuple = self.numForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
             specialistsTuple.specialists = specialistsTuple.specialists + 1
             return
         }
@@ -616,7 +616,7 @@ public class CityCitizens: Codable {
     func decreaseNumberOfForcedSpecialists(in buildingType: BuildingType) {
         
         // update
-        if var specialistsTuple = self.numForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
+        if let specialistsTuple = self.numForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
             specialistsTuple.specialists = specialistsTuple.specialists - 1
             return
         }
@@ -747,7 +747,7 @@ public class CityCitizens: Codable {
             fatalError("no city set")
         }
         
-        if var plot = self.workingPlots.first(where: { $0.location == location }) {
+        if let plot = self.workingPlots.first(where: { $0.location == location }) {
             
             if plot.worked != worked {
                 

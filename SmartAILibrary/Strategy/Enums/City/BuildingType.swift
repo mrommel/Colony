@@ -35,7 +35,7 @@ public enum BuildingType: Int, Codable {
     public static var all: [BuildingType] {
         return [
             // ancient
-            /*.palace, otherwise this is show */
+            .palace, // ???
             .granary, .monument, .library, .shrine, .ancientWalls, .barracks, .waterMill,
             
             // classical

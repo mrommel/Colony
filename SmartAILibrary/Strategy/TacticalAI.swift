@@ -1530,7 +1530,7 @@ public class TacticalAI: Codable {
         var attackMade = false
         
         // See how many moves of this type we can execute
-        for var target in self.zoneTargets(for: .city) {
+        for target in self.zoneTargets(for: .city) {
             
             // See what units we have who can reach target this turn
             if let tile = target?.tile {
@@ -2502,7 +2502,7 @@ public class TacticalAI: Codable {
 
                     if validPlot {
 
-                        var newTarget = TacticalTarget(
+                        let newTarget = TacticalTarget(
                             targetType: .none,
                             target: point,
                             targetLeader: .none,
@@ -2511,32 +2511,35 @@ public class TacticalAI: Codable {
                         let enemyDominatedPlot = gameModel.tacticalAnalysisMap().isInEnemyDominatedZone(at: point)
 
                         // Have a ...
-                        // ... friendly city?
+                        
                         let cityRef = gameModel.city(at: tile.point)
 
                         if let city = cityRef {
 
                             if self.player?.leader == city.player?.leader {
 
+                                // ... friendly city?
                                 newTarget.targetType = .cityToDefend
                                 newTarget.city = cityRef
                                 newTarget.threatValue = city.threatValue()
                                 self.allTargets.append(newTarget)
 
-
-                                // ... enemy city
+                                
                             } else if diplomacyAI.isAtWar(with: city.player) {
 
+                                // ... enemy city
                                 newTarget.targetType = .city
                                 newTarget.city = cityRef
                                 newTarget.threatValue = city.threatValue()
                                 self.allTargets.append(newTarget)
                             }
                         } else {
-                            // ... enemy unit?
+                            
                             let unitRef = gameModel.unit(at: tile.point)
                             if let unit = unitRef {
                                 if diplomacyAI.isAtWar(with: unit.player) {
+                                    
+                                    // ... enemy unit?
                                     newTarget.targetType = .lowPriorityUnit
                                     newTarget.targetLeader = unit.player!.leader
                                     newTarget.unit = unitRef
@@ -2544,27 +2547,25 @@ public class TacticalAI: Codable {
                                     self.allTargets.append(newTarget)
                                 }
 
-
-                                // ... undefended camp?
                             } else if tile.has(improvement: .barbarianCamp) {
 
+                                // ... undefended camp?
                                 newTarget.targetType = .barbarianCamp
                                 newTarget.targetLeader = .barbar
                                 newTarget.tile = tile
                                 self.allTargets.append(newTarget)
 
-
-                                // ... goody hut?
                             } else if tile.has(improvement: .goodyHut) {
 
+                                // ... goody hut?
                                 newTarget.targetType = .ancientRuins
                                 newTarget.tile = tile
                                 self.allTargets.append(newTarget)
 
-
-                                // ... enemy resource improvement?
                             } else if diplomacyAI.isAtWar(with: tile.owner()) && !tile.has(improvement: .none) && !tile.canBePillaged() &&
                                 !tile.has(resource: .none, for: player) && !enemyDominatedPlot {
+                                
+                                // ... enemy resource improvement?
 
                                 // On land, civs only target improvements built on resources
                                 if tile.has(resourceType: .strategic, for: player) || tile.has(resourceType: .luxury, for: player) || tile.terrain().isWater() || player.leader == .barbar {
@@ -2580,7 +2581,6 @@ public class TacticalAI: Codable {
                                         self.allTargets.append(newTarget)
                                     }
                                 }
-
 
                                 // Or forts / citadels!
                             } else if diplomacyAI.isAtWar(with: tile.owner()) && (tile.has(improvement: .fort) && tile.has(improvement: .citadelle)) {
@@ -2679,7 +2679,7 @@ public class TacticalAI: Codable {
         }
         
         // Look through all the enemies we can see
-        for var target in self.allTargets {
+        for target in self.allTargets {
             
             // Don't consider units that are already medium priority
             if target.targetType == .highPriorityUnit || target.targetType == .lowPriorityUnit {
@@ -2809,7 +2809,7 @@ public class TacticalAI: Codable {
                     var attackerIndex = 0
 
                     // Loop until we've found all the attackers in the unit target list
-                    for var unitTargetRef in self.unitTargets() {
+                    for unitTargetRef in self.unitTargets() {
                         
                         if attackerIndex >= possibleAttackers.count {
                             break
@@ -2841,7 +2841,7 @@ public class TacticalAI: Codable {
                     var attackerIndex = 0
 
                     // Loop until we've found all the attackers in the unit target list
-                    for var unitTargetRef in self.unitTargets() {
+                    for unitTargetRef in self.unitTargets() {
                     
                         if attackerIndex >= possibleAttackers.count {
                             break
@@ -2884,7 +2884,7 @@ public class TacticalAI: Codable {
                         
                         for unitTargetRef in self.unitTargets() {
                             
-                            if var unitTarget = unitTargetRef {
+                            if let unitTarget = unitTargetRef {
                                 var priorityTarget = false
                                 if unitTarget.targetType != .highPriorityUnit {
                                     

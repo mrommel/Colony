@@ -17,6 +17,7 @@ class MapGeneratorTests: XCTestCase {
         
         // GIVEN
         let options = MapOptions(withSize: .custom(width: 20, height: 20), leader: .alexander, handicap: .settler)
+
         let mapGenerator = MapGenerator(with: options)
         mapGenerator.progressHandler = { progress, text in
             print("progress: \(progress) - \(text)")

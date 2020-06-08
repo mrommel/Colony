@@ -200,6 +200,10 @@
 		C9DFCF8423F30C310032243D /* PlayerWarFaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DFCF8323F30C310032243D /* PlayerWarFaceType.swift */; };
 		C9E0D57024424C0C001AA97A /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D56F24424C0C001AA97A /* Notifications.swift */; };
 		C9E0D57224424C66001AA97A /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D57124424C66001AA97A /* NotificationType.swift */; };
+		C9E74CAD248CE146003EF256 /* PeaceTreatyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CAC248CE146003EF256 /* PeaceTreatyType.swift */; };
+		C9E74CAF248D41E5003EF256 /* WarProjectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CAE248D41E5003EF256 /* WarProjectionType.swift */; };
+		C9E74CB1248D48E1003EF256 /* WarDamageLevelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CB0248D48E1003EF256 /* WarDamageLevelType.swift */; };
+		C9E74CB3248E1AE4003EF256 /* DiplomaticPlayerArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CB2248E1AE4003EF256 /* DiplomaticPlayerArray.swift */; };
 		C9EB9F642454C6C500F13B02 /* RankingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F632454C6C400F13B02 /* RankingData.swift */; };
 		C9EC4E132443AE97001A0597 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E122443AE97001A0597 /* Command.swift */; };
 		C9EC4E152443AECA001A0597 /* CommandType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E142443AECA001A0597 /* CommandType.swift */; };
@@ -424,6 +428,10 @@
 		C9DFCF8323F30C310032243D /* PlayerWarFaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerWarFaceType.swift; sourceTree = "<group>"; };
 		C9E0D56F24424C0C001AA97A /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C9E0D57124424C66001AA97A /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
+		C9E74CAC248CE146003EF256 /* PeaceTreatyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeaceTreatyType.swift; sourceTree = "<group>"; };
+		C9E74CAE248D41E5003EF256 /* WarProjectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarProjectionType.swift; sourceTree = "<group>"; };
+		C9E74CB0248D48E1003EF256 /* WarDamageLevelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarDamageLevelType.swift; sourceTree = "<group>"; };
+		C9E74CB2248E1AE4003EF256 /* DiplomaticPlayerArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticPlayerArray.swift; sourceTree = "<group>"; };
 		C9EB9F632454C6C400F13B02 /* RankingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingData.swift; sourceTree = "<group>"; };
 		C9EC4E122443AE97001A0597 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		C9EC4E142443AECA001A0597 /* CommandType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandType.swift; sourceTree = "<group>"; };
@@ -510,6 +518,7 @@
 				C92317C923D77B36001FC723 /* GrandStrategyAI.swift */,
 				C920E99923DB17EB008DEAB4 /* DiplomaticAI.swift */,
 				C9D8DF7923F14B7A0091C917 /* DiplomaticPlayerDict.swift */,
+				C9E74CB2248E1AE4003EF256 /* DiplomaticPlayerArray.swift */,
 				C97A38E423F562F3008A8AE9 /* DiplomaticPact.swift */,
 				C920E99B23DB1DBA008DEAB4 /* DiplomaticDealAI.swift */,
 				C98DBFA023DDFE2C00B6CE25 /* DiplomaticDeal.swift */,
@@ -824,6 +833,9 @@
 				C9C2FE4223F9EC0400185235 /* PlayerTargetValueType.swift */,
 				C9EF13962423C02C003B3DAD /* LandDisputeLevelType.swift */,
 				C9EF13982423E1EA003B3DAD /* AggressivePostureType.swift */,
+				C9E74CAC248CE146003EF256 /* PeaceTreatyType.swift */,
+				C9E74CAE248D41E5003EF256 /* WarProjectionType.swift */,
+				C9E74CB0248D48E1003EF256 /* WarDamageLevelType.swift */,
 			);
 			path = Diplomatic;
 			sourceTree = "<group>";
@@ -1022,6 +1034,7 @@
 				C907086023ED48A000281161 /* MapSize.swift in Sources */,
 				C91B0023243DCE6000C422C8 /* GoodyHuts.swift in Sources */,
 				C965A53623FC6B2F00BCEB54 /* RiverEdge.swift in Sources */,
+				C9E74CB1248D48E1003EF256 /* WarDamageLevelType.swift in Sources */,
 				C957AA322436357E00203024 /* Civ5Feature.swift in Sources */,
 				C9A057452429E61700D0FEAB /* WonderProductionAI.swift in Sources */,
 				C9DFCF6E23F29BBE0032243D /* SiteEvaluator.swift in Sources */,
@@ -1049,6 +1062,7 @@
 				C920E99A23DB17EB008DEAB4 /* DiplomaticAI.swift in Sources */,
 				C9C2FE3923F6E1A600185235 /* UnitProductionAI.swift in Sources */,
 				C98DBFA323DF219100B6CE25 /* City.swift in Sources */,
+				C9E74CB3248E1AE4003EF256 /* DiplomaticPlayerArray.swift in Sources */,
 				C9DFCF8223F30BDC0032243D /* StrengthType.swift in Sources */,
 				C955FBCE246065D600605618 /* AmenitiesState.swift in Sources */,
 				C964BA2723EB6C4700CA379C /* MilitaryAI.swift in Sources */,
@@ -1058,6 +1072,7 @@
 				C90FC3A023D8968D00720B32 /* GameModel.swift in Sources */,
 				C92317C123D6EB21001FC723 /* HierarchicalState.swift in Sources */,
 				C9ABAF2423F6BCF00023AC1B /* Districts.swift in Sources */,
+				C9E74CAF248D41E5003EF256 /* WarProjectionType.swift in Sources */,
 				C9DFCF7023F29CFC0032243D /* Ocean.swift in Sources */,
 				C9588AC12417FEB100304E9A /* CityConnections.swift in Sources */,
 				C9EE60AC240270FB00535B93 /* Armies.swift in Sources */,
@@ -1095,6 +1110,7 @@
 				C92317CA23D77B36001FC723 /* GrandStrategyAI.swift in Sources */,
 				C957AA452436411E00203024 /* PerlinGenerator.swift in Sources */,
 				C92317B423D62AD2001FC723 /* Stack.swift in Sources */,
+				C9E74CAD248CE146003EF256 /* PeaceTreatyType.swift in Sources */,
 				C9DFCF7823F2A3590032243D /* BitArray.swift in Sources */,
 				C91BE62D23FED34C00912962 /* UnitOperationType.swift in Sources */,
 				C9DFCF7C23F2B0C50032243D /* ContinentFinder.swift in Sources */,

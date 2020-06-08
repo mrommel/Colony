@@ -792,7 +792,7 @@ public class MapGenerator {
         let startPositioner = StartPositioner(on: grid, for: numberOfPlayers)
         startPositioner.generateRegions()
         
-        var aiLeaders: [LeaderType] = LeaderType.all.filter({ $0 != self.options.leader }).choose(numberOfPlayers - 1)
+        let aiLeaders: [LeaderType] = LeaderType.all.filter({ $0 != self.options.leader }).choose(numberOfPlayers - 1)
 
         startPositioner.chooseLocations(for: aiLeaders, human: self.options.leader)
     

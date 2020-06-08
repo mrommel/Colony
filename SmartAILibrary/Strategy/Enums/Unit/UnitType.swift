@@ -519,7 +519,7 @@ public enum UnitType: Int, Codable {
         }
     }
 
-    public func required() -> TechType? {
+    public func requiredTech() -> TechType? {
 
         switch self {
 
@@ -548,6 +548,21 @@ public enum UnitType: Int, Codable {
         case .scientist: return nil
         case .writer: return nil
         }
+    }
+    
+    public func obsoleteTech() -> TechType? {
+        
+        return nil
+    }
+    
+    public func requiredCivic() -> CivicType? {
+        
+        return nil
+    }
+    
+    public func requiredResource() -> ResourceType? {
+        
+        return nil
     }
 
     // is unit type special to any civ? nil if not

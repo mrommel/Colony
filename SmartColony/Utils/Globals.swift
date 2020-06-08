@@ -41,6 +41,7 @@ public struct Globals {
         static let dialogs: CGFloat = 52.0
         static let progressIndicator: CGFloat = 60.0
         static let notifications: CGFloat = 60.0
+        static let leaders: CGFloat = 60.0
         static let bottomElements: CGFloat = 61.0
     }
 

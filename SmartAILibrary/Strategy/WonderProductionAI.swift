@@ -74,7 +74,7 @@ public class WonderProductionAI {
         }
 
         // Reset list of all the possible wonders
-        var buildables = WonderWeigths()
+        let buildables = WonderWeigths()
 
         // Guess which city will be producing this (doesn't matter that much since weights are all relative)
         var wonderCityRef: AbstractCity? = citySpecializationAI.wonderBuildCity()

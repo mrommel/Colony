@@ -77,19 +77,6 @@ public enum LeaderType: Int, Codable {
         }
     }
 
-    public func firstGreeting(of leader: LeaderType) -> String {
-
-        if self == .augustus {
-            return "Hail, stranger. I am the Imperator Caesar Augustus of far-reaching Rome. Who are you and what lands can you claim as your own?"
-        }
-        
-        if self == .elizabeth {
-            return "Greetings. We are by the Grace of God, Elizabeth, Queen of the United Kingdom of Great Britain and Ireland. And soon, dare I say, the empire."
-        }
-        
-        return "Greetings traveler. You should know that you stand in the presence of greatness!"
-    }
-
     public func civilization() -> CivilizationType {
 
         switch self {

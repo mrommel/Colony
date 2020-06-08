@@ -221,7 +221,7 @@ class UsecaseTests: XCTestCase {
          
         // THEN
          
-        XCTAssertEqual(playerAugustusScout.location, HexPoint(x: 17, y: 13))
+        XCTAssertEqual(playerAugustusScout.location, HexPoint(x: 15, y: 10))
      }
     
     func testBuilderBuildsInPlace() {
@@ -281,12 +281,13 @@ class UsecaseTests: XCTestCase {
         playerAlexander.endTurn(in: gameModel)
          
         // THEN
-        if let buildMission = playerAugustusBuilder.peekMission() {
+        XCTAssertEqual(mapModel.improvement(at: HexPoint(x: 16, y: 15)), .farm)
+        /*if let buildMission = playerAugustusBuilder.peekMission() {
             XCTAssertEqual(buildMission.type, .build)
             XCTAssertEqual(buildMission.buildType, .farm)
         } else {
             XCTFail()
-        }
+        }*/
     }
     
     func testBuilderBuildsSomewhere() {
@@ -347,6 +348,6 @@ class UsecaseTests: XCTestCase {
         playerAlexander.endTurn(in: gameModel)
          
         // THEN
-        XCTAssertEqual(playerAugustusBuilder.location, HexPoint(x: 15, y: 14))
+        XCTAssertEqual(playerAugustusBuilder.location, HexPoint(x: 14, y: 14))
     }
 }

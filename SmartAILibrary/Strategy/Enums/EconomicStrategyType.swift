@@ -333,7 +333,6 @@ enum EconomicStrategyType: Int, Codable {
             if gameModel.turnsElapsed > 25 { // AI_CITY_SPECIALIZATION_EARLIEST_TURN
 
                 if let capitalArea = gameModel.area(of: capital.location) {
-                    print("capital area: \(capitalArea)")
 
                     // Is this area still the best to settle?
                     let (_, bestArea, _) = player.bestSettleAreasWith(minimumSettleFertility: economicAI.minimumSettleFertility(), in: gameModel)

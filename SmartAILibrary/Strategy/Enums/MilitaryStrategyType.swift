@@ -456,12 +456,12 @@ enum MilitaryStrategyType: Int, Codable {
             return false
         }
 
-        // Also don't bother if we're building up for a sneak attack
-        for otherPlayer in gameModel.players {
+        // Also don't bother, if we're building up for a sneak attack
+        for loopPlayer in gameModel.players {
 
-            if otherPlayer.leader != player.leader {
+            if !player.isEqual(to: loopPlayer) && loopPlayer.isAlive() && player.hasMet(with: loopPlayer) {
 
-                if diplomacyAI.warGoal(towards: otherPlayer) == .prepare {
+                if diplomacyAI.warGoal(towards: loopPlayer) == .prepare {
                     return false
                 }
             }

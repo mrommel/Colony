@@ -334,7 +334,7 @@ public class Operation: Codable, Equatable {
             pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(for: unit.movementType(), for: searchUnit.unit?.player)
 
             if let searchUnitLocation = searchUnit.unit?.location {
-                var pathDistance = DBL_MAX
+                var pathDistance = Double.greatestFiniteMagnitude
 
                 // Now loop through the units, using the pathfinder to do the final evaluation
                 if let musterLocation = self.musterPosition {

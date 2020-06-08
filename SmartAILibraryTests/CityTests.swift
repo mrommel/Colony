@@ -43,9 +43,8 @@ class CityTests: XCTestCase {
         let notifications = playerAlexander.notifications()?.notifications()
         
         // THEN
-        XCTAssertEqual(self.objectToTest!.population(), 2)
-        //XCTAssertEqual(returnedStatus, .none) // no notification as no starving and no growth
-        XCTAssertEqual(notifications?.count, 2) // don't notify user about any change
+        XCTAssertEqual(self.objectToTest!.population(), 1)
+        XCTAssertEqual(notifications?.count, 1) // don't notify user about any change
     }
     
     func testOneCityGrowth() {
@@ -114,7 +113,7 @@ class CityTests: XCTestCase {
         
         // THEN
         XCTAssertEqual(foodYield, 4.0)
-        XCTAssertEqual(productionYield, 4.0)
+        XCTAssertEqual(productionYield, 2.0)
         XCTAssertEqual(goldYield, 6.0)
         
         /*XCTAssertEqual(yields?.culture, 2.6)

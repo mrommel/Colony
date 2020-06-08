@@ -180,13 +180,19 @@ class PediaScene: BaseScene {
 
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
+        
+        try! humanPlayer.techs?.discover(tech: .mining)
+        try! humanPlayer.techs?.discover(tech: .pottery)
 
         let mapModel = PediaScene.mapFilled(with: .grass, sized: .duel)
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
-        mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
-        mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
-        mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
+        mapModel.set(hills: true, at: HexPoint(x: 2, y: 5))
+        mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 6))
+        mapModel.set(resource: .wheat, at: HexPoint(x: 3, y: 4))
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
+        
+        mapModel.set(improvement: .mine, at: HexPoint(x: 2, y: 5))
+        mapModel.set(improvement: .farm, at: HexPoint(x: 3, y: 4))
 
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [aiPlayer, humanPlayer], on: mapModel)
 
@@ -320,8 +326,11 @@ class PediaScene: BaseScene {
 
         let otherPlayer = Player(leader: .augustus, isHuman: false)
         otherPlayer.initialize()
+        
+        let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: humanPlayer)
+        let data = DiplomaticData(state: .intro, message: szText, emotion: .neutral)
 
-        let diplomaticDialog = DiplomaticDialog(for: humanPlayer, and: otherPlayer)
+        let diplomaticDialog = DiplomaticDialog(for: humanPlayer, and: otherPlayer, data: data)
         diplomaticDialog.zPosition = 250
 
         diplomaticDialog.addResultHandler(handler: { result in

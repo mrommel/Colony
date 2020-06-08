@@ -1049,6 +1049,9 @@ public class City: AbstractCity {
         guard let player = self.player else {
             fatalError("cant get player")
         }
+        
+        // update housing value
+        self.buildings?.updateHousing()
 
         let foodPerTurn = self.foodPerTurn(in: gameModel)
         self.setLastTurn(foodHarvested: foodPerTurn)
@@ -1059,7 +1062,7 @@ public class City: AbstractCity {
             
             // notify human about starvation
             if player.isHuman() {
-                self.player?.notifications()?.add(type: .starving, for: self.player, message: "The City of \(self.name) is starving! If it runs out of stored Food, a Citizen will die!", summary: "\(self.name) is Starving!", at: self.location)
+                self.player?.notifications()?.addNotification(of: .starving, for: self.player, message: "The City of \(self.name) is starving! If it runs out of stored Food, a Citizen will die!", summary: "\(self.name) is Starving!", at: self.location)
             }
         }
         
@@ -1089,7 +1092,7 @@ public class City: AbstractCity {
                     
                     if player.isHuman() {
                         //gameModel?.add(message: CityGrowthMessage(in: self))
-                        self.player?.notifications()?.add(type: .cityGrowth, for: self.player, message: "The City of \(self.name) now has \(self.population()) [ICON_CITIZEN] Citizens! The new Citizen will automatically work the land near the City for additional [ICON_FOOD] Food, [ICON_PRODUCTION] Production or [ICON_GOLD] Gold.", summary: "\(self.name) has Grown!", at: self.location)
+                        self.player?.notifications()?.addNotification(of: .cityGrowth, for: self.player, message: "The City of \(self.name) now has \(self.population()) [ICON_CITIZEN] Citizens! The new Citizen will automatically work the land near the City for additional [ICON_FOOD] Food, [ICON_PRODUCTION] Production or [ICON_GOLD] Gold.", summary: "\(self.name) has Grown!", at: self.location)
                     }
                 }
             }
@@ -1142,12 +1145,7 @@ public class City: AbstractCity {
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
-        /*OrderData* pOrderNode;
-        UnitTypes eUpgradeUnit;
-        int iUpgradeProduction;
-        int iProductionGold;
-        int iI;*/
+
         var okay = true
 
         let maxedUnitGoldPercent = 100 /* MAXED_UNIT_GOLD_PERCENT*/
@@ -1263,8 +1261,8 @@ public class City: AbstractCity {
         }*/
 
         if !self.isProduction() && player.isHuman() && !self.isProductionAutomated() {
-            //gameModel?.add(message: CityNeedsBuildableMessage(city: self))
-            self.player?.notifications()?.add(type: .productionNeeded, for: self.player, message: "Your city \(self.name) needs something to work on.", summary: "need production", at: self.location)
+            
+            self.player?.notifications()?.addNotification(of: .productionNeeded, for: self.player, message: "Your city \(self.name) needs something to work on.", summary: "need production", at: self.location)
             return okay
         }
 
@@ -2212,7 +2210,7 @@ public class City: AbstractCity {
             return false
         }
 
-        if let requiredTech = unitType.required() {
+        if let requiredTech = unitType.requiredTech() {
             if !player.has(tech: requiredTech) {
                 return false
             }

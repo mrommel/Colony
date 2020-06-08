@@ -82,9 +82,9 @@ class CivicTests: XCTestCase {
         
         // WHEN
         let beforeEureka = self.objectToTest?.eurekaTriggered(for: .craftsmanship)
-        tile0?.changeBuildProgress(of: BuildType.farm, change: 100, for: playerAlexander, in: gameModel)
-        tile1?.changeBuildProgress(of: BuildType.farm, change: 100, for: playerAlexander, in: gameModel)
-        tile2?.changeBuildProgress(of: BuildType.farm, change: 100, for: playerAlexander, in: gameModel)
+        tile0?.changeBuildProgress(of: BuildType.farm, change: 1000, for: playerAlexander, in: gameModel)
+        tile1?.changeBuildProgress(of: BuildType.farm, change: 1000, for: playerAlexander, in: gameModel)
+        tile2?.changeBuildProgress(of: BuildType.farm, change: 1000, for: playerAlexander, in: gameModel)
         let afterEureka = self.objectToTest?.eurekaTriggered(for: .craftsmanship)
         
         // THEN

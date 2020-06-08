@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PlayerOpinionType: Int, Codable {
+enum PlayerOpinionType: Int, Codable, Comparable {
 
     case none
 
@@ -19,4 +19,9 @@ enum PlayerOpinionType: Int, Codable {
     case competitor
     case enemy
     case unforgivable
+    
+    public static func < (lhs: PlayerOpinionType, rhs: PlayerOpinionType) -> Bool {
+        
+        return lhs.rawValue < rhs.rawValue
+    }
 }

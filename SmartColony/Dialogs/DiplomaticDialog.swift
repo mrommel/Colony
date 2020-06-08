@@ -8,7 +8,7 @@
 
 import SmartAILibrary
 import SpriteKit
-
+    
 class DiplomaticDialog: Dialog {
     
     let humanPlayer: AbstractPlayer?
@@ -16,7 +16,7 @@ class DiplomaticDialog: Dialog {
     
     // MARK: Constructors
     
-    init(for humanPlayer: AbstractPlayer?, and otherPlayer: AbstractPlayer?) {
+    init(for humanPlayer: AbstractPlayer?, and otherPlayer: AbstractPlayer?, data: DiplomaticData?) {
         
         self.humanPlayer = humanPlayer
         self.otherPlayer = otherPlayer
@@ -36,6 +36,10 @@ class DiplomaticDialog: Dialog {
             fatalError("cant get humanPlayer")
         }
         
+        guard let data = data else {
+            fatalError("cant get data")
+        }
+        
         // style items
         /*if let button1 = self.button(with: "reponse_positive_button") {
             button1.size = CGSize(width: 300, height: 80)
@@ -47,8 +51,9 @@ class DiplomaticDialog: Dialog {
         // fill items
         self.set(imageNamed: otherPlayer.leader.iconTexture(), identifier: "player_image")
         self.set(text: otherPlayer.leader.name(), identifier: "player_name")
-        self.set(text: otherPlayer.leader.firstGreeting(of: humanPlayer.leader), identifier: "player_message")
         
+        self.set(text: data.message, identifier: "player_message")
+
         self.set(text: "It is an honor to meet you.", identifier: "reponse_positive_button")
         self.set(text: "Well met stranger, but I'm afraid we are too busy to stay and chat.", identifier: "reponse_busy_button")
     }

@@ -688,6 +688,30 @@ public class MilitaryAI: Codable {
 
         return self.navalDefenseStateVal
     }
+    
+    /// How strong is the best unit we can train for this domain?
+    func powerOfStrongestBuildableUnit(in domain: UnitDomainType) -> Int {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        var rtnValue = 0
+        for unitType in UnitType.all {
+
+            if unitType.domain() == domain {
+                
+                let thisPower = unitType.power()        // Test the power first, it is much less costly than testing canTrain
+                if thisPower > rtnValue {
+                    if player.canTrain(unitType: unitType, continueFlag: false, testVisible: false, ignoreCost: true, ignoreUniqueUnitStatus: false) {
+                        rtnValue = thisPower
+                    }
+                }
+            }
+        }
+
+        return rtnValue
+    }
 
     func barbarianData() -> BarbarianData {
 

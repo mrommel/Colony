@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PlayerProximityType: Int, Comparable, Codable {
+public enum PlayerProximityType: Int, Comparable, Codable {
     
     case none
     
@@ -17,7 +17,7 @@ enum PlayerProximityType: Int, Comparable, Codable {
     case far
     case distant
     
-    static func < (lhs: PlayerProximityType, rhs: PlayerProximityType) -> Bool {
+    public static func < (lhs: PlayerProximityType, rhs: PlayerProximityType) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }
 }

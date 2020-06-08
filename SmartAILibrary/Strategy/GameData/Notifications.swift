@@ -8,6 +8,45 @@
 
 import Foundation
 
+public class DiplomaticData: Codable {
+    
+    enum CodingKeys: CodingKey {
+
+        case state
+        case message
+        case emotion
+    }
+    
+    public let state: DiplomaticRequestState
+    public let message: String
+    public let emotion: LeaderEmotionType
+    
+    public init(state: DiplomaticRequestState, message: String, emotion: LeaderEmotionType) {
+        
+        self.state = state
+        self.message = message
+        self.emotion = emotion
+    }
+    
+    required public init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.state = try container.decode(DiplomaticRequestState.self, forKey: .state)
+        self.message = try container.decode(String.self, forKey: .message)
+        self.emotion = try container.decode(LeaderEmotionType.self, forKey: .emotion)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.state, forKey: .state)
+        try container.encode(self.message, forKey: .message)
+        try container.encode(self.emotion, forKey: .emotion)
+    }
+}
+
 public class NotificationItem: Codable, Equatable {
     
     enum CodingKeys: CodingKey {
@@ -18,6 +57,8 @@ public class NotificationItem: Codable, Equatable {
         case message
         case summary
         case otherPlayer
+        
+        case diplomaticData
         
         case turn
         case dismissed
@@ -30,6 +71,9 @@ public class NotificationItem: Codable, Equatable {
     public let message: String
     public let summary: String
     public let otherPlayer: LeaderType
+    
+    // diplomatic states / messages
+    public var diplomaticData: DiplomaticData?
     
     let turn: Int // which turn this event was created on
     var dismissed: Bool
@@ -60,6 +104,8 @@ public class NotificationItem: Codable, Equatable {
         self.location = try container.decode(HexPoint.self, forKey: .location)
         self.otherPlayer = try container.decode(LeaderType.self, forKey: .otherPlayer)
         
+        self.diplomaticData = try container.decodeIfPresent(DiplomaticData.self, forKey: .diplomaticData)
+        
         self.dismissed = try container.decode(Bool.self, forKey: .dismissed)
         self.needsBroadcasting = try container.decode(Bool.self, forKey: .needsBroadcasting)
         self.turn = try container.decode(Int.self, forKey: .turn)
@@ -76,6 +122,8 @@ public class NotificationItem: Codable, Equatable {
         try container.encode(self.summary, forKey: .summary)
         try container.encode(self.otherPlayer, forKey: .otherPlayer)
         
+        try container.encodeIfPresent(self.diplomaticData, forKey: .diplomaticData)
+        
         try container.encode(self.turn, forKey: .turn)
         try container.encode(self.dismissed, forKey: .dismissed)
         try container.encode(self.needsBroadcasting, forKey: .needsBroadcasting)
@@ -86,17 +134,17 @@ public class NotificationItem: Codable, Equatable {
         switch self.type {
             
         case .techNeeded:
-            gameModel?.userInterface?.showScreen(screenType: .techs, city: nil, other: nil)
+            gameModel?.userInterface?.showScreen(screenType: .techs, city: nil, other: nil, data: nil)
             
         case .civicNeeded:
-            gameModel?.userInterface?.showScreen(screenType: .civics, city: nil, other: nil)
+            gameModel?.userInterface?.showScreen(screenType: .civics, city: nil, other: nil, data: nil)
 
         case .productionNeeded, .starving, .cityGrowth:
             guard let city = gameModel?.city(at: self.location) else {
                 fatalError("cant get city")
             }
             
-            gameModel?.userInterface?.showScreen(screenType: .city, city: city, other: nil)
+            gameModel?.userInterface?.showScreen(screenType: .city, city: city, other: nil, data: nil)
             
             // FIXME: give hint on screen if city grown or starving
             
@@ -108,11 +156,12 @@ public class NotificationItem: Codable, Equatable {
             gameModel?.userInterface?.focus(on: self.location)
             
         case .diplomaticDeclaration:
+            
             guard let otherPlayer = gameModel?.player(for: self.otherPlayer) else {
                 fatalError("cant get player")
             }
             
-            gameModel?.userInterface?.showScreen(screenType: .diplomatic, city: nil, other: otherPlayer)
+            gameModel?.userInterface?.showScreen(screenType: .diplomatic, city: nil, other: otherPlayer, data: self.diplomaticData)
             self.dismiss(in: gameModel)
             
         default:
@@ -121,7 +170,8 @@ public class NotificationItem: Codable, Equatable {
     }
     
     public func dismiss(in gameModel: GameModel?) {
-        print("dismiss: \(self.type)")
+        
+        // print("dismiss: \(self.type)")
         self.dismissed = true
         gameModel?.userInterface?.remove(notification: self)
     }
@@ -187,16 +237,22 @@ public class NotificationItem: Codable, Equatable {
         if lhs.type == rhs.type {
             
             if lhs.type == .techNeeded {
+                
+                // highlander, only one notification of this type
                 return true
             }
             
             if lhs.type == .civicNeeded {
+                
+                // highlander, only one notification of this type
                 return true
             }
             
             if lhs.type == .productionNeeded {
                 
                 if lhs.location == rhs.location {
+                    
+                    // there can be multiple notifications - one per city == location
                     return true
                 }
             }
@@ -269,7 +325,7 @@ public class Notifications: Codable {
         return self.notificationsArray
     }
     
-    func add(type: NotificationType, for player: AbstractPlayer?, message: String, summary: String, at location: HexPoint = HexPoint.zero, other otherPlayer: AbstractPlayer? = nil) {
+    func addNotification(of type: NotificationType, for player: AbstractPlayer?, message: String, summary: String, at location: HexPoint = HexPoint.zero, other otherPlayer: AbstractPlayer? = nil) {
         
         guard let player = self.player else {
             fatalError("cant get player")
@@ -286,6 +342,32 @@ public class Notifications: Codable {
         }
         
         let notification = NotificationItem(type: type, for: player.leader, message: message, summary: summary, at: location, other: otherLeader)
+        
+        if !self.notificationsArray.contains(where: { $0 == notification }) {
+        
+            self.notificationsArray.append(notification)
+        }
+    }
+    
+    func addDiplomaticNotification(for player: AbstractPlayer?, other otherPlayer: AbstractPlayer?, state: DiplomaticRequestState, message: String, emotion: LeaderEmotionType) {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if !player.isHuman() {
+            // no notifications for ai player
+            return
+        }
+        
+        var otherLeader: LeaderType = .none
+        if let otherPlayer = otherPlayer {
+            otherLeader = otherPlayer.leader
+        }
+        
+        let notification = NotificationItem(type: .diplomaticDeclaration, for: player.leader, message: "", summary: "", at: HexPoint.zero, other: otherLeader)
+        
+        notification.diplomaticData = DiplomaticData(state: state, message: message, emotion: emotion)
         
         if !self.notificationsArray.contains(where: { $0 == notification }) {
         

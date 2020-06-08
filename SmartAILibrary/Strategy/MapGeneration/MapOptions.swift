@@ -91,7 +91,7 @@ public class MapOptions {
         case .huge:
             return 10
         default:
-            return 4
+            return 2
         }
     }
 }

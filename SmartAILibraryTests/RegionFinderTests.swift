@@ -29,7 +29,7 @@ class RegionFinderTests: XCTestCase {
         
         // THEN
         XCTAssertEqual(regions.count, 2)
-        XCTAssertEqual(regions[0].points.count, 2080)
-        XCTAssertEqual(regions[1].points.count, 2080)
+        XCTAssertEqual(regions[0].points.count, 1612)
+        XCTAssertEqual(regions[1].points.count, 1612)
     }
 }

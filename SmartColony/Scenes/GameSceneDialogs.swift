@@ -128,7 +128,7 @@ extension GameScene {
         self.cameraNode.add(dialog: interimRankingDialog)
     }
 
-    func showDiplomaticDialog(with otherPlayer: AbstractPlayer?) {
+    func showDiplomaticDialog(with otherPlayer: AbstractPlayer?, data: DiplomaticData?) {
 
         guard let gameModel = self.viewModel?.game else {
             fatalError("cant get game")
@@ -138,12 +138,24 @@ extension GameScene {
             fatalError("cant get human")
         }
 
+        guard let data = data else {
+            fatalError("cant get data")
+        }
+
         self.currentScreenType = .diplomatic
 
-        let diplomaticDialog = DiplomaticDialog(for: humanPlayer, and: otherPlayer)
+        let diplomaticDialog = DiplomaticDialog(for: humanPlayer, and: otherPlayer, data: data)
         diplomaticDialog.zPosition = 250
 
         diplomaticDialog.addOkayAction(handler: {
+            diplomaticDialog.close()
+            self.currentScreenType = .none
+        })
+
+        diplomaticDialog.addResultHandler(handler: { result in
+
+            print("result: \(result)")
+
             diplomaticDialog.close()
             self.currentScreenType = .none
         })
@@ -187,12 +199,12 @@ extension GameScene {
             gameMenuDialog.close()
             self.currentScreenType = .none
         })
-        
+
         gameMenuDialog.addResultHandler(handler: { result in
-            
+
             gameMenuDialog.close()
             self.currentScreenType = .none
-            
+
             if result == .gameQuickSave {
                 self.handleGameQuickSave()
             } else if result == .gameSave {

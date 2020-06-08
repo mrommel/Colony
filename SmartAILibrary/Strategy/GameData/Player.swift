@@ -40,6 +40,7 @@ public protocol AbstractPlayer: class, Codable {
     var grandStrategyAI: GrandStrategyAI? { get }
     var diplomacyAI: DiplomaticAI? { get }
     var diplomacyRequests: DiplomacyRequests? { get }
+    var diplomacyDealAI: DiplomaticDealAI? { get }
     var economicAI: EconomicAI? { get }
     var militaryAI: MilitaryAI? { get }
     var tacticalAI: TacticalAI? { get }
@@ -68,6 +69,11 @@ public protocol AbstractPlayer: class, Codable {
     func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func doDefensivePact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func isDefensivePactActive(with otherPlayer: AbstractPlayer?) -> Bool
+    
+    func isOpenBordersTradingAllowed() -> Bool
+    func hasEmbassy(with otherPlayer: AbstractPlayer?) -> Bool
+    func isAllowsOpenBorders(with otherPlayer: AbstractPlayer?) -> Bool
+    func isAllowEmbassyTradingAllowed() -> Bool
 
     func valueOfPersonalityFlavor(of flavor: FlavorType) -> Int
     func valueOfStrategyAndPersonalityFlavor(of flavor: FlavorType) -> Int
@@ -94,6 +100,7 @@ public protocol AbstractPlayer: class, Codable {
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool
     func atWarCount() -> Int
     func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
+    func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType
     
     // notification
     func updateNotifications(in gameModel: GameModel?)
@@ -189,6 +196,7 @@ public class Player: AbstractPlayer {
         case grandStrategyAI
         case diplomacyAI
         case diplomacyRequests
+        case diplomacyDealAI
         case economicAI
         case militaryAI
         case tacticalAI
@@ -214,6 +222,7 @@ public class Player: AbstractPlayer {
     public var grandStrategyAI: GrandStrategyAI?
     public var diplomacyAI: DiplomaticAI?
     public var diplomacyRequests: DiplomacyRequests?
+    public var diplomacyDealAI: DiplomaticDealAI?
     public var economicAI: EconomicAI?
     public var militaryAI: MilitaryAI?
     public var tacticalAI: TacticalAI?
@@ -291,6 +300,7 @@ public class Player: AbstractPlayer {
         self.grandStrategyAI = try container.decode(GrandStrategyAI.self, forKey: .grandStrategyAI)
         self.diplomacyAI = try container.decode(DiplomaticAI.self, forKey: .diplomacyAI)
         self.diplomacyRequests = try container.decode(DiplomacyRequests.self, forKey: .diplomacyRequests)
+        self.diplomacyDealAI = try container.decode(DiplomaticDealAI.self, forKey: .diplomacyDealAI)
         self.economicAI = try container.decode(EconomicAI.self, forKey: .economicAI)
         self.militaryAI = try container.decode(MilitaryAI.self, forKey: .militaryAI)
         self.tacticalAI = try container.decode(TacticalAI.self, forKey: .tacticalAI)
@@ -325,6 +335,7 @@ public class Player: AbstractPlayer {
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
         self.diplomacyRequests?.player = self
+        self.diplomacyDealAI?.player = self
         self.economicAI?.player = self
         self.militaryAI?.player = self
         self.tacticalAI?.player = self
@@ -355,6 +366,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.grandStrategyAI, forKey: .grandStrategyAI)
         try container.encode(self.diplomacyAI, forKey: .diplomacyAI)
         try container.encode(self.diplomacyRequests, forKey: .diplomacyRequests)
+        try container.encode(self.diplomacyDealAI, forKey: .diplomacyDealAI)
         try container.encode(self.economicAI, forKey: .economicAI)
         try container.encode(self.militaryAI, forKey: .militaryAI)
         try container.encode(self.tacticalAI, forKey: .tacticalAI)
@@ -387,6 +399,7 @@ public class Player: AbstractPlayer {
         self.grandStrategyAI = GrandStrategyAI(player: self)
         self.diplomacyAI = DiplomaticAI(player: self)
         self.diplomacyRequests = DiplomacyRequests(player: self)
+        self.diplomacyDealAI = DiplomaticDealAI(player: self)
         self.economicAI = EconomicAI(player: self)
         self.militaryAI = MilitaryAI(player: self)
         self.tacticalAI = TacticalAI(player: self)
@@ -533,6 +546,42 @@ public class Player: AbstractPlayer {
 
         return false
     }
+    
+    public func isOpenBordersTradingAllowed() -> Bool {
+        
+        guard let civics = self.civics else {
+            fatalError("cant get civics")
+        }
+        
+        return civics.has(civic: .codeOfLaws)
+    }
+    
+    public func hasEmbassy(with otherPlayer: AbstractPlayer?) -> Bool {
+        
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+        
+        return diplomacyAI.hasEmbassy(with: otherPlayer)
+    }
+    
+    public func isAllowsOpenBorders(with otherPlayer: AbstractPlayer?) -> Bool {
+        
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+        
+        return diplomacyAI.isAllowsOpenBorders(with: otherPlayer)
+    }
+    
+    public func isAllowEmbassyTradingAllowed() -> Bool {
+        
+        guard let techs = self.techs else {
+            fatalError("cant get techs")
+        }
+        
+        return techs.has(tech: .writing)
+    }
 
     /// is player at war with a specific player/leader?
     func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool {
@@ -587,10 +636,22 @@ public class Player: AbstractPlayer {
         return self.blockingNotificationValue
     }
     
+    // MARK: proximity functions
+    
     public func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
         
         self.diplomacyAI?.updateProximity(to: otherPlayer, in: gameModel)
     }
+    
+    public func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType {
+
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+        
+        return diplomacyAI.proximity(to: otherPlayer)
+    }
+    
 
     public func hasMet(with otherPlayer: AbstractPlayer?) -> Bool {
 
@@ -651,26 +712,7 @@ public class Player: AbstractPlayer {
         // Barbarians get all Techs that 3/4 of alive players get
         if isBarbarian() {
             // self.doBarbarianTech()
-        } else {
-            // War counter
-            /*TeamTypes eTeam;
-            int iTeamLoop;
-            for (iTeamLoop = 0; iTeamLoop < MAX_CIV_TEAMS; iTeamLoop++)
-            {
-                eTeam = (TeamTypes) iTeamLoop;
-
-                if (!GET_TEAM(eTeam).isBarbarian())
-                {
-                    if (isAtWar(eTeam))
-                        ChangeNumTurnsAtWar(eTeam, 1);
-                    else
-                        SetNumTurnsAtWar(eTeam, 0);
-                }
-
-                if (GetNumTurnsLockedIntoWar(eTeam) > 0)
-                    ChangeNumTurnsLockedIntoWar(eTeam, -1);
-            }*/
-        }
+        } 
 
         /*for (iI = 0; iI < GC.getNumTechInfos(); iI++)  {
             GetTeamTechs()->SetNoTradeTech(((TechTypes)iI), false);
@@ -757,19 +799,20 @@ public class Player: AbstractPlayer {
             //self.respositionInvalidUnits()
         }
 
-        /*if (GetNotifications())
-        {
-            GetNotifications()->EndOfTurnCleanup();
-        }*/
+        if let notifications = self.notificationsValue {
+            notifications.cleanUp()
+        }
 
-        /*if (GetDiplomacyRequests())
-        {
-            GetDiplomacyRequests()->EndTurn();
-        }*/
+        if let diplomacyRequests = self.diplomacyRequests {
+            diplomacyRequests.endTurn()
+        }
     }
 
     internal func doTurn(in gameModel: GameModel?) {
 
+        // inform ui about new notifications
+        self.notificationsValue?.update(in: gameModel)
+        
         var hasActiveDiploRequest = false
         if self.isAlive() {
 
@@ -1589,7 +1632,7 @@ public class Player: AbstractPlayer {
             if self.isActive() {
                 let isOrAre = self.leader.civilization().isPlural() ? "are" : "is"
                 let message = "\(self.leader.civilization()) \(isOrAre) ready for a new construction project."
-                self.notifications()?.add(type: .productionNeeded, for: self, message: message, summary: message, at: location)
+                self.notifications()?.addNotification(of: .productionNeeded, for: self, message: message, summary: message, at: location)
             }
             
             city.doFoundMessage()
@@ -1598,7 +1641,7 @@ public class Player: AbstractPlayer {
             if techs.needToChooseTech() && self.science(in: gameModel) > 0.0 {
                 
                 //if self.isActive() {
-                    self.notifications()?.add(type: .techNeeded, for: self, message: "You may select a new research project.", summary: "Choose Research", at: HexPoint.zero)
+                    self.notifications()?.addNotification(of: .techNeeded, for: self, message: "You may select a new research project.", summary: "Choose Research", at: HexPoint.zero)
                 //}
             }
             
@@ -1606,7 +1649,7 @@ public class Player: AbstractPlayer {
             if civics.needToChooseCivic() && self.culture(in: gameModel) > 0.0 {
                 
                 //if self.isActive() {
-                    self.notifications()?.add(type: .civicNeeded, for: self, message: "You may select a new civic project.", summary: "Choose Civic", at: HexPoint.zero)
+                    self.notifications()?.addNotification(of: .civicNeeded, for: self, message: "You may select a new civic project.", summary: "Choose Civic", at: HexPoint.zero)
                 //}
             }
             
@@ -3449,6 +3492,149 @@ public class Player: AbstractPlayer {
                 CancelActivePlayerEndTurn();
             }
         }*/
+    }
+    
+    //    --------------------------------------------------------------------------------
+    func canTrain(unitType: UnitType, continueFlag: Bool, testVisible: Bool, ignoreCost: Bool, ignoreUniqueUnitStatus: Bool /*, CvString* toolTipSink*/) -> Bool {
+
+        guard let civics = self.civics else {
+            fatalError("cant get civics")
+        }
+        
+        guard let techs = self.techs else {
+            fatalError("cant get techs")
+        }
+        
+        /*if (GetPlayerTraits()->NoTrain(eUnitClass)) {
+            return false;
+        }*/
+
+        // Should we check whether this Unit has been blocked out by the civ XML?
+        if !ignoreUniqueUnitStatus {
+            /*UnitTypes eThisPlayersUnitType = (UnitTypes) getCivilizationInfo().getCivilizationUnits(eUnitClass);
+
+            // If the player isn't allowed to train this Unit (via XML) then return false
+            if(eThisPlayersUnitType != eUnit)
+            {
+                return false;
+            }*/
+        }
+
+        if !ignoreCost {
+            if unitType.productionCost() == -1 {
+                return false
+            }
+        }
+        
+        //Policy Requirement
+        if let civic = unitType.requiredCivic() {
+            if !civics.has(civic: civic) {
+                return false
+            }
+        }
+
+        if !continueFlag {
+            if !testVisible {
+                // Builder Limit
+                if unitType.workRate() > 0 && unitType.domain() == .land {
+                    /*if(GetMaxNumBuilders() > -1 && GetNumBuilders() >= GetMaxNumBuilders())
+                    {
+                        return false;
+                    }*/
+                }
+            }
+        }
+
+        // Tech requirements
+        if let tech = unitType.requiredTech() {
+            if !techs.has(tech: tech) {
+                return false
+            }
+        }
+
+        // Obsolete Tech
+        if let obsoleteTech = unitType.obsoleteTech() {
+            if techs.has(tech: obsoleteTech) {
+                return false
+            }
+        }
+
+        // Spaceship part we already have?
+        /*ProjectTypes eProject = (ProjectTypes) pUnitInfo.GetSpaceshipProject();
+        if(eProject != NO_PROJECT)
+        {
+            if(GET_TEAM(getTeam()).isProjectMaxedOut(eProject))
+                return false;
+
+            int iUnitAndProjectCount = GET_TEAM(getTeam()).getProjectCount(eProject) + getUnitClassCount(eUnitClass) + GET_TEAM(getTeam()).getUnitClassMaking(eUnitClass) + ((bContinue) ? -1 : 0);
+            if(iUnitAndProjectCount >= pkUnitClassInfo->getMaxPlayerInstances())
+            {
+                return false;
+            }
+        }*/
+
+        if !testVisible {
+            // Settlers
+            if unitType.canFound() {
+                /*if(IsEmpireVeryUnhappy() && GC.getVERY_UNHAPPY_CANT_TRAIN_SETTLERS() == 1)
+                {
+                    GC.getGame().BuildCannotPerformActionHelpText(toolTipSink, "TXT_KEY_NO_ACTION_VERY_UNHAPPY_SETTLERS");
+                    if(toolTipSink == NULL)
+                        return false;
+                }*/
+            }
+
+            // Project required?
+            /*ProjectTypes ePrereqProject = (ProjectTypes) pUnitInfo.GetProjectPrereq();
+            if(ePrereqProject != NO_PROJECT)
+            {
+                CvProjectEntry* pkProjectInfo = GC.getProjectInfo(ePrereqProject);
+                if(pkProjectInfo)
+                {
+                    if(GET_TEAM(getTeam()).getProjectCount(ePrereqProject) == 0)
+                    {
+                        GC.getGame().BuildCannotPerformActionHelpText(toolTipSink, "TXT_KEY_NO_ACTION_UNIT_PROJECT_REQUIRED", pkProjectInfo->GetDescription());
+                        if(toolTipSink == NULL)
+                            return false;
+                    }
+                }
+            }*/
+
+            // Resource Requirements
+            if let resource = unitType.requiredResource() {
+                
+                if self.numAvailable(resource: resource) <= 0 {
+                    return false
+                }
+            }
+
+            /*if (pUnitInfo.IsTrade())
+            {
+                if (GetTrade()->GetNumTradeRoutesRemaining(bContinue) <= 0)
+                {
+                    GC.getGame().BuildCannotPerformActionHelpText(toolTipSink, "TXT_KEY_TRADE_UNIT_CONSTRUCTION_NO_EXTRA_SLOTS");
+                    if (toolTipSink == NULL)
+                        return false;
+                }
+
+                DomainTypes eDomain = (DomainTypes)pUnitInfo.GetDomainType();
+                if (!GetTrade()->CanCreateTradeRoute(eDomain))
+                {
+                    if (eDomain == DOMAIN_LAND)
+                    {
+                        GC.getGame().BuildCannotPerformActionHelpText(toolTipSink, "TXT_KEY_TRADE_UNIT_CONSTRUCTION_NONE_OF_TYPE_LAND");
+                    }
+                    else if (eDomain == DOMAIN_SEA)
+                    {
+                        GC.getGame().BuildCannotPerformActionHelpText(toolTipSink, "TXT_KEY_TRADE_UNIT_CONSTRUCTION_NONE_OF_TYPE_SEA");
+                    }
+                    if (toolTipSink == NULL)
+                        return false;
+                }
+            }*/
+        }
+
+        return true
     }
 }
 

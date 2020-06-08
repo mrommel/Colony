@@ -1025,7 +1025,7 @@ public class Unit: AbstractUnit {
 
                 if pathPlot == nil || !self.canMove(into: target, in: gameModel) {
                     // add route interrupted
-                    gameModel.humanPlayer()?.notifications()?.add(type: .generic, for: self.player, message: "Your worker that was ordered to build a route to a destination is blocked and cancelled his order.", summary: "Route to cancelled!", at: self.location)
+                    gameModel.humanPlayer()?.notifications()?.addNotification(of: .generic, for: self.player, message: "Your worker that was ordered to build a route to a destination is blocked and cancelled his order.", summary: "Route to cancelled!", at: self.location)
 
                     return 0
                 }
@@ -1554,7 +1554,7 @@ public class Unit: AbstractUnit {
             if diplomacyAI.isAtWar(with: plotOwner) {
 
                 if plotOwner.isEqual(to: gameModel.humanPlayer()) {
-                    self.player?.notifications()?.add(type: .enemyInTerritory, for: self.player, message: "An enemy unit has been spotted in our territory!", summary: "An Enemy is Near!", at: newLocation)
+                    self.player?.notifications()?.addNotification(of: .enemyInTerritory, for: self.player, message: "An enemy unit has been spotted in our territory!", summary: "An Enemy is Near!", at: newLocation)
                 }
             }
         }
@@ -1990,7 +1990,7 @@ public class Unit: AbstractUnit {
 
             if player.isHuman() {
                 //gameModel?.add(message: PromotionGainedMessage(unit: self))
-                self.player?.notifications()?.add(type: .unitPromotion, for: self.player, message: "\(self.name()) has gained a promotion.", summary: "promotion", at: self.location)
+                self.player?.notifications()?.addNotification(of: .unitPromotion, for: self.player, message: "\(self.name()) has gained a promotion.", summary: "promotion", at: self.location)
             } else {
                 let promotion = self.choosePromotion()
 
@@ -2103,10 +2103,6 @@ public class Unit: AbstractUnit {
         
         guard let techs = player.techs else {
             fatalError("cant get techs")
-        }
-        
-        guard let tile = gameModel?.tile(at: self.location) else {
-            fatalError("cant get tile")
         }
         
         switch command {
@@ -3185,7 +3181,7 @@ extension Unit {
             if !self.isBusy() && !self.isDelayedDeath() {
 
                 // Builders which are being escorted shouldn't wake up every turn... this is annoying!
-                var escortedBuilder = false
+                let escortedBuilder = false
                 if missionNode.type == .build {
 
                     /*if (hUnit->plot()->getNumDefenders(hUnit->getOwner()) > 0) {
@@ -3273,14 +3269,6 @@ extension Unit {
     }
 
     public func commands(in gameModel: GameModel?) -> [Command] {
-
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
-
-        guard let techs = self.player?.techs else {
-            fatalError("cant get techs")
-        }
 
         var commandArray: [Command] = []
 
