@@ -150,6 +150,7 @@
 		C9DC1C91248671E300235743 /* GameLoadButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC1C90248671E300235743 /* GameLoadButtonNode.swift */; };
 		C9DC1C932486923600235743 /* ConfirmationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC1C922486923600235743 /* ConfirmationDialog.swift */; };
 		C9DC1C95248692E500235743 /* ConfirmationDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9DC1C94248692E500235743 /* ConfirmationDialog.xml */; };
+		C9E74CB5248E862C003EF256 /* SKLabelNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CB4248E862C003EF256 /* SKLabelNodeExtension.swift */; };
 		C9EB9F562451A95500F13B02 /* LeftHeaderBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F552451A95500F13B02 /* LeftHeaderBarNode.swift */; };
 		C9EB9F582451B8AE00F13B02 /* BaseProgressNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F572451B8AE00F13B02 /* BaseProgressNode.swift */; };
 		C9EB9F5A2452C4E400F13B02 /* CityChooseProductionDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F592452C4E400F13B02 /* CityChooseProductionDialog.swift */; };
@@ -369,6 +370,7 @@
 		C9DC1C90248671E300235743 /* GameLoadButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLoadButtonNode.swift; sourceTree = "<group>"; };
 		C9DC1C922486923600235743 /* ConfirmationDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationDialog.swift; sourceTree = "<group>"; };
 		C9DC1C94248692E500235743 /* ConfirmationDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ConfirmationDialog.xml; sourceTree = "<group>"; };
+		C9E74CB4248E862C003EF256 /* SKLabelNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKLabelNodeExtension.swift; sourceTree = "<group>"; };
 		C9EB9F552451A95500F13B02 /* LeftHeaderBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftHeaderBarNode.swift; sourceTree = "<group>"; };
 		C9EB9F572451B8AE00F13B02 /* BaseProgressNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseProgressNode.swift; sourceTree = "<group>"; };
 		C9EB9F592452C4E400F13B02 /* CityChooseProductionDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityChooseProductionDialog.swift; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 				C9EB9F7324561D8300F13B02 /* DistrictTypeExtension.swift */,
 				C948685324669D2700495988 /* CivilizationTypeExtension.swift */,
 				C98B3DC3246C392E00AF3AE4 /* LeaderTypeExtension.swift */,
+				C9E74CB4248E862C003EF256 /* SKLabelNodeExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1070,6 +1073,7 @@
 				C9B1D25F2435166700033791 /* MessageBoxButtonNode.swift in Sources */,
 				C948685224657C3F00495988 /* CitizenMapNode.swift in Sources */,
 				C95B3E0B2438E79B002F5A86 /* BoardLayer.swift in Sources */,
+				C9E74CB5248E862C003EF256 /* SKLabelNodeExtension.swift in Sources */,
 				C97CD3A5243A586500FABCC0 /* FeatureTypeExtension.swift in Sources */,
 				C9F91B4F244EE87E0081EDC8 /* SectionHeaderButton.swift in Sources */,
 				C9F91B4D244ECB230081EDC8 /* FrameNode.swift in Sources */,

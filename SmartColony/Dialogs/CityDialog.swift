@@ -173,12 +173,28 @@ class CityDialog: Dialog {
                     fatalError("cant get districtType")
                 }
 
-                self.currentProductionNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: false, size: CGSize(width: 200, height: 42), buttonAction: { districtType in
+                self.currentProductionNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: false, size: CGSize(width: 300, height: 42), buttonAction: { districtType in
                     //print("\(districtType)")
                     // cancel?
                 })
+                self.currentProductionNode?.show(progress: currentProduction.production)
                 currentProductionNode?.zPosition = 200
                 self.addChild(currentProductionNode!)
+                
+            } else if currentProduction.type == .unit {
+            
+                guard let unitType = currentProduction.unitType else {
+                    fatalError("cant get unitType")
+                }
+                
+                self.currentProductionNode = UnitBuildingItemDisplayNode(unitType: unitType, size: CGSize(width: 300, height: 42), buttonAction: { districtType in
+                    //print("\(districtType)")
+                    // cancel?
+                })
+                self.currentProductionNode?.show(progress: currentProduction.production)
+                currentProductionNode?.zPosition = 200
+                self.addChild(currentProductionNode!)
+                
             } else {
                 fatalError("not handled: \(currentProduction.type)")
             }
@@ -279,6 +295,9 @@ class CityDialog: Dialog {
 
             cityChooseProductionDialog.close()
             self.show()
+            
+            // update ui
+            cityChooseProductionDialog.gameModel?.userInterface?.update(city: self.city)
         })
 
         cityChooseProductionDialog.addBuildingTypeResultHandler(handler: { buildingType in
@@ -289,6 +308,9 @@ class CityDialog: Dialog {
 
             cityChooseProductionDialog.close()
             self.show()
+            
+            // update ui
+            cityChooseProductionDialog.gameModel?.userInterface?.update(city: self.city)
         })
 
         cityChooseProductionDialog.addUnitTypeResultHandler(handler: { unitType in
@@ -299,6 +321,9 @@ class CityDialog: Dialog {
 
             cityChooseProductionDialog.close()
             self.show()
+            
+            // update ui
+            cityChooseProductionDialog.gameModel?.userInterface?.update(city: self.city)
         })
 
         cityChooseProductionDialog.addWonderTypeResultHandler(handler: { wonderType in
@@ -309,6 +334,9 @@ class CityDialog: Dialog {
 
             cityChooseProductionDialog.close()
             self.show()
+            
+            // update ui
+            cityChooseProductionDialog.gameModel?.userInterface?.update(city: self.city)
         })
 
         if let baseScene = self.scene as? BaseScene {
