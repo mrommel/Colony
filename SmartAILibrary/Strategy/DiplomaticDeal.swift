@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DiplomaticDealItemType: Int, Codable {
+public enum DiplomaticDealItemType: Int, Codable {
 
     case gold // TRADE_ITEM_GOLD
     case goldPerTurn // TRADE_ITEM_GOLD_PER_TURN
@@ -124,7 +124,7 @@ class DiplomaticGoldPerTurnDealItem: DiplomaticDealItem {
     }
 }
 
-class DiplomaticDeal: Codable {
+public class DiplomaticDeal: Codable {
 
     enum CodingKeys: CodingKey {
 
@@ -145,7 +145,7 @@ class DiplomaticDeal: Codable {
 
     // MARK: constructors
 
-    init(from fromLeader: LeaderType, to toLeader: LeaderType) {
+    public init(from fromLeader: LeaderType, to toLeader: LeaderType) {
 
         self.from = fromLeader
         self.to = toLeader
@@ -817,8 +817,7 @@ class DiplomaticDeal: Codable {
             if toPlayer.leader == fromPlayer.leader {
                 return false
             }
-        }
-        else if item == .openBorders {
+        } else if item == .openBorders {
             
             // Open Borders
             // Neither of us yet has the Tech for OP
@@ -831,7 +830,7 @@ class DiplomaticDeal: Codable {
                 return false
             }
             
-            var ignoreExistingOP = true
+            let ignoreExistingOP = true
             /*if renewDeal {
                 // count any that are in the renew deal
                 int iEndingTurn = -1;
@@ -938,17 +937,20 @@ class DiplomaticDeal: Codable {
         // Truce
         else if(eItem == TRADE_ITEM_TRUCE)
             return false;
-        // Peace Treaty
-        else if(eItem == TRADE_ITEM_PEACE_TREATY)
-        {
-            if(!pFromTeam->isAtWar(eToTeam))
-                return false;
+        */
+        else if item == .peaceTreaty {
+            
+            // Peace Treaty
+            if !fromPlayer.isAtWar(with: toPlayer) {
+                return false
+            }
 
-            if(!pToTeam->isAtWar(eFromTeam))
-                return false;
+            if !toPlayer.isAtWar(with: fromPlayer) {
+                return false
+            }
         }
         // Third Party Peace
-        else if(eItem == TRADE_ITEM_THIRD_PARTY_PEACE)
+        /*else if(eItem == TRADE_ITEM_THIRD_PARTY_PEACE)
         {
             TeamTypes eThirdTeam = (TeamTypes) iData1;
 
@@ -1080,6 +1082,15 @@ class DiplomaticDeal: Codable {
             self.tradeItems.append(DiplomaticDealItem(type: .openBorders, direction: .give, amount: 0, duration: duration))
         } else {
             self.tradeItems.append(DiplomaticDealItem(type: .openBorders, direction: .receive, amount: 0, duration: duration))
+        }
+    }
+    
+    func addAllowEmbassy(with player: AbstractPlayer?) {
+        
+        if self.from == player?.leader {
+            self.tradeItems.append(DiplomaticDealItem(type: .allowEmbassy, direction: .give, amount: 0, duration: 0))
+        } else {
+            self.tradeItems.append(DiplomaticDealItem(type: .allowEmbassy, direction: .receive, amount: 0, duration: 0))
         }
     }
     

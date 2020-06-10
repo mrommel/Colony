@@ -128,7 +128,7 @@ extension GameScene {
         self.cameraNode.add(dialog: interimRankingDialog)
     }
 
-    func showDiplomaticDialog(with otherPlayer: AbstractPlayer?, data: DiplomaticData?) {
+    func showDiplomaticDialog(with otherPlayer: AbstractPlayer?, data: DiplomaticData?, deal: DiplomaticDeal?) {
 
         guard let gameModel = self.viewModel?.game else {
             fatalError("cant get game")
@@ -143,19 +143,18 @@ extension GameScene {
         }
 
         self.currentScreenType = .diplomatic
+        
+        let viewModel = DiplomaticDialogViewModel(for: humanPlayer, and: otherPlayer, state: data.state, message: data.message, emotion: data.emotion, in: self.viewModel?.game)
+        
+        if let deal = deal {
+            //viewModel.deal = deal
+            fatalError("not implemented")
+        }
 
-        let diplomaticDialog = DiplomaticDialog(for: humanPlayer, and: otherPlayer, data: data)
+        let diplomaticDialog = DiplomaticDialog(viewModel: viewModel)
         diplomaticDialog.zPosition = 250
 
         diplomaticDialog.addOkayAction(handler: {
-            diplomaticDialog.close()
-            self.currentScreenType = .none
-        })
-
-        diplomaticDialog.addResultHandler(handler: { result in
-
-            print("result: \(result)")
-
             diplomaticDialog.close()
             self.currentScreenType = .none
         })

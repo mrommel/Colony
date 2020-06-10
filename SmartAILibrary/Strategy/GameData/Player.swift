@@ -98,6 +98,7 @@ public protocol AbstractPlayer: class, Codable {
 
     // diplomatics
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool
+    func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool
     func atWarCount() -> Int
     func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType
@@ -157,6 +158,9 @@ public protocol AbstractPlayer: class, Codable {
     func countReadyUnits(in gameModel: GameModel?) -> Int
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
     func hasBusyUnitOrCity() -> Bool
+    
+    func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool
+    func discoverCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     
     func changeImprovementCount(of improvement: ImprovementType, change: Int)
     func changeTotalImprovementsBuilt(change: Int)
@@ -571,7 +575,7 @@ public class Player: AbstractPlayer {
             fatalError("cant get diplomacyAI")
         }
         
-        return diplomacyAI.isAllowsOpenBorders(with: otherPlayer)
+        return diplomacyAI.isOpenBorderAgreementActive(by: otherPlayer)
     }
     
     public func isAllowEmbassyTradingAllowed() -> Bool {
@@ -584,7 +588,7 @@ public class Player: AbstractPlayer {
     }
 
     /// is player at war with a specific player/leader?
-    func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool {
+    public func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool {
 
         return self.diplomacyAI?.approach(towards: otherPlayer) == .war
     }
@@ -800,7 +804,7 @@ public class Player: AbstractPlayer {
         }
 
         if let notifications = self.notificationsValue {
-            notifications.cleanUp()
+            notifications.cleanUp(in: gameModel)
         }
 
         if let diplomacyRequests = self.diplomacyRequests {
@@ -3635,6 +3639,51 @@ public class Player: AbstractPlayer {
         }
 
         return true
+    }
+    
+    public func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get otherPlayer")
+        }
+        
+        if let capital = gameModel.capital(of: otherPlayer) {
+            
+            guard let capitalTile = gameModel.tile(at: capital.location) else {
+                return false
+            }
+            
+            if capitalTile.isDiscovered(by: self) {
+                return true
+            }
+            
+            return false
+        }
+        
+        // nothing to discover
+        return false
+    }
+    
+    public func discoverCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get otherPlayer")
+        }
+        
+        if let capital = gameModel.capital(of: otherPlayer) {
+            
+            gameModel.sight(at: capital.location, sight: 3, for: self, in: gameModel)
+        } else {
+            fatalError("player has no capital - should not happen")
+        }
     }
 }
 

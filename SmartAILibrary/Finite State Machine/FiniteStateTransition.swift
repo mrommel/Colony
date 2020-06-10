@@ -8,20 +8,20 @@
 
 import Foundation
 
-typealias FiniteStateTrigger = () -> Bool
+public typealias FiniteStateTrigger = () -> Bool
 //typealias FiniteStateAction = () -> Void
 
-class FiniteStateTransition {
+public class FiniteStateTransition<E: RawRepresentable> where E.RawValue: Equatable {
     
     var trigger: FiniteStateTrigger?
-    var state: FiniteState
+    var state: FiniteState<E>
     
-    init(state: FiniteState, trigger: FiniteStateTrigger?) {
+    public init(state: FiniteState<E>, trigger: FiniteStateTrigger?) {
         self.state = state
         self.trigger = trigger
     }
     
-    func isTriggered() -> Bool {
+    public func isTriggered() -> Bool {
         
         if let trigger = self.trigger {
             return trigger()

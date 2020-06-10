@@ -41,13 +41,9 @@ class Dialog: NineGridTextureSprite {
                 let callback = { [weak self] in
                     switch item.result {
                     case .okay:
-                        if let handler = self?.okayHandler {
-                            handler()
-                        }
+                        self?.handleOkay()
                     case .cancel:
-                        if let handler = self?.cancelHandler {
-                            handler()
-                        }
+                        self?.handleCancel()
                     case .none:
                         fatalError("Button without action")
                     default:
@@ -185,6 +181,18 @@ class Dialog: NineGridTextureSprite {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func handleOkay() {
+        if let handler = self.okayHandler {
+            handler()
+        }
+    }
+    
+    func handleCancel() {
+        if let handler = self.cancelHandler {
+            handler()
+        }
     }
 
     func replaceTextFields(on view: SKView?) {

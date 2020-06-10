@@ -768,9 +768,9 @@ public class DiplomaticAI: Codable {
             } */
 
             //    OFFERS - all members but ePlayer passed by address
-            /*self.doLuxuryTrade(ePlayer, statement, pDeal);*/
-            //self.doEmbassyExchange(with: otherPlayer, statement: &statement, deal: &deal, in: gameModel)
-            //self.doEmbassyOffer(with: otherPlayer, statement: &statement, deal: &deal, in: gameModel)
+            //self.doLuxuryTrade(ePlayer, statement, pDeal);
+            self.doEmbassyExchange(with: otherPlayer, statement: &statement, deal: &deal, in: gameModel)
+            self.doEmbassyOffer(with: otherPlayer, statement: &statement, deal: &deal, in: gameModel)
             self.doOpenBordersExchange(with: otherPlayer, statement: &statement, deal: &deal, in: gameModel)
             self.doOpenBordersOffer(with: otherPlayer, statement: &statement, deal: &deal, in: gameModel)
             /*self.doResearchAgreementOffer(ePlayer, eStatement, pDeal);
@@ -834,8 +834,6 @@ public class DiplomaticAI: Codable {
         
         let otherLeader = otherPlayer.leader
         
-        // const char* szText;
-        // bool bShouldShowLeaderScene = GC.getGame().getActivePlayer() == ePlayer;
         let human = otherPlayer.isHuman()
         let shouldShowLeaderScene = human
 
@@ -1099,8 +1097,8 @@ public class DiplomaticAI: Codable {
                 if shouldShowLeaderScene {
                     
                     // Send message to human
-                    let szText = DiplomaticRequestMessage.coopWarRequest.diploStringForMessage(for: self.player, and: againstPlayer)
-                    self.player?.diplomacyRequests?.sendRequest(for: otherLeader, state: .discussCoopWar, message: szText, emotion: .positive, in: gameModel)
+                    //let szText = DiplomaticRequestMessage.coopWarRequest.diploStringForMessage(for: self.player, and: againstPlayer)
+                    self.player?.diplomacyRequests?.sendRequest(for: otherLeader, state: .discussCoopWar, message: .coopWarRequest, emotion: .positive, in: gameModel)
                     
                 } else if !human {
                     
@@ -1140,9 +1138,9 @@ public class DiplomaticAI: Codable {
                 
                 // Send message to human
                 if shouldShowLeaderScene {
-                    let szText = DiplomaticRequestMessage.coopWarTime.diploStringForMessage(for: self.player, and: againstPlayer)
+                    //let szText = DiplomaticRequestMessage.coopWarTime.diploStringForMessage(for: self.player, and: againstPlayer)
 
-                    self.player?.diplomacyRequests?.sendRequest(for: otherLeader, state: .discussCoopWarTime, message: szText, emotion: .positive, in: gameModel)
+                    self.player?.diplomacyRequests?.sendRequest(for: otherLeader, state: .discussCoopWarTime, message: .coopWarTime, emotion: .positive, in: gameModel)
                     
                     //self.player?.diplomacyRequests?.sendRequest(for:GetPlayer()->GetID(), ePlayer, DIPLO_UI_STATE_DISCUSS_COOP_WAR_TIME, szText, LEADERHEAD_ANIM_POSITIVE, eAgainstPlayer);
                 }
@@ -1217,8 +1215,8 @@ public class DiplomaticAI: Codable {
          else*/ if statement == .embassyExchange /* DIPLO_STATEMENT_EMBASSY_EXCHANGE*/ {
             // Offer Embassy Exchange
             if shouldShowLeaderScene {
-                let szText = DiplomaticRequestMessage.embassyExchange.diploStringForMessage(for: nil)
-                self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: szText, emotion: .request, in: gameModel)
+                //let szText = DiplomaticRequestMessage.embassyExchange.diploStringForMessage(for: self.player)
+                self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .embassyExchange, emotion: .request, in: gameModel)
             } else if !human {
                 
                 fatalError("not handled")
@@ -1232,8 +1230,8 @@ public class DiplomaticAI: Codable {
             
             // Offer Embassy
             if shouldShowLeaderScene {
-                let szText = DiplomaticRequestMessage.embassyOffer.diploStringForMessage(for: nil)
-                self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: szText, emotion: .request, in: gameModel)
+                //let szText = DiplomaticRequestMessage.embassyOffer.diploStringForMessage(for: self.player)
+                self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .embassyOffer, emotion: .request, in: gameModel)
             } else if !human {
                 fatalError("not handled")
                 /*CvDeal kDeal = *pDeal;
@@ -1247,8 +1245,8 @@ public class DiplomaticAI: Codable {
             // Offer Open Borders Exchange
             if shouldShowLeaderScene {
                 // Active human
-                let szText = DiplomaticRequestMessage.openBordersExchange.diploStringForMessage(for: nil)
-                self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: szText, emotion: .request, in: gameModel)
+                //let szText = DiplomaticRequestMessage.openBordersExchange.diploStringForMessage(for: self.player)
+                self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .openBordersExchange, emotion: .request, in: gameModel)
             } else if !human {
                 fatalError("not handled")
                 // Offer to an AI player
@@ -1263,8 +1261,8 @@ public class DiplomaticAI: Codable {
             // Offer Open Borders
             if shouldShowLeaderScene {
                 // Active human
-                let szText = DiplomaticRequestMessage.openBordersOffer.diploStringForMessage(for: nil)
-                self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: szText, emotion: .request, in: gameModel)
+                //let szText = DiplomaticRequestMessage.openBordersOffer.diploStringForMessage(for: self.player)
+                self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .openBordersOffer, emotion: .request, in: gameModel)
                 
             } else if !human {
                 // Offer to an AI player
@@ -1897,8 +1895,8 @@ public class DiplomaticAI: Codable {
             if shouldShowLeaderScene {
                 
                 // Active human
-                let szText = DiplomaticRequestMessage.peaceOffer.diploStringForMessage(for: nil)
-                self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: szText, emotion: .positive, in: gameModel)
+                //let szText = DiplomaticRequestMessage.peaceOffer.diploStringForMessage(for: nil)
+                self.player?.diplomacyRequests?.sendDealRequest(for: otherLeader, deal: deal, state: .tradeAIMakesOffer, message: .peaceOffer, emotion: .positive, in: gameModel)
             } else if !human {
                 
                 // Offer to an AI player
@@ -2262,7 +2260,108 @@ public class DiplomaticAI: Codable {
         return 0
     }
     
-    // Possible Contact Statement - Open Borders Exchange
+    /// Possibile Contact Statement - Embassy Exchange
+    func doEmbassyExchange(with otherPlayer: AbstractPlayer?, statement: inout DiplomaticStatementType, deal: inout DiplomaticDeal, in gameModel: GameModel?) {
+    
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get player")
+        }
+        
+        guard let otherPlayerDiplomacyAI = otherPlayer.diplomacyAI else {
+            fatalError("cant get otherPlayerDiplomacyAI")
+        }
+    
+        if statement == .none {
+            
+            // Can both sides open an embassy
+            if deal.isPossibleToTradeItem(from: self.player, to: otherPlayer, item: .allowEmbassy, in: gameModel) && deal.isPossibleToTradeItem(from: otherPlayer, to: self.player, item: .allowEmbassy, in: gameModel) {
+                
+                // Does this guy want to exchange embassies?
+                if self.isEmbassyExchangeAcceptable(with: otherPlayer) {
+                    
+                    let tempStatement: DiplomaticStatementType = .embassyExchange
+                    let turnsBetweenStatements = 20
+
+                    if self.numTurnsSinceStatementSent(to: otherPlayer, statement: .embassyExchange) >= turnsBetweenStatements && self.numTurnsSinceStatementSent(to: otherPlayer, statement: .embassyOffer) >= 10 {
+                        
+                        var sendStatement = false
+
+                        
+                        if !otherPlayer.isHuman() {
+                            // AI
+                            if otherPlayerDiplomacyAI.isEmbassyExchangeAcceptable(with: self.player) {
+                                sendStatement = true
+                            }
+                        } else {
+                            // Human
+                            sendStatement = true
+                        }
+
+                        // 1 in 2 chance we don't actually send the message (don't want full predictability)
+                        if 50 < Int.random(number: 100) {
+                            sendStatement = false
+                        }
+
+                        if sendStatement {
+                            deal.addAllowEmbassy(with: self.player)
+                            deal.addAllowEmbassy(with: otherPlayer);
+
+                            statement = tempStatement
+                        } else {
+                            // Add this statement to the log so we don't evaluate it again until 20 turns has come back around
+                            self.sendStatement(to: otherPlayer, statement: tempStatement)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /// Possible Contact Statement - Embassy
+    func doEmbassyOffer(with otherPlayer: AbstractPlayer?, statement: inout DiplomaticStatementType, deal: inout DiplomaticDeal, in gameModel: GameModel?) {
+    
+        guard let diplomacyDealAI = self.player?.diplomacyDealAI else {
+            fatalError("cant get diplomacyDealAI")
+        }
+        
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get player")
+        }
+        
+        guard let otherPlayerDiplomacyAI = otherPlayer.diplomacyAI else {
+            fatalError("cant get otherPlayerDiplomacyAI")
+        }
+    
+        if statement == .none {
+            
+            if diplomacyDealAI.makeOfferForEmbassy(to: otherPlayer, deal: &deal, in: gameModel) {
+                
+                let tempStatement: DiplomaticStatementType = .embassyOffer
+                let turnsBetweenStatements = 20
+
+                if self.numTurnsSinceStatementSent(to: otherPlayer, statement: tempStatement) >= turnsBetweenStatements && self.numTurnsSinceStatementSent(to: otherPlayer, statement: .embassyExchange) >= 10 {
+                    statement = tempStatement
+                }
+            } else {
+                // Clear out the deal if we don't want to offer it so that it's not tainted for the next trade possibility we look at
+                deal.clearItems()
+            }
+        }
+    }
+    
+    /// Do we want to have an embassy in the player's capital?
+    func wantsEmbassy(with otherPlayer: AbstractPlayer?) -> Bool {
+
+        // May want to make this logic more sophisticated eventually.  This will do for now
+        let approach = self.approachWithoutTrueFeelings(towards: otherPlayer)
+        if approach == .hostile || approach == .war {
+            return false
+        }
+
+        return true
+    }
+    
+    /// Possible Contact Statement - Open Borders Exchange
     func doOpenBordersExchange(with otherPlayer: AbstractPlayer?, statement: inout DiplomaticStatementType, deal: inout DiplomaticDeal, in gameModel: GameModel?) {
         
         guard let otherPlayer = otherPlayer else {
@@ -2314,6 +2413,24 @@ public class DiplomaticAI: Codable {
                     }
                 }
             }
+        }
+    }
+    
+    /// Are we willing to swap embassies with ePlayer?
+    func isEmbassyExchangeAcceptable(with otherPlayer: AbstractPlayer?) -> Bool {
+        
+        let approach = self.approachWithoutTrueFeelings(towards: otherPlayer)
+
+        switch approach {
+            
+        case .war, .hostile, .guarded:
+            return false
+            
+        case .deceptive, .afraid, .friendly, .neutrally:
+            return true
+            
+        case .none:
+            return false
         }
     }
     
@@ -2423,11 +2540,6 @@ public class DiplomaticAI: Codable {
         return self.playerDict.hasEmbassy(with: otherPlayer)
     }
     
-    public func isAllowsOpenBorders(with otherPlayer: AbstractPlayer?) -> Bool {
-        
-        return self.playerDict.isAllowsOpenBorders(with: otherPlayer)
-    }
-    
     func coopWarAcceptedState(of player: AbstractPlayer?, towards otherPlayer: AbstractPlayer?) -> CoopWarState {
         
         return self.playerDict.coopWarAcceptedState(of: player, towards: otherPlayer)
@@ -2445,12 +2557,16 @@ public class DiplomaticAI: Codable {
     
     func update(in gameModel: GameModel?) {
         
+        guard let player = self.player else {
+            fatalError("cant get current player")
+        }
+        
         if let activePlayer = gameModel?.activePlayer() {
             
             if self.greetPlayers.contains(where: { activePlayer.isEqual(to: $0) }) {
                 
-                let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: self.player)
-                self.player?.diplomacyRequests?.sendRequest(for: activePlayer.leader, state: .intro, message: szText, emotion: .neutral, in: gameModel)
+                //let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: self.player)
+                player.diplomacyRequests?.sendRequest(for: activePlayer.leader, state: .intro, message: .messageIntro, emotion: .neutral, in: gameModel)
                 
                 self.greetPlayers.removeAll(where: { activePlayer.isEqual(to: $0) })
             }
@@ -2481,9 +2597,9 @@ public class DiplomaticAI: Codable {
             if otherPlayer.isHuman() {
 
                 // Put in the list of people to greet human, when the human turn comes up.
-                if !self.hasMet(with: otherPlayer) {
+                //if !self.hasMet(with: otherPlayer) {
                     self.greetPlayers.append(otherPlayer)
-                }
+                //}
             }
         }
     }
@@ -2514,13 +2630,12 @@ public class DiplomaticAI: Codable {
 
                 if metA || metB {
 
-                    /*let playerAName = metA ? player.leader.name() : "An Unmet Player"
+                    let playerAName = metA ? player.leader.name() : "An Unmet Player"
                     let playerBName = metB ? otherPlayer.leader.name() : "An Unmet Player"
 
-                    let text = "\(playerAName) and \(playerBName) have made a public Trade Alliance, forging a strong bond between the two empires."*/
+                    let text = "\(playerAName) and \(playerBName) have made a public Trade Alliance, forging a strong bond between the two empires."
                     
-                    //self.player?.notifications()?.addDiplomaticNotification(for: self.player, other: otherPlayer, state: ., message: .)
-                    fatalError("not handled")
+                    self.player?.notifications()?.addNotification(of: .diplomaticDeclaration, for: self.player, message: text, summary: "Declaration of Friendship", other: otherPlayer)
                 }
             }
         }
@@ -2562,8 +2677,8 @@ public class DiplomaticAI: Codable {
                     let playerBName = metB ? otherPlayer.leader.name() : "An Unmet Player"
 
                     let text = "\(playerAName) has denounced \(playerBName)."
-                    //gameModel.add(message: DenouncementMessage(text: text))
-                    //self.player?.notifications()?.add(type: .diplomaticDeclaration, for: self.player, message: text, summary: "Denounced", at: HexPoint.zero)
+                    
+                    self.player?.notifications()?.addNotification(of: .diplomaticDeclaration, for: self.player, message: text, summary: "Denounced", at: HexPoint.zero)
                     fatalError("not handled")
                 }
             }
@@ -2675,7 +2790,7 @@ public class DiplomaticAI: Codable {
     
     func isOpenBorderAgreementActive(by otherPlayer: AbstractPlayer?) -> Bool {
 
-        return self.playerDict.isOpenBorderAgreementpActive(by: otherPlayer)
+        return self.playerDict.isOpenBorderAgreementActive(by: otherPlayer)
     }
 
     // MARK: alliances

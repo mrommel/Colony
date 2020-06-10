@@ -44,7 +44,6 @@ class DiplomaticPlayerDict: Codable {
             case warValueLost
             
             case hasEmbassy
-            case allowsOpenBorders
             
             // disputes
             case landDisputeLevel
@@ -105,7 +104,7 @@ class DiplomaticPlayerDict: Codable {
         var warValueLost: Int
         
         var hasEmbassyValue: Bool
-        var allowsOpenBordersValue: Bool
+        //var allowsOpenBordersValue: Bool
         
         // disputes
         var landDisputeLevel: LandDisputeLevelType
@@ -169,7 +168,6 @@ class DiplomaticPlayerDict: Codable {
             self.warValueLost = 0
             
             self.hasEmbassyValue = false
-            self.allowsOpenBordersValue = false
             
             self.landDisputeLevel = .none
             self.lastTurnLandDisputeLevel = .none
@@ -180,7 +178,7 @@ class DiplomaticPlayerDict: Codable {
             // pacts
             self.declatationOfWar = DiplomaticPact()
             self.declarationOfFriendship = DiplomaticPact()
-            self.openBorderAgreement = DiplomaticPact() // no runtime
+            self.openBorderAgreement = DiplomaticPact(with: 15) // has a runtime of 30 turns
             self.defensivePact = DiplomaticPact(with: 15) // has a runtime of 15 turns
             self.peaceTreaty = DiplomaticPact(with: 15) // has a runtime of 15 turns
             self.alliance = DiplomaticPact()
@@ -232,7 +230,6 @@ class DiplomaticPlayerDict: Codable {
             self.warValueLost = try container.decode(Int.self, forKey: .warValueLost)
             
             self.hasEmbassyValue = try container.decode(Bool.self, forKey: .hasEmbassy)
-            self.allowsOpenBordersValue = try container.decode(Bool.self, forKey: .allowsOpenBorders)
             
             // disputes
             self.landDisputeLevel = try container.decode(LandDisputeLevelType.self, forKey: .landDisputeLevel)
@@ -297,7 +294,6 @@ class DiplomaticPlayerDict: Codable {
             try container.encode(self.warValueLost, forKey: .warValueLost)
             
             try container.encode(self.hasEmbassyValue, forKey: .hasEmbassy)
-            try container.encode(self.allowsOpenBordersValue, forKey: .allowsOpenBorders)
              
             // disputes
             try container.encode(self.landDisputeLevel, forKey: .landDisputeLevel)
@@ -606,7 +602,7 @@ class DiplomaticPlayerDict: Codable {
     
     // MARK: pacts - open border agreement
 
-    func isOpenBorderAgreementpActive(by otherPlayer: AbstractPlayer?) -> Bool {
+    func isOpenBorderAgreementActive(by otherPlayer: AbstractPlayer?) -> Bool {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             return item.openBorderAgreement.isActive()
@@ -1101,16 +1097,7 @@ class DiplomaticPlayerDict: Codable {
         }
     }
     
-    public func isAllowsOpenBorders(with otherPlayer: AbstractPlayer?) -> Bool {
-        
-        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
-            return item.allowsOpenBordersValue
-        } else {
-            fatalError("not gonna happen")
-        }
-    }
-    
-    // treaty
+    // MARK: treaty
     
     func peaceTreatyWillingToOffer(to otherPlayer: AbstractPlayer?) -> PeaceTreatyType {
         

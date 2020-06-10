@@ -954,8 +954,8 @@ extension GameScene: LeadersDelegate {
             fatalError("cant get otherPlayer")
         }
         
-        let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: humanPlayer)
-        let data = DiplomaticData(state: .blankDiscussion, message: szText, emotion: .neutral)
+        //let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: humanPlayer)
+        let data = DiplomaticData(state: .blankDiscussion, message: .messageIntro, emotion: .neutral)
         
         print("diplo screen with: \(leader)")
         self.showScreen(screenType: .diplomatic, city: nil, other: otherPlayer, data: data)

@@ -148,6 +148,7 @@ public protocol UserInterfaceProtocol: class {
     func showPopup(popupType: PopupType, with data: PopupData?)
 
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?)
+    func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType)
     func isShown(screen: ScreenType) -> Bool
     
     func add(notification: NotificationItem)

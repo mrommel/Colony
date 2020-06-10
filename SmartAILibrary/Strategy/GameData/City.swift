@@ -1928,7 +1928,7 @@ public class City: AbstractCity {
 
             let production = self.productionPerTurn(in: gameModel)
             self.updateProduction(for: production, in: gameModel)
-            
+
             //setOverflowProduction(0);
             self.setFeatureProduction(to: 0.0)
         } else {
@@ -1998,7 +1998,7 @@ public class City: AbstractCity {
             }*/
         } else {
             self.cityStrategy?.chooseProduction(in: gameModel)
-            //AI_setChooseProductionDirty(false);
+            gameModel?.userInterface?.update(city: self)
         }
 
         return;

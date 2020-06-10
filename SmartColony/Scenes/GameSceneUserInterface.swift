@@ -40,7 +40,7 @@ extension GameScene: UserInterfaceProtocol {
         case .interimRanking:
             self.showInterimRankingDialog()
         case .diplomatic:
-            self.showDiplomaticDialog(with: otherPlayer, data: data)
+            self.showDiplomaticDialog(with: otherPlayer, data: data, deal: nil)
         case .city:
             self.showCityDialog(for: city)
         case .techs:
@@ -54,6 +54,25 @@ extension GameScene: UserInterfaceProtocol {
         default:
             print("screen: \(screenType) not handled")
         }
+    }
+    
+    func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType) {
+        
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+        
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+        
+        let dialogPlayer = humanPlayer.isEqual(to: fromPlayer) ? toPlayer : fromPlayer
+        
+        print("showLeaderMessage:")
+        print("state=\(state), message=\(message)")
+        print("deal=\(String(describing: deal))")
+        let data = DiplomaticData(state: state, message: message, emotion: emotion)
+        self.showDiplomaticDialog(with: dialogPlayer, data: data, deal: deal)
     }
     
     func isShown(screen screenType: ScreenType) -> Bool {

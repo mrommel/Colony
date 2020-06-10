@@ -177,12 +177,15 @@ class PediaScene: BaseScene {
 
         let aiPlayer = Player(leader: .elizabeth, isHuman: false)
         aiPlayer.initialize()
+        
+        try! aiPlayer.techs?.discover(tech: .writing)
 
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
         
         try! humanPlayer.techs?.discover(tech: .mining)
         try! humanPlayer.techs?.discover(tech: .pottery)
+        try! humanPlayer.techs?.discover(tech: .writing)
 
         let mapModel = PediaScene.mapFilled(with: .grass, sized: .duel)
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
@@ -197,13 +200,16 @@ class PediaScene: BaseScene {
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [aiPlayer, humanPlayer], on: mapModel)
 
         // AI
-        aiPlayer.found(at: HexPoint(x: 8, y: 5), named: "AI Capital", in: gameModel)
+        aiPlayer.found(at: HexPoint(x: 18, y: 5), named: "AI Capital", in: gameModel) // found out of sight
 
-        let aiWarriorUnit = Unit(at: HexPoint(x: 7, y: 5), type: .warrior, owner: aiPlayer)
+        let aiWarriorUnit = Unit(at: HexPoint(x: 10, y: 5), type: .warrior, owner: aiPlayer)
         gameModel.add(unit: aiWarriorUnit)
 
         // Human
         humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+        
+        let humanWarriorUnit = Unit(at: HexPoint(x: 8, y: 5), type: .warrior, owner: humanPlayer)
+        gameModel.add(unit: humanWarriorUnit)
 
         self.pediaDelegate?.start(game: gameModel)
     }
@@ -327,10 +333,13 @@ class PediaScene: BaseScene {
         let otherPlayer = Player(leader: .augustus, isHuman: false)
         otherPlayer.initialize()
         
-        let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: humanPlayer)
-        let data = DiplomaticData(state: .intro, message: szText, emotion: .neutral)
-
-        let diplomaticDialog = DiplomaticDialog(for: humanPlayer, and: otherPlayer, data: data)
+        let mapModel = PediaScene.mapFilled(with: .grass, sized: .duel)
+        
+        let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [otherPlayer, humanPlayer], on: mapModel)
+        
+        let viewModel = DiplomaticDialogViewModel(for: humanPlayer, and: otherPlayer, state: .intro, message: .messageIntro, emotion: .neutral, in: gameModel)
+        
+        let diplomaticDialog = DiplomaticDialog(viewModel: viewModel)
         diplomaticDialog.zPosition = 250
 
         diplomaticDialog.addResultHandler(handler: { result in

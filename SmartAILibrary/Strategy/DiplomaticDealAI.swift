@@ -991,6 +991,51 @@ public class DiplomaticDealAI: Codable {
         }
     }
     
+    /// A good time to make an offer to get an embassy?
+    func makeOfferForEmbassy(to otherPlayer: AbstractPlayer?, deal: inout DiplomaticDeal, in gameModel: GameModel?) -> Bool {
+
+        guard let diplomaticAI = self.player?.diplomacyAI else {
+            fatalError("cant get diplomaticAI")
+        }
+        
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get otherPlayer")
+        }
+        
+        // Don't ask for Open Borders if we're hostile or planning war
+        let approach = diplomaticAI.approach(towards: otherPlayer)
+        if approach == .hostile || approach == .war || approach == .guarded {
+            return false
+        }
+
+        // Can we actually complete this deal?
+        if !deal.isPossibleToTradeItem(from: otherPlayer, to: self.player, item: .allowEmbassy, in: gameModel) {
+            return false
+        }
+
+        // Do we actually want OB with eOtherPlayer?
+        if diplomaticAI.wantsEmbassy(with: otherPlayer) {
+            
+            // Seed the deal with the item we want
+            deal.addAllowEmbassy(with: otherPlayer)
+            var dealAcceptable = false
+
+            // AI evaluation
+            if !otherPlayer.isHuman() {
+                // Change the deal as necessary to make it work
+                dealAcceptable = self.doEqualizeDealWithAI(deal: deal, with: otherPlayer, in: gameModel)
+            } else {
+                var uselessReferenceVariable: Bool = false
+                var cantMatchOffer: Bool = false
+                dealAcceptable = self.doEqualizeDealWithHuman(deal: &deal, with: otherPlayer, dontChangeMyExistingItems: false, dontChangeTheirExistingItems: true, dealGoodToBeginWith: &uselessReferenceVariable, cantMatchOffer: &cantMatchOffer, in: gameModel)    // Change the deal as necessary to make it work
+            }
+
+            return dealAcceptable
+        }
+
+        return false
+    }
+    
     // How much are we willing to back off on what our perceived value of a deal is with an AI player to make something work?
     func dealPercentLeewayWithAI() -> Int {
         

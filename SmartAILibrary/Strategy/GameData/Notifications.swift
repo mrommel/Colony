@@ -18,10 +18,10 @@ public class DiplomaticData: Codable {
     }
     
     public let state: DiplomaticRequestState
-    public let message: String
+    public let message: DiplomaticRequestMessage
     public let emotion: LeaderEmotionType
     
-    public init(state: DiplomaticRequestState, message: String, emotion: LeaderEmotionType) {
+    public init(state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType) {
         
         self.state = state
         self.message = message
@@ -33,7 +33,7 @@ public class DiplomaticData: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         self.state = try container.decode(DiplomaticRequestState.self, forKey: .state)
-        self.message = try container.decode(String.self, forKey: .message)
+        self.message = try container.decode(DiplomaticRequestMessage.self, forKey: .message)
         self.emotion = try container.decode(LeaderEmotionType.self, forKey: .emotion)
     }
     
@@ -146,7 +146,7 @@ public class NotificationItem: Codable, Equatable {
             
             gameModel?.userInterface?.showScreen(screenType: .city, city: city, other: nil, data: nil)
             
-            // FIXME: give hint on screen if city grown or starving
+            // FIXME: give hint on city screen if city grown or starving
             
             if self.type == .starving || self.type == .cityGrowth {
                 self.dismiss(in: gameModel)
@@ -349,32 +349,6 @@ public class Notifications: Codable {
         }
     }
     
-    func addDiplomaticNotification(for player: AbstractPlayer?, other otherPlayer: AbstractPlayer?, state: DiplomaticRequestState, message: String, emotion: LeaderEmotionType) {
-        
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
-        
-        if !player.isHuman() {
-            // no notifications for ai player
-            return
-        }
-        
-        var otherLeader: LeaderType = .none
-        if let otherPlayer = otherPlayer {
-            otherLeader = otherPlayer.leader
-        }
-        
-        let notification = NotificationItem(type: .diplomaticDeclaration, for: player.leader, message: "", summary: "", at: HexPoint.zero, other: otherLeader)
-        
-        notification.diplomaticData = DiplomaticData(state: state, message: message, emotion: emotion)
-        
-        if !self.notificationsArray.contains(where: { $0 == notification }) {
-        
-            self.notificationsArray.append(notification)
-        }
-    }
-    
     func endTurnBlockingNotification() -> NotificationItem? {
         
         for notification in self.notificationsArray {
@@ -411,7 +385,15 @@ public class Notifications: Codable {
     }
     
     // removing notifications at the end turns
-    func cleanUp() {
+    func cleanUp(in gameModel: GameModel?) {
+        
+        for notification in self.notificationsArray {
+            
+            // city growth should vanish at the end of turn (if not already)
+            if notification.type == .cityGrowth && notification.dismissed == false {
+                notification.dismiss(in: gameModel)
+            }
+        }
         
         self.notificationsArray.removeAll(where: { $0.dismissed })
     }

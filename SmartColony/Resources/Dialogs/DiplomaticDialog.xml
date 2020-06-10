@@ -50,10 +50,23 @@
         <!-- options -->
         
         <item>
-            <identifier>reponse_positive_button</identifier>
+            <identifier>reponse0</identifier>
             <type>button</type>
             <title>abc</title>
-            <result>DIPLO_CHOICE_FIRST_MEET_NEAR_RECIPIENT_POSITIVE</result>
+            <result>DIPLO_CHOICE_0</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-60%</offsety>
+            <width>300</width>
+            <height>64</height>
+        </item>
+        
+        <item>
+            <identifier>reponse1</identifier>
+            <type>button</type>
+            <title>def</title>
+            <result>DIPLO_CHOICE_1</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
@@ -63,10 +76,10 @@
         </item>
         
         <item>
-            <identifier>reponse_busy_button</identifier>
+            <identifier>reponse2</identifier>
             <type>button</type>
-            <title>def</title>
-            <result>DIPLO_CHOICE_FIRST_MEET_NEAR_RECIPIENT_BUSY</result>
+            <title>ghi</title>
+            <result>DIPLO_CHOICE_2</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>

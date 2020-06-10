@@ -8,45 +8,42 @@
 
 import Foundation
 
-class FiniteState {
+public class FiniteState<E: RawRepresentable> where E.RawValue: Equatable {
     
-    let identifier: String
-    var transitions: [FiniteStateTransition]?
+    public let identifier: E
+    var transitions: [FiniteStateTransition<E>]?
+    var action: (() -> ())?
     
-    init(identifier: String) {
+    public init(identifier: E, action: (() -> ())? = nil, transitions: [FiniteStateTransition<E>]? = nil) {
         
         self.identifier = identifier
-        self.transitions = []
+        self.action = action
+        self.transitions = transitions ?? []
     }
     
-    init(identifier: String, transitions: [FiniteStateTransition]?) {
-        
-        self.identifier = identifier
-        self.transitions = transitions
-    }
-    
-    func add(transition: FiniteStateTransition) {
+    public func add(transition: FiniteStateTransition<E>) {
         
         self.transitions?.append(transition)
     }
     
-    func getTransitions() -> [FiniteStateTransition]? {
+    public func getTransitions() -> [FiniteStateTransition<E>]? {
         
         return self.transitions
     }
     
-    func began() {
+    public func began() {
         
+        self.action?()
     }
     
-    func ended() {
+    public func ended() {
         
     }
 }
 
 extension FiniteState: Equatable {
     
-    static func == (lhs: FiniteState, rhs: FiniteState) -> Bool {
+    public static func == (lhs: FiniteState, rhs: FiniteState) -> Bool {
         return lhs.identifier == rhs.identifier
     }
 }

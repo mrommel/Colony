@@ -102,8 +102,9 @@ enum DialogResultType: String, Codable {
     case militaryTradition = "MILITARYTRADITION"
     
     // diplomatic responses
-    case responseFirstMeetNearRecipientPositive = "DIPLO_CHOICE_FIRST_MEET_NEAR_RECIPIENT_POSITIVE"
-    case responseFirstMeetNearRecipientBusy = "DIPLO_CHOICE_FIRST_MEET_NEAR_RECIPIENT_BUSY"
+    case responseChoice0 = "DIPLO_CHOICE_0"
+    case responseChoice1 = "DIPLO_CHOICE_1"
+    case responseChoice2 = "DIPLO_CHOICE_2"
 
     // game menu options
     case gameQuickSave = "GAME_QUICKSAVE"
