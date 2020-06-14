@@ -19,6 +19,14 @@ class SpriteButtonNode: SKNode {
     var action: () -> Void
     
     private var active: Bool = true
+
+    public var anchorPoint: CGPoint = .middleCenter {
+        didSet {
+            self.enabledButton.anchorPoint = self.anchorPoint
+            self.hoverButton.anchorPoint = self.anchorPoint
+            self.disabledButton.anchorPoint = self.anchorPoint
+        }
+    }
     
     // MARK: constructors
     
@@ -26,14 +34,17 @@ class SpriteButtonNode: SKNode {
         
         // default button state
         self.enabledButton = NineGridTextureSprite(imageNamed: enabledButtonImage, size: size, isNineGrid: isNineGrid)
+        self.enabledButton.anchorPoint = .middleCenter
         
         // hover button state
         self.hoverButton = NineGridTextureSprite(imageNamed: hoverButtonImage.isEmpty ? enabledButtonImage : hoverButtonImage, size: size, isNineGrid: isNineGrid)
         self.hoverButton.isHidden = true
+        self.hoverButton.anchorPoint = .middleCenter
         
         // active button state
         self.disabledButton = NineGridTextureSprite(imageNamed: disabledButtonImage, size: size, isNineGrid: isNineGrid)
         self.disabledButton.isHidden = true
+        self.disabledButton.anchorPoint = .middleCenter
         
         self.action = buttonAction
         
@@ -65,14 +76,17 @@ class SpriteButtonNode: SKNode {
         
         // default button state
         self.enabledButton = NineGridTextureSprite(imageNamed: enabledButtonImage, size: size, isNineGrid: isNineGrid)
+        self.enabledButton.anchorPoint = .middleCenter
         
         // hover button state
         self.hoverButton = NineGridTextureSprite(imageNamed: hoverButtonImage.isEmpty ? enabledButtonImage : hoverButtonImage, size: size, isNineGrid: isNineGrid)
         self.hoverButton.isHidden = true
+        self.hoverButton.anchorPoint = .middleCenter
         
         // active button state
         self.disabledButton = NineGridTextureSprite(imageNamed: disabledButtonImage, size: size, isNineGrid: isNineGrid)
         self.disabledButton.isHidden = true
+        self.disabledButton.anchorPoint = .middleCenter
         
         self.action = buttonAction
         
@@ -264,5 +278,18 @@ class SpriteButtonNode: SKNode {
             self.hoverButton.isHidden = true
             self.enabledButton.isHidden = false
         }
+    }
+}
+
+extension SpriteButtonNode: SizableNode {
+    
+    func width() -> CGFloat {
+        
+        return self.size.width
+    }
+    
+    func height() -> CGFloat {
+        
+        return self.size.height
     }
 }

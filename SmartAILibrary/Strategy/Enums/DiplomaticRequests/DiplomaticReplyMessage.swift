@@ -19,8 +19,13 @@ public enum DiplomaticReplyMessage {
     case invitationToCapitalPositive
     case invitationToCapitalNegative
     
+    // replies to deals: embassyExchange
+    case dealPositive
+    case dealNegative
+    
     case exit
     
+    // TODO move to extension in SmartColony
     public func text() -> String {
         
         switch self {
@@ -39,6 +44,11 @@ public enum DiplomaticReplyMessage {
             return "Exchanging information on our capitals is a great idea. It should help promote trade."
         case .invitationToCapitalNegative:
             return "Sorry, we can't give away that information right now."
+            
+        case .dealPositive:
+            return "Yes, lets to it."
+        case .dealNegative:
+            return "No. This is not possible."
             
         case .exit:
             return "exit"

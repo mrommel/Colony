@@ -336,7 +336,7 @@ public enum DiplomaticRequestMessage: Int, Codable {
             return "I want peace"
 
         case .embassyExchange:
-            return "embassyExchange"
+            return "Welcome to discuss .."
             
         case .embassyOffer:
             return "embassyOffer"
@@ -363,7 +363,7 @@ public enum DiplomaticRequestMessage: Int, Codable {
         case .peaceOffer:
             return [.genericReply]
         case .embassyExchange:
-            return [.genericReply]
+            return [.dealPositive, .dealNegative]
         case .embassyOffer:
             return [.genericReply]
         case .openBordersExchange:

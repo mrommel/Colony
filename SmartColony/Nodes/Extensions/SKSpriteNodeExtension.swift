@@ -31,3 +31,16 @@ extension SKSpriteNode {
         }
     }
 }
+
+extension SKSpriteNode: SizableNode {
+    
+    func width() -> CGFloat {
+        
+        return self.size.width
+    }
+    
+    func height() -> CGFloat {
+        
+        return self.size.height
+    }
+}

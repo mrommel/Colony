@@ -17,6 +17,7 @@ class MessageBoxButtonNode: SpriteButtonNode {
                    disabledButtonImage: "grid9_button_disabled",
                    size: size,
                    buttonAction: buttonAction)
+        
     }
 
     init(imageNamed imageName: String, title: String, sized size: CGSize = CGSize(width: 100, height: 42), buttonAction: @escaping () -> Void) {

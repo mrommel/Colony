@@ -1326,7 +1326,7 @@ public class Unit: AbstractUnit {
             self.unGarrison(in: gameModel)
         }
 
-        gameModel.conceal(at: newLocation, sight: self.sight(), for: player)
+        gameModel.conceal(at: oldPlot.point, sight: self.sight(), for: player)
         //oldPlot->area()->changeUnitsPerPlayer(getOwner(), -1);
         //self.set(lastMoveTurn: gameModel.turnSlice())
         let oldCity = gameModel.city(at: oldPlot.point)

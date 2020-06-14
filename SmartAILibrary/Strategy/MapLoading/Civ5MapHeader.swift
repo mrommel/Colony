@@ -9,9 +9,24 @@
 import Foundation
 import BinarySwift
 
+enum Civ5MapType: Int, Comparable {
+    
+    case none = 0
+    
+    case A = 7 // -A (10)
+    case B = 11 // B
+    case C = 12 // C
+    
+    static func < (lhs: Civ5MapType, rhs: Civ5MapType) -> Bool {
+        
+        return lhs.rawValue < rhs.rawValue
+    }
+}
+
 struct Civ5MapHeader {
     
-    let type: UInt8
+    let hasScenario: Bool
+    let type: Civ5MapType // UInt8
     let width: Int32
     let height: Int32
     let numOfPlayers: UInt8
@@ -36,7 +51,10 @@ struct Civ5MapHeader {
     init(reader: BinaryDataReader) throws {
         
         // first block
-        self.type = try reader.read()
+        let typeValue: UInt8  = try reader.read()
+        self.hasScenario = typeValue & 0xf0 > 0
+        self.type = Civ5MapType(rawValue: Int(typeValue) & 0x0f) ?? Civ5MapType.none
+        
         self.width = try reader.read()
         self.height = try reader.read()
         self.numOfPlayers = try reader.read()
@@ -66,9 +84,10 @@ struct Civ5MapHeader {
         self.summary = try reader.readNullTerminatedUTF8() //string -- Description string
         
         // buffer
-        if (self.type > 135) {
+        if self.type > Civ5MapType.A {
             let lengthOfStr: Int32 = try reader.read() //int -- Length of String3 (only present in version xB or later)
-            _ = try reader.readUTF8(Int(lengthOfStr)) //string -- String3 (only present in version xB or later)
+            let tmp = try reader.readUTF8(Int(lengthOfStr)) //string -- String3 (only present in version xB or later)
+            print(tmp)
         }
     }
 }

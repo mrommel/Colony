@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PeaceTreatyType: Int, Comparable, Codable {
+public enum PeaceTreatyType: Int, Comparable, Codable {
     
     case none
     
@@ -22,7 +22,7 @@ enum PeaceTreatyType: Int, Comparable, Codable {
     case capitulation // PEACE_TREATY_CAPITULATION,
     case unconditionalSurrender // PEACE_TREATY_UNCONDITIONAL_SURRENDER,
     
-    static func < (lhs: PeaceTreatyType, rhs: PeaceTreatyType) -> Bool {
+    public static func < (lhs: PeaceTreatyType, rhs: PeaceTreatyType) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }
     

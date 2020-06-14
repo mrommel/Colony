@@ -171,7 +171,12 @@ class Civ5Map {
                     tile.set(feature: feature2nd)
                 }
                 
-                let flows: [FlowDirection] = self.riverFlowsAt(x: x, y: y)
+                if let resourceType = plot.ressourceType {
+                    tile.set(resource: resourceType)
+                    tile.set(resourceQuantity: Int(plot.resourceQuantity))
+                }
+                
+                /*let flows: [FlowDirection] = self.riverFlowsAt(x: x, y: y)
                 for flow in flows {
                     do {
                         let river = River(with: "Misc", and: [])
@@ -195,7 +200,7 @@ class Civ5Map {
                     } catch {
                         fatalError("Can't set flow")
                     }
-                }
+                }*/
                 
                 map.set(tile: tile, at: point)
             }

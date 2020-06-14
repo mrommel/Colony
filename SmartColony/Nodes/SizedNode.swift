@@ -24,6 +24,7 @@ class SizedNode: SKNode {
     }
     
     override var frame: CGRect {
+        
         return self.internalFrame
     }
     

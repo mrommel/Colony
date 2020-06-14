@@ -30,6 +30,7 @@ class Civ5MapReader {
         return nil
     }
     
+    // https://forums.civfanatics.com/threads/civ5map-file-format.418566/
     private func load(from data: Data) -> Civ5Map? {
 
         let binaryData = BinaryData(data: data, bigEndian: false)

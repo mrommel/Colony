@@ -165,12 +165,12 @@ public class GameModel: Codable {
         }
         
         if self.isWaitingForBlockingInput() {
-            if userInterface.isShown(screen: .diplomatic) {
+            if !userInterface.isShown(screen: .diplomatic) {
                 // when diplomatic screen is visible - we can't update
-                return
-            } else {
-                //self.waitDiploPlayer?.doTurnPostDiplomacy()
+                self.waitDiploPlayer?.doTurnPostDiplomacy(in: self)
                 self.setWaitingForBlockingInput(of: nil)
+            } else {
+                return
             }
         }
         

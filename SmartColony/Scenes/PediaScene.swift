@@ -55,66 +55,74 @@ class PediaScene: BaseScene {
         self.rootNode.addChild(self.backgroundNode!)
 
         // science
-        self.scienceNearlyDiscoveredGameButton = MenuButtonNode(titled: "Science Nearly Discovered",
-                                                                buttonAction: {
-                                                                    self.startScienceNearlyDiscoveredGame()
-                                                                })
+        self.scienceNearlyDiscoveredGameButton = MenuButtonNode(
+            titled: "Science Nearly Discovered",
+            buttonAction: {
+                self.startScienceNearlyDiscoveredGame()
+            })
         self.scienceNearlyDiscoveredGameButton?.zPosition = 2
         self.rootNode.addChild(self.scienceNearlyDiscoveredGameButton!)
 
         // first contact
-        self.firstContactGameButton = MenuButtonNode(titled: "First Contact",
-                                                     buttonAction: {
-                                                         self.startFirstContactGame()
-                                                     })
+        self.firstContactGameButton = MenuButtonNode(
+            titled: "First Contact",
+            buttonAction: {
+                self.startFirstContactGame()
+            })
         self.firstContactGameButton?.zPosition = 2
         self.rootNode.addChild(self.firstContactGameButton!)
 
         // interim
-        self.interimRankingDialogButton = MenuButtonNode(titled: "InterimRanking",
-                                                         buttonAction: {
-                                                             self.showInterimRaking()
-                                                         })
+        self.interimRankingDialogButton = MenuButtonNode(
+            titled: "InterimRanking",
+            buttonAction: {
+                self.showInterimRaking()
+            })
         self.interimRankingDialogButton?.zPosition = 2
         self.rootNode.addChild(self.interimRankingDialogButton!)
 
         // city
-        self.cityDialogButton = MenuButtonNode(titled: "CityDialog",
-                                               buttonAction: {
-                                                   self.showCityDialog()
-                                               })
+        self.cityDialogButton = MenuButtonNode(
+            titled: "CityDialog",
+            buttonAction: {
+                self.showCityDialog()
+            })
         self.cityDialogButton?.zPosition = 2
         self.rootNode.addChild(self.cityDialogButton!)
 
         // science
-        self.scienceDialogButton = MenuButtonNode(titled: "ScienceDialog",
-                                                  buttonAction: {
-                                                      self.showScienceDialog()
-                                                  })
+        self.scienceDialogButton = MenuButtonNode(
+            titled: "ScienceDialog",
+            buttonAction: {
+                self.showScienceDialog()
+            })
         self.scienceDialogButton?.zPosition = 2
         self.rootNode.addChild(self.scienceDialogButton!)
 
         // civic
-        self.civicDialogButton = MenuButtonNode(titled: "CivicDialog",
-                                                buttonAction: {
-                                                    self.showCivicDialog()
-                                                })
+        self.civicDialogButton = MenuButtonNode(
+            titled: "CivicDialog",
+            buttonAction: {
+                self.showCivicDialog()
+            })
         self.civicDialogButton?.zPosition = 2
         self.rootNode.addChild(self.civicDialogButton!)
 
         // civic
-        self.diplomaticDialogButton = MenuButtonNode(titled: "DiplomaticDialog",
-                                                     buttonAction: {
-                                                         self.showDiplomaticDialog()
-                                                     })
+        self.diplomaticDialogButton = MenuButtonNode(
+            titled: "DiplomaticDialog",
+            buttonAction: {
+                self.showDiplomaticDialog()
+            })
         self.diplomaticDialogButton?.zPosition = 2
         self.rootNode.addChild(self.diplomaticDialogButton!)
 
         // back
-        self.backButton = MenuButtonNode(titled: "Back",
-                                         buttonAction: {
-                                             self.pediaDelegate?.exit()
-                                         })
+        self.backButton = MenuButtonNode(
+            titled: "Back",
+            buttonAction: {
+                self.pediaDelegate?.exit()
+            })
         self.backButton?.zPosition = 2
         self.rootNode.addChild(self.backButton!)
 
@@ -177,12 +185,12 @@ class PediaScene: BaseScene {
 
         let aiPlayer = Player(leader: .elizabeth, isHuman: false)
         aiPlayer.initialize()
-        
+
         try! aiPlayer.techs?.discover(tech: .writing)
 
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
-        
+
         try! humanPlayer.techs?.discover(tech: .mining)
         try! humanPlayer.techs?.discover(tech: .pottery)
         try! humanPlayer.techs?.discover(tech: .writing)
@@ -193,7 +201,7 @@ class PediaScene: BaseScene {
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 6))
         mapModel.set(resource: .wheat, at: HexPoint(x: 3, y: 4))
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
-        
+
         mapModel.set(improvement: .mine, at: HexPoint(x: 2, y: 5))
         mapModel.set(improvement: .farm, at: HexPoint(x: 3, y: 4))
 
@@ -207,7 +215,7 @@ class PediaScene: BaseScene {
 
         // Human
         humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
-        
+
         let humanWarriorUnit = Unit(at: HexPoint(x: 8, y: 5), type: .warrior, owner: humanPlayer)
         gameModel.add(unit: humanWarriorUnit)
 
@@ -332,13 +340,13 @@ class PediaScene: BaseScene {
 
         let otherPlayer = Player(leader: .augustus, isHuman: false)
         otherPlayer.initialize()
-        
+
         let mapModel = PediaScene.mapFilled(with: .grass, sized: .duel)
-        
+
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [otherPlayer, humanPlayer], on: mapModel)
-        
+
         let viewModel = DiplomaticDialogViewModel(for: humanPlayer, and: otherPlayer, state: .intro, message: .messageIntro, emotion: .neutral, in: gameModel)
-        
+
         let diplomaticDialog = DiplomaticDialog(viewModel: viewModel)
         diplomaticDialog.zPosition = 250
 

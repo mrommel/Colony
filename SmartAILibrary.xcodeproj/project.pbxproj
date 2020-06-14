@@ -209,6 +209,7 @@
 		C9E74CBC248FA8D9003EF256 /* DiplomaticRequestMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CBB248FA8D9003EF256 /* DiplomaticRequestMessage.swift */; };
 		C9E74CBE248FB901003EF256 /* DiplomaticReplyMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CBD248FB901003EF256 /* DiplomaticReplyMessage.swift */; };
 		C9E74CC0248FC6C0003EF256 /* DiplomaticStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CBF248FC6C0003EF256 /* DiplomaticStateMachine.swift */; };
+		C9E74CC224917370003EF256 /* Civ5Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CC124917370003EF256 /* Civ5Resource.swift */; };
 		C9EB9F642454C6C500F13B02 /* RankingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F632454C6C400F13B02 /* RankingData.swift */; };
 		C9EC4E132443AE97001A0597 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E122443AE97001A0597 /* Command.swift */; };
 		C9EC4E152443AECA001A0597 /* CommandType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E142443AECA001A0597 /* CommandType.swift */; };
@@ -442,6 +443,7 @@
 		C9E74CBB248FA8D9003EF256 /* DiplomaticRequestMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticRequestMessage.swift; sourceTree = "<group>"; };
 		C9E74CBD248FB901003EF256 /* DiplomaticReplyMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticReplyMessage.swift; sourceTree = "<group>"; };
 		C9E74CBF248FC6C0003EF256 /* DiplomaticStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticStateMachine.swift; sourceTree = "<group>"; };
+		C9E74CC124917370003EF256 /* Civ5Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Resource.swift; sourceTree = "<group>"; };
 		C9EB9F632454C6C400F13B02 /* RankingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingData.swift; sourceTree = "<group>"; };
 		C9EC4E122443AE97001A0597 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		C9EC4E142443AECA001A0597 /* CommandType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandType.swift; sourceTree = "<group>"; };
@@ -721,6 +723,7 @@
 				C957AA3A2436372D00203024 /* Civ5Terrain.swift */,
 				C957AA3C2436377C00203024 /* Civ5MapReader.swift */,
 				C957AA3E2436379800203024 /* Civ5Map.swift */,
+				C9E74CC124917370003EF256 /* Civ5Resource.swift */,
 			);
 			path = MapLoading;
 			sourceTree = "<group>";
@@ -1148,6 +1151,7 @@
 				C90FC39523D88EE300720B32 /* Flavor.swift in Sources */,
 				C965A53223FC6ABE00BCEB54 /* HexPointCorner.swift in Sources */,
 				C9DFCF7E23F2C66D0032243D /* CitySiteEvaluator.swift in Sources */,
+				C9E74CC224917370003EF256 /* Civ5Resource.swift in Sources */,
 				C9F76AAD242EA54C0018672A /* InfluencePathfinderDataSource.swift in Sources */,
 				C98DBFA623DF2EEC00B6CE25 /* HexPoint.swift in Sources */,
 				C957AA3D2436377C00203024 /* Civ5MapReader.swift in Sources */,

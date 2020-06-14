@@ -47,13 +47,13 @@ public enum DiplomaticDealItemType: Int, Codable {
     }
 }
 
-enum DiplomaticDealDirectionType: Int, Codable {
+public enum DiplomaticDealDirectionType: Int, Codable {
 
     case give
     case receive
 }
 
-class DiplomaticDealItem: Codable {
+public class DiplomaticDealItem: Codable {
 
     enum CodingKeys: CodingKey {
 
@@ -64,13 +64,13 @@ class DiplomaticDealItem: Codable {
         case duration
     }
     
-    let type: DiplomaticDealItemType
-    let direction: DiplomaticDealDirectionType
-    var amount: Int
-    let resource: ResourceType
-    var duration: Int
+    public let type: DiplomaticDealItemType
+    public let direction: DiplomaticDealDirectionType
+    public var amount: Int
+    public let resource: ResourceType
+    public var duration: Int
 
-    init(type: DiplomaticDealItemType, direction: DiplomaticDealDirectionType, amount: Int, duration: Int) {
+    public init(type: DiplomaticDealItemType, direction: DiplomaticDealDirectionType, amount: Int, duration: Int) {
 
         self.type = type
         self.direction = direction
@@ -137,11 +137,11 @@ public class DiplomaticDeal: Codable {
     
     typealias DiplomaticDealValue = (value: Int, valueImOffering: Int, valueOtherOffering: Int)
 
-    let from: LeaderType
-    let to: LeaderType
-    var surrendering: LeaderType
-    var tradeItems: [DiplomaticDealItem]
-    var peaceTreatyType: PeaceTreatyType
+    public let from: LeaderType
+    public let to: LeaderType
+    public var surrendering: LeaderType
+    public var tradeItems: [DiplomaticDealItem]
+    public var peaceTreatyType: PeaceTreatyType
 
     // MARK: constructors
 

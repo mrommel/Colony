@@ -23,12 +23,12 @@ enum UITurnState {
 }
 
 class GameScenePopupData {
-    
+
     let popupType: PopupType
     let popupData: PopupData?
-    
+
     init(popupType: PopupType, popupData: PopupData?) {
-        
+
         self.popupType = popupType
         self.popupData = popupData
     }
@@ -69,7 +69,7 @@ class GameScene: BaseScene {
     private var cultureYield: YieldDisplayNode?
     private var goldYield: YieldDisplayNode?
     private var faithYield: YieldDisplayNode?
-    
+
     private var turnLabel: SKLabelNode?
     private var menuButton: TouchableSpriteNode?
 
@@ -85,14 +85,14 @@ class GameScene: BaseScene {
     var blockingNotification: Notification? = nil
     var currentScreenType: ScreenType = .none
     var currentPopupType: PopupType = .none
-    
+
     var popups: [GameScenePopupData] = []
 
     // delegate
     weak var gameDelegate: GameDelegate?
 
     // MARK: constructors
-    
+
     override init(size: CGSize) {
 
         self.viewHex = SKSpriteNode()
@@ -103,7 +103,7 @@ class GameScene: BaseScene {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: methods
 
     override func didMove(to view: SKView) {
@@ -139,25 +139,25 @@ class GameScene: BaseScene {
         self.topBarNode?.zPosition = 4
         self.topBarNode?.anchorPoint = CGPoint.upperLeft
         self.safeAreaNode.addChild(self.topBarNode!)
-        
+
         self.leftHeaderBarNode = LeftHeaderBarNode()
         self.leftHeaderBarNode?.zPosition = 4
         self.leftHeaderBarNode?.delegate = self
         self.safeAreaNode.addChild(self.leftHeaderBarNode!)
-        
+
         self.rightHeaderBarNode = RightHeaderBarNode()
         self.rightHeaderBarNode?.zPosition = 4
         self.rightHeaderBarNode?.delegate = self
         self.safeAreaNode.addChild(self.rightHeaderBarNode!)
-        
+
         self.scienceProgressNode = ScienceProgressNode()
         self.scienceProgressNode?.zPosition = Globals.ZLevels.progressIndicator
         self.safeAreaNode.addChild(self.scienceProgressNode!)
-        
+
         self.cultureProgressNode = CultureProgressNode()
         self.cultureProgressNode?.zPosition = Globals.ZLevels.progressIndicator
         self.safeAreaNode.addChild(self.cultureProgressNode!)
-        
+
         self.bottomLeftBar = BottomLeftBar(sized: CGSize(width: 200, height: 112))
         self.bottomLeftBar?.delegate = self
         self.bottomLeftBar?.zPosition = Globals.ZLevels.bottomElements
@@ -172,7 +172,7 @@ class GameScene: BaseScene {
         self.notificationsNode?.delegate = self
         self.notificationsNode?.zPosition = Globals.ZLevels.notifications
         self.safeAreaNode.addChild(self.notificationsNode!)
-        
+
         self.leadersNode = LeadersNode(sized: CGSize(width: 61, height: 300))
         self.leadersNode?.delegate = self
         self.leadersNode?.zPosition = Globals.ZLevels.leaders
@@ -183,10 +183,10 @@ class GameScene: BaseScene {
         self.viewHex.zPosition = 1.0
         self.viewHex.xScale = deviceScale
         self.viewHex.yScale = deviceScale
-        
+
         self.mapNode = MapNode(with: viewModel.game)
         self.viewHex.addChild(self.mapNode!)
-        
+
         self.rootNode.addChild(self.viewHex)
 
         // position the camera on the gamescene.
@@ -238,7 +238,7 @@ class GameScene: BaseScene {
         self.faithYield = YieldDisplayNode(for: .faith, value: 0.0, size: CGSize(width: 60, height: 32))
         self.faithYield?.zPosition = 400
         self.safeAreaNode.addChild(self.faithYield!)
-        
+
         self.turnLabel = SKLabelNode(text: "4000 BC")
         self.turnLabel?.zPosition = 400
         self.turnLabel?.fontSize = 14
@@ -247,7 +247,7 @@ class GameScene: BaseScene {
         self.turnLabel?.numberOfLines = 0
         self.turnLabel?.horizontalAlignmentMode = .right
         self.safeAreaNode.addChild(self.turnLabel!)
-        
+
         self.menuButton = TouchableSpriteNode(imageNamed: "menu_icon", size: CGSize(width: 24, height: 24))
         self.menuButton?.zPosition = 400
         self.safeAreaNode.addChild(self.menuButton!)
@@ -266,7 +266,7 @@ class GameScene: BaseScene {
 
         self.backgroundNode?.position = CGPoint(x: 0, y: 0)
         self.backgroundNode?.aspectFillTo(size: viewSize)
-        
+
         // top bar / yields
         var offsetY: CGFloat = 0.0
         if self.safeAreaNode.frame.origin.y == 34.0 {
@@ -277,10 +277,10 @@ class GameScene: BaseScene {
         self.topBarBackNode?.size.width = self.frame.width
         self.topBarNode?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight - offsetY + 1.0)
         self.topBarNode?.size.width = self.frame.width
-        
+
         self.leftHeaderBarNode?.position = CGPoint(x: -self.frame.halfWidth, y: self.frame.halfHeight - offsetY - 39)
         self.rightHeaderBarNode?.position = CGPoint(x: self.frame.halfWidth, y: self.frame.halfHeight - offsetY - 39)
-        
+
         var scienceProgressNodeDelta: CGFloat = 0.0
         var cultureProgressNodeDelta: CGFloat = 0.0
         if self.scienceProgressNodeHidden {
@@ -299,7 +299,7 @@ class GameScene: BaseScene {
         self.cultureYield?.position = CGPoint(x: -self.frame.halfWidth + 75, y: frame.halfHeight - offsetY - 2)
         self.goldYield?.position = CGPoint(x: -self.frame.halfWidth + 140, y: frame.halfHeight - offsetY - 2)
         self.faithYield?.position = CGPoint(x: -self.frame.halfWidth + 205, y: frame.halfHeight - offsetY - 2)
-        
+
         self.turnLabel?.position = CGPoint(x: self.frame.halfWidth - 40, y: frame.halfHeight - offsetY - 26)
         self.menuButton?.position = CGPoint(x: self.frame.halfWidth - 22, y: frame.halfHeight - offsetY - 16)
 
@@ -318,7 +318,7 @@ class GameScene: BaseScene {
 
         self.notificationsNode?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.notificationsNode?.updateLayout()
-        
+
         self.leadersNode?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth, y: self.safeAreaNode.frame.halfHeight)
         self.leadersNode?.updateLayout()
 
@@ -346,22 +346,24 @@ class GameScene: BaseScene {
                 fatalError("cant get human")
             }
 
-            if self.readyUpdatingAI && humanPlayer.isActive() {
-                self.changeUITurnState(to: .humanTurns)
- 
-                if self.readyUpdatingHuman {
+            if self.readyUpdatingAI {
 
-                    self.readyUpdatingHuman = false
-                    self.queue.async {
-                        //print("-----------> before human processing")
-                        gameModel.update()
-                        //print("-----------> after human processing")
-                        self.readyUpdatingHuman = true
+                if humanPlayer.isActive() {
+                    self.changeUITurnState(to: .humanTurns)
+
+                    if self.readyUpdatingHuman {
+
+                        self.readyUpdatingHuman = false
+                        self.queue.async {
+                            //print("-----------> before human processing")
+                            gameModel.update()
+                            //print("-----------> after human processing")
+                            self.readyUpdatingHuman = true
+                        }
                     }
-                }
 
-            } else {
-                if self.readyUpdatingAI {
+                } else {
+
                     self.readyUpdatingAI = false
                     self.queue.async {
                         //print("-----------> before AI processing")
@@ -393,7 +395,7 @@ class GameScene: BaseScene {
         case .aiTurns:
             // show AI is working banner
             self.safeAreaNode.addChild(self.bannerNode!)
-            
+
             self.view?.preferredFramesPerSecond = 15
 
             // show AI turn
@@ -402,59 +404,59 @@ class GameScene: BaseScene {
         case .humanTurns:
             // hide AI is working banner
             self.bannerNode?.removeFromParent()
-            
+
             self.view?.preferredFramesPerSecond = 60
-            
+
             self.turnLabel?.text = gameModel.turnYear()
 
             // update nodes
             if let techs = humanPlayer.techs {
-                
+
                 if let currentTech = techs.currentTech() {
                     let progressPercentage = techs.currentScienceProgress() / Double(currentTech.cost()) * 100.0
                     self.scienceProgressNode?.update(tech: currentTech, progress: Int(progressPercentage), turnsRemaining: techs.currentScienceTurnsRemaining())
                 } else {
                     self.scienceProgressNode?.update(tech: .none, progress: 0, turnsRemaining: 0)
                 }
-                
+
                 self.scienceYield?.set(yieldValue: techs.currentScienceProgress()) // lastScienceEarned
             }
-            
+
             if let civics = humanPlayer.civics {
-                
+
                 if let currentCivic = civics.currentCivic() {
                     let progressPercentage = civics.currentCultureProgress() / Double(currentCivic.cost()) * 100.0
                     self.cultureProgressNode?.update(civic: currentCivic, progress: Int(progressPercentage), turnsRemaining: civics.currentCultureTurnsRemaining())
                 } else {
                     self.cultureProgressNode?.update(civic: .none, progress: 0, turnsRemaining: 0)
                 }
-                
+
                 self.cultureYield?.set(yieldValue: civics.currentCultureProgress()) // lastCultureEarned
             }
-            
+
             if let treasury = humanPlayer.treasury {
                 self.goldYield?.set(yieldValue: treasury.value())
             }
-            
+
             // update
             self.updateLeaders()
-            
+
             // update state
             self.updateTurnButton()
 
         case .humanBlocked:
             // NOOP
-            
+
             self.view?.preferredFramesPerSecond = 60
-            
+
             break
         }
 
         self.uiTurnState = state
     }
-    
+
     func updateLeaders() {
-        
+
         guard let gameModel = self.viewModel?.game else {
             fatalError("cant get game")
         }
@@ -462,17 +464,17 @@ class GameScene: BaseScene {
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human")
         }
-        
+
         guard let leadersNode = self.leadersNode else {
             return
         }
-        
+
         for otherPlayer in gameModel.players {
-            
+
             if humanPlayer.hasMet(with: otherPlayer) {
-                
+
                 if !leadersNode.leaders.contains(otherPlayer.leader) {
-                    
+
                     self.leadersNode?.add(leader: otherPlayer.leader)
                 }
             }
@@ -492,9 +494,9 @@ class GameScene: BaseScene {
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human")
         }
-        
+
         if self.currentScreenType == .none {
-            
+
             if self.popups.count > 0 && self.currentPopupType == .none {
                 self.displayPopups()
                 return
@@ -509,7 +511,7 @@ class GameScene: BaseScene {
                     self.unselect()
                 }
             } else {
-                
+
                 // no unit selected - show blocking button
                 self.bottomLeftBar?.showBlockingButton(for: blockingNotification)
             }
@@ -578,7 +580,7 @@ class GameScene: BaseScene {
 
         let touchLocation = touch.location(in: self.viewHex)
         let position = HexPoint(screen: touchLocation)
-        
+
         let cameraLocation = touch.location(in: self.cameraNode)
 
         guard let bottomRightBar = self.bottomRightBar, !bottomRightBar.frame.contains(cameraLocation) else {
@@ -630,29 +632,29 @@ class GameScene: BaseScene {
             self.bottomRightBar?.touchesEnded(touches, with: event)
             return
         }
-        
+
         guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
             print("touch ended in left bar")
             return
         }
-        
+
         guard let menuButton = self.menuButton, !menuButton.frame.contains(cameraLocation) else {
             // print("touch ended in menu")
             self.showScreen(screenType: .menu)
             return
         }
-        
+
         if let scienceProgressNode = self.scienceProgressNode {
-            
+
             if !self.scienceProgressNodeHidden && scienceProgressNode.contains(cameraLocation) {
                 // print("science progress touched")
                 self.showScreen(screenType: .techs)
                 return
             }
         }
-        
+
         if let cultureProgressNode = self.cultureProgressNode {
-            
+
             if !self.cultureProgressNodeHidden && cultureProgressNode.contains(cameraLocation) {
                 //print("culture progress touched")
                 self.showScreen(screenType: .civics)
@@ -670,7 +672,7 @@ class GameScene: BaseScene {
                 return
             }
         }
-        
+
         if let leadersNode = self.leadersNode, leadersNode.frame.contains(cameraLocation) {
 
             if leadersNode.handleTouches(touches, with: event) {
@@ -724,13 +726,13 @@ class GameScene: BaseScene {
 }
 
 extension GameScene: LeftHeaderBarNodeDelegate {
-    
+
     func toogleScienceButton() {
         //self.scienceProgressNode?.position.
         self.scienceProgressNodeHidden = !self.scienceProgressNodeHidden
         self.updateLayout()
     }
-    
+
     func toggleCultureButton() {
         self.cultureProgressNodeHidden = !self.cultureProgressNodeHidden
         self.updateLayout()
@@ -746,19 +748,19 @@ extension GameScene: BottomRightBarDelegate {
 
         self.centerCamera(on: point)
     }
-    
+
     func showYields() {
         self.mapNode?.showYields()
     }
-    
+
     func hideYields() {
         self.mapNode?.hideYields()
     }
-    
+
     func showWater() {
         self.mapNode?.showWater()
     }
-    
+
     func hideWater() {
         self.mapNode?.hideWater()
     }
@@ -788,7 +790,7 @@ extension GameScene: BottomLeftBarDelegate {
                 cityNameDialog.addOkayAction(handler: {
 
                     if cityNameDialog.isValid() {
-                        
+
                         let location = selectedUnit.location
                         selectedUnit.doFound(with: cityNameDialog.getCityName(), in: self.viewModel?.game)
                         self.unselect()
@@ -807,7 +809,7 @@ extension GameScene: BottomLeftBarDelegate {
                 })
 
                 self.cameraNode.add(dialog: cityNameDialog)
-                
+
                 let cityName = humanPlayer.newCityName(in: gameModel)
                 cityNameDialog.set(textFieldInput: cityName)
             }
@@ -901,27 +903,27 @@ extension GameScene: BottomLeftBarDelegate {
             }
         }
     }
-    
+
     func handleTechNeeded() {
-        
+
         self.showTechDialog()
     }
-    
+
     func handleCivicNeeded() {
-        
+
         self.showCivicDialog()
     }
-    
+
     func handleProductionNeeded(at location: HexPoint) {
-        
+
         guard let gameModel = self.viewModel?.game else {
             fatalError("cant get game")
         }
-        
+
         guard let city = gameModel.city(at: location) else {
             fatalError("cant get city at \(location)")
         }
-        
+
         self.showCityDialog(for: city)
     }
 }
@@ -933,7 +935,7 @@ extension GameScene: NotificationsDelegate {
         guard let notification = notification else {
             fatalError("cant get notification")
         }
-        
+
         notification.activate(in: self.viewModel?.game)
     }
 }
@@ -945,18 +947,18 @@ extension GameScene: LeadersDelegate {
         guard let gameModel = self.viewModel?.game else {
             fatalError("cant get game")
         }
-        
+
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human")
         }
-        
+
         guard let otherPlayer = gameModel.player(for: leader) else {
             fatalError("cant get otherPlayer")
         }
-        
+
         //let szText = DiplomaticRequestMessage.messageIntro.diploStringForMessage(for: humanPlayer)
         let data = DiplomaticData(state: .blankDiscussion, message: .messageIntro, emotion: .neutral)
-        
+
         print("diplo screen with: \(leader)")
         self.showScreen(screenType: .diplomatic, city: nil, other: otherPlayer, data: data)
     }

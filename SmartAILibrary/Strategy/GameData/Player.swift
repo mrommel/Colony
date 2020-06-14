@@ -58,6 +58,7 @@ public protocol AbstractPlayer: class, Codable {
     func hasActiveDiplomacyRequests() -> Bool
     func canFinishTurn() -> Bool
     func finishTurnButtonPressed() -> Bool // TODO: rename to finishedTurn
+    func doTurnPostDiplomacy(in gameModel: GameModel?)
     func finishTurn()
     func updateTimers(in gameModel: GameModel?)
     
@@ -814,6 +815,10 @@ public class Player: AbstractPlayer {
 
     internal func doTurn(in gameModel: GameModel?) {
 
+        guard let userInterface = gameModel?.userInterface else {
+            fatalError("cant get userInterface")
+        }
+        
         // inform ui about new notifications
         self.notificationsValue?.update(in: gameModel)
         
@@ -833,14 +838,14 @@ public class Player: AbstractPlayer {
             }
         }
         
-        if hasActiveDiploRequest {
-            
+        if (hasActiveDiploRequest || userInterface.isShown(screen: .diplomatic)) && !self.isHuman() {
+            gameModel?.setWaitingForBlockingInput(of: self)
         } else {
             self.doTurnPostDiplomacy(in: gameModel)
         }
     }
     
-    private func doTurnPostDiplomacy(in gameModel: GameModel?) {
+    public func doTurnPostDiplomacy(in gameModel: GameModel?) {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gamemodel")

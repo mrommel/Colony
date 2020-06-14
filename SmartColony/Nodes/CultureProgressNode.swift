@@ -60,5 +60,6 @@ class CultureProgressNode: BaseProgressNode {
         }
 
         self.progressNode?.value = value
+        self.turnsRemainingNode?.text = "\(turnsRemaining)"
     }
 }

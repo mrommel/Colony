@@ -9,24 +9,40 @@
 import Foundation
 import BinarySwift
 
+// Civ5 ArtStyle
+enum ArtStyle: Int, Codable {
+    
+    case none = 0
+    
+    case americas = 1
+    case asia = 2
+    case africa = 3
+    case europe = 4
+}
+
 struct Civ5MapPlot: Codable {
     
     var terrain: TerrainType //byte 0 -- Terrain type ID (index into list of Terrain types read from header)
     var hills: Bool = false
-    let ressourceType: UInt8 //byte 1 -- Resource type ID; 0xFF if none
+    let ressourceType: ResourceType? //byte 1 -- Resource type ID; 0xFF if none
     var feature1stType: FeatureType? //byte 2 -- 1st Feature type ID; 0xFF if none
     let river: UInt8 //byte 3 -- River indicator (non-zero if tile borders a river; actual value probably indicates direction)
     let elevation: UInt8 //byte 4 -- Elevation (0 = Flat, 1 = Hill, 2 = Mountain)
-    let artStyle: UInt8 //byte 5 -- Unknown (possibly related to continent art style)
+    let artStyle: ArtStyle //byte 5 -- Unknown (possibly related to continent art style)
     let feature2ndType: FeatureType? //byte 6 -- 2nd Feature type ID; 0xFF if none
-    let unused2: UInt8 //byte 7 -- Unknown
+    let resourceQuantity: UInt8 //byte 7 -- resource amount
     
     init(reader: BinaryDataReader, header: Civ5MapHeader) throws {
         
         let terrainTypeIndex: UInt8 = try reader.read()
         self.terrain = TerrainType.fromCiv5String(value: header.terrainTypes[Int(terrainTypeIndex)])!
         
-        self.ressourceType = try reader.read()
+        let ressourceIndex: UInt8 = try reader.read()
+        if ressourceIndex != 255 {
+            self.ressourceType = ResourceType.fromCiv5String(value: header.resourceTypes[Int(ressourceIndex)])
+        } else {
+            self.ressourceType = nil
+        }
         
         let feature1stTypeIndex: UInt8 = try reader.read()
         if feature1stTypeIndex != 255 {
@@ -48,14 +64,15 @@ struct Civ5MapPlot: Codable {
             self.feature1stType = .mountains
         }
         
-        self.artStyle = try reader.read()
+        let artStyleValue: UInt8 = try reader.read()
+        self.artStyle = ArtStyle(rawValue: Int(artStyleValue)) ?? ArtStyle.none
         let feature2stTypeIndex: UInt8 = try reader.read()
         if feature2stTypeIndex != 255 {
             self.feature2ndType = FeatureType.fromCiv5String(value: header.feature2ndTypes[Int(feature2stTypeIndex)])
         } else {
             self.feature2ndType = nil
         }
-        self.unused2 = try reader.read()
+        self.resourceQuantity = try reader.read()
     }
 }
 

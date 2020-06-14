@@ -145,14 +145,13 @@ extension GameScene {
         self.currentScreenType = .diplomatic
         
         let viewModel = DiplomaticDialogViewModel(for: humanPlayer, and: otherPlayer, state: data.state, message: data.message, emotion: data.emotion, in: self.viewModel?.game)
-        
-        if let deal = deal {
-            //viewModel.deal = deal
-            fatalError("not implemented")
-        }
 
         let diplomaticDialog = DiplomaticDialog(viewModel: viewModel)
         diplomaticDialog.zPosition = 250
+        
+        if let deal = deal {
+            viewModel.add(deal: deal)
+        }
 
         diplomaticDialog.addOkayAction(handler: {
             diplomaticDialog.close()

@@ -14,6 +14,8 @@ class TestUI: UserInterfaceProtocol {
     
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData? = nil) { }
     
+    func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType) { }
+    
     func update(city: AbstractCity?) { }
 
     func showPopup(popupType: PopupType, with data: PopupData?) { }
