@@ -601,7 +601,11 @@ class GameScene: BaseScene {
 
                 let pathFinder = AStarPathfinder()
                 pathFinder.dataSource = self.viewModel?.game?.ignoreUnitsPathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player)
-
+                
+                // update
+                let commands = selectedUnit.commands(in: self.viewModel?.game)
+                self.bottomLeftBar?.selectedUnitChanged(to: selectedUnit, commands: commands)
+            
                 if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
                     path.prepend(point: selectedUnit.location, cost: 0.0)
                     self.mapNode?.unitLayer.show(path: path, for: selectedUnit)
