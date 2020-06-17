@@ -259,7 +259,6 @@ public class MapModel: Codable {
                     
                 let tile = self.tile(at: pt)
                 tile?.discover(by: unit.player, in: gameModel)
-                
                 tile?.sight(by: unit.player)
             }
         }

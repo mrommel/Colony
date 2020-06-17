@@ -34,7 +34,7 @@ class TileDiscovered: Codable {
         var discovered: Bool
         var sighted: Int // number of units / cities seeing this tile
         
-        init(by leader: LeaderType, discovered: Bool = true, sighted: Bool = true) {
+        init(by leader: LeaderType, discovered: Bool = true, sighted: Bool = false) {
             
             self.leader = leader
             self.discovered = discovered
