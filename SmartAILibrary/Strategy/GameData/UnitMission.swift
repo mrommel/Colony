@@ -92,7 +92,7 @@ public class UnitMission {
                     action = true
                 }
                 // FIXME nuke, paradrop, airlift
-                    else if self.type == .rebase {
+                else if self.type == .rebase {
 
                         guard let target = self.target else {
                             fatalError("type requires a target")
@@ -561,7 +561,7 @@ public class UnitMission {
                             }
                         }*/
 
-                    
+
                     unit.publishQueuedVisualizationMoves(in: gameModel)
 
                     unit.popMission()

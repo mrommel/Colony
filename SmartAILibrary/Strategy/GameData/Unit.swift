@@ -2111,40 +2111,19 @@ public class Unit: AbstractUnit {
             return self.type.canFound()
             
         case .buildFarm:
-            
-            if !self.type.canBuild(build: .farm) {
-                return false
-            }
-            
-            if !player.canBuild(build: .farm, at: self.location, testVisible: true, testGold: true, in: gameModel) {
-                return false
-            }
-            
-            if let tech = ImprovementType.farm.required() {
-                if !techs.has(tech: tech) {
-                    return false
-                }
-            }
-            
-            return true
+            return self.canBuild(build: .farm, at: self.location, testVisible: true, testGold: true, in: gameModel)
             
         case .buildMine:
-
-            if !self.type.canBuild(build: .mine) {
-                return false
-            }
+            return self.canBuild(build: .mine, at: self.location, testVisible: true, testGold: true, in: gameModel)
             
-            if !player.canBuild(build: .mine, at: self.location, testVisible: true, testGold: true, in: gameModel) {
-                return false
-            }
+        case .buildCamp:
+            return self.canBuild(build: .camp, at: self.location, testVisible: true, testGold: true, in: gameModel)
             
-            if let tech = ImprovementType.mine.required() {
-                if !techs.has(tech: tech) {
-                    return false
-                }
-            }
+        case .buildPasture:
+            return self.canBuild(build: .pasture, at: self.location, testVisible: true, testGold: true, in: gameModel)
             
-            return true
+        case .buildQuarry:
+            return self.canBuild(build: .quarry, at: self.location, testVisible: true, testGold: true, in: gameModel)
             
         case .fortify:
             return self.canFortify(at: self.location, in: gameModel)
@@ -2312,7 +2291,7 @@ public class Unit: AbstractUnit {
             return false
         }
 
-        if !player.canBuild(build: build, at: point, testVisible: testVisible, testGold: testGold, in: gameModel) {
+        if !player.canBuild(build: build, at: point, testGold: testGold, in: gameModel) {
             return false
         }
 

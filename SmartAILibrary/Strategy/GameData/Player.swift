@@ -144,7 +144,7 @@ public protocol AbstractPlayer: class, Codable {
     func bestSettleAreasWith(minimumSettleFertility minScore: Int, in gameModel: GameModel?) -> (Int, HexArea?, HexArea?)
     func bestSettlePlot(for firstSettler: AbstractUnit?, in gameModel: GameModel?, escorted: Bool, area: HexArea?) -> AbstractTile?
     func canFound(at location: HexPoint, in gameModel: GameModel?) -> Bool
-    func canBuild(build: BuildType, at point: HexPoint, testVisible: Bool, testGold: Bool, in gameModel: GameModel?) -> Bool
+    func canBuild(build: BuildType, at point: HexPoint, testGold: Bool, in gameModel: GameModel?) -> Bool
     
     func updatePlots(in gameModel: GameModel?)
     
@@ -1928,7 +1928,7 @@ public class Player: AbstractPlayer {
     }
     
     /// Can we eBuild on pPlot?
-    public func canBuild(build: BuildType, at point: HexPoint, testVisible: Bool, testGold: Bool, in gameModel: GameModel?) -> Bool {
+    public func canBuild(build: BuildType, at point: HexPoint, testGold: Bool, in gameModel: GameModel?) -> Bool {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1951,25 +1951,26 @@ public class Player: AbstractPlayer {
 
         // Is this an improvement that is only useable by a specific civ?
         if let improvement = build.improvement() {
-            // NOOP
+            if let improvementCivilization = improvement.civilization() {
+                if improvementCivilization != self.leader.civilization() {
+                    return false
+                }
+            }
         }
 
-        if !testVisible {
+        // IsBuildBlockedByFeature
+        if tile.hasAnyFeature() {
             
-            // IsBuildBlockedByFeature
-            if tile.hasAnyFeature() {
+            for feature in FeatureType.all {
                 
-                for feature in FeatureType.all {
+                if tile.has(feature: feature) {
+                    if !build.canRemove(feature: feature) {
+                        return false
+                    }
                     
-                    if tile.has(feature: feature) {
-                        if !build.canRemove(feature: feature) {
+                    if let removeTech = build.requiredRemoveTech(for: feature) {
+                        if !self.has(tech: removeTech) {
                             return false
-                        }
-                        
-                        if let removeTech = build.requiredRemoveTech(for: feature) {
-                            if !self.has(tech: removeTech) {
-                                return false
-                            }
                         }
                     }
                 }

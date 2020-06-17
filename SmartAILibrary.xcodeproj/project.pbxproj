@@ -70,7 +70,6 @@
 		C95503C324585F6E00D4B3D8 /* MapOptionResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95503C224585F6D00D4B3D8 /* MapOptionResources.swift */; };
 		C95503C5245864A200D4B3D8 /* StartPositioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95503C4245864A200D4B3D8 /* StartPositioner.swift */; };
 		C955561823FEB41600A4E312 /* UnitMissionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C955561723FEB41600A4E312 /* UnitMissionTypes.swift */; };
-		C955561A23FEB47100A4E312 /* UnitCommandTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C955561923FEB47100A4E312 /* UnitCommandTypes.swift */; };
 		C955FBCE246065D600605618 /* AmenitiesState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C955FBCD246065D600605618 /* AmenitiesState.swift */; };
 		C957AA322436357E00203024 /* Civ5Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA312436357E00203024 /* Civ5Feature.swift */; };
 		C957AA34243635B300203024 /* Civ5MapHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA33243635B300203024 /* Civ5MapHeader.swift */; };
@@ -305,7 +304,6 @@
 		C95503C224585F6D00D4B3D8 /* MapOptionResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptionResources.swift; sourceTree = "<group>"; };
 		C95503C4245864A200D4B3D8 /* StartPositioner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPositioner.swift; sourceTree = "<group>"; };
 		C955561723FEB41600A4E312 /* UnitMissionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMissionTypes.swift; sourceTree = "<group>"; };
-		C955561923FEB47100A4E312 /* UnitCommandTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitCommandTypes.swift; sourceTree = "<group>"; };
 		C955FBCD246065D600605618 /* AmenitiesState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmenitiesState.swift; sourceTree = "<group>"; };
 		C957AA312436357E00203024 /* Civ5Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Feature.swift; sourceTree = "<group>"; };
 		C957AA33243635B300203024 /* Civ5MapHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapHeader.swift; sourceTree = "<group>"; };
@@ -864,7 +862,6 @@
 				C9C2FE4623FC170700185235 /* UnitPromotionType.swift */,
 				C91B0A5223FD37500065C62A /* UnitAbilityType.swift */,
 				C955561723FEB41600A4E312 /* UnitMissionTypes.swift */,
-				C955561923FEB47100A4E312 /* UnitCommandTypes.swift */,
 				C91BE62C23FED34C00912962 /* UnitOperationType.swift */,
 				C9C003BE23FEDD0B0031C7F9 /* UnitFormationType.swift */,
 				C93D66A92402913100F5157B /* UnitMovementType.swift */,
@@ -1167,7 +1164,6 @@
 				C9588ABF2417F62D00304E9A /* BuildType.swift in Sources */,
 				C98DBFB623E0BF9000B6CE25 /* CivicType.swift in Sources */,
 				C98DBFB023E0469800B6CE25 /* TerrainType.swift in Sources */,
-				C955561A23FEB47100A4E312 /* UnitCommandTypes.swift in Sources */,
 				C906145023E36FC300D316B5 /* DistrictType.swift in Sources */,
 				C98CBE1024338E4E005EE397 /* MapType.swift in Sources */,
 				C906144C23E3337300D316B5 /* BuildingType.swift in Sources */,
