@@ -2303,18 +2303,21 @@ public class TacticalAI: Codable {
     /// Find last posture for a specific zone
     private func findPostureType(for dominanceZone: TacticalAnalysisMap.TacticalDominanceZone?) -> TacticalPostureType {
         
-        if let dominanceZone = dominanceZone {
-            
-            for posture in self.postures {
+        guard let player = self.player else {
+            fatalError("cant get leader")
+        }
+        
+        guard let dominanceZone = dominanceZone else {
+            return TacticalPostureType.none
+        }
+        
+        guard let closestCity = dominanceZone.closestCity else {
+            return TacticalPostureType.none
+        }
+        
+        if let posture = self.postures.first(where: { player.isEqual(to: $0.player) && $0.isWater == dominanceZone.isWater && $0.city?.location == closestCity.location }) {
                 
-                if posture.player?.leader == self.player?.leader && posture.isWater == dominanceZone.isWater {
-                    
-                    if dominanceZone.closestCity != nil && posture.city?.location == dominanceZone.closestCity?.location {
-                    
-                        return posture.type
-                    }
-                }
-            }
+            return posture.type
         }
         
         return TacticalPostureType.none
