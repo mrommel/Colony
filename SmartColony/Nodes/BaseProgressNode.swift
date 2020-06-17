@@ -89,7 +89,7 @@ class BaseProgressNode: SizedNode {
         // turns remaining
         self.turnsRemainingNode = SKLabelNode(text: "?")
         self.turnsRemainingNode?.zPosition = self.zPosition + 1
-        self.turnsRemainingNode?.fontSize = 6
+        self.turnsRemainingNode?.fontSize = 8
         self.turnsRemainingNode?.fontName = Globals.Fonts.customFontFamilyname
         self.turnsRemainingNode?.fontColor = .white
         self.turnsRemainingNode?.numberOfLines = 1
@@ -132,7 +132,7 @@ class BaseProgressNode: SizedNode {
         self.labelNode?.position = self.position + CGPoint(x: 44, y: 1)
         self.progressNode?.position = self.position + CGPoint(x: 21, y: -23)
         self.iconNode?.position = self.position + CGPoint(x: 21, y: -23)
-        self.eurekaNode?.position = self.position + CGPoint(x: 53, y: -50)
+        self.eurekaNode?.position = self.position + CGPoint(x: 53, y: -52)
         self.turnsRemainingNode?.position = self.position + CGPoint(x: 20, y: -50)
         
         for (index, iconNode) in self.iconNodes.enumerated() {

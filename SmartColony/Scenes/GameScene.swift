@@ -818,13 +818,31 @@ extension GameScene: BottomLeftBarDelegate {
                 let farmBuildMission = UnitMission(type: .build, buildType: .farm, at: selectedUnit.location)
                 selectedUnit.push(mission: farmBuildMission, in: gameModel)
             }
-            break
+            
         case .buildMine:
             if let selectedUnit = self.selectedUnit {
                 let mineBuildMission = UnitMission(type: .build, buildType: .mine, at: selectedUnit.location)
                 selectedUnit.push(mission: mineBuildMission, in: gameModel)
             }
-            break
+            
+        case .buildCamp:
+            if let selectedUnit = self.selectedUnit {
+                let campBuildMission = UnitMission(type: .build, buildType: .camp, at: selectedUnit.location)
+                selectedUnit.push(mission: campBuildMission, in: gameModel)
+            }
+        
+        case .buildPasture:
+            if let selectedUnit = self.selectedUnit {
+                let pastureBuildMission = UnitMission(type: .build, buildType: .pasture, at: selectedUnit.location)
+                selectedUnit.push(mission: pastureBuildMission, in: gameModel)
+            }
+            
+        case .buildQuarry:
+            if let selectedUnit = self.selectedUnit {
+                let quarryBuildMission = UnitMission(type: .build, buildType: .quarry, at: selectedUnit.location)
+                selectedUnit.push(mission: quarryBuildMission, in: gameModel)
+            }
+            
         case .pillage:
             // NOOP
             break

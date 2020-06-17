@@ -433,6 +433,12 @@ public enum ImprovementType: Int, Codable {
         }
     }
     
+    // is this improvment special to a civilization?
+    func civilization() -> CivilizationType? {
+        
+        return nil
+    }
+    
     func flavor(for flavorType: FlavorType) -> Int {
 
         if let modifier = self.flavors().first(where: { $0.type == flavorType }) {

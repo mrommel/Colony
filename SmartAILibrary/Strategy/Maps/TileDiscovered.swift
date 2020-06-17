@@ -38,7 +38,7 @@ class TileDiscovered: Codable {
             
             self.leader = leader
             self.discovered = discovered
-            self.sighted = sighted ? 0 : 1
+            self.sighted = sighted ? 1 : 0
         }
         
         required init(from decoder: Decoder) throws {
@@ -127,7 +127,7 @@ class TileDiscovered: Codable {
     func conceal(to player: AbstractPlayer?) {
         
         if let item = self.items.first(where: { $0.leader == player?.leader }) {
-            item.sighted -= 1
+            item.sighted = max(0, item.sighted - 1)
         } else {
             self.items.append(TileDiscoveredItem(by: player!.leader, discovered: false, sighted: false))
         }

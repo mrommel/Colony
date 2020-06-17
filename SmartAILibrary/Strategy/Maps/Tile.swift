@@ -998,8 +998,8 @@ class Tile: AbstractTile {
 
         if !self.isDiscovered(by: player) {
 
-            if !techs.eurekaTriggered(for: .astrology) {
-                if self.featureValue.isWonder() {
+            if self.featureValue.isWonder() {
+                if !techs.eurekaTriggered(for: .astrology) {
                     techs.triggerEureka(for: .astrology, in: gameModel)
                 }
             }

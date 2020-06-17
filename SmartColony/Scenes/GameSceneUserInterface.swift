@@ -96,9 +96,13 @@ extension GameScene: UserInterfaceProtocol {
     }
 
     func move(unit: AbstractUnit?, on points: [HexPoint]) {
-        print("move")
+
         let costs: [Double] = [Double].init(repeating: 0.0, count: points.count)
         self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
+        
+        if let commands = unit?.commands(in: self.viewModel?.game) {
+            self.bottomLeftBar?.selectedUnitChanged(to: unit, commands: commands)
+        }
     }
 
     func show(city: AbstractCity?) {

@@ -17,6 +17,10 @@ extension CommandType {
         case .found: return "command_found"
         case .buildFarm: return "command_farm"
         case .buildMine: return "command_mine"
+        case .buildCamp: return "command_camp"
+        case .buildPasture: return "command_pasture"
+        case .buildQuarry: return "command_quarry"
+            
         //case .buildRoute: return "command_route"
         case .pillage: return "command_pillage"
         case .fortify: return "command_fortify"
