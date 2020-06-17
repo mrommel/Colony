@@ -177,16 +177,18 @@ class UnitLayer: SKNode {
         guard path.count > 1 else {
             return
         }
+        
+        var isReallyMovementLeft: Bool = true
 
         let (firstPoint, _) = path[0]
         let (secondPoint, secondCost) = path[1]
         
-        let isMovementLeft = movementInCurrentTurn >= secondCost
+        let isMovementLeft = movementInCurrentTurn > secondCost
 
         if let dir = firstPoint.direction(towards: secondPoint) {
             var textureName = "path-start-\(dir.short())"
             
-            if !isMovementLeft {
+            if !isReallyMovementLeft {
                 textureName = textureName + "-out"
             }
 
@@ -197,6 +199,10 @@ class UnitLayer: SKNode {
             self.addChild(pathSprite)
 
             self.pathSpriteBuffer.append(pathSprite)
+            
+            if !isMovementLeft {
+                isReallyMovementLeft = false
+            }
         }
 
         for i in 1..<path.count - 1 {
@@ -215,7 +221,7 @@ class UnitLayer: SKNode {
                     textureName = "path-\(dir2.short())-\(dir.short())"
                 }
                 
-                if !isMovementLeft {
+                if !isReallyMovementLeft {
                     textureName = textureName + "-out"
                 }
 
@@ -226,6 +232,10 @@ class UnitLayer: SKNode {
                 self.addChild(pathSprite)
 
                 self.pathSpriteBuffer.append(pathSprite)
+            }
+            
+            if !isMovementLeft {
+                isReallyMovementLeft = false
             }
         }
 
@@ -238,7 +248,7 @@ class UnitLayer: SKNode {
         if let dir = lastPoint.direction(towards: secondlastItem) {
             var textureName = "path-start-\(dir.short())"
             
-            if !isMovementLeftLast {
+            if !isReallyMovementLeft {
                 textureName = textureName + "-out"
             }
 
