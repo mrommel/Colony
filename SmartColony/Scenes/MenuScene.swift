@@ -196,6 +196,13 @@ class MenuScene: BaseScene {
 
         // copyright
         self.copyrightLabel?.position = CGPoint(x: 0, y: -self.frame.halfHeight + 18)
+        
+        // update load button
+        if GameStorage.listGames().isEmpty {
+            self.loadGameButton?.disable()
+        } else {
+            self.loadGameButton?.enable()
+        }
     }
     
     // MARK: handlers

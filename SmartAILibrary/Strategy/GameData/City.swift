@@ -2068,6 +2068,14 @@ public class City: AbstractCity {
 
         return Int(self.populationValue)
     }
+    
+    private func train(unitType: UnitType, in gameModel: GameModel?) {
+        
+        let unit = Unit(at: self.location, type: unitType, owner: self.player)
+        gameModel?.add(unit: unit)
+        
+        gameModel?.userInterface?.show(unit: unit)
+    }
 
     private func build(building: BuildingType) {
 
@@ -2355,7 +2363,7 @@ public class City: AbstractCity {
                 case .unit:
                     if let unitType = currentBuilding.unitType {
 
-                        //self.build(building: buildingType)
+                        self.train(unitType: unitType, in: gameModel)
 
                         if player.isHuman() {
                             //gameModel?.add(message: CityHasFinishedTrainingMessage(city: self, unit: unitType))

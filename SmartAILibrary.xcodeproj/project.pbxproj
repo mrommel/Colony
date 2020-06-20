@@ -142,6 +142,7 @@
 		C9A0573E24293D4F00D0FEAB /* MoveTypeIgnoreUnitsPathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0573D24293D4F00D0FEAB /* MoveTypeIgnoreUnitsPathfinderDataSource.swift */; };
 		C9A0574124293EAC00D0FEAB /* WonderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0574024293EAC00D0FEAB /* WonderType.swift */; };
 		C9A057452429E61700D0FEAB /* WonderProductionAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A057442429E61700D0FEAB /* WonderProductionAI.swift */; };
+		C9A125A0249CBE8900D5E3A1 /* BaseMapHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */; };
 		C9A50FE3242244C5006AA47B /* UsecaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A50FE2242244C5006AA47B /* UsecaseTests.swift */; };
 		C9ABAF2023F68E4A0023AC1B /* ProjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABAF1F23F68E4A0023AC1B /* ProjectType.swift */; };
 		C9ABAF2223F69CE70023AC1B /* Projects.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABAF2123F69CE70023AC1B /* Projects.swift */; };
@@ -375,6 +376,7 @@
 		C9A0573D24293D4F00D0FEAB /* MoveTypeIgnoreUnitsPathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveTypeIgnoreUnitsPathfinderDataSource.swift; sourceTree = "<group>"; };
 		C9A0574024293EAC00D0FEAB /* WonderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderType.swift; sourceTree = "<group>"; };
 		C9A057442429E61700D0FEAB /* WonderProductionAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderProductionAI.swift; sourceTree = "<group>"; };
+		C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseMapHandler.swift; sourceTree = "<group>"; };
 		C9A50FE2242244C5006AA47B /* UsecaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsecaseTests.swift; sourceTree = "<group>"; };
 		C9ABAF1F23F68E4A0023AC1B /* ProjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectType.swift; sourceTree = "<group>"; };
 		C9ABAF2123F69CE70023AC1B /* Projects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projects.swift; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 				C965A53523FC6B2F00BCEB54 /* RiverEdge.swift */,
 				C93D66A524028D9B00F5157B /* AStarPathfinder.swift */,
 				C93D66A724028DB500F5157B /* HexPath.swift */,
+				C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */,
 			);
 			path = Maps;
 			sourceTree = "<group>";
@@ -1096,6 +1099,7 @@
 				C90FC3A023D8968D00720B32 /* GameModel.swift in Sources */,
 				C92317C123D6EB21001FC723 /* HierarchicalState.swift in Sources */,
 				C9ABAF2423F6BCF00023AC1B /* Districts.swift in Sources */,
+				C9A125A0249CBE8900D5E3A1 /* BaseMapHandler.swift in Sources */,
 				C9E74CAF248D41E5003EF256 /* WarProjectionType.swift in Sources */,
 				C9DFCF7023F29CFC0032243D /* Ocean.swift in Sources */,
 				C9588AC12417FEB100304E9A /* CityConnections.swift in Sources */,

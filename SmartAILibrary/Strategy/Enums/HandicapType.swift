@@ -34,21 +34,6 @@ public enum HandicapType: Int, Codable {
         case .deity: return 25
         }
     }
-
-    func validGoodies() -> [GoodyType] {
-
-        switch self {
-
-        case .settler: return [.population, .culture, .gold, .map, .tech, .revealNearbyBarbarians, .upgradeUnit, .worker, .settler]
-        case .chieftain: return [.population, .culture, .gold, .map, .tech, .revealNearbyBarbarians, .upgradeUnit]
-        case .warlord: return [.population, .culture, .gold, .map, .tech, .revealNearbyBarbarians, .upgradeUnit]
-        case .prince: return [.population, .culture, .gold, .map, .tech, .revealNearbyBarbarians, .upgradeUnit]
-        case .king: return [.population, .culture, .gold, .map, .tech, .revealNearbyBarbarians, .upgradeUnit]
-        case .emperor: return [.population, .culture, .gold, .map, .tech, .revealNearbyBarbarians, .upgradeUnit]
-        case .immortal: return [.population, .culture, .gold, .map, .tech, .revealNearbyBarbarians, .upgradeUnit]
-        case .deity: return [.population, .culture, .gold, .map, .tech, .revealNearbyBarbarians, .upgradeUnit]
-        }
-    }
     
     public func freeHumanTechs() -> [TechType] {
         

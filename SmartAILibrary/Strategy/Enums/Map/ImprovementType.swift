@@ -182,7 +182,7 @@ public enum ImprovementType: Int, Codable {
         case .none: return false // invalid everywhere
             
         case .barbarianCamp: return self.isBarbarianCampPossible(on: tile)
-        case .goodyHut: return false
+        case .goodyHut: return self.isGoodyHutPossible(on: tile)
         case .ruins: return false
 
         case .farm: return self.isFarmPossible(on: tile)
@@ -259,6 +259,25 @@ public enum ImprovementType: Int, Codable {
         }
         
         return tile.terrain().isLand()
+    }
+    
+    public func isGoodyHutPossible(on tile: AbstractTile?) -> Bool {
+        
+        guard let tile = tile else {
+            fatalError("cant get tile")
+        }
+        
+        var possible = true
+        
+        if tile.terrain() != .grass && tile.terrain() != .plains && tile.terrain() != .desert && tile.terrain() != .tundra {
+            possible = false
+        }
+        
+        if tile.feature() != .none && tile.feature() != .forest && tile.feature() != .rainforest {
+            possible = false
+        }
+        
+        return possible
     }
     
     // Farms can be built on non-desert and non-tundra flat lands, which are the most available tiles in Civilization VI.

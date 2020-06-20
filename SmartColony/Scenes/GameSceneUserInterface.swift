@@ -83,7 +83,9 @@ extension GameScene: UserInterfaceProtocol {
     func show(unit: AbstractUnit?) {
 
         // unit gets visible again
-        self.mapNode?.unitLayer.show(unit: unit)
+        DispatchQueue.main.async() {
+            self.mapNode?.unitLayer.show(unit: unit)
+        }
     }
 
     func hide(unit: AbstractUnit?) {

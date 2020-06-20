@@ -11,20 +11,20 @@ import Foundation
 public class EconomicAI: Codable {
 
     enum CodingKeys: String, CodingKey {
-        
+
         case economicStrategyAdoption
         case flavors
-        
+
         case reconState
         case navalReconState
         case lastTurnBuilderDisbanded
         case explorersDisbanded
     }
-    
+
     var player: Player?
-    
+
     // MARK: internal variables
-    
+
     private let economicStrategyAdoption: EconomicStrategyAdoption
     private var flavors: Flavors
 
@@ -32,22 +32,22 @@ public class EconomicAI: Codable {
     private var navalReconStateVal: EconomicReconState
     private var lastTurnBuilderDisbandedVal: Int
     private var explorersDisbandedValue: Int
-    
+
     private var explorationPlotsDirty: Bool = true
     private var goodyHutUnitAssignments: [GoodyHutUnitAssignment]
     private var explorationPlotsArray: [ExplorationPlot]
     private var explorers: [AbstractUnit?]
-    
+
     // MARK: internal classes
-    
+
     struct GoodyHutUnitAssignment {
-        
+
         var unit: AbstractUnit?
         let location: HexPoint // of goody hut
     }
-    
+
     struct ExplorationPlot {
-        
+
         let location: HexPoint
         let rating: Int
     }
@@ -55,12 +55,12 @@ public class EconomicAI: Codable {
     class EconomicStrategyAdoptionItem: Codable {
 
         enum CodingKeys: String, CodingKey {
-            
+
             case economicStrategy
             case adopted
             case turnOfAdoption
         }
-        
+
         let economicStrategy: EconomicStrategyType
         var adopted: Bool
         var turnOfAdoption: Int
@@ -71,18 +71,18 @@ public class EconomicAI: Codable {
             self.adopted = adopted
             self.turnOfAdoption = turnOfAdoption
         }
-        
+
         required init(from decoder: Decoder) throws {
-        
+
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            
+
             self.economicStrategy = try container.decode(EconomicStrategyType.self, forKey: .economicStrategy)
             self.adopted = try container.decode(Bool.self, forKey: .adopted)
             self.turnOfAdoption = try container.decode(Int.self, forKey: .turnOfAdoption)
         }
-        
+
         func encode(to encoder: Encoder) throws {
-        
+
             var container = encoder.container(keyedBy: CodingKeys.self)
 
             try container.encode(self.economicStrategy, forKey: .economicStrategy)
@@ -94,10 +94,10 @@ public class EconomicAI: Codable {
     class EconomicStrategyAdoption: Codable {
 
         enum CodingKeys: String, CodingKey {
-            
+
             case adoptions
         }
-        
+
         var adoptions: [EconomicStrategyAdoptionItem]
 
         init() {
@@ -109,16 +109,16 @@ public class EconomicAI: Codable {
                 adoptions.append(EconomicStrategyAdoptionItem(economicStrategy: economicStrategyType, adopted: false, turnOfAdoption: -1))
             }
         }
-        
+
         required init(from decoder: Decoder) throws {
-        
+
             let container = try decoder.container(keyedBy: CodingKeys.self)
- 
+
             self.adoptions = try container.decode([EconomicStrategyAdoptionItem].self, forKey: .adoptions)
         }
-        
+
         func encode(to encoder: Encoder) throws {
-        
+
             var container = encoder.container(keyedBy: CodingKeys.self)
 
             try container.encode(self.adoptions, forKey: .adoptions)
@@ -173,37 +173,37 @@ public class EconomicAI: Codable {
 
         self.reconStateVal = .none
         self.navalReconStateVal = .none
-        
+
         self.lastTurnBuilderDisbandedVal = 0
-        
+
         self.goodyHutUnitAssignments = []
         self.explorationPlotsArray = []
         self.explorers = []
         self.explorersDisbandedValue = 0
     }
-    
+
     required public init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.player = nil
-        
+
         self.economicStrategyAdoption = try container.decode(EconomicStrategyAdoption.self, forKey: .economicStrategyAdoption)
         self.flavors = try container.decode(Flavors.self, forKey: .flavors)
-        
+
         self.reconStateVal = try container.decode(EconomicReconState.self, forKey: .reconState)
         self.navalReconStateVal = try container.decode(EconomicReconState.self, forKey: .navalReconState)
         self.lastTurnBuilderDisbandedVal = try container.decode(Int.self, forKey: .lastTurnBuilderDisbanded)
         self.explorersDisbandedValue = try container.decode(Int.self, forKey: .explorersDisbanded)
-        
+
         self.explorationPlotsDirty = true
         self.goodyHutUnitAssignments = []
         self.explorationPlotsArray = []
         self.explorers = []
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-        
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.economicStrategyAdoption, forKey: .economicStrategyAdoption)
@@ -214,7 +214,7 @@ public class EconomicAI: Codable {
         try container.encode(self.lastTurnBuilderDisbandedVal, forKey: .lastTurnBuilderDisbanded)
         try container.encode(self.explorersDisbandedValue, forKey: .explorersDisbanded)
     }
-    
+
     // MARK: methods
 
     func turn(in gameModel: GameModel?) {
@@ -226,7 +226,7 @@ public class EconomicAI: Codable {
         guard let player = self.player else {
             fatalError("no player given")
         }
-        
+
         self.updatePlots(in: gameModel)
 
         self.updateReconState(in: gameModel)
@@ -336,19 +336,19 @@ public class EconomicAI: Codable {
             //self.disbandExtraWorkers()
         }
     }
-    
+
     func setExplorationPlotsDirty() {
-        
+
         self.explorationPlotsDirty = true
     }
-    
+
     func incrementExplorersDisbanded() {
-        
+
         self.explorersDisbandedValue += 1
     }
-    
+
     func explorersDisbanded() -> Int {
-        
+
         return self.explorersDisbandedValue
     }
 
@@ -357,13 +357,13 @@ public class EconomicAI: Codable {
         guard let gameModel = gameModel else {
             fatalError("cant get game model")
         }
-        
+
         guard let player = self.player else {
             fatalError("no player given")
         }
 
         let mapSize = gameModel.mapSize()
-        
+
         // Start at 1 so we don't get divide-by-0 errors
         //   Land recon counters
         var iNumLandPlotsRevealed = 1
@@ -378,7 +378,7 @@ public class EconomicAI: Codable {
             for y in 0..<mapSize.height() {
 
                 let pt = HexPoint(x: x, y: y)
-                
+
                 if let tile = gameModel.tile(at: pt) {
 
                     if tile.isDiscovered(by: self.player) {
@@ -388,17 +388,17 @@ public class EconomicAI: Codable {
                         } else if gameModel.isCoastal(at: pt) {
                             iNumCoastalTilesRevealed += 1
                         }
-                        
+
                         for neighbor in pt.neighbors() {
-                            
+
                             if !gameModel.valid(point: neighbor) {
                                 continue
                             }
-                            
+
                             if let neighborTile = gameModel.tile(at: neighbor) {
-                            
+
                                 if !neighborTile.isDiscovered(by: self.player) {
-                                    
+
                                     if neighborTile.terrain().isLand() {
                                         iNumLandPlotsWithAdjacentFog += 1
                                     } else if gameModel.isCoastal(at: pt) {
@@ -411,9 +411,9 @@ public class EconomicAI: Codable {
                 }
             }
         }
-        
+
         // RECON ON OUR HOME CONTINENT
-        
+
         let iNumExploringUnits = gameModel.units(of: player).count(where: { $0!.has(task: .explore) }) + self.explorersDisbandedValue
         var iStrategyWeight = 100.0
         var iWeightThreshold = 110 - player.personalAndGrandStrategyFlavor(for: .recon) * 10
@@ -427,7 +427,7 @@ public class EconomicAI: Codable {
         var iNumExplorerDivisor = iNumExploringUnits + 1
         iStrategyWeight /= Double(iNumExplorerDivisor * iNumExplorerDivisor)
         iStrategyWeight /= sqrt(Double(iNumLandPlotsRevealed))
-        
+
         if Int(iStrategyWeight) > iWeightThreshold {
             self.reconStateVal = .needed
         } else {
@@ -437,13 +437,13 @@ public class EconomicAI: Codable {
                 self.reconStateVal = .enough
             }
         }
-        
+
         // NAVAL RECON ACROSS THE ENTIRE MAP
 
         // No coastal cities?  Moot point...
         var foundedCoastalCity = false
         for cityRef in gameModel.cities(of: player) {
-            
+
             if let city = cityRef {
                 if gameModel.isCoastal(at: city.location) {
                     foundedCoastalCity = true
@@ -452,9 +452,9 @@ public class EconomicAI: Codable {
         }
 
         if !foundedCoastalCity {
-            
+
             self.navalReconStateVal = .enough
-            
+
         } else {
             // How many Units do we have exploring or being trained to do this job? The more Units we have the less we want this Strategy
             let iNumExploringUnits = gameModel.units(of: player).count(where: { $0!.has(task: .exploreSea) })
@@ -473,7 +473,7 @@ public class EconomicAI: Codable {
 
             if Int(iStrategyWeight) > iWeightThreshold {
                 self.navalReconStateVal = .needed
-            } else  {
+            } else {
                 if Int(iStrategyWeight) > (iWeightThreshold / 4) {
                     self.navalReconStateVal = .neutral
                 } else {
@@ -484,9 +484,9 @@ public class EconomicAI: Codable {
             }
         }
     }
-    
+
     func adopted(economicStrategy: EconomicStrategyType) -> Bool {
-        
+
         return self.economicStrategyAdoption.adopted(economicStrategy: economicStrategy)
     }
 
@@ -494,7 +494,7 @@ public class EconomicAI: Codable {
 
         return self.reconStateVal
     }
-    
+
     func navalReconState() -> EconomicReconState {
 
         return self.navalReconStateVal
@@ -517,50 +517,49 @@ public class EconomicAI: Codable {
 
         // FIXME: inform
     }
-    
+
     func lastTurnBuilderDisbanded() -> Int {
-        
+
         return self.lastTurnBuilderDisbandedVal
     }
 
     func minimumSettleFertility() -> Int {
-        
+
         return 5000 // AI_STRATEGY_MINIMUM_SETTLE_FERTILITY
     }
-    
+
     func unitTargetGoodyPlot(for unit: AbstractUnit?, in gameModel: GameModel?) -> AbstractTile? {
-        
+
         if self.explorationPlotsDirty {
             self.updatePlots(in: gameModel)
         }
-        
+
         for goodyHutUnitAssignment in self.goodyHutUnitAssignments {
-            
-            guard let goodyHutUnit = goodyHutUnitAssignment.unit else {
-                fatalError("goodyHutUnit not assigned")
-            }
-            
-            if goodyHutUnit.isEqual(to: unit) {
-                if let goodyHutPlot = gameModel?.tile(at: goodyHutUnitAssignment.location) {
-                    return goodyHutPlot
+
+            if let goodyHutUnit = goodyHutUnitAssignment.unit {
+
+                if goodyHutUnit.isEqual(to: unit) {
+                    if let goodyHutPlot = gameModel?.tile(at: goodyHutUnitAssignment.location) {
+                        return goodyHutPlot
+                    }
                 }
             }
         }
-        
+
         return nil
     }
-    
+
     /// Go through the plots for the exploration automation to evaluate
     func updatePlots(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get game model")
         }
-        
+
         guard let player = self.player else {
             fatalError("no player given")
         }
-        
+
         // reset all plots
         self.explorationPlotsArray.removeAll()
         self.goodyHutUnitAssignments.removeAll()
@@ -568,14 +567,14 @@ public class EconomicAI: Codable {
         // find the center of all the cities
         var totalX = 0
         var totalY = 0
-        var cityCount = 0;
+        var cityCount = 0
 
         for cityRef in gameModel.cities(of: player) {
-            
+
             guard let city = cityRef else {
                 fatalError("cant get city")
             }
-            
+
             totalX += city.location.x
             totalY += city.location.y
             cityCount += 1
@@ -584,36 +583,36 @@ public class EconomicAI: Codable {
         let mapSize = gameModel.mapSize()
         for x in 0..<mapSize.width() {
             for y in 0..<mapSize.height() {
-                
+
                 let point = HexPoint(x: x, y: y)
                 guard let tile = gameModel.tile(at: point) else {
                     continue
                 }
-                
+
                 if !tile.isDiscovered(by: player) {
                     continue
                 }
-                
+
                 if tile.has(improvement: .goodyHut) && !gameModel.isEnemyVisible(at: point, for: player) {
-                    
+
                     goodyHutUnitAssignments.append(GoodyHutUnitAssignment(unit: nil, location: point))
                 }
-                
+
                 if tile.has(improvement: .barbarianCamp) && !gameModel.isEnemyVisible(at: point, for: player) {
-                    
+
                     goodyHutUnitAssignments.append(GoodyHutUnitAssignment(unit: nil, location: point))
                 }
-                
+
                 var domain: UnitDomainType = .land
                 if tile.terrain().isWater() {
                     domain = .sea
                 }
-                
+
                 let score = self.scoreExplore(plot: point, for: player, range: 1, domain: domain, in: gameModel)
                 if score <= 0 {
                     continue
                 }
-                
+
                 self.explorationPlotsArray.append(ExplorationPlot(location: point, rating: score))
             }
         }
@@ -622,26 +621,26 @@ public class EconomicAI: Codable {
 
         // build explorer list
         self.explorers.removeAll()
-        
+
         for unitRef in gameModel.units(of: player) {
-            
+
             guard let unit = unitRef else {
                 continue
             }
-            
+
             // non-automated human-controlled units should not be considered
             if player.isHuman() && !unit.isAutomated() {
                 continue
             }
-            
+
             if !unit.has(task: .explore) {
                 continue
             }
-            
+
             if unit.army() != nil {
                 continue
             }
-            
+
             self.explorers.append(unit)
         }
 
@@ -653,30 +652,30 @@ public class EconomicAI: Codable {
 
         self.explorationPlotsDirty = false
     }
-    
+
     func explorationPlots() -> [ExplorationPlot] {
-    
+
         return self.explorationPlotsArray
     }
-    
+
     private func assignExplorersToHuts(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get game model")
         }
-        
+
         guard let player = self.player else {
             fatalError("no player given")
         }
-        
+
         //CvTwoLayerPathFinder& kPathFinder = GC.getPathFinder();
-        
+
         for var goodyHutUnitAssignment in self.goodyHutUnitAssignments {
 
             guard gameModel.tile(at: goodyHutUnitAssignment.location) != nil else {
                 continue
             }
-  
+
             var closestEstimateTurns = Int.max
             var closestUnit: AbstractUnit? = nil
 
@@ -685,7 +684,7 @@ public class EconomicAI: Codable {
                 guard let explorer = explorerRef else {
                     continue
                 }
-                
+
                 let distance = explorer.location.distance(to: goodyHutUnitAssignment.location)
 
                 var estimateTurns = Int.max
@@ -694,24 +693,24 @@ public class EconomicAI: Codable {
                 }
 
                 if estimateTurns < closestEstimateTurns {
-                    
+
                     // Now check path
                     let pathFinder = AStarPathfinder()
                     pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: explorer.movementType(), for: player)
-                    
+
                     if pathFinder.shortestPath(fromTileCoord: explorer.location, toTileCoord: goodyHutUnitAssignment.location) != nil {
-                        
+
                         closestEstimateTurns = estimateTurns
                         closestUnit = explorer
                     }
                 }
-    
+
             }
 
             if closestUnit != nil {
-                
+
                 goodyHutUnitAssignment.unit = closestUnit
-                
+
                 self.explorers.removeAll(where: { $0?.location == closestUnit?.location })
             }
         }
@@ -723,11 +722,11 @@ public class EconomicAI: Codable {
         guard let gameModel = gameModel else {
             fatalError("cant get game model")
         }
-        
+
         guard let player = self.player else {
             fatalError("no player given")
         }
-        
+
         // Create copy list of huts
         // FIXME: check that this is really a copy
         var goodyHutUnitAssignmentsCopy = self.goodyHutUnitAssignments
@@ -737,7 +736,7 @@ public class EconomicAI: Codable {
             guard let explorer = explorerRef else {
                 continue
             }
-    
+
             var hutLocation: HexPoint? = nil
             var closestEstimateTurns = Int.max
 
@@ -755,13 +754,13 @@ public class EconomicAI: Codable {
                 }
 
                 if estimateTurns < closestEstimateTurns {
-                    
+
                     // Now check path
                     let pathFinder = AStarPathfinder()
                     pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: explorer.movementType(), for: player)
-                    
+
                     if pathFinder.shortestPath(fromTileCoord: explorer.location, toTileCoord: goodyHutUnitAssignment.location) != nil {
-                        
+
                         closestEstimateTurns = estimateTurns
                         hutLocation = goodyHutUnitAssignment.location
                     }
@@ -769,7 +768,7 @@ public class EconomicAI: Codable {
             }
 
             if let hutLocation = hutLocation {
-                
+
                 /*m_aiGoodyHutUnitAssignments[uiHutIndex] = GoodyHutUnitAssignment( pUnit->GetID(), -1);
 
                 FFastVector<unsigned int> tempHutIndices = aiHutIndices;
@@ -781,25 +780,25 @@ public class EconomicAI: Codable {
                         aiHutIndices.push_back(tempHutIndices[uiHut]);
                     }
                 }*/
-                
+
                 goodyHutUnitAssignmentsCopy.removeAll(where: { $0.location == hutLocation })
-                
+
                 var item = self.goodyHutUnitAssignments.first(where: { $0.location == hutLocation })
                 item?.unit = explorer
             }
         }
     }
-    
+
     func scoreExplore(plot: HexPoint, for player: AbstractPlayer?, range: Int, domain: UnitDomainType, in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get game model")
         }
-        
+
         guard let player = self.player else {
             fatalError("no player given")
         }
-        
+
         var resultValue = 0
         let adjacencyBonus = 1
         let badScore = 10
@@ -807,15 +806,15 @@ public class EconomicAI: Codable {
         let reallyGoodScore = 200
 
         for evalPoint in plot.areaWith(radius: range) {
-            
+
             if evalPoint == plot {
                 continue
             }
-            
+
             guard let evalTile = gameModel.tile(at: evalPoint) else {
                 continue
             }
-        
+
             if evalTile.isDiscovered(by: player) {
                 continue
             }
@@ -823,7 +822,7 @@ public class EconomicAI: Codable {
             if gameModel.isAdjacentDiscovered(of: evalPoint, for: player) {
 
                 if evalPoint.distance(to: plot) > 1 {
-                
+
                     //CvPlot* pAdjacentPlot;
                     var viewBlocked = true
                     for adjacent in evalPoint.neighbors() {
@@ -831,9 +830,9 @@ public class EconomicAI: Codable {
                         guard let adjacentTile = gameModel.tile(at: adjacent) else {
                             continue
                         }
-                        
+
                         if adjacentTile.isDiscovered(by: player) {
-                            
+
                             let distance = adjacent.distance(to: plot)
                             if distance > range {
                                 continue
@@ -859,8 +858,8 @@ public class EconomicAI: Codable {
                 // a human should be able to do this by looking at the transition from the tile to the next
                 switch domain {
                 case .sea:
-                    
-                        //FeatureTypes eFeature = pEvalPlot->getFeatureType();
+
+                    //FeatureTypes eFeature = pEvalPlot->getFeatureType();
                     if evalTile.terrain().isWater() /*|| (eFeature != NO_FEATURE && GC.getFeatureInfo(eFeature)->isImpassable()))*/ {
                         resultValue += badScore
                     } else if evalTile.has(feature: .mountains) || evalTile.hasHills() /* || (eFeature != NO_FEATURE && GC.getFeatureInfo(eFeature)->getSeeThroughChange() > 0))*/ {
@@ -868,7 +867,7 @@ public class EconomicAI: Codable {
                     } else {
                         resultValue += reallyGoodScore
                     }
-                    
+
                 case .land:
                     if evalTile.has(feature: .mountains) || evalTile.terrain().isWater() {
                         resultValue += badScore
@@ -891,7 +890,7 @@ public class EconomicAI: Codable {
 
         return resultValue
     }
-    
+
     func advisorMessages() -> [AdvisorMessage] {
 
         var messages: [AdvisorMessage] = []
@@ -908,26 +907,26 @@ public class EconomicAI: Codable {
 
         return messages
     }
-    
+
     /// Spend money buying plots
     func doPlotPurchases(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get game model")
         }
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let militaryAI = player.militaryAI else {
             fatalError("cant get militaryAI")
         }
-        
+
         guard let treasury = player.treasury else {
             fatalError("cant get treasury")
         }
-        
+
         var bestCity: AbstractCity? = nil
         var bestPoint: HexPoint = HexPoint(x: -1, y: -1)
         /*CvCity *pLoopCity = 0;
@@ -953,26 +952,26 @@ public class EconomicAI: Codable {
         // Let's always invest any money we have in plot purchases
         //  (LATER -- save up money to spend at newly settled cities)
         if currentCost < balance && goldForHalfCost > currentCost {
-            
+
             // Lower our requirements if we're building up a sizable treasury
             let discountPercent = 50 * (balance - currentCost) / (goldForHalfCost - currentCost)
             bestScore = bestScore - (bestScore * discountPercent / 100)
 
             // Find the best city to buy a plot
             for loopCityRef in gameModel.cities(of: player) {
-                
+
                 guard let loopCity = loopCityRef else {
                     continue
                 }
-                
+
                 //if loopCity.canBuyAnyPlot() {
                 let (score, tempPoint) = loopCity.buyPlotScore(in: gameModel)
 
-                    if score > bestScore {
-                        bestCity = loopCity
-                        bestScore = score
-                        bestPoint = tempPoint
-                    }
+                if score > bestScore {
+                    bestCity = loopCity
+                    bestScore = score
+                    bestPoint = tempPoint
+                }
                 //}
             }
 
@@ -990,15 +989,15 @@ public class EconomicAI: Codable {
                     }*/
                     bestCity.doBuyPlot(at: bestPoint, in: gameModel)
                 }
-                
+
             }
         }
     }
-    
+
     /// Returns true if have enough saved up for this purchase. May return false if have enough but higher priority requests have dibs on the gold.
     //  (Priority of -1 (default parameter) means use existing priority
     func canWithdrawMoneyForPurchase(of purchaseType: PurchaseType, amount: Int, priority: Int) -> Bool {
-     
+
         // FIXME
         return true
     }

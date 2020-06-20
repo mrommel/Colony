@@ -35,6 +35,13 @@ class MenuViewController: UIViewController {
         view.ignoresSiblingOrder = false
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        self.menuScene?.updateLayout()
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == R.segue.menuViewController.gotoGame.identifier {

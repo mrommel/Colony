@@ -199,6 +199,21 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         
         return sum
     }
+    
+    func item(by randomValue: Double) -> T? {
+        
+        var sum = 0.0
+        
+        for item in self.items {
+            if sum <= randomValue && randomValue < sum + item.weight {
+                return item.itemType
+            }
+            
+            sum += item.weight
+        }
+        
+        return nil
+    }
 
     var debugDescription: String {
 

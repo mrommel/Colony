@@ -18,6 +18,7 @@ class CultureProgressNode: BaseProgressNode {
         self.civicType = .codeOfLaws
 
         super.init(progressBarType: .culture, title: "Choose Research", iconTexture: "civic_default", eureka: "---", progress: 0)
+        self.update(civic: self.civicType, progress: 0, turnsRemaining: 0)
     }
 
     required init?(coder aDecoder: NSCoder) {

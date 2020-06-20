@@ -228,11 +228,11 @@ extension GameScene {
 
     func displayPopups() {
 
-        if let fistPopup = self.popups.first {
+        if let firstPopup = self.popups.first {
 
-            print("show popup: \(fistPopup.popupType)")
+            print("show popup: \(firstPopup.popupType)")
 
-            switch fistPopup.popupType {
+            switch firstPopup.popupType {
 
             case .none:
                 // NOOP
@@ -244,28 +244,38 @@ extension GameScene {
                 // NOOP
                 break
             case .featureGivesProduction:
-                // Das Entfernen der Geländeart {@1_FeatName} hat {2_Num} [ICON_PRODUCTION] für die Stadt {@3_CityName} eingebracht.
-                break
+                if let featureType = firstPopup.popupData?.featureType,
+                    let production = firstPopup.popupData?.production,
+                    let cityName = firstPopup.popupData?.cityName {
+                    
+                    self.showFeatureGivesProductionPopup(feature: featureType, production: production, for: cityName)
+                } else {
+                    fatalError("popup data did not provide feature nor cityName")
+                }
+                
             case .techDiscovered:
-                if let techType = fistPopup.popupData?.tech {
+                if let techType = firstPopup.popupData?.tech {
                     self.showTechDiscoveredPopup(for: techType)
                 } else {
                     fatalError("popup data did not provide tech")
                 }
+                
             case .civicDiscovered:
-                if let civicType = fistPopup.popupData?.civic {
+                if let civicType = firstPopup.popupData?.civic {
                     self.showCivicDiscoveredPopup(for: civicType)
                 } else {
                     fatalError("popup data did not provide tech")
                 }
+                
             case .eraEntered:
-                if let era = fistPopup.popupData?.era {
+                if let era = firstPopup.popupData?.era {
                     self.showEnteredEraPopup(for: era)
                 } else {
                     fatalError("popup data did not provide era")
                 }
+                
             case .eurekaActivated:
-                if let popupData = fistPopup.popupData {
+                if let popupData = firstPopup.popupData {
                     if popupData.tech != .none {
                         self.showEurekaActivatedPopup(for: popupData.tech)
                     } else if popupData.civic != .none {
@@ -274,6 +284,23 @@ extension GameScene {
                 } else {
                     fatalError("popup data did not provide tech nor civic")
                 }
+                
+            case .goodyHutReward:
+                if let goodyType = firstPopup.popupData?.goodyType {
+                    let cityName = firstPopup.popupData?.cityName
+                    self.showGoodyHutRewardPopup(for: goodyType, in: cityName)
+                } else {
+                    fatalError("popup data did not provide goodyType")
+                }
+        
+            case .unitTrained:
+                // NOOP
+                break
+                
+            case .buildingBuilt:
+                // NOOP
+                break
+                
             }
 
             self.popups.removeFirst()
@@ -364,5 +391,39 @@ extension GameScene {
         })
 
         self.cameraNode.add(dialog: eurekaActivatedPopup)
+    }
+    
+    func showFeatureGivesProductionPopup(feature: FeatureType, production: Int, for cityName: String) {
+
+        self.currentPopupType = .featureGivesProduction
+
+        let featureGivesProductionPopupViewModel = FeatureGivesProductionPopupViewModel(feature: feature, production: production, for: cityName)
+
+        let featureGivesProductionPopup = FeatureGivesProductionPopup(viewModel: featureGivesProductionPopupViewModel)
+        featureGivesProductionPopup.zPosition = 250
+
+        featureGivesProductionPopup.addOkayAction(handler: {
+            self.currentPopupType = .none
+            featureGivesProductionPopup.close()
+        })
+
+        self.cameraNode.add(dialog: featureGivesProductionPopup)
+    }
+    
+    func showGoodyHutRewardPopup(for goodyType: GoodyType, in cityName: String?) {
+        
+        self.currentPopupType = .goodyHutReward
+
+        let goodyHutRewardPopupViewModel = GoodyHutRewardPopupViewModel(goodyType: goodyType, in: cityName)
+
+        let goodyHutRewardPopup = GoodyHutRewardPopup(viewModel: goodyHutRewardPopupViewModel)
+        goodyHutRewardPopup.zPosition = 250
+
+        goodyHutRewardPopup.addOkayAction(handler: {
+            self.currentPopupType = .none
+            goodyHutRewardPopup.close()
+        })
+
+        self.cameraNode.add(dialog: goodyHutRewardPopup)
     }
 }

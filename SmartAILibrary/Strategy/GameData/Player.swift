@@ -25,6 +25,9 @@ class ImprovementCountList: WeightedList<ImprovementType> {
         for improvementType in ImprovementType.all {
             self.add(weight: 0.0, for: improvementType)
         }
+        
+        // also add goody hut / tribal village
+        self.add(weight: 0.0, for: ImprovementType.goodyHut)
     }
 }
 
@@ -2970,22 +2973,40 @@ public class Player: AbstractPlayer {
             
             // Make a list of valid Goodies to pick randomly from
             var validGoodies: [GoodyType] = []
-
+            var validGoodyCategories: [GoodyCategory] = []
+            
             for goody in GoodyType.all {
-                
-                if !gameModel.handicap.validGoodies().contains(goody) {
-                    continue
-                }
                 
                 if self.canReceiveGoody(at: tile, goody: goody, unit: unit, in: gameModel) {
                     validGoodies.append(goody)
+                    validGoodyCategories.append(goody.category())
                 }
             }
                 
-            // Any valid Goodies?
-            if !validGoodies.isEmpty {
-                let goody = validGoodies.randomItem()
-                self.receiveGoody(at: tile, goody: goody, unit: unit, in: gameModel)
+            // Any valid Goodies categories?
+            guard let goodyCategory = validGoodyCategories.randomElement() else {
+                fatalError("no goody categories found")
+            }
+            
+            validGoodies = validGoodies.filter({ $0.category() == goodyCategory }) // goodyCategory
+            
+            if validGoodies.count > 1 {
+                let goodies = WeightedList<GoodyType>()
+                
+                for validGoody in validGoodies {
+                    goodies.add(weight: validGoody.probability(), for: validGoody)
+                }
+                
+                let randValue = Int.random(number: Int(goodies.totalWeights()))
+                
+                guard let selectedValue = goodies.item(by: Double(randValue)) else {
+                    fatalError("no goody found")
+                }
+                
+                self.receiveGoody(at: tile, goody: selectedValue, unit: unit, in: gameModel)
+                
+            } else {
+                self.receiveGoody(at: tile, goody: validGoodies[0], unit: unit, in: gameModel)
             }
         }
     }
@@ -3001,6 +3022,10 @@ public class Player: AbstractPlayer {
             fatalError("cant get tile")
         }
         
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
         guard let goodyHuts = self.goodyHuts else {
             fatalError("cant get goodyHuts")
         }
@@ -3009,123 +3034,69 @@ public class Player: AbstractPlayer {
             fatalError("cant get techs")
         }
         
+        guard let civics = self.civics else {
+            fatalError("cant get civics")
+        }
+        
         if !goodyHuts.canReceive(goody: goody) {
             return false
         }
-
-        // No XP in first 10 turns
-        if goody == .experience {
-            if unit == nil || gameModel.turnsElapsed < 10 {
-                return false
-            }
+        
+        if goody.minimalTurn() > gameModel.turnsElapsed {
+            return false
         }
-
-        // Population
-        if goody == .population {
+        
+        switch goody {
+            
+        case .goldMinorGift, .goldMediumGift, .goldMajorGift:
+            return true
+            
+        case .civicMinorBoost:
+            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)} )
+            return possibleCivicsWithoutEureka.count >= 1
+            
+        case .civicMajorBoost:
+            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)} )
+            return possibleCivicsWithoutEureka.count >= 2
+            
+        case .relic:
+            return true
+            
+        case .faithMinorGift, .faithMediumGift, .faithMajorGift:
+            return true
+            
+        case .scienceMinorGift, .scienceMajorGift, .freeTech:
+            return true
+            
+        case .diplomacyMinorBoost, .freeEnvoy, .diplomacyMajorBoost:
+            return true
+            
+            // military
+        case .freeScout:
+            return true
+            
+        case .healing:
+            return unit.healthPoints() < unit.maxHealthPoints()
+            
+        case .freeResource:
+            return true
+            
+        case .experienceBoost:
+            return true
+            
+        case .unitUpgrade:
+            return true
+            
+        case .additionalPopulation:
             if gameModel.cities(of: self).count == 0 {
                 return false
             }
-
-            // Don't give more Population if we're already over our Pop limit
-            /*if (IsEmpireUnhappy())
-            {
-                return false;
-            }*/
-        }
-
-        // Reveal Nearby Barbs
-        if goody == .revealNearbyBarbarians {
-
-            var numCampsFound = 0
-
-            // Look at nearby Plots to make sure another camp isn't too close
-            for point in tile.point.areaWith(radius: 10) {
-                
-                guard let pointTile = gameModel.tile(at: point) else {
-                    continue
-                }
-                
-                if pointTile.has(improvement: .barbarianCamp) {
-                    numCampsFound += 1
-                }
-            }
-
-            // Needs to be at least 2 nearby Camps
-            if numCampsFound < 2 {
-                return false
-            }
-        }
-
-        // Unit Upgrade
-        if goody == .upgradeUnit {
-         
-            guard let unit = unit else {
-                return false
-            }
-
-            /*if (pUnit->IsHasBeenPromotedFromGoody())
-            {
-                return false;
-            }*/
-
-            /*UnitClassTypes eUpgradeUnitClass = (UnitClassTypes) GC.getUnitInfo(pUnit->getUnitType())->GetGoodyHutUpgradeUnitClass();
-
-            if (eUpgradeUnitClass == NO_UNITCLASS)
-            {
-                return false;
-            }
-
-            UnitTypes eUpgradeUnit = (UnitTypes) getCivilizationInfo().getCivilizationUnits(eUpgradeUnitClass);
-
-            if (eUpgradeUnit == NO_UNIT)
-            {
-                return false;
-            }*/
             
-            return false
-        }
-
-        // Tech
-        if goody == .tech {
+            return true
             
-            var techFound = false
-
-            let possibleTechs = techs.possibleTechs()
-            for tech in TechType.all {
-                
-                if !tech.isGoodyTech() {
-                    continue
-                }
-                
-                if possibleTechs.contains(tech) {
-                    techFound = true
-                    break
-                }
-            }
-
-            if !techFound {
-                return false
-            }
+        case .freeBuilder, .freeTrader, .freeSettler:
+            return true
         }
-
-        ///////////////////////////////////////
-        ///////////////////////////////////////
-        // Bad Goodies follow beneath this line
-        ///////////////////////////////////////
-        ///////////////////////////////////////
-
-
-        if let unitType = goody.unitType() {
-
-            // No combat units in MP in the first 20 turns
-            if unitType.meleeStrength() > 0 {
-                if gameModel.turnsElapsed < 20 {
-                    return false
-                }
-            }
-        }
-
-        return true
     }
     
     func receiveGoody(at tile: AbstractTile?, goody: GoodyType, unit: AbstractUnit?, in gameModel: GameModel?) {
@@ -3138,20 +3109,136 @@ public class Player: AbstractPlayer {
             fatalError("cant get tile")
         }
         
-        // Gold
-        let gold = goody.gold() + goody.numGoldRandRolls() * Int.random(maximum: goody.goldRandAmount())
-
-        if gold != 0 {
-            self.treasury?.changeGold(by: Double(gold))
-
-            //strBuffer += GetLocalizedText("TXT_KEY_MISC_RECEIVED_GOLD", iGold);
+        guard let civics = self.civics else {
+            fatalError("cant get civics")
         }
-
-        // Population
-        if goody == .population {
+        
+        guard let techs = self.techs else {
+            fatalError("cant get techs")
+        }
+        
+        var popupData: PopupData? = nil
+        
+        switch goody {
             
+        case .goldMinorGift:
+            self.treasury?.changeGold(by: 40.0)
+            popupData = PopupData(goodyType: .goldMinorGift)
+            
+        case .goldMediumGift:
+            self.treasury?.changeGold(by: 75.0)
+            popupData = PopupData(goodyType: .goldMediumGift)
+            
+        case .goldMajorGift:
+            self.treasury?.changeGold(by: 120.0)
+            popupData = PopupData(goodyType: .goldMajorGift)
+            
+        case .civicMinorBoost:
+            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)} )
+            guard let civicToBoost = possibleCivicsWithoutEureka.randomElement() else {
+                fatalError("cant get civic to boost")
+            }
+            civics.triggerEureka(for: civicToBoost, in: gameModel)
+            
+            popupData = PopupData(goodyType: .civicMinorBoost)
+            
+        case .civicMajorBoost:
+            var possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)} )
+            guard let civicToBoost1 = possibleCivicsWithoutEureka.randomElement() else {
+                fatalError("cant get civic to boost")
+            }
+            civics.triggerEureka(for: civicToBoost1, in: gameModel)
+            
+            possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)} )
+            guard let civicToBoost2 = possibleCivicsWithoutEureka.randomElement() else {
+                fatalError("cant get civic to boost")
+            }
+            civics.triggerEureka(for: civicToBoost2, in: gameModel)
+            
+            popupData = PopupData(goodyType: .civicMajorBoost)
+            
+        case .relic:
+            print("Relics do not exist")
+            
+        case .faithMinorGift:
+            self.religion?.add(faith: 20.0)
+            popupData = PopupData(goodyType: .faithMinorGift)
+            
+        case .faithMediumGift:
+            self.religion?.add(faith: 60.0)
+            popupData = PopupData(goodyType: .faithMediumGift)
+            
+        case .faithMajorGift:
+            self.religion?.add(faith: 100.0)
+            popupData = PopupData(goodyType: .faithMajorGift)
+            
+        case .scienceMinorGift:
+            let possibleTechsWithoutEureka = techs.possibleTechs().filter({ !techs.eurekaTriggered(for: $0)} )
+            guard let techToBoost = possibleTechsWithoutEureka.randomElement() else {
+                fatalError("cant get tech to boost")
+            }
+            techs.triggerEureka(for: techToBoost, in: gameModel)
+            
+            popupData = PopupData(goodyType: .scienceMinorGift)
+            
+        case .scienceMajorGift:
+            var possibleTechsWithoutEureka = techs.possibleTechs().filter({ !techs.eurekaTriggered(for: $0)} )
+            guard let techToBoost1 = possibleTechsWithoutEureka.randomElement() else {
+                fatalError("cant get tech to boost")
+            }
+            techs.triggerEureka(for: techToBoost1, in: gameModel)
+            
+            possibleTechsWithoutEureka = techs.possibleTechs().filter({ !techs.eurekaTriggered(for: $0)} )
+            guard let techToBoost2 = possibleTechsWithoutEureka.randomElement() else {
+                fatalError("cant get tech to boost")
+            }
+            techs.triggerEureka(for: techToBoost2, in: gameModel)
+            
+            popupData = PopupData(goodyType: .scienceMajorGift)
+            
+        case .freeTech:
+            guard let possibleTech = techs.possibleTechs().randomElement() else {
+                fatalError("cant get tech to discover")
+            }
+            try! techs.discover(tech: possibleTech)
+            
+            popupData = PopupData(goodyType: .freeTech)
+            
+            if self.isHuman() {
+                gameModel.userInterface?.showPopup(popupType: .techDiscovered, with: PopupData(tech: possibleTech))
+            }
+            
+        case .diplomacyMinorBoost:
+            print("Diplomatic favor")
+            
+        case .freeEnvoy:
+            print("1 envoy")
+            
+        case .diplomacyMajorBoost:
+            print("1 governor title")
+            
+        case .freeScout:
+            let scoutUnit = Unit(at: tile.point, type: .scout, owner: self)
+            gameModel.add(unit: scoutUnit)
+            scoutUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
+            
+            popupData = PopupData(goodyType: .freeScout)
+            
+        case .healing:
+            unit?.doHeal(in: gameModel)
+            
+        case .freeResource:
+            print("free resource")
+            
+        case .experienceBoost:
+            print("experience")
+            
+        case .unitUpgrade:
+            print("upgrade")
+            
+        case .additionalPopulation:
             var bestCityDistance = -1
-            var bestCity: AbstractCity? = nil
+            var bestCityRef: AbstractCity? = nil
             
             // Find the closest City to us to add a Pop point to
             for cityRef in gameModel.cities(of: self) {
@@ -3164,344 +3251,52 @@ public class Player: AbstractPlayer {
 
                 if bestCityDistance == -1 || distance < bestCityDistance {
                     bestCityDistance = distance
-                    bestCity = cityRef
+                    bestCityRef = cityRef
                 }
             }
 
-            if bestCity != nil {
-                bestCity?.change(population: goody.population(), reassignCitizen: true, in: gameModel)
+            guard let bestCity = bestCityRef else {
+                fatalError("no city found for this player")
             }
+            
+            bestCity.change(population: 1, reassignCitizen: true, in: gameModel)
+            popupData = PopupData(goodyType: .additionalPopulation, for: bestCity.name)
+            
+        case .freeBuilder:
+            let builderUnit = Unit(at: tile.point, type: .builder, owner: self)
+            gameModel.add(unit: builderUnit)
+            builderUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
+            
+            popupData = PopupData(goodyType: .freeBuilder)
+            
+        case .freeTrader:
+            /*let traderUnit = Unit(at: tile.point, type: .trader, owner: self)
+            gameModel.add(unit: traderUnit)
+            traderUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
+            
+            popupText = goody.effect()*/
+            print("trader not implemented")
+            
+        case .freeSettler:
+            let settlerUnit = Unit(at: tile.point, type: .settler, owner: self)
+            gameModel.add(unit: settlerUnit)
+            settlerUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
+            
+            popupData = PopupData(goodyType: .freeSettler)
         }
         
-        fatalError("niy")
-/*
-        // Culture
-        int iCulture = kGoodyInfo.getCulture();
-        if (iCulture > 0)
-        {
-            // Game Speed Mod
-            iCulture *= GC.getGame().getGameSpeedInfo().getCulturePercent();
-            iCulture /= 100;
-
-            changeJONSCulture(iCulture);
-        }
-
-        // Reveal Nearby Barbs
-        if (kGoodyInfo.getRevealNearbyBarbariansRange() > 0)
-        {
-            // Look at nearby Plots to make sure another camp isn't too close
-            const int iBarbCampDistance = kGoodyInfo.getRevealNearbyBarbariansRange();
-            for (iDX = -(iBarbCampDistance); iDX <= iBarbCampDistance; iDX++)
-            {
-                for (iDY = -(iBarbCampDistance); iDY <= iBarbCampDistance; iDY++)
-                {
-                    CvPlot* pNearbyBarbarianPlot = plotXY(pPlot->getX(), pPlot->getY(), iDX, iDY);
-                    if (pNearbyBarbarianPlot != NULL)
-                    {
-                        if (plotDistance(pNearbyBarbarianPlot->getX(), pNearbyBarbarianPlot->getY(), pPlot->getX(), pPlot->getY()) <= iBarbCampDistance)
-                        {
-                            if (pNearbyBarbarianPlot->getImprovementType() == GC.getBARBARIAN_CAMP_IMPROVEMENT())
-                            {
-                                // Reveal Plot
-                                pNearbyBarbarianPlot->setRevealed(getTeam(), true);
-                                // Reveal Barb Camp here
-                                pNearbyBarbarianPlot->setRevealedImprovementType(getTeam(), pNearbyBarbarianPlot->getImprovementType());
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // Map
-        iRange = kGoodyInfo.getMapRange();
-
-        if (iRange > 0)
-        {
-            iOffset = kGoodyInfo.getMapOffset();
-
-            if (iOffset > 0)
-            {
-                iBestValue = 0;
-                pBestPlot = NULL;
-
-                int iRandLimit;
-
-                for (iDX = -(iOffset); iDX <= iOffset; iDX++)
-                {
-                    for (iDY = -(iOffset); iDY <= iOffset; iDY++)
-                    {
-                        pLoopPlot = plotXYWithRangeCheck(pPlot->getX(), pPlot->getY(), iDX, iDY, iOffset);
-
-                        if (pLoopPlot != NULL)
-                        {
-                            if (!(pLoopPlot->isRevealed(getTeam())))
-                            {
-                                // Avoid water plots!
-                                if (pPlot->isWater())
-                                    iRandLimit = 10;
-                                else
-                                    iRandLimit = 10000;
-
-                                iValue = (1 + GC.getGame().getJonRandNum(iRandLimit, "Goody Map"));
-
-                                iValue *= plotDistance(pPlot->getX(), pPlot->getY(), pLoopPlot->getX(), pLoopPlot->getY());
-
-                                if (iValue > iBestValue)
-                                {
-                                    iBestValue = iValue;
-                                    pBestPlot = pLoopPlot;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (pBestPlot == NULL)
-            {
-                pBestPlot = pPlot;
-            }
-
-            for (iDX = -(iRange); iDX <= iRange; iDX++)
-            {
-                for (iDY = -(iRange); iDY <= iRange; iDY++)
-                {
-                    pLoopPlot = plotXY(pBestPlot->getX(), pBestPlot->getY(), iDX, iDY);
-
-                    if (pLoopPlot != NULL)
-                    {
-                        if (plotDistance(pBestPlot->getX(), pBestPlot->getY(), pLoopPlot->getX(), pLoopPlot->getY()) <= iRange)
-                        {
-                            if (GC.getGame().getJonRandNum(100, "Goody Map") < kGoodyInfo.getMapProb())
-                            {
-                                pLoopPlot->setRevealed(getTeam(), true);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // Experience
-        if (pUnit != NULL)
-        {
-            pUnit->changeExperience(kGoodyInfo.getExperience());
-        }
-
-        // Unit Heal
-        if (pUnit != NULL)
-        {
-            pUnit->changeDamage(-(kGoodyInfo.getHealing()));
-        }
-        
-        // Unit Upgrade
-        if (kGoodyInfo.isUpgradeUnit())
-        {
-            UnitTypes eUpgradeUnit = NO_UNIT;
-
-            if(pUnit != NULL)
-            {
-                UnitClassTypes eUpgradeUnitClass = (UnitClassTypes) pUnit->getUnitInfo().GetGoodyHutUpgradeUnitClass();
-                eUpgradeUnit = (UnitTypes) getCivilizationInfo().getCivilizationUnits(eUpgradeUnitClass);
-            }
-
-            if (eUpgradeUnit != NO_UNIT)
-            {
-                // Add new upgrade Unit
-                CvUnit* pNewUnit = initUnit(eUpgradeUnit, pPlot->getX(), pPlot->getY(), pUnit->AI_getUnitAIType(), NO_DIRECTION, false, false);
-                pUnit->finishMoves();
-                pUnit->SetBeenPromotedFromGoody(true);
-                if (pNewUnit != NULL)
-                {
-                    pNewUnit->convert(pUnit);
-                    pNewUnit->setupGraphical();
-                }
-                else
-                    pUnit->kill(false);
-
-                // Since the old unit died, it will block the goody reward popup unless we call this
-                GC.GetEngineUserInterface()->SetDontShowPopups(false);
-            }
-        }
-
-        // Tech
-        if (kGoodyInfo.isTech())
-        {
-            iBestValue = 0;
-            eBestTech = NO_TECH;
-
-            for (iI = 0; iI < GC.getNumTechInfos(); iI++)
-            {
-                CvTechEntry* pkTech = GC.getTechInfo((TechTypes) iI);
-                if (pkTech != NULL && pkTech->IsGoodyTech())
-                {
-                    if (GetPlayerTechs()->CanResearch((TechTypes)iI))
-                    {
-                        iValue = (1 + GC.getGame().getJonRandNum(10000, "Goody Tech"));
-
-                        if (iValue > iBestValue)
-                        {
-                            iBestValue = iValue;
-                            eBestTech = ((TechTypes)iI);
-                        }
-                    }
-                }
-            }
-
-            CvAssertMsg(eBestTech != NO_TECH, "BestTech is not assigned a valid value");
-
-            GET_TEAM(getTeam()).setHasTech(eBestTech, true, GetID(), true, true);
-            GET_TEAM(getTeam()).GetTeamTechs()->SetNoTradeTech(eBestTech, true);
-        }
-
-        // Units
-        if (kGoodyInfo.getUnitClassType() != NO_UNITCLASS)
-        {
-            eUnit = (UnitTypes)getCivilizationInfo().getCivilizationUnits(kGoodyInfo.getUnitClassType());
-
-            if (eUnit != NO_UNIT)
-            {
-                CvUnit* pNewUnit = initUnit(eUnit, pPlot->getX(), pPlot->getY());
-                // see if there is an open spot to put him - no over-stacking allowed!
-                if (pNewUnit && pUnit && pUnit->AreUnitsOfSameType(*pNewUnit)) // pUnit isn't in this plot yet (if it even exists) so we can't check on if we are over-stacked directly
-                {
-                    pBestPlot = NULL;
-                    iBestValue = INT_MAX;
-                    const int iPopRange = 2;
-                    for (iDX = -(iPopRange); iDX <= iPopRange; iDX++)
-                    {
-                        for (iDY = -(iPopRange); iDY <= iPopRange; iDY++)
-                        {
-                            pLoopPlot    = plotXYWithRangeCheck(pPlot->getX(), pPlot->getY(), iDX, iDY, iPopRange);
-                            if (pLoopPlot != NULL)
-                            {
-                                if (pLoopPlot->isValidDomainForLocation(*pNewUnit))
-                                {
-                                    if (pNewUnit->canMoveInto(*pLoopPlot))
-                                    {
-                                        if (pLoopPlot->getNumFriendlyUnitsOfType(pUnit) < GC.getPLOT_UNIT_LIMIT())
-                                        {
-                                            if (pNewUnit->canEnterTerritory(pLoopPlot->getTeam()) && !pNewUnit->isEnemy(pLoopPlot->getTeam(), pLoopPlot))
-                                            {
-                                                if ((pNewUnit->getDomainType() != DOMAIN_AIR) || pLoopPlot->isFriendlyCity(*pNewUnit, true))
-                                                {
-                                                    if (pLoopPlot->isRevealed(getTeam()))
-                                                    {
-                                                        iValue = 1 + GC.getGame().getJonRandNum(6, "spawn goody unit that would over-stack"); // okay, I'll admit it, not a great heuristic
-
-                                                        if (plotDistance(pPlot->getX(),pPlot->getY(),pLoopPlot->getX(),pLoopPlot->getY()) > 1)
-                                                        {
-                                                            iValue += 12;
-                                                        }
-
-                                                        if (pLoopPlot->area() != pPlot->area()) // jumped to a different land mass, cool
-                                                        {
-                                                            iValue *= 10;
-                                                        }
-
-                                                        if (iValue < iBestValue)
-                                                        {
-                                                            iBestValue = iValue;
-                                                            pBestPlot = pLoopPlot;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (pBestPlot != NULL)
-                    {
-                        bool bVis = pBestPlot->isVisibleToWatchingHuman();
-                        pNewUnit->setXY(pBestPlot->getX(), pBestPlot->getY(), false, true, true && bVis, true);
-                        pNewUnit->SetPosition(pBestPlot);    // Need this to put the unit in the right spot graphically
-                        pNewUnit->finishMoves();
-                    }
-                    else
-                    {
-                        pNewUnit->kill(false);
-                    }
-                }
-            }
-        }
-
-        // Barbarians
-        if (kGoodyInfo.getBarbarianUnitClass() != NO_UNITCLASS)
-        {
-            iBarbCount = 0;
-
-            eUnit = (UnitTypes)GET_PLAYER(BARBARIAN_PLAYER).getCivilizationInfo().getCivilizationUnits(kGoodyInfo.getBarbarianUnitClass());
-
-            if (eUnit != NO_UNIT)
-            {
-                for (iPass = 0; iPass < 10; iPass++)
-                {
-                    if (iBarbCount < kGoodyInfo.getMinBarbarians())
-                    {
-                        for (iI = 0; iI < NUM_DIRECTION_TYPES; iI++)
-                        {
-                            pLoopPlot = plotDirection(pPlot->getX(), pPlot->getY(), ((DirectionTypes)iI));
-
-                            if (pLoopPlot != NULL)
-                            {
-                                if (pLoopPlot->getArea() == pPlot->getArea())
-                                {
-                                    if (!(pLoopPlot->isImpassable()) && !(pLoopPlot->getPlotCity()))
-                                    {
-                                        if (pLoopPlot->getNumUnits() == 0)
-                                        {
-                                            if ((iPass > 0) || (GC.getGame().getJonRandNum(100, "Goody Barbs") < kGoodyInfo.getBarbarianUnitProb()))
-                                            {
-                                                GET_PLAYER(BARBARIAN_PLAYER).initUnit(eUnit, pLoopPlot->getX(), pLoopPlot->getY(), ((pLoopPlot->isWater()) ? UNITAI_ATTACK_SEA : UNITAI_ATTACK));
-                                                iBarbCount++;
-
-                                                if ((iPass > 0) && (iBarbCount == kGoodyInfo.getMinBarbarians()))
-                                                {
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!strBuffer.empty() && GC.getGame().getActivePlayer() == GetID())
-        {
+        /*if (!strBuffer.empty() && GC.getGame().getActivePlayer() == GetID()) {
             GC.GetEngineUserInterface()->AddPlotMessage(0, pPlot->GetPlotIndex(), GetID(), true, GC.getEVENT_MESSAGE_TIME(), strBuffer);
-        }
+        }*/
 
         // If it's the active player then show the popup
-        if (GetID() == GC.getGame().getActivePlayer())
-        {
-            GC.getMap().updateDeferredFog();
-
-            bool bDontShowRewardPopup = GC.GetEngineUserInterface()->IsOptionNoRewardPopups();
-
-            // Don't show in MP, or if the player has turned it off
-            if (!GC.getGame().isNetworkMultiPlayer() && !bDontShowRewardPopup)    // KWG: Candidate for !GC.getGame().isOption(GAMEOPTION_SIMULTANEOUS_TURNS)
-            {
-                int iSpecialValue = 0;
-
-                if (iGold > 0)
-                    iSpecialValue = iGold;
-                else if (iCulture > 0)
-                    iSpecialValue = iCulture;
-
-                CvPopupInfo kPopupInfo(BUTTONPOPUP_GOODY_HUT_REWARD, eGoody, iSpecialValue);
-                GC.GetEngineUserInterface()->AddPopup(kPopupInfo);
-                // We are adding a popup that the player must make a choice in, make sure they are not in the end-turn phase.
-                CancelActivePlayerEndTurn();
-            }
-        }*/
+        if self.isEqual(to: gameModel.activePlayer()) {
+            
+            gameModel.userInterface?.showPopup(popupType: .goodyHutReward, with: popupData)
+                
+            // We are adding a popup that the player must make a choice in, make sure they are not in the end-turn phase.
+            //CancelActivePlayerEndTurn();
+        }
     }
     
     //    --------------------------------------------------------------------------------

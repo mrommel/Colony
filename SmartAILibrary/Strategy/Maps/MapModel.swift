@@ -105,6 +105,20 @@ public class MapModel: Codable {
                 fatalError("city not set")
             }
         }
+        
+        for x in 0..<size.width() {
+            for y in 0..<size.height() {
+                if let tile = self.tile(x: x, y: y) {
+                    if let cityName = tile.workingCityName() {
+                        guard let city = self.city(named: cityName) else {
+                            fatalError("cant get city named: '\(cityName)'")
+                        }
+                        
+                        try! tile.setWorkingCity(to: city)
+                    }
+                }
+            }
+        }
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -124,7 +138,7 @@ public class MapModel: Codable {
         try container.encode(self.rivers, forKey: .rivers)
     }
     
-    func analyze() {
+    public func analyze() {
         
         let oceanFinder = OceanFinder(size: self.size)
         self.oceans = oceanFinder.execute(on: self)
@@ -241,6 +255,15 @@ public class MapModel: Codable {
     func city(at location: HexPoint) -> AbstractCity? {
         
         if let city = self.cities.first(where: { $0?.location == location }) {
+            return city
+        }
+        
+        return nil
+    }
+    
+    func city(named name: String) -> AbstractCity? {
+        
+        if let city = self.cities.first(where: { $0?.name == name }) {
             return city
         }
         

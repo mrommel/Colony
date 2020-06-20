@@ -18,10 +18,10 @@ public struct Globals {
         static let caldera: CGFloat = 1.5
         static let snow: CGFloat = 2.0
         static let focus: CGFloat = 3.0
-        static let improvement: CGFloat = 3.5
         static let river: CGFloat = 4.0
         static let road: CGFloat = 4.1
         static let feature: CGFloat = 4.2
+        static let improvement: CGFloat = 4.25
         static let path: CGFloat = 4.3
         static let border: CGFloat = 4.4
         static let featureUpper: CGFloat = 4.5

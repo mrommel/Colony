@@ -51,6 +51,8 @@ public class HexArea: Codable {
     private var value: Double = 0.0
     private(set) var boundingBox: BoundingBox
     
+    private var improvements: ImprovementCountList
+    
     var size: Int {
         return self.points.count
     }
@@ -83,6 +85,10 @@ public class HexArea: Codable {
         let tmpPoints = Array(tmp)
         self.points = tmpPoints
         self.boundingBox = BoundingBox(points: tmpPoints)
+        
+        // it is assumed, that there are no improvements
+        self.improvements = ImprovementCountList()
+        self.improvements.fill()
     }
     
     init(points: [HexPoint]) {
@@ -90,6 +96,10 @@ public class HexArea: Codable {
         self.identifier = UUID().uuidString
         self.points = points
         self.boundingBox = BoundingBox(points: points)
+        
+        // it is assumed, that there are no improvements
+        self.improvements = ImprovementCountList()
+        self.improvements.fill()
     }
     
     // MARK: methods
@@ -148,6 +158,16 @@ public class HexArea: Codable {
     var first: HexPoint {
         
         return self.points[0]
+    }
+    
+    func updateNumber(of improvement: ImprovementType, by amount: Int) {
+        
+        self.improvements.add(weight: amount, for: improvement)
+    }
+    
+    func number(of improvement: ImprovementType) -> Int {
+        
+        return Int(self.improvements.weight(of: improvement))
     }
 }
 

@@ -55,7 +55,7 @@ public enum FeatureType: Int, Codable {
     
     // MARK: methods
     
-    func name() -> String {
+    public func name() -> String {
         
         return self.data().name
     }

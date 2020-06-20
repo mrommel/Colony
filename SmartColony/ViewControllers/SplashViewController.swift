@@ -23,7 +23,7 @@ class SplashViewController: UIViewController {
 
         if !self.inUnitTests {
             CoreDataManager.shared.setup(completion: {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     self.performSegue(withIdentifier: R.segue.splashViewController.gotoMenu.identifier, sender: nil)
                 }
             })

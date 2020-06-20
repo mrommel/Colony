@@ -57,6 +57,7 @@ public protocol AbstractTile: Codable {
     func set(hills: Bool)
 
     func isOpenGround() -> Bool
+    func isWater() -> Bool
     func isRoughGround() -> Bool
     func isImpassable() -> Bool
 
@@ -96,6 +97,7 @@ public protocol AbstractTile: Codable {
     func set(city: AbstractCity?) throws
     func isWorked() -> Bool
     func workingCity() -> AbstractCity?
+    func workingCityName() -> String?
     func setWorkingCity(to city: AbstractCity?) throws
 
     func defenseModifier(for player: AbstractPlayer?) -> Int
@@ -173,6 +175,7 @@ class Tile: AbstractTile {
 
         case discovered
         case owner
+        case workedByCityName
 
         case riverName
         case riverFlowNorth
@@ -201,8 +204,9 @@ class Tile: AbstractTile {
 
     private var discovered: TileDiscovered
     private var ownerValue: AbstractPlayer?
-    private var ownerLeaderValue: LeaderType
+    private var ownerLeaderValue: LeaderType // only for serialization
     private var workedBy: AbstractCity? = nil
+    private var workedByCityName: String? = nil // only for serialization
     private var city: AbstractCity? = nil
 
     private var riverName: String? = nil
@@ -261,6 +265,9 @@ class Tile: AbstractTile {
         self.ownerValue = nil
         self.ownerLeaderValue = try container.decodeIfPresent(LeaderType.self, forKey: .owner) ?? .none
         
+        self.workedBy = nil
+        self.workedByCityName = try container.decodeIfPresent(String.self, forKey: .workedByCityName)
+        
         if container.contains(.discovered) {
             self.discovered = try container.decode(TileDiscovered.self, forKey: .discovered)
         } else {
@@ -307,6 +314,10 @@ class Tile: AbstractTile {
         
         if let leader = self.owner()?.leader {
             try container.encode(leader, forKey: .owner)
+        }
+        
+        if let cityName = self.workedBy?.name {
+            try container.encode(cityName, forKey: .workedByCityName)
         }
 
         try container.encodeIfPresent(self.riverName, forKey: .riverName) // can be nil
@@ -632,10 +643,9 @@ class Tile: AbstractTile {
                     }
                 }*/
 
-                /*if (area())
-                {
-                    area()->changeNumImprovements(eOldImprovement, -1);
-                }*/
+                if let area = self.area {
+                    area.updateNumber(of: oldImprovement, by: -1)
+                }
 
                 // Someone owns this plot
                 if let player = self.owner() {
@@ -722,10 +732,9 @@ class Tile: AbstractTile {
                     }
                 }*/
 
-                /*if (area())
-                {
-                    area()->changeNumImprovements(eNewValue, 1);
-                }*/
+                if let area = self.area {
+                    area.updateNumber(of: improvementType, by: 1)
+                }
 
                 if let player = self.owner() {
 
@@ -956,6 +965,11 @@ class Tile: AbstractTile {
 
         return self.workedBy
     }
+    
+    internal func workingCityName() -> String? {
+
+        return self.workedByCityName
+    }
 
     func removeWorked() throws {
 
@@ -1103,6 +1117,11 @@ class Tile: AbstractTile {
         return self.resourceQuantityValue
     }
 
+    func isWater() -> Bool {
+        
+        return self.terrain().isWater()
+    }
+    
     func isFlatlands() -> Bool {
 
         if !self.terrainVal.isLand() {

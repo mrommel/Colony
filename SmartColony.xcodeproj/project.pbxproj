@@ -95,6 +95,10 @@
 		C99A590F2464376C006431EE /* CityManageProductionDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C99A590E2464376C006431EE /* CityManageProductionDialog.xml */; };
 		C99A5911246437EE006431EE /* CityBuildingsDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A5910246437EE006431EE /* CityBuildingsDialog.swift */; };
 		C99A591324643831006431EE /* CityBuildingsDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C99A591224643831006431EE /* CityBuildingsDialog.xml */; };
+		C9A125A2249E664700D5E3A1 /* FeatureGivesProductionPopup.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A125A1249E664700D5E3A1 /* FeatureGivesProductionPopup.xml */; };
+		C9A125A4249E665D00D5E3A1 /* FeatureGivesProductionPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A125A3249E665D00D5E3A1 /* FeatureGivesProductionPopup.swift */; };
+		C9A125A6249E68E600D5E3A1 /* GoodyHutRewardPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A125A5249E68E600D5E3A1 /* GoodyHutRewardPopup.swift */; };
+		C9A125A8249E69B400D5E3A1 /* GoodyHutRewardPopup.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A125A7249E69B400D5E3A1 /* GoodyHutRewardPopup.xml */; };
 		C9B1D205243474F900033791 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D204243474F900033791 /* GameViewController.swift */; };
 		C9B1D2092434757600033791 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B1D2082434757600033791 /* SmartAILibrary.framework */; };
 		C9B1D20A2434757600033791 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9B1D2082434757600033791 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -317,6 +321,10 @@
 		C99A590E2464376C006431EE /* CityManageProductionDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityManageProductionDialog.xml; sourceTree = "<group>"; };
 		C99A5910246437EE006431EE /* CityBuildingsDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBuildingsDialog.swift; sourceTree = "<group>"; };
 		C99A591224643831006431EE /* CityBuildingsDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityBuildingsDialog.xml; sourceTree = "<group>"; };
+		C9A125A1249E664700D5E3A1 /* FeatureGivesProductionPopup.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FeatureGivesProductionPopup.xml; sourceTree = "<group>"; };
+		C9A125A3249E665D00D5E3A1 /* FeatureGivesProductionPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureGivesProductionPopup.swift; sourceTree = "<group>"; };
+		C9A125A5249E68E600D5E3A1 /* GoodyHutRewardPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHutRewardPopup.swift; sourceTree = "<group>"; };
+		C9A125A7249E69B400D5E3A1 /* GoodyHutRewardPopup.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GoodyHutRewardPopup.xml; sourceTree = "<group>"; };
 		C9B1D204243474F900033791 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		C9B1D2082434757600033791 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B1D20C2434768900033791 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -459,6 +467,8 @@
 				C9956842247C3B990005E9EA /* TechDiscoveredPopup.xml */,
 				C9956844247D38660005E9EA /* CivicDiscoveredPopup.xml */,
 				C995684C247E40B50005E9EA /* EnteredEraPopup.xml */,
+				C9A125A1249E664700D5E3A1 /* FeatureGivesProductionPopup.xml */,
+				C9A125A7249E69B400D5E3A1 /* GoodyHutRewardPopup.xml */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -470,6 +480,8 @@
 				C9956840247C3A190005E9EA /* TechDiscoveredPopup.swift */,
 				C9956846247D388C0005E9EA /* CivicDiscoveredPopup.swift */,
 				C9956848247DAB5A0005E9EA /* EnteredEraPopup.swift */,
+				C9A125A3249E665D00D5E3A1 /* FeatureGivesProductionPopup.swift */,
+				C9A125A5249E68E600D5E3A1 /* GoodyHutRewardPopup.swift */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -922,6 +934,7 @@
 				C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */,
 				C957AA49243641A100203024 /* MapSizeDialog.xml in Resources */,
 				C9DC1C892483A39000235743 /* GameNameDialog.xml in Resources */,
+				C9A125A2249E664700D5E3A1 /* FeatureGivesProductionPopup.xml in Resources */,
 				C9FEEBA52460367900C51552 /* CityPopulationGrowthDialog.xml in Resources */,
 				C9EB9F6A24557CA700F13B02 /* Wonders.xcassets in Resources */,
 				C95503C12456FD0100D4B3D8 /* Commands.xcassets in Resources */,
@@ -931,6 +944,7 @@
 				C9B1D28F2435B08F00033791 /* earth_small.map in Resources */,
 				C9EB9F6E245584EB00F13B02 /* Builds.xcassets in Resources */,
 				C9F91B39244A3E920081EDC8 /* Techs.xcassets in Resources */,
+				C9A125A8249E69B400D5E3A1 /* GoodyHutRewardPopup.xml in Resources */,
 				C9B1D28D2435B07A00033791 /* earth_huge.map in Resources */,
 				C957AA4A243641A100203024 /* MapTypeDialog.xml in Resources */,
 				C9F91B41244B98BD0081EDC8 /* CivicDialog.xml in Resources */,
@@ -1024,6 +1038,7 @@
 				C9B1D285243521FF00033791 /* MapClimateDialog.swift in Sources */,
 				C9B1D205243474F900033791 /* GameViewController.swift in Sources */,
 				C948684E24657AB400495988 /* CityManageCitizenDialog.swift in Sources */,
+				C9A125A4249E665D00D5E3A1 /* FeatureGivesProductionPopup.swift in Sources */,
 				C94DE1D624516B0B00B13F4D /* CircularProgressBarNode.swift in Sources */,
 				C9EB9F722455B12100F13B02 /* PolicyCardsTypeExtension.swift in Sources */,
 				C947871B2472C80B00FAAC99 /* GameSceneDialogs.swift in Sources */,
@@ -1124,6 +1139,7 @@
 				C9079181245A20D800248596 /* YieldLayer.swift in Sources */,
 				C95B3DF624387125002F5A86 /* BottomLeftBar.swift in Sources */,
 				C9956847247D388C0005E9EA /* CivicDiscoveredPopup.swift in Sources */,
+				C9A125A6249E68E600D5E3A1 /* GoodyHutRewardPopup.swift in Sources */,
 				C9B1D283243521A500033791 /* MapRainfallDialog.swift in Sources */,
 				C9F91B3B244B91CA0081EDC8 /* TechTypeExtension.swift in Sources */,
 				C95B3DF02437975D002F5A86 /* GameViewModel.swift in Sources */,

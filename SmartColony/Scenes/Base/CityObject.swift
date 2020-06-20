@@ -66,7 +66,7 @@ class CityObject {
         }
 
         let nameLabelWidth = city.name.count * 4
-        let nameBackgroundWidth = nameLabelWidth + 12
+        let nameBackgroundWidth = nameLabelWidth + 18
 
         self.nameBackground = NineGridTextureSprite(imageNamed: "city_banner", size: CGSize(width: nameBackgroundWidth, height: 10))
         self.nameBackground?.position = CGPoint(x: 24, y: 35)

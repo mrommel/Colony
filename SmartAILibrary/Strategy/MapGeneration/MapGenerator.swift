@@ -10,7 +10,7 @@ import SpriteKit
 
 public typealias ProgressHandler = (Double, String) -> Void
 
-public class MapGenerator {
+public class MapGenerator: BaseMapHandler {
 
     let options: MapOptions
 	let width: Int
@@ -134,6 +134,14 @@ public class MapGenerator {
         
         if let completionHandler = self.progressHandler {
             completionHandler(0.9, "start positions identified")
+        }
+        
+        usleep(10000) // will sleep for 10 milliseconds
+        
+        self.addGoodies(on: grid)
+        
+        if let completionHandler = self.progressHandler {
+            completionHandler(0.99, "added goodies")
         }
         
         usleep(10000) // will sleep for 10 milliseconds
@@ -332,94 +340,6 @@ public class MapGenerator {
         print("try to place \(resourceCount) \(resource.name()) (\(alreadyPlaced) already placed)" )
 
         return resourceCount
-    }
-    
-    func canPlace(resource: ResourceType, at tile: AbstractTile?, on grid: MapModel?) -> Bool {
-        
-        if let tile = tile {
-            return tile.canHave(resource: resource, ignoreLatitude: true, in: grid)
-        }
-        
-        return false
-    }
-    
-    func addNonUnique(resource: ResourceType, on grid: MapModel?) {
-        
-        guard let grid = grid else {
-            fatalError("cant get grid")
-        }
-        
-        var resourceCount = self.numOfResourcesToAdd(for: resource, on: grid)
-        
-        if resourceCount == 0 {
-            return
-        }
-        
-        var points: [HexPoint] = []
-        
-        for x in 0..<width {
-            for y in 0..<height {
-                points.append(HexPoint(x: x, y: y))
-            }
-        }
-        
-        points.shuffle()
-        
-        for point in points {
-            
-            if let tile = grid.tile(at: point) {
-                
-                if self.canPlace(resource: resource, at: tile, on: grid) {
-                    
-                    let resourceNum = 50 + Int.random(maximum: 20) // FIXME
-                
-                    tile.set(resourceQuantity: resourceNum)
-                    tile.set(resource: resource)
-                    
-                    resourceCount -= 1
-                    
-                    // FIXME: groups
-                }
-                
-                if resourceCount == 0 {
-                    return
-                }
-            }
-        }
-    }
-    
-    func placeResources(on grid: MapModel?) {
-        
-        guard let grid = grid else {
-            fatalError("cant get grid")
-        }
-        
-        let resources = ResourceType.all.sorted(by: { $0.placementOrder() > $1.placementOrder() })
-        
-        // Add resources
-        for resource in resources {
-            self.addNonUnique(resource: resource, on: grid)
-        }
-        
-        print("-------------------------------")
-        
-        // Show number of resources placed
-        for resource in resources {
-            
-            var resourcePlaced = 0
-            for x in 0..<width {
-                for y in 0..<height {
-
-                    if let tile = grid.tile(x: x, y: y) {
-                        if tile.resource(for: nil) == resource {
-                            resourcePlaced += 1
-                        }
-                    }
-                }
-            }
-            
-            print("Counted \(resourcePlaced) of \(resource.name()) placed on map")
-        }
     }
 
 	// from http://www.redblobgames.com/maps/terrain-from-noise/

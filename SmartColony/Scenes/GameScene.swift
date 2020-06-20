@@ -509,6 +509,8 @@ class GameScene: BaseScene {
                 // keep selected unit
                 if unit.movesLeft() <= 0 {
                     self.unselect()
+                } else {
+                    self.select(unit: unit)
                 }
             } else {
 
@@ -690,6 +692,9 @@ class GameScene: BaseScene {
             self.mapNode?.unitLayer.hideFocus()
             if selectedUnit.location != position {
                 self.mapNode?.unitLayer.move(unit: selectedUnit, to: position)
+                
+                let commands = selectedUnit.commands(in: self.viewModel?.game)
+                self.bottomLeftBar?.selectedUnitChanged(to: selectedUnit, commands: commands)
             }
         }
     }
@@ -848,19 +853,26 @@ extension GameScene: BottomLeftBarDelegate {
             }
             
         case .pillage:
-            // NOOP
-            break
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doPillage(in: gameModel)
+            }
+            
         case .fortify:
             if let selectedUnit = self.selectedUnit {
                 selectedUnit.doFortify(in: gameModel)
             }
-            break
+            
         case .hold:
-            // NOOP
-            break
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.set(activityType: .hold)
+                selectedUnit.finishMoves()
+            }
+            
         case .garrison:
-            // NOOP
-            break
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doGarrison(in: gameModel)
+            }
+            
         }
     }
 
@@ -899,7 +911,13 @@ extension GameScene: BottomLeftBarDelegate {
     func handleFocusOnUnit() {
 
         if let unit = self.selectedUnit {
-            // print("click on unit icon - \(self.selectedUnit?.type)")
+            print("click on unit icon - \(unit.type)")
+            
+            if unit.movesLeft() == 0 {
+                self.unselect()
+                return
+            }
+            
             self.centerCamera(on: unit.location)
         } else {
 

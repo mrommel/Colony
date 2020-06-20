@@ -16,25 +16,32 @@ public enum PopupType {
     case barbarianCampCleared
     case featureGivesProduction // Das Entfernen der Geländeart {@1_FeatName} hat {2_Num} [ICON_PRODUCTION] für die Stadt {@3_CityName} eingebracht.
     
+    case goodyHutReward
+    
     case techDiscovered
     case civicDiscovered
     case eraEntered
     case eurekaActivated
+    
+    case unitTrained
+    case buildingBuilt
 }
 
 public class PopupData {
     
-    let player: AbstractPlayer?
-    let money: Int
+    public let player: AbstractPlayer?
+    public let money: Int
     
-    let featureType: FeatureType
-    let production: Int
-    let cityName: String
+    public let featureType: FeatureType
+    public let production: Int
+    public let cityName: String
     
     public let tech: TechType
     public let civic: CivicType
     
     public let era: EraType
+    
+    public let goodyType: GoodyType?
     
     init(player: AbstractPlayer?) {
         
@@ -49,6 +56,8 @@ public class PopupData {
         self.civic = .none
         
         self.era = .none
+        
+        self.goodyType = nil
     }
     
     init(money: Int) {
@@ -64,6 +73,8 @@ public class PopupData {
         self.civic = .none
         
         self.era = .none
+        
+        self.goodyType = nil
     }
     
     init(featureType: FeatureType, production: Int, cityName: String) {
@@ -79,6 +90,8 @@ public class PopupData {
         self.civic = .none
         
         self.era = .none
+        
+        self.goodyType = nil
     }
     
     init(tech: TechType) {
@@ -94,6 +107,8 @@ public class PopupData {
         self.civic = .none
         
         self.era = .none
+        
+        self.goodyType = nil
     }
     
     init(civic: CivicType) {
@@ -109,6 +124,8 @@ public class PopupData {
         self.civic = civic
         
         self.era = .none
+        
+        self.goodyType = nil
     }
     
     init(era: EraType) {
@@ -124,6 +141,24 @@ public class PopupData {
         self.civic = .none
         
         self.era = era
+        
+        self.goodyType = nil
+    }
+    
+    init(goodyType: GoodyType, for cityName: String = "") {
+        
+        self.player = nil
+        self.money = -1
+        
+        self.featureType = .none
+        self.production = -1
+        self.cityName = cityName
+        
+        self.tech = .none
+        self.civic = .none
+        
+        self.era = .none
+        self.goodyType = goodyType
     }
 }
 

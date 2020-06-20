@@ -51,7 +51,7 @@ public protocol AbstractUnit: class, Codable {
     @discardableResult func doMove(on target: HexPoint, in gameModel: GameModel?) -> Bool
     func readyToMove() -> Bool
     func publishQueuedVisualizationMoves(in gameModel: GameModel?)
-    func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool
+    @discardableResult func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool
 
     func isImpassable(tile: AbstractTile?) -> Bool
     func canEnterTerrain(of tile: AbstractTile?) -> Bool
@@ -119,7 +119,7 @@ public protocol AbstractUnit: class, Codable {
     func buildType() -> BuildType
     func continueBuilding(build buildType: BuildType, in gameModel: GameModel?) -> Bool
 
-    func doPillage(in gameModel: GameModel?) -> Bool
+    @discardableResult func doPillage(in gameModel: GameModel?) -> Bool
     func doRebase(to point: HexPoint) -> Bool
 
     func canReach(at point: HexPoint, in turns: Int, in gameModel: GameModel?) -> Bool
@@ -127,8 +127,7 @@ public protocol AbstractUnit: class, Codable {
 
     func canGarrison(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func isGarrisoned() -> Bool
-    @discardableResult
-    func doGarrison(in gameModel: GameModel?) -> Bool
+    @discardableResult func doGarrison(in gameModel: GameModel?) -> Bool
     func unGarrison(in gameModel: GameModel?)
 
     func canEverEmbark() -> Bool
@@ -1130,10 +1129,10 @@ public class Unit: AbstractUnit {
                 if self.isEmbarked() {
 
                     // moving from water to the land
-                    if self.moveLocations.count > 0 {
+                    /*if self.moveLocations.count > 0 {
                         // If we have some queued moves, execute them now, so that the disembark is done at the proper location visually
                         self.publishQueuedVisualizationMoves(in: gameModel)
-                    }
+                    }*/
 
                     self.doDisembark(in: gameModel)
                 }
@@ -1141,10 +1140,10 @@ public class Unit: AbstractUnit {
                 if !self.isEmbarked() && self.canEmbark(into: target, in: gameModel) {
 
                     // moving from land to the water
-                    if self.moveLocations.count > 0 {
+                    /*if self.moveLocations.count > 0 {
                         // If we have some queued moves, execute them now, so that the disembark is done at the proper location visually
                         self.publishQueuedVisualizationMoves(in: gameModel)
-                    }
+                    }*/
 
                     self.doEmbark(in: gameModel)
                     self.finishMoves()
@@ -1317,7 +1316,6 @@ public class Unit: AbstractUnit {
             // if pNewPlot is NULL than we are "dead" (e.g. a settler) and need to blend out
             if newPlot.isVisible(to: gameModel.humanPlayer()) {
 
-                self.location = newPlot.point
                 gameModel.userInterface?.show(unit: self)
             }
         }
@@ -1527,25 +1525,30 @@ public class Unit: AbstractUnit {
 
                 if player.canEmbark() {
 
-                    // PromotionTypes ePromotionEmbarkation = player.GetEmbarkationPromotion();
-
-                    var givePromotion = false
-
-                    // Civilians get it for free
-                    if self.domain() == .land {
-                        if !self.isCombatUnit() {
+                    guard let promotions = self.promotions else {
+                        fatalError("cant get promotions")
+                    }
+                    
+                    if !promotions.has(promotion: .embarkation) {
+                    
+                        var givePromotion = false
+                        
+                        // Civilians get it for free
+                        if self.domain() == .land {
+                            if !self.isCombatUnit() {
+                                givePromotion = true
+                            }
+                        }
+                        
+                        // Can the unit get this? (handles water units and such)
+                        if !givePromotion && self.domain() == .land {
                             givePromotion = true
                         }
-                    }
-
-                    // Can the unit get this? (handles water units and such)
-                    if !givePromotion && self.domain() == .land {
-                        givePromotion = true
-                    }
-
-                    // Some case that gives us the promotion?
-                    if givePromotion {
-                        try! self.promotions?.earn(promotion: .embarkation)
+                        
+                        // Some case that gives us the promotion?
+                        if givePromotion {
+                            try! self.promotions?.earn(promotion: .embarkation)
+                        }
                     }
                 }
             }
@@ -1595,7 +1598,7 @@ public class Unit: AbstractUnit {
         }
     }
 
-    public func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool {
+    @discardableResult public func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("Cant get gameModel")
@@ -1759,8 +1762,8 @@ public class Unit: AbstractUnit {
             return false
         }
 
-        // only one unit per tile
-        guard gameModel.unit(at: point) != nil else {
+        // only one unit per tile or we are the 
+        guard gameModel.unit(at: point) == nil || self.location == point else {
             return false
         }
 
@@ -2600,7 +2603,7 @@ public class Unit: AbstractUnit {
         return true
     }
 
-    public func doPillage(in gameModel: GameModel?) -> Bool {
+    @discardableResult public func doPillage(in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -2903,7 +2906,7 @@ public class Unit: AbstractUnit {
             return false
         }
 
-        return false
+        return true
     }
 
     public func validTarget(at target: HexPoint, in gameModel: GameModel?) -> Bool {
@@ -3039,11 +3042,9 @@ extension Unit {
                 }
             }
         case .pillage:
-            break
-            // FIXME
-            /*if self.canPillage() {
+            if self.canPillage(at: self.location, in: gameModel) {
                 return true
-            }*/
+            }
         case .skip:
             if let target = mission.unit?.location {
                 if self.canHold(at: target, in: gameModel) {
