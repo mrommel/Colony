@@ -130,6 +130,13 @@ class UnitObject {
     }
 
     func showIdle() {
+        
+        guard let unit = self.unit else {
+            fatalError("unit not given")
+        }
+        
+        // just to be sure
+        self.sprite.position = HexPoint.toScreen(hex: unit.location)
 
         if let atlas = self.atlasIdle {
             let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)

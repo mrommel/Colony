@@ -17,7 +17,7 @@ class GoodyHutRewardPopupViewModel {
     init(goodyType: GoodyType, in cityName: String?) {
         
         self.iconTexture = "questionmark" // goodyType.iconTexture()
-        self.titleText = "The people from the tribal village gave you a present."
+        self.titleText = "The people from a tribal village gave you a present."
         self.summaryText = goodyType.effect()
     }
 }

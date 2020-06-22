@@ -61,6 +61,10 @@ public protocol AbstractCity: class, Codable {
     func foodConsumption() -> Double
     
     func isCapital() -> Bool
+    func setIsCapital(to value: Bool)
+    func setEverCapital(to value: Bool)
+    func isOriginalCapital(in gameModel: GameModel?) -> Bool
+    func originalLeader() -> LeaderType
     func doFoundMessage()
 
     func population() -> Int
@@ -72,7 +76,7 @@ public protocol AbstractCity: class, Codable {
     func has(district: DistrictType) -> Bool
     func has(building: BuildingType) -> Bool
 
-    func canBuild(building: BuildingType) -> Bool
+    func canBuild(building: BuildingType, in gameModel: GameModel?) -> Bool
     func canTrain(unit: UnitType) -> Bool
     func canBuild(project: ProjectType) -> Bool
     func canBuild(wonder: WonderType, in gameModel: GameModel?) -> Bool
@@ -127,7 +131,8 @@ public protocol AbstractCity: class, Codable {
     func maxHealthPoints() -> Int
     
     func power() -> Int
-    func updateStrengthValue()
+    func updateStrengthValue(in gameModel: GameModel?)
+    func strengthValue() -> Int
     
     func garrisonedUnit() -> AbstractUnit?
     func hasGarrison() -> Bool
@@ -137,10 +142,13 @@ public protocol AbstractCity: class, Codable {
     func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool) -> Int
 
     func work(tile: AbstractTile) throws
+    func isCoastal(in gameModel: GameModel?) -> Bool
     
     func isFeatureSurrounded() -> Bool
+    
     func isBlockaded() -> Bool
     func setRouteToCapitalConnected(value connected: Bool)
+    func isRouteToCapitalConnected() -> Bool
     
     func processSpecialist(specialistType: SpecialistType, change: Int)
     
@@ -162,6 +170,9 @@ public protocol AbstractCity: class, Codable {
     
     func isProductionAutomated() -> Bool
     func setProductionAutomated(to newValue: Bool, clear: Bool, in gameModel: GameModel?)
+    
+    func set(scratch: Int)
+    func scratch() -> Int
 }
 
 class LeaderWeightList: WeightedList<LeaderType> {
@@ -184,7 +195,9 @@ public class City: AbstractCity {
         case population
         case location
         case leader
+        case originalLeader
         case capital
+        case everCapital
         
         case districts
         case buildings
@@ -218,6 +231,10 @@ public class City: AbstractCity {
         case productionAutomated
         
         case numPlotsAcquiredList
+        
+        case cheapestPlotInfluence
+        case cultureStored
+        case cultureLevel
     }
     
     public let name: String
@@ -225,8 +242,10 @@ public class City: AbstractCity {
     public let location: HexPoint
     public var player: AbstractPlayer?
     private(set) public var leader: LeaderType // for restoring from file
+    private var originalLeaderValue: LeaderType
     private(set) var growthStatus: GrowthStatusType = .growth
     private var capitalValue: Bool
+    private var everCapitalValue: Bool // has this city ever been (or is) capital?
 
     public var districts: AbstractDistricts?
     public var buildings: AbstractBuildings? // buildings that are currently build in this city
@@ -265,6 +284,14 @@ public class City: AbstractCity {
     private var productionAutomatedValue: Bool
     
     private var numPlotsAcquiredList: LeaderWeightList
+    
+    private var cheapestPlotInfluenceValue: Int = 0
+    private var cultureStoredValue: Double = 0.0
+    private var cultureLevelValue: Int = 0
+    
+    // scratch
+    private var scratchValue: Int = 0
+    private var strengthVal: Int = 0
 
     // MARK: constructor
 
@@ -273,6 +300,7 @@ public class City: AbstractCity {
         self.name = name
         self.location = location
         self.capitalValue = capital
+        self.everCapitalValue = capital
         self.populationValue = 0
 
         self.buildQueue = BuildQueue()
@@ -281,6 +309,7 @@ public class City: AbstractCity {
 
         self.player = owner
         self.leader = owner!.leader
+        self.originalLeaderValue = owner!.leader
 
         self.isFeatureSurroundedValue = false
         self.threatVal = 0
@@ -307,7 +336,9 @@ public class City: AbstractCity {
         self.populationValue = try container.decode(Double.self, forKey: .population)
         self.location = try container.decode(HexPoint.self, forKey: .location)
         self.leader = try container.decode(LeaderType.self, forKey: .leader)
+        self.originalLeaderValue = try container.decode(LeaderType.self, forKey: .originalLeader)
         self.capitalValue = try container.decode(Bool.self, forKey: .capital)
+        self.everCapitalValue = try container.decode(Bool.self, forKey: .everCapital)
         
         self.buildQueue = BuildQueue()
 
@@ -365,6 +396,10 @@ public class City: AbstractCity {
         
         self.numPlotsAcquiredList = try container.decode(LeaderWeightList.self, forKey: .numPlotsAcquiredList)
         
+        self.cheapestPlotInfluenceValue = try container.decode(Int.self, forKey: .cheapestPlotInfluence)
+        self.cultureStoredValue = try container.decode(Double.self, forKey: .cultureStored)
+        self.cultureLevelValue = try container.decode(Int.self, forKey: .cultureLevel)
+        
         // setup
         self.districts?.city = self
         self.buildings?.city = self
@@ -383,7 +418,9 @@ public class City: AbstractCity {
         try container.encode(self.populationValue, forKey: .population)
         try container.encode(self.location, forKey: .location)
         try container.encode(self.player!.leader, forKey: .leader)
+        try container.encode(self.originalLeaderValue, forKey: .originalLeader)
         try container.encode(self.capitalValue, forKey: .capital)
+        try container.encode(self.everCapitalValue, forKey: .everCapital)
         
         try container.encode(self.districts as! Districts, forKey: .districts)
         try container.encode(self.buildings as! Buildings, forKey: .buildings)
@@ -420,6 +457,10 @@ public class City: AbstractCity {
         try container.encode(self.productionAutomatedValue, forKey: .productionAutomated)
         
         try container.encode(self.numPlotsAcquiredList, forKey: .numPlotsAcquiredList)
+        
+        try container.encode(self.cheapestPlotInfluenceValue, forKey: .cheapestPlotInfluence)
+        try container.encode(self.cultureStoredValue, forKey: .cultureStored)
+        try container.encode(self.cultureLevelValue, forKey: .cultureLevel)
     }
 
     public func initialize(in gameModel: GameModel?) {
@@ -508,6 +549,16 @@ public class City: AbstractCity {
     public func isCapital() -> Bool {
         
         return self.capitalValue
+    }
+    
+    public func setIsCapital(to value: Bool) {
+        
+        self.capitalValue = value
+    }
+    
+    public func setEverCapital(to value: Bool) {
+        
+        self.everCapitalValue = value
     }
 
     /*static func found(name: String, at location: HexPoint, capital: Bool = false, owner: AbstractPlayer?) -> AbstractCity {
@@ -602,14 +653,15 @@ public class City: AbstractCity {
             // self.doTestResourceDemanded();
 
             // Culture accumulation
-            // if (getJONSCulturePerTurn() > 0) {
-            //     ChangeJONSCultureStored(getJONSCulturePerTurn());
-            // }
+            let currentCulture = self.culturePerTurn(in: gameModel)
+            if currentCulture > 0 {
+                self.updateCultureStored(to: self.cultureStored() + currentCulture) // FIXME: another func
+            }
 
             // Enough Culture to acquire a new Plot?
-            // if (GetJONSCultureStored() >= GetJONSCultureThreshold()) {
-            //     DoJONSCultureLevelIncrease();
-            // }
+            if self.cultureStored() >= self.cultureThreshold() {
+                self.cultureLevelIncrease(in: gameModel)
+            }
 
             // Resource Demanded Counter
             // if (GetResourceDemandedCountdown() > 0) {
@@ -621,7 +673,7 @@ public class City: AbstractCity {
             //   }
             // }
 
-            self.updateStrengthValue()
+            self.updateStrengthValue(in: gameModel)
 
             // self.doNearbyEnemy()
 
@@ -674,8 +726,95 @@ public class City: AbstractCity {
         }
     }
     
-    public func updateStrengthValue() {
+    public func updateStrengthValue(in gameModel: GameModel?) {
         
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let techs = self.player?.techs else {
+            fatalError("cant get techs")
+        }
+        
+        guard let cityBuildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
+        guard let tile = gameModel.tile(at: self.location) else {
+            fatalError("cant get tile")
+        }
+        
+        // Default Strength
+        var strength = 600 /* CITY_STRENGTH_DEFAULT */
+
+        // Population mod
+        strength += self.population() * 25 /* CITY_STRENGTH_POPULATION_CHANGE */
+
+        // Building Defense
+        var buildingDefense = cityBuildings.defense()
+
+        buildingDefense *= (100 + cityBuildings.defenseModifier())
+        buildingDefense /= 100
+
+        strength += buildingDefense
+
+        // Garrisoned Unit
+        var strengthFromUnits = 0
+        if let garrisonedUnit = self.garrisonedUnit() {
+            if !garrisonedUnit.isOutOfAttacks() {
+                let maxHits = 100 /* MAX_HIT_POINTS */
+                strengthFromUnits = garrisonedUnit.baseCombatStrength(ignoreEmbarked: true) * 100 * (maxHits - garrisonedUnit.damage()) / maxHits
+            }
+        }
+
+        strength += (strengthFromUnits * 100) / 300 /* CITY_STRENGTH_UNIT_DIVISOR */
+
+        // Tech Progress increases City Strength
+        var techProgress = Double(techs.numberOfDiscoveredTechs()) * 100.0 / Double(TechType.all.count)
+
+        // Want progress to be a value between 0 and 5
+        techProgress = techProgress / 100.0 * 5 /* CITY_STRENGTH_TECH_BASE */
+        var techExponent = 2.0 /* CITY_STRENGTH_TECH_EXPONENT */
+        var techMultiplier = 2.0 /* CITY_STRENGTH_TECH_MULTIPLIER */
+
+        // The way all of this adds up...
+        // 25% of the way through the game provides an extra 3.12
+        // 50% of the way through the game provides an extra 12.50
+        // 75% of the way through the game provides an extra 28.12
+        // 100% of the way through the game provides an extra 50.00
+
+        var techMod = pow(techProgress, techExponent)
+        techMod *= techMultiplier
+
+        techMod *= 100    // Bring it back into hundreds
+        strength += Int(techMod + 0.005)    // Adding a small amount to prevent small fp accuracy differences from generating a different integer result on the Mac and PC. Assuming fTechMod is positive, round to nearest hundredth
+
+        var strengthMod = 0
+
+        // Terrain mod
+        if tile.hasHills() {
+            strengthMod += 15 /* CITY_STRENGTH_HILL_MOD */
+        }
+
+        // Player-wide strength mod (Policies, etc.)
+        // strengthMod += GET_PLAYER(getOwner()).GetCityStrengthMod();
+
+        // Apply Mod
+        strength *= (100 + strengthMod)
+        strength /= 100
+
+        self.strengthVal = strength
+
+        // DLLUI->setDirty(CityInfo_DIRTY_BIT, true);
+    }
+    
+    public func strengthValue() -> Int {
+        
+        return self.strengthVal
     }
     
     public func lastTurnFoodHarvested() -> Double {
@@ -1388,7 +1527,7 @@ public class City: AbstractCity {
             case .unit:
                 return self.canTrain(unit: item.unitType!)
             case .building:
-                return self.canBuild(building: item.buildingType!)
+                return self.canBuild(building: item.buildingType!, in: gameModel)
             case .wonder:
                 return self.canBuild(wonder: item.wonderType!, in: gameModel)
             case .district:
@@ -2095,8 +2234,12 @@ public class City: AbstractCity {
         }
     }
 
-    public func canBuild(building: BuildingType) -> Bool {
+    public func canBuild(building: BuildingType, in gameModel: GameModel?) -> Bool {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
         guard let player = self.player else {
             fatalError("cant get player")
         }
@@ -2122,6 +2265,12 @@ public class City: AbstractCity {
         }
 
         if !self.has(district: building.district()) {
+            return false
+        }
+        
+        // special handling of the palace
+        // can only be 
+        if building == .palace && gameModel.capital(of: player) != nil {
             return false
         }
 
@@ -2281,6 +2430,11 @@ public class City: AbstractCity {
     public func setRouteToCapitalConnected(value connected: Bool) {
         
         self.routeToCapitalConnectedThisTurn = connected
+    }
+    
+    public func isRouteToCapitalConnected() -> Bool {
+        
+        return self.routeToCapitalConnectedThisTurn
     }
 
     public func startTraining(unit unitType: UnitType) {
@@ -2945,8 +3099,6 @@ public class City: AbstractCity {
         self.set(cheapestPlotInfluence: lowestCost)
     }
     
-    var cheapestPlotInfluenceValue: Int = 0
-    
     func set(cheapestPlotInfluence: Int) {
         self.cheapestPlotInfluenceValue = cheapestPlotInfluence
     }
@@ -2954,6 +3106,254 @@ public class City: AbstractCity {
     func cheapestPlotInfluence() -> Int {
         
         return self.cheapestPlotInfluenceValue
+    }
+    
+    func updateCultureStored(to value: Double) {
+        
+        self.cultureStoredValue = value
+    }
+
+    func cultureStored() -> Double {
+    
+        return self.cultureStoredValue
+    }
+    
+    func changeCultureLevel(by delta: Int) {
+        
+        self.cultureLevelValue += delta
+    }
+    
+    func cultureLevel() -> Int {
+    
+        return self.cultureLevelValue
+    }
+
+    /// Amount of Culture needed in this City to acquire a new Plot
+    func cultureThreshold() -> Double {
+        
+        var cultureThreshold = 15.0 /* CULTURE_COST_FIRST_PLOT */
+
+        let exponent = 1.1 /* CULTURE_COST_LATER_PLOT_EXPONENT */
+
+        /*int iPolicyExponentMod = GET_PLAYER(m_eOwner).GetPlotCultureExponentModifier();
+        if(iPolicyExponentMod != 0)
+        {
+            fExponent = fExponent * (float)((100 + iPolicyExponentMod));
+            fExponent /= 100.0f;
+        }*/
+
+        var additionalCost = Double(self.cultureLevel()) * 8.0 /* CULTURE_COST_LATER_PLOT_MULTIPLIER */
+        additionalCost = pow(additionalCost, exponent)
+
+        cultureThreshold += additionalCost
+
+        // Religion modifier
+        /*int iReligionMod = 0;
+        ReligionTypes eMajority = GetCityReligions()->GetReligiousMajority();
+        if(eMajority != NO_RELIGION)
+        {
+            const CvReligion* pReligion = GC.getGame().GetGameReligions()->GetReligion(eMajority, getOwner());
+            if(pReligion)
+            {
+                iReligionMod = pReligion->m_Beliefs.GetPlotCultureCostModifier();
+                BeliefTypes eSecondaryPantheon = GetCityReligions()->GetSecondaryReligionPantheonBelief();
+                if (eSecondaryPantheon != NO_BELIEF)
+                {
+                    iReligionMod += GC.GetGameBeliefs()->GetEntry(eSecondaryPantheon)->GetPlotCultureCostModifier();
+                }
+            }
+        }*/
+
+        // -50 = 50% cost
+        /*let modifier = GET_PLAYER(getOwner()).GetPlotCultureCostModifier() + m_iPlotCultureCostModifier + iReligionMod;
+        if modifier != 0)
+        {
+            iModifier = max(iModifier, /*-85*/ GC.getCULTURE_PLOT_COST_MOD_MINIMUM());    // value cannot reduced by more than 85%
+            iCultureThreshold *= (100 + iModifier);
+            iCultureThreshold /= 100;
+        }*/
+
+        // Make the number not be funky
+        let divisor = 5.0 /* CULTURE_COST_VISIBLE_DIVISOR */
+        if cultureThreshold > divisor * 2.0 {
+            cultureThreshold /= divisor
+            cultureThreshold = Double(Int(cultureThreshold))
+            cultureThreshold *= divisor
+        }
+
+        return cultureThreshold
+    }
+    
+    /// What happens when you have enough Culture to acquire a new Plot?
+    func cultureLevelIncrease(in gameModel: GameModel?) {
+
+        let overflow = self.cultureStored() - self.cultureThreshold()
+        self.updateCultureStored(to: overflow)
+        self.changeCultureLevel(by: 1)
+
+        // maybe the player owns ALL of the plots or there are none avaialable?
+        if let plotToAcquire = self.nextBuyablePlot(in: gameModel) {
+            self.doAcquirePlot(at: plotToAcquire, in: gameModel)
+        }
+    }
+    
+    /// Which plot will we buy next
+    func nextBuyablePlot(in gameModel: GameModel?) -> HexPoint? {
+        
+        let plots = self.buyablePlotList(in: gameModel)
+        
+        if plots.count > 1 {
+            return plots.randomItem()
+        }
+        
+        return nil
+    }
+    
+    private func buyablePlotList(in gameModel: GameModel?) -> [HexPoint] {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var aiPlotList: [HexPoint] = []
+
+        var lowestCost = Int.max;
+        let maxRange = 5 /* MAXIMUM_ACQUIRE_PLOT_DISTANCE */
+
+        let iPLOT_INFLUENCE_DISTANCE_MULTIPLIER =    100 /* PLOT_INFLUENCE_DISTANCE_MULTIPLIER */
+        let iPLOT_INFLUENCE_RING_COST =                100 /* PLOT_INFLUENCE_RING_COST */
+        let iPLOT_INFLUENCE_WATER_COST =            25 /* PLOT_INFLUENCE_WATER_COST */
+        let iPLOT_INFLUENCE_IMPROVEMENT_COST =         -5 /* PLOT_INFLUENCE_IMPROVEMENT_COST */
+        let iPLOT_INFLUENCE_ROUTE_COST =            0 /* PLOT_INFLUENCE_ROUTE_COST */
+        let iPLOT_INFLUENCE_RESOURCE_COST =            -105 /* PLOT_INFLUENCE_RESOURCE_COST */
+        let iPLOT_INFLUENCE_NW_COST =                -105 /* PLOT_INFLUENCE_NW_COST */
+        let iPLOT_INFLUENCE_YIELD_POINT_COST =        -1 /* PLOT_INFLUENCE_YIELD_POINT_COST */
+
+        let iPLOT_INFLUENCE_NO_ADJACENT_OWNED_COST = 1000 /* PLOT_INFLUENCE_NO_ADJACENT_OWNED_COST */
+
+        for point in self.location.areaWith(radius: maxRange) {
+                
+            if let loopPlot = gameModel.tile(at: point) {
+                
+                if loopPlot.hasOwner() {
+                    continue
+                }
+            
+                // we can use the faster, but slightly inaccurate pathfinder here - after all we are using a rand in the equation
+                var influenceCost = gameModel.calculateInfluenceDistance(from: self.location, to: point, limit: maxRange, abc: false) * iPLOT_INFLUENCE_DISTANCE_MULTIPLIER
+
+                if influenceCost > 0 {
+                    // Modifications for tie-breakers in a ring
+
+                    // Resource Plots claimed first
+                    let resource = loopPlot.resource(for: self.player)
+                    if resource != .none {
+                        
+                        influenceCost += iPLOT_INFLUENCE_RESOURCE_COST
+                        if resource.usage() == .bonus {
+                            // very slightly decrease value of bonus resources
+                            influenceCost += 1
+                        }
+                    } else {
+
+                        // Water Plots claimed later
+                        if loopPlot.isWater() {
+                            influenceCost += iPLOT_INFLUENCE_WATER_COST
+                        }
+                    }
+
+                    // improved tiles get a slight priority (unless they are barbarian camps!)
+                    let improvement = loopPlot.improvement()
+                    if improvement != .none {
+                        if improvement == .barbarianCamp {
+                            influenceCost += iPLOT_INFLUENCE_RING_COST
+                        } else {
+                            influenceCost += iPLOT_INFLUENCE_IMPROVEMENT_COST
+                        }
+                    }
+
+                    // roaded tiles get a priority - [not any more: weight above is 0 by default]
+                    if loopPlot.has(route: .road) {
+                        influenceCost += iPLOT_INFLUENCE_ROUTE_COST
+                    }
+
+                    // while we're at it, grab Natural Wonders quickly also
+                    if loopPlot.feature().isWonder() {
+                        influenceCost += iPLOT_INFLUENCE_NW_COST
+                    }
+
+                    // More Yield == more desirable
+                    let yields = loopPlot.yields(for: self.player, ignoreFeature: false)
+                    for yieldType in YieldType.all {
+                        influenceCost += (iPLOT_INFLUENCE_YIELD_POINT_COST * Int(yields.value(of: yieldType)))
+                    }
+
+                    // all other things being equal move towards unclaimed resources
+                    var unownedNaturalWonderAdjacentCount = false
+                    for dir in HexDirection.all {
+                        
+                        let neightbor = point.neighbor(in: dir)
+                        
+                        if let adjacentPlot = gameModel.tile(at: neightbor) {
+                            if !adjacentPlot.hasOwner() {
+                                let plotDistance = self.location.distance(to: neightbor)
+                                let adjacentResource = adjacentPlot.resource(for: self.player)
+                                if adjacentResource != .none {
+                                    // if we are close enough to work, or this is not a bonus resource
+                                    if plotDistance <= 3 || adjacentResource.usage() != .bonus {
+                                        influenceCost -= 1
+                                    }
+                                }
+                                
+                                if adjacentPlot.feature().isWonder() {
+                                    if plotDistance <= 3  {
+                                        // grab for this city
+                                        unownedNaturalWonderAdjacentCount = true
+                                    }
+                                    // but we will slightly grow towards it for style in any case
+                                    influenceCost -= 1
+                                }
+                            }
+                        }
+                    }
+
+                    // move towards unclaimed NW
+                    influenceCost += unownedNaturalWonderAdjacentCount ? -1 : 0
+
+                    // Plots not adjacent to another Plot acquired by this City are pretty much impossible to get
+                    var foundAdjacentOwnedByCity = false
+                    for dir in HexDirection.all {
+                        
+                        if let adjacentPlot = gameModel.tile(at: point.neighbor(in: dir)) {
+                            // Have to check plot ownership first because the City IDs match between different players!!!
+                            if adjacentPlot.ownerLeader() == leader && adjacentPlot.workingCityName() == self.name {
+                                foundAdjacentOwnedByCity = true
+                                break
+                            }
+                        }
+                    }
+                        
+                    if !foundAdjacentOwnedByCity {
+                        influenceCost += iPLOT_INFLUENCE_NO_ADJACENT_OWNED_COST
+                    }
+
+                    // Are we cheap enough to get picked next?
+                    if influenceCost < lowestCost {
+                        
+                        // clear reset list
+                        aiPlotList.removeAll()
+                        aiPlotList.append(point)
+                        lowestCost = influenceCost
+                    }
+
+                    if influenceCost == lowestCost {
+                        aiPlotList.append(point)
+                    }
+                }
+            }
+        }
+        
+        return aiPlotList
     }
     
     /// Compute how valuable buying a plot is to this city
@@ -3222,5 +3622,92 @@ public class City: AbstractCity {
         }
         
         return Int(self.numPlotsAcquiredList.weight(of: otherPlayer.leader))
+    }
+    
+    //    --------------------------------------------------------------------------------
+    func isVisible(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        if let tile = gameModel.tile(at: self.location) {
+            
+            return tile.isVisible(to: otherPlayer)
+        }
+        
+        return false
+    }
+
+
+    //    --------------------------------------------------------------------------------
+    func isCapital(in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if let capital = gameModel.capital(of: player) {
+        
+            return self.location == capital.location && self.name == capital.name
+        } else {
+            return false
+        }
+    }
+    
+    public func originalLeader() -> LeaderType {
+        
+        return self.originalLeaderValue
+    }
+
+    //    --------------------------------------------------------------------------------
+    /// Was this city originally any player's capital?
+    public func isOriginalCapital(in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let originalPlayer = gameModel.player(for: self.originalLeader()) else {
+            return false
+        }
+        
+        return originalPlayer.originalCapitalLocation() == self.location
+    }
+
+    //    --------------------------------------------------------------------------------
+    func isEverCapital() -> Bool {
+
+        return self.everCapitalValue
+    }
+
+    //    --------------------------------------------------------------------------------
+    func set(everCapital: Bool) {
+
+        self.everCapitalValue = everCapital
+    }
+
+    //    --------------------------------------------------------------------------------
+    public func isCoastal(in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        return gameModel.isCoastal(at: self.location)
+    }
+    
+    public func set(scratch: Int) {
+        
+        self.scratchValue = scratch
+    }
+    
+    public func scratch() -> Int {
+        
+        return self.scratchValue
     }
 }

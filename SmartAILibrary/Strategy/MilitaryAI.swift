@@ -8,6 +8,76 @@
 
 import Foundation
 
+enum CityAttackApproachType {
+    
+    case none // ATTACK_APPROACH_NONE
+    
+    case unrestricted // ATTACK_APPROACH_UNRESTRICTED
+    case open // ATTACK_APPROACH_OPEN
+    case neutral // ATTACK_APPROACH_NEUTRAL
+    case limited // ATTACK_APPROACH_LIMITED
+    case restricted // ATTACK_APPROACH_RESTRICTED
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  STRUCT:     CvMilitaryTarget
+//!  \brief        A possible operation target (and muster city) for evaluation
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class MilitaryTarget: Codable, Equatable {
+
+    var targetCity: AbstractCity?
+    var musterCity: AbstractCity?
+    var targetNearbyUnitPower: Int
+    var musterNearbyUnitPower: Int
+    var pathLength: Int
+    var attackBySea: Bool
+    
+    init() {
+        
+        self.targetCity = nil
+        self.musterCity = nil
+        self.attackBySea = false
+        self.musterNearbyUnitPower = 0
+        self.targetNearbyUnitPower = 0
+        self.pathLength = 0
+    }
+    
+    required init(from decoder: Decoder) throws {
+        
+        self.targetCity = nil
+        self.musterCity = nil
+        self.attackBySea = false
+        self.musterNearbyUnitPower = 0
+        self.targetNearbyUnitPower = 0
+        self.pathLength = 0
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+    }
+    
+    static func == (lhs: MilitaryTarget, rhs: MilitaryTarget) -> Bool {
+        
+        guard let lhsTargetCity = lhs.targetCity else {
+            return false
+        }
+        
+        guard let lhsMusterCity = lhs.musterCity else {
+            return false
+        }
+        
+        guard let rhsTargetCity = rhs.targetCity else {
+            return false
+        }
+        
+        guard let rhsMusterCity = rhs.musterCity else {
+            return false
+        }
+        
+        return lhsTargetCity.location == rhsTargetCity.location && lhsMusterCity.location == rhsMusterCity.location
+    }
+}
+
 public class MilitaryAI: Codable {
 
     enum CodingKeys: String, CodingKey {
@@ -28,12 +98,13 @@ public class MilitaryAI: Codable {
 
     private var baseData: MilitaryBaseData
     private var barbarianDataVal: BarbarianData
+    private var totalThreatWeight: Int = 0
     private var landDefenseStateVal: DefenseStateType
     private var navalDefenseStateVal: DefenseStateType
-    private var totalThreatWeight: Int = 0
 
     // MARK: internal classes
 
+    // Data recomputed each turn (no need to serialize)
     class MilitaryBaseData: Codable {
 
         var numLandUnits: Int = 0
@@ -43,8 +114,8 @@ public class MilitaryAI: Codable {
         //var numAntiAirUnits: Int = 0
         var numMeleeLandUnits: Int = 0
         var numNavalUnits: Int = 0
-        //var numLandUnitsInArmies = 0
-        //var numNavalUnitsInArmies = 0
+        var numLandUnitsInArmies: Int = 0
+        var numNavalUnitsInArmies: Int = 0
         var recommendedMilitarySize: Int = 0
         var mandatoryReserveSize: Int = 0
 
@@ -57,8 +128,12 @@ public class MilitaryAI: Codable {
             self.numLandUnits = 0
             self.numRangedLandUnits = 0
             self.numMobileLandUnits = 0
+            // self.numAirUnits = 0
+            // self.numAntiAirUnits = 0
             self.numMeleeLandUnits = 0
             self.numNavalUnits = 0
+            self.numLandUnitsInArmies = 0
+            self.numNavalUnitsInArmies = 0
             self.recommendedMilitarySize = 0
             self.mandatoryReserveSize = 0
         }
@@ -379,6 +454,70 @@ public class MilitaryAI: Codable {
 
         return 20 // FIXME
     }
+    
+    /// Get a pointer to the sneak attack operation against a target
+    func sneakAttackOperation(against enemy: AbstractPlayer?) -> Operation? {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if let sneakCityAttackOperation = player.operationsOf(type: .sneakCityAttack).first {
+            return sneakCityAttackOperation
+        }
+        
+        if let navalSneakAttackOperation = player.operationsOf(type: .navalSneakAttack).first {
+            return navalSneakAttackOperation
+        }
+        
+        return nil
+    }
+
+    /// Get a pointer to the show of force operation against a target
+    func showOfForceOperation(against enemy: AbstractPlayer?) -> Operation? {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if let sneakCityAttackOperation = player.operationsOf(type: .smallCityAttack).first {
+            return sneakCityAttackOperation
+        }
+        
+        return nil
+    }
+
+    /// Get a pointer to the basic attack against a target
+    func basicAttackOperation(against enemy: AbstractPlayer?) -> Operation? {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if let basicCityAttackOperation = player.operationsOf(type: .basicCityAttack).first {
+            return basicCityAttackOperation
+        }
+        
+        if let navalAttackOperation = player.operationsOf(type: .navalAttack).first {
+            return navalAttackOperation
+        }
+        
+        return nil
+    }
+    
+    /// Get a pointer to the pure naval operation against a target
+    func pureNavalAttackOperation(against enemy: AbstractPlayer?) -> Operation? {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if let basicCityAttackOperation = player.operationsOf(type: .pureNavalCityAttack).first {
+            return basicCityAttackOperation
+        }
+        
+        return nil
+    }
 
     func updateOperations(in gameModel: GameModel?) {
 
@@ -438,35 +577,32 @@ public class MilitaryAI: Codable {
             for operation in player.operationsOf(type: .navalAttack) {
                 operation.cancel()
             }
-        }
+        } else {
 
-        // or are we at war?
-        if self.adopted(militaryStrategy: .atWar) {
-
+            // Are any of our strategies inappropriate given the type of war we are fighting
             for otherPlayer in gameModel.players {
 
                 // Is this a player we have relations with?
                 if player.leader != otherPlayer.leader && player.hasMet(with: otherPlayer) {
 
                     // If we've made peace with this player, abort all operations related to him
-                    if player.isForcePeace(with: otherPlayer) {
+                    // added the check for STATE_ALL_WARS_LOSING so that if the player is losing all wars, that they will cancel scheduled attacks
+                    if player.isForcePeace(with: otherPlayer) || diplomacyAI.stateOfAllWars == .losing {
 
-                        for operation in player.operationsOf(type: .sneackAttack) {
-                            if operation.enemy!.leader == otherPlayer.leader {
-                                operation.cancel()
-                            }
+                        if let operation = self.sneakAttackOperation(against: otherPlayer) {
+                            operation.kill(with: .warStateChange)
                         }
-
-                        for operation in player.operationsOf(type: .basicAttack) {
-                            if operation.enemy!.leader == otherPlayer.leader {
-                                operation.cancel()
-                            }
+                        
+                        if let operation = self.basicAttackOperation(against: otherPlayer) {
+                            operation.kill(with: .warStateChange)
                         }
-
-                        for operation in player.operationsOf(type: .showOfForce) {
-                            if operation.enemy!.leader == otherPlayer.leader {
-                                operation.cancel()
-                            }
+                        
+                        if let operation = self.showOfForceOperation(against: otherPlayer) {
+                            operation.kill(with: .warStateChange)
+                        }
+                        
+                        if let operation = self.pureNavalAttackOperation(against: otherPlayer) {
+                            operation.kill(with: .warStateChange)
                         }
                     }
 
@@ -617,7 +753,7 @@ public class MilitaryAI: Codable {
                         }
                         
                         if requestAttack {
-                            self.requestBasicAttack(towards: otherPlayer)
+                            self.requestBasicAttack(towards: otherPlayer, in: gameModel)
                         } else {
                             let units = gameModel.units(of: player)
                             let (numRequiredSlots, _, filledSlots) = UnitFormationHelper.numberOfFillableSlots(of: units, for: .fastPillagers)
@@ -629,7 +765,7 @@ public class MilitaryAI: Codable {
                         }
                         
                     case .offensive, .nearlyWon: // If we are dominant, time to take down one of his cities
-                        self.requestBasicAttack(towards: otherPlayer)
+                        self.requestBasicAttack(towards: otherPlayer, in: gameModel)
                     }
                 }
             }
@@ -668,9 +804,570 @@ public class MilitaryAI: Codable {
     }
     
     /// Send an army to take a city
-    func requestBasicAttack(towards otherPlayer: AbstractPlayer?, numUnitsWillingBuild: Int = 1) {
+    @discardableResult func requestBasicAttack(towards otherPlayer: AbstractPlayer?, numUnitsWillingBuild: Int = 1, in gameModel: GameModel?) -> Bool {
         
-        fatalError("requestBasicAttack not implemented")
+        var winningScore: Int = 0
+        let target: MilitaryTarget = self.findBestAttackTarget(for: .basicCityAttack, against: otherPlayer, winningScore: &winningScore, in: gameModel)
+        return self.requestSpecificAttack(against: target, numUnitsWillingToBuild: numUnitsWillingBuild, in: gameModel)
+    }
+    
+    func requestSpecificAttack(against target: MilitaryTarget, numUnitsWillingToBuild: Int, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no game model given")
+        }
+        
+        guard let player = self.player else {
+            fatalError("no player given")
+        }
+
+        var operationRef: Operation? = nil
+        var numRequiredSlots = 0
+        var landReservesUsed = 0
+        var filledSlots = 0
+
+        if target.targetCity != nil {
+            
+            if target.attackBySea {
+                filledSlots = MilitaryAIHelpers.numberOfFillableSlots(for: self.player, formation: .navalInvasion, requiresNavalMoves: true, numberSlotsRequired: &numRequiredSlots, numberLandReservesUsed: &landReservesUsed, in: gameModel)
+                if (numRequiredSlots - filledSlots) <= numUnitsWillingToBuild && landReservesUsed <= self.landReservesAvailable() {
+                    operationRef = player.addOperation(of: .navalAttack, towards: target.targetCity!.player, target: target.musterCity, in: gameModel.area(of: target.targetCity!.location), in: gameModel)
+                }
+            } else {
+                let formation: UnitFormationType = gameModel.handicap > HandicapType.prince ? .biggerCityAttackForce : .basicCityAttackForce
+                filledSlots = MilitaryAIHelpers.numberOfFillableSlots(for: self.player, formation: formation, requiresNavalMoves: false, numberSlotsRequired: &numRequiredSlots, numberLandReservesUsed: &landReservesUsed, in: gameModel)
+                
+                if (numRequiredSlots - filledSlots) <= numUnitsWillingToBuild && landReservesUsed <= self.landReservesAvailable() {
+                    
+                    operationRef = player.addOperation(of: .basicCityAttack, towards: target.targetCity!.player, target: target.targetCity, in: gameModel.area(of: target.targetCity!.location), muster: target.musterCity, in: gameModel)
+                    
+                    if let operation = operationRef {
+                        
+                        if !operation.shouldAbort() && target.targetCity!.isCoastal(in: gameModel) {
+                        
+                            let flavorNaval = player.valueOfStrategyAndPersonalityFlavor(of: .naval)
+                            let numSuperiority = player.numberOfOperationsOf(type: .navalSuperiority)
+                            let numBombard = player.numberOfOperationsOf(type: .navalBombard)
+                            let maxOperations = flavorNaval
+                            if numSuperiority + numBombard <= maxOperations {
+                                player.addOperation(of: .navalSuperiority, towards: nil, target: nil, in: nil, in: gameModel)
+                            }
+                        }
+                    }
+                }
+            }
+
+            if let operation = operationRef {
+                if !operation.shouldAbort() {
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
+    
+    func landReservesAvailable() -> Int {
+        
+        return self.baseData.numLandUnits - self.baseData.numLandUnitsInArmies - self.baseData.mandatoryReserveSize
+    }
+    
+    /// Best target by land OR sea
+    func findBestAttackTarget(for operationType: UnitOperationType, against enemy: AbstractPlayer?, winningScore: inout Int, in gameModel: GameModel?) -> MilitaryTarget {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let enemy = enemy else {
+            fatalError("cant get enemy")
+        }
+        
+        var chosenTarget = MilitaryTarget()
+        var weightedTargetList: WeightedList<MilitaryTarget> = WeightedList<MilitaryTarget>()
+
+        // Estimate the relative strength of units near our cities and near their cities (can't use TacticalAnalysisMap because we may not be at war - and that it isn't current if we are calling this from the DiploAI)
+        for friendlyCityRef in gameModel.cities(of: player) {
+            
+            guard let friendlyCity = friendlyCityRef else {
+                fatalError("cant get friendlyCity")
+            }
+            
+            guard let plot = gameModel.tile(at: friendlyCity.location) else {
+                fatalError("cant get plot")
+            }
+            
+            var generalInTheVicinity = false
+            var power = 0
+            
+            for loopUnitRef in gameModel.units(of: player) {
+                
+                guard let loopUnit = loopUnitRef else {
+                    fatalError("cant get loopUnit")
+                }
+                
+                if loopUnit.isCombatUnit() {
+                    let distance = loopUnit.location.distance(to: plot.point)
+                    if distance <= 5 {
+                        power += loopUnit.power()
+                    }
+                }
+                
+                if !generalInTheVicinity && loopUnit.isGreatGeneral() {
+                    let distance = loopUnit.location.distance(to: plot.point)
+                    if distance <= 5 {
+                        generalInTheVicinity = true
+                    }
+                }
+            }
+            
+            if generalInTheVicinity {
+                power *= 11
+                power /= 10
+            }
+            
+            friendlyCity.set(scratch: power)
+        }
+        
+        for enemyCityRef in gameModel.cities(of: enemy) {
+            
+            guard let enemyCity = enemyCityRef else {
+                fatalError("cant get enemyCity")
+            }
+            
+            guard let plot = gameModel.tile(at: enemyCity.location) else {
+                fatalError("cant get plot")
+            }
+            
+            if plot.isDiscovered(by: player) {
+
+                var generalInTheVicinity = false
+                var power = 0
+                
+                for loopUnitRef in gameModel.units(of: enemy) {
+                    
+                    guard let loopUnit = loopUnitRef else {
+                        fatalError("cant get loopUnit")
+                    }
+                    
+                    if loopUnit.isCombatUnit() {
+                        let distance = loopUnit.location.distance(to: plot.point)
+                        if distance <= 5 {
+                            power += loopUnit.power()
+                        }
+                    }
+                    
+                    if !generalInTheVicinity && loopUnit.isGreatGeneral() {
+                        let distance = loopUnit.location.distance(to: plot.point)
+                        if distance <= 5 {
+                            generalInTheVicinity = true
+                        }
+                    }
+                }
+                if generalInTheVicinity {
+                    power *= 11
+                    power /= 10
+                }
+                
+                enemyCity.set(scratch: power)
+            }
+        }
+
+        // Build a list of all the possible start city/target city pairs
+        //static CvWeightedVector<CvMilitaryTarget, SAFE_ESTIMATE_NUM_CITIES* 10, true> prelimWeightedTargetList;
+        //prelimWeightedTargetList.clear();
+        var prelimWeightedTargetList: WeightedList<MilitaryTarget> = WeightedList<MilitaryTarget>()
+        
+        for friendlyCityRef in gameModel.cities(of: player) {
+            
+            guard let friendlyCity = friendlyCityRef else {
+                fatalError("cant get friendlyCity")
+            }
+            
+            guard let friendlyPlot = gameModel.tile(at: friendlyCity.location) else {
+                fatalError("cant get plot")
+            }
+            
+            for enemyCityRef in gameModel.cities(of: enemy) {
+            
+                guard let enemyCity = enemyCityRef else {
+                    fatalError("cant get enemyCity")
+                }
+                
+                guard let enemyPlot = gameModel.tile(at: enemyCity.location) else {
+                    fatalError("cant get plot")
+                }
+                
+                if enemyPlot.isDiscovered(by: player) {
+                    
+                    let target = MilitaryTarget()
+                    //int iWeight;
+                    target.musterCity = friendlyCityRef
+                    target.targetCity = enemyCityRef
+                    target.musterNearbyUnitPower = friendlyCity.scratch()
+                    target.targetNearbyUnitPower = enemyCity.scratch()
+
+                    if operationType == .pureNavalCityAttack {
+                        target.attackBySea = true
+                        if gameModel.isCoastal(at: friendlyPlot.point) && gameModel.isCoastal(at: enemyPlot.point) {
+                            target.pathLength = enemyPlot.point.distance(to: friendlyPlot.point)
+                        }
+                    } else {
+                        self.shouldAttackBySea(enemy: enemy, target: target, in: gameModel)
+
+                        if !gameModel.isCoastal(at: friendlyPlot.point) && target.attackBySea {
+                            continue
+                        }
+                    }
+
+                    if target.pathLength > 0 {
+                        // Start by using the path length as the weight, shorter paths have higher weight
+                        let weight = (10000 - target.pathLength)
+                        prelimWeightedTargetList.add(weight: weight, for: target)
+                    }
+                }
+            }
+        }
+
+        // Let's score the 25 shortest paths ... anything more than that means there are too many interior cities from one (or both) sides being considered
+        prelimWeightedTargetList.sort()
+        var targetsConsidered = 0
+        var iI = 0
+        
+        while iI < prelimWeightedTargetList.count && targetsConsidered < 25 {
+            
+            var target: MilitaryTarget = prelimWeightedTargetList.items[iI].itemType
+            var weight = 0
+
+            // If a sea target, we haven't checked the path yet.  Do that now
+            if target.attackBySea {
+                
+                if !gameModel.isCoastal(at: target.musterCity!.location) {
+                    continue
+                }
+                
+                if !gameModel.isCoastal(at: target.targetCity!.location) {
+                    continue
+                }
+                
+                guard let seaPlotNearMuster = gameModel.coastalPlotAdjacent(to: target.musterCity!.location) else {
+                    fatalError("cant get sea plot near muster")
+                }
+                
+                guard let seaPlotNearTarget = gameModel.coastalPlotAdjacent(to: target.targetCity!.location) else {
+                    fatalError("cant get sea plot near muster")
+                }
+                
+                let pathFinder = AStarPathfinder()
+                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: player)
+                if !pathFinder.doesPathExist(fromTileCoord: seaPlotNearMuster.point, toTileCoord: seaPlotNearTarget.point) {
+                    continue
+                }
+            }
+
+            weight = self.scoreTarget(target: target, operationType: operationType, in: gameModel)
+            weightedTargetList.add(weight: weight, for: target)
+            targetsConsidered += 1
+            
+            iI += 1
+        }
+
+        // Didn't find anything, abort
+        if weightedTargetList.count == 0 {
+            chosenTarget.targetCity = nil   // Call off the attack
+            winningScore = -1
+            return chosenTarget
+        }
+
+        weightedTargetList.sort()
+        // LogAttackTargets(eAIOperationType, eEnemy, weightedTargetList);
+
+        if weightedTargetList.totalWeights() > 0 {
+            //RandomNumberDelegate fcn;
+            //fcn = MakeDelegate(&GC.getGame(), &CvGame::getJonRandNum);
+            //let numChoices = max(1, (weightedTargetList.count * 25 / 100))
+            chosenTarget = weightedTargetList.chooseFromTopChoices()!
+            // if we need the winning score
+            winningScore = self.scoreTarget(target: chosenTarget, operationType: operationType, in: gameModel)
+            //LogChosenTarget(eAIOperationType, eEnemy, chosenTarget);
+        } else {
+            chosenTarget.targetCity = nil   // Call off the attack
+            winningScore = -1
+        }
+
+        return chosenTarget
+    }
+    
+    /// Is it better to attack this target by sea?
+    func shouldAttackBySea(enemy: AbstractPlayer?, target targetRef: MilitaryTarget?, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let target = targetRef else {
+            fatalError("cant get target")
+        }
+
+        let plotDistance = target.musterCity!.location.distance(to: target.targetCity!.location)
+        var pathLength = 0
+        
+        let pathFinder = AStarPathfinder()
+        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: player)
+
+        // Can embark
+        if player.canEmbark() {
+            
+            let musterArea = gameModel.area(of: target.musterCity!.location)
+            let targetArea = gameModel.area(of: target.targetCity!.location)
+            
+            // On different landmasses?
+            if musterArea != targetArea {
+                targetRef?.attackBySea = true
+                targetRef?.pathLength = plotDistance
+                return
+            }
+
+            // No step path between muster point and target?
+            if !pathFinder.doesPathExist(fromTileCoord: target.musterCity!.location, toTileCoord: target.targetCity!.location) {
+                targetRef?.attackBySea = true
+                targetRef?.pathLength = plotDistance
+                return
+            }
+
+            // Land path is over twice as long as direct path
+            /*pPathfinderNode = GC.getStepFinder().GetLastNode();
+            if (pPathfinderNode != NULL)
+            {
+                iPathLength = pPathfinderNode->m_iData1;
+                if (iPathLength > (2 * iPlotDistance))
+                {
+                    target.m_bAttackBySea = true;
+                    target.m_iPathLength = iPlotDistance;
+                    return;
+                }
+            }*/
+        } else {
+            // Can't embark yet
+            if !pathFinder.doesPathExist(fromTileCoord: target.musterCity!.location, toTileCoord: target.targetCity!.location) {
+                targetRef?.pathLength = -1  // Call off attack, no path
+                return
+            } else {
+                if let path = pathFinder.shortestPath(fromTileCoord: target.musterCity!.location, toTileCoord: target.targetCity!.location) {
+                    pathLength = path.count
+                }
+            }
+        }
+
+        targetRef?.attackBySea = false
+        targetRef?.pathLength = pathLength
+    }
+    
+    /// Come up with a target priority looking at distance, strength, approaches (high score = more desirable target)
+    func scoreTarget(target: MilitaryTarget, operationType: UnitOperationType, in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        var rtnValue = 1;  // Start with a high base number since divide into it later
+
+        // Take into account distance to target (and use higher multipliers for land paths)
+        if !target.attackBySea {
+            
+            if target.pathLength < 10 {
+                rtnValue *= 16
+            } else if target.pathLength < 15 {
+                rtnValue *= 8
+            } else if target.pathLength < 20 {
+                rtnValue *= 4
+            } else {
+                rtnValue *= 2
+            }
+
+            // Double if we can assemble troops in muster city with airlifts
+            /*if target.musterCity.canAirlift() {
+                rtnValue *= 2
+            }*/
+        } else {
+            if target.pathLength < 12 {
+                rtnValue *= 5
+            } else if target.pathLength < 20 {
+                rtnValue *= 3
+            } else if target.pathLength < 30 {
+                rtnValue *= 2
+            }
+
+            // If coming over sea, inland cities are trickier
+            if !gameModel.isCoastal(at: target.targetCity!.location) {
+                rtnValue /= 2
+            }
+        }
+
+        // Is this a sneak attack?  If so distance is REALLY important (want to target spaces on edge of empire)
+        // So let's cube what we have so far
+        if operationType == .sneakCityAttack || operationType == .navalSneakAttack {
+            rtnValue = rtnValue * rtnValue * rtnValue
+        }
+
+        var approachMultiplier = 0
+        // Assume units coming by sea can disembark
+        let approaches: CityAttackApproachType = self.evaluateMilitaryApproaches(city: target.targetCity, attackByLand: true, attackBySea: target.attackBySea, in: gameModel)
+        
+        switch approaches {
+            
+        case .unrestricted:
+            approachMultiplier = 10
+
+        case .open:
+            approachMultiplier = 8
+
+        case .neutral:
+            approachMultiplier = 4
+
+        case .limited:
+            approachMultiplier = 2
+
+        case .restricted:
+            approachMultiplier = 1
+
+        case .none:
+            approachMultiplier = 0
+        }
+
+        rtnValue *= approachMultiplier
+
+        // should probably give a bonus if these cities are adjacent
+
+        // Don't want to start at a city that isn't connected to our capital
+        if !target.musterCity!.isRouteToCapitalConnected() && !target.musterCity!.isCapital() {
+            rtnValue /= 4
+        }
+
+        // this won't work if we are "just checking" as the zone are only built for actual war war opponents
+        // TODO come up with a better way to do this that is always correct
+
+        let friendlyStrength = max(1, target.musterNearbyUnitPower)
+        let enemyStrength = max(1, target.targetNearbyUnitPower + (target.targetCity!.strengthValue() / 50))
+
+        var ratio = 1;
+        ratio = (friendlyStrength * 100) / enemyStrength
+        ratio = min(1000, ratio)
+        rtnValue *= ratio
+
+        if target.targetCity!.isOriginalCapital(in: gameModel) {
+            rtnValue *= 150 /* AI_MILITARY_CAPTURING_ORIGINAL_CAPITAL */
+            rtnValue /= 100
+        }
+
+        if target.targetCity!.originalLeader() == player.leader {
+            rtnValue *= 150 /* AI_MILITARY_RECAPTURING_OWN_CITY */
+            rtnValue /= 100
+        }
+
+        // Don't want it to already be targeted by an operation that's not well on its way
+        if player.isCityAlreadyTargeted(city: target.targetCity, via: .none, percentToTarget: 50, in: gameModel) {
+            rtnValue /= 10
+        }
+
+        rtnValue /= 1000
+
+        // Economic value of target
+        var economicValue = 1 + (target.targetCity!.population() / 3)
+        // TODO: unhardcode this
+        
+        guard let targetPlot = gameModel.tile(at: target.targetCity!.location) else {
+            fatalError("cant get target plot")
+        }
+        
+        let yields = targetPlot.yields(for: self.player, ignoreFeature: false)
+        
+        // filter out all but the most productive
+        economicValue += Int(yields.food) * 10
+        economicValue += Int(yields.production) * 10
+        economicValue += Int(yields.science) * 10
+        economicValue += Int(yields.gold) * 10
+        economicValue += Int(yields.culture) * 10
+        economicValue += Int(yields.faith) * 10
+        rtnValue *= economicValue
+
+        rtnValue /= 10
+
+        return min(10000000, rtnValue & 0x7fffffff)
+    }
+    
+    /// How open an approach do we have to this city if we want to attack it?
+    func evaluateMilitaryApproaches(city: AbstractCity?, attackByLand: Bool, attackBySea: Bool, in gameModel: GameModel?) -> CityAttackApproachType {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let city = city else {
+            fatalError("cant get city")
+        }
+        
+        var rtnValue: CityAttackApproachType = .unrestricted
+        var numBlocked = 0
+
+        // Look at each of the six plots around the city
+        for neighbor in city.location.neighbors() {
+
+            if let loopPlot = gameModel.tile(at: neighbor) {
+                
+                // For now, assume no one coming in over a lake
+                if loopPlot.has(feature: .lake) {
+                    numBlocked += 1
+                } else if loopPlot.isWater() && !attackBySea {
+                    // Coast but attack is not by sea?
+                    numBlocked += 1
+                } else if !loopPlot.isWater() {
+                    // Land
+                    if !attackByLand {
+                        numBlocked += 1
+                    } else {
+                        if loopPlot.isImpassable() {
+                            numBlocked += 1
+                        }
+                    }
+                }
+            } else {
+                // Blocked if edge of map
+                numBlocked += 1
+            }
+        }
+
+        switch numBlocked {
+            
+        case 0:
+            rtnValue = .unrestricted
+        case 1, 2:
+            rtnValue = .open
+        case 3:
+            rtnValue = .neutral
+        case 4:
+            rtnValue = .limited
+        case 5:
+            rtnValue = .restricted
+        case 6:
+            rtnValue = .none
+        default:
+            fatalError("cant happen")
+        }
+
+        return rtnValue
     }
     
     /// Send an army to force concessions
@@ -1054,5 +1751,81 @@ public class MilitaryAI: Codable {
         }
 
         return highestThreatendCity
+    }
+}
+
+class MilitaryAIHelpers {
+    
+    /// How many slots in this army can we fill right now with available units?
+    static func numberOfFillableSlots(for player: AbstractPlayer?, formation: UnitFormationType, requiresNavalMoves: Bool, numberSlotsRequired: inout Int, numberLandReservesUsed: inout Int, in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+
+        var willBeFilled = 0
+        var landReservesUsed = 0
+        let slotsToFill = formation.slots()
+        var slotsNotFilled: [UnitFormationSlot] = []
+
+        let mustBeDeepWaterNaval = player.canEmbarkAllWaterPassage() && formation.isRequiresNavalUnitConsistency()
+
+        for loopUnitRef in gameModel.units(of: player) {
+
+            guard let loopUnit = loopUnitRef else {
+                continue
+            }
+            
+            // Don't count scouts
+            if !loopUnit.has(task: .explore) && !loopUnit.has(task: .exploreSea) {
+                
+                // Don't count units that are damaged too heavily
+                if loopUnit.healthPoints() < loopUnit.maxHealthPoints() * 80 /* AI_OPERATIONAL_PERCENT_HEALTH_FOR_OPERATION */ / 100 {
+                    
+                    if loopUnit.army() == nil && loopUnit.canRecruitFromTacticalAI() {
+                        
+                        if loopUnit.deployFromOperationTurn() + 4 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */ < gameModel.turnsElapsed {
+                            
+                            if !requiresNavalMoves || loopUnit.domain() == .sea || loopUnit.canEverEmbark() {
+                                
+                                if !mustBeDeepWaterNaval || loopUnit.domain() != .sea || !loopUnit.isImpassable(terrain: .ocean) {
+                                    
+                                    for slotEntry in slotsToFill {
+                                        
+                                        //CvUnitEntry& kUnitInfo = pLoopUnit->getUnitInfo();
+                                        if loopUnit.has(task: slotEntry.primaryUnitTask) || loopUnit.has(task: slotEntry.secondaryUnitTask) {
+                                            
+                                            willBeFilled += 1
+
+                                            if loopUnit.domain() == .land {
+                                                landReservesUsed += 1
+                                            }
+                                            
+                                            break
+                                        } else {
+                                            slotsNotFilled.append(slotEntry)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Now go back through remaining slots and see how many were required, we'll need that many more units
+        numberSlotsRequired = willBeFilled
+        for slotNotFilled in slotsNotFilled {
+            if slotNotFilled.required {
+                numberSlotsRequired += 1
+            }
+        }
+        numberLandReservesUsed = landReservesUsed
+        return willBeFilled
     }
 }

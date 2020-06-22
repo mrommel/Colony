@@ -8,13 +8,17 @@
 
 import Foundation
 
-enum CoopWarState: Int, Codable {
+enum CoopWarState: Int, Codable, Comparable {
     
     case none
     
     case rejected // COOP_WAR_STATE_REJECTED,
     case soon // COOP_WAR_STATE_SOON,
     case accepted // COOP_WAR_STATE_ACCEPTED,
+    
+    static func < (lhs: CoopWarState, rhs: CoopWarState) -> Bool {
+        return lhs.rawValue < rhs.rawValue
+    }
 }
 
 enum WarGoalType: Int, Codable {
@@ -1957,7 +1961,7 @@ public class DiplomaticAI: Codable {
                             if !self.isAtWar(with: loopPlayer) && loopPlayer.isAlive() {
                                 
                                 self.doDeclareWar(to: loopPlayer, in: gameModel)
-                                self.player?.militaryAI?.requestBasicAttack(towards: loopPlayer, numUnitsWillingBuild: 1)
+                                self.player?.militaryAI?.requestBasicAttack(towards: loopPlayer, numUnitsWillingBuild: 1, in: gameModel)
                             }
                         }
                     }
@@ -2802,7 +2806,7 @@ public class DiplomaticAI: Codable {
 
     // MARK: war
 
-    func doDeclareWar(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
+    public func doDeclareWar(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("no game model given")
@@ -2869,13 +2873,13 @@ public class DiplomaticAI: Codable {
         return self.playerDict.isPeaceTreatyActive(by: otherPlayer)
     }
 
-    func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool {
+    public func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool {
 
         if otherPlayer == nil {
             return false
         }
         
-        return self.playerDict.isAtWar(with: player)
+        return self.playerDict.isAtWar(with: otherPlayer)
     }
 
     func isAtWar() -> Bool {
@@ -3823,7 +3827,7 @@ public class DiplomaticAI: Codable {
                         warGoal = .damage
 
                         // If we're locked into a coop war, we're out for conquest
-                        if self.isLockedIntoCoopWar(with: loopPlayer) {
+                        if self.isLockedIntoCoopWar(with: loopPlayer, in: gameModel) {
                             warGoal = .conquest
                         }
 
@@ -3875,10 +3879,10 @@ public class DiplomaticAI: Codable {
         }
     }
     
-    /// Are we locked into a wawr with ePlayer?
-    private func isLockedIntoCoopWar(with otherPlayer: AbstractPlayer?) -> Bool {
+    /// Are we locked into a war with otherPlayer?
+    private func isLockedIntoCoopWar(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
         
-        let coopWarState = self.coopWarAcceptedState(of: self.player, towards: otherPlayer)
+        let coopWarState = self.globalCoopWarAcceptedState(against: otherPlayer, in: gameModel) //self.coopWarAcceptedState(of: self.player, towards: otherPlayer)
 
         if coopWarState == .accepted || coopWarState == .soon {
             if self.coopWarCounter(of: self.player, towards: otherPlayer) <= 20 /* COOP_WAR_LOCKED_TURNS */ {
@@ -3887,6 +3891,27 @@ public class DiplomaticAI: Codable {
         }
 
         return false
+    }
+    
+    /// Check everyone we know to see if we're planning a coop war against them
+    private func globalCoopWarAcceptedState(against otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> CoopWarState {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var bestState: CoopWarState = .none
+
+        for loopPlayer in gameModel.players {
+            
+            if !loopPlayer.isEqual(to: self.player) && loopPlayer.hasMet(with: otherPlayer) && loopPlayer.isAlive() {
+                if self.coopWarAcceptedState(of: loopPlayer, towards: otherPlayer) > bestState {
+                    bestState = self.coopWarAcceptedState(of: loopPlayer, towards: otherPlayer)
+                }
+            }
+        }
+
+        return bestState
     }
     
     /// What is the integer value of how well we think the war with ePlayer is going?

@@ -9,7 +9,7 @@
 import Foundation
 
 // https://civ6.gamepedia.com/Game_difficulty   
-public enum HandicapType: Int, Codable {
+public enum HandicapType: Int, Codable, Comparable {
 
     case settler
     case chieftain
@@ -102,5 +102,10 @@ public enum HandicapType: Int, Codable {
         case .deity:
             return [.settler, .settler, .settler, .warrior, .warrior, .warrior, .warrior, .warrior, .builder, .builder]
         }
+    }
+    
+    public static func < (lhs: HandicapType, rhs: HandicapType) -> Bool {
+        
+        return lhs.rawValue < rhs.rawValue
     }
 }

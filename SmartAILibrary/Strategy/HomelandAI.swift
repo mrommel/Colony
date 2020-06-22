@@ -684,7 +684,7 @@ public class HomelandAI {
                 break
             case .ancientRuins:
                 // AI_HOMELAND_MOVE_ANCIENT_RUINS:
-                // self.plotAncientRuinMoves()
+                //self.plotAncientRuinMoves(in: gameModel)
                 break
             case .aircraftToTheFront:
                 // AI_HOMELAND_MOVE_AIRCRAFT_TO_THE_FRONT:
@@ -899,7 +899,7 @@ public class HomelandAI {
             }
 
             // Make sure we can move into the destination.  The path finder will do a similar check near the beginning, but it is best to get this out of the way before then
-            if !loopUnit.canMove(into: target.point, in: gameModel) {
+            if !loopUnit.canMove(into: target.point, options: MoveOptions.none, in: gameModel) {
                     
                 currentMoveUnit?.movesToTarget = Int.max
                 continue
@@ -924,7 +924,7 @@ public class HomelandAI {
             }
 
             // Make sure we can move into the destination.  The path finder will do a similar check near the beginning, but it is best to get this out of the way before then
-            if !loopUnit.canMove(into: target.point, in: gameModel) {
+            if !loopUnit.canMove(into: target.point, options: MoveOptions.none, in: gameModel) {
                     
                 currentMoveHighPriorityUnit?.movesToTarget = Int.max
                 continue
@@ -1436,7 +1436,7 @@ public class HomelandAI {
             return false
         }
 
-        if !unit.canMove(into: plot.point, in: gameModel) {
+        if !unit.canMove(into: plot.point, options: MoveOptions.none, in: gameModel) {
             return false
         }
 

@@ -440,7 +440,7 @@ public class CityStrategyAI: Codable {
         // Loop through adding the available buildings
         for buildingType in BuildingType.all {
             
-            if city.canBuild(building: buildingType) {
+            if city.canBuild(building: buildingType, in: gameModel) {
                 
                 var weight: Double = Double(buildingProductionAI.weight(for: buildingType))
                 let buildableItem = BuildableItem(buildingType: buildingType)
@@ -702,13 +702,13 @@ public class CityStrategyAI: Codable {
         var tilesWorked = 0
         var yieldAmount = 0.0
         
-        for point in player.area {
+        for point in cityCitizens.workingTileLocations() {
 
             guard let plot = gameModel?.tile(at: point) else {
                 continue
             }
             
-            if !cityCitizens.isWorked(at: plot.point) {
+            if !cityCitizens.isWorked(at: point) {
                 continue;
             }
 

@@ -298,8 +298,6 @@ public class GameModel: Codable {
                         }
 
                         if autoMovesComplete {
-                            
-                            player.endTurn(in: self)
 
                             // Activate the next player
                             // This is not done if simultaneous turns is enabled (Networked MP).
@@ -307,6 +305,8 @@ public class GameModel: Codable {
                             // and the AI players will be activated all at once in CvGame::doTurn, once we have received
                             // all the moves from the other human players
                             if !userInterface.isShown(screen: .diplomatic) {
+                                
+                                player.endTurn(in: self)
                                 
                                 if player.isAlive() || !player.isHuman() {        // If it is a hotseat game and the player is human and is dead, don't advance the player, we want them to get the defeat screen
                                 
@@ -333,7 +333,7 @@ public class GameModel: Codable {
                                 }
                             } else {
                                 // KWG: This doesn't actually do anything other than print to the debug log
-                                print("Because the diplo screen is blocking I am bumping this up for player \(player.leader)")
+                                print("Because the diplo screen is blocking, I am bumping this up for player \(player.leader)")
                                 //changeNumGameTurnActive(1, std::string("Because the diplo screen is blocking I am bumping this up for player ") + getName());
                             }
                         }
@@ -934,7 +934,33 @@ public class GameModel: Codable {
 
     func isCoastal(at point: HexPoint) -> Bool {
 
-        return map.isCoastal(at: point)
+        return self.map.isCoastal(at: point)
+    }
+    
+    // return a shore / ocean next to this land plot
+    func coastalPlotAdjacent(to point: HexPoint) -> AbstractTile? {
+        
+        guard let tile = self.map.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+        
+        if tile.isWater() {
+            return nil
+        }
+        
+        let neighbors = point.neighbors().shuffled
+        for neighbor in neighbors {
+            
+            guard let neighborTile = self.map.tile(at: neighbor) else {
+                continue
+            }
+    
+            if neighborTile.isWater() {
+                return neighborTile
+            }
+        }
+        
+        return nil
     }
 
     // percentage of size compared standard map
@@ -1018,6 +1044,11 @@ public class GameModel: Codable {
     public func ignoreUnitsPathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?) -> PathfinderDataSource {
 
         return MoveTypeIgnoreUnitsPathfinderDataSource(in: self.map, for: movementType, for: player)
+    }
+    
+    public func unitAwarePathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?) -> PathfinderDataSource {
+
+        return MoveTypeUnitAwarePathfinderDataSource(in: self, for: movementType, for: player)
     }
     
     func friendlyCityAdjacent(to point: HexPoint, for player: AbstractPlayer?) -> AbstractCity? {

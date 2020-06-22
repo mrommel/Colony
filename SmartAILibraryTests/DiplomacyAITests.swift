@@ -395,4 +395,32 @@ class DiplomacyAITests: XCTestCase {
         XCTAssertEqual(approachAugustusAlexander, .war) // has been declared war
         XCTAssertEqual(approachElizabethAlexander, .war) // defensive pact
     }
+    
+    func testDeclarationOfWar() {
+        
+        // GIVEN
+        let playerAlexander = Player(leader: .alexander)
+        playerAlexander.initialize()
+
+        let playerAugustus = Player(leader: .augustus)
+        playerAugustus.initialize()
+        
+        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        // all players have meet with another
+        playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
+
+        // WHEN
+        playerAlexander.diplomacyAI?.doDeclareWar(to: playerAugustus, in: gameModel)
+        
+        // THEN
+        let isAtWar = playerAlexander.isAtWar(with: playerAugustus)
+        XCTAssertEqual(isAtWar, true)
+    }
 }

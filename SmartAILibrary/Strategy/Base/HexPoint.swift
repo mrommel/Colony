@@ -134,6 +134,7 @@ import Foundation
 
 public class HexPoint: Codable {
     
+    public static let invalid = HexPoint(x: -1, y: -1)
     public static let zero = HexPoint(x: 0, y: 0)
     
     public let x: Int

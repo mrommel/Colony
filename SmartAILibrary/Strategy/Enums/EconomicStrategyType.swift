@@ -364,8 +364,8 @@ enum EconomicStrategyType: Int, Codable {
     }
 
     /// "Found City" Player Strategy: If there is a settler who isn't in an operation?  If so, find him a city site
-    // Very dependent on the fact that the player probably won't have more than 2 settlers available at a time; needs an
-    //   upgrade if that assumption is no longer true
+    /// Very dependent on the fact that the player probably won't have more than 2 settlers available at a time; needs an
+    ///   upgrade if that assumption is no longer true
     func shouldBeActiveFoundCity(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
         guard let player = player else {
@@ -425,15 +425,13 @@ enum EconomicStrategyType: Int, Codable {
 
             // CASE 1: Need a city on this area
             if bestArea == area {
-                player.addOperation(of: .foundCity, towards: nil, target: nil, in: bestArea, in: gameModel)
+                player.addOperation(of: .foundCity, towards: nil, target: nil, in: bestArea, muster: nil, in: gameModel)
                 return true
-            }
-
-            // CASE 2: Need a city on a safe distant area
-                else if canEmbark && self.isSafeForQuickColony(in: area, in: gameModel, for: player) {
-                    // Have an overseas we can get to safely
-                    player.addOperation(of: .colonize, towards: nil, target: nil, in: bestArea, in: gameModel)
-                    return true
+            } else if canEmbark && self.isSafeForQuickColony(in: area, in: gameModel, for: player) {
+                // CASE 2: Need a city on a safe distant area
+                // Have an overseas we can get to safely
+                player.addOperation(of: .colonize, towards: nil, target: nil, in: bestArea, muster: nil, in: gameModel)
+                return true
             }
 
             // CASE 3: My embarked units can fight, I always do quick colonization overseas
@@ -441,19 +439,16 @@ enum EconomicStrategyType: Int, Codable {
                 player.addOperation(of: .notSoQuickColonize, towards: nil, target: nil, area: iArea)
                 return true
             }*/
-
-            // CASE 3a: Need a city on a not so safe distant area
-                else if (canEmbark && !isAtWarWithSomeone) {
-                    // not at war with anyone
-                    player.addOperation(of: .notSoQuickColonize, towards: nil, target: nil, in: area, in: gameModel)
-                    return true
-            }
-
-            // CASE 4: Need a city on distant area
-                else if canEmbark {
-
-                    player.addOperation(of: .colonize, towards: nil, target: nil, in: area, in: gameModel)
-                    return true
+            else if (canEmbark && !isAtWarWithSomeone) {
+                // CASE 3a: Need a city on a not so safe distant area
+                // not at war with anyone
+                player.addOperation(of: .notSoQuickColonize, towards: nil, target: nil, in: area, muster: nil, in: gameModel)
+                return true
+                
+            } else if canEmbark {
+                // CASE 4: Need a city on distant area
+                player.addOperation(of: .colonize, towards: nil, target: nil, in: area, muster: nil, in: gameModel)
+                return true
             }
         }
 

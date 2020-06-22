@@ -16,7 +16,7 @@ enum OperationMoveType: Int, Codable {
     case singleHex
     case enemyTerritory
     case navalEscort
-    case freefornNaval
+    case freeformNaval
     case rebase
     //case static
 }
@@ -25,19 +25,24 @@ enum OperationAbortReasonType: Int, Codable {
 
     case none
 
-    case success
-    case noTarget
-    case repeatTarget
-    case lostTarget
-    case targetAlreadyCaptured
-    case halfStrength
-    case noMuster
-    case escortDied
-    case lostCivilian
-    case killed
+    case success // AI_ABORT_SUCCESS
+    case noTarget // AI_ABORT_NO_TARGET
+    case repeatTarget // AI_ABORT_REPEAT_TARGET
+    case lostTarget // AI_ABORT_LOST_TARGET
+    case targetAlreadyCaptured // AI_ABORT_TARGET_ALREADY_CAPTURED
+    case noRoomDeploy // AI_ABORT_NO_ROOM_DEPLOY
+    case halfStrength // AI_ABORT_HALF_STRENGTH
+    case noMuster // AI_ABORT_NO_MUSTER
+    case escortDied // AI_ABORT_ESCORT_DIED
+    case lostCivilian // AI_ABORT_LOST_CIVILIAN
+    // AI_ABORT_NO_NUKES
+    case killed // AI_ABORT_KILLED
+    case warStateChange // AI_ABORT_WAR_STATE_CHANGE,
+    case diploOpinionChange // AI_ABORT_DIPLO_OPINION_CHANGE,
+    case lostPath // AI_ABORT_LOST_PATH,
 }
 
-enum OperationStateType: Codable {
+enum OperationStateType: Codable, Equatable {
 
     enum Discriminator: String, Codable, CodingKey {
 
@@ -602,7 +607,7 @@ public class Operation: Codable, Equatable {
                 }
             }
 
-        case .freefornNaval:
+        case .freeformNaval:
             // Let each army perform its own check
             let gatheredTolerance = self.gatherTolerance(of: army, position: self.musterPosition, in: gameModel)
 
@@ -705,7 +710,13 @@ public class Operation: Codable, Equatable {
     }
 
     func cancel() {
-
+        
+        fatalError("niy")
+    }
+    
+    func kill(with reason: OperationAbortReasonType) {
+        
+        fatalError("niy")
     }
 
     func numUnitsNeededToBeBuilt() -> Int {
@@ -714,16 +725,90 @@ public class Operation: Codable, Equatable {
     }
 
     /// Delete the operation if marked to go away
-    func doDelayedDeath() -> Bool
-    {
-        /*if (ShouldAbort())
-        {
-            Kill();
-            return true;
+    func doDelayedDeath() -> Bool {
+        
+        if self.shouldAbort() {
+            self.kill(with: .killed)
+            return true
         }
 
-        return false;*/
-        return true
+        return false
+    }
+    
+    /// Returns true when we should abort the operation totally (besides when we have lost all units in it)
+    func shouldAbort() -> Bool {
+        
+        // Mark units in successful operation
+        if self.state == .successful {
+            
+            /*for (unsigned int uiI = 0; uiI < m_viArmyIDs.size(); uiI++)
+            {
+                CvArmyAI* pArmy = GET_PLAYER(m_eOwner).getArmyAI(m_viArmyIDs[uiI]);
+
+                pUnit = pArmy->GetFirstUnit();
+                while (pUnit)
+                {
+                    pUnit->SetDeployFromOperationTurn(GC.getGame().getGameTurn());
+                    pUnit = pArmy->GetNextUnit();
+                }
+            }*/
+        }
+
+        return self.state == .aborted(reason: .none) || self.state == .successful
+    }
+    
+    /// Report percentage distance traveled from muster point to target (using army that is furthest along)
+    func percentFromMusterPointToTarget(in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var rtnValue = 0
+
+        switch self.state {
+            
+        case .gatheringForces, .aborted(reason: _), .recruitingUnits, .none:
+            
+            return 0
+
+        case .atTarget, .successful:
+            return 100
+
+        case .movingToTarget:
+            
+                // Let each army perform its own update
+            if let army = self.army {
+
+                let armyMoveType: UnitMovementType = self.moveType == .navalEscort || self.moveType == .freeformNaval ? .swim : .walk
+                
+                let pathFinder = AStarPathfinder()
+                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: armyMoveType, for: self.player)
+                
+                guard let musterPosition = self.musterPosition else {
+                    fatalError("muster position not available")
+                }
+                
+                guard let targetPosition = self.targetPosition else {
+                    fatalError("target position not available")
+                }
+                
+                // Use the step path finder to compute distance
+                let distanceMusterToTarget = (pathFinder.shortestPath(fromTileCoord: musterPosition, toTileCoord: targetPosition) ?? HexPath()).count
+                let distanceCurrentToTarget = (pathFinder.shortestPath(fromTileCoord: army.centerOfMass(in: gameModel) ?? musterPosition, toTileCoord: targetPosition) ?? HexPath()).count
+
+                if distanceMusterToTarget <= 0 {
+                    return 0
+                } else {
+                    let tempValue = 100 - (100 * distanceCurrentToTarget / distanceMusterToTarget)
+                    if tempValue > rtnValue {
+                        rtnValue = tempValue
+                    }
+                }
+            }
+        }
+
+        return rtnValue
     }
 
     public static func == (lhs: Operation, rhs: Operation) -> Bool {

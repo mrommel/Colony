@@ -20,12 +20,14 @@ extension CommandType {
         case .buildCamp: return "command_camp"
         case .buildPasture: return "command_pasture"
         case .buildQuarry: return "command_quarry"
-            
-        //case .buildRoute: return "command_route"
-        case .pillage: return "command_pillage"
-        case .fortify: return "command_fortify"
+
         case .hold: return "command_hold"
+            
+        case .fortify: return "command_fortify"
         case .garrison: return "command_garrison"
+        case .pillage: return "command_pillage"
+        case .attack: return "command_attack"
+        case .rangedAttack: return "command_ranged"
         }
     }
 }

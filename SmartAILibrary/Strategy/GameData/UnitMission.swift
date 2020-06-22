@@ -233,7 +233,7 @@ public class UnitMission {
 
                     if let target = self.target, let tile = gameModel.tile(at: target) {
 
-                        if unit.isAutomated() && tile.isDiscovered(by: unitPlayer) && unit.canMove(into: target, in: gameModel) {
+                        if unit.isAutomated() && tile.isDiscovered(by: unitPlayer) && unit.canMove(into: target, options: MoveOptions.none, in: gameModel) {
 
                             // if we're automated and try to attack, consider this move OVAH
                             done = true
@@ -245,7 +245,7 @@ public class UnitMission {
 
                             if unitPlayer.isHuman() && badAttackInterrupt {
 
-                                if unit.canMove(into: target, in: gameModel /*CvUnit::MOVEFLAG_ATTACK*/) && tile.isDiscovered(by: unitPlayer) {
+                                if unit.canMove(into: target, options: .attack, in: gameModel) && tile.isDiscovered(by: unitPlayer) {
 
                                     if tile.isCity() {
 

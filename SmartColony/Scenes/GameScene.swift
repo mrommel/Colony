@@ -602,7 +602,7 @@ class GameScene: BaseScene {
             if position != selectedUnit.location {
 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = self.viewModel?.game?.ignoreUnitsPathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player)
+                pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player)
                 
                 // update
                 let commands = selectedUnit.commands(in: self.viewModel?.game)
@@ -873,6 +873,45 @@ extension GameScene: BottomLeftBarDelegate {
                 selectedUnit.doGarrison(in: gameModel)
             }
             
+        case .attack:
+            if let selectedUnit = self.selectedUnit {
+                // we need a target here
+                self.showMeleeTargets(of: selectedUnit)
+                //selectedUnit.doAttack(into: <#T##HexPoint#>, steps: 0, in: gameModel)
+            }
+        
+        case .rangedAttack:
+            print("ranged")
+        }
+    }
+    
+    // TODO: move to different file
+    func showMeleeTargets(of unit: AbstractUnit?) {
+        
+        if let unit = unit {
+            
+            guard let player = unit.player else {
+                fatalError("cant get unit player")
+            }
+            
+            guard let diplomacyAI = unit.player?.diplomacyAI else {
+                fatalError("cant get unit player diplomacyAI")
+            }
+            
+            self.mapNode?.unitLayer.clearAttackFocus()
+            
+            // check neighbors
+            for dir in HexDirection.all {
+                
+                let neighbor = unit.location.neighbor(in: dir)
+                
+                if let otherUnit = self.viewModel?.game?.unit(at: neighbor) {
+                    
+                    if !player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player) {
+                        self.mapNode?.unitLayer.showAttackFocus(at: neighbor)
+                    }
+                }
+            }
         }
     }
 

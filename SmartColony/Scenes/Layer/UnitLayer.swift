@@ -12,6 +12,7 @@ import SmartAILibrary
 class UnitLayer: SKNode {
 
     static let focusActionKey: String = "focusActionKey"
+    static let focusAttackActionKey: String = "focusAttackActionKey"
 
     let player: AbstractPlayer?
     weak var gameModel: GameModel?
@@ -22,6 +23,8 @@ class UnitLayer: SKNode {
     // focus
     private var focusNode: SKSpriteNode?
     private var atlasFocus: GameObjectAtlas?
+    private var attackFocusNodes: [SKSpriteNode?] = []
+    private var atlasAttackFocus: GameObjectAtlas?
 
     // path
     private var pathSpriteBuffer: [SKSpriteNode] = []
@@ -33,6 +36,8 @@ class UnitLayer: SKNode {
 
         self.atlasFocus = GameObjectAtlas(atlasName: "focus", textures: ["focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "focus6", "focus5", "focus4", "focus3", "focus2", "focus1"])
 
+        self.atlasAttackFocus = GameObjectAtlas(atlasName: "focus_attack", textures: ["focus_attack1", "focus_attack2", "focus_attack3", "focus_attack3", "focus_attack2", "focus_attack1"])
+        
         super.init()
     }
 
@@ -78,21 +83,24 @@ class UnitLayer: SKNode {
         }
         
         // already shown, no need to add
-        if self.unitObject(of: unit) != nil {
-            //print("already shown")
-            return
-        }
+        if let unitObject = self.unitObject(of: unit) {
+            print("already shown")
+            
+            unitObject.showIdle()
+            
+        } else {
         
-        let unitObject = UnitObject(unit: unit, in: self.gameModel)
+            let unitObject = UnitObject(unit: unit, in: self.gameModel)
 
-        // add to canvas
-        unitObject.addTo(node: self)
+            // add to canvas
+            unitObject.addTo(node: self)
 
-        // make idle
-        unitObject.showIdle()
+            // make idle
+            unitObject.showIdle()
 
-        // keep reference
-        self.unitObjects.append(unitObject)
+            // keep reference
+            self.unitObjects.append(unitObject)
+        }
     }
 
     func hide(unit: AbstractUnit?) {
@@ -161,6 +169,38 @@ class UnitLayer: SKNode {
         if let focusNode = self.focusNode {
             self.addChild(focusNode)
         }
+    }
+    
+    func clearAttackFocus() {
+        
+        for attackFocusNode in attackFocusNodes {
+            
+            attackFocusNode?.removeFromParent()
+        }
+        
+        attackFocusNodes.removeAll()
+    }
+    
+    func showAttackFocus(at point: HexPoint) {
+    
+        let texture = SKTexture(imageNamed: "focus_attack1")
+        
+        let attackFocusNode = SKSpriteNode(texture: texture)
+        attackFocusNode.position = HexPoint.toScreen(hex: point)
+        attackFocusNode.zPosition = Globals.ZLevels.focus
+        attackFocusNode.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+
+        if let atlas = self.atlasAttackFocus {
+
+            let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
+            let focusFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
+            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: 2.0 / Double(focusFrames.count)))
+
+            attackFocusNode.run(focusAnimation, withKey: UnitLayer.focusAttackActionKey, completion: { })
+        }
+
+        self.attackFocusNodes.append(attackFocusNode)
+        self.addChild(attackFocusNode)
     }
 
     func hideFocus() {
@@ -279,11 +319,6 @@ class UnitLayer: SKNode {
         }
 
         if let selectedUnit = unit {
-
-            // unit should show (is in city?)
-            /*if let existingUnit = unitObject(of: selectedUnit) {
-                print("existing")
-            }*/
             
             if unitObject(of: selectedUnit) == nil {
                 self.show(unit: selectedUnit)
@@ -296,7 +331,7 @@ class UnitLayer: SKNode {
 
                     let pathFinder = AStarPathfinder()
 
-                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player)
+                    pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player)
 
                     if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: hex) {
 

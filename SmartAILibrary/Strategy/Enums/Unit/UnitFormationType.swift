@@ -23,6 +23,7 @@ enum UnitFormationPosition {
     case bombard
     case frontline
     case civilianSupport
+    case navalEscort
 }
 
 enum UnitFormationType {
@@ -30,10 +31,14 @@ enum UnitFormationType {
     case none
     
     case smallCityAttackForce
-    case basicCityAttackForce
-    case fastPillagers
-    case settlerEscort
-    case navalSquadron
+    case basicCityAttackForce // MUFORMATION_BASIC_CITY_ATTACK_FORCE
+    case fastPillagers // MUFORMATION_FAST_PILLAGERS
+    case settlerEscort // MUFORMATION_SETTLER_ESCORT
+    case navalSquadron // MUFORMATION_NAVAL_SQUADRON
+    case navalInvasion // MUFORMATION_NAVAL_INVASION
+    case navalEscort // MUFORMATION_NAVAL_ESCORT
+    case antiBarbarianTeam // MUFORMATION_ANTI_BARBARIAN_TEAM
+    case biggerCityAttackForce // MUFORMATION_BIGGER_CITY_ATTACK_FORCE
 
     func slots() -> [UnitFormationSlot] {
 
@@ -77,7 +82,56 @@ enum UnitFormationType {
                 UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: true),
                 UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false)
             ]
+        case .navalInvasion: return [
+                UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .defense, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .defense, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .navalEscort, required: true),
+                UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .navalEscort, required: true),
+                UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .navalEscort, required: false),
+                UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .navalEscort, required: false),
+                UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: false),
+            ]
+        case .navalEscort: return [
+            UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .frontline, required: true),
+            UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: true),
+            UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
+            UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
+            UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
+            UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
+            UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
+            ]
+        case .antiBarbarianTeam: return [
+                UnitFormationSlot(primaryUnitTask: .fastAttack, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .fastAttack, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .fastAttack, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: false),
+            ]
+            
+        case .biggerCityAttackForce: return [
+            UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .fastAttack, position: .frontline, required: true),
+            UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .defense, position: .frontline, required: true),
+            UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .defense, position: .frontline, required: true),
+            UnitFormationSlot(primaryUnitTask: .defense, secondaryUnitTask: .counter, position: .frontline, required: true),
+            UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
+            UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
+            UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
+            UnitFormationSlot(primaryUnitTask: .ranged, secondaryUnitTask: .cityBombard, position: .bombard, required: true),
+            UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .counter, position: .frontline, required: false),
+            UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .counter, position: .frontline, required: false),
+            UnitFormationSlot(primaryUnitTask: .general, secondaryUnitTask: .general, position: .civilianSupport, required: false),
+            UnitFormationSlot(primaryUnitTask: .citySpecial, secondaryUnitTask: .citySpecial, position: .civilianSupport, required: false),
+            ]
         }
+    }
+    
+    func isRequiresNavalUnitConsistency() -> Bool {
+        
+        return self == .navalEscort
     }
 }
 

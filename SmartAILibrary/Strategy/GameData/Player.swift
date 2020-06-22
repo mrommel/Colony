@@ -104,6 +104,8 @@ public protocol AbstractPlayer: class, Codable {
     func hasMet(with otherPlayer: AbstractPlayer?) -> Bool
     func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool
     func atWarCount() -> Int
+    func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool
+    
     func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType
     
@@ -120,6 +122,7 @@ public protocol AbstractPlayer: class, Codable {
     func has(tech: TechType) -> Bool
     func numberOfDiscoveredTechs() -> Int
     func canEmbark() -> Bool
+    func canEmbarkAllWaterPassage() -> Bool
 
     // civic
     func has(civic: CivicType) -> Bool
@@ -141,7 +144,8 @@ public protocol AbstractPlayer: class, Codable {
     func operationsOf(type: UnitOperationType) -> [Operation]
     func hasOperationsOf(type: UnitOperationType) -> Bool
     func numberOfOperationsOf(type: UnitOperationType) -> Int
-    func addOperation(of type: UnitOperationType, towards otherPlayer: AbstractPlayer?, target city: AbstractCity?, in area: HexArea?, in gameModel: GameModel?)
+    func isCityAlreadyTargeted(city: AbstractCity?, via domain: UnitDomainType, percentToTarget: Int, in gameModel: GameModel?) -> Bool
+    @discardableResult func addOperation(of type: UnitOperationType, towards otherPlayer: AbstractPlayer?, target targetCity: AbstractCity?, in area: HexArea?, muster musterCity: AbstractCity?, in gameModel: GameModel?) -> Operation
 
     // misc
     func bestSettleAreasWith(minimumSettleFertility minScore: Int, in gameModel: GameModel?) -> (Int, HexArea?, HexArea?)
@@ -177,6 +181,8 @@ public protocol AbstractPlayer: class, Codable {
     func score(for gameModel: GameModel?) -> Int
     
     func notifications() -> Notifications?
+    
+    func originalCapitalLocation() -> HexPoint
     
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
@@ -220,6 +226,8 @@ public class Player: AbstractPlayer {
         case operations
         case notifications
         case resourceInventory
+        
+        case originalCapitalLocation
     }
     
     public var leader: LeaderType
@@ -271,6 +279,8 @@ public class Player: AbstractPlayer {
     
     private var notificationsValue: Notifications?
     private var blockingNotificationValue: NotificationItem? = nil
+    
+    private var originalCapitalLocationValue: HexPoint = HexPoint.invalid
 
     // MARK: constructor
 
@@ -288,6 +298,8 @@ public class Player: AbstractPlayer {
         self.improvementCountList.fill()
         
         self.totalImprovementsBuilt = 0
+        
+        self.originalCapitalLocationValue = HexPoint.invalid
     }
     
     public required init(from decoder: Decoder) throws {
@@ -333,6 +345,8 @@ public class Player: AbstractPlayer {
         self.notificationsValue = try container.decode(Notifications.self, forKey: .notifications)
         
         self.resourceInventory = try container.decode(ResourceInventory.self, forKey: .resourceInventory)
+        
+        self.originalCapitalLocationValue = try container.decode(HexPoint.self, forKey: .originalCapitalLocation)
         
         // setup
         self.techs?.player = self
@@ -398,6 +412,8 @@ public class Player: AbstractPlayer {
         try container.encode(self.operations, forKey: .operations)
         try container.encode(self.notificationsValue, forKey: .notifications)
         try container.encode(self.resourceInventory, forKey: .resourceInventory)
+        
+        try container.encode(self.originalCapitalLocationValue, forKey: .originalCapitalLocation)
     }
 
     // public methods
@@ -594,7 +610,12 @@ public class Player: AbstractPlayer {
     /// is player at war with a specific player/leader?
     public func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool {
 
-        return self.diplomacyAI?.approach(towards: otherPlayer) == .war
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+        
+        return diplomacyAI.isAtWar(with: otherPlayer)
+        //return self.diplomacyAI?.approach(towards: otherPlayer) == .war
     }
 
     /// is player at war with any player/leader?
@@ -614,6 +635,15 @@ public class Player: AbstractPlayer {
         }
 
         return diplomacyAI.atWarCount()
+    }
+    
+    public func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool {
+        
+        guard let diplomacyAI = self.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+        
+        return diplomacyAI.canDeclareWar(to: otherPlayer)
     }
     
     public func notifications() -> Notifications? {
@@ -1534,6 +1564,11 @@ public class Player: AbstractPlayer {
 
         return self.has(tech: .sailing)
     }
+    
+    public func canEmbarkAllWaterPassage() -> Bool {
+        
+        return self.has(tech: .celestialNavigation)
+    }
 
     public func has(civic civicType: CivicType) -> Bool {
 
@@ -1757,21 +1792,35 @@ public class Player: AbstractPlayer {
 
         return operations.operationsOf(type: type).count
     }
+    
+    /// Is an existing operation already going after this city?
+    public func isCityAlreadyTargeted(city: AbstractCity?, via domain: UnitDomainType, percentToTarget: Int = 100, in gameModel: GameModel?) -> Bool {
 
-    public func addOperation(of type: UnitOperationType, towards otherPlayer: AbstractPlayer?, target city: AbstractCity?, in area: HexArea?, in gameModel: GameModel?) {
+        guard let operations = self.operations else {
+            fatalError("cant get operations")
+        }
+
+        return operations.isCityAlreadyTargeted(city: city, via: domain, in: gameModel)
+    }
+
+    @discardableResult public func addOperation(of type: UnitOperationType, towards otherPlayer: AbstractPlayer?, target targetCity: AbstractCity?, in area: HexArea?, muster musterCity: AbstractCity? = nil, in gameModel: GameModel?) -> Operation {
 
         switch type {
 
         case .foundCity:
             let operation = FoundCityOperation(in: area)
-            operation.initialize(for: self, enemy: otherPlayer, area: area, target: city, in: gameModel)
+            operation.initialize(for: self, enemy: otherPlayer, area: area, target: targetCity, in: gameModel)
             self.operations?.add(operation: operation)
+            return operation
+            
         case .cityCloseDefense:
             fatalError("not implemented yet")
             break
+            
         case .basicCityAttack:
             fatalError("not implemented yet")
             break
+            
         case .pillageEnemy:
             fatalError("not implemented yet")
             break
@@ -1796,17 +1845,22 @@ public class Player: AbstractPlayer {
         case .notSoQuickColonize:
             fatalError("not implemented yet")
             break
-        case .sneackAttack:
+        case .quickColonize:
             fatalError("not implemented yet")
             break
-        case .basicAttack:
+        case .pureNavalCityAttack:
             fatalError("not implemented yet")
             break
-        case .showOfForce:
+        case .smallCityAttack:
+            fatalError("not implemented yet")
+            break
+        case .sneakCityAttack:
+            fatalError("not implemented yet")
+            break
+        case .navalSneakAttack:
             fatalError("not implemented yet")
             break
         }
-
     }
 
     /// Find the best spot in the entire world for this unit to settle
@@ -3222,6 +3276,9 @@ public class Player: AbstractPlayer {
             gameModel.add(unit: scoutUnit)
             scoutUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
             
+            // make the unit visible
+            gameModel.userInterface?.show(unit: scoutUnit)
+            
             popupData = PopupData(goodyType: .freeScout)
             
         case .healing:
@@ -3262,10 +3319,16 @@ public class Player: AbstractPlayer {
             bestCity.change(population: 1, reassignCitizen: true, in: gameModel)
             popupData = PopupData(goodyType: .additionalPopulation, for: bestCity.name)
             
+            // redraw the city banner
+            gameModel.userInterface?.update(city: bestCity)
+            
         case .freeBuilder:
             let builderUnit = Unit(at: tile.point, type: .builder, owner: self)
             gameModel.add(unit: builderUnit)
             builderUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
+            
+            // make the unit visible
+            gameModel.userInterface?.show(unit: builderUnit)
             
             popupData = PopupData(goodyType: .freeBuilder)
             
@@ -3274,6 +3337,9 @@ public class Player: AbstractPlayer {
             gameModel.add(unit: traderUnit)
             traderUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
             
+             // make the unit visible
+             gameModel.userInterface?.show(unit: builderUnit)
+             
             popupText = goody.effect()*/
             print("trader not implemented")
             
@@ -3281,6 +3347,9 @@ public class Player: AbstractPlayer {
             let settlerUnit = Unit(at: tile.point, type: .settler, owner: self)
             gameModel.add(unit: settlerUnit)
             settlerUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
+            
+            // make the unit visible
+            gameModel.userInterface?.show(unit: settlerUnit)
             
             popupData = PopupData(goodyType: .freeSettler)
         }
@@ -3290,9 +3359,12 @@ public class Player: AbstractPlayer {
         }*/
 
         // If it's the active player then show the popup
-        if self.isEqual(to: gameModel.activePlayer()) {
+        if self.isHuman() && self.isEqual(to: gameModel.activePlayer()) {
             
-            gameModel.userInterface?.showPopup(popupType: .goodyHutReward, with: popupData)
+            if popupData != nil {
+                // FIXME: should not happen - all goodies hsould be handled
+                gameModel.userInterface?.showPopup(popupType: .goodyHutReward, with: popupData)
+            }
                 
             // We are adding a popup that the player must make a choice in, make sure they are not in the end-turn phase.
             //CancelActivePlayerEndTurn();
@@ -3485,6 +3557,47 @@ public class Player: AbstractPlayer {
         } else {
             fatalError("player has no capital - should not happen")
         }
+    }
+    
+    func capitalCity(in gameModel: GameModel?) -> AbstractCity? {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        return gameModel.capital(of: self)
+    }
+    
+    func set(capitalCity newCapitalCity: AbstractCity?, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        if let newCapitalCity = newCapitalCity {
+            
+            let currentCapitalCity = self.capitalCity(in: gameModel)
+
+            if currentCapitalCity?.location != newCapitalCity.location || currentCapitalCity?.name != newCapitalCity.name {
+            
+                // Need to set our original capital x,y?
+                if self.originalCapitalLocationValue == HexPoint.invalid {
+                    
+                    self.originalCapitalLocationValue = newCapitalCity.location
+                }
+
+                newCapitalCity.setEverCapital(to: true)
+            }
+        } else {
+            for cityRef in gameModel.cities(of: self) {
+                cityRef?.setIsCapital(to: false)
+            }
+        }
+    }
+    
+    public func originalCapitalLocation() -> HexPoint {
+        
+        return self.originalCapitalLocationValue
     }
 }
 

@@ -218,6 +218,10 @@ class PediaScene: BaseScene {
 
         let humanWarriorUnit = Unit(at: HexPoint(x: 8, y: 5), type: .warrior, owner: humanPlayer)
         gameModel.add(unit: humanWarriorUnit)
+        
+        // debug
+        humanPlayer.doFirstContact(with: aiPlayer, in: gameModel)
+        humanPlayer.diplomacyAI?.doDeclareWar(to: aiPlayer, in: gameModel)
 
         self.pediaDelegate?.start(game: gameModel)
     }

@@ -22,9 +22,13 @@ public enum CommandType {
     case hold
     case garrison
     
+    // combat
+    case attack
+    case rangedAttack
+    
     public static var all: [CommandType] {
         
-        return [.found, .buildFarm, .buildMine, .buildCamp, .buildPasture, .buildQuarry, .pillage, .fortify, .hold, .garrison]
+        return [.found, .buildFarm, .buildMine, .buildCamp, .buildPasture, .buildQuarry, .pillage, .fortify, .hold, .garrison, .attack, .rangedAttack]
     }
     
     public func title() -> String {
@@ -42,6 +46,9 @@ public enum CommandType {
         case .fortify: return "Fortify"
         case .hold: return "Hold"
         case .garrison: return "Garrison"
+            
+        case .attack: return "Attack"
+        case .rangedAttack: return "Ranged"
         }
     }
 }

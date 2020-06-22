@@ -24,6 +24,7 @@ public protocol AbstractTechs: class, Codable {
     func possibleTechs() -> [TechType]
     func setCurrent(tech: TechType, in gameModel: GameModel?) throws
     func currentTech() -> TechType?
+    
     func numberOfDiscoveredTechs() -> Int
 
     func add(science: Double)

@@ -133,6 +133,11 @@ public enum TacticalMoveType: Int, Codable {
         return self.data().dominanceZoneMove
     }
     
+    func canRecruitForOperations() -> Bool {
+        
+        return self.data().operationsCanRecruit
+    }
+    
     // MARK: private methods
     
     private func data() -> TacticalMoveTypeData {
@@ -803,10 +808,7 @@ public class TacticalAI: Codable {
             self.plotGarrisonMoves(numTurnsAway: 0, in: gameModel)
         case .garrisonToAllowBombards:
             self.plotGarrisonMoves(numTurnsAway: 1, mustAllowRangedAttack: true, in: gameModel)
-        /*case .none:
-            fatalError("not implemented yet")
-        case .unassigned:
-            fatalError("not implemented yet")
+        /*
         case .captureCity:
             fatalError("not implemented yet")
         case .damageCity:

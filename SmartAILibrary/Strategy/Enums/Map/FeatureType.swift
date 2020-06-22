@@ -235,7 +235,7 @@ public enum FeatureType: Int, Codable {
         case .ice: return UnitMovementType.max
         case .atoll: return 2
             
-        case .mountains: return UnitMovementType.max // impassable
+        case .mountains: return 2 // UnitMovementType.max // impassable
         case .lake: return UnitMovementType.max // impassable
             
         // natural wonders

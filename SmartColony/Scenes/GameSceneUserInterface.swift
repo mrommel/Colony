@@ -99,11 +99,33 @@ extension GameScene: UserInterfaceProtocol {
 
     func move(unit: AbstractUnit?, on points: [HexPoint]) {
 
-        let costs: [Double] = [Double].init(repeating: 0.0, count: points.count)
-        self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
         
-        if let commands = unit?.commands(in: self.viewModel?.game) {
-            self.bottomLeftBar?.selectedUnitChanged(to: unit, commands: commands)
+        guard let player = unit.player else {
+            fatalError("cant get unit player")
+        }
+        
+        guard let humanPlayer = self.viewModel?.game?.humanPlayer() else {
+            fatalError("cant get humanPlayer")
+        }
+        
+        if player.isHuman() {
+            return
+        }
+        
+        // let costs: [Double] = [Double].init(repeating: 0.0, count: points.count)
+        // self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
+        
+        print("---------------------------")
+        for point in points {
+            if let tile = self.viewModel?.game?.tile(at: point) {
+                if tile.isVisible(to: humanPlayer) {
+                    self.show(unit: unit)
+                    print("- show unit at \(point) for \(unit.type) of \(player.leader)")
+                }
+            }
         }
     }
 

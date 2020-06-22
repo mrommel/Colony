@@ -33,4 +33,6 @@ public enum UnitTaskType: Int, Codable {
     case shadow
     
     case general
+    
+    case citySpecial
 }

@@ -36,7 +36,7 @@ class Operations: Codable {
         try container.encode(self.operations, forKey: .operations)
     }
     
-    func turn(in gameMode: GameModel?) {
+    func turn(in gameModel: GameModel?) {
                 
         //fatalError("not implemented yet")
         for operation in self.operations {
@@ -83,5 +83,29 @@ class Operations: Codable {
         for operationToDelete in operationsToDelete {
             self.operations.removeAll(where: { $0 == operationToDelete })
         }
+    }
+    
+    func isCityAlreadyTargeted(city: AbstractCity?, via domain: UnitDomainType, percentToTarget: Int = 100, in gameModel: GameModel?) -> Bool {
+        
+        guard let city = city else {
+            fatalError("cant get city")
+        }
+        
+        for operation in self.operations {
+                
+            if operation.targetPosition == city.location && operation.percentFromMusterPointToTarget(in: gameModel) < percentToTarget {
+                        
+                // Naval attacks are mixed land/naval operations
+                if (domain == .none || domain == .sea) && operation.isMixedLandNavalOperation() {
+                    return true
+                }
+
+                if (domain == .none || domain == .land) && !operation.isMixedLandNavalOperation() {
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 }

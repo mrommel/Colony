@@ -365,7 +365,7 @@ public enum DiplomaticRequestMessage: Int, Codable {
         case .embassyExchange:
             return [.dealPositive, .dealNegative]
         case .embassyOffer:
-            return [.genericReply]
+            return [.genericReply, .dealNegative] // FIXME
         case .openBordersExchange:
             return [.genericReply]
         case .openBordersOffer:
