@@ -66,6 +66,7 @@ class GameScene: BaseScene {
     private var frameBottomRight: SKSpriteNode?
     internal var bottomLeftBar: BottomLeftBar?
     internal var bottomRightBar: BottomRightBar?
+    internal var bottomCombatBar: BottomCombatBar?
     internal var notificationsNode: NotificationsNode?
     internal var leadersNode: LeadersNode?
 
@@ -175,6 +176,15 @@ class GameScene: BaseScene {
         self.bottomRightBar?.delegate = self
         self.bottomRightBar?.zPosition = Globals.ZLevels.bottomElements
         self.safeAreaNode.addChild(self.bottomRightBar!)
+        
+        let screenSize = UIScreen.main.bounds
+        let screenWidth = screenSize.width
+        
+        let viewHeight = screenWidth * 143 / 500
+        self.bottomCombatBar = BottomCombatBar(sized: CGSize(width: screenWidth, height: viewHeight))
+        self.bottomCombatBar?.delegate = self
+        self.bottomCombatBar?.zPosition = Globals.ZLevels.bottomElements + 20
+        self.safeAreaNode.addChild(self.bottomCombatBar!)
 
         self.notificationsNode = NotificationsNode(sized: CGSize(width: 61, height: 300))
         self.notificationsNode?.delegate = self
@@ -321,16 +331,17 @@ class GameScene: BaseScene {
         self.bottomLeftBar?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.bottomLeftBar?.updateLayout()
 
+        self.bottomCombatBar?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
+        self.bottomCombatBar?.updateLayout()
+        
         self.bottomRightBar?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.bottomRightBar?.updateLayout()
 
         self.notificationsNode?.position = CGPoint(x: -self.safeAreaNode.frame.halfWidth, y: -self.safeAreaNode.frame.halfHeight)
         self.notificationsNode?.updateLayout()
-
+        
         self.leadersNode?.position = CGPoint(x: self.safeAreaNode.frame.halfWidth, y: self.safeAreaNode.frame.halfHeight)
         self.leadersNode?.updateLayout()
-
-        // turn?
     }
 
     func zoom(to zoomScale: Double) {
@@ -596,7 +607,7 @@ class GameScene: BaseScene {
         let position = HexPoint(screen: touchLocation)
 
         let cameraLocation = touch.location(in: self.cameraNode)
-
+        
         guard let bottomRightBar = self.bottomRightBar, !bottomRightBar.frame.contains(cameraLocation) else {
             return
         }
@@ -649,6 +660,12 @@ class GameScene: BaseScene {
         let touchLocation = touch.location(in: self.viewHex)
         let position = HexPoint(screen: touchLocation)
 
+        if let bottomCombatBar = self.bottomCombatBar {
+            if bottomCombatBar.frame.contains(cameraLocation) && bottomCombatBar.handleTouches(touches, with: event) {
+                return
+            }
+        }
+        
         guard let bottomRightBar = self.bottomRightBar, !bottomRightBar.frame.contains(cameraLocation) else {
             self.bottomRightBar?.touchesEnded(touches, with: event)
             return
@@ -706,18 +723,13 @@ class GameScene: BaseScene {
             if self.uiCombatMode == .melee {
                 
                 if let unitToAttack = self.viewModel?.game?.unit(at: position) {
-                    print("attack: \(unitToAttack.type)")
-                    if !selectedUnit.doAttack(into: position, steps: 1, in: self.viewModel?.game) {
-                        print("attack failed")
-                    }
+                    
+                    self.bottomCombatBar?.combatPrediction(of: selectedUnit, against: unitToAttack, mode: .melee)
                 }
-                
-                self.mapNode?.unitLayer.clearAttackFocus()
-                self.uiCombatMode = .none
-                self.updateCommands(for: selectedUnit)
                 
             } else {
                 
+                //self.bottomCombatBar?.hideCombatPrediction()
                 self.mapNode?.unitLayer.clearPathSpriteBuffer()
                 self.mapNode?.unitLayer.hideFocus()
                 
@@ -1026,11 +1038,6 @@ extension GameScene: BottomLeftBarDelegate {
             fatalError("cant get game")
         }
 
-        // debug
-        /*for player in gameModel.players {
-            print("-- score of \(player.leader) = \(player.score(for: gameModel))")
-        }*/
-
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human")
         }
@@ -1143,5 +1150,33 @@ extension GameScene: LeadersDelegate {
 
         print("diplo screen with: \(leader)")
         self.showScreen(screenType: .diplomatic, city: nil, other: otherPlayer, data: data)
+    }
+}
+
+extension GameScene: BottomCombatBarDelegate {
+    
+    func doCombat(of attacker: AbstractUnit?, against defender: AbstractUnit?) {
+        
+        //print("attack: \(unitToAttack.type)")
+        if !attacker!.doAttack(into: defender!.location, steps: 1, in: self.viewModel?.game) {
+            print("attack failed")
+        }
+        
+        self.mapNode?.unitLayer.update(unit: attacker)
+        self.mapNode?.unitLayer.update(unit: defender)
+        /*self.mapNode?.unitLayer.clearAttackFocus()
+        self.uiCombatMode = .none
+        self.updateCommands(for: selectedUnit)*/
+        
+        self.uiCombatMode = .none
+        
+        self.bottomCombatBar?.hideCombatPrediction()
+    }
+    
+    func cancelCombat() {
+        
+        self.uiCombatMode = .none
+        
+        self.bottomCombatBar?.hideCombatPrediction()
     }
 }

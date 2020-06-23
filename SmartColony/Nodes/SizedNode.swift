@@ -40,6 +40,11 @@ class SizedNode: SKNode {
         }
     }
     
+    var size: CGSize {
+        
+        return self.frame.size
+    }
+    
     override func contains(_ p: CGPoint) -> Bool {
         
         let offsetX = self.frame.width * self.anchorPoint.x

@@ -34,6 +34,7 @@ class UnitObject {
     var sprite: SKSpriteNode
     var typeBackgroundSprite: SKSpriteNode
     var typeIconSprite: SKSpriteNode
+    var strengthIndicatorNode: UnitStrengthIndicator
     
     init(unit: AbstractUnit?, in gameModel: GameModel?) {
      
@@ -70,6 +71,11 @@ class UnitObject {
         self.typeIconSprite.color = civilization.iconColor()
         self.typeIconSprite.colorBlendFactor = 1.0
         self.sprite.addChild(self.typeIconSprite)
+        
+        self.strengthIndicatorNode = UnitStrengthIndicator(strength: 100)
+        self.strengthIndicatorNode.position = CGPoint(x: 42, y: 16)
+        self.strengthIndicatorNode.zPosition = Globals.ZLevels.unit + 0.06
+        self.sprite.addChild(self.strengthIndicatorNode)
 
         // setup atlases
         self.atlasIdle = unit.type.idleAtlas
@@ -127,6 +133,11 @@ class UnitObject {
         let newTexture = SKTexture(imageNamed: self.spriteName)
 
         self.sprite.texture = newTexture
+    }
+    
+    func update(strength: Int) {
+        
+        self.strengthIndicatorNode.set(strength: strength)
     }
 
     func showIdle() {

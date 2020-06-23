@@ -87,6 +87,7 @@ class UnitLayer: SKNode {
             print("already shown")
             
             unitObject.showIdle()
+            unitObject.update(strength: unit.healthPoints())
             
         } else {
         
@@ -97,6 +98,7 @@ class UnitLayer: SKNode {
 
             // make idle
             unitObject.showIdle()
+            unitObject.update(strength: unit.healthPoints())
 
             // keep reference
             self.unitObjects.append(unitObject)
@@ -361,6 +363,13 @@ class UnitLayer: SKNode {
             unitObject.showWalk(on: path, completion: {
                 unitObject.showIdle()
             })
+        }
+    }
+    
+    func update(unit: AbstractUnit?) {
+        
+        if let unitObject = unitObject(of: unit) {
+            unitObject.update(strength: unit!.healthPoints())
         }
     }
 }
