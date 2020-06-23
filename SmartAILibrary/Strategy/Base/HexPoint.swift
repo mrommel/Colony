@@ -341,7 +341,7 @@ extension HexPoint {
         return neighboring
     }
     
-    func areaWith(radius: Int) -> HexArea {
+    public func areaWith(radius: Int) -> HexArea {
         return HexArea(center: self, radius: radius)
     }
     

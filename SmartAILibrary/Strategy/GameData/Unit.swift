@@ -44,9 +44,13 @@ public protocol AbstractUnit: class, Codable {
     var task: UnitTaskType { get }
 
     func name() -> String
+    func isBarbarian() -> Bool
+    func isHuman() -> Bool
     func classClass() -> UnitClassType
 
     func civilianAttackPriority() -> CivilianAttackPriorityType
+    func captureUnitType() -> UnitType
+    func canCapture() -> Bool
 
     func isOf(unitType: UnitType) -> Bool
     func hasSameType(as otherUnit: AbstractUnit?) -> Bool
@@ -81,6 +85,7 @@ public protocol AbstractUnit: class, Codable {
     func set(healthPoints: Int)
     func canHeal(in gameModel: GameModel?) -> Bool
     func damage() -> Int
+    func add(damage: Int)
     func isHurt() -> Bool
     func doHeal(in gameModel: GameModel?)
 
@@ -95,7 +100,7 @@ public protocol AbstractUnit: class, Codable {
     func search(range: Int, in gameModel: GameModel?) -> Int
 
     func experience() -> Int
-    func changeExperience(experience delta: Int, in gameModel: GameModel?)
+    func changeExperience(by delta: Int, in gameModel: GameModel?)
 
     func power() -> Int
     func combatStrength() -> Int
@@ -371,6 +376,24 @@ public class Unit: AbstractUnit {
 
         return self.type.name()
     }
+    
+    public func isBarbarian() -> Bool {
+       
+        guard let player  = self.player else {
+            fatalError("cant get player")
+        }
+        
+        return player.isBarbarian()
+    }
+    
+    public func isHuman() -> Bool {
+       
+        guard let player  = self.player else {
+            fatalError("cant get player")
+        }
+        
+        return player.isHuman()
+    }
 
     public func classClass() -> UnitClassType {
 
@@ -397,6 +420,11 @@ public class Unit: AbstractUnit {
     public func set(healthPoints: Int) {
 
         self.healthPointsValue = healthPoints
+    }
+    
+    public func add(damage: Int) {
+        
+        self.healthPointsValue -= damage
     }
 
     private func healRate(at point: HexPoint, in gameModel: GameModel?) -> Int {
@@ -775,14 +803,20 @@ public class Unit: AbstractUnit {
                 if let city = gameModel.city(at: destination) {
                     if diplomacyAI.isAtWar(with: city.player) {
                         if self.domain() == .land {
+                            
                             // Ranged units that are embarked can't do a move-attack
                             if self.isRanged() && self.isEmbarked() {
                                 return false
                             }
 
                             //CvUnitCombat::AttackCity(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
-                            fatalError("niy")
+                            
                             attack = true
+                            
+                            let result = Combat.predictMeleeAttack(between: self, and: city, in: gameModel)
+                            print("result: \(result)")
+                            
+                            // fatalError("niy")
                         }
                     }
                 }
@@ -798,8 +832,13 @@ public class Unit: AbstractUnit {
                 }
 
                 attack = true
+                
+                
+                
+                Combat.doMeleeAttack(between: self, and: defenderUnit, in: gameModel)
+                //print("result: \(result)")
                 // CvUnitCombat::Attack(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
-                fatalError("niy")
+                //fatalError("niy")
             }
 
             // Barb camp here that was attacked?
@@ -1191,6 +1230,30 @@ public class Unit: AbstractUnit {
 
         return true
     }
+    
+    // TODO: move to UnitType
+    public func captureUnitType() -> UnitType {
+        
+        // cant capture settlers
+        if self.type == .settler {
+            return .builder
+        }
+        
+        return self.type
+    }
+    
+    // TODO: move to UnitType
+    public func canCapture() -> Bool {
+        
+        return self.type.has(ability: .canCapture)
+        /*switch self.type.unitClass() {
+            
+        case .civilian, .ranged, .siege, .navalRanged, .navalCarrier, .airFighter, .airBomber, .support, .city:
+            return false
+        case .melee, .recon, .antiCavalry, .lightCavalry, .heavyCavalry, .navalMelee, .navalRaider:
+            return true
+        }*/
+    }
 
     private func captureDefinition(by capturePlayer: AbstractPlayer?) -> UnitCaptureDefinition? {
 
@@ -1206,7 +1269,7 @@ public class Unit: AbstractUnit {
         if self.isBarbarian() || captureDef.capturingPlayer != nil && captureDef.capturingPlayer!.isBarbarian() {
 
             // Must be able to capture this unit normally... don't want the barbs picking up Workboats, Generals, etc.
-            if captureDef.capturingPlayer != nil /*&& getCaptureUnitType(GET_PLAYER(kCaptureDef.eCapturingPlayer).getCivilizationType()) != NO_UNIT*/ {
+            if captureDef.capturingPlayer != nil && captureUnitType().baseType() != nil {
 
                 // Unit type is the same as what it was
                 captureDef.captureUnitType = self.type
@@ -1293,29 +1356,41 @@ public class Unit: AbstractUnit {
                             } else { // Ran into a noncombat unit
 
                                 var doCapture = false
+                                var strMessage = ""
+                                var strSummary = ""
 
                                 // Some units can't capture civilians. Embarked units are also not captured, they're simply killed. And some aren't a type that gets captured.
                                 if self.type.has(ability: .canCapture) && !loopUnit.isEmbarked() && loopUnit.type.captureType() != nil {
 
                                     doCapture = true
-
-                                    if loopPlayer.isHuman() {
-                                        //gameModel.add(message: UnitCapturedMessage(by: player, unitType: loopUnit.type))
-                                        //self.player.notifications().add()
+                                    
+                                    if isBarbarian() {
+                                        strMessage = "TXT_KEY_UNIT_CAPTURED_BARBS_DETAILED"
+                                        // strMessage << pLoopUnit->getUnitInfo().GetTextKey();
+                                        strSummary = "TXT_KEY_UNIT_CAPTURED_BARBS"
+                                    } else {
+                                        strMessage = "TXT_KEY_UNIT_CAPTURED_DETAILED"
+                                        // strMessage << pLoopUnit->getUnitInfo().GetTextKey() << GET_PLAYER(getOwner()).getNameKey();
+                                        strSummary = "TXT_KEY_UNIT_CAPTURED"
                                     }
+                                    
                                 } else { // Unit was killed instead
 
                                     if loopUnit.isEmbarked() {
-                                        self.changeExperience(experience: 1, in: gameModel)
+                                        self.changeExperience(by: 1, in: gameModel)
                                     }
+                                    
+                                    gameModel.userInterface?.showTooltip(at: self.location, text: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY", delay: 3)
 
-                                    if loopPlayer.isHuman() {
-                                        //gameModel.add(message: LostUnitMessage(by: player))
-                                        //self.player.notifications().add()
-                                    }
+                                    strMessage = "TXT_KEY_UNIT_LOST"
+                                    strSummary = strMessage;
 
                                     player.reportCultureFromKills(at: newLocation, culture: loopUnit.baseCombatStrength(ignoreEmbarked: true), wasBarbarian: loopPlayer.isBarbarian(), in: gameModel)
                                     player.reportGoldFromKills(at: newLocation, gold: loopUnit.baseCombatStrength(ignoreEmbarked: true), in: gameModel)
+                                }
+                                
+                                if let notifications = loopUnit.player?.notifications() {
+                                    notifications.addNotification(of: .unitDied, for: loopPlayer, message: strMessage, summary: strSummary, at: loopUnit.location, other: self.player)
                                 }
 
                                 if loopUnit.isEmbarked() {
@@ -1424,6 +1499,7 @@ public class Unit: AbstractUnit {
                             
                             // do the hello, if not
                             loopPlayer.doFirstContact(with: player, in: gameModel)
+                            player.doFirstContact(with: loopPlayer, in: gameModel)
                         }
                     }
                 }
@@ -1436,8 +1512,12 @@ public class Unit: AbstractUnit {
             if let adjacentPlot = gameModel.tile(at: adjacentPoint) {
 
                 // Owned by someone
-                if adjacentPlot.hasOwner() && !player.isEqual(to: adjacentPlot.owner()) {
-                    diplomacyAI.doFirstContact(with: adjacentPlot.owner(), in: gameModel)
+                if let adjacentOwner = adjacentPlot.owner() {
+                    
+                    if !player.isEqual(to: adjacentOwner) && !player.hasMet(with: adjacentOwner) && adjacentOwner.isAlive() {
+                        diplomacyAI.doFirstContact(with: adjacentOwner, in: gameModel)
+                        adjacentOwner.doFirstContact(with: player, in: gameModel)
+                    }
                 }
 
                 // Have a naval unit here?
@@ -2044,7 +2124,7 @@ public class Unit: AbstractUnit {
         return self.experienceValue
     }
 
-    public func changeExperience(experience delta: Int, in gameModel: GameModel?) {
+    public func changeExperience(by delta: Int, in gameModel: GameModel?) {
 
         guard let promotions = self.promotions else {
             fatalError("cant get promotions")
@@ -2215,6 +2295,9 @@ public class Unit: AbstractUnit {
             
         case .rangedAttack:
             return self.canRangeAttack(at: self.location, in: gameModel)
+            
+        case .cancelAttack:
+            return false
         }
     }
 
@@ -2857,15 +2940,6 @@ public class Unit: AbstractUnit {
             if promotions.has(promotion: .amphibious) {
                 return true
             }
-        }
-
-        return false
-    }
-
-    func isBarbarian() -> Bool {
-
-        if let civ = self.player?.leader.civilization() {
-            return civ == .barbarian
         }
 
         return false

@@ -243,15 +243,6 @@ extension GameScene {
             case .barbarianCampCleared:
                 // NOOP
                 break
-            case .featureGivesProduction:
-                if let featureType = firstPopup.popupData?.featureType,
-                    let production = firstPopup.popupData?.production,
-                    let cityName = firstPopup.popupData?.cityName {
-                    
-                    self.showFeatureGivesProductionPopup(feature: featureType, production: production, for: cityName)
-                } else {
-                    fatalError("popup data did not provide feature nor cityName")
-                }
                 
             case .techDiscovered:
                 if let techType = firstPopup.popupData?.tech {
@@ -391,23 +382,6 @@ extension GameScene {
         })
 
         self.cameraNode.add(dialog: eurekaActivatedPopup)
-    }
-    
-    func showFeatureGivesProductionPopup(feature: FeatureType, production: Int, for cityName: String) {
-
-        self.currentPopupType = .featureGivesProduction
-
-        let featureGivesProductionPopupViewModel = FeatureGivesProductionPopupViewModel(feature: feature, production: production, for: cityName)
-
-        let featureGivesProductionPopup = FeatureGivesProductionPopup(viewModel: featureGivesProductionPopupViewModel)
-        featureGivesProductionPopup.zPosition = 250
-
-        featureGivesProductionPopup.addOkayAction(handler: {
-            self.currentPopupType = .none
-            featureGivesProductionPopup.close()
-        })
-
-        self.cameraNode.add(dialog: featureGivesProductionPopup)
     }
     
     func showGoodyHutRewardPopup(for goodyType: GoodyType, in cityName: String?) {

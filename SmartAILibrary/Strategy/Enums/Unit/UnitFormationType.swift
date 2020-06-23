@@ -26,7 +26,7 @@ enum UnitFormationPosition {
     case navalEscort
 }
 
-enum UnitFormationType {
+enum UnitFormationType: Int, Codable {
 
     case none
     

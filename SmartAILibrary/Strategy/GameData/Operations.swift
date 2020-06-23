@@ -52,6 +52,11 @@ class Operations: Codable {
         self.operations.append(operation)
     }
     
+    func delete(operation: Operation) {
+        
+        self.operations.removeAll(where: { $0 == operation })
+    }
+    
     func operationsOf(type: UnitOperationType) -> [Operation] {
         
         return self.operations.filter({ $0.type == type })

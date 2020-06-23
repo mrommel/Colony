@@ -221,6 +221,7 @@ class PediaScene: BaseScene {
         
         // debug
         humanPlayer.doFirstContact(with: aiPlayer, in: gameModel)
+        aiPlayer.doFirstContact(with: humanPlayer, in: gameModel)
         humanPlayer.diplomacyAI?.doDeclareWar(to: aiPlayer, in: gameModel)
 
         self.pediaDelegate?.start(game: gameModel)

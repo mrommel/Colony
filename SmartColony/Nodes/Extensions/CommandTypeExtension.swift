@@ -26,8 +26,10 @@ extension CommandType {
         case .fortify: return "command_fortify"
         case .garrison: return "command_garrison"
         case .pillage: return "command_pillage"
+            
         case .attack: return "command_attack"
         case .rangedAttack: return "command_ranged"
+        case .cancelAttack: return "command_cancel"
         }
     }
 }

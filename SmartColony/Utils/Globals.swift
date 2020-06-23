@@ -36,6 +36,7 @@ public struct Globals {
         static let unitStrength: CGFloat = 10.0
         static let citizen: CGFloat = 20.0
         static let labels: CGFloat = 50.0
+        static let tooltips: CGFloat = 50.0
         
         static let sceneElements: CGFloat = 51.0
         static let dialogs: CGFloat = 52.0

@@ -144,6 +144,7 @@ public class Operation: Codable, Equatable {
 
     enum CodingKeys: CodingKey {
 
+        case identifier
         case type
         case state
         // player / enemy
@@ -161,6 +162,7 @@ public class Operation: Codable, Equatable {
         case targetPosition
     }
 
+    let identifier: String
     let type: UnitOperationType
     var state: OperationStateType = .none
     var player: AbstractPlayer? = nil
@@ -180,6 +182,7 @@ public class Operation: Codable, Equatable {
 
     init(type: UnitOperationType) {
 
+        self.identifier = UUID().uuidString
         self.type = type
     }
 
@@ -187,6 +190,7 @@ public class Operation: Codable, Equatable {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
+        self.identifier = try container.decode(String.self, forKey: .identifier)
         self.type = try container.decode(UnitOperationType.self, forKey: .type)
         self.state = try container.decode(OperationStateType.self, forKey: .state)
         self.area = try container.decodeIfPresent(HexArea.self, forKey: .area)
@@ -207,7 +211,21 @@ public class Operation: Codable, Equatable {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
 
+        try container.encode(self.identifier, forKey: .identifier)
         try container.encode(self.type, forKey: .type)
+        try container.encode(self.state, forKey: .state)
+        try container.encode(self.area, forKey: .area)
+        try container.encode(self.moveType, forKey: .moveType)
+        
+        //self.army = nil // try container.decodeIfPresent(Army.self, forKey: .army)
+
+        //self.listOfUnitsCitiesHaveCommittedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
+        //self.listOfUnitsWeStillNeedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
+        try container.encode(self.shouldReplaceLossesWithReinforcements, forKey: .army)
+
+        try container.encodeIfPresent(self.startPosition, forKey: .army)
+        try container.encodeIfPresent(self.musterPosition, forKey: .army)
+        try container.encodeIfPresent(self.targetPosition, forKey: .army)
     }
 
     func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
@@ -222,6 +240,28 @@ public class Operation: Codable, Equatable {
         // create the armies that are needed and set the state to ARMYAISTATE_WAITING_FOR_UNITS_TO_REINFORCE
         self.buildListOfUnitsWeStillNeedToBuild()
         let _ = self.grabUnitsFromTheReserves(at: nil, for: nil, in: gameModel)
+    }
+    
+    /// Delete allocated objects
+    private func uninit() {
+        
+        // hopefully if this has been init'ed this should not happen
+        if let owner = self.player {
+
+            // remove the army (which should, in turn, free up its units for other tasks)
+            if let army = self.army {
+                
+                army.kill()
+                owner.armies?.remove(army: army)
+            }
+        }
+
+        // clear out the lists
+        self.army = nil
+        self.listOfUnitsWeStillNeedToBuild.removeAll()
+        self.listOfUnitsCitiesHaveCommittedToBuild.removeAll()
+
+        // Reset();
     }
 
     func isAllNavalOperation() -> Bool {
@@ -708,27 +748,34 @@ public class Operation: Codable, Equatable {
             return 3
         }
     }
-
-    func cancel() {
-        
-        fatalError("niy")
-    }
     
+    /// Perform the deletion of this operation
     func kill(with reason: OperationAbortReasonType) {
+
+        if state == .aborted(reason: .none) {
+            self.state = .aborted(reason: reason)
+        }
         
-        fatalError("niy")
+        // LogOperationEnd();
+        self.uninit()
+        self.player?.delete(operation: self)
     }
 
     func numUnitsNeededToBeBuilt() -> Int {
 
-        fatalError("niy")
+        return self.listOfUnitsWeStillNeedToBuild.count
     }
 
     /// Delete the operation if marked to go away
     func doDelayedDeath() -> Bool {
         
         if self.shouldAbort() {
-            self.kill(with: .killed)
+            
+            if self.state == .successful {
+                self.kill(with: .success)
+            } else {
+                self.kill(with: .killed)
+            }
             return true
         }
 

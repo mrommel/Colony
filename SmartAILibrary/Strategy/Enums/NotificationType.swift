@@ -27,4 +27,5 @@ public enum NotificationType: Int, Codable {
     
     case unitPromotion
     case unitNeedsOrders
+    case unitDied
 }

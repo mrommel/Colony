@@ -1420,6 +1420,9 @@ class Tile: AbstractTile {
         if terrainCost == UnitMovementType.max {
             return UnitMovementType.max
         }
+        
+        // hills
+        let hillCosts = self.hillsVal ? 1.0 : 0.0
 
         // add feature costs
         var featureCosts: Double = 0.0
@@ -1440,7 +1443,7 @@ class Tile: AbstractTile {
             riverCost = 1.0 // FIXME - river cost per movementType
         }
 
-        return terrainCost + featureCosts + riverCost
+        return terrainCost + hillCosts + featureCosts + riverCost
     }
 
     func isNeighbor(to candidate: HexPoint) -> Bool {
@@ -1640,7 +1643,8 @@ class Tile: AbstractTile {
                             city.changeFeatureProduction(change: Double(production))
 
                             if cityPlayer.isHuman() {
-                                gameModel?.userInterface?.showPopup(popupType: .featureGivesProduction, with: PopupData(featureType: self.feature(), production: production, cityName: city.name))
+                                
+                                gameModel?.userInterface?.showTooltip(at: self.point, text: "The removal of \(self.feature().name()) has gained you \(production) [ICON_PRODUCTION] for your city \(city.name).", delay: 3)
                             }
                         }
 

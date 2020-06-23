@@ -140,6 +140,36 @@ public enum UnitType: Int, Codable {
 
         return self.data().targetType
     }
+    
+    // returns the unittype of non standard units (such as special units of civilizations)
+    func baseType() -> UnitType? {
+        
+        switch self {
+            
+        case .barbarianWarrior: return .warrior
+            
+        case .settler: return .settler
+        case .builder: return .builder
+
+        case .scout: return .scout
+        case .warrior: return .warrior
+        case .slinger: return .slinger
+        case .archer: return .archer
+        case .spearman: return .spearman
+        case .heavyChariot: return .heavyChariot
+        case .galley: return  .galley
+            
+        case .artist: return .artist
+        case .admiral: return .admiral
+        case .engineer: return .engineer
+        case .general: return .general
+        case .merchant: return .merchant
+        case .musician: return .musician
+        case .prophet: return .prophet
+        case .scientist: return .scientist
+        case .writer: return .writer
+        }
+    }
 
     func power() -> Int {
 

@@ -21,9 +21,7 @@ extension GameScene: UserInterfaceProtocol {
         self.mapNode?.unitLayer.showFocus(for: unit)
         self.selectedUnit = unit
 
-        if let commands = unit?.commands(in: self.viewModel?.game) {
-            self.bottomLeftBar?.selectedUnitChanged(to: unit, commands: commands)
-        }
+        self.updateCommands(for: selectedUnit)
     }
 
     func unselect() {
@@ -140,7 +138,8 @@ extension GameScene: UserInterfaceProtocol {
     }
 
     func showTooltip(at point: HexPoint, text: String, delay: Double) {
-        print("tooltip")
+        
+        self.mapNode?.tooltipLayer.show(text: text, at: point, for: delay)
     }
 
     func select(tech: TechType) {

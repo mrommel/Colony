@@ -14,7 +14,6 @@ public enum PopupType {
     
     case declareWarQuestion  // ??
     case barbarianCampCleared
-    case featureGivesProduction // Das Entfernen der Geländeart {@1_FeatName} hat {2_Num} [ICON_PRODUCTION] für die Stadt {@3_CityName} eingebracht.
     
     case goodyHutReward
     

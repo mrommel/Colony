@@ -27,6 +27,7 @@ class MapNode: SKNode {
     var cityLayer: CityLayer
     var improvementLayer: ImprovementLayer
     var borderLayer: BorderLayer
+    var tooltipLayer: TooltipLayer
 
     // MARK: properties
 
@@ -87,6 +88,10 @@ class MapNode: SKNode {
         self.waterLayer.populate(with: self.game)
         self.waterLayer.zPosition = Globals.ZLevels.water
         
+        self.tooltipLayer = TooltipLayer(player: humanPlayer)
+        self.tooltipLayer.populate(with: self.game)
+        self.tooltipLayer.zPosition = Globals.ZLevels.tooltips
+        
         super.init()
         self.zPosition = 0
 
@@ -99,6 +104,7 @@ class MapNode: SKNode {
         self.addChild(self.cityLayer)
         self.addChild(self.improvementLayer)
         self.addChild(self.borderLayer)
+        self.addChild(self.tooltipLayer)
     }
     
     required init?(coder aDecoder: NSCoder) {

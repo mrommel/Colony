@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum ArmyState {
+public enum ArmyState: Int, Codable {
 
     case waitingForUnitsToReinforce
     case movingToDestination
@@ -24,17 +24,34 @@ public enum ArmyState {
 //!  - Uses step path finder to find muster points before it has units
 //!  - Uses main path finder to plot route once it has units
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-public class Army {
+public class Army: Codable {
+    
+    enum CodingKeys: CodingKey {
 
+        case identifier
+        case operation
+        // case owner
+        case formation
+        case domain
+        case state
+        
+        case goal
+        case muster
+        case position
+        
+        case area
+    }
+
+    let identifier: String
     let operation: Operation?
-    let owner: AbstractPlayer?
+    let owner: AbstractPlayer? // not stored
     let formation: UnitFormationType
     let domain: UnitDomainType
     var state: ArmyState
 
-    var goal: HexPoint = HexPoint(x: -1, y: -1)
-    var muster: HexPoint = HexPoint(x: -1, y: -1)
-    var position: HexPoint = HexPoint(x: -1, y: -1)
+    var goal: HexPoint = HexPoint.invalid
+    var muster: HexPoint = HexPoint.invalid
+    var position: HexPoint = HexPoint.invalid
 
     var area: HexArea? = nil
 
@@ -42,6 +59,7 @@ public class Army {
 
     init(of owner: AbstractPlayer?, for operation: Operation?, with formation: UnitFormationType) {
 
+        self.identifier = UUID().uuidString
         self.owner = owner
         self.operation = operation
         self.formation = formation
@@ -50,10 +68,68 @@ public class Army {
 
         self.unitsArray = Array.init(repeating: nil, count: formation.slots().count)
     }
+    
+    public required init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.identifier = try container.decode(String.self, forKey: .identifier)
+        self.operation = try container.decodeIfPresent(Operation.self, forKey: .operation)
+        self.owner = nil
+        self.formation = try container.decode(UnitFormationType.self, forKey: .formation)
+        self.domain = try container.decode(UnitDomainType.self, forKey: .domain)
+        self.state = try container.decode(ArmyState.self, forKey: .state)
+        
+        self.goal = try container.decode(HexPoint.self, forKey: .goal)
+        self.muster = try container.decode(HexPoint.self, forKey: .muster)
+        self.position = try container.decode(HexPoint.self, forKey: .position)
+        
+        self.area = try container.decodeIfPresent(HexArea.self, forKey: .area)
+        
+        self.unitsArray = Array.init(repeating: nil, count: formation.slots().count)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+    
+        var container = encoder.container(keyedBy: CodingKeys.self)
 
+        try container.encode(self.identifier, forKey: .identifier)
+        try container.encodeIfPresent(self.operation, forKey: .operation)
+        try container.encode(self.formation, forKey: .formation)
+        try container.encode(self.domain, forKey: .domain)
+        try container.encode(self.state, forKey: .state)
+        
+        try container.encode(self.goal, forKey: .goal)
+        try container.encode(self.muster, forKey: .muster)
+        try container.encode(self.position, forKey: .position)
+        
+        try container.encodeIfPresent(self.area, forKey: .area)
+    }
+    
+    /// Delete the army
+    func kill() {
+
+        for unitRef in self.unitsArray {
+            
+            unitRef?.assign(to: nil)
+        }
+    }
+
+    /// Process another turn for the army
     func turn(in gameMode: GameModel?) {
 
-        fatalError("not implemented yet")
+        self.doDelayedDeath()
+    }
+    
+    /// Kill off the army if waiting to die (returns true if army was killed)
+    @discardableResult func doDelayedDeath() -> Bool {
+        
+        if self.numOfSlotsFilled() == 0 && self.state != .waitingForUnitsToReinforce {
+            self.kill()
+            return true
+        }
+
+        return false
     }
 
     // all units without order or slot relation
@@ -202,5 +278,13 @@ public class Army {
     func disable(slot: UnitFormationSlot) {
 
         fatalError("not implemented yet")
+    }
+}
+
+extension Army: Equatable {
+    
+    public static func == (lhs: Army, rhs: Army) -> Bool {
+        
+        return lhs.identifier == rhs.identifier
     }
 }

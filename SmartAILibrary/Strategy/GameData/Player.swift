@@ -55,6 +55,7 @@ public protocol AbstractPlayer: class, Codable {
     var cityConnections: CityConnections? { get }
     
     var area: HexArea { get }
+    var armies: Armies? { get }
 
     func initialize()
     
@@ -143,6 +144,7 @@ public protocol AbstractPlayer: class, Codable {
     // operation methods
     func operationsOf(type: UnitOperationType) -> [Operation]
     func hasOperationsOf(type: UnitOperationType) -> Bool
+    func delete(operation: Operation)
     func numberOfOperationsOf(type: UnitOperationType) -> Int
     func isCityAlreadyTargeted(city: AbstractCity?, via domain: UnitDomainType, percentToTarget: Int, in gameModel: GameModel?) -> Bool
     @discardableResult func addOperation(of type: UnitOperationType, towards otherPlayer: AbstractPlayer?, target targetCity: AbstractCity?, in area: HexArea?, muster musterCity: AbstractCity?, in gameModel: GameModel?) -> Operation
@@ -196,6 +198,7 @@ public class Player: AbstractPlayer {
         case human
         
         case area
+        case armies
         case numPlotsBought
         case improvementCountList
         case totalImprovementsBuilt
@@ -260,7 +263,7 @@ public class Player: AbstractPlayer {
     internal var currentEraVal: EraType = .ancient
 
     internal var operations: Operations? = nil
-    internal var armies: Armies? = nil
+    public var armies: Armies? = nil
     
     public var area: HexArea
     internal var numPlotsBoughtValue: Int
@@ -291,6 +294,7 @@ public class Player: AbstractPlayer {
         self.isHumanVal = isHuman
         
         self.area = HexArea(points: [])
+        self.armies = Armies()
         
         self.numPlotsBoughtValue = 0
         
@@ -311,6 +315,7 @@ public class Player: AbstractPlayer {
         self.isHumanVal = try container.decode(Bool.self, forKey: .human)
         
         self.area = try container.decode(HexArea.self, forKey: .area)
+        self.armies = try container.decode(Armies.self, forKey: .armies)
 
         self.numPlotsBoughtValue = 0
         self.improvementCountList = ImprovementCountList()
@@ -381,6 +386,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.isHumanVal, forKey: .human)
         
         try container.encode(self.area, forKey: .area)
+        try container.encode(self.armies, forKey: .armies)
         try container.encode(self.numPlotsBoughtValue, forKey: .numPlotsBought)
         try container.encode(self.improvementCountList, forKey: .improvementCountList)
         try container.encode(self.totalImprovementsBuilt, forKey: .totalImprovementsBuilt)
@@ -1783,6 +1789,15 @@ public class Player: AbstractPlayer {
 
         return operations.operationsOf(type: type).count > 0
     }
+    
+    public func delete(operation: Operation) {
+        
+        guard let operations = self.operations else {
+            fatalError("cant get operations")
+        }
+        
+        operations.delete(operation: operation)
+    }
 
     public func numberOfOperationsOf(type: UnitOperationType) -> Int {
 
@@ -3005,7 +3020,7 @@ public class Player: AbstractPlayer {
                 self.treasury?.changeGold(by: Double(gold))
 
                 if self.isHuman() {
-                    gameModel.userInterface?.showTooltip(at: point, text: "\(gold)", delay: 2.0)
+                    gameModel.userInterface?.showTooltip(at: point, text: "\(gold)", delay: 3.0)
                 }
             }
         }

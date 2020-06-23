@@ -431,12 +431,6 @@ public class GameModel: Codable {
                                 guard let loopUnit = loopUnitRef else {
                                     continue
                                 }
-                                
-                                /*CvString tempString;
-                                getMissionAIString(tempString, pLoopUnit->GetMissionAIType());
-                                NET_MESSAGE_DEBUG_OSTR_ALWAYS("UpdateMoves() : player " << player.GetID() << " " << player.getName()
-                                                                                                << " running AutoMission (" << tempString << ") on "
-                                                                                                << pLoopUnit->getName() << " id=" << pLoopUnit->GetID());*/
 
                                 loopUnit.autoMission(in: self)
 
@@ -446,9 +440,6 @@ public class GameModel: Codable {
                                     if player.finishTurnButtonPressed() {
                                         
                                         repeatAutomoves = true    // Do another pass.
-                                        /*NET_MESSAGE_DEBUG_OSTR_ALWAYS("UpdateMoves() : player " << player.GetID() << " " << player.getName()
-                                                                                                        << " AutoMission did not use up all movement points for "
-                                                                                                        << pLoopUnit->getName() << " id=" << pLoopUnit->GetID());*/
 
                                         /*if player.isLocalPlayer() && gDLL->sendTurnUnready())
                                             player.setEndTurn(false);*/

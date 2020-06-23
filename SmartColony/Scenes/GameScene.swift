@@ -22,6 +22,13 @@ enum UITurnState {
     case humanBlocked // dialog shown
 }
 
+enum UICombatMode {
+    
+    case none
+    case melee
+    case ranged
+}
+
 class GameScenePopupData {
 
     let popupType: PopupType
@@ -82,6 +89,7 @@ class GameScene: BaseScene {
     var readyUpdatingAI: Bool = true
     var readyUpdatingHuman: Bool = true
     var uiTurnState: UITurnState = .aiTurns
+    var uiCombatMode: UICombatMode = .none
     var blockingNotification: Notification? = nil
     var currentScreenType: ScreenType = .none
     var currentPopupType: PopupType = .none
@@ -535,12 +543,16 @@ class GameScene: BaseScene {
         guard self.uiTurnState == .humanTurns else {
             return
         }
+        
+        guard self.uiCombatMode == .none else {
+            return
+        }
 
         let touch = touches.first!
         let cameraLocation = touch.location(in: self.cameraNode)
         let touchLocation = touch.location(in: self.viewHex)
         let position = HexPoint(screen: touchLocation)
-
+        
         if let bottomLeftBar = self.bottomLeftBar, bottomLeftBar.frame.contains(cameraLocation) {
 
             guard self.uiTurnState == .humanTurns else {
@@ -592,6 +604,10 @@ class GameScene: BaseScene {
         guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
             return
         }
+        
+        if self.uiCombatMode != .none {
+            return
+        }
 
         if let selectedUnit = self.selectedUnit {
 
@@ -605,8 +621,7 @@ class GameScene: BaseScene {
                 pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player)
                 
                 // update
-                let commands = selectedUnit.commands(in: self.viewModel?.game)
-                self.bottomLeftBar?.selectedUnitChanged(to: selectedUnit, commands: commands)
+                self.updateCommands(for: selectedUnit)
             
                 if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
                     path.prepend(point: selectedUnit.location, cost: 0.0)
@@ -688,14 +703,48 @@ class GameScene: BaseScene {
 
         if let selectedUnit = self.selectedUnit {
 
-            self.mapNode?.unitLayer.clearPathSpriteBuffer()
-            self.mapNode?.unitLayer.hideFocus()
-            if selectedUnit.location != position {
-                self.mapNode?.unitLayer.move(unit: selectedUnit, to: position)
+            if self.uiCombatMode == .melee {
                 
-                let commands = selectedUnit.commands(in: self.viewModel?.game)
-                self.bottomLeftBar?.selectedUnitChanged(to: selectedUnit, commands: commands)
+                if let unitToAttack = self.viewModel?.game?.unit(at: position) {
+                    print("attack: \(unitToAttack.type)")
+                    if !selectedUnit.doAttack(into: position, steps: 1, in: self.viewModel?.game) {
+                        print("attack failed")
+                    }
+                }
+                
+                self.mapNode?.unitLayer.clearAttackFocus()
+                self.uiCombatMode = .none
+                self.updateCommands(for: selectedUnit)
+                
+            } else {
+                
+                self.mapNode?.unitLayer.clearPathSpriteBuffer()
+                self.mapNode?.unitLayer.hideFocus()
+                
+                if selectedUnit.location != position {
+                    self.mapNode?.unitLayer.move(unit: selectedUnit, to: position)
+                    self.updateCommands(for: selectedUnit)
+                }
             }
+        }
+    }
+    
+    func updateCommands(for unit: AbstractUnit?) {
+        
+        if let unit = unit {
+            
+            switch self.uiCombatMode {
+                
+            case .none:
+                let commands = unit.commands(in: self.viewModel?.game)
+                self.bottomLeftBar?.selectedUnitChanged(to: unit, commands: commands)
+                
+            case .melee, .ranged:
+                let commands = [Command(type: .cancelAttack, location: HexPoint.invalid)]
+                self.bottomLeftBar?.selectedUnitChanged(to: unit, commands: commands)
+            }
+        } else {
+            self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [])
         }
     }
 
@@ -877,33 +926,87 @@ extension GameScene: BottomLeftBarDelegate {
             if let selectedUnit = self.selectedUnit {
                 // we need a target here
                 self.showMeleeTargets(of: selectedUnit)
-                //selectedUnit.doAttack(into: <#T##HexPoint#>, steps: 0, in: gameModel)
             }
         
         case .rangedAttack:
-            print("ranged")
+            if let selectedUnit = self.selectedUnit {
+                // we need a target here
+                self.showRangedTargets(of: selectedUnit)
+            }
+            
+        case .cancelAttack:
+            print("cancelAttack")
+            self.cancelAttacks()
+        }
+    }
+    
+    func cancelAttacks() {
+        
+        // reset icons
+        self.mapNode?.unitLayer.clearAttackFocus()
+        
+        self.uiCombatMode = .none
+        
+        if let selectedUnit = self.selectedUnit {
+            // update
+            self.updateCommands(for: selectedUnit)
         }
     }
     
     // TODO: move to different file
     func showMeleeTargets(of unit: AbstractUnit?) {
         
+        guard let player = unit?.player else {
+            fatalError("cant get unit player")
+        }
+        
+        guard let diplomacyAI = unit?.player?.diplomacyAI else {
+            fatalError("cant get unit player diplomacyAI")
+        }
+        
+        self.uiCombatMode = .melee
+        self.bottomLeftBar?.selectedUnitChanged(to: selectedUnit, commands: [Command(type: .cancelAttack, location: HexPoint.invalid)])
+        
         if let unit = unit {
             
-            guard let player = unit.player else {
-                fatalError("cant get unit player")
-            }
-            
-            guard let diplomacyAI = unit.player?.diplomacyAI else {
-                fatalError("cant get unit player diplomacyAI")
-            }
-            
+            // reset icons
             self.mapNode?.unitLayer.clearAttackFocus()
             
             // check neighbors
             for dir in HexDirection.all {
                 
                 let neighbor = unit.location.neighbor(in: dir)
+                
+                if let otherUnit = self.viewModel?.game?.unit(at: neighbor) {
+                    
+                    if !player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player) {
+                        self.mapNode?.unitLayer.showAttackFocus(at: neighbor)
+                    }
+                }
+            }
+        }
+    }
+    
+    func showRangedTargets(of unit: AbstractUnit?) {
+        
+        guard let player = unit?.player else {
+            fatalError("cant get unit player")
+        }
+        
+        guard let diplomacyAI = unit?.player?.diplomacyAI else {
+            fatalError("cant get unit player diplomacyAI")
+        }
+        
+        self.uiCombatMode = .ranged
+        self.bottomLeftBar?.selectedUnitChanged(to: selectedUnit, commands: [Command(type: .cancelAttack, location: HexPoint.invalid)])
+        
+        if let unit = unit {
+            
+            // reset icons
+            self.mapNode?.unitLayer.clearAttackFocus()
+            
+            // check neighbors
+            for neighbor in unit.location.areaWith(radius: unit.range()) {
                 
                 if let otherUnit = self.viewModel?.game?.unit(at: neighbor) {
                     

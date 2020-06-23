@@ -548,7 +548,7 @@ public class MilitaryAI: Codable {
         if self.adopted(militaryStrategy: .eradicateBarbarians) || self.adopted(militaryStrategy: .atWar) || !willingToAcceptRisk {
 
             for operation in player.operationsOf(type: .destroyBarbarianCamp) {
-                operation.cancel()
+                operation.kill(with: .warStateChange)
             }
         }
 
@@ -559,23 +559,23 @@ public class MilitaryAI: Codable {
         if !self.adopted(militaryStrategy: .atWar) {
 
             for operation in player.operationsOf(type: .basicCityAttack) {
-                operation.cancel()
+                operation.kill(with: .warStateChange)
             }
 
             for operation in player.operationsOf(type: .pillageEnemy) {
-                operation.cancel()
+                operation.kill(with: .warStateChange)
             }
 
             for operation in player.operationsOf(type: .rapidResponse) {
-                operation.cancel()
+                operation.kill(with: .warStateChange)
             }
 
             for operation in player.operationsOf(type: .cityCloseDefense) {
-                operation.cancel()
+                operation.kill(with: .warStateChange)
             }
 
             for operation in player.operationsOf(type: .navalAttack) {
-                operation.cancel()
+                operation.kill(with: .warStateChange)
             }
         } else {
 
@@ -612,50 +612,50 @@ public class MilitaryAI: Codable {
                     case .nearlyDefeated: // If nearly defeated, call off all operations in enemy territory
                         for operation in player.operationsOf(type: .basicCityAttack) {
                             if operation.enemy!.leader == otherPlayer.leader {
-                                operation.cancel()
+                                operation.kill(with: .warStateChange)
                             }
                         }
 
                         for operation in player.operationsOf(type: .pillageEnemy) {
                             if operation.enemy!.leader == otherPlayer.leader {
-                                operation.cancel()
+                                operation.kill(with: .warStateChange)
                             }
                         }
 
                         for operation in player.operationsOf(type: .navalAttack) {
                             if operation.enemy!.leader == otherPlayer.leader {
-                                operation.cancel()
+                                operation.kill(with: .warStateChange)
                             }
                         }
                     case .defensive: // If we are losing, make sure attacks are not running
                         for operation in player.operationsOf(type: .basicCityAttack) {
                             if operation.enemy!.leader == otherPlayer.leader {
-                                operation.cancel()
+                                operation.kill(with: .warStateChange)
                             }
                         }
 
                         for operation in player.operationsOf(type: .pillageEnemy) {
                             if operation.enemy!.leader == otherPlayer.leader {
-                                operation.cancel()
+                                operation.kill(with: .warStateChange)
                             }
                         }
 
                         for operation in player.operationsOf(type: .navalAttack) {
                             if operation.enemy!.leader == otherPlayer.leader {
-                                operation.cancel()
+                                operation.kill(with: .warStateChange)
                             }
                         }
 
                     case .offensive, .nearlyWon: // If we are dominant, shouldn't be running a defensive strategy
                         for operation in player.operationsOf(type: .rapidResponse) {
                             if operation.enemy!.leader == otherPlayer.leader {
-                                operation.cancel()
+                                operation.kill(with: .warStateChange)
                             }
                         }
 
                         for operation in player.operationsOf(type: .cityCloseDefense) {
                             if operation.enemy!.leader == otherPlayer.leader {
-                                operation.cancel()
+                                operation.kill(with: .warStateChange)
                             }
                         }
 
@@ -676,7 +676,7 @@ public class MilitaryAI: Codable {
                         for operation in player.operationsOf(type: .cityCloseDefense) {
                             
                             if operation.targetPosition == city.location {
-                                operation.cancel()
+                                operation.kill(with: .warStateChange)
                             }
                         }
                     }
@@ -687,7 +687,7 @@ public class MilitaryAI: Codable {
             if totalThreatWeight <= 3 {
                 
                 for operation in player.operationsOf(type: .rapidResponse) {
-                    operation.cancel()
+                    operation.kill(with: .warStateChange)
                 }
             }
         }

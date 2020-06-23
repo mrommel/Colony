@@ -144,6 +144,8 @@
 		C9B1D28E2435B08500033791 /* earth_large.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D28B2435B00F00033791 /* earth_large.map */; };
 		C9B1D28F2435B08F00033791 /* earth_small.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D28C2435B00F00033791 /* earth_small.map */; };
 		C9B1D2902435B09A00033791 /* earth_standard.map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2892435B00F00033791 /* earth_standard.map */; };
+		C9CEE34D24A24F5500869B85 /* TooltipLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CEE34C24A24F5500869B85 /* TooltipLayer.swift */; };
+		C9CEE34F24A2504E00869B85 /* TooltipNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CEE34E24A2504E00869B85 /* TooltipNode.swift */; };
 		C9D84E5F2487D34B00FDAC16 /* LeadersNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D84E5E2487D34B00FDAC16 /* LeadersNode.swift */; };
 		C9DC1C8524839E5600235743 /* GameStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC1C8424839E5600235743 /* GameStorage.swift */; };
 		C9DC1C872483A34900235743 /* GameNameDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC1C862483A34900235743 /* GameNameDialog.swift */; };
@@ -370,6 +372,8 @@
 		C9B1D28A2435B00F00033791 /* earth_huge.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_huge.map; sourceTree = "<group>"; };
 		C9B1D28B2435B00F00033791 /* earth_large.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_large.map; sourceTree = "<group>"; };
 		C9B1D28C2435B00F00033791 /* earth_small.map */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = earth_small.map; sourceTree = "<group>"; };
+		C9CEE34C24A24F5500869B85 /* TooltipLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipLayer.swift; sourceTree = "<group>"; };
+		C9CEE34E24A2504E00869B85 /* TooltipNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipNode.swift; sourceTree = "<group>"; };
 		C9D84E5E2487D34B00FDAC16 /* LeadersNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadersNode.swift; sourceTree = "<group>"; };
 		C9DC1C8424839E5600235743 /* GameStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStorage.swift; sourceTree = "<group>"; };
 		C9DC1C862483A34900235743 /* GameNameDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameNameDialog.swift; sourceTree = "<group>"; };
@@ -501,6 +505,7 @@
 				C9079180245A20D800248596 /* YieldLayer.swift */,
 				C9FEEB9D245DF76200C51552 /* WaterLayer.swift */,
 				C948685524669EB000495988 /* CitizenLayer.swift */,
+				C9CEE34C24A24F5500869B85 /* TooltipLayer.swift */,
 			);
 			path = Layer;
 			sourceTree = "<group>";
@@ -540,6 +545,7 @@
 				C97CD3AD243B669500FABCC0 /* GameObjectAtlas.swift */,
 				C97CD3AF243B685200FABCC0 /* UnitObject.swift */,
 				C9EC4E1A244454F9001A0597 /* CityObject.swift */,
+				C9CEE34E24A2504E00869B85 /* TooltipNode.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1069,6 +1075,7 @@
 				C9B1D27B24351F3500033791 /* DialogConfiguration.swift in Sources */,
 				C9F91B47244C3FA10081EDC8 /* BaseDisplayNode.swift in Sources */,
 				C9B1D2872435363500033791 /* MapLoadingDialog.swift in Sources */,
+				C9CEE34D24A24F5500869B85 /* TooltipLayer.swift in Sources */,
 				C9F91B3F244B98900081EDC8 /* CivicDialog.swift in Sources */,
 				C99234AA24475DCC00F4B4AB /* BannerNode.swift in Sources */,
 				C9486858246994BC00495988 /* ScienceProgressNode.swift in Sources */,
@@ -1129,6 +1136,7 @@
 				C9B1D2192434784800033791 /* SplashViewController.swift in Sources */,
 				C9EC4E2A2445ADAE001A0597 /* DialogResultType.swift in Sources */,
 				C94787232473F1A400FAAC99 /* EurekaActivatedPopup.swift in Sources */,
+				C9CEE34F24A2504E00869B85 /* TooltipNode.swift in Sources */,
 				C95D9D65244A32A0007C522E /* TechDisplayNode.swift in Sources */,
 				C94DE1D824516BAC00B13F4D /* CGFloatExtension.swift in Sources */,
 				C9DC1C932486923600235743 /* ConfirmationDialog.swift in Sources */,

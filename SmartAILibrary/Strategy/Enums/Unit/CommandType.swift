@@ -25,6 +25,7 @@ public enum CommandType {
     // combat
     case attack
     case rangedAttack
+    case cancelAttack
     
     public static var all: [CommandType] {
         
@@ -49,6 +50,8 @@ public enum CommandType {
             
         case .attack: return "Attack"
         case .rangedAttack: return "Ranged"
+        case .cancelAttack: return "Cancel"
+            
         }
     }
 }

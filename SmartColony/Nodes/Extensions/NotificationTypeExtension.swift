@@ -21,7 +21,6 @@ extension NotificationType {
         case .techNeeded: return "button_tech_needed"
         case .civicNeeded: return "button_civic_needed"
         case .productionNeeded: return "button_production_needed"
-        case .unitNeedsOrders: return "button_unit_needs_orders"
             
         case .cityGrowth: return "button_city_growth"
         case .starving: return "button_starving"
@@ -29,6 +28,8 @@ extension NotificationType {
         case .war: return "button_war" // #
         case .enemyInTerritory: return "button_enemy_in_territory" // #
         case .unitPromotion: return "button_promotion" // #
+        case .unitNeedsOrders: return "button_unit_needs_orders"
+        case .unitDied: return "button_unit_died"
         }
     }
 }

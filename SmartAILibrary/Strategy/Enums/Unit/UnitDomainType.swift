@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum UnitDomainType {
+public enum UnitDomainType: Int, Codable {
     
     case none
     
