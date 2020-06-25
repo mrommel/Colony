@@ -21,16 +21,16 @@ public enum PolicyCardType: Int, Codable {
 
     // ancient
     case survey // FIXME Doubles experience for recon units.
-    case godKing
+    case godKing // +1 Faith and +1 Gold in the Capital.
     case discipline // FIXME +5 Combat Strength when fighting Barbarians.
-    case urbanPlanning
+    case urbanPlanning // +1 Production in all cities.
     case ilkum // FIXME +30% Production toward Builders.
     case agoge // FIXME +50% Production towards Ancient and Classical era melee and ranged units.
-    case caravansaries // FIXME  +2 additional Civ6Gold Gold from all TradeRoute6 Trade Routes.
+    case caravansaries // FIXME  +2 additional Gold from all Trade Routes.
     case maritimeIndustries // FIXME +100% Production towards all Ancient and Classical era naval units.
-    case maneuver // FIXME +50% Civ6Production Production towards all Ancient and Classical era light and heavy cavalry units.
-    case strategos // FIXME +2 General6 Great General points per turn.
-    case conscription // FIXME Unit maintenance reduced by 1  Gold per turn per unit.
+    case maneuver // FIXME +50% Production towards all Ancient and Classical era light and heavy cavalry units.
+    case strategos // FIXME +2 Great General points per turn.
+    case conscription // FIXME Unit maintenance reduced by 1 Gold per turn per unit.
     case corvee // FIXME +15% Production towards Ancient and Classical era wonders.
     case landSurveyors // FIXME Reduces the cost to purchase a tile by 20%.
     case colonization // FIXME +50% Production towards Settlers.
@@ -175,5 +175,45 @@ public enum PolicyCardType: Int, Codable {
           ...
          case .bastions: return .military
         }*/
+    }
+    
+    func flavorValue(for flavor: FlavorType) -> Int {
+
+        if let flavorOfTech = self.flavours().first(where: { $0.type == flavor }) {
+            return flavorOfTech.value
+        }
+
+        return 0
+    }
+
+    
+    func flavours() -> [Flavor] {
+
+        switch self {
+
+            // ancient
+            case .survey: return [Flavor(type: .recon, value: 5)]
+            case .godKing: return [Flavor(type: .religion, value: 3), Flavor(type: .gold, value: 2)]
+            case .discipline: return [Flavor(type: .defense, value: 4), Flavor(type: .growth, value: 1)]
+            case .urbanPlanning: return [Flavor(type: .growth, value: 2), Flavor(type: .production, value: 3)]
+            case .ilkum: return [Flavor(type: .growth, value: 2), Flavor(type: .tileImprovement, value: 3)]
+            case .agoge: return [Flavor(type: .offense, value: 3), Flavor(type: .defense, value: 2)]
+            case .caravansaries: return [Flavor(type: .gold, value: 5)]
+            case .maritimeIndustries: return [Flavor(type: .navalGrowth, value: 3), Flavor(type: .naval, value: 2)]
+            case .maneuver: return [Flavor(type: .mobile, value: 4), Flavor(type: .offense, value: 1)]
+            case .strategos: return [Flavor(type: .greatPeople, value: 5)]
+            case .conscription: return [Flavor(type: .offense, value: 4), Flavor(type: .gold, value: 1)]
+            case .corvee: return [Flavor(type: .wonder, value: 5)]
+            case .landSurveyors: return [Flavor(type: .growth, value: 3), Flavor(type: .tileImprovement, value: 2)]
+            case .colonization: return [Flavor(type: .growth, value: 5)]
+            case .inspiration: return [Flavor(type: .science, value: 2), Flavor(type: .greatPeople, value: 3)]
+            case .revelation: return [Flavor(type: .religion, value: 2), Flavor(type: .greatPeople, value: 3)]
+            case .limitanei: return [Flavor(type: .growth, value: 5)]
+
+                // classical
+            case .insulae: return [Flavor(type: .growth, value: 3), Flavor(type: .tileImprovement, value: 2)]
+                /* ... */
+            case .bastions: return []
+        }
     }
 }

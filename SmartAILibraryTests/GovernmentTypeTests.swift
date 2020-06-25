@@ -26,7 +26,9 @@ class GovernmentTypeTests: XCTestCase {
     func testInitial() {
         
         // GIVEN
-        self.objectToTest = Government()
+        let player = Player(leader: .alexander, isHuman: true)
+        player.initialize()
+        self.objectToTest = Government(player: player)
         
         // WHEN
         let initialGovernment = self.objectToTest?.currentGovernment()
@@ -38,7 +40,9 @@ class GovernmentTypeTests: XCTestCase {
     func testCurrentGovernment() {
         
         // GIVEN
-        self.objectToTest = Government()
+        let player = Player(leader: .alexander, isHuman: true)
+        player.initialize()
+        self.objectToTest = Government(player: player)
         self.objectToTest?.set(governmentType: .chiefdom)
         
         // WHEN
@@ -46,5 +50,68 @@ class GovernmentTypeTests: XCTestCase {
         
         // THEN
         XCTAssertEqual(chiefdomGovernment, .chiefdom)
+    }
+    
+    func testChooseBestGovernmentInitial() {
+        
+        // GIVEN
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+        self.objectToTest = playerAlexander.government
+        
+        // map
+        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        
+        // game
+        let gameModel = GameModel(victoryTypes: [.domination],
+                                  handicap: .chieftain,
+                                  turnsElapsed: 0,
+                                  players: [playerAlexander],
+                                  on: mapModel)
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+        
+        // WHEN
+        self.objectToTest?.chooseBestGovernment(in: gameModel)
+        
+        // THEN
+        let chiefdomGovernment = self.objectToTest?.currentGovernment()
+        XCTAssertEqual(chiefdomGovernment, nil)
+    }
+    
+    func testChooseBestGovernmentCodeOfLaw() {
+        
+        // GIVEN
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+        self.objectToTest = playerAlexander.government
+        
+        try! playerAlexander.civics?.discover(civic: .codeOfLaws)
+        
+        // map
+        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
+        
+        // game
+        let gameModel = GameModel(victoryTypes: [.domination],
+                                  handicap: .chieftain,
+                                  turnsElapsed: 0,
+                                  players: [playerAlexander],
+                                  on: mapModel)
+        // add UI
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+        
+        // WHEN
+        self.objectToTest?.chooseBestGovernment(in: gameModel)
+        
+        // THEN
+        let chiefdomGovernment = self.objectToTest?.currentGovernment()
+        XCTAssertEqual(chiefdomGovernment, .chiefdom)
+        
+        let hasSurvey = self.objectToTest?.has(card: .survey)
+        let hasGodKing = self.objectToTest?.has(card: .godKing)
+        XCTAssertEqual(hasSurvey, true)
+        XCTAssertEqual(hasGodKing, true)
     }
 }

@@ -1882,7 +1882,7 @@ public class TacticalAI: Codable {
                                             }*/
 
                                             // Can we hit it with a ranged attack?  If so, that gets first priority
-                                            if unit.canMove() /*&& unit.canRangeStrikeAt(pTargetPlot->getX(), pTargetPlot->getY())*/ {
+                                            if unit.canMove() && unit.canRangeStrike(at: target.target, needWar: true, noncombatAllowed: false) {
                                                 
                                                 // Queue up this attack
                                                 if self.queueAttack(attacker: unit, target: target, ranged: true) {

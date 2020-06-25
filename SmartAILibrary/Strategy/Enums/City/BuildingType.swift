@@ -363,6 +363,8 @@ public enum BuildingType: Int, Codable {
         case .none: return 0
             
         case .palace: return 0
+            
+            // ancient
         case .granary: return 0
         case .monument: return 0
         case .library: return 1
@@ -394,6 +396,8 @@ public enum BuildingType: Int, Codable {
         case .none: return .none
             
         case .palace: return .none
+            
+            // ancient
         case .granary: return .none
         case .monument: return .none
         case .library: return .scientist
@@ -409,6 +413,33 @@ public enum BuildingType: Int, Codable {
         case .arena: return .none
         case .market: return .merchant
         case .temple: return .priest
+        }
+    }
+    
+    func slotsForGreatWork() -> [GreatWorkSlotType] {
+        
+        switch self {
+            
+        case .none: return []
+            
+        case .palace: return [.any]
+            
+            // ancient
+        case .granary: return []
+        case .monument: return []
+        case .library: return []
+        case .shrine: return []
+        case .ancientWalls: return []
+        case .barracks: return []
+        case .waterMill: return []
+            
+            // classical
+        case .amphitheater: return [.written, .written]
+        case .lighthouse: return []
+        case .stable: return []
+        case .arena: return []
+        case .market: return []
+        case .temple: return [.relic]
         }
     }
 }

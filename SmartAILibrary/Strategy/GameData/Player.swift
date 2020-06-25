@@ -186,6 +186,10 @@ public protocol AbstractPlayer: class, Codable {
     
     func originalCapitalLocation() -> HexPoint
     
+    // government
+    func canChangeGovernment() -> Bool
+    func set(canChangeGovernment: Bool)
+    
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
 
@@ -231,6 +235,8 @@ public class Player: AbstractPlayer {
         case resourceInventory
         
         case originalCapitalLocation
+        
+        case canChangeGovernment
     }
     
     public var leader: LeaderType
@@ -284,6 +290,8 @@ public class Player: AbstractPlayer {
     private var blockingNotificationValue: NotificationItem? = nil
     
     private var originalCapitalLocationValue: HexPoint = HexPoint.invalid
+    
+    private var canChangeGovernmentValue: Bool = false
 
     // MARK: constructor
 
@@ -353,11 +361,14 @@ public class Player: AbstractPlayer {
         
         self.originalCapitalLocationValue = try container.decode(HexPoint.self, forKey: .originalCapitalLocation)
         
+        self.canChangeGovernmentValue = try container.decode(Bool.self, forKey: .canChangeGovernment)
+        
         // setup
         self.techs?.player = self
         self.civics?.player = self
         self.religion?.player = self
         self.treasury?.player = self
+        self.government?.player = self
         
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
@@ -420,6 +431,8 @@ public class Player: AbstractPlayer {
         try container.encode(self.resourceInventory, forKey: .resourceInventory)
         
         try container.encode(self.originalCapitalLocationValue, forKey: .originalCapitalLocation)
+        
+        try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
     }
 
     // public methods
@@ -447,7 +460,7 @@ public class Player: AbstractPlayer {
         self.religion = Religion(player: self)
         self.treasury = Treasury(player: self)
 
-        self.government = Government()
+        self.government = Government(player: self)
 
         self.operations = Operations()
         self.notificationsValue = Notifications(player: self)
@@ -838,6 +851,7 @@ public class Player: AbstractPlayer {
         /////////////////////////////////////////////
         
         self.doUnitReset(in: gameModel)
+        self.set(canChangeGovernment: false)
 
         if !self.isHuman() {
             //self.respositionInvalidUnits()
@@ -930,6 +944,9 @@ public class Player: AbstractPlayer {
         
         // Science / Techs
         self.doTechs(in: gameModel) // doResearch
+        
+        // government
+        self.doGovernment(in: gameModel)
 
         // Anarchy counter
         //if (GetAnarchyNumTurns() > 0)
@@ -943,6 +960,21 @@ public class Player: AbstractPlayer {
         // GC.GetEngineUserInterface()->setDirty(CityInfo_DIRTY_BIT, true);
 
         self.doTurnPost()
+    }
+    
+    func doGovernment(in gameModel: GameModel?) {
+        
+        if self.canChangeGovernment() {
+            if self.isHuman() {
+                guard let notifications = self.notifications() else {
+                    fatalError("cant get notifications")
+                }
+                
+                notifications.addNotification(of: .canChangeGovernment, for: self, message: "You can change the government", summary: "You can change the government")
+            } else {
+                self.government?.chooseBestGovernment(in: gameModel)
+            }
+        }
     }
     
     func doCityAmenities(in gameModel: GameModel?) {
@@ -3080,6 +3112,26 @@ public class Player: AbstractPlayer {
         }
     }
     
+    func slots(for slotType: GreatWorkSlotType, in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var slotsForType = 0
+        
+        for cityRef in gameModel.cities(of: self) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            slotsForType += city.slots(for: slotType)
+        }
+        
+        return slotsForType
+    }
+    
     /// Is a Particular Goody ID a valid Goody for a certain plot?
     func canReceiveGoody(at tile: AbstractTile?, goody: GoodyType, unit: AbstractUnit?, in gameModel: GameModel?) -> Bool {
     
@@ -3129,7 +3181,7 @@ public class Player: AbstractPlayer {
             return possibleCivicsWithoutEureka.count >= 2
             
         case .relic:
-            return true
+            return self.slots(for: .relic, in: gameModel) > 0
             
         case .faithMinorGift, .faithMediumGift, .faithMajorGift:
             return true
@@ -3138,7 +3190,7 @@ public class Player: AbstractPlayer {
             return true
             
         case .diplomacyMinorBoost, .freeEnvoy, .diplomacyMajorBoost:
-            return true
+            return false
             
             // military
         case .freeScout:
@@ -3148,13 +3200,13 @@ public class Player: AbstractPlayer {
             return unit.healthPoints() < unit.maxHealthPoints()
             
         case .freeResource:
-            return true
+            return false
             
         case .experienceBoost:
-            return true
+            return false
             
         case .unitUpgrade:
-            return true
+            return false
             
         case .additionalPopulation:
             if gameModel.cities(of: self).count == 0 {
@@ -3227,7 +3279,8 @@ public class Player: AbstractPlayer {
             popupData = PopupData(goodyType: .civicMajorBoost)
             
         case .relic:
-            print("Relics do not exist")
+            // keep the great work in players card
+            self.addGreatWork(of: .relic)
             
         case .faithMinorGift:
             self.religion?.add(faith: 20.0)
@@ -3384,6 +3437,11 @@ public class Player: AbstractPlayer {
             // We are adding a popup that the player must make a choice in, make sure they are not in the end-turn phase.
             //CancelActivePlayerEndTurn();
         }
+    }
+    
+    func addGreatWork(of greatWorkType: GreatWorkType) {
+        
+        print("TODO: handle add \(greatWorkType)")
     }
     
     //    --------------------------------------------------------------------------------
@@ -3613,6 +3671,16 @@ public class Player: AbstractPlayer {
     public func originalCapitalLocation() -> HexPoint {
         
         return self.originalCapitalLocationValue
+    }
+    
+    public func canChangeGovernment() -> Bool {
+        
+        return self.canChangeGovernmentValue
+    }
+    
+    public func set(canChangeGovernment: Bool) {
+        
+        self.canChangeGovernmentValue = canChangeGovernment
     }
 }
 

@@ -53,6 +53,7 @@ public protocol AbstractCity: class, Codable {
     
     var cityStrategy: CityStrategyAI? { get }
     var cityCitizens: CityCitizens? { get }
+    var greatWorks: GreatWorks? { get }
     //var cityEmphases: CityEmphases? { get }
 
     //static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
@@ -171,6 +172,8 @@ public protocol AbstractCity: class, Codable {
     func isProductionAutomated() -> Bool
     func setProductionAutomated(to newValue: Bool, clear: Bool, in gameModel: GameModel?)
     
+    func slots(for slotType: GreatWorkSlotType) -> Int
+    
     func set(scratch: Int)
     func scratch() -> Int
 }
@@ -205,6 +208,7 @@ public class City: AbstractCity {
         case projects
         case buildQueue
         case cityCitizens
+        case greatWorks
         
         case healthPoints
         
@@ -253,6 +257,7 @@ public class City: AbstractCity {
     internal var projects: AbstractProjects? // projects that are currently build in this city
     public var buildQueue: BuildQueue
     public var cityCitizens: CityCitizens?
+    public var greatWorks: GreatWorks?
     //internal var cityEmphases: CityEmphases?
     
     private var healthPointsValue: Int // 0..200
@@ -366,6 +371,7 @@ public class City: AbstractCity {
         self.projects = try container.decode(Projects.self, forKey: .projects)
         self.buildQueue = try container.decode(BuildQueue.self, forKey: .buildQueue)
         self.cityCitizens = try container.decode(CityCitizens.self, forKey: .cityCitizens)
+        self.greatWorks = try container.decode(GreatWorks.self, forKey: .greatWorks)
         
         self.healthPointsValue = try container.decode(Int.self, forKey: .healthPoints)
         
@@ -428,6 +434,7 @@ public class City: AbstractCity {
         try container.encode(self.projects as! Projects, forKey: .projects)
         try container.encode(self.buildQueue, forKey: .buildQueue)
         try container.encode(self.cityCitizens, forKey: .cityCitizens)
+        try container.encode(self.greatWorks, forKey: .greatWorks)
         
         try container.encode(self.healthPointsValue, forKey: .healthPoints)
         
@@ -2220,6 +2227,7 @@ public class City: AbstractCity {
 
         do {
             try self.buildings?.build(building: building)
+            self.greatWorks?.addPlaces(for: building)
         } catch {
             fatalError("cant build building: already build")
         }
@@ -3691,6 +3699,15 @@ public class City: AbstractCity {
         self.everCapitalValue = everCapital
     }
 
+    public func slots(for slotType: GreatWorkSlotType) -> Int {
+        
+        guard let greatWorks = self.greatWorks else {
+            fatalError("cant get greatWorks")
+        }
+        
+        return greatWorks.slotsAvailable(for: slotType)
+    }
+    
     //    --------------------------------------------------------------------------------
     public func isCoastal(in gameModel: GameModel?) -> Bool {
         

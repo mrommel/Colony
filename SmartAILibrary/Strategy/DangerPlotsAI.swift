@@ -101,9 +101,9 @@ public class DangerPlotsAI: Codable {
                             continue
                         }
                         
-                        /*if !unit.canRangeStrike(at: pt) {
+                        if !unit.canRangeStrike(at: pt, needWar: true, noncombatAllowed: false) {
                             continue
-                        }*/
+                        }
                         
                         self.assignDangerValue(for: unit, at: pt)
                     }

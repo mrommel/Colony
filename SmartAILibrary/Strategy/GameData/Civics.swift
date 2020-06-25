@@ -362,6 +362,8 @@ class Civics: AbstractCivics {
                 if player.isHuman() {
                     self.player?.notifications()?.addNotification(of: .civicNeeded, for: self.player, message: "Please choose a new Civic", summary: "Choose Civic", at: HexPoint.zero)
                 }
+                
+                player.set(canChangeGovernment: true)
 
             } catch {
                 fatalError("Can't discover civic - already discovered")

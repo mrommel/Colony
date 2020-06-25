@@ -214,6 +214,18 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         
         return nil
     }
+    
+    func filter(_ isIncluded: (WeightedItem<T>) throws -> Bool) rethrows -> WeightedList<T> {
+        
+        let list = WeightedList<T>()
+        
+        let filteredItem = try self.items.filter(isIncluded)
+        for item in filteredItem {
+            list.add(weight: item.weight, for: item.itemType)
+        }
+        
+        return list
+    }
 
     var debugDescription: String {
 

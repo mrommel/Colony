@@ -17,6 +17,7 @@ public enum NotificationType: Int, Codable {
     case techNeeded
     case civicNeeded
     case productionNeeded
+    case canChangeGovernment
     
     case cityGrowth
     case starving

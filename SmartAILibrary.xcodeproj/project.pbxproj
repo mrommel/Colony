@@ -200,6 +200,8 @@
 		C9DFCF8423F30C310032243D /* PlayerWarFaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DFCF8323F30C310032243D /* PlayerWarFaceType.swift */; };
 		C9E0D57024424C0C001AA97A /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D56F24424C0C001AA97A /* Notifications.swift */; };
 		C9E0D57224424C66001AA97A /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D57124424C66001AA97A /* NotificationType.swift */; };
+		C9E6A04624A488A000AF65A4 /* GreatWorkSlotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E6A04524A488A000AF65A4 /* GreatWorkSlotType.swift */; };
+		C9E6A04824A4B62B00AF65A4 /* GreatWorks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E6A04724A4B62B00AF65A4 /* GreatWorks.swift */; };
 		C9E74CAD248CE146003EF256 /* PeaceTreatyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CAC248CE146003EF256 /* PeaceTreatyType.swift */; };
 		C9E74CAF248D41E5003EF256 /* WarProjectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CAE248D41E5003EF256 /* WarProjectionType.swift */; };
 		C9E74CB1248D48E1003EF256 /* WarDamageLevelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CB0248D48E1003EF256 /* WarDamageLevelType.swift */; };
@@ -434,6 +436,8 @@
 		C9DFCF8323F30C310032243D /* PlayerWarFaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerWarFaceType.swift; sourceTree = "<group>"; };
 		C9E0D56F24424C0C001AA97A /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C9E0D57124424C66001AA97A /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
+		C9E6A04524A488A000AF65A4 /* GreatWorkSlotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatWorkSlotType.swift; sourceTree = "<group>"; };
+		C9E6A04724A4B62B00AF65A4 /* GreatWorks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatWorks.swift; sourceTree = "<group>"; };
 		C9E74CAC248CE146003EF256 /* PeaceTreatyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeaceTreatyType.swift; sourceTree = "<group>"; };
 		C9E74CAE248D41E5003EF256 /* WarProjectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarProjectionType.swift; sourceTree = "<group>"; };
 		C9E74CB0248D48E1003EF256 /* WarDamageLevelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarDamageLevelType.swift; sourceTree = "<group>"; };
@@ -773,6 +777,7 @@
 				C98DBFA223DF219100B6CE25 /* City.swift */,
 				C9588AC22418B70F00304E9A /* CityCitizens.swift */,
 				C9588AC42418F30B00304E9A /* CitySpecializationAI.swift */,
+				C9E6A04724A4B62B00AF65A4 /* GreatWorks.swift */,
 				C98DBFB923E0D8C700B6CE25 /* Techs.swift */,
 				C92D221823E2CC1200BB9238 /* Civics.swift */,
 				C9956852247E90AF0005E9EA /* Eurekas.swift */,
@@ -816,6 +821,7 @@
 				C906144F23E36FC200D316B5 /* DistrictType.swift */,
 				C906144B23E3337300D316B5 /* BuildingType.swift */,
 				C955FBCD246065D600605618 /* AmenitiesState.swift */,
+				C9E6A04524A488A000AF65A4 /* GreatWorkSlotType.swift */,
 			);
 			path = City;
 			sourceTree = "<group>";
@@ -1050,6 +1056,7 @@
 				C907086423ED525400281161 /* HexArea.swift in Sources */,
 				C9D8DF7D23F14BE20091C917 /* PlayerOpinionType.swift in Sources */,
 				C90FC38C23D88DED00720B32 /* VictoryType.swift in Sources */,
+				C9E6A04624A488A000AF65A4 /* GreatWorkSlotType.swift in Sources */,
 				C9FE1412241517D2008CC6B3 /* UnitMission.swift in Sources */,
 				C9C2FE3523F6DF4300185235 /* BuildableItemWeights.swift in Sources */,
 				C9588AC72419895F00304E9A /* YieldType.swift in Sources */,
@@ -1146,6 +1153,7 @@
 				C91BE62D23FED34C00912962 /* UnitOperationType.swift in Sources */,
 				C9DFCF7C23F2B0C50032243D /* ContinentFinder.swift in Sources */,
 				C9588ABD2417F3A900304E9A /* BuilderTaskingAI.swift in Sources */,
+				C9E6A04824A4B62B00AF65A4 /* GreatWorks.swift in Sources */,
 				C9E74CBC248FA8D9003EF256 /* DiplomaticRequestMessage.swift in Sources */,
 				C92D221B23E2D80500BB9238 /* FeatureType.swift in Sources */,
 				C90FC39A23D892A700720B32 /* Trait.swift in Sources */,

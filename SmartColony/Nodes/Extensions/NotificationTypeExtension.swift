@@ -30,6 +30,8 @@ extension NotificationType {
         case .unitPromotion: return "button_promotion" // #
         case .unitNeedsOrders: return "button_unit_needs_orders"
         case .unitDied: return "button_unit_died"
+            
+        case .canChangeGovernment: return "button_change_government"
         }
     }
 }
