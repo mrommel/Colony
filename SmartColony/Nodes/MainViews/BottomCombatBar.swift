@@ -35,6 +35,9 @@ class BottomCombatBar: SizedNode {
     var combatCancelNode: SKSpriteNode?
     var combatCanvasVisible: Bool = false
     
+    var attackerHealthNode: CircularProgressBarNode?
+    var defenderHealthNode: CircularProgressBarNode?
+    
     // delegate
     
     weak var delegate: BottomCombatBarDelegate?
@@ -46,23 +49,29 @@ class BottomCombatBar: SizedNode {
         super.init(sized: size)
 
         self.anchorPoint = .lowerLeft
-        self.zPosition = Globals.ZLevels.sceneElements + 5
+        self.zPosition = Globals.ZLevels.combatElements
 
         let combatViewTexture = SKTexture(imageNamed: "combat_view")
         self.combatCanvasNode = SKSpriteNode(texture: combatViewTexture, size: size)
-        self.combatCanvasNode?.zPosition = Globals.ZLevels.bottomElements + 5
+        self.combatCanvasNode?.zPosition = Globals.ZLevels.combatElements
         self.combatCanvasNode?.anchorPoint = .lowerLeft
         // dont add to view yet
         
         let combatAttackTexture = SKTexture(imageNamed: "combat_option_melee")
         self.combatAttackNode = SKSpriteNode(texture: combatAttackTexture, size: CGSize(width: 43, height: 37))
-        self.combatAttackNode?.zPosition = Globals.ZLevels.bottomElements + 6
+        self.combatAttackNode?.zPosition = Globals.ZLevels.combatElements + 1.0
         self.combatAttackNode?.anchorPoint = .lowerLeft
         
         let combatCancelTexture = SKTexture(imageNamed: "combat_option_cancel")
         self.combatCancelNode = SKSpriteNode(texture: combatCancelTexture, size: CGSize(width: 43, height: 37))
-        self.combatCancelNode?.zPosition = Globals.ZLevels.bottomElements + 6
+        self.combatCancelNode?.zPosition = Globals.ZLevels.combatElements + 1.0
         self.combatCancelNode?.anchorPoint = .lowerLeft
+        
+        self.attackerHealthNode = CircularProgressBarNode(type: .attackerHealth, size: CGSize(width: 60, height: 60))
+        self.attackerHealthNode?.zPosition = Globals.ZLevels.combatElements + 1.0
+        
+        self.defenderHealthNode = CircularProgressBarNode(type: .defenderHealth, size: CGSize(width: 60, height: 60))
+        self.defenderHealthNode?.zPosition = Globals.ZLevels.combatElements + 1.0
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -72,8 +81,11 @@ class BottomCombatBar: SizedNode {
     override func updateLayout() {
 
         self.combatCanvasNode?.position = self.position
-        self.combatAttackNode?.position = CGPoint(x: self.position.x + self.size.halfWidth - 43, y: self.position.y + 80)
-        self.combatCancelNode?.position = CGPoint(x: self.position.x + self.size.halfWidth, y: self.position.y + 80)
+        self.combatAttackNode?.position = CGPoint(x: self.position.x + self.size.halfWidth - 43, y: self.position.y + 90)
+        self.combatCancelNode?.position = CGPoint(x: self.position.x + self.size.halfWidth, y: self.position.y + 90)
+        
+        self.attackerHealthNode?.position = CGPoint(x: self.position.x + self.size.halfWidth - 29, y: self.position.y + 47)
+        self.defenderHealthNode?.position = CGPoint(x: self.position.x + self.size.halfWidth + 29, y: self.position.y + 47)
     }
 
     func combatPrediction(of attacker: AbstractUnit?, against defender: AbstractUnit?, mode: CombatType) {
@@ -87,10 +99,25 @@ class BottomCombatBar: SizedNode {
 
         // mode => different texture
         let combatAttackTexture = SKTexture(imageNamed: mode == .melee ? "combat_option_melee" : "combat_option_ranged")
+        
+        if let attacker = self.attacker {
+            let imageIndex = min(25, max(0, attacker.healthPoints() / 4 )) // the assets are from 0 to 25
+            self.attackerHealthNode?.value = imageIndex
+        }
+        
+        if let defender = self.defender {
+            let imageIndex = min(25, max(0, defender.healthPoints() / 4 )) // the assets are from 0 to 25
+            self.defenderHealthNode?.value = imageIndex
+        }
+        
+        // now add the nodes
         self.combatAttackNode?.texture = combatAttackTexture
         self.addChild(self.combatAttackNode!)
         self.addChild(self.combatCancelNode!)
         self.addChild(self.combatCanvasNode!)
+        
+        self.addChild(self.attackerHealthNode!)
+        self.addChild(self.defenderHealthNode!)
 
         self.combatCanvasVisible = true
     }
@@ -104,6 +131,9 @@ class BottomCombatBar: SizedNode {
         self.combatAttackNode?.removeFromParent()
         self.combatCancelNode?.removeFromParent()
         self.combatCanvasNode?.removeFromParent()
+        
+        self.attackerHealthNode?.removeFromParent()
+        self.defenderHealthNode?.removeFromParent()
 
         self.combatCanvasVisible = false
     }

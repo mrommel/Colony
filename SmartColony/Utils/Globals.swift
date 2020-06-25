@@ -44,6 +44,7 @@ public struct Globals {
         static let notifications: CGFloat = 60.0
         static let leaders: CGFloat = 60.0
         static let bottomElements: CGFloat = 61.0
+        static let combatElements: CGFloat = 70.0
     }
 
     struct Visibility {

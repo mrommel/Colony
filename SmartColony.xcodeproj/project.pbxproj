@@ -660,8 +660,6 @@
 				C9F91B4E244EE87E0081EDC8 /* SectionHeaderButton.swift */,
 				C9F91B50244EEB1F0081EDC8 /* ScrollNode.swift */,
 				C94DE1D524516B0B00B13F4D /* CircularProgressBarNode.swift */,
-				C9EB9F552451A95500F13B02 /* LeftHeaderBarNode.swift */,
-				C9EB9F5D2452F4F300F13B02 /* RightHeaderBarNode.swift */,
 				C9EB9F572451B8AE00F13B02 /* BaseProgressNode.swift */,
 				C9486857246994BB00495988 /* ScienceProgressNode.swift */,
 				C9486859246994E300495988 /* CultureProgressNode.swift */,
@@ -800,6 +798,8 @@
 				C95B3DF524387125002F5A86 /* BottomLeftBar.swift */,
 				C95B3DF724387188002F5A86 /* BottomRightBar.swift */,
 				C9CEE35124A285B800869B85 /* BottomCombatBar.swift */,
+				C9EB9F552451A95500F13B02 /* LeftHeaderBarNode.swift */,
+				C9EB9F5D2452F4F300F13B02 /* RightHeaderBarNode.swift */,
 			);
 			path = MainViews;
 			sourceTree = "<group>";

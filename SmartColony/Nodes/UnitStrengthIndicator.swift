@@ -23,6 +23,13 @@ class UnitStrengthIndicator: SKNode {
         super.init()
         //self.colorBlendFactor = 0.5
         
+        let backgroundTexture = SKTexture(imageNamed: "unit_strength_background")
+        let backgroundImageNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: size)
+        backgroundImageNode.position = CGPoint(x: 0.0, y: 0.0)
+        backgroundImageNode.anchorPoint = CGPoint.lowerLeft
+        backgroundImageNode.zPosition = Globals.ZLevels.unitStrength
+        self.addChild(backgroundImageNode)
+        
         let frameTexture = SKTexture(imageNamed: "unit_strength_frame")
         let frameImageNode = SKSpriteNode(texture: frameTexture, color: .black, size: size)
         frameImageNode.position = CGPoint(x: 0.0, y: 0.0)
@@ -44,7 +51,7 @@ class UnitStrengthIndicator: SKNode {
         
         let maskNode = SKSpriteNode(color: UIColor.white, size: sizeDouble)
         maskNode.position = CGPoint(x: 0, y: 0)
-        maskNode.yScale = 0.0
+        maskNode.yScale = 1.0 // start with 100%
         maskNode.xScale = 1.0
         self.progressBar?.maskNode = maskNode
         

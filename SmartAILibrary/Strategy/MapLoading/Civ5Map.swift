@@ -163,6 +163,8 @@ class Civ5Map {
                 
                 tile.set(terrain: plot.terrain)
                 
+                tile.set(hills: plot.hills)
+                
                 if let feature1st = plot.feature1stType {
                     tile.set(feature: feature1st)
                 }

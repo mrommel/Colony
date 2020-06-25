@@ -27,6 +27,10 @@ class LeftHeaderBarNode: SKNode {
     var cultureButtonActive: Bool = true
     
     // log nodes
+    var governmentButtonBackground: SKSpriteNode?
+    var governmentButton: TouchableSpriteNode?
+    
+    // log nodes
     var logButtonBackground: SKSpriteNode?
     var logButton: TouchableSpriteNode?
     var logButtonActive: Bool = true
@@ -92,16 +96,35 @@ class LeftHeaderBarNode: SKNode {
         }
         self.addChild(self.cultureButton!)
         
+        // government
+        
+        self.governmentButtonBackground = SKSpriteNode(texture: headerBarButtonTexture, color: .black, size: CGSize(width: 56, height: 47))
+        self.governmentButtonBackground?.position = CGPoint(x: 56, y: 0)
+        self.governmentButtonBackground?.zPosition = self.zPosition
+        self.governmentButtonBackground?.anchorPoint = CGPoint.upperLeft
+        self.addChild(governmentButtonBackground!)
+        
+        self.governmentButton = TouchableSpriteNode(imageNamed: "header_government_button", size: CGSize(width: 37, height: 37))
+        self.governmentButton?.position = CGPoint(x: 66 + 56, y: -5)
+        self.governmentButton?.zPosition = self.zPosition + 1.0
+        self.governmentButton?.anchorPoint = CGPoint.upperLeft
+        self.governmentButton?.isUserInteractionEnabled = true
+        self.governmentButton?.touchHandler = {
+            print("touched governmentButton button")
+            //self.delegate?.toggleCultureButton()
+        }
+        self.addChild(self.governmentButton!)
+        
         // log
         
         self.logButtonBackground = SKSpriteNode(texture: headerBarButtonTexture, color: .black, size: CGSize(width: 56, height: 47))
-        self.logButtonBackground?.position = CGPoint(x: 112, y: 0)
+        self.logButtonBackground?.position = CGPoint(x: 112 + 56, y: 0)
         self.logButtonBackground?.zPosition = self.zPosition
         self.logButtonBackground?.anchorPoint = CGPoint.upperLeft
         self.addChild(logButtonBackground!)
         
         self.logButton = TouchableSpriteNode(imageNamed: "header_log_button_active", size: CGSize(width: 37, height: 37))
-        self.logButton?.position = CGPoint(x: 66 + 56, y: -5)
+        self.logButton?.position = CGPoint(x: 66 + 56 + 56, y: -5)
         self.logButton?.zPosition = self.zPosition + 1.0
         self.logButton?.anchorPoint = CGPoint.upperLeft
         self.logButton?.isUserInteractionEnabled = true
@@ -119,7 +142,7 @@ class LeftHeaderBarNode: SKNode {
         
         let headerBarEndTexture = SKTexture(imageNamed: "header_bar_left_end")
         self.rightBackground = SKSpriteNode(texture: headerBarEndTexture, color: .black, size: CGSize(width: 35, height: 47))
-        self.rightBackground?.position = CGPoint(x: 112 + 56, y: 0)
+        self.rightBackground?.position = CGPoint(x: 112 + 56 + 56, y: 0)
         self.rightBackground?.zPosition = self.zPosition
         self.rightBackground?.anchorPoint = CGPoint.upperLeft
         self.addChild(rightBackground!)

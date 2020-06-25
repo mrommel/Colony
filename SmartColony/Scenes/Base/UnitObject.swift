@@ -75,7 +75,7 @@ class UnitObject {
         self.strengthIndicatorNode = UnitStrengthIndicator(strength: 100)
         self.strengthIndicatorNode.position = CGPoint(x: 42, y: 16)
         self.strengthIndicatorNode.zPosition = Globals.ZLevels.unit + 0.06
-        self.sprite.addChild(self.strengthIndicatorNode)
+        // dont add
 
         // setup atlases
         self.atlasIdle = unit.type.idleAtlas
@@ -137,7 +137,16 @@ class UnitObject {
     
     func update(strength: Int) {
         
-        self.strengthIndicatorNode.set(strength: strength)
+        if strength >= 100 {
+            if self.strengthIndicatorNode.parent != nil {
+                self.strengthIndicatorNode.removeFromParent()
+            }
+        } else {
+            if self.strengthIndicatorNode.parent == nil {
+                self.sprite.addChild(self.strengthIndicatorNode)
+            }
+            self.strengthIndicatorNode.set(strength: strength)
+        }
     }
 
     func showIdle() {

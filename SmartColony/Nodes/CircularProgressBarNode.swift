@@ -12,6 +12,8 @@ enum ProgressBarType {
     
     case science
     case culture
+    case attackerHealth
+    case defenderHealth
     
     func textureName(for value: Int) -> String {
         
@@ -20,6 +22,10 @@ enum ProgressBarType {
             return "science_progress_\(value)"
         case .culture:
             return "culture_progress_\(value)"
+        case .attackerHealth:
+            return "attacker_health\(value)"
+        case .defenderHealth:
+            return "defender_health\(value)"
         }
     }
 }

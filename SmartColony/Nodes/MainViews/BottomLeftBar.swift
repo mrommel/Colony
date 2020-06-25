@@ -49,49 +49,49 @@ class BottomLeftBar: SizedNode {
         super.init(sized: size)
         
         self.anchorPoint = .lowerLeft
-        self.zPosition = Globals.ZLevels.sceneElements
+        self.zPosition = Globals.ZLevels.bottomElements
 
         let blackCircleTexture = SKTexture(imageNamed: "black_circle")
         self.backgroundCanvasNode = SKSpriteNode(texture: blackCircleTexture, color: .black, size: CGSize(width: 90, height: 90))
-        self.backgroundCanvasNode?.zPosition = self.zPosition + 0.2
+        self.backgroundCanvasNode?.zPosition = Globals.ZLevels.bottomElements + 0.2
         self.backgroundCanvasNode?.anchorPoint = .lowerLeft
         self.addChild(self.backgroundCanvasNode!)
         
         let unitCanvasTexture = SKTexture(imageNamed: "unit_canvas")
         self.unitCanvasNode = SKSpriteNode(texture: unitCanvasTexture, color: .black, size: CGSize(width: 111, height: 112))
-        self.unitCanvasNode?.zPosition = self.zPosition + 0.3
+        self.unitCanvasNode?.zPosition = Globals.ZLevels.bottomElements + 0.3
         self.unitCanvasNode?.anchorPoint = .lowerLeft
         self.addChild(self.unitCanvasNode!)
         
         let unitTypeBackgroundTexture = SKTexture(imageNamed: "unit_type_background")
         self.unitTypeBackgroundNode = SKSpriteNode(texture: unitTypeBackgroundTexture, color: .black, size: CGSize(width: 16, height: 16))
-        self.unitTypeBackgroundNode?.zPosition = self.zPosition + 0.6
+        self.unitTypeBackgroundNode?.zPosition = Globals.ZLevels.bottomElements + 0.6
         self.unitTypeBackgroundNode?.anchorPoint = .lowerLeft
         self.addChild(self.unitTypeBackgroundNode!)
         
         let unitTypeIconTexture = SKTexture(imageNamed: "unit_type_default")
         self.unitTypeIconNode = SKSpriteNode(texture: unitTypeIconTexture, color: .black, size: CGSize(width: 16, height: 16))
-        self.unitTypeIconNode?.zPosition = self.zPosition + 0.6
+        self.unitTypeIconNode?.zPosition = Globals.ZLevels.bottomElements + 0.6
         self.unitTypeIconNode?.anchorPoint = .lowerLeft
         self.addChild(self.unitTypeIconNode!)
         
         let selectedUnitTexture = SKTexture(imageNamed: "button_generic")
         self.unitImageNode = SKSpriteNode(texture: selectedUnitTexture, color: .black, size: CGSize(width: 90, height: 90))
-        self.unitImageNode?.zPosition = self.zPosition + 0.4
+        self.unitImageNode?.zPosition = Globals.ZLevels.bottomElements + 0.4
         self.unitImageNode?.anchorPoint = .lowerLeft
         self.unitImageNode?.isUserInteractionEnabled = true
         self.addChild(self.unitImageNode!)
         
         let glassTexture = SKTexture(imageNamed: "glass")
         self.glassCanvasNode = SKSpriteNode(texture: glassTexture, size: CGSize(width: 90, height: 90))
-        self.glassCanvasNode?.zPosition = self.zPosition + 0.5
+        self.glassCanvasNode?.zPosition = Globals.ZLevels.bottomElements + 0.5
         self.glassCanvasNode?.anchorPoint = .lowerLeft
         self.addChild(self.glassCanvasNode!)
         
         let commandsTexture = SKTexture(imageNamed: "unit_commands_body")
         self.unitCommandsCanvasNode = SKSpriteNode(texture: commandsTexture, size: CGSize(width: 200, height: 112))
         self.unitCommandsCanvasNode?.position = self.position + BottomLeftBar.unitCommandsInvisiblePosition
-        self.unitCommandsCanvasNode?.zPosition = self.zPosition + 0.0
+        self.unitCommandsCanvasNode?.zPosition = Globals.ZLevels.bottomElements + 0.0
         self.unitCommandsCanvasNode?.anchorPoint = .lowerLeft
         self.addChild(self.unitCommandsCanvasNode!)
         
@@ -224,7 +224,7 @@ class BottomLeftBar: SizedNode {
             for (index, command) in commands.enumerated() {
 
                 let commandNode = TouchableSpriteNode(imageNamed: command.type.iconTexture(), size: CGSize(width: 32, height: 32))
-                commandNode.zPosition = self.zPosition + 0.2
+                commandNode.zPosition = Globals.ZLevels.bottomElements + 0.2
                 commandNode.position = CGPoint(x: 120, y: 112 - 44 - index * 34)
                 commandNode.anchorPoint = CGPoint.lowerLeft
                 self.unitCommandsCanvasNode?.addChild(commandNode)
