@@ -95,6 +95,7 @@ extension GameScene: UserInterfaceProtocol {
         }
     }
 
+    // show non human unit moving
     func move(unit: AbstractUnit?, on points: [HexPoint]) {
 
         guard let unit = unit else {
@@ -105,26 +106,16 @@ extension GameScene: UserInterfaceProtocol {
             fatalError("cant get unit player")
         }
         
-        guard let humanPlayer = self.viewModel?.game?.humanPlayer() else {
+        /*guard let humanPlayer = self.viewModel?.game?.humanPlayer() else {
             fatalError("cant get humanPlayer")
-        }
+        }*/
         
-        if player.isHuman() {
+        /*if player.isHuman() {
             return
-        }
+        }*/
         
-        // let costs: [Double] = [Double].init(repeating: 0.0, count: points.count)
-        // self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
-        
-        print("---------------------------")
-        for point in points {
-            if let tile = self.viewModel?.game?.tile(at: point) {
-                if tile.isVisible(to: humanPlayer) {
-                    self.show(unit: unit)
-                    print("- show unit at \(point) for \(unit.type) of \(player.leader)")
-                }
-            }
-        }
+        let costs: [Double] = [Double].init(repeating: 0.0, count: points.count)
+        self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
     }
 
     func show(city: AbstractCity?) {

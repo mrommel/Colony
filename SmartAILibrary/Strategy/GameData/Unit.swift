@@ -90,11 +90,12 @@ public protocol AbstractUnit: class, Codable {
     func doHeal(in gameModel: GameModel?)
 
     func isOutOfAttacks() -> Bool
+    func setMadeAttack(to newValue: Bool)
     func baseCombatStrength(ignoreEmbarked: Bool) -> Int
     func attackStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?) -> Int
     func rangedCombatStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, attacking: Bool) -> Int
     func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool) -> Int
-
+    
     func sight() -> Int
     func range() -> Int
     func search(range: Int, in gameModel: GameModel?) -> Int
@@ -116,8 +117,9 @@ public protocol AbstractUnit: class, Codable {
 
     func canMoveOrAttack(into point: HexPoint) -> Bool
     func canAttack() -> Bool
-    func doAttack(into destination: HexPoint, /* flags */ steps: Int, in gameModel: GameModel?) -> Bool
     func canAttackRanged() -> Bool
+    func canMoveAfterAttacking() -> Bool
+    func doAttack(into destination: HexPoint, /* flags */ steps: Int, in gameModel: GameModel?) -> Bool
     func canRangeStrike(at point: HexPoint, needWar: Bool, noncombatAllowed: Bool) -> Bool
     func doRangeAttack(at target: HexPoint, in gameModel: GameModel?) -> Bool
     func canDefend() -> Bool
@@ -237,6 +239,8 @@ public class Unit: AbstractUnit {
         case fortify
         case isEmbarked
         case healthPoints
+        case numberOfAttacksMade
+        case numberOfAttacks
 
         case processedInTurn
         case deployFromOperationTurn
@@ -269,6 +273,8 @@ public class Unit: AbstractUnit {
     var healthPointsValue: Int // 0..100 - https://civilization.fandom.com/wiki/Hit_Points
     var processedInTurnValue: Bool = false
     var deployFromOperationTurnValue: Int = -1
+    var numberOfAttacksMade: Int
+    var numberOfAttacks: Int
 
     // missions
     internal var missions: Stack<UnitMission>
@@ -293,6 +299,8 @@ public class Unit: AbstractUnit {
         self.experienceValue = 0
         self.movesValue = type.moves()
         self.fortifyValue = 0
+        self.numberOfAttacksMade = 0
+        self.numberOfAttacks = 1
 
         self.missions = Stack<UnitMission>()
         self.missionTimerValue = 0
@@ -323,6 +331,8 @@ public class Unit: AbstractUnit {
         self.isEmbarkedValue = try container.decode(Bool.self, forKey: .isEmbarked)
         self.healthPointsValue = try container.decode(Int.self, forKey: .healthPoints)
         self.fortifyValue = try container.decode(Int.self, forKey: .fortify)
+        self.numberOfAttacksMade = try container.decode(Int.self, forKey: .numberOfAttacksMade)
+        self.numberOfAttacks = try container.decode(Int.self, forKey: .numberOfAttacks)
 
         self.processedInTurnValue = try container.decode(Bool.self, forKey: .processedInTurn)
         self.deployFromOperationTurnValue = try container.decode(Int.self, forKey: .deployFromOperationTurn)
@@ -360,6 +370,8 @@ public class Unit: AbstractUnit {
         try container.encode(self.fortifyValue, forKey: .fortify)
         try container.encode(self.isEmbarkedValue, forKey: .isEmbarked)
         try container.encode(self.healthPointsValue, forKey: .healthPoints)
+        try container.encode(self.numberOfAttacksMade, forKey: .numberOfAttacksMade)
+        try container.encode(self.numberOfAttacks, forKey: .numberOfAttacks)
 
         try container.encode(self.processedInTurnValue, forKey: .processedInTurn)
         try container.encode(self.deployFromOperationTurnValue, forKey: .deployFromOperationTurn)
@@ -505,7 +517,21 @@ public class Unit: AbstractUnit {
 
     public func isOutOfAttacks() -> Bool {
 
-        return false
+        // Units with blitz don't run out of attacks!
+        /*if self.isBlitz() {
+            return false
+        }*/
+
+        return self.numberOfAttacksMade >= self.numberOfAttacks
+    }
+    
+    public func setMadeAttack(to newValue: Bool) {
+        
+        if newValue {
+            self.numberOfAttacksMade += 1
+        } else {
+            self.numberOfAttacksMade = 0
+        }
     }
 
     public func baseCombatStrength(ignoreEmbarked: Bool = true) -> Int {
@@ -784,7 +810,9 @@ public class Unit: AbstractUnit {
 
         if adjacent {
 
-            //if (!isOutOfAttacks()) {
+            if self.isOutOfAttacks() {
+                return false
+            }
             // don't allow an attack if we already have one
             /*if (isFighting() || pDestPlot->isFighting())
                 {
@@ -861,6 +889,11 @@ public class Unit: AbstractUnit {
     public func canAttackRanged() -> Bool {
 
         return self.range() > 0 && self.baseRangedCombatStrength() > 0
+    }
+    
+    public func canMoveAfterAttacking() -> Bool {
+        
+        return false
     }
 
     public func doRangeAttack(at target: HexPoint, in gameModel: GameModel?) -> Bool {
@@ -1049,11 +1082,17 @@ public class Unit: AbstractUnit {
         return nil
     }
 
-    // Returns true if move was made...
+    // Returns the number of turns it will take to reach the target.
+    // If no move was made it will return 0.
+    // If it can reach the target in one turn or less than one turn (i.e. not use up all its movement points) it will return 1
     public func doMoveOnPath(towards target: HexPoint, previousETA: Int, buildingRoute: Bool, in gameModel: GameModel?) -> Int {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
+        }
+        
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get humanPlayer")
         }
 
         if self.location == target {
@@ -1109,7 +1148,7 @@ public class Unit: AbstractUnit {
 
         var rejectMove = false
 
-        // slewis'd
+        // handle empty path
         if path.count != 0 {
 
             guard let (_, firstCost) = path.first else {
@@ -1150,18 +1189,35 @@ public class Unit: AbstractUnit {
                 return 0
             }
         }
-        // end slewis'd
 
-        //let endMove = pathPlot?.point == target
-        _ = self.doMove(on: target, in: gameModel)
+        var usedPathCost = 0.0
+        for (index, point) in path.enumerated() {
+            
+            // skip first point
+            if index == 0 {
+                continue
+            }
 
-        var eta = 1
-        //uint uiCachedPathSize = m_kLastPath.size();
-        if path.count > 0 {
-            eta = Int(path.cost)
+            if self.doMove(on: point, in: gameModel) {
+                
+                usedPathCost += path[index].1
+                
+                /*if let pathTile = gameModel.tile(at: point) {
+                
+                    if pathTile.isVisible(to: humanPlayer ) {
+                        self.queueMoveForVisualization(at: point, in: gameModel)
+                    }
+                }*/
+            }
         }
 
-        return eta
+        self.publishQueuedVisualizationMoves(in: gameModel)
+
+        if path.count > 0 {
+            return (Int(path.cost - usedPathCost)) / self.maxMoves(in: gameModel)
+        }
+
+        return 1
     }
 
     public func doMove(on target: HexPoint, in gameModel: GameModel?) -> Bool {
@@ -1595,12 +1651,10 @@ public class Unit: AbstractUnit {
                     player.tacticalAI?.deleteTemporaryZone(at: newPlot.point)
 
                     let numGold = gameModel.handicap.barbCampGold()
-                    // numGold *= (100 + player.tr.GetPlayerTraits()->GetPlunderModifier()) / 100
 
                     // Normal way to handle it
                     if player.isEqual(to: gameModel.humanPlayer()) {
-                        print("TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP")
-                        //DLLUI->AddUnitMessage(0, GetIDInfo(), getOwner(), true, GC.getEVENT_MESSAGE_TIME(), GetLocalizedText("TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP", iNumGold));
+                        gameModel.userInterface?.showTooltip(at: newPlot.point, text: "TXT_KEY_MISC_DESTROYED_BARBARIAN_CAMP", delay: 3.0)
                     }
 
                     newPlot.set(improvement: .none)
@@ -1790,7 +1844,7 @@ public class Unit: AbstractUnit {
 
         self.moveLocations.append(point)
 
-        if self.moveLocations.count == 20 {
+        if self.moveLocations.count == 20 || self.isHuman() {
             self.publishQueuedVisualizationMoves(in: gameModel)
         }
     }
@@ -1836,6 +1890,18 @@ public class Unit: AbstractUnit {
 
         guard let tile = gameModel.tile(at: point) else {
             return false
+        }
+        
+        // Barbarians have special restrictions early in the game
+        if self.isBarbarian() && gameModel.areBarbariansReleased() && tile.hasOwner() {
+            return false
+        }
+        
+        if options.contains(.attack) {
+            
+            if self.isOutOfAttacks() {
+                return false
+            }
         }
 
         if self.isImpassable(tile: tile) {
@@ -2773,6 +2839,10 @@ public class Unit: AbstractUnit {
         
         guard let diplomacyAI = self.player?.diplomacyAI else {
             fatalError("cant get diplomacyAI")
+        }
+        
+        if self.isOutOfAttacks() {
+            return false
         }
         
         // must be melee

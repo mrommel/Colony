@@ -9,7 +9,7 @@
 import Foundation
 
 // https://civ6.gamepedia.com/Game_difficulty   
-public enum HandicapType: Int, Codable, Comparable {
+public enum HandicapType: Int, Codable {
 
     case settler
     case chieftain
@@ -104,6 +104,32 @@ public enum HandicapType: Int, Codable, Comparable {
         }
     }
     
+    func earliestBarbarianReleaseTurn() -> Int {
+        
+        switch self {
+        
+        case .settler:
+            return 10000 // never
+        case .chieftain:
+            return 60
+        case .warlord:
+            return 20
+        case .prince:
+            return 0
+        case .king:
+            return 0
+        case .emperor:
+            return 0
+        case .immortal:
+            return 0
+        case .deity:
+            return 0
+        }
+    }
+}
+    
+extension HandicapType: Comparable {
+
     public static func < (lhs: HandicapType, rhs: HandicapType) -> Bool {
         
         return lhs.rawValue < rhs.rawValue

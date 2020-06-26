@@ -442,7 +442,7 @@ class DiplomaticPlayerDict: Codable {
     func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool {
 
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
-            return item.approach == .war
+            return item.warState != .none
         }
 
         return false
@@ -554,6 +554,7 @@ class DiplomaticPlayerDict: Codable {
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.declatationOfWar.activate(in: turn)
             item.peaceTreaty.abandon() // just in case
+            item.warState = .offensive
         } else {
             fatalError("not gonna happen")
         }
@@ -707,6 +708,7 @@ class DiplomaticPlayerDict: Codable {
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.peaceTreaty.activate()
             item.declatationOfWar.abandon()
+            item.warState = .none
         } else {
             fatalError("not gonna happen")
         }

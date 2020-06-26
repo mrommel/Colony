@@ -99,7 +99,7 @@ class LeftHeaderBarNode: SKNode {
         // government
         
         self.governmentButtonBackground = SKSpriteNode(texture: headerBarButtonTexture, color: .black, size: CGSize(width: 56, height: 47))
-        self.governmentButtonBackground?.position = CGPoint(x: 56, y: 0)
+        self.governmentButtonBackground?.position = CGPoint(x: 56 + 56, y: 0)
         self.governmentButtonBackground?.zPosition = self.zPosition
         self.governmentButtonBackground?.anchorPoint = CGPoint.upperLeft
         self.addChild(governmentButtonBackground!)

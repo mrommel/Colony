@@ -294,6 +294,8 @@ class Combat {
         attacker.automate(with: .none)
         defender.automate(with: .none)
         
+        attacker.setMadeAttack(to: true)
+        
         guard !attacker.isDelayedDeath() && !defender.isDelayedDeath() else {
             fatalError("Trying to battle and one of the units is already dead!")
         }
@@ -415,6 +417,12 @@ class Combat {
             
             // pkDefender->testPromotionReady();
             // pkAttacker->testPromotionReady();
+        }
+        
+        // If a Unit loses his moves after attacking, do so
+        if !attacker.canMoveAfterAttacking() {
+            attacker.finishMoves()
+            //GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
         }
         
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)

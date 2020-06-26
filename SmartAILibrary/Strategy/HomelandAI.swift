@@ -1323,7 +1323,7 @@ public class HomelandAI {
 
                             let distance = path.cost
                             if distance == 0 {
-                                plotScore = 1000 * rating;
+                                plotScore = 1000 * rating
                             } else {
                                 plotScore = (1000 * rating) / Int(distance)
                             }

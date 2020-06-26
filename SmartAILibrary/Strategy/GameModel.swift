@@ -737,7 +737,7 @@ public class GameModel: Codable {
                             continue
                         }
                         
-                        if unit.movesLeft() > 0 {
+                        if unit.movesLeft() > 0 && (!unit.isOutOfAttacks() || unit.canMoveAfterAttacking()) {
                             blockingNotification = NotificationItem(type: .unitNeedsOrders, for: activePlayer.leader, message: "Unit needs orders", summary: "Orders needed", at: unit.location, other: .none)
                         }
                     }
@@ -1211,5 +1211,15 @@ extension GameModel {
         maxY = max(maxY, tmpPoint.y)
         
         return CGSize(width: maxX - minX, height: maxY - minY)
+    }
+    
+    private func earliestBarbarianReleaseTurn() -> Int {
+        
+        return self.handicap.earliestBarbarianReleaseTurn()
+    }
+    
+    func areBarbariansReleased() -> Bool {
+        
+        return self.earliestBarbarianReleaseTurn() <= self.turnsElapsed
     }
 }

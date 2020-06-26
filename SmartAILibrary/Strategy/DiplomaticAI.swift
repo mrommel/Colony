@@ -2859,7 +2859,7 @@ public class DiplomaticAI: Codable {
         self.activateDefensivePacts(against: otherPlayer, in: gameModel)
 
         self.playerDict.updateApproach(towards: otherPlayer, to: .war)
-        self.playerDict.updateWarState(towards: otherPlayer, to: .offensive)
+        self.playerDict.updateWarState(towards: otherPlayer, to: .defensive)
     }
 
     func doCancelDeals(with otherPlayer: AbstractPlayer?) {

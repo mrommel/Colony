@@ -1334,7 +1334,7 @@ public class Player: AbstractPlayer {
             // Finally (now that healing is done), restore movement points
             loopUnit.resetMoves(in: gameModel)
             //pLoopUnit->SetIgnoreDangerWakeup(false);
-            //pLoopUnit->setMadeAttack(false);
+            loopUnit.setMadeAttack(to: false)
             //pLoopUnit->setMadeInterception(false);
 
             if !self.isHuman() {

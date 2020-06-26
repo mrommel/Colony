@@ -183,7 +183,7 @@ class GameScene: BaseScene {
         let viewHeight = screenWidth * 143 / 500
         self.bottomCombatBar = BottomCombatBar(sized: CGSize(width: screenWidth, height: viewHeight))
         self.bottomCombatBar?.delegate = self
-        self.bottomCombatBar?.zPosition = Globals.ZLevels.bottomElements + 20
+        self.bottomCombatBar?.zPosition = Globals.ZLevels.combatElements
         self.safeAreaNode.addChild(self.bottomCombatBar!)
 
         self.notificationsNode = NotificationsNode(sized: CGSize(width: 61, height: 300))
@@ -734,7 +734,8 @@ class GameScene: BaseScene {
                 self.mapNode?.unitLayer.hideFocus()
                 
                 if selectedUnit.location != position {
-                    self.mapNode?.unitLayer.move(unit: selectedUnit, to: position)
+                    selectedUnit.doMove(on: position, in: self.viewModel?.game)
+                    //self.mapNode?.unitLayer.move(unit: selectedUnit, to: position)
                     self.updateCommands(for: selectedUnit)
                 }
             }
@@ -938,12 +939,14 @@ extension GameScene: BottomLeftBarDelegate {
             if let selectedUnit = self.selectedUnit {
                 // we need a target here
                 self.showMeleeTargets(of: selectedUnit)
+                self.bottomCombatBar?.showCombatView()
             }
         
         case .rangedAttack:
             if let selectedUnit = self.selectedUnit {
                 // we need a target here
                 self.showRangedTargets(of: selectedUnit)
+                self.bottomCombatBar?.showCombatView()
             }
             
         case .cancelAttack:
@@ -1164,19 +1167,18 @@ extension GameScene: BottomCombatBarDelegate {
         
         self.mapNode?.unitLayer.update(unit: attacker)
         self.mapNode?.unitLayer.update(unit: defender)
-        /*self.mapNode?.unitLayer.clearAttackFocus()
-        self.uiCombatMode = .none
-        self.updateCommands(for: selectedUnit)*/
         
         self.uiCombatMode = .none
         
-        self.bottomCombatBar?.hideCombatPrediction()
+        self.bottomCombatBar?.hideCombatView()
+        self.mapNode?.unitLayer.clearAttackFocus()
     }
     
     func cancelCombat() {
         
         self.uiCombatMode = .none
         
-        self.bottomCombatBar?.hideCombatPrediction()
+        self.bottomCombatBar?.hideCombatView()
+        self.mapNode?.unitLayer.clearAttackFocus()
     }
 }

@@ -87,10 +87,27 @@ class BottomCombatBar: SizedNode {
         self.attackerHealthNode?.position = CGPoint(x: self.position.x + self.size.halfWidth - 29, y: self.position.y + 47)
         self.defenderHealthNode?.position = CGPoint(x: self.position.x + self.size.halfWidth + 29, y: self.position.y + 47)
     }
+    
+    func showCombatView() {
+        
+        if self.combatCanvasVisible {
+            return
+        }
+        
+        // now add the nodes
+        self.addChild(self.combatCancelNode!)
+        self.addChild(self.combatCanvasNode!)
+        
+        self.addChild(self.attackerHealthNode!)
+        self.addChild(self.defenderHealthNode!)
+
+        self.combatCanvasVisible = true
+    }
 
     func combatPrediction(of attacker: AbstractUnit?, against defender: AbstractUnit?, mode: CombatType) {
 
-        if self.combatCanvasVisible {
+        if !self.combatCanvasVisible {
+            print("show not happen")
             return
         }
         
@@ -99,6 +116,11 @@ class BottomCombatBar: SizedNode {
 
         // mode => different texture
         let combatAttackTexture = SKTexture(imageNamed: mode == .melee ? "combat_option_melee" : "combat_option_ranged")
+        self.combatAttackNode?.texture = combatAttackTexture
+        
+        if self.combatAttackNode?.parent == nil {
+            self.addChild(self.combatAttackNode!)
+        }
         
         if let attacker = self.attacker {
             let imageIndex = min(25, max(0, attacker.healthPoints() / 4 )) // the assets are from 0 to 25
@@ -109,20 +131,9 @@ class BottomCombatBar: SizedNode {
             let imageIndex = min(25, max(0, defender.healthPoints() / 4 )) // the assets are from 0 to 25
             self.defenderHealthNode?.value = imageIndex
         }
-        
-        // now add the nodes
-        self.combatAttackNode?.texture = combatAttackTexture
-        self.addChild(self.combatAttackNode!)
-        self.addChild(self.combatCancelNode!)
-        self.addChild(self.combatCanvasNode!)
-        
-        self.addChild(self.attackerHealthNode!)
-        self.addChild(self.defenderHealthNode!)
-
-        self.combatCanvasVisible = true
     }
 
-    func hideCombatPrediction() {
+    func hideCombatView() {
 
         if !self.combatCanvasVisible {
             return

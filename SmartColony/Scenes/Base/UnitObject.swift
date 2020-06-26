@@ -88,8 +88,6 @@ class UnitObject {
     
     private func animate(to hex: HexPoint, on atlas: GameObjectAtlas?, completion block: @escaping () -> Swift.Void) {
 
-        // print("\(unit!.location) => \(hex)")
-        
         if let atlas = atlas {
             let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
             let walkFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
@@ -99,14 +97,14 @@ class UnitObject {
 
             let animate = SKAction.group([walk, move])
             self.sprite.run(animate, completion: {
-                self.unit?.doMove(on: hex, in: self.gameModel)
+                //self.unit?.doMove(on: hex, in: self.gameModel) // <== bad
                 block()
             })
         } else {
             // if no atlas
             // print("missing atlas")
             self.sprite.position = HexPoint.toScreen(hex: hex)
-            self.unit?.doMove(on: hex, in: self.gameModel)
+            //self.unit?.doMove(on: hex, in: self.gameModel) // <== bad
             block()
         }
     }
@@ -178,12 +176,12 @@ class UnitObject {
             fatalError("unit not given")
         }
 
-        if let (_, _) = path.first {
+        /*if let (_, _) = path.first {
             if Double(unit.movesLeft()) <= 0.0 {
                 block()
                 return
             }
-        }
+        }*/
         
         self.sprite.removeAction(forKey: UnitObject.idleActionKey)
 
