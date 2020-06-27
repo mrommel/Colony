@@ -224,7 +224,7 @@ class BottomLeftBar: SizedNode {
             for (index, command) in commands.enumerated() {
 
                 let commandNode = TouchableSpriteNode(imageNamed: command.type.iconTexture(), size: CGSize(width: 32, height: 32))
-                commandNode.zPosition = 0.5 //Globals.ZLevels.bottomElements + 0.2
+                commandNode.zPosition = 0.5
                 commandNode.position = CGPoint(x: 120, y: 112 - 44 - index * 34)
                 commandNode.anchorPoint = CGPoint.lowerLeft
                 self.unitCommandsCanvasNode?.addChild(commandNode)

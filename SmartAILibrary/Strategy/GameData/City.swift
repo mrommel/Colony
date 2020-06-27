@@ -501,6 +501,7 @@ public class City: AbstractCity {
 
         self.cityStrategy = CityStrategyAI(city: self)
         self.cityCitizens = CityCitizens(city: self)
+        self.greatWorks = GreatWorks(city: self)
         
         // Update Proximity between this Player and all others
         for otherPlayer in gameModel.players {
