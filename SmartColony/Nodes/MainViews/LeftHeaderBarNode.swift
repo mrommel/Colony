@@ -12,6 +12,7 @@ protocol LeftHeaderBarNodeDelegate: class {
     
     func toogleScienceButton()
     func toggleCultureButton()
+    func governmentButtonClicked()
 }
 
 class LeftHeaderBarNode: SKNode {
@@ -104,14 +105,14 @@ class LeftHeaderBarNode: SKNode {
         self.governmentButtonBackground?.anchorPoint = CGPoint.upperLeft
         self.addChild(governmentButtonBackground!)
         
-        self.governmentButton = TouchableSpriteNode(imageNamed: "header_government_button", size: CGSize(width: 37, height: 37))
+        self.governmentButton = TouchableSpriteNode(imageNamed: "header_government_button_active", size: CGSize(width: 37, height: 37))
         self.governmentButton?.position = CGPoint(x: 66 + 56, y: -5)
         self.governmentButton?.zPosition = self.zPosition + 1.0
         self.governmentButton?.anchorPoint = CGPoint.upperLeft
         self.governmentButton?.isUserInteractionEnabled = true
         self.governmentButton?.touchHandler = {
             print("touched governmentButton button")
-            //self.delegate?.toggleCultureButton()
+            self.delegate?.governmentButtonClicked()
         }
         self.addChild(self.governmentButton!)
         
@@ -130,7 +131,7 @@ class LeftHeaderBarNode: SKNode {
         self.logButton?.isUserInteractionEnabled = true
         self.logButton?.touchHandler = {
             print("touched logButton button")
-            /*self.delegate?.toggleCultureButton()*/
+            /*self.delegate?.toggleLogButton()*/
             
             self.logButtonActive = !self.logButtonActive
             let textureName = self.logButtonActive ? "header_log_button_active" : "header_log_button_disabled"

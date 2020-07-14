@@ -1082,6 +1082,7 @@ public class Unit: AbstractUnit {
         return nil
     }
 
+    // UnitPathTo
     // Returns the number of turns it will take to reach the target.
     // If no move was made it will return 0.
     // If it can reach the target in one turn or less than one turn (i.e. not use up all its movement points) it will return 1
@@ -1091,9 +1092,9 @@ public class Unit: AbstractUnit {
             fatalError("cant get gameModel")
         }
         
-        guard let humanPlayer = gameModel.humanPlayer() else {
+        /*guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get humanPlayer")
-        }
+        }*/
 
         if self.location == target {
             print("Already at location")
@@ -1134,11 +1135,6 @@ public class Unit: AbstractUnit {
                     return 0
                 }
             } else {
-
-                guard let path = self.path(towards: target, in: gameModel) else {
-                    print("Unable to Generate path")
-                    return 0
-                }
 
                 if let (secondPlot, _) = path.second {
                     pathPlot = gameModel.tile(at: secondPlot)
@@ -2512,6 +2508,13 @@ public class Unit: AbstractUnit {
 
         guard let tile = gameModel.tile(at: point) else {
             fatalError("cant get tile")
+        }
+        
+        // dont build twice
+        if let improvement = build.improvement() {
+            if tile.has(improvement: improvement) {
+                return false
+            }
         }
 
         if !self.type.canBuild(build: build) {

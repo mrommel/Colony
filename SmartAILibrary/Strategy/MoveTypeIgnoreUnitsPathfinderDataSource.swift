@@ -172,7 +172,7 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                     
                     if let fromTile = gameModel.tile(at: coord) {
                         
-                        if toTile.movementCost(for: self.movementType, from: fromTile)  < UnitMovementType.max {
+                        if toTile.movementCost(for: self.movementType, from: fromTile) < UnitMovementType.max {
                             walkableCoords.append(neighbor)
                         }
                     }

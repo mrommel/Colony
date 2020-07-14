@@ -56,9 +56,9 @@ class GameScene: BaseScene {
     private var leftHeaderBarNode: LeftHeaderBarNode?
     private var rightHeaderBarNode: RightHeaderBarNode?
     internal var scienceProgressNode: ScienceProgressNode?
-    private var scienceProgressNodeHidden: Bool = false
+    internal var scienceProgressNodeHidden: Bool = false
     internal var cultureProgressNode: CultureProgressNode?
-    private var cultureProgressNodeHidden: Bool = false
+    internal var cultureProgressNodeHidden: Bool = false
 
     private var frameTopLeft: SKSpriteNode?
     private var frameTopRight: SKSpriteNode?
@@ -734,8 +734,8 @@ class GameScene: BaseScene {
                 self.mapNode?.unitLayer.hideFocus()
                 
                 if selectedUnit.location != position {
-                    selectedUnit.doMove(on: position, in: self.viewModel?.game)
-                    //self.mapNode?.unitLayer.move(unit: selectedUnit, to: position)
+                    //selectedUnit.doMove(on: position, in: self.viewModel?.game)
+                    selectedUnit.doMoveOnPath(towards: position, previousETA: 0, buildingRoute: false, in: self.viewModel?.game)
                     self.updateCommands(for: selectedUnit)
                 }
             }
@@ -796,46 +796,7 @@ class GameScene: BaseScene {
     }
 }
 
-extension GameScene: LeftHeaderBarNodeDelegate {
 
-    func toogleScienceButton() {
-        //self.scienceProgressNode?.position.
-        self.scienceProgressNodeHidden = !self.scienceProgressNodeHidden
-        self.updateLayout()
-    }
-
-    func toggleCultureButton() {
-        self.cultureProgressNodeHidden = !self.cultureProgressNodeHidden
-        self.updateLayout()
-    }
-}
-
-extension GameScene: RightHeaderBarNodeDelegate {
-}
-
-extension GameScene: BottomRightBarDelegate {
-
-    func focus(on point: HexPoint) {
-
-        self.centerCamera(on: point)
-    }
-
-    func showYields() {
-        self.mapNode?.showYields()
-    }
-
-    func hideYields() {
-        self.mapNode?.hideYields()
-    }
-
-    func showWater() {
-        self.mapNode?.showWater()
-    }
-
-    func hideWater() {
-        self.mapNode?.hideWater()
-    }
-}
 
 extension GameScene: BottomLeftBarDelegate {
 
@@ -1086,7 +1047,7 @@ extension GameScene: BottomLeftBarDelegate {
             for unitRef in units {
 
                 if let unit = unitRef {
-                    if !unit.hasMoved(in: gameModel) {
+                    if unit.movesLeft() > 0 {
                         self.select(unit: unit)
                         self.centerCamera(on: unit.location)
                         return

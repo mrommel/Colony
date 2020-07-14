@@ -158,6 +158,7 @@
 		C9DC1C91248671E300235743 /* GameLoadButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC1C90248671E300235743 /* GameLoadButtonNode.swift */; };
 		C9DC1C932486923600235743 /* ConfirmationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC1C922486923600235743 /* ConfirmationDialog.swift */; };
 		C9DC1C95248692E500235743 /* ConfirmationDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9DC1C94248692E500235743 /* ConfirmationDialog.xml */; };
+		C9E6A04A24BC951300AF65A4 /* GameSceneDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E6A04924BC950F00AF65A4 /* GameSceneDelegates.swift */; };
 		C9E74CB5248E862C003EF256 /* SKLabelNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CB4248E862C003EF256 /* SKLabelNodeExtension.swift */; };
 		C9E74CC42492C0F5003EF256 /* HorizontalLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CC32492C0F4003EF256 /* HorizontalLineNode.swift */; };
 		C9E74CC62493760F003EF256 /* SizableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CC52493760E003EF256 /* SizableNode.swift */; };
@@ -388,6 +389,7 @@
 		C9DC1C90248671E300235743 /* GameLoadButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLoadButtonNode.swift; sourceTree = "<group>"; };
 		C9DC1C922486923600235743 /* ConfirmationDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationDialog.swift; sourceTree = "<group>"; };
 		C9DC1C94248692E500235743 /* ConfirmationDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ConfirmationDialog.xml; sourceTree = "<group>"; };
+		C9E6A04924BC950F00AF65A4 /* GameSceneDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneDelegates.swift; sourceTree = "<group>"; };
 		C9E74CB4248E862C003EF256 /* SKLabelNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKLabelNodeExtension.swift; sourceTree = "<group>"; };
 		C9E74CC32492C0F4003EF256 /* HorizontalLineNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalLineNode.swift; sourceTree = "<group>"; };
 		C9E74CC52493760E003EF256 /* SizableNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizableNode.swift; sourceTree = "<group>"; };
@@ -579,6 +581,7 @@
 				C947871A2472C80B00FAAC99 /* GameSceneDialogs.swift */,
 				C947871C2472ECF700FAAC99 /* GameSceneUserInterface.swift */,
 				C9956850247E4E7A0005E9EA /* GameSceneMenu.swift */,
+				C9E6A04924BC950F00AF65A4 /* GameSceneDelegates.swift */,
 				C95B3DF124386E8A002F5A86 /* GameSceneViewModel.swift */,
 				C95B3DED243726CD002F5A86 /* GameLoadingScene.swift */,
 				C9EC4E2424458B0E001A0597 /* PediaScene.swift */,
@@ -1126,6 +1129,7 @@
 				C94787172472845D00FAAC99 /* TreasuryDialog.swift in Sources */,
 				C9F91B59245045350081EDC8 /* BuildingTypeExtension.swift in Sources */,
 				C98B3DC0246C1C2600AF3AE4 /* DiplomaticDialog.swift in Sources */,
+				C9E6A04A24BC951300AF65A4 /* GameSceneDelegates.swift in Sources */,
 				C9F91B45244B9B9A0081EDC8 /* CivicDisplayNode.swift in Sources */,
 				C95B3DF824387188002F5A86 /* BottomRightBar.swift in Sources */,
 				C9B1D2362434B10000033791 /* SKSpriteNodeExtension.swift in Sources */,

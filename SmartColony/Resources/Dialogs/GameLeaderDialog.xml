@@ -28,7 +28,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>140</offsety>
+            <offsety>180</offsety>
             <width>240</width>
             <height>40</height>
         </item>
@@ -41,7 +41,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>90</offsety>
+            <offsety>130</offsety>
             <width>200</width>
             <height>42</height>
         </item>
@@ -54,7 +54,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>40</offsety>
+            <offsety>80</offsety>
             <width>200</width>
             <height>42</height>
         </item>
@@ -67,7 +67,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-10</offsety>
+            <offsety>30</offsety>
             <width>200</width>
             <height>42</height>
         </item>
@@ -80,7 +80,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-60</offsety>
+            <offsety>-20</offsety>
             <width>200</width>
             <height>42</height>
         </item>
@@ -93,7 +93,33 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-110</offsety>
+            <offsety>-70</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+        <item>
+            <identifier>peter_button</identifier>
+            <type>button</type>
+            <image>leader_peterTheGreat</image>
+            <title>Peter the Great</title>
+            <result>LEADER_PETERTHEGREAT</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-120</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+        <item>
+            <identifier>barbarossa_button</identifier>
+            <type>button</type>
+            <image>leader_barbarossa</image>
+            <title>Barbarossa</title>
+            <result>LEADER_BARBAROSSA</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-170</offsety>
             <width>200</width>
             <height>42</height>
         </item>
@@ -108,7 +134,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-230</offsety>
+            <offsety>-250</offsety>
             <width>200</width>
             <height>42</height>
         </item>

@@ -97,14 +97,12 @@ class UnitObject {
 
             let animate = SKAction.group([walk, move])
             self.sprite.run(animate, completion: {
-                //self.unit?.doMove(on: hex, in: self.gameModel) // <== bad
                 block()
             })
         } else {
             // if no atlas
             // print("missing atlas")
             self.sprite.position = HexPoint.toScreen(hex: hex)
-            //self.unit?.doMove(on: hex, in: self.gameModel) // <== bad
             block()
         }
     }

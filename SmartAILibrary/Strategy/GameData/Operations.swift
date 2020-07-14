@@ -38,11 +38,8 @@ class Operations: Codable {
     
     func turn(in gameModel: GameModel?) {
                 
-        //fatalError("not implemented yet")
         for operation in self.operations {
-            
-            //if operation.state ==
-            
+
             print("--- operation: \(operation.type) - \(operation.state)")
         }
     }

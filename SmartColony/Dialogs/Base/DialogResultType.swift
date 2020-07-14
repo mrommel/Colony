@@ -31,6 +31,8 @@ enum DialogResultType: String, Codable {
     case leaderElizabeth = "LEADER_ELIZABETH"
     case leaderMontezuma = "LEADER_MONTEZUMA"
     case leaderNapoloen = "LEADER_NAPOLEAN"
+    case leaderPeterTheGreat = "LEADER_PETERTHEGREAT"
+    case leaderBarbarossa = "LEADER_BARBAROSSA"
 
     // map types
     case mapTypeEarth = "EARTH"
@@ -188,6 +190,10 @@ enum DialogResultType: String, Codable {
             return .montezuma
         } else if self == .leaderNapoloen {
             return .napoleon
+        } else if self == .leaderPeterTheGreat {
+            return .peterTheGreat
+        } else if self == .leaderBarbarossa {
+            return .barbarossa
         }
         
         fatalError("niy")

@@ -380,6 +380,7 @@ enum EconomicStrategyType: Int, Codable {
             fatalError("cant get economicAI")
         }
 
+        // Never run this strategy for a human player
         if player.isHuman() {
             return false
         }
@@ -406,7 +407,8 @@ enum EconomicStrategyType: Int, Codable {
         let weightThresholdModifier = self.weightThresholdModifier(for: player)
         let weightThreshold = self.weightThreshold() + weightThresholdModifier
 
-        if strategyWeight >= weightThreshold {
+        // Don't run this strategy if have 0 cities, in that case we just want to drop down a city wherever we happen to be
+        if strategyWeight >= weightThreshold && gameModel.cities(of: player).count >= 1 {
 
             let (numAreas, bestArea, _) = player.bestSettleAreasWith(minimumSettleFertility: economicAI.minimumSettleFertility(), in: gameModel)
 
