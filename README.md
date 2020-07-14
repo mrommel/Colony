@@ -23,6 +23,8 @@
     - fix background
     - zoom to fix width
 - textures of mountains - outskirts
+- map generation
+    - hills are too dense (more random gaps)
 - map options
     - yield icons (/)
     - water display (/)
@@ -42,7 +44,7 @@
 
 
 ## Missing Tiles
-- rivers
+- border_n_s_sw
 
 ## Done
 - add builder from start

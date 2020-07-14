@@ -227,6 +227,9 @@ public class NotificationItem: Codable, Equatable {
             
             return false
                 
+        case .canChangeGovernment:
+            return true
+            
         default:
             return false
         }

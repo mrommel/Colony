@@ -20,6 +20,7 @@
 		C907086423ED525400281161 /* HexArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = C907086323ED525400281161 /* HexArea.swift */; };
 		C907086623ED578100281161 /* TileDiscovered.swift in Sources */ = {isa = PBXBuildFile; fileRef = C907086523ED578100281161 /* TileDiscovered.swift */; };
 		C907086823ED579900281161 /* TileDiscoveredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C907086723ED579900281161 /* TileDiscoveredTests.swift */; };
+		C90FA34C24BDF25300733331 /* RandomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FA34B24BDF25300733331 /* RandomTests.swift */; };
 		C90FC38C23D88DED00720B32 /* VictoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC38B23D88DED00720B32 /* VictoryType.swift */; };
 		C90FC38E23D88E0100720B32 /* FlavorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC38D23D88E0100720B32 /* FlavorType.swift */; };
 		C90FC39023D88E2200720B32 /* TraitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC38F23D88E2200720B32 /* TraitType.swift */; };
@@ -254,6 +255,7 @@
 		C907086323ED525400281161 /* HexArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexArea.swift; sourceTree = "<group>"; };
 		C907086523ED578100281161 /* TileDiscovered.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileDiscovered.swift; sourceTree = "<group>"; };
 		C907086723ED579900281161 /* TileDiscoveredTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileDiscoveredTests.swift; sourceTree = "<group>"; };
+		C90FA34B24BDF25300733331 /* RandomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomTests.swift; sourceTree = "<group>"; };
 		C90FC38B23D88DED00720B32 /* VictoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryType.swift; sourceTree = "<group>"; };
 		C90FC38D23D88E0100720B32 /* FlavorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorType.swift; sourceTree = "<group>"; };
 		C90FC38F23D88E2200720B32 /* TraitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitType.swift; sourceTree = "<group>"; };
@@ -677,6 +679,7 @@
 				C9FE141324154B93008CC6B3 /* RegionFinderTests.swift */,
 				C98CBE1124339A0A005EE397 /* MapGeneratorTests.swift */,
 				C9B1D2A02436126300033791 /* MapLoadingTests.swift */,
+				C90FA34B24BDF25300733331 /* RandomTests.swift */,
 			);
 			path = SmartAILibraryTests;
 			sourceTree = "<group>";
@@ -1212,6 +1215,7 @@
 				C965A53823FD186E00BCEB54 /* CityStrategyAITests.swift in Sources */,
 				C98CBE1224339A0B005EE397 /* MapGeneratorTests.swift in Sources */,
 				C9FE140E2412F8B0008CC6B3 /* CombatTests.swift in Sources */,
+				C90FA34C24BDF25300733331 /* RandomTests.swift in Sources */,
 				C9B1D2A12436126300033791 /* MapLoadingTests.swift in Sources */,
 				C98DBFB823E0D86000B6CE25 /* TechTests.swift in Sources */,
 				C92317A623D62A6B001FC723 /* FiniteStateMachineTests.swift in Sources */,

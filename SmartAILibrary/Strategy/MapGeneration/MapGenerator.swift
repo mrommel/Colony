@@ -361,7 +361,7 @@ public class MapGenerator: BaseMapHandler {
     
     func updateBiomeForPolar(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
         
-        if Double.random > 0.2 {
+        if Double.random > 0.7 {
             grid?.set(hills: true, at: point)
         }
         
@@ -376,13 +376,13 @@ public class MapGenerator: BaseMapHandler {
             return
         }
         
-        if elevation > 0.75 && Double.random > 0.5 {
+        if elevation > 0.7 && Double.random > 0.7 {
             grid?.set(hills: true, at: point)
             grid?.set(terrain: .snow, at: point)
             return
         }
         
-		if elevation > 0.5 && Double.random > 0.3 {
+		if elevation > 0.5 && Double.random > 0.6 {
             grid?.set(terrain: .snow, at: point)
 			return
 		}
@@ -391,7 +391,7 @@ public class MapGenerator: BaseMapHandler {
             grid?.set(feature: .forest, at: point)
         }
         
-        if Double.random > 0.2 {
+        if Double.random > 0.85 {
             grid?.set(hills: true, at: point)
         }
         
@@ -407,13 +407,13 @@ public class MapGenerator: BaseMapHandler {
             return
         }
         
-        if elevation > 0.8 && Double.random > 0.5 {
+        if elevation > 0.7 && Double.random > 0.7 {
             grid?.set(hills: true, at: point)
             grid?.set(terrain: .grass, at: point)
             return
         }
         
-        if Double.random > 0.2 {
+        if Double.random > 0.85 {
             grid?.set(hills: true, at: point)
         }
 
@@ -437,13 +437,13 @@ public class MapGenerator: BaseMapHandler {
             return
 		}
         
-        if elevation > 0.8 && Double.random > 0.5 {
+        if elevation > 0.7 && Double.random > 0.7 {
             grid?.set(hills: true, at: point)
             grid?.set(terrain: .plains, at: point)
             return
         }
         
-        if Double.random > 0.2 {
+        if Double.random > 0.85 {
             grid?.set(hills: true, at: point)
         }
 
@@ -482,10 +482,14 @@ public class MapGenerator: BaseMapHandler {
             return
 		}
         
-        if elevation > 0.8 && Double.random > 0.5 {
+        if elevation > 0.7 && Double.random > 0.7 {
             grid?.set(hills: true, at: point)
             grid?.set(terrain: .plains, at: point)
             return
+        }
+        
+        if Double.random > 0.85 {
+            grid?.set(hills: true, at: point)
         }
 
         // arid
@@ -523,7 +527,12 @@ public class MapGenerator: BaseMapHandler {
 				if let height = heightMap[x, y] {
 					if height > 0.8 {
 						let gridPoint = HexPoint(x: x, y: y)
-						self.springLocations.append(gridPoint)
+                        
+                        // make sure no neighbors
+                        let distancesToExistingSpringLocation = self.springLocations.map( { $0.distance(to: gridPoint) } )
+                        if distancesToExistingSpringLocation.min() ?? 5 > 1 {
+                            self.springLocations.append(gridPoint)
+                        }
 					}
 				}
 			}
