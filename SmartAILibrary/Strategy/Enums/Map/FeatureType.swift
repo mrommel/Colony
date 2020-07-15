@@ -369,6 +369,15 @@ public enum FeatureType: Int, Codable {
         return true
     }
     
+    func isNoImprovement() -> Bool {
+        
+        if self.isWonder() {
+            return true
+        }
+        
+        return false
+    }
+    
     func movementCost(for movementType: UnitMovementType) -> Double {
         
         switch movementType {

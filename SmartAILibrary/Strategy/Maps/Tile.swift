@@ -111,6 +111,7 @@ public protocol AbstractTile: Codable {
 
     // visible
     func isVisible(to player: AbstractPlayer?) -> Bool
+    func isVisibleAny() -> Bool
     func sight(by player: AbstractPlayer?)
     func conceal(to player: AbstractPlayer?)
     func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, in gameModel: GameModel?) -> Bool
@@ -1027,6 +1028,11 @@ class Tile: AbstractTile {
     func isVisible(to player: AbstractPlayer?) -> Bool {
 
         return self.discovered.isVisible(to: player)
+    }
+    
+    func isVisibleAny() -> Bool {
+        
+        return self.discovered.isVisibleAny()
     }
 
     func sight(by player: AbstractPlayer?) {

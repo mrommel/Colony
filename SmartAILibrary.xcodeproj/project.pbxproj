@@ -21,6 +21,7 @@
 		C907086623ED578100281161 /* TileDiscovered.swift in Sources */ = {isa = PBXBuildFile; fileRef = C907086523ED578100281161 /* TileDiscovered.swift */; };
 		C907086823ED579900281161 /* TileDiscoveredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C907086723ED579900281161 /* TileDiscoveredTests.swift */; };
 		C90FA34C24BDF25300733331 /* RandomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FA34B24BDF25300733331 /* RandomTests.swift */; };
+		C90FA34E24BEF41500733331 /* BarbarianAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FA34D24BEF41500733331 /* BarbarianAI.swift */; };
 		C90FC38C23D88DED00720B32 /* VictoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC38B23D88DED00720B32 /* VictoryType.swift */; };
 		C90FC38E23D88E0100720B32 /* FlavorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC38D23D88E0100720B32 /* FlavorType.swift */; };
 		C90FC39023D88E2200720B32 /* TraitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC38F23D88E2200720B32 /* TraitType.swift */; };
@@ -256,6 +257,7 @@
 		C907086523ED578100281161 /* TileDiscovered.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileDiscovered.swift; sourceTree = "<group>"; };
 		C907086723ED579900281161 /* TileDiscoveredTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileDiscoveredTests.swift; sourceTree = "<group>"; };
 		C90FA34B24BDF25300733331 /* RandomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomTests.swift; sourceTree = "<group>"; };
+		C90FA34D24BEF41500733331 /* BarbarianAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarbarianAI.swift; sourceTree = "<group>"; };
 		C90FC38B23D88DED00720B32 /* VictoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryType.swift; sourceTree = "<group>"; };
 		C90FC38D23D88E0100720B32 /* FlavorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorType.swift; sourceTree = "<group>"; };
 		C90FC38F23D88E2200720B32 /* TraitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitType.swift; sourceTree = "<group>"; };
@@ -560,6 +562,7 @@
 				C9FE140F24140F8B008CC6B3 /* HomelandAI.swift */,
 				C9588ABB2417EF8900304E9A /* BuilderTaskingAI.swift */,
 				C99C4FC22426ACD200070038 /* UserInterface.swift */,
+				C90FA34D24BEF41500733331 /* BarbarianAI.swift */,
 			);
 			path = Strategy;
 			sourceTree = "<group>";
@@ -1103,6 +1106,7 @@
 				C9DFCF8223F30BDC0032243D /* StrengthType.swift in Sources */,
 				C955FBCE246065D600605618 /* AmenitiesState.swift in Sources */,
 				C964BA2723EB6C4700CA379C /* MilitaryAI.swift in Sources */,
+				C90FA34E24BEF41500733331 /* BarbarianAI.swift in Sources */,
 				C92D221123E20ECF00BB9238 /* Government.swift in Sources */,
 				C90FC39723D8909F00720B32 /* LeaderType.swift in Sources */,
 				C957AA3B2436372D00203024 /* Civ5Terrain.swift in Sources */,

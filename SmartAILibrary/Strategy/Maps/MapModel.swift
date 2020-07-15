@@ -37,6 +37,10 @@ public class MapModel: Codable {
     
     public var startLocations: [StartLocation] = []
     
+    // statistcs
+    private var numberOfLandPlotsValue: Int = 0
+    private var numberOfWaterPlotsValue: Int = 0
+    
     public init(size: MapSize) {
         
         self.size = size
@@ -119,6 +123,8 @@ public class MapModel: Codable {
                 }
             }
         }
+        
+        self.updateStatistics()
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -164,6 +170,8 @@ public class MapModel: Codable {
                 }
             }
         }
+        
+        self.updateStatistics()
     }
     
     public func valid(point: HexPoint) -> Bool {
@@ -556,5 +564,37 @@ public class MapModel: Codable {
         }
         
         return nil
+    }
+    
+    // MARK: statistics
+    
+    func updateStatistics() {
+        
+        // reset
+        self.numberOfLandPlotsValue = 0
+        self.numberOfWaterPlotsValue = 0
+        
+        for x in 0..<size.width() {
+            for y in 0..<size.height() {
+                if let tile = self.tile(x: x, y: y) {
+                    
+                    if tile.isWater() {
+                        self.numberOfWaterPlotsValue += 1
+                    } else {
+                        self.numberOfLandPlotsValue += 1
+                    }
+                }
+            }
+        }
+    }
+    
+    func numberOfLandPlots() -> Int {
+        
+        return self.numberOfLandPlotsValue
+    }
+    
+    func numberOfWaterPlots() -> Int {
+        
+        return self.numberOfWaterPlotsValue
     }
 }

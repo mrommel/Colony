@@ -28,6 +28,9 @@ class ImprovementCountList: WeightedList<ImprovementType> {
         
         // also add goody hut / tribal village
         self.add(weight: 0.0, for: ImprovementType.goodyHut)
+        
+        // and barb camp
+        self.add(weight: 0.0, for: ImprovementType.barbarianCamp)
     }
 }
 
@@ -164,6 +167,7 @@ public protocol AbstractPlayer: class, Codable {
     func numAvailable(resource: ResourceType) -> Int
     func changeNumAvailable(resource: ResourceType, change: Int)
     
+    func canTrain(unitType: UnitType, continueFlag: Bool, testVisible: Bool, ignoreCost: Bool, ignoreUniqueUnitStatus: Bool) -> Bool
     func numUnitsNeededToBeBuilt() -> Int
     func countReadyUnits(in gameModel: GameModel?) -> Int
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
@@ -3445,7 +3449,7 @@ public class Player: AbstractPlayer {
     }
     
     //    --------------------------------------------------------------------------------
-    func canTrain(unitType: UnitType, continueFlag: Bool, testVisible: Bool, ignoreCost: Bool, ignoreUniqueUnitStatus: Bool /*, CvString* toolTipSink*/) -> Bool {
+    public func canTrain(unitType: UnitType, continueFlag: Bool, testVisible: Bool, ignoreCost: Bool, ignoreUniqueUnitStatus: Bool) -> Bool {
 
         guard let civics = self.civics else {
             fatalError("cant get civics")
@@ -3461,13 +3465,11 @@ public class Player: AbstractPlayer {
 
         // Should we check whether this Unit has been blocked out by the civ XML?
         if !ignoreUniqueUnitStatus {
-            /*UnitTypes eThisPlayersUnitType = (UnitTypes) getCivilizationInfo().getCivilizationUnits(eUnitClass);
-
+            
             // If the player isn't allowed to train this Unit (via XML) then return false
-            if(eThisPlayersUnitType != eUnit)
-            {
-                return false;
-            }*/
+            guard unitType.unitType(for: self.leader.civilization()) != nil else {
+                return false
+            }
         }
 
         if !ignoreCost {

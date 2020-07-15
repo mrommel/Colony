@@ -35,6 +35,21 @@ public enum HandicapType: Int, Codable {
         }
     }
     
+    func barbSpawnMod() -> Int {
+
+           switch self {
+
+           case .settler: return 8
+           case .chieftain: return 5
+           case .warlord: return 3
+           case .prince: return 0
+           case .king: return 0
+           case .emperor: return 0
+           case .immortal: return 0
+           case .deity: return 0
+           }
+       }
+    
     public func freeHumanTechs() -> [TechType] {
         
         switch self {

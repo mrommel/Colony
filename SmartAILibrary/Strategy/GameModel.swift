@@ -31,6 +31,8 @@ public class GameModel: Codable {
         
         case gameStateValue
         case rankingData
+        
+        case barbarianAI
     }
     
     let victoryTypes: [VictoryType]
@@ -50,6 +52,8 @@ public class GameModel: Codable {
     private var gameStateValue: GameStateType
     
     public var rankingData: RankingData
+    
+    private var barbarianAI: BarbarianAI?
 
     public init(victoryTypes: [VictoryType], handicap: HandicapType, turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
         
@@ -67,6 +71,8 @@ public class GameModel: Codable {
         self.rankingData = RankingData(players: players)
         
         self.map.analyze()
+        
+        self.barbarianAI = BarbarianAI(with: self)
     }
     
     public required init(from decoder: Decoder) throws {
@@ -85,6 +91,8 @@ public class GameModel: Codable {
         
         self.gameStateValue = try container.decode(GameStateType.self, forKey: .gameStateValue)
         self.rankingData = try container.decode(RankingData.self, forKey: .rankingData)
+        
+        self.barbarianAI = try container.decode(BarbarianAI.self, forKey: .barbarianAI)
         
         // setup
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
@@ -156,6 +164,8 @@ public class GameModel: Codable {
         
         try container.encode(self.gameStateValue, forKey: .gameStateValue)
         try container.encode(self.rankingData, forKey: .rankingData)
+        
+        try container.encode(self.barbarianAI, forKey: .barbarianAI)
     }
     
     public func update() {
@@ -580,7 +590,8 @@ public class GameModel: Codable {
         print()
         print("::: TURN \(self.turnsElapsed+1) starts now :::")
         print()
-        //CvBarbarians::BeginTurn();
+        
+        self.barbarianAI?.doTurn(in: self)
 
         //doUpdateCacheOnTurn();
 
@@ -598,9 +609,9 @@ public class GameModel: Codable {
 
         //GC.GetEngineUserInterface()->doTurn();
 
-        //CvBarbarians::DoCamps();
+        self.barbarianAI?.doCamps(in: self)
 
-        //CvBarbarians::DoUnits();
+        self.barbarianAI?.doUnits(in: self)
         
         // incrementGameTurn();
         self.turnsElapsed += 1
@@ -871,6 +882,13 @@ public class GameModel: Codable {
     }
 
     // MARK: tile methods
+    
+    public func randomLocation() -> HexPoint {
+        
+        let x = Int.random(number: self.mapSize().width())
+        let y = Int.random(number: self.mapSize().height())
+        return HexPoint(x: x, y: y)
+    }
 
     public func valid(point: HexPoint) -> Bool {
 
@@ -1221,5 +1239,27 @@ extension GameModel {
     func areBarbariansReleased() -> Bool {
         
         return self.earliestBarbarianReleaseTurn() <= self.turnsElapsed
+    }
+    
+    func doCampAttacked(at point: HexPoint) {
+        
+        self.barbarianAI?.doCampAttacked(at: point)
+    }
+    
+    func doBarbCampCleared(at point: HexPoint) {
+        
+        self.barbarianAI?.doBarbCampCleared(at: point)
+    }
+    
+    // MARK: Statistics
+    
+    func numberOfLandPlots() -> Int {
+        
+        return self.map.numberOfLandPlots()
+    }
+    
+    func numberOfWaterPlots() -> Int {
+        
+        return self.map.numberOfWaterPlots()
     }
 }

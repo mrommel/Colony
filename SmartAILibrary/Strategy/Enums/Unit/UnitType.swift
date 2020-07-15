@@ -18,8 +18,6 @@ public enum CivilianAttackPriorityType {
 
 public enum UnitType: Int, Codable {
 
-    case barbarianWarrior
-
     // civilians
 
     case settler // FIXME Abilities: Found a City on a valid land tile. (Expends the unit and creates a city on its tile.)
@@ -63,6 +61,13 @@ public enum UnitType: Int, Codable {
     case prophet
     case scientist
     case writer
+    
+    // player overrides
+    // barbarians
+    
+    case barbarianWarrior
+    case barbarianArcher
+    
 
     struct UnitTypeData {
 
@@ -86,8 +91,6 @@ public enum UnitType: Int, Codable {
     public static var all: [UnitType] {
 
         return [
-            // barbarians
-            .barbarianWarrior,
 
             // civil units
             .settler, .builder,
@@ -147,6 +150,7 @@ public enum UnitType: Int, Codable {
         switch self {
             
         case .barbarianWarrior: return .warrior
+        case .barbarianArcher: return .archer
             
         case .settler: return .settler
         case .builder: return .builder
@@ -212,7 +216,9 @@ public enum UnitType: Int, Codable {
 
         switch self {
 
-        case .barbarianWarrior: return UnitTypeData(name: "barbarian", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .melee, meleeAttack: 15, rangedAttack: 0, moves: 2)
+        case .barbarianWarrior: return UnitTypeData(name: "barbarian warrior", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .melee, meleeAttack: 15, rangedAttack: 0, moves: 2)
+            
+        case .barbarianArcher: return UnitTypeData(name: "barbarian archer", sight: 2, range: 1, supportDistance: 2, strength: 10, targetType: .ranged, meleeAttack: 15, rangedAttack: 20, moves: 2)
 
         case .settler:
             // https://civilization.fandom.com/wiki/Settler_(Civ6)
@@ -256,8 +262,6 @@ public enum UnitType: Int, Codable {
             return UnitTypeData(name: "scientist", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
         case .writer:
             return UnitTypeData(name: "writer", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
-        
-        
         }
     }
 
@@ -267,6 +271,7 @@ public enum UnitType: Int, Codable {
         switch self {
 
         case .barbarianWarrior: return []
+        case .barbarianArcher: return []
 
             // ancient
         case .settler: return [
@@ -336,6 +341,7 @@ public enum UnitType: Int, Codable {
         switch self {
 
         case .barbarianWarrior: return .land
+        case .barbarianArcher: return .land
 
             // ancient
         case .settler: return .land
@@ -371,6 +377,7 @@ public enum UnitType: Int, Codable {
         switch self {
 
         case .barbarianWarrior: return [.attack]
+        case .barbarianArcher: return [.ranged]
 
             // ancient
         case .settler: return [.settle]
@@ -401,10 +408,12 @@ public enum UnitType: Int, Codable {
         switch self {
 
         case .barbarianWarrior: return .attack
+        case .barbarianArcher: return .ranged
 
             // ancient
         case .settler: return .settle
         case .builder: return .worker
+            
         case .scout: return .explore
         case .warrior: return .explore
         case .slinger: return .ranged
@@ -430,6 +439,7 @@ public enum UnitType: Int, Codable {
 
         switch self {
         case .barbarianWarrior: return .walk
+        case .barbarianArcher: return .walk
 
         case .settler: return .walk
         case .builder: return .walk
@@ -462,6 +472,7 @@ public enum UnitType: Int, Codable {
         switch self {
 
         case .barbarianWarrior: return 0
+        case .barbarianArcher: return 0
 
             // ancient
         case .settler: return 80
@@ -493,6 +504,7 @@ public enum UnitType: Int, Codable {
         switch self {
 
         case .barbarianWarrior: return 0
+        case .barbarianArcher: return 0
 
             // ancient
         case .settler: return 320
@@ -524,6 +536,7 @@ public enum UnitType: Int, Codable {
         switch self {
 
         case .barbarianWarrior: return 0
+        case .barbarianArcher: return 0
 
             // ancient
         case .settler: return 0
@@ -554,6 +567,7 @@ public enum UnitType: Int, Codable {
         switch self {
 
         case .barbarianWarrior: return nil
+        case .barbarianArcher: return .archery
 
             // ancient
         case .settler: return nil
@@ -601,6 +615,7 @@ public enum UnitType: Int, Codable {
         switch self {
 
         case .barbarianWarrior: return .barbarian
+        case .barbarianArcher: return .barbarian
 
             // ancient
         case .settler: return nil
@@ -626,12 +641,166 @@ public enum UnitType: Int, Codable {
         case .writer: return nil
         }
     }
+    
+    public func unitType(for civilization: CivilizationType) -> UnitType? {
+        
+        switch self {
+
+            // ----------------------------
+            // barbarian
+        case .barbarianWarrior:
+            if civilization == .barbarian {
+                return .barbarianWarrior
+            }
+            
+            return nil
+            
+        case .barbarianArcher:
+            if civilization == .barbarian {
+                return .barbarianArcher
+            }
+            
+            return nil
+
+            // ----------------------------
+            // ancient
+        case .settler:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .settler
+            
+        case .builder:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .builder
+
+        case .scout:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .scout
+            
+        case .warrior:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .warrior
+            
+        case .slinger:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .slinger
+            
+        case .archer:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .archer
+            
+        case .spearman:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .spearman
+            
+        case .heavyChariot:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .heavyChariot
+            
+        case .galley:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .galley
+
+            // ----------------------------
+            // great people
+        case .admiral:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .admiral
+            
+        case .artist:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .artist
+            
+        case .engineer:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .engineer
+            
+        case .general:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .general
+            
+        case .merchant:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .merchant
+            
+        case .musician:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .musician
+            
+        case .prophet:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .prophet
+            
+        case .scientist:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .scientist
+            
+        case .writer:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .writer
+            
+        }
+    }
 
     func abilities() -> [UnitAbilityType] {
 
         switch self {
 
-        case .barbarianWarrior: return []
+        case .barbarianWarrior: return [.canCapture]
+        case .barbarianArcher: return [.canCapture]
 
             // ancient
         case .settler: return [.canFound]

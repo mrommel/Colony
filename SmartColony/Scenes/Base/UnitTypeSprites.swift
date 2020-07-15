@@ -14,12 +14,15 @@ extension UnitType {
     var spriteName: String {
         
         switch self {
-        
-        case .barbarianWarrior: return "--"
             
+            // barbarian
+        case .barbarianWarrior: return "warrior-idle-0"
+        case .barbarianArcher: return "archer-idle-0"
+  
             // ancient
         case .settler: return "settler-idle-0"
         case .builder: return "builder-idle-0"
+            
         case .scout: return "archer-idle-0"
         case .warrior: return "warrior-idle-0"
         case .slinger: return "archer-idle-0"
@@ -38,6 +41,7 @@ extension UnitType {
         case .prophet: return "archer-idle-0"
         case .scientist: return "archer-idle-0"
         case .writer: return "archer-idle-0"
+        
         }
     }
     
@@ -45,7 +49,9 @@ extension UnitType {
         
         switch self {
             
-        case .barbarianWarrior: return GameObjectAtlas(atlasName: "Warrior", textures: ["axemann-idle-0", "axemann-idle-1", "axemann-idle-2", "axemann-idle-3"])
+            // barbarian
+        case .barbarianWarrior: return GameObjectAtlas(atlasName: "Warrior", template: "warrior-idle-", range: 0..<10)
+        case .barbarianArcher: return GameObjectAtlas(atlasName: "Archer", template: "archer-idle-", range: 0..<10)
             
             // ancient
         case .settler: return GameObjectAtlas(atlasName: "Settler", template: "settler-idle-", range: 0..<15)
@@ -53,7 +59,7 @@ extension UnitType {
         case .scout: return nil
         case .warrior: return GameObjectAtlas(atlasName: "Warrior", template: "warrior-idle-", range: 0..<10)
         case .slinger: return nil
-        case .archer: return GameObjectAtlas(atlasName: "Archer", textures: ["archer-idle-0", "archer-idle-1", "archer-idle-2", "archer-idle-3", "archer-idle-4", "archer-idle-5", "archer-idle-6", "archer-idle-7", "archer-idle-8", "archer-idle-9"])
+        case .archer: return GameObjectAtlas(atlasName: "Archer", template: "archer-idle-", range: 0..<10)
         case .spearman: return nil
         case .heavyChariot: return nil
         case .galley: return nil
@@ -74,29 +80,5 @@ extension UnitType {
     var anchorPoint: CGPoint {
         
         return CGPoint(x: 0.0, y: 0.0)
-        /*switch self {
-        
-        case .barbarianWarrior: return CGPoint(x: 0.0, y: 0.0)
-            
-        case .settler: return CGPoint(x: 0.0, y: 0.0)
-        case .builder: return CGPoint(x: 0.0, y: 0.0)
-        case .scout: return CGPoint(x: 0.0, y: 0.0)
-        case .warrior: return CGPoint(x: 0.0, y: 0.0)
-        case .slinger:return CGPoint(x: 0.0, y: 0.0)
-        case .archer: return CGPoint(x: 0.0, y: 0.0)
-        case .spearman: return CGPoint(x: 0.0, y: 0.0)
-        case .heavyChariot: return CGPoint(x: 0.0, y: 0.0)
-        case .galley: return CGPoint(x: 0.0, y: 0.0)
-            
-        case .artist: return CGPoint(x: 0.0, y: 0.0)
-        case .admiral: return CGPoint(x: 0.0, y: 0.0)
-        case .engineer: return CGPoint(x: 0.0, y: 0.0)
-        case .general: return CGPoint(x: 0.0, y: 0.0)
-        case .merchant: return CGPoint(x: 0.0, y: 0.0)
-        case .musician: return CGPoint(x: 0.0, y: 0.0)
-        case .prophet: return CGPoint(x: 0.0, y: 0.0)
-        case .scientist:return CGPoint(x: 0.0, y: 0.0)
-        case .writer: return CGPoint(x: 0.0, y: 0.0)
-        }*/
     }
 }

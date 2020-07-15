@@ -115,6 +115,18 @@ class TileDiscovered: Codable {
         return false
     }
     
+    func isVisibleAny() -> Bool {
+        
+        for item in self.items {
+            
+            if item.sighted > 0 {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     func sight(by player: AbstractPlayer?) {
         
         if let item = self.items.first(where: { $0.leader == player?.leader }) {

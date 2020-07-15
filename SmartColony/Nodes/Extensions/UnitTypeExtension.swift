@@ -14,9 +14,11 @@ extension UnitType {
     func iconTexture() -> String {
         
         switch self {
-            
-            case .barbarianWarrior: return "unit_warrior"
 
+                // barbarian
+            case .barbarianWarrior: return "unit_warrior"
+            case .barbarianArcher: return "unit_archer"
+            
                 // ancient
             case .settler: return "unit_settler"
             case .builder: return "unit_builder"
@@ -45,9 +47,11 @@ extension UnitType {
     func typeTexture() -> String {
         
         switch self {
-            
-            case .barbarianWarrior: return "unit_type_warrior"
 
+                // barbarian
+            case .barbarianWarrior: return "unit_type_warrior"
+            case .barbarianArcher: return "unit_type_archer"
+            
                 // ancient
             case .settler: return "unit_type_settler"
             case .builder: return "unit_type_builder"

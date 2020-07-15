@@ -71,6 +71,27 @@ public enum MapSize {
             return height
         }
     }
+    
+    func fogTilesPerBarbarianCamp() -> Int {
+        
+        switch self {
+
+        case .duel:
+            return 13
+        case .tiny:
+            return 18
+        case .small:
+            return 23
+        case .standard:
+            return 27
+        case .large:
+            return 30
+        case .huge:
+            return 35
+        case .custom(let width, let height):
+            return (width * height * 27) / (80 * 52)
+        }
+    }
 }
 
 extension MapSize: Codable {

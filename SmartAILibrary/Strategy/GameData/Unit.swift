@@ -860,21 +860,14 @@ public class Unit: AbstractUnit {
                 }
 
                 attack = true
-                
-                
-                
+
                 Combat.doMeleeAttack(between: self, and: defenderUnit, in: gameModel)
-                //print("result: \(result)")
-                // CvUnitCombat::Attack(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
-                //fatalError("niy")
             }
 
             // Barb camp here that was attacked?
             if destPlot.improvement() == .barbarianCamp {
-                // CvBarbarians::DoCampAttacked(pDestPlot);
-                fatalError("niy")
+                gameModel.doCampAttacked(at: destPlot.point)
             }
-            //}
         }
 
         return attack
@@ -1655,7 +1648,7 @@ public class Unit: AbstractUnit {
 
                     newPlot.set(improvement: .none)
 
-                    // CvBarbarians::DoBarbCampCleared(pNewPlot);
+                    gameModel.doBarbCampCleared(at: newPlot.point)
 
                     player.treasury?.changeGold(by: Double(numGold))
 
