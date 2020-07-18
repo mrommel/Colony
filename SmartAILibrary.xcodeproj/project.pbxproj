@@ -20,8 +20,14 @@
 		C907086423ED525400281161 /* HexArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = C907086323ED525400281161 /* HexArea.swift */; };
 		C907086623ED578100281161 /* TileDiscovered.swift in Sources */ = {isa = PBXBuildFile; fileRef = C907086523ED578100281161 /* TileDiscovered.swift */; };
 		C907086823ED579900281161 /* TileDiscoveredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C907086723ED579900281161 /* TileDiscoveredTests.swift */; };
+		C90D2E2F24C317990029AA11 /* AssetExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90D2E2E24C317980029AA11 /* AssetExtractionTests.swift */; };
 		C90FA34C24BDF25300733331 /* RandomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FA34B24BDF25300733331 /* RandomTests.swift */; };
 		C90FA34E24BEF41500733331 /* BarbarianAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FA34D24BEF41500733331 /* BarbarianAI.swift */; };
+		C90FA35224C22A6000733331 /* arbalest.xml in Resources */ = {isa = PBXBuildFile; fileRef = C90FA35024C22A5F00733331 /* arbalest.xml */; };
+		C90FA35324C22A6000733331 /* arbalest.png in Resources */ = {isa = PBXBuildFile; fileRef = C90FA35124C22A5F00733331 /* arbalest.png */; };
+		C90FA35D24C2335800733331 /* XMLParsing in Frameworks */ = {isa = PBXBuildFile; productRef = C90FA35C24C2335800733331 /* XMLParsing */; };
+		C90FA35F24C233E500733331 /* TextureAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FA35E24C233E500733331 /* TextureAtlas.swift */; };
+		C90FA36124C2394700733331 /* TextureAtlasLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FA36024C2394700733331 /* TextureAtlasLoader.swift */; };
 		C90FC38C23D88DED00720B32 /* VictoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC38B23D88DED00720B32 /* VictoryType.swift */; };
 		C90FC38E23D88E0100720B32 /* FlavorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC38D23D88E0100720B32 /* FlavorType.swift */; };
 		C90FC39023D88E2200720B32 /* TraitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FC38F23D88E2200720B32 /* TraitType.swift */; };
@@ -256,8 +262,13 @@
 		C907086323ED525400281161 /* HexArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexArea.swift; sourceTree = "<group>"; };
 		C907086523ED578100281161 /* TileDiscovered.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileDiscovered.swift; sourceTree = "<group>"; };
 		C907086723ED579900281161 /* TileDiscoveredTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileDiscoveredTests.swift; sourceTree = "<group>"; };
+		C90D2E2E24C317980029AA11 /* AssetExtractionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetExtractionTests.swift; sourceTree = "<group>"; };
 		C90FA34B24BDF25300733331 /* RandomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomTests.swift; sourceTree = "<group>"; };
 		C90FA34D24BEF41500733331 /* BarbarianAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarbarianAI.swift; sourceTree = "<group>"; };
+		C90FA35024C22A5F00733331 /* arbalest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = arbalest.xml; sourceTree = "<group>"; };
+		C90FA35124C22A5F00733331 /* arbalest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arbalest.png; sourceTree = "<group>"; };
+		C90FA35E24C233E500733331 /* TextureAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureAtlas.swift; sourceTree = "<group>"; };
+		C90FA36024C2394700733331 /* TextureAtlasLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureAtlasLoader.swift; sourceTree = "<group>"; };
 		C90FC38B23D88DED00720B32 /* VictoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VictoryType.swift; sourceTree = "<group>"; };
 		C90FC38D23D88E0100720B32 /* FlavorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorType.swift; sourceTree = "<group>"; };
 		C90FC38F23D88E2200720B32 /* TraitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitType.swift; sourceTree = "<group>"; };
@@ -476,6 +487,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C957AA37243635D500203024 /* BinarySwift in Frameworks */,
+				C90FA35D24C2335800733331 /* XMLParsing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,6 +537,15 @@
 				C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */,
 			);
 			path = Maps;
+			sourceTree = "<group>";
+		};
+		C90FA34F24C229C800733331 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C90FA35124C22A5F00733331 /* arbalest.png */,
+				C90FA35024C22A5F00733331 /* arbalest.xml */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C90FC38A23D88DCF00720B32 /* Strategy */ = {
@@ -647,6 +668,8 @@
 				C9DFCF7323F29DA90032243D /* Array2D.swift */,
 				C9DFCF7723F2A3590032243D /* BitArray.swift */,
 				C9C2FE3223F6DEE300185235 /* WeightedList.swift */,
+				C90FA35E24C233E500733331 /* TextureAtlas.swift */,
+				C90FA36024C2394700733331 /* TextureAtlasLoader.swift */,
 			);
 			path = SmartAILibrary;
 			sourceTree = "<group>";
@@ -656,6 +679,8 @@
 			children = (
 				C9B1D2A2243612FF00033791 /* Maps */,
 				C907085B23ED45C200281161 /* Helpers */,
+				C90FA34F24C229C800733331 /* Resources */,
+				C90D2E2E24C317980029AA11 /* AssetExtractionTests.swift */,
 				C92317A523D62A6B001FC723 /* FiniteStateMachineTests.swift */,
 				C92317BC23D6EAB5001FC723 /* HierarchicalStateMachineTests.swift */,
 				C92317CB23D79F2C001FC723 /* GrandStrategyAITests.swift */,
@@ -927,6 +952,7 @@
 			name = SmartAILibrary;
 			packageProductDependencies = (
 				C957AA36243635D500203024 /* BinarySwift */,
+				C90FA35C24C2335800733331 /* XMLParsing */,
 			);
 			productName = SmartAILibrary;
 			productReference = C923179723D62A6B001FC723 /* SmartAILibrary.framework */;
@@ -946,6 +972,8 @@
 				C92317A323D62A6B001FC723 /* PBXTargetDependency */,
 			);
 			name = SmartAILibraryTests;
+			packageProductDependencies = (
+			);
 			productName = SmartAILibraryTests;
 			productReference = C92317A023D62A6B001FC723 /* SmartAILibraryTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -979,6 +1007,7 @@
 			mainGroup = C923178D23D62A6B001FC723;
 			packageReferences = (
 				C957AA35243635D500203024 /* XCRemoteSwiftPackageReference "BinarySwift" */,
+				C90FA35B24C2335800733331 /* XCRemoteSwiftPackageReference "XMLParsing" */,
 			);
 			productRefGroup = C923179823D62A6B001FC723 /* Products */;
 			projectDirPath = "";
@@ -1006,6 +1035,8 @@
 				C9B1D2AD2436131700033791 /* Earth_Tiny.Civ5Map in Resources */,
 				C9B1D2A92436131700033791 /* Earth_Huge.Civ5Map in Resources */,
 				C9B1D2AC2436131700033791 /* Earth_Duel.Civ5Map in Resources */,
+				C90FA35224C22A6000733331 /* arbalest.xml in Resources */,
+				C90FA35324C22A6000733331 /* arbalest.png in Resources */,
 				C9B1D2AE2436131700033791 /* Earth_Small.Civ5Map in Resources */,
 				C9B1D2AB2436131700033791 /* Earth_Standard.Civ5Map in Resources */,
 			);
@@ -1162,6 +1193,7 @@
 				C9588ABD2417F3A900304E9A /* BuilderTaskingAI.swift in Sources */,
 				C9E6A04824A4B62B00AF65A4 /* GreatWorks.swift in Sources */,
 				C9E74CBC248FA8D9003EF256 /* DiplomaticRequestMessage.swift in Sources */,
+				C90FA36124C2394700733331 /* TextureAtlasLoader.swift in Sources */,
 				C92D221B23E2D80500BB9238 /* FeatureType.swift in Sources */,
 				C90FC39A23D892A700720B32 /* Trait.swift in Sources */,
 				C90FC39523D88EE300720B32 /* Flavor.swift in Sources */,
@@ -1200,6 +1232,7 @@
 				C9A0573C24291C3E00D0FEAB /* Wonders.swift in Sources */,
 				C95503C324585F6E00D4B3D8 /* MapOptionResources.swift in Sources */,
 				C9956853247E90B00005E9EA /* Eurekas.swift in Sources */,
+				C90FA35F24C233E500733331 /* TextureAtlas.swift in Sources */,
 				C92317B323D62AD2001FC723 /* FiniteStateMachine.swift in Sources */,
 				C965A52E23FC6A3600BCEB54 /* River.swift in Sources */,
 				C99C4FC32426ACD200070038 /* UserInterface.swift in Sources */,
@@ -1232,6 +1265,7 @@
 				C964BA2F23EC159600CA379C /* AdvisorTests.swift in Sources */,
 				C99C4FC1242682DD00070038 /* TestUI.swift in Sources */,
 				C907085D23ED45F700281161 /* MapModelHelper.swift in Sources */,
+				C90D2E2F24C317990029AA11 /* AssetExtractionTests.swift in Sources */,
 				C98DBFAA23DF34ED00B6CE25 /* CityTests.swift in Sources */,
 				C92317CC23D79F2C001FC723 /* GrandStrategyAITests.swift in Sources */,
 				C9D8DF7623EF6D0B0091C917 /* DiplomacyAITests.swift in Sources */,
@@ -1492,6 +1526,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		C90FA35B24C2335800733331 /* XCRemoteSwiftPackageReference "XMLParsing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ShawnMoore/XMLParsing.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.3;
+			};
+		};
 		C957AA35243635D500203024 /* XCRemoteSwiftPackageReference "BinarySwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mrommel/BinarySwift";
@@ -1503,6 +1545,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C90FA35C24C2335800733331 /* XMLParsing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C90FA35B24C2335800733331 /* XCRemoteSwiftPackageReference "XMLParsing" */;
+			productName = XMLParsing;
+		};
 		C957AA36243635D500203024 /* BinarySwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C957AA35243635D500203024 /* XCRemoteSwiftPackageReference "BinarySwift" */;

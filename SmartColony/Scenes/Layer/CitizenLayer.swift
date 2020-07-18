@@ -80,13 +80,13 @@ class CitizenLayer: SKNode {
             }
         }
 
-        let waterSprite = SKSpriteNode(imageNamed: textureName)
-        waterSprite.position = position
-        waterSprite.zPosition = Globals.ZLevels.water
-        waterSprite.anchorPoint = CGPoint(x: 0, y: 0)
-        waterSprite.color = .black
-        waterSprite.colorBlendFactor = 0.0
-        self.addChild(waterSprite)
+        let citizenSprite = SKSpriteNode(imageNamed: textureName)
+        citizenSprite.position = position
+        citizenSprite.zPosition = Globals.ZLevels.water
+        citizenSprite.anchorPoint = CGPoint(x: 0, y: 0)
+        citizenSprite.color = .black
+        citizenSprite.colorBlendFactor = 0.0
+        self.addChild(citizenSprite)
     }
     
     func refresh() {

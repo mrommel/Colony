@@ -79,6 +79,8 @@ class UnitObject {
 
         // setup atlases
         self.atlasIdle = unit.type.idleAtlas
+        self.atlasDown = unit.type.walkDownAtlas
+        // FIXME: add the other atlases
     }
     
     func addTo(node parent: SKNode) {
@@ -89,9 +91,8 @@ class UnitObject {
     private func animate(to hex: HexPoint, on atlas: GameObjectAtlas?, completion block: @escaping () -> Swift.Void) {
 
         if let atlas = atlas {
-            let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
-            let walkFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
-            let walk = SKAction.animate(with: [walkFrames, walkFrames, walkFrames].flatMap { $0 }, timePerFrame: animationSpeed / Double(walkFrames.count * 3))
+            let walkFrames = atlas.textures
+            let walk = SKAction.animate(with: walkFrames, timePerFrame: atlas.speed)
 
             let move = SKAction.move(to: HexPoint.toScreen(hex: hex), duration: walk.duration)
 
@@ -111,6 +112,8 @@ class UnitObject {
 
         let direction = HexPoint.screenDirection(from: from, towards: to)
 
+        print("=========> \(direction)")
+        
         switch direction {
         case .north:
             self.animate(to: to, on: self.atlasUp, completion: block)
@@ -155,9 +158,8 @@ class UnitObject {
         self.sprite.position = HexPoint.toScreen(hex: unit.location)
 
         if let atlas = self.atlasIdle {
-            let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
-            let idleFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
-            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: idleFrames, timePerFrame: (animationSpeed / 4.0) / Double(idleFrames.count)))
+            let idleFrames = atlas.textures
+            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: idleFrames, timePerFrame: atlas.speed))
 
             self.sprite.run(idleAnimation, withKey: UnitObject.idleActionKey, completion: { })
         }

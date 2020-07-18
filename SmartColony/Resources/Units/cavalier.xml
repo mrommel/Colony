@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:1209690bff0d11ec1dc19b1398d58575:f7c6c2d9371560436bb0e737466b1058:7c1279bce0a3796d42b398feb379d427$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+
+<TextureAtlas blue_texture="cavalier.png" red_texture="cavalier_red.png" width="1077" height="1077">
+  <!-- Define the unit type-->
+  <unit id ="cavalier">
+
+    <!--Attack Action-->
+    <action enum ="attack" speed="303">
+      <direction enum="south">
+        <sprite n="cavalier_attack/000_cavalier_attack.bmp" x="0" y="0" w="43" h="88" pX="0.511628" pY="0.761364"/>
+        <sprite n="cavalier_attack/001_cavalier_attack.bmp" x="43" y="0" w="32" h="93" pX="0.46875" pY="0.774194"/>
+        <sprite n="cavalier_attack/002_cavalier_attack.bmp" x="75" y="0" w="31" h="92" pX="0.451613" pY="0.771739"/>
+        <sprite n="cavalier_attack/003_cavalier_attack.bmp" x="106" y="0" w="41" h="84" pX="0.439024" pY="0.75"/>
+        <sprite n="cavalier_attack/004_cavalier_attack.bmp" x="147" y="0" w="44" h="76" pX="0.409091" pY="0.710526"/>
+        <sprite n="cavalier_attack/005_cavalier_attack.bmp" x="191" y="0" w="42" h="70" pX="0.404762" pY="0.685714"/>
+        <sprite n="cavalier_attack/006_cavalier_attack.bmp" x="233" y="0" w="45" h="70" pX="0.444444" pY="0.685714"/>
+        <sprite n="cavalier_attack/007_cavalier_attack.bmp" x="278" y="0" w="46" h="69" pX="0.434783" pY="0.681159"/>
+        <sprite n="cavalier_attack/008_cavalier_attack.bmp" x="324" y="0" w="45" h="74" pX="0.422222" pY="0.716216"/>
+        <sprite n="cavalier_attack/009_cavalier_attack.bmp" x="369" y="0" w="40" h="79" pX="0.375" pY="0.734177"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="cavalier_attack/010_cavalier_attack.bmp" x="409" y="0" w="55" h="90" pX="0.509091" pY="0.822222"/>
+        <sprite n="cavalier_attack/011_cavalier_attack.bmp" x="464" y="0" w="57" h="86" pX="0.508772" pY="0.813953"/>
+        <sprite n="cavalier_attack/012_cavalier_attack.bmp" x="521" y="0" w="58" h="86" pX="0.5" pY="0.813953"/>
+        <sprite n="cavalier_attack/013_cavalier_attack.bmp" x="579" y="0" w="60" h="82" pX="0.483333" pY="0.804878"/>
+        <sprite n="cavalier_attack/014_cavalier_attack.bmp" x="639" y="0" w="64" h="78" pX="0.46875" pY="0.794872"/>
+        <sprite n="cavalier_attack/015_cavalier_attack.bmp" x="703" y="0" w="65" h="60" pX="0.523077" pY="0.733333"/>
+        <sprite n="cavalier_attack/016_cavalier_attack.bmp" x="768" y="0" w="64" h="60" pX="0.46875" pY="0.733333"/>
+        <sprite n="cavalier_attack/017_cavalier_attack.bmp" x="832" y="0" w="61" h="66" pX="0.47541" pY="0.757576"/>
+        <sprite n="cavalier_attack/018_cavalier_attack.bmp" x="893" y="0" w="56" h="72" pX="0.517857" pY="0.777778"/>
+        <sprite n="cavalier_attack/019_cavalier_attack.bmp" x="949" y="0" w="54" h="74" pX="0.537037" pY="0.783784"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="cavalier_attack/020_cavalier_attack.bmp" x="1003" y="0" w="74" h="85" pX="0.513514" pY="0.905882"/>
+        <sprite n="cavalier_attack/021_cavalier_attack.bmp" x="0" y="93" w="74" h="75" pX="0.513514" pY="0.906667"/>
+        <sprite n="cavalier_attack/022_cavalier_attack.bmp" x="74" y="93" w="75" h="76" pX="0.52" pY="0.907895"/>
+        <sprite n="cavalier_attack/023_cavalier_attack.bmp" x="149" y="93" w="75" h="76" pX="0.52" pY="0.881579"/>
+        <sprite n="cavalier_attack/024_cavalier_attack.bmp" x="224" y="93" w="71" h="82" pX="0.549296" pY="0.865854"/>
+        <sprite n="cavalier_attack/025_cavalier_attack.bmp" x="295" y="93" w="72" h="64" pX="0.555556" pY="0.8125"/>
+        <sprite n="cavalier_attack/026_cavalier_attack.bmp" x="367" y="93" w="72" h="64" pX="0.541667" pY="0.8125"/>
+        <sprite n="cavalier_attack/027_cavalier_attack.bmp" x="439" y="93" w="74" h="64" pX="0.527027" pY="0.84375"/>
+        <sprite n="cavalier_attack/028_cavalier_attack.bmp" x="513" y="93" w="75" h="69" pX="0.52" pY="0.84058"/>
+        <sprite n="cavalier_attack/029_cavalier_attack.bmp" x="588" y="93" w="75" h="68" pX="0.52" pY="0.852941"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="cavalier_attack/030_cavalier_attack.bmp" x="663" y="93" w="56" h="88" pX="0.5" pY="0.852273"/>
+        <sprite n="cavalier_attack/031_cavalier_attack.bmp" x="719" y="93" w="61" h="79" pX="0.459016" pY="0.822785"/>
+        <sprite n="cavalier_attack/032_cavalier_attack.bmp" x="780" y="93" w="61" h="80" pX="0.47541" pY="0.825"/>
+        <sprite n="cavalier_attack/033_cavalier_attack.bmp" x="841" y="93" w="60" h="83" pX="0.483333" pY="0.819277"/>
+        <sprite n="cavalier_attack/034_cavalier_attack.bmp" x="901" y="93" w="53" h="91" pX="0.54717" pY="0.813187"/>
+        <sprite n="cavalier_attack/035_cavalier_attack.bmp" x="954" y="93" w="53" h="78" pX="0.54717" pY="0.807692"/>
+        <sprite n="cavalier_attack/036_cavalier_attack.bmp" x="1007" y="93" w="53" h="79" pX="0.54717" pY="0.797468"/>
+        <sprite n="cavalier_attack/037_cavalier_attack.bmp" x="0" y="184" w="54" h="80" pX="0.537037" pY="0.7875"/>
+        <sprite n="cavalier_attack/038_cavalier_attack.bmp" x="54" y="184" w="56" h="77" pX="0.517857" pY="0.818182"/>
+        <sprite n="cavalier_attack/039_cavalier_attack.bmp" x="110" y="184" w="57" h="74" pX="0.491228" pY="0.837838"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="cavalier_attack/040_cavalier_attack.bmp" x="167" y="184" w="44" h="89" pX="0.318182" pY="0.797753"/>
+        <sprite n="cavalier_attack/041_cavalier_attack.bmp" x="211" y="184" w="36" h="83" pX="0.333333" pY="0.795181"/>
+        <sprite n="cavalier_attack/042_cavalier_attack.bmp" x="247" y="184" w="35" h="84" pX="0.342857" pY="0.785714"/>
+        <sprite n="cavalier_attack/043_cavalier_attack.bmp" x="282" y="184" w="43" h="84" pX="0.395349" pY="0.785714"/>
+        <sprite n="cavalier_attack/044_cavalier_attack.bmp" x="325" y="184" w="47" h="87" pX="0.425532" pY="0.827586"/>
+        <sprite n="cavalier_attack/045_cavalier_attack.bmp" x="372" y="184" w="39" h="82" pX="0.512821" pY="0.817073"/>
+        <sprite n="cavalier_attack/046_cavalier_attack.bmp" x="411" y="184" w="42" h="82" pX="0.5" pY="0.804878"/>
+        <sprite n="cavalier_attack/047_cavalier_attack.bmp" x="453" y="184" w="41" h="83" pX="0.463415" pY="0.795181"/>
+        <sprite n="cavalier_attack/048_cavalier_attack.bmp" x="494" y="184" w="43" h="84" pX="0.465116" pY="0.785714"/>
+        <sprite n="cavalier_attack/049_cavalier_attack.bmp" x="537" y="184" w="36" h="84" pX="0.5" pY="0.785714"/>
+      </direction>
+    </action>
+
+    <!--Die Action-->
+    <action enum ="die" speed="200">
+      <direction enum="south">
+            <sprite n="cavalier_die/000_cavalier_die.bmp" x="573" y="184" w="41" h="84" pX="0.560976" pY="0.714286"/>
+    <sprite n="cavalier_die/001_cavalier_die.bmp" x="614" y="184" w="45" h="72" pX="0.666667" pY="0.722222"/>
+    <sprite n="cavalier_die/002_cavalier_die.bmp" x="659" y="184" w="50" h="73" pX="0.38" pY="0.808219"/>
+    <sprite n="cavalier_die/003_cavalier_die.bmp" x="709" y="184" w="66" h="72" pX="0.212121" pY="0.847222"/>
+    <sprite n="cavalier_die/004_cavalier_die.bmp" x="775" y="184" w="71" h="64" pX="0.309859" pY="0.75"/>
+    <sprite n="cavalier_die/005_cavalier_die.bmp" x="846" y="184" w="61" h="62" pX="0.393443" pY="0.693548"/>
+    <sprite n="cavalier_die/006_cavalier_die.bmp" x="907" y="184" w="61" h="47" pX="0.52459" pY="0.553191"/>
+    <sprite n="cavalier_die/007_cavalier_die.bmp" x="968" y="184" w="77" h="45" pX="0.662338" pY="0.488889"/>
+    <sprite n="cavalier_die/008_cavalier_die.bmp" x="0" y="273" w="81" h="45" pX="0.679012" pY="0.488889"/>
+    <sprite n="cavalier_die/009_cavalier_die.bmp" x="81" y="273" w="86" h="45" pX="0.697674" pY="0.488889"/>
+      </direction>
+
+      <direction enum="south-west">
+            <sprite n="cavalier_die/010_cavalier_die.bmp" x="167" y="273" w="77" h="69" pX="0.519481" pY="0.826087"/>
+    <sprite n="cavalier_die/011_cavalier_die.bmp" x="244" y="273" w="70" h="64" pX="0.6" pY="0.828125"/>
+    <sprite n="cavalier_die/012_cavalier_die.bmp" x="314" y="273" w="57" h="74" pX="0.438596" pY="0.783784"/>
+    <sprite n="cavalier_die/013_cavalier_die.bmp" x="371" y="273" w="59" h="76" pX="0.254237" pY="0.736842"/>
+    <sprite n="cavalier_die/014_cavalier_die.bmp" x="430" y="273" w="58" h="59" pX="0.275862" pY="0.711864"/>
+    <sprite n="cavalier_die/015_cavalier_die.bmp" x="488" y="273" w="60" h="59" pX="0.383333" pY="0.711864"/>
+    <sprite n="cavalier_die/016_cavalier_die.bmp" x="548" y="273" w="68" h="51" pX="0.441176" pY="0.647059"/>
+    <sprite n="cavalier_die/017_cavalier_die.bmp" x="616" y="273" w="92" h="44" pX="0.608696" pY="0.568182"/>
+    <sprite n="cavalier_die/018_cavalier_die.bmp" x="708" y="273" w="95" h="42" pX="0.621053" pY="0.52381"/>
+    <sprite n="cavalier_die/019_cavalier_die.bmp" x="803" y="273" w="98" h="48" pX="0.632653" pY="0.5625"/>
+      </direction>
+
+      <direction enum="west">
+            <sprite n="cavalier_die/020_cavalier_die.bmp" x="901" y="273" w="81" h="65" pX="0.444444" pY="0.876923"/>
+    <sprite n="cavalier_die/021_cavalier_die.bmp" x="982" y="273" w="71" h="61" pX="0.492958" pY="0.868852"/>
+    <sprite n="cavalier_die/022_cavalier_die.bmp" x="0" y="349" w="66" h="69" pX="0.378788" pY="0.797101"/>
+    <sprite n="cavalier_die/023_cavalier_die.bmp" x="66" y="349" w="57" h="76" pX="0.245614" pY="0.671053"/>
+    <sprite n="cavalier_die/024_cavalier_die.bmp" x="123" y="349" w="74" h="62" pX="0.378378" pY="0.612903"/>
+    <sprite n="cavalier_die/025_cavalier_die.bmp" x="197" y="349" w="71" h="62" pX="0.450704" pY="0.677419"/>
+    <sprite n="cavalier_die/026_cavalier_die.bmp" x="268" y="349" w="68" h="56" pX="0.544118" pY="0.696429"/>
+    <sprite n="cavalier_die/027_cavalier_die.bmp" x="336" y="349" w="74" h="46" pX="0.554054" pY="0.673913"/>
+    <sprite n="cavalier_die/028_cavalier_die.bmp" x="410" y="349" w="81" h="45" pX="0.506173" pY="0.666667"/>
+    <sprite n="cavalier_die/029_cavalier_die.bmp" x="491" y="349" w="82" h="48" pX="0.5" pY="0.6875"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="cavalier_die/030_cavalier_die.bmp" x="573" y="349" w="51" h="76" pX="0.392157" pY="0.789474"/>
+    <sprite n="cavalier_die/031_cavalier_die.bmp" x="624" y="349" w="44" h="69" pX="0.363636" pY="0.797101"/>
+    <sprite n="cavalier_die/032_cavalier_die.bmp" x="668" y="349" w="62" h="71" pX="0.435484" pY="0.774648"/>
+    <sprite n="cavalier_die/033_cavalier_die.bmp" x="730" y="349" w="76" h="73" pX="0.473684" pY="0.712329"/>
+    <sprite n="cavalier_die/034_cavalier_die.bmp" x="806" y="349" w="77" h="61" pX="0.376623" pY="0.639344"/>
+    <sprite n="cavalier_die/035_cavalier_die.bmp" x="883" y="349" w="72" h="63" pX="0.402778" pY="0.666667"/>
+    <sprite n="cavalier_die/036_cavalier_die.bmp" x="955" y="349" w="64" h="63" pX="0.484375" pY="0.650794"/>
+    <sprite n="cavalier_die/037_cavalier_die.bmp" x="0" y="425" w="75" h="56" pX="0.426667" pY="0.625"/>
+    <sprite n="cavalier_die/038_cavalier_die.bmp" x="75" y="425" w="79" h="50" pX="0.443038" pY="0.6"/>
+    <sprite n="cavalier_die/039_cavalier_die.bmp" x="154" y="425" w="84" h="52" pX="0.416667" pY="0.615385"/>
+      </direction>
+
+      <direction enum="north">
+         <sprite n="cavalier_die/040_cavalier_die.bmp" x="238" y="425" w="41" h="79" pX="0.317073" pY="0.746835"/>
+    <sprite n="cavalier_die/041_cavalier_die.bmp" x="279" y="425" w="45" h="71" pX="0.244444" pY="0.760563"/>
+    <sprite n="cavalier_die/042_cavalier_die.bmp" x="324" y="425" w="48" h="82" pX="0.5" pY="0.743902"/>
+    <sprite n="cavalier_die/043_cavalier_die.bmp" x="372" y="425" w="61" h="75" pX="0.704918" pY="0.706667"/>
+    <sprite n="cavalier_die/044_cavalier_die.bmp" x="433" y="425" w="69" h="69" pX="0.623188" pY="0.637681"/>
+    <sprite n="cavalier_die/045_cavalier_die.bmp" x="502" y="425" w="60" h="68" pX="0.566667" pY="0.676471"/>
+    <sprite n="cavalier_die/046_cavalier_die.bmp" x="562" y="425" w="65" h="55" pX="0.446154" pY="0.690909"/>
+    <sprite n="cavalier_die/047_cavalier_die.bmp" x="627" y="425" w="77" h="46" pX="0.324675" pY="0.586957"/>
+    <sprite n="cavalier_die/048_cavalier_die.bmp" x="704" y="425" w="80" h="50" pX="0.3125" pY="0.54"/>
+    <sprite n="cavalier_die/049_cavalier_die.bmp" x="784" y="425" w="88" h="50" pX="0.295455" pY="0.54"/>
+      </direction>
+    </action>
+
+    <!--Disappear Action-->
+    <action enum ="disappear" speed="1500">
+      <direction enum="south">
+        <sprite n="cavalier_dissapear/000_cavalier_dissapear.bmp" x="872" y="425" w="86" h="45" pX="0.697674" pY="0.488889"/>
+        <sprite n="cavalier_dissapear/001_cavalier_dissapear.bmp" x="958" y="425" w="85" h="43" pX="0.694118" pY="0.488372"/>
+        <sprite n="cavalier_dissapear/002_cavalier_dissapear.bmp" x="0" y="507" w="84" h="41" pX="0.690476" pY="0.487805"/>
+        <sprite n="cavalier_dissapear/003_cavalier_dissapear.bmp" x="84" y="507" w="84" h="40" pX="0.690476" pY="0.5"/>
+        <sprite n="cavalier_dissapear/004_cavalier_dissapear.bmp" x="168" y="507" w="84" h="40" pX="0.690476" pY="0.5"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="cavalier_dissapear/005_cavalier_dissapear.bmp" x="252" y="507" w="98" h="48" pX="0.632653" pY="0.5625"/>
+        <sprite n="cavalier_dissapear/006_cavalier_dissapear.bmp" x="350" y="507" w="96" h="47" pX="0.625" pY="0.553191"/>
+        <sprite n="cavalier_dissapear/007_cavalier_dissapear.bmp" x="446" y="507" w="96" h="47" pX="0.625" pY="0.553191"/>
+        <sprite n="cavalier_dissapear/008_cavalier_dissapear.bmp" x="542" y="507" w="96" h="47" pX="0.625" pY="0.553191"/>
+        <sprite n="cavalier_dissapear/009_cavalier_dissapear.bmp" x="638" y="507" w="96" h="46" pX="0.625" pY="0.565217"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="cavalier_dissapear/010_cavalier_dissapear.bmp" x="734" y="507" w="82" h="48" pX="0.5" pY="0.6875"/>
+        <sprite n="cavalier_dissapear/011_cavalier_dissapear.bmp" x="816" y="507" w="79" h="47" pX="0.506329" pY="0.680851"/>
+        <sprite n="cavalier_dissapear/012_cavalier_dissapear.bmp" x="895" y="507" w="74" h="46" pX="0.527027" pY="0.695652"/>
+        <sprite n="cavalier_dissapear/013_cavalier_dissapear.bmp" x="969" y="507" w="68" h="45" pX="0.573529" pY="0.688889"/>
+        <sprite n="cavalier_dissapear/014_cavalier_dissapear.bmp" x="0" y="555" w="66" h="43" pX="0.560606" pY="0.697674"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="cavalier_dissapear/015_cavalier_dissapear.bmp" x="66" y="555" w="84" h="52" pX="0.416667" pY="0.615385"/>
+        <sprite n="cavalier_dissapear/016_cavalier_dissapear.bmp" x="150" y="555" w="82" h="49" pX="0.426829" pY="0.653061"/>
+        <sprite n="cavalier_dissapear/017_cavalier_dissapear.bmp" x="232" y="555" w="81" h="49" pX="0.432099" pY="0.653061"/>
+        <sprite n="cavalier_dissapear/018_cavalier_dissapear.bmp" x="313" y="555" w="80" h="47" pX="0.4375" pY="0.680851"/>
+        <sprite n="cavalier_dissapear/019_cavalier_dissapear.bmp" x="393" y="555" w="79" h="47" pX="0.443038" pY="0.680851"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="cavalier_dissapear/020_cavalier_dissapear.bmp" x="472" y="555" w="88" h="50" pX="0.295455" pY="0.54"/>
+        <sprite n="cavalier_dissapear/021_cavalier_dissapear.bmp" x="560" y="555" w="87" h="49" pX="0.298851" pY="0.55102"/>
+        <sprite n="cavalier_dissapear/022_cavalier_dissapear.bmp" x="647" y="555" w="86" h="49" pX="0.302326" pY="0.55102"/>
+        <sprite n="cavalier_dissapear/023_cavalier_dissapear.bmp" x="733" y="555" w="83" h="48" pX="0.313253" pY="0.5625"/>
+        <sprite n="cavalier_dissapear/024_cavalier_dissapear.bmp" x="816" y="555" w="83" h="40" pX="0.313253" pY="0.675"/>
+      </direction>
+    </action>
+
+    <!--Idle Action-->
+    <action enum ="idle" speed="150">
+      <direction enum="south">
+        <sprite n="cavalier_idle/000_cavalier_idle.bmp" x="899" y="555" w="38" h="80" pX="0.394737" pY="0.725"/>
+        <sprite n="cavalier_idle/001_cavalier_idle.bmp" x="937" y="555" w="37" h="77" pX="0.432432" pY="0.74026"/>
+        <sprite n="cavalier_idle/002_cavalier_idle.bmp" x="974" y="555" w="46" h="77" pX="0.434783" pY="0.74026"/>
+        <sprite n="cavalier_idle/003_cavalier_idle.bmp" x="1020" y="555" w="51" h="76" pX="0.392157" pY="0.723684"/>
+        <sprite n="cavalier_idle/004_cavalier_idle.bmp" x="0" y="635" w="47" h="73" pX="0.297872" pY="0.753425"/>
+        <sprite n="cavalier_idle/005_cavalier_idle.bmp" x="47" y="635" w="48" h="74" pX="0.291667" pY="0.77027"/>
+        <sprite n="cavalier_idle/006_cavalier_idle.bmp" x="95" y="635" w="46" h="74" pX="0.304348" pY="0.77027"/>
+        <sprite n="cavalier_idle/007_cavalier_idle.bmp" x="141" y="635" w="42" h="78" pX="0.357143" pY="0.717949"/>
+        <sprite n="cavalier_idle/008_cavalier_idle.bmp" x="183" y="635" w="41" h="78" pX="0.365854" pY="0.705128"/>
+        <sprite n="cavalier_idle/009_cavalier_idle.bmp" x="224" y="635" w="39" h="79" pX="0.384615" pY="0.734177"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="cavalier_idle/010_cavalier_idle.bmp" x="263" y="635" w="55" h="72" pX="0.563636" pY="0.791667"/>
+        <sprite n="cavalier_idle/011_cavalier_idle.bmp" x="318" y="635" w="56" h="74" pX="0.571429" pY="0.77027"/>
+        <sprite n="cavalier_idle/012_cavalier_idle.bmp" x="374" y="635" w="53" h="74" pX="0.566038" pY="0.77027"/>
+        <sprite n="cavalier_idle/013_cavalier_idle.bmp" x="427" y="635" w="57" h="76" pX="0.596491" pY="0.723684"/>
+        <sprite n="cavalier_idle/014_cavalier_idle.bmp" x="484" y="635" w="55" h="77" pX="0.545455" pY="0.714286"/>
+        <sprite n="cavalier_idle/015_cavalier_idle.bmp" x="539" y="635" w="50" h="78" pX="0.54" pY="0.730769"/>
+        <sprite n="cavalier_idle/016_cavalier_idle.bmp" x="589" y="635" w="49" h="78" pX="0.510204" pY="0.730769"/>
+        <sprite n="cavalier_idle/017_cavalier_idle.bmp" x="638" y="635" w="50" h="77" pX="0.52" pY="0.74026"/>
+        <sprite n="cavalier_idle/018_cavalier_idle.bmp" x="688" y="635" w="54" h="74" pX="0.555556" pY="0.756757"/>
+        <sprite n="cavalier_idle/019_cavalier_idle.bmp" x="742" y="635" w="54" h="73" pX="0.518519" pY="0.780822"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="cavalier_idle/020_cavalier_idle.bmp" x="796" y="635" w="72" h="67" pX="0.527778" pY="0.850746"/>
+        <sprite n="cavalier_idle/021_cavalier_idle.bmp" x="868" y="635" w="68" h="69" pX="0.514706" pY="0.855072"/>
+        <sprite n="cavalier_idle/022_cavalier_idle.bmp" x="936" y="635" w="67" h="70" pX="0.522388" pY="0.842857"/>
+        <sprite n="cavalier_idle/023_cavalier_idle.bmp" x="1003" y="635" w="68" h="70" pX="0.544118" pY="0.8"/>
+        <sprite n="cavalier_idle/024_cavalier_idle.bmp" x="0" y="714" w="63" h="71" pX="0.492063" pY="0.788732"/>
+        <sprite n="cavalier_idle/025_cavalier_idle.bmp" x="63" y="714" w="61" h="71" pX="0.47541" pY="0.788732"/>
+        <sprite n="cavalier_idle/026_cavalier_idle.bmp" x="124" y="714" w="64" h="69" pX="0.484375" pY="0.811594"/>
+        <sprite n="cavalier_idle/027_cavalier_idle.bmp" x="188" y="714" w="73" h="69" pX="0.547945" pY="0.84058"/>
+        <sprite n="cavalier_idle/028_cavalier_idle.bmp" x="261" y="714" w="75" h="69" pX="0.546667" pY="0.84058"/>
+        <sprite n="cavalier_idle/029_cavalier_idle.bmp" x="336" y="714" w="71" h="68" pX="0.521127" pY="0.838235"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="cavalier_idle/030_cavalier_idle.bmp" x="407" y="714" w="53" h="78" pX="0.490566" pY="0.833333"/>
+        <sprite n="cavalier_idle/031_cavalier_idle.bmp" x="460" y="714" w="56" h="78" pX="0.5" pY="0.833333"/>
+        <sprite n="cavalier_idle/032_cavalier_idle.bmp" x="516" y="714" w="59" h="77" pX="0.542373" pY="0.844156"/>
+        <sprite n="cavalier_idle/033_cavalier_idle.bmp" x="575" y="714" w="63" h="69" pX="0.587302" pY="0.84058"/>
+        <sprite n="cavalier_idle/034_cavalier_idle.bmp" x="638" y="714" w="68" h="69" pX="0.573529" pY="0.84058"/>
+        <sprite n="cavalier_idle/035_cavalier_idle.bmp" x="706" y="714" w="66" h="70" pX="0.560606" pY="0.828571"/>
+        <sprite n="cavalier_idle/036_cavalier_idle.bmp" x="772" y="714" w="66" h="68" pX="0.560606" pY="0.823529"/>
+        <sprite n="cavalier_idle/037_cavalier_idle.bmp" x="838" y="714" w="64" h="72" pX="0.546875" pY="0.819444"/>
+        <sprite n="cavalier_idle/038_cavalier_idle.bmp" x="902" y="714" w="59" h="72" pX="0.525424" pY="0.819444"/>
+        <sprite n="cavalier_idle/039_cavalier_idle.bmp" x="961" y="714" w="54" h="74" pX="0.5" pY="0.810811"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="cavalier_idle/040_cavalier_idle.bmp" x="1015" y="714" w="35" h="84" pX="0.457143" pY="0.797619"/>
+        <sprite n="cavalier_idle/041_cavalier_idle.bmp" x="0" y="798" w="37" h="83" pX="0.405405" pY="0.795181"/>
+        <sprite n="cavalier_idle/042_cavalier_idle.bmp" x="37" y="798" w="44" h="84" pX="0.363636" pY="0.797619"/>
+        <sprite n="cavalier_idle/043_cavalier_idle.bmp" x="81" y="798" w="50" h="80" pX="0.48" pY="0.8125"/>
+        <sprite n="cavalier_idle/044_cavalier_idle.bmp" x="131" y="798" w="46" h="78" pX="0.543478" pY="0.794872"/>
+        <sprite n="cavalier_idle/045_cavalier_idle.bmp" x="177" y="798" w="45" h="76" pX="0.577778" pY="0.789474"/>
+        <sprite n="cavalier_idle/046_cavalier_idle.bmp" x="222" y="798" w="40" h="79" pX="0.55" pY="0.797468"/>
+        <sprite n="cavalier_idle/047_cavalier_idle.bmp" x="262" y="798" w="40" h="80" pX="0.5" pY="0.8"/>
+        <sprite n="cavalier_idle/048_cavalier_idle.bmp" x="302" y="798" w="40" h="80" pX="0.475" pY="0.7875"/>
+        <sprite n="cavalier_idle/049_cavalier_idle.bmp" x="342" y="798" w="37" h="81" pX="0.513514" pY="0.790123"/>
+      </direction>
+    </action>
+
+
+    <!--Walk Action-->
+    <action enum ="walk" speed="100">
+      <direction enum="south">
+        <sprite n="cavalier_walk/000_cavalier_walk.bmp" x="379" y="798" w="43" h="78" pX="0.395349" pY="0.75641"/>
+        <sprite n="cavalier_walk/001_cavalier_walk.bmp" x="422" y="798" w="44" h="78" pX="0.409091" pY="0.75641"/>
+        <sprite n="cavalier_walk/002_cavalier_walk.bmp" x="466" y="798" w="44" h="79" pX="0.409091" pY="0.759494"/>
+        <sprite n="cavalier_walk/003_cavalier_walk.bmp" x="510" y="798" w="43" h="79" pX="0.418605" pY="0.772152"/>
+        <sprite n="cavalier_walk/004_cavalier_walk.bmp" x="553" y="798" w="43" h="78" pX="0.418605" pY="0.769231"/>
+        <sprite n="cavalier_walk/005_cavalier_walk.bmp" x="596" y="798" w="43" h="78" pX="0.418605" pY="0.769231"/>
+        <sprite n="cavalier_walk/006_cavalier_walk.bmp" x="639" y="798" w="43" h="77" pX="0.418605" pY="0.766234"/>
+        <sprite n="cavalier_walk/007_cavalier_walk.bmp" x="682" y="798" w="43" h="78" pX="0.395349" pY="0.75641"/>
+        <sprite n="cavalier_walk/008_cavalier_walk.bmp" x="725" y="798" w="43" h="78" pX="0.395349" pY="0.75641"/>
+        <sprite n="cavalier_walk/009_cavalier_walk.bmp" x="768" y="798" w="42" h="79" pX="0.380952" pY="0.746835"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="cavalier_walk/010_cavalier_walk.bmp" x="810" y="798" w="56" h="74" pX="0.446429" pY="0.797297"/>
+        <sprite n="cavalier_walk/011_cavalier_walk.bmp" x="866" y="798" w="54" h="74" pX="0.444444" pY="0.797297"/>
+        <sprite n="cavalier_walk/012_cavalier_walk.bmp" x="920" y="798" w="53" h="75" pX="0.45283" pY="0.8"/>
+        <sprite n="cavalier_walk/013_cavalier_walk.bmp" x="973" y="798" w="53" h="75" pX="0.45283" pY="0.8"/>
+        <sprite n="cavalier_walk/014_cavalier_walk.bmp" x="0" y="882" w="54" h="75" pX="0.444444" pY="0.8"/>
+        <sprite n="cavalier_walk/015_cavalier_walk.bmp" x="54" y="882" w="55" h="73" pX="0.436364" pY="0.808219"/>
+        <sprite n="cavalier_walk/016_cavalier_walk.bmp" x="109" y="882" w="60" h="72" pX="0.4" pY="0.805556"/>
+        <sprite n="cavalier_walk/017_cavalier_walk.bmp" x="169" y="882" w="60" h="73" pX="0.416667" pY="0.794521"/>
+        <sprite n="cavalier_walk/018_cavalier_walk.bmp" x="229" y="882" w="57" h="73" pX="0.438596" pY="0.794521"/>
+        <sprite n="cavalier_walk/019_cavalier_walk.bmp" x="286" y="882" w="57" h="73" pX="0.45614" pY="0.794521"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="cavalier_walk/020_cavalier_walk.bmp" x="343" y="882" w="71" h="69" pX="0.478873" pY="0.84058"/>
+        <sprite n="cavalier_walk/021_cavalier_walk.bmp" x="414" y="882" w="69" h="69" pX="0.478261" pY="0.84058"/>
+        <sprite n="cavalier_walk/022_cavalier_walk.bmp" x="483" y="882" w="69" h="70" pX="0.463768" pY="0.842857"/>
+        <sprite n="cavalier_walk/023_cavalier_walk.bmp" x="552" y="882" w="70" h="71" pX="0.457143" pY="0.84507"/>
+        <sprite n="cavalier_walk/024_cavalier_walk.bmp" x="622" y="882" w="71" h="70" pX="0.43662" pY="0.842857"/>
+        <sprite n="cavalier_walk/025_cavalier_walk.bmp" x="693" y="882" w="73" h="69" pX="0.424658" pY="0.84058"/>
+        <sprite n="cavalier_walk/026_cavalier_walk.bmp" x="766" y="882" w="79" h="68" pX="0.392405" pY="0.838235"/>
+        <sprite n="cavalier_walk/027_cavalier_walk.bmp" x="845" y="882" w="79" h="68" pX="0.405063" pY="0.838235"/>
+        <sprite n="cavalier_walk/028_cavalier_walk.bmp" x="924" y="882" w="76" h="68" pX="0.434211" pY="0.838235"/>
+        <sprite n="cavalier_walk/029_cavalier_walk.bmp" x="1000" y="882" w="72" h="68" pX="0.472222" pY="0.838235"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="cavalier_walk/030_cavalier_walk.bmp" x="0" y="957" w="53" h="76" pX="0.490566" pY="0.776316"/>
+        <sprite n="cavalier_walk/031_cavalier_walk.bmp" x="53" y="957" w="54" h="77" pX="0.481481" pY="0.792208"/>
+        <sprite n="cavalier_walk/032_cavalier_walk.bmp" x="107" y="957" w="54" h="78" pX="0.481481" pY="0.794872"/>
+        <sprite n="cavalier_walk/033_cavalier_walk.bmp" x="161" y="957" w="54" h="79" pX="0.462963" pY="0.797468"/>
+        <sprite n="cavalier_walk/034_cavalier_walk.bmp" x="215" y="957" w="56" h="77" pX="0.446429" pY="0.805195"/>
+        <sprite n="cavalier_walk/035_cavalier_walk.bmp" x="271" y="957" w="58" h="76" pX="0.448276" pY="0.789474"/>
+        <sprite n="cavalier_walk/036_cavalier_walk.bmp" x="329" y="957" w="62" h="78" pX="0.403226" pY="0.75641"/>
+        <sprite n="cavalier_walk/037_cavalier_walk.bmp" x="391" y="957" w="62" h="77" pX="0.419355" pY="0.753247"/>
+        <sprite n="cavalier_walk/038_cavalier_walk.bmp" x="453" y="957" w="58" h="76" pX="0.448276" pY="0.776316"/>
+        <sprite n="cavalier_walk/039_cavalier_walk.bmp" x="511" y="957" w="55" h="75" pX="0.472727" pY="0.773333"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="cavalier_walk/040_cavalier_walk.bmp" x="566" y="957" w="40" h="83" pX="0.475" pY="0.759036"/>
+        <sprite n="cavalier_walk/041_cavalier_walk.bmp" x="606" y="957" w="40" h="83" pX="0.475" pY="0.771084"/>
+        <sprite n="cavalier_walk/042_cavalier_walk.bmp" x="646" y="957" w="41" h="84" pX="0.463415" pY="0.77381"/>
+        <sprite n="cavalier_walk/043_cavalier_walk.bmp" x="687" y="957" w="41" h="84" pX="0.463415" pY="0.761905"/>
+        <sprite n="cavalier_walk/044_cavalier_walk.bmp" x="728" y="957" w="41" h="84" pX="0.463415" pY="0.75"/>
+        <sprite n="cavalier_walk/045_cavalier_walk.bmp" x="769" y="957" w="41" h="84" pX="0.463415" pY="0.738095"/>
+        <sprite n="cavalier_walk/046_cavalier_walk.bmp" x="810" y="957" w="40" h="88" pX="0.475" pY="0.704545"/>
+        <sprite n="cavalier_walk/047_cavalier_walk.bmp" x="850" y="957" w="40" h="87" pX="0.475" pY="0.712644"/>
+        <sprite n="cavalier_walk/048_cavalier_walk.bmp" x="890" y="957" w="40" h="85" pX="0.475" pY="0.729412"/>
+        <sprite n="cavalier_walk/049_cavalier_walk.bmp" x="930" y="957" w="40" h="82" pX="0.475" pY="0.756098"/>
+      </direction>
+    </action>
+  </unit>
+</TextureAtlas>

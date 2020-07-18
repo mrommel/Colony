@@ -49,6 +49,10 @@ public enum UnitType: Int, Codable {
 
     case galley // FIXME Ancient era melee naval combat unit. Can only operate on coastal waters until Cartography is researched.
 
+    // support
+    
+    case medic
+    
     // taken from https://www.matrixgames.com/forums/tm.asp?m=2994803
 
     // great people
@@ -97,6 +101,9 @@ public enum UnitType: Int, Codable {
 
             // ancient
             .scout, .warrior, .archer, .spearman, .heavyChariot, .galley,
+            
+            // industrial
+            .medic,
 
             // great people
             .artist, .engineer, .merchant, .scientist, .admiral, .general, .prophet
@@ -149,9 +156,11 @@ public enum UnitType: Int, Codable {
         
         switch self {
             
+            // barbarian
         case .barbarianWarrior: return .warrior
         case .barbarianArcher: return .archer
             
+            // ancient
         case .settler: return .settler
         case .builder: return .builder
 
@@ -163,6 +172,10 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return .heavyChariot
         case .galley: return  .galley
             
+            // industrial
+        case .medic: return .medic
+            
+            // great people
         case .artist: return .artist
         case .admiral: return .admiral
         case .engineer: return .engineer
@@ -220,6 +233,7 @@ public enum UnitType: Int, Codable {
             
         case .barbarianArcher: return UnitTypeData(name: "barbarian archer", sight: 2, range: 1, supportDistance: 2, strength: 10, targetType: .ranged, meleeAttack: 15, rangedAttack: 20, moves: 2)
 
+            // ancient
         case .settler:
             // https://civilization.fandom.com/wiki/Settler_(Civ6)
             return UnitTypeData(name: "settler", sight: 3, range: 0, supportDistance: 0, strength: 10, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 2)
@@ -243,7 +257,10 @@ public enum UnitType: Int, Codable {
         case .galley:
             return UnitTypeData(name: "galley", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .navalMelee, meleeAttack: 0, rangedAttack: 0, moves: 3)
 
-
+            // industrial
+        case .medic: return UnitTypeData(name: "medic", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .support, meleeAttack: 0, rangedAttack: 0, moves: 2)
+            
+            // great people
         case .admiral:
             return UnitTypeData(name: "admiral", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
         case .artist:
@@ -322,7 +339,11 @@ public enum UnitType: Int, Codable {
                 Flavor(type: .defense, value: 6),
             ]
         case .galley: return []
+            
+            // industral
+        case .medic: return []
 
+            // great people
         case .admiral: return []
         case .artist: return []
         case .engineer: return []
@@ -353,6 +374,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return .land
         case .heavyChariot: return .land
         case .galley: return .sea
+            
+            // industral
+        case .medic: return .land
 
             // great people
         case .admiral: return .land
@@ -389,6 +413,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return [.attack, .defense]
         case .heavyChariot: return [.attack, .defense, .explore]
         case .galley: return [.exploreSea, .attackSea, .escortSea, .reserveSea]
+            
+            // industral
+        case .medic: return [.unknown]
 
             // great people
         case .admiral: return []
@@ -421,6 +448,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return .defense
         case .heavyChariot: return .attack
         case .galley: return .exploreSea
+            
+            // industral
+        case .medic: return .unknown
 
             // great people
         case .admiral: return .general
@@ -441,6 +471,7 @@ public enum UnitType: Int, Codable {
         case .barbarianWarrior: return .walk
         case .barbarianArcher: return .walk
 
+            // ancient
         case .settler: return .walk
         case .builder: return .walk
 
@@ -452,6 +483,9 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return .walk // FIXME
 
         case .galley: return .swim
+            
+            // industral
+        case .medic: return .walk
 
             // great people
         case .artist: return .walk
@@ -484,6 +518,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return 65
         case .heavyChariot: return 65
         case .galley: return 65
+            
+            // industral
+        case .medic: return 370
 
             // great people
         case .artist: return -1
@@ -516,6 +553,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return 260
         case .heavyChariot: return 260
         case .galley: return 260
+            
+            // industral
+        case .medic: return 1480
 
             // great people
         case .artist: return -1
@@ -549,6 +589,9 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return 1
         case .galley: return 1
 
+            // industral
+        case .medic: return 5
+            
             // great people
         case .admiral: return 0
         case .artist: return 0
@@ -580,6 +623,9 @@ public enum UnitType: Int, Codable {
         case .spearman: return .bronzeWorking
         case .heavyChariot: return .wheel
         case .galley: return .sailing
+            
+            // industral
+        case .medic: return .sanitation
 
             // great people
         case .admiral: return nil
@@ -629,6 +675,9 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return nil
         case .galley: return nil
 
+            // industrial
+        case .medic: return nil
+            
             // great people
         case .admiral: return nil
         case .artist: return nil
@@ -687,7 +736,7 @@ public enum UnitType: Int, Codable {
             
         case .warrior:
             if civilization == .barbarian {
-                return nil
+                return .barbarianWarrior
             }
             
             return .warrior
@@ -701,7 +750,7 @@ public enum UnitType: Int, Codable {
             
         case .archer:
             if civilization == .barbarian {
-                return nil
+                return .barbarianArcher
             }
             
             return .archer
@@ -727,6 +776,15 @@ public enum UnitType: Int, Codable {
             
             return .galley
 
+            // ----------------------------
+            // industrial
+        case .medic:
+            if civilization == .barbarian {
+                return nil
+            }
+            
+            return .medic
+            
             // ----------------------------
             // great people
         case .admiral:
@@ -814,6 +872,9 @@ public enum UnitType: Int, Codable {
         case .heavyChariot: return [.canCapture]
         case .galley: return [.oceanImpassable, .canCapture]
 
+            // industrial
+        case .medic: return [.canHeal]
+            
             // great people
         case .admiral: return []
         case .artist: return []
@@ -928,5 +989,14 @@ public enum UnitType: Int, Codable {
         }
 
         return true
+    }
+    
+    func healingAdjacentUnits() -> Int {
+        
+        if self.has(ability: .canHeal) {
+            return 20
+        }
+        
+        return 0
     }
 }

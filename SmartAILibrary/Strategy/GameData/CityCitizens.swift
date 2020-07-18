@@ -274,6 +274,9 @@ public class CityCitizens: Codable {
         }
         
         for location in city.location.areaWith(radius: City.workRadius) {
+            
+            // FIXME: check map
+            
             self.workingPlots.append(WorkingPlot(location: location, worked: false))
         }
     }
@@ -366,8 +369,7 @@ public class CityCitizens: Codable {
                         self.set(focusType: .none);
                         self.setNoAutoAssignSpecialists(true, in: gameModel);
                     }
-                }
-                else if gameModel.turnsElapsed % 3 == 0 && player.grandStrategyAI?.activeStrategy == .culture {
+                } else if gameModel.turnsElapsed % 3 == 0 && player.grandStrategyAI?.activeStrategy == .culture {
                     
                     self.set(focusType: .culture)
                     self.setNoAutoAssignSpecialists(true, in: gameModel)
@@ -700,7 +702,6 @@ public class CityCitizens: Codable {
         
         fatalError("not a valid plot to check for this city")
     }
-    
     
     /// Has our City been told it MUST a particular CvPlot?
     public func isForcedWorked(at location: HexPoint) -> Bool {

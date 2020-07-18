@@ -44,7 +44,10 @@
 
 
 ## Missing Tiles
-- border_n_s_sw
+- snow-ne-nw
+- snow-ne-se-sw
+- snow-n-se-s-sw-nw
+- snow-ne-s-sw-nw
 
 ## Done
 - add builder from start

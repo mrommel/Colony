@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:dc4004f395a197f1c7578272a2d12d04:a22cea9b8f34754687fc25e5aba41976:5c0426a932de3c05e7d3289d91227ca8$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+
+<TextureAtlas blue_texture="arbalest.png" red_texture="arbalest_red.png" width="782" height="782">
+  <!-- Define the unit type-->
+  <unit id ="arbalest">
+
+    <!-- Attack Action-->
+    <action enum="attack" speed="203">
+      <direction enum="south">
+        <sprite n="arbalest_attack/000_Arbalest_attack.bmp" x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite n="arbalest_attack/001_Arbalest_attack.bmp" x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
+        <sprite n="arbalest_attack/002_Arbalest_attack.bmp" x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
+        <sprite n="arbalest_attack/003_Arbalest_attack.bmp" x="96" y="1" w="31" h="55" pX="0.645161" pY="0.654545"/>
+        <sprite n="arbalest_attack/004_Arbalest_attack.bmp" x="129" y="1" w="34" h="57" pX="0.647059" pY="0.666667"/>
+        <sprite n="arbalest_attack/005_Arbalest_attack.bmp" x="165" y="1" w="33" h="57" pX="0.575758" pY="0.684211"/>
+        <sprite n="arbalest_attack/006_Arbalest_attack.bmp" x="200" y="1" w="30" h="56" pX="0.5" pY="0.696429"/>
+        <sprite n="arbalest_attack/007_Arbalest_attack.bmp" x="232" y="1" w="30" h="57" pX="0.533333" pY="0.701754"/>
+        <sprite n="arbalest_attack/008_Arbalest_attack.bmp" x="264" y="1" w="28" h="56" pX="0.535714" pY="0.714286"/>
+        <sprite n="arbalest_attack/009_Arbalest_attack.bmp" x="294" y="1" w="29" h="57" pX="0.517241" pY="0.736842"/>
+        <sprite n="arbalest_attack/010_Arbalest_attack.bmp" x="325" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="arbalest_attack/011_Arbalest_attack.bmp" x="357" y="1" w="30" h="54" pX="0.666667" pY="0.777778"/>
+        <sprite n="arbalest_attack/012_Arbalest_attack.bmp" x="389" y="1" w="38" h="52" pX="0.763158" pY="0.769231"/>
+        <sprite n="arbalest_attack/013_Arbalest_attack.bmp" x="429" y="1" w="42" h="52" pX="0.833333" pY="0.75"/>
+        <sprite n="arbalest_attack/014_Arbalest_attack.bmp" x="473" y="1" w="42" h="52" pX="0.833333" pY="0.711538"/>
+        <sprite n="arbalest_attack/015_Arbalest_attack.bmp" x="517" y="1" w="40" h="52" pX="0.825" pY="0.75"/>
+        <sprite n="arbalest_attack/016_Arbalest_attack.bmp" x="559" y="1" w="40" h="53" pX="0.825" pY="0.735849"/>
+        <sprite n="arbalest_attack/017_Arbalest_attack.bmp" x="601" y="1" w="38" h="53" pX="0.815789" pY="0.735849"/>
+        <sprite n="arbalest_attack/018_Arbalest_attack.bmp" x="641" y="1" w="37" h="54" pX="0.810811" pY="0.740741"/>
+        <sprite n="arbalest_attack/019_Arbalest_attack.bmp" x="680" y="1" w="38" h="53" pX="0.789474" pY="0.754717"/>
+        <sprite n="arbalest_attack/020_Arbalest_attack.bmp" x="720" y="1" w="36" h="54" pX="0.75" pY="0.759259"/>
+        <sprite n="arbalest_attack/021_Arbalest_attack.bmp" x="1" y="61" w="30" h="54" pX="0.666667" pY="0.777778"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="arbalest_attack/022_Arbalest_attack.bmp" x="33" y="61" w="35" h="49" pX="0.657143" pY="0.816327"/>
+        <sprite n="arbalest_attack/023_Arbalest_attack.bmp" x="70" y="61" w="40" h="46" pX="0.775" pY="0.847826"/>
+        <sprite n="arbalest_attack/024_Arbalest_attack.bmp" x="112" y="61" w="45" h="44" pX="0.844444" pY="0.886364"/>
+        <sprite n="arbalest_attack/025_Arbalest_attack.bmp" x="159" y="61" w="48" h="45" pX="0.833333" pY="0.866667"/>
+        <sprite n="arbalest_attack/026_Arbalest_attack.bmp" x="209" y="61" w="46" h="45" pX="0.847826" pY="0.866667"/>
+        <sprite n="arbalest_attack/027_Arbalest_attack.bmp" x="257" y="61" w="44" h="46" pX="0.840909" pY="0.847826"/>
+        <sprite n="arbalest_attack/028_Arbalest_attack.bmp" x="303" y="61" w="40" h="47" pX="0.85" pY="0.829787"/>
+        <sprite n="arbalest_attack/029_Arbalest_attack.bmp" x="345" y="61" w="40" h="46" pX="0.825" pY="0.847826"/>
+        <sprite n="arbalest_attack/030_Arbalest_attack.bmp" x="387" y="61" w="40" h="46" pX="0.8" pY="0.847826"/>
+        <sprite n="arbalest_attack/031_Arbalest_attack.bmp" x="429" y="61" w="39" h="47" pX="0.74359" pY="0.829787"/>
+        <sprite n="arbalest_attack/032_Arbalest_attack.bmp" x="470" y="61" w="35" h="49" pX="0.657143" pY="0.816327"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="arbalest_attack/033_Arbalest_attack.bmp" x="507" y="61" w="34" h="44" pX="0.647059" pY="0.863636"/>
+        <sprite n="arbalest_attack/034_Arbalest_attack.bmp" x="543" y="61" w="32" h="44" pX="0.6875" pY="0.886364"/>
+        <sprite n="arbalest_attack/035_Arbalest_attack.bmp" x="577" y="61" w="32" h="45" pX="0.75" pY="0.888889"/>
+        <sprite n="arbalest_attack/036_Arbalest_attack.bmp" x="611" y="61" w="36" h="46" pX="0.777778" pY="0.913043"/>
+        <sprite n="arbalest_attack/037_Arbalest_attack.bmp" x="649" y="61" w="36" h="50" pX="0.777778" pY="0.92"/>
+        <sprite n="arbalest_attack/038_Arbalest_attack.bmp" x="687" y="61" w="35" h="49" pX="0.771429" pY="0.918367"/>
+        <sprite n="arbalest_attack/039_Arbalest_attack.bmp" x="724" y="61" w="38" h="47" pX="0.763158" pY="0.914894"/>
+        <sprite n="arbalest_attack/040_Arbalest_attack.bmp" x="1" y="117" w="38" h="44" pX="0.736842" pY="0.909091"/>
+        <sprite n="arbalest_attack/041_Arbalest_attack.bmp" x="41" y="117" w="36" h="44" pX="0.722222" pY="0.886364"/>
+        <sprite n="arbalest_attack/042_Arbalest_attack.bmp" x="79" y="117" w="35" h="43" pX="0.685714" pY="0.883721"/>
+        <sprite n="arbalest_attack/043_Arbalest_attack.bmp" x="116" y="117" w="34" h="44" pX="0.647059" pY="0.863636"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="arbalest_attack/044_Arbalest_attack.bmp" x="152" y="117" w="29" h="44" pX="0.551724" pY="0.840909"/>
+        <sprite n="arbalest_attack/045_Arbalest_attack.bmp" x="183" y="117" w="28" h="43" pX="0.357143" pY="0.883721"/>
+        <sprite n="arbalest_attack/046_Arbalest_attack.bmp" x="213" y="117" w="30" h="47" pX="0.333333" pY="0.893617"/>
+        <sprite n="arbalest_attack/047_Arbalest_attack.bmp" x="245" y="117" w="31" h="48" pX="0.387097" pY="0.895833"/>
+        <sprite n="arbalest_attack/048_Arbalest_attack.bmp" x="278" y="117" w="32" h="54" pX="0.40625" pY="0.907407"/>
+        <sprite n="arbalest_attack/049_Arbalest_attack.bmp" x="312" y="117" w="31" h="54" pX="0.483871" pY="0.907407"/>
+        <sprite n="arbalest_attack/050_Arbalest_attack.bmp" x="345" y="117" w="29" h="51" pX="0.517241" pY="0.901961"/>
+        <sprite n="arbalest_attack/051_Arbalest_attack.bmp" x="376" y="117" w="29" h="47" pX="0.517241" pY="0.914894"/>
+        <sprite n="arbalest_attack/052_Arbalest_attack.bmp" x="407" y="117" w="27" h="43" pX="0.481481" pY="0.906977"/>
+        <sprite n="arbalest_attack/053_Arbalest_attack.bmp" x="436" y="117" w="29" h="43" pX="0.517241" pY="0.883721"/>
+        <sprite n="arbalest_attack/054_Arbalest_attack.bmp" x="467" y="117" w="29" h="44" pX="0.551724" pY="0.840909"/>
+      </direction>
+    </action>
+
+    <!--Die Action-->
+    <action enum ="die" speed="200">
+      <direction enum="south">
+        <sprite n="arbalest_die/000_Arbalest_die.bmp" x="498" y="117" w="32" h="56" pX="0.65625" pY="0.75"/>
+        <sprite n="arbalest_die/001_Arbalest_die.bmp" x="532" y="117" w="31" h="61" pX="0.709677" pY="0.737705"/>
+        <sprite n="arbalest_die/002_Arbalest_die.bmp" x="565" y="117" w="34" h="64" pX="0.735294" pY="0.71875"/>
+        <sprite n="arbalest_die/003_Arbalest_die.bmp" x="601" y="117" w="34" h="64" pX="0.764706" pY="0.703125"/>
+        <sprite n="arbalest_die/004_Arbalest_die.bmp" x="637" y="117" w="34" h="61" pX="0.764706" pY="0.672131"/>
+        <sprite n="arbalest_die/005_Arbalest_die.bmp" x="673" y="117" w="35" h="61" pX="0.771429" pY="0.622951"/>
+        <sprite n="arbalest_die/006_Arbalest_die.bmp" x="710" y="117" w="35" h="60" pX="0.771429" pY="0.583333"/>
+        <sprite n="arbalest_die/007_Arbalest_die.bmp" x="1" y="183" w="36" h="57" pX="0.722222" pY="0.508772"/>
+        <sprite n="arbalest_die/008_Arbalest_die.bmp" x="39" y="183" w="40" h="47" pX="0.65" pY="0.382979"/>
+        <sprite n="arbalest_die/009_Arbalest_die.bmp" x="81" y="183" w="49" h="47" pX="0.530612" pY="0.361702"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="arbalest_die/010_Arbalest_die.bmp" x="132" y="183" w="39" h="53" pX="0.74359" pY="0.792453"/>
+        <sprite n="arbalest_die/011_Arbalest_die.bmp" x="173" y="183" w="46" h="54" pX="0.717391" pY="0.814815"/>
+        <sprite n="arbalest_die/012_Arbalest_die.bmp" x="221" y="183" w="47" h="55" pX="0.680851" pY="0.8"/>
+        <sprite n="arbalest_die/013_Arbalest_die.bmp" x="270" y="183" w="55" h="55" pX="0.672727" pY="0.781818"/>
+        <sprite n="arbalest_die/014_Arbalest_die.bmp" x="327" y="183" w="56" h="52" pX="0.642857" pY="0.75"/>
+        <sprite n="arbalest_die/015_Arbalest_die.bmp" x="385" y="183" w="64" h="50" pX="0.65625" pY="0.72"/>
+        <sprite n="arbalest_die/016_Arbalest_die.bmp" x="451" y="183" w="68" h="47" pX="0.647059" pY="0.680851"/>
+        <sprite n="arbalest_die/017_Arbalest_die.bmp" x="521" y="183" w="75" h="47" pX="0.64" pY="0.617021"/>
+        <sprite n="arbalest_die/018_Arbalest_die.bmp" x="598" y="183" w="73" h="38" pX="0.684932" pY="0.5"/>
+        <sprite n="arbalest_die/019_Arbalest_die.bmp" x="673" y="183" w="81" h="33" pX="0.62963" pY="0.424242"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="arbalest_die/020_Arbalest_die.bmp" x="1" y="242" w="37" h="47" pX="0.72973" pY="0.87234"/>
+        <sprite n="arbalest_die/021_Arbalest_die.bmp" x="40" y="242" w="47" h="46" pX="0.659574" pY="0.891304"/>
+        <sprite n="arbalest_die/022_Arbalest_die.bmp" x="89" y="242" w="50" h="44" pX="0.62" pY="0.886364"/>
+        <sprite n="arbalest_die/023_Arbalest_die.bmp" x="141" y="242" w="61" h="43" pX="0.57377" pY="0.906977"/>
+        <sprite n="arbalest_die/024_Arbalest_die.bmp" x="204" y="242" w="62" h="42" pX="0.548387" pY="0.880952"/>
+        <sprite n="arbalest_die/025_Arbalest_die.bmp" x="268" y="242" w="71" h="39" pX="0.56338" pY="0.871795"/>
+        <sprite n="arbalest_die/026_Arbalest_die.bmp" x="341" y="242" w="77" h="34" pX="0.571429" pY="0.852941"/>
+        <sprite n="arbalest_die/027_Arbalest_die.bmp" x="420" y="242" w="86" h="28" pX="0.581395" pY="0.785714"/>
+        <sprite n="arbalest_die/028_Arbalest_die.bmp" x="508" y="242" w="84" h="24" pX="0.630952" pY="0.666667"/>
+        <sprite n="arbalest_die/029_Arbalest_die.bmp" x="594" y="242" w="85" h="27" pX="0.635294" pY="0.518519"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="arbalest_die/030_Arbalest_die.bmp" x="681" y="242" w="33" h="47" pX="0.636364" pY="0.87234"/>
+        <sprite n="arbalest_die/031_Arbalest_die.bmp" x="716" y="242" w="32" h="45" pX="0.5625" pY="0.844444"/>
+        <sprite n="arbalest_die/032_Arbalest_die.bmp" x="1" y="291" w="34" h="45" pX="0.558824" pY="0.822222"/>
+        <sprite n="arbalest_die/033_Arbalest_die.bmp" x="37" y="291" w="40" h="46" pX="0.5" pY="0.804348"/>
+        <sprite n="arbalest_die/034_Arbalest_die.bmp" x="79" y="291" w="44" h="42" pX="0.477273" pY="0.761905"/>
+        <sprite n="arbalest_die/035_Arbalest_die.bmp" x="125" y="291" w="50" h="41" pX="0.52" pY="0.707317"/>
+        <sprite n="arbalest_die/036_Arbalest_die.bmp" x="177" y="291" w="54" h="45" pX="0.518519" pY="0.711111"/>
+        <sprite n="arbalest_die/037_Arbalest_die.bmp" x="233" y="291" w="59" h="38" pX="0.525424" pY="0.605263"/>
+        <sprite n="arbalest_die/038_Arbalest_die.bmp" x="294" y="291" w="65" h="37" pX="0.507692" pY="0.648649"/>
+        <sprite n="arbalest_die/039_Arbalest_die.bmp" x="361" y="291" w="62" h="43" pX="0.548387" pY="0.604651"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="arbalest_die/040_Arbalest_die.bmp" x="425" y="291" w="31" h="45" pX="0.387097" pY="0.888889"/>
+        <sprite n="arbalest_die/041_Arbalest_die.bmp" x="458" y="291" w="35" h="44" pX="0.314286" pY="0.818182"/>
+        <sprite n="arbalest_die/042_Arbalest_die.bmp" x="495" y="291" w="37" h="44" pX="0.297297" pY="0.772727"/>
+        <sprite n="arbalest_die/043_Arbalest_die.bmp" x="534" y="291" w="36" h="46" pX="0.222222" pY="0.717391"/>
+        <sprite n="arbalest_die/044_Arbalest_die.bmp" x="572" y="291" w="35" h="44" pX="0.228571" pY="0.659091"/>
+        <sprite n="arbalest_die/045_Arbalest_die.bmp" x="609" y="291" w="35" h="44" pX="0.228571" pY="0.636364"/>
+        <sprite n="arbalest_die/046_Arbalest_die.bmp" x="646" y="291" w="36" h="51" pX="0.25" pY="0.647059"/>
+        <sprite n="arbalest_die/047_Arbalest_die.bmp" x="684" y="291" w="36" h="43" pX="0.25" pY="0.55814"/>
+        <sprite n="arbalest_die/048_Arbalest_die.bmp" x="722" y="291" w="40" h="44" pX="0.325" pY="0.613636"/>
+        <sprite n="arbalest_die/049_Arbalest_die.bmp" x="1" y="344" w="48" h="44" pX="0.4375" pY="0.613636"/>
+      </direction>
+    </action>
+
+    <!--Disappear Action-->
+    <action enum ="disappear" speed="1500">
+      <direction enum="south">
+        <sprite n="arbalest_dissapear/000_Arbalest_dissapear.bmp" x="51" y="344" w="47" h="45" pX="0.531915" pY="0.355556"/>
+        <sprite n="arbalest_dissapear/001_Arbalest_dissapear.bmp" x="100" y="344" w="47" h="45" pX="0.531915" pY="0.355556"/>
+        <sprite n="arbalest_dissapear/002_Arbalest_dissapear.bmp" x="149" y="344" w="44" h="43" pX="0.568182" pY="0.348837"/>
+        <sprite n="arbalest_dissapear/003_Arbalest_dissapear.bmp" x="195" y="344" w="40" h="43" pX="0.575" pY="0.348837"/>
+        <sprite n="arbalest_dissapear/004_Arbalest_dissapear.bmp" x="237" y="344" w="36" h="43" pX="0.638889" pY="0.348837"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="arbalest_dissapear/005_Arbalest_dissapear.bmp" x="275" y="344" w="79" h="31" pX="0.632911" pY="0.419355"/>
+        <sprite n="arbalest_dissapear/006_Arbalest_dissapear.bmp" x="356" y="344" w="78" h="31" pX="0.641026" pY="0.419355"/>
+        <sprite n="arbalest_dissapear/007_Arbalest_dissapear.bmp" x="436" y="344" w="76" h="30" pX="0.657895" pY="0.4"/>
+        <sprite n="arbalest_dissapear/008_Arbalest_dissapear.bmp" x="514" y="344" w="73" h="31" pX="0.643836" pY="0.419355"/>
+        <sprite n="arbalest_dissapear/009_Arbalest_dissapear.bmp" x="589" y="344" w="70" h="31" pX="0.671429" pY="0.419355"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="arbalest_dissapear/010_Arbalest_dissapear.bmp" x="661" y="344" w="83" h="25" pX="0.638554" pY="0.52"/>
+        <sprite n="arbalest_dissapear/011_Arbalest_dissapear.bmp" x="1" y="391" w="83" h="24" pX="0.638554" pY="0.541667"/>
+        <sprite n="arbalest_dissapear/012_Arbalest_dissapear.bmp" x="86" y="391" w="83" h="22" pX="0.638554" pY="0.590909"/>
+        <sprite n="arbalest_dissapear/013_Arbalest_dissapear.bmp" x="171" y="391" w="82" h="20" pX="0.646341" pY="0.65"/>
+        <sprite n="arbalest_dissapear/014_Arbalest_dissapear.bmp" x="255" y="391" w="82" h="19" pX="0.646341" pY="0.684211"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="arbalest_dissapear/015_Arbalest_dissapear.bmp" x="339" y="391" w="60" h="41" pX="0.55" pY="0.609756"/>
+        <sprite n="arbalest_dissapear/016_Arbalest_dissapear.bmp" x="401" y="391" w="60" h="41" pX="0.55" pY="0.609756"/>
+        <sprite n="arbalest_dissapear/017_Arbalest_dissapear.bmp" x="463" y="391" w="60" h="37" pX="0.55" pY="0.621622"/>
+        <sprite n="arbalest_dissapear/018_Arbalest_dissapear.bmp" x="525" y="391" w="58" h="36" pX="0.534483" pY="0.638889"/>
+        <sprite n="arbalest_dissapear/019_Arbalest_dissapear.bmp" x="585" y="391" w="56" h="34" pX="0.553571" pY="0.676471"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="arbalest_dissapear/020_Arbalest_dissapear.bmp" x="643" y="391" w="46" h="42" pX="0.434783" pY="0.619048"/>
+        <sprite n="arbalest_dissapear/021_Arbalest_dissapear.bmp" x="691" y="391" w="41" h="42" pX="0.463415" pY="0.619048"/>
+        <sprite n="arbalest_dissapear/022_Arbalest_dissapear.bmp" x="734" y="391" w="38" h="40" pX="0.421053" pY="0.625"/>
+        <sprite n="arbalest_dissapear/023_Arbalest_dissapear.bmp" x="1" y="435" w="33" h="39" pX="0.363636" pY="0.641026"/>
+        <sprite n="arbalest_dissapear/024_Arbalest_dissapear.bmp" x="36" y="435" w="29" h="39" pX="0.275862" pY="0.641026"/>
+      </direction>
+    </action>
+
+    <!--Idle Action-->
+    <action enum ="idle" speed="150">
+      <direction enum="south">
+        <sprite n="arbalest_idle/000_Arbalest_idle.bmp" x="67" y="435" w="30" h="55" pX="0.466667" pY="0.781818"/>
+        <sprite n="arbalest_idle/001_Arbalest_idle.bmp" x="99" y="435" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite n="arbalest_idle/002_Arbalest_idle.bmp" x="131" y="435" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite n="arbalest_idle/003_Arbalest_idle.bmp" x="163" y="435" w="31" h="56" pX="0.451613" pY="0.767857"/>
+        <sprite n="arbalest_idle/004_Arbalest_idle.bmp" x="196" y="435" w="31" h="56" pX="0.451613" pY="0.767857"/>
+        <sprite n="arbalest_idle/005_Arbalest_idle.bmp" x="229" y="435" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite n="arbalest_idle/006_Arbalest_idle.bmp" x="261" y="435" w="31" h="56" pX="0.451613" pY="0.767857"/>
+        <sprite n="arbalest_idle/007_Arbalest_idle.bmp" x="294" y="435" w="30" h="55" pX="0.466667" pY="0.781818"/>
+        <sprite n="arbalest_idle/008_Arbalest_idle.bmp" x="326" y="435" w="30" h="55" pX="0.466667" pY="0.781818"/>
+        <sprite n="arbalest_idle/009_Arbalest_idle.bmp" x="358" y="435" w="29" h="55" pX="0.482759" pY="0.781818"/>
+        <sprite n="arbalest_idle/010_Arbalest_idle.bmp" x="389" y="435" w="30" h="55" pX="0.466667" pY="0.781818"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="arbalest_idle/011_Arbalest_idle.bmp" x="421" y="435" w="30" h="54" pX="0.666667" pY="0.777778"/>
+        <sprite n="arbalest_idle/012_Arbalest_idle.bmp" x="453" y="435" w="30" h="54" pX="0.666667" pY="0.777778"/>
+        <sprite n="arbalest_idle/013_Arbalest_idle.bmp" x="485" y="435" w="32" h="54" pX="0.6875" pY="0.777778"/>
+        <sprite n="arbalest_idle/014_Arbalest_idle.bmp" x="519" y="435" w="32" h="54" pX="0.6875" pY="0.777778"/>
+        <sprite n="arbalest_idle/015_Arbalest_idle.bmp" x="553" y="435" w="32" h="54" pX="0.6875" pY="0.777778"/>
+        <sprite n="arbalest_idle/016_Arbalest_idle.bmp" x="587" y="435" w="32" h="54" pX="0.6875" pY="0.777778"/>
+        <sprite n="arbalest_idle/017_Arbalest_idle.bmp" x="621" y="435" w="30" h="54" pX="0.666667" pY="0.777778"/>
+        <sprite n="arbalest_idle/018_Arbalest_idle.bmp" x="653" y="435" w="30" h="54" pX="0.666667" pY="0.777778"/>
+        <sprite n="arbalest_idle/019_Arbalest_idle.bmp" x="685" y="435" w="30" h="54" pX="0.666667" pY="0.777778"/>
+        <sprite n="arbalest_idle/020_Arbalest_idle.bmp" x="717" y="435" w="30" h="54" pX="0.666667" pY="0.777778"/>
+        <sprite n="arbalest_idle/021_Arbalest_idle.bmp" x="749" y="435" w="30" h="54" pX="0.666667" pY="0.777778"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="arbalest_idle/022_Arbalest_idle.bmp" x="1" y="493" w="35" h="49" pX="0.657143" pY="0.836735"/>
+        <sprite n="arbalest_idle/023_Arbalest_idle.bmp" x="38" y="493" w="36" h="49" pX="0.666667" pY="0.836735"/>
+        <sprite n="arbalest_idle/024_Arbalest_idle.bmp" x="76" y="493" w="35" h="49" pX="0.657143" pY="0.836735"/>
+        <sprite n="arbalest_idle/025_Arbalest_idle.bmp" x="113" y="493" w="36" h="50" pX="0.666667" pY="0.82"/>
+        <sprite n="arbalest_idle/026_Arbalest_idle.bmp" x="151" y="493" w="36" h="50" pX="0.666667" pY="0.82"/>
+        <sprite n="arbalest_idle/027_Arbalest_idle.bmp" x="189" y="493" w="35" h="49" pX="0.657143" pY="0.836735"/>
+        <sprite n="arbalest_idle/028_Arbalest_idle.bmp" x="226" y="493" w="36" h="49" pX="0.666667" pY="0.836735"/>
+        <sprite n="arbalest_idle/029_Arbalest_idle.bmp" x="264" y="493" w="35" h="49" pX="0.657143" pY="0.836735"/>
+        <sprite n="arbalest_idle/030_Arbalest_idle.bmp" x="301" y="493" w="35" h="49" pX="0.657143" pY="0.836735"/>
+        <sprite n="arbalest_idle/031_Arbalest_idle.bmp" x="338" y="493" w="35" h="49" pX="0.657143" pY="0.836735"/>
+        <sprite n="arbalest_idle/032_Arbalest_idle.bmp" x="375" y="493" w="35" h="49" pX="0.657143" pY="0.836735"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="arbalest_idle/033_Arbalest_idle.bmp" x="412" y="493" w="34" h="43" pX="0.647059" pY="0.883721"/>
+        <sprite n="arbalest_idle/034_Arbalest_idle.bmp" x="448" y="493" w="35" h="43" pX="0.657143" pY="0.883721"/>
+        <sprite n="arbalest_idle/035_Arbalest_idle.bmp" x="485" y="493" w="35" h="43" pX="0.657143" pY="0.883721"/>
+        <sprite n="arbalest_idle/036_Arbalest_idle.bmp" x="522" y="493" w="35" h="43" pX="0.657143" pY="0.883721"/>
+        <sprite n="arbalest_idle/037_Arbalest_idle.bmp" x="559" y="493" w="35" h="43" pX="0.657143" pY="0.883721"/>
+        <sprite n="arbalest_idle/038_Arbalest_idle.bmp" x="596" y="493" w="35" h="43" pX="0.657143" pY="0.883721"/>
+        <sprite n="arbalest_idle/039_Arbalest_idle.bmp" x="633" y="493" w="35" h="43" pX="0.657143" pY="0.883721"/>
+        <sprite n="arbalest_idle/040_Arbalest_idle.bmp" x="670" y="493" w="35" h="43" pX="0.657143" pY="0.883721"/>
+        <sprite n="arbalest_idle/041_Arbalest_idle.bmp" x="707" y="493" w="34" h="43" pX="0.647059" pY="0.883721"/>
+        <sprite n="arbalest_idle/042_Arbalest_idle.bmp" x="743" y="493" w="34" h="43" pX="0.647059" pY="0.883721"/>
+        <sprite n="arbalest_idle/043_Arbalest_idle.bmp" x="1" y="545" w="34" h="43" pX="0.647059" pY="0.883721"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="arbalest_idle/044_Arbalest_idle.bmp" x="37" y="545" w="29" h="44" pX="0.551724" pY="0.863636"/>
+        <sprite n="arbalest_idle/045_Arbalest_idle.bmp" x="68" y="545" w="28" h="44" pX="0.535714" pY="0.863636"/>
+        <sprite n="arbalest_idle/046_Arbalest_idle.bmp" x="98" y="545" w="29" h="44" pX="0.551724" pY="0.863636"/>
+        <sprite n="arbalest_idle/047_Arbalest_idle.bmp" x="129" y="545" w="29" h="44" pX="0.551724" pY="0.863636"/>
+        <sprite n="arbalest_idle/048_Arbalest_idle.bmp" x="160" y="545" w="29" h="44" pX="0.551724" pY="0.863636"/>
+        <sprite n="arbalest_idle/049_Arbalest_idle.bmp" x="191" y="545" w="28" h="44" pX="0.535714" pY="0.863636"/>
+        <sprite n="arbalest_idle/050_Arbalest_idle.bmp" x="221" y="545" w="28" h="44" pX="0.535714" pY="0.863636"/>
+        <sprite n="arbalest_idle/051_Arbalest_idle.bmp" x="251" y="545" w="28" h="44" pX="0.535714" pY="0.863636"/>
+        <sprite n="arbalest_idle/052_Arbalest_idle.bmp" x="281" y="545" w="29" h="44" pX="0.551724" pY="0.863636"/>
+        <sprite n="arbalest_idle/053_Arbalest_idle.bmp" x="312" y="545" w="29" h="44" pX="0.551724" pY="0.863636"/>
+        <sprite n="arbalest_idle/054_Arbalest_idle.bmp" x="343" y="545" w="29" h="44" pX="0.551724" pY="0.863636"/>
+      </direction>
+    </action>
+
+    <!--Walk Action-->
+    <action enum ="walk" speed="100">
+      <direction enum="south">
+        <sprite n="arbalest_walk/000_Arbalest_walk.bmp" x="374" y="545" w="32" h="54" pX="0.71875" pY="0.796296"/>
+        <sprite n="arbalest_walk/001_Arbalest_walk.bmp" x="408" y="545" w="33" h="53" pX="0.727273" pY="0.792453"/>
+        <sprite n="arbalest_walk/002_Arbalest_walk.bmp" x="443" y="545" w="33" h="55" pX="0.727273" pY="0.781818"/>
+        <sprite n="arbalest_walk/003_Arbalest_walk.bmp" x="478" y="545" w="34" h="57" pX="0.705882" pY="0.77193"/>
+        <sprite n="arbalest_walk/004_Arbalest_walk.bmp" x="514" y="545" w="32" h="56" pX="0.6875" pY="0.767857"/>
+        <sprite n="arbalest_walk/005_Arbalest_walk.bmp" x="548" y="545" w="30" h="55" pX="0.666667" pY="0.763636"/>
+        <sprite n="arbalest_walk/006_Arbalest_walk.bmp" x="580" y="545" w="30" h="57" pX="0.633333" pY="0.754386"/>
+        <sprite n="arbalest_walk/007_Arbalest_walk.bmp" x="612" y="545" w="30" h="57" pX="0.633333" pY="0.754386"/>
+        <sprite n="arbalest_walk/008_Arbalest_walk.bmp" x="644" y="545" w="31" h="56" pX="0.645161" pY="0.767857"/>
+        <sprite n="arbalest_walk/009_Arbalest_walk.bmp" x="677" y="545" w="32" h="55" pX="0.6875" pY="0.781818"/>
+        <sprite n="arbalest_walk/010_Arbalest_walk.bmp" x="711" y="545" w="32" h="54" pX="0.71875" pY="0.796296"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="arbalest_walk/011_Arbalest_walk.bmp" x="1" y="604" w="38" h="52" pX="0.657895" pY="0.865385"/>
+        <sprite n="arbalest_walk/012_Arbalest_walk.bmp" x="41" y="604" w="37" h="51" pX="0.648649" pY="0.882353"/>
+        <sprite n="arbalest_walk/013_Arbalest_walk.bmp" x="80" y="604" w="37" h="51" pX="0.675676" pY="0.901961"/>
+        <sprite n="arbalest_walk/014_Arbalest_walk.bmp" x="119" y="604" w="38" h="50" pX="0.710526" pY="0.88"/>
+        <sprite n="arbalest_walk/015_Arbalest_walk.bmp" x="159" y="604" w="40" h="48" pX="0.7" pY="0.854167"/>
+        <sprite n="arbalest_walk/016_Arbalest_walk.bmp" x="201" y="604" w="40" h="49" pX="0.7" pY="0.836735"/>
+        <sprite n="arbalest_walk/017_Arbalest_walk.bmp" x="243" y="604" w="40" h="50" pX="0.675" pY="0.84"/>
+        <sprite n="arbalest_walk/018_Arbalest_walk.bmp" x="285" y="604" w="38" h="51" pX="0.684211" pY="0.843137"/>
+        <sprite n="arbalest_walk/019_Arbalest_walk.bmp" x="325" y="604" w="37" h="51" pX="0.675676" pY="0.843137"/>
+        <sprite n="arbalest_walk/020_Arbalest_walk.bmp" x="364" y="604" w="35" h="52" pX="0.714286" pY="0.846154"/>
+        <sprite n="arbalest_walk/021_Arbalest_walk.bmp" x="401" y="604" w="38" h="52" pX="0.657895" pY="0.865385"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="arbalest_walk/022_Arbalest_walk.bmp" x="441" y="604" w="38" h="54" pX="0.605263" pY="0.907407"/>
+        <sprite n="arbalest_walk/023_Arbalest_walk.bmp" x="481" y="604" w="39" h="55" pX="0.564103" pY="0.909091"/>
+        <sprite n="arbalest_walk/024_Arbalest_walk.bmp" x="522" y="604" w="39" h="55" pX="0.641026" pY="0.909091"/>
+        <sprite n="arbalest_walk/025_Arbalest_walk.bmp" x="563" y="604" w="38" h="54" pX="0.631579" pY="0.907407"/>
+        <sprite n="arbalest_walk/026_Arbalest_walk.bmp" x="603" y="604" w="41" h="53" pX="0.658537" pY="0.886792"/>
+        <sprite n="arbalest_walk/027_Arbalest_walk.bmp" x="646" y="604" w="39" h="50" pX="0.615385" pY="0.88"/>
+        <sprite n="arbalest_walk/028_Arbalest_walk.bmp" x="687" y="604" w="41" h="51" pX="0.658537" pY="0.882353"/>
+        <sprite n="arbalest_walk/029_Arbalest_walk.bmp" x="730" y="604" w="39" h="54" pX="0.641026" pY="0.87037"/>
+        <sprite n="arbalest_walk/030_Arbalest_walk.bmp" x="1" y="661" w="41" h="55" pX="0.658537" pY="0.890909"/>
+        <sprite n="arbalest_walk/031_Arbalest_walk.bmp" x="44" y="661" w="40" h="56" pX="0.65" pY="0.892857"/>
+        <sprite n="arbalest_walk/032_Arbalest_walk.bmp" x="86" y="661" w="38" h="54" pX="0.605263" pY="0.907407"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="arbalest_walk/033_Arbalest_walk.bmp" x="126" y="661" w="31" h="60" pX="0.451613" pY="0.866667"/>
+        <sprite n="arbalest_walk/034_Arbalest_walk.bmp" x="159" y="661" w="31" h="57" pX="0.451613" pY="0.859649"/>
+        <sprite n="arbalest_walk/035_Arbalest_walk.bmp" x="192" y="661" w="30" h="58" pX="0.433333" pY="0.87931"/>
+        <sprite n="arbalest_walk/036_Arbalest_walk.bmp" x="224" y="661" w="30" h="57" pX="0.433333" pY="0.877193"/>
+        <sprite n="arbalest_walk/037_Arbalest_walk.bmp" x="256" y="661" w="28" h="55" pX="0.5" pY="0.872727"/>
+        <sprite n="arbalest_walk/038_Arbalest_walk.bmp" x="286" y="661" w="28" h="55" pX="0.535714" pY="0.872727"/>
+        <sprite n="arbalest_walk/039_Arbalest_walk.bmp" x="316" y="661" w="29" h="56" pX="0.551724" pY="0.875"/>
+        <sprite n="arbalest_walk/040_Arbalest_walk.bmp" x="347" y="661" w="28" h="57" pX="0.535714" pY="0.877193"/>
+        <sprite n="arbalest_walk/041_Arbalest_walk.bmp" x="377" y="661" w="32" h="57" pX="0.5625" pY="0.894737"/>
+        <sprite n="arbalest_walk/042_Arbalest_walk.bmp" x="411" y="661" w="30" h="59" pX="0.5" pY="0.881356"/>
+        <sprite n="arbalest_walk/043_Arbalest_walk.bmp" x="443" y="661" w="31" h="60" pX="0.451613" pY="0.866667"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="arbalest_walk/044_Arbalest_walk.bmp" x="476" y="661" w="31" h="58" pX="0.354839" pY="0.844828"/>
+        <sprite n="arbalest_walk/045_Arbalest_walk.bmp" x="509" y="661" w="31" h="57" pX="0.354839" pY="0.824561"/>
+        <sprite n="arbalest_walk/046_Arbalest_walk.bmp" x="542" y="661" w="31" h="55" pX="0.354839" pY="0.854545"/>
+        <sprite n="arbalest_walk/047_Arbalest_walk.bmp" x="575" y="661" w="31" h="55" pX="0.387097" pY="0.854545"/>
+        <sprite n="arbalest_walk/048_Arbalest_walk.bmp" x="608" y="661" w="30" h="53" pX="0.4" pY="0.849057"/>
+        <sprite n="arbalest_walk/049_Arbalest_walk.bmp" x="640" y="661" w="28" h="54" pX="0.428571" pY="0.833333"/>
+        <sprite n="arbalest_walk/050_Arbalest_walk.bmp" x="670" y="661" w="27" h="56" pX="0.444444" pY="0.839286"/>
+        <sprite n="arbalest_walk/051_Arbalest_walk.bmp" x="699" y="661" w="29" h="56" pX="0.448276" pY="0.857143"/>
+        <sprite n="arbalest_walk/052_Arbalest_walk.bmp" x="730" y="661" w="29" h="57" pX="0.413793" pY="0.859649"/>
+        <sprite n="arbalest_walk/053_Arbalest_walk.bmp" x="1" y="723" w="31" h="57" pX="0.387097" pY="0.859649"/>
+        <sprite n="arbalest_walk/054_Arbalest_walk.bmp" x="34" y="723" w="31" h="58" pX="0.354839" pY="0.844828"/>
+      </direction>
+    </action>
+  </unit>
+</TextureAtlas>

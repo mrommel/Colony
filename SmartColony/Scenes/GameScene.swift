@@ -421,6 +421,10 @@ class GameScene: BaseScene {
             self.bottomLeftBar?.showSpinningGlobe()
 
         case .humanTurns:
+            
+            // dirty hack
+            self.mapNode?.unitLayer.populate(with: gameModel)
+            
             // hide AI is working banner
             self.bannerNode?.removeFromParent()
 

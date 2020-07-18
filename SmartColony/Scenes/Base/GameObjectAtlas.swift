@@ -7,22 +7,39 @@
 //
 
 import Foundation
+import SpriteKit
 
-class GameObjectAtlas: Codable {
+class GameObjectAtlas {
     
-    let atlasName: String
-    let textures: [String]
+    let textures: [SKTexture]
+    let speed: Double
     
-    init(atlasName: String, textures: [String]) {
-        self.atlasName = atlasName
+    init(textures: [SKTexture], speed: Double = -1.0) {
+        
         self.textures = textures
+        self.speed = speed == -1.0 ? 2.0 / Double(self.textures.count) : speed
     }
     
-    init(atlasName: String, template: String, range: Range<Int>) {
-        self.atlasName = atlasName
+    init(atlasName: String, textures: [String], speed: Double = -1.0) {
         
-        self.textures = range.map { index in
+        let textureAtlas = SKTextureAtlas(named: atlasName)
+        let frames = textures.map { textureAtlas.textureNamed($0) }
+
+        self.textures = frames
+        self.speed = speed == -1.0 ? 2.0 / Double(self.textures.count) : speed
+    }
+    
+    init(atlasName: String, template: String, range: Range<Int>, speed: Double = -1.0) {
+        
+        let textureAtlas = SKTextureAtlas(named: atlasName)
+        
+        let textureNames = range.map { index in
             template + "\(index)"
         }
+        
+        let frames = textureNames.map { textureAtlas.textureNamed($0) }
+
+        self.textures = frames
+        self.speed = speed == -1.0 ? 2.0 / Double(self.textures.count) : speed
     }
 }

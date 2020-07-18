@@ -12,6 +12,7 @@
 		C907917D2459D71F00248596 /* GameHandicapDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C907917C2459D71F00248596 /* GameHandicapDialog.xml */; };
 		C907917F2459D73100248596 /* GameLeaderDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C907917E2459D73100248596 /* GameLeaderDialog.xml */; };
 		C9079181245A20D800248596 /* YieldLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9079180245A20D800248596 /* YieldLayer.swift */; };
+		C90D2E3724C31EF90029AA11 /* villager.png in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E3624C31EF90029AA11 /* villager.png */; };
 		C9108F46243630550023C76D /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = C9108F45243630550023C76D /* Rswift */; };
 		C9108F49243630A70023C76D /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = C9108F48243630A70023C76D /* XMLCoder */; };
 		C9108F4A243630B80023C76D /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D22524348BD300033791 /* R.generated.swift */; };
@@ -63,6 +64,17 @@
 		C95D9D60244A3147007C522E /* TechDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C95D9D5F244A3147007C522E /* TechDialog.xml */; };
 		C95D9D62244A3244007C522E /* TechDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95D9D61244A3244007C522E /* TechDialog.swift */; };
 		C95D9D65244A32A0007C522E /* TechDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95D9D64244A32A0007C522E /* TechDisplayNode.swift */; };
+		C97BC0B824C2EE80008237F6 /* villager.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0B624C2EE80008237F6 /* villager.xml */; };
+		C97BC0BF24C2EEA2008237F6 /* skirmisher.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0BD24C2EEA1008237F6 /* skirmisher.png */; };
+		C97BC0C024C2EEA2008237F6 /* skirmisher.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0BE24C2EEA2008237F6 /* skirmisher.xml */; };
+		C97BC0C324C2EEB7008237F6 /* militia.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0C124C2EEB7008237F6 /* militia.png */; };
+		C97BC0C424C2EEB7008237F6 /* militia.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0C224C2EEB7008237F6 /* militia.xml */; };
+		C97BC0C724C2EEC7008237F6 /* hunter_chmp.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0C524C2EEC7008237F6 /* hunter_chmp.png */; };
+		C97BC0C824C2EEC7008237F6 /* hunter_chmp.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0C624C2EEC7008237F6 /* hunter_chmp.xml */; };
+		C97BC0CB24C2EEE0008237F6 /* crossbowman.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0C924C2EEE0008237F6 /* crossbowman.png */; };
+		C97BC0CC24C2EEE0008237F6 /* crossbowman.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0CA24C2EEE0008237F6 /* crossbowman.xml */; };
+		C97BC0CF24C2EEF5008237F6 /* cavalier.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0CD24C2EEF4008237F6 /* cavalier.png */; };
+		C97BC0D024C2EEF5008237F6 /* cavalier.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0CE24C2EEF5008237F6 /* cavalier.xml */; };
 		C97CD39F243A3E9C00FABCC0 /* ResourceLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD39E243A3E9C00FABCC0 /* ResourceLayer.swift */; };
 		C97CD3A1243A3F1200FABCC0 /* TextureUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3A0243A3F1200FABCC0 /* TextureUtils.swift */; };
 		C97CD3A3243A3F3700FABCC0 /* TerrainTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3A2243A3F3700FABCC0 /* TerrainTypeExtension.swift */; };
@@ -244,6 +256,7 @@
 		C907917C2459D71F00248596 /* GameHandicapDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GameHandicapDialog.xml; sourceTree = "<group>"; };
 		C907917E2459D73100248596 /* GameLeaderDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GameLeaderDialog.xml; sourceTree = "<group>"; };
 		C9079180245A20D800248596 /* YieldLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldLayer.swift; sourceTree = "<group>"; };
+		C90D2E3624C31EF90029AA11 /* villager.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = villager.png; sourceTree = "<group>"; };
 		C91B0024243DEE8A00C422C8 /* UnitTypeSprites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTypeSprites.swift; sourceTree = "<group>"; };
 		C922D2BB2449A1A1009E182F /* CityNameDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityNameDialog.xml; sourceTree = "<group>"; };
 		C922D2BD2449A24C009E182F /* CityNameDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityNameDialog.swift; sourceTree = "<group>"; };
@@ -294,6 +307,17 @@
 		C95D9D5F244A3147007C522E /* TechDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TechDialog.xml; sourceTree = "<group>"; };
 		C95D9D61244A3244007C522E /* TechDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDialog.swift; sourceTree = "<group>"; };
 		C95D9D64244A32A0007C522E /* TechDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDisplayNode.swift; sourceTree = "<group>"; };
+		C97BC0B624C2EE80008237F6 /* villager.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = villager.xml; sourceTree = "<group>"; };
+		C97BC0BD24C2EEA1008237F6 /* skirmisher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skirmisher.png; sourceTree = "<group>"; };
+		C97BC0BE24C2EEA2008237F6 /* skirmisher.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = skirmisher.xml; sourceTree = "<group>"; };
+		C97BC0C124C2EEB7008237F6 /* militia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = militia.png; sourceTree = "<group>"; };
+		C97BC0C224C2EEB7008237F6 /* militia.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = militia.xml; sourceTree = "<group>"; };
+		C97BC0C524C2EEC7008237F6 /* hunter_chmp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hunter_chmp.png; sourceTree = "<group>"; };
+		C97BC0C624C2EEC7008237F6 /* hunter_chmp.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = hunter_chmp.xml; sourceTree = "<group>"; };
+		C97BC0C924C2EEE0008237F6 /* crossbowman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crossbowman.png; sourceTree = "<group>"; };
+		C97BC0CA24C2EEE0008237F6 /* crossbowman.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = crossbowman.xml; sourceTree = "<group>"; };
+		C97BC0CD24C2EEF4008237F6 /* cavalier.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cavalier.png; sourceTree = "<group>"; };
+		C97BC0CE24C2EEF5008237F6 /* cavalier.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = cavalier.xml; sourceTree = "<group>"; };
 		C97CD39E243A3E9C00FABCC0 /* ResourceLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLayer.swift; sourceTree = "<group>"; };
 		C97CD3A0243A3F1200FABCC0 /* TextureUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureUtils.swift; sourceTree = "<group>"; };
 		C97CD3A2243A3F3700FABCC0 /* TerrainTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainTypeExtension.swift; sourceTree = "<group>"; };
@@ -539,6 +563,25 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		C97BC0B424C2EE46008237F6 /* Units */ = {
+			isa = PBXGroup;
+			children = (
+				C90D2E3624C31EF90029AA11 /* villager.png */,
+				C97BC0B624C2EE80008237F6 /* villager.xml */,
+				C97BC0BD24C2EEA1008237F6 /* skirmisher.png */,
+				C97BC0BE24C2EEA2008237F6 /* skirmisher.xml */,
+				C97BC0C124C2EEB7008237F6 /* militia.png */,
+				C97BC0C224C2EEB7008237F6 /* militia.xml */,
+				C97BC0C524C2EEC7008237F6 /* hunter_chmp.png */,
+				C97BC0C624C2EEC7008237F6 /* hunter_chmp.xml */,
+				C97BC0C924C2EEE0008237F6 /* crossbowman.png */,
+				C97BC0CA24C2EEE0008237F6 /* crossbowman.xml */,
+				C97BC0CD24C2EEF4008237F6 /* cavalier.png */,
+				C97BC0CE24C2EEF5008237F6 /* cavalier.xml */,
+			);
+			path = Units;
+			sourceTree = "<group>";
+		};
 		C97CD3AC243B570C00FABCC0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -600,6 +643,7 @@
 		C9B1D217243477AC00033791 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C97BC0B424C2EE46008237F6 /* Units */,
 				C9B1D2882435AFE300033791 /* Maps */,
 				C9B1D26424351BF200033791 /* Dialogs */,
 				C947871E2473F0FD00FAAC99 /* Popups */,
@@ -951,16 +995,23 @@
 				C9B1D2492434B9AE00033791 /* DINNext-Heavy.ttf in Resources */,
 				C9B1D2482434B9AE00033791 /* DINNext-Regular.ttf in Resources */,
 				C9EC4E1D24445873001A0597 /* Cities.xcassets in Resources */,
+				C97BC0D024C2EEF5008237F6 /* cavalier.xml in Resources */,
 				C957AA4B243641A100203024 /* MapSeaLevelDialog.xml in Resources */,
 				C9B1D2902435B09A00033791 /* earth_standard.map in Resources */,
+				C97BC0C724C2EEC7008237F6 /* hunter_chmp.png in Resources */,
 				C9B1D2462434B9AE00033791 /* DINNext-Light.ttf in Resources */,
 				C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */,
 				C957AA49243641A100203024 /* MapSizeDialog.xml in Resources */,
+				C90D2E3724C31EF90029AA11 /* villager.png in Resources */,
 				C9DC1C892483A39000235743 /* GameNameDialog.xml in Resources */,
+				C97BC0C424C2EEB7008237F6 /* militia.xml in Resources */,
+				C97BC0C024C2EEA2008237F6 /* skirmisher.xml in Resources */,
+				C97BC0C324C2EEB7008237F6 /* militia.png in Resources */,
 				C9A125A2249E664700D5E3A1 /* FeatureGivesProductionPopup.xml in Resources */,
 				C9FEEBA52460367900C51552 /* CityPopulationGrowthDialog.xml in Resources */,
 				C9EB9F6A24557CA700F13B02 /* Wonders.xcassets in Resources */,
 				C95503C12456FD0100D4B3D8 /* Commands.xcassets in Resources */,
+				C97BC0C824C2EEC7008237F6 /* hunter_chmp.xml in Resources */,
 				C907917F2459D73100248596 /* GameLeaderDialog.xml in Resources */,
 				C948685024657B4C00495988 /* CityManageCitizenDialog.xml in Resources */,
 				C98B3DC2246C1D2000AF3AE4 /* DiplomaticDialog.xml in Resources */,
@@ -973,10 +1024,15 @@
 				C9F91B41244B98BD0081EDC8 /* CivicDialog.xml in Resources */,
 				C9B1D28E2435B08500033791 /* earth_large.map in Resources */,
 				C9956845247D38660005E9EA /* CivicDiscoveredPopup.xml in Resources */,
+				C97BC0B824C2EE80008237F6 /* villager.xml in Resources */,
+				C97BC0CB24C2EEE0008237F6 /* crossbowman.png in Resources */,
 				C9DC1C8D248662B800235743 /* GamesListDialog.xml in Resources */,
+				C97BC0CF24C2EEF5008237F6 /* cavalier.png in Resources */,
 				C9B1D2472434B9AE00033791 /* DINNext-Bold.ttf in Resources */,
+				C97BC0BF24C2EEA2008237F6 /* skirmisher.png in Resources */,
 				C99A591324643831006431EE /* CityBuildingsDialog.xml in Resources */,
 				C957AA50243641D300203024 /* MapLoadingDialog.xml in Resources */,
+				C97BC0CC24C2EEE0008237F6 /* crossbowman.xml in Resources */,
 				C94787202473F14400FAAC99 /* EurekaActivatedPopup.xml in Resources */,
 				C95B3E0F2439244D002F5A86 /* Tiles.xcassets in Resources */,
 				C9DC1C95248692E500235743 /* ConfirmationDialog.xml in Resources */,
@@ -1255,7 +1311,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1309,7 +1365,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

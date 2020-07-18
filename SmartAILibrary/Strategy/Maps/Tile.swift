@@ -104,6 +104,7 @@ public protocol AbstractTile: Codable {
     func isFriendlyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
     func isFriendlyCity(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
     func isVisibleToEnemy(of player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
+    func isEnemyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool
 
     // discovered
     func isDiscovered(by player: AbstractPlayer?) -> Bool
@@ -424,15 +425,77 @@ class Tile: AbstractTile {
 
         return false
     }
+    
+    func isEnemyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+        
+        // only enemy territory for barbs!
+        if player.isBarbarian() {
+            return true
+        }
+        
+        // Nobody owns this plot
+        if !self.hasOwner() {
+            return false
+        }
+
+        // Our territory
+        if player.isEqual(to: self.owner()) {
+            return false
+        }
+
+        guard let diplomaticAI = player.diplomacyAI else {
+            fatalError("cant get diplomaticAI")
+        }
+
+        // territory of player we have open border with
+        if diplomaticAI.isAtWar(with: self.owner()) {
+            return true
+        }
+
+        return false
+    }
 
     func isFriendlyCity(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
-        fatalError("not implemented yet")
+        return self.isFriendlyTerritory(for: player, in: gameModel) && self.isCity()
     }
 
     func isVisibleToEnemy(of player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
-        fatalError("not implemented yet")
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+        
+        guard let diplomacyAI = player.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+        
+        for loopPlayer in gameModel.players {
+            
+            if loopPlayer.isBarbarian() {
+                continue
+            }
+            
+            if player.isEqual(to: loopPlayer) {
+                continue
+            }
+            
+            if diplomacyAI.isAtWar(with: loopPlayer) {
+                if self.isVisible(to: loopPlayer) {
+                    return true
+                }
+            }
+        }
+        
+        return false
     }
 
     func isOpenGround() -> Bool {
@@ -782,23 +845,6 @@ class Tile: AbstractTile {
             if oldImprovement != .none && !self.isCity() {
 
                 if let player = self.owner() {
-
-                    // Remove Resource Quantity from total
-                    if self.resource(for: player) != .none {
-
-                        fatalError("fixme")
-                        /*if (GET_TEAM(getTeam()).GetTeamTechs()->HasTech((TechTypes) GC.getResourceInfo(getResourceType())->getTechCityTrade()))
-                        {
-                            if (GC.getImprovementInfo(eOldImprovement)->IsImprovementResourceTrade(getResourceType()))
-                            {
-                                owningPlayer.changeNumResourceTotal(getResourceType(), -getNumResourceForPlayer(owningPlayerID));
-
-                                // Disconnect resource link
-                                if (GetResourceLinkedCity() != NULL)
-                                    SetResourceLinkedCityActive(false);
-                            }
-                        }*/
-                    }
 
                     let resource = self.resource(for: player)
 

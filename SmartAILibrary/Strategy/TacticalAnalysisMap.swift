@@ -740,59 +740,53 @@ class TacticalAnalysisMap {
         if dominanceZone.friendlyStrength + dominanceZone.enemyStrength <= 0 {
 
             dominanceValue = .noUnitsPresent
-        }
-
-        // Enemy zone that we can't see (that isn't one of our temporary targets?
-            else if dominanceZone.territoryType == .enemy && !(tile?.isVisible(to: player) ?? true) && !tempZone {
-
-                dominanceValue = .notVisible
+        } else if dominanceZone.territoryType == .enemy && !(tile?.isVisible(to: player) ?? true) && !tempZone {
+            // Enemy zone that we can't see (that isn't one of our temporary targets?
+            dominanceValue = .notVisible
         } else {
 
-                var enemyCanSeeOurCity = false
-                if dominanceZone.territoryType == .friendly {
+            var enemyCanSeeOurCity = false
+            if dominanceZone.territoryType == .friendly {
 
-                    for otherPlayer in gameModel.players {
+                for otherPlayer in gameModel.players {
 
-                        if otherPlayer.isAlive() && player.leader != otherPlayer.leader {
+                    if otherPlayer.isAlive() && player.leader != otherPlayer.leader {
 
-                            if diplomacyAI.isAtWar(with: otherPlayer) {
+                        if diplomacyAI.isAtWar(with: otherPlayer) {
 
-                                if tile?.isVisible(to: player) ?? false {
+                            if tile?.isVisible(to: player) ?? false {
 
-                                    enemyCanSeeOurCity = true
-                                    break
-                                }
+                                enemyCanSeeOurCity = true
+                                break
                             }
                         }
                     }
                 }
+            }
 
-                if dominanceZone.territoryType == .friendly && !enemyCanSeeOurCity {
+            if dominanceZone.territoryType == .friendly && !enemyCanSeeOurCity {
 
-                    dominanceValue = .notVisible
-                }
-
+                dominanceValue = .notVisible
+            } else if dominanceZone.enemyStrength <= 0 {
                 // Otherwise compute it by strength
-                    else if dominanceZone.enemyStrength <= 0 {
+                dominanceValue = .friendly
+            } else {
 
-                        dominanceValue = .friendly
+                let ratio = dominanceZone.friendlyStrength * 100 / dominanceZone.enemyStrength
+
+                if ratio > 100 + self.dominancePercentage {
+
+                    dominanceValue = .friendly
+
+                } else if ratio < 100 - self.dominancePercentage {
+
+                    dominanceValue = .enemy
+
                 } else {
 
-                        let ratio = dominanceZone.friendlyStrength * 100 / dominanceZone.enemyStrength
-
-                        if ratio > 100 + self.dominancePercentage {
-
-                            dominanceValue = .friendly
-
-                        } else if ratio < 100 - self.dominancePercentage {
-
-                            dominanceValue = .enemy
-
-                        } else {
-
-                            dominanceValue = .even
-                        }
+                    dominanceValue = .even
                 }
+            }
         }
 
         return dominanceValue
@@ -884,7 +878,7 @@ class TacticalAnalysisMap {
             }
 
             // Figure out whether or not to add this to a dominance zone
-            if (cell.impassableTerrain || cell.impassableTerritory || !cell.revealed) {
+            if cell.impassableTerrain || cell.impassableTerritory || !cell.revealed {
                 return false
             }
         }

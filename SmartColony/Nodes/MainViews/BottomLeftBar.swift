@@ -177,8 +177,8 @@ class BottomLeftBar: SizedNode {
         let globeAtlas = GameObjectAtlas(atlasName: "globe", template: "globe", range: 0..<91)
         
         // start animation
-        let textureAtlasGlobe = SKTextureAtlas(named: globeAtlas.atlasName)
-        let globeFrames: [SKTexture] = globeAtlas.textures.map { textureAtlasGlobe.textureNamed($0) }
+        // let textureAtlasGlobe = SKTextureAtlas(named: globeAtlas.atlasName)
+        let globeFrames: [SKTexture] = globeAtlas.textures // globeAtlas.textures.map { textureAtlasGlobe.textureNamed($0) }
         let globeRotation = SKAction.repeatForever(SKAction.animate(with: globeFrames, timePerFrame: 0.07))
         
         self.unitImageNode?.run(globeRotation, withKey: BottomLeftBar.globeActionKey)

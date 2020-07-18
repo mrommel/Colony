@@ -200,11 +200,11 @@ public class Operation: Codable, Equatable {
 
         self.listOfUnitsCitiesHaveCommittedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
         self.listOfUnitsWeStillNeedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
-        self.shouldReplaceLossesWithReinforcements = try container.decode(Bool.self, forKey: .army)
+        self.shouldReplaceLossesWithReinforcements = try container.decode(Bool.self, forKey: .shouldReplaceLossesWithReinforcements)
 
-        self.startPosition = try container.decodeIfPresent(HexPoint.self, forKey: .army)
-        self.musterPosition = try container.decodeIfPresent(HexPoint.self, forKey: .army)
-        self.targetPosition = try container.decodeIfPresent(HexPoint.self, forKey: .army)
+        self.startPosition = try container.decodeIfPresent(HexPoint.self, forKey: .startPosition)
+        self.musterPosition = try container.decodeIfPresent(HexPoint.self, forKey: .musterPosition)
+        self.targetPosition = try container.decodeIfPresent(HexPoint.self, forKey: .targetPosition)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -221,11 +221,11 @@ public class Operation: Codable, Equatable {
 
         //self.listOfUnitsCitiesHaveCommittedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
         //self.listOfUnitsWeStillNeedToBuild = [] // try container.decode([OperationSlot].self, forKey: .army)
-        try container.encode(self.shouldReplaceLossesWithReinforcements, forKey: .army)
+        try container.encode(self.shouldReplaceLossesWithReinforcements, forKey: .shouldReplaceLossesWithReinforcements)
 
-        try container.encodeIfPresent(self.startPosition, forKey: .army)
-        try container.encodeIfPresent(self.musterPosition, forKey: .army)
-        try container.encodeIfPresent(self.targetPosition, forKey: .army)
+        try container.encodeIfPresent(self.startPosition, forKey: .startPosition)
+        try container.encodeIfPresent(self.musterPosition, forKey: .musterPosition)
+        try container.encodeIfPresent(self.targetPosition, forKey: .targetPosition)
     }
 
     func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {

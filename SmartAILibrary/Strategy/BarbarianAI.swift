@@ -275,9 +275,10 @@ class BarbarianAI: Codable {
                                                         loopPlot.set(improvement: .barbarianCamp)
                                                         self.doCampActivationNotice(at: plotLocation, in: gameModel)
 
-                                                        if let bestUnit = self.randomBarbarianUnitType(in: area, for: .defense, in: gameModel) {
-                                                            let barbarianUnit = Unit(at: loopPlot.point, type: bestUnit, owner: barbarianPlayer)
+                                                        if let bestUnitType = self.randomBarbarianUnitType(in: area, for: .defense, in: gameModel) {
+                                                            let barbarianUnit = Unit(at: loopPlot.point, type: bestUnitType, owner: barbarianPlayer)
                                                             gameModel.add(unit: barbarianUnit)
+                                                            gameModel.userInterface?.show(unit: barbarianUnit)
                                                         }
 
                                                         numCampsToAdd -= 1
@@ -368,20 +369,16 @@ class BarbarianAI: Codable {
             fatalError("cant get plot")
         }
 
-        /*int iNumNearbyUnits;
-        int iNearbyUnitLoop;*/
         let range = 2 /* MAX_BARBARIANS_FROM_CAMP_NEARBY_RANGE */
-        /*int iX;
-        int iY;
-        CvPlot* pNearbyPlot;
-        DirectionTypes eDirection;*/
 
         // is this camp empty - first priority is to fill it
         if gameModel.unit(at: point) == nil {
 
             if let unitType = self.randomBarbarianUnitType(in: plot.area!, for: .fastAttack, in: gameModel) {
+                
                 let unit = Unit(at: point, type: unitType, owner: barbarianPlayer)
                 gameModel.add(unit: unit)
+                gameModel.userInterface?.show(unit: unit)
 
                 if finishMoves {
                     unit.finishMoves()
@@ -389,8 +386,6 @@ class BarbarianAI: Codable {
                 return
             }
         }
-
-        //m_aeValidBarbSpawnDirections.clear();
 
         // Look at nearby Plots to see if there are already too many Barbs nearby
         var numNearbyUnits = 0
@@ -435,11 +430,6 @@ class BarbarianAI: Codable {
             // Any valid locations?
             if validSpawnLocations.count > 0 {
 
-                /*int iIndex = kGame.getJonRandNum(m_aeValidBarbSpawnDirections.size(), "Barb Unit Location Spawn Roll");
-                eDirection = (DirectionTypes) m_aeValidBarbSpawnDirections[iIndex];
-                CvPlot* pSpawnPlot = plotDirection(pPlot->getX(), pPlot->getY(), eDirection);
-                UnitAITypes eUnitAI;
-                UnitTypes eUnit;*/
                 let spawnLocation = validSpawnLocations.randomItem()
                 guard let spawnPlot = gameModel.tile(at: spawnLocation) else {
                     fatalError("cant get spawnPlot")
@@ -456,6 +446,7 @@ class BarbarianAI: Codable {
 
                     let unit = Unit(at: point, type: unitType, owner: barbarianPlayer)
                     gameModel.add(unit: unit)
+                    gameModel.userInterface?.show(unit: unit)
 
                     if finishMoves {
                         unit.finishMoves()
@@ -509,7 +500,7 @@ class BarbarianAI: Codable {
         self.barbCampNumUnitsSpawned[point]! += 1 // This starts at -1 so when a camp is first created it will bump up to 0, which is correct
 
         // Difficulty level can add time between spawns (e.g. Settler is +8 turns)
-        numTurnsToSpawn += gameModel.handicap.barbSpawnMod()
+        numTurnsToSpawn += gameModel.handicap.barbarianSpawnMod()
 
         self.barbCampSpawnCounter[point]! = numTurnsToSpawn
     }
@@ -566,13 +557,13 @@ class BarbarianAI: Codable {
                 }*/
 
                 if valid {
-                    if !barbarianPlayer.canTrain(unitType: unitTypeLoop, continueFlag: false, testVisible: false, ignoreCost: true, ignoreUniqueUnitStatus: false) {
+                    if !barbarianPlayer.canTrain(unitType: type, continueFlag: false, testVisible: false, ignoreCost: true, ignoreUniqueUnitStatus: false) {
                         valid = false
                     }
                 }
 
                 if valid {
-                    if let requiredTech = unitTypeLoop.requiredTech() {
+                    if let requiredTech = type.requiredTech() {
                         if !barbarianPlayer.has(tech: requiredTech) {
                             valid = false
                         }
@@ -582,12 +573,12 @@ class BarbarianAI: Codable {
                 if valid {
                     var value = 1 + Int.random(number: 1000)
 
-                    if unitTypeLoop.unitTasks().contains(task) {
+                    if type.unitTasks().contains(task) {
                         value += 200
                     }
 
                     if value > bestValue {
-                        bestUnitType = unitTypeLoop
+                        bestUnitType = type
                         bestValue = value
                     }
                 }

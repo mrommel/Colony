@@ -144,6 +144,7 @@ public protocol AbstractUnit: class, Codable {
     func continueBuilding(build buildType: BuildType, in gameModel: GameModel?) -> Bool
 
     @discardableResult func doPillage(in gameModel: GameModel?) -> Bool
+    func canPillage(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func doRebase(to point: HexPoint) -> Bool
 
     func canReach(at point: HexPoint, in turns: Int, in gameModel: GameModel?) -> Bool
@@ -187,10 +188,13 @@ public protocol AbstractUnit: class, Codable {
 
     func set(tacticalMove: TacticalMoveType)
     func tacticalMove() -> TacticalMoveType?
+    func resetTacticalMove()
+    
     func set(tacticalTarget: HexPoint)
     func tacticalTarget() -> HexPoint?
+    func resetTacticalTarget()
+    
     func isUnderTacticalControl() -> Bool
-    func resetTacticalMove()
     func canRecruitFromTacticalAI() -> Bool
 
     // army
@@ -444,16 +448,50 @@ public class Unit: AbstractUnit {
         guard let gameModel = gameModel else {
             return 0
         }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let diplomacyAI = self.player?.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
 
         var totalHeal = 0
 
         if gameModel.city(at: point) != nil {
-            totalHeal += 6 // CITY_HEAL_RATE
+            totalHeal += 10 // CITY_HEAL_RATE
+        }
+        
+        // Heal from religion
+        // next to a city or in the city - check for beliefs
+        
+        // Heal from units - medic / supply convoi
+        var extraHealFromUnits: Int = 0
+        for neightbor in point.neighbors() {
+            
+            if let unit = gameModel.unit(at: neightbor) {
+                
+                // friends or us
+                if player.isEqual(to: unit.player) || diplomacyAI.isAllianceActive(with: unit.player) {
+                    extraHealFromUnits += unit.type.healingAdjacentUnits()
+                }
+            }
         }
 
-        fatalError("add fiendly / hostile territory")
+        // Heal from territory ownership (friendly, enemy, etc.)
+        if let tile = gameModel.tile(at: point) {
+            
+            if tile.isFriendlyTerritory(for: self.player, in: gameModel) {
+                totalHeal += 20
+            } else if tile.isEnemyTerritory(for: self.player, in: gameModel) {
+                totalHeal += 5
+            } else {
+                totalHeal += 10
+            }
+        }
 
-        return totalHeal
+        return totalHeal + extraHealFromUnits
     }
 
     public func canHeal(in gameModel: GameModel?) -> Bool {
@@ -1639,7 +1677,7 @@ public class Unit: AbstractUnit {
                     // See if we need to remove a temporary dominance zone
                     player.tacticalAI?.deleteTemporaryZone(at: newPlot.point)
 
-                    let numGold = gameModel.handicap.barbCampGold()
+                    let numGold = gameModel.handicap.barbarianCampGold()
 
                     // Normal way to handle it
                     if player.isEqual(to: gameModel.humanPlayer()) {
@@ -2309,9 +2347,9 @@ public class Unit: AbstractUnit {
             fatalError("cant get player")
         }
         
-        guard let techs = player.techs else {
+        /*guard let techs = player.techs else {
             fatalError("cant get techs")
-        }
+        }*/
         
         switch command {
             
@@ -2757,7 +2795,7 @@ public class Unit: AbstractUnit {
         return canContinue
     }
 
-    func canPillage(at point: HexPoint, in gameModel: GameModel?) -> Bool {
+    public func canPillage(at point: HexPoint, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -2856,6 +2894,11 @@ public class Unit: AbstractUnit {
                 // other unit
                 if !player.isEqual(to: neighborUnit.player) {
                     
+                    // barbarian ?
+                    if neighborUnit.isBarbarian() {
+                        return true
+                    }
+                    
                     // at war?
                     if diplomacyAI.isAtWar(with: neighborUnit.player) {
                         return true
@@ -2867,6 +2910,11 @@ public class Unit: AbstractUnit {
                 
                 // other city
                 if !player.isEqual(to: neighborCity.player) {
+                    
+                    // barbarian?
+                    if neighborCity.isBarbarian() {
+                        return true
+                    }
                     
                     // at war?
                     if diplomacyAI.isAtWar(with: neighborCity.player) {
@@ -2937,10 +2985,9 @@ public class Unit: AbstractUnit {
             fatalError("cant get gameModel")
         }
 
-        // FIXME
-        /*if !self.canPillage(at: self.location, in: gameModel) {
+        if !self.canPillage(at: self.location, in: gameModel) {
             return false
-        }*/
+        }
 
         if let tile = gameModel.tile(at: self.location) {
 
@@ -3174,6 +3221,11 @@ public class Unit: AbstractUnit {
     public func tacticalTarget() -> HexPoint? {
 
         return self.tacticalTargetValue
+    }
+    
+    public func resetTacticalTarget() {
+        
+        self.tacticalTargetValue = nil
     }
 
     public func resetTacticalMove() {

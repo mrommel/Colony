@@ -161,9 +161,8 @@ class UnitLayer: SKNode {
 
         if let atlas = self.atlasFocus {
 
-            let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
-            let focusFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
-            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: 2.0 / Double(focusFrames.count)))
+            let focusFrames = atlas.textures
+            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: atlas.speed))
 
             self.focusNode?.run(focusAnimation, withKey: UnitLayer.focusActionKey, completion: { })
         }
@@ -194,9 +193,8 @@ class UnitLayer: SKNode {
 
         if let atlas = self.atlasAttackFocus {
 
-            let textureAtlasWalk = SKTextureAtlas(named: atlas.atlasName)
-            let focusFrames = atlas.textures.map { textureAtlasWalk.textureNamed($0) }
-            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: 2.0 / Double(focusFrames.count)))
+            let focusFrames = atlas.textures
+            let focusAnimation = SKAction.repeatForever(SKAction.animate(with: focusFrames, timePerFrame: atlas.speed))
 
             attackFocusNode.run(focusAnimation, withKey: UnitLayer.focusAttackActionKey, completion: { })
         }

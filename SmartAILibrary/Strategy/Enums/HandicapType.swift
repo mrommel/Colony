@@ -8,7 +8,7 @@
 
 import Foundation
 
-// https://civ6.gamepedia.com/Game_difficulty   
+// https://civ6.gamepedia.com/Game_difficulty
 public enum HandicapType: Int, Codable {
 
     case settler
@@ -20,7 +20,7 @@ public enum HandicapType: Int, Codable {
     case immortal
     case deity
 
-    func barbCampGold() -> Int {
+    func barbarianCampGold() -> Int {
 
         switch self {
 
@@ -34,26 +34,26 @@ public enum HandicapType: Int, Codable {
         case .deity: return 25
         }
     }
-    
-    func barbSpawnMod() -> Int {
 
-           switch self {
+    func barbarianSpawnMod() -> Int {
 
-           case .settler: return 8
-           case .chieftain: return 5
-           case .warlord: return 3
-           case .prince: return 0
-           case .king: return 0
-           case .emperor: return 0
-           case .immortal: return 0
-           case .deity: return 0
-           }
-       }
-    
-    public func freeHumanTechs() -> [TechType] {
-        
         switch self {
-        
+
+        case .settler: return 8
+        case .chieftain: return 5
+        case .warlord: return 3
+        case .prince: return 0
+        case .king: return 0
+        case .emperor: return 0
+        case .immortal: return 0
+        case .deity: return 0
+        }
+    }
+
+    public func freeHumanTechs() -> [TechType] {
+
+        switch self {
+
         case .settler:
             return [.pottery, .animalHusbandry, .mining]
         case .chieftain:
@@ -72,11 +72,11 @@ public enum HandicapType: Int, Codable {
             return []
         }
     }
-    
+
     public func freeAITechs() -> [TechType] {
-        
+
         switch self {
-        
+
         case .settler:
             return []
         case .chieftain:
@@ -95,11 +95,11 @@ public enum HandicapType: Int, Codable {
             return [.pottery, .animalHusbandry, .mining, .wheel]
         }
     }
-    
+
     public func freeAIStartingUnitTypes() -> [UnitType] {
-        
+
         switch self {
-        
+
         case .settler:
             return [.settler, .warrior]
         case .chieftain:
@@ -118,11 +118,11 @@ public enum HandicapType: Int, Codable {
             return [.settler, .settler, .settler, .warrior, .warrior, .warrior, .warrior, .warrior, .builder, .builder]
         }
     }
-    
+
     func earliestBarbarianReleaseTurn() -> Int {
-        
+
         switch self {
-        
+
         case .settler:
             return 10000 // never
         case .chieftain:
@@ -141,12 +141,58 @@ public enum HandicapType: Int, Codable {
             return 0
         }
     }
-}
+
+    func barbarbianSeaTargetRange() -> Int {
+
+        switch self {
+            
+        case .settler:
+            return 4
+        case .chieftain:
+            return 6
+        case .warlord:
+            return 8
+        case .prince:
+            return 10
+        case .king:
+            return 12
+        case .emperor:
+            return 15
+        case .immortal:
+            return 18
+        case .deity:
+            return 20
+        }
+    }
     
+    func barbarbianLandTargetRange() -> Int {
+
+        switch self {
+            
+        case .settler:
+            return 2
+        case .chieftain:
+            return 3
+        case .warlord:
+            return 4
+        case .prince:
+            return 5
+        case .king:
+            return 5
+        case .emperor:
+            return 6
+        case .immortal:
+            return 7
+        case .deity:
+            return 8
+        }
+    }
+}
+
 extension HandicapType: Comparable {
 
     public static func < (lhs: HandicapType, rhs: HandicapType) -> Bool {
-        
+
         return lhs.rawValue < rhs.rawValue
     }
 }

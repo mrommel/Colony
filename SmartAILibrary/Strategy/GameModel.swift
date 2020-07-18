@@ -1044,6 +1044,25 @@ public class GameModel: Codable {
 
         return nil
     }
+    
+    func visibleEnemyCity(at location: HexPoint, for player: AbstractPlayer?) -> AbstractCity? {
+
+        guard let diplomacyAI = player?.diplomacyAI else {
+            fatalError("cant get diplomacyAI")
+        }
+
+        if let tile = self.tile(at: location) {
+            if tile.isVisible(to: player) {
+                if let enemyCity = self.city(at: location) {
+                    if diplomacyAI.isAtWar(with: enemyCity.player) {
+                        return enemyCity
+                    }
+                }
+            }
+        }
+
+        return nil
+    }
 
     func tacticalAnalysisMap() -> TacticalAnalysisMap {
         
@@ -1189,6 +1208,12 @@ public class GameModel: Codable {
                 self.userInterface?.refresh(tile: tile)
             }
         }
+    }
+    
+    func numTradeRoutes(at point: HexPoint) -> Int {
+        
+        // FIXME
+        return 0
     }
 }
 

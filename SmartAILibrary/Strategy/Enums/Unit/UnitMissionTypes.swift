@@ -24,6 +24,7 @@ public enum UnitMissionType {
     case routeTo
     case garrison
     case pillage
+    case plunderTradeRoute
     case build
     case skip
     case rangedAttack
@@ -80,6 +81,7 @@ public enum UnitMissionType {
         case .swapUnits: return UnitMissionTypeData(name: "swapUnits", needsTarget: true)
         case .moveToUnit: return UnitMissionTypeData(name: "moveToUnit", needsTarget: true)
         case .group: return UnitMissionTypeData(name: "group", needsTarget: false)
+        case .plunderTradeRoute: return UnitMissionTypeData(name: "plunderTradeRoute", needsTarget: true)
         }
     }
 }

@@ -371,16 +371,15 @@ public class MilitaryAI: Codable {
 
                         bAdoptOrEndStrategy = false
                     }
-                }
-                // Strategy should be off, and if it's not, turn it off
-                    else {
-                        if shouldCityStrategyStart {
+                } else {
+                    // Strategy should be off, and if it's not, turn it off
+                    if shouldCityStrategyStart {
 
-                            bAdoptOrEndStrategy = false
-                        } else if shouldCityStrategyEnd {
+                        bAdoptOrEndStrategy = false
+                    } else if shouldCityStrategyEnd {
 
-                            bAdoptOrEndStrategy = true
-                        }
+                        bAdoptOrEndStrategy = true
+                    }
                 }
 
                 if bAdoptOrEndStrategy {

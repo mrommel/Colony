@@ -23,7 +23,7 @@ class GameViewModel {
     
     init(with map: MapModel?, handicap: HandicapType) {
         
-        guard let map = map else {
+        guard var map = map else {
             fatalError("cant get map")
         }
         
@@ -80,6 +80,7 @@ class GameViewModel {
         playerBarbar.initialize()
         
         players.prepend(playerBarbar)
+        
 
         // game
         self.game = GameModel(victoryTypes: [.domination, .cultural, .diplomatic, .science], handicap: handicap, turnsElapsed: 0, players: players, on: map)
@@ -97,6 +98,9 @@ class GameViewModel {
             
             lastLeader = unit.player?.leader
         }
+        
+        // cheat
+        GameViewModel.discover(mapModel: &map, by: playerBarbar, in: self.game)
         
         // keep backup
         self.storeBackup()

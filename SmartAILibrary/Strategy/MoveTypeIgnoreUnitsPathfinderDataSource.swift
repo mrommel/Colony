@@ -145,15 +145,25 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                         }
                     }
                     
-                    // if there is a unit of another players
+                    // if there is a unit ...
                     if let otherUnit = gameModel.unit(at: neighbor) {
-                        // we cant step into a tile that is occupied by another players unit
-                        if !player.isEqual(to: otherUnit.player) {
+                        
+                        // ... there are two cases:
+                        if player.isEqual(to: otherUnit.player) {
+                            // 1) it's us:
+                            // only 1x combat + 1x civilian
+                            
+                            // FIXME
+                            continue
+                        } else {
+                            // 2) it's some else:
+                            // we cant step into a tile that is occupied by another players unit
                         
                             // unless we are at war, the we can
-                            if !diplomacyAI.isAtWar(with: otherUnit.player) {
+                            /*if !diplomacyAI.isAtWar(with: otherUnit.player) && !otherUnit.player!.isBarbarian() {
                                 continue
-                            }
+                            }*/
+                            continue
                         }
                     }
                     

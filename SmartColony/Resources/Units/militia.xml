@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:c7682d5c2754053565c3108c487bda62:9e9b50e294fda99fbae4e3c54f568c68:6cf3b67d553464f9a0029296f90cd795$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas blue_texture="militia.png" red_texture="militia_red.png" width="617" height="617">
+  <!-- Define the unit type-->
+  <unit id ="militia">
+
+    <!-- Attack Action-->
+    <action enum= "attack" speed="203">
+      <direction enum="south">
+        <sprite n="milicia ataque/000_Militia_attack.bmp" x="1" y="1" w="21" h="46" pX="0.52381" pY="0.804348"/>
+        <sprite n="milicia ataque/001_Militia_attack.bmp" x="24" y="1" w="22" h="47" pX="0.590909" pY="0.851064"/>
+        <sprite n="milicia ataque/002_Militia_attack.bmp" x="48" y="1" w="22" h="49" pX="0.590909" pY="0.857143"/>
+        <sprite n="milicia ataque/003_Militia_attack.bmp" x="72" y="1" w="42" h="43" pX="0.785714" pY="0.837209"/>
+        <sprite n="milicia ataque/004_Militia_attack.bmp" x="116" y="1" w="22" h="50" pX="0.590909" pY="0.68"/>
+        <sprite n="milicia ataque/005_Militia_attack.bmp" x="140" y="1" w="36" h="39" pX="0.25" pY="0.794872"/>
+        <sprite n="milicia ataque/006_Militia_attack.bmp" x="178" y="1" w="32" h="43" pX="0.21875" pY="0.837209"/>
+        <sprite n="milicia ataque/007_Militia_attack.bmp" x="212" y="1" w="28" h="46" pX="0.25" pY="0.847826"/>
+        <sprite n="milicia ataque/008_Militia_attack.bmp" x="242" y="1" w="28" h="43" pX="0.25" pY="0.837209"/>
+        <sprite n="milicia ataque/009_Militia_attack.bmp" x="272" y="1" w="24" h="45" pX="0.375" pY="0.8"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="milicia ataque/010_Militia_attack.bmp" x="298" y="1" w="31" h="46" pX="0.645161" pY="0.847826"/>
+        <sprite n="milicia ataque/011_Militia_attack.bmp" x="331" y="1" w="30" h="52" pX="0.6" pY="0.846154"/>
+        <sprite n="milicia ataque/012_Militia_attack.bmp" x="363" y="1" w="25" h="54" pX="0.52" pY="0.851852"/>
+        <sprite n="milicia ataque/013_Militia_attack.bmp" x="390" y="1" w="28" h="61" pX="0.607143" pY="0.836066"/>
+        <sprite n="milicia ataque/014_Militia_attack.bmp" x="420" y="1" w="47" h="46" pX="0.744681" pY="0.804348"/>
+        <sprite n="milicia ataque/015_Militia_attack.bmp" x="469" y="1" w="29" h="48" pX="0.482759" pY="0.645833"/>
+        <sprite n="milicia ataque/016_Militia_attack.bmp" x="500" y="1" w="33" h="37" pX="0.30303" pY="0.783784"/>
+        <sprite n="milicia ataque/017_Militia_attack.bmp" x="535" y="1" w="33" h="38" pX="0.30303" pY="0.789474"/>
+        <sprite n="milicia ataque/018_Militia_attack.bmp" x="570" y="1" w="25" h="46" pX="0.48" pY="0.695652"/>
+        <sprite n="milicia ataque/019_Militia_attack.bmp" x="1" y="64" w="27" h="44" pX="0.592593" pY="0.772727"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="milicia ataque/020_Militia_attack.bmp" x="30" y="64" w="33" h="42" pX="0.636364" pY="0.880952"/>
+        <sprite n="milicia ataque/021_Militia_attack.bmp" x="65" y="64" w="23" h="48" pX="0.478261" pY="0.895833"/>
+        <sprite n="milicia ataque/022_Militia_attack.bmp" x="90" y="64" w="24" h="43" pX="0.458333" pY="0.883721"/>
+        <sprite n="milicia ataque/023_Militia_attack.bmp" x="116" y="64" w="22" h="48" pX="0.454545" pY="0.895833"/>
+        <sprite n="milicia ataque/024_Militia_attack.bmp" x="140" y="64" w="45" h="41" pX="0.733333" pY="0.878049"/>
+        <sprite n="milicia ataque/025_Militia_attack.bmp" x="187" y="64" w="28" h="47" pX="0.607143" pY="0.702128"/>
+        <sprite n="milicia ataque/026_Militia_attack.bmp" x="217" y="64" w="24" h="45" pX="0.583333" pY="0.711111"/>
+        <sprite n="milicia ataque/027_Militia_attack.bmp" x="243" y="64" w="26" h="43" pX="0.538462" pY="0.744186"/>
+        <sprite n="milicia ataque/028_Militia_attack.bmp" x="271" y="64" w="25" h="45" pX="0.52" pY="0.755556"/>
+        <sprite n="milicia ataque/029_Militia_attack.bmp" x="298" y="64" w="32" h="43" pX="0.625" pY="0.837209"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="milicia ataque/030_Militia_attack.bmp" x="332" y="64" w="19" h="51" pX="0.578947" pY="0.862745"/>
+        <sprite n="milicia ataque/031_Militia_attack.bmp" x="353" y="64" w="30" h="50" pX="0.5" pY="0.86"/>
+        <sprite n="milicia ataque/032_Militia_attack.bmp" x="385" y="64" w="37" h="47" pX="0.405405" pY="0.851064"/>
+        <sprite n="milicia ataque/033_Militia_attack.bmp" x="424" y="64" w="39" h="52" pX="0.461538" pY="0.865385"/>
+        <sprite n="milicia ataque/034_Militia_attack.bmp" x="465" y="64" w="24" h="56" pX="0.625" pY="0.875"/>
+        <sprite n="milicia ataque/035_Militia_attack.bmp" x="491" y="64" w="41" h="43" pX="0.804878" pY="0.790698"/>
+        <sprite n="milicia ataque/036_Militia_attack.bmp" x="534" y="64" w="23" h="46" pX="0.608696" pY="0.717391"/>
+        <sprite n="milicia ataque/037_Militia_attack.bmp" x="559" y="64" w="22" h="47" pX="0.636364" pY="0.723404"/>
+        <sprite n="milicia ataque/038_Militia_attack.bmp" x="1" y="122" w="36" h="42" pX="0.777778" pY="0.833333"/>
+        <sprite n="milicia ataque/039_Militia_attack.bmp" x="39" y="122" w="30" h="47" pX="0.733333" pY="0.851064"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="milicia ataque/040_Militia_attack.bmp" x="71" y="122" w="21" h="49" pX="0.571429" pY="0.857143"/>
+        <sprite n="milicia ataque/041_Militia_attack.bmp" x="94" y="122" w="22" h="45" pX="0.5" pY="0.844444"/>
+        <sprite n="milicia ataque/042_Militia_attack.bmp" x="118" y="122" w="20" h="41" pX="0.4" pY="0.829268"/>
+        <sprite n="milicia ataque/043_Militia_attack.bmp" x="140" y="122" w="38" h="41" pX="0.210526" pY="0.829268"/>
+        <sprite n="milicia ataque/044_Militia_attack.bmp" x="180" y="122" w="20" h="50" pX="0.4" pY="0.86"/>
+        <sprite n="milicia ataque/045_Militia_attack.bmp" x="202" y="122" w="38" h="43" pX="0.763158" pY="0.837209"/>
+        <sprite n="milicia ataque/046_Militia_attack.bmp" x="242" y="122" w="37" h="43" pX="0.783784" pY="0.837209"/>
+        <sprite n="milicia ataque/047_Militia_attack.bmp" x="281" y="122" w="32" h="43" pX="0.75" pY="0.837209"/>
+        <sprite n="milicia ataque/048_Militia_attack.bmp" x="315" y="122" w="33" h="44" pX="0.757576" pY="0.840909"/>
+        <sprite n="milicia ataque/049_Militia_attack.bmp" x="350" y="122" w="24" h="49" pX="0.666667" pY="0.857143"/>
+      </direction>
+    </action>
+    <!--Die Action-->
+    <action enum ="die" speed="200">
+      <direction enum="south">
+         <sprite n="Militia_die/000_Militia_die.bmp" x="376" y="122" w="26" h="50" pX="0.423077" pY="0.72"/>
+    <sprite n="Militia_die/001_Militia_die.bmp" x="404" y="122" w="29" h="42" pX="0.413793" pY="0.785714"/>
+    <sprite n="Militia_die/002_Militia_die.bmp" x="435" y="122" w="29" h="44" pX="0.413793" pY="0.727273"/>
+    <sprite n="Militia_die/003_Militia_die.bmp" x="466" y="122" w="29" h="50" pX="0.413793" pY="0.74"/>
+    <sprite n="Militia_die/004_Militia_die.bmp" x="497" y="122" w="29" h="54" pX="0.37931" pY="0.796296"/>
+    <sprite n="Militia_die/005_Militia_die.bmp" x="528" y="122" w="29" h="56" pX="0.344828" pY="0.75"/>
+    <sprite n="Militia_die/006_Militia_die.bmp" x="559" y="122" w="28" h="44" pX="0.321429" pY="0.681818"/>
+    <sprite n="Militia_die/007_Militia_die.bmp" x="589" y="122" w="27" h="46" pX="0.333333" pY="0.695652"/>
+    <sprite n="Militia_die/008_Militia_die.bmp" x="1" y="180" w="27" h="47" pX="0.333333" pY="0.702128"/>
+    <sprite n="Militia_die/009_Militia_die.bmp" x="30" y="180" w="25" h="48" pX="0.32" pY="0.708333"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="Militia_die/010_Militia_die.bmp" x="57" y="180" w="25" h="48" pX="0.6" pY="0.770833"/>
+    <sprite n="Militia_die/011_Militia_die.bmp" x="84" y="180" w="26" h="46" pX="0.730769" pY="0.782609"/>
+    <sprite n="Militia_die/012_Militia_die.bmp" x="112" y="180" w="28" h="44" pX="0.821429" pY="0.727273"/>
+    <sprite n="Militia_die/013_Militia_die.bmp" x="142" y="180" w="29" h="39" pX="0.965517" pY="0.615385"/>
+    <sprite n="Militia_die/014_Militia_die.bmp" x="173" y="180" w="27" h="37" pX="1.11111" pY="0.486486"/>
+    <sprite n="Militia_die/015_Militia_die.bmp" x="202" y="180" w="36" h="34" pX="1" pY="0.264706"/>
+    <sprite n="Militia_die/016_Militia_die.bmp" x="240" y="180" w="40" h="30" pX="0.95" pY="0.0666667"/>
+    <sprite n="Militia_die/017_Militia_die.bmp" x="282" y="180" w="42" h="27" pX="0.952381" pY="-0.0740741"/>
+    <sprite n="Militia_die/018_Militia_die.bmp" x="326" y="180" w="42" h="32" pX="1.02381" pY="0.03125"/>
+    <sprite n="Militia_die/019_Militia_die.bmp" x="370" y="180" w="45" h="28" pX="1.04444" pY="-0.107143"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="Militia_die/020_Militia_die.bmp" x="417" y="180" w="38" h="44" pX="0.684211" pY="0.818182"/>
+    <sprite n="Militia_die/021_Militia_die.bmp" x="457" y="180" w="29" h="43" pX="0.586207" pY="0.790698"/>
+    <sprite n="Militia_die/022_Militia_die.bmp" x="488" y="180" w="39" h="42" pX="0.538462" pY="0.785714"/>
+    <sprite n="Militia_die/023_Militia_die.bmp" x="529" y="180" w="43" h="43" pX="0.534884" pY="0.790698"/>
+    <sprite n="Militia_die/024_Militia_die.bmp" x="1" y="230" w="46" h="43" pX="0.391304" pY="0.767442"/>
+    <sprite n="Militia_die/025_Militia_die.bmp" x="49" y="230" w="69" h="32" pX="0.333333" pY="0.6875"/>
+    <sprite n="Militia_die/026_Militia_die.bmp" x="120" y="230" w="78" h="23" pX="0.294872" pY="0.521739"/>
+    <sprite n="Militia_die/027_Militia_die.bmp" x="200" y="230" w="80" h="22" pX="0.2875" pY="0.545455"/>
+    <sprite n="Militia_die/028_Militia_die.bmp" x="282" y="230" w="83" h="22" pX="0.277108" pY="0.545455"/>
+    <sprite n="Militia_die/029_Militia_die.bmp" x="367" y="230" w="85" h="21" pX="0.270588" pY="0.52381"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="Militia_die/030_Militia_die.bmp" x="454" y="230" w="24" h="43" pX="0.833333" pY="0.906977"/>
+    <sprite n="Militia_die/031_Militia_die.bmp" x="480" y="230" w="23" h="41" pX="0.869565" pY="0.926829"/>
+    <sprite n="Militia_die/032_Militia_die.bmp" x="505" y="230" w="23" h="37" pX="1" pY="0.945946"/>
+    <sprite n="Militia_die/033_Militia_die.bmp" x="530" y="230" w="26" h="36" pX="1.07692" pY="1"/>
+    <sprite n="Militia_die/034_Militia_die.bmp" x="558" y="230" w="36" h="37" pX="1.05556" pY="1"/>
+    <sprite n="Militia_die/035_Militia_die.bmp" x="1" y="275" w="44" h="36" pX="1.04545" pY="0.972222"/>
+    <sprite n="Militia_die/036_Militia_die.bmp" x="47" y="275" w="45" h="32" pX="1.06667" pY="0.90625"/>
+    <sprite n="Militia_die/037_Militia_die.bmp" x="94" y="275" w="46" h="27" pX="1.06522" pY="0.888889"/>
+    <sprite n="Militia_die/038_Militia_die.bmp" x="142" y="275" w="45" h="24" pX="1.13333" pY="0.916667"/>
+    <sprite n="Militia_die/039_Militia_die.bmp" x="189" y="275" w="45" h="24" pX="1.22222" pY="1"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="Militia_die/040_Militia_die.bmp" x="236" y="275" w="26" h="45" pX="0.615385" pY="0.844444"/>
+    <sprite n="Militia_die/041_Militia_die.bmp" x="264" y="275" w="27" h="44" pX="0.62963" pY="0.840909"/>
+    <sprite n="Militia_die/042_Militia_die.bmp" x="293" y="275" w="28" h="46" pX="0.607143" pY="0.782609"/>
+    <sprite n="Militia_die/043_Militia_die.bmp" x="323" y="275" w="29" h="43" pX="0.62069" pY="0.744186"/>
+    <sprite n="Militia_die/044_Militia_die.bmp" x="354" y="275" w="32" h="38" pX="0.65625" pY="0.605263"/>
+    <sprite n="Militia_die/045_Militia_die.bmp" x="388" y="275" w="32" h="37" pX="0.65625" pY="0.324324"/>
+    <sprite n="Militia_die/046_Militia_die.bmp" x="422" y="275" w="28" h="42" pX="0.642857" pY="0.285714"/>
+    <sprite n="Militia_die/047_Militia_die.bmp" x="452" y="275" w="28" h="42" pX="0.642857" pY="0.285714"/>
+    <sprite n="Militia_die/048_Militia_die.bmp" x="482" y="275" w="28" h="44" pX="0.607143" pY="0.272727"/>
+    <sprite n="Militia_die/049_Militia_die.bmp" x="512" y="275" w="28" h="45" pX="0.607143" pY="0.266667"/>
+      </direction>
+    </action>
+    <!--Disappear Action-->
+    <action enum ="disappear" speed="1500">
+      <direction enum="south">
+        <sprite n="milicia disapear/000_Militia_dissapear.bmp" x="542" y="275" w="23" h="46" pX="0.304348" pY="0.717391"/>
+        <sprite n="milicia disapear/001_Militia_dissapear.bmp" x="567" y="275" w="23" h="43" pX="0.304348" pY="0.697674"/>
+        <sprite n="milicia disapear/002_Militia_dissapear.bmp" x="592" y="275" w="21" h="42" pX="0.285714" pY="0.690476"/>
+        <sprite n="milicia disapear/003_Militia_dissapear.bmp" x="1" y="323" w="19" h="43" pX="0.263158" pY="0.697674"/>
+        <sprite n="milicia disapear/004_Militia_dissapear.bmp" x="22" y="323" w="14" h="44" pX="0.357143" pY="0.704545"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="milicia disapear/005_Militia_dissapear.bmp" x="38" y="323" w="43" h="26" pX="1.06977" pY="-0.153846"/>
+        <sprite n="milicia disapear/006_Militia_dissapear.bmp" x="83" y="323" w="42" h="22" pX="1.09524" pY="-0.318182"/>
+        <sprite n="milicia disapear/007_Militia_dissapear.bmp" x="127" y="323" w="40" h="21" pX="1.15" pY="-0.380952"/>
+        <sprite n="milicia disapear/008_Militia_dissapear.bmp" x="169" y="323" w="36" h="20" pX="1.16667" pY="-0.4"/>
+        <sprite n="milicia disapear/009_Militia_dissapear.bmp" x="207" y="323" w="30" h="19" pX="1.23333" pY="-0.421053"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="milicia disapear/010_Militia_dissapear.bmp" x="239" y="323" w="83" h="19" pX="0.26506" pY="0.526316"/>
+        <sprite n="milicia disapear/011_Militia_dissapear.bmp" x="324" y="323" w="78" h="16" pX="0.24359" pY="0.625"/>
+        <sprite n="milicia disapear/012_Militia_dissapear.bmp" x="404" y="323" w="73" h="14" pX="0.205479" pY="0.642857"/>
+        <sprite n="milicia disapear/013_Militia_dissapear.bmp" x="479" y="323" w="72" h="13" pX="0.208333" pY="0.615385"/>
+        <sprite n="milicia disapear/014_Militia_dissapear.bmp" x="553" y="323" w="37" h="11" pX="-0.540541" pY="0.636364"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="milicia disapear/015_Militia_dissapear.bmp" x="1" y="369" w="43" h="22" pX="1.25581" pY="1.04545"/>
+        <sprite n="milicia disapear/016_Militia_dissapear.bmp" x="46" y="369" w="42" h="21" pX="1.28571" pY="1.09524"/>
+        <sprite n="milicia disapear/017_Militia_dissapear.bmp" x="90" y="369" w="40" h="20" pX="1.325" pY="1.15"/>
+        <sprite n="milicia disapear/018_Militia_dissapear.bmp" x="132" y="369" w="34" h="18" pX="1.52941" pY="1.22222"/>
+        <sprite n="milicia disapear/019_Militia_dissapear.bmp" x="168" y="369" w="33" h="17" pX="1.57576" pY="1.23529"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="milicia disapear/020_Militia_dissapear.bmp" x="203" y="369" w="26" h="43" pX="0.615385" pY="0.255814"/>
+        <sprite n="milicia disapear/021_Militia_dissapear.bmp" x="231" y="369" w="23" h="42" pX="0.608696" pY="0.261905"/>
+        <sprite n="milicia disapear/022_Militia_dissapear.bmp" x="256" y="369" w="22" h="41" pX="0.636364" pY="0.268293"/>
+        <sprite n="milicia disapear/023_Militia_dissapear.bmp" x="280" y="369" w="19" h="35" pX="0.631579" pY="0.2"/>
+        <sprite n="milicia disapear/024_Militia_dissapear.bmp" x="301" y="369" w="13" h="23" pX="0.461538" pY="-0.173913"/>
+      </direction>
+    </action>
+    <!--Idle Action-->
+    <action enum ="idle" speed="150">
+      <direction enum="south">
+        <sprite n="milicia idle/000_Militia_idle.bmp" x="316" y="369" w="28" h="46" pX="0.357143" pY="0.804348"/>
+        <sprite n="milicia idle/001_Militia_idle.bmp" x="346" y="369" w="26" h="46" pX="0.423077" pY="0.804348"/>
+        <sprite n="milicia idle/002_Militia_idle.bmp" x="374" y="369" w="25" h="47" pX="0.44" pY="0.808511"/>
+        <sprite n="milicia idle/003_Militia_idle.bmp" x="401" y="369" w="25" h="46" pX="0.44" pY="0.804348"/>
+        <sprite n="milicia idle/004_Militia_idle.bmp" x="428" y="369" w="28" h="46" pX="0.392857" pY="0.804348"/>
+        <sprite n="milicia idle/005_Militia_idle.bmp" x="458" y="369" w="29" h="46" pX="0.37931" pY="0.804348"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="milicia idle/006_Militia_idle.bmp" x="489" y="369" w="23" h="46" pX="0.521739" pY="0.782609"/>
+        <sprite n="milicia idle/007_Militia_idle.bmp" x="514" y="369" w="23" h="45" pX="0.521739" pY="0.8"/>
+        <sprite n="milicia idle/008_Militia_idle.bmp" x="539" y="369" w="21" h="45" pX="0.52381" pY="0.8"/>
+        <sprite n="milicia idle/009_Militia_idle.bmp" x="562" y="369" w="21" h="45" pX="0.52381" pY="0.8"/>
+        <sprite n="milicia idle/010_Militia_idle.bmp" x="585" y="369" w="21" h="45" pX="0.52381" pY="0.8"/>
+        <sprite n="milicia idle/011_Militia_idle.bmp" x="1" y="418" w="23" h="45" pX="0.521739" pY="0.8"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="milicia idle/012_Militia_idle.bmp" x="26" y="418" w="30" h="46" pX="0.6" pY="0.804348"/>
+        <sprite n="milicia idle/013_Militia_idle.bmp" x="58" y="418" w="30" h="45" pX="0.6" pY="0.822222"/>
+        <sprite n="milicia idle/014_Militia_idle.bmp" x="90" y="418" w="30" h="44" pX="0.6" pY="0.840909"/>
+        <sprite n="milicia idle/015_Militia_idle.bmp" x="122" y="418" w="30" h="44" pX="0.6" pY="0.840909"/>
+        <sprite n="milicia idle/016_Militia_idle.bmp" x="154" y="418" w="30" h="46" pX="0.6" pY="0.804348"/>
+        <sprite n="milicia idle/017_Militia_idle.bmp" x="186" y="418" w="30" h="46" pX="0.6" pY="0.804348"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="milicia idle/018_Militia_idle.bmp" x="218" y="418" w="28" h="44" pX="0.714286" pY="0.840909"/>
+        <sprite n="milicia idle/019_Militia_idle.bmp" x="248" y="418" w="28" h="44" pX="0.714286" pY="0.840909"/>
+        <sprite n="milicia idle/020_Militia_idle.bmp" x="278" y="418" w="27" h="44" pX="0.703704" pY="0.840909"/>
+        <sprite n="milicia idle/021_Militia_idle.bmp" x="307" y="418" w="27" h="44" pX="0.703704" pY="0.840909"/>
+        <sprite n="milicia idle/022_Militia_idle.bmp" x="336" y="418" w="27" h="44" pX="0.703704" pY="0.840909"/>
+        <sprite n="milicia idle/023_Militia_idle.bmp" x="365" y="418" w="28" h="44" pX="0.714286" pY="0.840909"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="milicia idle/024_Militia_idle.bmp" x="395" y="418" w="28" h="45" pX="0.678571" pY="0.844444"/>
+        <sprite n="milicia idle/025_Militia_idle.bmp" x="425" y="418" w="27" h="45" pX="0.666667" pY="0.844444"/>
+        <sprite n="milicia idle/026_Militia_idle.bmp" x="454" y="418" w="25" h="48" pX="0.64" pY="0.854167"/>
+        <sprite n="milicia idle/027_Militia_idle.bmp" x="481" y="418" w="26" h="46" pX="0.653846" pY="0.847826"/>
+        <sprite n="milicia idle/028_Militia_idle.bmp" x="509" y="418" w="27" h="45" pX="0.666667" pY="0.844444"/>
+        <sprite n="milicia idle/029_Militia_idle.bmp" x="538" y="418" w="28" h="45" pX="0.678571" pY="0.844444"/>
+      </direction>
+    </action>
+    <!--Walk Action-->
+    <action enum ="walk" speed="100">
+      <direction enum="south">
+        <sprite n="milicia walk/000_Militia_walk.bmp" x="568" y="418" w="22" h="46" pX="0.545455" pY="0.804348"/>
+        <sprite n="milicia walk/001_Militia_walk.bmp" x="592" y="418" w="22" h="46" pX="0.545455" pY="0.804348"/>
+        <sprite n="milicia walk/002_Militia_walk.bmp" x="1" y="468" w="21" h="47" pX="0.571429" pY="0.787234"/>
+        <sprite n="milicia walk/003_Militia_walk.bmp" x="24" y="468" w="23" h="48" pX="0.565217" pY="0.791667"/>
+        <sprite n="milicia walk/004_Militia_walk.bmp" x="49" y="468" w="23" h="49" pX="0.565217" pY="0.77551"/>
+        <sprite n="milicia walk/005_Militia_walk.bmp" x="74" y="468" w="22" h="49" pX="0.545455" pY="0.77551"/>
+        <sprite n="milicia walk/006_Militia_walk.bmp" x="98" y="468" w="23" h="49" pX="0.521739" pY="0.755102"/>
+        <sprite n="milicia walk/007_Militia_walk.bmp" x="123" y="468" w="23" h="49" pX="0.521739" pY="0.755102"/>
+        <sprite n="milicia walk/008_Militia_walk.bmp" x="148" y="468" w="23" h="50" pX="0.521739" pY="0.76"/>
+        <sprite n="milicia walk/009_Militia_walk.bmp" x="173" y="468" w="23" h="49" pX="0.521739" pY="0.795918"/>
+        <sprite n="milicia walk/010_Militia_walk.bmp" x="198" y="468" w="23" h="48" pX="0.521739" pY="0.791667"/>
+        <sprite n="milicia walk/011_Militia_walk.bmp" x="223" y="468" w="23" h="47" pX="0.521739" pY="0.808511"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="milicia walk/012_Militia_walk.bmp" x="248" y="468" w="27" h="45" pX="0.62963" pY="0.822222"/>
+        <sprite n="milicia walk/013_Militia_walk.bmp" x="277" y="468" w="30" h="45" pX="0.6" pY="0.822222"/>
+        <sprite n="milicia walk/014_Militia_walk.bmp" x="309" y="468" w="32" h="45" pX="0.625" pY="0.844444"/>
+        <sprite n="milicia walk/015_Militia_walk.bmp" x="343" y="468" w="31" h="46" pX="0.677419" pY="0.847826"/>
+        <sprite n="milicia walk/016_Militia_walk.bmp" x="376" y="468" w="30" h="46" pX="0.666667" pY="0.847826"/>
+        <sprite n="milicia walk/017_Militia_walk.bmp" x="408" y="468" w="30" h="45" pX="0.666667" pY="0.844444"/>
+        <sprite n="milicia walk/018_Militia_walk.bmp" x="440" y="468" w="30" h="45" pX="0.633333" pY="0.822222"/>
+        <sprite n="milicia walk/019_Militia_walk.bmp" x="472" y="468" w="30" h="44" pX="0.666667" pY="0.818182"/>
+        <sprite n="milicia walk/020_Militia_walk.bmp" x="504" y="468" w="30" h="44" pX="0.666667" pY="0.840909"/>
+        <sprite n="milicia walk/021_Militia_walk.bmp" x="536" y="468" w="30" h="45" pX="0.666667" pY="0.844444"/>
+        <sprite n="milicia walk/022_Militia_walk.bmp" x="568" y="468" w="30" h="46" pX="0.666667" pY="0.826087"/>
+        <sprite n="milicia walk/023_Militia_walk.bmp" x="1" y="520" w="28" h="46" pX="0.642857" pY="0.826087"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="milicia walk/024_Militia_walk.bmp" x="31" y="520" w="27" h="43" pX="0.555556" pY="0.860465"/>
+        <sprite n="milicia walk/025_Militia_walk.bmp" x="60" y="520" w="29" h="43" pX="0.517241" pY="0.883721"/>
+        <sprite n="milicia walk/026_Militia_walk.bmp" x="91" y="520" w="31" h="43" pX="0.580645" pY="0.883721"/>
+        <sprite n="milicia walk/027_Militia_walk.bmp" x="124" y="520" w="30" h="45" pX="0.666667" pY="0.866667"/>
+        <sprite n="milicia walk/028_Militia_walk.bmp" x="156" y="520" w="30" h="44" pX="0.733333" pY="0.863636"/>
+        <sprite n="milicia walk/029_Militia_walk.bmp" x="188" y="520" w="32" h="44" pX="0.6875" pY="0.863636"/>
+        <sprite n="milicia walk/030_Militia_walk.bmp" x="222" y="520" w="37" h="43" pX="0.621622" pY="0.860465"/>
+        <sprite n="milicia walk/031_Militia_walk.bmp" x="261" y="520" w="37" h="44" pX="0.621622" pY="0.840909"/>
+        <sprite n="milicia walk/032_Militia_walk.bmp" x="300" y="520" w="35" h="45" pX="0.657143" pY="0.844444"/>
+        <sprite n="milicia walk/033_Militia_walk.bmp" x="337" y="520" w="30" h="45" pX="0.7" pY="0.844444"/>
+        <sprite n="milicia walk/034_Militia_walk.bmp" x="369" y="520" w="27" h="44" pX="0.703704" pY="0.863636"/>
+        <sprite n="milicia walk/035_Militia_walk.bmp" x="398" y="520" w="27" h="44" pX="0.62963" pY="0.863636"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="milicia walk/036_Militia_walk.bmp" x="427" y="520" w="27" h="44" pX="0.555556" pY="0.840909"/>
+        <sprite n="milicia walk/037_Militia_walk.bmp" x="456" y="520" w="23" h="46" pX="0.565217" pY="0.826087"/>
+        <sprite n="milicia walk/038_Militia_walk.bmp" x="481" y="520" w="22" h="47" pX="0.545455" pY="0.829787"/>
+        <sprite n="milicia walk/039_Militia_walk.bmp" x="505" y="520" w="21" h="46" pX="0.52381" pY="0.847826"/>
+        <sprite n="milicia walk/040_Militia_walk.bmp" x="528" y="520" w="22" h="43" pX="0.590909" pY="0.883721"/>
+        <sprite n="milicia walk/041_Militia_walk.bmp" x="552" y="520" w="23" h="44" pX="0.608696" pY="0.863636"/>
+        <sprite n="milicia walk/042_Militia_walk.bmp" x="577" y="520" w="28" h="43" pX="0.571429" pY="0.860465"/>
+        <sprite n="milicia walk/043_Militia_walk.bmp" x="1" y="569" w="28" h="43" pX="0.571429" pY="0.860465"/>
+        <sprite n="milicia walk/044_Militia_walk.bmp" x="31" y="569" w="24" h="44" pX="0.583333" pY="0.863636"/>
+        <sprite n="milicia walk/045_Militia_walk.bmp" x="57" y="569" w="21" h="43" pX="0.571429" pY="0.883721"/>
+        <sprite n="milicia walk/046_Militia_walk.bmp" x="80" y="569" w="24" h="43" pX="0.583333" pY="0.883721"/>
+        <sprite n="milicia walk/047_Militia_walk.bmp" x="106" y="569" w="26" h="45" pX="0.576923" pY="0.844444"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="milicia walk/048_Militia_walk.bmp" x="134" y="569" w="24" h="45" pX="0.5" pY="0.822222"/>
+        <sprite n="milicia walk/049_Militia_walk.bmp" x="160" y="569" w="23" h="47" pX="0.478261" pY="0.808511"/>
+        <sprite n="milicia walk/050_Militia_walk.bmp" x="185" y="569" w="23" h="46" pX="0.478261" pY="0.826087"/>
+        <sprite n="milicia walk/051_Militia_walk.bmp" x="210" y="569" w="23" h="46" pX="0.521739" pY="0.847826"/>
+        <sprite n="milicia walk/052_Militia_walk.bmp" x="235" y="569" w="23" h="43" pX="0.521739" pY="0.883721"/>
+        <sprite n="milicia walk/053_Militia_walk.bmp" x="260" y="569" w="22" h="46" pX="0.545455" pY="0.847826"/>
+        <sprite n="milicia walk/054_Militia_walk.bmp" x="284" y="569" w="22" h="47" pX="0.545455" pY="0.829787"/>
+        <sprite n="milicia walk/055_Militia_walk.bmp" x="308" y="569" w="22" h="46" pX="0.545455" pY="0.826087"/>
+        <sprite n="milicia walk/056_Militia_walk.bmp" x="332" y="569" w="22" h="45" pX="0.545455" pY="0.844444"/>
+        <sprite n="milicia walk/057_Militia_walk.bmp" x="356" y="569" w="22" h="44" pX="0.545455" pY="0.863636"/>
+        <sprite n="milicia walk/058_Militia_walk.bmp" x="380" y="569" w="22" h="43" pX="0.545455" pY="0.883721"/>
+        <sprite n="milicia walk/059_Militia_walk.bmp" x="404" y="569" w="24" h="45" pX="0.5" pY="0.844444"/>
+      </direction>
+    </action>
+  </unit>
+</TextureAtlas>

@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:d3bc77709a0d3e35960da6a84fd50ce1:0e4946d0cba857b23322036f9ed78f9a:d6c602d6286f9b87910747ed452da80a$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas blue_texture="crossbowman.png" red_texture="crossbowman_red.png" width="739" height="739">
+  <!-- Define the unit type-->
+  <unit id ="crossbowman">
+
+    <!-- Attack Action-->
+    <action enum="attack" speed="203">
+      <direction enum="south">
+        <sprite n="Crossbowman/Crossbowman_attack/000_Crossbowman_attack.bmp" x="1" y="1" w="27" h="50" pX="0.555556" pY="0.8"/>
+        <sprite n="Crossbowman/Crossbowman_attack/001_Crossbowman_attack.bmp" x="30" y="1" w="25" h="51" pX="0.6" pY="0.764706"/>
+        <sprite n="Crossbowman/Crossbowman_attack/002_Crossbowman_attack.bmp" x="57" y="1" w="30" h="51" pX="0.633333" pY="0.764706"/>
+        <sprite n="Crossbowman/Crossbowman_attack/003_Crossbowman_attack.bmp" x="89" y="1" w="31" h="50" pX="0.645161" pY="0.8"/>
+        <sprite n="Crossbowman/Crossbowman_attack/004_Crossbowman_attack.bmp" x="122" y="1" w="33" h="51" pX="0.666667" pY="0.803922"/>
+        <sprite n="Crossbowman/Crossbowman_attack/005_Crossbowman_attack.bmp" x="157" y="1" w="32" h="50" pX="0.65625" pY="0.8"/>
+        <sprite n="Crossbowman/Crossbowman_attack/006_Crossbowman_attack.bmp" x="191" y="1" w="33" h="50" pX="0.666667" pY="0.8"/>
+        <sprite n="Crossbowman/Crossbowman_attack/007_Crossbowman_attack.bmp" x="226" y="1" w="32" h="50" pX="0.65625" pY="0.8"/>
+        <sprite n="Crossbowman/Crossbowman_attack/008_Crossbowman_attack.bmp" x="260" y="1" w="30" h="52" pX="0.633333" pY="0.769231"/>
+        <sprite n="Crossbowman/Crossbowman_attack/009_Crossbowman_attack.bmp" x="292" y="1" w="27" h="50" pX="0.555556" pY="0.8"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="Crossbowman/Crossbowman_attack/010_Crossbowman_attack.bmp" x="321" y="1" w="29" h="49" pX="0.655172" pY="0.795918"/>
+        <sprite n="Crossbowman/Crossbowman_attack/011_Crossbowman_attack.bmp" x="352" y="1" w="29" h="47" pX="0.724138" pY="0.829787"/>
+        <sprite n="Crossbowman/Crossbowman_attack/012_Crossbowman_attack.bmp" x="383" y="1" w="32" h="47" pX="0.71875" pY="0.851064"/>
+        <sprite n="Crossbowman/Crossbowman_attack/013_Crossbowman_attack.bmp" x="417" y="1" w="31" h="48" pX="0.709677" pY="0.854167"/>
+        <sprite n="Crossbowman/Crossbowman_attack/014_Crossbowman_attack.bmp" x="450" y="1" w="34" h="47" pX="0.735294" pY="0.851064"/>
+        <sprite n="Crossbowman/Crossbowman_attack/015_Crossbowman_attack.bmp" x="486" y="1" w="34" h="46" pX="0.735294" pY="0.869565"/>
+        <sprite n="Crossbowman/Crossbowman_attack/016_Crossbowman_attack.bmp" x="522" y="1" w="33" h="46" pX="0.727273" pY="0.869565"/>
+        <sprite n="Crossbowman/Crossbowman_attack/017_Crossbowman_attack.bmp" x="557" y="1" w="34" h="46" pX="0.735294" pY="0.869565"/>
+        <sprite n="Crossbowman/Crossbowman_attack/018_Crossbowman_attack.bmp" x="593" y="1" w="32" h="47" pX="0.71875" pY="0.851064"/>
+        <sprite n="Crossbowman/Crossbowman_attack/019_Crossbowman_attack.bmp" x="627" y="1" w="29" h="49" pX="0.655172" pY="0.795918"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="Crossbowman/Crossbowman_attack/020_Crossbowman_attack.bmp" x="658" y="1" w="30" h="45" pX="0.666667" pY="0.866667"/>
+        <sprite n="Crossbowman/Crossbowman_attack/021_Crossbowman_attack.bmp" x="690" y="1" w="34" h="44" pX="0.647059" pY="0.886364"/>
+        <sprite n="Crossbowman/Crossbowman_attack/022_Crossbowman_attack.bmp" x="1" y="55" w="32" h="44" pX="0.65625" pY="0.886364"/>
+        <sprite n="Crossbowman/Crossbowman_attack/023_Crossbowman_attack.bmp" x="35" y="55" w="35" h="44" pX="0.628571" pY="0.886364"/>
+        <sprite n="Crossbowman/Crossbowman_attack/024_Crossbowman_attack.bmp" x="72" y="55" w="33" h="44" pX="0.606061" pY="0.886364"/>
+        <sprite n="Crossbowman/Crossbowman_attack/025_Crossbowman_attack.bmp" x="107" y="55" w="35" h="44" pX="0.628571" pY="0.886364"/>
+        <sprite n="Crossbowman/Crossbowman_attack/026_Crossbowman_attack.bmp" x="144" y="55" w="35" h="44" pX="0.628571" pY="0.886364"/>
+        <sprite n="Crossbowman/Crossbowman_attack/027_Crossbowman_attack.bmp" x="181" y="55" w="35" h="44" pX="0.628571" pY="0.886364"/>
+        <sprite n="Crossbowman/Crossbowman_attack/028_Crossbowman_attack.bmp" x="218" y="55" w="35" h="44" pX="0.685714" pY="0.886364"/>
+        <sprite n="Crossbowman/Crossbowman_attack/029_Crossbowman_attack.bmp" x="255" y="55" w="30" h="45" pX="0.666667" pY="0.866667"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="Crossbowman/Crossbowman_attack/030_Crossbowman_attack.bmp" x="287" y="55" w="32" h="43" pX="0.625" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_attack/031_Crossbowman_attack.bmp" x="321" y="55" w="29" h="44" pX="0.551724" pY="0.886364"/>
+        <sprite n="Crossbowman/Crossbowman_attack/032_Crossbowman_attack.bmp" x="352" y="55" w="30" h="43" pX="0.5" pY="0.906977"/>
+        <sprite n="Crossbowman/Crossbowman_attack/033_Crossbowman_attack.bmp" x="384" y="55" w="30" h="44" pX="0.5" pY="0.886364"/>
+        <sprite n="Crossbowman/Crossbowman_attack/034_Crossbowman_attack.bmp" x="416" y="55" w="28" h="46" pX="0.428571" pY="0.891304"/>
+        <sprite n="Crossbowman/Crossbowman_attack/035_Crossbowman_attack.bmp" x="446" y="55" w="30" h="43" pX="0.5" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_attack/036_Crossbowman_attack.bmp" x="478" y="55" w="30" h="43" pX="0.5" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_attack/037_Crossbowman_attack.bmp" x="510" y="55" w="30" h="43" pX="0.5" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_attack/038_Crossbowman_attack.bmp" x="542" y="55" w="30" h="43" pX="0.5" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_attack/039_Crossbowman_attack.bmp" x="574" y="55" w="32" h="43" pX="0.625" pY="0.883721"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="Crossbowman/Crossbowman_attack/040_Crossbowman_attack.bmp" x="608" y="55" w="26" h="44" pX="0.5" pY="0.863636"/>
+        <sprite n="Crossbowman/Crossbowman_attack/041_Crossbowman_attack.bmp" x="636" y="55" w="28" h="45" pX="0.464286" pY="0.866667"/>
+        <sprite n="Crossbowman/Crossbowman_attack/042_Crossbowman_attack.bmp" x="666" y="55" w="31" h="44" pX="0.419355" pY="0.863636"/>
+        <sprite n="Crossbowman/Crossbowman_attack/043_Crossbowman_attack.bmp" x="699" y="55" w="31" h="46" pX="0.419355" pY="0.847826"/>
+        <sprite n="Crossbowman/Crossbowman_attack/044_Crossbowman_attack.bmp" x="1" y="103" w="33" h="47" pX="0.393939" pY="0.851064"/>
+        <sprite n="Crossbowman/Crossbowman_attack/045_Crossbowman_attack.bmp" x="36" y="103" w="32" h="45" pX="0.40625" pY="0.844444"/>
+        <sprite n="Crossbowman/Crossbowman_attack/046_Crossbowman_attack.bmp" x="70" y="103" w="32" h="45" pX="0.40625" pY="0.844444"/>
+        <sprite n="Crossbowman/Crossbowman_attack/047_Crossbowman_attack.bmp" x="104" y="103" w="32" h="45" pX="0.40625" pY="0.844444"/>
+        <sprite n="Crossbowman/Crossbowman_attack/048_Crossbowman_attack.bmp" x="138" y="103" w="31" h="44" pX="0.419355" pY="0.863636"/>
+        <sprite n="Crossbowman/Crossbowman_attack/049_Crossbowman_attack.bmp" x="171" y="103" w="26" h="44" pX="0.5" pY="0.863636"/>
+      </direction>
+    </action>
+
+    <!--Disappear Action-->
+    <action enum ="die" speed="200">
+      <direction enum="south">
+        <sprite n="Crossbowman/Crossbowman_die/000_Crossbowman_die.bmp" x="199" y="103" w="34" h="48" pX="0.705882" pY="0.708333"/>
+        <sprite n="Crossbowman/Crossbowman_die/001_Crossbowman_die.bmp" x="235" y="103" w="42" h="42" pX="0.785714" pY="0.690476"/>
+        <sprite n="Crossbowman/Crossbowman_die/002_Crossbowman_die.bmp" x="279" y="103" w="41" h="36" pX="0.756098" pY="0.666667"/>
+        <sprite n="Crossbowman/Crossbowman_die/003_Crossbowman_die.bmp" x="322" y="103" w="44" h="35" pX="0.727273" pY="0.657143"/>
+        <sprite n="Crossbowman/Crossbowman_die/004_Crossbowman_die.bmp" x="368" y="103" w="45" h="37" pX="0.733333" pY="0.648649"/>
+        <sprite n="Crossbowman/Crossbowman_die/005_Crossbowman_die.bmp" x="415" y="103" w="46" h="42" pX="0.717391" pY="0.666667"/>
+        <sprite n="Crossbowman/Crossbowman_die/006_Crossbowman_die.bmp" x="463" y="103" w="50" h="43" pX="0.64" pY="0.651163"/>
+        <sprite n="Crossbowman/Crossbowman_die/007_Crossbowman_die.bmp" x="515" y="103" w="56" h="42" pX="0.589286" pY="0.642857"/>
+        <sprite n="Crossbowman/Crossbowman_die/008_Crossbowman_die.bmp" x="573" y="103" w="67" h="35" pX="0.492537" pY="0.571429"/>
+        <sprite n="Crossbowman/Crossbowman_die/009_Crossbowman_die.bmp" x="642" y="103" w="69" h="35" pX="0.478261" pY="0.571429"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="Crossbowman/Crossbowman_die/010_Crossbowman_die.bmp" x="1" y="153" w="27" h="48" pX="0.703704" pY="0.708333"/>
+        <sprite n="Crossbowman/Crossbowman_die/011_Crossbowman_die.bmp" x="30" y="153" w="32" h="59" pX="0.71875" pY="0.677966"/>
+        <sprite n="Crossbowman/Crossbowman_die/012_Crossbowman_die.bmp" x="64" y="153" w="38" h="64" pX="0.710526" pY="0.640625"/>
+        <sprite n="Crossbowman/Crossbowman_die/013_Crossbowman_die.bmp" x="104" y="153" w="50" h="69" pX="0.74" pY="0.623188"/>
+        <sprite n="Crossbowman/Crossbowman_die/014_Crossbowman_die.bmp" x="156" y="153" w="59" h="66" pX="0.762712" pY="0.590909"/>
+        <sprite n="Crossbowman/Crossbowman_die/015_Crossbowman_die.bmp" x="217" y="153" w="61" h="67" pX="0.737705" pY="0.552239"/>
+        <sprite n="Crossbowman/Crossbowman_die/016_Crossbowman_die.bmp" x="280" y="153" w="66" h="65" pX="0.69697" pY="0.523077"/>
+        <sprite n="Crossbowman/Crossbowman_die/017_Crossbowman_die.bmp" x="348" y="153" w="72" h="63" pX="0.638889" pY="0.492063"/>
+        <sprite n="Crossbowman/Crossbowman_die/018_Crossbowman_die.bmp" x="422" y="153" w="73" h="53" pX="0.630137" pY="0.396226"/>
+        <sprite n="Crossbowman/Crossbowman_die/019_Crossbowman_die.bmp" x="497" y="153" w="72" h="47" pX="0.638889" pY="0.319149"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="Crossbowman/Crossbowman_die/020_Crossbowman_die.bmp" x="571" y="153" w="38" h="46" pX="0.763158" pY="0.804348"/>
+        <sprite n="Crossbowman/Crossbowman_die/021_Crossbowman_die.bmp" x="611" y="153" w="48" h="52" pX="0.729167" pY="0.788462"/>
+        <sprite n="Crossbowman/Crossbowman_die/022_Crossbowman_die.bmp" x="661" y="153" w="61" h="52" pX="0.737705" pY="0.769231"/>
+        <sprite n="Crossbowman/Crossbowman_die/023_Crossbowman_die.bmp" x="1" y="224" w="75" h="52" pX="0.746667" pY="0.788462"/>
+        <sprite n="Crossbowman/Crossbowman_die/024_Crossbowman_die.bmp" x="78" y="224" w="83" h="45" pX="0.746988" pY="0.8"/>
+        <sprite n="Crossbowman/Crossbowman_die/025_Crossbowman_die.bmp" x="163" y="224" w="85" h="45" pX="0.752941" pY="0.777778"/>
+        <sprite n="Crossbowman/Crossbowman_die/026_Crossbowman_die.bmp" x="250" y="224" w="89" h="41" pX="0.730337" pY="0.756098"/>
+        <sprite n="Crossbowman/Crossbowman_die/027_Crossbowman_die.bmp" x="341" y="224" w="95" h="35" pX="0.694737" pY="0.714286"/>
+        <sprite n="Crossbowman/Crossbowman_die/028_Crossbowman_die.bmp" x="438" y="224" w="98" h="29" pX="0.673469" pY="0.655172"/>
+        <sprite n="Crossbowman/Crossbowman_die/029_Crossbowman_die.bmp" x="538" y="224" w="98" h="22" pX="0.673469" pY="0.545455"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="Crossbowman/Crossbowman_die/030_Crossbowman_die.bmp" x="638" y="224" w="28" h="43" pX="0.535714" pY="0.906977"/>
+        <sprite n="Crossbowman/Crossbowman_die/031_Crossbowman_die.bmp" x="668" y="224" w="27" h="40" pX="0.481481" pY="0.925"/>
+        <sprite n="Crossbowman/Crossbowman_die/032_Crossbowman_die.bmp" x="697" y="224" w="28" h="38" pX="0.464286" pY="0.921053"/>
+        <sprite n="Crossbowman/Crossbowman_die/033_Crossbowman_die.bmp" x="1" y="278" w="29" h="34" pX="0.413793" pY="0.911765"/>
+        <sprite n="Crossbowman/Crossbowman_die/034_Crossbowman_die.bmp" x="32" y="278" w="30" h="35" pX="0.433333" pY="0.857143"/>
+        <sprite n="Crossbowman/Crossbowman_die/035_Crossbowman_die.bmp" x="64" y="278" w="30" h="34" pX="0.5" pY="0.794118"/>
+        <sprite n="Crossbowman/Crossbowman_die/036_Crossbowman_die.bmp" x="96" y="278" w="37" h="31" pX="0.459459" pY="0.709677"/>
+        <sprite n="Crossbowman/Crossbowman_die/037_Crossbowman_die.bmp" x="135" y="278" w="39" h="34" pX="0.487179" pY="0.617647"/>
+        <sprite n="Crossbowman/Crossbowman_die/038_Crossbowman_die.bmp" x="176" y="278" w="45" h="39" pX="0.488889" pY="0.538462"/>
+        <sprite n="Crossbowman/Crossbowman_die/039_Crossbowman_die.bmp" x="223" y="278" w="42" h="40" pX="0.47619" pY="0.525"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="Crossbowman/Crossbowman_die/040_Crossbowman_die.bmp" x="267" y="278" w="37" h="45" pX="0.297297" pY="0.866667"/>
+        <sprite n="Crossbowman/Crossbowman_die/041_Crossbowman_die.bmp" x="306" y="278" w="41" h="43" pX="0.219512" pY="0.860465"/>
+        <sprite n="Crossbowman/Crossbowman_die/042_Crossbowman_die.bmp" x="349" y="278" w="41" h="39" pX="0.219512" pY="0.846154"/>
+        <sprite n="Crossbowman/Crossbowman_die/043_Crossbowman_die.bmp" x="392" y="278" w="44" h="36" pX="0.227273" pY="0.861111"/>
+        <sprite n="Crossbowman/Crossbowman_die/044_Crossbowman_die.bmp" x="438" y="278" w="44" h="36" pX="0.227273" pY="0.861111"/>
+        <sprite n="Crossbowman/Crossbowman_die/045_Crossbowman_die.bmp" x="484" y="278" w="46" h="36" pX="0.26087" pY="0.777778"/>
+        <sprite n="Crossbowman/Crossbowman_die/046_Crossbowman_die.bmp" x="532" y="278" w="53" h="30" pX="0.358491" pY="0.7"/>
+        <sprite n="Crossbowman/Crossbowman_die/047_Crossbowman_die.bmp" x="587" y="278" w="57" h="29" pX="0.403509" pY="0.62069"/>
+        <sprite n="Crossbowman/Crossbowman_die/048_Crossbowman_die.bmp" x="646" y="278" w="67" h="36" pX="0.492537" pY="0.472222"/>
+        <sprite n="Crossbowman/Crossbowman_die/049_Crossbowman_die.bmp" x="1" y="325" w="67" h="36" pX="0.492537" pY="0.444444"/>
+      </direction>
+    </action>
+
+    <!--Disappear Action-->
+    <action enum ="disappear" speed="1500">
+      <direction enum="south">
+        <sprite n="Crossbowman/Crossbowman_dissapear/000_Crossbowman_dissapear.bmp" x="70" y="325" w="67" h="33" pX="0.477612" pY="0.575758"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/001_Crossbowman_dissapear.bmp" x="139" y="325" w="65" h="32" pX="0.492308" pY="0.5625"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/002_Crossbowman_dissapear.bmp" x="206" y="325" w="65" h="32" pX="0.492308" pY="0.5625"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/003_Crossbowman_dissapear.bmp" x="273" y="325" w="63" h="32" pX="0.507937" pY="0.5625"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/004_Crossbowman_dissapear.bmp" x="338" y="325" w="52" h="31" pX="0.442308" pY="0.580645"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="Crossbowman/Crossbowman_dissapear/005_Crossbowman_dissapear.bmp" x="392" y="325" w="70" h="45" pX="0.642857" pY="0.311111"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/006_Crossbowman_dissapear.bmp" x="464" y="325" w="69" h="43" pX="0.652174" pY="0.302326"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/007_Crossbowman_dissapear.bmp" x="535" y="325" w="63" h="41" pX="0.650794" pY="0.292683"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/008_Crossbowman_dissapear.bmp" x="600" y="325" w="63" h="43" pX="0.650794" pY="0.325581"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/009_Crossbowman_dissapear.bmp" x="665" y="325" w="62" h="43" pX="0.66129" pY="0.325581"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="Crossbowman/Crossbowman_dissapear/010_Crossbowman_dissapear.bmp" x="1" y="372" w="96" h="20" pX="0.677083" pY="0.55"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/011_Crossbowman_dissapear.bmp" x="99" y="372" w="96" h="18" pX="0.677083" pY="0.555556"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/012_Crossbowman_dissapear.bmp" x="197" y="372" w="95" h="18" pX="0.684211" pY="0.555556"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/013_Crossbowman_dissapear.bmp" x="294" y="372" w="93" h="18" pX="0.688172" pY="0.555556"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/014_Crossbowman_dissapear.bmp" x="389" y="372" w="94" h="17" pX="0.680851" pY="0.529412"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="Crossbowman/Crossbowman_dissapear/015_Crossbowman_dissapear.bmp" x="485" y="372" w="40" h="38" pX="0.475" pY="0.526316"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/016_Crossbowman_dissapear.bmp" x="527" y="372" w="40" h="37" pX="0.475" pY="0.540541"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/017_Crossbowman_dissapear.bmp" x="569" y="372" w="40" h="37" pX="0.475" pY="0.540541"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/018_Crossbowman_dissapear.bmp" x="611" y="372" w="38" h="37" pX="0.5" pY="0.540541"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/019_Crossbowman_dissapear.bmp" x="651" y="372" w="30" h="33" pX="0.466667" pY="0.545455"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="Crossbowman/Crossbowman_dissapear/020_Crossbowman_dissapear.bmp" x="1" y="412" w="65" h="34" pX="0.492308" pY="0.441176"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/021_Crossbowman_dissapear.bmp" x="68" y="412" w="65" h="34" pX="0.492308" pY="0.441176"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/022_Crossbowman_dissapear.bmp" x="135" y="412" w="65" h="33" pX="0.492308" pY="0.454545"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/023_Crossbowman_dissapear.bmp" x="202" y="412" w="65" h="33" pX="0.492308" pY="0.454545"/>
+        <sprite n="Crossbowman/Crossbowman_dissapear/024_Crossbowman_dissapear.bmp" x="269" y="412" w="65" h="33" pX="0.492308" pY="0.454545"/>
+      </direction>
+    </action>
+
+    <!--Idle Action-->
+    <action enum ="idle" speed="150">
+      <direction enum="south">
+        <sprite n="Crossbowman/Crossbowman_idle/000_Crossbowman_idle.bmp" x="336" y="412" w="26" h="48" pX="0.461538" pY="0.8125"/>
+        <sprite n="Crossbowman/Crossbowman_idle/001_Crossbowman_idle.bmp" x="364" y="412" w="26" h="47" pX="0.461538" pY="0.808511"/>
+        <sprite n="Crossbowman/Crossbowman_idle/002_Crossbowman_idle.bmp" x="392" y="412" w="26" h="47" pX="0.461538" pY="0.808511"/>
+        <sprite n="Crossbowman/Crossbowman_idle/003_Crossbowman_idle.bmp" x="420" y="412" w="26" h="47" pX="0.461538" pY="0.808511"/>
+        <sprite n="Crossbowman/Crossbowman_idle/004_Crossbowman_idle.bmp" x="448" y="412" w="26" h="47" pX="0.461538" pY="0.808511"/>
+        <sprite n="Crossbowman/Crossbowman_idle/005_Crossbowman_idle.bmp" x="476" y="412" w="26" h="47" pX="0.461538" pY="0.808511"/>
+        <sprite n="Crossbowman/Crossbowman_idle/006_Crossbowman_idle.bmp" x="504" y="412" w="25" h="47" pX="0.48" pY="0.808511"/>
+        <sprite n="Crossbowman/Crossbowman_idle/007_Crossbowman_idle.bmp" x="531" y="412" w="26" h="47" pX="0.461538" pY="0.808511"/>
+        <sprite n="Crossbowman/Crossbowman_idle/008_Crossbowman_idle.bmp" x="559" y="412" w="26" h="48" pX="0.461538" pY="0.8125"/>
+        <sprite n="Crossbowman/Crossbowman_idle/009_Crossbowman_idle.bmp" x="587" y="412" w="26" h="49" pX="0.461538" pY="0.795918"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="Crossbowman/Crossbowman_idle/010_Crossbowman_idle.bmp" x="615" y="412" w="23" h="49" pX="0.565217" pY="0.77551"/>
+        <sprite n="Crossbowman/Crossbowman_idle/011_Crossbowman_idle.bmp" x="640" y="412" w="23" h="49" pX="0.565217" pY="0.77551"/>
+        <sprite n="Crossbowman/Crossbowman_idle/012_Crossbowman_idle.bmp" x="665" y="412" w="21" h="49" pX="0.571429" pY="0.77551"/>
+        <sprite n="Crossbowman/Crossbowman_idle/013_Crossbowman_idle.bmp" x="688" y="412" w="21" h="48" pX="0.571429" pY="0.791667"/>
+        <sprite n="Crossbowman/Crossbowman_idle/014_Crossbowman_idle.bmp" x="711" y="412" w="24" h="49" pX="0.625" pY="0.77551"/>
+        <sprite n="Crossbowman/Crossbowman_idle/015_Crossbowman_idle.bmp" x="1" y="463" w="22" h="49" pX="0.590909" pY="0.77551"/>
+        <sprite n="Crossbowman/Crossbowman_idle/016_Crossbowman_idle.bmp" x="25" y="463" w="23" h="49" pX="0.608696" pY="0.77551"/>
+        <sprite n="Crossbowman/Crossbowman_idle/017_Crossbowman_idle.bmp" x="50" y="463" w="24" h="49" pX="0.583333" pY="0.77551"/>
+        <sprite n="Crossbowman/Crossbowman_idle/018_Crossbowman_idle.bmp" x="76" y="463" w="23" h="49" pX="0.565217" pY="0.77551"/>
+        <sprite n="Crossbowman/Crossbowman_idle/019_Crossbowman_idle.bmp" x="101" y="463" w="23" h="49" pX="0.565217" pY="0.77551"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="Crossbowman/Crossbowman_idle/020_Crossbowman_idle.bmp" x="126" y="463" w="28" h="46" pX="0.642857" pY="0.826087"/>
+        <sprite n="Crossbowman/Crossbowman_idle/021_Crossbowman_idle.bmp" x="156" y="463" w="28" h="46" pX="0.642857" pY="0.826087"/>
+        <sprite n="Crossbowman/Crossbowman_idle/022_Crossbowman_idle.bmp" x="186" y="463" w="27" h="46" pX="0.62963" pY="0.826087"/>
+        <sprite n="Crossbowman/Crossbowman_idle/023_Crossbowman_idle.bmp" x="215" y="463" w="27" h="46" pX="0.62963" pY="0.826087"/>
+        <sprite n="Crossbowman/Crossbowman_idle/024_Crossbowman_idle.bmp" x="244" y="463" w="27" h="46" pX="0.62963" pY="0.826087"/>
+        <sprite n="Crossbowman/Crossbowman_idle/025_Crossbowman_idle.bmp" x="273" y="463" w="27" h="45" pX="0.62963" pY="0.844444"/>
+        <sprite n="Crossbowman/Crossbowman_idle/026_Crossbowman_idle.bmp" x="302" y="463" w="27" h="45" pX="0.62963" pY="0.844444"/>
+        <sprite n="Crossbowman/Crossbowman_idle/027_Crossbowman_idle.bmp" x="331" y="463" w="28" h="45" pX="0.642857" pY="0.844444"/>
+        <sprite n="Crossbowman/Crossbowman_idle/028_Crossbowman_idle.bmp" x="361" y="463" w="27" h="45" pX="0.62963" pY="0.844444"/>
+        <sprite n="Crossbowman/Crossbowman_idle/029_Crossbowman_idle.bmp" x="390" y="463" w="28" h="46" pX="0.642857" pY="0.826087"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="Crossbowman/Crossbowman_idle/030_Crossbowman_idle.bmp" x="420" y="463" w="32" h="43" pX="0.65625" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_idle/031_Crossbowman_idle.bmp" x="454" y="463" w="32" h="43" pX="0.65625" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_idle/032_Crossbowman_idle.bmp" x="488" y="463" w="32" h="43" pX="0.65625" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_idle/033_Crossbowman_idle.bmp" x="522" y="463" w="32" h="43" pX="0.65625" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_idle/034_Crossbowman_idle.bmp" x="556" y="463" w="32" h="43" pX="0.65625" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_idle/035_Crossbowman_idle.bmp" x="590" y="463" w="32" h="43" pX="0.65625" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_idle/036_Crossbowman_idle.bmp" x="624" y="463" w="31" h="43" pX="0.645161" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_idle/037_Crossbowman_idle.bmp" x="657" y="463" w="31" h="43" pX="0.645161" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_idle/038_Crossbowman_idle.bmp" x="690" y="463" w="32" h="43" pX="0.65625" pY="0.883721"/>
+        <sprite n="Crossbowman/Crossbowman_idle/039_Crossbowman_idle.bmp" x="1" y="514" w="32" h="43" pX="0.65625" pY="0.883721"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="Crossbowman/Crossbowman_idle/040_Crossbowman_idle.bmp" x="35" y="514" w="27" h="44" pX="0.555556" pY="0.863636"/>
+        <sprite n="Crossbowman/Crossbowman_idle/041_Crossbowman_idle.bmp" x="64" y="514" w="26" h="44" pX="0.538462" pY="0.863636"/>
+        <sprite n="Crossbowman/Crossbowman_idle/042_Crossbowman_idle.bmp" x="92" y="514" w="27" h="44" pX="0.555556" pY="0.863636"/>
+        <sprite n="Crossbowman/Crossbowman_idle/043_Crossbowman_idle.bmp" x="121" y="514" w="27" h="44" pX="0.555556" pY="0.863636"/>
+        <sprite n="Crossbowman/Crossbowman_idle/044_Crossbowman_idle.bmp" x="150" y="514" w="26" h="44" pX="0.538462" pY="0.863636"/>
+        <sprite n="Crossbowman/Crossbowman_idle/045_Crossbowman_idle.bmp" x="178" y="514" w="26" h="44" pX="0.538462" pY="0.863636"/>
+        <sprite n="Crossbowman/Crossbowman_idle/046_Crossbowman_idle.bmp" x="206" y="514" w="27" h="44" pX="0.555556" pY="0.863636"/>
+        <sprite n="Crossbowman/Crossbowman_idle/047_Crossbowman_idle.bmp" x="235" y="514" w="27" h="44" pX="0.555556" pY="0.863636"/>
+        <sprite n="Crossbowman/Crossbowman_idle/048_Crossbowman_idle.bmp" x="264" y="514" w="27" h="44" pX="0.555556" pY="0.863636"/>
+        <sprite n="Crossbowman/Crossbowman_idle/049_Crossbowman_idle.bmp" x="293" y="514" w="27" h="44" pX="0.555556" pY="0.863636"/>
+      </direction>
+    </action>
+
+    <!--Walk Action-->
+    <action enum ="walk" speed="100">
+      <direction enum="south">
+        <sprite n="Crossbowman/Crossbowman_walk/000_Crossbowman_walk.bmp" x="322" y="514" w="28" h="51" pX="0.678571" pY="0.745098"/>
+        <sprite n="Crossbowman/Crossbowman_walk/001_Crossbowman_walk.bmp" x="352" y="514" w="29" h="51" pX="0.655172" pY="0.745098"/>
+        <sprite n="Crossbowman/Crossbowman_walk/002_Crossbowman_walk.bmp" x="383" y="514" w="28" h="52" pX="0.642857" pY="0.75"/>
+        <sprite n="Crossbowman/Crossbowman_walk/003_Crossbowman_walk.bmp" x="413" y="514" w="27" h="53" pX="0.62963" pY="0.754717"/>
+        <sprite n="Crossbowman/Crossbowman_walk/004_Crossbowman_walk.bmp" x="442" y="514" w="26" h="52" pX="0.615385" pY="0.75"/>
+        <sprite n="Crossbowman/Crossbowman_walk/005_Crossbowman_walk.bmp" x="470" y="514" w="25" h="52" pX="0.56" pY="0.75"/>
+        <sprite n="Crossbowman/Crossbowman_walk/006_Crossbowman_walk.bmp" x="497" y="514" w="23" h="51" pX="0.521739" pY="0.745098"/>
+        <sprite n="Crossbowman/Crossbowman_walk/007_Crossbowman_walk.bmp" x="522" y="514" w="23" h="51" pX="0.478261" pY="0.745098"/>
+        <sprite n="Crossbowman/Crossbowman_walk/008_Crossbowman_walk.bmp" x="547" y="514" w="22" h="51" pX="0.454545" pY="0.745098"/>
+        <sprite n="Crossbowman/Crossbowman_walk/009_Crossbowman_walk.bmp" x="571" y="514" w="23" h="51" pX="0.434783" pY="0.745098"/>
+        <sprite n="Crossbowman/Crossbowman_walk/010_Crossbowman_walk.bmp" x="596" y="514" w="24" h="52" pX="0.458333" pY="0.75"/>
+        <sprite n="Crossbowman/Crossbowman_walk/011_Crossbowman_walk.bmp" x="622" y="514" w="24" h="52" pX="0.5" pY="0.75"/>
+        <sprite n="Crossbowman/Crossbowman_walk/012_Crossbowman_walk.bmp" x="648" y="514" w="26" h="53" pX="0.538462" pY="0.754717"/>
+        <sprite n="Crossbowman/Crossbowman_walk/013_Crossbowman_walk.bmp" x="676" y="514" w="26" h="53" pX="0.576923" pY="0.754717"/>
+        <sprite n="Crossbowman/Crossbowman_walk/014_Crossbowman_walk.bmp" x="704" y="514" w="28" h="52" pX="0.642857" pY="0.75"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="Crossbowman/Crossbowman_walk/015_Crossbowman_walk.bmp" x="1" y="569" w="40" h="47" pX="0.675" pY="0.829787"/>
+        <sprite n="Crossbowman/Crossbowman_walk/016_Crossbowman_walk.bmp" x="43" y="569" w="40" h="47" pX="0.675" pY="0.829787"/>
+        <sprite n="Crossbowman/Crossbowman_walk/017_Crossbowman_walk.bmp" x="85" y="569" w="39" h="48" pX="0.666667" pY="0.8125"/>
+        <sprite n="Crossbowman/Crossbowman_walk/018_Crossbowman_walk.bmp" x="126" y="569" w="38" h="50" pX="0.684211" pY="0.82"/>
+        <sprite n="Crossbowman/Crossbowman_walk/019_Crossbowman_walk.bmp" x="166" y="569" w="38" h="50" pX="0.657895" pY="0.82"/>
+        <sprite n="Crossbowman/Crossbowman_walk/020_Crossbowman_walk.bmp" x="206" y="569" w="36" h="49" pX="0.638889" pY="0.795918"/>
+        <sprite n="Crossbowman/Crossbowman_walk/021_Crossbowman_walk.bmp" x="244" y="569" w="34" h="49" pX="0.617647" pY="0.755102"/>
+        <sprite n="Crossbowman/Crossbowman_walk/022_Crossbowman_walk.bmp" x="280" y="569" w="34" h="49" pX="0.588235" pY="0.755102"/>
+        <sprite n="Crossbowman/Crossbowman_walk/023_Crossbowman_walk.bmp" x="316" y="569" w="34" h="49" pX="0.588235" pY="0.755102"/>
+        <sprite n="Crossbowman/Crossbowman_walk/024_Crossbowman_walk.bmp" x="352" y="569" w="34" h="49" pX="0.588235" pY="0.755102"/>
+        <sprite n="Crossbowman/Crossbowman_walk/025_Crossbowman_walk.bmp" x="388" y="569" w="34" h="51" pX="0.588235" pY="0.764706"/>
+        <sprite n="Crossbowman/Crossbowman_walk/026_Crossbowman_walk.bmp" x="424" y="569" w="35" h="50" pX="0.6" pY="0.8"/>
+        <sprite n="Crossbowman/Crossbowman_walk/027_Crossbowman_walk.bmp" x="461" y="569" w="36" h="50" pX="0.611111" pY="0.8"/>
+        <sprite n="Crossbowman/Crossbowman_walk/028_Crossbowman_walk.bmp" x="499" y="569" w="38" h="48" pX="0.657895" pY="0.833333"/>
+        <sprite n="Crossbowman/Crossbowman_walk/029_Crossbowman_walk.bmp" x="539" y="569" w="39" h="49" pX="0.692308" pY="0.816327"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="Crossbowman/Crossbowman_walk/030_Crossbowman_walk.bmp" x="580" y="569" w="42" h="49" pX="0.619048" pY="0.897959"/>
+        <sprite n="Crossbowman/Crossbowman_walk/031_Crossbowman_walk.bmp" x="624" y="569" w="43" h="48" pX="0.604651" pY="0.895833"/>
+        <sprite n="Crossbowman/Crossbowman_walk/032_Crossbowman_walk.bmp" x="669" y="569" w="41" h="49" pX="0.634146" pY="0.897959"/>
+        <sprite n="Crossbowman/Crossbowman_walk/033_Crossbowman_walk.bmp" x="1" y="622" w="38" h="50" pX="0.657895" pY="0.9"/>
+        <sprite n="Crossbowman/Crossbowman_walk/034_Crossbowman_walk.bmp" x="41" y="622" w="36" h="49" pX="0.722222" pY="0.897959"/>
+        <sprite n="Crossbowman/Crossbowman_walk/035_Crossbowman_walk.bmp" x="79" y="622" w="36" h="48" pX="0.722222" pY="0.875"/>
+        <sprite n="Crossbowman/Crossbowman_walk/036_Crossbowman_walk.bmp" x="117" y="622" w="39" h="47" pX="0.666667" pY="0.87234"/>
+        <sprite n="Crossbowman/Crossbowman_walk/037_Crossbowman_walk.bmp" x="158" y="622" w="42" h="47" pX="0.642857" pY="0.851064"/>
+        <sprite n="Crossbowman/Crossbowman_walk/038_Crossbowman_walk.bmp" x="202" y="622" w="43" h="47" pX="0.604651" pY="0.851064"/>
+        <sprite n="Crossbowman/Crossbowman_walk/039_Crossbowman_walk.bmp" x="247" y="622" w="42" h="48" pX="0.619048" pY="0.854167"/>
+        <sprite n="Crossbowman/Crossbowman_walk/040_Crossbowman_walk.bmp" x="291" y="622" w="40" h="49" pX="0.65" pY="0.857143"/>
+        <sprite n="Crossbowman/Crossbowman_walk/041_Crossbowman_walk.bmp" x="333" y="622" w="38" h="50" pX="0.684211" pY="0.86"/>
+        <sprite n="Crossbowman/Crossbowman_walk/042_Crossbowman_walk.bmp" x="373" y="622" w="36" h="50" pX="0.722222" pY="0.86"/>
+        <sprite n="Crossbowman/Crossbowman_walk/043_Crossbowman_walk.bmp" x="411" y="622" w="38" h="50" pX="0.684211" pY="0.88"/>
+        <sprite n="Crossbowman/Crossbowman_walk/044_Crossbowman_walk.bmp" x="451" y="622" w="40" h="49" pX="0.65" pY="0.897959"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="Crossbowman/Crossbowman_walk/045_Crossbowman_walk.bmp" x="493" y="622" w="28" h="56" pX="0.571429" pY="0.857143"/>
+        <sprite n="Crossbowman/Crossbowman_walk/046_Crossbowman_walk.bmp" x="523" y="622" w="29" h="55" pX="0.551724" pY="0.854545"/>
+        <sprite n="Crossbowman/Crossbowman_walk/047_Crossbowman_walk.bmp" x="554" y="622" w="27" h="56" pX="0.592593" pY="0.857143"/>
+        <sprite n="Crossbowman/Crossbowman_walk/048_Crossbowman_walk.bmp" x="583" y="622" w="27" h="56" pX="0.62963" pY="0.875"/>
+        <sprite n="Crossbowman/Crossbowman_walk/049_Crossbowman_walk.bmp" x="612" y="622" w="30" h="56" pX="0.633333" pY="0.875"/>
+        <sprite n="Crossbowman/Crossbowman_walk/050_Crossbowman_walk.bmp" x="644" y="622" w="32" h="55" pX="0.65625" pY="0.872727"/>
+        <sprite n="Crossbowman/Crossbowman_walk/051_Crossbowman_walk.bmp" x="678" y="622" w="33" h="53" pX="0.666667" pY="0.867925"/>
+        <sprite n="Crossbowman/Crossbowman_walk/052_Crossbowman_walk.bmp" x="1" y="680" w="37" h="51" pX="0.648649" pY="0.862745"/>
+        <sprite n="Crossbowman/Crossbowman_walk/053_Crossbowman_walk.bmp" x="40" y="680" w="38" h="52" pX="0.631579" pY="0.846154"/>
+        <sprite n="Crossbowman/Crossbowman_walk/054_Crossbowman_walk.bmp" x="80" y="680" w="36" h="53" pX="0.611111" pY="0.849057"/>
+        <sprite n="Crossbowman/Crossbowman_walk/055_Crossbowman_walk.bmp" x="118" y="680" w="35" h="55" pX="0.628571" pY="0.854545"/>
+        <sprite n="Crossbowman/Crossbowman_walk/056_Crossbowman_walk.bmp" x="155" y="680" w="34" h="56" pX="0.647059" pY="0.857143"/>
+        <sprite n="Crossbowman/Crossbowman_walk/057_Crossbowman_walk.bmp" x="191" y="680" w="31" h="56" pX="0.677419" pY="0.857143"/>
+        <sprite n="Crossbowman/Crossbowman_walk/058_Crossbowman_walk.bmp" x="224" y="680" w="29" h="56" pX="0.655172" pY="0.875"/>
+        <sprite n="Crossbowman/Crossbowman_walk/059_Crossbowman_walk.bmp" x="255" y="680" w="27" h="56" pX="0.592593" pY="0.857143"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="Crossbowman/Crossbowman_walk/060_Crossbowman_walk.bmp" x="284" y="680" w="26" h="55" pX="0.423077" pY="0.836364"/>
+        <sprite n="Crossbowman/Crossbowman_walk/061_Crossbowman_walk.bmp" x="312" y="680" w="26" h="56" pX="0.423077" pY="0.821429"/>
+        <sprite n="Crossbowman/Crossbowman_walk/062_Crossbowman_walk.bmp" x="340" y="680" w="27" h="56" pX="0.444444" pY="0.839286"/>
+        <sprite n="Crossbowman/Crossbowman_walk/063_Crossbowman_walk.bmp" x="369" y="680" w="27" h="57" pX="0.481481" pY="0.859649"/>
+        <sprite n="Crossbowman/Crossbowman_walk/064_Crossbowman_walk.bmp" x="398" y="680" w="26" h="56" pX="0.5" pY="0.875"/>
+        <sprite n="Crossbowman/Crossbowman_walk/065_Crossbowman_walk.bmp" x="426" y="680" w="24" h="56" pX="0.541667" pY="0.875"/>
+        <sprite n="Crossbowman/Crossbowman_walk/066_Crossbowman_walk.bmp" x="452" y="680" w="23" h="56" pX="0.608696" pY="0.857143"/>
+        <sprite n="Crossbowman/Crossbowman_walk/067_Crossbowman_walk.bmp" x="477" y="680" w="22" h="57" pX="0.636364" pY="0.842105"/>
+        <sprite n="Crossbowman/Crossbowman_walk/068_Crossbowman_walk.bmp" x="501" y="680" w="22" h="58" pX="0.636364" pY="0.827586"/>
+        <sprite n="Crossbowman/Crossbowman_walk/069_Crossbowman_walk.bmp" x="525" y="680" w="23" h="57" pX="0.652174" pY="0.842105"/>
+        <sprite n="Crossbowman/Crossbowman_walk/070_Crossbowman_walk.bmp" x="550" y="680" w="23" h="58" pX="0.652174" pY="0.844828"/>
+        <sprite n="Crossbowman/Crossbowman_walk/071_Crossbowman_walk.bmp" x="575" y="680" w="24" h="57" pX="0.625" pY="0.859649"/>
+        <sprite n="Crossbowman/Crossbowman_walk/072_Crossbowman_walk.bmp" x="601" y="680" w="24" h="56" pX="0.583333" pY="0.875"/>
+        <sprite n="Crossbowman/Crossbowman_walk/073_Crossbowman_walk.bmp" x="627" y="680" w="26" h="57" pX="0.5" pY="0.859649"/>
+        <sprite n="Crossbowman/Crossbowman_walk/074_Crossbowman_walk.bmp" x="655" y="680" w="26" h="56" pX="0.461538" pY="0.839286"/>
+      </direction>
+    </action>
+  </unit>
+
+</TextureAtlas>

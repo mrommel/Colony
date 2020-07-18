@@ -187,8 +187,22 @@ class CityDialog: Dialog {
                     fatalError("cant get unitType")
                 }
                 
-                self.currentProductionNode = UnitBuildingItemDisplayNode(unitType: unitType, size: CGSize(width: 300, height: 42), buttonAction: { districtType in
-                    //print("\(districtType)")
+                self.currentProductionNode = UnitBuildingItemDisplayNode(unitType: unitType, size: CGSize(width: 300, height: 42), buttonAction: { unitType in
+                    print("unitType: \(unitType)")
+                    // cancel?
+                })
+                self.currentProductionNode?.show(progress: currentProduction.production)
+                currentProductionNode?.zPosition = 200
+                self.addChild(currentProductionNode!)
+                
+            } else if currentProduction.type == .wonder {
+                
+                guard let wonderType = currentProduction.wonderType else {
+                    fatalError("cant get wonderType")
+                }
+                
+                self.currentProductionNode = WonderBuildingItemDisplayNode(wonderType: wonderType, size: CGSize(width: 300, height: 42), buttonAction: { wonderType in
+                    print("wonderType: \(wonderType)")
                     // cancel?
                 })
                 self.currentProductionNode?.show(progress: currentProduction.production)
@@ -196,6 +210,7 @@ class CityDialog: Dialog {
                 self.addChild(currentProductionNode!)
                 
             } else {
+                
                 fatalError("not handled: \(currentProduction.type)")
             }
         }

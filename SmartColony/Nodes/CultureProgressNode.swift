@@ -60,7 +60,7 @@ class CultureProgressNode: BaseProgressNode {
             self.civicType = civic
         }
 
-        self.progressNode?.value = value
+        self.progressNode?.value = max(0, min(value, 100))
         self.turnsRemainingNode?.text = "\(turnsRemaining)"
     }
 }

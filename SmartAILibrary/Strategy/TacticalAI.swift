@@ -10,25 +10,32 @@ import Foundation
 
 public enum TacticalTargetType: Int, Codable {
 
-    case none
-    case city
-    case barbarianCamp
-    case improvement
-    case blockadeResourcePoint
-    case lowPriorityUnit
-    case mediumPriorityUnit
-    case highPriorityUnit
-    case cityToDefend
-    case improvementToDefend
-    case defensiveBastion
-    case ancientRuins
-    case bombardmentZone
-    case embarkedMilitaryUnit
-    case embarkedCivilian
-    case lowPriorityCivilian
-    case mediumPriorityCivilian
-    case highPriorityCivilian
-    case veryHighPriorityCivilian
+    case none // AI_TACTICAL_TARGET_NONE
+    case city // AI_TACTICAL_TARGET_CITY
+    case barbarianCamp // AI_TACTICAL_TARGET_BARBARIAN_CAMP
+    case improvement // AI_TACTICAL_TARGET_IMPROVEMENT
+    case blockadeResourcePoint // AI_TACTICAL_TARGET_BLOCKADE_RESOURCE_POINT
+    case lowPriorityUnit // AI_TACTICAL_TARGET_LOW_PRIORITY_UNIT,    // Can't attack one of our cities
+    case mediumPriorityUnit // AI_TACTICAL_TARGET_MEDIUM_PRIORITY_UNIT, // Can damage one of our cities
+    case highPriorityUnit // AI_TACTICAL_TARGET_HIGH_PRIORITY_UNIT,   // Can contribute to capturing one of our cities
+    case cityToDefend // AI_TACTICAL_TARGET_CITY_TO_DEFEND
+    case improvementToDefend // AI_TACTICAL_TARGET_IMPROVEMENT_TO_DEFEND
+    case defensiveBastion // AI_TACTICAL_TARGET_DEFENSIVE_BASTION
+    case ancientRuins // AI_TACTICAL_TARGET_ANCIENT_RUINS
+    case bombardmentZone // AI_TACTICAL_TARGET_BOMBARDMENT_ZONE,     // Used for naval bombardment operation
+    case embarkedMilitaryUnit // AI_TACTICAL_TARGET_EMBARKED_MILITARY_UNIT
+    case embarkedCivilian // AI_TACTICAL_TARGET_EMBARKED_CIVILIAN
+    case lowPriorityCivilian // AI_TACTICAL_TARGET_LOW_PRIORITY_CIVILIAN
+    case mediumPriorityCivilian // AI_TACTICAL_TARGET_MEDIUM_PRIORITY_CIVILIAN
+    case highPriorityCivilian // AI_TACTICAL_TARGET_HIGH_PRIORITY_CIVILIAN
+    case veryHighPriorityCivilian // AI_TACTICAL_TARGET_VERY_HIGH_PRIORITY_CIVILIAN
+    
+    case tradeUnitSea // AI_TACTICAL_TARGET_TRADE_UNIT_SEA,
+    case tradeUnitLand // AI_TACTICAL_TARGET_TRADE_UNIT_LAND,
+    case tradeUnitSeaPlot // AI_TACTICAL_TARGET_TRADE_UNIT_SEA_PLOT, // Used for idle unit moves to plunder trade routes that go through our territory
+    case tradeUnitLandPlot // AI_TACTICAL_TARGET_TRADE_UNIT_LAND_PLOT,
+    case citadel // AI_TACTICAL_TARGET_CITADEL
+    case improvementResource // AI_TACTICAL_TARGET_IMPROVEMENT_RESOURCE
 }
 
 public enum TacticalMoveType: Int, Codable {
@@ -241,17 +248,10 @@ enum TacticalPostureType {
 class TacticalCity: Comparable {
 
     let attackStrength: Int
-    let expectedTargetDamage: Int
+    var expectedTargetDamage: Int
     let city: AbstractCity?
     
-    init() {
-        
-        self.attackStrength = 0
-        self.expectedTargetDamage = 0
-        self.city = nil
-    }
-    
-    init(attackStrength: Int, expectedTargetDamage: Int, city: AbstractCity?) {
+    init(attackStrength: Int = 0, expectedTargetDamage: Int = 0, city: AbstractCity? = nil) {
         
         self.attackStrength = attackStrength
         self.expectedTargetDamage = expectedTargetDamage
@@ -279,10 +279,10 @@ class TacticalUnit: Comparable {
     var expectedSelfDamage: Int
     var unit: AbstractUnit?
     
-    init(unit: AbstractUnit? = nil) {
+    init(unit: AbstractUnit? = nil, attackStrength: Int = 0, healthPercent: Int = 0) {
         
-        self.attackStrength = 0
-        self.healthPercent = 0
+        self.attackStrength = attackStrength
+        self.healthPercent = healthPercent
         self.movesToTarget = 0
         self.expectedTargetDamage = 0
         self.expectedSelfDamage = 0
@@ -456,11 +456,11 @@ public class TacticalAI: Codable {
                 return true
                 
                 // land targets
-            case .barbarianCamp, .improvement, .improvementToDefend, .defensiveBastion, .ancientRuins:
+            case .barbarianCamp, .improvement, .improvementToDefend, .defensiveBastion, .ancientRuins, .tradeUnitLand, .tradeUnitLandPlot, .citadel, .improvementResource:
                 return domain == .land
                 
                 // sea targets
-            case .blockadeResourcePoint, .bombardmentZone, .embarkedMilitaryUnit, .embarkedCivilian:
+            case .blockadeResourcePoint, .bombardmentZone, .embarkedMilitaryUnit, .embarkedCivilian, .tradeUnitSea, .tradeUnitSeaPlot:
                 return domain == .sea
             }
         }
@@ -798,11 +798,9 @@ public class TacticalAI: Codable {
         
         switch tacticalMove.moveType {
             
-        case .moveNoncombatantsToSafety:
-            // TACTICAL_MOVE_NONCOMBATANTS_TO_SAFETY
+        case .moveNoncombatantsToSafety: // TACTICAL_MOVE_NONCOMBATANTS_TO_SAFETY
             self.plotMovesToSafety(combatUnits: false, in: gameModel)
-        case .reposition:
-            // TACTICAL_REPOSITION
+        case .reposition: // TACTICAL_REPOSITION
             self.plotRepositionMoves(in: gameModel)
         case .garrisonAlreadyThere:
             self.plotGarrisonMoves(numTurnsAway: 0, in: gameModel)
@@ -953,6 +951,7 @@ public class TacticalAI: Codable {
     }
     
     /// Move up to our target avoiding our own units if possible
+    @discardableResult
     private func moveToEmptySpaceNearTarget(unit: AbstractUnit?, target: HexPoint, land: Bool, in gameModel: GameModel?) -> Bool {
         
         guard let gameModel = gameModel else {
@@ -1276,7 +1275,7 @@ public class TacticalAI: Codable {
 
                 if self.currentMoveHighPriorityUnits.count + self.currentMoveUnits.count > 0 {
                     
-                    self.executeMoveToTarget(target: tile, garrisonIfPossible: true, in: gameModel)
+                    self.executeMoveToTarget(target: target.target, garrisonIfPossible: true, in: gameModel)
                     city.setLastTurnGarrisonAssigned(turn: gameModel.turnsElapsed)
                 }
             }
@@ -1285,11 +1284,7 @@ public class TacticalAI: Codable {
     }
     
     /// Find one unit to move to target, starting with high priority list
-    func executeMoveToTarget(target: AbstractTile?, garrisonIfPossible: Bool, in gameModel: GameModel?) {
-
-        guard let target = target else {
-            fatalError("cant get target")
-        }
+    func executeMoveToTarget(target point: HexPoint, garrisonIfPossible: Bool, in gameModel: GameModel?) {
         
         // Start with high priority list
         for currentMoveHighPriorityUnit in self.currentMoveHighPriorityUnits {
@@ -1309,14 +1304,14 @@ public class TacticalAI: Codable {
                 }
             }
 
-            if unit.location == target.point && unit.canFortify(at: target.point, in: gameModel) {
+            if unit.location == point && unit.canFortify(at: point, in: gameModel) {
                 
                 unit.push(mission: UnitMission(type: .fortify), in: gameModel)
                 unit.doFortify(in: gameModel)
                 self.unitProcessed(unit: unit, in: gameModel)
                 return
                 
-            } else if garrisonIfPossible && unit.location == target.point && unit.canGarrison(at: target.point, in: gameModel) {
+            } else if garrisonIfPossible && unit.location == point && unit.canGarrison(at: point, in: gameModel) {
                 
                 unit.push(mission: UnitMission(type: .garrison), in: gameModel)
                 unit.finishMoves()
@@ -1325,7 +1320,7 @@ public class TacticalAI: Codable {
                 
             } else if currentMoveHighPriorityUnit.movesToTarget < Int.max {
                 
-                unit.push(mission: UnitMission(type: .moveTo, at: target.point), in: gameModel)
+                unit.push(mission: UnitMission(type: .moveTo, at: point), in: gameModel)
                 unit.finishMoves()
                 self.unitProcessed(unit: unit, in: gameModel)
                 return
@@ -1343,7 +1338,7 @@ public class TacticalAI: Codable {
                 continue
             }
 
-            if unit.location == target.point && unit.canFortify(at: unit.location, in: gameModel) {
+            if unit.location == point && unit.canFortify(at: unit.location, in: gameModel) {
 
                 unit.push(mission: UnitMission(type: .fortify), in: gameModel)
                 unit.doFortify(in: gameModel)
@@ -1352,7 +1347,7 @@ public class TacticalAI: Codable {
                 
             } else if currentMoveUnit.movesToTarget < Int.max {
                 
-                unit.push(mission: UnitMission(type: .moveTo, at: target.point), in: gameModel)
+                unit.push(mission: UnitMission(type: .moveTo, at: point), in: gameModel)
                 unit.finishMoves()
                 self.unitProcessed(unit: unit, in: gameModel)
                 return
@@ -1478,18 +1473,75 @@ public class TacticalAI: Codable {
             
             switch move.moveType {
                 
-            case .barbarianCaptureCity:
-                // AI_TACTICAL_BARBARIAN_CAPTURE_CITY
+            case .barbarianCaptureCity: // AI_TACTICAL_BARBARIAN_CAPTURE_CITY
                 self.plotCaptureCityMoves(in: gameModel)
-            //case .barbarianCaptureCity:
-                // AI_TACTICAL_BARBARIAN_DAMAGE_CITY
-                //
-            case .barbarianMoveToSafety:
-                // AI_TACTICAL_BARBARIAN_MOVE_TO_SAFETY
+                
+            case .barbarianDamageCity: // AI_TACTICAL_BARBARIAN_DAMAGE_CITY
+                self.plotDamageCityMoves(in: gameModel)
+                
+            case .barbarianDestroyHighPriorityUnit: // AI_TACTICAL_BARBARIAN_DESTROY_HIGH_PRIORITY_UNIT
+                self.plotDestroyUnitMoves(targetType: .highPriorityUnit, mustBeAbleToKill: true, attackAtPoorOdds: false, in: gameModel)
+                
+            case .barbarianDestroyMediumPriorityUnit: // AI_TACTICAL_BARBARIAN_DESTROY_MEDIUM_PRIORITY_UNIT
+                self.plotDestroyUnitMoves(targetType: .mediumPriorityUnit, mustBeAbleToKill: true, attackAtPoorOdds: false, in: gameModel)
+                
+            case .barbarianDestroyLowPriorityUnit: // AI_TACTICAL_BARBARIAN_DESTROY_LOW_PRIORITY_UNIT
+                self.plotDestroyUnitMoves(targetType: .lowPriorityUnit, mustBeAbleToKill: true, attackAtPoorOdds: false, in: gameModel)
+                
+            case .barbarianMoveToSafety: // AI_TACTICAL_BARBARIAN_MOVE_TO_SAFETY
                 self.plotMovesToSafety(combatUnits: true, in: gameModel)
+                
+            case .barbarianAttritHighPriorityUnit: // AI_TACTICAL_BARBARIAN_ATTRIT_HIGH_PRIORITY_UNIT
+                self.plotDestroyUnitMoves(targetType: .highPriorityUnit, mustBeAbleToKill: false, attackAtPoorOdds: false, in: gameModel)
+                
+            case .barbarianAttritMediumPriorityUnit: // AI_TACTICAL_BARBARIAN_ATTRIT_MEDIUM_PRIORITY_UNIT
+                self.plotDestroyUnitMoves(targetType: .mediumPriorityUnit, mustBeAbleToKill: false, attackAtPoorOdds: false, in: gameModel)
+                
+            case .barbarianAttritLowPriorityUnit: // AI_TACTICAL_BARBARIAN_ATTRIT_LOW_PRIORITY_UNIT
+                self.plotDestroyUnitMoves(targetType: .lowPriorityUnit, mustBeAbleToKill: false, attackAtPoorOdds: false, in: gameModel)
+                
+            case .barbarianPillage: // AI_TACTICAL_BARBARIAN_PILLAGE
+                self.plotPillageMoves(targetType: .improvementResource, firstPass: true, in: gameModel)
+                
+            case .barbarianPillageCitadel: // AI_TACTICAL_BARBARIAN_PILLAGE_CITADEL
+                self.plotPillageMoves(targetType: .citadel, firstPass: true, in: gameModel)
+                
+            case .barbarianPillageNextTurn: // AI_TACTICAL_BARBARIAN_PILLAGE_NEXT_TURN
+                self.plotPillageMoves(targetType: .citadel, firstPass: false, in: gameModel)
+                self.plotPillageMoves(targetType: .improvementResource, firstPass: false, in: gameModel)
+                
+            case .barbarianBlockadeResource: // AI_TACTICAL_BARBARIAN_PRIORITY_BLOCKADE_RESOURCE
+                //            PlotBlockadeImprovementMoves();
+                break
+                
+            case .barbarianCivilianAttack: // AI_TACTICAL_BARBARIAN_CIVILIAN_ATTACK
+                self.plotCivilianAttackMoves(targetType: .veryHighPriorityCivilian, in: gameModel)
+                self.plotCivilianAttackMoves(targetType: .highPriorityCivilian, in: gameModel)
+                self.plotCivilianAttackMoves(targetType: .mediumPriorityCivilian, in: gameModel)
+                self.plotCivilianAttackMoves(targetType: .lowPriorityCivilian, in: gameModel)
+            
+            case .barbarianCampDefense: // AI_TACTICAL_BARBARIAN_CAMP_DEFENSE
+                self.plotCampDefenseMoves(in: gameModel)
+                        
+            case .barbarianAggressiveMove: // AI_TACTICAL_BARBARIAN_AGGRESSIVE_MOVE
+                self.plotBarbarianMove(aggressive: true, in: gameModel)
+                        
+            case .barbarianPassiveMove: // AI_TACTICAL_BARBARIAN_PASSIVE_MOVE
+                self.plotBarbarianMove(aggressive: false, in: gameModel)
+                        
+            case .barbarianDesperateAttack: // AI_TACTICAL_BARBARIAN_DESPERATE_ATTACK
+                self.plotDestroyUnitMoves(targetType: .lowPriorityUnit, mustBeAbleToKill: false, attackAtPoorOdds: true, in: gameModel)
+                        
+            case .barbarianEscortCivilian: // AI_TACTICAL_BARBARIAN_ESCORT_CIVILIAN
+                self.plotBarbarianCivilianEscortMove(in: gameModel)
+                        
+            case .barbarianPlunderTradeUnit: // AI_TACTICAL_BARBARIAN_PLUNDER_TRADE_UNIT
+                self.plotBarbarianPlunderTradeUnitMove(in: .land, in: gameModel)
+                self.plotBarbarianPlunderTradeUnitMove(in: .sea, in: gameModel)
+
             default:
                 // NOOP
-                //print("not implemented: TacticalAI - \(move.moveType)")
+                print("not implemented: TacticalAI - \(move.moveType)")
                 break
             }
         }
@@ -1521,6 +1573,886 @@ public class TacticalAI: Codable {
         }
     }
     
+    /// Move barbarians across the map
+    func plotBarbarianMove(aggressive: Bool, in gameModel: GameModel?) {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if player.isBarbarian() {
+            
+            self.currentMoveUnits.removeAll()
+
+            // Loop through all recruited units
+            for currentTurnUnitRef in self.currentTurnUnits {
+                
+                guard let currentTurnUnit = currentTurnUnitRef else {
+                    continue
+                }
+                
+                let unit = TacticalUnit(unit: currentTurnUnit)
+
+                self.currentMoveUnits.append(unit);
+            }
+
+            if self.currentMoveUnits.count > 0 {
+                self.executeBarbarianMoves(aggressive: aggressive, in: gameModel)
+            }
+        }
+    }
+    
+    /// Plunder trade routes
+    func plotBarbarianPlunderTradeUnitMove(in domain: UnitDomainType, in gameModel: GameModel?) {
+        
+        var targetType: TacticalTargetType = TacticalTargetType.none
+        var navalOnly = false
+        
+        if domain == .land {
+            targetType = TacticalTargetType.tradeUnitLand
+        } else if domain == .sea {
+            targetType = TacticalTargetType.tradeUnitSea
+            navalOnly = true
+        }
+
+        if targetType == TacticalTargetType.none {
+            return
+        }
+
+        for target in self.zoneTargets(for: targetType) {
+            
+            // See what units we have who can reach target this turn
+            if self.findUnitsWithinStrikingDistance(towards: target!.target, numTurnsAway: 0, noRangedUnits: false, navalOnly: navalOnly, in: gameModel) {
+                
+                // Queue best one up to capture it
+                self.executePlunderTradeUnit(at: target!.target, in: gameModel)
+            }
+        }
+    }
+    
+    /// Escort captured civilians back to barbarian camps
+    func plotBarbarianCivilianEscortMove(in gameModel: GameModel?) {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+               
+        if player.isBarbarian() {
+            
+            self.currentMoveUnits.removeAll()
+
+            for currentTurnUnitRef in self.currentTurnUnits {
+                
+                guard let currentTurnUnit = currentTurnUnitRef else {
+                    continue
+                }
+                
+                // Find any civilians we may have "acquired" from the civs
+                if !currentTurnUnit.canAttack() {
+                    
+                    let unit = TacticalUnit(unit: currentTurnUnit)
+                    self.currentMoveUnits.append(unit)
+                }
+            }
+
+            if self.currentMoveUnits.count > 0 {
+                self.executeBarbarianCivilianEscortMove(in: gameModel)
+            }
+        }
+    }
+    
+    /// Move Barbarian civilian to a camp (with escort if possible)
+    func executeBarbarianCivilianEscortMove(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        for civilianMoveUnitRef in self.currentMoveUnits {
+            
+            guard let civilian = civilianMoveUnitRef?.unit else {
+                continue
+            }
+
+            if let target = self.findNearbyTarget(for: civilian, in: Int.max, of: .barbarianCamp, noLikeUnit: civilian, in: gameModel) {
+
+                // If we're not there yet, we have work to do
+                var current = civilian.location
+                if current == target {
+                    civilian.finishMoves()
+                    self.unitProcessed(unit: civilian, in: gameModel)
+                } else {
+                    
+                    var escortRef: AbstractUnit? = nil
+                    
+                    if let loopUnit = gameModel.unit(at: current) {
+                        
+                        if civilian.player!.isEqual(to: loopUnit.player) {
+                            escortRef = loopUnit
+                        }
+                    }
+
+                    // Handle case of no path found at all for civilian
+                    if let path = civilian.path(towards: target, in: gameModel) {
+                        
+                        let civilianMove = path.last!.0 // pCivilian->GetPathEndTurnPlot();
+
+                        // Can we reach our target this turn?
+                        if civilianMove == target {
+                            
+                            // See which defender is stronger
+                            //UnitHandle pCampDefender = pCivilianMove->getBestDefender(m_pPlayer->GetID());
+                            if let escort = escortRef {
+                                self.executeMoveToPlot(of: escort, to: civilianMove, in: gameModel)
+                                self.executeMoveToPlot(of: civilian, to: civilianMove, in: gameModel)
+
+                            } else {
+                                self.executeMoveToPlot(of: civilian, to: civilianMove, in: gameModel)
+                            }
+                        } else if escortRef == nil {
+                            // Can't reach target and don't have escort...
+                            self.executeMoveToPlot(of: civilian, to: civilianMove, in: gameModel)
+                        } else { // Can't reach target and DO have escort...
+                            // See if escort can move to the same location in one turn
+                            
+                            if let escort = escortRef {
+                                if escort.turnsToReach(at: civilianMove, in: gameModel) <= 1 {
+                                    self.executeMoveToPlot(of: escort, to: civilianMove, in: gameModel)
+                                    self.executeMoveToPlot(of: civilian, to: civilianMove, in: gameModel)
+                                } else {
+                                    
+                                    // See if friendly blocking unit is ending the turn there, or if no blocking unit (which indicates this is somewhere civilian
+                                    // can move that escort can't), then find a new path based on moving the escort
+                                    if let blockingUnit = gameModel.unit(at: civilianMove) {
+                                        
+                                        // Looks like we should be able to move the blocking unit out of the way
+                                        if self.executeMoveOfBlockingUnit(of: blockingUnit, in: gameModel) {
+                                            self.executeMoveToPlot(of: escort, to: civilianMove, in: gameModel)
+                                            self.executeMoveToPlot(of: civilian, to: civilianMove, in: gameModel)
+                                        } else {
+                                            civilian.finishMoves()
+                                            escort.finishMoves()
+                                        }
+                                    } else {
+                                        
+                                        if let path = civilian.path(towards: target, in: gameModel) {
+                                            
+                                            let escortMove = path.last!.0
+
+                                            // See if civilian can move to the same location in one turn
+                                            if civilian.turnsToReach(at: escortMove, in: gameModel) <= 1 {
+                                                self.executeMoveToPlot(of: escort, to: escortMove, in: gameModel)
+                                                self.executeMoveToPlot(of: civilian, to: escortMove, in: gameModel)
+                                            } else {
+                                                civilian.finishMoves()
+                                                escort.finishMoves()
+                                            }
+                                        } else  {
+                                            civilian.finishMoves()
+                                            escort.finishMoves()
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        
+                        civilian.finishMoves()
+                        if let escort = escortRef {
+                            escort.finishMoves()
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+    
+    /// Find an adjacent hex to move a blocking unit to
+    func executeMoveOfBlockingUnit(of blockingUnit: AbstractUnit?, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let blockingUnit = blockingUnit else {
+            fatalError("cant get blockingUnit")
+        }
+        
+        if !blockingUnit.canMove() || self.isInQueuedAttack(unit: blockingUnit) {
+            return false
+        }
+
+        guard let oldPlot = gameModel.tile(at: blockingUnit.location) else {
+            fatalError("cant get old plot")
+        }
+
+        for neighbor in blockingUnit.location.neighbors() {
+            
+            if let plot = gameModel.tile(at: neighbor) {
+                
+                // Don't embark for one of these moves
+                if !oldPlot.isWater() && plot.isWater() && blockingUnit.domain() == .land {
+                    continue
+                }
+
+                // Has to be somewhere we can move and be empty of other units/enemy cities
+                if gameModel.visibleEnemy(at: neighbor, for: self.player) == nil && gameModel.visibleEnemyCity(at: blockingUnit.location, for: self.player) == nil /*&& pBlockingUnit->GeneratePath(pPlot))*/ {
+                    
+                    self.executeMoveToPlot(of: blockingUnit, to: neighbor, in: gameModel)
+
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
+    
+    /// Is this unit waiting to get its turn to attack?
+    func isInQueuedAttack(unit: AbstractUnit?) -> Bool {
+        
+        if self.queuedAttacks.count > 0 {
+            
+            for queuedAttacksRef in self.queuedAttacks {
+                
+                if let attacker = queuedAttacksRef.attackerUnit {
+                    if attacker.isEqual(to: unit) {
+                        return true
+                    }
+                }
+            }
+        }
+        
+        return false
+    }
+    
+    /// Move barbarian to a new location
+    func executeBarbarianMoves(aggressive: Bool, in gameModel: GameModel?) {
+
+        for currentMoveUnitRef in self.currentMoveUnits {
+            
+            if let unit = currentMoveUnitRef?.unit {
+                
+                if unit.isBarbarian() {
+                    
+                    // LAND MOVES
+                    if unit.domain() == .land {
+                        
+                        var bestPlot: HexPoint?
+                        if aggressive {
+                            bestPlot = self.findBestBarbarianLandMove(for: unit, in: gameModel)
+                        } else {
+                            bestPlot = self.findPassiveBarbarianLandMove(for: unit, in: gameModel)
+                        }
+
+                        if let bestPlot = bestPlot {
+                            self.moveToEmptySpaceNearTarget(unit: unit, target: bestPlot, land: true, in: gameModel)
+                            unit.finishMoves();
+                            self.unitProcessed(unit: unit, in: gameModel)
+                        } else {
+                            unit.finishMoves();
+                            self.unitProcessed(unit: unit, in: gameModel)
+                        }
+                    } else { // NAVAL MOVES
+                        
+                        var bestPlot: HexPoint?
+                        
+                        // Do I still have a destination from a previous turn?
+                        let currentDestination = unit.tacticalTarget()
+
+                        // Compute a new destination if I don't have one or am already there
+                        if currentDestination == nil || currentDestination == unit.location {
+                            bestPlot = self.findBestBarbarianSeaMove(for: unit, in: gameModel)
+                        } else { // Otherwise just keep moving there (assuming a path is available)
+                            if unit.turnsToReach(at: currentDestination!, in: gameModel) != Int.max {
+                                bestPlot = currentDestination
+                            } else {
+                                bestPlot = self.findBestBarbarianSeaMove(for: unit, in: gameModel)
+                            }
+                        }
+
+                        if let bestPlot = bestPlot {
+                            
+                            unit.set(tacticalTarget: bestPlot)
+                            unit.push(mission: UnitMission(type: .moveTo, at: bestPlot), in: gameModel)
+                            unit.finishMoves();
+                            self.unitProcessed(unit: unit, in: gameModel)
+                        } else {
+                            unit.resetTacticalTarget()
+                            unit.finishMoves()
+                            self.unitProcessed(unit: unit, in: gameModel)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /// Find a multi-turn target for a sea barbarian to wander towards
+    func findBestBarbarianSeaMove(for unit: AbstractUnit?, in gameModel: GameModel?) -> HexPoint? {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let economicAI = self.player?.economicAI else {
+            fatalError("cant get economicAI")
+        }
+        
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        let barbarianSeaTargetRange = gameModel.handicap.barbarbianSeaTargetRange()
+        
+        var bestValue = Int.max
+        var bestMovePlot: HexPoint? = nil
+
+        // Loop through all unit targets to find the closest
+        for targetRef in self.unitTargets() {
+            
+            guard let target = targetRef else {
+                continue
+            }
+            
+            // Is this unit nearby enough?
+            if unit.location.distance(to: target.target) < barbarianSeaTargetRange {
+                
+                if gameModel.area(of: unit.location) ==  gameModel.area(of: target.target) {
+                    
+                    let value = unit.turnsToReach(at: target.target, in: gameModel)
+                    if value < bestValue {
+                        bestValue = value
+                        bestMovePlot = target.target
+                    }
+                }
+            }
+        }
+
+        // move toward trade routes
+        if bestMovePlot == nil {
+            bestMovePlot = self.findBarbarianGankTradeRouteTarget(for: unit, in: gameModel)
+        }
+
+        // No units to pick on, so sail to a tile adjacent to the second closest barbarian camp
+        if bestMovePlot == nil {
+        
+            var nearestCamp: HexPoint? = nil
+            var bestCampDistance = Int.max
+            var bestValue = Int.max
+
+            // Start by finding the very nearest camp
+            for targetRef in self.zoneTargets(for: .barbarianCamp) {
+                
+                guard let target = targetRef else {
+                    continue
+                }
+                
+                let distance = unit.location.distance(to: target.target)
+                
+                if distance < bestCampDistance {
+                    
+                    nearestCamp = target.target
+                    bestCampDistance = distance
+                }
+            }
+
+            // The obvious way to do this next part is to plot moves to each naval tile adjacent to each camp ...
+            // starting with the first camp and then proceeding to the final one.  But our optimization (to drop out
+            // targets that are further from the closest we've found so far) might in worst case not help at all if we
+            // check the closest camp last.  So instead we'll loop by DIRECTIONS first which should mean we pick up some plot
+            // from a close camp early (and the optimization will help)
+            for dir in HexDirection.all {
+                
+                for targetRef in self.zoneTargets(for: .barbarianCamp) {
+                
+                    guard let target = targetRef else {
+                        continue
+                    }
+                    
+                    if nearestCamp != target.target {
+                        
+                        if let tile = gameModel.tile(at: target.target) {
+                            
+                            if tile.isWater() {
+                                
+                                let distance = unit.location.distance(to: target.target)
+                                
+                                if distance < bestValue {
+                                    
+                                    bestMovePlot = target.target
+                                    bestValue = distance
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // No obvious target, let's scan nearby tiles for the best choice, borrowing some of the code from the explore AI
+        if bestMovePlot == nil {
+            
+            // Now looking for BEST score
+            var bestValue = 0
+            let movementRange = unit.movesLeft()
+            
+            for considerLocation in unit.location.areaWith(radius: movementRange) {
+                
+                if gameModel.unit(at: considerLocation) != nil {
+                    continue
+                }
+                
+                guard let considerPlot = gameModel.tile(at: considerLocation) else {
+                    continue
+                }
+                    
+                if !considerPlot.isDiscovered(by: unit.player) {
+                    continue
+                }
+                
+                
+                if !unit.canReach(at: considerLocation, in: movementRange, in: gameModel) {
+                    continue
+                }
+                
+                // Value them based on their explore value
+                var value: Int = economicAI.scoreExplore(plot: considerLocation, for: self.player, range: unit.sight(), domain: unit.domain(), in: gameModel)
+                
+                // Add special value for being near enemy lands
+                /*if considerPlot.isAdjacentOwned() {
+                    value += 100
+                } else*/ if considerPlot.hasOwner() {
+                    value += 200
+                }
+                
+                // If still have no value, score equal to distance from my current plot
+                if value == 0 {
+                    value = unit.location.distance(to: considerLocation)
+                }
+
+                if value > bestValue {
+                    bestMovePlot = considerLocation
+                    bestValue = value
+                }
+            }
+        }
+
+        return bestMovePlot
+    }
+    
+    /// Find a multi-turn target for a land barbarian to wander towards
+    func findBestBarbarianLandMove(for unit: AbstractUnit?, in gameModel: GameModel?) -> HexPoint? {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        let landBarbarianRange = gameModel.handicap.barbarbianLandTargetRange()
+        
+        var bestMovePlot = self.findNearbyTarget(for: unit, in: landBarbarianRange, in: gameModel)
+        
+        // move toward trade routes
+        if bestMovePlot == nil {
+            bestMovePlot = self.findBarbarianGankTradeRouteTarget(for: unit, in: gameModel)
+        }
+
+        // explore wander
+        if bestMovePlot == nil {
+            bestMovePlot = self.findBarbarianExploreTarget(for: unit, in: gameModel)
+        }
+
+        return bestMovePlot
+    }
+    
+    /// Scan nearby tiles for a trade route to sit and gank from
+    func findBarbarianGankTradeRouteTarget(for unit: AbstractUnit?, in gameModel: GameModel?) -> HexPoint? {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        var bestMovePlot: HexPoint? = nil
+
+        // Now looking for BEST score
+        var bestValue = 0;
+        let movementRange = unit.movesLeft()
+        
+        for plot in unit.location.areaWith(radius: movementRange) {
+            
+            if plot == unit.location {
+                continue
+            }
+            
+            guard let tile = gameModel.tile(at: plot) else {
+                continue
+            }
+            
+            if !tile.isDiscovered(by: self.player) {
+                continue
+            }
+            
+            if !unit.canReach(at: plot, in: movementRange, in: gameModel) {
+                continue
+            }
+            
+            let value = gameModel.numTradeRoutes(at: plot)
+            
+            if value > bestValue {
+                bestMovePlot = plot
+                bestValue = value
+            }
+        }
+        
+        return bestMovePlot
+    }
+    
+    /// Find a multi-turn target for a land barbarian to wander towards
+    func findPassiveBarbarianLandMove(for unit: AbstractUnit?, in gameModel: GameModel?) -> HexPoint? {
+    
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+    
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+
+        var bestValue = Int.max
+        var bestMovePlot: HexPoint? = nil
+
+        for allTarget in self.allTargets {
+            
+            // Is this target a camp?
+            if allTarget.targetType == .barbarianCamp {
+                
+                let value = unit.location.distance(to: allTarget.target)
+                
+                if value < bestValue {
+                    
+                    bestValue = value
+                    bestMovePlot = allTarget.target
+                }
+            }
+        }
+
+        if bestMovePlot == nil {
+            bestMovePlot = self.findBarbarianExploreTarget(for: unit, in: gameModel)
+        }
+
+        return bestMovePlot;
+    }
+    
+    /// Scan nearby tiles for the best choice, borrowing code from the explore AI
+    func findBarbarianExploreTarget(for unit: AbstractUnit?, in gameModel: GameModel?) -> HexPoint? {
+    
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let economicAI = self.player?.economicAI else {
+            fatalError("cant get economicAI")
+        }
+    
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        var bestValue = Int.max
+        var bestMovePlot: HexPoint? = nil
+        let movementRange = unit.movesLeft()
+
+        // Now looking for BEST score
+        for plot in unit.location.areaWith(radius: movementRange) {
+        
+            if plot == unit.location {
+                continue
+            }
+        
+            guard let tile = gameModel.tile(at: plot) else {
+                continue
+            }
+        
+            if !tile.isDiscovered(by: self.player) {
+                continue
+            }
+            
+            if !unit.canReach(at: plot, in: movementRange, in: gameModel) {
+                continue
+            }
+            
+            // Value them based on their explore value
+            var value = economicAI.scoreExplore(plot: plot, for: self.player, range: unit.sight(), domain: unit.domain(), in: gameModel)
+
+            // Add special value for popping up on hills or near enemy lands
+            /*if(pPlot->isAdjacentOwned())
+            {
+                iValue += 100;
+            }
+             else*/ if tile.hasOwner() {
+                value += 200
+            }
+
+            // If still have no value, score equal to distance from my current plot
+            if value == 0 {
+                value = unit.location.distance(to: plot)
+            }
+            
+            if value > bestValue {
+                bestMovePlot = plot
+                bestValue = value
+            }
+        }
+        
+        return bestMovePlot
+    }
+    
+    /// Pillage an undefended improvement
+    func executePlunderTradeUnit(at point: HexPoint, in gameModel: GameModel?) {
+        
+        // Move first one to target
+        if let currentMoveUnit = self.currentMoveUnits.first {
+            
+            if let unit = currentMoveUnit?.unit {
+                unit.push(mission: UnitMission(type: .moveTo, buildType: nil, at: point), in: gameModel)
+                unit.push(mission: UnitMission(type: .plunderTradeRoute), in: gameModel)
+                unit.finishMoves()
+                
+                // Delete this unit from those we have to move
+                self.unitProcessed(unit: unit, in: gameModel)
+            }
+        }
+    }
+    
+    /// Assign a group of units to attack each unit we think we can destroy
+    func plotDestroyUnitMoves(targetType: TacticalTargetType, mustBeAbleToKill: Bool, attackAtPoorOdds: Bool, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var requiredDamage: Int = 0
+        var expectedDamage: Int = 0
+
+        // See how many moves of this type we can execute
+        for target in self.zoneTargets(for: targetType) {
+            
+            var unitCanAttack = false
+            var cityCanAttack = false
+            
+            // See what units we have who can reach targets this turn
+            if let targetLocation = target?.target {
+                
+                guard let tile = gameModel.tile(at: targetLocation) else {
+                    continue
+                }
+                
+                if let defender = gameModel.unit(at: targetLocation) {
+                
+                    unitCanAttack = self.findUnitsWithinStrikingDistance(towards: targetLocation, numTurnsAway: 1, noRangedUnits: false, navalOnly: false, in: gameModel)
+                    cityCanAttack = self.findCitiesWithinStrikingDistance(of: targetLocation, in: gameModel)
+                    
+                    if unitCanAttack || cityCanAttack {
+                        
+                        expectedDamage = self.computeTotalExpectedDamage(target: target, and: tile, in: gameModel)
+                        expectedDamage += self.computeTotalExpectedBombardDamage(against: defender, in: gameModel)
+                        requiredDamage = defender.healthPoints()
+                        target?.damage = requiredDamage
+
+                        if !mustBeAbleToKill {
+                            // Attack no matter what
+                            if attackAtPoorOdds {
+                                self.executeAttack(target: target, targetPlot: tile, inflictWhatWeTake: false, mustSurviveAttack: false, in: gameModel)
+                            } else {
+                                // If we can at least knock the defender to 40% strength with our combined efforts, go ahead even if each individual attack isn't favorable
+                                var mustInflictWhatWeTake = true
+                                if expectedDamage >= (requiredDamage * 40) / 100 {
+                                    mustInflictWhatWeTake = false
+                                }
+                                self.executeAttack(target: target, targetPlot: tile, inflictWhatWeTake: mustInflictWhatWeTake, mustSurviveAttack: true, in: gameModel)
+                            }
+                        } else {
+                            // Do we have enough firepower to destroy it?
+                            if expectedDamage > requiredDamage {
+                                
+                                self.executeAttack(target: target, targetPlot: tile, inflictWhatWeTake: false, mustSurviveAttack: (targetType != .highPriorityUnit), in: gameModel)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /// Assigns units to capture undefended civilians
+    func plotCivilianAttackMoves(targetType: TacticalTargetType, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for targetRef in self.zoneTargets(for: targetType) {
+        
+            guard let target = targetRef else {
+                continue
+            }
+            
+            // See what units we have who can reach target this turn
+            if self.findUnitsWithinStrikingDistance(towards: target.target, numTurnsAway: 1, noRangedUnits: false, navalOnly: false, mustMoveThrough: false, includeBlockedUnits: false, willPillage: false, targetUndefended: true, in: gameModel) {
+                
+                // Queue best one up to capture it
+                self.executeCivilianCapture(at: target.target, in: gameModel)
+            }
+        }
+    }
+    
+    /// Assigns a barbarian to go protect an undefended camp
+    func plotCampDefenseMoves(in gameModel: GameModel?) {
+    
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for targetRef in self.zoneTargets(for: .barbarianCamp) {
+        
+            guard let target = targetRef else {
+                continue
+            }
+            
+            if self.findUnitsWithinStrikingDistance(towards: target.target, numTurnsAway: 1, noRangedUnits: true, navalOnly: false, mustMoveThrough: false, includeBlockedUnits: false, willPillage: false, targetUndefended: true, in: gameModel) {
+                
+                self.executeMoveToPlot(to: target.target, saveMoves: false, in: gameModel)
+            }
+        }
+    }
+    
+    /// Move unit to protect a specific tile (retrieve unit from first entry in m_CurrentMoveUnits)
+    func executeMoveToPlot(to point: HexPoint, saveMoves: Bool, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        // Move first one to target
+        if let firstCurrentModeUnit = self.currentMoveUnits.first {
+            
+            if let unit = firstCurrentModeUnit?.unit {
+                
+                self.executeMoveToPlot(of: unit, to: point, saveMoves: saveMoves, in: gameModel)
+            }
+        }
+    }
+    
+    /// Move unit to protect a specific tile (retrieve unit from first entry in m_CurrentMoveUnits)
+    func executeMoveToPlot(of unit: AbstractUnit?, to point: HexPoint, saveMoves: Bool = false, in gameModel: GameModel?) {
+        
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        // Unit already at target plot?
+        if point == unit.location {
+            
+            // Fortify if possible
+            if unit.canFortify(at: point, in: gameModel) {
+                 unit.push(mission: UnitMission(type: .fortify), in: gameModel)
+                //unit.fort ->SetFortifiedThisTurn(true);
+            } else {
+                unit.push(mission: UnitMission(type: .skip), in: gameModel)
+                if !saveMoves {
+                    unit.finishMoves()
+                }
+            }
+        } else {
+            unit.push(mission: UnitMission(type: .moveTo, at: point) , in: gameModel)
+            if !saveMoves {
+                unit.finishMoves()
+            }
+        }
+
+        self.unitProcessed(unit: unit, markTacticalMap: unit.isCombatUnit(), in: gameModel)
+    }
+    
+    /// Capture an undefended civilian
+    func executeCivilianCapture(at point: HexPoint, in gameModel: GameModel?) {
+        
+        // Move first one to target
+        if let currentMoveUnit = self.currentMoveUnits.first {
+            
+            if let unit = currentMoveUnit?.unit {
+                unit.push(mission: UnitMission(type: .moveTo, buildType: nil, at: point), in: gameModel)
+                unit.finishMoves()
+                
+                // Delete this unit from those we have to move
+                self.unitProcessed(unit: unit, in: gameModel)
+                
+                unit.resetTacticalTarget()
+            }
+        }
+    }
+    
+    /// Assigns units to pillage enemy improvements
+    func plotPillageMoves(targetType: TacticalTargetType, firstPass: Bool, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        //let pillageHeal = 25 /* PILLAGE_HEAL_AMOUNT */
+
+        for targetRef in self.zoneTargets(for: targetType) {
+            
+            guard let target = targetRef else {
+                continue
+            }
+            
+            // try paratroopers first, not because they are more effective, just because it looks cooler...
+            /*if (bFirstPass && FindParatroopersWithinStrikingDistance(pPlot))
+            {
+                // Queue best one up to capture it
+                ExecuteParadropPillage(pPlot);
+            } else */
+            
+            if firstPass && self.findUnitsWithinStrikingDistance(towards: target.target, numTurnsAway: 0, noRangedUnits: false , navalOnly: false, mustMoveThrough: true, includeBlockedUnits: false, willPillage: true, in: gameModel) {
+                
+                // Queue best one up to capture it
+                self.executePillage(at: target.target, in: gameModel)
+            }
+
+            // No one can reach it this turn, what about next turn?
+            else if !firstPass && self.findUnitsWithinStrikingDistance(towards: target.target, numTurnsAway: 2, noRangedUnits: false, navalOnly: false, mustMoveThrough: false, includeBlockedUnits: false, willPillage: true, in: gameModel) {
+                
+                self.executeMoveToTarget(target: target.target, garrisonIfPossible: false, in: gameModel)
+            }
+        }
+    }
+    
+    /// Pillage an undefended improvement
+    private func executePillage(at point: HexPoint, in gameModel: GameModel?) {
+        
+        // Move first one to target
+        if let currentMoveUnit = self.currentMoveUnits.first {
+            
+            if let unit = currentMoveUnit?.unit {
+                unit.push(mission: UnitMission(type: .moveTo, buildType: nil, at: point), in: gameModel)
+                unit.push(mission: UnitMission(type: .pillage), in: gameModel)
+                unit.finishMoves()
+                
+                // Delete this unit from those we have to move
+                self.unitProcessed(unit: unit, in: gameModel)
+            }
+        }
+    }
+    
     /// Assign a group of units to take down each city we can capture
     @discardableResult
     private func plotCaptureCityMoves(in gameModel: GameModel?) -> Bool {
@@ -1537,7 +2469,7 @@ public class TacticalAI: Codable {
             // See what units we have who can reach target this turn
             if let tile = target?.tile {
                 
-                if self.findUnitsWithinStrikingDistance(towards: tile, numTurnsAway: 1, in: gameModel) {
+                if self.findUnitsWithinStrikingDistance(towards: tile.point, numTurnsAway: 1, in: gameModel) {
                     
                     // Do we have enough firepower to destroy it?
                     if let city = gameModel.city(at: tile.point) {
@@ -1545,7 +2477,7 @@ public class TacticalAI: Codable {
                         let requiredDamage = 200 - city.damage()
                         target?.damage = requiredDamage
                         
-                        if self.computeTotalExpectedDamage(target: target, and: tile) >= requiredDamage {
+                        if self.computeTotalExpectedDamage(target: target, and: tile, in: gameModel) >= requiredDamage {
                             
                             print("### Attacking city of \(city.name) to capture \(city.location.x), \(city.location.y) by \(String(describing: self.player?.leader))")
                             
@@ -1566,88 +2498,209 @@ public class TacticalAI: Codable {
         return attackMade
     }
     
+    /// Assign a group of units to take down each city we can capture
+    @discardableResult
+    func plotDamageCityMoves(in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var attackMade = false
+
+        // See how many moves of this type we can execute
+        for target in self.zoneTargets(for: .city) {
+    
+            // See what units we have who can reach target this turn
+            if let tile = target?.tile {
+                
+                self.currentMoveCities.removeAll()
+                
+                if self.findUnitsWithinStrikingDistance(towards: tile.point, numTurnsAway: 1, noRangedUnits: false, navalOnly: false, mustMoveThrough: false, includeBlockedUnits: true, in: gameModel) {
+
+                    if let city = gameModel.city(at: tile.point) {
+
+                        let requiredDamage = city.maxHealthPoints() - city.damage()
+                        target?.damage = requiredDamage
+
+                        // Don't want to hammer away to try and take down a city for more than 8 turns
+                        if self.computeTotalExpectedDamage(target: target, and: tile, in: gameModel) > (requiredDamage / 8) {
+                            
+                            // If so, execute enough moves to take it
+                            self.executeAttack(target: target, targetPlot: tile, inflictWhatWeTake: false, mustSurviveAttack: true, in: gameModel)
+                            attackMade = true
+                        }
+                    }
+                }
+            }
+        }
+        
+        return attackMade
+    }
+    
+    /// Assign a group of units to attack each unit we think we can destroy
+    func plotDestroyUnitMoves(for targetType: TacticalTargetType, mustBeAbleToKill: Bool, attackAtPoorOdds: Bool, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var requiredDamage: Int = 0
+        var expectedDamage: Int = 0
+
+        // See how many moves of this type we can execute
+        for target in self.zoneTargets(for: targetType) {
+            
+            var unitCanAttack = false
+            var cityCanAttack = false
+            
+            if let targetLocation = target?.target {
+            
+                guard let tile = gameModel.tile(at: targetLocation) else {
+                    continue
+                }
+            
+                if let defender = gameModel.unit(at: targetLocation) {
+                    
+                    unitCanAttack = self.findUnitsWithinStrikingDistance(towards: tile.point, numTurnsAway: 1, noRangedUnits: false, in: gameModel)
+                    cityCanAttack = self.findCitiesWithinStrikingDistance(of: targetLocation, in: gameModel)
+                    
+                    if unitCanAttack || cityCanAttack {
+                        
+                        expectedDamage = self.computeTotalExpectedDamage(target: target, and: tile, in: gameModel)
+                        expectedDamage += self.computeTotalExpectedBombardDamage(against: defender, in: gameModel)
+                        requiredDamage = defender.healthPoints()
+                        
+                        target?.damage = requiredDamage
+
+                        if !mustBeAbleToKill {
+
+                            // Attack no matter what
+                            if attackAtPoorOdds {
+                                self.executeAttack(target: target, targetPlot: tile, inflictWhatWeTake: false, mustSurviveAttack: false, in: gameModel)
+                            } else {
+                                // If we can at least knock the defender to 40% strength with our combined efforts, go ahead even if each individual attack isn't favorable
+                                var mustInflictWhatWeTake = true
+                                if expectedDamage >= (requiredDamage * 40) / 100 {
+                                    mustInflictWhatWeTake = false
+                                }
+                                self.executeAttack(target: target, targetPlot: tile, inflictWhatWeTake: mustInflictWhatWeTake, mustSurviveAttack: true, in: gameModel)
+                            }
+                        } else { // Do we have enough firepower to destroy it?
+                            if expectedDamage > requiredDamage {
+                                self.executeAttack(target: target, targetPlot: tile, inflictWhatWeTake: false, mustSurviveAttack: (targetType != .highPriorityUnit), in: gameModel)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     /// Estimates the damage we can apply to a target
-    func computeTotalExpectedDamage(target: TacticalTarget?, and tile: AbstractTile?) -> Int {
+    func computeTotalExpectedDamage(target: TacticalTarget?, and targetPlot: AbstractTile?, in gameModel: GameModel?) -> Int {
         
-        fatalError("not implemented yet")
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
         
-        /* int rtnValue = 0;
-        int iExpectedDamage;
-        int iExpectedSelfDamage;
+        guard let targetPlot = targetPlot else {
+            fatalError("cant get targetPlot")
+        }
+        
+        guard let target = target else {
+            fatalError("cant get target")
+        }
+        
+        var rtnValue = 0
+        var expectedDamage = 0
+        var expectedSelfDamage = 0
 
         // Loop through all units who can reach the target
-        for (unsigned int iI = 0; iI < m_CurrentMoveUnits.size(); iI++)
-        {
-            UnitHandle pAttacker = m_pPlayer->getUnit(m_CurrentMoveUnits[iI].GetID());
+        for attackerRef in self.currentMoveUnits {
+            
+            guard let attacker = attackerRef?.unit else {
+                continue
+            }
 
             // Is target a unit?
-            switch (pTarget->GetTargetType())
-            {
-            case AI_TACTICAL_TARGET_HIGH_PRIORITY_UNIT:
-            case AI_TACTICAL_TARGET_MEDIUM_PRIORITY_UNIT:
-            case AI_TACTICAL_TARGET_LOW_PRIORITY_UNIT:
-                {
-                    UnitHandle pDefender = pTargetPlot->getVisibleEnemyDefender(m_pPlayer->GetID());
-                    if (pDefender)
-                    {
-                        if (pAttacker->IsCanAttackRanged())
-                        {
-                            iExpectedDamage = pAttacker->GetRangeCombatDamage(pDefender.pointer(), NULL, false);
-                            iExpectedSelfDamage = 0;
-                        }
-                        else
-                        {
-                            int iAttackerStrength = pAttacker->GetMaxAttackStrength(NULL, pTargetPlot, NULL);
-                            int iDefenderStrength = pDefender->GetMaxDefenseStrength(pTargetPlot, pAttacker.pointer());
-                            UnitHandle pFireSupportUnit = CvUnitCombat::GetFireSupportUnit(pDefender->getOwner(), pTargetPlot->getX(), pTargetPlot->getY(), pAttacker->getX(), pAttacker->getY());
-                            int iDefenderFireSupportCombatDamage = 0;
-                            if (pFireSupportUnit)
-                            {
-                                iDefenderFireSupportCombatDamage = pFireSupportUnit->GetRangeCombatDamage(pAttacker.pointer(), NULL, false);
-                            }
-                            iExpectedDamage = pAttacker->getCombatDamage(iAttackerStrength, iDefenderStrength, pAttacker->getDamage() + iDefenderFireSupportCombatDamage, /*bIncludeRand*/ false, /*bAttackerIsCity*/ false, /*bDefenderIsCity*/ false);
-                            iExpectedSelfDamage = pDefender->getCombatDamage(iDefenderStrength, iAttackerStrength, pDefender->getDamage(), /*bIncludeRand*/ false, /*bAttackerIsCity*/ false, /*bDefenderIsCity*/ false);
-                        }
-                        m_CurrentMoveUnits[iI].SetExpectedTargetDamage(iExpectedDamage);
-                        m_CurrentMoveUnits[iI].SetExpectedSelfDamage(iExpectedSelfDamage);
-                        rtnValue += iExpectedDamage;
-                    }
-                }
-                break;
+            switch target.targetType {
+                
+            case .highPriorityUnit, .mediumPriorityUnit, .lowPriorityUnit:
+                if let defender = gameModel.unit(at: targetPlot.point) {
 
-            case AI_TACTICAL_TARGET_CITY:
-                {
-                    CvCity *pCity = pTargetPlot->getPlotCity();
-                    if (pCity != NULL)
-                    {
-                        if (pAttacker->IsCanAttackRanged() && pAttacker->GetMaxRangedCombatStrength(NULL, /*pCity*/ NULL, true, true) > pAttacker->GetMaxAttackStrength(NULL, pTargetPlot, NULL))
-                        {
-                            iExpectedDamage = pAttacker->GetRangeCombatDamage(NULL, pCity, false);
-                            iExpectedSelfDamage = 0;
-                        }
-                        else
-                        {
-                            int iAttackerStrength = pAttacker->GetMaxAttackStrength(NULL, pTargetPlot, NULL);
-                            int iDefenderStrength = pCity->getStrengthValue();
-                            CvUnit* pFireSupportUnit = CvUnitCombat::GetFireSupportUnit(pCity->getOwner(), pTargetPlot->getX(), pTargetPlot->getY(), pAttacker->getX(), pAttacker->getY());
-                            int iDefenderFireSupportCombatDamage = 0;
-                            if (pFireSupportUnit != NULL)
-                            {
-                                iDefenderFireSupportCombatDamage = pFireSupportUnit->GetRangeCombatDamage(pAttacker.pointer(), NULL, false);
-                            }
-                            iExpectedDamage = pAttacker->getCombatDamage(iAttackerStrength, iDefenderStrength, pAttacker->getDamage() + iDefenderFireSupportCombatDamage, /*bIncludeRand*/ false, /*bAttackerIsCity*/ false, /*bDefenderIsCity*/ true);
-                            iExpectedSelfDamage = pAttacker->getCombatDamage(iDefenderStrength, iAttackerStrength, pCity->getDamage(), /*bIncludeRand*/ false, /*bAttackerIsCity*/ true, /*bDefenderIsCity*/ false);
-                        }
-                        m_CurrentMoveUnits[iI].SetExpectedTargetDamage(iExpectedDamage);
-                        m_CurrentMoveUnits[iI].SetExpectedSelfDamage(iExpectedSelfDamage);
-                        rtnValue += iExpectedDamage;
+                    if attacker.canAttackRanged() {
+                        let result = Combat.predictRangedAttack(between: attacker, and: defender, in: gameModel)
+                        
+                        expectedDamage = result.defenderDamage
+                        expectedSelfDamage = 0
+                    } else {
+                        
+                        let result = Combat.predictMeleeAttack(between: attacker, and: defender, in: gameModel)
+                        
+                        expectedDamage = result.defenderDamage
+                        expectedSelfDamage = result.attackerDamage
                     }
+                    
+                    attackerRef?.expectedTargetDamage = expectedDamage
+                    attackerRef?.expectedSelfDamage = expectedSelfDamage
+                    
+                    rtnValue += expectedDamage
                 }
-                break;
+
+            case .city:
+                
+                if let city = gameModel.city(at: targetPlot.point) {
+                    
+                    if attacker.canAttackRanged() {
+                        let result = Combat.predictRangedAttack(between: attacker, and: city, in: gameModel)
+                        
+                        expectedDamage = result.defenderDamage
+                        expectedSelfDamage = 0
+                    } else {
+                        
+                        let result = Combat.predictMeleeAttack(between: attacker, and: city, in: gameModel)
+                        
+                        expectedDamage = result.defenderDamage
+                        expectedSelfDamage = result.attackerDamage
+                    }
+                    
+                    attackerRef?.expectedTargetDamage = expectedDamage
+                    attackerRef?.expectedSelfDamage = expectedSelfDamage
+                    
+                    rtnValue += expectedDamage
+                }
+                
+            default:
+                // NOOP
+                break
             }
         }
 
-        return rtnValue; **/
+        return rtnValue
+    }
+    
+    /// Estimates the bombard damage we can apply to a target
+    func computeTotalExpectedBombardDamage(against defender: AbstractUnit?, in gameModel: GameModel?) -> Int {
+        
+        var rtnValue = 0
+        var expectedDamage = 0
+
+        // Now loop through all the cities that can bombard it
+        for attackingCityRef in self.currentMoveCities {
+            
+            guard let attackingCity = attackingCityRef?.city else {
+                continue
+            }
+            
+            let result = Combat.predictRangedAttack(between: attackingCity, and: defender, in: gameModel)
+            
+            expectedDamage = result.defenderDamage
+            attackingCityRef?.expectedTargetDamage = expectedDamage
+            rtnValue += expectedDamage
+        }
+
+        return rtnValue
     }
     
     /// Reset all data on queued attacks for a new turn
@@ -1658,82 +2711,147 @@ public class TacticalAI: Codable {
     }
     
     /// Fills m_CurrentMoveUnits with all units within X turns of a target (returns TRUE if 1 or more found)
-    func findUnitsWithinStrikingDistance(towards tile: AbstractTile?, numTurnsAway: Int, noRangedUnits: Bool = false, navalOnly: Bool = false, mustMoveThrough: Bool = false, in gameModel: GameModel?) -> Bool {
-        
-        fatalError("not implemented yet")
-        
-        /*
-         list<int>::iterator it;
-         UnitHandle pLoopUnit;
+    // FIXME: method needs update
+    func findUnitsWithinStrikingDistance(towards targetLocation: HexPoint, numTurnsAway: Int, noRangedUnits: Bool = false, navalOnly: Bool = false, mustMoveThrough: Bool = false, includeBlockedUnits: Bool = false, willPillage: Bool = false, targetUndefended: Bool = false, in gameModel: GameModel?) -> Bool {
 
-         bool rtnValue = false;
-         m_CurrentMoveUnits.clear();
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var rtnValue = false
+        self.currentMoveUnits.removeAll()
+        
+        let isCityTarget = gameModel.city(at: targetLocation) != nil
 
          // Loop through all units available to tactical AI this turn
-         for (it = m_CurrentTurnUnits.begin(); it != m_CurrentTurnUnits.end(); it++)
-         {
-             pLoopUnit = m_pPlayer->getUnit(*it);
-             if (pLoopUnit)
-             {
-                 if (!bNavalOnly || pLoopUnit->getDomainType() == DOMAIN_SEA)
-                 {
+        for loopUnitRef in self.currentTurnUnits {
+            
+            guard let loopUnit = loopUnitRef else {
+                continue
+            }
+            
+            if !navalOnly || loopUnit.domain() == .sea {
+                
                      // don't use non-combat units
-                     if (!pLoopUnit->IsCanAttack())
-                     {
-                         continue;
-                     }
+                if !loopUnit.canAttack() {
+                    continue
+                }
 
-                     if (pLoopUnit->isOutOfAttacks())
-                     {
-                         continue;
-                     }
+                if loopUnit.isOutOfAttacks() {
+                    continue
+                }
+                
+                /*if !isCityTarget && loopUnit.cityAttackOnly() {
+                    continue;
+                }*/
 
-                     // *** Need to make this smarter and account for units that can move up on their targets and then make a ranged attack,
-                     //     all in the same turn. ***
-                     if (!bNoRangedUnits && !bMustMoveThrough && pLoopUnit->IsCanAttackRanged())
-                     {
-                         // Are we in range?
-                         if (plotDistance(pLoopUnit->getX(), pLoopUnit->getY(), pTarget->getX(), pTarget->getY()) <= pLoopUnit->GetRange())
-                         {
-                             // Do we have LOS to the target?
-                             if (pLoopUnit->canEverRangeStrikeAt(pTarget->getX(), pTarget->getY()))
-                             {
-                                 // Will we do any damage
-                                 if (IsExpectedToDamageWithRangedAttack(pLoopUnit, pTarget))
-                                 {
-                                     CvTacticalUnit unit;
-                                     unit.SetID(pLoopUnit->GetID());
+                if willPillage && !loopUnit.canPillage(at: targetLocation, in: gameModel) {
+                    continue
+                }
 
-                                     // Want ranged units to attack first, so inflate this
-                                     unit.SetAttackStrength(100 * pLoopUnit->GetMaxRangedCombatStrength(NULL, /*pCity*/ NULL, true, true));
-                                     unit.SetHealthPercent(100, 100);  // Don't take damage from bombarding, so show as fully healthy
-                                     m_CurrentMoveUnits.push_back(unit);
-                                     rtnValue = true;
-                                 }
-                             }
+                // *** Need to make this smarter and account for units that can move up on their targets and then make a ranged attack,
+                //     all in the same turn. ***
+                if !noRangedUnits && !mustMoveThrough && loopUnit.canAttackRanged() {
+                    
+                    // Are we in range?
+                    if loopUnit.location.distance(to: targetLocation) <= loopUnit.range() {
+                        
+                        // Do we have LOS to the target?
+                        //if loopUnit.canEverRangeStrikeAt(pTarget->getX(), pTarget->getY())) {
+                        // Will we do any damage
+                        if self.isExpectedToDamageWithRangedAttack(by: loopUnit, towards: targetLocation, in: gameModel) {
+                                     
+                            // Want ranged units to attack first, so inflate this
+                            // Don't take damage from bombarding, so show as fully healthy
+                            let unit = TacticalUnit(unit: loopUnit, attackStrength: 100 * loopUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true), healthPercent: 100)
+                            self.currentMoveUnits.append(unit)
+                            rtnValue = true
                          }
-                     }
-                     else
-                     {
-                         if (CanReachInXTurns(pLoopUnit, pTarget, iNumTurnsAway))
-                         {
-                             CvTacticalUnit unit;
-                             unit.SetID(pLoopUnit->GetID());
-                             unit.SetAttackStrength(pLoopUnit->GetMaxAttackStrength(NULL, NULL, NULL));
-                             unit.SetHealthPercent(pLoopUnit->GetCurrHitPoints(), pLoopUnit->GetMaxHitPoints());
-                             m_CurrentMoveUnits.push_back(unit);
-                             rtnValue = true;
-                         }
+                    }
+                    // {
+                 } else {
+                    if loopUnit.canReach(at: targetLocation, in: numTurnsAway, in: gameModel) {
+                        let unit = TacticalUnit(unit: loopUnit, attackStrength: 100 * loopUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true), healthPercent: loopUnit.healthPoints())
+                         self.currentMoveUnits.append(unit)
+                         rtnValue = true
                      }
                  }
              }
-         }
+        }
 
-         // Now sort them in the order we'd like them to attack
-         std::stable_sort (m_CurrentMoveUnits.begin(), m_CurrentMoveUnits.end());
+        // Now sort them in the order we'd like them to attack
+        self.currentMoveUnits.sort(by: { $0! < $1! })
 
-         return rtnValue;
-         */
+        return rtnValue
+    }
+    
+    func isExpectedToDamageWithRangedAttack(by attacker: AbstractUnit?, towards targetLocation: HexPoint, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var expectedDamage = 0
+
+        if let city = gameModel.city(at: targetLocation) {
+            
+            let result = Combat.predictRangedAttack(between: attacker, and: city, in: gameModel)
+            expectedDamage = result.defenderDamage
+        } else if let defender = gameModel.unit(at: targetLocation) {
+            
+            let result = Combat.predictRangedAttack(between: attacker, and: defender, in: gameModel)
+            expectedDamage = result.defenderDamage
+        }
+
+        return expectedDamage > 0
+    }
+    
+    /// Fills m_CurrentMoveCities with all cities within bombard range of a target (returns TRUE if 1 or more found)
+    func findCitiesWithinStrikingDistance(of point: HexPoint, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        var rtnValue = false
+        self.currentMoveCities.removeAll()
+
+        // Loop through all of our cities
+        for loopCityRef in gameModel.cities(of: player) {
+            
+            guard let loopCity = loopCityRef else {
+                continue
+            }
+            
+            if loopCity.canRangeStrike(towards: point) && !self.isCityInQueuedAttack(city: loopCity) {
+                let cityTarget = TacticalCity(city: loopCity)
+                self.currentMoveCities.append(cityTarget)
+                rtnValue = true
+            }
+        }
+
+        // Now sort them in the order we'd like them to attack
+        self.currentMoveCities.sort(by: { $0! < $1! })
+
+        return rtnValue
+    }
+    
+    /// Is this unit waiting to get its turn to attack?
+    func isCityInQueuedAttack(city attackCity: AbstractCity?) -> Bool {
+        
+        if self.queuedAttacks.count > 0 {
+             
+            for queuedAttack in self.queuedAttacks {
+                if queuedAttack.cityAttack && queuedAttack.attackerCity?.location == attackCity?.location {
+                    return true
+                }
+            }
+        }
+        return false
     }
        
     /// Queue up the attack - return TRUE if first attack on this target

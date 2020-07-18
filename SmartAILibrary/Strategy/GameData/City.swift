@@ -59,6 +59,9 @@ public protocol AbstractCity: class, Codable {
     //static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
     func initialize(in gameModel: GameModel?)
     
+    func isBarbarian() -> Bool
+    func isHuman() -> Bool
+    
     func foodConsumption() -> Double
     
     func isCapital() -> Bool
@@ -140,6 +143,7 @@ public protocol AbstractCity: class, Codable {
     func setGarrison(unit: AbstractUnit?)
     
     func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?, attacking: Bool) -> Int
+    func canRangeStrike(towards point: HexPoint) -> Bool
     func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool) -> Int
 
     func work(tile: AbstractTile) throws
@@ -547,6 +551,24 @@ public class City: AbstractCity {
         
         self.set(population: 1, in: gameModel)
     }
+    
+    public func isBarbarian() -> Bool {
+    
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        return player.isBarbarian()
+    }
+    
+    public func isHuman() -> Bool {
+       
+           guard let player = self.player else {
+               fatalError("cant get player")
+           }
+           
+           return player.isHuman()
+       }
     
     public func doFoundMessage() {
         
@@ -2663,10 +2685,27 @@ public class City: AbstractCity {
 
     // MARK: attack / damage
     
+    public func canRangeStrike(towards point: HexPoint) -> Bool {
+        
+        if self.location.distance(to: point) <= 2 {
+            return true
+        }
+        
+        return false
+    }
+    
     public func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?, attacking: Bool) -> Int {
         
         guard let player = self.player else {
             fatalError("no player provided")
+        }
+        
+        guard let defender = defender else {
+            fatalError("defender not found")
+        }
+        
+        if !self.canRangeStrike(at: defender.location) {
+            return 0
         }
         
         var rangedStrength = 15 // slinger / no requirement
@@ -3606,6 +3645,7 @@ public class City: AbstractCity {
         
         do {
             try tile.set(owner: self.player)
+            try tile.setWorkingCity(to: self)
         } catch {
             fatalError("cant set owner")
         }
@@ -3613,6 +3653,20 @@ public class City: AbstractCity {
         self.player?.addPlot(at: point)
 
         self.doUpdateCheapestPlotInfluence(in: gameModel)
+        
+        // repaint newly acquired tile ...
+        gameModel.userInterface?.refresh(tile: tile)
+        
+        // ... and neighbors
+        for neighbor in point.neighbors() {
+            
+            guard let neighborTile = gameModel.tile(at: neighbor) else {
+                continue
+            }
+            
+            gameModel.userInterface?.refresh(tile: neighborTile)
+        }
+        
     }
     
     public func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int) {
