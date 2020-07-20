@@ -19,9 +19,10 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas blue_texture="militia.png" red_texture="militia_red.png" width="617" height="617">
+<TextureAtlas texture="warrior.png" width="617" height="617">
+    
   <!-- Define the unit type-->
-  <unit id ="militia">
+  <unit id ="warrior">
 
     <!-- Attack Action-->
     <action enum= "attack" speed="203">
@@ -90,6 +91,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
         <sprite n="milicia ataque/049_Militia_attack.bmp" x="350" y="122" w="24" h="49" pX="0.666667" pY="0.857143"/>
       </direction>
     </action>
+    
     <!--Die Action-->
     <action enum ="die" speed="200">
       <direction enum="south">
@@ -246,6 +248,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
         <sprite n="milicia idle/029_Militia_idle.bmp" x="538" y="418" w="28" h="45" pX="0.678571" pY="0.844444"/>
       </direction>
     </action>
+    
     <!--Walk Action-->
     <action enum ="walk" speed="100">
       <direction enum="south">

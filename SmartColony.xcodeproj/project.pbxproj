@@ -12,7 +12,19 @@
 		C907917D2459D71F00248596 /* GameHandicapDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C907917C2459D71F00248596 /* GameHandicapDialog.xml */; };
 		C907917F2459D73100248596 /* GameLeaderDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C907917E2459D73100248596 /* GameLeaderDialog.xml */; };
 		C9079181245A20D800248596 /* YieldLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9079180245A20D800248596 /* YieldLayer.swift */; };
-		C90D2E3724C31EF90029AA11 /* villager.png in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E3624C31EF90029AA11 /* villager.png */; };
+		C90D2E3724C31EF90029AA11 /* builder.png in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E3624C31EF90029AA11 /* builder.png */; };
+		C90D2E3A24C379420029AA11 /* archer.xml in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E3824C379420029AA11 /* archer.xml */; };
+		C90D2E3B24C379420029AA11 /* archer.png in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E3924C379420029AA11 /* archer.png */; };
+		C90D2E3E24C379D90029AA11 /* horseman.png in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E3C24C379D90029AA11 /* horseman.png */; };
+		C90D2E3F24C379D90029AA11 /* horseman.xml in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E3D24C379D90029AA11 /* horseman.xml */; };
+		C90D2E4424C37A360029AA11 /* long_swordman.xml in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E4024C37A350029AA11 /* long_swordman.xml */; };
+		C90D2E4524C37A360029AA11 /* man_at_arms.png in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E4124C37A350029AA11 /* man_at_arms.png */; };
+		C90D2E4624C37A360029AA11 /* man_at_arms.xml in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E4224C37A350029AA11 /* man_at_arms.xml */; };
+		C90D2E4724C37A360029AA11 /* long_swordman.png in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E4324C37A360029AA11 /* long_swordman.png */; };
+		C90D2E4A24C37A570029AA11 /* pikeman.xml in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E4824C37A560029AA11 /* pikeman.xml */; };
+		C90D2E4B24C37A570029AA11 /* pikeman.png in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E4924C37A570029AA11 /* pikeman.png */; };
+		C90D2E4D24C37AF90029AA11 /* scout.png in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E4C24C37AF90029AA11 /* scout.png */; };
+		C90D2E4F24C37B130029AA11 /* scout.xml in Resources */ = {isa = PBXBuildFile; fileRef = C90D2E4E24C37B130029AA11 /* scout.xml */; };
 		C9108F46243630550023C76D /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = C9108F45243630550023C76D /* Rswift */; };
 		C9108F49243630A70023C76D /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = C9108F48243630A70023C76D /* XMLCoder */; };
 		C9108F4A243630B80023C76D /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D22524348BD300033791 /* R.generated.swift */; };
@@ -64,17 +76,15 @@
 		C95D9D60244A3147007C522E /* TechDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C95D9D5F244A3147007C522E /* TechDialog.xml */; };
 		C95D9D62244A3244007C522E /* TechDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95D9D61244A3244007C522E /* TechDialog.swift */; };
 		C95D9D65244A32A0007C522E /* TechDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95D9D64244A32A0007C522E /* TechDisplayNode.swift */; };
-		C97BC0B824C2EE80008237F6 /* villager.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0B624C2EE80008237F6 /* villager.xml */; };
-		C97BC0BF24C2EEA2008237F6 /* skirmisher.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0BD24C2EEA1008237F6 /* skirmisher.png */; };
-		C97BC0C024C2EEA2008237F6 /* skirmisher.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0BE24C2EEA2008237F6 /* skirmisher.xml */; };
-		C97BC0C324C2EEB7008237F6 /* militia.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0C124C2EEB7008237F6 /* militia.png */; };
-		C97BC0C424C2EEB7008237F6 /* militia.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0C224C2EEB7008237F6 /* militia.xml */; };
-		C97BC0C724C2EEC7008237F6 /* hunter_chmp.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0C524C2EEC7008237F6 /* hunter_chmp.png */; };
-		C97BC0C824C2EEC7008237F6 /* hunter_chmp.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0C624C2EEC7008237F6 /* hunter_chmp.xml */; };
+		C97BC0B824C2EE80008237F6 /* builder.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0B624C2EE80008237F6 /* builder.xml */; };
+		C97BC0BF24C2EEA2008237F6 /* spearman.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0BD24C2EEA1008237F6 /* spearman.png */; };
+		C97BC0C024C2EEA2008237F6 /* spearman.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0BE24C2EEA2008237F6 /* spearman.xml */; };
+		C97BC0C324C2EEB7008237F6 /* warrior.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0C124C2EEB7008237F6 /* warrior.png */; };
+		C97BC0C424C2EEB7008237F6 /* warrior.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0C224C2EEB7008237F6 /* warrior.xml */; };
 		C97BC0CB24C2EEE0008237F6 /* crossbowman.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0C924C2EEE0008237F6 /* crossbowman.png */; };
 		C97BC0CC24C2EEE0008237F6 /* crossbowman.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0CA24C2EEE0008237F6 /* crossbowman.xml */; };
-		C97BC0CF24C2EEF5008237F6 /* cavalier.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0CD24C2EEF4008237F6 /* cavalier.png */; };
-		C97BC0D024C2EEF5008237F6 /* cavalier.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0CE24C2EEF5008237F6 /* cavalier.xml */; };
+		C97BC0CF24C2EEF5008237F6 /* knight.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0CD24C2EEF4008237F6 /* knight.png */; };
+		C97BC0D024C2EEF5008237F6 /* knight.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0CE24C2EEF5008237F6 /* knight.xml */; };
 		C97CD39F243A3E9C00FABCC0 /* ResourceLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD39E243A3E9C00FABCC0 /* ResourceLayer.swift */; };
 		C97CD3A1243A3F1200FABCC0 /* TextureUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3A0243A3F1200FABCC0 /* TextureUtils.swift */; };
 		C97CD3A3243A3F3700FABCC0 /* TerrainTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3A2243A3F3700FABCC0 /* TerrainTypeExtension.swift */; };
@@ -256,7 +266,19 @@
 		C907917C2459D71F00248596 /* GameHandicapDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GameHandicapDialog.xml; sourceTree = "<group>"; };
 		C907917E2459D73100248596 /* GameLeaderDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GameLeaderDialog.xml; sourceTree = "<group>"; };
 		C9079180245A20D800248596 /* YieldLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldLayer.swift; sourceTree = "<group>"; };
-		C90D2E3624C31EF90029AA11 /* villager.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = villager.png; sourceTree = "<group>"; };
+		C90D2E3624C31EF90029AA11 /* builder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = builder.png; sourceTree = "<group>"; };
+		C90D2E3824C379420029AA11 /* archer.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = archer.xml; sourceTree = "<group>"; };
+		C90D2E3924C379420029AA11 /* archer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = archer.png; sourceTree = "<group>"; };
+		C90D2E3C24C379D90029AA11 /* horseman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = horseman.png; sourceTree = "<group>"; };
+		C90D2E3D24C379D90029AA11 /* horseman.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = horseman.xml; sourceTree = "<group>"; };
+		C90D2E4024C37A350029AA11 /* long_swordman.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = long_swordman.xml; sourceTree = "<group>"; };
+		C90D2E4124C37A350029AA11 /* man_at_arms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = man_at_arms.png; sourceTree = "<group>"; };
+		C90D2E4224C37A350029AA11 /* man_at_arms.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = man_at_arms.xml; sourceTree = "<group>"; };
+		C90D2E4324C37A360029AA11 /* long_swordman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = long_swordman.png; sourceTree = "<group>"; };
+		C90D2E4824C37A560029AA11 /* pikeman.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pikeman.xml; sourceTree = "<group>"; };
+		C90D2E4924C37A570029AA11 /* pikeman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pikeman.png; sourceTree = "<group>"; };
+		C90D2E4C24C37AF90029AA11 /* scout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scout.png; sourceTree = "<group>"; };
+		C90D2E4E24C37B130029AA11 /* scout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = scout.xml; path = "../../../../../Downloads/AgeOfChampions-master/AoE_Project/Game/data/animator/scout.xml"; sourceTree = "<group>"; };
 		C91B0024243DEE8A00C422C8 /* UnitTypeSprites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTypeSprites.swift; sourceTree = "<group>"; };
 		C922D2BB2449A1A1009E182F /* CityNameDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityNameDialog.xml; sourceTree = "<group>"; };
 		C922D2BD2449A24C009E182F /* CityNameDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityNameDialog.swift; sourceTree = "<group>"; };
@@ -307,17 +329,15 @@
 		C95D9D5F244A3147007C522E /* TechDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TechDialog.xml; sourceTree = "<group>"; };
 		C95D9D61244A3244007C522E /* TechDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDialog.swift; sourceTree = "<group>"; };
 		C95D9D64244A32A0007C522E /* TechDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDisplayNode.swift; sourceTree = "<group>"; };
-		C97BC0B624C2EE80008237F6 /* villager.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = villager.xml; sourceTree = "<group>"; };
-		C97BC0BD24C2EEA1008237F6 /* skirmisher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skirmisher.png; sourceTree = "<group>"; };
-		C97BC0BE24C2EEA2008237F6 /* skirmisher.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = skirmisher.xml; sourceTree = "<group>"; };
-		C97BC0C124C2EEB7008237F6 /* militia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = militia.png; sourceTree = "<group>"; };
-		C97BC0C224C2EEB7008237F6 /* militia.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = militia.xml; sourceTree = "<group>"; };
-		C97BC0C524C2EEC7008237F6 /* hunter_chmp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hunter_chmp.png; sourceTree = "<group>"; };
-		C97BC0C624C2EEC7008237F6 /* hunter_chmp.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = hunter_chmp.xml; sourceTree = "<group>"; };
+		C97BC0B624C2EE80008237F6 /* builder.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = builder.xml; sourceTree = "<group>"; };
+		C97BC0BD24C2EEA1008237F6 /* spearman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spearman.png; sourceTree = "<group>"; };
+		C97BC0BE24C2EEA2008237F6 /* spearman.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = spearman.xml; sourceTree = "<group>"; };
+		C97BC0C124C2EEB7008237F6 /* warrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warrior.png; sourceTree = "<group>"; };
+		C97BC0C224C2EEB7008237F6 /* warrior.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = warrior.xml; sourceTree = "<group>"; };
 		C97BC0C924C2EEE0008237F6 /* crossbowman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crossbowman.png; sourceTree = "<group>"; };
 		C97BC0CA24C2EEE0008237F6 /* crossbowman.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = crossbowman.xml; sourceTree = "<group>"; };
-		C97BC0CD24C2EEF4008237F6 /* cavalier.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cavalier.png; sourceTree = "<group>"; };
-		C97BC0CE24C2EEF5008237F6 /* cavalier.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = cavalier.xml; sourceTree = "<group>"; };
+		C97BC0CD24C2EEF4008237F6 /* knight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knight.png; sourceTree = "<group>"; };
+		C97BC0CE24C2EEF5008237F6 /* knight.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = knight.xml; sourceTree = "<group>"; };
 		C97CD39E243A3E9C00FABCC0 /* ResourceLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLayer.swift; sourceTree = "<group>"; };
 		C97CD3A0243A3F1200FABCC0 /* TextureUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureUtils.swift; sourceTree = "<group>"; };
 		C97CD3A2243A3F3700FABCC0 /* TerrainTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainTypeExtension.swift; sourceTree = "<group>"; };
@@ -566,18 +586,28 @@
 		C97BC0B424C2EE46008237F6 /* Units */ = {
 			isa = PBXGroup;
 			children = (
-				C90D2E3624C31EF90029AA11 /* villager.png */,
-				C97BC0B624C2EE80008237F6 /* villager.xml */,
-				C97BC0BD24C2EEA1008237F6 /* skirmisher.png */,
-				C97BC0BE24C2EEA2008237F6 /* skirmisher.xml */,
-				C97BC0C124C2EEB7008237F6 /* militia.png */,
-				C97BC0C224C2EEB7008237F6 /* militia.xml */,
-				C97BC0C524C2EEC7008237F6 /* hunter_chmp.png */,
-				C97BC0C624C2EEC7008237F6 /* hunter_chmp.xml */,
+				C90D2E3924C379420029AA11 /* archer.png */,
+				C90D2E3824C379420029AA11 /* archer.xml */,
+				C90D2E3624C31EF90029AA11 /* builder.png */,
+				C97BC0B624C2EE80008237F6 /* builder.xml */,
+				C97BC0BD24C2EEA1008237F6 /* spearman.png */,
+				C97BC0BE24C2EEA2008237F6 /* spearman.xml */,
+				C97BC0C124C2EEB7008237F6 /* warrior.png */,
+				C97BC0C224C2EEB7008237F6 /* warrior.xml */,
+				C90D2E4C24C37AF90029AA11 /* scout.png */,
+				C90D2E4E24C37B130029AA11 /* scout.xml */,
 				C97BC0C924C2EEE0008237F6 /* crossbowman.png */,
 				C97BC0CA24C2EEE0008237F6 /* crossbowman.xml */,
-				C97BC0CD24C2EEF4008237F6 /* cavalier.png */,
-				C97BC0CE24C2EEF5008237F6 /* cavalier.xml */,
+				C97BC0CD24C2EEF4008237F6 /* knight.png */,
+				C97BC0CE24C2EEF5008237F6 /* knight.xml */,
+				C90D2E3C24C379D90029AA11 /* horseman.png */,
+				C90D2E3D24C379D90029AA11 /* horseman.xml */,
+				C90D2E4324C37A360029AA11 /* long_swordman.png */,
+				C90D2E4024C37A350029AA11 /* long_swordman.xml */,
+				C90D2E4124C37A350029AA11 /* man_at_arms.png */,
+				C90D2E4224C37A350029AA11 /* man_at_arms.xml */,
+				C90D2E4924C37A570029AA11 /* pikeman.png */,
+				C90D2E4824C37A560029AA11 /* pikeman.xml */,
 			);
 			path = Units;
 			sourceTree = "<group>";
@@ -990,28 +1020,32 @@
 			files = (
 				C9EB9F5C2452C60600F13B02 /* CityChooseProductionDialog.xml in Resources */,
 				C9EB9F68245564F200F13B02 /* InterimRankingDialog.xml in Resources */,
+				C90D2E3E24C379D90029AA11 /* horseman.png in Resources */,
 				C957AA53243641D300203024 /* MapAgeDialog.xml in Resources */,
+				C90D2E4424C37A360029AA11 /* long_swordman.xml in Resources */,
 				C97CD3A9243B4EC100FABCC0 /* Units.xcassets in Resources */,
 				C9B1D2492434B9AE00033791 /* DINNext-Heavy.ttf in Resources */,
 				C9B1D2482434B9AE00033791 /* DINNext-Regular.ttf in Resources */,
 				C9EC4E1D24445873001A0597 /* Cities.xcassets in Resources */,
-				C97BC0D024C2EEF5008237F6 /* cavalier.xml in Resources */,
+				C97BC0D024C2EEF5008237F6 /* knight.xml in Resources */,
+				C90D2E3F24C379D90029AA11 /* horseman.xml in Resources */,
 				C957AA4B243641A100203024 /* MapSeaLevelDialog.xml in Resources */,
+				C90D2E4624C37A360029AA11 /* man_at_arms.xml in Resources */,
 				C9B1D2902435B09A00033791 /* earth_standard.map in Resources */,
-				C97BC0C724C2EEC7008237F6 /* hunter_chmp.png in Resources */,
+				C90D2E4524C37A360029AA11 /* man_at_arms.png in Resources */,
 				C9B1D2462434B9AE00033791 /* DINNext-Light.ttf in Resources */,
 				C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */,
 				C957AA49243641A100203024 /* MapSizeDialog.xml in Resources */,
-				C90D2E3724C31EF90029AA11 /* villager.png in Resources */,
+				C90D2E3B24C379420029AA11 /* archer.png in Resources */,
+				C90D2E3724C31EF90029AA11 /* builder.png in Resources */,
 				C9DC1C892483A39000235743 /* GameNameDialog.xml in Resources */,
-				C97BC0C424C2EEB7008237F6 /* militia.xml in Resources */,
-				C97BC0C024C2EEA2008237F6 /* skirmisher.xml in Resources */,
-				C97BC0C324C2EEB7008237F6 /* militia.png in Resources */,
+				C97BC0C424C2EEB7008237F6 /* warrior.xml in Resources */,
+				C97BC0C024C2EEA2008237F6 /* spearman.xml in Resources */,
+				C97BC0C324C2EEB7008237F6 /* warrior.png in Resources */,
 				C9A125A2249E664700D5E3A1 /* FeatureGivesProductionPopup.xml in Resources */,
 				C9FEEBA52460367900C51552 /* CityPopulationGrowthDialog.xml in Resources */,
 				C9EB9F6A24557CA700F13B02 /* Wonders.xcassets in Resources */,
 				C95503C12456FD0100D4B3D8 /* Commands.xcassets in Resources */,
-				C97BC0C824C2EEC7008237F6 /* hunter_chmp.xml in Resources */,
 				C907917F2459D73100248596 /* GameLeaderDialog.xml in Resources */,
 				C948685024657B4C00495988 /* CityManageCitizenDialog.xml in Resources */,
 				C98B3DC2246C1D2000AF3AE4 /* DiplomaticDialog.xml in Resources */,
@@ -1021,26 +1055,32 @@
 				C9A125A8249E69B400D5E3A1 /* GoodyHutRewardPopup.xml in Resources */,
 				C9B1D28D2435B07A00033791 /* earth_huge.map in Resources */,
 				C957AA4A243641A100203024 /* MapTypeDialog.xml in Resources */,
+				C90D2E4724C37A360029AA11 /* long_swordman.png in Resources */,
 				C9F91B41244B98BD0081EDC8 /* CivicDialog.xml in Resources */,
 				C9B1D28E2435B08500033791 /* earth_large.map in Resources */,
 				C9956845247D38660005E9EA /* CivicDiscoveredPopup.xml in Resources */,
-				C97BC0B824C2EE80008237F6 /* villager.xml in Resources */,
+				C97BC0B824C2EE80008237F6 /* builder.xml in Resources */,
 				C97BC0CB24C2EEE0008237F6 /* crossbowman.png in Resources */,
 				C9DC1C8D248662B800235743 /* GamesListDialog.xml in Resources */,
-				C97BC0CF24C2EEF5008237F6 /* cavalier.png in Resources */,
+				C97BC0CF24C2EEF5008237F6 /* knight.png in Resources */,
+				C90D2E4B24C37A570029AA11 /* pikeman.png in Resources */,
 				C9B1D2472434B9AE00033791 /* DINNext-Bold.ttf in Resources */,
-				C97BC0BF24C2EEA2008237F6 /* skirmisher.png in Resources */,
+				C97BC0BF24C2EEA2008237F6 /* spearman.png in Resources */,
 				C99A591324643831006431EE /* CityBuildingsDialog.xml in Resources */,
 				C957AA50243641D300203024 /* MapLoadingDialog.xml in Resources */,
+				C90D2E3A24C379420029AA11 /* archer.xml in Resources */,
 				C97BC0CC24C2EEE0008237F6 /* crossbowman.xml in Resources */,
 				C94787202473F14400FAAC99 /* EurekaActivatedPopup.xml in Resources */,
 				C95B3E0F2439244D002F5A86 /* Tiles.xcassets in Resources */,
 				C9DC1C95248692E500235743 /* ConfirmationDialog.xml in Resources */,
 				C9B1D223243481D900033791 /* Main.storyboard in Resources */,
+				C90D2E4D24C37AF90029AA11 /* scout.png in Resources */,
 				C9F91B43244B9B3E0081EDC8 /* Civics.xcassets in Resources */,
 				C95D9D60244A3147007C522E /* TechDialog.xml in Resources */,
 				C995684F247E41790005E9EA /* GameMenuDialog.xml in Resources */,
 				C922D2BC2449A1A1009E182F /* CityNameDialog.xml in Resources */,
+				C90D2E4A24C37A570029AA11 /* pikeman.xml in Resources */,
+				C90D2E4F24C37B130029AA11 /* scout.xml in Resources */,
 				C9F91B57245038F20081EDC8 /* Buildings.xcassets in Resources */,
 				C99A590F2464376C006431EE /* CityManageProductionDialog.xml in Resources */,
 				C9F61479243471E200450B6C /* Assets.xcassets in Resources */,

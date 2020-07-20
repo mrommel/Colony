@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:921b29e93d33d938da9a86f55e78e5d1:556b0c154b6aaa3088eff68e89e9155b:12ddff5575849cc028c260473af9dfb1$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas texture="long_swordman.png" width="618" height="618">
+
+  <!-- Define the unit type-->
+  <unit id ="long_swordman">
+
+    <!-- Attack Action-->
+    <action enum= "attack" speed="203">
+      <direction enum="south">
+        <sprite n="longswordman/Longswordman_attack/000_longswordman_attack.bmp" x="1" y="1" w="28" h="46" pX="0.392857" pY="0.782609"/>
+        <sprite n="longswordman/Longswordman_attack/001_longswordman_attack.bmp" x="31" y="1" w="25" h="41" pX="0.52" pY="0.780488"/>
+        <sprite n="longswordman/Longswordman_attack/002_longswordman_attack.bmp" x="58" y="1" w="28" h="45" pX="0.607143" pY="0.622222"/>
+        <sprite n="longswordman/Longswordman_attack/003_longswordman_attack.bmp" x="88" y="1" w="24" h="50" pX="0.458333" pY="0.48"/>
+        <sprite n="longswordman/Longswordman_attack/004_longswordman_attack.bmp" x="114" y="1" w="23" h="50" pX="0.434783" pY="0.44"/>
+        <sprite n="longswordman/Longswordman_attack/005_longswordman_attack.bmp" x="139" y="1" w="24" h="50" pX="0.458333" pY="0.48"/>
+        <sprite n="longswordman/Longswordman_attack/006_longswordman_attack.bmp" x="165" y="1" w="28" h="44" pX="0.464286" pY="0.590909"/>
+        <sprite n="longswordman/Longswordman_attack/007_longswordman_attack.bmp" x="195" y="1" w="28" h="39" pX="0.464286" pY="0.717949"/>
+        <sprite n="longswordman/Longswordman_attack/008_longswordman_attack.bmp" x="225" y="1" w="27" h="44" pX="0.407407" pY="0.704545"/>
+        <sprite n="longswordman/Longswordman_attack/009_longswordman_attack.bmp" x="254" y="1" w="27" h="48" pX="0.407407" pY="0.708333"/>
+      </direction>
+    
+      <direction enum="south-west">
+        <sprite n="longswordman/Longswordman_attack/010_longswordman_attack.bmp" x="283" y="1" w="33" h="43" pX="0.606061" pY="0.837209"/>
+        <sprite n="longswordman/Longswordman_attack/011_longswordman_attack.bmp" x="318" y="1" w="30" h="45" pX="0.566667" pY="0.844444"/>
+        <sprite n="longswordman/Longswordman_attack/012_longswordman_attack.bmp" x="350" y="1" w="26" h="50" pX="0.538462" pY="0.9"/>
+        <sprite n="longswordman/Longswordman_attack/013_longswordman_attack.bmp" x="378" y="1" w="26" h="50" pX="0.538462" pY="0.9"/>
+        <sprite n="longswordman/Longswordman_attack/014_longswordman_attack.bmp" x="406" y="1" w="26" h="55" pX="0.5" pY="0.872727"/>
+        <sprite n="longswordman/Longswordman_attack/015_longswordman_attack.bmp" x="434" y="1" w="40" h="61" pX="0.675" pY="0.868852"/>
+        <sprite n="longswordman/Longswordman_attack/016_longswordman_attack.bmp" x="476" y="1" w="52" h="43" pX="0.75" pY="0.72093"/>
+        <sprite n="longswordman/Longswordman_attack/017_longswordman_attack.bmp" x="530" y="1" w="26" h="46" pX="0.461538" pY="0.608696"/>
+        <sprite n="longswordman/Longswordman_attack/018_longswordman_attack.bmp" x="558" y="1" w="26" h="47" pX="0.5" pY="0.617021"/>
+        <sprite n="longswordman/Longswordman_attack/019_longswordman_attack.bmp" x="1" y="64" w="36" h="41" pX="0.638889" pY="0.804878"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="longswordman/Longswordman_attack/020_longswordman_attack.bmp" x="39" y="64" w="33" h="45" pX="0.666667" pY="0.8"/>
+        <sprite n="longswordman/Longswordman_attack/021_longswordman_attack.bmp" x="74" y="64" w="28" h="40" pX="0.642857" pY="0.85"/>
+        <sprite n="longswordman/Longswordman_attack/022_longswordman_attack.bmp" x="104" y="64" w="40" h="38" pX="0.75" pY="0.842105"/>
+        <sprite n="longswordman/Longswordman_attack/023_longswordman_attack.bmp" x="146" y="64" w="56" h="37" pX="0.803571" pY="0.810811"/>
+        <sprite n="longswordman/Longswordman_attack/024_longswordman_attack.bmp" x="204" y="64" w="60" h="36" pX="0.816667" pY="0.805556"/>
+        <sprite n="longswordman/Longswordman_attack/025_longswordman_attack.bmp" x="266" y="64" w="57" h="38" pX="0.807018" pY="0.789474"/>
+        <sprite n="longswordman/Longswordman_attack/026_longswordman_attack.bmp" x="325" y="64" w="39" h="39" pX="0.769231" pY="0.794872"/>
+        <sprite n="longswordman/Longswordman_attack/027_longswordman_attack.bmp" x="366" y="64" w="32" h="40" pX="0.6875" pY="0.8"/>
+        <sprite n="longswordman/Longswordman_attack/028_longswordman_attack.bmp" x="400" y="64" w="32" h="42" pX="0.6875" pY="0.785714"/>
+        <sprite n="longswordman/Longswordman_attack/029_longswordman_attack.bmp" x="434" y="64" w="35" h="44" pX="0.685714" pY="0.795455"/>
+      </direction>
+
+      <direction enum="north-west"> 
+        <sprite n="longswordman/Longswordman_attack/030_longswordman_attack.bmp" x="471" y="64" w="23" h="50" pX="0.565217" pY="0.86"/>
+        <sprite n="longswordman/Longswordman_attack/031_longswordman_attack.bmp" x="496" y="64" w="30" h="51" pX="0.4" pY="0.862745"/>
+        <sprite n="longswordman/Longswordman_attack/032_longswordman_attack.bmp" x="528" y="64" w="33" h="50" pX="0.30303" pY="0.86"/>
+        <sprite n="longswordman/Longswordman_attack/033_longswordman_attack.bmp" x="563" y="64" w="32" h="51" pX="0.34375" pY="0.862745"/>
+        <sprite n="longswordman/Longswordman_attack/034_longswordman_attack.bmp" x="1" y="117" w="35" h="50" pX="0.371429" pY="0.86"/>
+        <sprite n="longswordman/Longswordman_attack/035_longswordman_attack.bmp" x="38" y="117" w="32" h="60" pX="0.46875" pY="0.883333"/>
+        <sprite n="longswordman/Longswordman_attack/036_longswordman_attack.bmp" x="72" y="117" w="32" h="50" pX="0.78125" pY="0.86"/>
+        <sprite n="longswordman/Longswordman_attack/037_longswordman_attack.bmp" x="106" y="117" w="38" h="41" pX="0.815789" pY="0.829268"/>
+        <sprite n="longswordman/Longswordman_attack/038_longswordman_attack.bmp" x="146" y="117" w="39" h="41" pX="0.846154" pY="0.829268"/>
+        <sprite n="longswordman/Longswordman_attack/039_longswordman_attack.bmp" x="187" y="117" w="24" h="51" pX="0.75" pY="0.862745"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="longswordman/Longswordman_attack/040_longswordman_attack.bmp" x="213" y="117" w="26" h="44" pX="0.615385" pY="0.840909"/>
+        <sprite n="longswordman/Longswordman_attack/041_longswordman_attack.bmp" x="241" y="117" w="26" h="42" pX="0.461538" pY="0.857143"/>
+        <sprite n="longswordman/Longswordman_attack/042_longswordman_attack.bmp" x="269" y="117" w="28" h="41" pX="0.428571" pY="0.853659"/>
+        <sprite n="longswordman/Longswordman_attack/043_longswordman_attack.bmp" x="299" y="117" w="23" h="42" pX="0.565217" pY="0.857143"/>
+        <sprite n="longswordman/Longswordman_attack/044_longswordman_attack.bmp" x="324" y="117" w="22" h="42" pX="0.590909" pY="0.857143"/>
+        <sprite n="longswordman/Longswordman_attack/045_longswordman_attack.bmp" x="348" y="117" w="23" h="46" pX="0.565217" pY="0.891304"/>
+        <sprite n="longswordman/Longswordman_attack/046_longswordman_attack.bmp" x="373" y="117" w="27" h="41" pX="0.555556" pY="0.878049"/>
+        <sprite n="longswordman/Longswordman_attack/047_longswordman_attack.bmp" x="402" y="117" w="27" h="41" pX="0.518519" pY="0.853659"/>
+        <sprite n="longswordman/Longswordman_attack/048_longswordman_attack.bmp" x="431" y="117" w="26" h="43" pX="0.615385" pY="0.860465"/>
+        <sprite n="longswordman/Longswordman_attack/049_longswordman_attack.bmp" x="459" y="117" w="26" h="44" pX="0.615385" pY="0.840909"/>
+      </direction>
+    </action>
+    <!--Die Action-->
+    <action enum ="die" speed="200">
+      <direction enum="south">
+        <sprite n="longswordman/Longswordman_die/000_longswordman_die.bmp" x="487" y="117" w="23" h="48" pX="0.478261" pY="0.75"/>
+        <sprite n="longswordman/Longswordman_die/001_longswordman_die.bmp" x="512" y="117" w="24" h="44" pX="0.458333" pY="0.818182"/>
+        <sprite n="longswordman/Longswordman_die/002_longswordman_die.bmp" x="538" y="117" w="26" h="42" pX="0.423077" pY="0.809524"/>
+        <sprite n="longswordman/Longswordman_die/003_longswordman_die.bmp" x="566" y="117" w="30" h="35" pX="0.4" pY="0.828571"/>
+        <sprite n="longswordman/Longswordman_die/004_longswordman_die.bmp" x="1" y="179" w="34" h="30" pX="0.411765" pY="0.866667"/>
+        <sprite n="longswordman/Longswordman_die/005_longswordman_die.bmp" x="37" y="179" w="35" h="32" pX="0.428571" pY="0.875"/>
+        <sprite n="longswordman/Longswordman_die/006_longswordman_die.bmp" x="74" y="179" w="39" h="35" pX="0.461538" pY="0.914286"/>
+        <sprite n="longswordman/Longswordman_die/007_longswordman_die.bmp" x="115" y="179" w="39" h="36" pX="0.461538" pY="0.944444"/>
+        <sprite n="longswordman/Longswordman_die/008_longswordman_die.bmp" x="156" y="179" w="40" h="37" pX="0.45" pY="0.945946"/>
+        <sprite n="longswordman/Longswordman_die/009_longswordman_die.bmp" x="198" y="179" w="40" h="31" pX="0.45" pY="0.935484"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="longswordman/Longswordman_die/010_longswordman_die.bmp" x="240" y="179" w="29" h="44" pX="0.586207" pY="0.75"/>
+        <sprite n="longswordman/Longswordman_die/011_longswordman_die.bmp" x="271" y="179" w="32" h="40" pX="0.71875" pY="0.725"/>
+        <sprite n="longswordman/Longswordman_die/012_longswordman_die.bmp" x="305" y="179" w="37" h="38" pX="0.810811" pY="0.631579"/>
+        <sprite n="longswordman/Longswordman_die/013_longswordman_die.bmp" x="344" y="179" w="38" h="36" pX="0.868421" pY="0.527778"/>
+        <sprite n="longswordman/Longswordman_die/014_longswordman_die.bmp" x="384" y="179" w="37" h="37" pX="0.891892" pY="0.594595"/>
+        <sprite n="longswordman/Longswordman_die/015_longswordman_die.bmp" x="423" y="179" w="33" h="34" pX="0.969697" pY="0.5"/>
+        <sprite n="longswordman/Longswordman_die/016_longswordman_die.bmp" x="458" y="179" w="35" h="25" pX="0.914286" pY="0.2"/>
+        <sprite n="longswordman/Longswordman_die/017_longswordman_die.bmp" x="495" y="179" w="37" h="26" pX="0.891892" pY="0.115385"/>
+        <sprite n="longswordman/Longswordman_die/018_longswordman_die.bmp" x="534" y="179" w="38" h="30" pX="0.921053" pY="0.166667"/>
+        <sprite n="longswordman/Longswordman_die/019_longswordman_die.bmp" x="574" y="179" w="39" h="28" pX="0.923077" pY="0.0357143"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="longswordman/Longswordman_die/020_longswordman_die.bmp" x="1" y="225" w="37" h="42" pX="0.540541" pY="0.833333"/>
+        <sprite n="longswordman/Longswordman_die/021_longswordman_die.bmp" x="40" y="225" w="37" h="40" pX="0.459459" pY="0.825"/>
+        <sprite n="longswordman/Longswordman_die/022_longswordman_die.bmp" x="79" y="225" w="38" h="40" pX="0.368421" pY="0.775"/>
+        <sprite n="longswordman/Longswordman_die/023_longswordman_die.bmp" x="119" y="225" w="36" h="34" pX="0.25" pY="0.705882"/>
+        <sprite n="longswordman/Longswordman_die/024_longswordman_die.bmp" x="157" y="225" w="33" h="30" pX="0.121212" pY="0.633333"/>
+        <sprite n="longswordman/Longswordman_die/025_longswordman_die.bmp" x="192" y="225" w="33" h="33" pX="0.121212" pY="0.636364"/>
+        <sprite n="longswordman/Longswordman_die/026_longswordman_die.bmp" x="227" y="225" w="35" h="34" pX="0.0857143" pY="0.647059"/>
+        <sprite n="longswordman/Longswordman_die/027_longswordman_die.bmp" x="264" y="225" w="36" h="34" pX="0.0277778" pY="0.647059"/>
+        <sprite n="longswordman/Longswordman_die/028_longswordman_die.bmp" x="302" y="225" w="40" h="30" pX="0" pY="0.6"/>
+        <sprite n="longswordman/Longswordman_die/029_longswordman_die.bmp" x="344" y="225" w="48" h="21" pX="0" pY="0.428571"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="longswordman/Longswordman_die/030_longswordman_die.bmp" x="394" y="225" w="28" h="43" pX="0.785714" pY="0.837209"/>
+        <sprite n="longswordman/Longswordman_die/031_longswordman_die.bmp" x="424" y="225" w="26" h="38" pX="0.846154" pY="0.868421"/>
+        <sprite n="longswordman/Longswordman_die/032_longswordman_die.bmp" x="452" y="225" w="25" h="38" pX="1" pY="0.894737"/>
+        <sprite n="longswordman/Longswordman_die/034_longswordman_die.bmp" x="510" y="225" w="26" h="37" pX="1.03846" pY="0.918919"/>
+        <sprite n="longswordman/Longswordman_die/033_longswordman_die.bmp" x="479" y="225" w="29" h="37" pX="1" pY="0.918919"/>
+        <sprite n="longswordman/Longswordman_die/035_longswordman_die.bmp" x="538" y="225" w="30" h="37" pX="1" pY="0.945946"/>
+        <sprite n="longswordman/Longswordman_die/036_longswordman_die.bmp" x="570" y="225" w="39" h="33" pX="1" pY="0.909091"/>
+        <sprite n="longswordman/Longswordman_die/037_longswordman_die.bmp" x="1" y="270" w="43" h="25" pX="0.976744" pY="0.88"/>
+        <sprite n="longswordman/Longswordman_die/038_longswordman_die.bmp" x="46" y="270" w="42" h="25" pX="1.07143" pY="0.88"/>
+        <sprite n="longswordman/Longswordman_die/039_longswordman_die.bmp" x="90" y="270" w="46" h="24" pX="1.04348" pY="0.875"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="longswordman/Longswordman_die/040_longswordman_die.bmp" x="138" y="270" w="22" h="45" pX="0.590909" pY="0.8"/>
+        <sprite n="longswordman/Longswordman_die/041_longswordman_die.bmp" x="162" y="270" w="24" h="43" pX="0.583333" pY="0.744186"/>
+        <sprite n="longswordman/Longswordman_die/042_longswordman_die.bmp" x="188" y="270" w="28" h="42" pX="0.571429" pY="0.690476"/>
+        <sprite n="longswordman/Longswordman_die/043_longswordman_die.bmp" x="218" y="270" w="32" h="34" pX="0.5625" pY="0.558824"/>
+        <sprite n="longswordman/Longswordman_die/044_longswordman_die.bmp" x="252" y="270" w="36" h="29" pX="0.555556" pY="0.482759"/>
+        <sprite n="longswordman/Longswordman_die/045_longswordman_die.bmp" x="290" y="270" w="38" h="30" pX="0.552632" pY="0.466667"/>
+        <sprite n="longswordman/Longswordman_die/046_longswordman_die.bmp" x="330" y="270" w="41" h="29" pX="0.512195" pY="0.413793"/>
+        <sprite n="longswordman/Longswordman_die/047_longswordman_die.bmp" x="373" y="270" w="41" h="26" pX="0.512195" pY="0.269231"/>
+        <sprite n="longswordman/Longswordman_die/048_longswordman_die.bmp" x="416" y="270" w="41" h="27" pX="0.512195" pY="0.148148"/>
+        <sprite n="longswordman/Longswordman_die/049_longswordman_die.bmp" x="459" y="270" w="41" h="30" pX="0.512195" pY="0.133333"/>
+      </direction>
+    </action>
+     <!--Disappear Action-->
+    <action enum ="disappear" speed="1500">
+      <direction enum="south">
+        <sprite n="longswordman/Longswordman_dissapear/000_longswordman_dissapear.bmp" x="502" y="270" w="38" h="29" pX="0.447368" pY="0.965517"/>
+        <sprite n="longswordman/Longswordman_dissapear/001_longswordman_dissapear.bmp" x="542" y="270" w="37" h="29" pX="0.459459" pY="0.965517"/>
+        <sprite n="longswordman/Longswordman_dissapear/002_longswordman_dissapear.bmp" x="581" y="270" w="35" h="28" pX="0.485714" pY="0.964286"/>
+        <sprite n="longswordman/Longswordman_dissapear/003_longswordman_dissapear.bmp" x="1" y="317" w="35" h="27" pX="0.485714" pY="1"/>
+        <sprite n="longswordman/Longswordman_dissapear/004_longswordman_dissapear.bmp" x="38" y="317" w="34" h="27" pX="0.5" pY="1"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="longswordman/Longswordman_dissapear/005_longswordman_dissapear.bmp" x="74" y="317" w="37" h="26" pX="0.945946" pY="0"/>
+        <sprite n="longswordman/Longswordman_dissapear/006_longswordman_dissapear.bmp" x="113" y="317" w="35" h="23" pX="0.971429" pY="-0.0434783"/>
+        <sprite n="longswordman/Longswordman_dissapear/007_longswordman_dissapear.bmp" x="150" y="317" w="34" h="21" pX="1" pY="-0.0952381"/>
+        <sprite n="longswordman/Longswordman_dissapear/008_longswordman_dissapear.bmp" x="186" y="317" w="34" h="20" pX="1" pY="-0.1"/>
+        <sprite n="longswordman/Longswordman_dissapear/009_longswordman_dissapear.bmp" x="222" y="317" w="33" h="20" pX="1" pY="-0.1"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="longswordman/Longswordman_dissapear/010_longswordman_dissapear.bmp" x="257" y="317" w="46" h="19" pX="-0.0217391" pY="0.421053"/>
+        <sprite n="longswordman/Longswordman_dissapear/011_longswordman_dissapear.bmp" x="305" y="317" w="44" h="18" pX="-0.0681818" pY="0.444444"/>
+        <sprite n="longswordman/Longswordman_dissapear/012_longswordman_dissapear.bmp" x="351" y="317" w="37" h="16" pX="-0.243243" pY="0.4375"/>
+        <sprite n="longswordman/Longswordman_dissapear/013_longswordman_dissapear.bmp" x="390" y="317" w="35" h="15" pX="-0.285714" pY="0.466667"/>
+        <sprite n="longswordman/Longswordman_dissapear/014_longswordman_dissapear.bmp" x="427" y="317" w="34" h="15" pX="-0.323529" pY="0.466667"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="longswordman/Longswordman_dissapear/015_longswordman_dissapear.bmp" x="463" y="317" w="44" h="22" pX="1.06818" pY="0.909091"/>
+        <sprite n="longswordman/Longswordman_dissapear/016_longswordman_dissapear.bmp" x="509" y="317" w="43" h="20" pX="1.06977" pY="0.95"/>
+        <sprite n="longswordman/Longswordman_dissapear/017_longswordman_dissapear.bmp" x="554" y="317" w="40" h="19" pX="1.1" pY="0.947368"/>
+        <sprite n="longswordman/Longswordman_dissapear/018_longswordman_dissapear.bmp" x="1" y="346" w="38" h="19" pX="1.13158" pY="0.947368"/>
+        <sprite n="longswordman/Longswordman_dissapear/019_longswordman_dissapear.bmp" x="41" y="346" w="38" h="19" pX="1.13158" pY="0.947368"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="longswordman/Longswordman_dissapear/020_longswordman_dissapear.bmp" x="81" y="346" w="39" h="28" pX="0.512821" pY="0.107143"/>
+        <sprite n="longswordman/Longswordman_dissapear/021_longswordman_dissapear.bmp" x="122" y="346" w="38" h="25" pX="0.5" pY="0.04"/>
+        <sprite n="longswordman/Longswordman_dissapear/022_longswordman_dissapear.bmp" x="162" y="346" w="37" h="20" pX="0.486486" pY="-0.05"/>
+        <sprite n="longswordman/Longswordman_dissapear/023_longswordman_dissapear.bmp" x="201" y="346" w="32" h="20" pX="0.5" pY="-0.05"/>
+        <sprite n="longswordman/Longswordman_dissapear/024_longswordman_dissapear.bmp" x="235" y="346" w="30" h="18" pX="0.5" pY="-0.166667"/>
+      </direction>
+    </action>
+    <!--Idle Action-->
+    <action enum ="idle" speed="300">
+      <direction enum="south">
+        <sprite n="longswordman/Longswordman_idle/000_longswordman_idle.bmp" x="267" y="346" w="28" h="47" pX="0.678571" pY="0.851064"/>
+        <sprite n="longswordman/Longswordman_idle/001_longswordman_idle.bmp" x="297" y="346" w="27" h="44" pX="0.592593" pY="0.818182"/>
+        <sprite n="longswordman/Longswordman_idle/002_longswordman_idle.bmp" x="326" y="346" w="25" h="44" pX="0.48" pY="0.818182"/>
+        <sprite n="longswordman/Longswordman_idle/003_longswordman_idle.bmp" x="353" y="346" w="25" h="44" pX="0.48" pY="0.818182"/>
+        <sprite n="longswordman/Longswordman_idle/004_longswordman_idle.bmp" x="380" y="346" w="26" h="44" pX="0.5" pY="0.818182"/>
+        <sprite n="longswordman/Longswordman_idle/005_longswordman_idle.bmp" x="408" y="346" w="27" h="46" pX="0.592593" pY="0.826087"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="longswordman/Longswordman_idle/006_longswordman_idle.bmp" x="437" y="346" w="30" h="44" pX="0.566667" pY="0.818182"/>
+        <sprite n="longswordman/Longswordman_idle/007_longswordman_idle.bmp" x="469" y="346" w="30" h="44" pX="0.566667" pY="0.818182"/>
+        <sprite n="longswordman/Longswordman_idle/008_longswordman_idle.bmp" x="501" y="346" w="31" h="43" pX="0.580645" pY="0.813953"/>
+        <sprite n="longswordman/Longswordman_idle/009_longswordman_idle.bmp" x="534" y="346" w="31" h="43" pX="0.580645" pY="0.813953"/>
+        <sprite n="longswordman/Longswordman_idle/010_longswordman_idle.bmp" x="567" y="346" w="31" h="44" pX="0.580645" pY="0.818182"/>
+        <sprite n="longswordman/Longswordman_idle/011_longswordman_idle.bmp" x="1" y="395" w="30" h="44" pX="0.566667" pY="0.818182"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="longswordman/Longswordman_idle/012_longswordman_idle.bmp" x="33" y="395" w="27" h="53" pX="0.555556" pY="0.886792"/>
+        <sprite n="longswordman/Longswordman_idle/013_longswordman_idle.bmp" x="62" y="395" w="28" h="51" pX="0.571429" pY="0.901961"/>
+        <sprite n="longswordman/Longswordman_idle/014_longswordman_idle.bmp" x="92" y="395" w="29" h="50" pX="0.586207" pY="0.86"/>
+        <sprite n="longswordman/Longswordman_idle/015_longswordman_idle.bmp" x="123" y="395" w="28" h="48" pX="0.571429" pY="0.854167"/>
+        <sprite n="longswordman/Longswordman_idle/016_longswordman_idle.bmp" x="153" y="395" w="29" h="50" pX="0.586207" pY="0.86"/>
+        <sprite n="longswordman/Longswordman_idle/017_longswordman_idle.bmp" x="184" y="395" w="27" h="51" pX="0.555556" pY="0.901961"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="longswordman/Longswordman_idle/018_longswordman_idle.bmp" x="213" y="395" w="27" h="49" pX="0.703704" pY="0.857143"/>
+        <sprite n="longswordman/Longswordman_idle/019_longswordman_idle.bmp" x="242" y="395" w="27" h="50" pX="0.703704" pY="0.86"/>
+        <sprite n="longswordman/Longswordman_idle/020_longswordman_idle.bmp" x="271" y="395" w="23" h="49" pX="0.652174" pY="0.857143"/>
+        <sprite n="longswordman/Longswordman_idle/021_longswordman_idle.bmp" x="296" y="395" w="22" h="49" pX="0.636364" pY="0.857143"/>
+        <sprite n="longswordman/Longswordman_idle/022_longswordman_idle.bmp" x="320" y="395" w="23" h="50" pX="0.652174" pY="0.86"/>
+        <sprite n="longswordman/Longswordman_idle/023_longswordman_idle.bmp" x="345" y="395" w="23" h="49" pX="0.652174" pY="0.857143"/>
+     </direction>
+
+     <direction enum="north">
+        <sprite n="longswordman/Longswordman_idle/024_longswordman_idle.bmp" x="370" y="395" w="26" h="52" pX="0.423077" pY="0.865385"/>
+        <sprite n="longswordman/Longswordman_idle/025_longswordman_idle.bmp" x="398" y="395" w="25" h="53" pX="0.48" pY="0.867925"/>
+        <sprite n="longswordman/Longswordman_idle/026_longswordman_idle.bmp" x="425" y="395" w="25" h="54" pX="0.52" pY="0.87037"/>
+        <sprite n="longswordman/Longswordman_idle/027_longswordman_idle.bmp" x="452" y="395" w="25" h="54" pX="0.56" pY="0.87037"/>
+        <sprite n="longswordman/Longswordman_idle/028_longswordman_idle.bmp" x="479" y="395" w="24" h="52" pX="0.5" pY="0.865385"/>
+        <sprite n="longswordman/Longswordman_idle/029_longswordman_idle.bmp" x="505" y="395" w="26" h="53" pX="0.461538" pY="0.867925"/>
+     </direction>
+    </action>
+    <!--Walk Action-->
+    <action enum ="walk" speed="100">
+      <direction enum="south">
+        <sprite n="longswordman/Longswordman_walk/000_longswordman_walk.bmp" x="533" y="395" w="24" h="46" pX="0.458333" pY="0.804348"/>
+        <sprite n="longswordman/Longswordman_walk/001_longswordman_walk.bmp" x="559" y="395" w="25" h="46" pX="0.48" pY="0.782609"/>
+        <sprite n="longswordman/Longswordman_walk/002_longswordman_walk.bmp" x="586" y="395" w="25" h="51" pX="0.48" pY="0.745098"/>
+        <sprite n="longswordman/Longswordman_walk/003_longswordman_walk.bmp" x="1" y="451" w="25" h="52" pX="0.48" pY="0.730769"/>
+        <sprite n="longswordman/Longswordman_walk/004_longswordman_walk.bmp" x="28" y="451" w="24" h="50" pX="0.458333" pY="0.74"/>
+        <sprite n="longswordman/Longswordman_walk/005_longswordman_walk.bmp" x="54" y="451" w="24" h="48" pX="0.416667" pY="0.75"/>
+        <sprite n="longswordman/Longswordman_walk/006_longswordman_walk.bmp" x="80" y="451" w="24" h="50" pX="0.416667" pY="0.72"/>
+        <sprite n="longswordman/Longswordman_walk/007_longswordman_walk.bmp" x="106" y="451" w="25" h="50" pX="0.44" pY="0.76"/>
+        <sprite n="longswordman/Longswordman_walk/008_longswordman_walk.bmp" x="133" y="451" w="25" h="51" pX="0.44" pY="0.745098"/>
+        <sprite n="longswordman/Longswordman_walk/009_longswordman_walk.bmp" x="160" y="451" w="24" h="48" pX="0.458333" pY="0.770833"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="longswordman/Longswordman_walk/010_longswordman_walk.bmp" x="186" y="451" w="26" h="45" pX="0.538462" pY="0.822222"/>
+        <sprite n="longswordman/Longswordman_walk/011_longswordman_walk.bmp" x="214" y="451" w="29" h="45" pX="0.551724" pY="0.822222"/>
+        <sprite n="longswordman/Longswordman_walk/012_longswordman_walk.bmp" x="245" y="451" w="33" h="46" pX="0.606061" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/013_longswordman_walk.bmp" x="280" y="451" w="37" h="46" pX="0.648649" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/014_longswordman_walk.bmp" x="319" y="451" w="34" h="46" pX="0.647059" pY="0.804348"/>
+        <sprite n="longswordman/Longswordman_walk/015_longswordman_walk.bmp" x="355" y="451" w="28" h="43" pX="0.607143" pY="0.813953"/>
+        <sprite n="longswordman/Longswordman_walk/016_longswordman_walk.bmp" x="385" y="451" w="30" h="45" pX="0.666667" pY="0.8"/>
+        <sprite n="longswordman/Longswordman_walk/017_longswordman_walk.bmp" x="417" y="451" w="34" h="46" pX="0.705882" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/018_longswordman_walk.bmp" x="453" y="451" w="32" h="46" pX="0.6875" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/019_longswordman_walk.bmp" x="487" y="451" w="29" h="45" pX="0.586207" pY="0.822222"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="longswordman/Longswordman_walk/020_longswordman_walk.bmp" x="518" y="451" w="27" h="45" pX="0.481481" pY="0.822222"/>
+        <sprite n="longswordman/Longswordman_walk/021_longswordman_walk.bmp" x="547" y="451" w="28" h="44" pX="0.5" pY="0.840909"/>
+        <sprite n="longswordman/Longswordman_walk/022_longswordman_walk.bmp" x="577" y="451" w="31" h="46" pX="0.612903" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/023_longswordman_walk.bmp" x="1" y="505" w="35" h="46" pX="0.771429" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/024_longswordman_walk.bmp" x="38" y="505" w="32" h="46" pX="0.6875" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/025_longswordman_walk.bmp" x="72" y="505" w="37" h="46" pX="0.621622" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/026_longswordman_walk.bmp" x="111" y="505" w="41" h="44" pX="0.682927" pY="0.818182"/>
+        <sprite n="longswordman/Longswordman_walk/027_longswordman_walk.bmp" x="154" y="505" w="33" h="46" pX="0.69697" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/028_longswordman_walk.bmp" x="189" y="505" w="29" h="46" pX="0.724138" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/029_longswordman_walk.bmp" x="220" y="505" w="30" h="45" pX="0.6" pY="0.822222"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="longswordman/Longswordman_walk/030_longswordman_walk.bmp" x="252" y="505" w="29" h="44" pX="0.482759" pY="0.840909"/>
+        <sprite n="longswordman/Longswordman_walk/031_longswordman_walk.bmp" x="283" y="505" w="28" h="46" pX="0.5" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/032_longswordman_walk.bmp" x="313" y="505" w="25" h="46" pX="0.56" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/033_longswordman_walk.bmp" x="340" y="505" w="23" h="46" pX="0.608696" pY="0.826087"/>
+        <sprite n="longswordman/Longswordman_walk/034_longswordman_walk.bmp" x="365" y="505" w="23" h="51" pX="0.608696" pY="0.862745"/>
+        <sprite n="longswordman/Longswordman_walk/035_longswordman_walk.bmp" x="390" y="505" w="28" h="52" pX="0.535714" pY="0.865385"/>
+        <sprite n="longswordman/Longswordman_walk/036_longswordman_walk.bmp" x="420" y="505" w="30" h="48" pX="0.6" pY="0.875"/>
+        <sprite n="longswordman/Longswordman_walk/037_longswordman_walk.bmp" x="452" y="505" w="24" h="45" pX="0.583333" pY="0.888889"/>
+        <sprite n="longswordman/Longswordman_walk/038_longswordman_walk.bmp" x="478" y="505" w="23" h="42" pX="0.608696" pY="0.880952"/>
+        <sprite n="longswordman/Longswordman_walk/039_longswordman_walk.bmp" x="503" y="505" w="27" h="44" pX="0.518519" pY="0.840909"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="longswordman/Longswordman_walk/040_longswordman_walk.bmp" x="532" y="505" w="22" h="45" pX="0.590909" pY="0.822222"/>
+        <sprite n="longswordman/Longswordman_walk/041_longswordman_walk.bmp" x="556" y="505" w="22" h="46" pX="0.545455" pY="0.804348"/>
+        <sprite n="longswordman/Longswordman_walk/042_longswordman_walk.bmp" x="580" y="505" w="23" h="45" pX="0.565217" pY="0.844444"/>
+        <sprite n="longswordman/Longswordman_walk/043_longswordman_walk.bmp" x="1" y="559" w="24" h="43" pX="0.583333" pY="0.883721"/>
+        <sprite n="longswordman/Longswordman_walk/044_longswordman_walk.bmp" x="27" y="559" w="23" h="54" pX="0.608696" pY="0.87037"/>
+        <sprite n="longswordman/Longswordman_walk/045_longswordman_walk.bmp" x="52" y="559" w="23" h="58" pX="0.608696" pY="0.844828"/>
+        <sprite n="longswordman/Longswordman_walk/046_longswordman_walk.bmp" x="77" y="559" w="23" h="55" pX="0.608696" pY="0.854545"/>
+        <sprite n="longswordman/Longswordman_walk/047_longswordman_walk.bmp" x="102" y="559" w="23" h="49" pX="0.608696" pY="0.857143"/>
+        <sprite n="longswordman/Longswordman_walk/048_longswordman_walk.bmp" x="127" y="559" w="24" h="42" pX="0.583333" pY="0.880952"/>
+        <sprite n="longswordman/Longswordman_walk/049_longswordman_walk.bmp" x="153" y="559" w="23" h="44" pX="0.608696" pY="0.840909"/>
+      </direction>
+    </action>
+  </unit>
+</TextureAtlas>

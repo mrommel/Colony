@@ -20,9 +20,10 @@ verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
 
-<TextureAtlas blue_texture="cavalier.png" red_texture="cavalier_red.png" width="1077" height="1077">
+<TextureAtlas texture="knight.png" width="1077" height="1077">
+    
   <!-- Define the unit type-->
-  <unit id ="cavalier">
+  <unit id ="knight">
 
     <!--Attack Action-->
     <action enum ="attack" speed="303">

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:33b35545e0256f6c2ebf4cee0c09d951:761f0171df32f55e410551ca35cc27ad:c38b058c08db81fcbd532a02d8c37372$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+
+<TextureAtlas texture="pikeman.png" width="851" height="851">
+    
+  <!-- Define the unit type-->
+  <unit id ="pikeman">
+
+    <!--Attack Action-->
+    <action enum ="attack" speed="105">
+      <direction enum="south">
+        <sprite n="pikeman_attack/000_pikeman_attack.bmp" x="33" y="1" w="38" h="62" pX="0.789474" pY="0.612903"/>
+        <sprite n="pikeman_attack/001_pikeman_attack.bmp" x="73" y="1" w="34" h="62" pX="0.735294" pY="0.596774"/>
+        <sprite n="pikeman_attack/002_pikeman_attack.bmp" x="109" y="1" w="25" h="60" pX="0.64" pY="0.6"/>
+        <sprite n="pikeman_attack/003_pikeman_attack.bmp" x="136" y="1" w="21" h="59" pX="0.571429" pY="0.559322"/>
+        <sprite n="pikeman_attack/004_pikeman_attack.bmp" x="159" y="1" w="22" h="59" pX="0.545455" pY="0.525424"/>
+        <sprite n="pikeman_attack/005_pikeman_attack.bmp" x="183" y="1" w="27" h="64" pX="0.555556" pY="0.46875"/>
+        <sprite n="pikeman_attack/006_pikeman_attack.bmp" x="212" y="1" w="22" h="67" pX="0.545455" pY="0.462687"/>
+        <sprite n="pikeman_attack/007_pikeman_attack.bmp" x="236" y="1" w="26" h="68" pX="0.615385" pY="0.485294"/>
+        <sprite n="pikeman_attack/008_pikeman_attack.bmp" x="264" y="1" w="32" h="64" pX="0.71875" pY="0.5625"/>
+        <sprite n="pikeman_attack/009_pikeman_attack.bmp" x="298" y="1" w="39" h="62" pX="0.794872" pY="0.612903"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="pikeman_attack/010_pikeman_attack.bmp" x="339" y="1" w="58" h="45" pX="0.87931" pY="0.844444"/>
+        <sprite n="pikeman_attack/011_pikeman_attack.bmp" x="399" y="1" w="55" h="47" pX="0.890909" pY="0.787234"/>
+        <sprite n="pikeman_attack/012_pikeman_attack.bmp" x="456" y="1" w="52" h="50" pX="0.884615" pY="0.72"/>
+        <sprite n="pikeman_attack/013_pikeman_attack.bmp" x="510" y="1" w="47" h="49" pX="0.87234" pY="0.693878"/>
+        <sprite n="pikeman_attack/014_pikeman_attack.bmp" x="559" y="1" w="49" h="49" pX="0.897959" pY="0.653061"/>
+        <sprite n="pikeman_attack/015_pikeman_attack.bmp" x="610" y="1" w="61" h="56" pX="0.885246" pY="0.571429"/>
+        <sprite n="pikeman_attack/016_pikeman_attack.bmp" x="673" y="1" w="63" h="56" pX="0.873016" pY="0.571429"/>
+        <sprite n="pikeman_attack/017_pikeman_attack.bmp" x="738" y="1" w="62" h="53" pX="0.887097" pY="0.641509"/>
+        <sprite n="pikeman_attack/018_pikeman_attack.bmp" x="1" y="71" w="56" h="49" pX="0.892857" pY="0.755102"/>
+        <sprite n="pikeman_attack/019_pikeman_attack.bmp" x="59" y="71" w="57" h="45" pX="0.877193" pY="0.844444"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="pikeman_attack/020_pikeman_attack.bmp" x="118" y="71" w="56" h="43" pX="0.821429" pY="0.883721"/>
+        <sprite n="pikeman_attack/021_pikeman_attack.bmp" x="176" y="71" w="55" h="42" pX="0.818182" pY="0.880952"/>
+        <sprite n="pikeman_attack/022_pikeman_attack.bmp" x="233" y="71" w="58" h="42" pX="0.827586" pY="0.880952"/>
+        <sprite n="pikeman_attack/023_pikeman_attack.bmp" x="293" y="71" w="60" h="41" pX="0.816667" pY="0.878049"/>
+        <sprite n="pikeman_attack/024_pikeman_attack.bmp" x="355" y="71" w="62" h="39" pX="0.854839" pY="0.871795"/>
+        <sprite n="pikeman_attack/025_pikeman_attack.bmp" x="419" y="71" w="73" h="41" pX="0.863014" pY="0.829268"/>
+        <sprite n="pikeman_attack/026_pikeman_attack.bmp" x="494" y="71" w="79" h="42" pX="0.860759" pY="0.857143"/>
+        <sprite n="pikeman_attack/027_pikeman_attack.bmp" x="575" y="71" w="73" h="42" pX="0.863014" pY="0.880952"/>
+        <sprite n="pikeman_attack/028_pikeman_attack.bmp" x="650" y="71" w="61" h="42" pX="0.836066" pY="0.880952"/>
+        <sprite n="pikeman_attack/029_pikeman_attack.bmp" x="713" y="71" w="53" h="43" pX="0.830189" pY="0.883721"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="pikeman_attack/030_pikeman_attack.bmp" x="768" y="71" w="31" h="51" pX="0.516129" pY="0.921569"/>
+        <sprite n="pikeman_attack/031_pikeman_attack.bmp" x="801" y="71" w="34" h="52" pX="0.617647" pY="0.923077"/>
+        <sprite n="pikeman_attack/032_pikeman_attack.bmp" x="1" y="125" w="41" h="48" pX="0.658537" pY="0.916667"/>
+        <sprite n="pikeman_attack/033_pikeman_attack.bmp" x="44" y="125" w="44" h="40" pX="0.681818" pY="0.925"/>
+        <sprite n="pikeman_attack/034_pikeman_attack.bmp" x="90" y="125" w="44" h="41" pX="0.704545" pY="0.926829"/>
+        <sprite n="pikeman_attack/035_pikeman_attack.bmp" x="136" y="125" w="57" h="46" pX="0.736842" pY="0.913043"/>
+        <sprite n="pikeman_attack/036_pikeman_attack.bmp" x="195" y="125" w="60" h="49" pX="0.75" pY="0.918367"/>
+        <sprite n="pikeman_attack/037_pikeman_attack.bmp" x="257" y="125" w="50" h="46" pX="0.7" pY="0.913043"/>
+        <sprite n="pikeman_attack/038_pikeman_attack.bmp" x="309" y="125" w="38" h="42" pX="0.605263" pY="0.928571"/>
+        <sprite n="pikeman_attack/039_pikeman_attack.bmp" x="349" y="125" w="30" h="50" pX="0.5" pY="0.92"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="pikeman_attack/040_pikeman_attack.bmp" x="381" y="125" w="36" h="50" pX="0.25" pY="0.88"/>
+        <sprite n="pikeman_attack/041_pikeman_attack.bmp" x="419" y="125" w="29" h="53" pX="0.275862" pY="0.90566"/>
+        <sprite n="pikeman_attack/042_pikeman_attack.bmp" x="450" y="125" w="21" h="50" pX="0.333333" pY="0.9"/>
+        <sprite n="pikeman_attack/043_pikeman_attack.bmp" x="473" y="125" w="20" h="47" pX="0.35" pY="0.87234"/>
+        <sprite n="pikeman_attack/044_pikeman_attack.bmp" x="495" y="125" w="24" h="47" pX="0.458333" pY="0.87234"/>
+        <sprite n="pikeman_attack/045_pikeman_attack.bmp" x="521" y="125" w="26" h="53" pX="0.461538" pY="0.886792"/>
+        <sprite n="pikeman_attack/046_pikeman_attack.bmp" x="549" y="125" w="25" h="58" pX="0.44" pY="0.87931"/>
+        <sprite n="pikeman_attack/047_pikeman_attack.bmp" x="576" y="125" w="25" h="52" pX="0.44" pY="0.865385"/>
+        <sprite n="pikeman_attack/048_pikeman_attack.bmp" x="603" y="125" w="32" h="46" pX="0.34375" pY="0.869565"/>
+        <sprite n="pikeman_attack/049_pikeman_attack.bmp" x="637" y="125" w="38" h="49" pX="0.263158" pY="0.877551"/>
+      </direction>
+    </action>
+
+
+    <!--Die Action-->
+    <action enum ="die" speed="200">
+      <direction enum="south">
+        <sprite n="pikeman_die/000_pikeman_die.bmp" x="677" y="125" w="40" h="58" pX="0.675" pY="0.551724"/>
+        <sprite n="pikeman_die/001_pikeman_die.bmp" x="719" y="125" w="53" h="60" pX="0.490566" pY="0.45"/>
+        <sprite n="pikeman_die/002_pikeman_die.bmp" x="774" y="125" w="48" h="60" pX="0.458333" pY="0.45"/>
+        <sprite n="pikeman_die/003_pikeman_die.bmp" x="1" y="187" w="47" h="61" pX="0.489362" pY="0.459016"/>
+        <sprite n="pikeman_die/004_pikeman_die.bmp" x="50" y="187" w="44" h="59" pX="0.386364" pY="0.423729"/>
+        <sprite n="pikeman_die/005_pikeman_die.bmp" x="96" y="187" w="58" h="50" pX="0.155172" pY="0.3"/>
+        <sprite n="pikeman_die/006_pikeman_die.bmp" x="156" y="187" w="72" h="41" pX="0.111111" pY="0.097561"/>
+        <sprite n="pikeman_die/007_pikeman_die.bmp" x="230" y="187" w="70" h="42" pX="0.1" pY="0.0714286"/>
+        <sprite n="pikeman_die/008_pikeman_die.bmp" x="302" y="187" w="71" h="43" pX="0.0704225" pY="0.0465116"/>
+        <sprite n="pikeman_die/009_pikeman_die.bmp" x="375" y="187" w="74" h="47" pX="0.108108" pY="0.0425532"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="pikeman_die/010_pikeman_die.bmp" x="451" y="187" w="47" h="47" pX="0.829787" pY="0.702128"/>
+        <sprite n="pikeman_die/011_pikeman_die.bmp" x="500" y="187" w="58" h="56" pX="0.844828" pY="0.696429"/>
+        <sprite n="pikeman_die/012_pikeman_die.bmp" x="560" y="187" w="60" h="56" pX="0.8" pY="0.696429"/>
+        <sprite n="pikeman_die/013_pikeman_die.bmp" x="622" y="187" w="60" h="60" pX="0.783333" pY="0.7"/>
+        <sprite n="pikeman_die/014_pikeman_die.bmp" x="684" y="187" w="58" h="55" pX="0.758621" pY="0.690909"/>
+        <sprite n="pikeman_die/015_pikeman_die.bmp" x="744" y="187" w="60" h="55" pX="0.75" pY="0.672727"/>
+        <sprite n="pikeman_die/016_pikeman_die.bmp" x="1" y="250" w="61" h="53" pX="0.721311" pY="0.679245"/>
+        <sprite n="pikeman_die/017_pikeman_die.bmp" x="64" y="250" w="69" h="47" pX="0.681159" pY="0.617021"/>
+        <sprite n="pikeman_die/018_pikeman_die.bmp" x="135" y="250" w="67" h="38" pX="0.656716" pY="0.526316"/>
+        <sprite n="pikeman_die/019_pikeman_die.bmp" x="204" y="250" w="72" h="30" pX="0.680556" pY="0.433333"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="pikeman_die/020_pikeman_die.bmp" x="278" y="250" w="59" h="43" pX="0.745763" pY="0.860465"/>
+        <sprite n="pikeman_die/021_pikeman_die.bmp" x="339" y="250" w="65" h="44" pX="0.846154" pY="0.886364"/>
+        <sprite n="pikeman_die/022_pikeman_die.bmp" x="406" y="250" w="71" h="44" pX="0.816901" pY="0.886364"/>
+        <sprite n="pikeman_die/023_pikeman_die.bmp" x="479" y="250" w="68" h="43" pX="0.764706" pY="0.906977"/>
+        <sprite n="pikeman_die/024_pikeman_die.bmp" x="549" y="250" w="68" h="41" pX="0.735294" pY="0.902439"/>
+        <sprite n="pikeman_die/025_pikeman_die.bmp" x="619" y="250" w="72" h="51" pX="0.722222" pY="0.901961"/>
+        <sprite n="pikeman_die/026_pikeman_die.bmp" x="693" y="250" w="73" h="49" pX="0.671233" pY="0.897959"/>
+        <sprite n="pikeman_die/027_pikeman_die.bmp" x="768" y="250" w="82" h="31" pX="0.646341" pY="0.774194"/>
+        <sprite n="pikeman_die/028_pikeman_die.bmp" x="1" y="305" w="80" h="25" pX="0.6125" pY="0.68"/>
+        <sprite n="pikeman_die/029_pikeman_die.bmp" x="83" y="305" w="85" h="20" pX="0.635294" pY="0.5"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="pikeman_die/030_pikeman_die.bmp" x="170" y="305" w="35" h="61" pX="0.628571" pY="0.95082"/>
+        <sprite n="pikeman_die/031_pikeman_die.bmp" x="207" y="305" w="39" h="61" pX="0.794872" pY="0.901639"/>
+        <sprite n="pikeman_die/032_pikeman_die.bmp" x="248" y="305" w="34" h="57" pX="1" pY="0.824561"/>
+        <sprite n="pikeman_die/033_pikeman_die.bmp" x="284" y="305" w="28" h="65" pX="1.21429" pY="0.846154"/>
+        <sprite n="pikeman_die/034_pikeman_die.bmp" x="314" y="305" w="28" h="77" pX="1.25" pY="0.844156"/>
+        <sprite n="pikeman_die/035_pikeman_die.bmp" x="344" y="305" w="56" h="69" pX="1.10714" pY="0.73913"/>
+        <sprite n="pikeman_die/036_pikeman_die.bmp" x="402" y="305" w="72" h="43" pX="1.09722" pY="0.534884"/>
+        <sprite n="pikeman_die/037_pikeman_die.bmp" x="476" y="305" w="74" h="46" pX="1.10811" pY="0.5"/>
+        <sprite n="pikeman_die/038_pikeman_die.bmp" x="552" y="305" w="73" h="46" pX="1.13699" pY="0.521739"/>
+        <sprite n="pikeman_die/039_pikeman_die.bmp" x="627" y="305" w="76" h="46" pX="1.13158" pY="0.521739"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="pikeman_die/040_pikeman_die.bmp" x="705" y="305" w="36" h="64" pX="0.388889" pY="0.921875"/>
+        <sprite n="pikeman_die/041_pikeman_die.bmp" x="743" y="305" w="50" h="56" pX="0.56" pY="1"/>
+        <sprite n="pikeman_die/042_pikeman_die.bmp" x="795" y="305" w="45" h="45" pX="0.6" pY="0.977778"/>
+        <sprite n="pikeman_die/043_pikeman_die.bmp" x="1" y="384" w="42" h="57" pX="0.571429" pY="0.947368"/>
+        <sprite n="pikeman_die/044_pikeman_die.bmp" x="45" y="384" w="39" h="73" pX="0.692308" pY="0.945205"/>
+        <sprite n="pikeman_die/045_pikeman_die.bmp" x="86" y="384" w="59" h="66" pX="0.830508" pY="0.984848"/>
+        <sprite n="pikeman_die/046_pikeman_die.bmp" x="147" y="384" w="73" h="35" pX="0.849315" pY="0.914286"/>
+        <sprite n="pikeman_die/047_pikeman_die.bmp" x="222" y="384" w="69" h="37" pX="0.869565" pY="0.918919"/>
+        <sprite n="pikeman_die/048_pikeman_die.bmp" x="293" y="384" w="75" h="43" pX="0.84" pY="0.953488"/>
+        <sprite n="pikeman_die/049_pikeman_die.bmp" x="370" y="384" w="72" h="40" pX="0.875" pY="0.95"/>
+      </direction>
+    </action>
+
+
+    <!--Disappear Action-->
+    <action enum ="disappear" speed="1500">
+      <direction enum="south">
+        <sprite n="pikeman_dissapear/000_pikeman_dissapear.bmp" x="444" y="384" w="72" h="45" pX="0.0972222" pY="0.0222222"/>
+        <sprite n="pikeman_dissapear/001_pikeman_dissapear.bmp" x="518" y="384" w="72" h="44" pX="0.0972222" pY="0.0227273"/>
+        <sprite n="pikeman_dissapear/002_pikeman_dissapear.bmp" x="592" y="384" w="72" h="44" pX="0.0972222" pY="0.0227273"/>
+        <sprite n="pikeman_dissapear/003_pikeman_dissapear.bmp" x="666" y="384" w="72" h="44" pX="0.0972222" pY="0.0227273"/>
+        <sprite n="pikeman_dissapear/004_pikeman_dissapear.bmp" x="740" y="384" w="61" h="44" pX="0.0491803" pY="0.0227273"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="pikeman_dissapear/005_pikeman_dissapear.bmp" x="1" y="459" w="70" h="28" pX="0.685714" pY="0.428571"/>
+        <sprite n="pikeman_dissapear/006_pikeman_dissapear.bmp" x="73" y="459" w="70" h="27" pX="0.685714" pY="0.407407"/>
+        <sprite n="pikeman_dissapear/007_pikeman_dissapear.bmp" x="145" y="459" w="69" h="26" pX="0.695652" pY="0.384615"/>
+        <sprite n="pikeman_dissapear/008_pikeman_dissapear.bmp" x="216" y="459" w="59" h="24" pX="0.644068" pY="0.458333"/>
+        <sprite n="pikeman_dissapear/009_pikeman_dissapear.bmp" x="277" y="459" w="52" h="19" pX="0.576923" pY="0.578947"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="pikeman_dissapear/010_pikeman_dissapear.bmp" x="331" y="459" w="83" h="18" pX="0.638554" pY="0.5"/>
+        <sprite n="pikeman_dissapear/011_pikeman_dissapear.bmp" x="416" y="459" w="81" h="18" pX="0.654321" pY="0.5"/>
+        <sprite n="pikeman_dissapear/012_pikeman_dissapear.bmp" x="499" y="459" w="81" h="18" pX="0.654321" pY="0.5"/>
+        <sprite n="pikeman_dissapear/013_pikeman_dissapear.bmp" x="582" y="459" w="81" h="17" pX="0.654321" pY="0.470588"/>
+        <sprite n="pikeman_dissapear/014_pikeman_dissapear.bmp" x="665" y="459" w="80" h="17" pX="0.6625" pY="0.470588"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="pikeman_dissapear/015_pikeman_dissapear.bmp" x="747" y="459" w="74" h="44" pX="1.14865" pY="0.522727"/>
+        <sprite n="pikeman_dissapear/016_pikeman_dissapear.bmp" x="1" y="505" w="74" h="44" pX="1.14865" pY="0.522727"/>
+        <sprite n="pikeman_dissapear/017_pikeman_dissapear.bmp" x="77" y="505" w="74" h="44" pX="1.14865" pY="0.522727"/>
+        <sprite n="pikeman_dissapear/018_pikeman_dissapear.bmp" x="153" y="505" w="74" h="41" pX="1.14865" pY="0.560976"/>
+        <sprite n="pikeman_dissapear/019_pikeman_dissapear.bmp" x="229" y="505" w="72" h="40" pX="1.15278" pY="0.55"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="pikeman_dissapear/020_pikeman_dissapear.bmp" x="303" y="505" w="70" h="38" pX="0.885714" pY="0.973684"/>
+        <sprite n="pikeman_dissapear/021_pikeman_dissapear.bmp" x="375" y="505" w="69" h="36" pX="0.898551" pY="1.02778"/>
+        <sprite n="pikeman_dissapear/022_pikeman_dissapear.bmp" x="446" y="505" w="69" h="35" pX="0.898551" pY="1.05714"/>
+        <sprite n="pikeman_dissapear/023_pikeman_dissapear.bmp" x="517" y="505" w="69" h="35" pX="0.898551" pY="1.05714"/>
+        <sprite n="pikeman_dissapear/024_pikeman_dissapear.bmp" x="588" y="505" w="54" h="34" pX="1.14815" pY="1.08824"/>
+      </direction>
+    </action>
+
+
+    <!--Idle Action-->
+    <action enum ="idle" speed="150">
+      <direction enum="south">
+        <sprite n="pikeman_idle/000_pikeman_idle.bmp" x="644" y="505" w="28" h="47" pX="0.607143" pY="0.808511"/>
+        <sprite n="pikeman_idle/001_pikeman_idle.bmp" x="674" y="505" w="27" h="47" pX="0.592593" pY="0.808511"/>
+        <sprite n="pikeman_idle/002_pikeman_idle.bmp" x="703" y="505" w="26" h="47" pX="0.576923" pY="0.808511"/>
+        <sprite n="pikeman_idle/003_pikeman_idle.bmp" x="731" y="505" w="26" h="48" pX="0.576923" pY="0.791667"/>
+        <sprite n="pikeman_idle/004_pikeman_idle.bmp" x="759" y="505" w="26" h="47" pX="0.576923" pY="0.808511"/>
+        <sprite n="pikeman_idle/005_pikeman_idle.bmp" x="787" y="505" w="26" h="47" pX="0.576923" pY="0.808511"/>
+        <sprite n="pikeman_idle/006_pikeman_idle.bmp" x="815" y="505" w="27" h="49" pX="0.592593" pY="0.816327"/>
+        <sprite n="pikeman_idle/007_pikeman_idle.bmp" x="1" y="556" w="28" h="47" pX="0.607143" pY="0.808511"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="pikeman_idle/008_pikeman_idle.bmp" x="31" y="556" w="53" h="47" pX="0.698113" pY="0.808511"/>
+        <sprite n="pikeman_idle/009_pikeman_idle.bmp" x="86" y="556" w="52" h="47" pX="0.692308" pY="0.808511"/>
+        <sprite n="pikeman_idle/010_pikeman_idle.bmp" x="140" y="556" w="51" h="49" pX="0.72549" pY="0.795918"/>
+        <sprite n="pikeman_idle/011_pikeman_idle.bmp" x="193" y="556" w="48" h="51" pX="0.75" pY="0.784314"/>
+        <sprite n="pikeman_idle/012_pikeman_idle.bmp" x="243" y="556" w="46" h="52" pX="0.782609" pY="0.788462"/>
+        <sprite n="pikeman_idle/013_pikeman_idle.bmp" x="291" y="556" w="46" h="52" pX="0.782609" pY="0.788462"/>
+        <sprite n="pikeman_idle/014_pikeman_idle.bmp" x="339" y="556" w="50" h="50" pX="0.74" pY="0.8"/>
+        <sprite n="pikeman_idle/015_pikeman_idle.bmp" x="391" y="556" w="52" h="48" pX="0.730769" pY="0.791667"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="pikeman_idle/016_pikeman_idle.bmp" x="445" y="556" w="33" h="58" pX="0.757576" pY="0.793103"/>
+        <sprite n="pikeman_idle/017_pikeman_idle.bmp" x="480" y="556" w="33" h="59" pX="0.757576" pY="0.79661"/>
+        <sprite n="pikeman_idle/018_pikeman_idle.bmp" x="515" y="556" w="29" h="59" pX="0.758621" pY="0.79661"/>
+        <sprite n="pikeman_idle/019_pikeman_idle.bmp" x="546" y="556" w="26" h="60" pX="0.730769" pY="0.8"/>
+        <sprite n="pikeman_idle/020_pikeman_idle.bmp" x="574" y="556" w="24" h="61" pX="0.708333" pY="0.803279"/>
+        <sprite n="pikeman_idle/021_pikeman_idle.bmp" x="600" y="556" w="24" h="61" pX="0.708333" pY="0.803279"/>
+        <sprite n="pikeman_idle/022_pikeman_idle.bmp" x="626" y="556" w="27" h="61" pX="0.740741" pY="0.803279"/>
+        <sprite n="pikeman_idle/023_pikeman_idle.bmp" x="655" y="556" w="29" h="59" pX="0.758621" pY="0.79661"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="pikeman_idle/024_pikeman_idle.bmp" x="686" y="556" w="18" h="58" pX="0.555556" pY="0.913793"/>
+        <sprite n="pikeman_idle/025_pikeman_idle.bmp" x="706" y="556" w="18" h="59" pX="0.555556" pY="0.915254"/>
+        <sprite n="pikeman_idle/026_pikeman_idle.bmp" x="726" y="556" w="18" h="59" pX="0.555556" pY="0.915254"/>
+        <sprite n="pikeman_idle/027_pikeman_idle.bmp" x="746" y="556" w="17" h="57" pX="0.529412" pY="0.912281"/>
+        <sprite n="pikeman_idle/028_pikeman_idle.bmp" x="765" y="556" w="18" h="58" pX="0.555556" pY="0.913793"/>
+        <sprite n="pikeman_idle/029_pikeman_idle.bmp" x="785" y="556" w="18" h="57" pX="0.555556" pY="0.912281"/>
+        <sprite n="pikeman_idle/030_pikeman_idle.bmp" x="805" y="556" w="18" h="59" pX="0.555556" pY="0.915254"/>
+        <sprite n="pikeman_idle/031_pikeman_idle.bmp" x="825" y="556" w="18" h="57" pX="0.555556" pY="0.912281"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="pikeman_idle/032_pikeman_idle.bmp" x="1" y="619" w="49" h="48" pX="0.428571" pY="0.895833"/>
+        <sprite n="pikeman_idle/033_pikeman_idle.bmp" x="52" y="619" w="47" h="48" pX="0.404255" pY="0.895833"/>
+        <sprite n="pikeman_idle/034_pikeman_idle.bmp" x="101" y="619" w="48" h="47" pX="0.395833" pY="0.893617"/>
+        <sprite n="pikeman_idle/035_pikeman_idle.bmp" x="151" y="619" w="51" h="46" pX="0.392157" pY="0.891304"/>
+        <sprite n="pikeman_idle/036_pikeman_idle.bmp" x="204" y="619" w="52" h="45" pX="0.365385" pY="0.888889"/>
+        <sprite n="pikeman_idle/037_pikeman_idle.bmp" x="258" y="619" w="50" h="44" pX="0.38" pY="0.886364"/>
+        <sprite n="pikeman_idle/038_pikeman_idle.bmp" x="310" y="619" w="51" h="46" pX="0.392157" pY="0.891304"/>
+        <sprite n="pikeman_idle/039_pikeman_idle.bmp" x="363" y="619" w="49" h="47" pX="0.408163" pY="0.893617"/>
+      </direction>
+    </action>
+
+
+    <!--Walk Action-->
+    <action enum ="walk" speed="100">
+      <direction enum="south">
+        <sprite n="pikeman_walk/000_pikeman_walk.bmp" x="414" y="619" w="50" h="46" pX="0.66" pY="0.826087"/>
+        <sprite n="pikeman_walk/001_pikeman_walk.bmp" x="466" y="619" w="51" h="44" pX="0.627451" pY="0.886364"/>
+        <sprite n="pikeman_walk/002_pikeman_walk.bmp" x="519" y="619" w="54" h="45" pX="0.62963" pY="0.888889"/>
+        <sprite n="pikeman_walk/003_pikeman_walk.bmp" x="575" y="619" w="49" h="46" pX="0.591837" pY="0.847826"/>
+        <sprite n="pikeman_walk/004_pikeman_walk.bmp" x="626" y="619" w="49" h="47" pX="0.591837" pY="0.808511"/>
+        <sprite n="pikeman_walk/005_pikeman_walk.bmp" x="677" y="619" w="46" h="47" pX="0.565217" pY="0.808511"/>
+        <sprite n="pikeman_walk/006_pikeman_walk.bmp" x="725" y="619" w="54" h="47" pX="0.611111" pY="0.829787"/>
+        <sprite n="pikeman_walk/007_pikeman_walk.bmp" x="781" y="619" w="50" h="45" pX="0.6" pY="0.888889"/>
+        <sprite n="pikeman_walk/008_pikeman_walk.bmp" x="1" y="669" w="49" h="44" pX="0.612245" pY="0.886364"/>
+        <sprite n="pikeman_walk/009_pikeman_walk.bmp" x="52" y="669" w="49" h="47" pX="0.653061" pY="0.829787"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="pikeman_walk/010_pikeman_walk.bmp" x="103" y="669" w="39" h="58" pX="0.692308" pY="0.844828"/>
+        <sprite n="pikeman_walk/011_pikeman_walk.bmp" x="144" y="669" w="41" h="58" pX="0.707317" pY="0.827586"/>
+        <sprite n="pikeman_walk/012_pikeman_walk.bmp" x="187" y="669" w="40" h="58" pX="0.7" pY="0.827586"/>
+        <sprite n="pikeman_walk/013_pikeman_walk.bmp" x="229" y="669" w="46" h="54" pX="0.695652" pY="0.833333"/>
+        <sprite n="pikeman_walk/014_pikeman_walk.bmp" x="277" y="669" w="45" h="50" pX="0.666667" pY="0.84"/>
+        <sprite n="pikeman_walk/015_pikeman_walk.bmp" x="324" y="669" w="47" h="49" pX="0.680851" pY="0.836735"/>
+        <sprite n="pikeman_walk/016_pikeman_walk.bmp" x="373" y="669" w="45" h="52" pX="0.688889" pY="0.826923"/>
+        <sprite n="pikeman_walk/017_pikeman_walk.bmp" x="420" y="669" w="39" h="58" pX="0.692308" pY="0.827586"/>
+        <sprite n="pikeman_walk/018_pikeman_walk.bmp" x="461" y="669" w="36" h="60" pX="0.722222" pY="0.833333"/>
+        <sprite n="pikeman_walk/019_pikeman_walk.bmp" x="499" y="669" w="37" h="59" pX="0.72973" pY="0.847458"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="pikeman_walk/020_pikeman_walk.bmp" x="538" y="669" w="25" h="61" pX="0.44" pY="0.852459"/>
+        <sprite n="pikeman_walk/021_pikeman_walk.bmp" x="565" y="669" w="22" h="58" pX="0.409091" pY="0.827586"/>
+        <sprite n="pikeman_walk/022_pikeman_walk.bmp" x="589" y="669" w="23" h="64" pX="0.565217" pY="0.84375"/>
+        <sprite n="pikeman_walk/023_pikeman_walk.bmp" x="614" y="669" w="25" h="62" pX="0.68" pY="0.83871"/>
+        <sprite n="pikeman_walk/024_pikeman_walk.bmp" x="641" y="669" w="33" h="61" pX="0.636364" pY="0.819672"/>
+        <sprite n="pikeman_walk/025_pikeman_walk.bmp" x="676" y="669" w="36" h="59" pX="0.611111" pY="0.813559"/>
+        <sprite n="pikeman_walk/026_pikeman_walk.bmp" x="714" y="669" w="30" h="63" pX="0.6" pY="0.825397"/>
+        <sprite n="pikeman_walk/027_pikeman_walk.bmp" x="746" y="669" w="20" h="64" pX="0.6" pY="0.828125"/>
+        <sprite n="pikeman_walk/028_pikeman_walk.bmp" x="768" y="669" w="18" h="59" pX="0.5" pY="0.830508"/>
+        <sprite n="pikeman_walk/029_pikeman_walk.bmp" x="788" y="669" w="25" h="62" pX="0.52" pY="0.854839"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="pikeman_walk/030_pikeman_walk.bmp" x="1" y="735" w="39" h="58" pX="0.435897" pY="0.87931"/>
+        <sprite n="pikeman_walk/031_pikeman_walk.bmp" x="42" y="735" w="39" h="58" pX="0.435897" pY="0.87931"/>
+        <sprite n="pikeman_walk/032_pikeman_walk.bmp" x="83" y="735" w="36" h="59" pX="0.5" pY="0.881356"/>
+        <sprite n="pikeman_walk/033_pikeman_walk.bmp" x="1" y="1" w="30" h="60" pX="0.566667" pY="0.866667"/>
+        <sprite n="pikeman_walk/034_pikeman_walk.bmp" x="121" y="735" w="26" h="60" pX="0.576923" pY="0.866667"/>
+        <sprite n="pikeman_walk/035_pikeman_walk.bmp" x="149" y="735" w="28" h="60" pX="0.535714" pY="0.85"/>
+        <sprite n="pikeman_walk/036_pikeman_walk.bmp" x="179" y="735" w="30" h="60" pX="0.566667" pY="0.866667"/>
+        <sprite n="pikeman_walk/037_pikeman_walk.bmp" x="211" y="735" w="36" h="58" pX="0.5" pY="0.896552"/>
+        <sprite n="pikeman_walk/038_pikeman_walk.bmp" x="249" y="735" w="37" h="57" pX="0.459459" pY="0.912281"/>
+        <sprite n="pikeman_walk/039_pikeman_walk.bmp" x="288" y="735" w="35" h="57" pX="0.428571" pY="0.894737"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="pikeman_walk/040_pikeman_walk.bmp" x="325" y="735" w="50" h="49" pX="0.34" pY="0.836735"/>
+        <sprite n="pikeman_walk/041_pikeman_walk.bmp" x="377" y="735" w="52" h="47" pX="0.346154" pY="0.851064"/>
+        <sprite n="pikeman_walk/042_pikeman_walk.bmp" x="431" y="735" w="50" h="50" pX="0.34" pY="0.88"/>
+        <sprite n="pikeman_walk/043_pikeman_walk.bmp" x="483" y="735" w="49" h="51" pX="0.367347" pY="0.901961"/>
+        <sprite n="pikeman_walk/044_pikeman_walk.bmp" x="534" y="735" w="48" h="53" pX="0.416667" pY="0.867925"/>
+        <sprite n="pikeman_walk/045_pikeman_walk.bmp" x="584" y="735" w="46" h="54" pX="0.391304" pY="0.851852"/>
+        <sprite n="pikeman_walk/046_pikeman_walk.bmp" x="632" y="735" w="51" h="52" pX="0.411765" pY="0.865385"/>
+        <sprite n="pikeman_walk/047_pikeman_walk.bmp" x="685" y="735" w="49" h="48" pX="0.367347" pY="0.895833"/>
+        <sprite n="pikeman_walk/048_pikeman_walk.bmp" x="736" y="735" w="50" h="48" pX="0.36" pY="0.895833"/>
+        <sprite n="pikeman_walk/049_pikeman_walk.bmp" x="788" y="735" w="48" h="50" pX="0.333333" pY="0.86"/>
+      </direction>
+    </action>
+  </unit>
+</TextureAtlas>

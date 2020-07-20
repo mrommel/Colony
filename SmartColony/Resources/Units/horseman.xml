@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:2b2e9ef83d2cf8db8df7427a55aca84f:a153386f845e1dcf3f9d53358c3b7a91:11c627bd35fd8a024c584297c29cb6cd$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+
+<TextureAtlas texture="horseman.png" width="1104" height="1104">
+    
+  <!-- Define the unit type-->
+  <unit id ="horseman">
+
+    <!-- Attack Action-->
+    <action enum="attack" speed="203">
+      <direction enum="south">
+        <sprite n="knight_attack/000_knight_attack.bmp" x="1" y="1" w="41" h="90" pX="0.487805" pY="0.788889"/>
+        <sprite n="knight_attack/001_knight_attack.bmp" x="44" y="1" w="33" h="94" pX="0.454545" pY="0.787234"/>
+        <sprite n="knight_attack/002_knight_attack.bmp" x="79" y="1" w="32" h="92" pX="0.46875" pY="0.782609"/>
+        <sprite n="knight_attack/003_knight_attack.bmp" x="113" y="1" w="40" h="86" pX="0.375" pY="0.767442"/>
+        <sprite n="knight_attack/004_knight_attack.bmp" x="155" y="1" w="43" h="71" pX="0.348837" pY="0.71831"/>
+        <sprite n="knight_attack/005_knight_attack.bmp" x="200" y="1" w="43" h="68" pX="0.348837" pY="0.705882"/>
+        <sprite n="knight_attack/006_knight_attack.bmp" x="245" y="1" w="48" h="67" pX="0.375" pY="0.701493"/>
+        <sprite n="knight_attack/007_knight_attack.bmp" x="295" y="1" w="46" h="67" pX="0.413043" pY="0.701493"/>
+        <sprite n="knight_attack/008_knight_attack.bmp" x="343" y="1" w="46" h="74" pX="0.369565" pY="0.72973"/>
+        <sprite n="knight_attack/009_knight_attack.bmp" x="391" y="1" w="38" h="79" pX="0.342105" pY="0.746835"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="knight_attack/010_knight_attack.bmp" x="431" y="1" w="55" h="89" pX="0.472727" pY="0.842697"/>
+        <sprite n="knight_attack/011_knight_attack.bmp" x="488" y="1" w="56" h="85" pX="0.464286" pY="0.835294"/>
+        <sprite n="knight_attack/012_knight_attack.bmp" x="546" y="1" w="61" h="85" pX="0.442623" pY="0.835294"/>
+        <sprite n="knight_attack/013_knight_attack.bmp" x="609" y="1" w="60" h="82" pX="0.45" pY="0.817073"/>
+        <sprite n="knight_attack/014_knight_attack.bmp" x="671" y="1" w="64" h="74" pX="0.4375" pY="0.797297"/>
+        <sprite n="knight_attack/015_knight_attack.bmp" x="737" y="1" w="65" h="59" pX="0.492308" pY="0.762712"/>
+        <sprite n="knight_attack/016_knight_attack.bmp" x="804" y="1" w="63" h="61" pX="0.444444" pY="0.754098"/>
+        <sprite n="knight_attack/017_knight_attack.bmp" x="869" y="1" w="61" h="65" pX="0.442623" pY="0.769231"/>
+        <sprite n="knight_attack/018_knight_attack.bmp" x="932" y="1" w="56" h="70" pX="0.482143" pY="0.8"/>
+        <sprite n="knight_attack/019_knight_attack.bmp" x="990" y="1" w="54" h="73" pX="0.5" pY="0.808219"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="knight_attack/020_knight_attack.bmp" x="1" y="97" w="74" h="85" pX="0.486486" pY="0.917647"/>
+        <sprite n="knight_attack/021_knight_attack.bmp" x="77" y="97" w="74" h="76" pX="0.486486" pY="0.921053"/>
+        <sprite n="knight_attack/022_knight_attack.bmp" x="153" y="97" w="74" h="76" pX="0.486486" pY="0.921053"/>
+        <sprite n="knight_attack/023_knight_attack.bmp" x="229" y="97" w="74" h="77" pX="0.486486" pY="0.896104"/>
+        <sprite n="knight_attack/024_knight_attack.bmp" x="305" y="97" w="71" h="82" pX="0.521127" pY="0.878049"/>
+        <sprite n="knight_attack/025_knight_attack.bmp" x="378" y="97" w="71" h="65" pX="0.521127" pY="0.846154"/>
+        <sprite n="knight_attack/026_knight_attack.bmp" x="451" y="97" w="72" h="64" pX="0.513889" pY="0.84375"/>
+        <sprite n="knight_attack/027_knight_attack.bmp" x="525" y="97" w="74" h="65" pX="0.5" pY="0.846154"/>
+        <sprite n="knight_attack/028_knight_attack.bmp" x="601" y="97" w="74" h="69" pX="0.5" pY="0.846154"/>
+        <sprite n="knight_attack/029_knight_attack.bmp" x="677" y="97" w="74" h="66" pX="0.486486" pY="0.893939"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="knight_attack/030_knight_attack.bmp" x="753" y="97" w="56" h="89" pX="0.464286" pY="0.865169"/>
+        <sprite n="knight_attack/031_knight_attack.bmp" x="811" y="97" w="61" h="77" pX="0.42623" pY="0.844156"/>
+        <sprite n="knight_attack/032_knight_attack.bmp" x="874" y="97" w="59" h="80" pX="0.440678" pY="0.8375"/>
+        <sprite n="knight_attack/033_knight_attack.bmp" x="935" y="97" w="58" h="84" pX="0.448276" pY="0.833333"/>
+        <sprite n="knight_attack/034_knight_attack.bmp" x="995" y="97" w="53" h="91" pX="0.509434" pY="0.835165"/>
+        <sprite n="knight_attack/035_knight_attack.bmp" x="1050" y="97" w="53" h="77" pX="0.509434" pY="0.831169"/>
+        <sprite n="knight_attack/036_knight_attack.bmp" x="1" y="190" w="52" h="79" pX="0.5" pY="0.810127"/>
+        <sprite n="knight_attack/037_knight_attack.bmp" x="55" y="190" w="53" h="79" pX="0.490566" pY="0.810127"/>
+        <sprite n="knight_attack/038_knight_attack.bmp" x="110" y="190" w="55" h="75" pX="0.472727" pY="0.84"/>
+        <sprite n="knight_attack/039_knight_attack.bmp" x="167" y="190" w="58" h="75" pX="0.448276" pY="0.853333"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="knight_attack/040_knight_attack.bmp" x="227" y="190" w="42" h="89" pX="0.238095" pY="0.808989"/>
+        <sprite n="knight_attack/041_knight_attack.bmp" x="271" y="190" w="33" h="83" pX="0.272727" pY="0.807229"/>
+        <sprite n="knight_attack/042_knight_attack.bmp" x="306" y="190" w="34" h="84" pX="0.264706" pY="0.797619"/>
+        <sprite n="knight_attack/043_knight_attack.bmp" x="342" y="190" w="43" h="84" pX="0.348837" pY="0.797619"/>
+        <sprite n="knight_attack/044_knight_attack.bmp" x="387" y="190" w="47" h="87" pX="0.382979" pY="0.850575"/>
+        <sprite n="knight_attack/045_knight_attack.bmp" x="436" y="190" w="39" h="82" pX="0.461538" pY="0.829268"/>
+        <sprite n="knight_attack/046_knight_attack.bmp" x="477" y="190" w="41" h="81" pX="0.439024" pY="0.82716"/>
+        <sprite n="knight_attack/047_knight_attack.bmp" x="520" y="190" w="43" h="83" pX="0.44186" pY="0.807229"/>
+        <sprite n="knight_attack/048_knight_attack.bmp" x="565" y="190" w="44" h="84" pX="0.431818" pY="0.797619"/>
+        <sprite n="knight_attack/049_knight_attack.bmp" x="611" y="190" w="35" h="84" pX="0.428571" pY="0.797619"/>
+      </direction>
+    </action>
+
+
+    <!-- Die Action-->
+    <action enum="die" speed="200">
+      <direction enum="south">
+        <sprite n="knight_die/000_knight_die.bmp" x="648" y="190" w="42" h="76" pX="0.595238" pY="0.789474"/>
+        <sprite n="knight_die/001_knight_die.bmp" x="692" y="190" w="43" h="79" pX="0.581395" pY="0.759494"/>
+        <sprite n="knight_die/002_knight_die.bmp" x="737" y="190" w="52" h="71" pX="0.346154" pY="0.859155"/>
+        <sprite n="knight_die/003_knight_die.bmp" x="791" y="190" w="68" h="71" pX="0.191176" pY="0.873239"/>
+        <sprite n="knight_die/004_knight_die.bmp" x="861" y="190" w="71" h="63" pX="0.309859" pY="0.777778"/>
+        <sprite n="knight_die/005_knight_die.bmp" x="934" y="190" w="59" h="61" pX="0.372881" pY="0.721311"/>
+        <sprite n="knight_die/006_knight_die.bmp" x="995" y="190" w="60" h="47" pX="0.516667" pY="0.595745"/>
+        <sprite n="knight_die/007_knight_die.bmp" x="1" y="281" w="78" h="45" pX="0.653846" pY="0.533333"/>
+        <sprite n="knight_die/008_knight_die.bmp" x="81" y="281" w="82" h="45" pX="0.670732" pY="0.533333"/>
+        <sprite n="knight_die/009_knight_die.bmp" x="165" y="281" w="87" h="45" pX="0.689655" pY="0.533333"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="knight_die/010_knight_die.bmp" x="254" y="281" w="68" h="66" pX="0.588235" pY="0.863636"/>
+        <sprite n="knight_die/011_knight_die.bmp" x="324" y="281" w="71" h="65" pX="0.549296" pY="0.861538"/>
+        <sprite n="knight_die/012_knight_die.bmp" x="397" y="281" w="58" h="74" pX="0.396552" pY="0.810811"/>
+        <sprite n="knight_die/013_knight_die.bmp" x="457" y="281" w="58" h="75" pX="0.224138" pY="0.746667"/>
+        <sprite n="knight_die/014_knight_die.bmp" x="517" y="281" w="58" h="58" pX="0.310345" pY="0.741379"/>
+        <sprite n="knight_die/015_knight_die.bmp" x="577" y="281" w="58" h="58" pX="0.344828" pY="0.741379"/>
+        <sprite n="knight_die/016_knight_die.bmp" x="637" y="281" w="70" h="53" pX="0.442857" pY="0.698113"/>
+        <sprite n="knight_die/017_knight_die.bmp" x="709" y="281" w="93" h="43" pX="0.602151" pY="0.604651"/>
+        <sprite n="knight_die/018_knight_die.bmp" x="804" y="281" w="95" h="41" pX="0.610526" pY="0.560976"/>
+        <sprite n="knight_die/019_knight_die.bmp" x="901" y="281" w="98" h="46" pX="0.622449" pY="0.608696"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="knight_die/020_knight_die.bmp" x="1001" y="281" w="68" h="63" pX="0.5" pY="0.904762"/>
+        <sprite n="knight_die/021_knight_die.bmp" x="1" y="358" w="75" h="62" pX="0.453333" pY="0.903226"/>
+        <sprite n="knight_die/022_knight_die.bmp" x="78" y="358" w="63" h="69" pX="0.333333" pY="0.811594"/>
+        <sprite n="knight_die/023_knight_die.bmp" x="143" y="358" w="58" h="75" pX="0.224138" pY="0.68"/>
+        <sprite n="knight_die/024_knight_die.bmp" x="203" y="358" w="74" h="61" pX="0.364865" pY="0.655738"/>
+        <sprite n="knight_die/025_knight_die.bmp" x="279" y="358" w="70" h="62" pX="0.428571" pY="0.709677"/>
+        <sprite n="knight_die/026_knight_die.bmp" x="351" y="358" w="68" h="54" pX="0.529412" pY="0.722222"/>
+        <sprite n="knight_die/027_knight_die.bmp" x="421" y="358" w="74" h="44" pX="0.540541" pY="0.704545"/>
+        <sprite n="knight_die/028_knight_die.bmp" x="497" y="358" w="82" h="43" pX="0.487805" pY="0.697674"/>
+        <sprite n="knight_die/029_knight_die.bmp" x="581" y="358" w="82" h="47" pX="0.487805" pY="0.723404"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="knight_die/030_knight_die.bmp" x="665" y="358" w="44" h="72" pX="0.363636" pY="0.861111"/>
+        <sprite n="knight_die/031_knight_die.bmp" x="711" y="358" w="48" h="72" pX="0.333333" pY="0.819444"/>
+        <sprite n="knight_die/032_knight_die.bmp" x="761" y="358" w="63" h="70" pX="0.412698" pY="0.8"/>
+        <sprite n="knight_die/033_knight_die.bmp" x="826" y="358" w="78" h="72" pX="0.461538" pY="0.736111"/>
+        <sprite n="knight_die/034_knight_die.bmp" x="906" y="358" w="79" h="60" pX="0.35443" pY="0.683333"/>
+        <sprite n="knight_die/035_knight_die.bmp" x="987" y="358" w="73" h="63" pX="0.383562" pY="0.698413"/>
+        <sprite n="knight_die/036_knight_die.bmp" x="1" y="435" w="64" h="62" pX="0.46875" pY="0.693548"/>
+        <sprite n="knight_die/037_knight_die.bmp" x="67" y="435" w="75" h="52" pX="0.413333" pY="0.653846"/>
+        <sprite n="knight_die/038_knight_die.bmp" x="144" y="435" w="78" h="49" pX="0.435897" pY="0.632653"/>
+        <sprite n="knight_die/039_knight_die.bmp" x="224" y="435" w="83" h="52" pX="0.409639" pY="0.634615"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="knight_die/040_knight_die.bmp" x="309" y="435" w="42" h="74" pX="0.238095" pY="0.810811"/>
+        <sprite n="knight_die/041_knight_die.bmp" x="353" y="435" w="39" h="73" pX="0.25641" pY="0.767123"/>
+        <sprite n="knight_die/042_knight_die.bmp" x="394" y="435" w="50" h="81" pX="0.5" pY="0.765432"/>
+        <sprite n="knight_die/043_knight_die.bmp" x="446" y="435" w="62" h="76" pX="0.709677" pY="0.723684"/>
+        <sprite n="knight_die/044_knight_die.bmp" x="510" y="435" w="68" h="68" pX="0.588235" pY="0.661765"/>
+        <sprite n="knight_die/045_knight_die.bmp" x="580" y="435" w="60" h="68" pX="0.55" pY="0.705882"/>
+        <sprite n="knight_die/046_knight_die.bmp" x="642" y="435" w="64" h="55" pX="0.421875" pY="0.727273"/>
+        <sprite n="knight_die/047_knight_die.bmp" x="708" y="435" w="79" h="46" pX="0.303797" pY="0.630435"/>
+        <sprite n="knight_die/048_knight_die.bmp" x="789" y="435" w="82" h="50" pX="0.292683" pY="0.58"/>
+        <sprite n="knight_die/049_knight_die.bmp" x="873" y="435" w="87" h="50" pX="0.275862" pY="0.58"/>
+      </direction>
+    </action>
+
+
+    <!-- Disappear Action-->
+    <action enum="disappear" speed="1500">
+      <direction enum="south">
+        <sprite n="knight_dissapear/000_knight_dissapear.bmp" x="962" y="435" w="85" h="43" pX="0.694118" pY="0.534884"/>
+        <sprite n="knight_dissapear/001_knight_dissapear.bmp" x="1" y="518" w="84" h="41" pX="0.702381" pY="0.536585"/>
+        <sprite n="knight_dissapear/002_knight_dissapear.bmp" x="87" y="518" w="81" h="39" pX="0.691358" pY="0.538462"/>
+        <sprite n="knight_dissapear/003_knight_dissapear.bmp" x="170" y="518" w="79" h="38" pX="0.708861" pY="0.552632"/>
+        <sprite n="knight_dissapear/004_knight_dissapear.bmp" x="251" y="518" w="65" h="37" pX="0.769231" pY="0.540541"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="knight_dissapear/005_knight_dissapear.bmp" x="318" y="518" w="96" h="44" pX="0.625" pY="0.613636"/>
+        <sprite n="knight_dissapear/006_knight_dissapear.bmp" x="416" y="518" w="96" h="42" pX="0.625" pY="0.619048"/>
+        <sprite n="knight_dissapear/007_knight_dissapear.bmp" x="514" y="518" w="94" h="39" pX="0.638298" pY="0.641026"/>
+        <sprite n="knight_dissapear/008_knight_dissapear.bmp" x="610" y="518" w="77" h="31" pX="0.597403" pY="0.709677"/>
+        <sprite n="knight_dissapear/009_knight_dissapear.bmp" x="689" y="518" w="72" h="28" pX="0.638889" pY="0.75"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="knight_dissapear/010_knight_dissapear.bmp" x="763" y="518" w="80" h="45" pX="0.4875" pY="0.733333"/>
+        <sprite n="knight_dissapear/011_knight_dissapear.bmp" x="845" y="518" w="77" h="42" pX="0.493506" pY="0.738095"/>
+        <sprite n="knight_dissapear/012_knight_dissapear.bmp" x="924" y="518" w="75" h="40" pX="0.506667" pY="0.725"/>
+        <sprite n="knight_dissapear/013_knight_dissapear.bmp" x="1001" y="518" w="72" h="41" pX="0.513889" pY="0.731707"/>
+        <sprite n="knight_dissapear/014_knight_dissapear.bmp" x="1" y="565" w="70" h="38" pX="0.514286" pY="0.789474"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="knight_dissapear/015_knight_dissapear.bmp" x="73" y="565" w="81" h="50" pX="0.407407" pY="0.64"/>
+        <sprite n="knight_dissapear/016_knight_dissapear.bmp" x="156" y="565" w="80" h="45" pX="0.4125" pY="0.711111"/>
+        <sprite n="knight_dissapear/017_knight_dissapear.bmp" x="238" y="565" w="80" h="43" pX="0.4125" pY="0.744186"/>
+        <sprite n="knight_dissapear/018_knight_dissapear.bmp" x="320" y="565" w="77" h="42" pX="0.402597" pY="0.761905"/>
+        <sprite n="knight_dissapear/019_knight_dissapear.bmp" x="399" y="565" w="69" h="42" pX="0.347826" pY="0.761905"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="knight_dissapear/020_knight_dissapear.bmp" x="470" y="565" w="85" h="48" pX="0.270588" pY="0.583333"/>
+        <sprite n="knight_dissapear/021_knight_dissapear.bmp" x="557" y="565" w="82" h="41" pX="0.280488" pY="0.536585"/>
+        <sprite n="knight_dissapear/022_knight_dissapear.bmp" x="641" y="565" w="80" h="36" pX="0.275" pY="0.583333"/>
+        <sprite n="knight_dissapear/023_knight_dissapear.bmp" x="723" y="565" w="77" h="34" pX="0.25974" pY="0.588235"/>
+        <sprite n="knight_dissapear/024_knight_dissapear.bmp" x="802" y="565" w="73" h="32" pX="0.232877" pY="0.625"/>
+      </direction>
+    </action>
+
+
+    <!-- Idle Action-->
+    <action enum="idle" speed="175">
+      <direction enum="south">
+        <sprite n="knight_idle/000_knight_idle.bmp" x="877" y="565" w="36" h="78" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/001_knight_idle.bmp" x="915" y="565" w="36" h="76" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/002_knight_idle.bmp" x="953" y="565" w="45" h="76" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/003_knight_idle.bmp" x="1000" y="565" w="53" h="75" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/004_knight_idle.bmp" x="1055" y="565" w="48" h="71" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/005_knight_idle.bmp" x="1" y="645" w="47" h="72" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/006_knight_idle.bmp" x="50" y="645" w="44" h="73" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/007_knight_idle.bmp" x="96" y="645" w="43" h="76" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/008_knight_idle.bmp" x="141" y="645" w="41" h="77" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/009_knight_idle.bmp" x="184" y="645" w="38" h="77" pX="0.5" pY="0.85"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="knight_idle/010_knight_idle.bmp" x="224" y="645" w="63" h="70" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/011_knight_idle.bmp" x="289" y="645" w="48" h="68" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/012_knight_idle.bmp" x="339" y="645" w="55" h="70" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/013_knight_idle.bmp" x="396" y="645" w="57" h="71" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/014_knight_idle.bmp" x="455" y="645" w="49" h="69" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/015_knight_idle.bmp" x="506" y="645" w="47" h="70" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/016_knight_idle.bmp" x="555" y="645" w="50" h="70" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/017_knight_idle.bmp" x="607" y="645" w="59" h="71" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/018_knight_idle.bmp" x="668" y="645" w="57" h="71" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/019_knight_idle.bmp" x="727" y="645" w="55" h="72" pX="0.5" pY="0.85"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="knight_idle/020_knight_idle.bmp" x="784" y="645" w="82" h="63" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/021_knight_idle.bmp" x="868" y="645" w="62" h="64" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/022_knight_idle.bmp" x="932" y="645" w="71" h="64" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/023_knight_idle.bmp" x="1005" y="645" w="78" h="65" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/024_knight_idle.bmp" x="1" y="724" w="65" h="67" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/025_knight_idle.bmp" x="68" y="724" w="62" h="69" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/026_knight_idle.bmp" x="132" y="724" w="67" h="66" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/027_knight_idle.bmp" x="201" y="724" w="78" h="65" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/028_knight_idle.bmp" x="281" y="724" w="74" h="67" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/029_knight_idle.bmp" x="357" y="724" w="73" h="66" pX="0.5" pY="0.85"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="knight_idle/030_knight_idle.bmp" x="432" y="724" w="60" h="80" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/031_knight_idle.bmp" x="494" y="724" w="48" h="75" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/032_knight_idle.bmp" x="544" y="724" w="54" h="75" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/033_knight_idle.bmp" x="600" y="724" w="57" h="73" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/034_knight_idle.bmp" x="659" y="724" w="49" h="77" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/035_knight_idle.bmp" x="710" y="724" w="47" h="78" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/036_knight_idle.bmp" x="759" y="724" w="50" h="76" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/037_knight_idle.bmp" x="811" y="724" w="57" h="72" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/038_knight_idle.bmp" x="870" y="724" w="55" h="72" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/039_knight_idle.bmp" x="927" y="724" w="55" h="74" pX="0.5" pY="0.85"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="knight_idle/040_knight_idle.bmp" x="984" y="724" w="34" h="84" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/041_knight_idle.bmp" x="1020" y="724" w="37" h="82" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/042_knight_idle.bmp" x="1059" y="724" w="42" h="84" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/043_knight_idle.bmp" x="1" y="810" w="51" h="80" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/044_knight_idle.bmp" x="54" y="810" w="48" h="77" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/045_knight_idle.bmp" x="104" y="810" w="45" h="77" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/046_knight_idle.bmp" x="151" y="810" w="41" h="78" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/047_knight_idle.bmp" x="194" y="810" w="38" h="80" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/048_knight_idle.bmp" x="234" y="810" w="41" h="79" pX="0.5" pY="0.85"/>
+        <sprite n="knight_idle/049_knight_idle.bmp" x="277" y="810" w="35" h="81" pX="0.5" pY="0.85"/>
+      </direction>
+    </action>
+
+
+    <!-- Walk Action-->
+    <action enum="walk" speed="200">
+      <direction enum="south">
+        <sprite n="knight_walk/000_knight_walk.bmp" x="314" y="810" w="40" h="77" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/001_knight_walk.bmp" x="356" y="810" w="40" h="77" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/002_knight_walk.bmp" x="398" y="810" w="41" h="78" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/003_knight_walk.bmp" x="441" y="810" w="41" h="78" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/004_knight_walk.bmp" x="484" y="810" w="41" h="78" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/005_knight_walk.bmp" x="527" y="810" w="41" h="77" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/006_knight_walk.bmp" x="570" y="810" w="40" h="76" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/007_knight_walk.bmp" x="612" y="810" w="38" h="77" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/008_knight_walk.bmp" x="652" y="810" w="41" h="77" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/009_knight_walk.bmp" x="695" y="810" w="39" h="78" pX="0.5" pY="0.85"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="knight_walk/010_knight_walk.bmp" x="736" y="810" w="56" h="73" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/011_knight_walk.bmp" x="794" y="810" w="55" h="72" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/012_knight_walk.bmp" x="851" y="810" w="55" h="73" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/013_knight_walk.bmp" x="908" y="810" w="56" h="73" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/014_knight_walk.bmp" x="966" y="810" w="57" h="73" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/015_knight_walk.bmp" x="1025" y="810" w="58" h="73" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/016_knight_walk.bmp" x="1" y="893" w="60" h="72" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/017_knight_walk.bmp" x="63" y="893" w="60" h="73" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/018_knight_walk.bmp" x="125" y="893" w="59" h="72" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/019_knight_walk.bmp" x="186" y="893" w="57" h="72" pX="0.5" pY="0.85"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="knight_walk/020_knight_walk.bmp" x="245" y="893" w="73" h="67" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/021_knight_walk.bmp" x="320" y="893" w="70" h="67" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/022_knight_walk.bmp" x="392" y="893" w="71" h="68" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/023_knight_walk.bmp" x="465" y="893" w="73" h="69" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/024_knight_walk.bmp" x="540" y="893" w="75" h="69" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/025_knight_walk.bmp" x="617" y="893" w="77" h="68" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/026_knight_walk.bmp" x="696" y="893" w="80" h="67" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/027_knight_walk.bmp" x="778" y="893" w="81" h="67" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/028_knight_walk.bmp" x="861" y="893" w="79" h="67" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/029_knight_walk.bmp" x="942" y="893" w="76" h="67" pX="0.5" pY="0.85"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="knight_walk/030_knight_walk.bmp" x="1020" y="893" w="57" h="74" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/031_knight_walk.bmp" x="1" y="969" w="55" h="76" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/032_knight_walk.bmp" x="58" y="969" w="55" h="76" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/033_knight_walk.bmp" x="115" y="969" w="56" h="77" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/034_knight_walk.bmp" x="173" y="969" w="58" h="76" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/035_knight_walk.bmp" x="233" y="969" w="59" h="76" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/036_knight_walk.bmp" x="294" y="969" w="60" h="76" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/037_knight_walk.bmp" x="356" y="969" w="61" h="75" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/038_knight_walk.bmp" x="419" y="969" w="59" h="74" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/039_knight_walk.bmp" x="480" y="969" w="61" h="73" pX="0.5" pY="0.85"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="knight_walk/040_knight_walk.bmp" x="543" y="969" w="39" h="81" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/041_knight_walk.bmp" x="584" y="969" w="39" h="82" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/042_knight_walk.bmp" x="625" y="969" w="39" h="83" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/043_knight_walk.bmp" x="666" y="969" w="39" h="85" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/044_knight_walk.bmp" x="707" y="969" w="39" h="85" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/045_knight_walk.bmp" x="748" y="969" w="39" h="85" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/046_knight_walk.bmp" x="789" y="969" w="38" h="85" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/047_knight_walk.bmp" x="829" y="969" w="37" h="85" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/048_knight_walk.bmp" x="868" y="969" w="39" h="84" pX="0.5" pY="0.85"/>
+        <sprite n="knight_walk/049_knight_walk.bmp" x="909" y="969" w="39" h="81" pX="0.5" pY="0.85"/>
+      </direction>
+    </action>
+  </unit>
+</TextureAtlas>
+

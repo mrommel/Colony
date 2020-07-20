@@ -69,6 +69,7 @@ public protocol AbstractUnit: class, Codable {
     @discardableResult func doMoveOnPath(towards target: HexPoint, previousETA: Int, buildingRoute: Bool, in gameModel: GameModel?) -> Int
     @discardableResult func doMove(on target: HexPoint, in gameModel: GameModel?) -> Bool
     func readyToMove() -> Bool
+    func queueMoveForVisualization(at point: HexPoint, in gameModel: GameModel?)
     func publishQueuedVisualizationMoves(in gameModel: GameModel?)
     @discardableResult func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool
 
@@ -1218,6 +1219,7 @@ public class Unit: AbstractUnit {
         }
 
         var usedPathCost = 0.0
+        
         for (index, point) in path.enumerated() {
             
             // skip first point
@@ -1228,13 +1230,6 @@ public class Unit: AbstractUnit {
             if self.doMove(on: point, in: gameModel) {
                 
                 usedPathCost += path[index].1
-                
-                /*if let pathTile = gameModel.tile(at: point) {
-                
-                    if pathTile.isVisible(to: humanPlayer ) {
-                        self.queueMoveForVisualization(at: point, in: gameModel)
-                    }
-                }*/
             }
         }
 
@@ -1640,6 +1635,7 @@ public class Unit: AbstractUnit {
         }
 
         if show {
+            //self.queueMoveForVisualization(at: oldPlot.point, in: gameModel)
             self.queueMoveForVisualization(at: newPlot.point, in: gameModel)
         } else {
             // teleport
@@ -1861,17 +1857,21 @@ public class Unit: AbstractUnit {
     public func publishQueuedVisualizationMoves(in gameModel: GameModel?) {
 
         if self.moveLocations.count > 0 {
+            
+            // check moveLocations for duplicates
+            self.moveLocations = self.moveLocations.unique(map: { $0 })
+            
             gameModel?.userInterface?.move(unit: self, on: self.moveLocations)
 
             self.moveLocations = []
         }
     }
 
-    func queueMoveForVisualization(at point: HexPoint, in gameModel: GameModel?) {
+    public func queueMoveForVisualization(at point: HexPoint, in gameModel: GameModel?) {
 
         self.moveLocations.append(point)
 
-        if self.moveLocations.count == 20 || self.isHuman() {
+        if self.moveLocations.count == 20 /*|| self.isHuman()*/ {
             self.publishQueuedVisualizationMoves(in: gameModel)
         }
     }

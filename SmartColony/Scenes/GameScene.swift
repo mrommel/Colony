@@ -739,6 +739,7 @@ class GameScene: BaseScene {
                 
                 if selectedUnit.location != position {
                     //selectedUnit.doMove(on: position, in: self.viewModel?.game)
+                    selectedUnit.queueMoveForVisualization(at: selectedUnit.location, in: self.viewModel?.game)
                     selectedUnit.doMoveOnPath(towards: position, previousETA: 0, buildingRoute: false, in: self.viewModel?.game)
                     self.updateCommands(for: selectedUnit)
                 }

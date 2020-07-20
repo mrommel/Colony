@@ -20,12 +20,13 @@ verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
 
-<TextureAtlas blue_texture="hunter_chmp.png" red_texture="hunter_chmp.png" width="860" height="860">
+<TextureAtlas texture="archer.png" width="860" height="860">
+    
   <!-- Define the unit type-->
-  <unit id ="hunter_chmp">
+  <unit id ="archer">
 
     <!-- Attack Action-->
-    <action enum="attack" speed="200">
+    <action enum="attack" speed="203">
       <direction enum="south">
         <sprite n="archer_attack/000_archer_attack.bmp" x="1" y="1" w="47" h="52" pX="0.617021" pY="0.711538"/>
         <sprite n="archer_attack/001_archer_attack.bmp" x="50" y="1" w="40" h="54" pX="0.675" pY="0.685185"/>
@@ -203,7 +204,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
       </direction>
     </action>
 
-        <!--Idle Action-->
+    <!--Idle Action-->
     <action enum ="idle" speed="150">
       <direction enum="south">
         <sprite n="archer_idle/000_archer_idle.bmp" x="753" y="541" w="49" h="51" pX="0.591837" pY="0.72549"/>
@@ -276,11 +277,10 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
       </direction>
     </action>
 
-
     <!--Walk Action-->
     <action enum ="walk" speed="100">
       <direction enum="south">
-        <sprite n="archer_walk/000_archer_walk.bmp" x="414" y="705" w="20" h="48" pX="0.5" pY="0.791667"/>
+            <sprite n="archer_walk/000_archer_walk.bmp" x="414" y="705" w="20" h="48" pX="0.5" pY="0.791667"/>
     <sprite n="archer_walk/001_archer_walk.bmp" x="436" y="705" w="22" h="48" pX="0.5" pY="0.75"/>
     <sprite n="archer_walk/002_archer_walk.bmp" x="460" y="705" w="22" h="50" pX="0.5" pY="0.74"/>
     <sprite n="archer_walk/003_archer_walk.bmp" x="484" y="705" w="23" h="50" pX="0.478261" pY="0.74"/>
@@ -290,10 +290,11 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     <sprite n="archer_walk/007_archer_walk.bmp" x="579" y="705" w="23" h="50" pX="0.434783" pY="0.74"/>
     <sprite n="archer_walk/008_archer_walk.bmp" x="604" y="705" w="22" h="49" pX="0.454545" pY="0.755102"/>
     <sprite n="archer_walk/009_archer_walk.bmp" x="628" y="705" w="22" h="49" pX="0.454545" pY="0.755102"/>
+
       </direction>
 
-      <direction enum="south-west">
-        <sprite n="archer_walk/010_archer_walk.bmp" x="652" y="705" w="38" h="43" pX="0.5" pY="0.837209"/>
+      <direction enum="south-west">    
+<sprite n="archer_walk/010_archer_walk.bmp" x="652" y="705" w="38" h="43" pX="0.5" pY="0.837209"/>
     <sprite n="archer_walk/011_archer_walk.bmp" x="692" y="705" w="39" h="43" pX="0.538462" pY="0.837209"/>
     <sprite n="archer_walk/012_archer_walk.bmp" x="733" y="705" w="36" h="45" pX="0.583333" pY="0.844444"/>
     <sprite n="archer_walk/013_archer_walk.bmp" x="771" y="705" w="34" h="46" pX="0.647059" pY="0.804348"/>
@@ -303,10 +304,11 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     <sprite n="archer_walk/017_archer_walk.bmp" x="64" y="757" w="31" h="45" pX="0.580645" pY="0.8"/>
     <sprite n="archer_walk/018_archer_walk.bmp" x="97" y="757" w="34" h="45" pX="0.558824" pY="0.822222"/>
     <sprite n="archer_walk/019_archer_walk.bmp" x="133" y="757" w="38" h="44" pX="0.526316" pY="0.840909"/>
+
       </direction>
 
       <direction enum="west">
-        <sprite n="archer_walk/020_archer_walk.bmp" x="173" y="757" w="46" h="44" pX="0.391304" pY="0.840909"/>
+    <sprite n="archer_walk/020_archer_walk.bmp" x="173" y="757" w="46" h="44" pX="0.391304" pY="0.840909"/>
     <sprite n="archer_walk/021_archer_walk.bmp" x="221" y="757" w="47" h="44" pX="0.446809" pY="0.840909"/>
     <sprite n="archer_walk/022_archer_walk.bmp" x="270" y="757" w="49" h="45" pX="0.489796" pY="0.844444"/>
     <sprite n="archer_walk/023_archer_walk.bmp" x="321" y="757" w="49" h="44" pX="0.530612" pY="0.840909"/>
@@ -318,8 +320,8 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     <sprite n="archer_walk/029_archer_walk.bmp" x="609" y="757" w="47" h="44" pX="0.425532" pY="0.840909"/>
       </direction>
 
-      <direction enum="north-west">
-       <sprite n="archer_walk/030_archer_walk.bmp" x="658" y="757" w="34" h="47" pX="0.352941" pY="0.787234"/>
+      <direction enum="north-west">    
+<sprite n="archer_walk/030_archer_walk.bmp" x="658" y="757" w="34" h="47" pX="0.352941" pY="0.787234"/>
     <sprite n="archer_walk/031_archer_walk.bmp" x="694" y="757" w="33" h="47" pX="0.333333" pY="0.787234"/>
     <sprite n="archer_walk/032_archer_walk.bmp" x="729" y="757" w="36" h="47" pX="0.388889" pY="0.808511"/>
     <sprite n="archer_walk/033_archer_walk.bmp" x="767" y="757" w="38" h="45" pX="0.447368" pY="0.844444"/>
@@ -333,7 +335,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
       </direction>
 
       <direction enum="north">
-            <sprite n="archer_walk/040_archer_walk.bmp" x="204" y="806" w="23" h="52" pX="0.565217" pY="0.711538"/>
+             <sprite n="archer_walk/040_archer_walk.bmp" x="204" y="806" w="23" h="52" pX="0.565217" pY="0.711538"/>
     <sprite n="archer_walk/041_archer_walk.bmp" x="229" y="806" w="22" h="52" pX="0.545455" pY="0.711538"/>
     <sprite n="archer_walk/042_archer_walk.bmp" x="253" y="806" w="21" h="52" pX="0.52381" pY="0.730769"/>
     <sprite n="archer_walk/043_archer_walk.bmp" x="276" y="806" w="21" h="51" pX="0.52381" pY="0.745098"/>
@@ -343,6 +345,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     <sprite n="archer_walk/047_archer_walk.bmp" x="379" y="806" w="25" h="51" pX="0.6" pY="0.72549"/>
     <sprite n="archer_walk/048_archer_walk.bmp" x="406" y="806" w="24" h="53" pX="0.625" pY="0.716981"/>
     <sprite n="archer_walk/049_archer_walk.bmp" x="432" y="806" w="24" h="53" pX="0.583333" pY="0.716981"/>
+
       </direction>
     </action>
   </unit>

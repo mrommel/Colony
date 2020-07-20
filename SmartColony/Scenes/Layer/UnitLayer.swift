@@ -37,7 +37,7 @@ class UnitLayer: SKNode {
         self.atlasFocus = GameObjectAtlas(atlasName: "focus", textures: ["focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "focus6", "focus5", "focus4", "focus3", "focus2", "focus1"])
 
         self.atlasAttackFocus = GameObjectAtlas(atlasName: "focus_attack", textures: ["focus_attack1", "focus_attack2", "focus_attack3", "focus_attack3", "focus_attack2", "focus_attack1"])
-        
+
         super.init()
     }
 
@@ -81,16 +81,15 @@ class UnitLayer: SKNode {
                 return
             }
         }
-        
+
         // already shown, no need to add
         if let unitObject = self.unitObject(of: unit) {
-            print("already shown")
-            
-            unitObject.showIdle()
+
+            //unitObject.showIdle()
             unitObject.update(strength: unit.healthPoints())
-            
+
         } else {
-        
+
             let unitObject = UnitObject(unit: unit, in: self.gameModel)
 
             // add to canvas
@@ -125,19 +124,19 @@ class UnitLayer: SKNode {
 
         return nil
     }
-    
+
     private func unitObject(of unit: AbstractUnit?) -> UnitObject? {
-    
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         for object in self.unitObjects {
             if unit.isEqual(to: object.unit) {
                 return object
             }
         }
-        
+
         return nil
     }
 
@@ -171,21 +170,21 @@ class UnitLayer: SKNode {
             self.addChild(focusNode)
         }
     }
-    
+
     func clearAttackFocus() {
-        
+
         for attackFocusNode in attackFocusNodes {
-            
+
             attackFocusNode?.removeFromParent()
         }
-        
+
         attackFocusNodes.removeAll()
     }
-    
+
     func showAttackFocus(at point: HexPoint) {
-    
+
         let texture = SKTexture(imageNamed: "focus_attack1")
-        
+
         let attackFocusNode = SKSpriteNode(texture: texture)
         attackFocusNode.position = HexPoint.toScreen(hex: point)
         attackFocusNode.zPosition = Globals.ZLevels.focus
@@ -319,12 +318,12 @@ class UnitLayer: SKNode {
         }
 
         if let selectedUnit = unit {
-            
+
             if unitObject(of: selectedUnit) == nil {
                 self.show(unit: selectedUnit)
                 print("show")
             }
-            
+
             if let unitObject = self.unitObject(at: selectedUnit.location) {
 
                 if gameModel.valid(point: hex) {
@@ -348,24 +347,32 @@ class UnitLayer: SKNode {
 
     func move(unit: AbstractUnit?, on path: HexPath) {
 
+        // print("++++ path: \(path.compactMap { $0 } ) +++")
+        
         if let selectedUnit = unit {
 
-            guard let unitObject = self.unitObject(of: selectedUnit) else {
-                //fatalError("cant get unitObject")
+            if let unitObject = self.unitObject(of: selectedUnit) {
+
+                unitObject.showWalk(on: path, completion: {
+                    unitObject.showIdle()
+                })
+            } else {
+
                 // most likely foreign unit
                 self.show(unit: selectedUnit)
-                print("show")
-                return
-            }
 
-            unitObject.showWalk(on: path, completion: {
-                unitObject.showIdle()
-            })
+                if let unitObject = self.unitObject(of: selectedUnit) {
+
+                    unitObject.showWalk(on: path, completion: {
+                        unitObject.showIdle()
+                    })
+                }
+            }
         }
     }
-    
+
     func update(unit: AbstractUnit?) {
-        
+
         if let unitObject = unitObject(of: unit) {
             unitObject.update(strength: unit!.healthPoints())
         }

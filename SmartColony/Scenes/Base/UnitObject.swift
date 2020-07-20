@@ -54,7 +54,7 @@ class UnitObject {
         self.sprite = SKSpriteNode(imageNamed: self.spriteName)
         self.sprite.position = HexPoint.toScreen(hex: unit.location)
         self.sprite.zPosition = Globals.ZLevels.unit
-        self.sprite.anchorPoint = unit.type.anchorPoint
+        self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         
         let unitTypeBackgroundTexture = SKTexture(imageNamed: "unit_type_background")
         self.typeBackgroundSprite = SKSpriteNode(texture: unitTypeBackgroundTexture, color: .black, size: CGSize(width: 10, height: 10))
@@ -80,7 +80,9 @@ class UnitObject {
         // setup atlases
         self.atlasIdle = unit.type.idleAtlas
         self.atlasDown = unit.type.walkDownAtlas
-        // FIXME: add the other atlases
+        self.atlasUp = unit.type.walkUpAtlas
+        self.atlasLeft = unit.type.walkLeftAtlas
+        self.atlasRight = unit.type.walkRightAtlas
     }
     
     func addTo(node parent: SKNode) {
@@ -92,7 +94,7 @@ class UnitObject {
 
         if let atlas = atlas {
             let walkFrames = atlas.textures
-            let walk = SKAction.animate(with: walkFrames, timePerFrame: atlas.speed)
+            let walk = SKAction.animate(with: [walkFrames, walkFrames, walkFrames].flatMap { $0 }, timePerFrame: atlas.speed)
 
             let move = SKAction.move(to: HexPoint.toScreen(hex: hex), duration: walk.duration)
 
@@ -110,11 +112,14 @@ class UnitObject {
 
     private func walk(from: HexPoint, to: HexPoint, completion block: @escaping () -> Swift.Void) {
 
+        if from == to {
+            return
+        }
+        
         let direction = HexPoint.screenDirection(from: from, towards: to)
-
-        print("=========> \(direction)")
         
         switch direction {
+            
         case .north:
             self.animate(to: to, on: self.atlasUp, completion: block)
         case .northeast, .southeast:
@@ -167,28 +172,20 @@ class UnitObject {
 
     func showWalk(on path: HexPath, completion block: @escaping () -> Swift.Void) {
 
-        guard !path.isEmpty else {
+        guard path.count >= 2 else {
             block()
             return
         }
         
-        guard let unit = self.unit else {
-            fatalError("unit not given")
-        }
-
-        /*if let (_, _) = path.first {
-            if Double(unit.movesLeft()) <= 0.0 {
-                block()
-                return
-            }
-        }*/
-        
         self.sprite.removeAction(forKey: UnitObject.idleActionKey)
 
-        if let (point, _) = path.first {
+        if let (fromPoint, _) = path.first, let (toPoint, _) = path.second {
+        
+            // print("=== walk from \(fromPoint) to \(toPoint) ---")
             let pathWithoutFirst = path.pathWithoutFirst()
 
-            self.walk(from: unit.location, to: point, completion: {
+            self.walk(from: fromPoint, to: toPoint, completion: {
+                // print("=== ready walking from \(fromPoint) to \(toPoint) ---")
                 self.showWalk(on: pathWithoutFirst, completion: block)
             })
         }
