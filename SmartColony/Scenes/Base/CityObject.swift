@@ -22,6 +22,7 @@ class CityObject {
     private var nameLabel: SKLabelNode?
     private var nameBackground: SKSpriteNode?
     private var sizeLabel: SKLabelNode?
+    private var growthProgressNode: SKSpriteNode?
     private var productionNode: SKSpriteNode?
     private var productionProgressNode: SKSpriteNode?
 
@@ -57,18 +58,7 @@ class CityObject {
             fatalError("cant get player")
         }
 
-        if self.nameLabel != nil {
-            self.nameLabel?.removeFromParent()
-            self.nameLabel = nil
-            self.nameBackground?.removeFromParent()
-            self.nameBackground = nil
-            self.sizeLabel?.removeFromParent()
-            self.sizeLabel = nil
-            self.productionNode?.removeFromParent()
-            self.productionNode = nil
-            self.productionProgressNode?.removeFromParent()
-            self.productionProgressNode = nil
-        }
+        self.hideCityBanner()
 
         let nameLabelWidth = city.name.count * 4
         let nameBackgroundWidth = nameLabelWidth + 18
@@ -94,6 +84,19 @@ class CityObject {
 
         if let sizeLabel = self.sizeLabel {
             self.sprite.addChild(sizeLabel)
+        }
+        
+        let growthProgress: Int = Int(Double(city.growthInTurns() * 100) / Double(city.maxGrowthInTurns())) / 5 * 5
+        let growthProgressTextureName = "linear_progress_\(growthProgress)"
+        let growthProgressTexture = SKTexture(imageNamed: growthProgressTextureName)
+
+        self.growthProgressNode = SKSpriteNode(texture: growthProgressTexture, color: .black, size: CGSize(width: 2, height: 10))
+        self.growthProgressNode?.position = CGPoint(x: 24 - nameBackgroundWidth / 2 + 4 + 4, y: 35)
+        self.growthProgressNode?.zPosition = Globals.ZLevels.cityName
+        self.growthProgressNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+
+        if let growthProgressNode = self.growthProgressNode {
+            self.sprite.addChild(growthProgressNode)
         }
 
         self.nameLabel = SKLabelNode(text: city.name)
@@ -145,6 +148,18 @@ class CityObject {
                 }
             }
 
+            let productionProgressTextureName = "linear_progress_\(productionProgress)"
+            let productionProgressTexture = SKTexture(imageNamed: productionProgressTextureName)
+
+            self.productionProgressNode = SKSpriteNode(texture: productionProgressTexture, color: .black, size: CGSize(width: 2, height: 10))
+            self.productionProgressNode?.position = CGPoint(x: 24 + nameBackgroundWidth / 2 - 11, y: 35)
+            self.productionProgressNode?.zPosition = Globals.ZLevels.cityName
+            self.productionProgressNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+
+            if let productionProgressNode = self.productionProgressNode {
+                self.sprite.addChild(productionProgressNode)
+            }
+            
             let productionTexture = SKTexture(imageNamed: textureName)
             self.productionNode = SKSpriteNode(texture: productionTexture, color: .black, size: CGSize(width: 8, height: 8))
             self.productionNode?.position = CGPoint(x: 24 + nameBackgroundWidth / 2 - 9, y: 36)
@@ -154,29 +169,24 @@ class CityObject {
             if let productionNode = self.productionNode {
                 self.sprite.addChild(productionNode)
             }
-
-            let productionProgressTextureName = "linear_progress_\(productionProgress)"
-            let productionProgressTexture = SKTexture(imageNamed: productionProgressTextureName)
-
-            self.productionProgressNode = SKSpriteNode(texture: productionProgressTexture, color: .black, size: CGSize(width: 2, height: 10))
-            self.productionProgressNode?.position = CGPoint(x: 24 + nameBackgroundWidth / 2 - 12, y: 36)
-            self.productionProgressNode?.zPosition = Globals.ZLevels.cityName
-            self.productionProgressNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-
-            if let productionProgressNode = self.productionProgressNode {
-                self.sprite.addChild(productionProgressNode)
-            }
         }
     }
 
-    func hideCityName() {
+    func hideCityBanner() {
 
         if self.nameLabel != nil {
             self.nameLabel?.removeFromParent()
+            self.nameLabel = nil
             self.nameBackground?.removeFromParent()
+            self.nameBackground = nil
             self.sizeLabel?.removeFromParent()
+            self.sizeLabel = nil
+            self.growthProgressNode?.removeFromParent()
+            self.growthProgressNode = nil
             self.productionNode?.removeFromParent()
+            self.productionNode = nil
             self.productionProgressNode?.removeFromParent()
+            self.productionProgressNode = nil
         }
     }
 }

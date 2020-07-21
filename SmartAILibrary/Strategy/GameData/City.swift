@@ -119,6 +119,7 @@ public protocol AbstractCity: class, Codable {
     func housingModifier(in gameModel: GameModel?) -> Double
     func lastTurnFoodEarned() -> Double
     func growthInTurns() -> Int
+    func maxGrowthInTurns() -> Int
     
     func maintenanceCostsPerTurn() -> Double
     
@@ -1278,6 +1279,17 @@ public class City: AbstractCity {
     public func growthInTurns() -> Int {
         
         let foodNeeded = self.growthThreshold() - self.foodBasket()
+        
+        if self.lastTurnFoodEarned() == 0.0 {
+            return 0
+        }
+
+        return Int(foodNeeded / self.lastTurnFoodEarned())
+    }
+    
+    public func maxGrowthInTurns() -> Int {
+        
+        let foodNeeded = self.growthThreshold()
         
         if self.lastTurnFoodEarned() == 0.0 {
             return Int(foodNeeded)
