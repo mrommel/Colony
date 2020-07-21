@@ -63,18 +63,18 @@ class CityLayer: SKNode {
             fatalError("cant get tile")
         }
         
-        if tile.isVisible(to: city.player) {
+        if tile.isVisible(to: player) {
             let cityObject = CityObject(city: city, in: self.gameModel)
         
             // add to canvas
             cityObject.addTo(node: self)
             
-            cityObject.showCityName()
+            cityObject.showCityBanner()
         
             // keep reference
             cityObjects.append(cityObject)
             
-        } else if tile.isDiscovered(by: city.player) {
+        } else if tile.isDiscovered(by: player) {
             let cityObject = CityObject(city: city, in: self.gameModel)
             
             // add to canvas
@@ -87,13 +87,28 @@ class CityLayer: SKNode {
     
     func update(city: AbstractCity?) {
         
+        guard let gameModel = self.gameModel else {
+            fatalError("gameModel not set")
+        }
+        
         guard let city = city else {
             fatalError("no city provided")
         }
         
         for cityLoopObject in self.cityObjects {
+            
             if city.location == cityLoopObject.city?.location {
-                cityLoopObject.showCityName()
+                
+                guard let tile = gameModel.tile(at: city.location) else {
+                    fatalError("cant get tile")
+                }
+                
+                if tile.isDiscovered(by: player) {
+                
+                    cityLoopObject.showCityBanner()
+                
+                    // FIXME update city size / buildings
+                }
             }
         }
     }
