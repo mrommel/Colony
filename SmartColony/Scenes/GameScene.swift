@@ -422,8 +422,13 @@ class GameScene: BaseScene {
 
         case .humanTurns:
             
-            // dirty hack
+            // dirty hacks
             self.mapNode?.unitLayer.populate(with: gameModel)
+            for player in gameModel.players {
+                for city in gameModel.cities(of: player) {
+                    self.mapNode?.cityLayer.update(city: city)
+                }
+            }
             
             // hide AI is working banner
             self.bannerNode?.removeFromParent()

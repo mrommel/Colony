@@ -23,6 +23,7 @@ class CityObject {
     private var nameBackground: SKSpriteNode?
     private var sizeLabel: SKLabelNode?
     private var productionNode: SKSpriteNode?
+    private var productionProgressNode: SKSpriteNode?
 
     init(city: AbstractCity?, in gameModel: GameModel?) {
 
@@ -46,7 +47,7 @@ class CityObject {
         parent.addChild(self.sprite)
     }
 
-    func showCityName() {
+    func showCityBanner() {
 
         guard let city = self.city else {
             fatalError("cant get unit")
@@ -63,6 +64,10 @@ class CityObject {
             self.nameBackground = nil
             self.sizeLabel?.removeFromParent()
             self.sizeLabel = nil
+            self.productionNode?.removeFromParent()
+            self.productionNode = nil
+            self.productionProgressNode?.removeFromParent()
+            self.productionProgressNode = nil
         }
 
         let nameLabelWidth = city.name.count * 4
@@ -98,49 +103,69 @@ class CityObject {
         self.nameLabel?.fontName = Globals.Fonts.customFontFamilyname
         self.nameLabel?.fontColor = player.leader.civilization().iconColor()
         self.nameLabel?.preferredMaxLayoutWidth = 30
-        
+
         self.nameLabel?.fitToWidth(maxWidth: CGFloat(nameLabelWidth))
 
         if let nameLabel = self.nameLabel {
             self.sprite.addChild(nameLabel)
         }
-        
-        var textureName = "questionmark"
-        if let item = city.currentBuildableItem() {
-            switch item.type {
 
-            case .unit:
-                if let unitType = item.unitType {
-                    textureName = unitType.iconTexture()
-                }
-            case .building:
-                if let buildingType = item.buildingType {
-                    textureName = buildingType.iconTexture()
-                }
-            case .wonder:
-                if let wonderType = item.wonderType {
-                    textureName = wonderType.iconTexture()
-                }
-            case .district:
-                if let districtType = item.districtType {
-                    textureName = districtType.iconTexture()
-                }
-            case .project:
-                /*if let projectType = item.projectType {
+        // show production only for human cities
+        if city.isHuman() {
+            var textureName = "questionmark"
+            var productionProgress: Int = 0
+            if let item = city.currentBuildableItem() {
+                switch item.type {
+
+                case .unit:
+                    if let unitType = item.unitType {
+                        textureName = unitType.iconTexture()
+                        productionProgress = Int((item.production * 100.0) / Double(unitType.productionCost())) / 5 * 5
+                    }
+                case .building:
+                    if let buildingType = item.buildingType {
+                        textureName = buildingType.iconTexture()
+                        productionProgress = Int((item.production * 100.0) / Double(buildingType.productionCost())) / 5 * 5
+                    }
+                case .wonder:
+                    if let wonderType = item.wonderType {
+                        textureName = wonderType.iconTexture()
+                        productionProgress = Int((item.production * 100.0) / Double(wonderType.productionCost())) / 5 * 5
+                    }
+                case .district:
+                    if let districtType = item.districtType {
+                        textureName = districtType.iconTexture()
+                        productionProgress = Int((item.production * 100.0) / Double(districtType.productionCost())) / 5 * 5
+                    }
+                case .project:
+                    /*if let projectType = item.projectType {
                     textureName = projectType.iconTexture()
                 }*/
-                break
+                    break
+                }
             }
-        }
-        
-        let productionSprite = SKTexture(imageNamed: textureName)
-        self.productionNode = SKSpriteNode(texture: productionSprite, color: .black, size: CGSize(width: 8, height: 8))
-        self.productionNode?.position = CGPoint(x: 24 + nameBackgroundWidth / 2 - 9, y: 36)
-        self.productionNode?.zPosition = Globals.ZLevels.cityName
-        self.productionNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        
-        if let productionNode = self.productionNode {
-            self.sprite.addChild(productionNode)
+
+            let productionTexture = SKTexture(imageNamed: textureName)
+            self.productionNode = SKSpriteNode(texture: productionTexture, color: .black, size: CGSize(width: 8, height: 8))
+            self.productionNode?.position = CGPoint(x: 24 + nameBackgroundWidth / 2 - 9, y: 36)
+            self.productionNode?.zPosition = Globals.ZLevels.cityName
+            self.productionNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+
+            if let productionNode = self.productionNode {
+                self.sprite.addChild(productionNode)
+            }
+
+            let productionProgressTextureName = "linear_progress_\(productionProgress)"
+            let productionProgressTexture = SKTexture(imageNamed: productionProgressTextureName)
+
+            self.productionProgressNode = SKSpriteNode(texture: productionProgressTexture, color: .black, size: CGSize(width: 2, height: 10))
+            self.productionProgressNode?.position = CGPoint(x: 24 + nameBackgroundWidth / 2 - 12, y: 36)
+            self.productionProgressNode?.zPosition = Globals.ZLevels.cityName
+            self.productionProgressNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+
+            if let productionProgressNode = self.productionProgressNode {
+                self.sprite.addChild(productionProgressNode)
+            }
         }
     }
 
@@ -151,6 +176,7 @@ class CityObject {
             self.nameBackground?.removeFromParent()
             self.sizeLabel?.removeFromParent()
             self.productionNode?.removeFromParent()
+            self.productionProgressNode?.removeFromParent()
         }
     }
 }
