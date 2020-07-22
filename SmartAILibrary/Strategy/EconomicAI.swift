@@ -252,7 +252,7 @@ public class EconomicAI: Codable {
 
                 shouldCityStrategyStart = false
 
-            } else if gameModel.turnsElapsed < economicStrategyType.notBeforeTurnElapsed() { // Not time to check this yet?
+            } else if gameModel.currentTurn < economicStrategyType.notBeforeTurnElapsed() { // Not time to check this yet?
 
                 shouldCityStrategyStart = false
             }
@@ -263,7 +263,7 @@ public class EconomicAI: Codable {
                 if economicStrategyType.checkEachTurns() > 0 {
 
                     // Is it a turn where we want to check to see if this Strategy is maintained?
-                    if gameModel.turnsElapsed - self.economicStrategyAdoption.turnOfAdoption(of: economicStrategyType) % economicStrategyType.checkEachTurns() == 0 {
+                    if gameModel.currentTurn - self.economicStrategyAdoption.turnOfAdoption(of: economicStrategyType) % economicStrategyType.checkEachTurns() == 0 {
                         shouldCityStrategyEnd = true
                     }
                 }
@@ -271,7 +271,7 @@ public class EconomicAI: Codable {
                 if shouldCityStrategyEnd && economicStrategyType.minimumAdoptionTurns() > 0 {
 
                     // Has the minimum # of turns passed for this Strategy?
-                    if gameModel.turnsElapsed < self.economicStrategyAdoption.turnOfAdoption(of: economicStrategyType) + economicStrategyType.minimumAdoptionTurns() {
+                    if gameModel.currentTurn < self.economicStrategyAdoption.turnOfAdoption(of: economicStrategyType) + economicStrategyType.minimumAdoptionTurns() {
                         shouldCityStrategyEnd = false
                     }
                 }
@@ -317,7 +317,7 @@ public class EconomicAI: Codable {
 
                     if shouldCityStrategyStart {
 
-                        self.economicStrategyAdoption.adopt(economicStrategy: economicStrategyType, turnOfAdoption: gameModel.turnsElapsed)
+                        self.economicStrategyAdoption.adopt(economicStrategy: economicStrategyType, turnOfAdoption: gameModel.currentTurn)
                     } else if shouldCityStrategyEnd {
 
                         self.economicStrategyAdoption.abandon(economicStrategy: economicStrategyType)

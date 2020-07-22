@@ -47,7 +47,7 @@ public class UnitMission {
             fatalError("player not set")
         }
 
-        self.startedInTurn = gameModel.turnsElapsed
+        self.startedInTurn = gameModel.currentTurn
 
         var delete = false
         var notify = false
@@ -227,7 +227,7 @@ public class UnitMission {
             var done = false // are we done with mission?
             var action = false // are we taking an action this turn?
 
-            if self.startedInTurn == gameModel.turnsElapsed {
+            if self.startedInTurn == gameModel.currentTurn {
 
                 if self.type == .moveTo && unit.canMove() {
 

@@ -717,7 +717,7 @@ public class TacticalAI: Codable {
         
         // Barbarian processing is straightforward -- just one big list of priorites and everything is considered at once
         if player?.leader == .barbar {
-            self.establishBarbarianPriorities(in: gameModel.turnsElapsed)
+            self.establishBarbarianPriorities(in: gameModel.currentTurn)
             self.extractTargets()
             self.assignBarbarianMoves(in: gameModel)
             
@@ -1268,7 +1268,7 @@ public class TacticalAI: Codable {
                 continue
             }
 
-            if city.lastTurnGarrisonAssigned() < gameModel.turnsElapsed {
+            if city.lastTurnGarrisonAssigned() < gameModel.currentTurn {
                 
                 // Grab units that make sense for this move type
                 self.findUnitsFor(move: .garrisonAlreadyThere, target: tile, turnsAway: numTurnsAway, rangedOnly: mustAllowRangedAttack, in: gameModel)
@@ -1276,7 +1276,7 @@ public class TacticalAI: Codable {
                 if self.currentMoveHighPriorityUnits.count + self.currentMoveUnits.count > 0 {
                     
                     self.executeMoveToTarget(target: target.target, garrisonIfPossible: true, in: gameModel)
-                    city.setLastTurnGarrisonAssigned(turn: gameModel.turnsElapsed)
+                    city.setLastTurnGarrisonAssigned(turn: gameModel.currentTurn)
                 }
             }
             
@@ -3593,7 +3593,7 @@ public class TacticalAI: Codable {
         // Clear out target list since we rebuild it each turn
         self.allTargets.removeAll()
 
-        let barbsAllowedYet = gameModel.turnsElapsed >= 20
+        let barbsAllowedYet = gameModel.currentTurn >= 20
         let mapSize = gameModel.mapSize()
 
         // Look at every tile on map
@@ -3736,10 +3736,10 @@ public class TacticalAI: Codable {
                                             if self.isVeryHighPriorityCivilian(target: newTarget) {
 
                                                 newTarget.targetType = .veryHighPriorityCivilian //(AI_TACTICAL_TARGET_VERY_HIGH_PRIORITY_CIVILIAN);
-                                            } else if self.isHighPriorityCivilian(target: newTarget, in: gameModel.turnsElapsed, numCities: gameModel.cities(of: player).count) {
+                                            } else if self.isHighPriorityCivilian(target: newTarget, in: gameModel.currentTurn, numCities: gameModel.cities(of: player).count) {
 
                                                 newTarget.targetType = .highPriorityCivilian
-                                            } else if self.isMediumPriorityCivilian(target: newTarget, in: gameModel.turnsElapsed) {
+                                            } else if self.isMediumPriorityCivilian(target: newTarget, in: gameModel.currentTurn) {
                                                 newTarget.targetType = .mediumPriorityCivilian
                                             }
                                         }
@@ -4144,7 +4144,7 @@ public class TacticalAI: Codable {
             fatalError("cant get gameModel")
         }
 
-        self.temporaryZones = self.temporaryZones.filter({ $0.lastTurn < gameModel.turnsElapsed })
+        self.temporaryZones = self.temporaryZones.filter({ $0.lastTurn < gameModel.currentTurn })
     }
 
 /// Remove a temporary dominance zone we no longer need to track

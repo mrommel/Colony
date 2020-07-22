@@ -43,11 +43,22 @@ class GameViewModel {
                 for tech in handicap.freeHumanTechs() {
                     try! player.techs?.discover(tech: tech)
                 }
+                
+                for civic in handicap.freeHumanCivics() {
+                    try! player.civics?.discover(civic: civic)
+                }
             } else {
                 for tech in handicap.freeAITechs() {
                     try! player.techs?.discover(tech: tech)
                 }
+                
+                for civic in handicap.freeAICivics() {
+                    try! player.civics?.discover(civic: civic)
+                }
             }
+            
+            // set first government
+            player.government?.set(governmentType: .chiefdom, in: 0)
             
             players.append(player)
             

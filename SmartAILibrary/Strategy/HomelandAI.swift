@@ -496,7 +496,7 @@ public class HomelandAI {
         let flavorMilitaryTraining = player.valueOfPersonalityFlavor(of: .militaryTraining)
 
         self.movePriorityList.removeAll()
-        self.movePriorityTurn = gameModel.turnsElapsed
+        self.movePriorityTurn = gameModel.currentTurn
 
 
         // Loop through each possible homeland move (other than "none" or "unassigned")
@@ -742,7 +742,7 @@ public class HomelandAI {
                     continue
                 }
                 
-                if city.lastTurnGarrisonAssigned() < gameModel.turnsElapsed {
+                if city.lastTurnGarrisonAssigned() < gameModel.currentTurn {
                     
                     // Grab units that make sense for this move type
                     self.findUnitsFor(move: .garrison, firstTime: firstRun)
@@ -752,7 +752,7 @@ public class HomelandAI {
                         if self.bestUnitToReachTarget(target: target, maxTurns: HomelandAI.defensiveMoveTurns, in: gameModel) {
                             self.executeMoveToTarget(target: target, garrisonIfPossible: true, in: gameModel)
 
-                            city.setLastTurnGarrisonAssigned(turn: gameModel.turnsElapsed)
+                            city.setLastTurnGarrisonAssigned(turn: gameModel.currentTurn)
                        }
                     }
                 }
@@ -1487,7 +1487,7 @@ public class HomelandAI {
                     
                     if self.moveCivilianToSafety(unit: unit, in: gameModel) {
                         
-                        print("\(player.leader) moves \(unit.name()) in turn \(gameModel.turnsElapsed) to 1st Safety,")
+                        print("\(player.leader) moves \(unit.name()) in turn \(gameModel.currentTurn) to 1st Safety,")
 
                         unit.finishMoves()
                         self.unitProcessed(unit: unit)
@@ -1503,7 +1503,7 @@ public class HomelandAI {
                 // if there's nothing else to do, move to the safest spot nearby
                 if self.moveCivilianToSafety(unit: unit, ignoreUnits: true, in: gameModel ) {
                     
-                    print("\(player.leader) moves \(unit.name()) in turn \(gameModel.turnsElapsed) to 2nd Safety,")
+                    print("\(player.leader) moves \(unit.name()) in turn \(gameModel.currentTurn) to 2nd Safety,")
                     
                     unit.push(mission: UnitMission(type: .skip), in: gameModel)
                     

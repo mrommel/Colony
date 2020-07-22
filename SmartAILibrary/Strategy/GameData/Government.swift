@@ -13,6 +13,9 @@ public protocol AbstractPolicyCardSet: class, Codable {
     func add(card: PolicyCardType)
     func has(card: PolicyCardType) -> Bool
     func valid(in slots: PolicyCardSlots) -> Bool
+    func filled(in slots: PolicyCardSlots) -> Bool
+    
+    func cards(of slotType: PolicyCardSlotType) -> [PolicyCardType]
 }
 
 class PolicyCardSet: AbstractPolicyCardSet {
@@ -54,6 +57,11 @@ class PolicyCardSet: AbstractPolicyCardSet {
 
         return self.cards.contains(card)
     }
+    
+    func cards(of slotType: PolicyCardSlotType) -> [PolicyCardType] {
+        
+        return cards.filter({ $0.slot() == slotType })
+    }
 
     func valid(in slots: PolicyCardSlots) -> Bool {
 
@@ -67,6 +75,19 @@ class PolicyCardSet: AbstractPolicyCardSet {
 
         return slots.wildcard - remainMilitary - remainEconomic - remainDiplomatic >= 0
     }
+    
+    func filled(in slots: PolicyCardSlots) -> Bool {
+
+        let militaryCards = cards.count(where: { $0.slot() == .military })
+        let economicCards = cards.count(where: { $0.slot() == .economic })
+        let diplomaticCards = cards.count(where: { $0.slot() == .diplomatic })
+
+        let remainMilitary = max(0, militaryCards - slots.military)
+        let remainEconomic = max(0, economicCards - slots.economic)
+        let remainDiplomatic = max(0, diplomaticCards - slots.diplomatic)
+
+        return slots.wildcard - remainMilitary - remainEconomic - remainDiplomatic == 0
+    }
 }
 
 class WeightedGovernmentList: WeightedList<GovernmentType> {
@@ -78,13 +99,17 @@ public protocol AbstractGovernment: class, Codable {
     var player: AbstractPlayer? { get set }
     
     func currentGovernment() -> GovernmentType?
-    func set(governmentType: GovernmentType)
-    func set(policyCards: AbstractPolicyCardSet) throws
+    func set(governmentType: GovernmentType, in turn: Int)
+    func set(policyCardSet: AbstractPolicyCardSet) throws
+    func policyCardSet() -> AbstractPolicyCardSet
 
     func add(card: PolicyCardType)
     func has(card: PolicyCardType) -> Bool
     
     func chooseBestGovernment(in gameModel: GameModel?)
+    
+    func hasPolicyCardsFilled() -> Bool
+    func policyCardSlots() -> PolicyCardSlots
 }
 
 enum GovernmentError: Error {
@@ -93,18 +118,20 @@ enum GovernmentError: Error {
     case invalidPolicyCardSet
 }
 
-class Government: AbstractGovernment {
+public class Government: AbstractGovernment {
 
     enum CodingKeys: CodingKey {
 
         case currentGovernment
+        case currentGovernmentSetInTurn
         case policyCards
 
         case lastCheckedGovernment
     }
 
-    var player: AbstractPlayer?
+    public var player: AbstractPlayer?
     private var currentGovernmentVal: GovernmentType?
+    private var currentGovernmentSetInTurn: Int = 0
     private var policyCardsVal: AbstractPolicyCardSet
 
     // AI value
@@ -127,6 +154,7 @@ class Government: AbstractGovernment {
         self.player = nil
 
         self.currentGovernmentVal = try container.decodeIfPresent(GovernmentType.self, forKey: .currentGovernment)
+        self.currentGovernmentSetInTurn = try container.decode(Int.self, forKey: .currentGovernmentSetInTurn)
         self.policyCardsVal = try container.decode(PolicyCardSet.self, forKey: .policyCards)
 
         self.lastCheckedGovernment = try container.decode(Int.self, forKey: .lastCheckedGovernment)
@@ -137,17 +165,18 @@ class Government: AbstractGovernment {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.currentGovernmentVal, forKey: .currentGovernment)
+        try container.encode(self.currentGovernmentSetInTurn, forKey: .currentGovernmentSetInTurn)
         try container.encode(self.policyCardsVal as! PolicyCardSet, forKey: .policyCards)
 
         try container.encode(self.lastCheckedGovernment, forKey: .lastCheckedGovernment)
     }
 
-    func currentGovernment() -> GovernmentType? {
+    public func currentGovernment() -> GovernmentType? {
 
         return self.currentGovernmentVal
     }
 
-    func chooseBestGovernment(in gameModel: GameModel?) {
+    public func chooseBestGovernment(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -161,7 +190,7 @@ class Government: AbstractGovernment {
             fatalError("cant get civics")
         }
 
-        if self.currentGovernmentVal == nil || self.lastCheckedGovernment + 10 > gameModel.turnsElapsed {
+        if self.currentGovernmentVal == nil || self.lastCheckedGovernment + 10 > gameModel.currentTurn {
 
             // all governments
             let allGovernmentTypes = GovernmentType.all
@@ -205,7 +234,7 @@ class Government: AbstractGovernment {
                 if let bestGovernment = governmentRating.chooseBest() {
                     if bestGovernment != self.currentGovernmentVal {
 
-                        self.set(governmentType: bestGovernment)
+                        self.set(governmentType: bestGovernment, in: gameModel.currentTurn)
 
                         // select best policy cards for each slot
                         for slotType in bestGovernment.policyCardSlots().types() {
@@ -225,30 +254,38 @@ class Government: AbstractGovernment {
                 }
             }
 
-            self.lastCheckedGovernment = gameModel.turnsElapsed
+            self.lastCheckedGovernment = gameModel.currentTurn
         }
     }
 
-    func set(governmentType: GovernmentType) {
+    public func set(governmentType: GovernmentType, in turn: Int) {
 
         self.currentGovernmentVal = governmentType
+        self.currentGovernmentSetInTurn = turn
         self.policyCardsVal = PolicyCardSet() // reset card selection
+        
+        self.player?.notifications()?.addNotification(of: .policiesNeeded, for: self.player, message: "Please choose policy cards", summary: "Choose policy cards")
     }
 
-    func set(policyCards: AbstractPolicyCardSet) throws {
+    public func set(policyCardSet: AbstractPolicyCardSet) throws {
 
         guard let government = self.currentGovernmentVal else {
             throw GovernmentError.noGovernmentSelected
         }
 
-        if !policyCards.valid(in: government.policyCardSlots()) {
+        if !policyCardSet.valid(in: government.policyCardSlots()) {
             throw GovernmentError.invalidPolicyCardSet
         }
 
-        self.policyCardsVal = policyCards
+        self.policyCardsVal = policyCardSet
+    }
+    
+    public func policyCardSet() -> AbstractPolicyCardSet {
+        
+        return self.policyCardsVal
     }
 
-    func policyCardSlots() -> PolicyCardSlots {
+    public func policyCardSlots() -> PolicyCardSlots {
 
         if let government = self.currentGovernmentVal {
             return government.policyCardSlots()
@@ -257,13 +294,18 @@ class Government: AbstractGovernment {
         return PolicyCardSlots(military: 0, economic: 0, diplomatic: 0, wildcard: 0)
     }
 
-    func add(card: PolicyCardType) {
+    public func add(card: PolicyCardType) {
 
         self.policyCardsVal.add(card: card)
     }
 
-    func has(card: PolicyCardType) -> Bool {
+    public func has(card: PolicyCardType) -> Bool {
 
         return self.policyCardsVal.has(card: card)
+    }
+    
+    public func hasPolicyCardsFilled() -> Bool {
+        
+        return self.policyCardsVal.filled(in: self.policyCardSlots())
     }
 }

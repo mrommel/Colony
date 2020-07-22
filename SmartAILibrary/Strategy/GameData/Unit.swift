@@ -1203,7 +1203,7 @@ public class Unit: AbstractUnit {
                 }*/
 
                 if let mission = self.peekMission() {
-                    if mission.startedInTurn != gameModel.turnsElapsed {
+                    if mission.startedInTurn != gameModel.currentTurn {
                         //LOG_UNIT_MOVES_MESSAGE_OSTR(std::string("Rejecting move pkMissionData->iPushTurn=") << pkMissionData->iPushTurn << std::string(", GC.getGame().getGameTurn()=") << GC.getGame().getGameTurn());
                         rejectMove = true
                     }

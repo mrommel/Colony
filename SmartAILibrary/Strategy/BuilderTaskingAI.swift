@@ -992,7 +992,7 @@ public class BuilderTaskingAI {
         }
 
         // the plot was not flagged this turn, so ignore
-        if pPlot.builderAIScratchPad().turn != gameModel.turnsElapsed || pPlot.builderAIScratchPad().leader != unitPlayer.leader {
+        if pPlot.builderAIScratchPad().turn != gameModel.currentTurn || pPlot.builderAIScratchPad().leader != unitPlayer.leader {
             return BuilderDirectiveWeightedList()
         }
 

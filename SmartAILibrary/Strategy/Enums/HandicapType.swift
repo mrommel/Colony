@@ -72,6 +72,29 @@ public enum HandicapType: Int, Codable {
             return []
         }
     }
+    
+    public func freeHumanCivics() -> [CivicType] {
+        
+        switch self {
+
+        case .settler:
+            return [.codeOfLaws]
+        case .chieftain:
+            return [.codeOfLaws]
+        case .warlord:
+            return [.codeOfLaws]
+        case .prince:
+            return [.codeOfLaws]
+        case .king:
+            return [.codeOfLaws]
+        case .emperor:
+            return [.codeOfLaws]
+        case .immortal:
+            return [.codeOfLaws]
+        case .deity:
+            return [.codeOfLaws]
+        }
+    }
 
     public func freeAITechs() -> [TechType] {
 
@@ -93,6 +116,29 @@ public enum HandicapType: Int, Codable {
             return [.pottery, .animalHusbandry]
         case .deity:
             return [.pottery, .animalHusbandry, .mining, .wheel]
+        }
+    }
+    
+    public func freeAICivics() -> [CivicType] {
+        
+        switch self {
+
+        case .settler:
+            return [.codeOfLaws]
+        case .chieftain:
+            return [.codeOfLaws]
+        case .warlord:
+            return [.codeOfLaws]
+        case .prince:
+            return [.codeOfLaws]
+        case .king:
+            return [.codeOfLaws]
+        case .emperor:
+            return [.codeOfLaws]
+        case .immortal:
+            return [.codeOfLaws]
+        case .deity:
+            return [.codeOfLaws]
         }
     }
 

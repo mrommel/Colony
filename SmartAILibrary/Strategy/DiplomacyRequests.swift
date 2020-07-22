@@ -135,7 +135,7 @@ public class DiplomacyRequests: Codable {
             fatalError("cant get gameModel")
         }
 
-        self.requests.append(DiplomacyRequest(for: otherLeader, state: state, message: message, emotion: emotion, turn: gameModel.turnsElapsed))
+        self.requests.append(DiplomacyRequest(for: otherLeader, state: state, message: message, emotion: emotion, turn: gameModel.currentTurn))
     }
 
     //    Send a request from a player to another player.

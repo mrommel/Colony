@@ -319,7 +319,7 @@ public class CityCitizens: Codable {
 
         if !player.isHuman() {
             
-            if gameModel.turnsElapsed % 8 == 0 {
+            if gameModel.currentTurn % 8 == 0 {
                 
                 self.set(focusType: .goldGrowth)
                 self.setNoAutoAssignSpecialists(true, in: gameModel)
@@ -369,7 +369,7 @@ public class CityCitizens: Codable {
                         self.set(focusType: .none);
                         self.setNoAutoAssignSpecialists(true, in: gameModel);
                     }
-                } else if gameModel.turnsElapsed % 3 == 0 && player.grandStrategyAI?.activeStrategy == .culture {
+                } else if gameModel.currentTurn % 3 == 0 && player.grandStrategyAI?.activeStrategy == .culture {
                     
                     self.set(focusType: .culture)
                     self.setNoAutoAssignSpecialists(true, in: gameModel)

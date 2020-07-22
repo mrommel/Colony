@@ -322,7 +322,7 @@ public class MilitaryAI: Codable {
 
                 shouldCityStrategyStart = false
 
-            } else if gameModel.turnsElapsed < militaryStrategyType.notBeforeTurnElapsed() { // Not time to check this yet?
+            } else if gameModel.currentTurn < militaryStrategyType.notBeforeTurnElapsed() { // Not time to check this yet?
 
                 shouldCityStrategyStart = false
             }
@@ -333,7 +333,7 @@ public class MilitaryAI: Codable {
                 if militaryStrategyType.checkEachTurns() > 0 {
 
                     // Is it a turn where we want to check to see if this Strategy is maintained?
-                    if gameModel.turnsElapsed - self.militaryStrategyAdoption.turnOfAdoption(of: militaryStrategyType) % militaryStrategyType.checkEachTurns() == 0 {
+                    if gameModel.currentTurn - self.militaryStrategyAdoption.turnOfAdoption(of: militaryStrategyType) % militaryStrategyType.checkEachTurns() == 0 {
                         shouldCityStrategyEnd = true
                     }
                 }
@@ -341,7 +341,7 @@ public class MilitaryAI: Codable {
                 if shouldCityStrategyEnd && militaryStrategyType.minimumAdoptionTurns() > 0 {
 
                     // Has the minimum # of turns passed for this Strategy?
-                    if gameModel.turnsElapsed < self.militaryStrategyAdoption.turnOfAdoption(of: militaryStrategyType) + militaryStrategyType.minimumAdoptionTurns() {
+                    if gameModel.currentTurn < self.militaryStrategyAdoption.turnOfAdoption(of: militaryStrategyType) + militaryStrategyType.minimumAdoptionTurns() {
                         shouldCityStrategyEnd = false
                     }
                 }
@@ -386,7 +386,7 @@ public class MilitaryAI: Codable {
 
                     if shouldCityStrategyStart {
 
-                        self.militaryStrategyAdoption.adopt(militaryStrategy: militaryStrategyType, turnOfAdoption: gameModel.turnsElapsed)
+                        self.militaryStrategyAdoption.adopt(militaryStrategy: militaryStrategyType, turnOfAdoption: gameModel.currentTurn)
                     } else if shouldCityStrategyEnd {
 
                         self.militaryStrategyAdoption.abandon(militaryStrategy: militaryStrategyType)
@@ -1787,7 +1787,7 @@ class MilitaryAIHelpers {
                     
                     if loopUnit.army() == nil && loopUnit.canRecruitFromTacticalAI() {
                         
-                        if loopUnit.deployFromOperationTurn() + 4 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */ < gameModel.turnsElapsed {
+                        if loopUnit.deployFromOperationTurn() + 4 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */ < gameModel.currentTurn {
                             
                             if !requiresNavalMoves || loopUnit.domain() == .sea || loopUnit.canEverEmbark() {
                                 

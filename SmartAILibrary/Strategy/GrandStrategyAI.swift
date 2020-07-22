@@ -305,7 +305,7 @@ public class GrandStrategyAI: Codable {
         
         // Now see which Grand Strategy should be active, based on who has the highest Priority right now
         // Grand Strategy must be run for at least 10 turns
-        if self.activeStrategy == .none || self.numTurnsSinceActiveStrategySet(turnsElapsed: gameModel.turnsElapsed) > 10 {
+        if self.activeStrategy == .none || self.numTurnsSinceActiveStrategySet(turnsElapsed: gameModel.currentTurn) > 10 {
         
             var bestStrategy: GrandStrategyAIType = .none
             var bestPriority = -1
@@ -319,7 +319,7 @@ public class GrandStrategyAI: Codable {
             }
             
             if activeStrategy != bestStrategy {
-                self.set(activeStrategy: bestStrategy, turnsElapsed: gameModel.turnsElapsed)
+                self.set(activeStrategy: bestStrategy, turnsElapsed: gameModel.currentTurn)
                 // inform about change
             }
         }
@@ -447,7 +447,7 @@ public class GrandStrategyAI: Codable {
         priority += player.leader.trait(for: .boldness) * 10
         
         // How many turns must have passed before we test for having met nobody?
-        if gameModel.turnsElapsed > 20 {
+        if gameModel.currentTurn > 20 {
             var metAnybody = false
             
             for otherPlayer in gameModel.players {
@@ -522,7 +522,7 @@ public class GrandStrategyAI: Codable {
         }
         
         // If we're early in the game, reduce the priority
-        if gameModel.turnsElapsed < 50 {
+        if gameModel.currentTurn < 50 {
             followsCultureLikelyhood /= 2
         }
         
