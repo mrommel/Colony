@@ -28,8 +28,8 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>90</offsety>
-            <width>200</width>
+            <offsety>100</offsety>
+            <width>250</width>
             <height>40</height>
         </item>
         <item>
