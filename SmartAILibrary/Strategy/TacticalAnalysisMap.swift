@@ -310,11 +310,11 @@ class TacticalAnalysisMap {
             fatalError("cant get player")
         }
 
-        if self.turnBuild < gameModel.turnsElapsed || player.leader != self.playerBuild?.leader {
+        if self.turnBuild < gameModel.currentTurn || player.leader != self.playerBuild?.leader {
 
             self.isBuild = false
             self.playerBuild = player
-            self.turnBuild = gameModel.turnsElapsed
+            self.turnBuild = gameModel.currentTurn
 
             // AI civs build this map every turn
             if player.leader.civilization() != .barbarian {

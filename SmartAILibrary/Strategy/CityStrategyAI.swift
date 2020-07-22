@@ -308,7 +308,7 @@ public class CityStrategyAI: Codable {
                     if cityStrategyType.checkEachTurns() > 0 {
 
                         // Is it a turn where we want to check to see if this Strategy is maintained?
-                        if gameModel.turnsElapsed - self.cityStrategyAdoption.turnOfAdoption(of: cityStrategyType) % cityStrategyType.checkEachTurns() == 0 {
+                        if gameModel.currentTurn - self.cityStrategyAdoption.turnOfAdoption(of: cityStrategyType) % cityStrategyType.checkEachTurns() == 0 {
                             shouldCityStrategyEnd = true
                         }
                     }
@@ -316,7 +316,7 @@ public class CityStrategyAI: Codable {
                     if shouldCityStrategyEnd && cityStrategyType.minimumAdoptionTurns() > 0 {
 
                         // Has the minimum # of turns passed for this Strategy?
-                        if gameModel.turnsElapsed < self.cityStrategyAdoption.turnOfAdoption(of: cityStrategyType) + cityStrategyType.minimumAdoptionTurns() {
+                        if gameModel.currentTurn < self.cityStrategyAdoption.turnOfAdoption(of: cityStrategyType) + cityStrategyType.minimumAdoptionTurns() {
                             shouldCityStrategyEnd = false
                         }
                     }
@@ -363,7 +363,7 @@ public class CityStrategyAI: Codable {
 
                     if shouldCityStrategyStart {
 
-                        self.cityStrategyAdoption.adopt(cityStrategy: cityStrategyType, turnOfAdoption: gameModel.turnsElapsed)
+                        self.cityStrategyAdoption.adopt(cityStrategy: cityStrategyType, turnOfAdoption: gameModel.currentTurn)
                     } else if shouldCityStrategyEnd {
 
                         self.cityStrategyAdoption.abandon(cityStrategy: cityStrategyType)

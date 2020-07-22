@@ -185,6 +185,35 @@ extension GameScene {
 
         self.cameraNode.add(dialog: treasuryDialog)
     }
+    
+    func showGovernment() {
+        
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        self.currentScreenType = .government
+
+        let governmentViewModel = GovernmentDialogViewModel(government: humanPlayer.government, in: gameModel)
+
+        let governmentDialog = GovernmentDialog(with: governmentViewModel)
+        governmentDialog.zPosition = 250
+
+        governmentDialog.addResultHandler { result in
+            print("selected: \(result)")
+        }
+        
+        governmentDialog.addOkayAction(handler: {
+            governmentDialog.close()
+            self.currentScreenType = .none
+        })
+
+        self.cameraNode.add(dialog: governmentDialog)
+    }
 
     func showMenuDialog() {
 

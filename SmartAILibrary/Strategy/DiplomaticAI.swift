@@ -2591,7 +2591,7 @@ public class DiplomaticAI: Codable {
             fatalError("cant get otherPlayer")
         }
 
-        self.playerDict.initContact(with: otherPlayer, in: gameModel.turnsElapsed)
+        self.playerDict.initContact(with: otherPlayer, in: gameModel.currentTurn)
         self.updateMilitaryStrength(of: otherPlayer, in: gameModel)
 
         // Humans don't say hi to ai player automatically
@@ -2782,7 +2782,7 @@ public class DiplomaticAI: Codable {
             fatalError("no game model given")
         }
 
-        self.playerDict.establishDefensivePact(with: otherPlayer, in: gameModel.turnsElapsed)
+        self.playerDict.establishDefensivePact(with: otherPlayer, in: gameModel.currentTurn)
     }
 
     func isDefensivePactActive(with otherPlayer: AbstractPlayer?) -> Bool {
@@ -2843,7 +2843,7 @@ public class DiplomaticAI: Codable {
         // Update what every Major Civ sees
         // FIXME: let everyone know, we have attacked
 
-        self.playerDict.declaredWar(towards: otherPlayer, in: gameModel.turnsElapsed)
+        self.playerDict.declaredWar(towards: otherPlayer, in: gameModel.currentTurn)
 
         // inform player that some declared war
         if otherPlayer.isHuman() {
@@ -4390,7 +4390,7 @@ public class DiplomaticAI: Codable {
         }
 
         // If it's a city-state and we've been at war for a LONG time, bump things up
-        if targetValue > .impossible && self.playerDict.turnsOfWar(with: otherPlayer, in: gameModel.turnsElapsed) > 50 /*TARGET_INCREASE_WAR_TURNS */ {
+        if targetValue > .impossible && self.playerDict.turnsOfWar(with: otherPlayer, in: gameModel.currentTurn) > 50 /*TARGET_INCREASE_WAR_TURNS */ {
             targetValue.decrease()
         }
 
@@ -4418,7 +4418,7 @@ public class DiplomaticAI: Codable {
             fatalError("cant get gameModel")
         }
         
-        return gameModel.turnsElapsed - self.playerDict.turnOfLastMeeting(with: otherPlayer)
+        return gameModel.currentTurn - self.playerDict.turnOfLastMeeting(with: otherPlayer)
     }
 
     // MARK: proximity

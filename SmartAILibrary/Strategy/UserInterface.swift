@@ -173,6 +173,8 @@ public enum ScreenType {
     case civics
     
     case treasury
+    case government
+    case governmentPolicies
     
     case menu
 }
