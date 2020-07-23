@@ -186,7 +186,7 @@ extension GameScene {
         self.cameraNode.add(dialog: treasuryDialog)
     }
     
-    func showGovernment() {
+    func showGovernmentDialog() {
         
         guard let gameModel = self.viewModel?.game else {
             fatalError("cant get game")
@@ -204,7 +204,17 @@ extension GameScene {
         governmentDialog.zPosition = 250
 
         governmentDialog.addResultHandler { result in
-            print("selected: \(result)")
+            
+            governmentDialog.close()
+            self.currentScreenType = .none
+            
+            if result == .changeGovernment {
+                self.showChangeGovernmentDialog()
+            } else if result == .changePolicies {
+                self.showChangePoliciesDialog()
+            } else {
+                print("unhandled: \(result)")
+            }
         }
         
         governmentDialog.addOkayAction(handler: {
@@ -215,6 +225,44 @@ extension GameScene {
         self.cameraNode.add(dialog: governmentDialog)
     }
 
+    func showChangeGovernmentDialog() {
+        
+        self.currentScreenType = .changeGovernment
+
+        let changeGovernmentViewModel = ChangeGovernmentDialogViewModel()
+
+        let changeGovernmentDialog = ChangeGovernmentDialog(with: changeGovernmentViewModel)
+        changeGovernmentDialog.zPosition = 250
+        
+        changeGovernmentDialog.addOkayAction(handler: {
+            changeGovernmentDialog.close()
+            self.currentScreenType = .none
+            
+            self.showGovernmentDialog()
+        })
+
+        self.cameraNode.add(dialog: changeGovernmentDialog)
+    }
+    
+    func showChangePoliciesDialog() {
+        
+        self.currentScreenType = .changePolicies
+
+        let changePoliciesViewModel = ChangePoliciesDialogViewModel()
+
+        let changePoliciesDialog = ChangePoliciesDialog(with: changePoliciesViewModel)
+        changePoliciesDialog.zPosition = 250
+        
+        changePoliciesDialog.addOkayAction(handler: {
+            changePoliciesDialog.close()
+            self.currentScreenType = .none
+            
+            self.showGovernmentDialog()
+        })
+
+        self.cameraNode.add(dialog: changePoliciesDialog)
+    }
+    
     func showMenuDialog() {
 
         self.currentScreenType = .menu

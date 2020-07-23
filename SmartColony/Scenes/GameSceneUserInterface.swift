@@ -50,7 +50,7 @@ extension GameScene: UserInterfaceProtocol {
         case .menu:
             self.showMenuDialog()
         case .government:
-            self.showGovernment()
+            self.showGovernmentDialog()
         default:
             print("screen: \(screenType) not handled")
         }
