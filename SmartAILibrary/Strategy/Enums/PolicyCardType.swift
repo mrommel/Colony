@@ -19,6 +19,8 @@ public enum PolicyCardSlotType {
 // https://civilization.fandom.com/wiki/Policy_Cards_(Civ6)
 public enum PolicyCardType: Int, Codable {
 
+    case slot // empty
+    
     // ancient
     case survey // FIXME Doubles experience for recon units.
     case godKing // +1 Faith and +1 Gold in the Capital.
@@ -59,13 +61,18 @@ public enum PolicyCardType: Int, Codable {
 
         return self.data().name
     }
+    
+    public func bonus() -> String {
+
+        return self.data().bonus
+    }
 
     public func slot() -> PolicyCardSlotType {
 
         return self.data().slot
     }
     
-    func required() -> CivicType {
+    public func required() -> CivicType {
 
         return self.data().required
     }
@@ -73,6 +80,9 @@ public enum PolicyCardType: Int, Codable {
     private func data() -> PolicyCardTypeData {
 
         switch self {
+            
+        case .slot:
+            return PolicyCardTypeData(name: "-", bonus: "-", slot: .wildcard, required: .none, obsolete: nil, flavours: [])
 
         case .survey:
             // https://civilization.fandom.com/wiki/Survey_(Civ6)
@@ -241,7 +251,7 @@ public enum PolicyCardType: Int, Codable {
         let flavours: [Flavor]
     }
 
-    func obsoleteCivic() -> CivicType? {
+    public func obsoleteCivic() -> CivicType? {
 
         return self.data().obsolete
     }

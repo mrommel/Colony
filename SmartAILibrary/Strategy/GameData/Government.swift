@@ -16,6 +16,7 @@ public protocol AbstractPolicyCardSet: class, Codable {
     func filled(in slots: PolicyCardSlots) -> Bool
     
     func cards(of slotType: PolicyCardSlotType) -> [PolicyCardType]
+    func cardsFilled(in slotType: PolicyCardSlotType, of slots: PolicyCardSlots) -> [PolicyCardType]
 }
 
 class PolicyCardSet: AbstractPolicyCardSet {
@@ -61,6 +62,40 @@ class PolicyCardSet: AbstractPolicyCardSet {
     func cards(of slotType: PolicyCardSlotType) -> [PolicyCardType] {
         
         return cards.filter({ $0.slot() == slotType })
+    }
+    
+    func cardsFilled(in slotType: PolicyCardSlotType, of slots: PolicyCardSlots) -> [PolicyCardType] {
+        
+        let militaryCards = self.cards.count(where: { $0.slot() == .military })
+        let possibleMilitaryCards = min(militaryCards, slots.military)
+        let economicCards = self.cards.count(where: { $0.slot() == .economic })
+        let possibleEconomicCards = min(economicCards, slots.economic)
+        let diplomaticCards = self.cards.count(where: { $0.slot() == .diplomatic })
+        let possibleDiplomaticCards = min(diplomaticCards, slots.diplomatic)
+        
+        if slotType == .military {
+            let allMilitaryCards = self.cards.filter({ $0.slot() == .military })
+            return Array(allMilitaryCards.prefix(possibleMilitaryCards))
+        } else if slotType == .economic {
+            let allEconomicCards = self.cards.filter({ $0.slot() == .economic })
+            return Array(allEconomicCards.prefix(possibleEconomicCards))
+        } else if slotType == .diplomatic {
+            let allDiplomaticCards = self.cards.filter({ $0.slot() == .diplomatic })
+            return Array(allDiplomaticCards.prefix(possibleDiplomaticCards))
+        } else {
+            var tmpCards = self.cards
+            
+            let tmpMilitary = self.cardsFilled(in: .military, of: slots)
+            tmpCards.removeAll(where: { tmpMilitary.contains($0) })
+            
+            let tmpEconomic = self.cardsFilled(in: .economic, of: slots)
+            tmpCards.removeAll(where: { tmpEconomic.contains($0) })
+            
+            let tmpDiplomatic = self.cardsFilled(in: .diplomatic, of: slots)
+            tmpCards.removeAll(where: { tmpDiplomatic.contains($0) })
+            
+            return tmpCards
+        }
     }
 
     func valid(in slots: PolicyCardSlots) -> Bool {
