@@ -12,11 +12,16 @@ extension PolicyCardType {
 
     func iconTexture() -> String {
 
+        if self == .slot {
+            return "policyCard_slot"
+        }
+        
         switch self.slot() {
+
         case .military: return "policyCard_military"
         case .economic: return "policyCard_economic"
         case .diplomatic: return "policyCard_diplomatic"
-        case .wildcard: return "policyCard_default"
+        case .wildcard: return "policyCard_wildcard"
         }
     }
 }

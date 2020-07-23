@@ -33,6 +33,7 @@
 		C921AC0324C72D8A00CF8967 /* GovernmentDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C921AC0224C72D8A00CF8967 /* GovernmentDialog.xml */; };
 		C921AC0524C839B700CF8967 /* GovernmentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C921AC0424C839B700CF8967 /* GovernmentTypeExtension.swift */; };
 		C921AC0724C85EB100CF8967 /* PolicyCardNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C921AC0624C85EB100CF8967 /* PolicyCardNode.swift */; };
+		C921AC0924C8D3A900CF8967 /* NSAttributedStringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C921AC0824C8D3A800CF8967 /* NSAttributedStringExtension.swift */; };
 		C922D2BC2449A1A1009E182F /* CityNameDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C922D2BB2449A1A1009E182F /* CityNameDialog.xml */; };
 		C922D2BE2449A24C009E182F /* CityNameDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C922D2BD2449A24C009E182F /* CityNameDialog.swift */; };
 		C94787172472845D00FAAC99 /* TreasuryDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94787162472845D00FAAC99 /* TreasuryDialog.swift */; };
@@ -288,6 +289,7 @@
 		C921AC0224C72D8A00CF8967 /* GovernmentDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = GovernmentDialog.xml; sourceTree = "<group>"; };
 		C921AC0424C839B700CF8967 /* GovernmentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentTypeExtension.swift; sourceTree = "<group>"; };
 		C921AC0624C85EB100CF8967 /* PolicyCardNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardNode.swift; sourceTree = "<group>"; };
+		C921AC0824C8D3A800CF8967 /* NSAttributedStringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringExtension.swift; sourceTree = "<group>"; };
 		C922D2BB2449A1A1009E182F /* CityNameDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CityNameDialog.xml; sourceTree = "<group>"; };
 		C922D2BD2449A24C009E182F /* CityNameDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityNameDialog.swift; sourceTree = "<group>"; };
 		C94787162472845D00FAAC99 /* TreasuryDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreasuryDialog.swift; sourceTree = "<group>"; };
@@ -811,6 +813,7 @@
 				C95B3E0324387528002F5A86 /* UIColorExtension.swift */,
 				C94DE1D724516BAC00B13F4D /* CGFloatExtension.swift */,
 				C9DC1C8424839E5600235743 /* GameStorage.swift */,
+				C921AC0824C8D3A800CF8967 /* NSAttributedStringExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1209,6 +1212,7 @@
 				C9B1D22A2434934600033791 /* MenuScene.swift in Sources */,
 				C9EC4E1924445082001A0597 /* CityLayer.swift in Sources */,
 				C9EC4E1F244459B8001A0597 /* CityDialog.swift in Sources */,
+				C921AC0924C8D3A900CF8967 /* NSAttributedStringExtension.swift in Sources */,
 				C9B1D20D2434768900033791 /* GameScene.swift in Sources */,
 				C9B1D27824351F3500033791 /* UIParser.swift in Sources */,
 				C95B3E0424387528002F5A86 /* UIColorExtension.swift in Sources */,

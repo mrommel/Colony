@@ -10,10 +10,10 @@ import Foundation
 
 public class PolicyCardSlots {
 
-    let military: Int // red
-    let economic: Int // yellow
-    let diplomatic: Int // green
-    let wildcard: Int // lila
+    public let military: Int // red
+    public let economic: Int // yellow
+    public let diplomatic: Int // green
+    public let wildcard: Int // lila
 
     init(military: Int, economic: Int, diplomatic: Int, wildcard: Int) {
 
@@ -22,8 +22,23 @@ public class PolicyCardSlots {
         self.diplomatic = diplomatic
         self.wildcard = wildcard
     }
+    
+    public func numberOfSlots(in slotType: PolicyCardSlotType) -> Int {
+        
+        switch slotType {
 
-    func types() -> [PolicyCardSlotType] {
+        case .military:
+            return self.military
+        case .economic:
+            return self.economic
+        case .diplomatic:
+            return self.diplomatic
+        case .wildcard:
+            return self.wildcard
+        }
+    }
+
+    public func types() -> [PolicyCardSlotType] {
 
         var list: [PolicyCardSlotType] = []
 
