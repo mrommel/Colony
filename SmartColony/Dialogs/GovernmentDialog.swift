@@ -33,7 +33,7 @@ class GovernmentDialogViewModel {
             self.bonusSummary = currentGovernment.bonusSummary()
             self.legacySummary = currentGovernment.legacySummary()
 
-            self.cardsInMilitarySlot = [.discipline] // GovernmentDialogViewModel.cardsFilling(slot: .military, in: government)
+            self.cardsInMilitarySlot = GovernmentDialogViewModel.cardsFilling(slot: .military, in: government)
             self.cardsInEconomicSlot = GovernmentDialogViewModel.cardsFilling(slot: .economic, in: government)
             self.cardsInDiplomaticSlot = GovernmentDialogViewModel.cardsFilling(slot: .diplomatic, in: government)
             self.cardsInWildcardSlot = GovernmentDialogViewModel.cardsFilling(slot: .wildcard, in: government)

@@ -13,8 +13,7 @@ class PolicyCardNode: SKNode {
 
     // nodes
     var backgroundNode: SKSpriteNode?
-    var nameLabel: SKLabelNode?
-    //var shadowNameLabel: SKLabelNode?
+    var titleLabel: SKLabelNode?
     var bonusLabel: SKLabelNode?
 
     // MARK: constructors
@@ -30,6 +29,8 @@ class PolicyCardNode: SKNode {
         self.backgroundNode?.position = CGPoint(x: size.halfWidth, y: -size.halfHeight)
         self.addChild(self.backgroundNode!)
         
+        // /////////////////////
+        // title
         let titleTextAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.white,
             .backgroundColor: UIColor.black.withAlphaComponent(0.7),
@@ -38,20 +39,16 @@ class PolicyCardNode: SKNode {
 
         let titleTextAttributed = NSAttributedString(string: policyCard.name(), attributes: titleTextAttributes)
 
-        self.nameLabel = SKLabelNode(attributedText: titleTextAttributed)
-        self.nameLabel?.fontSize = 12
-        self.nameLabel?.fontColor = .black
-        self.nameLabel?.zPosition = self.zPosition + 10
-        self.nameLabel?.verticalAlignmentMode = .center
-        self.nameLabel?.position = CGPoint(x: size.halfWidth, y: -15)
-        self.addChild(self.nameLabel!)
+        self.titleLabel = SKLabelNode(attributedText: titleTextAttributed)
+        self.titleLabel?.fontSize = 12
+        self.titleLabel?.fontColor = .black
+        self.titleLabel?.zPosition = self.zPosition + 10
+        self.titleLabel?.verticalAlignmentMode = .center
+        self.titleLabel?.position = CGPoint(x: size.halfWidth, y: -15)
+        self.addChild(self.titleLabel!)
 
-        var tmpText = policyCard.bonus()
-        
-        tmpText = tmpText.replacingOccurrences(of: "Civ6StrengthIcon", with: "🛡")
-        // Civ6Production ⚙
-        // Civ6Gold 🪙
-        
+        // /////////////////////
+        // bonus
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         let bonusTextAttributes: [NSAttributedString.Key: Any] = [
@@ -61,7 +58,7 @@ class PolicyCardNode: SKNode {
             .paragraphStyle: paragraphStyle
         ]
 
-        let bonusTextAttributed = NSAttributedString(string: tmpText, attributes: bonusTextAttributes)
+        let bonusTextAttributed = NSAttributedString(string: policyCard.bonus().replaceIcons(), attributes: bonusTextAttributes)
         
         self.bonusLabel = SKLabelNode(attributedText: bonusTextAttributed)
         self.bonusLabel?.zPosition = self.zPosition + 10
