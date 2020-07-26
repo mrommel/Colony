@@ -13,8 +13,8 @@ class GovernmentDialogViewModel {
 
     let currentGovernmentName: String
     let currentGovernmentIconName: String
-    let bonusSummary: String
-    let legacySummary: String
+    let bonus1Summary: String
+    let bonus2Summary: String
 
     let cardsInMilitarySlot: [PolicyCardType]
     let cardsInEconomicSlot: [PolicyCardType]
@@ -30,8 +30,8 @@ class GovernmentDialogViewModel {
         if let currentGovernment = government.currentGovernment() {
             self.currentGovernmentName = "Current Government: \(currentGovernment.name())"
             self.currentGovernmentIconName = currentGovernment.iconTexture()
-            self.bonusSummary = currentGovernment.bonusSummary()
-            self.legacySummary = currentGovernment.legacySummary()
+            self.bonus1Summary = currentGovernment.bonus1Summary().replaceIcons()
+            self.bonus2Summary = currentGovernment.bonus2Summary().replaceIcons()
 
             self.cardsInMilitarySlot = GovernmentDialogViewModel.cardsFilling(slot: .military, in: government)
             self.cardsInEconomicSlot = GovernmentDialogViewModel.cardsFilling(slot: .economic, in: government)
@@ -40,8 +40,8 @@ class GovernmentDialogViewModel {
         } else {
             self.currentGovernmentName = "Please select government"
             self.currentGovernmentIconName = "questionmark"
-            self.bonusSummary = "-"
-            self.legacySummary = "-"
+            self.bonus1Summary = ""
+            self.bonus2Summary = ""
 
             self.cardsInMilitarySlot = []
             self.cardsInEconomicSlot = []
@@ -96,8 +96,8 @@ class GovernmentDialog: Dialog {
         self.set(text: self.viewModel.currentGovernmentName, identifier: "current_government")
         self.set(imageNamed: self.viewModel.currentGovernmentIconName, identifier: "current_government_icon")
 
-        self.set(text: self.viewModel.bonusSummary, identifier: "current_bonus")
-        self.set(text: self.viewModel.legacySummary, identifier: "current_legacy")
+        self.set(text: self.viewModel.bonus1Summary, identifier: "current_bonus1")
+        self.set(text: self.viewModel.bonus2Summary, identifier: "current_bonus2")
 
         self.setupScrollView()
     }
@@ -115,7 +115,7 @@ class GovernmentDialog: Dialog {
         self.addChild(self.scrollNode!)
 
         for card in self.viewModel.cardsInMilitarySlot {
-            let cardNode = PolicyCardNode(policyCard: card)
+            let cardNode = PolicyCardNode(policyCardType: card, state: .selected)
             cardNode.zPosition = 199
 
             self.scrollNode?.addScrolling(child: cardNode)
@@ -123,7 +123,7 @@ class GovernmentDialog: Dialog {
         }
         
         for card in self.viewModel.cardsInEconomicSlot {
-            let cardNode = PolicyCardNode(policyCard: card)
+            let cardNode = PolicyCardNode(policyCardType: card, state: .selected)
             cardNode.zPosition = 199
 
             self.scrollNode?.addScrolling(child: cardNode)
@@ -131,7 +131,7 @@ class GovernmentDialog: Dialog {
         }
         
         for card in self.viewModel.cardsInDiplomaticSlot {
-            let cardNode = PolicyCardNode(policyCard: card)
+            let cardNode = PolicyCardNode(policyCardType: card, state: .selected)
             cardNode.zPosition = 199
 
             self.scrollNode?.addScrolling(child: cardNode)
@@ -139,7 +139,7 @@ class GovernmentDialog: Dialog {
         }
         
         for card in self.viewModel.cardsInWildcardSlot {
-            let cardNode = PolicyCardNode(policyCard: card)
+            let cardNode = PolicyCardNode(policyCardType: card, state: .selected)
             cardNode.zPosition = 199
 
             self.scrollNode?.addScrolling(child: cardNode)

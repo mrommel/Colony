@@ -47,7 +47,7 @@ public enum PolicyCardType: Int, Codable {
 
     // mediaval
 
-    static var all: [PolicyCardType] {
+    public static var all: [PolicyCardType] {
         return [
             // ancient
             .survey, .godKing, .discipline, .urbanPlanning, .ilkum, .agoge, .caravansaries, .maritimeIndustries, .maneuver, .strategos, .conscription, .corvee, .landSurveyors, .colonization, .inspiration, .revelation, .limitanei,

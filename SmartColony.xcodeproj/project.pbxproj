@@ -41,6 +41,7 @@
 		C926E48324C9E2800073F3E1 /* ChangeGovernmentDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C926E48224C9E2800073F3E1 /* ChangeGovernmentDialog.xml */; };
 		C926E48524C9E2D00073F3E1 /* ChangePoliciesDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C926E48424C9E2D00073F3E1 /* ChangePoliciesDialog.xml */; };
 		C926E48724C9E3040073F3E1 /* ChangePoliciesDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926E48624C9E3040073F3E1 /* ChangePoliciesDialog.swift */; };
+		C926E48924CAD9A80073F3E1 /* GovernmentNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926E48824CAD9A70073F3E1 /* GovernmentNode.swift */; };
 		C94787172472845D00FAAC99 /* TreasuryDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94787162472845D00FAAC99 /* TreasuryDialog.swift */; };
 		C9478719247285DF00FAAC99 /* TreasuryDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9478718247285DF00FAAC99 /* TreasuryDialog.xml */; };
 		C947871B2472C80B00FAAC99 /* GameSceneDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947871A2472C80B00FAAC99 /* GameSceneDialogs.swift */; };
@@ -302,6 +303,7 @@
 		C926E48224C9E2800073F3E1 /* ChangeGovernmentDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ChangeGovernmentDialog.xml; sourceTree = "<group>"; };
 		C926E48424C9E2D00073F3E1 /* ChangePoliciesDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ChangePoliciesDialog.xml; sourceTree = "<group>"; };
 		C926E48624C9E3040073F3E1 /* ChangePoliciesDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePoliciesDialog.swift; sourceTree = "<group>"; };
+		C926E48824CAD9A70073F3E1 /* GovernmentNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentNode.swift; sourceTree = "<group>"; };
 		C94787162472845D00FAAC99 /* TreasuryDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreasuryDialog.swift; sourceTree = "<group>"; };
 		C9478718247285DF00FAAC99 /* TreasuryDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TreasuryDialog.xml; sourceTree = "<group>"; };
 		C947871A2472C80B00FAAC99 /* GameSceneDialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneDialogs.swift; sourceTree = "<group>"; };
@@ -806,6 +808,7 @@
 				C9D84E5E2487D34B00FDAC16 /* LeadersNode.swift */,
 				C9CEE35324A29E0600869B85 /* UnitStrengthIndicator.swift */,
 				C921AC0624C85EB100CF8967 /* PolicyCardNode.swift */,
+				C926E48824CAD9A70073F3E1 /* GovernmentNode.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -1191,6 +1194,7 @@
 				C9DC1C8F2486630200235743 /* GamesListDialog.swift in Sources */,
 				C99234AC24479F7D00F4B4AB /* YieldTypeExtension.swift in Sources */,
 				C9F61470243471D500450B6C /* AppDelegate.swift in Sources */,
+				C926E48924CAD9A80073F3E1 /* GovernmentNode.swift in Sources */,
 				C9B1D24E2434C4F700033791 /* MapTypeDialog.swift in Sources */,
 				C9B1D21B2434788000033791 /* MenuViewController.swift in Sources */,
 				C921AC0124C72C8B00CF8967 /* GovernmentDialog.swift in Sources */,

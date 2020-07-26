@@ -227,9 +227,21 @@ extension GameScene {
 
     func showChangeGovernmentDialog() {
         
-        self.currentScreenType = .changeGovernment
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+        
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human player")
+        }
 
-        let changeGovernmentViewModel = ChangeGovernmentDialogViewModel()
+        guard let government = humanPlayer.government else {
+            fatalError("cant get human gov")
+        }
+        
+        self.currentScreenType = .changeGovernment
+        
+        let changeGovernmentViewModel = ChangeGovernmentDialogViewModel(government: government)
 
         let changeGovernmentDialog = ChangeGovernmentDialog(with: changeGovernmentViewModel)
         changeGovernmentDialog.zPosition = 250
@@ -237,6 +249,14 @@ extension GameScene {
         changeGovernmentDialog.addOkayAction(handler: {
             changeGovernmentDialog.close()
             self.currentScreenType = .none
+            
+            if let choosenGovernmentType = changeGovernmentViewModel.choosenGovernmentType {
+                
+                if choosenGovernmentType != government.currentGovernment() {
+                    print("new choosenGovernmentType: \(choosenGovernmentType)")
+                    gameModel.humanPlayer()?.government?.set(governmentType: choosenGovernmentType)
+                }
+            }
             
             self.showGovernmentDialog()
         })
@@ -246,9 +266,21 @@ extension GameScene {
     
     func showChangePoliciesDialog() {
         
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+        
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+
+        guard let government = humanPlayer.government else {
+            fatalError("cant get human gov")
+        }
+        
         self.currentScreenType = .changePolicies
 
-        let changePoliciesViewModel = ChangePoliciesDialogViewModel()
+        let changePoliciesViewModel = ChangePoliciesDialogViewModel(government: government)
 
         let changePoliciesDialog = ChangePoliciesDialog(with: changePoliciesViewModel)
         changePoliciesDialog.zPosition = 250

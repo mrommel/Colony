@@ -84,7 +84,7 @@ public enum GovernmentType: Int, Codable {
     case communism
     case democracy
 
-    static var all: [GovernmentType] {
+    public static var all: [GovernmentType] {
         return [
 
             // ancient
@@ -126,14 +126,14 @@ public enum GovernmentType: Int, Codable {
         return self.data().policyCardSlots
     }
 
-    public func bonusSummary() -> String {
+    public func bonus1Summary() -> String {
 
-        return self.data().bonusSummary
+        return self.data().bonus1Summary
     }
     
-    public func legacySummary() -> String {
+    public func bonus2Summary() -> String {
         
-        return self.data().legacyBonusSummary
+        return self.data().bonus2Summary
     }
 
     func flavorValue(for flavor: FlavorType) -> Int {
@@ -155,8 +155,8 @@ public enum GovernmentType: Int, Codable {
     struct GovernmentData {
 
         let name: String
-        let bonusSummary: String
-        let legacyBonusSummary: String
+        let bonus1Summary: String
+        let bonus2Summary: String
         let era: EraType
         let required: CivicType
         let policyCardSlots: PolicyCardSlots
@@ -171,8 +171,8 @@ public enum GovernmentType: Int, Codable {
             // ancient
         case .chiefdom:
             return GovernmentData(name: "Chiefdom",
-                                  bonusSummary: "No Bonus.",
-                                  legacyBonusSummary: "No Bonus",
+                                  bonus1Summary: "No Bonus.",
+                                  bonus2Summary: "No Bonus",
                                   era: .ancient,
                                   required: .codeOfLaws,
                                   policyCardSlots: PolicyCardSlots(military: 1, economic: 1, diplomatic: 0, wildcard: 0),
@@ -182,8 +182,8 @@ public enum GovernmentType: Int, Codable {
             // classical
         case .autocracy:
             return GovernmentData(name: "Autocracy",
-                                  bonusSummary: "+1 to all yields for each government building and Palace in a city. +10% Production toward Wonders.",
-                                  legacyBonusSummary: "1% Production toward Wonders for every 20 turns",
+                                  bonus1Summary: "+1 to all yields for each government building and Palace in a city. +10% Production toward Wonders.",
+                                  bonus2Summary: "+10% Production toward Wonders.",
                                   era: .classical,
                                   required: .politicalPhilosophy,
                                   policyCardSlots: PolicyCardSlots(military: 2, economic: 1, diplomatic: 0, wildcard: 0),
@@ -191,8 +191,8 @@ public enum GovernmentType: Int, Codable {
                                   influcencePointsPerTurn: 3)
         case .classicalRepublic:
             return GovernmentData(name: "ClassicalRepublic",
-                                  bonusSummary: "All cities with a district receive +1 [ICON_Amenities] Amenity.",
-                                  legacyBonusSummary: "",
+                                  bonus1Summary: "All cities with a district receive +1 Housing6 Housing and +1 Amenities6 Amenity.",
+                                  bonus2Summary: "+15% Great Person points.",
                                   era: .classical,
                                   required: .politicalPhilosophy,
                                   policyCardSlots: PolicyCardSlots(military: 0, economic: 2, diplomatic: 1, wildcard: 1),
@@ -200,8 +200,8 @@ public enum GovernmentType: Int, Codable {
                                   influcencePointsPerTurn: 3)
         case .oligarchy:
             return GovernmentData(name: "Oligarchy",
-                                  bonusSummary: "All Land Melee units gain +4 [ICON_Strength] Combat Strength.",
-                                  legacyBonusSummary: "",
+                                  bonus1Summary: "All land melee, anti-cavalry, and naval melee class units gain +4 Civ6StrengthIcon Combat Strength.",
+                                  bonus2Summary: "+20% Unit Experience.",
                                   era: .classical,
                                   required: .politicalPhilosophy,
                                   policyCardSlots: PolicyCardSlots(military: 1, economic: 1, diplomatic: 1, wildcard: 1),
@@ -211,8 +211,8 @@ public enum GovernmentType: Int, Codable {
             // medieval
         case .merchantRepublic:
             return GovernmentData(name: "MerchantRepublic",
-                                  bonusSummary: "+2 [ICON_TradeRoute] Trade Routes.",
-                                  legacyBonusSummary: "",
+                                  bonus1Summary: "+10% Civ6Gold Gold in all cities with an established Governor.",
+                                  bonus2Summary: "+15% Production toward Districts.",
                                   era: .medieval,
                                   required: .exploration,
                                   policyCardSlots: PolicyCardSlots(military: 1, economic: 2, diplomatic: 1, wildcard: 2),
@@ -220,8 +220,8 @@ public enum GovernmentType: Int, Codable {
                                   influcencePointsPerTurn: 5)
         case .monarchy:
             return GovernmentData(name: "Monarchy",
-                                  bonusSummary: "+2 [ICON_Housing] Housing in any city with Medieval Walls.",
-                                  legacyBonusSummary: "",
+                                  bonus1Summary: "+1 Housing6 Housing per level of Walls.",
+                                  bonus2Summary: "+50% Influence Points.",
                                   era: .medieval,
                                   required: .divineRight,
                                   policyCardSlots: PolicyCardSlots(military: 3, economic: 1, diplomatic: 1, wildcard: 1),
@@ -231,8 +231,8 @@ public enum GovernmentType: Int, Codable {
             // renaissance
         case .theocracy:
             return GovernmentData(name: "Theocracy",
-                                  bonusSummary: "Can buy land combat units with Faith. All units +5 [ICON_Religion] Religious Strength in theological combat.",
-                                  legacyBonusSummary: "",
+                                  bonus1Summary: "+5 ReligiousStrength6 Religious Strength in Theological Combat. +0.5 Civ6Faith Faith per Citizen6 Citizen in cities with Governors.",
+                                  bonus2Summary: "15% Discount on Purchases with Civ6Faith Faith.",
                                   era: .renaissance,
                                   required: .reformedChurch,
                                   policyCardSlots: PolicyCardSlots(military: 2, economic: 2, diplomatic: 1, wildcard: 1),
@@ -242,8 +242,8 @@ public enum GovernmentType: Int, Codable {
             // modern
         case .fascism:
             return GovernmentData(name: "Fascism",
-                                  bonusSummary: "All combat units gain +4 [ICON_Strength] Combat Strength.",
-                                  legacyBonusSummary: "",
+                                  bonus1Summary: "All units gain +5 Civ6StrengthIcon Combat Strength. War Weariness reduced by 15%.",
+                                  bonus2Summary: "+50% Civ6Production Production toward Units.",
                                   era: .modern,
                                   required: .totalitarianism,
                                   policyCardSlots: PolicyCardSlots(military: 4, economic: 1, diplomatic: 1, wildcard: 2),
@@ -251,8 +251,8 @@ public enum GovernmentType: Int, Codable {
                                   influcencePointsPerTurn: 7)
         case .communism:
             return GovernmentData(name: "Communism",
-                                  bonusSummary: "Land units gain +4 [ICON_Strength] Defense Strength.",
-                                  legacyBonusSummary: "",
+                                  bonus1Summary: "+0.6 Civ6Production Production per Citizen6 Citizen in cities with Governors.",
+                                  bonus2Summary: "+15% Civ6Production Production.",
                                   era: .modern,
                                   required: .classStruggle,
                                   policyCardSlots: PolicyCardSlots(military: 3, economic: 3, diplomatic: 1, wildcard: 1),
@@ -260,8 +260,8 @@ public enum GovernmentType: Int, Codable {
                                   influcencePointsPerTurn: 7)
         case .democracy:
             return GovernmentData(name: "Democracy",
-                                  bonusSummary: "Patronage of Great People costs 50% less Gold.",
-                                  legacyBonusSummary: "",
+                                  bonus1Summary: "+1 Civ6Production Production, +1 Housing6 Housing per District.",
+                                  bonus2Summary: "25% Discount on Purchases with Civ6Gold Gold.",
                                   era: .modern,
                                   required: .suffrage,
                                   policyCardSlots: PolicyCardSlots(military: 1, economic: 3, diplomatic: 2, wildcard: 2),

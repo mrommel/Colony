@@ -58,7 +58,7 @@ class GameViewModel {
             }
             
             // set first government
-            player.government?.set(governmentType: .chiefdom, in: 0)
+            player.government?.set(governmentType: .chiefdom)
             
             players.append(player)
             
