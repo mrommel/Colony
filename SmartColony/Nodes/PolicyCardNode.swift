@@ -14,6 +14,20 @@ enum PolicyCardState {
     case selected
     case active
     case disabled
+    
+    case none
+    
+    func checkBoxTextureName() -> String {
+        
+        switch self {
+
+        case .none: return "checkbox_none"
+            
+        case .selected: return "checkbox_checked"
+        case .active: return "checkbox_unchecked"
+        case .disabled: return "checkbox_disabled"
+        }
+    }
 }
 
 protocol PolicyCardNodeDelegate: class {
@@ -32,6 +46,7 @@ class PolicyCardNode: SKNode {
     var backgroundNode: SKSpriteNode?
     var titleLabel: SKLabelNode?
     var bonusLabel: SKLabelNode?
+    var checkBox: SKSpriteNode?
     
     // delegate
     weak var delegate: PolicyCardNodeDelegate?
@@ -57,8 +72,8 @@ class PolicyCardNode: SKNode {
         // title
         let titleTextAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.white,
-            .backgroundColor: UIColor.black.withAlphaComponent(0.7),
-            .font: UIFont.boldSystemFont(ofSize: 12)
+            .backgroundColor: UIColor.black.withAlphaComponent(0.5),
+            .font: UIFont.boldSystemFont(ofSize: policyCardType.name().count > 10 ? 10 : 12)
         ]
 
         let titleTextAttributed = NSAttributedString(string: policyCardType.name(), attributes: titleTextAttributes)
@@ -77,8 +92,8 @@ class PolicyCardNode: SKNode {
         paragraphStyle.alignment = .center
         let bonusTextAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.white,
-            .backgroundColor: UIColor.black.withAlphaComponent(0.7),
-            .font: UIFont.boldSystemFont(ofSize: 10),
+            .backgroundColor: UIColor.black.withAlphaComponent(0.5),
+            .font: UIFont.boldSystemFont(ofSize: 7),
             .paragraphStyle: paragraphStyle
         ]
 
@@ -93,6 +108,14 @@ class PolicyCardNode: SKNode {
 
         self.addChild(self.bonusLabel!)
         
+        // /////////////////////
+        // checkbox
+        let checkboxTexture = SKTexture(imageNamed: state.checkBoxTextureName())
+        self.checkBox = SKSpriteNode(texture: checkboxTexture, color: .black, size: CGSize(width: 24, height: 24))
+        self.checkBox?.position = CGPoint(x: 5, y: -22)
+        self.checkBox?.zPosition = self.zPosition + 10
+        self.addChild(self.checkBox!)
+        
         self.isUserInteractionEnabled = true
     }
 
@@ -103,15 +126,19 @@ class PolicyCardNode: SKNode {
     func updateLayout() {
         
         let textureName = state == .disabled ? "policyCard_slot" : policyCardType.iconTexture()
-        let texture = SKTexture(imageNamed: textureName)
-        self.backgroundNode?.texture = texture
+        let backgroundTexture = SKTexture(imageNamed: textureName)
+        self.backgroundNode?.texture = backgroundTexture
         
-        //self.titleLabel?.fontColor = self.state == .selected ?  UIColor.black : UIColor.white
-        //self.bonus1Label?.fontColor = self.state == .selected ?  UIColor.black : UIColor.white
-        //self.bonus2Label?.fontColor = self.state == .selected ?  UIColor.black : UIColor.white
+        let checkboxTexture = SKTexture(imageNamed: state.checkBoxTextureName())
+        self.checkBox?.texture = checkboxTexture
+        
+        self.titleLabel?.fontColor = self.state == .disabled ? UIColor.gray : UIColor.white
+        self.bonusLabel?.fontColor = self.state == .disabled ? UIColor.gray : UIColor.white
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        print("policy card node - touchesBegan")
         
         // propergate to scrollview
         if let scrollView = self.parent?.parent as? ScrollNode {
@@ -123,17 +150,30 @@ class PolicyCardNode: SKNode {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        print("policy card node - touchesMoved")
+        
         // propergate to scrollview
         if let scrollView = self.parent?.parent as? ScrollNode {
             scrollView.touchesMoved(touches, with: event)
         }
         
-        self.moved = true
+        let touch = touches.first!
+        
+        let touchLocation = touch.location(in: self)
+        let previousLocation = touch.previousLocation(in: self)
+        let deltaY = (touchLocation.y) - (previousLocation.y)
+        
+        if abs(deltaY) > 0.1 {
+            self.moved = true
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        print("policy card node - touchesEnded")
+        
         if self.moved {
+            print("policy card node - moved / cancelled")
             return
         }
         
@@ -148,22 +188,24 @@ class PolicyCardNode: SKNode {
                 
                 if scrollNodeFrame.contains(scrollNodeLocation) {
                     
-                    if self.state == .disabled {
+                    if self.state == .disabled || self.state == .none {
                         return
                     }
                     
                     if self.backgroundNode!.contains(location) {
-                        print("clicked on policy card: \(self.policyCardType)")
+                        print("clicked on policy card: \(self.policyCardType) - \(self.state)")
+                        
+                        self.toggleState()
                         self.delegate?.clicked(on: self.policyCardType)
                     }
-                }
+                } 
             }
         }
     }
     
     func toggleState() {
         
-        if self.state == .disabled {
+        if self.state == .disabled || self.state == .none {
             return
         }
         
@@ -173,6 +215,6 @@ class PolicyCardNode: SKNode {
             self.state = .active
         }
         
-        
+        self.updateLayout()
     }
 }

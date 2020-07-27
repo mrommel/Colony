@@ -34,6 +34,18 @@
             <height>40</height>
         </item>
         
+        <item>
+            <identifier>policies_warning</identifier>
+            <type>label</type>
+            <title>1 / 1 / 0 / 0</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-180</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
         <!-- scroll view -->
         
         <item>

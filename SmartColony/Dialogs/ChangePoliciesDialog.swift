@@ -14,11 +14,17 @@ class ChangePoliciesDialogViewModel {
     var selectedPolicyCards: [PolicyCardType]
     let possiblePolicyCards: [PolicyCardType]
     
+    var choosenPolicyCardSet: AbstractPolicyCardSet
+    let slots: PolicyCardSlots
+    
     init(government: AbstractGovernment?) {
         
         guard let government = government else {
             fatalError("cant get government")
         }
+        
+        self.choosenPolicyCardSet = government.policyCardSet()
+        self.slots = government.policyCardSlots()
         
         self.selectedPolicyCards = government.policyCardSet().cards()
         self.possiblePolicyCards = government.possiblePolicyCards()
@@ -30,13 +36,20 @@ class ChangePoliciesDialogViewModel {
     }
     
     func select(policyCardType: PolicyCardType) {
-        
-        self.selectedPolicyCards.append(policyCardType)
+
+        self.choosenPolicyCardSet.add(card: policyCardType)
+        self.selectedPolicyCards = self.choosenPolicyCardSet.cards()
     }
     
     func unselect(policyCardType: PolicyCardType) {
         
-        self.selectedPolicyCards.removeAll(where: { $0 == policyCardType })
+        self.choosenPolicyCardSet.remove(card: policyCardType)
+        self.selectedPolicyCards = self.choosenPolicyCardSet.cards()
+    }
+    
+    func verify() -> Bool {
+        
+        return self.choosenPolicyCardSet.filled(in: self.slots)
     }
 }
 
@@ -96,28 +109,35 @@ class ChangePoliciesDialog: Dialog {
             self.policyCardNodes.append(policyCardNode)
         }
         
+        // make bottom buttons appear above scrollview
+        self.item(with: "okay_button")?.zPosition = 500
+        
         self.updateLayout()
+    }
+    
+    override func handleOkay() {
+        
+        if self.viewModel.verify() {
+            super.handleOkay()
+        }
     }
     
     private func updateLayout() {
 
-        var offsetY = self.scrollNode!.size.halfHeight - 10
+        let offsetY = self.scrollNode!.size.halfHeight - 10
         for (index, policyCardNode) in self.policyCardNodes.enumerated() {
             
             let dx: CGFloat = -150.0 + CGFloat(index % 3) * 100.0
             let dy: CGFloat = offsetY - CGFloat(index / 3) * 105.0
             policyCardNode.position = CGPoint(x: dx, y: dy)
-            
-            var state: PolicyCardState = PolicyCardState.disabled
-            
-            if self.viewModel.selectedPolicyCards.contains(policyCardNode.policyCardType) {
-                state = .selected
-            } else if self.viewModel.possiblePolicyCards.contains(policyCardNode.policyCardType) {
-                state = .active
-            }
-            policyCardNode.state = state
-            
+
             policyCardNode.updateLayout()
+        }
+        
+        if self.viewModel.verify() {
+            self.set(text: self.viewModel.slots.hint(), identifier: "policies_warning")
+        } else {
+            self.set(text: "Invalid combination", identifier: "policies_warning")
         }
     }
 }
@@ -127,10 +147,11 @@ extension ChangePoliciesDialog: PolicyCardNodeDelegate {
     func clicked(on policyCardType: PolicyCardType) {
         
         if self.viewModel.isSelected(policyCardType: policyCardType) {
-            self.viewModel.select(policyCardType: policyCardType)
-        } else {
             self.viewModel.unselect(policyCardType: policyCardType)
+        } else {
+            self.viewModel.select(policyCardType: policyCardType)
         }
+        
         self.updateLayout()
     }
 }

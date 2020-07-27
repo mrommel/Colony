@@ -968,15 +968,30 @@ public class Player: AbstractPlayer {
     
     func doGovernment(in gameModel: GameModel?) {
         
+        guard let government = self.government else {
+            fatalError("cant get government")
+        }
+        
+        guard let notifications = self.notifications() else {
+            fatalError("cant get notifications")
+        }
+        
         if self.canChangeGovernment() {
             if self.isHuman() {
-                guard let notifications = self.notifications() else {
-                    fatalError("cant get notifications")
-                }
-                
+
                 notifications.addNotification(of: .canChangeGovernment, for: self, message: "You can change the government", summary: "You can change the government")
             } else {
                 self.government?.chooseBestGovernment(in: gameModel)
+            }
+        }
+        
+        if !government.hasPolicyCardsFilled() {
+            
+            if self.isHuman() {
+
+                notifications.addNotification(of: .policiesNeeded, for: self, message: "Please choose policy cards", summary: "Choose policy cards")
+            } else {
+                self.government?.fillPolicyCards()
             }
         }
     }

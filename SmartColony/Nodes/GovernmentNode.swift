@@ -182,7 +182,7 @@ class GovernmentNode: SKNode {
                         print("clicked on: \(self.governmentType)")
                         self.delegate?.clicked(on: self.governmentType)
                     }
-                }
+                } 
             }
         }
     }

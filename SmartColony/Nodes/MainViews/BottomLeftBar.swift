@@ -16,6 +16,7 @@ protocol BottomLeftBarDelegate: class {
     func handleTechNeeded()
     func handleCivicNeeded()
     func handleProductionNeeded(at location: HexPoint)
+    func handlePoliciesNeeded()
     
     func handle(command: Command)
 }
@@ -139,6 +140,9 @@ class BottomLeftBar: SizedNode {
                 return true
             } else if self.turnButtonNotificationType == .productionNeeded {
                 self.delegate?.handleProductionNeeded(at: self.turnButtonNotificationLocation)
+                return true
+            } else if self.turnButtonNotificationType == .policiesNeeded {
+                self.delegate?.handlePoliciesNeeded()
                 return true
             } else {
                 print("--- unhandle notification type: \(self.turnButtonNotificationType)")

@@ -2,7 +2,6 @@
 
 Civ5 based iOS app
 
-
 ## Memo
 
 Swimat Fix

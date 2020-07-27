@@ -281,6 +281,12 @@ public class NotificationItem: Codable, Equatable {
                     return true
                 }
             }
+            
+            if lhs.type == .policiesNeeded {
+                
+                // highlander, only one notification of this type
+                return true
+            }
         }
         
         return false

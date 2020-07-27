@@ -115,7 +115,7 @@ class GovernmentDialog: Dialog {
         self.addChild(self.scrollNode!)
 
         for card in self.viewModel.cardsInMilitarySlot {
-            let cardNode = PolicyCardNode(policyCardType: card, state: .selected)
+            let cardNode = PolicyCardNode(policyCardType: card, state: .none)
             cardNode.zPosition = 199
 
             self.scrollNode?.addScrolling(child: cardNode)
@@ -123,7 +123,7 @@ class GovernmentDialog: Dialog {
         }
         
         for card in self.viewModel.cardsInEconomicSlot {
-            let cardNode = PolicyCardNode(policyCardType: card, state: .selected)
+            let cardNode = PolicyCardNode(policyCardType: card, state: .none)
             cardNode.zPosition = 199
 
             self.scrollNode?.addScrolling(child: cardNode)
@@ -131,7 +131,7 @@ class GovernmentDialog: Dialog {
         }
         
         for card in self.viewModel.cardsInDiplomaticSlot {
-            let cardNode = PolicyCardNode(policyCardType: card, state: .selected)
+            let cardNode = PolicyCardNode(policyCardType: card, state: .none)
             cardNode.zPosition = 199
 
             self.scrollNode?.addScrolling(child: cardNode)
@@ -139,7 +139,7 @@ class GovernmentDialog: Dialog {
         }
         
         for card in self.viewModel.cardsInWildcardSlot {
-            let cardNode = PolicyCardNode(policyCardType: card, state: .selected)
+            let cardNode = PolicyCardNode(policyCardType: card, state: .none)
             cardNode.zPosition = 199
 
             self.scrollNode?.addScrolling(child: cardNode)

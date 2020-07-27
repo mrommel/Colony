@@ -87,6 +87,9 @@ class ChangeGovernmentDialog: Dialog {
             self.governmentNodes.append(governmentNode)
         }
         
+        // make bottom buttons appear above scrollview
+        self.item(with: "okay_button")?.zPosition = 500
+        
         self.updateLayout()
     }
     

@@ -60,6 +60,11 @@ public class PolicyCardSlots {
 
         return list
     }
+    
+    public func hint() -> String {
+        
+        return "\(self.military) / \(self.economic) / \(self.diplomatic) / \(self.wildcard)"
+    }
 }
 
 public enum GovernmentType: Int, Codable {

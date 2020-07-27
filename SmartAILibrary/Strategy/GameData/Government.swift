@@ -11,6 +11,7 @@ import Foundation
 public protocol AbstractPolicyCardSet: class, Codable {
 
     func add(card: PolicyCardType)
+    func remove(card: PolicyCardType)
     func has(card: PolicyCardType) -> Bool
     func valid(in slots: PolicyCardSlots) -> Bool
     func filled(in slots: PolicyCardSlots) -> Bool
@@ -53,6 +54,11 @@ class PolicyCardSet: AbstractPolicyCardSet {
     func add(card: PolicyCardType) {
 
         self.cardsVal.append(card)
+    }
+    
+    func remove(card: PolicyCardType) {
+        
+        self.cardsVal.removeAll(where: { $0 == card })
     }
 
     func has(card: PolicyCardType) -> Bool {
@@ -123,11 +129,16 @@ class PolicyCardSet: AbstractPolicyCardSet {
         let economicCards = self.cardsVal.count(where: { $0.slot() == .economic })
         let diplomaticCards = self.cardsVal.count(where: { $0.slot() == .diplomatic })
 
-        let remainMilitary = max(0, militaryCards - slots.military)
-        let remainEconomic = max(0, economicCards - slots.economic)
-        let remainDiplomatic = max(0, diplomaticCards - slots.diplomatic)
+        let deltaMilitary = militaryCards - slots.military
+        let deltaEconomic = economicCards - slots.economic
+        let deltaDiplomatic = diplomaticCards - slots.diplomatic
+        
+        // check for empty slots
+        if deltaMilitary < 0 || deltaEconomic < 0 || deltaDiplomatic < 0 {
+            return false
+        }
 
-        return slots.wildcard - remainMilitary - remainEconomic - remainDiplomatic == 0
+        return slots.wildcard - deltaMilitary - deltaEconomic - deltaDiplomatic == 0
     }
 }
 
@@ -153,6 +164,7 @@ public protocol AbstractGovernment: class, Codable {
     func hasPolicyCardsFilled() -> Bool
     func policyCardSlots() -> PolicyCardSlots
     func possiblePolicyCards() -> [PolicyCardType]
+    func fillPolicyCards()
 }
 
 enum GovernmentError: Error {
@@ -243,15 +255,9 @@ public class Government: AbstractGovernment {
 
             // all governments
             let allGovernmentTypes = GovernmentType.all
-            
-            // all cards
-            let allPolicyCards = PolicyCardType.all
 
             // find possible governments
             let governmentTypes = allGovernmentTypes.filter({ civics.has(civic: $0.required()) })
-            
-            // find possible cards
-            let policyCards = allPolicyCards.filter({ civics.has(civic: $0.required()) })
 
             if governmentTypes.count > 0 {
 
@@ -266,44 +272,67 @@ public class Government: AbstractGovernment {
                     }
                     governmentRating.add(weight: value, for: governmentType)
                 }
-                
-                // rate cards
-                var policyCardRating = WeightedList<PolicyCardType>()
-                
-                for policyCard in policyCards {
 
-                    var value = 0
-                    for flavourType in FlavorType.all {
-                        value += player.personalAndGrandStrategyFlavor(for: flavourType) * policyCard.flavorValue(for: flavourType)
-                    }
-                    policyCardRating.add(weight: value, for: policyCard)
-                }
-
-                // select
+                // select government
                 if let bestGovernment = governmentRating.chooseBest() {
                     if bestGovernment != self.currentGovernmentVal {
 
                         self.set(governmentType: bestGovernment)
 
-                        // select best policy cards for each slot
-                        for slotType in bestGovernment.policyCardSlots().types() {
-                            
-                            let possibleCardsForSlot = policyCardRating.filter({ slotType == .wildcard || $0.itemType.slot() == slotType })
-                            
-                            if let bestCard = possibleCardsForSlot.chooseBest() {
-                                //.
-                                self.add(card: bestCard)
-                            
-                                //slotType.
-                                //possibleCardsForSlot.remove bestCard
-                                policyCardRating = policyCardRating.filter({ $0.itemType != bestCard })
-                            }
-                        }
+                        self.fillPolicyCards()
                     }
                 }
             }
 
             self.lastCheckedGovernment = gameModel.currentTurn
+        }
+    }
+    
+    public func fillPolicyCards() {
+        
+        guard let currentGovernment = self.currentGovernmentVal else {
+            fatalError("no government selected")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        guard let civics = self.player?.civics else {
+            fatalError("cant get civics")
+        }
+        
+        // all cards
+        let allPolicyCards = PolicyCardType.all
+        
+        // find possible cards
+        let policyCards = allPolicyCards.filter({ civics.has(civic: $0.required()) })
+        
+        // rate cards
+        var policyCardRating = WeightedList<PolicyCardType>()
+        
+        for policyCard in policyCards {
+
+            var value = 0
+            for flavourType in FlavorType.all {
+                value += player.personalAndGrandStrategyFlavor(for: flavourType) * policyCard.flavorValue(for: flavourType)
+            }
+            policyCardRating.add(weight: value, for: policyCard)
+        }
+        
+        // select best policy cards for each slot
+        for slotType in currentGovernment.policyCardSlots().types() {
+            
+            let possibleCardsForSlot = policyCardRating.filter({ slotType == .wildcard || $0.itemType.slot() == slotType })
+            
+            if let bestCard = possibleCardsForSlot.chooseBest() {
+                //.
+                self.add(card: bestCard)
+            
+                //slotType.
+                //possibleCardsForSlot.remove bestCard
+                policyCardRating = policyCardRating.filter({ $0.itemType != bestCard })
+            }
         }
     }
 
@@ -352,7 +381,16 @@ public class Government: AbstractGovernment {
         
         for cardType in PolicyCardType.all {
             
-            if civics.has(civic: cardType.required()) {
+            let requiredCondition = civics.has(civic: cardType.required())
+            var obsoleteCondition = false
+            
+            if let obsoleteCivic = cardType.obsoleteCivic() {
+                if civics.has(civic: obsoleteCivic) {
+                    obsoleteCondition = true
+                }
+            }
+            
+            if requiredCondition && !obsoleteCondition {
                 cards.append(cardType)
             }
         }
