@@ -234,6 +234,10 @@ class Treasury: AbstractTreasury {
             fatalError("cant get player")
         }
         
+        guard let government = player.government else {
+            fatalError("cant get government")
+        }
+        
         var maintenanceCost = 0.0
         
         for unitRef in gameModel.units(of: player) {
@@ -242,7 +246,14 @@ class Treasury: AbstractTreasury {
                 continue
             }
             
-            maintenanceCost += Double(unit.type.maintenanceCost())
+            var unitMaintenanceCost: Double = Double(unit.type.maintenanceCost())
+            
+            // Unit maintenance reduced by 1 Civ6Gold Gold per turn, per unit.
+            if government.has(card: .conscription) {
+                unitMaintenanceCost = max(0.0, unitMaintenanceCost - 1.0)
+            }
+            
+            maintenanceCost += unitMaintenanceCost
         }
         
         return maintenanceCost

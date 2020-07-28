@@ -24,7 +24,7 @@ extension GameScene: LeftHeaderBarNodeDelegate {
     
     func governmentButtonClicked() {
         
-        print("government Button Clicked")
+        self.showGovernmentDialog()
     }
 }
 

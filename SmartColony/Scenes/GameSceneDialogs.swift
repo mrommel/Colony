@@ -185,7 +185,116 @@ extension GameScene {
 
         self.cameraNode.add(dialog: treasuryDialog)
     }
+    
+    func showGovernmentDialog() {
+        
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
 
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        self.currentScreenType = .government
+
+        let governmentViewModel = GovernmentDialogViewModel(government: humanPlayer.government, in: gameModel)
+
+        let governmentDialog = GovernmentDialog(with: governmentViewModel)
+        governmentDialog.zPosition = 250
+
+        governmentDialog.addResultHandler { result in
+            
+            governmentDialog.close()
+            self.currentScreenType = .none
+            
+            if result == .changeGovernment {
+                self.showChangeGovernmentDialog()
+            } else if result == .changePolicies {
+                self.showChangePoliciesDialog()
+            } else {
+                print("unhandled: \(result)")
+            }
+        }
+        
+        governmentDialog.addOkayAction(handler: {
+            governmentDialog.close()
+            self.currentScreenType = .none
+        })
+
+        self.cameraNode.add(dialog: governmentDialog)
+    }
+
+    func showChangeGovernmentDialog() {
+        
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+        
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+
+        guard let government = humanPlayer.government else {
+            fatalError("cant get human gov")
+        }
+        
+        self.currentScreenType = .changeGovernment
+        
+        let changeGovernmentViewModel = ChangeGovernmentDialogViewModel(government: government)
+
+        let changeGovernmentDialog = ChangeGovernmentDialog(with: changeGovernmentViewModel)
+        changeGovernmentDialog.zPosition = 250
+        
+        changeGovernmentDialog.addOkayAction(handler: {
+            changeGovernmentDialog.close()
+            self.currentScreenType = .none
+            
+            if let choosenGovernmentType = changeGovernmentViewModel.choosenGovernmentType {
+                
+                if choosenGovernmentType != government.currentGovernment() {
+                    print("new choosenGovernmentType: \(choosenGovernmentType)")
+                    gameModel.humanPlayer()?.government?.set(governmentType: choosenGovernmentType)
+                }
+            }
+            
+            self.showGovernmentDialog()
+        })
+
+        self.cameraNode.add(dialog: changeGovernmentDialog)
+    }
+    
+    func showChangePoliciesDialog() {
+        
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+        
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+
+        guard let government = humanPlayer.government else {
+            fatalError("cant get human gov")
+        }
+        
+        self.currentScreenType = .changePolicies
+
+        let changePoliciesViewModel = ChangePoliciesDialogViewModel(government: government)
+
+        let changePoliciesDialog = ChangePoliciesDialog(with: changePoliciesViewModel)
+        changePoliciesDialog.zPosition = 250
+        
+        changePoliciesDialog.addOkayAction(handler: {
+            changePoliciesDialog.close()
+            self.currentScreenType = .none
+            
+            self.showGovernmentDialog()
+        })
+
+        self.cameraNode.add(dialog: changePoliciesDialog)
+    }
+    
     func showMenuDialog() {
 
         self.currentScreenType = .menu

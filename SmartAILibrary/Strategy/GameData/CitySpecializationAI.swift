@@ -120,7 +120,7 @@ public class CitySpecializationAI {
         }
 
         // No city specializations early in the game
-        if gameModel.turnsElapsed < 25 { /* AI_CITY_SPECIALIZATION_EARLIEST_TURN */
+        if gameModel.currentTurn < 25 { /* AI_CITY_SPECIALIZATION_EARLIEST_TURN */
             return
         }
 
@@ -130,7 +130,7 @@ public class CitySpecializationAI {
         }
 
         // See if need to update assignments
-        if self.specializationsDirty || self.lastTurnEvaluated + 50 /* AI_CITY_SPECIALIZATION_REEVALUATION_INTERVAL */ > gameModel.turnsElapsed {
+        if self.specializationsDirty || self.lastTurnEvaluated + 50 /* AI_CITY_SPECIALIZATION_REEVALUATION_INTERVAL */ > gameModel.currentTurn {
 
             (self.nextWonderDesiredValue, self.nextWonderWeight) = wonderProductionAI.chooseWonder(adjustForOtherPlayers: true, nextWonderWeight: self.nextWonderWeight, in: gameModel)
             
@@ -138,7 +138,7 @@ public class CitySpecializationAI {
             self.assignSpecializations(in: gameModel)
             
             self.specializationsDirty = false
-            self.lastTurnEvaluated = gameModel.turnsElapsed
+            self.lastTurnEvaluated = gameModel.currentTurn
 
             // Do we need to choose production again at all our cities?
             if self.interruptWonders {

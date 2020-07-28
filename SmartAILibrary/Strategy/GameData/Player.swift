@@ -823,7 +823,7 @@ public class Player: AbstractPlayer {
         //self.doUpdateHappiness()
         self.builderTaskingAI?.update(in: gameModel)
         
-        if gameModel.turnsElapsed > 0 {
+        if gameModel.currentTurn > 0 {
             
             if self.isAlive() {
                 /*if (GetDiplomacyRequests())
@@ -968,15 +968,30 @@ public class Player: AbstractPlayer {
     
     func doGovernment(in gameModel: GameModel?) {
         
+        guard let government = self.government else {
+            fatalError("cant get government")
+        }
+        
+        guard let notifications = self.notifications() else {
+            fatalError("cant get notifications")
+        }
+        
         if self.canChangeGovernment() {
             if self.isHuman() {
-                guard let notifications = self.notifications() else {
-                    fatalError("cant get notifications")
-                }
-                
+
                 notifications.addNotification(of: .canChangeGovernment, for: self, message: "You can change the government", summary: "You can change the government")
             } else {
                 self.government?.chooseBestGovernment(in: gameModel)
+            }
+        }
+        
+        if !government.hasPolicyCardsFilled() {
+            
+            if self.isHuman() {
+
+                notifications.addNotification(of: .policiesNeeded, for: self, message: "Please choose policy cards", summary: "Choose policy cards")
+            } else {
+                self.government?.fillPolicyCards()
             }
         }
     }
@@ -1711,7 +1726,7 @@ public class Player: AbstractPlayer {
             // Human player is prompted to choose production BEFORE the AI runs for the turn.
             // So we'll force the AI strategies on the city now, just after it is founded.
             // And if the very first turn, we haven't even run player strategies once yet, so do that too.
-            if gameModel.turnsElapsed == 0 {
+            if gameModel.currentTurn == 0 {
                 self.economicAI?.turn(in: gameModel)
                 self.militaryAI?.turn(in: gameModel)
             }
@@ -1933,7 +1948,7 @@ public class Player: AbstractPlayer {
         var evalDistance = 12 /*SETTLER_EVALUATION_DISTANCE */
         let distanceDropoffMod = 99 /*SETTLER_DISTANCE_DROPOFF_MODIFIER */
 
-        evalDistance += (gameModel.turnsElapsed * 5) / 100
+        evalDistance += (gameModel.currentTurn * 5) / 100
 
         // scale this based on world size
         let defaultNumTiles = MapSize.standard.numberOfTiles()
@@ -3167,7 +3182,7 @@ public class Player: AbstractPlayer {
             return false
         }
         
-        if goody.minimalTurn() > gameModel.turnsElapsed {
+        if goody.minimalTurn() > gameModel.currentTurn {
             return false
         }
         

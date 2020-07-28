@@ -164,6 +164,13 @@ public class NotificationItem: Codable, Equatable {
             gameModel?.userInterface?.showScreen(screenType: .diplomatic, city: nil, other: otherPlayer, data: self.diplomaticData)
             self.dismiss(in: gameModel)
             
+        case .canChangeGovernment:
+            gameModel?.userInterface?.showScreen(screenType: .government, city: nil, other: nil, data: nil)
+            self.dismiss(in: gameModel)
+            
+        case .policiesNeeded:
+            gameModel?.userInterface?.showScreen(screenType: .governmentPolicies, city: nil, other: nil, data: nil)
+            
         default:
             print("activate \(self.type) not handled")
         }
@@ -178,11 +185,15 @@ public class NotificationItem: Codable, Equatable {
     
     func expired(in gameModel: GameModel?) -> Bool {
         
+        guard let gameModel = gameModel else {
+            fatalError("Cant get gameModel")
+        }
+        
         switch self.type {
             
         case .techNeeded:
             
-            guard let player = gameModel?.player(for: self.player) else {
+            guard let player = gameModel.player(for: self.player) else {
                 fatalError("cant get player")
             }
             
@@ -199,7 +210,7 @@ public class NotificationItem: Codable, Equatable {
             
         case .civicNeeded:
             
-            guard let player = gameModel?.player(for: self.player) else {
+            guard let player = gameModel.player(for: self.player) else {
                 fatalError("cant get player")
             }
             
@@ -216,7 +227,7 @@ public class NotificationItem: Codable, Equatable {
             
         case .productionNeeded:
             
-            guard let city = gameModel?.city(at: self.location) else {
+            guard let city = gameModel.city(at: self.location) else {
                 fatalError("cant get city to check")
             }
             
@@ -229,6 +240,17 @@ public class NotificationItem: Codable, Equatable {
                 
         case .canChangeGovernment:
             return true
+            
+        case .policiesNeeded:
+            guard let currentPlayer = gameModel.player(for: self.player) else {
+                fatalError("cant get player")
+            }
+            
+            guard let government = currentPlayer.government else {
+                fatalError("cant get government")
+            }
+            
+            return government.hasPolicyCardsFilled()
             
         default:
             return false
@@ -258,6 +280,12 @@ public class NotificationItem: Codable, Equatable {
                     // there can be multiple notifications - one per city == location
                     return true
                 }
+            }
+            
+            if lhs.type == .policiesNeeded {
+                
+                // highlander, only one notification of this type
+                return true
             }
         }
         
@@ -382,6 +410,11 @@ public class Notifications: Codable {
             // NOTIFICATION_FREE_TECH
             
             // NOTIFICATION_FREE_GREAT_PERSON
+            
+            // policies
+            if notification.type == .policiesNeeded {
+                return notification
+            }
         }
         
         return nil

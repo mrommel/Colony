@@ -161,7 +161,7 @@ class BarbarianAI: Codable {
         if numCampsToAdd > 0 {
 
             // First turn of the game add 1/3 of the Target number of Camps
-            if gameModel.turnsElapsed == 0 {
+            if gameModel.currentTurn == 0 {
                 numCampsToAdd *= 33 /* BARBARIAN_CAMP_FIRST_TURN_PERCENT_OF_TARGET_TO_ADD */
                 numCampsToAdd /= 100
             } else {
@@ -404,7 +404,7 @@ class BarbarianAI: Codable {
             //CvPlot* pLoopPlot;
 
             // Barbs only get boats after some period of time has passed
-            let canSpawnBoats = gameModel.turnsElapsed > 30 /* BARBARIAN_NAVAL_UNIT_START_TURN_SPAWN */
+            let canSpawnBoats = gameModel.currentTurn > 30 /* BARBARIAN_NAVAL_UNIT_START_TURN_SPAWN */
             var validSpawnLocations: [HexPoint] = []
 
             // Look to see, if adjacent Tiles are valid locations to spawn a Unit

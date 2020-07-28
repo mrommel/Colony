@@ -18,7 +18,10 @@ public protocol AbstractDistricts: Codable {
     
     // districts
     func has(district: DistrictType) -> Bool
+    func hasAny() -> Bool
     func build(district: DistrictType) throws
+    
+    func numberOfBuildDsitricts() -> Int 
 }
 
 class Districts: AbstractDistricts {
@@ -57,6 +60,11 @@ class Districts: AbstractDistricts {
         return self.districts.contains(district)
     }
     
+    func hasAny() -> Bool {
+        
+        return self.districts.count > 1 // cityCenter does not count
+    }
+    
     func build(district: DistrictType) throws {
         
         if self.districts.contains(district) {
@@ -64,5 +72,10 @@ class Districts: AbstractDistricts {
         }
         
         self.districts.append(district)
+    }
+    
+    func numberOfBuildDsitricts() -> Int {
+        
+        return self.districts.count
     }
 }

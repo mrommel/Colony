@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>top</anchory>
+    <offsetx>0</offsetx>
+    <offsety>45%</offsety>
+    <width>90%</width>
+    <height>90%</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        <item>
+            <identifier>current_government_icon</identifier>
+            <type>image</type>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-85</offsety>
+            <width>80</width>
+            <height>80</height>
+            <image>questionmark</image>
+        </item>
+
+        <item>
+            <identifier>current_government</identifier>
+            <type>label</type>
+            <title>Current Government: </title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-150</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>current_bonus1</identifier>
+            <type>label</type>
+            <title>bonus</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-190</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>current_bonus2</identifier>
+            <type>label</type>
+            <title>legacy</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-230</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+
+        
+        <!-- buttons -->
+        
+        <item>
+            <identifier>changepolicies_button</identifier>
+            <type>button</type>
+            <title>Change Policies</title>
+            <result>CHANGEPOLICIES</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-71%</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+        <item>
+            <identifier>changegovernment_button</identifier>
+            <type>button</type>
+            <title>Change Government</title>
+            <result>CHANGEGOVERNMENT</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-78%</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+        
+        <item>
+            <identifier>okay_button</identifier>
+            <type>button</type>
+            <title>Okay</title>
+            <result>OKAY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-85%</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+    </items>
+</context>
+

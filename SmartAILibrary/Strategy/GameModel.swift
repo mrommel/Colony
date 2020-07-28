@@ -22,7 +22,7 @@ public class GameModel: Codable {
 
         case victoryTypes
         case handicap
-        case turnsElapsed
+        case currentTurn
         case turnSliceValue
         case players
         
@@ -37,7 +37,7 @@ public class GameModel: Codable {
     
     let victoryTypes: [VictoryType]
     let handicap: HandicapType
-    var turnsElapsed: Int
+    var currentTurn: Int
     var turnSliceValue: Int = 0
     public let players: [AbstractPlayer]
     
@@ -59,7 +59,7 @@ public class GameModel: Codable {
         
         self.victoryTypes = victoryTypes
         self.handicap = handicap
-        self.turnsElapsed = turnsElapsed
+        self.currentTurn = turnsElapsed
         self.players = players
         self.map = map
 
@@ -81,7 +81,7 @@ public class GameModel: Codable {
     
         self.victoryTypes = try container.decode([VictoryType].self, forKey: .victoryTypes)
         self.handicap = try container.decode(HandicapType.self, forKey: .handicap)
-        self.turnsElapsed = try container.decode(Int.self, forKey: .turnsElapsed)
+        self.currentTurn = try container.decode(Int.self, forKey: .currentTurn)
         self.turnSliceValue = try container.decode(Int.self, forKey: .turnSliceValue)
         
         self.players = try container.decode([Player].self, forKey: .players)
@@ -153,7 +153,7 @@ public class GameModel: Codable {
         
         try container.encode(self.victoryTypes, forKey: .victoryTypes)
         try container.encode(self.handicap, forKey: .handicap)
-        try container.encode(self.turnsElapsed, forKey: .turnsElapsed)
+        try container.encode(self.currentTurn, forKey: .currentTurn)
         try container.encode(self.turnSliceValue, forKey: .turnSliceValue)
         
         let realPlayers = self.players as! [Player]
@@ -588,7 +588,7 @@ public class GameModel: Codable {
     private func doTurn() {
 
         print()
-        print("::: TURN \(self.turnsElapsed+1) starts now :::")
+        print("::: TURN \(self.currentTurn+1) starts now :::")
         print()
         
         self.barbarianAI?.doTurn(in: self)
@@ -614,7 +614,7 @@ public class GameModel: Codable {
         self.barbarianAI?.doUnits(in: self)
         
         // incrementGameTurn();
-        self.turnsElapsed += 1
+        self.currentTurn += 1
         
         // Sequential turns.
         // Activate the <<FIRST>> player we find from the start, human or AI, who wants a sequential turn.
@@ -642,7 +642,7 @@ public class GameModel: Codable {
             
             if human.isAlive() {
             
-                if self.turnsElapsed % GameModel.turnInterimRankingFrequency == 0 {
+                if self.currentTurn % GameModel.turnInterimRankingFrequency == 0 {
                     // This popup is the sync rand, so beware
                     self.userInterface?.showScreen(screenType: .interimRanking, city: nil, other: nil, data: nil)
                 }
@@ -663,10 +663,10 @@ public class GameModel: Codable {
     // https://gaming.stackexchange.com/questions/51233/what-is-the-turn-length-in-civilization
     public func turnYear() -> String {
         
-        if self.turnsElapsed <= 250 {
+        if self.currentTurn <= 250 {
             
             // 4000 BC - 1000 AD: 20 years per turn (total of 250 turns)
-            let year = -4000 + (self.turnsElapsed * 20)
+            let year = -4000 + (self.currentTurn * 20)
             if year < 0 {
                 return "\(-year) BC"
             } else if year == 0 {
@@ -675,24 +675,24 @@ public class GameModel: Codable {
                 return "\(year) AD"
             }
             
-        } else if self.turnsElapsed <= 300 {
+        } else if self.currentTurn <= 300 {
             
             // 1000 AD - 1500 AD: 10 years per turn (total of 50 turns)
-            let year = 1000 + (self.turnsElapsed - 250) * 10
+            let year = 1000 + (self.currentTurn - 250) * 10
             return "\(year) AD"
-        } else if self.turnsElapsed <= 350 {
+        } else if self.currentTurn <= 350 {
             
             // 1500 AD - 1750 AD: 5 years per turn (total of 50 turns)
-            let year = 1500 + (self.turnsElapsed - 300) * 5
+            let year = 1500 + (self.currentTurn - 300) * 5
             return "\(year) AD"
-        } else if self.turnsElapsed <= 400 {
+        } else if self.currentTurn <= 400 {
             
             // 1750 AD - 1850 AD: 2 years per turn (total of 50 turns)
-            let year = 1750 + (self.turnsElapsed - 350) * 2
+            let year = 1750 + (self.currentTurn - 350) * 2
             return "\(year) AD"
         } else {
             // 1850 AD - End of game: 1 year per turn (total of 170 to 250 turns)
-            let year = 1850 + (self.turnsElapsed - 400) * 1
+            let year = 1850 + (self.currentTurn - 400) * 1
             return "\(year) AD"
         }
     }
@@ -1263,7 +1263,7 @@ extension GameModel {
     
     func areBarbariansReleased() -> Bool {
         
-        return self.earliestBarbarianReleaseTurn() <= self.turnsElapsed
+        return self.earliestBarbarianReleaseTurn() <= self.currentTurn
     }
     
     func doCampAttacked(at point: HexPoint) {

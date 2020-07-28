@@ -107,6 +107,11 @@ enum DialogResultType: String, Codable {
     case responseChoice0 = "DIPLO_CHOICE_0"
     case responseChoice1 = "DIPLO_CHOICE_1"
     case responseChoice2 = "DIPLO_CHOICE_2"
+    
+    // government dialog
+    // case myGovernment = "MYGOVERNMENT"
+    case changePolicies = "CHANGEPOLICIES"
+    case changeGovernment = "CHANGEGOVERNMENT"
 
     // game menu options
     case gameQuickSave = "GAME_QUICKSAVE"

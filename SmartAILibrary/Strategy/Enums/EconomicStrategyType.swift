@@ -330,7 +330,7 @@ enum EconomicStrategyType: Int, Codable {
         if let capital = gameModel.capital(of: player) {
 
             // Make sure city specialization has gotten one chance to specialize the capital before we adopt this
-            if gameModel.turnsElapsed > 25 { // AI_CITY_SPECIALIZATION_EARLIEST_TURN
+            if gameModel.currentTurn > 25 { // AI_CITY_SPECIALIZATION_EARLIEST_TURN
 
                 if let capitalArea = gameModel.area(of: capital.location) {
 

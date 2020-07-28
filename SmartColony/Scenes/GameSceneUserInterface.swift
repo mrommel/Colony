@@ -49,6 +49,8 @@ extension GameScene: UserInterfaceProtocol {
             self.showTreasuryDialog()
         case .menu:
             self.showMenuDialog()
+        case .government:
+            self.showGovernmentDialog()
         default:
             print("screen: \(screenType) not handled")
         }

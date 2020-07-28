@@ -515,7 +515,7 @@ enum CityStrategyType: Int, Codable {
         let currentNumCities = gameModel.cities(of: player).count
 
         if let lastTurnBuilderDisbanded = player.economicAI?.lastTurnBuilderDisbanded() {
-            if lastTurnBuilderDisbanded > 0 && gameModel.turnsElapsed - lastTurnBuilderDisbanded <= 25 {
+            if lastTurnBuilderDisbanded > 0 && gameModel.currentTurn - lastTurnBuilderDisbanded <= 25 {
 
                 return false
             }
@@ -548,7 +548,7 @@ enum CityStrategyType: Int, Codable {
         if moddedNumBuilders <= moddedNumCities || moddedNumBuilders == 0 {
         
             // If we don't have any Workers by turn 30 we really need to get moving
-            if gameModel.turnsElapsed > 30 { //AI_CITYSTRATEGY_NEED_TILE_IMPROVERS_DESPERATE_TURN
+            if gameModel.currentTurn > 30 { //AI_CITYSTRATEGY_NEED_TILE_IMPROVERS_DESPERATE_TURN
                 return true
             }
         }
@@ -577,7 +577,7 @@ enum CityStrategyType: Int, Codable {
         let currentNumCities = gameModel.cities(of: player).count
 
         if let lastTurnBuilderDisbanded = player.economicAI?.lastTurnBuilderDisbanded() {
-            if lastTurnBuilderDisbanded > 0 && gameModel.turnsElapsed - lastTurnBuilderDisbanded <= 25 {
+            if lastTurnBuilderDisbanded > 0 && gameModel.currentTurn - lastTurnBuilderDisbanded <= 25 {
 
                 return false
             }
@@ -724,7 +724,7 @@ enum CityStrategyType: Int, Codable {
         
         if numCitiesAndSettlers < 3 {
             
-            if gameModel.turnsElapsed > 100 && cityStrategy.adopted(cityStrategy: .capitalUnderThreat) {
+            if gameModel.currentTurn > 100 && cityStrategy.adopted(cityStrategy: .capitalUnderThreat) {
                 
                 return false
             }
@@ -736,12 +736,12 @@ enum CityStrategyType: Int, Codable {
             let weightThresholdModifier = self.weightThresholdModifier(for: player)
             let weightThreshold = self.weightThreshold() + weightThresholdModifier
             
-            if numCitiesAndSettlers == 1 && gameModel.turnsElapsed * 4 > weightThreshold {
+            if numCitiesAndSettlers == 1 && gameModel.currentTurn * 4 > weightThreshold {
                 
                 return true
             }
             
-            if numCitiesAndSettlers == 2 && gameModel.turnsElapsed > weightThreshold {
+            if numCitiesAndSettlers == 2 && gameModel.currentTurn > weightThreshold {
                 
                 return true
             }

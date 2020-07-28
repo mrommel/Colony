@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<context>
+    <anchorx>center</anchorx>
+    <anchory>top</anchory>
+    <offsetx>0</offsetx>
+    <offsety>45%</offsety>
+    <width>90%</width>
+    <height>90%</height>
+    <background>grid9_dialog</background>
+    
+    <!-- sub items -->
+    <items>
+        <item>
+            <identifier>current_government_icon</identifier>
+            <type>image</type>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-85</offsety>
+            <width>80</width>
+            <height>80</height>
+            <image>questionmark</image>
+        </item>
+
+        <item>
+            <identifier>select_policies</identifier>
+            <type>label</type>
+            <title>Select Policies</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-150</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>policies_warning</identifier>
+            <type>label</type>
+            <title>1 / 1 / 0 / 0</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-180</offsety>
+            <width>300</width>
+            <height>40</height>
+        </item>
+        
+        <!-- scroll view -->
+        
+        <item>
+            <identifier>okay_button</identifier>
+            <type>button</type>
+            <title>Okay</title>
+            <result>OKAY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-85%</offsety>
+            <width>200</width>
+            <height>42</height>
+        </item>
+    </items>
+</context>
+
+

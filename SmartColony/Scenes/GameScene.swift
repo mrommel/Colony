@@ -1076,6 +1076,11 @@ extension GameScene: BottomLeftBarDelegate {
 
         self.showCivicDialog()
     }
+    
+    func handlePoliciesNeeded() {
+        
+        self.showChangePoliciesDialog()
+    }
 
     func handleProductionNeeded(at location: HexPoint) {
 

@@ -46,7 +46,7 @@ public protocol AbstractUnit: class, Codable {
     func name() -> String
     func isBarbarian() -> Bool
     func isHuman() -> Bool
-    func classClass() -> UnitClassType
+    func unitClassType() -> UnitClassType
 
     func civilianAttackPriority() -> CivilianAttackPriorityType
     func captureUnitType() -> UnitType
@@ -412,7 +412,7 @@ public class Unit: AbstractUnit {
         return player.isHuman()
     }
 
-    public func classClass() -> UnitClassType {
+    public func unitClassType() -> UnitClassType {
 
         return self.type.unitClass()
     }
@@ -577,7 +577,7 @@ public class Unit: AbstractUnit {
 
         // FIXME
         if self.isEmbarked() && !ignoreEmbarked {
-            if self.classClass() == .civilian {
+            if self.unitClassType() == .civilian {
                 return 0
             } else {
                 return 500 // FIXME
@@ -629,6 +629,10 @@ public class Unit: AbstractUnit {
     /// What is the max strength of this Unit when attacking?
     public func attackStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile? = nil) -> Int {
 
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+        
         let isEmbarkedAttackingLand = isEmbarked() && (toTile != nil && toTile!.terrain().isLand())
 
         if self.isEmbarked() && !isEmbarkedAttackingLand {
@@ -649,6 +653,20 @@ public class Unit: AbstractUnit {
 
             modifier -= tile.defenseModifier(for: self.player)
         }
+        
+        if government.currentGovernment() == .oligarchy {
+        
+            // All land melee, anti-cavalry, and naval melee class units gain +4 Civ6StrengthIcon Combat Strength.
+            if self.unitClassType() == .melee || self.unitClassType() == .antiCavalry || self.unitClassType() == .navalMelee {
+                modifier += 4
+            }
+        }
+        
+        if government.currentGovernment() == .fascism {
+            
+            // All units gain +5 Civ6StrengthIcon Combat Strength.
+            modifier += 5
+        }
 
         ////////////////////////
         // KNOWN CITY
@@ -662,6 +680,13 @@ public class Unit: AbstractUnit {
 
         if let defender = defender {
 
+            // +5 Civ6StrengthIcon Combat Strength when fighting Barbarians.
+            if government.has(card: .discipline) {
+                if defender.isBarbarian() {
+                    modifier += 5
+                }
+            }
+            
             return self.combatStrength(against: defender) + modifier
         }
 
@@ -671,7 +696,7 @@ public class Unit: AbstractUnit {
     public func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool) -> Int {
 
         if self.isEmbarked() {
-            if self.classClass() == .civilian {
+            if self.unitClassType() == .civilian {
                 return 0
             } else {
                 return 500 // FIXME
@@ -738,7 +763,7 @@ public class Unit: AbstractUnit {
                 // ranged attack
                 var strength = self.type.rangedStrength()
 
-                strength += self.type.unitClassModifier(for: unit.classClass())
+                strength += self.type.unitClassModifier(for: unit.unitClassType())
 
                 let healthRatio = Double(self.healthPointsValue) / (2.0 * Unit.maxHealth) /* => 0..0.5 */ + 0.5 /* => 0.5..1.0 */
 
@@ -749,7 +774,7 @@ public class Unit: AbstractUnit {
                 // normal attack
                 var strength = self.type.meleeStrength()
 
-                strength += self.type.unitClassModifier(for: unit.classClass())
+                strength += self.type.unitClassModifier(for: unit.unitClassType())
 
                 let healthRatio = Double(self.healthPointsValue) / (2.0 * Unit.maxHealth) /* => 0..0.5 */ + 0.5 /* => 0.5..1.0 */
 
@@ -1203,7 +1228,7 @@ public class Unit: AbstractUnit {
                 }*/
 
                 if let mission = self.peekMission() {
-                    if mission.startedInTurn != gameModel.turnsElapsed {
+                    if mission.startedInTurn != gameModel.currentTurn {
                         //LOG_UNIT_MOVES_MESSAGE_OSTR(std::string("Rejecting move pkMissionData->iPushTurn=") << pkMissionData->iPushTurn << std::string(", GC.getGame().getGameTurn()=") << GC.getGame().getGameTurn());
                         rejectMove = true
                     }
@@ -2213,7 +2238,7 @@ public class Unit: AbstractUnit {
     // MARK: experience
 
     public func experience() -> Int {
-
+        
         return self.experienceValue
     }
 
@@ -2226,8 +2251,24 @@ public class Unit: AbstractUnit {
         guard let player = self.player else {
             fatalError("cant get promotions")
         }
+        
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+        
+        var experienceDelta: Double = Double(delta)
+        
+        // Doubles experience for recon units.
+        if government.has(card: .survey) {
+            experienceDelta *= 1.2
+        }
+        
+        // +20% Unit Experience.
+        if government.currentGovernment() == .oligarchy {
+            experienceDelta *= 1.2
+        }
 
-        self.experienceValue += delta
+        self.experienceValue += Int(experienceDelta)
 
         let level = self.experienceLevel()
 
