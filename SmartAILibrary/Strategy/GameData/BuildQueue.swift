@@ -69,6 +69,26 @@ public class BuildQueue: Codable {
         return false
     }
     
+    func isCurrentlyBuildingDistrict() -> Bool {
+        
+        return self.items.first(where: { $0.type == .district }) != nil
+    }
+    
+    func isCurrentlyTrainingUnit() -> Bool {
+           
+        return self.items.first(where: { $0.type == .unit }) != nil
+    }
+    
+    func isCurrentlyTrainingUnit(of unitType: UnitType) -> Bool {
+           
+        return self.items.first(where: { $0.type == .unit && $0.unitType == unitType }) != nil
+    }
+    
+    func isCurrentlyTrainingUnit(of unitClassType: UnitClassType) -> Bool {
+           
+        return self.items.first(where: { $0.type == .unit && $0.unitType?.unitClass() == unitClassType }) != nil
+    }
+    
     func unit(of unitType: UnitType) -> BuildableItem? {
         
         if let item = self.items.first(where: { $0.type == .unit && $0.unitType == unitType }) {

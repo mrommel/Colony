@@ -77,6 +77,7 @@ public enum UnitType: Int, Codable {
 
         let name: String
 
+        let era: EraType
         let sight: Int
         let range: Int
         let supportDistance: Int
@@ -113,6 +114,11 @@ public enum UnitType: Int, Codable {
     public func name() -> String {
 
         return self.data().name
+    }
+    
+    public func era() -> EraType {
+
+        return self.data().era
     }
 
     func range() -> Int {
@@ -229,56 +235,248 @@ public enum UnitType: Int, Codable {
 
         switch self {
 
-        case .barbarianWarrior: return UnitTypeData(name: "barbarian warrior", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .melee, meleeAttack: 15, rangedAttack: 0, moves: 2)
+        case .barbarianWarrior:
+            return UnitTypeData(name: "barbarian warrior",
+                                era: .none,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 10,
+                                targetType: .melee,
+                                meleeAttack: 15,
+                                rangedAttack: 0,
+                                moves: 2)
             
-        case .barbarianArcher: return UnitTypeData(name: "barbarian archer", sight: 2, range: 1, supportDistance: 2, strength: 10, targetType: .ranged, meleeAttack: 15, rangedAttack: 20, moves: 2)
+        case .barbarianArcher:
+            return UnitTypeData(name: "barbarian archer",
+                                era: .none,
+                                sight: 2,
+                                range: 1,
+                                supportDistance: 2,
+                                strength: 10,
+                                targetType: .ranged,
+                                meleeAttack: 15,
+                                rangedAttack: 20,
+                                moves: 2)
 
             // ancient
         case .settler:
             // https://civilization.fandom.com/wiki/Settler_(Civ6)
-            return UnitTypeData(name: "settler", sight: 3, range: 0, supportDistance: 0, strength: 10, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 2)
+            return UnitTypeData(name: "settler",
+                                era: .ancient,
+                                sight: 3,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 10,
+                                targetType: .civilian,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 2)
         case .builder:
             // https://civilization.fandom.com/wiki/Builder_(Civ6)
-            return UnitTypeData(name: "builder", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 2)
+            return UnitTypeData(name: "builder",
+                                era: .ancient,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 10,
+                                targetType: .civilian,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 2)
         case .scout:
             // https://civilization.fandom.com/wiki/Scout_(Civ6)
-            return UnitTypeData(name: "scout", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .recon, meleeAttack: 10, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "scout",
+                                era: .ancient,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 10,
+                                targetType: .recon,
+                                meleeAttack: 10,
+                                rangedAttack: 0,
+                                moves: 3)
         case .warrior:
             // https://civilization.fandom.com/wiki/Warrior_(Civ6)
-            return UnitTypeData(name: "warrior", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .melee, meleeAttack: 20, rangedAttack: 0, moves: 2)
+            return UnitTypeData(name: "warrior",
+                                era: .ancient,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 10,
+                                targetType: .melee,
+                                meleeAttack: 20,
+                                rangedAttack: 0,
+                                moves: 2)
         case .slinger:
-            return UnitTypeData(name: "slinger", sight: 2, range: 1, supportDistance: 1, strength: 10, targetType: .ranged, meleeAttack: 5, rangedAttack: 15, moves: 2)
+            return UnitTypeData(name: "slinger",
+                                era: .ancient,
+                                sight: 2,
+                                range: 1,
+                                supportDistance: 1,
+                                strength: 10,
+                                targetType: .ranged,
+                                meleeAttack: 5,
+                                rangedAttack: 15,
+                                moves: 2)
         case .archer:
-            return UnitTypeData(name: "archer", sight: 2, range: 2, supportDistance: 2, strength: 10, targetType: .ranged, meleeAttack: 15, rangedAttack: 25, moves: 2)
+            return UnitTypeData(name: "archer",
+                                era: .ancient,
+                                sight: 2,
+                                range: 2,
+                                supportDistance: 2,
+                                strength: 10,
+                                targetType: .ranged,
+                                meleeAttack: 15,
+                                rangedAttack: 25,
+                                moves: 2)
         case .spearman:
-            return UnitTypeData(name: "spearman", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .antiCavalry, meleeAttack: 25, rangedAttack: 0, moves: 2)
+            return UnitTypeData(name: "spearman",
+                                era: .ancient,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 10,
+                                targetType: .antiCavalry,
+                                meleeAttack: 25,
+                                rangedAttack: 0,
+                                moves: 2)
         case .heavyChariot:
-            return UnitTypeData(name: "chariot", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .lightCavalry, meleeAttack: 28, rangedAttack: 0, moves: 2)
+            return UnitTypeData(name: "chariot",
+                                era: .ancient,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 10,
+                                targetType: .lightCavalry,
+                                meleeAttack: 28,
+                                rangedAttack: 0,
+                                moves: 2)
         case .galley:
-            return UnitTypeData(name: "galley", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .navalMelee, meleeAttack: 0, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "galley",
+                                era: .ancient,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 10,
+                                targetType: .navalMelee,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 3)
 
             // industrial
-        case .medic: return UnitTypeData(name: "medic", sight: 2, range: 0, supportDistance: 0, strength: 10, targetType: .support, meleeAttack: 0, rangedAttack: 0, moves: 2)
+        case .medic:
+            return UnitTypeData(name: "medic",
+                                era: .industrial,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 10,
+                                targetType: .support,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 2)
             
             // great people
         case .admiral:
-            return UnitTypeData(name: "admiral", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "admiral",
+                                era: .none,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 0,
+                                targetType: .civilian,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 3)
         case .artist:
-            return UnitTypeData(name: "artist", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "artist",
+                                era: .none,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 0,
+                                targetType: .civilian,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 3)
         case .engineer:
-            return UnitTypeData(name: "engineer", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "engineer",
+                                era: .none,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 0,
+                                targetType: .civilian,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 3)
         case .general:
-            return UnitTypeData(name: "general", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "general",
+                                era: .none,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 0,
+                                targetType: .civilian,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 3)
         case .merchant:
-            return UnitTypeData(name: "merchant", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "merchant",
+                                era: .none,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 0,
+                                targetType: .civilian,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 3)
         case .musician:
-            return UnitTypeData(name: "musician", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "musician",
+                                era: .none,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 0,
+                                targetType: .civilian,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 3)
         case .prophet:
-            return UnitTypeData(name: "prophet", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "prophet",
+                                era: .none,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 0,
+                                targetType: .civilian,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 3)
         case .scientist:
-            return UnitTypeData(name: "scientist", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "scientist",
+                                era: .none,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 0,
+                                targetType: .civilian,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 3)
         case .writer:
-            return UnitTypeData(name: "writer", sight: 2, range: 0, supportDistance: 0, strength: 0, targetType: .civilian, meleeAttack: 0, rangedAttack: 0, moves: 3)
+            return UnitTypeData(name: "writer",
+                                era: .none,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 0,
+                                targetType: .civilian,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 3)
         }
     }
 

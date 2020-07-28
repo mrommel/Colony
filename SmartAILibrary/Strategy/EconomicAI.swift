@@ -929,14 +929,6 @@ public class EconomicAI: Codable {
 
         var bestCity: AbstractCity? = nil
         var bestPoint: HexPoint = HexPoint(x: -1, y: -1)
-        /*CvCity *pLoopCity = 0;
-        CvCity *pBestCity = NULL;
-        int iBestX = -1;
-        int iBestY = -1;
-        int iTempX = 0, iTempY = 0;
-
-        int iScore = 0;
-        int iLoop = 0;*/
 
         // No plot buying when at war
         if militaryAI.adopted(militaryStrategy: .atWar) {

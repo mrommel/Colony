@@ -915,20 +915,24 @@ public class City: AbstractCity {
             fatalError("no player provided")
         }
         
-        var foodFromGovernmentType: Double = 0.0
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
+        var foodFromGovernmentValue: Double = 0.0
         
         // yields from government
         if let government = player.government {
 
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
-            // Capital receives +1 boost to all yields.
-            if government.currentGovernment() == .autocracy && self.capitalValue == true {
+            // +1 to all yields for each government building and Palace in a city.
+            if government.currentGovernment() == .autocracy {
 
-                foodFromGovernmentType += 1
+                foodFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
             }
         }
 
-        return foodFromGovernmentType
+        return foodFromGovernmentValue
     }
     
     func foodFromBuilding(in gameModel: GameModel?) -> Double {
@@ -1019,9 +1023,67 @@ public class City: AbstractCity {
         
         var housing = self.baseHousing(in: gameModel)
         housing += buildings.housing()
+        housing += self.housingFromGovernmentType()
+        // housing += self.housingFromWonders() FIXME
         housing += self.housingFromImprovements(in: gameModel)
          
         return housing
+    }
+    
+    // housing from government
+    private func housingFromGovernmentType() -> Double {
+        
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+        
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+        
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+
+        var housingFromGovernment: Double = 0.0
+            
+        // All cities with a district receive +1 Housing6 Housing and +1 Amenities6 Amenity.
+        if government.currentGovernment() == .classicalRepublic {
+
+            if districts.hasAny() {
+                housingFromGovernment += 1.0
+            }
+        }
+        
+        // +1 Housing6 Housing per level of Walls.
+        if government.currentGovernment() == .monarchy {
+
+            if buildings.has(building: .ancientWalls) {
+                housingFromGovernment += 1.0
+            }
+            
+            if buildings.has(building: .medievalWalls) {
+                housingFromGovernment += 2.0
+            }
+            
+            if buildings.has(building: .renaissanceWalls) {
+                housingFromGovernment += 3.0
+            }
+        }
+        
+        // .. and +1 Housing6 Housing per District.
+        if government.currentGovernment() == .democracy {
+            housingFromGovernment += Double(districts.numberOfBuildDsitricts())
+        }
+        
+        // +1 Housing6 Housing in all cities with at least 2 specialty districts.
+        if government.has(card: .insulae) {
+            if districts.numberOfBuildDsitricts() >= 2 {
+                housingFromGovernment += 1.0
+            }
+        }
+        
+        return housingFromGovernment
     }
     
     // Each Farm, Pasture, Plantation, or Camp supports a small amount of Citizen6 Population — 1 Housing6 Housing for every 2 such improvements.
@@ -1161,12 +1223,36 @@ public class City: AbstractCity {
         return amenitiesFromWonders
     }
     
+    // amenities from government
+    private func amenitiesFromGovernmentType() -> Double {
+        
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+        
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        var amenitiesFromGovernment: Double = 0.0
+            
+        // "All cities with a district receive +1 Housing6 Housing and +1 Amenities6 Amenity."
+        if government.currentGovernment() == .classicalRepublic {
+
+            if districts.hasAny() {
+                amenitiesFromGovernment += 1.0
+            }
+        }
+        
+        return amenitiesFromGovernment
+    }
+    
     public func amenitiesPerTurn(in gameModel: GameModel?) -> Double {
         
         var amenitiesPerTurn: Double = 0.0
         
         amenitiesPerTurn += self.amenitiesFromLuxuries()
-        //amenitiesPerTurn += self.amenitiesFromGovernmentType()
+        amenitiesPerTurn += self.amenitiesFromGovernmentType()
         amenitiesPerTurn += self.amenitiesFromBuildings()
         amenitiesPerTurn += self.amenitiesFromWonders()
         
@@ -1653,26 +1739,30 @@ public class City: AbstractCity {
             fatalError("no player provided")
         }
         
-        var foodFromGovernmentType: Double = 0.0
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
+        var goldFromGovernmentValue: Double = 0.0
         
         // yields from government
         if let government = player.government {
 
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
-            // Capital receives +1 boost to all yields.
-            if government.currentGovernment() == .autocracy && self.capitalValue == true {
+            // +1 to all yields for each government building and Palace in a city.
+            if government.currentGovernment() == .autocracy {
 
-                foodFromGovernmentType += 1
+                goldFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
             }
 
             // godKing
             if government.has(card: .godKing) && self.capitalValue == true {
 
-                foodFromGovernmentType += 1
+                goldFromGovernmentValue += 1.0
             }
         }
         
-        return foodFromGovernmentType
+        return goldFromGovernmentValue
     }
     
     private func goldFromBuildings() -> Double {
@@ -1743,16 +1833,20 @@ public class City: AbstractCity {
             fatalError("Cant get player")
         }
         
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
         var scienceFromGovernmentValue: Double = 0.0
         
         // yields from government
         if let government = player.government {
 
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
-            // Capital receives +1 boost to all yields.
-            if government.currentGovernment() == .autocracy && self.capitalValue == true {
+            // +1 to all yields for each government building and Palace in a city.
+            if government.currentGovernment() == .autocracy {
 
-                scienceFromGovernmentValue += 1
+                scienceFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
             }
         }
         
@@ -1830,16 +1924,20 @@ public class City: AbstractCity {
             fatalError("Cant get player")
         }
         
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
         var cultureFromGovernmentValue: Double = 0.0
         
         // yields from government
         if let government = player.government {
 
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
-            // Capital receives +1 boost to all yields.
-            if government.currentGovernment() == .autocracy && self.capitalValue == true {
+            // +1 to all yields for each government building and Palace in a city.
+            if government.currentGovernment() == .autocracy {
 
-                cultureFromGovernmentValue += 1
+                cultureFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
             }
         }
         
@@ -1917,16 +2015,20 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
         
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
         var faithFromGovernmentValue: Double = 0.0
         
         // yields from government
         if let government = player.government {
 
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
-            // Capital receives +1 boost to all yields.
-            if government.currentGovernment() == .autocracy && self.capitalValue == true {
+            // +1 to all yields for each government building and Palace in a city.
+            if government.currentGovernment() == .autocracy {
 
-                faithFromGovernmentValue += 1
+                faithFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
             }
 
             // godKing
@@ -2019,16 +2121,20 @@ public class City: AbstractCity {
             fatalError("no player provided")
         }
         
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
         var productionFromGovernmentType: Double = 0.0
         
         // yields from government
         if let government = player.government {
 
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
-            // Capital receives +1 boost to all yields.
-            if government.currentGovernment() == .autocracy && self.capitalValue == true {
+            // +1 to all yields for each government building and Palace in a city.
+            if government.currentGovernment() == .autocracy {
 
-                productionFromGovernmentType += 1
+                productionFromGovernmentType += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
             }
 
             // urbanPlanning: +1 Production in all cities.
@@ -2066,6 +2172,14 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
         
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+        
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+        
         if !player.isHuman() || self.isProductionAutomated() {
             if !self.isProduction() /*|| self.isProductionProcess() || AI_isChooseProductionDirty() */ {
                 self.AI_chooseProduction(interruptWonders: false, in: gameModel /*bInterruptWonders*/)
@@ -2083,31 +2197,97 @@ public class City: AbstractCity {
 
         if self.isProduction() {
 
-            /*if (isProductionBuilding())
-            {
-                const OrderData* pOrderNode = headOrderQueueNode();
-                int iData1 = -1;
-                if (pOrderNode != NULL)
-                {
-                    iData1 = pOrderNode->iData1;
-                }
+            var production: Double = self.productionPerTurn(in: gameModel)
+            
+            // +1 Civ6Production Production in all cities.
+            if government.has(card: .urbanPlanning) {
+                production += 1
+            }
+            
+            // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
+            // +10% Production toward Wonders.
+            if government.currentGovernment() == .autocracy {
 
-                const BuildingTypes eBuilding = static_cast<BuildingTypes>(iData1);
-                CvBuildingEntry* pkBuildingInfo = GC.getBuildingInfo(eBuilding);
-                if(pkBuildingInfo)
-                {
-                    if (isWorldWonderClass(pkBuildingInfo->GetBuildingClassInfo()))
-                    {
-                        if (m_pCityBuildings->GetBuildingProduction(eBuilding) == 0) // otherwise we are probably already showing this
-                        {
-                            auto_ptr<ICvCity1> pDllCity(new CvDllCity(this));
-                            DLLUI->AddDeferredWonderCommand(WONDER_CREATED, pDllCity.get(), eBuilding, 0);
-                        }
+                if self.productionWonderType() != nil {
+                    production *= 1.1
+                }
+            }
+            
+            // +15% Production toward Districts.
+            if government.currentGovernment() == .merchantRepublic {
+                
+                if self.buildQueue.isCurrentlyBuildingDistrict() {
+                    production *= 1.15
+                }
+            }
+            
+            // +50% Civ6Production Production toward Units.
+            if government.currentGovernment() == .fascism {
+                
+                if self.buildQueue.isCurrentlyTrainingUnit() {
+                    production *= 1.50
+                }
+            }
+            
+            // +15% Civ6Production Production.
+            if government.currentGovernment() == .communism {
+                production *= 1.15
+            }
+            
+            // +1 Civ6Production Production ... per District.
+            if government.currentGovernment() == .democracy {
+                
+                production += Double(districts.numberOfBuildDsitricts())
+            }
+            
+            // +15% Civ6Production Production toward Ancient and Classical wonders.
+            if government.has(card: .corvee) {
+                if let wonderType = self.productionWonderType() {
+                    if wonderType.era() == .ancient || wonderType.era() == .classical {
+                        production *= 1.15
                     }
                 }
-            }*/
-
-            let production = self.productionPerTurn(in: gameModel)
+            }
+            
+            // +30% Civ6Production Production toward Builders.
+            if government.has(card: .ilkum) {
+                if self.buildQueue.isCurrentlyTrainingUnit(of: .builder) {
+                    production *= 1.30
+                }
+            }
+            
+            // +50% Civ6Production Production toward Settlers.
+            if government.has(card: .colonization) {
+                if self.buildQueue.isCurrentlyTrainingUnit(of: .settler) {
+                    production *= 1.50
+                }
+            }
+            
+            // +50% Civ6Production Production toward Ancient and Classical era heavy and light cavalry units.
+            if government.has(card: .maneuver) {
+                if self.buildQueue.isCurrentlyTrainingUnit(of: .heavyCavalry) || self.buildQueue.isCurrentlyTrainingUnit(of: .lightCavalry) {
+                    production *= 1.50
+                }
+            }
+            
+            // +100% Civ6Production Production toward Ancient and Classical era naval units.
+            if government.has(card: .maritimeIndustries) {
+                if let unitType = self.productionUnitType() {
+                    if unitType.unitClass() == .navalMelee && (unitType.era() == .ancient || unitType.era() == .classical) {
+                        production *= 2
+                    }
+                }
+            }
+            
+            // +50% Civ6Production Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.
+            if government.has(card: .agoge) {
+                if let unitType = self.productionUnitType() {
+                    if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) && (unitType.era() == .ancient || unitType.era() == .classical) {
+                        production *= 1.5
+                    }
+                }
+            }
+            
             self.updateProduction(for: production, in: gameModel)
 
             //setOverflowProduction(0);
@@ -2137,7 +2317,7 @@ public class City: AbstractCity {
             // Is it still working on that wonder and we don't want to interrupt it?
             if !interruptWonders {
                 
-                if self.productionWonder() != nil {
+                if self.productionWonderType() != nil {
                     // Stay the course
                     return
                 }
@@ -2252,7 +2432,12 @@ public class City: AbstractCity {
     
     private func train(unitType: UnitType, in gameModel: GameModel?) {
         
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+        
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
+        
         gameModel?.add(unit: unit)
         
         gameModel?.userInterface?.show(unit: unit)
@@ -2458,12 +2643,24 @@ public class City: AbstractCity {
         return buildings.has(building: building)
     }
     
-    func productionWonder() -> WonderType? {
+    func productionWonderType() -> WonderType? {
         
         if let currentProduction = self.buildQueue.peek() {
             
             if currentProduction.type == .wonder {
                 return currentProduction.wonderType
+            }
+        }
+        
+        return nil
+    }
+    
+    func productionUnitType() -> UnitType? {
+        
+        if let currentProduction = self.buildQueue.peek() {
+            
+            if currentProduction.type == .unit {
+                return currentProduction.unitType
             }
         }
         
@@ -2712,6 +2909,10 @@ public class City: AbstractCity {
             fatalError("no player provided")
         }
         
+        guard let government = player.government else {
+            fatalError("cant get government")
+        }
+        
         guard let defender = defender else {
             fatalError("defender not found")
         }
@@ -2737,12 +2938,21 @@ public class City: AbstractCity {
             rangedStrength = 60
         }*/
         
+        // +5 City Civ6RangedStrength Ranged Strength.
+        if government.has(card: .bastions) {
+            rangedStrength += 5
+        }
+        
         // FIXME: ratio?
         
         return rangedStrength
     }
     
     public func defensiveStrength(against attacker: AbstractUnit?, on ownTile: AbstractTile?, ranged: Bool) -> Int {
+        
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
         
         guard let buildings = self.buildings else {
             fatalError("no buildings provided")
@@ -2773,6 +2983,11 @@ public class City: AbstractCity {
             if tile.hasHills() {
                 strengthValue += 3 // CITY_STRENGTH_HILL_MOD
             }
+        }
+        
+        // +6 City Civ6StrengthIcon Defense Strength.
+        if government.has(card: .bastions) {
+            strengthValue += 6
         }
         
         return strengthValue
@@ -3040,8 +3255,18 @@ public class City: AbstractCity {
             return false
         }
         
-        let cost = self.buyPlotCost(at: point, in: gameModel)
-        player.treasury?.changeGold(by: Double(-cost))
+        guard let government = player.government else {
+            fatalError("cant get government")
+        }
+        
+        var cost: Double = Double(self.buyPlotCost(at: point, in: gameModel))
+        
+        // Reduces the cost of purchasing a tile by 20%.
+        if government.has(card: .landSurveyors) {
+            cost *= 0.8
+        }
+        
+        player.treasury?.changeGold(by: -cost)
         player.changeNumPlotsBought(change: 1)
         
         // See if there's anyone else nearby that could get upset by this action

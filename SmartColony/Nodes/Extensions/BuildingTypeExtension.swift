@@ -33,6 +33,14 @@ extension BuildingType {
         case .arena: return "building_default" // <=== 
         case .market: return "building_market"
         case .temple: return "building_temple"
+            
+            // medieval
+        case .medievalWalls: return "building_default" // <===
+            
+            // renaissance
+        case .renaissanceWalls: return "building_default" // <===
+            
+            //
         }
     }
 }
