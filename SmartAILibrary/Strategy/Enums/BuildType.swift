@@ -23,13 +23,14 @@ public enum BuildType: Int, Codable {
     case plantation
     case camp
     case pasture
+    case fishingBoats
     
     case removeForest
     case removeRainforest
     case removeMarsh
     
     public static var all: [BuildType] {
-        return [.road, .removeRoad, .repair, .farm, .mine, .quarry, .plantation, .camp, .pasture, .removeForest, .removeRainforest, .removeMarsh]
+        return [.road, .removeRoad, .repair, .farm, .mine, .quarry, .plantation, .camp, .pasture, .fishingBoats, .removeForest, .removeRainforest, .removeMarsh]
     }
     
     public static var allImprovements: [BuildType] {
@@ -193,6 +194,11 @@ public enum BuildType: Int, Codable {
             pastureBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 300, isRemove: true))
             pastureBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 500, isRemove: true))
             return pastureBuild
+            
+        case .fishingBoats:
+            let fishingBoatsBuild = BuildTypeData(name: "Fishing Boats", required: .sailing, improvement: .fishingBoats, duration: 700)
+            
+            return fishingBoatsBuild
             
         case .removeForest:
             let removeForestBuild = BuildTypeData(name: "Remove Forest", duration: 300)

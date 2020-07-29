@@ -101,7 +101,7 @@ class ScrollNode: SKCropNode {
                 newPositionX = self.contentSize.width - self.size.width
             }*/
             
-            print("newPositionX=\(newPositionX) - self.contentSize.width=\(self.contentSize.width) - self.size.width=\(self.size.width)")
+            //print("newPositionX=\(newPositionX) - self.contentSize.width=\(self.contentSize.width) - self.size.width=\(self.size.width)")
 
             if newPositionX > 0.0 {
                 newPositionX = 0.0

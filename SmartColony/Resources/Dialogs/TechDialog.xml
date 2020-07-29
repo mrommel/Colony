@@ -301,5 +301,217 @@
             <height>45</height>
         </item>
         
+        <!-- medieval: 680 -->
+        
+        <item>
+            <identifier>tech_militaryTactics</identifier>
+            <type>techInfo</type>
+            <techType>militaryTactics</techType>
+            <result>MILITARYTACTICS</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>680</offsetx>
+            <offsety>135</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_apprenticeship</identifier>
+            <type>techInfo</type>
+            <techType>apprenticeship</techType>
+            <result>APPRENTICESHIP</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>680</offsetx>
+            <offsety>45</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_machinery</identifier>
+            <type>techInfo</type>
+            <techType>machinery</techType>
+            <result>MACHINERY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>680</offsetx>
+            <offsety>-135</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <!-- medieval: 830 -->
+        
+        <item>
+            <identifier>tech_education</identifier>
+            <type>techInfo</type>
+            <techType>education</techType>
+            <result>EDUCATION</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>830</offsetx>
+            <offsety>90</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_stirrups</identifier>
+            <type>techInfo</type>
+            <techType>stirrups</techType>
+            <result>STIRRUPS</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>830</offsetx>
+            <offsety>0</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_militaryEngineering</identifier>
+            <type>techInfo</type>
+            <techType>militaryEngineering</techType>
+            <result>MILITARYENGINEERING</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>830</offsetx>
+            <offsety>-45</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_castles</identifier>
+            <type>techInfo</type>
+            <techType>castles</techType>
+            <result>CASTLES</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>830</offsetx>
+            <offsety>-90</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <!-- renaissance: 1000 -->
+        
+        <item>
+            <identifier>tech_cartography</identifier>
+            <type>techInfo</type>
+            <techType>cartography</techType>
+            <result>CARTOGRAPHY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1000</offsetx>
+            <offsety>180</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_massProduction</identifier>
+            <type>techInfo</type>
+            <techType>massProduction</techType>
+            <result>MASSPRODUCTION</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1000</offsetx>
+            <offsety>135</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_banking</identifier>
+            <type>techInfo</type>
+            <techType>banking</techType>
+            <result>BANKING</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1000</offsetx>
+            <offsety>45</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_gunpowder</identifier>
+            <type>techInfo</type>
+            <techType>gunpowder</techType>
+            <result>GUNPOWDER</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1000</offsetx>
+            <offsety>0</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_printing</identifier>
+            <type>techInfo</type>
+            <techType>printing</techType>
+            <result>PRINTING</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1000</offsetx>
+            <offsety>-135</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <!-- renaissance: 1150 -->
+        
+        <item>
+            <identifier>tech_squareRigging</identifier>
+            <type>techInfo</type>
+            <techType>squareRigging</techType>
+            <result>SQUARERIGGING</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1150</offsetx>
+            <offsety>180</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_astronomy</identifier>
+            <type>techInfo</type>
+            <techType>astronomy</techType>
+            <result>ASTRONOMY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1150</offsetx>
+            <offsety>90</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_metalCasting</identifier>
+            <type>techInfo</type>
+            <techType>metalCasting</techType>
+            <result>METALCASTING</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1150</offsetx>
+            <offsety>0</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_siegeTactics</identifier>
+            <type>techInfo</type>
+            <techType>siegeTactics</techType>
+            <result>SIEGETACTICS</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1150</offsetx>
+            <offsety>-90</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <!-- industrial -->
+        
+        <!-- modern -->
+        
+        <!-- atomic -->
+        
+        <!-- information -->
+        
     </items>
 </context>

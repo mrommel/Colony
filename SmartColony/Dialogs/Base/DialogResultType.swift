@@ -14,7 +14,7 @@ enum DialogResultType: String, Codable {
     case none
     case okay = "OKAY"
     case cancel = "CANCEL"
-    
+
     // handicaps
     case handicapSettler = "HANDICAP_SETTLER"
     case handicapChieftain = "HANDICAP_CHIEFTAIN"
@@ -24,7 +24,7 @@ enum DialogResultType: String, Codable {
     case handicapEmperor = "HANDICAP_EMPEROR"
     case handicapImmortal = "HANDICAP_IMMORTAL"
     case handicapDeity = "HANDICAP_DEITY"
-    
+
     // leaders
     case leaderAlexander = "LEADER_ALEXANDER"
     case leaderAugustus = "LEADER_AUGUSTUS"
@@ -78,7 +78,7 @@ enum DialogResultType: String, Codable {
     case commandFortify = "COMMAND_FORTIFY"
     case commandHold = "COMMAND_HOLD"
     case commandGarrison = "COMMAND_GARRISON"
-    
+
     // techs - ancient
     case mining = "MINING"
     case pottery = "POTTERY"
@@ -91,7 +91,7 @@ enum DialogResultType: String, Codable {
     case archery = "ARCHERY"
     case bronzeWorking = "BRONZEWORKING"
     case wheel = "WHEEL"
-    
+
     // techs - classic
     case celestialNavigation = "CELESTIALNAVIGATION"
     case currency = "CURRENCY"
@@ -101,7 +101,27 @@ enum DialogResultType: String, Codable {
     case mathematics = "MATHEMATICS"
     case construction = "CONSTRUCTION"
     case engineering = "ENGINEERING"
+
+    // techs - medvieval
+    case militaryTactics = "MILITARYTACTICS"
+    case apprenticeship = "APPRENTICESHIP"
+    case machinery = "MACHINERY"
+    case education = "EDUCATION"
+    case stirrups = "STIRRUPS"
+    case militaryEngineering = "MILITARYENGINEERING"
+    case castles = "CASTLES"
     
+    // techs - renaissance
+    case cartography = "CARTOGRAPHY"
+    case massProduction = "MASSPRODUCTION"
+    case banking = "BANKING"
+    case gunPowder = "GUNPOWDER"
+    case printing = "PRINTING"
+    case squareRigging = "SQUARERIGGING"
+    case astronomy = "ASTRONOMY"
+    case metalCasting = "METALCASTING"
+    case siegeTactics = "SIEGETACTICS"
+
     // civics - ancient
     case codeOfLaws = "CODEOFLAWS"
     case craftsmanship = "CRAFTSMANSHIP"
@@ -110,12 +130,12 @@ enum DialogResultType: String, Codable {
     case earlyEmpire = "EARLYEMPIRE"
     case mysticism = "MYSTICISM"
     case militaryTradition = "MILITARYTRADITION"
-    
+
     // diplomatic responses
     case responseChoice0 = "DIPLO_CHOICE_0"
     case responseChoice1 = "DIPLO_CHOICE_1"
     case responseChoice2 = "DIPLO_CHOICE_2"
-    
+
     // government dialog
     // case myGovernment = "MYGOVERNMENT"
     case changePolicies = "CHANGEPOLICIES"
@@ -128,10 +148,10 @@ enum DialogResultType: String, Codable {
     case gameRetire = "GAME_RETIRE"
     case gameRestart = "GAME_RESTART"
     case gameExit = "GAME_EXIT"
-    
-    
+
+
     // MARK: methods
-    
+
     func toMapType() -> MapType {
 
         if self == .mapTypeEarth {
@@ -167,9 +187,9 @@ enum DialogResultType: String, Codable {
 
         fatalError("niy")
     }
-    
+
     func toHandicapType() -> HandicapType {
-        
+
         if self == .handicapSettler {
             return .settler
         } else if self == .handicapChieftain {
@@ -187,12 +207,12 @@ enum DialogResultType: String, Codable {
         } else if self == .handicapDeity {
             return .deity
         }
-        
+
         fatalError("niy")
     }
-    
+
     func toLeaderType() -> LeaderType {
-        
+
         if self == .leaderAugustus {
             return .augustus
         } else if self == .leaderAlexander {
@@ -208,7 +228,7 @@ enum DialogResultType: String, Codable {
         } else if self == .leaderBarbarossa {
             return .barbarossa
         }
-        
+
         fatalError("niy")
     }
 
@@ -263,7 +283,7 @@ enum DialogResultType: String, Codable {
 
         fatalError("niy")
     }
-    
+
     func toTech() -> TechType {
 
         // ancient
@@ -290,7 +310,7 @@ enum DialogResultType: String, Codable {
         } else if self == .wheel {
             return .wheel
         }
-        
+
         // classical
         if self == .celestialNavigation {
             return .celestialNavigation
@@ -310,11 +330,49 @@ enum DialogResultType: String, Codable {
             return .engineering
         }
 
+        // medieval
+        if self == .militaryTactics {
+            return .militaryTactics
+        } else if self == .apprenticeship {
+            return .apprenticeship
+        } else if self == .machinery {
+            return .machinery
+        } else if self == .education {
+            return .education
+        } else if self == .stirrups {
+            return .stirrups
+        } else if self == .militaryEngineering {
+            return .militaryEngineering
+        } else if self == .castles {
+            return .castles
+        }
+        
+        // renaissance
+        if self == .cartography {
+            return .cartography
+        } else if self == .massProduction {
+            return .massProduction
+        } else if self == .banking {
+            return .banking
+        } else if self == .gunPowder {
+            return .gunpowder
+        } else if self == .printing {
+            return .printing
+        } else if self == .squareRigging {
+            return .squareRigging
+        } else if self == .astronomy {
+            return .astronomy
+        } else if self == .metalCasting {
+            return .metalCasting
+        } else if self == .siegeTactics {
+            return .siegeTactics
+        }
+
         fatalError("niy")
     }
-    
+
     func toCivic() -> CivicType {
-        
+
         if self == .stateWorkforce {
             return .stateWorkforce
         } else if self == .craftsmanship {
@@ -330,7 +388,7 @@ enum DialogResultType: String, Codable {
         } else if self == .militaryTradition {
             return .militaryTraining
         }
-        
+
         fatalError("niy")
     }
 }

@@ -70,7 +70,7 @@ public enum ImprovementType: Int, Codable {
             // https://civilization.fandom.com/wiki/Mine_(Civ6)
             let yield =  Yields(food: 0, production: 1, gold: 0, science: 0, appeal: -1.0)
             
-            if techs.has(tech: .apprenticesship) {
+            if techs.has(tech: .apprenticeship) {
                 yield.production += 1
             }
             

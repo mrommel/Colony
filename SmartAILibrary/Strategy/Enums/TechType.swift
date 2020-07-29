@@ -14,6 +14,7 @@ public struct TechAchievements {
     public let unitTypes: [UnitType]
     public let wonderTypes: [WonderType]
     public let buildTypes: [BuildType]
+    public let districtTypes: [DistrictType]
 }
 
 // https://github.com/fredzgreen/Civilization6_SwedishTranslation/blob/2591dc66a1674477a1857763d0b46e88d00a265b/XMLFiles/Technologies_Text.xml
@@ -47,7 +48,7 @@ public enum TechType: String, Codable {
     // medieval
     case militaryTactics
     case buttress
-    case apprenticesship
+    case apprenticeship
     case stirrups
     case machinery
     case education
@@ -117,7 +118,7 @@ public enum TechType: String, Codable {
             .celestialNavigation, horsebackRiding, .currency, .construction, .ironWorking, .shipBuilding, .mathematics, .engineering,
             
             // medieval
-            .militaryTactics, .buttress, .apprenticesship, .stirrups, .machinery, .education, .militaryEngineering, .castles,
+            .militaryTactics, .buttress, .apprenticeship, .stirrups, .machinery, .education, .militaryEngineering, .castles,
             
             // renaissance
             .cartography, .massProduction, .banking, .gunpowder, .printing, .squareRigging, .astronomy, .metalCasting, .siegeTactics,
@@ -227,6 +228,14 @@ public enum TechType: String, Codable {
         })
         
         // districts
+        let districts = DistrictType.all.filter({
+            if let district = $0.requiredTech() {
+                return district == self
+            } else {
+                return false
+            }
+        })
+        
         // wonders
         let wonders = WonderType.all.filter({
             if let tech = $0.requiredTech() {
@@ -245,7 +254,7 @@ public enum TechType: String, Codable {
             }
         })
             
-        return TechAchievements(buildingTypes: buildings, unitTypes: units, wonderTypes: wonders, buildTypes: builds)
+        return TechAchievements(buildingTypes: buildings, unitTypes: units, wonderTypes: wonders, buildTypes: builds, districtTypes: districts)
     }
     
     // MARK private
@@ -447,8 +456,8 @@ public enum TechType: String, Codable {
                                 cost: 300,
                                 required: [.shipBuilding, .mathematics],
                                 flavors: [Flavor(type: .wonder, value: 2)])
-        case .apprenticesship:
-            return TechTypeData(name: "Apprenticesship",
+        case .apprenticeship:
+            return TechTypeData(name: "Apprenticeship",
                                 eurekaSummary: "Build 3 Mines",
                                 eurekaDescription: "With raw materials now coming in from a wide variety of mines, the need to better teach new craftsmen to use them is essential.",
                                 era: .medieval,
@@ -477,7 +486,7 @@ public enum TechType: String, Codable {
                                 eurekaDescription: "The teachings from your Great Scientist have inspired a renewed interest in learning in your realm.",
                                 era: .medieval,
                                 cost: 335,
-                                required: [.apprenticesship, .mathematics],
+                                required: [.apprenticeship, .mathematics],
                                 flavors: [Flavor(type: .science, value: 8), Flavor(type: .wonder, value: 2)])
         case .militaryEngineering:
             return TechTypeData(name: "Military Engineering",
@@ -519,7 +528,7 @@ public enum TechType: String, Codable {
                                 eurekaDescription: "Your emerging guilds have plans that require a large influx of gold. Perhaps we can find a way to let them take out a loan?",
                                 era: .renaissance,
                                 cost: 490,
-                                required: [.education, .apprenticesship, .stirrups],
+                                required: [.education, .apprenticeship, .stirrups],
                                 flavors: [Flavor(type: .gold, value: 6)])
         case .gunpowder:
             return TechTypeData(name: "Gunpowder",
@@ -527,7 +536,7 @@ public enum TechType: String, Codable {
                                 eurekaDescription: "Your men at the armory are fashioning a new weapon that will devastate opponents.",
                                 era: .renaissance,
                                 cost: 490,
-                                required: [.militaryEngineering, .stirrups, .apprenticesship],
+                                required: [.militaryEngineering, .stirrups, .apprenticeship],
                                 flavors: [Flavor(type: .production, value: 2), Flavor(type: .defense, value: 3), Flavor(type: .cityDefense, value: 2)])
         case .printing:
             return TechTypeData(name: "Printing",

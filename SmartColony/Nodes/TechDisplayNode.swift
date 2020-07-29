@@ -37,6 +37,10 @@ class TechDisplayNode: BaseDisplayNode {
             iconNames.append(buildType.iconTexture())
         }
         
+        for districtType in achievements.districtTypes {
+            iconNames.append(districtType.iconTexture())
+        }
+        
         super.init(texture: self.techType.iconTexture(), name: self.techType.name(), iconNames: iconNames, size: size)
     }
     

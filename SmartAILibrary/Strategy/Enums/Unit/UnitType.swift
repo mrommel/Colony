@@ -1140,6 +1140,7 @@ public enum UnitType: Int, Codable {
         case .plantation: return self.has(ability: .canImprove)
         case .camp: return self.has(ability: .canImprove)
         case .pasture: return self.has(ability: .canImprove)
+        case .fishingBoats: return self.has(ability: .canImprove)
 
         case .removeForest: return self.has(ability: .canImprove)
         case .removeRainforest: return self.has(ability: .canImprove)
