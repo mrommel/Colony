@@ -93,6 +93,14 @@ enum DialogResultType: String, Codable {
     case wheel = "WHEEL"
     
     // techs - classic
+    case celestialNavigation = "CELESTIALNAVIGATION"
+    case currency = "CURRENCY"
+    case horsebackRiding = "HORSEBACKRIDING"
+    case ironWorking = "IRONWORKING"
+    case shipBuilding = "SHIPBUILDING"
+    case mathematics = "MATHEMATICS"
+    case construction = "CONSTRUCTION"
+    case engineering = "ENGINEERING"
     
     // civics - ancient
     case codeOfLaws = "CODEOFLAWS"
@@ -258,6 +266,7 @@ enum DialogResultType: String, Codable {
     
     func toTech() -> TechType {
 
+        // ancient
         if self == .writing {
             return .writing
         } else if self == .irrigation {
@@ -280,6 +289,25 @@ enum DialogResultType: String, Codable {
             return .bronzeWorking
         } else if self == .wheel {
             return .wheel
+        }
+        
+        // classical
+        if self == .celestialNavigation {
+            return .celestialNavigation
+        } else if self == .currency {
+            return .currency
+        } else if self == .horsebackRiding {
+            return .horsebackRiding
+        } else if self == .ironWorking {
+            return .ironWorking
+        } else if self == .shipBuilding {
+            return .shipBuilding
+        } else if self == .mathematics {
+            return .mathematics
+        } else if self == .construction {
+            return .construction
+        } else if self == .engineering {
+            return .engineering
         }
 
         fatalError("niy")

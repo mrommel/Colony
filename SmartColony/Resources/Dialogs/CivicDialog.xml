@@ -73,7 +73,7 @@
             <offsetx>-112</offsetx>
             <offsety>70</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         
         <item>
@@ -86,7 +86,7 @@
             <offsetx>2</offsetx>
             <offsety>70</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         
         <!-- 3rd row: -10 -->
@@ -101,7 +101,7 @@
             <offsetx>-112</offsetx>
             <offsety>-10</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         
         <item>
@@ -114,7 +114,7 @@
             <offsetx>2</offsetx>
             <offsety>-10</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         
         <!-- 4th row: -90 -->
@@ -129,7 +129,7 @@
             <offsetx>-112</offsetx>
             <offsety>-90</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         
         <item>
@@ -142,7 +142,7 @@
             <offsetx>2</offsetx>
             <offsety>-90</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         
     </items>

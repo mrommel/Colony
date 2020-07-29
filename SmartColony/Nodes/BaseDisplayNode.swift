@@ -14,52 +14,49 @@ class BaseDisplayNode: SKNode {
     var backgroundNode: NineGridTextureSprite?
     var iconNode: SKSpriteNode?
     var labelNode: SKLabelNode?
-    var costNode: SpriteButtonNode?
+    //var costNode: SpriteButtonNode?
+    private var iconNodes: [SKSpriteNode?] = []
     
     var touchHandler: (()->Void)?
     
-    init(texture: String, name: String, cost: Int, size: CGSize) {
+    init(texture: String, name: String, iconNames: [String], size: CGSize) {
         
         super.init()
         
         self.isUserInteractionEnabled = true
         
         // background
-        let textureName = "tech_background"
+        let textureName = "techInfo_researched"
         self.backgroundNode = NineGridTextureSprite(imageNamed: textureName, size: size)
         self.backgroundNode?.position = CGPoint(x: size.halfWidth, y: -size.halfHeight)
         self.addChild(self.backgroundNode!)
         
         // icon
         let iconTexture = SKTexture(imageNamed: texture)
-        self.iconNode = SKSpriteNode(texture: iconTexture, size: CGSize(width: 22, height: 22))
-        self.iconNode?.position = CGPoint(x: 10, y: -10)
+        self.iconNode = SKSpriteNode(texture: iconTexture, size: CGSize(width: 24, height: 24))
+        self.iconNode?.position = CGPoint(x: 0, y: 0)
         self.iconNode?.zPosition = self.zPosition + 1
         self.iconNode?.anchorPoint = CGPoint.upperLeft
         self.addChild(self.iconNode!)
         
         // name
         self.labelNode = SKLabelNode(text: name)
-        self.labelNode?.position = CGPoint(x: 35, y: -7)
+        self.labelNode?.position = CGPoint(x: 25, y: -1)
         self.labelNode?.zPosition = self.zPosition + 1
-        self.labelNode?.fontSize = 14
+        self.labelNode?.fontSize = 12
         self.labelNode?.fontName = Globals.Fonts.customFontFamilyname
-        self.labelNode?.fontColor = .lightGray
-        self.labelNode?.numberOfLines = 2
+        self.labelNode?.fontColor = .white
+        self.labelNode?.numberOfLines = 1
         self.labelNode?.horizontalAlignmentMode = .left
         self.labelNode?.verticalAlignmentMode = .top
-        self.labelNode?.preferredMaxLayoutWidth = size.width - 40
+        self.labelNode?.fitToWidth(maxWidth: size.width - 26)
         self.addChild(self.labelNode!)
         
-        // cost
-        self.costNode = SpriteButtonNode(titled: "\(cost)", enabledButtonImage: "tech_blue", disabledButtonImage: "tech_blue", size: CGSize(width: 32, height: 24), buttonAction: {})
-        self.costNode?.position = CGPoint(x: 92, y: -43)
-        self.costNode?.zPosition = self.zPosition + 1
-        self.costNode?.fontSize = 14
-        self.costNode?.fontColor = .white
-        self.addChild(self.costNode!)
-        
         // icons
+        for iconName in iconNames {
+            self.addIcon(named: iconName)
+        }
+
         // eureka
     }
     
@@ -74,27 +71,46 @@ class BaseDisplayNode: SKNode {
         }
     }
     
-    func select() {
+    func selected() {
         
-        let textureName = "tech_blue"
+        let textureName = "techInfo_researching"
+        self.backgroundNode?.texture = SKTexture(imageNamed: textureName)
+        
+        self.touchHandler = nil
+    }
+
+    func researched() {
+        
+        let textureName = "techInfo_researched"
         self.backgroundNode?.texture = SKTexture(imageNamed: textureName)
         
         self.touchHandler = nil
     }
     
-    func disable() {
+    func possible() {
         
-        let textureName = "tech_disabled"
+        let textureName = "techInfo_active"
+        self.backgroundNode?.texture = SKTexture(imageNamed: textureName)
+    }
+    
+    func disabled() {
+        
+        let textureName = "techInfo_disabled"
         self.backgroundNode?.texture = SKTexture(imageNamed: textureName)
         
         self.touchHandler = nil
     }
     
-    func activate() {
-        
-        let textureName = "tech_active"
-        self.backgroundNode?.texture = SKTexture(imageNamed: textureName)
-        
-        self.touchHandler = nil
+    func addIcon(named: String) {
+
+        let iconTexture = SKTexture(imageNamed: named)
+        let newIconNode = SKSpriteNode(texture: iconTexture, size: CGSize(width: 18, height: 18))
+        newIconNode.position = self.position + CGPoint(x: 25 + self.iconNodes.count * 20, y: -23)
+        newIconNode.zPosition = self.zPosition + 2
+        newIconNode.anchorPoint = CGPoint.middleLeft
+        self.addChild(newIconNode)
+
+        // keep a reference to icons
+        self.iconNodes.append(newIconNode)
     }
 }

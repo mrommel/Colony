@@ -18,6 +18,7 @@ class TechDialog: Dialog {
     // MARK: Constructors
 
     init(with techs: AbstractTechs?) {
+        
         let uiParser = UIParser()
         guard let techDialogConfiguration = uiParser.parse(from: "TechDialog") else {
             fatalError("cant load TechDialog configuration")
@@ -49,11 +50,13 @@ class TechDialog: Dialog {
             if let techDisplayNode = item as? TechDisplayNode {
                 
                 if techs.currentTech() == techDisplayNode.techType {
-                    techDisplayNode.select()
+                    techDisplayNode.selected()
                 } else if techs.has(tech: techDisplayNode.techType) {
-                    techDisplayNode.activate()
-                } else if !possibleTechs.contains(techDisplayNode.techType) {
-                    techDisplayNode.disable()
+                    techDisplayNode.researched()
+                } else if possibleTechs.contains(techDisplayNode.techType) {
+                    techDisplayNode.possible()
+                } else {
+                    techDisplayNode.disabled()
                 }
             }
         }
@@ -62,16 +65,25 @@ class TechDialog: Dialog {
     private func setupScrollView() {
         
         // scroll area
-        self.scrollNode = ScrollNode(size: CGSize(width: 350, height: 500), contentSize: CGSize(width: 350, height: 800))
+        self.scrollNode = ScrollNode(mode: .horizontally, size: CGSize(width: 320, height: 380), contentSize: CGSize(width: 1200, height: 380))
         self.scrollNode?.position = CGPoint(x: 0, y: -410)
         self.scrollNode?.zPosition = self.zPosition + 1
         self.addChild(self.scrollNode!)
+        
+        let offsetX = -self.scrollNode!.size.halfWidth
+        
+        let backgroundTexture = SKTexture(imageNamed: "tech_connections")
+        let backgroundNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: CGSize(width: 1200, height: 380))
+        backgroundNode.anchorPoint = CGPoint.middleLeft
+        backgroundNode.zPosition = 199
+        backgroundNode.position = CGPoint(x: offsetX, y: 0)
+        self.scrollNode?.addScrolling(child: backgroundNode)
         
         for item in self.children {
             
             if let techDisplayNode = item as? TechDisplayNode {
                 techDisplayNode.removeFromParent()
-            
+                techDisplayNode.zPosition = 200
                 self.scrollNode?.addScrolling(child: techDisplayNode)
             }
         }

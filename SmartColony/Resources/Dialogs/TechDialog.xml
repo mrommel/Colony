@@ -60,7 +60,7 @@
         
         <!-- ancient -->
         
-        <!-- 1st row: 150 -->
+        <!-- 1st col: -110 -->
         <item>
             <identifier>tech_pottery</identifier>
             <type>techInfo</type>
@@ -68,10 +68,10 @@
             <result>POTTERY</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>-170</offsetx>
-            <offsety>150</offsety>
+            <offsetx>-110</offsetx>
+            <offsety>45</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         <item>
             <identifier>tech_animalHusbandry</identifier>
@@ -80,10 +80,10 @@
             <result>ANIMALHUSBANDRY</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>-55</offsetx>
-            <offsety>150</offsety>
+            <offsetx>-110</offsetx>
+            <offsety>0</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         <item>
             <identifier>tech_mining</identifier>
@@ -92,13 +92,13 @@
             <result>MINING</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>60</offsetx>
-            <offsety>150</offsety>
+            <offsetx>-110</offsetx>
+            <offsety>-90</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         
-        <!-- 2nd row: 70 -->
+        <!-- 2nd row: 40 -->
         <item>
             <identifier>tech_sailing</identifier>
             <type>techInfo</type>
@@ -106,10 +106,10 @@
             <result>SAILING</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>-112</offsetx>
-            <offsety>70</offsety>
+            <offsetx>40</offsetx>
+            <offsety>180</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         <item>
             <identifier>tech_astrology</identifier>
@@ -118,24 +118,10 @@
             <result>ASTROLOGY</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>2</offsetx>
-            <offsety>70</offsety>
+            <offsetx>40</offsetx>
+            <offsety>135</offsety>
             <width>110</width>
-            <height>50</height>
-        </item>
-        
-        <!-- 3rd row: -10 -->
-        <item>
-            <identifier>tech_writing</identifier>
-            <type>techInfo</type>
-            <techType>writing</techType>
-            <result>WRITING</result>
-            <anchorx>center</anchorx>
-            <anchory>center</anchory>
-            <offsetx>-170</offsetx>
-            <offsety>-10</offsety>
-            <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         <item>
             <identifier>tech_irrigation</identifier>
@@ -144,10 +130,22 @@
             <result>IRRIGATION</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>-55</offsetx>
-            <offsety>-10</offsety>
+            <offsetx>40</offsetx>
+            <offsety>90</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_writing</identifier>
+            <type>techInfo</type>
+            <techType>writing</techType>
+            <result>WRITING</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>40</offsetx>
+            <offsety>45</offsety>
+            <width>110</width>
+            <height>45</height>
         </item>
         <item>
             <identifier>tech_archery</identifier>
@@ -156,25 +154,14 @@
             <result>ARCHERY</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>60</offsetx>
-            <offsety>-10</offsety>
+            <offsetx>40</offsetx>
+            <offsety>0</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         
-        <!-- 4th row: -90 -->
-        <item>
-            <identifier>tech_wheel</identifier>
-            <type>techInfo</type>
-            <techType>wheel</techType>
-            <result>WHEEL</result>
-            <anchorx>center</anchorx>
-            <anchory>center</anchory>
-            <offsetx>-170</offsetx>
-            <offsety>-90</offsety>
-            <width>110</width>
-            <height>50</height>
-        </item>
+        <!-- 3rd row: 190 -->
+        
         <item>
             <identifier>tech_masonry</identifier>
             <type>techInfo</type>
@@ -182,10 +169,10 @@
             <result>MASONRY</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>-55</offsetx>
-            <offsety>-90</offsety>
+            <offsetx>190</offsetx>
+            <offsety>-45</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         <item>
             <identifier>tech_bronzeWorking</identifier>
@@ -194,14 +181,125 @@
             <result>BRONZEWORKING</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>60</offsetx>
+            <offsetx>190</offsetx>
             <offsety>-90</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_wheel</identifier>
+            <type>techInfo</type>
+            <techType>wheel</techType>
+            <result>WHEEL</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>190</offsetx>
+            <offsety>-135</offsety>
+            <width>110</width>
+            <height>45</height>
         </item>
         
-        <!-- classical: -170 -->
+        <!-- classical: 360 -->
         
+        <item>
+            <identifier>tech_celestialNavigation</identifier>
+            <type>techInfo</type>
+            <techType>celestialNavigation</techType>
+            <result>CELESTIALNAVIGATION</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>360</offsetx>
+            <offsety>135</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_currency</identifier>
+            <type>techInfo</type>
+            <techType>currency</techType>
+            <result>CURRENCY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>360</offsetx>
+            <offsety>45</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_horsebackRiding</identifier>
+            <type>techInfo</type>
+            <techType>horsebackRiding</techType>
+            <result>HORSEBACKRIDING</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>360</offsetx>
+            <offsety>0</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_ironWorking</identifier>
+            <type>techInfo</type>
+            <techType>ironWorking</techType>
+            <result>IRONWORKING</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>360</offsetx>
+            <offsety>-90</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <!-- classical: 510 -->
+        
+        <item>
+            <identifier>tech_shipBuilding</identifier>
+            <type>techInfo</type>
+            <techType>shipBuilding</techType>
+            <result>SHIPBUILDING</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>510</offsetx>
+            <offsety>180</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_mathematics</identifier>
+            <type>techInfo</type>
+            <techType>mathematics</techType>
+            <result>MATHEMATICS</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>510</offsetx>
+            <offsety>90</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_construction</identifier>
+            <type>techInfo</type>
+            <techType>construction</techType>
+            <result>CONSTRUCTION</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>510</offsetx>
+            <offsety>-45</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>tech_engineering</identifier>
+            <type>techInfo</type>
+            <techType>engineering</techType>
+            <result>ENGINEERING</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>510</offsetx>
+            <offsety>-135</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
         
     </items>
 </context>

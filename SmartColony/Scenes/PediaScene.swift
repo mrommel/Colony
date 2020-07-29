@@ -183,6 +183,9 @@ class PediaScene: BaseScene {
 
     func startFirstContactGame() {
 
+        let barbarPlayer = Player(leader: .barbar, isHuman: false)
+        barbarPlayer.initialize()
+        
         let aiPlayer = Player(leader: .elizabeth, isHuman: false)
         aiPlayer.initialize()
 
@@ -205,7 +208,7 @@ class PediaScene: BaseScene {
         mapModel.set(improvement: .mine, at: HexPoint(x: 2, y: 5))
         mapModel.set(improvement: .farm, at: HexPoint(x: 3, y: 4))
 
-        let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [aiPlayer, humanPlayer], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [barbarPlayer, aiPlayer, humanPlayer], on: mapModel)
 
         // AI
         aiPlayer.found(at: HexPoint(x: 18, y: 5), named: "AI Capital", in: gameModel) // found out of sight
