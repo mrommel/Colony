@@ -25,6 +25,8 @@ extension BuildType {
         case .plantation: return "build_default"
         case .camp: return "build_camp"
         case .pasture: return "build_pasture"
+        case .fishingBoats: return "build_default"
+            
         case .removeForest: return "build_default"
         case .removeRainforest: return "build_default"
         case .removeMarsh: return "build_default"

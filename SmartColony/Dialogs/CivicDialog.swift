@@ -47,13 +47,15 @@ class CivicDialog: Dialog {
         for item in self.children {
             
             if let civicDisplayNode = item as? CivicDisplayNode {
-                
+                  
                 if civics.currentCivic() == civicDisplayNode.civicType {
-                    civicDisplayNode.select()
+                    civicDisplayNode.selected()
                 } else if civics.has(civic: civicDisplayNode.civicType) {
-                    civicDisplayNode.activate()
-                } else if !possibleCivics.contains(civicDisplayNode.civicType) {
-                    civicDisplayNode.disable()
+                    civicDisplayNode.researched()
+                } else if possibleCivics.contains(civicDisplayNode.civicType) {
+                    civicDisplayNode.possible()
+                } else {
+                    civicDisplayNode.disabled()
                 }
             }
         }
@@ -62,16 +64,25 @@ class CivicDialog: Dialog {
     private func setupScrollView() {
         
         // scroll area
-        self.scrollNode = ScrollNode(size: CGSize(width: 350, height: 500), contentSize: CGSize(width: 350, height: 800))
+        self.scrollNode = ScrollNode(mode: .horizontally, size: CGSize(width: 320, height: 380), contentSize: CGSize(width: 700, height: 380))
         self.scrollNode?.position = CGPoint(x: 0, y: -410)
         self.scrollNode?.zPosition = self.zPosition + 1
         self.addChild(self.scrollNode!)
+        
+        let offsetX = -self.scrollNode!.size.halfWidth
+        
+        let backgroundTexture = SKTexture(imageNamed: "civic_connections")
+        let backgroundNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: CGSize(width: 700, height: 380))
+        backgroundNode.anchorPoint = CGPoint.middleLeft
+        backgroundNode.zPosition = 199
+        backgroundNode.position = CGPoint(x: offsetX, y: 0)
+        self.scrollNode?.addScrolling(child: backgroundNode)
         
         for item in self.children {
             
             if let civicDisplayNode = item as? CivicDisplayNode {
                 civicDisplayNode.removeFromParent()
-            
+                civicDisplayNode.zPosition = 200
                 self.scrollNode?.addScrolling(child: civicDisplayNode)
             }
         }

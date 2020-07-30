@@ -17,7 +17,7 @@ class CivicDisplayNode: BaseDisplayNode {
         
         self.civicType = civicType
         
-        super.init(texture: self.civicType.iconTexture(), name: self.civicType.name(), cost: civicType.cost(), size: size)
+        super.init(texture: self.civicType.iconTexture(), name: self.civicType.name(), iconNames: [], size: size)
     }
     
     required init?(coder aDecoder: NSCoder) {

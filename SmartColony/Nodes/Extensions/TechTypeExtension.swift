@@ -42,7 +42,7 @@ extension TechType {
             // medieval
         case .militaryTactics: return "tech_default"
         case .buttress: return "tech_default"
-        case .apprenticesship: return "tech_default"
+        case .apprenticeship: return "tech_default"
         case .stirrups: return "tech_default"
         case .machinery: return "tech_default"
         case .education: return "tech_default"

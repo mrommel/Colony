@@ -138,8 +138,6 @@ class PolicyCardNode: SKNode {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        print("policy card node - touchesBegan")
-        
         // propergate to scrollview
         if let scrollView = self.parent?.parent as? ScrollNode {
             scrollView.touchesBegan(touches, with: event)
@@ -149,8 +147,6 @@ class PolicyCardNode: SKNode {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        print("policy card node - touchesMoved")
         
         // propergate to scrollview
         if let scrollView = self.parent?.parent as? ScrollNode {
@@ -170,10 +166,7 @@ class PolicyCardNode: SKNode {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        print("policy card node - touchesEnded")
-        
         if self.moved {
-            print("policy card node - moved / cancelled")
             return
         }
         
