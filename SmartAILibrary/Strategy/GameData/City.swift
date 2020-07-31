@@ -2298,7 +2298,61 @@ public class City: AbstractCity {
             fatalError("cant get wonders")
         }
         
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
         let greatPeoplePoints: GreatPersonPoints = GreatPersonPoints()
+        
+        // shrine
+        if buildings.has(building: .shrine) {
+            // +1 Prophet6 Great Prophet point per turn.
+            greatPeoplePoints.greatProphet += 1
+        }
+        
+        // barracks
+        if buildings.has(building: .barracks) {
+            // +1 General6 Great General point per turn
+            greatPeoplePoints.greatGeneral += 1
+        }
+        
+        // amphitheater
+        if buildings.has(building: .amphitheater) {
+            // +1 Writer6 Great Writer point per turn
+            greatPeoplePoints.greatWriter += 1
+        }
+        
+        // lighthouse
+        if buildings.has(building: .lighthouse) {
+            //+1 Admiral6 Great Admiral point per turn
+            greatPeoplePoints.greatAdmiral += 1
+        }
+        
+        // stable
+        if buildings.has(building: .stable) {
+            // +1 General6 Great General point per turn
+            greatPeoplePoints.greatGeneral += 1
+        }
+        
+        // market
+        if buildings.has(building: .market) {
+            // +1 Merchant6 Great Merchant point per turn
+            greatPeoplePoints.greatMerchant += 1
+        }
+        
+        // temple
+        if buildings.has(building: .temple) {
+            // +1 Prophet6 Great Prophet point per turn.
+            greatPeoplePoints.greatProphet += 1
+        }
+        
+        // workshop
+        if buildings.has(building: .workshop) {
+            // +1 Engineer6 Great Engineer point per turn
+            greatPeoplePoints.greatEngineer += 1
+        }
+        
+        // -- wonders -------
         
         // greatLighthouse
         if wonders.has(wonder: .greatLighthouse) {
