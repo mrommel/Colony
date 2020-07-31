@@ -21,6 +21,7 @@ extension DistrictType {
         case .harbor: return "district_harbor"
         case .entertainment: return "district_entertainment"
         case .commercialHub: return "district_commercialHub"
+        case .industrial: return "district_industrial"
         }
     }
 }

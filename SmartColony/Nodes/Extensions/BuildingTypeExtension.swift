@@ -36,6 +36,7 @@ extension BuildingType {
             
             // medieval
         case .medievalWalls: return "building_default" // <===
+        case .workshop: return "building_default" // <===
             
             // renaissance
         case .renaissanceWalls: return "building_default" // <===

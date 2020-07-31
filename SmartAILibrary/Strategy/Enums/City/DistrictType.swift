@@ -17,9 +17,10 @@ public enum DistrictType: Int, Codable {
     case harbor
     case entertainment
     case commercialHub
+    case industrial
     
     public static var all: [DistrictType] {
-        return [.cityCenter, .campus, .holySite, .encampment, .harbor, .entertainment, .commercialHub]
+        return [.cityCenter, .campus, .holySite, .encampment, .harbor, .entertainment, .commercialHub, .industrial]
     }
     
     public func name() -> String {
@@ -65,6 +66,12 @@ public enum DistrictType: Int, Codable {
         case .harbor: return DistrictTypeData(name: "Harbor", productionCost: 54, requiredTech: .celestialNavigation, requiredCivic: nil)
         case .entertainment: return DistrictTypeData(name: "Entertainment", productionCost: 54, requiredTech: nil, requiredCivic: .dramaAndPoetry)
         case .commercialHub: return DistrictTypeData(name: "Commercial Hub", productionCost: 54, requiredTech: .currency, requiredCivic: nil)
+        case .industrial:
+            // https://civilization.fandom.com/wiki/Industrial_Zone_(Civ6)
+            return DistrictTypeData(name: "Industrial Zone",
+                                    productionCost: 54,
+                                    requiredTech: .apprenticeship,
+                                    requiredCivic: nil)
         }
     }
 
@@ -95,6 +102,7 @@ public enum DistrictType: Int, Codable {
         case .harbor: return 0
         case .entertainment: return 1 // ???
         case .commercialHub: return 0
+        case .industrial: return 1
         }
     }
 }

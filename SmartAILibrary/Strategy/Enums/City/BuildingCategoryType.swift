@@ -22,4 +22,5 @@ public enum BuildingCategoryType {
     case entertainment
     case economic
     case infrastructure
+    case production
 }
