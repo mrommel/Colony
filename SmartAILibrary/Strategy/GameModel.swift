@@ -863,6 +863,16 @@ public class GameModel: Codable {
 
     public func add(unit: AbstractUnit?) {
 
+        // add some special values
+        guard let player = unit?.player else {
+            fatalError("cant get player of unit")
+        }
+        
+        // pyramids
+        if player.has(wonder: .pyramids, in: self) {
+            unit?.changeBuildCharges(change: 1)
+        }
+
         self.map.add(unit: unit, in: self)
     }
 

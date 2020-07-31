@@ -465,6 +465,10 @@ class GameScene: BaseScene {
             if let treasury = humanPlayer.treasury {
                 self.goldYield?.set(yieldValue: treasury.value())
             }
+            
+            if let religion = humanPlayer.religion {
+                self.faithYield?.set(yieldValue: religion.value())
+            }
 
             // update
             self.updateLeaders()

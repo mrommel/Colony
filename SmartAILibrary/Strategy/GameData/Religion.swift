@@ -13,6 +13,7 @@ public protocol AbstractReligion: class, Codable {
     var player: AbstractPlayer? { get set }
     
     func add(faith faithDelta: Double)
+    func value() -> Double
 }
  
 class Religion: AbstractReligion {
@@ -51,5 +52,10 @@ class Religion: AbstractReligion {
     func add(faith faithDelta: Double) {
         
         self.faith += faithDelta
+    }
+    
+    func value() -> Double {
+        
+        return self.faith
     }
 }

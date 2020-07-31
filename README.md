@@ -19,4 +19,5 @@ Tile size:
 - tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-location-hexes-medieval-fantasy-59271
 - https://github.com/DeamonRealm/AgeOfChampions
 - https://github.com/Gedemon/Civ5-DLL
+- https://github.com/wesnoth/wesnoth
 

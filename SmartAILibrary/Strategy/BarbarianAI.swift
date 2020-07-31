@@ -388,9 +388,10 @@ class BarbarianAI: Codable {
         }
 
         // Look at nearby Plots to see if there are already too many Barbs nearby
-        var numNearbyUnits = 0
+        var numNearbyUnits: Int = 0
 
         for loopPoint in point.areaWith(radius: range) {
+            
             if let loopUnit = gameModel.unit(at: loopPoint) {
 
                 if loopUnit.isBarbarian() {

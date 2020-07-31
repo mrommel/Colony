@@ -143,6 +143,7 @@ public protocol AbstractUnit: class, Codable {
     func doBuild(build: BuildType, in gameModel: GameModel?) -> Bool
     func buildType() -> BuildType
     func continueBuilding(build buildType: BuildType, in gameModel: GameModel?) -> Bool
+    func changeBuildCharges(change: Int)
 
     @discardableResult func doPillage(in gameModel: GameModel?) -> Bool
     func canPillage(at point: HexPoint, in gameModel: GameModel?) -> Bool
@@ -1107,7 +1108,7 @@ public class Unit: AbstractUnit {
         var extraNavalMoves = 0
         if domain == .sea {
 
-            extraNavalMoves = self.extraNavalMoves()
+            extraNavalMoves = self.extraNavalMoves(in: gameModel)
 
             if self.baseCombatStrength() == 0 {
                 extraNavalMoves = ability.extraEmbarkMoves()
@@ -1912,13 +1913,24 @@ public class Unit: AbstractUnit {
         return self.isImpassable(terrain: terrain)
     }
 
-    func extraNavalMoves() -> Int {
+    func extraNavalMoves(in gameModel: GameModel?) -> Int {
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        var extraNavalMoves: Int = 0
+        
+        if player.has(wonder: .greatLighthouse, in: gameModel) {
+            // +1 Civ6Movement Movement for all naval units.
+            extraNavalMoves += 1
+        }
+        
         // check promotions here?
 
         // FIXME
         //self.promotions?.has(promotion: <#T##UnitPromotionType#>)
-        return 0
+        return extraNavalMoves
     }
 
     public func canMove() -> Bool {
@@ -2674,7 +2686,7 @@ public class Unit: AbstractUnit {
         return continueToBuild
     }
 
-    func changeBuildCharges(change: Int) {
+    public func changeBuildCharges(change: Int) {
         
         guard self.buildChargesValue + change >= 0 else {
             fatalError("buildCharges cant be negative")

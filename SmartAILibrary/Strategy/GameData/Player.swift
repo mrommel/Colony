@@ -42,6 +42,7 @@ public protocol AbstractPlayer: class, Codable {
     var government: AbstractGovernment? { get }
     var treasury: AbstractTreasury? { get }
     var religion: AbstractReligion? { get }
+    var greatPeople: AbstractGreatPeople? { get }
 
     var grandStrategyAI: GrandStrategyAI? { get }
     var diplomacyAI: DiplomaticAI? { get }
@@ -130,6 +131,9 @@ public protocol AbstractPlayer: class, Codable {
 
     // civic
     func has(civic: CivicType) -> Bool
+    
+    // wonders
+    func has(wonder: WonderType, in gameModel: GameModel?) -> Bool
 
     // advisors
     func advisorMessages() -> [AdvisorMessage]
@@ -215,6 +219,7 @@ public class Player: AbstractPlayer {
         case civics
         case religion
         case treasury
+        case greatPeople
         case government
         case currentEra
         
@@ -268,6 +273,7 @@ public class Player: AbstractPlayer {
     public var civics: AbstractCivics?
     public var religion: AbstractReligion?
     public var treasury: AbstractTreasury?
+    public var greatPeople: AbstractGreatPeople?
 
     public var government: AbstractGovernment? = nil
     internal var currentEraVal: EraType = .ancient
@@ -354,6 +360,7 @@ public class Player: AbstractPlayer {
         self.civics = try container.decode(Civics.self, forKey: .civics)
         self.religion = try container.decode(Religion.self, forKey: .religion)
         self.treasury = try container.decode(Treasury.self, forKey: .treasury)
+        self.greatPeople = try container.decode(GreatPeople.self, forKey: .greatPeople)
         
         self.government = try container.decode(Government.self, forKey: .government)
         self.currentEraVal = try container.decode(EraType.self, forKey: .currentEra)
@@ -373,6 +380,7 @@ public class Player: AbstractPlayer {
         self.religion?.player = self
         self.treasury?.player = self
         self.government?.player = self
+        self.greatPeople?.player = self
         
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
@@ -426,6 +434,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.civics as! Civics, forKey: .civics)
         try container.encode(self.religion as! Religion, forKey: .religion)
         try container.encode(self.treasury as! Treasury, forKey: .treasury)
+        try container.encode(self.greatPeople as! GreatPeople, forKey: .greatPeople)
 
         try container.encode(self.government as! Government, forKey: .government)
         try container.encode(self.currentEraVal, forKey: .currentEra)
@@ -463,6 +472,7 @@ public class Player: AbstractPlayer {
         self.civics = Civics(player: self)
         self.religion = Religion(player: self)
         self.treasury = Treasury(player: self)
+        self.greatPeople = GreatPeople(player: self)
 
         self.government = Government(player: self)
 
@@ -951,6 +961,12 @@ public class Player: AbstractPlayer {
         
         // government
         self.doGovernment(in: gameModel)
+        
+        // faith / religion
+        self.doFaith(in: gameModel)
+        
+        // great people
+        self.doGreatPeople(in: gameModel)
 
         // Anarchy counter
         //if (GetAnarchyNumTurns() > 0)
@@ -993,6 +1009,23 @@ public class Player: AbstractPlayer {
             } else {
                 self.government?.fillPolicyCards()
             }
+        }
+    }
+    
+    func doGreatPeople(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+        
+        for cityRef in gameModel.cities(of: self) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            let greatPeoplePoints = city.greatPeoplePoints(in: gameModel)
+            self.greatPeople?.add(points: greatPeoplePoints)
         }
     }
     
@@ -1053,7 +1086,7 @@ public class Player: AbstractPlayer {
                 continue
             }
             
-            let value = city.luxuriesNeeded()
+            let value = city.luxuriesNeeded(in: gameModel)
             
             if value > bestValue {
                 bestValue = value
@@ -1103,6 +1136,47 @@ public class Player: AbstractPlayer {
         } catch {
             fatalError("cant check science progress: \(error)")
         }
+    }
+    
+    func doFaith(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        let faithVal = self.faith(in: gameModel)
+        
+        self.religion?.add(faith: faithVal)
+    }
+    
+    func faith(in gameModel: GameModel?) -> Double {
+        
+        var value = 0.0
+
+        // Science from our Cities
+        value += self.faithFromCities(in: gameModel)
+        
+        return value
+    }
+    
+    private func faithFromCities(in gameModel: GameModel?) -> Double {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var faithVal = 0.0
+        
+        for cityRef in gameModel.cities(of: self) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            faithVal += city.faithPerTurn(in: gameModel)
+        }
+        
+        return faithVal
     }
     
     // GetScienceTimes100()
@@ -1633,6 +1707,26 @@ public class Player: AbstractPlayer {
             return civics.has(civic: civicType)
         }
 
+        return false
+    }
+    
+    public func has(wonder wonderType: WonderType, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for cityRef in gameModel.cities(of: self) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            if city.has(wonder: wonderType) {
+                return true
+            }
+        }
+        
         return false
     }
 
