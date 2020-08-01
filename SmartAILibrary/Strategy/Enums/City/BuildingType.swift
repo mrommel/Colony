@@ -36,6 +36,7 @@ public enum BuildingType: Int, Codable {
     
     // renaissance
     case renaissanceWalls // https://civilization.fandom.com/wiki/Renaissance_Walls_(Civ6)
+    case shipyard // https://civilization.fandom.com/wiki/Shipyard_(Civ6)
 
     public static var all: [BuildingType] {
         return [
@@ -50,7 +51,7 @@ public enum BuildingType: Int, Codable {
             .medievalWalls,
             
             // renaissance
-            .renaissanceWalls
+            .renaissanceWalls,  .shipyard
         ]
     }
 
@@ -105,6 +106,11 @@ public enum BuildingType: Int, Codable {
     public func requiredCivic() -> CivicType? {
 
         return self.data().requiredCivic
+    }
+    
+    public func requiredBuilding() -> BuildingType? {
+
+        return self.data().requiredBuilding
     }
 
     public func district() -> DistrictType {
@@ -174,6 +180,7 @@ public enum BuildingType: Int, Codable {
         let district: DistrictType
         let requiredTech: TechType?
         let requiredCivic: CivicType?
+        let requiredBuilding: BuildingType?
         let productionCost: Int
         let goldCost: Int
         let maintenanceCost: Int
@@ -195,6 +202,7 @@ public enum BuildingType: Int, Codable {
                                     district: .cityCenter,
                                     requiredTech: nil,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 0,
                                     goldCost: -1,
                                     maintenanceCost: 0,
@@ -212,6 +220,7 @@ public enum BuildingType: Int, Codable {
                                     district: .cityCenter,
                                     requiredTech: nil,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 0,
                                     goldCost: -1,
                                     maintenanceCost: 0,
@@ -230,6 +239,7 @@ public enum BuildingType: Int, Codable {
                                     district: .cityCenter,
                                     requiredTech: .pottery,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 65,
                                     goldCost: 65,
                                     maintenanceCost: 0,
@@ -248,6 +258,7 @@ public enum BuildingType: Int, Codable {
                                     district: .cityCenter,
                                     requiredTech: nil,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 60,
                                     goldCost: 60,
                                     maintenanceCost: 0,
@@ -264,6 +275,7 @@ public enum BuildingType: Int, Codable {
                                     district: .campus,
                                     requiredTech: .writing,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 90,
                                     goldCost: 90,
                                     maintenanceCost: 1,
@@ -281,6 +293,7 @@ public enum BuildingType: Int, Codable {
                                     district: .holySite,
                                     requiredTech: .astrology,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 70,
                                     goldCost: 70,
                                     maintenanceCost: 1,
@@ -297,6 +310,7 @@ public enum BuildingType: Int, Codable {
                                     district: .cityCenter,
                                     requiredTech: .masonry,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 80,
                                     goldCost: 80,
                                     maintenanceCost: 0,
@@ -314,6 +328,7 @@ public enum BuildingType: Int, Codable {
                                     district: .encampment,
                                     requiredTech: .bronzeWorking,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 90,
                                     goldCost: 90,
                                     maintenanceCost: 1,
@@ -325,12 +340,14 @@ public enum BuildingType: Int, Codable {
         case .waterMill:
             // https://civilization.fandom.com/wiki/Water_Mill_(Civ6)
             // FIXME Bonus resources improved by Farms gain +1 Civ6Food Food each.
+            // FIXME It can be built in the City Center if the city is next to a River.
             return BuildingTypeData(name: "Water Mill",
                                     category: .military,
                                     era: .ancient,
                                     district: .cityCenter,
                                     requiredTech: .wheel,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 80,
                                     goldCost: 80,
                                     maintenanceCost: 0,
@@ -349,6 +366,7 @@ public enum BuildingType: Int, Codable {
                                     district: .entertainment,
                                     requiredTech: nil,
                                     requiredCivic: .dramaAndPoetry,
+                                    requiredBuilding: nil,
                                     productionCost: 150,
                                     goldCost: 150,
                                     maintenanceCost: 1,
@@ -367,6 +385,7 @@ public enum BuildingType: Int, Codable {
                                     district: .harbor,
                                     requiredTech: .celestialNavigation,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 120,
                                     goldCost: 120,
                                     maintenanceCost: 0,
@@ -379,12 +398,14 @@ public enum BuildingType: Int, Codable {
             // https://civilization.fandom.com/wiki/Stable_(Civ6)
             // FIXME +25% combat experience for all light and heavy cavalry units trained in this city
             // FIXME +25% combat experience for all siege units trained in this city
+            // FIXME Cannot be built if Barracks has already been built in this district.
             return BuildingTypeData(name: "Stable",
                                     category: .military,
                                     era: .classical,
                                     district: .encampment,
                                     requiredTech: .horsebackRiding,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 120,
                                     goldCost: 120,
                                     maintenanceCost: 1,
@@ -402,6 +423,7 @@ public enum BuildingType: Int, Codable {
                                     district: .entertainment,
                                     requiredTech: nil,
                                     requiredCivic: .gamesAndRecreation,
+                                    requiredBuilding: nil,
                                     productionCost: 150,
                                     goldCost: 150,
                                     maintenanceCost: 1,
@@ -419,6 +441,7 @@ public enum BuildingType: Int, Codable {
                                     district: .commercialHub,
                                     requiredTech: .currency,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 120,
                                     goldCost: 120,
                                     maintenanceCost: 0,
@@ -435,6 +458,7 @@ public enum BuildingType: Int, Codable {
                                     district: .holySite,
                                     requiredTech: nil,
                                     requiredCivic: .theology,
+                                    requiredBuilding: .shrine,
                                     productionCost: 120,
                                     goldCost: 120,
                                     maintenanceCost: 2,
@@ -456,6 +480,7 @@ public enum BuildingType: Int, Codable {
                                     district: .cityCenter,
                                     requiredTech: .castles,
                                     requiredCivic: nil,
+                                    requiredBuilding: .ancientWalls,
                                     productionCost: 225,
                                     goldCost: -1,
                                     maintenanceCost: 0,
@@ -472,6 +497,7 @@ public enum BuildingType: Int, Codable {
                                     district: .industrial,
                                     requiredTech: .apprenticeship,
                                     requiredCivic: nil,
+                                    requiredBuilding: nil,
                                     productionCost: 195,
                                     goldCost: 195,
                                     maintenanceCost: 1,
@@ -493,6 +519,7 @@ public enum BuildingType: Int, Codable {
                                     district: .cityCenter,
                                     requiredTech: .siegeTactics,
                                     requiredCivic: nil,
+                                    requiredBuilding: .medievalWalls,
                                     productionCost: 305,
                                     goldCost: -1,
                                     maintenanceCost: 0,
@@ -501,7 +528,23 @@ public enum BuildingType: Int, Codable {
                                     slots: [],
                                     specialSlots: nil,
                                     flavours: [Flavor(type: .militaryTraining, value: 7), Flavor(type: .offense, value: 5), Flavor(type: .defense, value: 7), Flavor(type: .production, value: 2), Flavor(type: .naval, value: 2), Flavor(type: .tileImprovement, value: 2)])
-            
+        case .shipyard:
+            // https://civilization.fandom.com/wiki/Shipyard_(Civ6)
+            return BuildingTypeData(name: "Shipyard",
+                                    category: .maritime,
+                                    era: .renaissance,
+                                    district: .harbor,
+                                    requiredTech: .massProduction,
+                                    requiredCivic: nil,
+                                    requiredBuilding: .lighthouse,
+                                    productionCost: 290,
+                                    goldCost: 290,
+                                    maintenanceCost: 2,
+                                    yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
+                                    defense: 0,
+                                    slots: [],
+                                    specialSlots: SpecialistSlots(type: .captain, amount: 1),
+                                    flavours: [Flavor(type: .naval, value: 7), Flavor(type: .militaryTraining, value: 7),])
         }
     }
 }

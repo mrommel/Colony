@@ -1024,7 +1024,7 @@ public class Player: AbstractPlayer {
                 continue
             }
             
-            let greatPeoplePoints = city.greatPeoplePoints(in: gameModel)
+            let greatPeoplePoints = city.greatPeoplePointsPerTurn(in: gameModel)
             self.greatPeople?.add(points: greatPeoplePoints)
         }
     }

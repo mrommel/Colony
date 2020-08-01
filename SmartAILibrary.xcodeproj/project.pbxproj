@@ -173,6 +173,7 @@
 		C9C0DCD924D45673004D9F06 /* GreatPersonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCD824D45673004D9F06 /* GreatPersonType.swift */; };
 		C9C0DCDB24D45698004D9F06 /* GreatPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCDA24D45697004D9F06 /* GreatPerson.swift */; };
 		C9C0DCDD24D457A4004D9F06 /* GreatWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCDC24D457A4004D9F06 /* GreatWork.swift */; };
+		C9C0DCDF24D5FD58004D9F06 /* CityYields.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCDE24D5FD58004D9F06 /* CityYields.swift */; };
 		C9C2FE3323F6DEE300185235 /* WeightedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3223F6DEE300185235 /* WeightedList.swift */; };
 		C9C2FE3523F6DF4300185235 /* BuildableItemWeights.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3423F6DF4300185235 /* BuildableItemWeights.swift */; };
 		C9C2FE3723F6DFC700185235 /* BuildQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3623F6DFC700185235 /* BuildQueue.swift */; };
@@ -422,6 +423,7 @@
 		C9C0DCD824D45673004D9F06 /* GreatPersonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersonType.swift; sourceTree = "<group>"; };
 		C9C0DCDA24D45697004D9F06 /* GreatPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPerson.swift; sourceTree = "<group>"; };
 		C9C0DCDC24D457A4004D9F06 /* GreatWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatWork.swift; sourceTree = "<group>"; };
+		C9C0DCDE24D5FD58004D9F06 /* CityYields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityYields.swift; sourceTree = "<group>"; };
 		C9C2FE3223F6DEE300185235 /* WeightedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightedList.swift; sourceTree = "<group>"; };
 		C9C2FE3423F6DF4300185235 /* BuildableItemWeights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildableItemWeights.swift; sourceTree = "<group>"; };
 		C9C2FE3623F6DFC700185235 /* BuildQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildQueue.swift; sourceTree = "<group>"; };
@@ -818,6 +820,7 @@
 			isa = PBXGroup;
 			children = (
 				C98DBFA223DF219100B6CE25 /* City.swift */,
+				C9C0DCDE24D5FD58004D9F06 /* CityYields.swift */,
 				C9588AC22418B70F00304E9A /* CityCitizens.swift */,
 				C9588AC42418F30B00304E9A /* CitySpecializationAI.swift */,
 				C9E6A04724A4B62B00AF65A4 /* GreatWorks.swift */,
@@ -1073,6 +1076,7 @@
 				C92317BF23D6EAEA001FC723 /* HierarchicalStateMachine.swift in Sources */,
 				C9C2FE3B23F89F2E00185235 /* Religion.swift in Sources */,
 				C9BB750C246D5813004BE448 /* DiplomacyRequests.swift in Sources */,
+				C9C0DCDF24D5FD58004D9F06 /* CityYields.swift in Sources */,
 				C9DFCF6323F14D9D0032243D /* MilitaryThreatType.swift in Sources */,
 				C92317BB23D665AD001FC723 /* FiniteStateTransition.swift in Sources */,
 				C92317B923D6375B001FC723 /* FiniteState.swift in Sources */,

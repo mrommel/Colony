@@ -40,6 +40,7 @@ extension BuildingType {
             
             // renaissance
         case .renaissanceWalls: return "building_default" // <===
+        case .shipyard: return "building_default" // <===
             
             //
         }
