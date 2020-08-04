@@ -12,7 +12,7 @@ public enum GreatWorkType {
     
     case writing
     case music
-    case art
+    case artwork
     case artifact
     case relic
     
@@ -24,8 +24,8 @@ public enum GreatWorkType {
             return [.any, .written]
         case .music:
             return [.any, .music]
-        case .art:
-            return [.any, .art]
+        case .artwork:
+            return [.any, .artwork]
         case .artifact:
              return [.any, .written]
         case .relic:
@@ -41,7 +41,7 @@ public enum GreatWorkType {
             return Yields(food: 0.0, production: 0.0, gold: 0.0, science: 0.0, culture: 4.0, faith: 0.0, housing: 0.0, appeal: 0.0)
         case .music:
             return Yields(food: 0.0, production: 0.0, gold: 0.0, science: 0.0, culture: 4.0, faith: 0.0, housing: 0.0, appeal: 0.0)
-        case .art:
+        case .artwork:
             return Yields(food: 0.0, production: 0.0, gold: 0.0, science: 0.0, culture: 4.0, faith: 0.0, housing: 0.0, appeal: 0.0)
         case .artifact:
             return Yields(food: 0.0, production: 0.0, gold: 0.0, science: 0.0, culture: 4.0, faith: 0.0, housing: 0.0, appeal: 0.0) // 3 tourism
@@ -57,7 +57,7 @@ public enum GreatWorkSlotType: Int, Codable {
     
     case written
     case music
-    case art
+    case artwork
     case artifact
     case relic
 }

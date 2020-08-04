@@ -22,6 +22,11 @@ public enum EraType: Int, Codable {
     case information
     case future
     
+    public static var all: [EraType] {
+        
+        return [.ancient, .classical, .medieval, .renaissance, .industrial, .modern, .atomic, .information, .future]
+    }
+    
     internal func value() -> Int {
         
         switch self {
@@ -37,6 +42,24 @@ public enum EraType: Int, Codable {
         case .atomic: return 6
         case .information: return 7
         case .future: return 8
+        }
+    }
+    
+    func next() -> EraType {
+        
+        switch self {
+            
+        case .none: return .none
+            
+        case .ancient: return .classical
+        case .classical: return .medieval
+        case .medieval: return .renaissance
+        case .renaissance: return .renaissance
+        case .industrial: return .modern
+        case .modern: return .atomic
+        case .atomic: return .information
+        case .information: return .future
+        case .future: return .none
         }
     }
 }

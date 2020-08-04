@@ -2580,9 +2580,14 @@ public class City: AbstractCity {
         }
     }
     
+    private func strikeRange() -> Int {
+        
+        return 2
+    }
+    
     private func canRangeStrike(at point: HexPoint) -> Bool {
         
-        fatalError("not implemented yet")
+        return self.location.distance(to: point) <= self.strikeRange()
     }
     
     private func rangeStrike(at point: HexPoint, in gameModel: GameModel?) -> CityTaskResultType {

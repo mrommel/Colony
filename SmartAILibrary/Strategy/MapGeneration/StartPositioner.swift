@@ -183,7 +183,7 @@ class StartPositioner {
                     
                     // other start locations
                     for otherStartLocation in self.startLocations {
-                        if startPoint.distance(to: otherStartLocation.point) < 10 {
+                        if startPoint.distance(to: otherStartLocation.point) < 8 {
                             tooClose = true
                             break
                         }

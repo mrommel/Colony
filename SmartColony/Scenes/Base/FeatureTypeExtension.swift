@@ -32,6 +32,8 @@ extension FeatureType {
             return ["feature_ice1", "feature_ice2", "feature_ice3", "feature_ice4", "feature_ice5", "feature_ice6"]
         case .atoll:
             return ["feature_atoll"]
+        case .volcano:
+            return ["feature_volcano"]
             
         case .mountains:
             return ["feature_mountains1", "feature_mountains2", "feature_mountains3"]

@@ -20,6 +20,7 @@ public enum FeatureType: Int, Codable {
     case reef
     case ice
     case atoll
+    case volcano
     
     case mountains
     case lake
@@ -84,6 +85,7 @@ public enum FeatureType: Int, Codable {
         case .reef: return false
         case .ice: return false
         case .atoll: return false
+        case .volcano: return false
             
         case .mountains: return self.isMountainPossible(on: tile)
         case .lake: return self.isLakePossible(on: tile)
@@ -114,6 +116,7 @@ public enum FeatureType: Int, Codable {
         case .reef: return false
         case .ice: return false
         case .atoll: return false
+        case .volcano: return false
             
         case .mountains: return false
         case .lake: return false
@@ -144,6 +147,7 @@ public enum FeatureType: Int, Codable {
         case .reef: return false
         case .ice: return false
         case .atoll: return false
+        case .volcano: return false
             
         case .mountains: return true
         case .lake: return false
@@ -174,6 +178,7 @@ public enum FeatureType: Int, Codable {
         case .reef: return 0
         case .ice: return 0
         case .atoll: return 0
+        case .volcano: return 0
             
         case .mountains: return 0
         case .lake: return 0
@@ -187,6 +192,7 @@ public enum FeatureType: Int, Codable {
         case .pantanal: return 0
         case .yosemite: return 0
         case .uluru: return 0
+        
         }
     }
     
@@ -204,6 +210,7 @@ public enum FeatureType: Int, Codable {
         case .reef: return 0
         case .ice: return 0
         case .atoll: return 0
+        case .volcano: return 0
             
         case .mountains: return 0
         case .lake: return 0
@@ -234,6 +241,7 @@ public enum FeatureType: Int, Codable {
         case .reef: return 2
         case .ice: return UnitMovementType.max
         case .atoll: return 2
+        case .volcano: return UnitMovementType.max
             
         case .mountains: return 2 // UnitMovementType.max // impassable
         case .lake: return UnitMovementType.max // impassable
@@ -265,6 +273,7 @@ public enum FeatureType: Int, Codable {
         case .reef: return 2
         case .ice: return -1
         case .atoll: return 1
+        case .volcano: return 1
             
         case .mountains: return 1
         case .lake: return 2
@@ -297,6 +306,7 @@ public enum FeatureType: Int, Codable {
         case .reef: return FeatureData(name: "Reef", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWonder: false)
         case .ice: return FeatureData(name: "Marsh", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
         case .atoll: return FeatureData(name: "Atoll", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWonder: false)
+        case .volcano: return FeatureData(name: "Volcano", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
             
         case .mountains: return FeatureData(name: "Mountains", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
         case .lake: return FeatureData(name: "Lake", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)

@@ -458,6 +458,10 @@ public class Unit: AbstractUnit {
         guard let diplomacyAI = self.player?.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
+        
+        if player.isBarbarian() {
+            return 0
+        }
 
         var totalHeal = 0
 
@@ -499,7 +503,7 @@ public class Unit: AbstractUnit {
     public func canHeal(in gameModel: GameModel?) -> Bool {
 
         // No barb healing
-        if self.player?.leader == .barbar {
+        if self.isBarbarian() {
             return false
         }
 
@@ -858,7 +862,7 @@ public class Unit: AbstractUnit {
 
             if let defenderUnit = gameModel.unit(at: destination) {
 
-                if !diplomacyAI.isAtWar(with: defenderUnit.player) {
+                if !diplomacyAI.isAtWar(with: defenderUnit.player) && !defenderUnit.isBarbarian() {
 
                     gameModel.userInterface?.showPopup(popupType: .declareWarQuestion, with: PopupData(player: defenderUnit.player))
                     return false
@@ -866,7 +870,7 @@ public class Unit: AbstractUnit {
             }
         }
 
-        guard let path = self.path(towards: destination, in: gameModel) else {
+        guard let path = self.pathIgnoreUnits(towards: destination, in: gameModel) else {
             return false
         }
 
@@ -1128,6 +1132,22 @@ public class Unit: AbstractUnit {
 
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player)
+
+        if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
+
+            // add current location
+            path.prepend(point: self.location, cost: 0.0)
+
+            return path
+        }
+
+        return nil
+    }
+    
+    public func pathIgnoreUnits(towards target: HexPoint, in gameModel: GameModel?) -> HexPath? {
+
+        let pathFinder = AStarPathfinder()
+        pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(for: self.movementType(), for: self.player)
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
 

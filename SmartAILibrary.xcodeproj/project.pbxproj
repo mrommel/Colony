@@ -154,6 +154,8 @@
 		C9A057452429E61700D0FEAB /* WonderProductionAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A057442429E61700D0FEAB /* WonderProductionAI.swift */; };
 		C9A125A0249CBE8900D5E3A1 /* BaseMapHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */; };
 		C9A50FE3242244C5006AA47B /* UsecaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A50FE2242244C5006AA47B /* UsecaseTests.swift */; };
+		C9AAC26E24D9666100FF1E35 /* GreatPersons.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */; };
+		C9AAC27024D97FFE00FF1E35 /* GameModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */; };
 		C9ABAF2023F68E4A0023AC1B /* ProjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABAF1F23F68E4A0023AC1B /* ProjectType.swift */; };
 		C9ABAF2223F69CE70023AC1B /* Projects.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABAF2123F69CE70023AC1B /* Projects.swift */; };
 		C9ABAF2423F6BCF00023AC1B /* Districts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABAF2323F6BCF00023AC1B /* Districts.swift */; };
@@ -174,6 +176,8 @@
 		C9C0DCDB24D45698004D9F06 /* GreatPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCDA24D45697004D9F06 /* GreatPerson.swift */; };
 		C9C0DCDD24D457A4004D9F06 /* GreatWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCDC24D457A4004D9F06 /* GreatWork.swift */; };
 		C9C0DCDF24D5FD58004D9F06 /* CityYields.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCDE24D5FD58004D9F06 /* CityYields.swift */; };
+		C9C0DCE124D7486E004D9F06 /* GreatPersonsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCE024D7486E004D9F06 /* GreatPersonsTests.swift */; };
+		C9C0DCE324D74C37004D9F06 /* GreatPersonPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCE224D74C37004D9F06 /* GreatPersonPoints.swift */; };
 		C9C2FE3323F6DEE300185235 /* WeightedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3223F6DEE300185235 /* WeightedList.swift */; };
 		C9C2FE3523F6DF4300185235 /* BuildableItemWeights.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3423F6DF4300185235 /* BuildableItemWeights.swift */; };
 		C9C2FE3723F6DFC700185235 /* BuildQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3623F6DFC700185235 /* BuildQueue.swift */; };
@@ -404,6 +408,8 @@
 		C9A057442429E61700D0FEAB /* WonderProductionAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderProductionAI.swift; sourceTree = "<group>"; };
 		C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseMapHandler.swift; sourceTree = "<group>"; };
 		C9A50FE2242244C5006AA47B /* UsecaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsecaseTests.swift; sourceTree = "<group>"; };
+		C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersons.swift; sourceTree = "<group>"; };
+		C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelTests.swift; sourceTree = "<group>"; };
 		C9ABAF1F23F68E4A0023AC1B /* ProjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectType.swift; sourceTree = "<group>"; };
 		C9ABAF2123F69CE70023AC1B /* Projects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projects.swift; sourceTree = "<group>"; };
 		C9ABAF2323F6BCF00023AC1B /* Districts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Districts.swift; sourceTree = "<group>"; };
@@ -424,6 +430,8 @@
 		C9C0DCDA24D45697004D9F06 /* GreatPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPerson.swift; sourceTree = "<group>"; };
 		C9C0DCDC24D457A4004D9F06 /* GreatWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatWork.swift; sourceTree = "<group>"; };
 		C9C0DCDE24D5FD58004D9F06 /* CityYields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityYields.swift; sourceTree = "<group>"; };
+		C9C0DCE024D7486E004D9F06 /* GreatPersonsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersonsTests.swift; sourceTree = "<group>"; };
+		C9C0DCE224D74C37004D9F06 /* GreatPersonPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersonPoints.swift; sourceTree = "<group>"; };
 		C9C2FE3223F6DEE300185235 /* WeightedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightedList.swift; sourceTree = "<group>"; };
 		C9C2FE3423F6DF4300185235 /* BuildableItemWeights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildableItemWeights.swift; sourceTree = "<group>"; };
 		C9C2FE3623F6DFC700185235 /* BuildQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildQueue.swift; sourceTree = "<group>"; };
@@ -598,6 +606,7 @@
 				C9588ABB2417EF8900304E9A /* BuilderTaskingAI.swift */,
 				C99C4FC22426ACD200070038 /* UserInterface.swift */,
 				C90FA34D24BEF41500733331 /* BarbarianAI.swift */,
+				C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */,
 			);
 			path = Strategy;
 			sourceTree = "<group>";
@@ -722,6 +731,8 @@
 				C98CBE1124339A0A005EE397 /* MapGeneratorTests.swift */,
 				C9B1D2A02436126300033791 /* MapLoadingTests.swift */,
 				C90FA34B24BDF25300733331 /* RandomTests.swift */,
+				C9C0DCE024D7486E004D9F06 /* GreatPersonsTests.swift */,
+				C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */,
 			);
 			path = SmartAILibraryTests;
 			sourceTree = "<group>";
@@ -854,6 +865,7 @@
 				C9EB9F632454C6C400F13B02 /* RankingData.swift */,
 				C926E48A24CF5CDD0073F3E1 /* PolicyCardSlots.swift */,
 				C9C0DCD624D44799004D9F06 /* GreatPeople.swift */,
+				C9C0DCE224D74C37004D9F06 /* GreatPersonPoints.swift */,
 			);
 			path = GameData;
 			sourceTree = "<group>";
@@ -1103,6 +1115,7 @@
 				C98DBFA123DDFE2C00B6CE25 /* DiplomaticDeal.swift in Sources */,
 				C957AA3F2436379800203024 /* Civ5Map.swift in Sources */,
 				C98CBE0C24338E06005EE397 /* MapOptionRainfall.swift in Sources */,
+				C9C0DCE324D74C37004D9F06 /* GreatPersonPoints.swift in Sources */,
 				C91BE62B23FED2F300912962 /* Operations.swift in Sources */,
 				C9EE60AA2401DCC300535B93 /* TacticalAI.swift in Sources */,
 				C98DBFA823DF2F5300B6CE25 /* EraType.swift in Sources */,
@@ -1214,6 +1227,7 @@
 				C9E74CBE248FB901003EF256 /* DiplomaticReplyMessage.swift in Sources */,
 				C92317B423D62AD2001FC723 /* Stack.swift in Sources */,
 				C9E74CAD248CE146003EF256 /* PeaceTreatyType.swift in Sources */,
+				C9AAC26E24D9666100FF1E35 /* GreatPersons.swift in Sources */,
 				C9DFCF7823F2A3590032243D /* BitArray.swift in Sources */,
 				C91BE62D23FED34C00912962 /* UnitOperationType.swift in Sources */,
 				C9DFCF7C23F2B0C50032243D /* ContinentFinder.swift in Sources */,
@@ -1280,6 +1294,7 @@
 				C965A53823FD186E00BCEB54 /* CityStrategyAITests.swift in Sources */,
 				C98CBE1224339A0B005EE397 /* MapGeneratorTests.swift in Sources */,
 				C9FE140E2412F8B0008CC6B3 /* CombatTests.swift in Sources */,
+				C9C0DCE124D7486E004D9F06 /* GreatPersonsTests.swift in Sources */,
 				C90FA34C24BDF25300733331 /* RandomTests.swift in Sources */,
 				C9B1D2A12436126300033791 /* MapLoadingTests.swift in Sources */,
 				C98DBFB823E0D86000B6CE25 /* TechTests.swift in Sources */,
@@ -1298,6 +1313,7 @@
 				C92317CC23D79F2C001FC723 /* GrandStrategyAITests.swift in Sources */,
 				C9D8DF7623EF6D0B0091C917 /* DiplomacyAITests.swift in Sources */,
 				C9F76AAF243314B80018672A /* CivicTests.swift in Sources */,
+				C9AAC27024D97FFE00FF1E35 /* GameModelTests.swift in Sources */,
 				C9D8DF6C23ED9B9A0091C917 /* FlavorsTests.swift in Sources */,
 				C98DBFB223E0580E00B6CE25 /* TileTests.swift in Sources */,
 				C907086823ED579900281161 /* TileDiscoveredTests.swift in Sources */,

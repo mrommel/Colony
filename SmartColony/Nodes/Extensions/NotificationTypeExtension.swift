@@ -33,6 +33,8 @@ extension NotificationType {
             
         case .canChangeGovernment: return "button_change_government"
         case .policiesNeeded: return "button_policies_needed"
+            
+        case .greatPersonJoined: return "button_great_person_joined"
         }
     }
 }

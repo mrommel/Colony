@@ -42,7 +42,7 @@ extension FeatureType {
         case "FEATURE_MESA": // FIXME
             return nil
         case "FEATURE_VOLCANO": // FIXME
-            return nil
+            return .volcano
         case "FEATURE_GIBRALTAR": // FIXME
             return nil
         case "FEATURE_GEYSER": // FIXME

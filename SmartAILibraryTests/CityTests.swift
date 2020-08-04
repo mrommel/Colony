@@ -113,8 +113,8 @@ class CityTests: XCTestCase {
         
         // THEN
         XCTAssertEqual(foodYield, 4.0)
-        XCTAssertEqual(productionYield, 2.0)
-        XCTAssertEqual(goldYield, 6.0)
+        XCTAssertEqual(productionYield, 4.0)
+        XCTAssertEqual(goldYield, 11.0)
         
         /*XCTAssertEqual(yields?.culture, 2.6)
         XCTAssertEqual(yields?.science, 4.0)

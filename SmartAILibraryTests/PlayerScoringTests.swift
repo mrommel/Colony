@@ -175,7 +175,7 @@ class PlayerScoringTests: XCTestCase {
         mapModel.add(city: city1, in: gameModel)
 
         try! city1.wonders?.build(wonder: .pyramids)
-        try! city1.wonders?.build(wonder: .greatBath)
+        try! city1.wonders?.build(wonder: .oracle)
 
         // WHEN
         let score = self.objectToTest!.score(for: gameModel)

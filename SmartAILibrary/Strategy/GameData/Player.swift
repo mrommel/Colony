@@ -934,9 +934,6 @@ public class Player: AbstractPlayer {
         // Golden Age
         // self.doProcessGoldenAge();
 
-        // Great People gifts from Allied City States (if we have that policy)
-        // self.doGreatPeopleSpawnTurn();
-
         // balance amenities
         self.doCityAmenities(in: gameModel)
         
@@ -1018,6 +1015,15 @@ public class Player: AbstractPlayer {
             fatalError("cant get gamemodel")
         }
         
+        guard let greatPeople = self.greatPeople else {
+            fatalError("cant get greatPeople")
+        }
+        
+        if self.isBarbarian() {
+            // no great people for barbarians
+            return
+        }
+        
         for cityRef in gameModel.cities(of: self) {
             
             guard let city = cityRef else {
@@ -1025,7 +1031,30 @@ public class Player: AbstractPlayer {
             }
             
             let greatPeoplePoints = city.greatPeoplePointsPerTurn(in: gameModel)
-            self.greatPeople?.add(points: greatPeoplePoints)
+            greatPeople.add(points: greatPeoplePoints)
+        }
+        
+        // check if points are enough to gain a great person
+        for greatPersonType in GreatPersonType.all {
+            
+            if let greatPersonToSpawn = gameModel.greatPerson(of: greatPersonType, points: greatPeople.value(for: greatPersonType), for: self) {
+                
+                // ask if user whats this person ?
+                // for now, the user has to take him/her
+                
+                // spawn
+                if let capital = gameModel.capital(of: self) {
+                    let greatPersonUnit = Unit(at: capital.location, type: greatPersonToSpawn.type().unitType(), owner: self)
+                    
+                    gameModel.add(unit: greatPersonUnit)
+                    gameModel.userInterface?.show(unit: greatPersonUnit)
+                
+                    // notify the user
+                    self.notifications()?.addNotification(of: .greatPersonJoined, for: self, message: "\(greatPersonToSpawn.name()) joined you", summary: "\(greatPersonToSpawn.name()) joined you")
+                    
+                    gameModel.invalidate(greatPerson: greatPersonToSpawn)
+                }
+            }
         }
     }
     

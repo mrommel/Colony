@@ -26,6 +26,9 @@ class AdvisorTests: XCTestCase {
     func testMessagesAfterInitialTurn() {
         
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+        
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.government?.set(governmentType: .autocracy)
@@ -34,7 +37,7 @@ class AdvisorTests: XCTestCase {
         // setup the map
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .small)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, playerAlexander], on: mapModel)
         
         mapModel.discover(by: playerAlexander, at: HexPoint(x: 1, y: 1), in: gameModel)
         try! mapModel.set(owner: playerAlexander, at: HexPoint(x: 1, y: 1))
@@ -66,6 +69,9 @@ class AdvisorTests: XCTestCase {
     func testMessagesAfter30Turns() {
         
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+        
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.government?.set(governmentType: .autocracy)
@@ -78,7 +84,7 @@ class AdvisorTests: XCTestCase {
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel) //MapModel(size: .standard)
         
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, playerAlexander, playerAugustus], on: mapModel)
         
         self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
         self.objectToTest?.initialize(in: gameModel)
@@ -118,6 +124,9 @@ class AdvisorTests: XCTestCase {
     func testMessagesAfter30TurnsWithMelees() {
         
         // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+        
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.government?.set(governmentType: .autocracy)
@@ -129,7 +138,7 @@ class AdvisorTests: XCTestCase {
         try! playerAugustus.techs?.discover(tech: .mining)
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
-        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander, playerAugustus], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, playerAlexander, playerAugustus], on: mapModel)
         
         let ui = TestUI()
         gameModel.userInterface = ui
