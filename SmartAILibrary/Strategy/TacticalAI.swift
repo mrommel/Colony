@@ -1099,7 +1099,7 @@ public class TacticalAI: Codable {
                         // Also flee if danger is really high in current plot (but not if we're barbarian)
                         else if currentUnit.player?.leader != .barbar {
                             
-                            let acceptableDanger = currentUnit.combatStrength() * 100
+                            let acceptableDanger = currentUnit.baseCombatStrength(ignoreEmbarked: true) * 100
                             if Int(dangerLevel) > acceptableDanger {
                                 addUnit = true
                             }
@@ -1405,7 +1405,7 @@ public class TacticalAI: Codable {
                     }
 
                     // Don't put units with a combat strength boosted from promotions in cities, these boosts are ignored
-                    if loopUnit.defenseModifier() == 0 && loopUnit.attackModifier() == 0 {
+                    if loopUnit.defenseModifier(against: nil, on: nil, ranged: false, in: gameModel) == 0 && loopUnit.attackModifier(against: nil, or: nil, on: nil, in: gameModel) == 0 {
                         suitableUnit = true
                     }
                 } else if move == .guardImprovementAlreadyThere || move == .guardImprovementOneTurn || move == .bastionAlreadyThere || move == .bastionOneTurn {
@@ -1415,7 +1415,7 @@ public class TacticalAI: Codable {
                         suitableUnit = true
 
                         // Units with defensive promotions are especially valuable
-                        if loopUnit.defenseModifier() > 0 /* || pLoopUnit->getExtraCombatPercent() > 0*/ {
+                        if loopUnit.defenseModifier(against: nil, on: nil, ranged: false, in: gameModel) > 0 /* || pLoopUnit->getExtraCombatPercent() > 0*/ {
                             highPriority = true
                         }
                     }
@@ -2763,7 +2763,7 @@ public class TacticalAI: Codable {
                                      
                             // Want ranged units to attack first, so inflate this
                             // Don't take damage from bombarding, so show as fully healthy
-                            let unit = TacticalUnit(unit: loopUnit, attackStrength: 100 * loopUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true), healthPercent: 100)
+                            let unit = TacticalUnit(unit: loopUnit, attackStrength: 100 * loopUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel), healthPercent: 100)
                             self.currentMoveUnits.append(unit)
                             rtnValue = true
                          }
@@ -2771,7 +2771,7 @@ public class TacticalAI: Codable {
                     // {
                  } else {
                     if loopUnit.canReach(at: targetLocation, in: numTurnsAway, in: gameModel) {
-                        let unit = TacticalUnit(unit: loopUnit, attackStrength: 100 * loopUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true), healthPercent: loopUnit.healthPoints())
+                        let unit = TacticalUnit(unit: loopUnit, attackStrength: 100 * loopUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel), healthPercent: loopUnit.healthPoints())
                          self.currentMoveUnits.append(unit)
                          rtnValue = true
                      }
@@ -3901,7 +3901,7 @@ public class TacticalAI: Codable {
                     
                             var expectedDamage = 0
                             
-                            if enemyUnit.canAttackRanged() && enemyUnit.rangedCombatStrength(against: nil, or: city, on: tile, attacking: true) > enemyUnit.attackStrength(against: nil, or: city, on: tile) {
+                            if enemyUnit.canAttackRanged() && enemyUnit.rangedCombatStrength(against: nil, or: city, on: tile, attacking: true, in: gameModel) > enemyUnit.attackStrength(against: nil, or: city, on: tile, in: gameModel) {
                             
                                 if enemyUnit.location.distance(to: city.location) <= enemyUnit.range() {
                                     
@@ -4013,7 +4013,7 @@ public class TacticalAI: Codable {
                                     
                                     if let enemyUnit = gameModel.visibleEnemy(at: unitTarget.target, for: self.player) {
                                         
-                                        if enemyUnit.canAttackRanged() && enemyUnit.rangedCombatStrength(against: nil, or: nil, on: tile, attacking: true) > enemyUnit.attackStrength(against: nil, or: nil, on: tile) {
+                                        if enemyUnit.canAttackRanged() && enemyUnit.rangedCombatStrength(against: nil, or: nil, on: tile, attacking: true, in: gameModel) > enemyUnit.attackStrength(against: nil, or: nil, on: tile, in: gameModel) {
                                             
                                             if enemyUnit.location.distance(to: point) <= enemyUnit.range() {
                                                 priorityTarget = true

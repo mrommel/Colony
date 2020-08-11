@@ -36,7 +36,16 @@ class BottomCombatBar: SizedNode {
     var combatCanvasVisible: Bool = false
     
     var attackerHealthNode: CircularProgressBarNode?
+    var attackerIconNode: SKSpriteNode?
+    var attackerNameNode: SKLabelNode?
+    var attackerBaseStrengthNode: SKLabelNode?
+    var attackerStrengthBonusNodes: [SKLabelNode?] = []
+    
     var defenderHealthNode: CircularProgressBarNode?
+    var defenderIconNode: SKSpriteNode?
+    var defenderNameNode: SKLabelNode?
+    var defenderBaseStrengthNode: SKLabelNode?
+    var defenderStrengthBonusNodes: [SKLabelNode?] = []
     
     // delegate
     
@@ -67,11 +76,45 @@ class BottomCombatBar: SizedNode {
         self.combatCancelNode?.zPosition = Globals.ZLevels.combatElements + 1.0
         self.combatCancelNode?.anchorPoint = .lowerLeft
         
+        // attacker
         self.attackerHealthNode = CircularProgressBarNode(type: .attackerHealth, size: CGSize(width: 60, height: 60))
         self.attackerHealthNode?.zPosition = Globals.ZLevels.combatElements + 1.0
         
+        let attackerTypeTexture = SKTexture(imageNamed: "unit_type_default")
+        self.attackerIconNode = SKSpriteNode(texture: attackerTypeTexture, color: .black, size: CGSize(width: 40, height: 40))
+        self.attackerIconNode?.zPosition = Globals.ZLevels.combatElements + 1.0
+        
+        self.attackerNameNode = SKLabelNode()
+        self.attackerNameNode?.horizontalAlignmentMode = .right
+        self.attackerNameNode?.zPosition = Globals.ZLevels.combatElements + 1.0
+        self.attackerNameNode?.fontSize = 16.0
+        self.attackerNameNode?.fontColor = .white
+        
+        self.attackerBaseStrengthNode = SKLabelNode()
+        self.attackerBaseStrengthNode?.horizontalAlignmentMode = .right
+        self.attackerBaseStrengthNode?.zPosition = Globals.ZLevels.combatElements + 1.0
+        self.attackerBaseStrengthNode?.fontSize = 14.0
+        self.attackerBaseStrengthNode?.fontColor = .white
+        
+        // defender
         self.defenderHealthNode = CircularProgressBarNode(type: .defenderHealth, size: CGSize(width: 60, height: 60))
         self.defenderHealthNode?.zPosition = Globals.ZLevels.combatElements + 1.0
+        
+        let defenderTypeTexture = SKTexture(imageNamed: "unit_type_default")
+        self.defenderIconNode = SKSpriteNode(texture: defenderTypeTexture, color: .black, size: CGSize(width: 40, height: 40))
+        self.defenderIconNode?.zPosition = Globals.ZLevels.combatElements + 1.0
+        
+        self.defenderNameNode = SKLabelNode()
+        self.defenderNameNode?.horizontalAlignmentMode = .left
+        self.defenderNameNode?.zPosition = Globals.ZLevels.combatElements + 1.0
+        self.defenderNameNode?.fontSize = 16.0
+        self.defenderNameNode?.fontColor = .white
+        
+        self.defenderBaseStrengthNode = SKLabelNode()
+        self.defenderBaseStrengthNode?.horizontalAlignmentMode = .left
+        self.defenderBaseStrengthNode?.zPosition = Globals.ZLevels.combatElements + 1.0
+        self.defenderBaseStrengthNode?.fontSize = 14.0
+        self.defenderBaseStrengthNode?.fontColor = .white
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -84,8 +127,29 @@ class BottomCombatBar: SizedNode {
         self.combatAttackNode?.position = CGPoint(x: self.position.x + self.size.halfWidth - 43, y: self.position.y + 90)
         self.combatCancelNode?.position = CGPoint(x: self.position.x + self.size.halfWidth, y: self.position.y + 90)
         
+        // attacker
         self.attackerHealthNode?.position = CGPoint(x: self.position.x + self.size.halfWidth - 29, y: self.position.y + 47)
+        self.attackerIconNode?.position = CGPoint(x: self.position.x + self.size.halfWidth - 29, y: self.position.y + 47)
+        self.attackerNameNode?.position = CGPoint(x: self.position.x + self.size.halfWidth - 80, y: self.position.y + 87)
+        self.attackerBaseStrengthNode?.position = CGPoint(x: self.position.x + self.size.halfWidth - 80, y: self.position.y + 65)
+        
+        var attackerY: CGFloat = 50.0
+        for attackerStrengthBonusNode in self.attackerStrengthBonusNodes {
+            attackerStrengthBonusNode?.position = CGPoint(x: self.position.x + self.size.halfWidth - 80, y: self.position.y + attackerY)
+            attackerY -= 15.0
+        }
+        
+        // defender
         self.defenderHealthNode?.position = CGPoint(x: self.position.x + self.size.halfWidth + 29, y: self.position.y + 47)
+        self.defenderIconNode?.position = CGPoint(x: self.position.x + self.size.halfWidth + 29, y: self.position.y + 47)
+        self.defenderNameNode?.position = CGPoint(x: self.position.x + self.size.halfWidth + 80, y: self.position.y + 87)
+        self.defenderBaseStrengthNode?.position = CGPoint(x: self.position.x + self.size.halfWidth + 80, y: self.position.y + 65)
+        
+        var defenderY: CGFloat = 50.0
+        for defenderStrengthBonusNode in self.defenderStrengthBonusNodes {
+            defenderStrengthBonusNode?.position = CGPoint(x: self.position.x + self.size.halfWidth + 80, y: self.position.y + defenderY)
+            defenderY -= 15.0
+        }
     }
     
     func showCombatView() {
@@ -98,13 +162,22 @@ class BottomCombatBar: SizedNode {
         self.addChild(self.combatCancelNode!)
         self.addChild(self.combatCanvasNode!)
         
+        // attacker
         self.addChild(self.attackerHealthNode!)
+        self.addChild(self.attackerIconNode!)
+        self.addChild(self.attackerNameNode!)
+        self.addChild(self.attackerBaseStrengthNode!)
+        
+        // defender
         self.addChild(self.defenderHealthNode!)
+        self.addChild(self.defenderIconNode!)
+        self.addChild(self.defenderNameNode!)
+        self.addChild(self.defenderBaseStrengthNode!)
 
         self.combatCanvasVisible = true
     }
 
-    func combatPrediction(of attacker: AbstractUnit?, against defender: AbstractUnit?, mode: CombatType) {
+    func combatPrediction(of attacker: AbstractUnit?, against defender: AbstractUnit?, mode: CombatType, in gameModel: GameModel?) {
 
         if !self.combatCanvasVisible {
             print("show not happen")
@@ -125,12 +198,48 @@ class BottomCombatBar: SizedNode {
         if let attacker = self.attacker {
             let imageIndex = min(25, max(0, attacker.healthPoints() / 4 )) // the assets are from 0 to 25
             self.attackerHealthNode?.value = imageIndex
+            self.attackerIconNode?.texture = SKTexture(imageNamed: attacker.type.iconTexture())
+            self.attackerNameNode?.text = attacker.name()
+            self.attackerBaseStrengthNode?.text = "\(attacker.baseCombatStrength(ignoreEmbarked: true))"
+            
+            for modifier in attacker.attackStrengthModifier(against: self.defender, or: nil, on: nil, in: gameModel) {
+                //print("- \(modifier.modifierTitle)")
+                
+                let modifierNode = SKLabelNode(text: "\(modifier.modifierValue) \(modifier.modifierTitle)")
+                modifierNode.horizontalAlignmentMode = .right
+                modifierNode.zPosition = Globals.ZLevels.combatElements + 1.0
+                modifierNode.fontSize = 10.0
+                modifierNode.fontColor = .white
+                
+                self.addChild(modifierNode)
+                
+                self.attackerStrengthBonusNodes.append(modifierNode)
+            }
         }
         
         if let defender = self.defender {
             let imageIndex = min(25, max(0, defender.healthPoints() / 4 )) // the assets are from 0 to 25
             self.defenderHealthNode?.value = imageIndex
+            self.defenderIconNode?.texture = SKTexture(imageNamed: defender.type.iconTexture())
+            self.defenderNameNode?.text = defender.name()
+            self.defenderBaseStrengthNode?.text = "\(defender.baseCombatStrength(ignoreEmbarked: true))"
+            
+            for modifier in defender.attackStrengthModifier(against: self.attacker, or: nil, on: nil, in: gameModel) {
+                // print("+ \(modifier.modifierTitle)")
+                
+                let modifierNode = SKLabelNode(text: "\(modifier.modifierValue) \(modifier.modifierTitle)")
+                modifierNode.horizontalAlignmentMode = .left
+                modifierNode.zPosition = Globals.ZLevels.combatElements + 1.0
+                modifierNode.fontSize = 10.0
+                modifierNode.fontColor = .white
+                
+                self.addChild(modifierNode)
+                
+                self.defenderStrengthBonusNodes.append(modifierNode)
+            }
         }
+        
+        self.updateLayout()
     }
 
     func hideCombatView() {
@@ -143,8 +252,29 @@ class BottomCombatBar: SizedNode {
         self.combatCancelNode?.removeFromParent()
         self.combatCanvasNode?.removeFromParent()
         
+        // attacker
         self.attackerHealthNode?.removeFromParent()
+        self.attackerIconNode?.removeFromParent()
+        self.attackerNameNode?.removeFromParent()
+        self.attackerBaseStrengthNode?.removeFromParent()
+        
+        for attackerStrengthBonusNode in self.attackerStrengthBonusNodes {
+            attackerStrengthBonusNode?.removeFromParent()
+        }
+        
+        self.attackerStrengthBonusNodes.removeAll()
+        
+        // defender
         self.defenderHealthNode?.removeFromParent()
+        self.defenderIconNode?.removeFromParent()
+        self.defenderNameNode?.removeFromParent()
+        self.defenderBaseStrengthNode?.removeFromParent()
+        
+        for defenderStrengthBonusNode in self.defenderStrengthBonusNodes {
+            defenderStrengthBonusNode?.removeFromParent()
+        }
+        
+        self.defenderStrengthBonusNodes.removeAll()
 
         self.combatCanvasVisible = false
     }

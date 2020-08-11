@@ -233,6 +233,36 @@ public enum HandicapType: Int, Codable {
             return 8
         }
     }
+    
+    func freeAICombatBonus() -> Int {
+
+        switch self {
+
+        case .settler: return -1
+        case .chieftain: return -1
+        case .warlord: return -1
+        case .prince: return 0
+        case .king: return 1
+        case .emperor: return 2
+        case .immortal: return 3
+        case .deity: return 4
+        }
+    }
+    
+    func freeHumanCombatBonus() -> Int {
+
+        switch self {
+
+        case .settler: return 3
+        case .chieftain: return 2
+        case .warlord: return 1
+        case .prince: return 0
+        case .king: return 0
+        case .emperor: return 0
+        case .immortal: return 0
+        case .deity: return 0
+        }
+    }
 }
 
 extension HandicapType: Comparable {

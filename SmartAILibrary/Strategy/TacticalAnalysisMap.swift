@@ -449,13 +449,13 @@ class TacticalAnalysisMap {
                         (friendlyUnit.domain() == .land && !tempZone.isWater) ||
                         (friendlyUnit.domain() == .sea && tempZone.isWater) {
                         
-                        var strength = friendlyUnit.combatStrength()
+                        var strength = friendlyUnit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
                         if strength == 0 && friendlyUnit.isEmbarked() && !tempZone.isWater {
                             strength = friendlyUnit.baseCombatStrength(ignoreEmbarked: true)
                         }
                         
                         tempZone.friendlyStrength += strength * self.unitStrengthMultiplier
-                        tempZone.friendlyRangedStrength += friendlyUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true)
+                        tempZone.friendlyRangedStrength += friendlyUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
                         
                         if friendlyUnit.range() > self.bestFriendlyRange {
                             self.bestFriendlyRange = friendlyUnit.range()
@@ -475,13 +475,13 @@ class TacticalAnalysisMap {
                         (enemyUnit.domain() == .land && !tempZone.isWater) ||
                         (enemyUnit.domain() == .sea && tempZone.isWater) {
                         
-                        var strength = enemyUnit.combatStrength()
+                        var strength = enemyUnit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
                         if strength == 0 && enemyUnit.isEmbarked() && !tempZone.isWater {
                             strength = enemyUnit.baseCombatStrength(ignoreEmbarked: true)
                         }
                         
                         tempZone.enemyStrength += strength * self.unitStrengthMultiplier
-                        tempZone.enemyRangedStrength += enemyUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true)
+                        tempZone.enemyRangedStrength += enemyUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
                         tempZone.enemyUnitCount += 1
                         
                         if enemyUnit.range() > 0 {
@@ -580,13 +580,13 @@ class TacticalAnalysisMap {
 
                                     if multiplier > 0 {
 
-                                        var unitStrength = unit.combatStrength()
+                                        var unitStrength = unit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
                                         if unitStrength == 0 && unit.isEmbarked() && !dominanceZone.isWater {
                                             unitStrength = unit.baseCombatStrength(ignoreEmbarked: true)
                                         }
 
                                         dominanceZone.friendlyStrength += unitStrength * multiplier * self.unitStrengthMultiplier
-                                        dominanceZone.friendlyRangedStrength += unit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true)
+                                        dominanceZone.friendlyRangedStrength += unit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
 
                                         if unit.range() > self.bestFriendlyRange {
                                             self.bestFriendlyRange = unit.range()

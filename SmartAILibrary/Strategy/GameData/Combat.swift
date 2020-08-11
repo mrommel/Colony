@@ -79,8 +79,8 @@ class Combat {
             fatalError("cant get defenderTile")
         }
 
-        let attackerStrength = attacker.rangedCombatStrength(against: defender, or: nil, on: defenderTile, attacking: true)
-        let defenderStrength = defender.defensiveStrength(against: attacker, on: defenderTile, ranged: true)
+        let attackerStrength = attacker.rangedCombatStrength(against: defender, or: nil, on: defenderTile, attacking: true, in: gameModel)
+        let defenderStrength = defender.defensiveStrength(against: attacker, on: defenderTile, ranged: true, in: gameModel)
         let strengthDifference = attackerStrength - defenderStrength
 
         var damage: Int = Int(30.0 * pow(M_E, 0.04 * Double(strengthDifference) /* Double.random(in: 0.8..<1.2)*/))
@@ -113,8 +113,8 @@ class Combat {
             fatalError("cant get defenderTile")
         }
 
-        let attackerStrength = attacker.rangedCombatStrength(against: nil, or: city, on: defenderTile, attacking: true)
-        let defenderStrength = city.defensiveStrength(against: attacker, on: defenderTile, ranged: true)
+        let attackerStrength = attacker.rangedCombatStrength(against: nil, or: city, on: defenderTile, attacking: true, in: gameModel)
+        let defenderStrength = city.defensiveStrength(against: attacker, on: defenderTile, ranged: true, in: gameModel)
         let strengthDifference = attackerStrength - defenderStrength
 
         var damage: Int = Int(30.0 * pow(M_E, 0.04 * Double(strengthDifference) /* * Double.random(in: 0.8..<1.2)*/))
@@ -147,7 +147,7 @@ class Combat {
         }
 
         let attackerStrength = attacker.rangedCombatStrength(against: defender, on: defenderTile, attacking: true)
-        let defenderStrength = defender.defensiveStrength(against: nil, on: defenderTile, ranged: true) // FIXME
+        let defenderStrength = defender.defensiveStrength(against: nil, on: defenderTile, ranged: true, in: gameModel) // FIXME
         let strengthDifference = attackerStrength - defenderStrength
 
         var damage: Int = Int(30.0 * pow(M_E, 0.04 * Double(strengthDifference) /* * Double.random(in: 0.8..<1.2)*/))
@@ -184,8 +184,8 @@ class Combat {
         }
 
         // attacker strikes
-        let attackerStrength = attacker.attackStrength(against: nil, or: city, on: defenderTile)
-        let defenderStrength = city.defensiveStrength(against: attacker, on: defenderTile, ranged: false)
+        let attackerStrength = attacker.attackStrength(against: nil, or: city, on: defenderTile, in: gameModel)
+        let defenderStrength = city.defensiveStrength(against: attacker, on: defenderTile, ranged: false, in: gameModel)
         let attackerStrengthDifference = attackerStrength - defenderStrength
 
         var defenderDamage: Int = Int(30.0 * pow(M_E, 0.04 * Double(attackerStrengthDifference) /* * Double.random(in: 0.8..<1.2)*/))
@@ -196,7 +196,7 @@ class Combat {
 
         // defender strikes back
         let attackerStrength2 = city.rangedCombatStrength(against: attacker, on: attackerTile, attacking: true)
-        let defenderStrength2 = attacker.defensiveStrength(against: nil, on: attackerTile, ranged: true)
+        let defenderStrength2 = attacker.defensiveStrength(against: nil, on: attackerTile, ranged: true, in: gameModel)
 
         let defenderStrengthDifference = attackerStrength2 - defenderStrength2
 
@@ -234,8 +234,8 @@ class Combat {
         }
 
         // attacker strikes
-        let attackerStrength = attacker.attackStrength(against: defender, or: nil, on: defenderTile)
-        let defenderStrength = defender.defensiveStrength(against: attacker, on: defenderTile, ranged: false)
+        let attackerStrength = attacker.attackStrength(against: defender, or: nil, on: defenderTile, in: gameModel)
+        let defenderStrength = defender.defensiveStrength(against: attacker, on: defenderTile, ranged: false, in: gameModel)
         let attackerStrengthDifference = attackerStrength - defenderStrength
 
         var defenderDamage: Int = Int(30.0 * pow(M_E, 0.04 * Double(attackerStrengthDifference) /* * Double.random(in: 0.8..<1.2)*/))
@@ -245,8 +245,8 @@ class Combat {
         }
 
         // defender strikes back
-        let attackerStrength2 = defender.attackStrength(against: attacker, or: nil, on: attackerTile)
-        let defenderStrength2 = attacker.defensiveStrength(against: defender, on: attackerTile, ranged: true)
+        let attackerStrength2 = defender.attackStrength(against: attacker, or: nil, on: attackerTile, in: gameModel)
+        let defenderStrength2 = attacker.defensiveStrength(against: defender, on: attackerTile, ranged: true, in: gameModel)
 
         let defenderStrengthDifference = attackerStrength2 - defenderStrength2
 
@@ -301,8 +301,8 @@ class Combat {
         }
         
         // attacker strikes
-        let attackerStrength = attacker.attackStrength(against: defender, or: nil, on: defenderTile)
-        let defenderStrength = defender.defensiveStrength(against: attacker, on: defenderTile, ranged: false)
+        let attackerStrength = attacker.attackStrength(against: defender, or: nil, on: defenderTile, in: gameModel)
+        let defenderStrength = defender.defensiveStrength(against: attacker, on: defenderTile, ranged: false, in: gameModel)
         let attackerStrengthDifference = attackerStrength - defenderStrength
 
         var defenderDamage: Int = Int(30.0 * pow(M_E, 0.04 * Double(attackerStrengthDifference) * Double.random(in: 0.8..<1.2)))
@@ -316,8 +316,8 @@ class Combat {
         if defender.canDefend() {
             
             // defender strikes back
-            let attackerStrength2 = defender.attackStrength(against: attacker, or: nil, on: attackerTile)
-            let defenderStrength2 = attacker.defensiveStrength(against: defender, on: attackerTile, ranged: true)
+            let attackerStrength2 = defender.attackStrength(against: attacker, or: nil, on: attackerTile, in: gameModel)
+            let defenderStrength2 = attacker.defensiveStrength(against: defender, on: attackerTile, ranged: true, in: gameModel)
 
             let defenderStrengthDifference = attackerStrength2 - defenderStrength2
 

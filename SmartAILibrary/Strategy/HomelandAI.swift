@@ -745,7 +745,7 @@ public class HomelandAI {
                 if city.lastTurnGarrisonAssigned() < gameModel.currentTurn {
                     
                     // Grab units that make sense for this move type
-                    self.findUnitsFor(move: .garrison, firstTime: firstRun)
+                    self.findUnitsFor(move: .garrison, firstTime: firstRun, in: gameModel)
                     
                     if self.currentMoveHighPriorityUnits.count + self.currentMoveUnits.count > 0 {
                         
@@ -1018,7 +1018,7 @@ public class HomelandAI {
     
     /// Finds both high and normal priority units we can use for this homeland move (returns true if at least 1 unit found)
     @discardableResult
-    func findUnitsFor(move moveType: HomelandMoveType, firstTime: Bool) -> Bool {
+    func findUnitsFor(move moveType: HomelandMoveType, firstTime: Bool, in gameModel: GameModel?) -> Bool {
         
         var rtnValue = false
 
@@ -1069,7 +1069,7 @@ public class HomelandAI {
                         } else if loopUnit.canAttack() { // Don't use non-combatants
                             
                             // Don't put units with a combat strength boosted from promotions in cities, these boosts are ignored
-                            if loopUnit.defenseModifier() == 0 && loopUnit.attackModifier() == 0 {
+                            if loopUnit.defenseModifier(against: nil, on: nil, ranged: false, in: gameModel) == 0 && loopUnit.attackModifier(against: nil, or: nil, on: nil, in: gameModel) == 0 {
                                 suitableUnit = true
                             }
                         }
@@ -1649,7 +1649,7 @@ public class HomelandAI {
             
             if city != nil && city?.player?.leader == self.player?.leader {
                 
-                value += city!.defensiveStrength(against: nil, on: tile, ranged: false)
+                value += city!.defensiveStrength(against: nil, on: tile, ranged: false, in: gameModel)
                 
             } else if !ignoreUnits {
                 
@@ -1660,7 +1660,7 @@ public class HomelandAI {
                         if otherUnit.canDefend() && otherUnit.location != unit.location {
                             
                             if otherUnit.isWaiting() || !otherUnit.canMove() {
-                                value += otherUnit.defensiveStrength(against: nil, on: tile, ranged: false)
+                                value += otherUnit.defensiveStrength(against: nil, on: tile, ranged: false, in: gameModel)
                             }
                         }
                     }

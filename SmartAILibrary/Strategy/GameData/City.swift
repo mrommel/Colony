@@ -137,7 +137,7 @@ public protocol AbstractCity: class, Codable {
     func damage() -> Int
     func maxHealthPoints() -> Int
     
-    func power() -> Int
+    func power(in gameModel: GameModel?) -> Int
     func updateStrengthValue(in gameModel: GameModel?)
     func strengthValue() -> Int
     
@@ -147,7 +147,7 @@ public protocol AbstractCity: class, Codable {
     
     func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?, attacking: Bool) -> Int
     func canRangeStrike(towards point: HexPoint) -> Bool
-    func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool) -> Int
+    func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int
 
     func work(tile: AbstractTile) throws
     func isCoastal(in gameModel: GameModel?) -> Bool
@@ -2331,7 +2331,7 @@ public class City: AbstractCity {
         return rangedStrength
     }
     
-    public func defensiveStrength(against attacker: AbstractUnit?, on ownTile: AbstractTile?, ranged: Bool) -> Int {
+    public func defensiveStrength(against attacker: AbstractUnit?, on ownTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int {
         
         guard let government = self.player?.government else {
             fatalError("cant get government")
@@ -2346,7 +2346,7 @@ public class City: AbstractCity {
         /* Base strength, equal to that of the strongest melee unit your civilization currently possesses minus 10, or to the unit which is garrisoned inside the city (whichever is greater). Note also that Corps or Army units are capable of pushing this number higher than otherwise possible for this Era, so when you station such a unit in a city, its CS will increase accordingly; */
         if let unit = self.garrisonedUnit() {
             
-            let unitStrength = unit.combatStrength()
+            let unitStrength = unit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
             let warriorStrength = UnitType.warrior.meleeStrength() - 10
             
             strengthValue = max(warriorStrength, unitStrength)
@@ -2446,9 +2446,9 @@ public class City: AbstractCity {
         self.garrisonedUnitValue = unit
     }
 
-    public func power() -> Int {
+    public func power(in gameModel: GameModel?) -> Int {
 
-        return Int(pow(Double(self.defensiveStrength(against: nil, on: nil, ranged: false)) / 100.0, 1.5))
+        return Int(pow(Double(self.defensiveStrength(against: nil, on: nil, ranged: false, in: gameModel)) / 100.0, 1.5))
     }
     
     public func healthPoints() -> Int {

@@ -114,11 +114,11 @@ extension GameScene: UserInterfaceProtocol {
             fatalError("cant get unit")
         }
         
-        guard let player = unit.player else {
+        /*guard let player = unit.player else {
             fatalError("cant get unit player")
         }
         
-        /*guard let humanPlayer = self.viewModel?.game?.humanPlayer() else {
+        guard let humanPlayer = self.viewModel?.game?.humanPlayer() else {
             fatalError("cant get humanPlayer")
         }*/
         

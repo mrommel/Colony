@@ -101,7 +101,7 @@ public enum UnitPromotionType: Int, Codable {
         switch self {
 
         case .embarkation:
-            return PromotionData(name: "Embarkation",
+            return PromotionData(name: "Embarkation", // FIXME
                                  effect: "---",
                                  tier: 0,
                                  unitClass: .melee, required: [],
@@ -109,14 +109,14 @@ public enum UnitPromotionType: Int, Codable {
             
             // general
         case .healthBoostRecon:
-            return PromotionData(name: "Health Boost",
+            return PromotionData(name: "Health Boost", // FIXME
                                  effect: "---",
                                  tier: 0,
                                  unitClass: .recon,
                                  required: [],
                                  consumable: true)
         case .healthBoostMelee:
-            return PromotionData(name: "Health Boost",
+            return PromotionData(name: "Health Boost", // FIXME
                                  effect: "---",
                                  tier: 0,
                                  unitClass: .melee,
@@ -158,7 +158,7 @@ public enum UnitPromotionType: Int, Codable {
                                  consumable: false)
         case .spyglass:
             return PromotionData(name: "Spyglass",
-                                 effect: "+1 sight range.", // FIXME
+                                 effect: "+1 sight range.",
                                  tier: 3,
                                  unitClass: .recon,
                                  required: [.sentry],
@@ -174,7 +174,7 @@ public enum UnitPromotionType: Int, Codable {
         case .camouflage:
             // https://civilization.fandom.com/wiki/Camouflage_(Civ6)
             return PromotionData(name: "Camouflage",
-                                 effect: "Only adjacent enemy units can reveal this unit.",
+                                 effect: "Only adjacent enemy units can reveal this unit.", // FIXME
                                  tier: 4,
                                  unitClass: .recon,
                                  required: [.spyglass, .ambush],
@@ -184,7 +184,7 @@ public enum UnitPromotionType: Int, Codable {
         case .battleCry:
             // https://civilization.fandom.com/wiki/Battlecry_(Civ6)
             return PromotionData(name: "Battlecry",
-                                 effect: "+7 Civ6StrengthIcon Combat Strength vs. melee and ranged units.", // FIXME
+                                 effect: "+7 Civ6StrengthIcon Combat Strength vs. melee and ranged units.",
                                  tier: 1,
                                  unitClass: .melee,
                                  required: [],
@@ -192,7 +192,7 @@ public enum UnitPromotionType: Int, Codable {
         case .tortoise:
             // https://civilization.fandom.com/wiki/Tortoise_(Civ6)
             return PromotionData(name: "Tortoise",
-                                 effect: "+10 Civ6StrengthIcon Combat Strength when defending against ranged attacks.", // FIXME
+                                 effect: "+10 Civ6StrengthIcon Combat Strength when defending against ranged attacks.",
                                  tier: 1,
                                  unitClass: .melee,
                                  required: [],
@@ -224,7 +224,7 @@ public enum UnitPromotionType: Int, Codable {
         case .urbanWarfare:
             // https://civilization.fandom.com/wiki/Urban_Warfare_(Civ6)
             return PromotionData(name: "Urban warfare",
-                                 effect: "+10 Civ6StrengthIcon Combat Strength when fighting in a district.",
+                                 effect: "+10 Civ6StrengthIcon Combat Strength when fighting in a city.", // FIXME
                                  tier: 3,
                                  unitClass: .melee,
                                  required: [.commando, .amphibious],

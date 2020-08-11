@@ -8,6 +8,18 @@
 
 import Foundation
 
+public class CombatModifier {
+    
+    public let modifierValue: Int
+    public let modifierTitle: String
+    
+    init(modifierValue: Int, modifierTitle: String) {
+        
+        self.modifierValue = modifierValue
+        self.modifierTitle = modifierTitle
+    }
+}
+
 public struct MoveOptions : OptionSet {
     
     public let rawValue: Int
@@ -93,9 +105,13 @@ public protocol AbstractUnit: class, Codable {
     func isOutOfAttacks() -> Bool
     func setMadeAttack(to newValue: Bool)
     func baseCombatStrength(ignoreEmbarked: Bool) -> Int
-    func attackStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?) -> Int
-    func rangedCombatStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, attacking: Bool) -> Int
-    func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool) -> Int
+    func attackStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, in gameModel: GameModel?) -> Int
+    func attackStrengthModifier(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, in gameModel: GameModel?) -> [CombatModifier]
+    func rangedCombatStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, attacking: Bool, in gameModel: GameModel?) -> Int
+    func attackModifier(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, in gameModel: GameModel?) -> Int
+    func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int
+    func defensiveStrengthModifier(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> [CombatModifier]
+    func defenseModifier(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool,in gameModel: GameModel?) -> Int
     
     func sight() -> Int
     func range() -> Int
@@ -108,12 +124,8 @@ public protocol AbstractUnit: class, Codable {
     func doPromote(with promotionType: UnitPromotionType)
 
     func power() -> Int
-    func combatStrength() -> Int
-    func rangedStrength() -> Int
     func isCombatUnit() -> Bool
     func isRanged() -> Bool
-    func defenseModifier() -> Int
-    func attackModifier() -> Int
 
     func turn(in gameModel: GameModel?)
     func set(turnProcessed: Bool)
@@ -226,7 +238,7 @@ public protocol AbstractUnit: class, Codable {
 }
 
 public class Unit: AbstractUnit {
-
+    
     static let maxHealth: Double = 100.0
 
     enum CodingKeys: CodingKey {
@@ -597,7 +609,7 @@ public class Unit: AbstractUnit {
         return self.type.meleeStrength()
     }
 
-    public func rangedCombatStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, attacking: Bool) -> Int {
+    public func rangedCombatStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile?, attacking: Bool, in gameModel: GameModel?) -> Int {
 
         if self.baseRangedCombatStrength() == 0 {
             return 0
@@ -606,38 +618,22 @@ public class Unit: AbstractUnit {
         if self.range() == 0 {
             return 0
         }
-
-        var modifier = 0
-
-        ////////////////////////
-        // KNOWN DESTINATION PLOT
-        ////////////////////////
-
-        if let tile = toTile {
-
-            modifier -= tile.defenseModifier(for: self.player)
+        
+        if self.isEmbarked() {
+            return 0
         }
 
-        ////////////////////////
-        // KNOWN CITY
-        ////////////////////////
+        var modifierValue = 0
 
-        // FIXME
-
-        ////////////////////////
-        // KNOWN DEFENDER
-        ////////////////////////
-
-        if let defender = defender {
-
-            return self.combatStrength(against: defender) + modifier
+        for modifier in self.attackStrengthModifier(against: defender, or: city, on: toTile, in: gameModel) {
+            modifierValue += modifier.modifierValue
         }
 
-        return self.combatStrength(towards: toTile) + modifier
+        return self.baseRangedCombatStrength() + modifierValue
     }
 
     /// What is the max strength of this Unit when attacking?
-    public func attackStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile? = nil) -> Int {
+    public func attackStrength(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile? = nil, in gameModel: GameModel?) -> Int {
 
         guard let government = self.player?.government else {
             fatalError("cant get government")
@@ -653,57 +649,133 @@ public class Unit: AbstractUnit {
             return 0
         }
 
-        var modifier = 0
-
-        ////////////////////////
-        // KNOWN DESTINATION PLOT
-        ////////////////////////
-
-        if let tile = toTile {
-
-            modifier -= tile.defenseModifier(for: self.player)
+        var modifierValue = 0
+        for modifier in self.attackStrengthModifier(against: defender, or: city, on: toTile, in: gameModel) {
+            modifierValue += modifier.modifierValue
         }
+
+        return self.baseCombatStrength(ignoreEmbarked: isEmbarkedAttackingLand)
+    }
+    
+    public func attackStrengthModifier(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile? = nil, in gameModel: GameModel?) -> [CombatModifier] {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+        
+        guard let promotions = self.promotions else {
+            fatalError("cant get promotions")
+        }
+        
+        var result: [CombatModifier] = []
+        
+        // Healty
+        let healthPenalty = -10 * (100 - self.healthPoints()) / 100
+        if healthPenalty != 0 {
+            result.append(CombatModifier(modifierValue: healthPenalty, modifierTitle: "Health penalty"))
+        }
+        
+        ////////////////////////
+        // GOVERNMENT
+        ////////////////////////
         
         if government.currentGovernment() == .oligarchy {
         
             // All land melee, anti-cavalry, and naval melee class units gain +4 Civ6StrengthIcon Combat Strength.
             if self.unitClassType() == .melee || self.unitClassType() == .antiCavalry || self.unitClassType() == .navalMelee {
-                modifier += 4
+                result.append(CombatModifier(modifierValue: 4, modifierTitle: "Government Bonus"))
             }
         }
         
         if government.currentGovernment() == .fascism {
             
             // All units gain +5 Civ6StrengthIcon Combat Strength.
-            modifier += 5
+            result.append(CombatModifier(modifierValue: 5, modifierTitle: "Government Bonus"))
         }
-
+        
         ////////////////////////
-        // KNOWN CITY
-        ////////////////////////
-
-        // FIXME
-
-        ////////////////////////
-        // KNOWN DEFENDER
+        // KNOWN DEFENDER UNIT
         ////////////////////////
 
         if let defender = defender {
 
             // +5 Civ6StrengthIcon Combat Strength when fighting Barbarians.
-            if government.has(card: .discipline) {
-                if defender.isBarbarian() {
-                    modifier += 5
-                }
+            if government.has(card: .discipline) && defender.isBarbarian() {
+                result.append(CombatModifier(modifierValue: 5, modifierTitle: "Bonus for fighting Barbarians"))
             }
             
-            return self.combatStrength(against: defender) + modifier
+            if self.unitClassType() == .melee && defender.unitClassType() == .antiCavalry {
+                result.append(CombatModifier(modifierValue: 10, modifierTitle: "Bonus against Anti-Cavalry"))
+            }
+            
+            if self.unitClassType() == .antiCavalry && (defender.unitClassType() == .lightCavalry || defender.unitClassType() == .heavyCavalry) {
+                result.append(CombatModifier(modifierValue: 10, modifierTitle: "Bonus against Cavalry"))
+            }
+            
+            if self.unitClassType() == .ranged && (defender.unitClassType() == .navalMelee || defender.unitClassType() == .navalRaider || defender.unitClassType() == .navalRanged || defender.unitClassType() == .navalCarrier) {
+                result.append(CombatModifier(modifierValue: -17, modifierTitle: "Penalty against Naval"))
+            }
+            
+            // Siege units versus land units incur a -17 CS modifier.
+            if self.unitClassType() == .siege && defender.domain() == .land {
+                result.append(CombatModifier(modifierValue: -17, modifierTitle: "Penalty against Land units"))
+            }
+            
+            // //////////
+            // promotions
+            // //////////
+
+            if promotions.has(promotion: .battleCry) {
+                // +7 Civ6StrengthIcon Combat Strength vs. melee and ranged units.
+                if defender.unitClassType() == .melee || defender.unitClassType() == .ranged {
+                    result.append(CombatModifier(modifierValue: 7, modifierTitle: "Battle Cry"))
+                }
+            }
         }
 
-        return self.combatStrength(towards: toTile) + modifier
+        ////////////////////////
+        // KNOWN DEFENDER CITY
+        ////////////////////////
+        if let _ = city {
+            
+            if self.unitClassType() == .ranged {
+                result.append(CombatModifier(modifierValue: -17, modifierTitle: "Penalty against City"))
+            }
+        }
+        
+        ////////////////////////
+        // difficulty / handicap bonus
+        ////////////////////////
+        if self.isHuman() {
+            let handicapBonus = gameModel.handicap.freeHumanCombatBonus()
+            if handicapBonus != 0 {
+                result.append(CombatModifier(modifierValue: handicapBonus, modifierTitle: "Bonus due to difficulty"))
+            }
+        } else if !self.isBarbarian() {
+            let handicapBonus = gameModel.handicap.freeAICombatBonus()
+            if handicapBonus != 0 {
+                result.append(CombatModifier(modifierValue: handicapBonus, modifierTitle: "Bonus due to difficulty"))
+            }
+        }
+        
+        return result
+    }
+    
+    public func attackModifier(against defender: AbstractUnit?, or city: AbstractCity?, on toTile: AbstractTile? = nil, in gameModel: GameModel?) -> Int {
+        
+        var modifierValue = 0
+        for modifier in self.attackStrengthModifier(against: defender, or: city, on: toTile, in: gameModel) {
+            modifierValue += modifier.modifierValue
+        }
+
+        return modifierValue
     }
 
-    public func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool) -> Int {
+    public func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int {
 
         if self.isEmbarked() {
             if self.unitClassType() == .civilian {
@@ -713,88 +785,87 @@ public class Unit: AbstractUnit {
             }
         }
 
-        if self.combatStrength() == 0 {
+        if self.baseCombatStrength(ignoreEmbarked: true) == 0 {
             return 0
         }
 
-        var modifier = 0
+        var modifierValue = 0
+        for modifier in self.defensiveStrengthModifier(against: attacker, on: toTile, ranged: ranged, in: gameModel) {
+            modifierValue += modifier.modifierValue
+        }
 
+        return self.baseCombatStrength(ignoreEmbarked: true) + modifierValue
+    }
+    
+    public func defensiveStrengthModifier(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> [CombatModifier] {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let promotions = self.promotions else {
+            fatalError("cant get promotions")
+        }
+        
+        var result: [CombatModifier] = []
+        
+        if self.isBarbarian() {
+            return result
+        }
+        
         ////////////////////////
-        // KNOWN DEFENSE PLOT
+        // tile bonus
         ////////////////////////
-
         if let tile = toTile {
-
-            modifier += tile.defenseModifier(for: self.player)
-        }
-
-        ////////////////////////
-        // KNOWN ATTACKER
-        ////////////////////////
-
-        if let attacker = attacker {
-
-            return self.combatStrength(against: attacker) + modifier
-        }
-
-        return self.combatStrength(towards: toTile) + modifier
-    }
-
-    // https://civilization.fandom.com/wiki/Combat_(Civ6)
-    public func combatStrength() -> Int {
-        // Damage of wounded units is diminished up to a half of the original strength (formula is 1/2 + 1/2 * HP Portion), which means that units with 1/2 HP deal 3/4 of normal damage and units with 1% HP deal just above 1/2 of normal damage).
-
-        let ratio = Double(self.healthPointsValue) / (2.0 * Unit.maxHealth) /* => 0..0.5 */ + 0.5 /* => 0.5..1.0 */
-        return Int(Double(self.type.meleeStrength()) * ratio)
-    }
-
-    func combatStrength(towards tile: AbstractTile?) -> Int {
-
-        if tile == nil {
-            return self.combatStrength()
-        }
-
-        //fatalError("not implemented yet")
-        return self.combatStrength()
-    }
-
-    func combatStrength(against unit: AbstractUnit?) -> Int {
-
-        if unit == nil {
-            return self.combatStrength()
-        }
-
-        if let unit = unit {
-
-            let distance = unit.location.distance(to: self.location)
-
-            if self.range() > 0 && distance <= self.range() {
-
-                // ranged attack
-                var strength = self.type.rangedStrength()
-
-                strength += self.type.unitClassModifier(for: unit.unitClassType())
-
-                let healthRatio = Double(self.healthPointsValue) / (2.0 * Unit.maxHealth) /* => 0..0.5 */ + 0.5 /* => 0.5..1.0 */
-
-                return Int(Double(strength) * healthRatio)
-
-            } else if self.range() == 0 && distance == 1 {
-
-                // normal attack
-                var strength = self.type.meleeStrength()
-
-                strength += self.type.unitClassModifier(for: unit.unitClassType())
-
-                let healthRatio = Double(self.healthPointsValue) / (2.0 * Unit.maxHealth) /* => 0..0.5 */ + 0.5 /* => 0.5..1.0 */
-
-                return Int(Double(strength) * healthRatio)
+            if tile.hasHills() {
+                if tile.has(feature: .forest) || tile.has(feature: .rainforest) {
+                    result.append(CombatModifier(modifierValue: 6, modifierTitle: "Ideal terrain"))
+                } else {
+                    result.append(CombatModifier(modifierValue: 3, modifierTitle: "Ideal terrain"))
+                }
             }
+        }
+        
+        ////////////////////////
+        // difficulty / handicap bonus
+        ////////////////////////
+        if self.isHuman() {
+            let handicapBonus = gameModel.handicap.freeHumanCombatBonus()
+            if handicapBonus != 0 {
+                result.append(CombatModifier(modifierValue: handicapBonus, modifierTitle: "Bonus due to difficulty"))
+            }
+        } else if !self.isBarbarian() {
+            let handicapBonus = gameModel.handicap.freeAICombatBonus()
+            if handicapBonus != 0 {
+                result.append(CombatModifier(modifierValue: handicapBonus, modifierTitle: "Bonus due to difficulty"))
+            }
+        }
+        
+        if let attacker = attacker {
+            
+            // //////////
+            // promotions
+            // //////////
 
-            return 0
+            if promotions.has(promotion: .tortoise) {
+                if attacker.isRanged() && ranged {
+                    // +10 Combat Strength when defending against ranged attacks.
+                    result.append(CombatModifier(modifierValue: 10, modifierTitle: "Tortoise promotion"))
+                }
+            }
+        }
+        
+        return result
+    }
+
+    public func defenseModifier(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool,in gameModel: GameModel?) -> Int {
+        
+        var modifierValue = 0
+        for modifier in self.defensiveStrengthModifier(against: attacker, on: toTile, ranged: ranged, in: gameModel) {
+            modifierValue += modifier.modifierValue
         }
 
-        fatalError("not gonna happen")
+        return modifierValue
     }
 
     // Combat eligibility routines
@@ -803,25 +874,9 @@ public class Unit: AbstractUnit {
         return self.type.meleeStrength() > 0
     }
 
-    public func rangedStrength() -> Int {
-
-        let ratio = Double(self.healthPointsValue) / (2.0 * Unit.maxHealth) /* => 0..0.5 */ + 0.5 /* => 0.5..1.0 */
-        return Int(Double(self.type.rangedStrength()) * ratio)
-    }
-
     public func isRanged() -> Bool {
 
         return self.type.range() > 0
-    }
-
-    public func defenseModifier() -> Int {
-
-        return 0
-    }
-
-    public func attackModifier() -> Int {
-
-        return 0
     }
 
     public func canMoveOrAttack(into point: HexPoint) -> Bool {

@@ -338,9 +338,9 @@ extension GameScene {
             fatalError("cant get game")
         }
         
-        guard let humanPlayer = gameModel.humanPlayer() else {
+        /*guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human player")
-        }
+        }*/
         
         self.currentScreenType = .selectPromotion
 

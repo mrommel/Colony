@@ -3577,7 +3577,7 @@ public class DiplomaticAI: Codable {
 
                         if let city = cityRef {
                             let percentHealthLeft = (25 /*MAX_CITY_HIT_POINTS*/ - city.damage()) * 100 / 25 /*MAX_CITY_HIT_POINTS*/
-                            myLocalMilitaryStrength += city.power() * percentHealthLeft / 100 / 100
+                            myLocalMilitaryStrength += city.power(in: gameModel) * percentHealthLeft / 100 / 100
                         }
                     }
 
@@ -3586,7 +3586,7 @@ public class DiplomaticAI: Codable {
 
                         if let city = cityRef {
                             let percentHealthLeft = (25 /*MAX_CITY_HIT_POINTS*/ - city.damage()) * 100 / 25 /*MAX_CITY_HIT_POINTS*/
-                            enemyInHisLandsMilitaryStrength += city.power() * percentHealthLeft / 100 / 100
+                            enemyInHisLandsMilitaryStrength += city.power(in: gameModel) * percentHealthLeft / 100 / 100
                         }
                     }
 
@@ -4317,7 +4317,7 @@ public class DiplomaticAI: Codable {
 
             if let otherCity = otherCityRef {
 
-                var cityStrengthMod = otherCity.power()
+                var cityStrengthMod = otherCity.power(in: gameModel)
                 cityStrengthMod *= 33
                 cityStrengthMod /= 100
 
@@ -4593,7 +4593,7 @@ public class DiplomaticAI: Codable {
             if let city = cityRef {
 
                 let damageFactor = (25.0 - Double(city.damage())) / 25.0
-                var cityStrengthModifier = Int(Double(city.power()) * damageFactor)
+                var cityStrengthModifier = Int(Double(city.power(in: gameModel)) * damageFactor)
                 cityStrengthModifier *= 33
                 cityStrengthModifier /= 100
                 cityStrengthModifier /= 10

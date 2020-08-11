@@ -149,7 +149,15 @@ class GovernmentNode: SKNode {
             scrollView.touchesMoved(touches, with: event)
         }
         
-        self.moved = true
+        let touch = touches.first!
+
+        let touchLocation = touch.location(in: self)
+        let previousLocation = touch.previousLocation(in: self)
+        let deltaY = (touchLocation.y) - (previousLocation.y)
+
+        if abs(deltaY) > 0.1 {
+            self.moved = true
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

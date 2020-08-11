@@ -737,7 +737,7 @@ class GameScene: BaseScene {
                 
                 if let unitToAttack = self.viewModel?.game?.unit(at: position) {
                     
-                    self.bottomCombatBar?.combatPrediction(of: selectedUnit, against: unitToAttack, mode: .melee)
+                    self.bottomCombatBar?.combatPrediction(of: selectedUnit, against: unitToAttack, mode: .melee, in: self.viewModel?.game)
                 }
                 
             } else {
@@ -1133,9 +1133,9 @@ extension GameScene: LeadersDelegate {
             fatalError("cant get game")
         }
 
-        guard let humanPlayer = gameModel.humanPlayer() else {
+        /*guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human")
-        }
+        }*/
 
         guard let otherPlayer = gameModel.player(for: leader) else {
             fatalError("cant get otherPlayer")

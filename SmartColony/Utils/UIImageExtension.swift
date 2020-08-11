@@ -84,7 +84,7 @@ extension UIImage {
         guard error == kvImageNoError else { return nil }
 
         // create a destination buffer
-        let scale = self.scale
+        //let scale = self.scale
         let destWidth = Int(size.width)
         let destHeight = Int(size.height)
         let bytesPerPixel = self.cgImage!.bitsPerPixel / 8

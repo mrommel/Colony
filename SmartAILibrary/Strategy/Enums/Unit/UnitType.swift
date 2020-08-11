@@ -1172,32 +1172,6 @@ public enum UnitType: Int, Codable {
         return .none
     }
 
-    // https://civilization.fandom.com/wiki/Combat_(Civ6)
-    func unitClassModifier(for targetUnitClass: UnitClassType) -> Int {
-
-        // Melee units versus Anti-Cavalry units receive a +10 CS bonus.
-        if self.unitClass() == .melee && targetUnitClass == .antiCavalry {
-            return 10
-        }
-
-        // Anti-Cavalry units versus Light Cavalry or Heavy Cavalry units receive a +10 CS bonus.
-        if self.unitClass() == .antiCavalry && (targetUnitClass == .lightCavalry || targetUnitClass == .heavyCavalry) {
-            return 10
-        }
-
-        // Ranged units versus City/District defenses or Naval units receive a -17 CS penalty.
-        if self.unitClass() == .ranged && (targetUnitClass == .city || targetUnitClass == .navalMelee || targetUnitClass == .navalRaider || targetUnitClass == .navalRanged || targetUnitClass == .navalCarrier) {
-            return -17
-        }
-
-        // Siege units versus any other unit types incur a -17 CS modifier.
-        if self.unitClass() == .siege && targetUnitClass != .city {
-            return -17
-        }
-
-        return 0
-    }
-
     func canBuild(build: BuildType) -> Bool {
 
         switch build {
