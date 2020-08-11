@@ -30,6 +30,14 @@ public enum UnitType: Int, Codable {
      Remove Feature (uses 1 charge and provides a one-time yield; Forest, Rainforest, or Marsh only)
      Plant Woods (uses 1 charge; requires Conservation)
      Clean Nuclear Fallout*/
+    case trader
+    /*
+     Attributes:
+     Creates Roads while traveling along a TradeRoute6 Trade Route.
+     Abilities:
+     Establish a TradeRoute6 Trade Route from its current base city to a destination city within range.
+     Switch City (Instantly moves the Trader to another city in its owner's empire.)
+     */
 
     // recon
 
@@ -71,34 +79,14 @@ public enum UnitType: Int, Codable {
     
     case barbarianWarrior
     case barbarianArcher
-    
 
-    struct UnitTypeData {
-
-        let name: String
-
-        let era: EraType
-        let sight: Int
-        let range: Int
-        let supportDistance: Int
-        let strength: Int //
-        let targetType: UnitClassType
-        let flags: BitArray = BitArray(count: 4)
-
-        // attack values
-        let meleeAttack: Int
-        let rangedAttack: Int
-
-        // movement
-        let moves: Int
-    }
 
     public static var all: [UnitType] {
 
         return [
 
             // civil units
-            .settler, .builder,
+            .settler, .builder, .trader,
 
             // ancient
             .scout, .warrior, .archer, .spearman, .heavyChariot, .galley,
@@ -169,6 +157,7 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler: return .settler
         case .builder: return .builder
+        case .trader: return .trader
 
         case .scout: return .scout
         case .warrior: return .warrior
@@ -230,8 +219,28 @@ public enum UnitType: Int, Codable {
 
         return powerVal
     }
+    
+    private struct UnitTypeData {
 
-    func data() -> UnitTypeData {
+        let name: String
+
+        let era: EraType
+        let sight: Int
+        let range: Int
+        let supportDistance: Int
+        let strength: Int //
+        let targetType: UnitClassType
+        let flags: BitArray = BitArray(count: 4)
+
+        // attack values
+        let meleeAttack: Int
+        let rangedAttack: Int
+
+        // movement
+        let moves: Int
+    }
+
+    private func data() -> UnitTypeData {
 
         switch self {
 
@@ -284,9 +293,22 @@ public enum UnitType: Int, Codable {
                                 meleeAttack: 0,
                                 rangedAttack: 0,
                                 moves: 2)
+        case .trader:
+            // https://civilization.fandom.com/wiki/Trader_(Civ6)
+            return UnitTypeData(name: "Trader",
+                                era: .ancient,
+                                sight: 2,
+                                range: 0,
+                                supportDistance: 0,
+                                strength: 10,
+                                targetType: .civilian,
+                                meleeAttack: 0,
+                                rangedAttack: 0,
+                                moves: 2)
+            
         case .scout:
             // https://civilization.fandom.com/wiki/Scout_(Civ6)
-            return UnitTypeData(name: "scout",
+            return UnitTypeData(name: "Scout",
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -298,7 +320,7 @@ public enum UnitType: Int, Codable {
                                 moves: 3)
         case .warrior:
             // https://civilization.fandom.com/wiki/Warrior_(Civ6)
-            return UnitTypeData(name: "warrior",
+            return UnitTypeData(name: "Warrior",
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -309,7 +331,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 2)
         case .slinger:
-            return UnitTypeData(name: "slinger",
+            return UnitTypeData(name: "Slinger",
                                 era: .ancient,
                                 sight: 2,
                                 range: 1,
@@ -320,7 +342,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 15,
                                 moves: 2)
         case .archer:
-            return UnitTypeData(name: "archer",
+            return UnitTypeData(name: "Archer",
                                 era: .ancient,
                                 sight: 2,
                                 range: 2,
@@ -331,7 +353,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 25,
                                 moves: 2)
         case .spearman:
-            return UnitTypeData(name: "spearman",
+            return UnitTypeData(name: "Spearman",
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -342,7 +364,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 2)
         case .heavyChariot:
-            return UnitTypeData(name: "chariot",
+            return UnitTypeData(name: "Chariot",
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -353,7 +375,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 2)
         case .galley:
-            return UnitTypeData(name: "galley",
+            return UnitTypeData(name: "Galley",
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -366,7 +388,7 @@ public enum UnitType: Int, Codable {
 
             // industrial
         case .medic:
-            return UnitTypeData(name: "medic",
+            return UnitTypeData(name: "Medic",
                                 era: .industrial,
                                 sight: 2,
                                 range: 0,
@@ -379,7 +401,7 @@ public enum UnitType: Int, Codable {
             
             // great people
         case .admiral:
-            return UnitTypeData(name: "admiral",
+            return UnitTypeData(name: "Admiral",
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -390,7 +412,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .artist:
-            return UnitTypeData(name: "artist",
+            return UnitTypeData(name: "Artist",
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -401,7 +423,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .engineer:
-            return UnitTypeData(name: "engineer",
+            return UnitTypeData(name: "Engineer",
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -412,7 +434,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .general:
-            return UnitTypeData(name: "general",
+            return UnitTypeData(name: "General",
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -423,7 +445,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .merchant:
-            return UnitTypeData(name: "merchant",
+            return UnitTypeData(name: "Merchant",
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -434,7 +456,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .musician:
-            return UnitTypeData(name: "musician",
+            return UnitTypeData(name: "Musician",
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -445,7 +467,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .prophet:
-            return UnitTypeData(name: "prophet",
+            return UnitTypeData(name: "Prophet",
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -456,7 +478,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .scientist:
-            return UnitTypeData(name: "scientist",
+            return UnitTypeData(name: "Scientist",
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -467,7 +489,7 @@ public enum UnitType: Int, Codable {
                                 rangedAttack: 0,
                                 moves: 3)
         case .writer:
-            return UnitTypeData(name: "writer",
+            return UnitTypeData(name: "Writer",
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -502,6 +524,9 @@ public enum UnitType: Int, Codable {
                 Flavor(type: .science, value: 2),
                 Flavor(type: .offense, value: 1),
                 Flavor(type: .defense, value: 1)
+            ]
+        case .trader: return [
+                Flavor(type: .gold, value: 10),
             ]
         case .scout: return [
                 Flavor(type: .recon, value: 8),
@@ -565,6 +590,7 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler: return .land
         case .builder: return .land
+        case .trader: return .land // FIXME (how to handle sea?)
         case .scout: return .land
         case .warrior: return .land
         case .slinger: return .land
@@ -603,7 +629,8 @@ public enum UnitType: Int, Codable {
 
             // ancient
         case .settler: return [.settle]
-        case .builder: return [.worker]
+        case .builder: return [.work]
+        case .trader: return [.trade]
         case .scout: return [.explore]
         case .warrior: return [.attack, .defense, .explore]
         case .slinger: return [.ranged]
@@ -637,7 +664,8 @@ public enum UnitType: Int, Codable {
 
             // ancient
         case .settler: return .settle
-        case .builder: return .worker
+        case .builder: return .work
+        case .trader: return .trade
             
         case .scout: return .explore
         case .warrior: return .explore
@@ -672,6 +700,7 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler: return .walk
         case .builder: return .walk
+        case .trader: return .walk
 
         case .scout: return .walk
         case .warrior: return .walk
@@ -709,6 +738,7 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler: return 80
         case .builder: return 50
+        case .trader: return 40
         case .scout: return 30
         case .warrior: return 40
         case .slinger: return 35
@@ -744,6 +774,7 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler: return 320
         case .builder: return 200
+        case .trader: return 160
         case .scout: return 120
         case .warrior: return 160
         case .slinger: return 140
@@ -779,6 +810,7 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler: return 0
         case .builder: return 0
+        case .trader: return 0
         case .scout: return 0
         case .warrior: return 0
         case .slinger: return 0
@@ -813,6 +845,7 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler: return nil
         case .builder: return nil
+        case .trader: return nil
 
         case .scout: return nil
         case .warrior: return nil
@@ -845,7 +878,38 @@ public enum UnitType: Int, Codable {
     
     public func requiredCivic() -> CivicType? {
         
-        return nil
+        switch self {
+
+        case .barbarianWarrior: return nil
+        case .barbarianArcher: return nil
+
+            // ancient
+        case .settler: return nil
+        case .builder: return nil
+        case .trader: return .foreignTrade
+
+        case .scout: return nil
+        case .warrior: return nil
+        case .slinger: return nil
+        case .archer: return nil
+        case .spearman: return nil
+        case .heavyChariot: return nil
+        case .galley: return nil
+            
+            // industral
+        case .medic: return nil
+
+            // great people
+        case .admiral: return nil
+        case .artist: return nil
+        case .engineer: return nil
+        case .general: return nil
+        case .merchant: return nil
+        case .musician: return nil
+        case .prophet: return nil
+        case .scientist: return nil
+        case .writer: return nil
+        }
     }
     
     public func requiredResource() -> ResourceType? {
@@ -864,7 +928,8 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler: return nil
         case .builder: return nil
-
+        case .trader: return nil
+            
         case .scout: return nil
         case .warrior: return nil
         case .slinger: return nil
@@ -924,6 +989,13 @@ public enum UnitType: Int, Codable {
             }
             
             return .builder
+        
+        case .trader:
+            if civilization == .barbarian {
+                return nil
+            }
+        
+            return .trader
 
         case .scout:
             if civilization == .barbarian {
@@ -1061,6 +1133,7 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler: return [.canFound]
         case .builder: return [.canImprove]
+        case .trader: return []
 
         case .scout: return [.experienceFromTribal]
         case .warrior: return [.canCapture]

@@ -194,6 +194,13 @@ class Dialog: NineGridTextureSprite {
             handler()
         }
     }
+    
+    func handleResult(with result: DialogResultType) {
+        
+        if let handler = self.resultHandler {
+            handler(result)
+        }
+    }
 
     func replaceTextFields(on view: SKView?) {
 

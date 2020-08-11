@@ -51,6 +51,16 @@ extension GameScene: UserInterfaceProtocol {
             self.showMenuDialog()
         case .government:
             self.showGovernmentDialog()
+        case .selectPromotion:
+            
+            guard let humanPlayer = self.viewModel?.game?.humanPlayer() else {
+                fatalError("cant get human player")
+            }
+            
+            if let promotableUnit = humanPlayer.firstPromotableUnit(in: self.viewModel?.game) {
+            
+                self.handleUnitPromotion(at: promotableUnit.location)
+            }
         default:
             print("screen: \(screenType) not handled")
         }
@@ -118,6 +128,14 @@ extension GameScene: UserInterfaceProtocol {
         
         let costs: [Double] = [Double].init(repeating: 0.0, count: points.count)
         self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
+    }
+    
+    func animate(unit: AbstractUnit?, animation: UnitAnimationType) {
+        print("show animation: \(animation)")
+    }
+    
+    func refresh(unit: AbstractUnit?) {
+        print("refresh unit: \(unit)")
     }
 
     func show(city: AbstractCity?) {

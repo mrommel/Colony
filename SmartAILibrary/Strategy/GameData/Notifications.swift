@@ -171,6 +171,9 @@ public class NotificationItem: Codable, Equatable {
         case .policiesNeeded:
             gameModel?.userInterface?.showScreen(screenType: .governmentPolicies, city: nil, other: nil, data: nil)
             
+        case .unitPromotion:
+            gameModel?.userInterface?.showScreen(screenType: .selectPromotion, city: nil, other: nil, data: nil)
+            
         default:
             print("activate \(self.type) not handled")
         }
@@ -251,6 +254,17 @@ public class NotificationItem: Codable, Equatable {
             }
             
             return government.hasPolicyCardsFilled()
+            
+        case .unitPromotion:
+            guard let currentPlayer = gameModel.player(for: self.player) else {
+                fatalError("cant get player")
+            }
+            
+            if !currentPlayer.hasPromotableUnit(in: gameModel) {
+                return true
+            }
+            
+            return false
             
         default:
             return false

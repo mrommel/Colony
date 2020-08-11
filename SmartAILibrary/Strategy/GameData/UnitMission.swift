@@ -54,9 +54,9 @@ public class UnitMission {
         var action = false
 
         if unit.canMove() {
-            unit.set(activityType: .mission)
+            unit.set(activityType: .mission, in: gameModel)
         } else {
-            unit.set(activityType: .hold)
+            unit.set(activityType: .hold, in: gameModel)
         }
 
         if !unit.canStart(mission: self, in: gameModel) {
@@ -65,18 +65,18 @@ public class UnitMission {
         } else {
 
             if self.type == .skip {
-                unit.set(activityType: .hold)
+                unit.set(activityType: .hold, in: gameModel)
                 delete = true
             } else if self.type == .sleep {
-                unit.set(activityType: .sleep)
+                unit.set(activityType: .sleep, in: gameModel)
                 delete = true
                 notify = true
             } else if self.type == .fortify {
-                unit.set(activityType: .sleep)
+                unit.set(activityType: .sleep, in: gameModel)
                 delete = true
                 notify = true
             } else if self.type == .heal {
-                unit.set(activityType: .heal)
+                unit.set(activityType: .heal, in: gameModel)
                 delete = true
                 notify = true
             }
@@ -439,7 +439,7 @@ public class UnitMission {
                         // are we there yet?
                         if unit.location == targetPoint {
                             unit.doGarrison(in: gameModel)
-                            unit.set(activityType: .sleep) // sleep here after we complete the mission
+                            unit.set(activityType: .sleep, in: gameModel) // sleep here after we complete the mission
                             action = true
                         }
                     }

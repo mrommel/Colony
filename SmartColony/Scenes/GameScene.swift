@@ -901,8 +901,8 @@ extension GameScene: BottomLeftBarDelegate {
             
         case .hold:
             if let selectedUnit = self.selectedUnit {
-                selectedUnit.set(activityType: .hold)
-                selectedUnit.finishMoves()
+                selectedUnit.set(activityType: .hold, in: gameModel)
+                //selectedUnit.finishMoves()
             }
             
         case .garrison:
@@ -1084,6 +1084,19 @@ extension GameScene: BottomLeftBarDelegate {
     func handlePoliciesNeeded() {
         
         self.showChangePoliciesDialog()
+    }
+    
+    func handleUnitPromotion(at location: HexPoint) {
+        
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+
+        guard let unit = gameModel.unit(at: location) else {
+            fatalError("cant get unit at \(location)")
+        }
+        
+        self.showSelectPromotionDialog(for: unit)
     }
 
     func handleProductionNeeded(at location: HexPoint) {

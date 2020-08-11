@@ -22,6 +22,7 @@ extension UnitType {
             // ancient
         case .settler: return "unit_settler"
         case .builder: return "unit_builder"
+        case .trader: return "unit_trader"
 
         case .scout: return "unit_scout"
         case .warrior: return "unit_warrior"
@@ -58,6 +59,7 @@ extension UnitType {
             // ancient
         case .settler: return "unit_type_settler"
         case .builder: return "unit_type_builder"
+        case .trader: return "unit_type_trader"
 
         case .scout: return "unit_type_scout"
         case .warrior: return "unit_type_warrior"

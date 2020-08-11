@@ -14,7 +14,9 @@ public struct CivicAchievements {
     public let unitTypes: [UnitType]
     public let wonderTypes: [WonderType]
     public let buildTypes: [BuildType]
+    public let districtTypes: [DistrictType]
     public let policyCards: [PolicyCardType]
+    public let governments: [GovernmentType]
 }
 
 public enum CivicType: String, Codable {
@@ -182,15 +184,23 @@ public enum CivicType: String, Codable {
             }
         })
 
-        /*let units = UnitType.all.filter({
-            if let civic = $0.required() {
+        let units = UnitType.all.filter({
+            if let civic = $0.requiredCivic() {
                 return civic == self
             } else {
                 return false
             }
-        })*/
+        })
 
         // districts
+        let districts = DistrictType.all.filter({
+            if let district = $0.requiredCivic() {
+                return district == self
+            } else {
+                return false
+            }
+        })
+        
         // wonders
         let wonders = WonderType.all.filter({
             if let civic = $0.requiredCivic() {
@@ -213,8 +223,12 @@ public enum CivicType: String, Codable {
         let policyCards = PolicyCardType.all.filter({
             return self == $0.required()
         })
+        
+        let governments = GovernmentType.all.filter({
+            return self == $0.required()
+        })
 
-        return CivicAchievements(buildingTypes: buildings, unitTypes: [], wonderTypes: wonders, buildTypes: [], policyCards: policyCards)
+        return CivicAchievements(buildingTypes: buildings, unitTypes: units, wonderTypes: wonders, buildTypes: [], districtTypes: districts, policyCards: policyCards, governments: governments)
     }
 
     // MARK private

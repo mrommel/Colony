@@ -41,7 +41,7 @@ public class BuildableItem: Codable {
     
     public var production: Double
 
-    init(unitType: UnitType) {
+    public init(unitType: UnitType) {
         
         self.type = .unit
         self.unitType = unitType
@@ -53,7 +53,7 @@ public class BuildableItem: Codable {
         self.production = 0.0
     }
     
-    init(buildingType: BuildingType) {
+    public init(buildingType: BuildingType) {
         
         self.type = .building
         self.unitType = nil
@@ -65,7 +65,7 @@ public class BuildableItem: Codable {
         self.production = 0.0
     }
     
-    init(wonderType: WonderType) {
+    public init(wonderType: WonderType) {
         
         self.type = .wonder
         self.unitType = nil
@@ -77,7 +77,7 @@ public class BuildableItem: Codable {
         self.production = 0.0
     }
     
-    init(districtType: DistrictType) {
+    public init(districtType: DistrictType) {
         
         self.type = .district
         self.unitType = nil
@@ -89,7 +89,7 @@ public class BuildableItem: Codable {
         self.production = 0.0
     }
     
-    init(projectType: ProjectType) {
+    public init(projectType: ProjectType) {
         
         self.type = .building
         self.unitType = nil

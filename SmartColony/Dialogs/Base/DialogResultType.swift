@@ -110,7 +110,7 @@ enum DialogResultType: String, Codable {
     case stirrups = "STIRRUPS"
     case militaryEngineering = "MILITARYENGINEERING"
     case castles = "CASTLES"
-    
+
     // techs - renaissance
     case cartography = "CARTOGRAPHY"
     case massProduction = "MASSPRODUCTION"
@@ -131,6 +131,50 @@ enum DialogResultType: String, Codable {
     case mysticism = "MYSTICISM"
     case militaryTradition = "MILITARYTRADITION"
 
+    // civics - classical
+    case gamesAndRecreation = "GAMESANDRECREATION"
+    case politicalPhilosophy = "POLITICALPHILOSOPHY"
+    case dramaAndPoetry = "DRAMAANDPOETRY"
+    case militaryTraining = "MILITARYTRAINING"
+    case defensiveTactics = "DEFENSIVETACTICS"
+    case recordedHistory = "RECORDEDHISTORY"
+    case theology = "THEOLOGY"
+
+    // civics - medieval
+    case navalTradition = "NAVALTRADITION"
+    case feudalism = "FEUDALISM"
+    case civilService = "CIVILSERVICE"
+    case mercenaries = "MERCENARIES"
+    case medievalFaires = "MEDIEVALFAIRES"
+    case guilds = "GUILDS"
+    case divineRight = "DIVINERIGHT"
+
+    // civics - renaissance
+    case exploration = "EXPLORATION"
+    case humanism = "HUMANISM"
+    case diplomaticService = "DIPLOMATICSERVICE"
+    case reformedChurch = "REFORMEDCHURCH"
+    case mercantilism = "MERCANTILISM"
+    case enlightenment = "ENLIGHTENMENT"
+
+    // promotions - recon
+    case ranger = "RANGER"
+    case alpine = "ALPINE"
+    case sentry = "SENTRY"
+    case guerrilla = "GUERRILLA"
+    case spyglass = "SPYGLASS"
+    case ambush = "AMBUSH"
+    case camouflage = "CAMOUFLAGE"
+
+    // promotions - melee
+    case battleCry = "BATTLECRY"
+    case tortoise = "TORTOISE"
+    case commando = "COMMANDE"
+    case amphibious = "AMPHIBIOUS"
+    case zweihander = "ZWEIHANDER"
+    case urbanWarfare = "URBANWARFARE"
+    case eliteGuard = "ELTIEGUARD"
+
     // diplomatic responses
     case responseChoice0 = "DIPLO_CHOICE_0"
     case responseChoice1 = "DIPLO_CHOICE_1"
@@ -148,7 +192,6 @@ enum DialogResultType: String, Codable {
     case gameRetire = "GAME_RETIRE"
     case gameRestart = "GAME_RESTART"
     case gameExit = "GAME_EXIT"
-
 
     // MARK: methods
 
@@ -346,7 +389,7 @@ enum DialogResultType: String, Codable {
         } else if self == .castles {
             return .castles
         }
-        
+
         // renaissance
         if self == .cartography {
             return .cartography
@@ -373,6 +416,7 @@ enum DialogResultType: String, Codable {
 
     func toCivic() -> CivicType {
 
+        // Ancient
         if self == .stateWorkforce {
             return .stateWorkforce
         } else if self == .craftsmanship {
@@ -389,6 +433,142 @@ enum DialogResultType: String, Codable {
             return .militaryTraining
         }
 
+        // classical
+        if self == .gamesAndRecreation {
+            return .gamesAndRecreation
+        } else if self == .politicalPhilosophy {
+            return .politicalPhilosophy
+        } else if self == .dramaAndPoetry {
+            return .dramaAndPoetry
+        } else if self == .militaryTraining {
+            return .militaryTraining
+        } else if self == .defensiveTactics {
+            return .defensiveTactics
+        } else if self == .recordedHistory {
+            return .recordedHistory
+        } else if self == .theology {
+            return .theology
+        }
+
+        // medieval
+        if self == .navalTradition {
+            return .navalTradition
+        } else if self == .feudalism {
+            return .feudalism
+        } else if self == .civilService {
+            return .civilService
+        } else if self == .mercenaries {
+            return .mercenaries
+        } else if self == .medievalFaires {
+            return .medievalFaires
+        } else if self == .guilds {
+            return .guilds
+        } else if self == .divineRight {
+            return .divineRight
+        }
+
+        // renaissance
+        if self == .exploration {
+            return .exploration
+        } else if self == .humanism {
+            return .humanism
+        } else if self == .diplomaticService {
+            return .diplomaticService
+        } else if self == .reformedChurch {
+            return .reformedChurch
+        } else if self == .mercantilism {
+            return .mercantilism
+        } else if self == .enlightenment {
+            return .enlightenment
+        }
+
         fatalError("niy")
+    }
+
+    func toPromotionType() -> UnitPromotionType? {
+
+        // recon
+        if self == .ranger {
+            return .ranger
+        } else if self == .alpine {
+            return .alpine
+        } else if self == .sentry {
+            return .sentry
+        } else if self == .guerrilla {
+            return .guerrilla
+        } else if self == .spyglass {
+            return .spyglass
+        } else if self == .ambush {
+            return .ambush
+        } else if self == .camouflage {
+            return .camouflage
+        }
+
+        // melee
+        if self == .battleCry {
+            return .battleCry
+        } else if self == .tortoise {
+            return .tortoise
+        } else if self == .commando {
+            return .commando
+        } else if self == .amphibious {
+            return .amphibious
+        } else if self == .zweihander {
+            return .zweihander
+        } else if self == .urbanWarfare {
+            return .urbanWarfare
+        } else if self == .eliteGuard {
+            return .eliteGuard
+        }
+
+        fatalError("niy")
+    }
+}
+
+extension DialogResultType {
+
+    init?(promotionType: UnitPromotionType) {
+
+        switch promotionType {
+        case .embarkation:
+            return nil
+        case .healthBoostRecon:
+            return nil
+        case .healthBoostMelee:
+            return nil
+
+            // recon
+        case .ranger:
+            self = .ranger
+        case .alpine:
+            self = .alpine
+        case .sentry:
+            self = .sentry
+        case .guerrilla:
+            self = .guerrilla
+        case .spyglass:
+            self = .spyglass
+        case .ambush:
+            self = .ambush
+        case .camouflage:
+            self = .camouflage
+
+            // melee
+        case .battleCry:
+            self = .battleCry
+        case .tortoise:
+            self = .tortoise
+        case .commando:
+            self = .commando
+        case .amphibious:
+            self = .amphibious
+        case .zweihander:
+            self = .zweihander
+        case .urbanWarfare:
+            self = .urbanWarfare
+        case .eliteGuard:
+            self = .eliteGuard
+
+        }
     }
 }

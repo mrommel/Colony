@@ -2185,7 +2185,9 @@ public class City: AbstractCity {
                     break
                 }
 
-                if !player.isHuman() {
+                if player.isHuman() {
+                    player.notifications()?.addNotification(of: .productionNeeded, for: player, message: "Your city \(self.name) needs something to work on.", summary: "need production", at: self.location)
+                } else {
                     self.cityStrategy?.chooseProduction(in: gameModel)
                 }
             }
@@ -2193,7 +2195,7 @@ public class City: AbstractCity {
         } else {
 
             if player.isHuman() {
-                //gameModel?.add(message: CityNeedsBuildableMessage(city: self))
+                player.notifications()?.addNotification(of: .productionNeeded, for: player, message: "Your city \(self.name) needs something to work on.", summary: "need production", at: self.location)
             } else {
                 self.cityStrategy?.chooseProduction(in: gameModel)
             }

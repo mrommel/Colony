@@ -64,7 +64,7 @@ class CivicDialog: Dialog {
     private func setupScrollView() {
         
         // scroll area
-        self.scrollNode = ScrollNode(mode: .horizontally, size: CGSize(width: 320, height: 380), contentSize: CGSize(width: 700, height: 380))
+        self.scrollNode = ScrollNode(mode: .horizontally, size: CGSize(width: 320, height: 380), contentSize: CGSize(width: 1500, height: 380))
         self.scrollNode?.position = CGPoint(x: 0, y: -410)
         self.scrollNode?.zPosition = self.zPosition + 1
         self.addChild(self.scrollNode!)
@@ -72,7 +72,7 @@ class CivicDialog: Dialog {
         let offsetX = -self.scrollNode!.size.halfWidth
         
         let backgroundTexture = SKTexture(imageNamed: "civic_connections")
-        let backgroundNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: CGSize(width: 700, height: 380))
+        let backgroundNode = SKSpriteNode(texture: backgroundTexture, color: .black, size: CGSize(width: 1500   , height: 380))
         backgroundNode.anchorPoint = CGPoint.middleLeft
         backgroundNode.zPosition = 199
         backgroundNode.position = CGPoint(x: offsetX, y: 0)

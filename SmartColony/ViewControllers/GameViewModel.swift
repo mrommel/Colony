@@ -91,7 +91,6 @@ class GameViewModel {
         playerBarbar.initialize()
         
         players.prepend(playerBarbar)
-        
 
         // game
         self.game = GameModel(victoryTypes: [.domination, .cultural, .diplomatic, .science], handicap: handicap, turnsElapsed: 0, players: players, on: map)

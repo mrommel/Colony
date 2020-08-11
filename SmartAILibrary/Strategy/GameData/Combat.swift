@@ -359,7 +359,9 @@ class Combat {
 
             // Move forward
             if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
-                attacker.doMove(on: defenderTile.point, in: gameModel)
+                // attacker.doMove(on: defenderTile.point, in: gameModel)
+                attacker.queueMoveForVisualization(at: attacker.location, in: gameModel)
+                attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
             }
         }
         
@@ -387,6 +389,7 @@ class Combat {
                 gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT", delay: 3)
             }
             
+            attacker.doKill(delayed: false, by: nil, in: gameModel)
             // pkDefender->testPromotionReady();
             
         } else if defender.healthPoints() <= 0 { // Defender died
@@ -401,6 +404,15 @@ class Combat {
             
             if let notifications = defender.player?.notifications() {
                 notifications.addNotification(of: .unitDied, for: defender.player, message: "TXT_KEY_UNIT_LOST", summary: "TXT_KEY_UNIT_LOST", at: defenderTile.point, other: attacker.player)
+            }
+            
+            defender.doKill(delayed: false, by: attacker.player, in: gameModel)
+            
+            // Move forward
+            if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
+                //attacker.doMove(on: defenderTile.point, in: gameModel)
+                attacker.queueMoveForVisualization(at: attacker.location, in: gameModel)
+                attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
             }
             
             // pkAttacker->testPromotionReady();

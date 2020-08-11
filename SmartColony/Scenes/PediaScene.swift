@@ -56,9 +56,9 @@ class PediaScene: BaseScene {
 
         // science
         self.scienceNearlyDiscoveredGameButton = MenuButtonNode(
-            titled: "Science Nearly Discovered",
+            titled: "Fight Barbarians",
             buttonAction: {
-                self.startScienceNearlyDiscoveredGame()
+                self.startFightBarbariansGame()
             })
         self.scienceNearlyDiscoveredGameButton?.zPosition = 2
         self.rootNode.addChild(self.scienceNearlyDiscoveredGameButton!)
@@ -152,8 +152,11 @@ class PediaScene: BaseScene {
 
     // MARK: games
 
-    func startScienceNearlyDiscoveredGame() {
+    func startFightBarbariansGame() {
 
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+        
         let aiPlayer = Player(leader: .elizabeth, isHuman: false)
         aiPlayer.initialize()
 
@@ -166,8 +169,10 @@ class PediaScene: BaseScene {
         mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
-
-        let gameModel = GameModel(victoryTypes: [.domination], handicap: .settler, turnsElapsed: 0, players: [aiPlayer, humanPlayer], on: mapModel)
+        
+        mapModel.set(improvement: .barbarianCamp, at: HexPoint(x: 6, y: 5))
+        
+        let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
 
         // AI
         aiPlayer.found(at: HexPoint(x: 16, y: 5), named: "AI Capital", in: gameModel)
@@ -176,7 +181,21 @@ class PediaScene: BaseScene {
         humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
         try! humanPlayer.techs?.discover(tech: .pottery)
         try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+        try! humanPlayer.civics?.setCurrent(civic: .codeOfLaws, in: gameModel)
         humanPlayer.techs?.add(science: 49.9)
+        
+        if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+        }
+        
+        let warrior = Unit(at: HexPoint(x: 4, y: 5), type: .warrior, owner: humanPlayer)
+        gameModel.add(unit: warrior)
+        gameModel.userInterface?.show(unit: warrior)
+        
+        //
+        let barbarianWarrior = Unit(at: HexPoint(x: 6, y: 5), type: .barbarianWarrior, owner: barbarianPlayer)
+        gameModel.add(unit: barbarianWarrior)
+        gameModel.userInterface?.show(unit: barbarianWarrior)
 
         self.pediaDelegate?.start(game: gameModel)
     }

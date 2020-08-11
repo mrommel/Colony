@@ -103,6 +103,9 @@ public protocol AbstractUnit: class, Codable {
 
     func experience() -> Int
     func changeExperience(by delta: Int, in gameModel: GameModel?)
+    func isPromotionReady() -> Bool
+    func possiblePromotions() -> [UnitPromotionType]
+    func doPromote(with promotionType: UnitPromotionType)
 
     func power() -> Int
     func combatStrength() -> Int
@@ -174,7 +177,7 @@ public protocol AbstractUnit: class, Codable {
 
     // mission / tactical move
     func activityType() -> UnitActivityType
-    func set(activityType: UnitActivityType)
+    func set(activityType: UnitActivityType, in gameModel: GameModel?)
     func isWaiting() -> Bool
 
     func canStart(mission: UnitMission, in gameModel: GameModel?) -> Bool
@@ -276,8 +279,10 @@ public class Unit: AbstractUnit {
     var experienceValue: Int // 0..400
     var fortifyValue: Int
     var isEmbarkedValue: Bool = false
-    var healthPointsValue: Int // 0..100 - https://civilization.fandom.com/wiki/Hit_Points
+    private var healthPointsValue: Int // 0..100 - https://civilization.fandom.com/wiki/Hit_Points
     var processedInTurnValue: Bool = false
+    var fortifiedThisTurnValue: Bool = false
+    var fortifyTurnsValue: Int = 0
     var deployFromOperationTurnValue: Int = -1
     var numberOfAttacksMade: Int
     var numberOfAttacks: Int
@@ -1518,7 +1523,7 @@ public class Unit: AbstractUnit {
                                 }
 
                                 if loopUnit.isEmbarked() {
-                                    //self.setMadeAttack(true)
+                                    self.setMadeAttack(to: true)
                                 }
 
                                 // If we're capturing the unit, we want to delay the capture, else as the unit is converted to our side, it will be the first unit on our
@@ -2115,7 +2120,7 @@ public class Unit: AbstractUnit {
             return false
         }
 
-        if self.activityTypeValue != .awake {
+        if self.activityTypeValue != .none && self.activityTypeValue != .awake {
             return false
         }
 
@@ -2255,16 +2260,17 @@ public class Unit: AbstractUnit {
 
     public func doFortify(in gameModel: GameModel?) {
 
-        self.fortifyValue = 1
-
+        // self.fortifyValue = 1
         // todo: notify UI
+        self.set(fortifiedThisTurn: true, in: gameModel)
     }
 
     public func doMobilize(in gameModel: GameModel?) {
         // opposite of fortify
-        self.fortifyValue = 0
+        // self.fortifyValue = 0
 
         // todo: notify UI
+        self.set(fortifiedThisTurn: false, in: gameModel)
     }
 
     // MARK: experience
@@ -2308,7 +2314,6 @@ public class Unit: AbstractUnit {
         if promotions.count() < (level - 1) {
 
             if player.isHuman() {
-                //gameModel?.add(message: PromotionGainedMessage(unit: self))
                 self.player?.notifications()?.addNotification(of: .unitPromotion, for: self.player, message: "\(self.name()) has gained a promotion.", summary: "promotion", at: self.location)
             } else {
                 let promotion = self.choosePromotion()
@@ -2342,6 +2347,41 @@ public class Unit: AbstractUnit {
             return 7
         } else {
             return 8
+        }
+    }
+    
+    public func isPromotionReady() -> Bool {
+        
+        guard let promotions = self.promotions else {
+            fatalError("cant get promotions")
+        }
+        
+        let level = self.experienceLevel()
+
+        return promotions.count() < (level - 1)
+    }
+    
+    public func possiblePromotions() -> [UnitPromotionType] {
+        
+        guard let promotions = self.promotions else {
+            fatalError("cant get promotions")
+        }
+
+        return promotions.possiblePromotions()
+    }
+    
+    public func doPromote(with promotionType: UnitPromotionType) {
+        
+        guard let promotions = self.promotions else {
+            fatalError("cant get promotions")
+        }
+        
+        do {
+            try promotions.earn(promotion: promotionType)
+        } catch PromotionError.alreadyEarned {
+            fatalError("try to add an already earned promotion")
+        } catch {
+            fatalError("unexpected error: \(error)")
         }
     }
 
@@ -3255,10 +3295,127 @@ public class Unit: AbstractUnit {
 
     public func turn(in gameModel: GameModel?) {
 
-        // damage from features?
+        // Wake unit if skipped last turn
+        let currentActivityType = self.activityType()
+        let holdCheck = (currentActivityType == .hold) && (self.isHuman() || self.fortifyTurns() > 0)
+        let healCheck = (currentActivityType == .heal) && (!self.isHuman() || self.isAutomated() || !self.isHurt())
+        let sentryCheck = (currentActivityType == .sentry) /*&& sentryAlert()*/
+        let interceptCheck = currentActivityType == .intercept && !isHuman()
 
-        // FIXME
+        if holdCheck || healCheck || sentryCheck || interceptCheck {
+            self.set(activityType: .awake, in: gameModel)
+        }
+
+        /*testPromotionReady();
+
+         // damage from features?
+         FeatureTypes eFeature = plot()->getFeatureType();
+         if(NO_FEATURE != eFeature) {
+            if(0 != GC.getFeatureInfo(eFeature)->getTurnDamage())
+            {
+                changeDamage(GC.getFeatureInfo(eFeature)->getTurnDamage(), NO_PLAYER);
+            }
+        }*/
+
+        // Only increase our Fortification level if we've actually been told to Fortify
+        if self.isFortifiedThisTurn() {
+            self.changeFortifyTurns(by: 1, in: gameModel)
+        }
+
+        // Recon unit? If so, he sees what's around him
+        /*if(IsRecon())
+        {
+            setReconPlot(plot());
+        }
+
+        // If we're not busy doing anything with the turn cycle, make the Unit's Flag bright again
+        if(GetActivityType() == ACTIVITY_AWAKE)
+        {
+            auto_ptr<ICvUnit1> pDllUnit(new CvDllUnit(this));
+            gDLL->GameplayUnitShouldDimFlag(pDllUnit.get(), /*bDim*/ false);
+        }*/
+
+        // If we told our Unit to sleep last turn and it can now Fortify switch states
+        if self.activityType() == .sleep {
+            
+            if self.canFortify(at: self.location, in: gameModel) {
+                self.push(mission: UnitMission(type: .fortify), in: gameModel)
+                self.set(fortifiedThisTurn: true, in: gameModel)
+            }
+        }
+
+        self.doDelayedDeath(in: gameModel)
+    }
+    
+    func set(fortifiedThisTurn: Bool, in gameModel: GameModel?) {
         
+        if !self.isEverFortifyable() && fortifiedThisTurn {
+            return
+        }
+        
+        if self.isFortifiedThisTurn() != fortifiedThisTurn {
+            self.fortifiedThisTurnValue = fortifiedThisTurn
+
+            if fortifiedThisTurn {
+                var turnsToFortify = 1
+                if !self.isFortifyable(canWaitForNextTurn: false, in: gameModel) {
+                    turnsToFortify = 0
+                }
+
+                // Manually set us to being fortified for the first turn (so we get the Fort bonus immediately)
+                self.set(fortifyTurns: turnsToFortify, in: gameModel)
+
+                if turnsToFortify > 0 {
+                    //auto_ptr<ICvUnit1> pDllUnit(new CvDllUnit(this));
+                    //gDLL->GameplayUnitFortify(pDllUnit.get(), true);
+                    gameModel?.userInterface?.animate(unit: self, animation: .fortify)
+                }
+            }
+        }
+    }
+    
+    func isFortifiedThisTurn() -> Bool {
+        
+        return self.fortifiedThisTurnValue
+    }
+    
+    func fortifyTurns() -> Int {
+         
+        return self.fortifyTurnsValue
+    }
+    
+    func set(fortifyTurns: Int, in gameModel: GameModel?) {
+
+        let newValue = fortifyTurns // range(iNewValue, 0, GC.getMAX_FORTIFY_TURNS());
+
+        if newValue != self.fortifyTurns() {
+            
+            // Unit subtly slipped into Fortification state by remaining stationary for a turn
+            if self.fortifyTurns() == 0 && fortifyTurns > 0 {
+                //auto_ptr<ICvUnit1> pDllUnit(new CvDllUnit(this));
+                //gDLL->GameplayUnitFortify(pDllUnit.get(), true);
+                gameModel?.userInterface?.animate(unit: self, animation: .fortify)
+            }
+
+            self.fortifyTurnsValue = newValue
+            //setInfoBarDirty(true);
+
+            // Fortification turned off, send an event noting this
+            if newValue == 0 {
+                self.set(fortifiedThisTurn: false, in: gameModel)
+
+                // auto_ptr<ICvUnit1> pDllUnit(new CvDllUnit(this));
+                // gDLL->GameplayUnitFortify(pDllUnit.get(), false);
+                gameModel?.userInterface?.animate(unit: self, animation: .unfortify)
+            }
+        }
+    }
+
+
+    //    --------------------------------------------------------------------------------
+    func changeFortifyTurns(by change: Int, in gameModel: GameModel?) {
+
+        self.set(fortifyTurns: self.fortifyTurns() + change, in: gameModel)
     }
 
     public func set(turnProcessed: Bool) {
@@ -3475,9 +3632,21 @@ extension Unit {
         return self.activityTypeValue
     }
 
-    public func set(activityType: UnitActivityType) {
+    public func set(activityType newValue: UnitActivityType, in gameModel: GameModel?) {
 
-        self.activityTypeValue = activityType
+        let oldActivity = self.activityTypeValue
+
+        if oldActivity != newValue {
+
+            self.activityTypeValue = newValue
+
+            // If we're waking up a Unit then remove it's fortification bonus
+            if newValue == .awake {
+                self.set(fortifyTurns: 0, in: gameModel)
+            }
+
+            gameModel?.userInterface?.refresh(unit: self)
+        }
     }
 
     /// Eligible to start a new mission?

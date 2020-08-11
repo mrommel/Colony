@@ -177,8 +177,15 @@ public enum ScreenType {
     case governmentPolicies
     case changePolicies
     case changeGovernment
+    case selectPromotion
     
     case menu
+}
+
+public enum UnitAnimationType {
+    
+    case fortify
+    case unfortify
 }
 
 public protocol UserInterfaceProtocol: class {
@@ -197,7 +204,9 @@ public protocol UserInterfaceProtocol: class {
     
     func show(unit: AbstractUnit?) // unit gets visible
     func hide(unit: AbstractUnit?) // unit gets hidden
+    func refresh(unit: AbstractUnit?)
     func move(unit: AbstractUnit?, on points: [HexPoint])
+    func animate(unit: AbstractUnit?, animation: UnitAnimationType)
     
     func select(tech: TechType)
     func select(civic: CivicType)

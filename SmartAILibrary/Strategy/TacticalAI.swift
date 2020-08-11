@@ -4122,7 +4122,7 @@ public class TacticalAI: Codable {
                 return true
             } else if unit.has(task: .settle) && turn >= 50 {
                 return true
-            } else if unit.has(task: .worker) && turn < 50 { //early game?
+            } else if unit.has(task: .work) && turn < 50 { //early game?
                 return true
             }
         }

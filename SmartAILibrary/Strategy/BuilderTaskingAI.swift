@@ -151,7 +151,7 @@ public class BuilderTaskingAI {
                 fatalError("cant get unit")
             }
             
-            if unit.has(task: .worker) {
+            if unit.has(task: .work) {
                 builder = unit
                 break
             }

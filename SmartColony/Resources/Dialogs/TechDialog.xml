@@ -46,18 +46,6 @@
             <height>42</height>
         </item>
         
-        <!--<item>
-            <identifier>connections</identifier>
-            <type>image</type>
-            <anchorx>center</anchorx>
-            <anchory>top</anchory>
-            <offsetx>0</offsetx>
-            <offsety>-150</offsety>
-            <width>350</width>
-            <height>800</height>
-            <image>tech_connections</image>
-        </item>-->
-        
         <!-- ancient -->
         
         <!-- 1st col: -110 -->

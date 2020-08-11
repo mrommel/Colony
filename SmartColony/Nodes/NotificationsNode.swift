@@ -121,16 +121,6 @@ class NotificationsNode: SizedNode {
         }
     }
     
-    func showBlockingButton(for blockingNotification: NotificationItem) {
-
-        // todo remove from notifictionslist
-        if self.notifications.first(where: { $0.type == blockingNotification.type }) != nil {
-            
-            self.notifications.removeAll(where: { $0.type == blockingNotification.type })
-            self.rebuildNotificationBadges()
-        }
-    }
-    
     func add(notification: NotificationItem) {
         
         self.notifications.append(notification)

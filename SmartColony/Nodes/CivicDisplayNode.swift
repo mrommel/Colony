@@ -17,7 +17,35 @@ class CivicDisplayNode: BaseDisplayNode {
         
         self.civicType = civicType
         
-        super.init(texture: self.civicType.iconTexture(), name: self.civicType.name(), iconNames: [], size: size)
+        var iconNames: [String] = []
+        
+        let achievements = civicType.achievements()
+        
+        for buildingType in achievements.buildingTypes {
+            iconNames.append(buildingType.iconTexture())
+        }
+
+        for unitType in achievements.unitTypes {
+            iconNames.append(unitType.iconTexture())
+        }
+
+        for wonderType in achievements.wonderTypes {
+            iconNames.append(wonderType.iconTexture())
+        }
+
+        for buildType in achievements.buildTypes {
+            iconNames.append(buildType.iconTexture())
+        }
+        
+        for policyCards in achievements.policyCards {
+            iconNames.append(policyCards.iconTexture())
+        }
+        
+        for governmentType in achievements.governments {
+            iconNames.append(governmentType.iconTexture())
+        }
+        
+        super.init(texture: self.civicType.iconTexture(), name: self.civicType.name(), iconNames: iconNames, size: size)
     }
     
     required init?(coder aDecoder: NSCoder) {

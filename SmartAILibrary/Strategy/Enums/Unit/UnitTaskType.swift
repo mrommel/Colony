@@ -15,7 +15,8 @@ public enum UnitTaskType: Int, Codable {
     case unknown
     
     case settle
-    case worker
+    case work
+    case trade
     case attack
     case cityAttack
     case cityBombard

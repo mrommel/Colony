@@ -616,7 +616,7 @@ public class HomelandAI {
             
             if let currentTurnUnit = currentTurnUnitRef {
                 
-                if currentTurnUnit.has(task: .worker) || (currentTurnUnit.isAutomated() && currentTurnUnit.domain() == .land && currentTurnUnit.automateType() == .build) {
+                if currentTurnUnit.has(task: .work) || (currentTurnUnit.isAutomated() && currentTurnUnit.domain() == .land && currentTurnUnit.automateType() == .build) {
                     
                     let homelandUnit = HomelandUnit(unit: currentTurnUnit)
                     self.currentMoveUnits.append(homelandUnit)

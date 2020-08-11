@@ -331,6 +331,41 @@ extension GameScene {
 
         self.cameraNode.add(dialog: gameMenuDialog)
     }
+    
+    func showSelectPromotionDialog(for unit: AbstractUnit?) {
+        
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+        
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+        
+        self.currentScreenType = .selectPromotion
+
+        let selectPromotionViewModel = SelectPromotionDialogViewModel(for: unit)
+
+        let selectPromotionDialog = SelectPromotionDialog(with: selectPromotionViewModel)
+        selectPromotionDialog.zPosition = 250
+        
+        selectPromotionDialog.addResultHandler(handler: { result in
+            
+            if let selectedPromotion = result.toPromotionType() {
+                unit?.doPromote(with: selectedPromotion)
+                
+                selectPromotionDialog.close()
+                self.currentScreenType = .none
+            }
+        })
+        
+        selectPromotionDialog.addOkayAction(handler: {
+            selectPromotionDialog.close()
+            self.currentScreenType = .none
+        })
+
+        self.cameraNode.add(dialog: selectPromotionDialog)
+    }
 }
 
 extension GameScene {

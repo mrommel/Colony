@@ -445,7 +445,7 @@ class BarbarianAI: Codable {
 
                 if let unitType = self.randomBarbarianUnitType(in: spawnPlot.area!, for: unitTask, in: gameModel) {
 
-                    let unit = Unit(at: point, type: unitType, owner: barbarianPlayer)
+                    let unit = Unit(at: spawnLocation, type: unitType, owner: barbarianPlayer)
                     gameModel.add(unit: unit)
                     gameModel.userInterface?.show(unit: unit)
 

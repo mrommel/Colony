@@ -751,20 +751,23 @@ public class GameModel: Codable {
 
                     // No notifications are blocking, check units/cities
 
-                    // promotions
-
-                    for unitRef in self.units(of: activePlayer) {
-
-                        guard let unit = unitRef else {
-                            continue
+                    
+                    if activePlayer.hasPromotableUnit(in: self) {
+                        // handle promotions
+                        if let unit = activePlayer.firstPromotableUnit(in: self) {
+                            blockingNotification = NotificationItem(type: .unitPromotion, for: activePlayer.leader, message: "Unit needs promotion", summary: "Unit needs promotion", at: unit.location, other: .none)
                         }
-
-                        if unit.peekMission() != nil {
-                            continue
-                        }
-
-                        if unit.movesLeft() > 0 && (!unit.isOutOfAttacks() || unit.canMoveAfterAttacking()) {
-                            blockingNotification = NotificationItem(type: .unitNeedsOrders, for: activePlayer.leader, message: "Unit needs orders", summary: "Orders needed", at: unit.location, other: .none)
+                        
+                    } else if activePlayer.hasReadyUnit(in: self) {
+                        // handle units
+                        if let unit = activePlayer.firstReadyUnit(in: self) {
+                            if !unit.canHold(at: unit.location, in: self) {
+                                //eEndTurnBlockingType = ENDTURN_BLOCKING_STACKED_UNITS;
+                                blockingNotification = NotificationItem(type: .unitNeedsOrders, for: activePlayer.leader, message: "Unit needs orders", summary: "Orders needed", at: unit.location, other: .none)
+                            } else {
+                                //eEndTurnBlockingType = ENDTURN_BLOCKING_UNITS;
+                                blockingNotification = NotificationItem(type: .unitNeedsOrders, for: activePlayer.leader, message: "Unit needs orders", summary: "Orders needed", at: unit.location, other: .none)
+                            }
                         }
                     }
                 }

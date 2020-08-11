@@ -46,8 +46,7 @@
             <height>42</height>
         </item>
         
-        <!-- 1st row -->
-        
+        <!-- 0th col: -110 -->
         <item>
             <identifier>civic_codeOfLaws</identifier>
             <type>civicInfo</type>
@@ -55,14 +54,13 @@
             <result>CODEOFLAWS</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>-55</offsetx>
-            <offsety>150</offsety>
+            <offsetx>-110</offsetx>
+            <offsety>25</offsety>
             <width>110</width>
-            <height>50</height>
+            <height>45</height>
         </item>
         
-        <!-- 2nd row: 70 -->
-        
+        <!-- 1st col: 40 -->
         <item>
             <identifier>civic_craftsmanship</identifier>
             <type>civicInfo</type>
@@ -70,8 +68,8 @@
             <result>CRAFTSMANSHIP</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>-112</offsetx>
-            <offsety>70</offsety>
+            <offsetx>40</offsetx>
+            <offsety>115</offsety>
             <width>110</width>
             <height>45</height>
         </item>
@@ -83,14 +81,13 @@
             <result>FOREIGNTRADE</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>2</offsetx>
-            <offsety>70</offsety>
+            <offsetx>40</offsetx>
+            <offsety>-65</offsety>
             <width>110</width>
             <height>45</height>
         </item>
         
-        <!-- 3rd row: -10 -->
-        
+        <!-- 2nd col: 190 -->
         <item>
             <identifier>civic_militaryTradition</identifier>
             <type>civicInfo</type>
@@ -98,8 +95,8 @@
             <result>MILITARYTRADITION</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>-112</offsetx>
-            <offsety>-10</offsety>
+            <offsetx>190</offsetx>
+            <offsety>160</offsety>
             <width>110</width>
             <height>45</height>
         </item>
@@ -111,14 +108,12 @@
             <result>EARLYEMPIRE</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>2</offsetx>
-            <offsety>-10</offsety>
+            <offsetx>190</offsetx>
+            <offsety>-20</offsety>
             <width>110</width>
             <height>45</height>
         </item>
-        
-        <!-- 4th row: -90 -->
-        
+
         <item>
             <identifier>civic_stateWorkforce</identifier>
             <type>civicInfo</type>
@@ -126,8 +121,8 @@
             <result>STATEWORKFORCE</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>-112</offsetx>
-            <offsety>-90</offsety>
+            <offsetx>190</offsetx>
+            <offsety>25</offsety>
             <width>110</width>
             <height>45</height>
         </item>
@@ -139,8 +134,262 @@
             <result>MYSTICISM</result>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>2</offsetx>
-            <offsety>-90</offsety>
+            <offsetx>190</offsetx>
+            <offsety>-110</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <!-- 3rd col: 340 -->
+        <item>
+            <identifier>civic_gamesAndRecreation</identifier>
+            <type>civicInfo</type>
+            <civicType>gamesAndRecreation</civicType>
+            <result>GAMESANDRECREATION</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>340</offsetx>
+            <offsety>115</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <item>
+            <identifier>civic_politicalPhilosophy</identifier>
+            <type>civicInfo</type>
+            <civicType>politicalPhilosophy</civicType>
+            <result>POLITICALPHILOSOPHY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>340</offsetx>
+            <offsety>25</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <item>
+            <identifier>civic_dramaAndPoetry</identifier>
+            <type>civicInfo</type>
+            <civicType>dramaAndPoetry</civicType>
+            <result>DRAMAANDPOETRY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>340</offsetx>
+            <offsety>-65</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <!-- 4th col: 510 -->
+        <item>
+            <identifier>civic_militaryTraining</identifier>
+            <type>civicInfo</type>
+            <civicType>militaryTraining</civicType>
+            <result>MILITARYTRAINING</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>510</offsetx>
+            <offsety>160</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>civic_defensiveTactics</identifier>
+            <type>civicInfo</type>
+            <civicType>defensiveTactics</civicType>
+            <result>DEFENSIVETACTICS</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>510</offsetx>
+            <offsety>70</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>civic_recordedHistory</identifier>
+            <type>civicInfo</type>
+            <civicType>recordedHistory</civicType>
+            <result>RECORDEDHISTORY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>510</offsetx>
+            <offsety>-20</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>civic_theology</identifier>
+            <type>civicInfo</type>
+            <civicType>theology</civicType>
+            <result>THEOLOGY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>510</offsetx>
+            <offsety>-110</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <!-- 5th col: 680 medieval -->
+        <item>
+            <identifier>civic_navalTradition</identifier>
+            <type>civicInfo</type>
+            <civicType>navalTradition</civicType>
+            <result>NAVALTRADITION</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>680</offsetx>
+            <offsety>115</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>civic_feudalism</identifier>
+            <type>civicInfo</type>
+            <civicType>feudalism</civicType>
+            <result>FEUDALISM</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>680</offsetx>
+            <offsety>70</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>civic_civilService</identifier>
+            <type>civicInfo</type>
+            <civicType>civilService</civicType>
+            <result>CIVILSERVICE</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>680</offsetx>
+            <offsety>-20</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <!-- 6th col: 830 medieval -->
+        <item>
+            <identifier>civic_mercenaries</identifier>
+            <type>civicInfo</type>
+            <civicType>mercenaries</civicType>
+            <result>MERCENARIES</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>830</offsetx>
+            <offsety>160</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>civic_medievalFaires</identifier>
+            <type>civicInfo</type>
+            <civicType>medievalFaires</civicType>
+            <result>MEDIEVALFAIRES</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>830</offsetx>
+            <offsety>70</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>civic_guilds</identifier>
+            <type>civicInfo</type>
+            <civicType>guilds</civicType>
+            <result>GUILDS</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>830</offsetx>
+            <offsety>-20</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>civic_divineRight</identifier>
+            <type>civicInfo</type>
+            <civicType>divineRight</civicType>
+            <result>DIVINERIGHT</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>830</offsetx>
+            <offsety>-110</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <!-- 7th col: 1000 renaissance -->
+        <item>
+            <identifier>civic_exploration</identifier>
+            <type>civicInfo</type>
+            <civicType>exploration</civicType>
+            <result>EXPLORATION</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1000</offsetx>
+            <offsety>160</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>civic_humanism</identifier>
+            <type>civicInfo</type>
+            <civicType>humanism</civicType>
+            <result>HUMANISM</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1000</offsetx>
+            <offsety>70</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>civic_diplomaticService</identifier>
+            <type>civicInfo</type>
+            <civicType>diplomaticService</civicType>
+            <result>DIPLOMATICSERVICE</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1000</offsetx>
+            <offsety>-20</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>civic_reformedChurch</identifier>
+            <type>civicInfo</type>
+            <civicType>reformedChurch</civicType>
+            <result>REFORMEDCHURCH</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1000</offsetx>
+            <offsety>-110</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        
+        <!-- 7th col: 1150 renaissance -->
+        <item>
+            <identifier>civic_mercantilism</identifier>
+            <type>civicInfo</type>
+            <civicType>mercantilism</civicType>
+            <result>MERCANTILISM</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1150</offsetx>
+            <offsety>70</offsety>
+            <width>110</width>
+            <height>45</height>
+        </item>
+        <item>
+            <identifier>civic_enlightenment</identifier>
+            <type>civicInfo</type>
+            <civicType>enlightenment</civicType>
+            <result>ENLIGHTENMENT</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>1150</offsetx>
+            <offsety>-20</offsety>
             <width>110</width>
             <height>45</height>
         </item>
