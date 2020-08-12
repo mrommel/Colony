@@ -22,7 +22,7 @@ class BaseBuildingItemDisplayNode: SKNode {
     var costNode: YieldDisplayNode?
     var progressLabel: SKLabelNode?
 
-    init(textureName: String, iconTexture: String, name: String, nameColor: SKColor, cost: Double, showCosts: Bool, size: CGSize) {
+    init(textureName: String, iconTexture: SKTexture, name: String, nameColor: SKColor, cost: Double, showCosts: Bool, size: CGSize) {
 
         self.cost = cost
         self.size = size
@@ -34,7 +34,6 @@ class BaseBuildingItemDisplayNode: SKNode {
         self.addChild(self.backgroundNode!)
 
         // icon
-        let iconTexture = SKTexture(imageNamed: iconTexture)
         self.iconNode = SKSpriteNode(texture: iconTexture, size: CGSize(width: 20, height: 20))
         self.iconNode?.position = CGPoint(x: 10, y: -10)
         self.iconNode?.zPosition = self.zPosition + 1

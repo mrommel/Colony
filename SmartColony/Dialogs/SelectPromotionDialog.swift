@@ -11,7 +11,7 @@ import SpriteKit
 
 class SelectPromotionDialogViewModel {
 
-    let iconName: String
+    let iconTexture: SKTexture
     let name: String
     let possiblePromotions: [UnitPromotionType]
     
@@ -19,12 +19,12 @@ class SelectPromotionDialogViewModel {
         
         if let unit = unitRef {
         
-            self.iconName = unit.type.iconTexture()
+            self.iconTexture = unit.type.iconTexture()
             self.name = unit.name()
             self.possiblePromotions = unit.possiblePromotions()
         } else {
             
-            self.iconName = "unit_type_default"
+            self.iconTexture = SKTexture(imageNamed: "unit_type_default")
             self.name = "???"
             self.possiblePromotions = []
         }
@@ -50,7 +50,7 @@ class SelectPromotionDialog: Dialog {
         super.init(from: selectPromotionDialogConfiguration)
         
         // fill
-        self.set(imageNamed: self.viewModel.iconName, identifier: "current_unit_type_icon")
+        self.set(image: self.viewModel.iconTexture, identifier: "current_unit_type_icon")
         self.set(text: self.viewModel.name, identifier: "current_unit_name")
         
         // promotions

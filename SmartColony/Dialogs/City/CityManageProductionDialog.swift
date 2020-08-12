@@ -88,13 +88,9 @@ class CityManageProductionDialog: Dialog {
                     fatalError("building without type")
                 }
 
-                let buildingNode = BuildingBuildingItemDisplayNode(buildingType: buildintType,
-                                                                   size: CGSize(width: 200, height: 40),
-                                                                   buttonAction: { buildingType in
-
-                                                                       print("cancel?")
-                                                                   })
+                let buildingNode = BuildingBuildingItemDisplayNode(buildingType: buildintType, size: CGSize(width: 200, height: 40))
                 buildingNode.zPosition = 199
+                buildingNode.delegate = self
                 scrollNode?.addScrolling(child: buildingNode)
 
                 self.nodes.append(buildingNode)
@@ -103,13 +99,9 @@ class CityManageProductionDialog: Dialog {
                     fatalError("wonder without type")
                 }
 
-                let wonderNode = WonderBuildingItemDisplayNode(wonderType: wonderType,
-                                                               size: CGSize(width: 200, height: 40),
-                                                               buttonAction: { wonderType in
-
-                                                                   print("cancel?")
-                                                               })
+                let wonderNode = WonderBuildingItemDisplayNode(wonderType: wonderType, size: CGSize(width: 200, height: 40))
                 wonderNode.zPosition = 199
+                wonderNode.delegate = self
                 scrollNode?.addScrolling(child: wonderNode)
 
                 self.nodes.append(wonderNode)
@@ -203,5 +195,19 @@ class CityManageProductionDialog: Dialog {
         } else {
             fatalError("Must be started from a BaseScene")
         }
+    }
+}
+
+extension CityManageProductionDialog: BuildingBuildingItemDisplayNodeDelegate {
+    
+    func clicked(on buildingType: BuildingType) {
+        print("cancel building \(buildingType)?")
+    }
+}
+
+extension CityManageProductionDialog: WonderBuildingItemDisplayNodeDelegate {
+    
+    func clicked(on wonderType: WonderType) {
+        print("cancel building \(wonderType)?")
     }
 }

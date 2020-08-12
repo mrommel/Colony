@@ -9,20 +9,24 @@
 import SpriteKit
 import SmartAILibrary
 
+protocol UnitBuildingItemDisplayNodeDelegate: class {
+    
+    func clicked(on unitType: UnitType)
+}
+
 class UnitBuildingItemDisplayNode: BaseBuildingItemDisplayNode {
     
     // variables
     let unitType: UnitType
     
     // callback
-    var action: (_ unitType: UnitType) -> Void
+    weak var delegate: UnitBuildingItemDisplayNodeDelegate?
     
     // MARK: constructors
     
-    init(unitType: UnitType, size: CGSize, buttonAction: @escaping (_ unitType: UnitType) -> Void) {
+    init(unitType: UnitType, size: CGSize) {
         
         self.unitType = unitType
-        self.action = buttonAction
         
         super.init(textureName: "grid9_button_active",
                    iconTexture: unitType.iconTexture(),
@@ -68,7 +72,7 @@ class UnitBuildingItemDisplayNode: BaseBuildingItemDisplayNode {
                 if scrollView.backgroundNode!.contains(location) {
                 
                     if self.backgroundNode!.contains(location) {
-                        self.action(self.unitType)
+                        self.delegate?.clicked(on: self.unitType)
                     }
                 }
             }

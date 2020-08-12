@@ -19,7 +19,7 @@ class BaseDisplayNode: SKNode {
     
     var touchHandler: (()->Void)?
     
-    init(texture: String, name: String, iconNames: [String], size: CGSize) {
+    init(texture: String, name: String, iconTextures: [SKTexture], size: CGSize) {
         
         super.init()
         
@@ -53,8 +53,8 @@ class BaseDisplayNode: SKNode {
         self.addChild(self.labelNode!)
         
         // icons
-        for iconName in iconNames {
-            self.addIcon(named: iconName)
+        for iconTexture in iconTextures {
+            self.addIcon(texture: iconTexture)
         }
 
         // eureka
@@ -101,10 +101,9 @@ class BaseDisplayNode: SKNode {
         self.touchHandler = nil
     }
     
-    func addIcon(named: String) {
+    func addIcon(texture: SKTexture) {
 
-        let iconTexture = SKTexture(imageNamed: named)
-        let newIconNode = SKSpriteNode(texture: iconTexture, size: CGSize(width: 18, height: 18))
+        let newIconNode = SKSpriteNode(texture: texture, size: CGSize(width: 18, height: 18))
         newIconNode.position = self.position + CGPoint(x: 25 + self.iconNodes.count * 20, y: -23)
         newIconNode.zPosition = self.zPosition + 2
         newIconNode.anchorPoint = CGPoint.middleLeft

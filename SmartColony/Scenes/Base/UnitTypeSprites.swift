@@ -52,7 +52,7 @@ extension TextureAtlas {
                 }
             }
 
-            speed = Double(action.speedValue) / 1000
+            speed = Double(action.speedValue) / 2000
             //speed = 0.05
         }
 

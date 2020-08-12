@@ -6,14 +6,20 @@
 //  Copyright © 2020 Michael Rommel. All rights reserved.
 //
 
-import Foundation
+import SpriteKit
 import SmartAILibrary
 
 extension UnitType {
 
-    func iconTexture() -> String {
+    func iconTexture() -> SKTexture {
 
-        switch self {
+        if let texture = self.idleAtlas?.textures.first {
+            return texture
+        }
+        
+        return SKTexture(imageNamed: "unit_type_default")
+        
+        /*switch self {
 
             // barbarian
         case .barbarianWarrior: return "unit_warrior"
@@ -45,7 +51,7 @@ extension UnitType {
         case .prophet: return "unit_default"
         case .scientist: return "unit_default"
         case .writer: return "unit_default"
-        }
+        }*/
     }
 
     func typeTexture() -> String {

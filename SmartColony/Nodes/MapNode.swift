@@ -16,6 +16,7 @@ class MapNode: SKNode {
     var terrainLayer: TerrainLayer
     var featureLayer: FeatureLayer
     var resourceLayer: ResourceLayer
+    var resourceMarkerLayer: ResourceMarkerLayer
     var boardLayer: BoardLayer
     var riverLayer: RiverLayer
     
@@ -60,6 +61,10 @@ class MapNode: SKNode {
         self.resourceLayer = ResourceLayer(player: humanPlayer)
         self.resourceLayer.populate(with: self.game)
         self.resourceLayer.zPosition = Globals.ZLevels.resource
+        
+        self.resourceMarkerLayer = ResourceMarkerLayer(player: humanPlayer)
+        self.resourceMarkerLayer.populate(with: self.game)
+        self.resourceMarkerLayer.zPosition = Globals.ZLevels.resourceMarker
 
         self.boardLayer = BoardLayer(player: humanPlayer)
         self.boardLayer.populate(with: self.game)
@@ -98,6 +103,7 @@ class MapNode: SKNode {
         self.addChild(self.terrainLayer)
         self.addChild(self.featureLayer)
         self.addChild(self.resourceLayer)
+        self.addChild(self.resourceMarkerLayer)
         self.addChild(self.boardLayer)
         self.addChild(self.riverLayer)
         self.addChild(self.unitLayer)
@@ -123,6 +129,16 @@ class MapNode: SKNode {
         self.yieldLayer.removeFromParent()
     }
     
+    func showResourceMarker() {
+        
+        self.addChild(self.resourceMarkerLayer)
+    }
+    
+    func hideResourceMarker() {
+        
+        self.resourceMarkerLayer.removeFromParent()
+    }
+    
     func showWater() {
         
         self.addChild(self.waterLayer)
@@ -143,6 +159,7 @@ class MapNode: SKNode {
         self.borderLayer.update(tile: tile)
         self.featureLayer.update(tile: tile)
         self.resourceLayer.update(tile: tile)
+        self.resourceMarkerLayer.update(tile: tile)
         self.riverLayer.update(tile: tile)
         self.improvementLayer.update(tile: tile)
         self.boardLayer.update(tile: tile)

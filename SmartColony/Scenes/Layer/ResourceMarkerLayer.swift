@@ -1,15 +1,15 @@
 //
-//  ResourceLayer.swift
+//  ResourceMarkerLayer.swift
 //  SmartColony
 //
-//  Created by Michael Rommel on 05.04.20.
+//  Created by Michael Rommel on 12.08.20.
 //  Copyright © 2020 Michael Rommel. All rights reserved.
 //
 
 import SpriteKit
 import SmartAILibrary
 
-class ResourceLayer: SKNode {
+class ResourceMarkerLayer: SKNode {
     
     let player: AbstractPlayer?
     weak var gameModel: GameModel?
@@ -20,7 +20,7 @@ class ResourceLayer: SKNode {
         self.player = player
         
         super.init()
-        self.zPosition = Globals.ZLevels.resource
+        self.zPosition = Globals.ZLevels.resourceMarker
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -66,17 +66,17 @@ class ResourceLayer: SKNode {
         // place forests etc
         if resource != .none {
 
-            let textureName = resource.textureName()
+            let textureName = resource.textureMarkerName()
 
             let resourceSprite = SKSpriteNode(imageNamed: textureName)
             resourceSprite.position = position
-            resourceSprite.zPosition = Globals.ZLevels.resource
+            resourceSprite.zPosition = Globals.ZLevels.resourceMarker
             resourceSprite.anchorPoint = CGPoint(x: 0, y: 0)
             resourceSprite.color = .black
             resourceSprite.colorBlendFactor = 1.0 - alpha
             self.addChild(resourceSprite)
 
-            self.textureUtils?.set(resourceSprite: resourceSprite, at: tile.point)
+            self.textureUtils?.set(resourceMarkerSprite: resourceSprite, at: tile.point)
         }
     }
     
@@ -87,7 +87,7 @@ class ResourceLayer: SKNode {
         }
         
         if let tile = tile {
-            if let resourceSprite = textureUtils.resourceSprite(at: tile.point) {
+            if let resourceSprite = textureUtils.resourceMarkerSprite(at: tile.point) {
                 self.removeChildren(in: [resourceSprite])
             }
         }

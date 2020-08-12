@@ -137,10 +137,9 @@ class CityChooseProductionDialog: Dialog {
             
             if districts.has(district: districtType) {
                 
-                let districtNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: true, size: CGSize(width: 200, height: 40), buttonAction: { districtType in
-                    
-                })
+                let districtNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: true, size: CGSize(width: 200, height: 40))
                 districtNode.zPosition = 199
+                districtNode.delegate = self
                 scrollNode?.addScrolling(child: districtNode)
                 
                 var buildingNodes: [BuildingBuildingItemDisplayNode?] = []
@@ -149,16 +148,12 @@ class CityChooseProductionDialog: Dialog {
                     
                     if city.canBuild(building: buildingType, in: gameModel) && !buildings.has(building: buildingType) && buildingType.district() == districtType {
 
-                        let buildingNode = BuildingBuildingItemDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 40), buttonAction: { buildingType in
-    
-                            if let handler = self.buildingTypeResultHandler {
-                                handler(buildingType)
-                            }
-                        })
+                        let buildingNode = BuildingBuildingItemDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 40))
                         if city.buildQueue.isBuilding(buildingType: buildingType) {
                             buildingNode.disable()
                         }
                         buildingNode.zPosition = 199
+                        buildingNode.delegate = self
                         scrollNode?.addScrolling(child: buildingNode)
                         
                         buildingNodes.append(buildingNode)
@@ -174,13 +169,9 @@ class CityChooseProductionDialog: Dialog {
                     continue
                 }
                 
-                let districtNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: false, size: CGSize(width: 200, height: 40), buttonAction: { districtType in
-                    
-                    if let handler = self.districtTypeResultHandler {
-                        handler(districtType)
-                    }
-                })
+                let districtNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: false, size: CGSize(width: 200, height: 40))
                 districtNode.zPosition = 199
+                districtNode.delegate = self
                 scrollNode?.addScrolling(child: districtNode)
                 
                 let cityDistrictProduction = CityDistrictProductionNodeGroup(districtNode: districtNode, buildingNodes: [])
@@ -192,14 +183,9 @@ class CityChooseProductionDialog: Dialog {
             
             if city.canTrain(unit: unitType) {
                 
-                let unitProduction = UnitBuildingItemDisplayNode(unitType: unitType, size: CGSize(width: 200, height: 40), buttonAction: { unitType in
-                    print("select unitType: \(unitType)")
-                    
-                    if let handler = self.unitTypeResultHandler {
-                        handler(unitType)
-                    }
-                })
+                let unitProduction = UnitBuildingItemDisplayNode(unitType: unitType, size: CGSize(width: 200, height: 40))
                 unitProduction.zPosition = 199
+                unitProduction.delegate = self
                 scrollNode?.addScrolling(child: unitProduction)
                 
                 self.unitProductionNodes.append(unitProduction)
@@ -210,14 +196,8 @@ class CityChooseProductionDialog: Dialog {
             
             if city.canBuild(wonder: wonderType, in: gameModel) {
                 
-                let wonderProductionNode = WonderBuildingItemDisplayNode(wonderType: wonderType, size: CGSize(width: 200, height: 40), buttonAction: { wonderType in
-                    
-                    print("select wonderType: \(wonderType)")
-                    
-                    if let handler = self.wonderTypeResultHandler {
-                        handler(wonderType)
-                    }
-                })
+                let wonderProductionNode = WonderBuildingItemDisplayNode(wonderType: wonderType, size: CGSize(width: 200, height: 40))
+                wonderProductionNode.delegate = self
                 wonderProductionNode.zPosition = 199
                 scrollNode?.addScrolling(child: wonderProductionNode)
                 
@@ -334,5 +314,49 @@ class CityChooseProductionDialog: Dialog {
         calculatedHeight += 10
         
         self.scrollNode?.contentSize.height = calculatedHeight
+    }
+}
+
+extension CityChooseProductionDialog: UnitBuildingItemDisplayNodeDelegate {
+    
+    func clicked(on unitType: UnitType) {
+        print("select unitType: \(unitType)")
+        
+        if let handler = self.unitTypeResultHandler {
+            handler(unitType)
+        }
+    }
+}
+
+extension CityChooseProductionDialog: BuildingBuildingItemDisplayNodeDelegate {
+    
+    func clicked(on buildingType: BuildingType) {
+        print("select buildingType: \(buildingType)")
+        
+        if let handler = self.buildingTypeResultHandler {
+            handler(buildingType)
+        }
+    }
+}
+
+extension CityChooseProductionDialog: DistrictBuildingItemDisplayNodeDelegate {
+    
+    func clicked(on districtType: DistrictType) {
+        print("select districtType: \(districtType)")
+        
+        if let handler = self.districtTypeResultHandler {
+            handler(districtType)
+        }
+    }
+}
+
+extension CityChooseProductionDialog: WonderBuildingItemDisplayNodeDelegate {
+    
+    func clicked(on wonderType: WonderType) {
+        print("select wonderType: \(wonderType)")
+        
+        if let handler = self.wonderTypeResultHandler {
+            handler(wonderType)
+        }
     }
 }

@@ -37,19 +37,19 @@ class ScienceProgressNode: BaseProgressNode {
             let achievements = tech.achievements()
 
             for buildingType in achievements.buildingTypes {
-                self.addIcon(named: buildingType.iconTexture())
+                self.addIcon(texture: SKTexture(imageNamed: buildingType.iconTexture()))
             }
 
             for unitType in achievements.unitTypes {
-                self.addIcon(named: unitType.iconTexture())
+                self.addIcon(texture: unitType.iconTexture())
             }
 
             for wonderType in achievements.wonderTypes {
-                self.addIcon(named: wonderType.iconTexture())
+                self.addIcon(texture: SKTexture(imageNamed: wonderType.iconTexture()))
             }
 
             for buildType in achievements.buildTypes {
-                self.addIcon(named: buildType.iconTexture())
+                self.addIcon(texture: SKTexture(imageNamed: buildType.iconTexture()))
             }
 
             self.techType = tech

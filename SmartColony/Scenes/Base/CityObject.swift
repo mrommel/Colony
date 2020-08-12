@@ -115,29 +115,29 @@ class CityObject {
 
         // show production only for human cities
         if city.isHuman() {
-            var textureName = "questionmark"
+            var texture: SKTexture = SKTexture(imageNamed: "questionmark")
             var productionProgress: Int = 0
             if let item = city.currentBuildableItem() {
                 switch item.type {
 
                 case .unit:
                     if let unitType = item.unitType {
-                        textureName = unitType.iconTexture()
+                        texture = unitType.iconTexture()
                         productionProgress = Int((item.production * 100.0) / Double(unitType.productionCost())) / 5 * 5
                     }
                 case .building:
                     if let buildingType = item.buildingType {
-                        textureName = buildingType.iconTexture()
+                        texture = SKTexture(imageNamed: buildingType.iconTexture())
                         productionProgress = Int((item.production * 100.0) / Double(buildingType.productionCost())) / 5 * 5
                     }
                 case .wonder:
                     if let wonderType = item.wonderType {
-                        textureName = wonderType.iconTexture()
+                        texture = SKTexture(imageNamed: wonderType.iconTexture())
                         productionProgress = Int((item.production * 100.0) / Double(wonderType.productionCost())) / 5 * 5
                     }
                 case .district:
                     if let districtType = item.districtType {
-                        textureName = districtType.iconTexture()
+                        texture = SKTexture(imageNamed: districtType.iconTexture())
                         productionProgress = Int((item.production * 100.0) / Double(districtType.productionCost())) / 5 * 5
                     }
                 case .project:
@@ -160,8 +160,7 @@ class CityObject {
                 self.sprite.addChild(productionProgressNode)
             }
             
-            let productionTexture = SKTexture(imageNamed: textureName)
-            self.productionNode = SKSpriteNode(texture: productionTexture, color: .black, size: CGSize(width: 8, height: 8))
+            self.productionNode = SKSpriteNode(texture: texture, color: .black, size: CGSize(width: 8, height: 8))
             self.productionNode?.position = CGPoint(x: 24 + nameBackgroundWidth / 2 - 9, y: 36)
             self.productionNode?.zPosition = Globals.ZLevels.cityName
             self.productionNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)

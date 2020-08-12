@@ -26,6 +26,7 @@ public struct Globals {
         static let border: CGFloat = 4.4
         static let featureUpper: CGFloat = 4.5
         static let resource: CGFloat = 4.9
+        static let resourceMarker: CGFloat = 5.0
         //static let staticSprite: CGFloat = 5.0
         static let mountain: CGFloat = 5.4 // 2.2 FIXME
         static let cityName: CGFloat = 5.5

@@ -9,23 +9,27 @@
 import SpriteKit
 import SmartAILibrary
 
+protocol WonderBuildingItemDisplayNodeDelegate: class {
+ 
+    func clicked(on wonderType: WonderType)
+}
+
 class WonderBuildingItemDisplayNode: BaseBuildingItemDisplayNode {
     
     // vairables
     let wonderType: WonderType
     
     // callback
-    var action: (_ wonderType: WonderType) -> Void
+    weak var delegate: WonderBuildingItemDisplayNodeDelegate?
     
     // MARK: constructors
     
-    init(wonderType: WonderType, size: CGSize, buttonAction: @escaping (_ wonderType: WonderType) -> Void) {
+    init(wonderType: WonderType, size: CGSize) {
         
         self.wonderType = wonderType
-        self.action = buttonAction
         
         super.init(textureName: "grid9_button_active",
-                   iconTexture: wonderType.iconTexture(),
+                   iconTexture: SKTexture(imageNamed: wonderType.iconTexture()),
                    name: wonderType.name(),
                    nameColor: .white,
                    cost: Double(wonderType.productionCost()),
@@ -70,7 +74,7 @@ class WonderBuildingItemDisplayNode: BaseBuildingItemDisplayNode {
                 }
                 
                 if self.backgroundNode!.contains(location) {
-                    self.action(self.wonderType)
+                    self.delegate?.clicked(on: self.wonderType)
                 }
             }
         }

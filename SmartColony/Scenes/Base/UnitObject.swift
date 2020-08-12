@@ -19,7 +19,7 @@ class UnitObject {
     weak var gameModel: GameModel?
     
     let identifier: String
-    var spriteName: String
+    //var spriteName: String
 
     var atlasIdle: GameObjectAtlas?
     var atlasDown: GameObjectAtlas?
@@ -50,8 +50,7 @@ class UnitObject {
             fatalError("cant get civilization")
         }
 
-        self.spriteName = unit.type.spriteName
-        self.sprite = SKSpriteNode(imageNamed: self.spriteName)
+        self.sprite = SKSpriteNode(imageNamed: unit.type.spriteName)
         self.sprite.position = HexPoint.toScreen(hex: unit.location)
         self.sprite.zPosition = Globals.ZLevels.unit
         self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
@@ -134,8 +133,7 @@ class UnitObject {
 
     func showTexture(named spriteName: String) {
 
-        self.spriteName = spriteName
-        let newTexture = SKTexture(imageNamed: self.spriteName)
+        let newTexture = SKTexture(imageNamed: spriteName)
 
         self.sprite.texture = newTexture
     }

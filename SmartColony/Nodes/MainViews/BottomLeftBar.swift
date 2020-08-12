@@ -204,10 +204,8 @@ class BottomLeftBar: SizedNode {
         if let selectedUnit = unit {
 
             // make current unit visible
-            let selectedUnitTextureString = selectedUnit.type.spriteName
-            let selectedUnitTexture = SKTexture(imageNamed: selectedUnitTextureString)
-        
-            self.unitImageNode?.texture = selectedUnitTexture
+            
+            self.unitImageNode?.texture = selectedUnit.type.iconTexture()
             
             // type
             guard let civilization = selectedUnit.player?.leader.civilization() else {

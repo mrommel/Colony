@@ -9,20 +9,24 @@
 import SpriteKit
 import SmartAILibrary
 
+protocol DistrictBuildingItemDisplayNodeDelegate: class {
+    
+    func clicked(on districtType: DistrictType)
+}
+
 class DistrictBuildingItemDisplayNode: BaseBuildingItemDisplayNode {
     
     let districtType: DistrictType
     
     // callback
-    var action: (_ districtType: DistrictType) -> Void
+    weak var delegate: DistrictBuildingItemDisplayNodeDelegate?
     
-    init(districtType: DistrictType, active: Bool, size: CGSize, buttonAction: @escaping (_ districtType: DistrictType) -> Void) {
+    init(districtType: DistrictType, active: Bool, size: CGSize) {
         
         self.districtType = districtType
-        self.action = buttonAction
         
         super.init(textureName: active ? "grid9_button_district_active" : "grid9_button_district",
-                   iconTexture: self.districtType.iconTexture(),
+                   iconTexture: SKTexture(imageNamed: self.districtType.iconTexture()),
                    name: districtType.name(),
                    nameColor: active ? .white : SKColor(hex: "#16344f"),
                    cost: Double(districtType.productionCost()),
@@ -67,7 +71,7 @@ class DistrictBuildingItemDisplayNode: BaseBuildingItemDisplayNode {
                 }
                 
                 if self.backgroundNode!.contains(location) {
-                    self.action(self.districtType)
+                    self.delegate?.clicked(on: self.districtType)
                 }
             }
         }

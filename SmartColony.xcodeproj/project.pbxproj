@@ -42,6 +42,7 @@
 		C926E48524C9E2D00073F3E1 /* ChangePoliciesDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C926E48424C9E2D00073F3E1 /* ChangePoliciesDialog.xml */; };
 		C926E48724C9E3040073F3E1 /* ChangePoliciesDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926E48624C9E3040073F3E1 /* ChangePoliciesDialog.swift */; };
 		C926E48924CAD9A80073F3E1 /* GovernmentNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926E48824CAD9A70073F3E1 /* GovernmentNode.swift */; };
+		C92B674924E40637001551DA /* ResourceMarkerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92B674824E40637001551DA /* ResourceMarkerLayer.swift */; };
 		C94787172472845D00FAAC99 /* TreasuryDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94787162472845D00FAAC99 /* TreasuryDialog.swift */; };
 		C9478719247285DF00FAAC99 /* TreasuryDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9478718247285DF00FAAC99 /* TreasuryDialog.xml */; };
 		C947871B2472C80B00FAAC99 /* GameSceneDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947871A2472C80B00FAAC99 /* GameSceneDialogs.swift */; };
@@ -310,6 +311,7 @@
 		C926E48424C9E2D00073F3E1 /* ChangePoliciesDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ChangePoliciesDialog.xml; sourceTree = "<group>"; };
 		C926E48624C9E3040073F3E1 /* ChangePoliciesDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePoliciesDialog.swift; sourceTree = "<group>"; };
 		C926E48824CAD9A70073F3E1 /* GovernmentNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentNode.swift; sourceTree = "<group>"; };
+		C92B674824E40637001551DA /* ResourceMarkerLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMarkerLayer.swift; sourceTree = "<group>"; };
 		C94787162472845D00FAAC99 /* TreasuryDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreasuryDialog.swift; sourceTree = "<group>"; };
 		C9478718247285DF00FAAC99 /* TreasuryDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TreasuryDialog.xml; sourceTree = "<group>"; };
 		C947871A2472C80B00FAAC99 /* GameSceneDialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneDialogs.swift; sourceTree = "<group>"; };
@@ -620,6 +622,7 @@
 				C95B3E062438E780002F5A86 /* TerrainLayer.swift */,
 				C95B3E082438E78E002F5A86 /* FeatureLayer.swift */,
 				C97CD39E243A3E9C00FABCC0 /* ResourceLayer.swift */,
+				C92B674824E40637001551DA /* ResourceMarkerLayer.swift */,
 				C9EC4E1624444F2E001A0597 /* ImprovementLayer.swift */,
 				C95B3E0A2438E79B002F5A86 /* BoardLayer.swift */,
 				C95B3E0C2438E7A8002F5A86 /* RiverLayer.swift */,
@@ -1286,6 +1289,7 @@
 				C95B3E072438E780002F5A86 /* TerrainLayer.swift in Sources */,
 				C99234AE24483A5800F4B4AB /* NotificationTypeExtension.swift in Sources */,
 				C9EB9F662454CD4900F13B02 /* InterimRankingDialog.swift in Sources */,
+				C92B674924E40637001551DA /* ResourceMarkerLayer.swift in Sources */,
 				C9B1D2612435177E00033791 /* CGPointExtension.swift in Sources */,
 				C9B1D23E2434B7BE00033791 /* Globals.swift in Sources */,
 				C9B1D2342434B0BE00033791 /* CGRectExtension.swift in Sources */,

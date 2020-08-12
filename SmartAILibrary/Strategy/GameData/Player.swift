@@ -120,6 +120,7 @@ public protocol AbstractPlayer: class, Codable {
     func blockingNotification() -> NotificationItem?
     func hasReadyUnit(in gameModel: GameModel?) -> Bool
     func firstReadyUnit(in gameModel: GameModel?) -> AbstractUnit?
+    func endTurnsForReadyUnits(in gameModel: GameModel?)
     func hasPromotableUnit(in gameModel: GameModel?) -> Bool
     func firstPromotableUnit(in gameModel: GameModel?) -> AbstractUnit?
 
@@ -827,6 +828,27 @@ public class Player: AbstractPlayer {
         }
         
         return nil
+    }
+    
+    public func endTurnsForReadyUnits(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        if let activePlayer = gameModel.activePlayer() {
+        
+            for loopUnitRef in gameModel.units(of: activePlayer) {
+
+                guard let loopUnit = loopUnitRef else {
+                    continue
+                }
+
+                if loopUnit.readyToMove() && !loopUnit.isDelayedDeath() {
+                    loopUnit.finishMoves()
+                }
+            }
+        }
     }
     
     // MARK: proximity functions

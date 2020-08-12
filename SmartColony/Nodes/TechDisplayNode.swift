@@ -17,31 +17,31 @@ class TechDisplayNode: BaseDisplayNode {
         
         self.techType = techType
         
-        var iconNames: [String] = []
+        var iconTextures: [SKTexture] = []
         
         let achievements = techType.achievements()
         
         for buildingType in achievements.buildingTypes {
-            iconNames.append(buildingType.iconTexture())
+            iconTextures.append(SKTexture(imageNamed: buildingType.iconTexture()))
         }
 
         for unitType in achievements.unitTypes {
-            iconNames.append(unitType.iconTexture())
+            iconTextures.append(unitType.iconTexture())
         }
 
         for wonderType in achievements.wonderTypes {
-            iconNames.append(wonderType.iconTexture())
+            iconTextures.append(SKTexture(imageNamed: wonderType.iconTexture()))
         }
 
         for buildType in achievements.buildTypes {
-            iconNames.append(buildType.iconTexture())
+            iconTextures.append(SKTexture(imageNamed: buildType.iconTexture()))
         }
         
         for districtType in achievements.districtTypes {
-            iconNames.append(districtType.iconTexture())
+            iconTextures.append(SKTexture(imageNamed: districtType.iconTexture()))
         }
         
-        super.init(texture: self.techType.iconTexture(), name: self.techType.name(), iconNames: iconNames, size: size)
+        super.init(texture: self.techType.iconTexture(), name: self.techType.name(), iconTextures: iconTextures, size: size)
     }
     
     required init?(coder aDecoder: NSCoder) {

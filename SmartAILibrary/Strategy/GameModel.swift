@@ -428,18 +428,15 @@ public class GameModel: Codable {
                                 player.setAutoMoves(value: true)
                                 // print("UpdateMoves() : player.setAutoMoves(true) called for player \(player.leader)")
                             } else {
-                                fatalError("buh")
-                                /*const CvUnit *pReadyUnit = player.GetFirstReadyUnit();
                                 
-                                if (pReadyUnit && !player.GetTacticalAI()->IsInQueuedAttack(pReadyUnit))
-                                {
+                                if player.hasReadyUnit(in: self) /*&& !player.GetTacticalAI()->IsInQueuedAttack(pReadyUnit))*/ {
                                     let waitTime = 10
                                     
-                                    if self.turnSlice - player.GetLastSliceMoved() > waitTime {
+                                    if self.turnSlice() - player.lastSliceMoved() > waitTime {
                                         print("GAME HANG - Please show and send save. Stuck units will have their turn ended so game can advance.")
-                                        player.endTurnsForReadyUnits()
+                                        player.endTurnsForReadyUnits(in: self)
                                     }
-                                }*/
+                                }
                             }
                         }
                     }

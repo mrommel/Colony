@@ -286,6 +286,19 @@ class Dialog: NineGridTextureSprite {
         spriteNode.texture = texture
     }
     
+    func set(image imageTexture: SKTexture, identifier: String) {
+
+        guard let node = self.children.first(where: { $0.name == identifier }) else {
+            fatalError("Can't find \(identifier)")
+        }
+
+        guard let spriteNode = node as? SKSpriteNode else {
+            fatalError("identifier does not identify a SKSpriteNode")
+        }
+        
+        spriteNode.texture = imageTexture
+    }
+    
     func set(progress: Double, identifier: String) {
         
         guard let node = self.children.first(where: { $0.name == identifier }) else {

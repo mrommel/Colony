@@ -9,23 +9,27 @@
 import SpriteKit
 import SmartAILibrary
 
+protocol BuildingBuildingItemDisplayNodeDelegate: class {
+    
+    func clicked(on buildingType: BuildingType)
+}
+
 class BuildingBuildingItemDisplayNode: BaseBuildingItemDisplayNode {
     
     // vairables
     let buildingType: BuildingType
     
     // callback
-    var action: (_ buildingType: BuildingType) -> Void
+    weak var delegate: BuildingBuildingItemDisplayNodeDelegate?
     
     // MARK: constructors
     
-    init(buildingType: BuildingType, size: CGSize, buttonAction: @escaping (_ buildingType: BuildingType) -> Void) {
+    init(buildingType: BuildingType, size: CGSize) {
         
         self.buildingType = buildingType
-        self.action = buttonAction
         
         super.init(textureName: "grid9_button_active",
-                   iconTexture: buildingType.iconTexture(),
+                   iconTexture: SKTexture(imageNamed: buildingType.iconTexture()),
                    name: buildingType.name(),
                    nameColor: .white,
                    cost: Double(buildingType.productionCost()),
@@ -70,7 +74,7 @@ class BuildingBuildingItemDisplayNode: BaseBuildingItemDisplayNode {
                 }
                 
                 if self.backgroundNode!.contains(location) {
-                    self.action(self.buildingType)
+                    self.delegate?.clicked(on: self.buildingType)
                 }
             }
         }

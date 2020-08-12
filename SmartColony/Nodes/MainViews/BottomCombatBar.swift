@@ -198,7 +198,7 @@ class BottomCombatBar: SizedNode {
         if let attacker = self.attacker {
             let imageIndex = min(25, max(0, attacker.healthPoints() / 4 )) // the assets are from 0 to 25
             self.attackerHealthNode?.value = imageIndex
-            self.attackerIconNode?.texture = SKTexture(imageNamed: attacker.type.iconTexture())
+            self.attackerIconNode?.texture = attacker.type.iconTexture()
             self.attackerNameNode?.text = attacker.name()
             self.attackerBaseStrengthNode?.text = "\(attacker.baseCombatStrength(ignoreEmbarked: true))"
             
@@ -220,7 +220,7 @@ class BottomCombatBar: SizedNode {
         if let defender = self.defender {
             let imageIndex = min(25, max(0, defender.healthPoints() / 4 )) // the assets are from 0 to 25
             self.defenderHealthNode?.value = imageIndex
-            self.defenderIconNode?.texture = SKTexture(imageNamed: defender.type.iconTexture())
+            self.defenderIconNode?.texture = defender.type.iconTexture()
             self.defenderNameNode?.text = defender.name()
             self.defenderBaseStrengthNode?.text = "\(defender.baseCombatStrength(ignoreEmbarked: true))"
             

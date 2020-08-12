@@ -99,11 +99,9 @@ class CityBuildingsDialog: Dialog {
             
             if districts.has(district: districtType) {
                 
-                let districtNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: true, size: CGSize(width: 200, height: 40), buttonAction: { districtType in
-                    
-                    print("select districtType: \(districtType)")
-                })
+                let districtNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: true, size: CGSize(width: 200, height: 40))
                 districtNode.zPosition = 200
+                districtNode.delegate = self
                 scrollNode?.addScrolling(child: districtNode)
                 
                 var buildingNodes: [BuildingBuildingItemDisplayNode?] = []
@@ -112,14 +110,12 @@ class CityBuildingsDialog: Dialog {
                     
                     if buildings.has(building: buildingType) && buildingType.district() == districtType {
 
-                        let buildingNode = BuildingBuildingItemDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 40), buttonAction: { buildingType in
-    
-                            print("select buildingType: \(buildingType)")
-                        })
+                        let buildingNode = BuildingBuildingItemDisplayNode(buildingType: buildingType, size: CGSize(width: 200, height: 40))
                         if city.buildQueue.isBuilding(buildingType: buildingType) {
                             buildingNode.disable()
                         }
                         buildingNode.zPosition = 200
+                        buildingNode.delegate = self
                         scrollNode?.addScrolling(child: buildingNode)
                         
                         buildingNodes.append(buildingNode)
@@ -136,11 +132,9 @@ class CityBuildingsDialog: Dialog {
             
             if wonders.has(wonder: wonderType) {
                 
-                let wonderProductionNode = WonderBuildingItemDisplayNode(wonderType: wonderType, size: CGSize(width: 200, height: 40), buttonAction: { wonderType in
-                    
-                    print("select wonderType: \(wonderType)")
-                })
+                let wonderProductionNode = WonderBuildingItemDisplayNode(wonderType: wonderType, size: CGSize(width: 200, height: 40))
                 wonderProductionNode.zPosition = 200
+                wonderProductionNode.delegate = self
                 scrollNode?.addScrolling(child: wonderProductionNode)
                 
                 self.wonderProductionNodes.append(wonderProductionNode)
@@ -222,5 +216,26 @@ class CityBuildingsDialog: Dialog {
         }
         
         self.chooseProductionDialogButton?.position = CGPoint(x: 0, y: -590)*/
+    }
+}
+
+extension CityBuildingsDialog: BuildingBuildingItemDisplayNodeDelegate {
+    
+    func clicked(on buildingType: BuildingType) {
+        print("click on \(buildingType)")
+    }
+}
+
+extension CityBuildingsDialog: WonderBuildingItemDisplayNodeDelegate {
+    
+    func clicked(on wonderType: WonderType) {
+        print("click on \(wonderType)")
+    }
+}
+
+extension CityBuildingsDialog: DistrictBuildingItemDisplayNodeDelegate {
+    
+    func clicked(on districtType: DistrictType) {
+        print("click on \(districtType)")
     }
 }

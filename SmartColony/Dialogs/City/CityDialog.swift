@@ -158,10 +158,7 @@ class CityDialog: Dialog {
                     fatalError("cant get buildingType")
                 }
 
-                self.currentProductionNode = BuildingBuildingItemDisplayNode(buildingType: buildingType, size: CGSize(width: 300, height: 42), buttonAction: { buildingType in
-                    //print("\(buildingType)")
-                    // cancel?
-                })
+                self.currentProductionNode = BuildingBuildingItemDisplayNode(buildingType: buildingType, size: CGSize(width: 300, height: 42))
                 self.currentProductionNode?.show(progress: currentProduction.production)
                 self.currentProductionNode?.zPosition = 200
 
@@ -173,10 +170,7 @@ class CityDialog: Dialog {
                     fatalError("cant get districtType")
                 }
 
-                self.currentProductionNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: false, size: CGSize(width: 300, height: 42), buttonAction: { districtType in
-                    //print("\(districtType)")
-                    // cancel?
-                })
+                self.currentProductionNode = DistrictBuildingItemDisplayNode(districtType: districtType, active: false, size: CGSize(width: 300, height: 42))
                 self.currentProductionNode?.show(progress: currentProduction.production)
                 currentProductionNode?.zPosition = 200
                 self.addChild(currentProductionNode!)
@@ -187,10 +181,7 @@ class CityDialog: Dialog {
                     fatalError("cant get unitType")
                 }
                 
-                self.currentProductionNode = UnitBuildingItemDisplayNode(unitType: unitType, size: CGSize(width: 300, height: 42), buttonAction: { unitType in
-                    print("unitType: \(unitType)")
-                    // cancel?
-                })
+                self.currentProductionNode = UnitBuildingItemDisplayNode(unitType: unitType, size: CGSize(width: 300, height: 42))
                 self.currentProductionNode?.show(progress: currentProduction.production)
                 currentProductionNode?.zPosition = 200
                 self.addChild(currentProductionNode!)
@@ -201,10 +192,7 @@ class CityDialog: Dialog {
                     fatalError("cant get wonderType")
                 }
                 
-                self.currentProductionNode = WonderBuildingItemDisplayNode(wonderType: wonderType, size: CGSize(width: 300, height: 42), buttonAction: { wonderType in
-                    print("wonderType: \(wonderType)")
-                    // cancel?
-                })
+                self.currentProductionNode = WonderBuildingItemDisplayNode(wonderType: wonderType, size: CGSize(width: 300, height: 42))
                 self.currentProductionNode?.show(progress: currentProduction.production)
                 currentProductionNode?.zPosition = 200
                 self.addChild(currentProductionNode!)
