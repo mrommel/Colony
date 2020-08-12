@@ -2590,6 +2590,10 @@ public class DiplomaticAI: Codable {
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
+        
+        if player.isBarbarian() || otherPlayer.isBarbarian() {
+            return
+        }
 
         self.playerDict.initContact(with: otherPlayer, in: gameModel.currentTurn)
         self.updateMilitaryStrength(of: otherPlayer, in: gameModel)

@@ -851,6 +851,14 @@ public class Player: AbstractPlayer {
         guard let diplomacyAI = self.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
+        
+        guard let otherPlayer = otherPlayer else {
+            fatalError("cant get otherPlayer")
+        }
+        
+        if otherPlayer.isBarbarian() {
+            return false
+        }
 
         return diplomacyAI.hasMet(with: otherPlayer)
     }

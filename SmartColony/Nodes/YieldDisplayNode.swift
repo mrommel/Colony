@@ -14,6 +14,7 @@ class YieldDisplayNode: SKNode {
     // properties
     
     var yieldType: YieldType
+    var size: CGSize
 
     // nodes
     
@@ -30,6 +31,7 @@ class YieldDisplayNode: SKNode {
     init(for yieldType: YieldType, value: Double, withBackground showBackground: Bool = true, size: CGSize) {
 
         self.yieldType = yieldType
+        self.size = size
 
         super.init()
         
@@ -56,9 +58,9 @@ class YieldDisplayNode: SKNode {
         self.yieldLabelNode?.fontSize = 14
         self.yieldLabelNode?.fontName = Globals.Fonts.customFontFamilyname
         self.yieldLabelNode?.fontColor = showBackground ? self.yieldType.fontColor() : .white
-        self.yieldLabelNode?.numberOfLines = 0
+        self.yieldLabelNode?.numberOfLines = 1
         self.yieldLabelNode?.horizontalAlignmentMode = .right
-        self.yieldLabelNode?.preferredMaxLayoutWidth = size.width - 20
+        self.yieldLabelNode?.preferredMaxLayoutWidth = self.size.width - 20
         self.addChild(self.yieldLabelNode!)
     }
 
@@ -84,6 +86,7 @@ class YieldDisplayNode: SKNode {
         let prefix = value >= 0.0 ? "+" : ""
         let valueText = String(format: "%.1f", value)
         self.yieldLabelNode?.text = "\(prefix)\(valueText)"
+        self.yieldLabelNode?.fitToWidth(maxWidth: self.size.width - 20)
     }
     
     // elements

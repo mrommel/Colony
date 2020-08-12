@@ -317,7 +317,7 @@ class TacticalAnalysisMap {
             self.turnBuild = gameModel.currentTurn
 
             // AI civs build this map every turn
-            if player.leader.civilization() != .barbarian {
+            if true /*player.leader.civilization() != .barbarian*/ {
 
                 self.dominanceZones.removeAll()
                 self.addTemporaryZones(in: gameModel)
@@ -827,7 +827,7 @@ class TacticalAnalysisMap {
 
                     if city.player?.leader == player.leader {
                         cell.friendlyCity = true
-                    } else if diplomacyAI.isAtWar(with: city.player) {
+                    } else if diplomacyAI.isAtWar(with: city.player) || player.isBarbarian() {
                         cell.enemyCity = true
                     } else {
                         cell.neutralCity = true
@@ -845,6 +845,11 @@ class TacticalAnalysisMap {
                 if diplomacyAI.isAtWar(with: tile.owner()) {
                     cell.enemyTerritory = true
                 }
+                
+                if player.isBarbarian() {
+                    cell.enemyTerritory = true
+                }
+                
             } else {
                 cell.unclaimedTerritory = true
             }
@@ -861,7 +866,7 @@ class TacticalAnalysisMap {
                     } else {
                         cell.friendlyCivilianUnit = unit
                     }
-                } else if diplomacyAI.isAtWar(with: unit.player) {
+                } else if diplomacyAI.isAtWar(with: unit.player) || player.isBarbarian() {
                     if unit.isCombatUnit() {
                         cell.enemyMilitaryUnit = unit
                     } else {
@@ -878,7 +883,7 @@ class TacticalAnalysisMap {
             }
 
             // Figure out whether or not to add this to a dominance zone
-            if cell.impassableTerrain || cell.impassableTerritory || !cell.revealed {
+            if cell.impassableTerrain || cell.impassableTerritory || (!cell.revealed && !player.isBarbarian()) {
                 return false
             }
         }

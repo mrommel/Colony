@@ -103,6 +103,7 @@ public enum TacticalMoveType: Int, Codable {
     case barbarianAggressiveMove // AI_TACTICAL_BARBARIAN_AGGRESSIVE_MOVE,
     case barbarianPassiveMove // AI_TACTICAL_BARBARIAN_PASSIVE_MOVE,
     case barbarianCampDefense // AI_TACTICAL_BARBARIAN_CAMP_DEFENSE,
+    case barbarianGuardCamp
     case barbarianDesperateAttack // AI_TACTICAL_BARBARIAN_DESPERATE_ATTACK,
     case barbarianEscortCivilian // AI_TACTICAL_BARBARIAN_ESCORT_CIVILIAN,
     case barbarianPlunderTradeUnit // AI_TACTICAL_BARBARIAN_PLUNDER_TRADE_UNIT,
@@ -111,7 +112,7 @@ public enum TacticalMoveType: Int, Codable {
     
     static var allBarbarianMoves: [TacticalMoveType] {
         
-        return [.barbarianCaptureCity, .barbarianDamageCity, .barbarianDestroyHighPriorityUnit, .barbarianDestroyMediumPriorityUnit, .barbarianDestroyLowPriorityUnit, .barbarianMoveToSafety, .barbarianAttritHighPriorityUnit, .barbarianAttritMediumPriorityUnit, .barbarianAttritLowPriorityUnit, .barbarianPillage, .barbarianBlockadeResource, .barbarianCivilianAttack, .barbarianAggressiveMove, .barbarianPassiveMove, .barbarianCampDefense, .barbarianDesperateAttack, .barbarianEscortCivilian, .barbarianPlunderTradeUnit, .barbarianPillageCitadel, .barbarianPillageNextTurn
+        return [.barbarianCaptureCity, .barbarianDamageCity, .barbarianDestroyHighPriorityUnit, .barbarianDestroyMediumPriorityUnit, .barbarianDestroyLowPriorityUnit, .barbarianMoveToSafety, .barbarianAttritHighPriorityUnit, .barbarianAttritMediumPriorityUnit, .barbarianAttritLowPriorityUnit, .barbarianPillage, .barbarianBlockadeResource, .barbarianCivilianAttack, .barbarianAggressiveMove, .barbarianPassiveMove, .barbarianCampDefense, .barbarianDesperateAttack, .barbarianEscortCivilian, .barbarianPlunderTradeUnit, .barbarianPillageCitadel, .barbarianPillageNextTurn, .barbarianGuardCamp
         ]
     }
     
@@ -153,6 +154,7 @@ public enum TacticalMoveType: Int, Codable {
             
         case .none: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: -1)
             
+        case .barbarianGuardCamp: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 200)
         case .unassigned: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: -1)
         case .moveNoncombatantsToSafety: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 0)
         case .captureCity: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 100, defenseFlavorWeight: 0, priority: 150)
@@ -495,7 +497,7 @@ public class TacticalAI: Codable {
         }
     }
     
-    class TacticalMove: Comparable {
+    class TacticalMove: Comparable, CustomStringConvertible, CustomDebugStringConvertible {
         
         var moveType: TacticalMoveType
         var priority: Int
@@ -506,12 +508,21 @@ public class TacticalAI: Codable {
             self.priority = TacticalMoveType.unassigned.priority()
         }
         
+        // this will sort highest priority to the beginning
         static func < (lhs: TacticalAI.TacticalMove, rhs: TacticalAI.TacticalMove) -> Bool {
-            return lhs.priority < rhs.priority
+            return lhs.priority > rhs.priority
         }
         
         static func == (lhs: TacticalAI.TacticalMove, rhs: TacticalAI.TacticalMove) -> Bool {
             return lhs.priority == rhs.priority && lhs.moveType == rhs.moveType
+        }
+        
+        var description: String {
+            return "TacticalMove(\(self.priority), \(self.moveType))"
+        }
+
+        var debugDescription: String {
+            return "TacticalMove(\(self.priority), \(self.moveType))"
         }
     }
     
@@ -612,8 +623,19 @@ public class TacticalAI: Codable {
                 // Never want immobile/dead units, explorers, ones that have already moved
                 if unit.has(task: .explore) || !unit.canMove() {
                     continue
-                } else if player.leader == .barbar || unit.domain() == .air {
-                    // We want ALL the barbarians and air units
+                } else if player.leader == .barbar {
+                    // We want ALL the barbarians that are not guarding a camp
+                    /*if let tile = gameModel.tile(at: unit.location) {
+                        if tile.has(improvement: .barbarianCamp) {
+                            unit.finishMoves()
+                            self.unitProcessed(unit: unit, markTacticalMap: unit.isCombatUnit(), in: gameModel)
+                        } else {*/
+                            unit.set(tacticalMove: .unassigned)
+                            self.currentTurnUnits.append(unit)
+                        /*}
+                    }*/
+                } else if unit.domain() == .air {
+                    // and air units
                     unit.set(tacticalMove: .unassigned)
                     self.currentTurnUnits.append(unit)
                 } else if !unit.isCombatUnit() /*&& !unit.isGreatGeneral()*/ {
@@ -628,10 +650,15 @@ public class TacticalAI: Codable {
                     } else {
                         // Non-zero danger value, near enemy, or deploying out of an operation?
                         let danger = dangerPlotsAI.danger(at: unit.location)
-                        if danger > 0 && self.isNearVisibleEnemy(unit: unit, range: 10 /*  */, gameModel: gameModel) {
+                        if danger > 0 || self.isNearVisibleEnemy(unit: unit, range: 10 /*  */, gameModel: gameModel) /* ||
+                        pLoopUnit->GetDeployFromOperationTurn() + GC.getAI_TACTICAL_MAP_TEMP_ZONE_TURNS() >= GC.getGame().getGameTurn() */ {
                             unit.set(tacticalMove: .unassigned)
                             self.currentTurnUnits.append(unit)
-                        }
+                        } /* else if (pLoopUnit->canParadrop(pLoopUnit->plot(),false))
+                        {
+                            pLoopUnit->setTacticalMove((TacticalAIMoveTypes)m_CachedInfoTypes[eTACTICAL_UNASSIGNED]);
+                            m_CurrentTurnUnits.push_back(pLoopUnit->GetID());
+                        } */
                     }
                 }
             }
@@ -1539,6 +1566,9 @@ public class TacticalAI: Codable {
                 self.plotBarbarianPlunderTradeUnitMove(in: .land, in: gameModel)
                 self.plotBarbarianPlunderTradeUnitMove(in: .sea, in: gameModel)
 
+            case .barbarianGuardCamp:
+                self.plotGuardBarbarianCamp(in: gameModel)
+                
             default:
                 // NOOP
                 print("not implemented: TacticalAI - \(move.moveType)")
@@ -2149,7 +2179,7 @@ public class TacticalAI: Codable {
             bestMovePlot = self.findBarbarianExploreTarget(for: unit, in: gameModel)
         }
 
-        return bestMovePlot;
+        return bestMovePlot
     }
     
     /// Scan nearby tiles for the best choice, borrowing code from the explore AI
@@ -2167,7 +2197,7 @@ public class TacticalAI: Codable {
             fatalError("cant get unit")
         }
         
-        var bestValue = Int.max
+        var bestValue = 0
         var bestMovePlot: HexPoint? = nil
         let movementRange = unit.movesLeft()
 
@@ -2332,6 +2362,55 @@ public class TacticalAI: Codable {
                 
                 self.executeMoveToPlot(to: target.target, saveMoves: false, in: gameModel)
             }
+        }
+    }
+    
+    func plotGuardBarbarianCamp(in gameModel: GameModel?) {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if player.isBarbarian() {
+        
+            self.currentMoveUnits.removeAll()
+                
+            for loopUnitRef in self.currentTurnUnits {
+            
+                guard let loopUnit = loopUnitRef else {
+                    continue
+                }
+                
+                // is unit already at a camp?
+                if let tile = gameModel?.tile(at: loopUnit.location) {
+                    if tile.has(improvement: .barbarianCamp) {
+                        let unit = TacticalUnit(unit: loopUnit)
+                        self.currentMoveUnits.append(unit)
+                    }
+                }
+            }
+            
+            if self.currentMoveUnits.count > 0 {
+                self.executeGuardBarbarianCamp(in: gameModel)
+            }
+        }
+    }
+    
+    func executeGuardBarbarianCamp(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        // unit should stay
+        for currentMoveUnitRef in self.currentMoveUnits {
+            
+            guard let currentMoveUnit = currentMoveUnitRef?.unit else {
+                continue
+            }
+            
+            currentMoveUnit.finishMoves()
+            self.unitProcessed(unit: currentMoveUnit, markTacticalMap: currentMoveUnit.isCombatUnit(), in: gameModel)
         }
     }
     
@@ -3418,6 +3497,8 @@ public class TacticalAI: Codable {
                 }
             }
         }
+        
+        // print("targets extracted: \(self.zoneTargets.count)")
     }
     
     /// Find last posture for a specific zone

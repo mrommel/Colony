@@ -52,7 +52,8 @@ extension TextureAtlas {
                 }
             }
 
-            speed = 0.1 // Double(action.speedValue) / 1000
+            speed = Double(action.speedValue) / 1000
+            //speed = 0.05
         }
 
         return GameObjectAtlas(textures: textures, speed: speed)
