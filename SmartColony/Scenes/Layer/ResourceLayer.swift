@@ -66,7 +66,7 @@ class ResourceLayer: SKNode {
         // place forests etc
         if resource != .none {
 
-            let textureName = resource.textureNamesHex()
+            let textureName = resource.textureNameMarker()
 
             let resourceSprite = SKSpriteNode(imageNamed: textureName)
             resourceSprite.position = position
