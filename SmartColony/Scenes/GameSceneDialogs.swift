@@ -334,14 +334,6 @@ extension GameScene {
     
     func showSelectPromotionDialog(for unit: AbstractUnit?) {
         
-        guard let gameModel = self.viewModel?.game else {
-            fatalError("cant get game")
-        }
-        
-        /*guard let humanPlayer = gameModel.humanPlayer() else {
-            fatalError("cant get human player")
-        }*/
-        
         self.currentScreenType = .selectPromotion
 
         let selectPromotionViewModel = SelectPromotionDialogViewModel(for: unit)
