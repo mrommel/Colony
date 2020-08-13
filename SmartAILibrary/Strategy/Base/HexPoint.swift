@@ -327,7 +327,7 @@ extension HexPoint {
         return HexPoint(cube: cubeNeighbor)
     }
     
-    func neighbors() -> [HexPoint] {
+    public func neighbors() -> [HexPoint] {
         
         var neighboring = [HexPoint]()
         

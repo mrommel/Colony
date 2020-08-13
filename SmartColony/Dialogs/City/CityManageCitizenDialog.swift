@@ -215,8 +215,42 @@ extension CityManageCitizenDialog: CitizenMapNodeDelegate {
     
     func clicked(on point: HexPoint) {
         
+        guard let gameModel = self.gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let city = self.city else {
+            fatalError("cant get city")
+        }
+        
+        guard let player = self.city?.player else {
+            fatalError("cant get player")
+        }
+        
         guard let cityCitizens = self.city?.cityCitizens else {
             fatalError("cant get cityCitizens")
+        }
+        
+        guard let tile = gameModel.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+        
+        var isNeighborWorkedByCity = false
+
+        for neighbor in point.neighbors() {
+            
+            if let neighborTile = gameModel.tile(at: neighbor) {
+                if player.isEqual(to: neighborTile.workingCity()?.player) {
+                    isNeighborWorkedByCity = true
+                }
+            }
+        }
+        
+        if isNeighborWorkedByCity && tile.isVisible(to: player) {
+            
+            let cost = city.buyPlotCost(at: point, in: gameModel)
+            print("purchase: \(cost) at \(point)")
+            city.doBuyPlot(at: point, in: gameModel)
         }
         
         if cityCitizens.isForcedWorked(at: point) {

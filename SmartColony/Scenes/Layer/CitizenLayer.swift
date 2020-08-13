@@ -38,12 +38,16 @@ class CitizenLayer: SKNode {
         guard let gameModel = self.gameModel else {
             fatalError("gameModel not set")
         }
+        
+        guard let city = self.city else {
+            fatalError("cant get city")
+        }
 
-        guard let player = city?.player else {
+        guard let player = city.player else {
             fatalError("cant get player")
         }
 
-        guard let citizens = city?.cityCitizens else {
+        guard let citizens = city.cityCitizens else {
             fatalError("cant get citizens")
         }
 
@@ -52,22 +56,41 @@ class CitizenLayer: SKNode {
         for location in citizens.workingTileLocations() {
 
             if let tile = gameModel.tile(at: location) {
+                
+                let screenPoint = HexPoint.toScreen(hex: location)
 
                 if player.isEqual(to: tile.workingCity()?.player) {
 
-                    let screenPoint = HexPoint.toScreen(hex: location)
-                    let selected = citizens.isWorked(at: location) || tile.point == city?.location
+                    let selected = citizens.isWorked(at: location) || tile.point == city.location
                     let forced = citizens.isForcedWorked(at: location)
 
                     if tile.isVisible(to: self.player) {
                         self.placeCitizen(for: location, at: screenPoint, selected: selected, forced: forced)
+                    }
+                } else {
+                    
+                    var isNeighborWorkedByCity = false
+
+                    for neighbor in location.neighbors() {
+                        
+                        if let neighborTile = gameModel.tile(at: neighbor) {
+                            if player.isEqual(to: neighborTile.workingCity()?.player) {
+                                isNeighborWorkedByCity = true
+                            }
+                        }
+                    }
+                    
+                    if isNeighborWorkedByCity && tile.isVisible(to: self.player) {
+                        
+                        let cost = city.buyPlotCost(at: tile.point, in: gameModel)
+                        //print("cost: \(cost) at \(tile.point)")
+                        self.placePurchaseButton(for: location, at: screenPoint, cost: cost)
                     }
                 }
             }
         }
     }
 
-    /// handles all terrain
     func placeCitizen(for point: HexPoint, at position: CGPoint, selected: Bool, forced: Bool) {
 
         var textureName = "tile_citizen_normal"
@@ -87,6 +110,26 @@ class CitizenLayer: SKNode {
         citizenSprite.color = .black
         citizenSprite.colorBlendFactor = 0.0
         self.addChild(citizenSprite)
+    }
+    
+    func placePurchaseButton(for point: HexPoint, at position: CGPoint, cost: Int) {
+        
+        let citizenSprite = SKSpriteNode(imageNamed: "tile_purchase")
+        citizenSprite.position = position
+        citizenSprite.zPosition = Globals.ZLevels.water
+        citizenSprite.anchorPoint = CGPoint(x: 0, y: 0)
+        citizenSprite.color = .black
+        citizenSprite.colorBlendFactor = 0.0
+        self.addChild(citizenSprite)
+        
+        // add cost
+        let costLabel = SKLabelNode(text: "\(cost)")
+        costLabel.position = position
+        costLabel.zPosition = Globals.ZLevels.water
+        costLabel.fontSize = 10
+        costLabel.fontColor = .white
+        costLabel.verticalAlignmentMode = .center
+        self.addChild(costLabel)
     }
     
     func refresh() {
