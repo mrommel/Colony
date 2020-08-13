@@ -142,10 +142,6 @@ public class DiplomaticDealAI: Codable {
     // Try to even out the value on both sides.  If bFavorMe is true we'll bias things in our favor if necessary
     private func doEqualizeDealWithAI(deal: DiplomaticDeal, with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
         
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
-        
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
@@ -182,7 +178,7 @@ public class DiplomaticDealAI: Codable {
             makeOffer = true
         }
 
-        guard var counterDeal: DiplomaticDeal = deal.copy() else {
+        guard let counterDeal: DiplomaticDeal = deal.copy() else {
             fatalError("cant get a copy of deal")
         }
 
@@ -192,7 +188,7 @@ public class DiplomaticDealAI: Codable {
             // See if there are items we can add or remove from either side to balance out the deal if it's not already even
             /////////////////////////////
 
-            var useEvenValue = true
+            let useEvenValue = true
 
             // TODO: add more methods
             /*self.doAddVoteCommitmentToThem(for: counterDeal, by: otherPlayer, dontChangeTheirExistingItems: false, totalValue, evenValueImOffering, evenValueTheyreOffering, amountOverWeWillRequest, useEvenValue: useEvenValue)
@@ -246,17 +242,9 @@ public class DiplomaticDealAI: Codable {
     
     /// Try to even out the value on both sides.  If bFavorMe is true we'll bias things in our favor if necessary
     private func doEqualizeDealWithHuman(deal: inout DiplomaticDeal, with otherPlayer: AbstractPlayer?, dontChangeMyExistingItems: Bool, dontChangeTheirExistingItems: Bool, dealGoodToBeginWith: inout Bool, cantMatchOffer: inout Bool, in gameModel: GameModel?) -> Bool {
-    
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
         
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
-        }
-        
-        guard let otherDiplomacyDealAI = otherPlayer.diplomacyDealAI else {
-            fatalError("cant get otherDiplomacyDealAI")
         }
         
         guard let activePlayer = gameModel?.activePlayer() else {
@@ -442,7 +430,7 @@ public class DiplomaticDealAI: Codable {
                 self.doAddItemsToDealForPeaceTreaty(with: otherPlayer, deal: &deal, treaty: peaceTreatyImWillingToOffer, meSurrendering: true, in: gameModel)
 
                 // Store the value of the deal with the human so that we have a number to use for renegotiation (if necessary)
-                let (_, valueImOffering, valueTheyreOffering) = deal.value(useEvenValue: false, in: gameModel)
+                let (_, valueImOffering, _) = deal.value(useEvenValue: false, in: gameModel)
                 
                 if !equalizingDeals {
                     self.updateCachedValueOfPeaceWithHuman(to: -valueImOffering)
@@ -456,7 +444,7 @@ public class DiplomaticDealAI: Codable {
                 self.doAddItemsToDealForPeaceTreaty(with: otherPlayer, deal: &deal, treaty: peaceTreatyImWillingToAccept, meSurrendering: false, in: gameModel)
 
                 // Store the value of the deal with the human so that we have a number to use for renegotiation (if necessary)
-                let (_, valueImOffering, valueTheyreOffering) = deal.value(useEvenValue: false, in: gameModel)
+                let (_, _, valueTheyreOffering) = deal.value(useEvenValue: false, in: gameModel)
                 
                 if !equalizingDeals {
                     self.updateCachedValueOfPeaceWithHuman(to: valueTheyreOffering)
@@ -485,9 +473,9 @@ public class DiplomaticDealAI: Codable {
         
         var percentGoldToGive = 0
         var percentGPTToGive = 0
-        var giveOpenBorders = false;
-        var giveOnlyOneCity = false;
-        var percentCitiesGiveUp = 0; /* 100 = all but capital */
+        var giveOpenBorders = false
+        var giveOnlyOneCity = false
+        var percentCitiesGiveUp = 0 /* 100 = all but capital */
         var giveUpStratResources = false;
         var giveUpLuxuryResources = false;
 
@@ -786,7 +774,7 @@ public class DiplomaticDealAI: Codable {
     /// Add third party peace for allied city-states
     func doAddPlayersAlliesToTreaty(with otherPlayer: AbstractPlayer?, deal: DiplomaticDeal) {
         
-        let peaceDuration = 30
+        //let peaceDuration = 30
         
         /*for(int iMinorLoop = MAX_MAJOR_CIVS; iMinorLoop < MAX_CIV_PLAYERS; iMinorLoop++)
         {

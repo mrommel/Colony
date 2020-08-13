@@ -1195,7 +1195,6 @@ public class HomelandAI {
         }
 
         economicAI.updatePlots(in: gameModel)
-        
         var foundNearbyExplorePlot = false
 
         let pathfinder = AStarPathfinder()
