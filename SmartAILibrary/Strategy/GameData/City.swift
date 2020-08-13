@@ -2643,16 +2643,7 @@ public class City: AbstractCity {
             return false
         }
         
-        guard let government = player.government else {
-            fatalError("cant get government")
-        }
-        
-        var cost: Double = Double(self.buyPlotCost(at: point, in: gameModel))
-        
-        // Reduces the cost of purchasing a tile by 20%.
-        if government.has(card: .landSurveyors) {
-            cost *= 0.8
-        }
+        let cost: Double = Double(self.buyPlotCost(at: point, in: gameModel))
         
         player.treasury?.changeGold(by: -cost)
         player.changeNumPlotsBought(change: 1)
@@ -2683,6 +2674,10 @@ public class City: AbstractCity {
         
         guard let player = self.player else {
             fatalError("cant get player")
+        }
+        
+        guard let government = player.government else {
+            fatalError("cant get government")
         }
         
         if point.x == -1 && point.y == -1 {
@@ -2734,6 +2729,12 @@ public class City: AbstractCity {
         let divisor = 5 /* PLOT_COST_APPEARANCE_DIVISOR */
         cost /= divisor
         cost *= divisor
+        
+        // Reduces the cost of purchasing a tile by 20%.
+        if government.has(card: .landSurveyors) {
+            cost *= 4
+            cost /= 5
+        }
 
         return cost
     }
