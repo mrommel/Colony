@@ -114,18 +114,6 @@ extension GameScene: UserInterfaceProtocol {
             fatalError("cant get unit")
         }
         
-        /*guard let player = unit.player else {
-            fatalError("cant get unit player")
-        }
-        
-        guard let humanPlayer = self.viewModel?.game?.humanPlayer() else {
-            fatalError("cant get humanPlayer")
-        }*/
-        
-        /*if player.isHuman() {
-            return
-        }*/
-        
         let costs: [Double] = [Double].init(repeating: 0.0, count: points.count)
         self.mapNode?.unitLayer.move(unit: unit, on: HexPath(points: points, costs: costs))
     }
