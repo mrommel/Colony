@@ -364,8 +364,19 @@ public class Government: AbstractGovernment {
 
     public func policyCardSlots() -> PolicyCardSlots {
 
+        guard let civilization = self.player?.leader.civilization() else {
+            fatalError("cant get civilization")
+        }
+        
         if let government = self.currentGovernmentVal {
-            return government.policyCardSlots()
+            
+            let policyCardSlots = government.policyCardSlots()
+            
+            if civilization.ability() == .platosRepublic {
+                policyCardSlots.wildcard += 1
+            }
+            
+            return policyCardSlots
         }
 
         return PolicyCardSlots(military: 0, economic: 0, diplomatic: 0, wildcard: 0)
