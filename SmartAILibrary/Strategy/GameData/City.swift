@@ -53,8 +53,8 @@ public protocol AbstractCity: class, Codable {
     
     var cityStrategy: CityStrategyAI? { get }
     var cityCitizens: CityCitizens? { get }
+    var cityTradingPosts: AbstractCityTradingPosts? { get }
     var greatWorks: GreatWorks? { get }
-    //var cityEmphases: CityEmphases? { get }
 
     //static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
     func initialize(in gameModel: GameModel?)
@@ -82,7 +82,7 @@ public protocol AbstractCity: class, Codable {
     func has(wonder: WonderType) -> Bool
 
     func canBuild(building: BuildingType, in gameModel: GameModel?) -> Bool
-    func canTrain(unit: UnitType) -> Bool
+    func canTrain(unit: UnitType, in gameModel: GameModel?) -> Bool
     func canBuild(project: ProjectType) -> Bool
     func canBuild(wonder: WonderType, in gameModel: GameModel?) -> Bool
     func canConstruct(district: DistrictType, in gameModel: GameModel?) -> Bool
@@ -216,6 +216,7 @@ public class City: AbstractCity {
         case buildQueue
         case cityCitizens
         case greatWorks
+        case cityTradingPosts
         
         case healthPoints
         
@@ -265,7 +266,7 @@ public class City: AbstractCity {
     public var buildQueue: BuildQueue
     public var cityCitizens: CityCitizens?
     public var greatWorks: GreatWorks?
-    //internal var cityEmphases: CityEmphases?
+    public var cityTradingPosts: AbstractCityTradingPosts?
     
     private var healthPointsValue: Int // 0..200
     private var threatVal: Int
@@ -379,6 +380,7 @@ public class City: AbstractCity {
         self.buildQueue = try container.decode(BuildQueue.self, forKey: .buildQueue)
         self.cityCitizens = try container.decode(CityCitizens.self, forKey: .cityCitizens)
         self.greatWorks = try container.decode(GreatWorks.self, forKey: .greatWorks)
+        self.cityTradingPosts = try container.decode(CityTradingPosts.self, forKey: .cityTradingPosts)
         
         self.healthPointsValue = try container.decode(Int.self, forKey: .healthPoints)
         
@@ -442,6 +444,7 @@ public class City: AbstractCity {
         try container.encode(self.buildQueue, forKey: .buildQueue)
         try container.encode(self.cityCitizens, forKey: .cityCitizens)
         try container.encode(self.greatWorks, forKey: .greatWorks)
+        try container.encode(self.cityTradingPosts as! CityTradingPosts, forKey: .cityTradingPosts)
         
         try container.encode(self.healthPointsValue, forKey: .healthPoints)
         
@@ -502,13 +505,23 @@ public class City: AbstractCity {
             do {
                 try self.buildings?.build(building: .palace)
             } catch {
-
+                fatalError("cant build palace")
             }
         }
 
         self.cityStrategy = CityStrategyAI(city: self)
         self.cityCitizens = CityCitizens(city: self)
         self.greatWorks = GreatWorks(city: self)
+        self.cityTradingPosts = CityTradingPosts(city: self)
+        
+        if player.leader.civilization().ability() == .allRoadsLeadToRome {
+            self.cityTradingPosts?.buildTradingPost(for: player.leader)
+        }
+        
+        if player.leader.ability() == .trajansColumn {
+            // All founded cities start with a free monument in the City Center.
+            try? self.buildings?.build(building: .monument)
+        }
         
         // Update Proximity between this Player and all others
         for otherPlayer in gameModel.players {
@@ -544,6 +557,30 @@ public class City: AbstractCity {
                     try tile.setWorkingCity(to: self)
                 } catch {
                     //fatalError("cant set owner")
+                }
+            }
+        }
+        
+        // Founded cities start with eight additional tiles.
+        if player.leader.civilization().ability() == .motherRussia {
+            
+            let tiles = self.location.areaWith(radius: 2).shuffled()
+            var additional = 0
+            
+            for pointToClaim in tiles {
+                
+                if let tile = gameModel.tile(at: pointToClaim) {
+                    
+                    if !tile.hasOwner() && additional < 8 {
+                        do {
+                            try tile.set(owner: self.player)
+                            try tile.setWorkingCity(to: self)
+                            
+                            additional += 1
+                        } catch {
+                            //fatalError("cant set owner")
+                        }
+                    }
                 }
             }
         }
@@ -1434,7 +1471,7 @@ public class City: AbstractCity {
         switch item.type {
             
             case .unit:
-                return self.canTrain(unit: item.unitType!)
+                return self.canTrain(unit: item.unitType!, in: gameModel)
             case .building:
                 return self.canBuild(building: item.buildingType!, in: gameModel)
             case .wonder:
@@ -1501,6 +1538,10 @@ public class City: AbstractCity {
             fatalError("cant get government")
         }
         
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
         if !player.isHuman() || self.isProductionAutomated() {
             if !self.isProduction() /*|| self.isProductionProcess() || AI_isChooseProductionDirty() */ {
                 self.AI_chooseProduction(interruptWonders: false, in: gameModel /*bInterruptWonders*/)
@@ -1522,15 +1563,17 @@ public class City: AbstractCity {
             
             // +1 Civ6Production Production in all cities.
             if government.has(card: .urbanPlanning) {
-                production += 1
+                production += 1.0
             }
+            
+            var modifierPercentage = 0.0
             
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
             // +10% Production toward Wonders.
             if government.currentGovernment() == .autocracy {
 
                 if self.productionWonderType() != nil {
-                    production *= 1.1
+                    modifierPercentage += 0.1
                 }
             }
             
@@ -1538,7 +1581,7 @@ public class City: AbstractCity {
             if government.currentGovernment() == .merchantRepublic {
                 
                 if self.buildQueue.isCurrentlyBuildingDistrict() {
-                    production *= 1.15
+                    modifierPercentage += 0.15
                 }
             }
             
@@ -1546,13 +1589,13 @@ public class City: AbstractCity {
             if government.currentGovernment() == .fascism {
                 
                 if self.buildQueue.isCurrentlyTrainingUnit() {
-                    production *= 1.50
+                    modifierPercentage += 0.50
                 }
             }
             
             // +15% Civ6Production Production.
             if government.currentGovernment() == .communism {
-                production *= 1.15
+                modifierPercentage += 0.15
             }
             
             // +1 Civ6Production Production ... per District.
@@ -1561,11 +1604,29 @@ public class City: AbstractCity {
                 production += Double(districts.numberOfBuildDsitricts())
             }
             
+            // +20% Civ6Production Production towards Medieval, Renaissance, and Industrial Wonders.
+            if player.leader.civilization().ability() == .grandTour {
+                if let wonderType = self.productionWonderType() {
+                    if wonderType.era() == .ancient || wonderType.era() == .classical {
+                        modifierPercentage += 0.20
+                    }
+                }
+            }
+            
+            // +15% Civ6Production Production towards District (Civ6) Districts and wonders built next to a river.
+            if player.leader.civilization().ability() == .iteru {
+                if gameModel.river(at: self.location) {
+                    if self.productionWonderType() != nil || self.productionDistrictType() != nil {
+                        modifierPercentage += 0.15
+                    }
+                }
+            }
+            
             // +15% Civ6Production Production toward Ancient and Classical wonders.
             if government.has(card: .corvee) {
                 if let wonderType = self.productionWonderType() {
                     if wonderType.era() == .ancient || wonderType.era() == .classical {
-                        production *= 1.15
+                        modifierPercentage += 0.15
                     }
                 }
             }
@@ -1573,21 +1634,21 @@ public class City: AbstractCity {
             // +30% Civ6Production Production toward Builders.
             if government.has(card: .ilkum) {
                 if self.buildQueue.isCurrentlyTrainingUnit(of: .builder) {
-                    production *= 1.30
+                    modifierPercentage += 0.30
                 }
             }
             
             // +50% Civ6Production Production toward Settlers.
             if government.has(card: .colonization) {
                 if self.buildQueue.isCurrentlyTrainingUnit(of: .settler) {
-                    production *= 1.50
+                    modifierPercentage += 0.50
                 }
             }
             
             // +50% Civ6Production Production toward Ancient and Classical era heavy and light cavalry units.
             if government.has(card: .maneuver) {
                 if self.buildQueue.isCurrentlyTrainingUnit(of: .heavyCavalry) || self.buildQueue.isCurrentlyTrainingUnit(of: .lightCavalry) {
-                    production *= 1.50
+                    modifierPercentage += 0.50
                 }
             }
             
@@ -1595,7 +1656,7 @@ public class City: AbstractCity {
             if government.has(card: .maritimeIndustries) {
                 if let unitType = self.productionUnitType() {
                     if unitType.unitClass() == .navalMelee && (unitType.era() == .ancient || unitType.era() == .classical) {
-                        production *= 2
+                        modifierPercentage += 1.0
                     }
                 }
             }
@@ -1604,10 +1665,12 @@ public class City: AbstractCity {
             if government.has(card: .agoge) {
                 if let unitType = self.productionUnitType() {
                     if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) && (unitType.era() == .ancient || unitType.era() == .classical) {
-                        production *= 1.5
+                        modifierPercentage += 0.50
                     }
                 }
             }
+            
+            production *= (1.0 + modifierPercentage)
             
             self.updateProduction(for: production, in: gameModel)
 
@@ -1752,10 +1815,6 @@ public class City: AbstractCity {
     }
     
     private func train(unitType: UnitType, in gameModel: GameModel?) {
-        
-        guard let government = self.player?.government else {
-            fatalError("cant get government")
-        }
         
         let unit = Unit(at: self.location, type: unitType, owner: self.player)
         
@@ -1974,7 +2033,7 @@ public class City: AbstractCity {
         return true
     }
 
-    public func canTrain(unit unitType: UnitType) -> Bool {
+    public func canTrain(unit unitType: UnitType, in gameModel: GameModel?) -> Bool {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -1993,6 +2052,12 @@ public class City: AbstractCity {
 
         if unitType == .settler {
             if self.population() <= 1 {
+                return false
+            }
+        }
+        
+        if unitType == .trader {
+            if player.numberOfTradeRoutes() >= player.tradingCapacity(in: gameModel) {
                 return false
             }
         }
@@ -2060,6 +2125,18 @@ public class City: AbstractCity {
             
             if currentProduction.type == .unit {
                 return currentProduction.unitType
+            }
+        }
+        
+        return nil
+    }
+    
+    func productionDistrictType() -> DistrictType? {
+        
+        if let currentProduction = self.buildQueue.peek() {
+            
+            if currentProduction.type == .district {
+                return currentProduction.districtType
             }
         }
         

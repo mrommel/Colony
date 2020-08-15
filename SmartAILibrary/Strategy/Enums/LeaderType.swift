@@ -12,29 +12,80 @@ enum LeaderAbilityType {
 
     case none
 
-    case convertLandBarbarians
-    case cityStateFriendship
-    case capitalBuildsCheaper
-    case oceanMovement
-    case enhancedGoldenAges
+    //case convertLandBarbarians
+    case toTheWorldsEnd
+    case trajansColumn
+    case paxBritannica
+    case fallOfBabylon
     case giftsForTheTlatoani
-
-    func extraEmbarkMoves() -> Int {
-
-        if self == .oceanMovement {
-            return 2
-        }
-
-        return 0
+    case holyRomanEmperor // barbarossa
+    case flyingSquadron // napoleon
+    case mediterraneansBride // cleopatra
+    case theGrandEmbassy // peter the great
+    
+    private struct LeaderAbilityTypeData {
+        
+        let name: String
+        let effects: [String]
     }
-
-    func goldenAgeMovesChange() -> Int {
-
-        if self == .oceanMovement {
-            return 1
+    
+    private func data() -> LeaderAbilityTypeData {
+        
+        switch self {
+            
+        case .none:
+            return LeaderAbilityTypeData(name: "",
+                                         effects: [])
+            
+        case .toTheWorldsEnd:
+            // https://civilization.fandom.com/wiki/Alexander_(Civ6)
+            return LeaderAbilityTypeData(name: "To the World's End",
+                                         effects: ["Macedonian cities never incur war weariness.", // FIXME
+                                                   "All military units heal completely when a city with a Wonder is captured.",
+                                                   "Gain the Hetairoi unique unit with Horseback Riding."]) // FIXME
+        case .trajansColumn:
+            // https://civilization.fandom.com/wiki/Trajan_(Civ6)
+            return LeaderAbilityTypeData(name: "Trajan's Column",
+                                         effects: ["All founded cities start with a free monument in the City Center."])
+        case .paxBritannica:
+            // https://civilization.fandom.com/wiki/Victoria_(Civ6)
+            return LeaderAbilityTypeData(name: "Pax Britannica",
+                                         effects: ["The first city founded on each continent other than England's home continent grants a free melee unit in that city and +1 TradeRoute6 Trade Route capacity.", // FIXME
+                                                   "Building a Royal Navy Dockyard grants a free naval unit in that city.", // FIXME
+                                                   "Gain the Redcoat unique unit with Military Science."]) // FIXME
+        case .fallOfBabylon:
+            // https://civilization.fandom.com/wiki/Cyrus_(Civ6)
+            return LeaderAbilityTypeData(name: "Fall of Babylon",
+                                         effects: ["+2 Civ6Movement Movement for all units for the next 10 turns after declaring a Surprise War.", // FIXME
+                                                   "Declaring a Surprise War only counts as a Formal War for the purpose of Grievances (Civ6) Grievances and war weariness.", // FIXME
+                                                   "Occupied cities have no penalties to their yields.", // FIXME
+                                                   "+5 Loyalty per turn in occupied cities with a garrisoned unit."]) // FIXME
+        case .giftsForTheTlatoani:
+            // https://civilization.fandom.com/wiki/Montezuma_(Civ6)
+            return LeaderAbilityTypeData(name: "Gifts for the Tlatoani",
+                                         effects: ["Improved Luxury resources provide an Amenities6 Amenity to 2 extra cities.", // FIXME
+                                                   "+1 Civ6StrengthIcon Combat Strength for all units for each different improved Luxury resource in Aztec territory."]) // FIXME
+        case .holyRomanEmperor:
+            // https://civilization.fandom.com/wiki/Frederick_Barbarossa_(Civ6)
+            return LeaderAbilityTypeData(name: "Holy Roman Emperor",
+                                         effects: ["Gain an additional Military policy slot in all Governments.", // FIXME
+                                                   "+7 Civ6StrengthIcon Combat Strength for all units when fighting city-states and their units."]) // FIXME
+        case .flyingSquadron:
+            // https://civilization.fandom.com/wiki/Catherine_de_Medici_(Civ6)
+            return LeaderAbilityTypeData(name: "Flying Squadron",
+                                         effects: ["+1 level of DiplomaticVisibility6 Diplomatic Visibility with every encountered civilization.", // FIXME
+                                                   "Receives a free Spy (and extra Spy capacity) with Castles.", // FIXME
+                                                   "All Spies start as Agents with a free promotion."]) // FIXME
+        case .mediterraneansBride:
+            // https://civilization.fandom.com/wiki/Cleopatra_(Civ6)
+            return LeaderAbilityTypeData(name: "Mediterranean's Bride",
+                                         effects: ["International TradeRoute6 Trade Routes grant +4 Civ6Gold Gold.", // FIXME
+                                                   "TradeRoute6 Trade Routes sent to Egypt from other civilizations provide +2 Civ6Food Food for them and +2 Civ6Gold Gold for Egypt."]) // FIXME
+        case .theGrandEmbassy:
+            // https://civilization.fandom.com/wiki/Peter_(Civ6)
+            return LeaderAbilityTypeData(name: "The Grand Embassy",
+                                         effects: ["TradeRoute6 Trade Routes to more advanced civilizations grant Russia +1 Civ6Science Science for every three technologies that civilization is ahead of them, and +1 Civ6Culture Culture for every three civics."]) // FIXME
         }
-
-        return 0
     }
 }
 
@@ -45,9 +96,9 @@ public enum LeaderType: Int, Codable {
     case barbar
 
     case alexander
-    case augustus
-    case elizabeth
-    case darius
+    case trajan
+    case victoria
+    case cyrus
     case montezuma
     case napoleon
     case cleopatra
@@ -55,7 +106,7 @@ public enum LeaderType: Int, Codable {
     case peterTheGreat
 
     static var all: [LeaderType] {
-        return [.alexander, .augustus, .elizabeth, .darius, .montezuma, .napoleon, .cleopatra, .barbarossa, .peterTheGreat]
+        return [.alexander, .trajan, .victoria, .cyrus, .montezuma, .napoleon, .cleopatra, .barbarossa, .peterTheGreat]
     }
 
     public func name() -> String {
@@ -66,9 +117,9 @@ public enum LeaderType: Int, Codable {
         case .barbar: return "Barbar"
 
         case .alexander: return "Alexander"
-        case .augustus: return "Augustus"
-        case .elizabeth: return "Elizabeth"
-        case .darius: return "Darius"
+        case .trajan: return "Trajan"
+        case .victoria: return "Victoria"
+        case .cyrus: return "Cyrus"
         case .montezuma: return "Montezuma"
         case .napoleon: return "Napoleon"
         case .cleopatra: return "Cleopatra"
@@ -85,9 +136,9 @@ public enum LeaderType: Int, Codable {
         case .barbar: return .barbarian
 
         case .alexander: return .greek
-        case .augustus: return .roman
-        case .elizabeth: return .english
-        case .darius: return .persian
+        case .trajan: return .roman
+        case .victoria: return .english
+        case .cyrus: return .persian
         case .montezuma: return .aztecs
         case .napoleon: return .french
         case .cleopatra: return .egyptian
@@ -127,7 +178,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .tileImprovement, value: 4),
                 Flavor(type: .wonder, value: 6),
             ]
-        case .augustus:
+        case .trajan:
             return [
                 Flavor(type: .cityDefense, value: 5),
                 Flavor(type: .culture, value: 5),
@@ -151,7 +202,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .tileImprovement, value: 7),
                 Flavor(type: .wonder, value: 6),
             ]
-        case .elizabeth:
+        case .victoria:
             return [
                 Flavor(type: .cityDefense, value: 6),
                 Flavor(type: .culture, value: 6),
@@ -176,7 +227,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .wonder, value: 5),
             ]
 
-        case .darius: return []
+        case .cyrus: return []
         case .montezuma: return []
         case .napoleon: return []
         case .cleopatra: return []
@@ -203,11 +254,11 @@ public enum LeaderType: Int, Codable {
 
         case .alexander:
             return [Trait(type: .boldness, value: 8)]
-        case .augustus:
+        case .trajan:
             return [Trait(type: .boldness, value: 6)]
-        case .elizabeth:
+        case .victoria:
             return [Trait(type: .boldness, value: 4)]
-        case .darius:
+        case .cyrus:
             return []
         case .montezuma:
             return []
@@ -247,7 +298,7 @@ public enum LeaderType: Int, Codable {
                 ApproachBias(approach: .neutrally, bias: 4),
                 ApproachBias(approach: .war, bias: 6)
             ]
-        case .augustus: return [
+        case .trajan: return [
                 ApproachBias(approach: .afraid, bias: 5),
                 ApproachBias(approach: .deceptive, bias: 6),
                 ApproachBias(approach: .friendly, bias: 4),
@@ -256,7 +307,7 @@ public enum LeaderType: Int, Codable {
                 ApproachBias(approach: .neutrally, bias: 5),
                 ApproachBias(approach: .war, bias: 5)
             ]
-        case .elizabeth: return [
+        case .victoria: return [
                 ApproachBias(approach: .afraid, bias: 5),
                 ApproachBias(approach: .deceptive, bias: 6),
                 ApproachBias(approach: .friendly, bias: 4),
@@ -265,7 +316,7 @@ public enum LeaderType: Int, Codable {
                 ApproachBias(approach: .neutrally, bias: 5),
                 ApproachBias(approach: .war, bias: 4)
             ]
-        case .darius:
+        case .cyrus:
             return []
         case .montezuma:
             return []
@@ -296,15 +347,15 @@ public enum LeaderType: Int, Codable {
         case .none: return .none
         case .barbar: return .none
 
-        case .alexander: return .cityStateFriendship
-        case .augustus: return .capitalBuildsCheaper
-        case .elizabeth: return .oceanMovement
-        case .darius: return .enhancedGoldenAges
+        case .alexander: return .toTheWorldsEnd
+        case .trajan: return .trajansColumn
+        case .victoria: return .paxBritannica
+        case .cyrus: return .fallOfBabylon
         case .montezuma: return .giftsForTheTlatoani
-        case .napoleon: return .enhancedGoldenAges
-        case .cleopatra: return .enhancedGoldenAges
-        case .barbarossa: return .enhancedGoldenAges
-        case .peterTheGreat: return .enhancedGoldenAges
+        case .napoleon: return .flyingSquadron
+        case .cleopatra: return .mediterraneansBride
+        case .barbarossa: return .holyRomanEmperor
+        case .peterTheGreat: return .theGrandEmbassy
         }
     }
 }

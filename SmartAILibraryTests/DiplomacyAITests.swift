@@ -30,7 +30,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
@@ -57,7 +57,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
@@ -94,7 +94,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
@@ -127,7 +127,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
@@ -167,7 +167,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
@@ -207,7 +207,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
@@ -244,7 +244,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
@@ -282,7 +282,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
@@ -320,7 +320,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
@@ -358,7 +358,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
@@ -388,10 +388,10 @@ class DiplomacyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
-        let playerElizabeth = Player(leader: .elizabeth)
+        let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
@@ -438,7 +438,7 @@ class DiplomacyAITests: XCTestCase {
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))

@@ -100,6 +100,8 @@
 		C9588AC92419897300304E9A /* CitySpecializationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9588AC82419897300304E9A /* CitySpecializationType.swift */; };
 		C9588ACB241A9F5000304E9A /* RouteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9588ACA241A9F5000304E9A /* RouteType.swift */; };
 		C9588ACD241E3E3A00304E9A /* SpecialistType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9588ACC241E3E3A00304E9A /* SpecialistType.swift */; };
+		C960E1DC24E675870049DC83 /* CityTradingPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C960E1DB24E675870049DC83 /* CityTradingPosts.swift */; };
+		C960E1DE24E688240049DC83 /* TradeRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C960E1DD24E688240049DC83 /* TradeRoutes.swift */; };
 		C964BA1923EAD18200CA379C /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C964BA1823EAD18200CA379C /* UnitType.swift */; };
 		C964BA1B23EAE5A100CA379C /* BuildableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C964BA1A23EAE5A100CA379C /* BuildableItem.swift */; };
 		C964BA1D23EAE76C00CA379C /* CityStrategyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C964BA1C23EAE76C00CA379C /* CityStrategyType.swift */; };
@@ -354,6 +356,8 @@
 		C9588AC82419897300304E9A /* CitySpecializationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySpecializationType.swift; sourceTree = "<group>"; };
 		C9588ACA241A9F5000304E9A /* RouteType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteType.swift; sourceTree = "<group>"; };
 		C9588ACC241E3E3A00304E9A /* SpecialistType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialistType.swift; sourceTree = "<group>"; };
+		C960E1DB24E675870049DC83 /* CityTradingPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTradingPosts.swift; sourceTree = "<group>"; };
+		C960E1DD24E688240049DC83 /* TradeRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeRoutes.swift; sourceTree = "<group>"; };
 		C964BA1823EAD18200CA379C /* UnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitType.swift; sourceTree = "<group>"; };
 		C964BA1A23EAE5A100CA379C /* BuildableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildableItem.swift; sourceTree = "<group>"; };
 		C964BA1C23EAE76C00CA379C /* CityStrategyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStrategyType.swift; sourceTree = "<group>"; };
@@ -607,6 +611,7 @@
 				C99C4FC22426ACD200070038 /* UserInterface.swift */,
 				C90FA34D24BEF41500733331 /* BarbarianAI.swift */,
 				C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */,
+				C960E1DD24E688240049DC83 /* TradeRoutes.swift */,
 			);
 			path = Strategy;
 			sourceTree = "<group>";
@@ -866,6 +871,7 @@
 				C926E48A24CF5CDD0073F3E1 /* PolicyCardSlots.swift */,
 				C9C0DCD624D44799004D9F06 /* GreatPeople.swift */,
 				C9C0DCE224D74C37004D9F06 /* GreatPersonPoints.swift */,
+				C960E1DB24E675870049DC83 /* CityTradingPosts.swift */,
 			);
 			path = GameData;
 			sourceTree = "<group>";
@@ -1170,6 +1176,7 @@
 				C9ABAF2223F69CE70023AC1B /* Projects.swift in Sources */,
 				C920E99A23DB17EB008DEAB4 /* DiplomaticAI.swift in Sources */,
 				C9C2FE3923F6E1A600185235 /* UnitProductionAI.swift in Sources */,
+				C960E1DE24E688240049DC83 /* TradeRoutes.swift in Sources */,
 				C9C0DCD724D44799004D9F06 /* GreatPeople.swift in Sources */,
 				C98DBFA323DF219100B6CE25 /* City.swift in Sources */,
 				C9E74CB3248E1AE4003EF256 /* DiplomaticPlayerArray.swift in Sources */,
@@ -1208,6 +1215,7 @@
 				C92D220D23E20B7C00BB9238 /* ImprovementType.swift in Sources */,
 				C9C0DCDD24D457A4004D9F06 /* GreatWork.swift in Sources */,
 				C92317C823D7577C001FC723 /* RuleBasedMatch.swift in Sources */,
+				C960E1DC24E675870049DC83 /* CityTradingPosts.swift in Sources */,
 				C93D66AC24044EA700F5157B /* TacticalAnalysisMap.swift in Sources */,
 				C93D66AA2402913100F5157B /* UnitMovementType.swift in Sources */,
 				C9C003BF23FEDD0B0031C7F9 /* UnitFormationType.swift in Sources */,

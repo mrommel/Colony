@@ -28,7 +28,7 @@ class CityTests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
@@ -52,7 +52,7 @@ class CityTests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)

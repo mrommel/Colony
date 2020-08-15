@@ -203,6 +203,12 @@ public protocol AbstractPlayer: class, Codable {
     func canChangeGovernment() -> Bool
     func set(canChangeGovernment: Bool)
     
+    // trade routes
+    func tradingCapacity(in gameModel: GameModel?) -> Int
+    func numberOfTradeRoutes() -> Int
+    func canEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
+    func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
+    
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
 
@@ -243,6 +249,7 @@ public class Player: AbstractPlayer {
         
         case cityConnections
         case goodyHuts
+        case tradeRoutes
         
         case operations
         case notifications
@@ -279,6 +286,7 @@ public class Player: AbstractPlayer {
     public var religion: AbstractReligion?
     public var treasury: AbstractTreasury?
     public var greatPeople: AbstractGreatPeople?
+    internal var tradeRoutes: TradeRoutes?
 
     public var government: AbstractGovernment? = nil
     internal var currentEraVal: EraType = .ancient
@@ -360,6 +368,7 @@ public class Player: AbstractPlayer {
         
         self.cityConnections = try container.decode(CityConnections.self, forKey: .cityConnections)
         self.goodyHuts = try container.decode(GoodyHuts.self, forKey: .goodyHuts)
+        self.tradeRoutes = try container.decode(TradeRoutes.self, forKey: .tradeRoutes)
         
         self.techs = try container.decode(Techs.self, forKey: .techs)
         self.civics = try container.decode(Civics.self, forKey: .civics)
@@ -434,6 +443,7 @@ public class Player: AbstractPlayer {
         
         try container.encode(self.cityConnections, forKey: .cityConnections)
         try container.encode(self.goodyHuts, forKey: .goodyHuts)
+        try container.encode(self.tradeRoutes, forKey: .tradeRoutes)
         
         try container.encode(self.techs as! Techs, forKey: .techs)
         try container.encode(self.civics as! Civics, forKey: .civics)
@@ -472,6 +482,7 @@ public class Player: AbstractPlayer {
         
         self.cityConnections = CityConnections(player: self)
         self.goodyHuts = GoodyHuts(player: self)
+        self.tradeRoutes = TradeRoutes(player: self)
 
         self.techs = Techs(player: self)
         self.civics = Civics(player: self)
@@ -1946,9 +1957,10 @@ public class Player: AbstractPlayer {
             }
         }
 
-        //Simplistic increase based on player's gold
-        //500 gold will increase might by 22%, 2000 by 45%, 8000 gold by 90%
-        var goldMultiplier = 1.0 + sqrt(self.treasury!.value()) / 100.0
+        // Simplistic increase based on player's gold
+        // 500 gold will increase might by 22%, 2000 by 45%, 8000 gold by 90%
+        let treasureValue = max(0.0, self.treasury!.value())
+        var goldMultiplier = 1.0 + sqrt(treasureValue) / 100.0
         if goldMultiplier > 2.0 { goldMultiplier = 2.0 }
 
         might = might * goldMultiplier
@@ -2037,6 +2049,32 @@ public class Player: AbstractPlayer {
 
             // AI civ, may need to redo city specializations
             self.citySpecializationAI?.setSpecializationsDirty()
+        }
+        
+        // roman roads
+        if self.leader.civilization().ability() == .allRoadsLeadToRome {
+            
+            if !isCapital {
+                guard let capital = gameModel.capital(of: self) else {
+                    fatalError("cant get capital")
+                }
+                
+                let pathFinder = AStarPathfinder()
+                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self)
+
+                if let path = pathFinder.shortestPath(fromTileCoord: location, toTileCoord: capital.location) {
+                    // If within TradeRoute6 Trade Route range of the Capital6 Capital, a road to it.
+                    if path.count <= TradeRoute.range {
+                        
+                        for pathLocation in path {
+                            
+                            if let pathTile = gameModel.tile(at: pathLocation) {
+                                pathTile.set(route: .road)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -2641,6 +2679,98 @@ public class Player: AbstractPlayer {
     public func changeTotalImprovementsBuilt(change: Int) {
         
         self.totalImprovementsBuilt += change
+    }
+    
+    // MARK: trade route functions
+    
+    // https://civilization.fandom.com/wiki/Trade_Route_(Civ6)#Trading_Capacity
+    public func tradingCapacity(in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let civics = self.civics else {
+            fatalError("cant get civics")
+        }
+        
+        guard let government = self.government else {
+            fatalError("cant get government")
+        }
+        
+        var numberOfTradingCapacity = 0
+        
+        // The Foreign Trade Civic (one of the earliest of the Ancient Era) grants a Trading Capacity of one, meaning that your empire can have one TradeRoute6 Trade Route at a time.
+        if civics.has(civic: .foreignTrade) {
+            numberOfTradingCapacity += 1
+        }
+        
+        if self.leader.civilization().ability() == .satrapies && civics.has(civic: .politicalPhilosophy) {
+            // Gains +1 TradeRoute6 Trade Route capacity with Political Philosophy.
+            numberOfTradingCapacity += 1
+        }
+        
+        for loopCityRef in gameModel.cities(of: self) {
+            
+            guard let loopCity = loopCityRef else {
+                continue
+            }
+            
+            guard let loopWonders = loopCity.wonders else {
+                continue
+            }
+            
+            guard let loopDistricts = loopCity.districts else {
+                continue
+            }
+            
+            if loopDistricts.has(district: .harbor) || loopDistricts.has(district: .commercialHub) {
+                numberOfTradingCapacity += 1
+            }
+            
+            if loopWonders.has(wonder: .colossus) {
+                // +1 TradeRoute6 Trade Route capacity
+                numberOfTradingCapacity += 1
+            }
+        }
+        
+        if government.currentGovernment() == .merchantRepublic {
+            numberOfTradingCapacity += 2
+        }
+        
+        return numberOfTradingCapacity
+    }
+    
+    public func numberOfTradeRoutes() -> Int {
+        
+        guard let tradeRoutes = self.tradeRoutes else {
+            fatalError("cant get tradeRoutes")
+        }
+        
+        return tradeRoutes.count
+    }
+    
+    public func canEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool {
+        
+        let tradingCapacity = self.tradingCapacity(in: gameModel)
+        let numberOfTradeRoutes = self.numberOfTradeRoutes()
+        
+        if numberOfTradeRoutes >= tradingCapacity {
+            return false
+        }
+        
+        return true
+    }
+    
+    public func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool {
+        
+        guard let tradeRoutes = self.tradeRoutes else {
+            fatalError("cant get tradeRoutes")
+        }
+        
+        // no check ?
+        
+        return tradeRoutes.establishTradeRoute(from: originCity, to: targetCity, with: trader, in: gameModel)
     }
     
     public func isEqual(to other: AbstractPlayer?) -> Bool {

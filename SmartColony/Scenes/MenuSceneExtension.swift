@@ -256,7 +256,11 @@ extension MenuScene {
     
     func generateMap(from options: MapOptions) {
         
-        let mapLoadingDialog = MapLoadingDialog()
+        let mapLoadingDialogViewModel = MapLoadingDialogViewModel(civilizationImage: options.leader.civilization().iconTexture(),
+                                                                  leaderName: options.leader.name(),
+                                                                  abilityName: options.leader.civilization().ability().name())
+        
+        let mapLoadingDialog = MapLoadingDialog(with: mapLoadingDialogViewModel)
             
         mapLoadingDialog.zPosition = 250
             
@@ -281,7 +285,11 @@ extension MenuScene {
     
     func loadEarthMap(sized size: MapSize, leader: LeaderType, handicap: HandicapType) {
         
-        let mapLoadingDialog = MapLoadingDialog()
+        let mapLoadingDialogViewModel = MapLoadingDialogViewModel(civilizationImage: leader.civilization().iconTexture(),
+                                                                  leaderName: leader.name(),
+                                                                  abilityName: leader.civilization().ability().name())
+        
+        let mapLoadingDialog = MapLoadingDialog(with: mapLoadingDialogViewModel)
             
         mapLoadingDialog.zPosition = 250
         

@@ -28,9 +28,9 @@ class GrandStrategyAITests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
-        let playerElizabeth = Player(leader: .elizabeth)
+        let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
@@ -59,9 +59,9 @@ class GrandStrategyAITests: XCTestCase {
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
-        let playerElizabeth = Player(leader: .elizabeth)
+        let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)

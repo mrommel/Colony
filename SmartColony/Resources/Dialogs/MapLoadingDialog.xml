@@ -11,7 +11,7 @@
     <!-- sub items -->
     <items>
         <item>
-            <identifier>dialog_image</identifier>
+            <identifier>civilization_image</identifier>
             <type>image</type>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
@@ -22,9 +22,9 @@
             <image>questionmark</image>
         </item>
         <item>
-            <identifier>summary</identifier>
+            <identifier>leader_name</identifier>
             <type>label</type>
-            <title>Loading Map ...</title>
+            <title>leader</title>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
@@ -34,12 +34,24 @@
         </item>
         
         <item>
+            <identifier>ability_name</identifier>
+            <type>label</type>
+            <title>ability</title>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>90</offsety>
+            <width>160</width>
+            <height>40</height>
+        </item>
+        
+        <item>
             <identifier>progress</identifier>
             <type>progressbar</type>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>0</offsety>
+            <offsety>-200</offsety>
             <width>200</width>
             <height>40</height>
         </item>
@@ -50,7 +62,7 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-60</offsety>
+            <offsety>-240</offsety>
             <width>200</width>
             <height>40</height>
         </item>

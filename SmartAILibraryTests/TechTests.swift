@@ -65,7 +65,7 @@ class TechTests: XCTestCase {
     func testChooseNextTechAugustusInitial() {
 
         // GIVEN
-        let playerAlexander = Player(leader: .augustus)
+        let playerAlexander = Player(leader: .trajan)
         self.objectToTest = Techs(player: playerAlexander)
 
         // WHEN
@@ -78,7 +78,7 @@ class TechTests: XCTestCase {
     func testChooseNextTechAugustusLater() {
 
         // GIVEN
-        let playerAlexander = Player(leader: .augustus)
+        let playerAlexander = Player(leader: .trajan)
         self.objectToTest = Techs(player: playerAlexander)
         try! self.objectToTest?.discover(tech: .pottery)
         try! self.objectToTest?.discover(tech: .animalHusbandry)
@@ -94,7 +94,7 @@ class TechTests: XCTestCase {
     func testChooseNextTechElizabeth() {
 
         // GIVEN
-        let playerAlexander = Player(leader: .elizabeth)
+        let playerAlexander = Player(leader: .victoria)
         self.objectToTest = Techs(player: playerAlexander)
         try! self.objectToTest?.discover(tech: .pottery)
         try! self.objectToTest?.discover(tech: .animalHusbandry)
@@ -110,7 +110,7 @@ class TechTests: XCTestCase {
     func testEurekaOfIrrigation() {
         
         // GIVEN
-        let playerAlexander = Player(leader: .elizabeth)
+        let playerAlexander = Player(leader: .victoria)
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.techs
         try! self.objectToTest?.discover(tech: .pottery)
@@ -146,7 +146,7 @@ class TechTests: XCTestCase {
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.techs
         
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         // map

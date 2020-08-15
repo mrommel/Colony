@@ -18,9 +18,9 @@ extension LeaderType {
         case .barbar: return "--"
             
         case .alexander: return "leader_alexander"
-        case .augustus: return "leader_augustus"
-        case .elizabeth: return "leader_elizabeth"
-        case .darius: return "leader_darius" // #
+        case .trajan: return "leader_augustus"
+        case .victoria: return "leader_elizabeth"
+        case .cyrus: return "leader_darius" // #
         case .montezuma: return "leader_montezuma"
         case .napoleon: return "leader_napoleon"
         case .cleopatra: return "leader_cleopatra" // #

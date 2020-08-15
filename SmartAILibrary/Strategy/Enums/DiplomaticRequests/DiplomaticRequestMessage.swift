@@ -301,11 +301,11 @@ public enum DiplomaticRequestMessage: Int, Codable {
 
         case .messageIntro: // RESPONSE_FIRST_GREETING
             // Intro
-            if leader1 == .augustus {
+            if leader1 == .trajan {
                 return "Hail, stranger. I am the Imperator Caesar Augustus of far-reaching Rome. Who are you and what lands can you claim as your own?"
             }
 
-            if leader1 == .elizabeth {
+            if leader1 == .victoria {
                 return "Greetings. We are by the Grace of God, Elizabeth, Queen of the United Kingdom of Great Britain and Ireland. And soon, dare I say, the empire."
             }
 

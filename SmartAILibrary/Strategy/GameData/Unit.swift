@@ -53,6 +53,7 @@ public protocol AbstractUnit: class, Codable {
     var type: UnitType { get }
     var player: AbstractPlayer? { get set }
     var leader: LeaderType { get } // for restore from file only
+    var origin: HexPoint { get } // to get the city the unit was created in
     var task: UnitTaskType { get }
 
     func name() -> String
@@ -247,6 +248,7 @@ public class Unit: AbstractUnit {
         case location
         case player
         case leader
+        case origin
         case promotions
         case task
         case deathDelay
@@ -277,6 +279,7 @@ public class Unit: AbstractUnit {
     private var facingDirection: HexDirection = .south
     public var player: AbstractPlayer?
     private(set) public var leader: LeaderType // for restoring from file
+    private(set) public var origin: HexPoint
     internal var promotions: AbstractPromotions?
     public var task: UnitTaskType
     private var deathDelay: Bool = false
@@ -317,6 +320,7 @@ public class Unit: AbstractUnit {
         self.player = owner
         self.leader = owner!.leader
         self.task = type.defaultTask()
+        self.origin = location
 
         self.healthPointsValue = Int(Unit.maxHealth)
         self.experienceValue = 0
@@ -344,6 +348,7 @@ public class Unit: AbstractUnit {
         self.promotions = try container.decode(Promotions.self, forKey: .promotions)
         self.task = try container.decode(UnitTaskType.self, forKey: .task)
         self.deathDelay = try container.decode(Bool.self, forKey: .deathDelay)
+        self.origin = try container.decode(HexPoint.self, forKey: .origin)
 
         self.tacticalMoveValue = try container.decodeIfPresent(TacticalMoveType.self, forKey: .tacticalMove)
         self.tacticalTargetValue = try container.decodeIfPresent(HexPoint.self, forKey: .tacticalTarget)
@@ -383,6 +388,7 @@ public class Unit: AbstractUnit {
         try container.encode(promotionsWrapper, forKey: .promotions)
         try container.encode(self.task, forKey: .task)
         try container.encode(self.deathDelay, forKey: .deathDelay)
+        try container.encode(self.origin, forKey: .origin)
 
         try container.encodeIfPresent(self.tacticalMoveValue, forKey: .tacticalMove)
         try container.encodeIfPresent(self.tacticalTargetValue, forKey: .tacticalTarget)
@@ -1173,16 +1179,9 @@ public class Unit: AbstractUnit {
         if domain == .sea {
 
             extraNavalMoves = self.extraNavalMoves(in: gameModel)
-
-            if self.baseCombatStrength() == 0 {
-                extraNavalMoves = ability.extraEmbarkMoves()
-            }
         }
 
-        var extraGoldenAgeMoves = 0
-        if player.hasGoldenAge() {
-            extraGoldenAgeMoves += ability.goldenAgeMovesChange()
-        }
+        let extraGoldenAgeMoves = 0
 
         let extraUnitCombatTypeMoves = 0 // ???
         return self.type.moves() /*+ self.extraMoves()*/ + extraNavalMoves + extraGoldenAgeMoves + extraUnitCombatTypeMoves
@@ -2651,6 +2650,48 @@ public class Unit: AbstractUnit {
 
         return true
     }
+    
+    func canEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool {
+        
+        /*guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }*/
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        // can reach the target?
+        guard let originCity = gameModel?.city(at: self.origin) else {
+            // origin city does not exist anymore ?
+            return false
+        }
+        
+        if !player.canEstablishTradeRoute(from: originCity, to: targetCity, in: gameModel) {
+            return false
+        }
+        
+        return true
+    }
+    
+    func doEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        // can reach the target?
+        guard let originCity = gameModel?.city(at: self.origin) else {
+            // origin city does not exist anymore ?
+            return false
+        }
+        
+        if !self.canEstablishTradeRoute(to: targetCity, in: gameModel) {
+            return false
+        }
+        
+        return player.doEstablishTradeRoute(from: originCity, to: targetCity, with: self, in: gameModel)
+    }
 
     public func doKill(delayed: Bool, by other: AbstractPlayer?, in gameModel: GameModel?) {
 
@@ -3181,8 +3222,9 @@ public class Unit: AbstractUnit {
 
     public func doRebase(to point: HexPoint) -> Bool {
 
-        // FIXME
-        return false
+        self.origin = point
+        
+        return true
     }
 
     public func canReach(at point: HexPoint, in turns: Int, in gameModel: GameModel?) -> Bool {

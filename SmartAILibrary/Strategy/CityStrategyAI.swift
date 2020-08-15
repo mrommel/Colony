@@ -458,7 +458,7 @@ public class CityStrategyAI: Codable {
         // Loop through adding the available units
         for unitType in UnitType.all {
             
-            if city.canTrain(unit: unitType) {
+            if city.canTrain(unit: unitType, in: gameModel) {
                 
                 var weight = Double(unitProductionAI.weight(for: unitType))
                 let buildableItem = BuildableItem(unitType: unitType)

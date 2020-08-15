@@ -8,15 +8,42 @@
 
 import Foundation
 
+class MapLoadingDialogViewModel {
+    
+    let civilizationImage: String
+    let leaderName: String
+    let abilityName: String
+    
+    init(civilizationImage: String, leaderName: String, abilityName: String) {
+        
+        self.civilizationImage = civilizationImage
+        self.leaderName = leaderName
+        self.abilityName = abilityName
+    }
+}
+
 class MapLoadingDialog: Dialog {
     
-    init() {
+    // variables
+    var viewModel: MapLoadingDialogViewModel
+    
+    // MARK: Constructors
+    
+    init(with viewModel: MapLoadingDialogViewModel) {
+        
+        self.viewModel = viewModel
+        
         let uiParser = UIParser()
         guard let mapLoadingDialogConfiguration = uiParser.parse(from: "MapLoadingDialog") else {
             fatalError("cant load MapLoadingDialog configuration")
         }
         
         super.init(from: mapLoadingDialogConfiguration)
+        
+        // fill
+        self.set(imageNamed: viewModel.civilizationImage, identifier: "civilization_image")
+        self.set(text: viewModel.leaderName, identifier: "leader_name")
+        self.set(text: viewModel.abilityName, identifier: "ability_name")
     }
     
     required init?(coder aDecoder: NSCoder) {

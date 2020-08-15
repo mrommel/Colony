@@ -22,7 +22,7 @@ class UsecaseTests: XCTestCase {
         playerAlexander.initialize()
         
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         let playerBarbarian = Player(leader: .barbar)
@@ -94,7 +94,7 @@ class UsecaseTests: XCTestCase {
         playerAlexander.initialize()
         
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         let playerBarbarian = Player(leader: .barbar)
@@ -170,7 +170,7 @@ class UsecaseTests: XCTestCase {
         playerAlexander.initialize()
          
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
          
         let playerBarbarian = Player(leader: .barbar)
@@ -233,7 +233,7 @@ class UsecaseTests: XCTestCase {
         playerAlexander.initialize()
          
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
          
         let playerBarbarian = Player(leader: .barbar)
@@ -299,7 +299,7 @@ class UsecaseTests: XCTestCase {
         playerAlexander.initialize()
          
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
          
         let playerBarbarian = Player(leader: .barbar)
