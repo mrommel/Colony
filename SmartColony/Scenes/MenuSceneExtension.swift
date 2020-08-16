@@ -256,42 +256,54 @@ extension MenuScene {
     
     func generateMap(from options: MapOptions) {
         
-        let mapLoadingDialogViewModel = MapLoadingDialogViewModel(civilizationImage: options.leader.civilization().iconTexture(),
-                                                                  leaderName: options.leader.name(),
-                                                                  abilityName: options.leader.civilization().ability().name())
-        
+        var mapParameter: MapModel? = nil
+        let mapLoadingDialogViewModel = MapLoadingDialogViewModel(from: options.leader)
         let mapLoadingDialog = MapLoadingDialog(with: mapLoadingDialogViewModel)
             
         mapLoadingDialog.zPosition = 250
+        mapLoadingDialog.addOkayAction(handler: {
+            self.rootNode.sharpWith(completion: {
+                DispatchQueue.main.async {
+                    mapLoadingDialog.close()
+                    self.menuDelegate?.startWith(map: mapParameter, leader: options.leader, handicap: options.handicap)
+                }
+            })
+        })
             
         self.cameraNode.add(dialog: mapLoadingDialog)
             
         DispatchQueue.global(qos: .background).async {
             
-            self.generateMapAsync(from: options, progressHandler: { progress, text in
+            let generator = MapGenerator(with: options)
+            generator.progressHandler = { progress, text in
+                mapLoadingDialog.showProgress(value: progress, text: text)
+            }
+            
+            if let map = generator.generate() {
                 
-                DispatchQueue.main.async {
-                    mapLoadingDialog.showProgress(value: progress, text: text)
-                    
-                    if progress == 1.0 {
-                        self.rootNode.sharpWith(completion: {
-                            mapLoadingDialog.close()
-                        })
-                    }
-                }
-            })
+                mapParameter = map
+                
+                // show okay button
+                mapLoadingDialog.showBeginGameButton()
+            }
         }
     }
     
     func loadEarthMap(sized size: MapSize, leader: LeaderType, handicap: HandicapType) {
         
-        let mapLoadingDialogViewModel = MapLoadingDialogViewModel(civilizationImage: leader.civilization().iconTexture(),
-                                                                  leaderName: leader.name(),
-                                                                  abilityName: leader.civilization().ability().name())
-        
+        var mapParameter: MapModel? = nil
+        let mapLoadingDialogViewModel = MapLoadingDialogViewModel(from: leader)
         let mapLoadingDialog = MapLoadingDialog(with: mapLoadingDialogViewModel)
             
         mapLoadingDialog.zPosition = 250
+        mapLoadingDialog.addOkayAction(handler: {
+            
+            self.rootNode.sharpWith(completion: {
+                mapLoadingDialog.close()
+                
+                self.menuDelegate?.startWith(map: mapParameter, leader: leader, handicap: handicap)
+            })
+        })
         
         self.cameraNode.add(dialog: mapLoadingDialog)
         
@@ -311,116 +323,28 @@ extension MenuScene {
             fatalError("not handled: \(size)")
         }
         
+        mapLoadingDialog.showProgress(value: 0.1, text: "Start Loading")
+        
         DispatchQueue.global(qos: .background).async {
-            self.loadMapAsync(from: url, leader: leader, with: handicap, progressHandler: { progress, text in
+            let mapLoader = MapLoader()
+            if let map = mapLoader.load(from: url, for: leader) {
+                
+                mapParameter = map
                 
                 DispatchQueue.main.async {
-                    mapLoadingDialog.showProgress(value: progress, text: text)
-                    
-                    if progress == 1.0 {
-                        print("ready 1")
-                        mapLoadingDialog.close()
-                    }
+                    mapLoadingDialog.showProgress(value: 1.0, text: "Ready")
+
+                    // show okay button
+                    mapLoadingDialog.showBeginGameButton()
                 }
-            })
+            } else {
+                
+                print("failed map loading")
+                
+                self.rootNode.sharpWith(completion: {
+                    mapLoadingDialog.close()
+                })
+            }
         }
     }
-    
-    func generateMapAsync(from options: MapOptions, progressHandler: @escaping (Double, String) -> Void) {
-        
-        let generator = MapGenerator(with: options)
-        
-        generator.progressHandler = { progress, text in
-            progressHandler(progress, text)
-        }
-        
-        if let map = generator.generate() {
-            self.rootNode.sharpWith(completion: {
-                DispatchQueue.main.async {
-                    self.menuDelegate?.startWith(map: map, leader: options.leader, handicap: options.handicap)
-                }
-            })
-        }
-    }
-    
-    func loadMapAsync(from url: URL?, leader: LeaderType, with handicap: HandicapType, progressHandler: @escaping (Double, String) -> Void) {
-        
-        let mapLoader = MapLoader()
-        if let map = mapLoader.load(from: url, for: leader) {
-            
-            progressHandler(0.4, "map loaded")
-            
-            /*let continentFinder = ContinentFinder(size: map.size)
-            let continents = continentFinder.execute(on: map)
-            map.set(continents: continents)
-            
-            progressHandler(0.6, "found continent")
-            
-            let oceanFinder = OceanFinder(size: map.size)
-            let oceans = oceanFinder.execute(on: map)
-            map.set(oceans: oceans)
-            
-            progressHandler(0.9, "found oceans")*/
-            
-            // not sure why
-            // map.fogManager?.map = map
-            
-            progressHandler(1.0, "ready")
-            
-            self.rootNode.sharpWith(completion: {
-                DispatchQueue.main.async {
-                    
-                    self.menuDelegate?.startWith(map: map, leader: leader, handicap: handicap)
-                    print("ready 2")
-                }
-            })
-        
-        } else {
-            
-            progressHandler(1.0, "failure")
-            
-            self.rootNode.sharpWith(completion: {
-                DispatchQueue.main.async {
-                    //self.mapGenerationDelegate?.failed()
-                    print("failed")
-                }
-            })
-        }
-    }
-    
-    /*@available(iOS, deprecated: 12.0, message: "should not be used anymore")
-    func loadCiv5MapAsync(from url: URL?, progressHandler: @escaping (CGFloat, String) -> Void) {
-        
-        let civ5MapReader = Civ5MapReader()
-        guard let civ5Map = civ5MapReader.load(from: url) else {
-            fatalError("Map could not be loaded")
-        }
-        
-        progressHandler(0.2, "def")
-        
-        guard let map = civ5Map.toMap() else {
-            fatalError("civ5 Map could not be transformed into custom formet")
-        }
-        
-        progressHandler(0.4, "abc")
-        
-        let continentFinder = ContinentFinder(width: map.width, height: map.height)
-        let continents = continentFinder.execute(on: map)
-        map.continents = continents
-        
-        progressHandler(0.6, "abc")
-        
-        let oceanFinder = OceanFinder(width: map.width, height: map.height)
-        let oceans = oceanFinder.execute(on: map)
-        map.oceans = oceans
-        
-        progressHandler(0.9, "abc")
-        
-        let mapUsecase = MapUsecase()
-        mapUsecase.store(map: map, to: "map.map")
-        
-        DispatchQueue.main.async {
-            //self.menuDelegate?.startWith(map: map)
-        }
-    }*/
 }

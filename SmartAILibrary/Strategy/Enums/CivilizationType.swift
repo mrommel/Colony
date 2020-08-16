@@ -27,6 +27,11 @@ public enum CivilizationAbility {
 
         return self.data().name
     }
+    
+    public func effects() -> [String] {
+
+        return self.data().effects
+    }
 
     private struct CivilizationAbilityData {
 

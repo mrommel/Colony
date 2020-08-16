@@ -8,87 +8,6 @@
 
 import Foundation
 
-enum LeaderAbilityType {
-
-    case none
-
-    //case convertLandBarbarians
-    case toTheWorldsEnd
-    case trajansColumn
-    case paxBritannica
-    case fallOfBabylon
-    case giftsForTheTlatoani
-    case holyRomanEmperor // barbarossa
-    case flyingSquadron // napoleon
-    case mediterraneansBride // cleopatra
-    case theGrandEmbassy // peter the great
-    
-    private struct LeaderAbilityTypeData {
-        
-        let name: String
-        let effects: [String]
-    }
-    
-    private func data() -> LeaderAbilityTypeData {
-        
-        switch self {
-            
-        case .none:
-            return LeaderAbilityTypeData(name: "",
-                                         effects: [])
-            
-        case .toTheWorldsEnd:
-            // https://civilization.fandom.com/wiki/Alexander_(Civ6)
-            return LeaderAbilityTypeData(name: "To the World's End",
-                                         effects: ["Macedonian cities never incur war weariness.", // FIXME
-                                                   "All military units heal completely when a city with a Wonder is captured.",
-                                                   "Gain the Hetairoi unique unit with Horseback Riding."]) // FIXME
-        case .trajansColumn:
-            // https://civilization.fandom.com/wiki/Trajan_(Civ6)
-            return LeaderAbilityTypeData(name: "Trajan's Column",
-                                         effects: ["All founded cities start with a free monument in the City Center."])
-        case .paxBritannica:
-            // https://civilization.fandom.com/wiki/Victoria_(Civ6)
-            return LeaderAbilityTypeData(name: "Pax Britannica",
-                                         effects: ["The first city founded on each continent other than England's home continent grants a free melee unit in that city and +1 TradeRoute6 Trade Route capacity.", // FIXME
-                                                   "Building a Royal Navy Dockyard grants a free naval unit in that city.", // FIXME
-                                                   "Gain the Redcoat unique unit with Military Science."]) // FIXME
-        case .fallOfBabylon:
-            // https://civilization.fandom.com/wiki/Cyrus_(Civ6)
-            return LeaderAbilityTypeData(name: "Fall of Babylon",
-                                         effects: ["+2 Civ6Movement Movement for all units for the next 10 turns after declaring a Surprise War.", // FIXME
-                                                   "Declaring a Surprise War only counts as a Formal War for the purpose of Grievances (Civ6) Grievances and war weariness.", // FIXME
-                                                   "Occupied cities have no penalties to their yields.", // FIXME
-                                                   "+5 Loyalty per turn in occupied cities with a garrisoned unit."]) // FIXME
-        case .giftsForTheTlatoani:
-            // https://civilization.fandom.com/wiki/Montezuma_(Civ6)
-            return LeaderAbilityTypeData(name: "Gifts for the Tlatoani",
-                                         effects: ["Improved Luxury resources provide an Amenities6 Amenity to 2 extra cities.", // FIXME
-                                                   "+1 Civ6StrengthIcon Combat Strength for all units for each different improved Luxury resource in Aztec territory."]) // FIXME
-        case .holyRomanEmperor:
-            // https://civilization.fandom.com/wiki/Frederick_Barbarossa_(Civ6)
-            return LeaderAbilityTypeData(name: "Holy Roman Emperor",
-                                         effects: ["Gain an additional Military policy slot in all Governments.", // FIXME
-                                                   "+7 Civ6StrengthIcon Combat Strength for all units when fighting city-states and their units."]) // FIXME
-        case .flyingSquadron:
-            // https://civilization.fandom.com/wiki/Catherine_de_Medici_(Civ6)
-            return LeaderAbilityTypeData(name: "Flying Squadron",
-                                         effects: ["+1 level of DiplomaticVisibility6 Diplomatic Visibility with every encountered civilization.", // FIXME
-                                                   "Receives a free Spy (and extra Spy capacity) with Castles.", // FIXME
-                                                   "All Spies start as Agents with a free promotion."]) // FIXME
-        case .mediterraneansBride:
-            // https://civilization.fandom.com/wiki/Cleopatra_(Civ6)
-            return LeaderAbilityTypeData(name: "Mediterranean's Bride",
-                                         effects: ["International TradeRoute6 Trade Routes grant +4 Civ6Gold Gold.", // FIXME
-                                                   "TradeRoute6 Trade Routes sent to Egypt from other civilizations provide +2 Civ6Food Food for them and +2 Civ6Gold Gold for Egypt."]) // FIXME
-        case .theGrandEmbassy:
-            // https://civilization.fandom.com/wiki/Peter_(Civ6)
-            return LeaderAbilityTypeData(name: "The Grand Embassy",
-                                         effects: ["TradeRoute6 Trade Routes to more advanced civilizations grant Russia +1 Civ6Science Science for every three technologies that civilization is ahead of them, and +1 Civ6Culture Culture for every three civics."]) // FIXME
-        }
-    }
-}
-
 // https://civdata.com/
 public enum LeaderType: Int, Codable {
 
@@ -111,40 +30,17 @@ public enum LeaderType: Int, Codable {
 
     public func name() -> String {
 
-        switch self {
-
-        case .none: return "None"
-        case .barbar: return "Barbar"
-
-        case .alexander: return "Alexander"
-        case .trajan: return "Trajan"
-        case .victoria: return "Victoria"
-        case .cyrus: return "Cyrus"
-        case .montezuma: return "Montezuma"
-        case .napoleon: return "Napoleon"
-        case .cleopatra: return "Cleopatra"
-        case .barbarossa: return "Barbarossa"
-        case .peterTheGreat: return "Peter the Great"
-        }
+        return self.data().name
+    }
+    
+    public func intro() -> String {
+        
+        return self.data().intro
     }
 
     public func civilization() -> CivilizationType {
 
-        switch self {
-
-        case .none: return .barbarian
-        case .barbar: return .barbarian
-
-        case .alexander: return .greek
-        case .trajan: return .roman
-        case .victoria: return .english
-        case .cyrus: return .persian
-        case .montezuma: return .aztecs
-        case .napoleon: return .french
-        case .cleopatra: return .egyptian
-        case .barbarossa: return .german
-        case .peterTheGreat: return .russian
-        }
+        return self.data().civilization
     }
 
     func flavors() -> [Flavor] {
@@ -340,22 +236,82 @@ public enum LeaderType: Int, Codable {
         return 0
     }
 
-    func ability() -> LeaderAbilityType {
+    public func ability() -> LeaderAbilityType {
 
+        return self.data().ability
+    }
+    
+    // MARK: private functions
+    
+    private struct LeaderTypeData {
+        
+        let name: String
+        let intro: String
+        let civilization: CivilizationType
+        let ability: LeaderAbilityType
+    }
+    
+    // intro: https://github.com/ernsnl/Civilization6Mods/blob/b59a424f952224327cae2406bc5f05f78f6f4fb4/Lightning%20Snail%20Fast%20Mod/Mod/Base/Assets/Text/en_US/FrontEndText.xml
+    private func data() -> LeaderTypeData {
+        
         switch self {
 
-        case .none: return .none
-        case .barbar: return .none
+        case .none:
+            return LeaderTypeData(name: "None",
+                                  intro: "--",
+                                  civilization: .barbarian,
+                                  ability: .none)
+        case .barbar:
+            return LeaderTypeData(name: "Barbar",
+                                  intro: "--",
+                                  civilization: .barbarian,
+                                  ability: .none)
 
-        case .alexander: return .toTheWorldsEnd
-        case .trajan: return .trajansColumn
-        case .victoria: return .paxBritannica
-        case .cyrus: return .fallOfBabylon
-        case .montezuma: return .giftsForTheTlatoani
-        case .napoleon: return .flyingSquadron
-        case .cleopatra: return .mediterraneansBride
-        case .barbarossa: return .holyRomanEmperor
-        case .peterTheGreat: return .theGrandEmbassy
+        case .alexander:
+            return LeaderTypeData(name: "Alexander",
+            intro: "May the blessings of the gods be upon you, oh great King Alexander! You are the ruler of the mighty Greek nation. Your people lived for so many years in isolated city-states - legendary cities such as Athens, Sparta, Thebes - where they gave the world many great things, such as democracy, philosophy, tragedy, art and architecture, the very foundation of Western Civilization.",
+            civilization: .greek,
+            ability: .toTheWorldsEnd)
+        case .trajan:
+            return LeaderTypeData(name: "Trajan",
+            intro: "Cast your net wide, oh Trajan, emperor of mighty Rome. Your legions stand at the ready to march out and establish the largest empire the world has ever seen. If you can truly get all roads to lead to Rome, yours will be an empire of great riches and luxuries. Surely then our citizens will proclaim you as their best ruler, the Optimus Princeps.",
+            civilization: .roman,
+            ability: .trajansColumn)
+        case .victoria:
+            return LeaderTypeData(name: "Victoria",
+            intro: "Your Majesty the Queen Victoria of England, extend your reach beyond your borders and across the face of the globe. Worry not over the possibility of defeat for your loyal redcoats and overwhelming navy will surely carry the day. With your calm and steady touch you can bring all lands under England's sway, establishing a true Pax Britannica.",
+            civilization: .english,
+            ability: .paxBritannica)
+        case .cyrus:
+            return LeaderTypeData(name: "Cyrus",
+            intro: "Claim the crown, Cyrus, King of Persia, for you are the anointed one. With immortal soldiers, and an unwavering faith, you will conquer and rule the peoples of the world. You may see many alliances forming around you, but do not be fooled - such is an antiquated and weak way of navigating the world. Make no promise unless it aids you in achieving your goals.",
+            civilization: .persian,
+            ability: .fallOfBabylon)
+        case .montezuma:
+            return LeaderTypeData(name: "Montezuma",
+            intro: "Tlatoani Montezuma, keep your eagle warriors happy and fed, and they will forever fight for your cause. As your Aztec empire unfurls across the land, you will never want for people to raise your walls, for you will be blessed with new, loyal workers as you conquer those around you. Go forth; Huitzilopochtli calls.",
+            civilization: .aztecs,
+            ability: .giftsForTheTlatoani)
+        case .napoleon:
+            return LeaderTypeData(name: "Napoleon",
+            intro: "Long life and triumph to you, First Consul and Emperor of France, Napoleon I, ruler of the French people. France lies at the heart of Europe. Long has Paris been the world center of culture, arts and letters. Although surrounded by competitors - and often enemies - France has endured as a great nation.",
+            civilization: .french,
+            ability: .flyingSquadron)
+        case .cleopatra:
+            return LeaderTypeData(name: "Cleopatra",
+            intro: "There will be those who underestimate you, but you are cunning and full of tricks, Queen Cleopatra. Your charm will establish indestructible alliances with the strongest leaders of the world. Keep your friends close by your side and you will find yourself untouchable, with the glory of Egypt primed to win over the world.",
+            civilization: .egyptian,
+            ability: .mediterraneansBride)
+        case .barbarossa:
+            return LeaderTypeData(name: "Barbarossa",
+            intro: "Heroic Frederick, king of the Germans, your task is to forge the independent states that surround you into an empire. You are blessed to be a great military leader – use those skills to bring these cities under your sway so they may develop into commercial and industrial powerhouses. Surely then the bards will sing of mighty Frederick with the red beard, the great Holy Roman Emperor.",
+            civilization: .german,
+            ability: .holyRomanEmperor)
+        case .peterTheGreat:
+            return LeaderTypeData(name: "Peter the Great",
+            intro: "Embrace the chill winds of the Motherland, Tsar Peter. Your fascination with science and culture is a gift, and you will learn much from your Grand Embassies to foreign lands. Under your rule, Russia will surely flourish and spread, absorbing all that lies around it, perhaps creating the greatest land empire seen on this earth.",
+            civilization: .russian,
+            ability: .theGrandEmbassy)
         }
     }
 }
