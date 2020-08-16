@@ -27,10 +27,10 @@ class DiplomaticDealAITests: XCTestCase {
         
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
-        let deal = DiplomaticDeal(from: .alexander, to: .augustus)
+        let deal = DiplomaticDeal(from: .alexander, to: .trajan)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 2))
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
@@ -48,10 +48,10 @@ class DiplomaticDealAITests: XCTestCase {
         
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
-        let deal = DiplomaticDeal(from: .alexander, to: .augustus)
+        let deal = DiplomaticDeal(from: .alexander, to: .trajan)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .receive, amount: 2))
         
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .tiny)
@@ -69,10 +69,10 @@ class DiplomaticDealAITests: XCTestCase {
         
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
-        let deal = DiplomaticDeal(from: .alexander, to: .augustus)
+        let deal = DiplomaticDeal(from: .alexander, to: .trajan)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 4))
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .receive, amount: 4))
         
@@ -91,10 +91,10 @@ class DiplomaticDealAITests: XCTestCase {
         
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         
         self.objectToTest = DiplomaticDealAI(player: playerAlexander)
-        let deal = DiplomaticDeal(from: .alexander, to: .augustus)
+        let deal = DiplomaticDeal(from: .alexander, to: .trajan)
         deal.tradeItems.append(DiplomaticGoldDealItem(direction: .give, amount: 4))
         deal.tradeItems.append(DiplomaticGoldPerTurnDealItem(direction: .receive, amount: 1, duration: 5)) // gold per turn is valued only 80% because of the risk
         

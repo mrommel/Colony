@@ -11,6 +11,24 @@ import SpriteKit
 
 extension CivilizationType {
     
+    func iconTexture() -> String {
+        
+        switch self {
+            
+        case .barbarian: return "civilization_default"
+            
+        case .greek: return "civilization_greek"
+        case .roman: return "civilization_roman"
+        case .english: return "civilization_english"
+        case .aztecs: return "civilization_aztecs"
+        case .persian: return "civilization_persian"
+        case .french: return "civilization_french"
+        case .egyptian: return "civilization_egyptian"
+        case .german: return "civilization_german"
+        case .russian: return "civilization_russian"
+        }
+    }
+    
     func iconColor() -> UIColor {
         
         switch self {

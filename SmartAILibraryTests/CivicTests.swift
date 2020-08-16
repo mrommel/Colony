@@ -58,7 +58,7 @@ class CivicTests: XCTestCase {
     func testEurekaOfCraftsmanship() {
         
         // GIVEN
-        let playerAlexander = Player(leader: .elizabeth)
+        let playerAlexander = Player(leader: .victoria)
         playerAlexander.initialize()
         self.objectToTest = playerAlexander.civics
         try! self.objectToTest?.discover(civic: .codeOfLaws)

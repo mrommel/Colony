@@ -197,6 +197,12 @@ extension City {
                         // +2 Civ6Food Food, +2 Civ6Gold Gold, and +1 Civ6Production Production on all Desert tiles for this city (non-Floodplains).
                         productionValue += 1.0
                     }
+                    
+                    // motherRussia
+                    if adjacentTile.terrain() == .tundra && player?.leader.civilization().ability() == .motherRussia {
+                        // Tundra tiles provide +1 Civ6Faith Faith and +1 Civ6Production Production, in addition to their usual yields.
+                        productionValue += 1.0
+                    }
                 }
             }
         }
@@ -297,6 +303,12 @@ extension City {
                     // mausoleumAtHalicarnassus
                     if adjacentTile.terrain() == .shore && wonders.has(wonder: .mausoleumAtHalicarnassus) {
                         // +1 Civ6Science Science, +1 Civ6Faith Faith, and +1 Civ6Culture Culture to all Coast tiles in this city.
+                        faithFromTiles += 1.0
+                    }
+                    
+                    // motherRussia
+                    if adjacentTile.terrain() == .tundra && player?.leader.civilization().ability() == .motherRussia {
+                        // Tundra tiles provide +1 Civ6Faith Faith and +1 Civ6Production Production, in addition to their usual yields.
                         faithFromTiles += 1.0
                     }
                 }

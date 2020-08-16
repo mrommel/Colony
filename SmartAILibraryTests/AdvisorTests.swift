@@ -77,7 +77,7 @@ class AdvisorTests: XCTestCase {
         playerAlexander.government?.set(governmentType: .autocracy)
         try! playerAlexander.techs?.discover(tech: .mining)
         
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         playerAugustus.government?.set(governmentType: .autocracy)
         try! playerAugustus.techs?.discover(tech: .mining)
@@ -132,7 +132,7 @@ class AdvisorTests: XCTestCase {
         playerAlexander.government?.set(governmentType: .autocracy)
         try! playerAlexander.techs?.discover(tech: .mining)
         
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         playerAugustus.government?.set(governmentType: .autocracy)
         try! playerAugustus.techs?.discover(tech: .mining)

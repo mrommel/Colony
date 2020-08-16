@@ -11,25 +11,112 @@
     <!-- sub items -->
     <items>
         <item>
-            <identifier>dialog_image</identifier>
+            <identifier>civilization_image</identifier>
             <type>image</type>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
-            <offsetx>0</offsetx>
-            <offsety>170</offsety>
+            <offsetx>-100</offsetx>
+            <offsety>210</offsety>
             <width>80</width>
             <height>80</height>
             <image>questionmark</image>
         </item>
         <item>
-            <identifier>summary</identifier>
+            <identifier>leader_image</identifier>
+            <type>image</type>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>100</offsetx>
+            <offsety>210</offsety>
+            <width>80</width>
+            <height>80</height>
+            <image>questionmark</image>
+        </item>
+        <item>
+            <identifier>leader_name</identifier>
             <type>label</type>
-            <title>Loading Map ...</title>
+            <title>leader</title>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>90</offsety>
-            <width>200</width>
+            <offsety>220</offsety>
+            <width>120</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>era_intro</identifier>
+            <type>label</type>
+            <title>From the first stirrings of life beneath water… to the great beasts of the Stone Age… to man taking his first upright steps, you have come far. Now begins your greatest quest: from this early cradle of civilization on towards the stars.</title>
+            <fontSize>11</fontSize>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>170</offsety>
+            <width>280</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>leader_intro</identifier>
+            <type>label</type>
+            <title>ability</title>
+            <fontSize>11</fontSize>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>110</offsety>
+            <width>280</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>leader_ability_name</identifier>
+            <type>label</type>
+            <title>ability</title>
+            <fontSize>14</fontSize>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>20</offsety>
+            <width>280</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>leader_abilities</identifier>
+            <type>label</type>
+            <title>ability</title>
+            <fontSize>11</fontSize>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-10</offsety>
+            <width>280</width>
+            <height>40</height>
+        </item>
+        
+        <item>
+            <identifier>civilization_ability_name</identifier>
+            <type>label</type>
+            <title>ability</title>
+            <fontSize>14</fontSize>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-90</offsety>
+            <width>280</width>
+            <height>40</height>
+        </item>
+        <item>
+            <identifier>civilization_abilities</identifier>
+            <type>label</type>
+            <title>ability</title>
+            <fontSize>11</fontSize>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-120</offsety>
+            <width>280</width>
             <height>40</height>
         </item>
         
@@ -39,20 +126,32 @@
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>0</offsety>
+            <offsety>-230</offsety>
             <width>200</width>
             <height>40</height>
         </item>
         <item>
-            <identifier>text</identifier>
+            <identifier>progress_text</identifier>
             <type>label</type>
             <title>Loading Map ...</title>
             <anchorx>center</anchorx>
             <anchory>center</anchory>
             <offsetx>0</offsetx>
-            <offsety>-60</offsety>
-            <width>200</width>
+            <offsety>-260</offsety>
+            <width>280</width>
             <height>40</height>
+        </item>
+        <item>
+            <identifier>okay_button</identifier>
+            <type>button</type>
+            <title>Begin Game</title>
+            <result>OKAY</result>
+            <anchorx>center</anchorx>
+            <anchory>center</anchory>
+            <offsetx>0</offsetx>
+            <offsety>-240</offsety>
+            <width>200</width>
+            <height>42</height>
         </item>
     </items>
 </context>

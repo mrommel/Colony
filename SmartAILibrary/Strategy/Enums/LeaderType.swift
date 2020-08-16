@@ -8,36 +8,6 @@
 
 import Foundation
 
-enum LeaderAbilityType {
-
-    case none
-
-    case convertLandBarbarians
-    case cityStateFriendship
-    case capitalBuildsCheaper
-    case oceanMovement
-    case enhancedGoldenAges
-    case giftsForTheTlatoani
-
-    func extraEmbarkMoves() -> Int {
-
-        if self == .oceanMovement {
-            return 2
-        }
-
-        return 0
-    }
-
-    func goldenAgeMovesChange() -> Int {
-
-        if self == .oceanMovement {
-            return 1
-        }
-
-        return 0
-    }
-}
-
 // https://civdata.com/
 public enum LeaderType: Int, Codable {
 
@@ -45,9 +15,9 @@ public enum LeaderType: Int, Codable {
     case barbar
 
     case alexander
-    case augustus
-    case elizabeth
-    case darius
+    case trajan
+    case victoria
+    case cyrus
     case montezuma
     case napoleon
     case cleopatra
@@ -55,45 +25,22 @@ public enum LeaderType: Int, Codable {
     case peterTheGreat
 
     static var all: [LeaderType] {
-        return [.alexander, .augustus, .elizabeth, .darius, .montezuma, .napoleon, .cleopatra, .barbarossa, .peterTheGreat]
+        return [.alexander, .trajan, .victoria, .cyrus, .montezuma, .napoleon, .cleopatra, .barbarossa, .peterTheGreat]
     }
 
     public func name() -> String {
 
-        switch self {
-
-        case .none: return "None"
-        case .barbar: return "Barbar"
-
-        case .alexander: return "Alexander"
-        case .augustus: return "Augustus"
-        case .elizabeth: return "Elizabeth"
-        case .darius: return "Darius"
-        case .montezuma: return "Montezuma"
-        case .napoleon: return "Napoleon"
-        case .cleopatra: return "Cleopatra"
-        case .barbarossa: return "Barbarossa"
-        case .peterTheGreat: return "Peter the Great"
-        }
+        return self.data().name
+    }
+    
+    public func intro() -> String {
+        
+        return self.data().intro
     }
 
     public func civilization() -> CivilizationType {
 
-        switch self {
-
-        case .none: return .barbarian
-        case .barbar: return .barbarian
-
-        case .alexander: return .greek
-        case .augustus: return .roman
-        case .elizabeth: return .english
-        case .darius: return .persian
-        case .montezuma: return .aztecs
-        case .napoleon: return .french
-        case .cleopatra: return .egyptian
-        case .barbarossa: return .german
-        case .peterTheGreat: return .russian
-        }
+        return self.data().civilization
     }
 
     func flavors() -> [Flavor] {
@@ -127,7 +74,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .tileImprovement, value: 4),
                 Flavor(type: .wonder, value: 6),
             ]
-        case .augustus:
+        case .trajan:
             return [
                 Flavor(type: .cityDefense, value: 5),
                 Flavor(type: .culture, value: 5),
@@ -151,7 +98,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .tileImprovement, value: 7),
                 Flavor(type: .wonder, value: 6),
             ]
-        case .elizabeth:
+        case .victoria:
             return [
                 Flavor(type: .cityDefense, value: 6),
                 Flavor(type: .culture, value: 6),
@@ -176,7 +123,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .wonder, value: 5),
             ]
 
-        case .darius: return []
+        case .cyrus: return []
         case .montezuma: return []
         case .napoleon: return []
         case .cleopatra: return []
@@ -203,11 +150,11 @@ public enum LeaderType: Int, Codable {
 
         case .alexander:
             return [Trait(type: .boldness, value: 8)]
-        case .augustus:
+        case .trajan:
             return [Trait(type: .boldness, value: 6)]
-        case .elizabeth:
+        case .victoria:
             return [Trait(type: .boldness, value: 4)]
-        case .darius:
+        case .cyrus:
             return []
         case .montezuma:
             return []
@@ -247,7 +194,7 @@ public enum LeaderType: Int, Codable {
                 ApproachBias(approach: .neutrally, bias: 4),
                 ApproachBias(approach: .war, bias: 6)
             ]
-        case .augustus: return [
+        case .trajan: return [
                 ApproachBias(approach: .afraid, bias: 5),
                 ApproachBias(approach: .deceptive, bias: 6),
                 ApproachBias(approach: .friendly, bias: 4),
@@ -256,7 +203,7 @@ public enum LeaderType: Int, Codable {
                 ApproachBias(approach: .neutrally, bias: 5),
                 ApproachBias(approach: .war, bias: 5)
             ]
-        case .elizabeth: return [
+        case .victoria: return [
                 ApproachBias(approach: .afraid, bias: 5),
                 ApproachBias(approach: .deceptive, bias: 6),
                 ApproachBias(approach: .friendly, bias: 4),
@@ -265,7 +212,7 @@ public enum LeaderType: Int, Codable {
                 ApproachBias(approach: .neutrally, bias: 5),
                 ApproachBias(approach: .war, bias: 4)
             ]
-        case .darius:
+        case .cyrus:
             return []
         case .montezuma:
             return []
@@ -289,22 +236,82 @@ public enum LeaderType: Int, Codable {
         return 0
     }
 
-    func ability() -> LeaderAbilityType {
+    public func ability() -> LeaderAbilityType {
 
+        return self.data().ability
+    }
+    
+    // MARK: private functions
+    
+    private struct LeaderTypeData {
+        
+        let name: String
+        let intro: String
+        let civilization: CivilizationType
+        let ability: LeaderAbilityType
+    }
+    
+    // intro: https://github.com/ernsnl/Civilization6Mods/blob/b59a424f952224327cae2406bc5f05f78f6f4fb4/Lightning%20Snail%20Fast%20Mod/Mod/Base/Assets/Text/en_US/FrontEndText.xml
+    private func data() -> LeaderTypeData {
+        
         switch self {
 
-        case .none: return .none
-        case .barbar: return .none
+        case .none:
+            return LeaderTypeData(name: "None",
+                                  intro: "--",
+                                  civilization: .barbarian,
+                                  ability: .none)
+        case .barbar:
+            return LeaderTypeData(name: "Barbar",
+                                  intro: "--",
+                                  civilization: .barbarian,
+                                  ability: .none)
 
-        case .alexander: return .cityStateFriendship
-        case .augustus: return .capitalBuildsCheaper
-        case .elizabeth: return .oceanMovement
-        case .darius: return .enhancedGoldenAges
-        case .montezuma: return .giftsForTheTlatoani
-        case .napoleon: return .enhancedGoldenAges
-        case .cleopatra: return .enhancedGoldenAges
-        case .barbarossa: return .enhancedGoldenAges
-        case .peterTheGreat: return .enhancedGoldenAges
+        case .alexander:
+            return LeaderTypeData(name: "Alexander",
+            intro: "May the blessings of the gods be upon you, oh great King Alexander! You are the ruler of the mighty Greek nation. Your people lived for so many years in isolated city-states - legendary cities such as Athens, Sparta, Thebes - where they gave the world many great things, such as democracy, philosophy, tragedy, art and architecture, the very foundation of Western Civilization.",
+            civilization: .greek,
+            ability: .toTheWorldsEnd)
+        case .trajan:
+            return LeaderTypeData(name: "Trajan",
+            intro: "Cast your net wide, oh Trajan, emperor of mighty Rome. Your legions stand at the ready to march out and establish the largest empire the world has ever seen. If you can truly get all roads to lead to Rome, yours will be an empire of great riches and luxuries. Surely then our citizens will proclaim you as their best ruler, the Optimus Princeps.",
+            civilization: .roman,
+            ability: .trajansColumn)
+        case .victoria:
+            return LeaderTypeData(name: "Victoria",
+            intro: "Your Majesty the Queen Victoria of England, extend your reach beyond your borders and across the face of the globe. Worry not over the possibility of defeat for your loyal redcoats and overwhelming navy will surely carry the day. With your calm and steady touch you can bring all lands under England's sway, establishing a true Pax Britannica.",
+            civilization: .english,
+            ability: .paxBritannica)
+        case .cyrus:
+            return LeaderTypeData(name: "Cyrus",
+            intro: "Claim the crown, Cyrus, King of Persia, for you are the anointed one. With immortal soldiers, and an unwavering faith, you will conquer and rule the peoples of the world. You may see many alliances forming around you, but do not be fooled - such is an antiquated and weak way of navigating the world. Make no promise unless it aids you in achieving your goals.",
+            civilization: .persian,
+            ability: .fallOfBabylon)
+        case .montezuma:
+            return LeaderTypeData(name: "Montezuma",
+            intro: "Tlatoani Montezuma, keep your eagle warriors happy and fed, and they will forever fight for your cause. As your Aztec empire unfurls across the land, you will never want for people to raise your walls, for you will be blessed with new, loyal workers as you conquer those around you. Go forth; Huitzilopochtli calls.",
+            civilization: .aztecs,
+            ability: .giftsForTheTlatoani)
+        case .napoleon:
+            return LeaderTypeData(name: "Napoleon",
+            intro: "Long life and triumph to you, First Consul and Emperor of France, Napoleon I, ruler of the French people. France lies at the heart of Europe. Long has Paris been the world center of culture, arts and letters. Although surrounded by competitors - and often enemies - France has endured as a great nation.",
+            civilization: .french,
+            ability: .flyingSquadron)
+        case .cleopatra:
+            return LeaderTypeData(name: "Cleopatra",
+            intro: "There will be those who underestimate you, but you are cunning and full of tricks, Queen Cleopatra. Your charm will establish indestructible alliances with the strongest leaders of the world. Keep your friends close by your side and you will find yourself untouchable, with the glory of Egypt primed to win over the world.",
+            civilization: .egyptian,
+            ability: .mediterraneansBride)
+        case .barbarossa:
+            return LeaderTypeData(name: "Barbarossa",
+            intro: "Heroic Frederick, king of the Germans, your task is to forge the independent states that surround you into an empire. You are blessed to be a great military leader – use those skills to bring these cities under your sway so they may develop into commercial and industrial powerhouses. Surely then the bards will sing of mighty Frederick with the red beard, the great Holy Roman Emperor.",
+            civilization: .german,
+            ability: .holyRomanEmperor)
+        case .peterTheGreat:
+            return LeaderTypeData(name: "Peter the Great",
+            intro: "Embrace the chill winds of the Motherland, Tsar Peter. Your fascination with science and culture is a gift, and you will learn much from your Grand Embassies to foreign lands. Under your rule, Russia will surely flourish and spread, absorbing all that lies around it, perhaps creating the greatest land empire seen on this earth.",
+            civilization: .russian,
+            ability: .theGrandEmbassy)
         }
     }
 }

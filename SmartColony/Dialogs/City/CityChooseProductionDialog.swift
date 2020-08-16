@@ -181,7 +181,7 @@ class CityChooseProductionDialog: Dialog {
         
         for unitType in UnitType.all {
             
-            if city.canTrain(unit: unitType) {
+            if city.canTrain(unit: unitType, in: gameModel) {
                 
                 let unitProduction = UnitBuildingItemDisplayNode(unitType: unitType, size: CGSize(width: 200, height: 40))
                 unitProduction.zPosition = 199

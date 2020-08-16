@@ -257,11 +257,11 @@ enum DialogResultType: String, Codable {
     func toLeaderType() -> LeaderType {
 
         if self == .leaderAugustus {
-            return .augustus
+            return .trajan
         } else if self == .leaderAlexander {
             return .alexander
         } else if self == .leaderElizabeth {
-            return .elizabeth
+            return .victoria
         } else if self == .leaderMontezuma {
             return .montezuma
         } else if self == .leaderNapoloen {

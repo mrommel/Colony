@@ -85,6 +85,7 @@ public protocol AbstractTile: Codable {
 
     func isRoutePillaged() -> Bool
     func setRoute(pillaged: Bool)
+    func set(route: RouteType)
 
     // methods related to owner of this tile
     func hasOwner() -> Bool
@@ -924,7 +925,7 @@ class Tile: AbstractTile {
         }
     }
 
-    func set(route routeType: RouteType) {
+    public func set(route routeType: RouteType) {
 
         self.routeValue = routeType
     }

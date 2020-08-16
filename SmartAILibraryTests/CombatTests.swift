@@ -22,7 +22,7 @@ class CombatTests: XCTestCase {
         playerAlexander.initialize()
         
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         // map
@@ -58,7 +58,7 @@ class CombatTests: XCTestCase {
         playerAlexander.initialize()
         
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         // map
@@ -96,7 +96,7 @@ class CombatTests: XCTestCase {
         playerAlexander.initialize()
         
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         try! playerAugustus.techs?.discover(tech: .masonry)
@@ -143,7 +143,7 @@ class CombatTests: XCTestCase {
         playerAlexander.initialize()
         
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         // map
@@ -180,7 +180,7 @@ class CombatTests: XCTestCase {
         playerAlexander.initialize()
         
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         // map
@@ -218,7 +218,7 @@ class CombatTests: XCTestCase {
         playerAlexander.initialize()
         
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         // map
@@ -254,7 +254,7 @@ class CombatTests: XCTestCase {
         playerAlexander.initialize()
         
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         
         // map

@@ -27,7 +27,7 @@ class TileDiscoveredTests: XCTestCase {
     
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         
         self.objectToTest = TileDiscovered()
         
@@ -44,7 +44,7 @@ class TileDiscoveredTests: XCTestCase {
     
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         
         self.objectToTest = TileDiscovered()
         self.objectToTest?.discover(by: playerAlexander)
@@ -62,7 +62,7 @@ class TileDiscoveredTests: XCTestCase {
     
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         
         self.objectToTest = TileDiscovered()
         self.objectToTest?.discover(by: playerAlexander)

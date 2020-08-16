@@ -61,12 +61,12 @@ class GreatPersonsTests: XCTestCase {
         playerAlexander.set(era: .classical)
         
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         playerAugustus.set(era: .medieval)
         
         // player 3
-        let playerElizabeth = Player(leader: .elizabeth)
+        let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
         playerElizabeth.set(era: .medieval)
         
@@ -101,12 +101,12 @@ class GreatPersonsTests: XCTestCase {
         playerAlexander.set(era: .classical)
         
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         playerAugustus.set(era: .medieval)
         
         // player 3
-        let playerElizabeth = Player(leader: .elizabeth)
+        let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
         playerElizabeth.set(era: .medieval)
         
@@ -137,12 +137,12 @@ class GreatPersonsTests: XCTestCase {
         playerAlexander.set(era: .classical)
         
         // player 2
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         playerAugustus.set(era: .medieval)
         
         // player 3
-        let playerElizabeth = Player(leader: .elizabeth)
+        let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
         playerElizabeth.set(era: .medieval)
         

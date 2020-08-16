@@ -28,7 +28,7 @@ class PlayerScoringTests: XCTestCase {
         // GIVEN
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModel(size: .standard)
@@ -47,7 +47,7 @@ class PlayerScoringTests: XCTestCase {
         // GIVEN
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModel(size: .standard)
@@ -74,7 +74,7 @@ class PlayerScoringTests: XCTestCase {
         // GIVEN
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModel(size: .tiny)
@@ -138,7 +138,7 @@ class PlayerScoringTests: XCTestCase {
         // GIVEN
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModel(size: .tiny)
@@ -163,7 +163,7 @@ class PlayerScoringTests: XCTestCase {
         // GIVEN
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModel(size: .tiny)
@@ -189,7 +189,7 @@ class PlayerScoringTests: XCTestCase {
         // GIVEN
         self.objectToTest = Player(leader: .alexander)
         self.objectToTest?.initialize()
-        let playerAugustus = Player(leader: .augustus)
+        let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
 
         let mapModel = MapModel(size: .standard)

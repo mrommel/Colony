@@ -535,10 +535,10 @@ public class MilitaryAI: Codable {
         // SEE IF THERE ARE OPERATIONS THAT NEED TO BE ABORTED
 
         // Are we willing to risk pressing forward vs. barbarians?
-        var willingToAcceptRisk = (self.totalThreatWeight / 2) < self.barbarianThreatTotal()
-        if player.leader.ability() == .convertLandBarbarians {
+        let willingToAcceptRisk = (self.totalThreatWeight / 2) < self.barbarianThreatTotal()
+        /*if player.leader.ability() == .convertLandBarbarians {
             willingToAcceptRisk = true
-        }
+        }*/
 
         //
         // Operations vs. Barbarians

@@ -13,7 +13,7 @@ public class PolicyCardSlots {
     public let military: Int // red
     public let economic: Int // yellow
     public let diplomatic: Int // green
-    public let wildcard: Int // lila
+    public var wildcard: Int // lila
 
     init(military: Int, economic: Int, diplomatic: Int, wildcard: Int) {
 

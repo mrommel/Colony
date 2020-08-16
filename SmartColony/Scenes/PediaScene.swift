@@ -157,7 +157,7 @@ class PediaScene: BaseScene {
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
         barbarianPlayer.initialize()
         
-        let aiPlayer = Player(leader: .elizabeth, isHuman: false)
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
         aiPlayer.initialize()
 
         let humanPlayer = Player(leader: .alexander, isHuman: true)
@@ -205,7 +205,7 @@ class PediaScene: BaseScene {
         let barbarPlayer = Player(leader: .barbar, isHuman: false)
         barbarPlayer.initialize()
         
-        let aiPlayer = Player(leader: .elizabeth, isHuman: false)
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
         aiPlayer.initialize()
 
         try! aiPlayer.techs?.discover(tech: .writing)
@@ -340,15 +340,15 @@ class PediaScene: BaseScene {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let aiPlayer = Player(leader: .augustus, isHuman: false)
+        let aiPlayer = Player(leader: .trajan, isHuman: false)
         aiPlayer.initialize()
 
         let rankingData = RankingData(players: [humanPlayer, aiPlayer])
         rankingData.add(score: 0, for: .alexander)
-        rankingData.add(score: 0, for: .augustus)
+        rankingData.add(score: 0, for: .trajan)
 
         rankingData.add(score: 8, for: .alexander)
-        rankingData.add(score: 12, for: .augustus)
+        rankingData.add(score: 12, for: .trajan)
 
         let interimRankingDialog = InterimRankingDialog(for: humanPlayer, with: rankingData)
         interimRankingDialog.zPosition = 250
@@ -365,7 +365,7 @@ class PediaScene: BaseScene {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
 
-        let otherPlayer = Player(leader: .augustus, isHuman: false)
+        let otherPlayer = Player(leader: .trajan, isHuman: false)
         otherPlayer.initialize()
 
         let mapModel = PediaScene.mapFilled(with: .grass, sized: .duel)
