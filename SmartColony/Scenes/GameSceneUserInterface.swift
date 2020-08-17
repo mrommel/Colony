@@ -27,7 +27,7 @@ extension GameScene: UserInterfaceProtocol {
     func unselect() {
 
         self.mapNode?.unitLayer.hideFocus()
-        self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [])
+        self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [], in: nil)
         self.selectedUnit = nil
     }
 

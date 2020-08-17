@@ -167,7 +167,7 @@ class GameScene: BaseScene {
         self.cultureProgressNode?.zPosition = Globals.ZLevels.progressIndicator
         self.safeAreaNode.addChild(self.cultureProgressNode!)
 
-        self.bottomLeftBar = BottomLeftBar(sized: CGSize(width: 200, height: 112))
+        self.bottomLeftBar = BottomLeftBar(sized: CGSize(width: 200, height: 120))
         self.bottomLeftBar?.delegate = self
         self.bottomLeftBar?.zPosition = Globals.ZLevels.bottomElements
         self.safeAreaNode.addChild(self.bottomLeftBar!)
@@ -764,14 +764,14 @@ class GameScene: BaseScene {
                 
             case .none:
                 let commands = unit.commands(in: self.viewModel?.game)
-                self.bottomLeftBar?.selectedUnitChanged(to: unit, commands: commands)
+                self.bottomLeftBar?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.game)
                 
             case .melee, .ranged:
                 let commands = [Command(type: .cancelAttack, location: HexPoint.invalid)]
-                self.bottomLeftBar?.selectedUnitChanged(to: unit, commands: commands)
+                self.bottomLeftBar?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.game)
             }
         } else {
-            self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [])
+            self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [], in: nil)
         }
     }
 
@@ -955,7 +955,7 @@ extension GameScene: BottomLeftBarDelegate {
         }
         
         self.uiCombatMode = .melee
-        self.bottomLeftBar?.selectedUnitChanged(to: selectedUnit, commands: [Command(type: .cancelAttack, location: HexPoint.invalid)])
+        //self.bottomLeftBar?.selectedUnitChanged(to: selectedUnit, commands: [], in: nil)
         
         if let unit = unit {
             
@@ -969,7 +969,7 @@ extension GameScene: BottomLeftBarDelegate {
                 
                 if let otherUnit = self.viewModel?.game?.unit(at: neighbor) {
                     
-                    if !player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player) {
+                    if (!player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player)) || otherUnit.isBarbarian() {
                         self.mapNode?.unitLayer.showAttackFocus(at: neighbor)
                     }
                 }
@@ -988,7 +988,7 @@ extension GameScene: BottomLeftBarDelegate {
         }
         
         self.uiCombatMode = .ranged
-        self.bottomLeftBar?.selectedUnitChanged(to: selectedUnit, commands: [Command(type: .cancelAttack, location: HexPoint.invalid)])
+        //self.bottomLeftBar?.selectedUnitChanged(to: selectedUnit, commands: [Command(type: .cancelAttack, location: HexPoint.invalid)], in: <#GameModel?#>)
         
         if let unit = unit {
             

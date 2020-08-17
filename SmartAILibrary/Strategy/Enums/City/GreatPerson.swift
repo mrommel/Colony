@@ -315,7 +315,7 @@ public enum GreatPerson: String, Codable {
             return GreatPersonData(name: "Irene of Athens",
                                    type: .greatMerchant,
                                    era: .medieval,
-                                   bonus: "Increase TradeRoute6 Trade Route capacity by 1. Grants 1 free copy of the Luxury resource on this tile to your Capital6 Capital city. Grants 1 Governor (Civ6) Governor Title or recruit a new Governor.",
+                                   bonus: "Increase TradeRoute6 Trade Route capacity by 1. Grants 1 free copy of the Luxury resource on this tile to your Capital6 Capital city. Grants 1 Governor6 Governor Title or recruit a new Governor.",
                                    works: [])
         case .marcoPolo:
             // https://civilization.fandom.com/wiki/Marco_Polo_(Civ6)

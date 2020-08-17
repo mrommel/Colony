@@ -60,8 +60,8 @@ class CityObject {
 
         self.hideCityBanner()
 
-        let nameLabelWidth = city.name.count * 4
-        let nameBackgroundWidth = nameLabelWidth + 18
+        let nameLabelWidth: Double = Double(city.name.count) * 4.2 + (city.isCapital() ? 10.0 : 0)
+        let nameBackgroundWidth = nameLabelWidth + 18.0
 
         self.nameBackground = NineGridTextureSprite(imageNamed: "city_banner", size: CGSize(width: nameBackgroundWidth, height: 10))
         self.nameBackground?.position = CGPoint(x: 24, y: 35)
@@ -99,7 +99,7 @@ class CityObject {
             self.sprite.addChild(growthProgressNode)
         }
 
-        self.nameLabel = SKLabelNode(text: city.name)
+        self.nameLabel = SKLabelNode(text: "\(city.isCapital() ? "✪ ": "")\(city.name)")
         self.nameLabel?.fontSize = 8
         self.nameLabel?.position = CGPoint(x: 24, y: 36)
         self.nameLabel?.zPosition = Globals.ZLevels.cityName

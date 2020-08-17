@@ -84,9 +84,9 @@ public class UnitMission {
             if unit.canMove() {
 
                 if self.type == .fortify {
-                    unit.doFortify(in: gameModel)
+                    unit.set(fortifiedThisTurn: true, in: gameModel)
                 } else if self.type == .heal || self.type == .alert {
-                    unit.doFortify(in: gameModel)
+                    unit.set(fortifiedThisTurn: true, in: gameModel)
                 } else if self.type == .embark || self.type == .disembark {
 
                     action = true

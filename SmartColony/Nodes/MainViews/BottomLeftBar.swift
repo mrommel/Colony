@@ -9,6 +9,41 @@
 import SpriteKit
 import SmartAILibrary
 
+extension CommandType {
+    
+    init?(identifier: String) {
+        
+        for commandType in CommandType.all {
+            if identifier == commandType.identifier() {
+                self = commandType
+                return
+            }
+        }
+
+        return nil
+    }
+    
+    func identifier() -> String {
+        
+        switch self {
+            
+        case .found: return "COMMAND_FOUND"
+        case .buildFarm: return "COMMAND_BUILD_FARM"
+        case .buildMine: return "COMMAND_BUILD_MINE"
+        case .buildCamp: return "COMMAND_BUILD_CAMP"
+        case .buildPasture: return "COMMAND_BUILD_PASTURE"
+        case .buildQuarry: return "COMMAND_BUILD_QUARRY"
+        case .pillage: return "COMMAND_PILLAGE"
+        case .fortify: return "COMMAND_FORTIFY"
+        case .hold: return "COMMAND_HOLD"
+        case .garrison: return "COMMAND_GARRISON"
+        case .attack: return "COMMAND_ATTACK"
+        case .rangedAttack: return "COMMAND_RANGED ATTACK"
+        case .cancelAttack: return "COMMAND_CANCEL_ATTACK"
+        }
+    }
+}
+
 protocol BottomLeftBarDelegate: class {
     
     func handleTurnButtonClicked()
@@ -33,6 +68,10 @@ class BottomLeftBar: SizedNode {
     var unitImageNode: SKSpriteNode?
     var unitTypeBackgroundNode: SKSpriteNode?
     var unitTypeIconNode: SKSpriteNode?
+    var unitName: SKLabelNode?
+    var unitCharges: SKLabelNode?
+    var unitHealth: SKLabelNode?
+    var unitMoves: SKLabelNode?
     var glassCanvasNode: SKSpriteNode?
     
     var turnButtonNotificationType: NotificationType = .unitNeedsOrders
@@ -153,17 +192,6 @@ class BottomLeftBar: SizedNode {
             }
         }
         
-        let commandLocation = touch.location(in: self.unitCommandsCanvasNode!)
-        
-        for (index, commandIconNode) in self.commandIconNodes.enumerated() {
-            
-            if commandIconNode!.frame.contains(commandLocation) {
-                let command = self.commands[index]
-                self.delegate?.handle(command: command)
-                return true
-            }
-        }
-        
         return false
     }
     
@@ -185,8 +213,7 @@ class BottomLeftBar: SizedNode {
         let globeAtlas = GameObjectAtlas(atlasName: "globe", template: "globe", range: 0..<91)
         
         // start animation
-        // let textureAtlasGlobe = SKTextureAtlas(named: globeAtlas.atlasName)
-        let globeFrames: [SKTexture] = globeAtlas.textures // globeAtlas.textures.map { textureAtlasGlobe.textureNamed($0) }
+        let globeFrames: [SKTexture] = globeAtlas.textures
         let globeRotation = SKAction.repeatForever(SKAction.animate(with: globeFrames, timePerFrame: 0.07))
         
         self.unitImageNode?.run(globeRotation, withKey: BottomLeftBar.globeActionKey)
@@ -197,9 +224,11 @@ class BottomLeftBar: SizedNode {
         self.unitImageNode?.removeAction(forKey: BottomLeftBar.globeActionKey)
     }
    
-    func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command]) {
+    func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?) {
 
         self.turnButtonNotificationType = .unitNeedsOrders
+        
+        // init
         
         if let selectedUnit = unit {
 
@@ -218,6 +247,62 @@ class BottomLeftBar: SizedNode {
             self.unitTypeIconNode?.color = civilization.iconColor()
             self.unitTypeIconNode?.colorBlendFactor = 1.0
             
+            if self.unitName == nil {
+                self.unitName = SKLabelNode()
+                self.unitName?.position = CGPoint(x: 110, y: 82)
+                self.unitName?.zPosition = 0.5
+                self.unitName?.fontSize = 16
+                self.unitName?.horizontalAlignmentMode = .left
+                self.unitCommandsCanvasNode?.addChild(self.unitName!)
+            }
+            
+            self.unitName?.text = selectedUnit.name()
+            if self.unitName?.parent == nil {
+                self.unitCommandsCanvasNode?.addChild(self.unitName!)
+            }
+            
+            if self.unitMoves == nil {
+                self.unitMoves = SKLabelNode()
+                self.unitMoves?.position = CGPoint(x: 110, y: 65)
+                self.unitMoves?.zPosition = 0.5
+                self.unitMoves?.fontSize = 16
+                self.unitMoves?.horizontalAlignmentMode = .left
+                self.unitCommandsCanvasNode?.addChild(self.unitMoves!)
+            }
+            
+            self.unitMoves?.text = "\(selectedUnit.moves()) / \(selectedUnit.maxMoves(in: gameModel)) Moves"
+            if self.unitMoves?.parent == nil {
+                self.unitCommandsCanvasNode?.addChild(self.unitMoves!)
+            }
+            
+            if self.unitHealth == nil {
+                self.unitHealth = SKLabelNode()
+                self.unitHealth?.position = CGPoint(x: 110, y: 48)
+                self.unitHealth?.zPosition = 0.5
+                self.unitHealth?.fontSize = 14
+                self.unitHealth?.horizontalAlignmentMode = .left
+                self.unitCommandsCanvasNode?.addChild(self.unitHealth!)
+            }
+            
+            self.unitHealth?.text = "\(selectedUnit.healthPoints()) ⚕"
+            if self.unitHealth?.parent == nil {
+                self.unitCommandsCanvasNode?.addChild(self.unitHealth!)
+            }
+            
+            if self.unitCharges == nil && selectedUnit.type.buildCharges() > 0 {
+                self.unitCharges = SKLabelNode()
+                self.unitCharges?.position = CGPoint(x: 110, y: 31)
+                self.unitCharges?.zPosition = 0.5
+                self.unitCharges?.fontSize = 14
+                self.unitCharges?.horizontalAlignmentMode = .left
+                self.unitCommandsCanvasNode?.addChild(self.unitCharges!)
+            }
+            
+            self.unitCharges?.text = "\(selectedUnit.buildCharges()) ♾"
+            if self.unitCharges != nil && self.unitCharges?.parent == nil {
+                self.unitCommandsCanvasNode?.addChild(self.unitCharges!)
+            }
+            
             // commands
             
             for commandIconNode in self.commandIconNodes {
@@ -229,10 +314,17 @@ class BottomLeftBar: SizedNode {
             // show commands
             for (index, command) in commands.enumerated() {
 
-                let commandNode = TouchableSpriteNode(imageNamed: command.type.iconTexture(), size: CGSize(width: 32, height: 32))
+                if command.type == .cancelAttack {
+                    continue
+                }
+                
+                let commandNode = TouchableSpriteNode(imageNamed: command.type.commandTexture(), size: CGSize(width: 32, height: 32))
                 commandNode.zPosition = 0.5
-                commandNode.position = CGPoint(x: 120, y: 112 - 44 - index * 34)
+                commandNode.position = CGPoint(x: 40 + index * 34, y: 108)
                 commandNode.anchorPoint = CGPoint.lowerLeft
+                commandNode.isUserInteractionEnabled = true
+                commandNode.identifier = command.type.identifier()
+                commandNode.delegate = self
                 self.unitCommandsCanvasNode?.addChild(commandNode)
                 
                 commandIconNodes.append(commandNode)
@@ -269,6 +361,27 @@ class BottomLeftBar: SizedNode {
                 self.commandIconNodes = []
                 self.commands = []
             })
+            
+            self.unitName?.removeFromParent()
+            self.unitCharges?.removeFromParent()
+            self.unitHealth?.removeFromParent()
+        }
+    }
+}
+
+extension BottomLeftBar: TouchableDelegate {
+    
+    func clicked(on identifier: String) {
+        //print("clicked on: \(identifier)")
+        
+        if let commandType = CommandType(identifier: identifier) {
+            guard let command = self.commands.first(where: { $0.type == commandType }) else {
+                fatalError("cant get command: \(identifier)")
+            }
+            
+            self.delegate?.handle(command: command)
+        } else {
+            fatalError("unknown identifier: \(identifier)")
         }
     }
 }

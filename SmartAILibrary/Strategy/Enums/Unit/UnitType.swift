@@ -1210,7 +1210,7 @@ public enum UnitType: Int, Codable {
         return 0
     }
     
-    func buildCharges() -> Int {
+    public func buildCharges() -> Int {
         
         if self == .builder {
             return 3
