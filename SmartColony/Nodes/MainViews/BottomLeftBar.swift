@@ -365,6 +365,7 @@ class BottomLeftBar: SizedNode {
             self.unitName?.removeFromParent()
             self.unitCharges?.removeFromParent()
             self.unitHealth?.removeFromParent()
+            self.unitMoves?.removeFromParent()
         }
     }
 }
