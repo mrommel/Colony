@@ -159,7 +159,9 @@ public protocol AbstractUnit: class, Codable {
     func doBuild(build: BuildType, in gameModel: GameModel?) -> Bool
     func buildType() -> BuildType
     func continueBuilding(build buildType: BuildType, in gameModel: GameModel?) -> Bool
+    
     func changeBuildCharges(change: Int)
+    func buildCharges() -> Int
 
     @discardableResult func doPillage(in gameModel: GameModel?) -> Bool
     func canPillage(at point: HexPoint, in gameModel: GameModel?) -> Bool
@@ -183,6 +185,7 @@ public protocol AbstractUnit: class, Codable {
     func canFortify(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func doFortify(in gameModel: GameModel?)
     func doMobilize(in gameModel: GameModel?)
+    func set(fortifiedThisTurn: Bool, in gameModel: GameModel?)
 
     func finishMoves()
     func resetMoves(in gameModel: GameModel?)
@@ -2314,9 +2317,7 @@ public class Unit: AbstractUnit {
 
     public func doFortify(in gameModel: GameModel?) {
 
-        // self.fortifyValue = 1
-        // todo: notify UI
-        self.set(fortifiedThisTurn: true, in: gameModel)
+        self.push(mission: .init(type: .fortify), in: gameModel)
     }
 
     public func doMobilize(in gameModel: GameModel?) {
@@ -2849,6 +2850,11 @@ public class Unit: AbstractUnit {
         }
         
         self.buildChargesValue += change
+    }
+    
+    public func buildCharges() -> Int {
+        
+        return self.buildChargesValue
     }
     
     func hasBuildCharges() -> Bool {
@@ -3444,7 +3450,7 @@ public class Unit: AbstractUnit {
         self.doDelayedDeath(in: gameModel)
     }
     
-    func set(fortifiedThisTurn: Bool, in gameModel: GameModel?) {
+    public func set(fortifiedThisTurn: Bool, in gameModel: GameModel?) {
         
         if !self.isEverFortifyable() && fortifiedThisTurn {
             return

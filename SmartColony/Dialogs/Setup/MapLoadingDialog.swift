@@ -58,10 +58,10 @@ class MapLoadingDialog: Dialog {
         self.set(text: viewModel.leaderIntro, identifier: "leader_intro")
         
         self.set(text: viewModel.leaderAbilityName, identifier: "leader_ability_name")
-        self.set(text: viewModel.leaderAbilities.joined(separator: " "), identifier: "leader_abilities")
+        self.set(text: viewModel.leaderAbilities.joined(separator: " ").replaceIcons(), identifier: "leader_abilities")
         
         self.set(text: viewModel.civilizationAbilityName, identifier: "civilization_ability_name")
-        self.set(text: viewModel.civilizationAbilities.joined(separator: " "), identifier: "civilization_abilities")
+        self.set(text: viewModel.civilizationAbilities.joined(separator: " ").replaceIcons(), identifier: "civilization_abilities")
         
         self.item(with: "okay_button")?.isHidden = true
     }

@@ -8,9 +8,16 @@
 
 import SpriteKit
 
+protocol TouchableDelegate: class {
+    
+    func clicked(on identifier: String)
+}
+
 class TouchableSpriteNode : SKSpriteNode {
     
     var touchHandler: (()->Void)?
+    weak var delegate: TouchableDelegate?
+    var identifier: String?
     
     convenience init(imageNamed imageName: String, size: CGSize) {
         let texture = SKTexture(imageNamed: imageName)
@@ -19,11 +26,10 @@ class TouchableSpriteNode : SKSpriteNode {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        /*let touch = touches.first!
-        if self.frame.contains(touch.location(in: self.parent!)) {*/
-            if let handler = self.touchHandler {
-                handler()
-            }
-        //}
+        if let handler = self.touchHandler {
+            handler()
+        } else if let identifier = self.identifier {
+            self.delegate?.clicked(on: identifier)
+        }
     }
 }

@@ -55,14 +55,14 @@ class NotificationsNode: SizedNode {
     
     override func updateLayout() {
         
-        self.notificationBottomNode?.position = self.position + CGPoint(x: 0, y: 25)
+        self.notificationBottomNode?.position = self.position + CGPoint(x: 0, y: 35)
         for (index, notificationBagdeNode) in self.notificationBagdeNodes.enumerated() {
-            notificationBagdeNode?.position = self.position + CGPoint(x: 0, y: 25 + 95 + (index * 65))
+            notificationBagdeNode?.position = self.position + CGPoint(x: 0, y: 35 + 95 + (index * 65))
         }
         for (index, notificationIconNode) in self.notificationIconNodes.enumerated() {
-            notificationIconNode?.position = self.position + CGPoint(x: 14, y: 25 + 106 + (index * 65))
+            notificationIconNode?.position = self.position + CGPoint(x: 14, y: 35 + 106 + (index * 65))
         }
-        self.notificationTopNode?.position = self.position + CGPoint(x: 0, y: 25 + 95 + (self.notificationBagdeNodes.count * 65))
+        self.notificationTopNode?.position = self.position + CGPoint(x: 0, y: 35 + 95 + (self.notificationBagdeNodes.count * 65))
     }
     
     func handleTouches(_ touches: Set<UITouch>, with event: UIEvent?) -> Bool {

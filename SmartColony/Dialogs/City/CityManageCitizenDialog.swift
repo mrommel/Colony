@@ -227,6 +227,10 @@ extension CityManageCitizenDialog: CitizenMapNodeDelegate {
             fatalError("cant get player")
         }
         
+        guard let treasury = player.treasury else {
+            fatalError("cant get treasury")
+        }
+        
         guard let cityCitizens = self.city?.cityCitizens else {
             fatalError("cant get cityCitizens")
         }
@@ -248,15 +252,18 @@ extension CityManageCitizenDialog: CitizenMapNodeDelegate {
         
         if isNeighborWorkedByCity && tile.isVisible(to: player) {
             
-            let cost = city.buyPlotCost(at: point, in: gameModel)
-            print("purchase: \(cost) at \(point)")
-            city.doBuyPlot(at: point, in: gameModel)
-        }
-        
-        if cityCitizens.isForcedWorked(at: point) {
-            cityCitizens.forceWorkingPlot(at: point, force: false, in: self.gameModel)
+            let cost: Double = Double(city.buyPlotCost(at: point, in: gameModel))
+            
+            if treasury.value() > cost {
+                print("purchase: \(cost) at \(point)")
+                city.doBuyPlot(at: point, in: gameModel)
+            }
         } else {
-            cityCitizens.forceWorkingPlot(at: point, force: true, in: self.gameModel)
+            if cityCitizens.isForcedWorked(at: point) {
+                cityCitizens.forceWorkingPlot(at: point, force: false, in: self.gameModel)
+            } else {
+                cityCitizens.forceWorkingPlot(at: point, force: true, in: self.gameModel)
+            }
         }
         
         self.updateNodes()

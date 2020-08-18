@@ -15,7 +15,7 @@ extension CivilizationType {
         
         switch self {
             
-        case .barbarian: return "civilization_default"
+        case .barbarian: return "civilization_barbarian"
             
         case .greek: return "civilization_greek"
         case .roman: return "civilization_roman"
@@ -33,7 +33,7 @@ extension CivilizationType {
         
         switch self {
             
-        case .barbarian: return UIColor(hex: "#be0000")
+        case .barbarian: return UIColor(hex: "#000000")
             
         case .greek: return UIColor(hex: "#418dfe")
         case .roman: return UIColor(hex: "#f0c800")
@@ -51,7 +51,7 @@ extension CivilizationType {
         
         switch self {
             
-        case .barbarian: return UIColor(hex: "#000000")
+        case .barbarian: return UIColor(hex: "#be0000")
             
         case .greek: return UIColor(hex: "#ffffff")
         case .roman: return UIColor(hex: "#460076")
