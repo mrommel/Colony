@@ -12,29 +12,29 @@ import SmartAILibrary
 class YieldDisplayNode: SKNode {
 
     // properties
-    
+
     var yieldType: YieldType
     var size: CGSize
 
     // nodes
-    
+
     var backgroundNode: NineGridTextureSprite?
     var yieldIconNode: SKSpriteNode?
     var yieldLabelNode: SKLabelNode?
-    
+
     // callback
-    
+
     var action: ((_ yieldType: YieldType) -> Void)?
 
     // MARK: constructors
-    
+
     init(for yieldType: YieldType, value: Double, withBackground showBackground: Bool = true, size: CGSize) {
 
         self.yieldType = yieldType
         self.size = size
 
         super.init()
-        
+
         self.isUserInteractionEnabled = true
 
         if showBackground {
@@ -88,21 +88,21 @@ class YieldDisplayNode: SKNode {
         self.yieldLabelNode?.text = "\(prefix)\(valueText)"
         self.yieldLabelNode?.fitToWidth(maxWidth: self.size.width - 20)
     }
-    
+
     // elements
-    
+
     func enable() {
-        
+
         let textureName = self.yieldType.backgroundTexture()
         self.backgroundNode?.texture = SKTexture(imageNamed: textureName)
     }
-    
+
     func disable() {
-        
+
         let textureName = self.yieldType.backgroundTexture() + "_inactive"
         self.backgroundNode?.texture = SKTexture(imageNamed: textureName)
     }
-    
+
     // MARK: touch handling
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -110,9 +110,10 @@ class YieldDisplayNode: SKNode {
         if let touch: UITouch = touches.first {
             let location: CGPoint = touch.location(in: self)
 
-            if self.backgroundNode!.contains(location) {
-                //print("clicked")
-                self.action?(self.yieldType)
+            if let backgroundNode = self.backgroundNode {
+                if backgroundNode.contains(location) {
+                    self.action?(self.yieldType)
+                }
             }
         }
     }

@@ -114,6 +114,8 @@ class CitizenLayer: SKNode {
     
     func placePurchaseButton(for point: HexPoint, at position: CGPoint, cost: Int) {
         
+        let offset: CGPoint = CGPoint(x: 24, y: 9)
+        
         let citizenSprite = SKSpriteNode(imageNamed: "tile_purchase")
         citizenSprite.position = position
         citizenSprite.zPosition = Globals.ZLevels.water
@@ -123,12 +125,20 @@ class CitizenLayer: SKNode {
         self.addChild(citizenSprite)
         
         // add cost
+        let costShadowLabel = SKLabelNode(text: "\(cost)")
+        costShadowLabel.position = position + offset + CGPoint(x: 1, y: -0.5)
+        costShadowLabel.zPosition = Globals.ZLevels.water
+        costShadowLabel.fontSize = 8
+        costShadowLabel.fontColor = .black
+        costShadowLabel.horizontalAlignmentMode = .center
+        self.addChild(costShadowLabel)
+        
         let costLabel = SKLabelNode(text: "\(cost)")
-        costLabel.position = position
+        costLabel.position = position + offset
         costLabel.zPosition = Globals.ZLevels.water
-        costLabel.fontSize = 10
+        costLabel.fontSize = 8
         costLabel.fontColor = .white
-        costLabel.verticalAlignmentMode = .center
+        costLabel.horizontalAlignmentMode = .center
         self.addChild(costLabel)
     }
     
