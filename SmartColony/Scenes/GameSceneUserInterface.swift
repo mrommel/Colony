@@ -119,11 +119,19 @@ extension GameScene: UserInterfaceProtocol {
     }
     
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {
-        print("show animation: \(animation)")
+        
+        if animation == .fortify {
+            self.mapNode?.unitLayer.fortify(unit: unit)
+        } else {
+            print("cant show unknown animation: \(animation)")
+        }
     }
     
     func refresh(unit: AbstractUnit?) {
         print("refresh unit: \(unit)")
+        if unit?.activityType() == .hold || unit?.activityType() == .sleep {
+            self.animate(unit: unit, animation: .fortify)
+        }
     }
 
     func show(city: AbstractCity?) {

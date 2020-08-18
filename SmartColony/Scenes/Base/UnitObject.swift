@@ -12,6 +12,7 @@ import SmartAILibrary
 class UnitObject {
     
     static let idleActionKey: String = "idleActionKey"
+    static let fortifiedActionKey: String = "fortifiedActionKey"
     static let alphaVisible: CGFloat = 1.0
     static let alphaInvisible: CGFloat = 0.0
     
@@ -22,6 +23,7 @@ class UnitObject {
     //var spriteName: String
 
     var atlasIdle: GameObjectAtlas?
+    var atlasFortified: GameObjectAtlas?
     var atlasDown: GameObjectAtlas?
     var atlasUp: GameObjectAtlas?
     var atlasRight: GameObjectAtlas?
@@ -92,6 +94,9 @@ class UnitObject {
     
     private func animate(to hex: HexPoint, on atlas: GameObjectAtlas?, completion block: @escaping () -> Swift.Void) {
 
+        self.sprite.removeAction(forKey: UnitObject.idleActionKey)
+        self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)
+        
         if let atlas = atlas {
             let walkFrames = atlas.textures
             let walk = SKAction.animate(with: [walkFrames, walkFrames, walkFrames].flatMap { $0 }, timePerFrame: atlas.speed)
@@ -159,14 +164,35 @@ class UnitObject {
             fatalError("unit not given")
         }
         
+        self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)
+        
         // just to be sure
         self.sprite.position = HexPoint.toScreen(hex: unit.location)
 
         if let atlas = self.atlasIdle {
             let idleFrames = atlas.textures
-            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: idleFrames, timePerFrame: atlas.speed))
+            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: [idleFrames, idleFrames, idleFrames].flatMap { $0 }, timePerFrame: atlas.speed))
 
             self.sprite.run(idleAnimation, withKey: UnitObject.idleActionKey, completion: { })
+        }
+    }
+    
+    func showFortified() {
+        
+        guard let unit = self.unit else {
+            fatalError("unit not given")
+        }
+        
+        self.sprite.removeAction(forKey: UnitObject.idleActionKey)
+        
+        // just to be sure
+        self.sprite.position = HexPoint.toScreen(hex: unit.location)
+        
+        if let atlas = self.atlasFortified {
+            let fortifiedFrames = atlas.textures
+            let idleAnimation = SKAction.repeatForever(SKAction.animate(with: [fortifiedFrames, fortifiedFrames, fortifiedFrames].flatMap { $0 }, timePerFrame: atlas.speed))
+
+            self.sprite.run(idleAnimation, withKey: UnitObject.fortifiedActionKey, completion: { })
         }
     }
 
@@ -178,6 +204,7 @@ class UnitObject {
         }
         
         self.sprite.removeAction(forKey: UnitObject.idleActionKey)
+        self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)
 
         if let (fromPoint, _) = path.first, let (toPoint, _) = path.second {
         

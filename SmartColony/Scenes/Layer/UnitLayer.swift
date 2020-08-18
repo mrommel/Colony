@@ -85,7 +85,6 @@ class UnitLayer: SKNode {
         // already shown, no need to add
         if let unitObject = self.unitObject(of: unit) {
 
-            //unitObject.showIdle()
             unitObject.update(strength: unit.healthPoints())
 
         } else {
@@ -111,6 +110,14 @@ class UnitLayer: SKNode {
             unitObject.sprite.removeFromParent()
 
             self.unitObjects.removeAll(where: { $0.identifier == unitObject.identifier })
+        }
+    }
+    
+    func fortify(unit: AbstractUnit?) {
+        
+        if let unitObject = self.unitObject(of: unit) {
+            
+            unitObject.showFortified()
         }
     }
 
@@ -347,8 +354,6 @@ class UnitLayer: SKNode {
 
     func move(unit: AbstractUnit?, on path: HexPath) {
 
-        // print("++++ path: \(path.compactMap { $0 } ) +++")
-        
         if let selectedUnit = unit {
 
             if let unitObject = self.unitObject(of: selectedUnit) {
