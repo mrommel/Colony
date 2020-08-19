@@ -58,9 +58,4 @@ extension FeatureType {
             return ["feature_uluru"]
         }
     }
-    
-    var zLevel: CGFloat {
-    
-        return Globals.ZLevels.feature
-    }
 }

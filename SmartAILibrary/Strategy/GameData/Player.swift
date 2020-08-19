@@ -3702,7 +3702,7 @@ public class Player: AbstractPlayer {
             }
             techs.triggerEureka(for: techToBoost, in: gameModel)
             
-            popupData = PopupData(goodyType: .scienceMinorGift)
+            // popupData = PopupData(goodyType: .scienceMinorGift)
             
         case .scienceMajorGift:
             var possibleTechsWithoutEureka = techs.possibleTechs().filter({ !techs.eurekaTriggered(for: $0)} )
@@ -3717,7 +3717,7 @@ public class Player: AbstractPlayer {
             }
             techs.triggerEureka(for: techToBoost2, in: gameModel)
             
-            popupData = PopupData(goodyType: .scienceMajorGift)
+            // popupData = PopupData(goodyType: .scienceMajorGift)
             
         case .freeTech:
             guard let possibleTech = techs.possibleTechs().randomElement() else {
@@ -3725,7 +3725,7 @@ public class Player: AbstractPlayer {
             }
             try! techs.discover(tech: possibleTech)
             
-            popupData = PopupData(goodyType: .freeTech)
+            // popupData = PopupData(goodyType: .freeTech)
             
             if self.isHuman() {
                 gameModel.userInterface?.showPopup(popupType: .techDiscovered, with: PopupData(tech: possibleTech))
@@ -3802,15 +3802,14 @@ public class Player: AbstractPlayer {
             popupData = PopupData(goodyType: .freeBuilder)
             
         case .freeTrader:
-            /*let traderUnit = Unit(at: tile.point, type: .trader, owner: self)
+            let traderUnit = Unit(at: tile.point, type: .trader, owner: self)
             gameModel.add(unit: traderUnit)
             traderUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
             
-             // make the unit visible
-             gameModel.userInterface?.show(unit: builderUnit)
+            // make the unit visible
+            gameModel.userInterface?.show(unit: traderUnit)
              
-            popupText = goody.effect()*/
-            print("trader not implemented")
+            popupData = PopupData(goodyType: .freeTrader)
             
         case .freeSettler:
             let settlerUnit = Unit(at: tile.point, type: .settler, owner: self)
@@ -3831,7 +3830,7 @@ public class Player: AbstractPlayer {
         if self.isHuman() && self.isEqual(to: gameModel.activePlayer()) {
             
             if popupData != nil {
-                // FIXME: should not happen - all goodies hsould be handled
+                // FIXME: should not happen - all goodies should be handled
                 gameModel.userInterface?.showPopup(popupType: .goodyHutReward, with: popupData)
             }
                 

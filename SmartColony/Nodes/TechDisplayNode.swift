@@ -13,7 +13,7 @@ class TechDisplayNode: BaseDisplayNode {
     
     let techType: TechType
     
-    init(techType: TechType, size: CGSize) {
+    init(techType: TechType, progress: Int, size: CGSize) {
         
         self.techType = techType
         
@@ -26,7 +26,7 @@ class TechDisplayNode: BaseDisplayNode {
         }
 
         for unitType in achievements.unitTypes {
-            iconTextures.append(unitType.iconTexture())
+            iconTextures.append(SKTexture(imageNamed: unitType.typeTexture()))
         }
 
         for wonderType in achievements.wonderTypes {
@@ -41,7 +41,7 @@ class TechDisplayNode: BaseDisplayNode {
             iconTextures.append(SKTexture(imageNamed: districtType.iconTexture()))
         }
         
-        super.init(texture: self.techType.iconTexture(), name: self.techType.name(), iconTextures: iconTextures, size: size)
+        super.init(texture: self.techType.iconTexture(), type: .science, name: self.techType.name(), progress: progress, iconTextures: iconTextures, size: size)
     }
     
     required init?(coder aDecoder: NSCoder) {

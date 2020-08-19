@@ -12,31 +12,40 @@ import UIKit
 public struct Globals {
     
     struct ZLevels {
+        
         static let terrain: CGFloat = 1.0
         static let water: CGFloat = 1.1
         static let underwater: CGFloat = 1.2
         static let caldera: CGFloat = 1.5
+        
         static let snow: CGFloat = 2.0
+        
         static let focus: CGFloat = 3.0
+        
         static let river: CGFloat = 4.0
         static let road: CGFloat = 4.1
         static let feature: CGFloat = 4.2
-        static let improvement: CGFloat = 4.25
         static let path: CGFloat = 4.3
         static let border: CGFloat = 4.4
-        static let featureUpper: CGFloat = 4.5
         static let resource: CGFloat = 4.9
+        
         static let resourceMarker: CGFloat = 5.0
-        //static let staticSprite: CGFloat = 5.0
-        static let mountain: CGFloat = 5.4 // 2.2 FIXME
+        static let improvement: CGFloat = 5.1 // 4.25 - https://github.com/mrommel/Colony/issues/44
+        static let mountain: CGFloat = 5.4
         static let cityName: CGFloat = 5.5
         static let city: CGFloat = 5.8
         static let yields: CGFloat = 5.9
+        
         static let unit: CGFloat = 6.0
+        
         static let unitType: CGFloat = 8.0
+        
         static let unitStrength: CGFloat = 10.0
+        
         static let citizen: CGFloat = 20.0
+        
         static let labels: CGFloat = 50.0
+        
         static let tooltips: CGFloat = 50.0
         
         static let sceneElements: CGFloat = 51.0

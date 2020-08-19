@@ -31,11 +31,15 @@ extension String {
         tmp = tmp.replacingOccurrences(of: "Amenities6", with: "🎡")
         
         tmp = tmp.replacingOccurrences(of: "Capital6", with: "✪")
-        tmp = tmp.replacingOccurrences(of: "TradeRoute6", with: "🤝")
+        tmp = tmp.replacingOccurrences(of: "TradeRoute6", with: "💰")
         tmp = tmp.replacingOccurrences(of: "Governor6", with: "🤵")
         tmp = tmp.replacingOccurrences(of: "Tourism6", with: "🧳")
-        
+
+        tmp = tmp.replacingOccurrences(of: "DiplomaticVisibility6", with: "🗝")
         // 🕊 🛡 👣
+        
+        // 🤝🙂😐-🙁😡⚔
+        // 🎨🎓💎
         
         return tmp
     }

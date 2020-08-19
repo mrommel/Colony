@@ -13,7 +13,7 @@ class CivicDisplayNode: BaseDisplayNode {
     
     let civicType: CivicType
     
-    init(civicType: CivicType, size: CGSize) {
+    init(civicType: CivicType, progress: Int, size: CGSize) {
         
         self.civicType = civicType
         
@@ -26,7 +26,7 @@ class CivicDisplayNode: BaseDisplayNode {
         }
 
         for unitType in achievements.unitTypes {
-            iconTextures.append(unitType.iconTexture())
+            iconTextures.append(SKTexture(imageNamed: unitType.typeTexture()))
         }
 
         for wonderType in achievements.wonderTypes {
@@ -45,7 +45,7 @@ class CivicDisplayNode: BaseDisplayNode {
             iconTextures.append(SKTexture(imageNamed: governmentType.iconTexture()))
         }
         
-        super.init(texture: self.civicType.iconTexture(), name: self.civicType.name(), iconTextures: iconTextures, size: size)
+        super.init(texture: self.civicType.iconTexture(), type: .culture, name: self.civicType.name(), progress: progress, iconTextures: iconTextures, size: size)
     }
     
     required init?(coder aDecoder: NSCoder) {

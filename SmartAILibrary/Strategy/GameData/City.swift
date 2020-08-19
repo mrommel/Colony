@@ -172,7 +172,7 @@ public protocol AbstractCity: class, Codable {
     @discardableResult
     func doBuyPlot(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int
-    func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int
+    func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Double
     func buyPlotScore(in gameModel: GameModel?) -> (Int, HexPoint)
     func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int)
     
@@ -2743,7 +2743,7 @@ public class City: AbstractCity {
     }
     
     /// How much will purchasing this plot cost -- (-1,-1) will return the generic price
-    public func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int {
+    public func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Double {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -2758,7 +2758,7 @@ public class City: AbstractCity {
         }
         
         if point.x == -1 && point.y == -1 {
-            return player.buyPlotCost()
+            return Double(player.buyPlotCost())
         }
 
         guard let tile = gameModel.tile(at: point) else {
@@ -2813,7 +2813,7 @@ public class City: AbstractCity {
             cost /= 5
         }
 
-        return cost
+        return Double(cost)
     }
     
     /// What is the cheapest plot we can get
@@ -3192,7 +3192,7 @@ public class City: AbstractCity {
                 fatalError("cant get treasury")
             }
             
-            if Int(treasury.value()) < self.buyPlotCost(at: point, in: gameModel) {
+            if treasury.value() < self.buyPlotCost(at: point, in: gameModel) {
                 return false
             }
         }
@@ -3327,7 +3327,7 @@ public class City: AbstractCity {
 
         // Protect against div by 0.
         if cost != 0 {
-            rtnValue /= cost
+            rtnValue /= Int(cost)
         } else {
             rtnValue = 0
         }

@@ -2510,19 +2510,11 @@ public class Unit: AbstractUnit {
     }
 
     public func canDo(command: CommandType, in gameModel: GameModel?) -> Bool {
-
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
-        
-        /*guard let techs = player.techs else {
-            fatalError("cant get techs")
-        }*/
         
         switch command {
             
         case .found:
-            return self.type.canFound()
+            return self.canFound(at: self.location, in: gameModel)
             
         case .buildFarm:
             return self.canBuild(build: .farm, at: self.location, testVisible: true, testGold: true, in: gameModel)
@@ -3442,7 +3434,7 @@ public class Unit: AbstractUnit {
         if self.activityType() == .sleep {
             
             if self.canFortify(at: self.location, in: gameModel) {
-                self.push(mission: UnitMission(type: .fortify), in: gameModel)
+                //self.push(mission: UnitMission(type: .fortify), in: gameModel)
                 self.set(fortifiedThisTurn: true, in: gameModel)
             }
         }
@@ -3459,7 +3451,7 @@ public class Unit: AbstractUnit {
         if self.isFortifiedThisTurn() != fortifiedThisTurn {
             self.fortifiedThisTurnValue = fortifiedThisTurn
 
-            if fortifiedThisTurn {
+            if fortifiedThisTurn == true {
                 var turnsToFortify = 1
                 if !self.isFortifyable(canWaitForNextTurn: false, in: gameModel) {
                     turnsToFortify = 0
@@ -3473,6 +3465,8 @@ public class Unit: AbstractUnit {
                     //gDLL->GameplayUnitFortify(pDllUnit.get(), true);
                     gameModel?.userInterface?.animate(unit: self, animation: .fortify)
                 }
+            } else {
+                gameModel?.userInterface?.animate(unit: self, animation: .unfortify)
             }
         }
     }
@@ -3495,8 +3489,7 @@ public class Unit: AbstractUnit {
             
             // Unit subtly slipped into Fortification state by remaining stationary for a turn
             if self.fortifyTurns() == 0 && fortifyTurns > 0 {
-                //auto_ptr<ICvUnit1> pDllUnit(new CvDllUnit(this));
-                //gDLL->GameplayUnitFortify(pDllUnit.get(), true);
+                
                 gameModel?.userInterface?.animate(unit: self, animation: .fortify)
             }
 
@@ -3506,10 +3499,6 @@ public class Unit: AbstractUnit {
             // Fortification turned off, send an event noting this
             if newValue == 0 {
                 self.set(fortifiedThisTurn: false, in: gameModel)
-
-                // auto_ptr<ICvUnit1> pDllUnit(new CvDllUnit(this));
-                // gDLL->GameplayUnitFortify(pDllUnit.get(), false);
-                gameModel?.userInterface?.animate(unit: self, animation: .unfortify)
             }
         }
     }

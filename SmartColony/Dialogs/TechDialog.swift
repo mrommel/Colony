@@ -10,6 +10,39 @@ import Foundation
 import SmartAILibrary
 import SpriteKit
 
+class TechDialogDelegate: DialogConfigurationDelegate {
+    
+    let techs: AbstractTechs?
+    
+    init(techs: AbstractTechs?) {
+        
+        self.techs = techs
+    }
+    
+    func techProgress(of techType: TechType) -> Int {
+        
+        guard let techs = self.techs else {
+            fatalError("cant get techs")
+        }
+        
+        if techs.currentTech() == techType {
+            let progressPercentage = techs.currentScienceProgress() / Double(techType.cost()) * 100.0
+            return Int(progressPercentage)
+        } else if techs.has(tech: techType) {
+            return 100
+        } else if techs.eurekaTriggered(for: techType) {
+            return 50
+        } else {
+            return 0
+        }
+    }
+    
+    func civicProgress(of civicType: CivicType) -> Int {
+        
+        return 0
+    }
+}
+
 class TechDialog: Dialog {
     
     // nodes
@@ -18,11 +51,13 @@ class TechDialog: Dialog {
     // MARK: Constructors
 
     init(with techs: AbstractTechs?) {
-        
+
         let uiParser = UIParser()
         guard let techDialogConfiguration = uiParser.parse(from: "TechDialog") else {
             fatalError("cant load TechDialog configuration")
         }
+        
+        techDialogConfiguration.delegate = TechDialogDelegate(techs: techs)
 
         super.init(from: techDialogConfiguration)
         
@@ -89,3 +124,5 @@ class TechDialog: Dialog {
         }
     }
 }
+
+

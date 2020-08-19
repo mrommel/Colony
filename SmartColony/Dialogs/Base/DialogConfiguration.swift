@@ -10,7 +10,13 @@ import XMLCoder
 import SpriteKit
 import SmartAILibrary
 
-struct DialogConfiguration: Decodable {
+protocol DialogConfigurationDelegate: class {
+    
+    func techProgress(of techType: TechType) -> Int
+    func civicProgress(of civicType: CivicType) -> Int
+}
+
+class DialogConfiguration: Decodable {
 
     var offsetx: CGFloat = 0
     var offsety: CGFloat = 0
@@ -29,6 +35,8 @@ struct DialogConfiguration: Decodable {
     enum CodingKeys: String, CodingKey {
         case type, offsetx, offsety, anchorx, anchory, width, height, background, items
     }
+    
+    weak var delegate: DialogConfigurationDelegate?
 
     init(offsetx: CGFloat, offsety: CGFloat, anchorx: CGFloat, anchory: CGFloat, width: CGFloat, height: CGFloat, background: String) {
 
@@ -41,7 +49,7 @@ struct DialogConfiguration: Decodable {
         self.background = background
     }
 
-    init(from decoder: Decoder) throws {
+    required convenience init(from decoder: Decoder) throws {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
 

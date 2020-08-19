@@ -12,6 +12,7 @@ class BaseDisplayNode: SKNode {
     
     // nodes
     var backgroundNode: NineGridTextureSprite?
+    var progressNode: CircularProgressBarNode?
     var iconNode: SKSpriteNode?
     var labelNode: SKLabelNode?
     //var costNode: SpriteButtonNode?
@@ -19,7 +20,7 @@ class BaseDisplayNode: SKNode {
     
     var touchHandler: (()->Void)?
     
-    init(texture: String, name: String, iconTextures: [SKTexture], size: CGSize) {
+    init(texture: String, type progressBarType: ProgressBarType, name: String, progress: Int, iconTextures: [SKTexture], size: CGSize) {
         
         super.init()
         
@@ -31,10 +32,18 @@ class BaseDisplayNode: SKNode {
         self.backgroundNode?.position = CGPoint(x: size.halfWidth, y: -size.halfHeight)
         self.addChild(self.backgroundNode!)
         
+        // progress
+        self.progressNode = CircularProgressBarNode(type: progressBarType, size: CGSize(width: 24, height: 24))
+        self.progressNode?.position = CGPoint(x: 0, y: 0)
+        self.progressNode?.zPosition = self.zPosition + 1
+        self.progressNode?.anchorPoint = CGPoint.upperLeft
+        self.progressNode?.value = progress
+        self.addChild(self.progressNode!)
+        
         // icon
         let iconTexture = SKTexture(imageNamed: texture)
-        self.iconNode = SKSpriteNode(texture: iconTexture, size: CGSize(width: 24, height: 24))
-        self.iconNode?.position = CGPoint(x: 0, y: 0)
+        self.iconNode = SKSpriteNode(texture: iconTexture, size: CGSize(width: 18, height: 18))
+        self.iconNode?.position = CGPoint(x: 3, y: -3)
         self.iconNode?.zPosition = self.zPosition + 1
         self.iconNode?.anchorPoint = CGPoint.upperLeft
         self.addChild(self.iconNode!)

@@ -35,20 +35,13 @@ class CitizenLayer: SKNode {
 
         self.gameModel = gameModel
 
-        guard let gameModel = self.gameModel else {
-            fatalError("gameModel not set")
-        }
-        
-        guard let city = self.city else {
-            fatalError("cant get city")
-        }
+        guard let gameModel = self.gameModel,
+            let city = self.city,
+            let player = city.player,
+            let treasury = player.treasury,
+            let citizens = city.cityCitizens else {
 
-        guard let player = city.player else {
-            fatalError("cant get player")
-        }
-
-        guard let citizens = city.cityCitizens else {
-            fatalError("cant get citizens")
+                fatalError("cant get all values")
         }
 
         self.textureUtils = TextureUtils(with: gameModel)
@@ -56,7 +49,7 @@ class CitizenLayer: SKNode {
         for location in citizens.workingTileLocations() {
 
             if let tile = gameModel.tile(at: location) {
-                
+
                 let screenPoint = HexPoint.toScreen(hex: location)
 
                 if player.isEqual(to: tile.workingCity()?.player) {
@@ -68,23 +61,24 @@ class CitizenLayer: SKNode {
                         self.placeCitizen(for: location, at: screenPoint, selected: selected, forced: forced)
                     }
                 } else {
-                    
+
                     var isNeighborWorkedByCity = false
 
                     for neighbor in location.neighbors() {
-                        
+
                         if let neighborTile = gameModel.tile(at: neighbor) {
                             if player.isEqual(to: neighborTile.workingCity()?.player) {
                                 isNeighborWorkedByCity = true
                             }
                         }
                     }
-                    
+
                     if isNeighborWorkedByCity && tile.isVisible(to: self.player) {
-                        
-                        let cost = city.buyPlotCost(at: tile.point, in: gameModel)
-                        //print("cost: \(cost) at \(tile.point)")
-                        self.placePurchaseButton(for: location, at: screenPoint, cost: cost)
+
+                        let cost: Double = city.buyPlotCost(at: tile.point, in: gameModel)
+                        let active = cost <= treasury.value()
+                            //print("cost: \(cost) at \(tile.point)")
+                        self.placePurchaseButton(for: location, at: screenPoint, cost: Int(cost), active: active)
                     }
                 }
             }
@@ -111,19 +105,19 @@ class CitizenLayer: SKNode {
         citizenSprite.colorBlendFactor = 0.0
         self.addChild(citizenSprite)
     }
-    
-    func placePurchaseButton(for point: HexPoint, at position: CGPoint, cost: Int) {
-        
+
+    func placePurchaseButton(for point: HexPoint, at position: CGPoint, cost: Int, active: Bool) {
+
         let offset: CGPoint = CGPoint(x: 24, y: 9)
-        
-        let citizenSprite = SKSpriteNode(imageNamed: "tile_purchase")
+
+        let citizenSprite = SKSpriteNode(imageNamed: active ? "tile_purchase_active" : "tile_purchase_disabled")
         citizenSprite.position = position
         citizenSprite.zPosition = Globals.ZLevels.water
         citizenSprite.anchorPoint = CGPoint(x: 0, y: 0)
         citizenSprite.color = .black
         citizenSprite.colorBlendFactor = 0.0
         self.addChild(citizenSprite)
-        
+
         // add cost
         let costShadowLabel = SKLabelNode(text: "\(cost)")
         costShadowLabel.position = position + offset + CGPoint(x: 1, y: -0.5)
@@ -132,7 +126,7 @@ class CitizenLayer: SKNode {
         costShadowLabel.fontColor = .black
         costShadowLabel.horizontalAlignmentMode = .center
         self.addChild(costShadowLabel)
-        
+
         let costLabel = SKLabelNode(text: "\(cost)")
         costLabel.position = position + offset
         costLabel.zPosition = Globals.ZLevels.water
@@ -141,13 +135,13 @@ class CitizenLayer: SKNode {
         costLabel.horizontalAlignmentMode = .center
         self.addChild(costLabel)
     }
-    
+
     func refresh() {
-        
+
         for child in self.children {
             child.removeFromParent()
         }
-        
+
         self.populate(with: self.gameModel)
     }
 }

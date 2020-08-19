@@ -10,6 +10,39 @@ import Foundation
 import SmartAILibrary
 import SpriteKit
 
+class CivicDialogDelegate: DialogConfigurationDelegate {
+    
+    let civics: AbstractCivics?
+    
+    init(civics: AbstractCivics?) {
+        
+        self.civics = civics
+    }
+    
+    func techProgress(of techType: TechType) -> Int {
+        
+        return 0
+    }
+    
+    func civicProgress(of civicType: CivicType) -> Int {
+        
+        guard let civics = self.civics else {
+            fatalError("cant get civics")
+        }
+        
+        if civics.currentCivic() == civicType {
+            let progressPercentage = civics.currentCultureProgress() / Double(civicType.cost()) * 100.0
+            return Int(progressPercentage)
+        } else if civics.has(civic: civicType) {
+            return 100
+        } else if civics.eurekaTriggered(for: civicType) {
+            return 50
+        } else {
+            return 0
+        }
+    }
+}
+
 class CivicDialog: Dialog {
 
     // nodes
@@ -18,10 +51,13 @@ class CivicDialog: Dialog {
     // MARK: Constructors
     
     init(with civics: AbstractCivics?) {
+        
         let uiParser = UIParser()
         guard let civicDialogConfiguration = uiParser.parse(from: "CivicDialog") else {
             fatalError("cant load CivicDialog configuration")
         }
+        
+        civicDialogConfiguration.delegate = CivicDialogDelegate(civics: civics)
 
         super.init(from: civicDialogConfiguration)
         

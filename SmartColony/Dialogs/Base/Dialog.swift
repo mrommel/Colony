@@ -152,7 +152,8 @@ class Dialog: NineGridTextureSprite {
                 
             case .techInfo:
                 
-                let techInfo = TechDisplayNode(techType: item.techType, size: item.size)
+                let progress = configuration.delegate?.techProgress(of: item.techType) ?? 0
+                let techInfo = TechDisplayNode(techType: item.techType, progress: progress, size: item.size)
                 techInfo.name = item.identifier
                 techInfo.position = item.position()
                 techInfo.zPosition = Globals.ZLevels.dialogs + 1.0
@@ -165,7 +166,8 @@ class Dialog: NineGridTextureSprite {
                 
             case .civicInfo:
             
-                let civicInfo = CivicDisplayNode(civicType: item.civicType, size: item.size)
+                let progress = configuration.delegate?.civicProgress(of: item.civicType) ?? 0
+                let civicInfo = CivicDisplayNode(civicType: item.civicType, progress: progress, size: item.size)
                 civicInfo.name = item.identifier
                 civicInfo.position = item.position()
                 civicInfo.zPosition = Globals.ZLevels.dialogs + 1.0

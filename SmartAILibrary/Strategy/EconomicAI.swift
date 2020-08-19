@@ -971,7 +971,7 @@ public class EconomicAI: Codable {
 
                 let cost = bestCity.buyPlotCost(at: bestPoint, in: gameModel)
 
-                if self.canWithdrawMoneyForPurchase(of: .tile, amount: cost, priority: bestScore) {
+                if self.canWithdrawMoneyForPurchase(of: .tile, amount: Int(cost), priority: bestScore) {
                     /*if (GC.getLogging() && GC.getAILogging())
                     {
                         CvString strLogString;
