@@ -245,7 +245,7 @@ public enum UnitType: Int, Codable {
         switch self {
 
         case .barbarianWarrior:
-            return UnitTypeData(name: "barbarian warrior",
+            return UnitTypeData(name: "Barbarian Warrior",
                                 era: .none,
                                 sight: 2,
                                 range: 0,
@@ -257,7 +257,7 @@ public enum UnitType: Int, Codable {
                                 moves: 2)
             
         case .barbarianArcher:
-            return UnitTypeData(name: "barbarian archer",
+            return UnitTypeData(name: "Barbarian Archer",
                                 era: .none,
                                 sight: 2,
                                 range: 1,
@@ -271,7 +271,7 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler:
             // https://civilization.fandom.com/wiki/Settler_(Civ6)
-            return UnitTypeData(name: "settler",
+            return UnitTypeData(name: "Settler",
                                 era: .ancient,
                                 sight: 3,
                                 range: 0,
@@ -283,7 +283,7 @@ public enum UnitType: Int, Codable {
                                 moves: 2)
         case .builder:
             // https://civilization.fandom.com/wiki/Builder_(Civ6)
-            return UnitTypeData(name: "builder",
+            return UnitTypeData(name: "Builder",
                                 era: .ancient,
                                 sight: 2,
                                 range: 0,
@@ -1133,7 +1133,7 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler: return [.canFound]
         case .builder: return [.canImprove]
-        case .trader: return []
+        case .trader: return [.canEstablishTradeRoute]
 
         case .scout: return [.experienceFromTribal]
         case .warrior: return [.canCapture]

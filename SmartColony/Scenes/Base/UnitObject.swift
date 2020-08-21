@@ -52,7 +52,8 @@ class UnitObject {
             fatalError("cant get civilization")
         }
 
-        self.sprite = SKSpriteNode(imageNamed: unit.type.spriteName)
+        let unitTexture = SKTexture(imageNamed: unit.type.spriteName)
+        self.sprite = SKSpriteNode(texture: unitTexture, color: .black, size: CGSize(width: 48, height: 48))
         self.sprite.position = HexPoint.toScreen(hex: unit.location)
         self.sprite.zPosition = Globals.ZLevels.unit
         self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)

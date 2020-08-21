@@ -358,6 +358,58 @@ extension GameScene {
 
         self.cameraNode.add(dialog: selectPromotionDialog)
     }
+    
+    func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool)->()) {
+        
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        self.currentScreenType = .disbandConfirm
+
+        let confirmDialogViewModel = ConfirmationDialogViewModel(question: NSMutableAttributedString().normal("Do you really want to disband this ").bold(unit.name()).normal("?"))
+
+        let confirmDialog = ConfirmationDialog(with: confirmDialogViewModel)
+        confirmDialog.zPosition = 250
+        
+        confirmDialog.addOkayAction(handler: {
+            confirmDialog.close()
+            self.currentScreenType = .none
+            completion(true)
+        })
+        
+        confirmDialog.addCancelAction(handler: {
+            confirmDialog.close()
+            self.currentScreenType = .none
+            completion(false)
+        })
+
+        self.cameraNode.add(dialog: confirmDialog)
+    }
+    
+    func showSelectCityDialog(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?)->()) {
+        
+        self.currentScreenType = .selectTradeCity
+        
+        let selectTradeCityDialogViewModel = SelectTradeCityDialogViewModel(start: startCity, cities: cities)
+        
+        let selectTradeCityDialog = SelectTradeCityDialog(with: selectTradeCityDialogViewModel)
+        selectTradeCityDialog.zPosition = 250
+        
+        selectTradeCityDialog.addCityResultHandler(handler: { city in
+            selectTradeCityDialog.close()
+            self.currentScreenType = .none
+            completion(city)
+        })
+        
+        selectTradeCityDialog.addCancelAction(handler: {
+            selectTradeCityDialog.close()
+            self.currentScreenType = .none
+            completion(nil)
+        })
+
+        self.cameraNode.add(dialog: selectTradeCityDialog)
+    }
 }
 
 extension GameScene {

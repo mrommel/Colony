@@ -146,6 +146,15 @@ class SpriteButtonNode: SKNode {
         }
     }
     
+    var attributedTitle: NSAttributedString {
+        set {
+            self.buttonLabel.attributedText = newValue
+        }
+        get {
+            return self.buttonLabel.attributedText ?? NSAttributedString()
+        }
+    }
+    
     var fontColor: UIColor? {
         set {
             self.buttonLabel.fontColor = newValue

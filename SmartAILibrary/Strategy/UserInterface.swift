@@ -178,6 +178,8 @@ public enum ScreenType {
     case changePolicies
     case changeGovernment
     case selectPromotion
+    case disbandConfirm
+    case selectTradeCity
     
     case menu
 }
@@ -210,6 +212,9 @@ public protocol UserInterfaceProtocol: class {
     
     func select(tech: TechType)
     func select(civic: CivicType)
+    
+    func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool)->())
+    func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?)->())
     
     // on map
     func show(city: AbstractCity?)

@@ -10,7 +10,7 @@ import Foundation
 
 public class HexPath: Decodable {
     
-    fileprivate var points: [HexPoint]
+    fileprivate var pointsValue: [HexPoint]
     fileprivate var costs: [Double]
     
     enum CodingKeys: String, CodingKey {
@@ -21,18 +21,18 @@ public class HexPath: Decodable {
     // MARK: constructors
     
     public init() {
-        self.points = []
+        self.pointsValue = []
         self.costs = []
     }
     
     public init(point: HexPoint, cost: Double, path: HexPath) {
-        self.points = [point] + path.points
+        self.pointsValue = [point] + path.pointsValue
         self.costs = [cost] + path.costs
     }
     
     public init(points: [HexPoint], costs: [Double]) {
         
-        self.points = points
+        self.pointsValue = points
         self.costs = costs
     }
     
@@ -40,14 +40,14 @@ public class HexPath: Decodable {
         
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        self.points = try values.decode([HexPoint].self, forKey: .points)
+        self.pointsValue = try values.decode([HexPoint].self, forKey: .points)
         self.costs = try values.decode([Double].self, forKey: .costs)
     }
     
     // MARK: properties
     
     public var count: Int {
-        return self.points.count
+        return self.pointsValue.count
     }
     
     var cost: Double {
@@ -56,12 +56,12 @@ public class HexPath: Decodable {
     }
     
     public var isEmpty: Bool {
-        return self.points.isEmpty
+        return self.pointsValue.isEmpty
     }
     
     public var first: (HexPoint, Double)? {
         
-        if let firstPoint = self.points.first, let firstCost = self.costs.first {
+        if let firstPoint = self.pointsValue.first, let firstCost = self.costs.first {
             return (firstPoint, firstCost)
         }
         
@@ -74,12 +74,12 @@ public class HexPath: Decodable {
             return nil
         }
         
-        return (self.points[1], self.costs[1])
+        return (self.pointsValue[1], self.costs[1])
     }
     
     public var last: (HexPoint, Double)? {
         
-        if let lastPoint = self.points.last, let lastCost = self.costs.last {
+        if let lastPoint = self.pointsValue.last, let lastCost = self.costs.last {
             return (lastPoint, lastCost)
         }
         
@@ -92,7 +92,7 @@ public class HexPath: Decodable {
         var index = 0
         
         repeat {
-            result.append(point: self.points[index], cost: self.costs[index])
+            result.append(point: self.pointsValue[index], cost: self.costs[index])
             index += 1
         } while result.cost <= Double(moves) && index < self.count
         
@@ -102,27 +102,43 @@ public class HexPath: Decodable {
     // MARK: methods
     
     public func append(point: HexPoint, cost: Double) {
-        self.points.append(point)
+        
+        self.pointsValue.append(point)
         self.costs.append(cost)
     }
     
     public func prepend(point: HexPoint, cost: Double) {
-        self.points.prepend(point)
+        
+        self.pointsValue.prepend(point)
         self.costs.prepend(cost)
     }
     
     public func pathWithoutFirst() -> HexPath {
-        let newPoints = Array(self.points.suffix(from: 1))
+        
+        let newPoints = Array(self.pointsValue.suffix(from: 1))
         let newCosts = Array(self.costs.suffix(from: 1))
         
         return HexPath(points: newPoints, costs: newCosts)
     }
     
+    public func pathWithoutLast() -> HexPath {
+        
+        let newPoints = Array(self.pointsValue.prefix(upTo: self.count - 1))
+        let newCosts = Array(self.costs.prefix(upTo: self.count - 1))
+        
+        return HexPath(points: newPoints, costs: newCosts)
+    }
+    
+    public func points() -> [HexPoint] {
+        
+        return self.pointsValue
+    }
+    
     public subscript(index: Int) -> (HexPoint, Double) {
         get {
-            precondition(index < self.points.count, "Index \(index) is out of range")
+            precondition(index < self.pointsValue.count, "Index \(index) is out of range")
             
-            return (self.points[index], self.costs[index])
+            return (self.pointsValue[index], self.costs[index])
         }
     }
 }
@@ -143,11 +159,11 @@ public struct HexPathIterator: IteratorProtocol {
         }
         
         // prevent out of bounds
-        guard index < self.path.points.count else {
+        guard index < self.path.pointsValue.count else {
             return nil
         }
         
-        let point = self.path.points[index]
+        let point = self.path.pointsValue[index]
         index += 1
         return point
     }
@@ -165,7 +181,7 @@ extension HexPath: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        try container.encode(self.points, forKey: .points)
+        try container.encode(self.pointsValue, forKey: .points)
         try container.encode(self.costs, forKey: .costs)
     }
 }

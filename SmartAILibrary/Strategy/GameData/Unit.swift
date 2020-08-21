@@ -53,7 +53,7 @@ public protocol AbstractUnit: class, Codable {
     var type: UnitType { get }
     var player: AbstractPlayer? { get set }
     var leader: LeaderType { get } // for restore from file only
-    var origin: HexPoint { get } // to get the city the unit was created in
+    var origin: HexPoint { get set } // to get the city the unit was created in
     var task: UnitTaskType { get }
 
     func name() -> String
@@ -186,6 +186,10 @@ public protocol AbstractUnit: class, Codable {
     func doFortify(in gameModel: GameModel?)
     func doMobilize(in gameModel: GameModel?)
     func set(fortifiedThisTurn: Bool, in gameModel: GameModel?)
+    
+    func doEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
+    func possibleTradeRouteTargets(in gameModel: GameModel?) -> [AbstractCity?]
+    func canEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
 
     func finishMoves()
     func resetMoves(in gameModel: GameModel?)
@@ -282,7 +286,7 @@ public class Unit: AbstractUnit {
     private var facingDirection: HexDirection = .south
     public var player: AbstractPlayer?
     private(set) public var leader: LeaderType // for restoring from file
-    private(set) public var origin: HexPoint
+    public var origin: HexPoint
     internal var promotions: AbstractPromotions?
     public var task: UnitTaskType
     private var deathDelay: Bool = false
@@ -2511,6 +2515,10 @@ public class Unit: AbstractUnit {
 
     public func canDo(command: CommandType, in gameModel: GameModel?) -> Bool {
         
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
         switch command {
             
         case .found:
@@ -2539,6 +2547,12 @@ public class Unit: AbstractUnit {
             
         case .garrison:
             return self.canGarrison(at: self.location, in: gameModel)
+            
+        case .disband:
+            return true
+            
+        case .establishTradeRoute:
+            return self.canEstablishTradeRoute(to: nil, in: gameModel)
             
         case .pillage:
             return self.canPillage(at: self.location, in: gameModel)
@@ -2643,31 +2657,86 @@ public class Unit: AbstractUnit {
 
         return true
     }
-    
-    func canEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool {
+
+    public func canEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool {
         
-        /*guard let gameModel = gameModel else {
+        guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
-        }*/
+        }
         
         guard let player = self.player else {
             fatalError("cant get player")
         }
         
+        if !self.type.abilities().contains(.canEstablishTradeRoute) {
+            return false
+        }
+        
         // can reach the target?
-        guard let originCity = gameModel?.city(at: self.origin) else {
+        guard let originCity = gameModel.city(at: self.origin) else {
             // origin city does not exist anymore ?
             return false
         }
         
-        if !player.canEstablishTradeRoute(from: originCity, to: targetCity, in: gameModel) {
+        if !player.canEstablishTradeRoute(in: gameModel) {
             return false
         }
+        
+        if targetCity == nil {
+            return true
+        }
+        
+        // FIXME: check trade route paths
         
         return true
     }
     
-    func doEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool {
+    public func possibleTradeRouteTargets(in gameModel: GameModel?) -> [AbstractCity?] {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cat get gameModel")
+        }
+        
+        guard let originCity = gameModel.city(at: self.origin) else {
+            // origin city does not exist anymore ?
+            return []
+        }
+        
+        guard let unitPlayer = self.player,
+            let unitPlayerTradeRoutes = unitPlayer.tradeRoutes else {
+            fatalError("unit doesnt have a player")
+        }
+        
+        var cities: [AbstractCity?] = []
+        
+        for player in gameModel.players {
+            for city in gameModel.cities(of: player) {
+                
+                guard let cityLocation = city?.location,
+                    let cityTile = gameModel.tile(at: cityLocation) else {
+                        
+                        continue
+                }
+                
+                if self.origin == cityLocation {
+                    continue
+                }
+                
+                if cityTile.isDiscovered(by: unitPlayer) {
+                    
+                    // check if is within reach
+                    if unitPlayerTradeRoutes.canEstablishTradeRoute(from: originCity, to: city, in: gameModel) {
+                    
+                        cities.append(city)
+                    }
+                }
+            }
+        }
+        
+        return cities
+    }
+    
+    public func doEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool {
         
         guard let player = self.player else {
             fatalError("cant get player")

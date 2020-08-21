@@ -10,11 +10,16 @@ import Foundation
 
 class ConfirmationDialogViewModel {
     
-    let question: String
+    let question: NSMutableAttributedString
+    
+    init(question: NSMutableAttributedString) {
+        
+        self.question = question
+    }
     
     init(question: String) {
         
-        self.question = question
+        self.question = NSMutableAttributedString(string: question)
     }
 }
 

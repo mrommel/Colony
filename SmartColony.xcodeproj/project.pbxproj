@@ -228,6 +228,8 @@
 		C9EC4E2A2445ADAE001A0597 /* DialogResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E292445ADAE001A0597 /* DialogResultType.swift */; };
 		C9EC4E2C2445ADD6001A0597 /* DialogItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E2B2445ADD6001A0597 /* DialogItemType.swift */; };
 		C9EC4E2E2445ADE5001A0597 /* DialogAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E2D2445ADE5001A0597 /* DialogAnchor.swift */; };
+		C9EC9EEB24EEDF0C00E07C18 /* SelectTradeCityDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC9EEA24EEDF0C00E07C18 /* SelectTradeCityDialog.swift */; };
+		C9EC9EED24EEE1B200E07C18 /* SelectTradeCityDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9EC9EEC24EEE1B200E07C18 /* SelectTradeCityDialog.xml */; };
 		C9F61470243471D500450B6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6146F243471D500450B6C /* AppDelegate.swift */; };
 		C9F61475243471D500450B6C /* SmartColony.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C9F61473243471D500450B6C /* SmartColony.xcdatamodeld */; };
 		C9F61479243471E200450B6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F61478243471E200450B6C /* Assets.xcassets */; };
@@ -499,6 +501,8 @@
 		C9EC4E292445ADAE001A0597 /* DialogResultType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogResultType.swift; sourceTree = "<group>"; };
 		C9EC4E2B2445ADD6001A0597 /* DialogItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogItemType.swift; sourceTree = "<group>"; };
 		C9EC4E2D2445ADE5001A0597 /* DialogAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogAnchor.swift; sourceTree = "<group>"; };
+		C9EC9EEA24EEDF0C00E07C18 /* SelectTradeCityDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTradeCityDialog.swift; sourceTree = "<group>"; };
+		C9EC9EEC24EEE1B200E07C18 /* SelectTradeCityDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SelectTradeCityDialog.xml; sourceTree = "<group>"; };
 		C9F6146C243471D500450B6C /* SmartColony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartColony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F6146F243471D500450B6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9F61474243471D500450B6C /* SmartColony.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartColony.xcdatamodel; sourceTree = "<group>"; };
@@ -879,6 +883,7 @@
 				C926E48024C9E1DE0073F3E1 /* ChangeGovernmentDialog.swift */,
 				C926E48624C9E3040073F3E1 /* ChangePoliciesDialog.swift */,
 				C976047124E28F3E00E2267D /* SelectPromotionDialog.swift */,
+				C9EC9EEA24EEDF0C00E07C18 /* SelectTradeCityDialog.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -915,6 +920,7 @@
 				C926E48224C9E2800073F3E1 /* ChangeGovernmentDialog.xml */,
 				C926E48424C9E2D00073F3E1 /* ChangePoliciesDialog.xml */,
 				C976047324E2935E00E2267D /* SelectPromotionDialog.xml */,
+				C9EC9EEC24EEE1B200E07C18 /* SelectTradeCityDialog.xml */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -1145,6 +1151,7 @@
 				C9DC1C8D248662B800235743 /* GamesListDialog.xml in Resources */,
 				C97BC0CF24C2EEF5008237F6 /* knight.png in Resources */,
 				C90D2E4B24C37A570029AA11 /* pikeman.png in Resources */,
+				C9EC9EED24EEE1B200E07C18 /* SelectTradeCityDialog.xml in Resources */,
 				C9B1D2472434B9AE00033791 /* DINNext-Bold.ttf in Resources */,
 				C97BC0BF24C2EEA2008237F6 /* spearman.png in Resources */,
 				C99A591324643831006431EE /* CityBuildingsDialog.xml in Resources */,
@@ -1251,6 +1258,7 @@
 				C9CEE35224A285B800869B85 /* BottomCombatBar.swift in Sources */,
 				C9EB9F562451A95500F13B02 /* LeftHeaderBarNode.swift in Sources */,
 				C97CD3B0243B685200FABCC0 /* UnitObject.swift in Sources */,
+				C9EC9EEB24EEDF0C00E07C18 /* SelectTradeCityDialog.swift in Sources */,
 				C99A5911246437EE006431EE /* CityBuildingsDialog.swift in Sources */,
 				C947871D2472ECF700FAAC99 /* GameSceneUserInterface.swift in Sources */,
 				C95B3E092438E78E002F5A86 /* FeatureLayer.swift in Sources */,

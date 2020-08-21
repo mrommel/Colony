@@ -8,149 +8,27 @@
 
 import Foundation
 
-class TradeRoute: Codable {
+public protocol AbstractTradeRoutes {
     
-    public static let range = 15
+    var player: Player? { get set }
     
-    enum CodingKeys: String, CodingKey {
+    func establishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
     
-        case start
-        case posts
-        case end
-    }
+    func canEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
     
-    let start: HexPoint
-    let posts: [HexPoint]
-    let end: HexPoint
-    
-    init(start: HexPoint, posts: [HexPoint], end: HexPoint) {
-        
-        self.start = start
-        self.posts = posts
-        self.end = end
-    }
-    
-    required public init(from decoder: Decoder) throws {
-        
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-    
-        self.start = try container.decode(HexPoint.self, forKey: .start)
-        self.posts = try container.decode([HexPoint].self, forKey: .posts)
-        self.end = try container.decode(HexPoint.self, forKey: .end)
-    }
-    
-    public func encode(to encoder: Encoder) throws {
-        
-        var container = encoder.container(keyedBy: CodingKeys.self)
-
-        try container.encode(self.start, forKey: .start)
-        try container.encode(self.posts, forKey: .posts)
-        try container.encode(self.end, forKey: .end)
-    }
-    
-    func isDomestic(in gameModel: GameModel?) -> Bool {
-        
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
-        }
-        
-        guard let startLeader = gameModel.city(at: self.start)?.player?.leader else {
-            return false
-        }
-        
-        guard let endLeader = gameModel.city(at: self.end)?.player?.leader else {
-            return false
-        }
-        
-        return startLeader != endLeader
-    }
-    
-    func isInternational(in gameModel: GameModel?) -> Bool {
-        
-        return !self.isDomestic(in: gameModel)
-    }
-    
-    func yields(in gameModel: GameModel?) -> Yields {
-        
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
-        }
-        
-        guard let startPlayer = gameModel.city(at: self.start)?.player else {
-            fatalError("cant get start player")
-        }
-        
-        guard let startPlayerGovernment = startPlayer.government else {
-            fatalError("cant get start player government")
-        }
-        
-        guard let endCity = gameModel.city(at: self.end) else {
-            fatalError("cant get end city")
-        }
-        
-        guard let endDistricts = endCity.districts else {
-            fatalError("cant get end city districts")
-        }
-        
-        let yields: Yields = Yields(food: 0.0, production: 0.0, gold: 0.0)
-        
-        if self.isDomestic(in: gameModel) {
-            yields.food += 1.0
-            yields.production += 1.0
-            
-            if startPlayer.leader.civilization().ability() == .satrapies {
-                // Domestic TradeRoute6 Trade Routes provide +2 Civ6Gold Gold and +1 Civ6Culture Culture.
-                yields.gold += 2.0
-                yields.culture += 1.0
-            }
-        } else {
-            yields.gold += 3.0
-    
-            if endDistricts.has(district: .campus) {
-                yields.science += 1.0
-            }
-            
-            if endDistricts.has(district: .holySite) {
-                yields.faith += 1.0
-            }
-            
-            if endDistricts.has(district: .industrial) {
-                yields.production += 1.0
-            }
-            
-            if endDistricts.has(district: .commercialHub) {
-                yields.gold += 1.0
-            }
-            
-            if endDistricts.has(district: .harbor) {
-                yields.gold += 1.0
-            }
-        }
-        
-        if startPlayerGovernment.has(card: .caravansaries) {
-            yields.gold += 2.0
-        }
-        
-        // posts - currently no implemented
-        yields.gold += Double(self.posts.count)
-        
-        if startPlayer.leader.civilization().ability() == .allRoadsLeadToRome {
-            //  TradeRoute6 Trade Routes generate +1 additional Civ6Gold Gold from Roman Trading Posts they pass through.
-            yields.gold += Double(self.posts.count)
-        }
-        
-        return yields
-    }
+    func numberOfTradeRoutes() -> Int
 }
 
-public class TradeRoutes: Codable {
+public class TradeRoutes: Codable, AbstractTradeRoutes {
     
     enum CodingKeys: String, CodingKey {
     
         case routes
     }
     
-    var player: Player?
+    public static let range = 15
+    
+    public var player: Player?
     private var routes: [TradeRoute]
     
     // MARK: constructors
@@ -175,7 +53,7 @@ public class TradeRoutes: Codable {
         try container.encode(self.routes, forKey: .routes)
     }
     
-    public var count: Int {
+    public func numberOfTradeRoutes() -> Int {
         
         return self.routes.count
     }
@@ -192,17 +70,37 @@ public class TradeRoutes: Codable {
             fatalError("cant get target city location")
         }
         
-        guard let path = trader?.path(towards: targetCityLocation, in: gameModel) else {
-            print("no path")
-            return false
+        let tradeRouteFinder = AStarPathfinder()
+        tradeRouteFinder.dataSource = TradeRoutePathfinderDataSource(for: self.player, with: self, in: gameModel)
+        
+        if let tradeRoutePath = tradeRouteFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) {
+            print("tradeRoutePath: \(tradeRoutePath)")
+            let posts: [HexPoint] = tradeRoutePath.pathWithoutLast().points()
+            self.routes.append(TradeRoute(start: originCityLocation, posts: posts, end: targetCityLocation))
+            return true
         }
         
-        guard path.count <= TradeRoute.range else {
-            print("trading posts not handled")
-            return false
-        }
-        
-        self.routes.append(TradeRoute(start: originCityLocation, posts: [], end: targetCityLocation))
-        return true
+        return false
     }
+    
+    public func canEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool {
+        
+        guard let originCityLocation = originCity?.location else {
+            fatalError("cant get origin city location")
+        }
+        
+        guard let targetCityLocation = targetCity?.location else {
+            fatalError("cant get target city location")
+        }
+        
+        let tradeRouteFinder = AStarPathfinder()
+        tradeRouteFinder.dataSource = TradeRoutePathfinderDataSource(for: self.player, with: self, in: gameModel)
+        
+        if tradeRouteFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) != nil {
+            return true
+        }
+        
+        return false
+    }
+    
 }

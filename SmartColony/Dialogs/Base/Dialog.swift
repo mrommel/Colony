@@ -272,6 +272,25 @@ class Dialog: NineGridTextureSprite {
         
         fatalError("identifier does not identify a label or button")
     }
+    
+    func set(text: NSAttributedString, identifier: String) {
+        
+        guard let node = self.children.first(where: { $0.name == identifier }) else {
+            fatalError("Can't find \(identifier)")
+        }
+
+        if let label = node as? SKLabelNode {
+            label.attributedText = text
+            return
+        }
+
+        if let button = node as? MessageBoxButtonNode {
+            button.attributedTitle = text
+            return
+        }
+        
+        fatalError("identifier does not identify a label or button")
+    }
 
     func set(imageNamed imageName: String, identifier: String) {
 

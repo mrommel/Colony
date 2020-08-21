@@ -37,6 +37,9 @@ extension CommandType {
         case .fortify: return "COMMAND_FORTIFY"
         case .hold: return "COMMAND_HOLD"
         case .garrison: return "COMMAND_GARRISON"
+        case .disband: return "COMMAND_DISBAND"
+        case .establishTradeRoute: return "COMMAND_ESTABLISHTRADEROUTE"
+            
         case .attack: return "COMMAND_ATTACK"
         case .rangedAttack: return "COMMAND_RANGED ATTACK"
         case .cancelAttack: return "COMMAND_CANCEL_ATTACK"

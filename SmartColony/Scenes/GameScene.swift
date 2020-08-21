@@ -908,6 +908,34 @@ extension GameScene: BottomLeftBarDelegate {
             if let selectedUnit = self.selectedUnit {
                 selectedUnit.doGarrison(in: gameModel)
             }
+        case .disband:
+            if let selectedUnit = self.selectedUnit {
+                
+                // FIXME: ask: are you really sure
+                gameModel.userInterface?.askToDisband(unit: selectedUnit, completion: { (disband) in
+                    if disband {
+                        selectedUnit.doKill(delayed: false, by: nil, in: gameModel)
+                    }
+                })
+            }
+        case .establishTradeRoute:
+            if let selectedUnit = self.selectedUnit {
+                
+                guard let originCity = gameModel.city(at: selectedUnit.origin) else {
+                    return // origin city does not exist anymore ?
+                }
+                
+                let cities = selectedUnit.possibleTradeRouteTargets(in: gameModel)
+                
+                gameModel.userInterface?.askForCity(start: originCity, of: cities, completion: { (target) in
+                    
+                    if let targetCity = target {
+                        if !selectedUnit.doEstablishTradeRoute(to: targetCity, in: gameModel) {
+                            print("could not establish a trade route to \(targetCity.name)")
+                        }
+                    }
+                })
+            }
             
         case .attack:
             if let selectedUnit = self.selectedUnit {
@@ -954,8 +982,7 @@ extension GameScene: BottomLeftBarDelegate {
         }
         
         self.uiCombatMode = .melee
-        //self.bottomLeftBar?.selectedUnitChanged(to: selectedUnit, commands: [], in: nil)
-        
+
         if let unit = unit {
             
             // reset icons
@@ -987,7 +1014,6 @@ extension GameScene: BottomLeftBarDelegate {
         }
         
         self.uiCombatMode = .ranged
-        //self.bottomLeftBar?.selectedUnitChanged(to: selectedUnit, commands: [Command(type: .cancelAttack, location: HexPoint.invalid)], in: <#GameModel?#>)
         
         if let unit = unit {
             

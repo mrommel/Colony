@@ -43,6 +43,7 @@ public protocol AbstractPlayer: class, Codable {
     var treasury: AbstractTreasury? { get }
     var religion: AbstractReligion? { get }
     var greatPeople: AbstractGreatPeople? { get }
+    var tradeRoutes: AbstractTradeRoutes? { get }
 
     var grandStrategyAI: GrandStrategyAI? { get }
     var diplomacyAI: DiplomaticAI? { get }
@@ -206,7 +207,7 @@ public protocol AbstractPlayer: class, Codable {
     // trade routes
     func tradingCapacity(in gameModel: GameModel?) -> Int
     func numberOfTradeRoutes() -> Int
-    func canEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
+    func canEstablishTradeRoute(in gameModel: GameModel?) -> Bool
     func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
     
     func isEqual(to other: AbstractPlayer?) -> Bool
@@ -286,7 +287,7 @@ public class Player: AbstractPlayer {
     public var religion: AbstractReligion?
     public var treasury: AbstractTreasury?
     public var greatPeople: AbstractGreatPeople?
-    internal var tradeRoutes: TradeRoutes?
+    public var tradeRoutes: AbstractTradeRoutes?
 
     public var government: AbstractGovernment? = nil
     internal var currentEraVal: EraType = .ancient
@@ -395,6 +396,7 @@ public class Player: AbstractPlayer {
         self.treasury?.player = self
         self.government?.player = self
         self.greatPeople?.player = self
+        self.tradeRoutes?.player = self
         
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
@@ -443,7 +445,7 @@ public class Player: AbstractPlayer {
         
         try container.encode(self.cityConnections, forKey: .cityConnections)
         try container.encode(self.goodyHuts, forKey: .goodyHuts)
-        try container.encode(self.tradeRoutes, forKey: .tradeRoutes)
+        try container.encode(self.tradeRoutes as! TradeRoutes, forKey: .tradeRoutes)
         
         try container.encode(self.techs as! Techs, forKey: .techs)
         try container.encode(self.civics as! Civics, forKey: .civics)
@@ -2064,7 +2066,7 @@ public class Player: AbstractPlayer {
 
                 if let path = pathFinder.shortestPath(fromTileCoord: location, toTileCoord: capital.location) {
                     // If within TradeRoute6 Trade Route range of the Capital6 Capital, a road to it.
-                    if path.count <= TradeRoute.range {
+                    if path.count <= TradeRoutes.range {
                         
                         for pathLocation in path {
                             
@@ -2747,10 +2749,10 @@ public class Player: AbstractPlayer {
             fatalError("cant get tradeRoutes")
         }
         
-        return tradeRoutes.count
+        return tradeRoutes.numberOfTradeRoutes()
     }
     
-    public func canEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool {
+    public func canEstablishTradeRoute(in gameModel: GameModel?) -> Bool {
         
         let tradingCapacity = self.tradingCapacity(in: gameModel)
         let numberOfTradeRoutes = self.numberOfTradeRoutes()

@@ -168,6 +168,16 @@ extension GameScene: UserInterfaceProtocol {
 
         self.notificationsNode?.remove(notification: notification)
     }
+    
+    func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool)->()) {
+        
+        self.showDisbandDialog(for: unit, completion: completion)
+    }
+    
+    func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?)->()) {
+        
+        self.showSelectCityDialog(start: startCity, of: cities, completion: completion)
+    }
 
     func refresh(tile: AbstractTile?) {
         

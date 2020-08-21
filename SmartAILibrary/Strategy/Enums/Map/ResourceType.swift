@@ -662,7 +662,8 @@ public enum ResourceType: Int, Codable {
         case .sheep:
             return terrain == .grass || terrain == .plains || terrain == .desert
         case .copper:
-            return true
+            // they all can have hills
+            return terrain == .grass || terrain == .plains || terrain == .desert || terrain == .tundra
         case .stone:
             return terrain == .grass
         case .bananas:

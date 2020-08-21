@@ -14,6 +14,7 @@ enum UnitAbilityType {
     case canFound
     case canImprove
     case canImproveSea
+    case canEstablishTradeRoute
     
     case canEmbark
     case experienceFromTribal // Gains XP when activating Tribal Villages (+5 XP) and discovering Natural Wonders (+10 XP
@@ -25,7 +26,7 @@ enum UnitAbilityType {
     static var all: [UnitAbilityType] {
         
         return [
-            .canFound, .canImprove, .canImproveSea,
+            .canFound, .canImprove, .canImproveSea, .canEstablishTradeRoute,
             
             .canEmbark, .experienceFromTribal, .oceanImpassable, .canCapture,
             
@@ -62,6 +63,7 @@ enum UnitAbilityType {
         case .canFound: return AbilityData(name: "Can Found", required: [])
         case .canImprove: return AbilityData(name: "Can Improve", required: [])
         case .canImproveSea: return AbilityData(name: "Can Improve at sea", required: [])
+        case .canEstablishTradeRoute: return AbilityData(name: "Can establish TradeRoute", required: []) // FIXME foreign trade
             
         case .canEmbark: return AbilityData(name: "Can Embark", required: [])
         case .experienceFromTribal: return AbilityData(name: "Experience from tribal", required: [])

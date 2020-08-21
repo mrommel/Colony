@@ -95,21 +95,38 @@ class CityLayer: SKNode {
             fatalError("no city provided")
         }
         
+        guard let tile = gameModel.tile(at: city.location) else {
+            fatalError("cant get tile")
+        }
+        
+        var isDiscovered = false
+        var isVisible = false
+        var shown = false
+        
+        if tile.isDiscovered(by: player) {
+            isDiscovered = true
+        }
+        
+        if tile.isVisible(to: player) {
+            isVisible = true
+        }
+        
         for cityLoopObject in self.cityObjects {
             
             if city.location == cityLoopObject.city?.location {
                 
-                guard let tile = gameModel.tile(at: city.location) else {
-                    fatalError("cant get tile")
-                }
-                
-                if tile.isDiscovered(by: player) {
-                
+                if isVisible {
                     cityLoopObject.showCityBanner()
                 
                     // FIXME update city size / buildings
                 }
+                
+                shown = true
             }
+        }
+        
+        if isDiscovered && !shown {
+            self.show(city: city)
         }
     }
 }

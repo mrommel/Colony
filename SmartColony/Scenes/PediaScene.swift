@@ -20,7 +20,8 @@ class PediaScene: BaseScene {
     // variables
     var backgroundNode: SKSpriteNode?
 
-    var scienceNearlyDiscoveredGameButton: MenuButtonNode?
+    var allUnitsGameButton: MenuButtonNode?
+    var fightBarbariansGameButton: MenuButtonNode?
     var firstContactGameButton: MenuButtonNode?
 
     var interimRankingDialogButton: MenuButtonNode?
@@ -54,14 +55,23 @@ class PediaScene: BaseScene {
         self.backgroundNode?.size = viewSize
         self.rootNode.addChild(self.backgroundNode!)
 
-        // science
-        self.scienceNearlyDiscoveredGameButton = MenuButtonNode(
+        // all units
+        self.allUnitsGameButton = MenuButtonNode(
+                   titled: "All Units",
+                   buttonAction: {
+                       self.startAllUnitsGame()
+                   })
+               self.allUnitsGameButton?.zPosition = 2
+               self.rootNode.addChild(self.allUnitsGameButton!)
+        
+        // barbarians
+        self.fightBarbariansGameButton = MenuButtonNode(
             titled: "Fight Barbarians",
             buttonAction: {
                 self.startFightBarbariansGame()
             })
-        self.scienceNearlyDiscoveredGameButton?.zPosition = 2
-        self.rootNode.addChild(self.scienceNearlyDiscoveredGameButton!)
+        self.fightBarbariansGameButton?.zPosition = 2
+        self.rootNode.addChild(self.fightBarbariansGameButton!)
 
         // first contact
         self.firstContactGameButton = MenuButtonNode(
@@ -138,7 +148,8 @@ class PediaScene: BaseScene {
         self.backgroundNode?.position = CGPoint(x: 0, y: 0)
         self.backgroundNode?.aspectFillTo(size: viewSize)
 
-        self.scienceNearlyDiscoveredGameButton?.position = CGPoint(x: 0, y: 60)
+        self.allUnitsGameButton?.position = CGPoint(x: 0, y: 110)
+        self.fightBarbariansGameButton?.position = CGPoint(x: 0, y: 60)
         self.firstContactGameButton?.position = CGPoint(x: 0, y: 10)
 
         self.civicDialogButton?.position = CGPoint(x: 0, y: -50)
@@ -151,6 +162,58 @@ class PediaScene: BaseScene {
     }
 
     // MARK: games
+    
+    func startAllUnitsGame() {
+        
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+        
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
+        aiPlayer.initialize()
+
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        var mapModel = PediaScene.mapFilled(with: .grass, sized: .small)
+        mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
+        mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
+        mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
+        mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
+        mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
+        
+        
+        let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
+
+        // AI
+        aiPlayer.found(at: HexPoint(x: 20, y: 8), named: "AI Capital", in: gameModel)
+        aiPlayer.found(at: HexPoint(x: 12, y: 10), named: "AI City", in: gameModel)
+
+        // Human
+        humanPlayer.found(at: HexPoint(x: 3, y: 5), named: "Human Capital", in: gameModel)
+        try! humanPlayer.techs?.discover(tech: .pottery)
+        try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .codeOfLaws)
+        try! humanPlayer.civics?.discover(civic: .foreignTrade)
+        try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+        
+        if let humanCity = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+            humanCity.buildQueue.add(item: BuildableItem(buildingType: .granary))
+        }
+        
+        var x = 0
+        for unitType in UnitType.all {
+            let unit = Unit(at: HexPoint(x: x, y: 4), type: unitType, owner: humanPlayer)
+            unit.origin = HexPoint(x: 3, y: 5)
+            gameModel.add(unit: unit)
+            gameModel.userInterface?.show(unit: unit)
+            
+            x += 1
+        }
+        
+        GameViewModel.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+
+        self.pediaDelegate?.start(game: gameModel)
+    }
 
     func startFightBarbariansGame() {
 
