@@ -547,6 +547,11 @@ public class City: AbstractCity {
             }
         }
         
+        // Every city automatically creates a road on its tile, which remains even if the feature is pillaged or the city is razed.
+        if let tile = gameModel.tile(at: self.location) {
+            tile.set(route: .ancientRoad)
+        }
+        
         // claim ownership for direct neighbors (if not taken)
         for pointToClaim in self.location.areaWith(radius: 1) {
             
@@ -3024,7 +3029,7 @@ public class City: AbstractCity {
                     }
 
                     // roaded tiles get a priority - [not any more: weight above is 0 by default]
-                    if loopPlot.has(route: .road) {
+                    if loopPlot.hasAnyRoute() {
                         influenceCost += iPLOT_INFLUENCE_ROUTE_COST
                     }
 

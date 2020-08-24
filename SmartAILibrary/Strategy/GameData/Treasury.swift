@@ -23,6 +23,7 @@ public protocol AbstractTreasury: class, Codable {
     // in
     func goldFromCities(in gameModel: GameModel?) -> Double
     func goldPerTurnFromDiplomacy(in gameModel: GameModel?) -> Double
+    func goldFromTradeRoutes(in gameModel: GameModel?) -> Double
     
     // out
     func goldForUnitMaintenance(in gameModel: GameModel?) -> Double
@@ -76,7 +77,7 @@ class Treasury: AbstractTreasury {
     }
     
     /// Get the amount of gold granted by connecting the city
-    func goldForRoute(to target: AbstractCity?, in gameModel: GameModel?) -> Int {
+    /*func goldForRoute(to target: AbstractCity?, in gameModel: GameModel?) -> Int {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -116,7 +117,7 @@ class Treasury: AbstractTreasury {
         }*/
 
         return gold
-    }
+    }*/
     
     /// How much of a bonus do we get for Trade Routes
     func tradeRouteGoldChange() -> Int {
@@ -173,7 +174,7 @@ class Treasury: AbstractTreasury {
         netGold += self.goldPerTurnFromDiplomacy(in: gameModel)
 
         // City connection bonuses
-        //netGold += cityConnectionGold(in: gameModel)
+        netGold += self.goldFromTradeRoutes(in: gameModel)
         
         // Costs
         // //////////////////
@@ -220,6 +221,15 @@ class Treasury: AbstractTreasury {
     func goldPerTurnFromDiplomacy(in gameModel: GameModel?) -> Double {
         
         return 0.0
+    }
+    
+    func goldFromTradeRoutes(in gameModel: GameModel?) -> Double {
+        
+        guard let tradeRoutes = self.player?.tradeRoutes else {
+            fatalError("cant get tradeRoutes")
+        }
+        
+        return tradeRoutes.yields(in: gameModel).gold
     }
     
     // MARK: costs

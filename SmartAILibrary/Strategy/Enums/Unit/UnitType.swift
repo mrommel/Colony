@@ -1179,8 +1179,11 @@ public enum UnitType: Int, Codable {
         case .none: return false
 
         case .repair: return self.has(ability: .canImprove)
-        case .road: return self.has(ability: .canImprove)
+            
+        case .ancientRoad: return self.has(ability: .canBuildRoads)
+        case .classicalRoad: return self.has(ability: .canBuildRoads)
         case .removeRoad: return self.has(ability: .canImprove)
+            
         case .farm: return self.has(ability: .canImprove)
         case .mine: return self.has(ability: .canImprove)
         case .quarry: return self.has(ability: .canImprove)

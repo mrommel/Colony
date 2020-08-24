@@ -72,6 +72,7 @@ public protocol AbstractTile: Codable {
     func setImprovement(pillaged: Bool)
 
     func has(route: RouteType) -> Bool
+    func hasAnyRoute() -> Bool
 
     func canBuild(buildType: BuildType, by player: AbstractPlayer?) -> Bool
     @discardableResult
@@ -86,6 +87,7 @@ public protocol AbstractTile: Codable {
     func isRoutePillaged() -> Bool
     func setRoute(pillaged: Bool)
     func set(route: RouteType)
+    func route() -> RouteType
 
     // methods related to owner of this tile
     func hasOwner() -> Bool
@@ -557,10 +559,6 @@ class Tile: AbstractTile {
             returnYields += self.improvementValue.yields(for: player)
         }
 
-        if self.routeValue != .none && !self.isRoutePillaged() {
-            returnYields += self.routeValue.yields()
-        }
-
         return returnYields
     }
 
@@ -617,11 +615,6 @@ class Tile: AbstractTile {
             if /*!self.isRoutePillaged() ||*/ buildType == .repair {
                 routeFromBuild = self.routeValue
             }
-        }
-
-        if let routeFromBuild = routeFromBuild {
-
-            yields += routeFromBuild.yields()
         }
 
         return yields
@@ -904,6 +897,11 @@ class Tile: AbstractTile {
 
         return self.routeValue == route
     }
+    
+    func hasAnyRoute() -> Bool {
+
+        return self.routeValue != .none
+    }
 
     func canBePillaged() -> Bool {
 
@@ -928,6 +926,11 @@ class Tile: AbstractTile {
     public func set(route routeType: RouteType) {
 
         self.routeValue = routeType
+    }
+    
+    public func route() -> RouteType {
+
+        return self.routeValue
     }
 
     func canBuild(buildType: BuildType, by player: AbstractPlayer?) -> Bool {

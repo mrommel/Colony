@@ -13,6 +13,7 @@ enum UnitAbilityType {
     // civil
     case canFound
     case canImprove
+    case canBuildRoads
     case canImproveSea
     case canEstablishTradeRoute
     
@@ -26,7 +27,7 @@ enum UnitAbilityType {
     static var all: [UnitAbilityType] {
         
         return [
-            .canFound, .canImprove, .canImproveSea, .canEstablishTradeRoute,
+            .canFound, .canImprove, .canBuildRoads, .canImproveSea, .canEstablishTradeRoute,
             
             .canEmbark, .experienceFromTribal, .oceanImpassable, .canCapture,
             
@@ -39,7 +40,6 @@ enum UnitAbilityType {
     private struct AbilityData {
 
         let name: String
-        let required: [TechType]
     }
 
     // MARK: methods
@@ -48,11 +48,6 @@ enum UnitAbilityType {
 
         return self.data().name
     }
-    
-    func required() -> [TechType] {
-
-        return self.data().required
-    }
 
     // MARK: private methods
 
@@ -60,17 +55,18 @@ enum UnitAbilityType {
 
         switch self {
             
-        case .canFound: return AbilityData(name: "Can Found", required: [])
-        case .canImprove: return AbilityData(name: "Can Improve", required: [])
-        case .canImproveSea: return AbilityData(name: "Can Improve at sea", required: [])
-        case .canEstablishTradeRoute: return AbilityData(name: "Can establish TradeRoute", required: []) // FIXME foreign trade
+        case .canFound: return AbilityData(name: "Can Found")
+        case .canImprove: return AbilityData(name: "Can Improve")
+        case .canBuildRoads: return AbilityData(name: "Can Build Roads")
+        case .canImproveSea: return AbilityData(name: "Can Improve at sea")
+        case .canEstablishTradeRoute: return AbilityData(name: "Can establish TradeRoute") // FIXME foreign trade
             
-        case .canEmbark: return AbilityData(name: "Can Embark", required: [])
-        case .experienceFromTribal: return AbilityData(name: "Experience from tribal", required: [])
-        case .oceanImpassable: return AbilityData(name: "Ocean impassable", required: [])
-        case .canCapture: return AbilityData(name: "Can capture", required: [])
+        case .canEmbark: return AbilityData(name: "Can Embark")
+        case .experienceFromTribal: return AbilityData(name: "Experience from tribal")
+        case .oceanImpassable: return AbilityData(name: "Ocean impassable")
+        case .canCapture: return AbilityData(name: "Can capture")
             
-        case .canHeal: return AbilityData(name: "Can Heal adjacent units", required: [])
+        case .canHeal: return AbilityData(name: "Can Heal adjacent units")
         }
     }
 }

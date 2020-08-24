@@ -17,6 +17,8 @@ public protocol AbstractTradeRoutes {
     func canEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
     
     func numberOfTradeRoutes() -> Int
+    func yields(in gameModel: GameModel?) -> Yields
+    func tradeRoutesStarting(at city: AbstractCity?) -> [TradeRoute]
 }
 
 public class TradeRoutes: Codable, AbstractTradeRoutes {
@@ -58,7 +60,26 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
         return self.routes.count
     }
     
-    // FIXME - take trading posts into account
+    public func tradeRoutesStarting(at city: AbstractCity?) -> [TradeRoute] {
+        
+        guard let cityLocation = city?.location else {
+            fatalError("cant get city location")
+        }
+        
+        return self.routes.filter({ $0.start == cityLocation })
+    }
+    
+    public func yields(in gameModel: GameModel?) -> Yields {
+        
+        var yields: Yields = Yields(food: 0.0, production: 0.0, gold: 0.0)
+        
+        for route in self.routes {
+            yields += route.yields(in: gameModel)
+        }
+        
+        return yields
+    }
+    
     // FIXME - sea trading routes
     public func establishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool {
         
@@ -71,12 +92,14 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
         }
         
         let tradeRouteFinder = AStarPathfinder()
-        tradeRouteFinder.dataSource = TradeRoutePathfinderDataSource(for: self.player, with: self, in: gameModel)
+        tradeRouteFinder.dataSource = TradeRoutePathfinderDataSource(for: self.player, with: targetCityLocation, in: gameModel)
         
         if let tradeRoutePath = tradeRouteFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) {
             print("tradeRoutePath: \(tradeRoutePath)")
             let posts: [HexPoint] = tradeRoutePath.pathWithoutLast().points()
-            self.routes.append(TradeRoute(start: originCityLocation, posts: posts, end: targetCityLocation))
+            let tradeRoute = TradeRoute(start: originCityLocation, posts: posts, end: targetCityLocation)
+            trader?.start(tradeRoute: tradeRoute, in: gameModel)
+            self.routes.append(tradeRoute)
             return true
         }
         
@@ -94,7 +117,7 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
         }
         
         let tradeRouteFinder = AStarPathfinder()
-        tradeRouteFinder.dataSource = TradeRoutePathfinderDataSource(for: self.player, with: self, in: gameModel)
+        tradeRouteFinder.dataSource = TradeRoutePathfinderDataSource(for: self.player, with: targetCityLocation, in: gameModel)
         
         if tradeRouteFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) != nil {
             return true

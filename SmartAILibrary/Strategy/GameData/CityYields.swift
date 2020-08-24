@@ -157,6 +157,7 @@ extension City {
         productionPerTurn += self.productionFromTiles(in: gameModel)
         productionPerTurn += self.productionFromGovernmentType()
         productionPerTurn += self.productionFromBuildings()
+        productionPerTurn += self.productionFromTradeRoutes(in: gameModel)
         productionPerTurn += self.featureProduction()
 
         return productionPerTurn
@@ -260,6 +261,21 @@ extension City {
         return productionFromBuildings
     }
     
+    private func productionFromTradeRoutes(in gameModel: GameModel?) -> Double {
+        
+        guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
+            fatalError("cant get tradeRoutes")
+        }
+        
+        var productionFromTradeRoutes: Double = 0.0
+        
+        for tradeRoute in tradeRoutes {
+            productionFromTradeRoutes += tradeRoute.yields(in: gameModel).production
+        }
+        
+        return productionFromTradeRoutes
+    }
+    
     // MARK: faith functions
 
     public func faithPerTurn(in gameModel: GameModel?) -> Double {
@@ -270,6 +286,7 @@ extension City {
         faithPerTurn += self.faithFromGovernmentType()
         faithPerTurn += self.faithFromBuildings()
         faithPerTurn += self.faithFromWonders()
+        faithPerTurn += self.faithFromTradeRoutes(in: gameModel)
 
         return faithPerTurn
     }
@@ -397,6 +414,21 @@ extension City {
         return faithFromWonders
     }
     
+    private func faithFromTradeRoutes(in gameModel: GameModel?) -> Double {
+        
+        guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
+            fatalError("cant get tradeRoutes")
+        }
+        
+        var faithFromTradeRoutes: Double = 0.0
+        
+        for tradeRoute in tradeRoutes {
+            faithFromTradeRoutes += tradeRoute.yields(in: gameModel).faith
+        }
+        
+        return faithFromTradeRoutes
+    }
+    
     // MARK: culture functions
     
     public func culturePerTurn(in gameModel: GameModel?) -> Double {
@@ -408,6 +440,7 @@ extension City {
         culturePerTurn += self.cultureFromBuildings()
         culturePerTurn += self.cultureFromWonders()
         culturePerTurn += self.cultureFromPopulation()
+        culturePerTurn += self.cultureFromTradeRoutes(in: gameModel)
         culturePerTurn += self.baseYieldRateFromSpecialists.weight(of: .culture)
 
         return culturePerTurn
@@ -530,6 +563,21 @@ extension City {
         return self.populationValue * 0.3
     }
     
+    private func cultureFromTradeRoutes(in gameModel: GameModel?) -> Double {
+        
+        guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
+            fatalError("cant get tradeRoutes")
+        }
+        
+        var cultureFromTradeRoutes: Double = 0.0
+        
+        for tradeRoute in tradeRoutes {
+            cultureFromTradeRoutes += tradeRoute.yields(in: gameModel).culture
+        }
+        
+        return cultureFromTradeRoutes
+    }
+    
     // MARK: gold functions
     
     public func goldPerTurn(in gameModel: GameModel?) -> Double {
@@ -540,6 +588,7 @@ extension City {
         goldPerTurn += self.goldFromGovernmentType()
         goldPerTurn += self.goldFromBuildings()
         goldPerTurn += self.goldFromWonders()
+        goldPerTurn += self.goldFromTradeRoutes(in: gameModel)
 
         return goldPerTurn
     }
@@ -659,6 +708,21 @@ extension City {
         return goldFromWonders
     }
     
+    private func goldFromTradeRoutes(in gameModel: GameModel?) -> Double {
+        
+        guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
+            fatalError("cant get tradeRoutes")
+        }
+        
+        var goldFromTradeRoutes: Double = 0.0
+        
+        for tradeRoute in tradeRoutes {
+            goldFromTradeRoutes += tradeRoute.yields(in: gameModel).gold
+        }
+        
+        return goldFromTradeRoutes
+    }
+    
     // MARK: science functions
 
     public func sciencePerTurn(in gameModel: GameModel?) -> Double {
@@ -670,6 +734,7 @@ extension City {
         sciencePerTurn += self.scienceFromBuildings()
         sciencePerTurn += self.scienceFromWonders()
         sciencePerTurn += self.scienceFromPopulation()
+        sciencePerTurn += self.scienceFromTradeRoutes(in: gameModel)
         sciencePerTurn += self.baseYieldRateFromSpecialists.weight(of: .science)
 
         return sciencePerTurn
@@ -779,6 +844,21 @@ extension City {
         return self.populationValue * 0.5
     }
     
+    private func scienceFromTradeRoutes(in gameModel: GameModel?) -> Double {
+        
+        guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
+            fatalError("cant get tradeRoutes")
+        }
+        
+        var scienceFromTradeRoutes: Double = 0.0
+        
+        for tradeRoute in tradeRoutes {
+            scienceFromTradeRoutes += tradeRoute.yields(in: gameModel).science
+        }
+        
+        return scienceFromTradeRoutes
+    }
+    
     // MARK: food functions
     
     public func foodPerTurn(in gameModel: GameModel?) -> Double {
@@ -789,6 +869,7 @@ extension City {
         foodPerTurn += self.foodFromGovernmentType()
         foodPerTurn += self.foodFromBuildings(in: gameModel)
         foodPerTurn += self.foodFromWonders(in: gameModel)
+        foodPerTurn += self.foodFromTradeRoutes(in: gameModel)
         
         return foodPerTurn
     }
@@ -912,6 +993,21 @@ extension City {
         }
         
         return foodFromWonders
+    }
+    
+    private func foodFromTradeRoutes(in gameModel: GameModel?) -> Double {
+        
+        guard let tradeRoutes = self.player?.tradeRoutes?.tradeRoutesStarting(at: self) else {
+            fatalError("cant get tradeRoutes")
+        }
+        
+        var foodFromTradeRoutes: Double = 0.0
+        
+        for tradeRoute in tradeRoutes {
+            foodFromTradeRoutes += tradeRoute.yields(in: gameModel).food
+        }
+        
+        return foodFromTradeRoutes
     }
     
     // MARK: housing functions

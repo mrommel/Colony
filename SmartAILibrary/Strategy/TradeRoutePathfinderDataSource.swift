@@ -12,19 +12,23 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
 
     let gameModel: GameModel?
     let player: AbstractPlayer?
-    let tradeRoutes: TradeRoutes?
+    let targetLocation: HexPoint
 
-    init(for player: AbstractPlayer?, with tradeRoutes: TradeRoutes?, in gameModel: GameModel?) {
+    init(for player: AbstractPlayer?, with targetLocation: HexPoint, in gameModel: GameModel?) {
 
         self.gameModel = gameModel
         self.player = player
-        self.tradeRoutes = tradeRoutes
+        self.targetLocation = targetLocation
     }
 
     func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
 
         guard let gameModel = self.gameModel else {
             fatalError("cant get gameModel")
+        }
+        
+        guard let leader = self.player?.leader else {
+            fatalError("cant get leader")
         }
 
         var walkableCoords = [HexPoint]()
@@ -35,8 +39,10 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
 
         for pt in coord.areaWith(radius: TradeRoutes.range) {
             
-            if let city = gameModel.city(at: pt) {
-                if self.canEstablishDirectTradeRoute(from: startCity, to: city, in: gameModel) {
+            if let city = gameModel.city(at: pt),
+                let cityTradingPosts = city.cityTradingPosts {
+                
+                if (pt == targetLocation || cityTradingPosts.hasTradingPost(for: leader)) && self.canEstablishDirectTradeRoute(from: startCity, to: city, in: gameModel) {
                     walkableCoords.append(pt)
                 }
             }

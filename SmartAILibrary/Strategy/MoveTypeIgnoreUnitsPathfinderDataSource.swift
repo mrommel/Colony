@@ -93,13 +93,15 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
     let movementType: UnitMovementType
     let player: AbstractPlayer?
     let ignoreSight: Bool
+    let ignoreOwner: Bool
 
-    init(in gameModel: GameModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, ignoreSight: Bool = true) {
+    init(in gameModel: GameModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, ignoreSight: Bool = true, ignoreOwner: Bool = false) {
 
         self.gameModel = gameModel
         self.movementType = movementType
         self.player = player
         self.ignoreSight = ignoreSight
+        self.ignoreOwner = ignoreOwner
     }
 
     func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
@@ -140,9 +142,9 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                             continue
                         }
                         
-                        if !toTile.isVisible(to: self.player) {
+                        /*if !toTile.isVisible(to: self.player) {
                             continue
-                        }
+                        }*/
                     }
                     
                     // if there is a unit ...
@@ -171,7 +173,7 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                     if let owner = toTile.owner() {
                         
                         // we cant step into a tile that is owned by another players
-                        if !player.isEqual(to: owner) {
+                        if !player.isEqual(to: owner) && !ignoreOwner {
                             
                             // unless we are at war, the we can
                             if !diplomacyAI.isAtWar(with: owner) {

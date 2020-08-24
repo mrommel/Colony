@@ -14,7 +14,8 @@ public enum BuildType: Int, Codable {
     case none
     case repair
     
-    case road
+    case ancientRoad
+    case classicalRoad
     case removeRoad
     
     case farm
@@ -30,7 +31,7 @@ public enum BuildType: Int, Codable {
     case removeMarsh
     
     public static var all: [BuildType] {
-        return [.road, .removeRoad, .repair, .farm, .mine, .quarry, .plantation, .camp, .pasture, .fishingBoats, .removeForest, .removeRainforest, .removeMarsh]
+        return [.ancientRoad, .classicalRoad, .removeRoad, .repair, .farm, .mine, .quarry, .plantation, .camp, .pasture, .fishingBoats, .removeForest, .removeRainforest, .removeMarsh]
     }
     
     public static var allImprovements: [BuildType] {
@@ -123,17 +124,19 @@ public enum BuildType: Int, Codable {
         let name: String
         let repair: Bool
         let required: TechType?
+        let era: EraType?
         let improvement: ImprovementType?
         let route: RouteType?
         let removeRoad: Bool
         var featureBuilds: [FeatureBuild] = []
         let duration: Int
         
-        init(name: String, repair: Bool = false, required: TechType? = nil, improvement: ImprovementType? = nil, route: RouteType? = nil, removeRoad: Bool = false, duration: Int) {
+        init(name: String, repair: Bool = false, required: TechType? = nil, era: EraType? = nil, improvement: ImprovementType? = nil, route: RouteType? = nil, removeRoad: Bool = false, duration: Int) {
             
             self.name = name
             self.repair = repair
             self.required = required
+            self.era = era
             self.improvement = improvement
             self.route = route
             self.removeRoad = removeRoad
@@ -157,7 +160,9 @@ public enum BuildType: Int, Codable {
         case .none: return BuildTypeData(name: "None", duration: 0)
         case .repair: return BuildTypeData(name: "Repair", repair: true, duration: 300)
             
-        case .road: return BuildTypeData(name: "Road", required: .wheel, route: .road, duration: 300)
+        case .ancientRoad: return BuildTypeData(name: "Road", required: .wheel, era: .ancient, route: .ancientRoad, duration: 300)
+        case .classicalRoad: return BuildTypeData(name: "Road", required: .wheel, era: .classical, route: .classicalRoad, duration: 300)
+            
         case .removeRoad: return BuildTypeData(name: "Remove Road", required: .wheel, removeRoad: true, duration: 300)
             
         case .farm:

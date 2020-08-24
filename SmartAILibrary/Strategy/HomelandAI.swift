@@ -455,7 +455,7 @@ public class HomelandAI {
                                 m_TargetedSentryPoints.push_back(newTarget);
                             }*/
                         }
-                    } else if tile.owner()?.leader == player.leader && tile.has(route: .road) {
+                    } else if tile.owner()?.leader == player.leader && tile.hasAnyRoute() {
  
                         // ... road segment in friendly territory?
                         

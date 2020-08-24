@@ -188,6 +188,7 @@ public protocol AbstractPlayer: class, Codable {
     
     func changeImprovementCount(of improvement: ImprovementType, change: Int)
     func changeTotalImprovementsBuilt(change: Int)
+    func bestRoute(at tile: AbstractTile?) -> RouteType
     
     func reportCultureFromKills(at point: HexPoint, culture cultureVal: Int, wasBarbarian: Bool, in gameModel: GameModel?)
     func reportGoldFromKills(at point: HexPoint, gold goldVal: Int, in gameModel: GameModel?)
@@ -308,7 +309,7 @@ public class Player: AbstractPlayer {
     private var autoMovesValue: Bool = false
     private var lastSliceMovedValue: Int = 0
     
-    private var cultureEarned: Int = 0
+    internal var cultureEarned: Int = 0
     
     private var notificationsValue: Notifications?
     private var blockingNotificationValue: NotificationItem? = nil
@@ -1343,113 +1344,6 @@ public class Player: AbstractPlayer {
         self.religion?.add(faith: faithVal)
     }
     
-    func faith(in gameModel: GameModel?) -> Double {
-        
-        var value = 0.0
-
-        // Science from our Cities
-        value += self.faithFromCities(in: gameModel)
-        
-        return value
-    }
-    
-    private func faithFromCities(in gameModel: GameModel?) -> Double {
-        
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
-        }
-        
-        var faithVal = 0.0
-        
-        for cityRef in gameModel.cities(of: self) {
-            
-            guard let city = cityRef else {
-                continue
-            }
-            
-            faithVal += city.faithPerTurn(in: gameModel)
-        }
-        
-        return faithVal
-    }
-    
-    // GetScienceTimes100()
-    func science(in gameModel: GameModel?) -> Double {
-        
-        var value = 0.0
-
-        // Science from our Cities
-        value += self.scienceFromCities(in: gameModel)
-
-        // Science from other players!
-        // value += GetScienceFromOtherPlayersTimes100();
-
-        // Happiness converted to Science? (Policies, etc.)
-        // value += GetScienceFromHappinessTimes100();
-
-        // Research Agreement bonuses
-        // value += GetScienceFromResearchAgreementsTimes100();
-
-        // If we have a negative Treasury + GPT then it gets removed from Science
-        // value += GetScienceFromBudgetDeficitTimes100();
-
-        return max(value, 0)
-    }
-    
-    private func scienceFromCities(in gameModel: GameModel?) -> Double {
-        
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
-        }
-        
-        var scienceVal = 0.0
-        
-        for cityRef in gameModel.cities(of: self) {
-            
-            guard let city = cityRef else {
-                continue
-            }
-            
-            scienceVal += city.sciencePerTurn(in: gameModel)
-        }
-        
-        return scienceVal
-    }
-    
-    func culture(in gameModel: GameModel?) -> Double {
-        
-        var value = 0.0
-
-        // culture from our Cities
-        value += self.cultureFromCities(in: gameModel)
-        value += Double(self.cultureEarned)
-        // ....
-        
-        self.cultureEarned = 0
-        
-        return value
-    }
-    
-    private func cultureFromCities(in gameModel: GameModel?) -> Double {
-        
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
-        }
-        
-        var cultureVal = 0.0
-        
-        for cityRef in gameModel.cities(of: self) {
-            
-            guard let city = cityRef else {
-                continue
-            }
-            
-            cultureVal += city.culturePerTurn(in: gameModel)
-        }
-        
-        return cultureVal
-    }
-    
     func doTurnPost() {
         
         if self.isHuman() {
@@ -1534,25 +1428,25 @@ public class Player: AbstractPlayer {
                 switch loopUnit.domain() {
                 case .air:
                     if pass == 1 {
-                        loopUnit.turn(in: gameModel)
+                        loopUnit.doTurn(in: gameModel)
                     }
                 case .sea:
                     if pass == 2 {
-                        loopUnit.turn(in: gameModel)
+                        loopUnit.doTurn(in: gameModel)
                     }
                 case .land:
                     if pass == 3 {
-                        loopUnit.turn(in: gameModel)
+                        loopUnit.doTurn(in: gameModel)
                     }
                 case .immobile:
                     if pass == 0 {
-                        loopUnit.turn(in: gameModel)
+                        loopUnit.doTurn(in: gameModel)
                     }
                 case .none:
                     fatalError("Unit with no Domain")
                 default:
                     if pass == 3 {
-                        loopUnit.turn(in: gameModel)
+                        loopUnit.doTurn(in: gameModel)
                     }
                 }
             }
@@ -2071,7 +1965,7 @@ public class Player: AbstractPlayer {
                         for pathLocation in path {
                             
                             if let pathTile = gameModel.tile(at: pathLocation) {
-                                pathTile.set(route: .road)
+                                pathTile.set(route: self.bestRoute())
                             }
                         }
                     }
@@ -2480,13 +2374,19 @@ public class Player: AbstractPlayer {
                 return false
             }
         }
+        
+        if let requiredEra = buildType.route()?.era() {
+            if self.currentEra() != requiredEra {
+                return false
+            }
+        }
 
         // FIXME: check cost
 
         return true
     }
     
-    func bestRoute(at tile: AbstractTile? = nil) -> RouteType {
+    public func bestRoute(at tile: AbstractTile? = nil) -> RouteType {
         
         for buildType in BuildType.all {
             

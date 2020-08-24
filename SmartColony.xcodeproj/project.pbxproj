@@ -61,6 +61,7 @@
 		C94DE1D824516BAC00B13F4D /* CGFloatExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94DE1D724516BAC00B13F4D /* CGFloatExtension.swift */; };
 		C95503C12456FD0100D4B3D8 /* Commands.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C95503C02456FD0100D4B3D8 /* Commands.xcassets */; };
 		C955FBD0246145C300605618 /* ImprovementTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C955FBCF246145C300605618 /* ImprovementTypeExtension.swift */; };
+		C956BF6824F1B8F4009702B4 /* RouteTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956BF6724F1B8F4009702B4 /* RouteTypeExtension.swift */; };
 		C957AA49243641A100203024 /* MapSizeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA46243641A000203024 /* MapSizeDialog.xml */; };
 		C957AA4A243641A100203024 /* MapTypeDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA47243641A000203024 /* MapTypeDialog.xml */; };
 		C957AA4B243641A100203024 /* MapSeaLevelDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C957AA48243641A000203024 /* MapSeaLevelDialog.xml */; };
@@ -332,6 +333,7 @@
 		C94DE1D724516BAC00B13F4D /* CGFloatExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloatExtension.swift; sourceTree = "<group>"; };
 		C95503C02456FD0100D4B3D8 /* Commands.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Commands.xcassets; sourceTree = "<group>"; };
 		C955FBCF246145C300605618 /* ImprovementTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementTypeExtension.swift; sourceTree = "<group>"; };
+		C956BF6724F1B8F4009702B4 /* RouteTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteTypeExtension.swift; sourceTree = "<group>"; };
 		C957AA46243641A000203024 /* MapSizeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapSizeDialog.xml; sourceTree = "<group>"; };
 		C957AA47243641A000203024 /* MapTypeDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapTypeDialog.xml; sourceTree = "<group>"; };
 		C957AA48243641A000203024 /* MapSeaLevelDialog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MapSeaLevelDialog.xml; sourceTree = "<group>"; };
@@ -662,6 +664,7 @@
 				C9E74CB4248E862C003EF256 /* SKLabelNodeExtension.swift */,
 				C921AC0424C839B700CF8967 /* GovernmentTypeExtension.swift */,
 				C9C443F324E29D0E00382D8B /* PromotionTypeExtension.swift */,
+				C956BF6724F1B8F4009702B4 /* RouteTypeExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1330,6 +1333,7 @@
 				C926E48124C9E1DF0073F3E1 /* ChangeGovernmentDialog.swift in Sources */,
 				C95B3DF824387188002F5A86 /* BottomRightBar.swift in Sources */,
 				C9B1D2362434B10000033791 /* SKSpriteNodeExtension.swift in Sources */,
+				C956BF6824F1B8F4009702B4 /* RouteTypeExtension.swift in Sources */,
 				C97CD3A1243A3F1200FABCC0 /* TextureUtils.swift in Sources */,
 				C9EC4E1B244454F9001A0597 /* CityObject.swift in Sources */,
 				C9B1D25B2434C82F00033791 /* DropdownNode.swift in Sources */,

@@ -1135,9 +1135,9 @@ public class GameModel: Codable {
         return MoveTypeIgnoreUnitsPathfinderDataSource(in: self.map, for: movementType, for: player)
     }
 
-    public func unitAwarePathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?) -> PathfinderDataSource {
-
-        return MoveTypeUnitAwarePathfinderDataSource(in: self, for: movementType, for: player)
+    public func unitAwarePathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?, ignoreOwner: Bool = false) -> PathfinderDataSource {
+        
+        return MoveTypeUnitAwarePathfinderDataSource(in: self, for: movementType, for: player, ignoreOwner: ignoreOwner)
     }
 
     func friendlyCityAdjacent(to point: HexPoint, for player: AbstractPlayer?) -> AbstractCity? {

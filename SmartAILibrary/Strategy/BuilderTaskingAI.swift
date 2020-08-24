@@ -169,9 +169,9 @@ public class BuilderTaskingAI {
                 continue
             }
                 
-            if let requiredTech = route.required() {
+            if let requiredEra = route.era() {
                 
-                if !player.has(tech: requiredTech) {
+                if player.currentEra() != requiredEra {
                     continue
                 }
             }

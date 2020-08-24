@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TradeRoute: Codable {
+public class TradeRoute: Codable {
     
     enum CodingKeys: String, CodingKey {
     

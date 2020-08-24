@@ -12,22 +12,21 @@ public enum RouteType: Int, Codable {
     
     case none
     
-    case road
+    case ancientRoad
+    case classicalRoad
+    case industrialRoad
+    case modernRoad
     
-    func required() -> TechType? {
+    func era() -> EraType? {
 
         switch self {
             
         case .none: return nil
-        case .road: return nil
-        }
-    }
-    
-    func yields() -> Yields {
-
-        switch self {
-        case .none: return Yields(food: 0.0, production: 0.0, gold: 0.0)
-        case .road: return Yields(food: 0.0, production: 0.0, gold: 0.5)
+            
+        case .ancientRoad: return .ancient
+        case .classicalRoad: return .classical
+        case .industrialRoad: return .industrial
+        case .modernRoad: return .modern
         }
     }
 }

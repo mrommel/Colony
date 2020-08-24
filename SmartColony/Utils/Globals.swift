@@ -29,8 +29,9 @@ public struct Globals {
         static let border: CGFloat = 4.4
         static let resource: CGFloat = 4.9
         
-        static let resourceMarker: CGFloat = 5.0
-        static let improvement: CGFloat = 5.1 // 4.25 - https://github.com/mrommel/Colony/issues/44
+        static let improvement: CGFloat = 5.0 // 4.25 - https://github.com/mrommel/Colony/issues/44
+        static let resourceMarker: CGFloat = 5.1
+        static let route: CGFloat = 5.2
         static let mountain: CGFloat = 5.4
         static let cityName: CGFloat = 5.5
         static let city: CGFloat = 5.8

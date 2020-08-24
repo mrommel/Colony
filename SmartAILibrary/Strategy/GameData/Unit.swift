@@ -8,45 +8,6 @@
 
 import Foundation
 
-public class CombatModifier {
-    
-    public let modifierValue: Int
-    public let modifierTitle: String
-    
-    init(modifierValue: Int, modifierTitle: String) {
-        
-        self.modifierValue = modifierValue
-        self.modifierTitle = modifierTitle
-    }
-}
-
-public struct MoveOptions : OptionSet {
-    
-    public let rawValue: Int
-    
-    public init(rawValue: Int) {
-        self.rawValue = rawValue
-    }
-
-    static public let none        = MoveOptions([])
-    static public let declareWar  = MoveOptions(rawValue: 1 << 0)
-    static public let attack      = MoveOptions(rawValue: 1 << 1)
-    /*static let secondOption = MyOptions(rawValue: 1 << 2)
-    static let thirdOption  = MyOptions(rawValue: 1 << 3)*/
-}
-
-public enum UnitActivityType: Int, Codable {
-
-    case none
-    case awake // ACTIVITY_AWAKE,
-    case hold // ACTIVITY_HOLD,
-    case sleep // ACTIVITY_SLEEP,
-    case heal // ACTIVITY_HEAL,
-    case sentry // ACTIVITY_SENTRY,
-    case intercept // ACTIVITY_INTERCEPT,
-    case mission // ACTIVITY_MISSION
-}
-
 public protocol AbstractUnit: class, Codable {
 
     var location: HexPoint { get }
@@ -128,7 +89,7 @@ public protocol AbstractUnit: class, Codable {
     func isCombatUnit() -> Bool
     func isRanged() -> Bool
 
-    func turn(in gameModel: GameModel?)
+    func doTurn(in gameModel: GameModel?)
     func set(turnProcessed: Bool)
     func processedInTurn() -> Bool
 
@@ -243,6 +204,11 @@ public protocol AbstractUnit: class, Codable {
     func isBusy() -> Bool
     
     func isGreatGeneral() -> Bool
+    
+    // trade routes
+    func start(tradeRoute: TradeRoute, in gameModel: GameModel?)
+    func continueTrading(in gameModel: GameModel?)
+    func isTrading() -> Bool
 }
 
 public class Unit: AbstractUnit {
@@ -319,6 +285,11 @@ public class Unit: AbstractUnit {
     // automations
     internal var automation: UnitAutomationType = .none
     private var moveLocations: [HexPoint] = []
+    
+    // trader
+    var tradeRouteData: UnitTradeRouteData? = nil
+    
+    // MARK: constructors
 
     public init(at location: HexPoint, type: UnitType, owner: AbstractPlayer?) {
 
@@ -1197,7 +1168,7 @@ public class Unit: AbstractUnit {
     public func path(towards target: HexPoint, in gameModel: GameModel?) -> HexPath? {
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player)
+        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, ignoreOwner: self.type == .trader)
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
 
@@ -1234,6 +1205,10 @@ public class Unit: AbstractUnit {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
+        }
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
         }
         
         /*guard let humanPlayer = gameModel.humanPlayer() else {
@@ -1340,6 +1315,13 @@ public class Unit: AbstractUnit {
             }
 
             if self.doMove(on: point, in: gameModel) {
+                
+                if self.isTrading() {
+                    if let tile = gameModel.tile(at: point) {
+                        tile.set(route: player.bestRoute(at: tile))
+                        gameModel.userInterface?.refresh(tile: tile)
+                    }
+                }
                 
                 usedPathCost += path[index].1
             }
@@ -3457,7 +3439,7 @@ public class Unit: AbstractUnit {
         return self.isEmbarkedValue
     }
 
-    public func turn(in gameModel: GameModel?) {
+    public func doTurn(in gameModel: GameModel?) {
 
         // Wake unit if skipped last turn
         let currentActivityType = self.activityType()
@@ -3484,6 +3466,11 @@ public class Unit: AbstractUnit {
         // Only increase our Fortification level if we've actually been told to Fortify
         if self.isFortifiedThisTurn() {
             self.changeFortifyTurns(by: 1, in: gameModel)
+        }
+        
+        // trader
+        if self.isTrading() {
+            self.tradeRouteData?.doTurn(for: self, in: gameModel)
         }
 
         // Recon unit? If so, he sees what's around him
@@ -3901,9 +3888,13 @@ extension Unit {
                     return true
                 }
             }
-            /*case .routeTo:
-            <#code#>
-        case .swapUnits:
+        case .routeTo:
+            if let target = mission.target {
+                if gameModel.valid(point: target) && mission.unit?.path(towards: target, in: gameModel) != nil {
+                    return true
+                }
+            }
+        /*case .swapUnits:
             <#code#>
         case .moveToUnit:
             <#code#>*/
@@ -4074,5 +4065,31 @@ extension Unit {
             return tacticalMoveValue.canRecruitForOperations()
         }
         return true
+    }
+}
+
+// trader stuff
+
+extension Unit {
+    
+    public func start(tradeRoute: TradeRoute, in gameModel: GameModel?) {
+        
+        self.tradeRouteData = UnitTradeRouteData(from: tradeRoute)
+        
+        self.continueTrading(in: gameModel)
+    }
+    
+    public func continueTrading(in gameModel: GameModel?) {
+        
+        if let nextTarget = self.tradeRouteData?.nextTarget(current: self.location, in: gameModel) {
+            
+            let mission = UnitMission(type: .routeTo, at: nextTarget)
+            self.push(mission: mission, in: gameModel)
+        }
+    }
+    
+    public func isTrading() -> Bool {
+        
+        return self.tradeRouteData != nil
     }
 }

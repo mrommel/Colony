@@ -321,9 +321,11 @@ public class UnitMission {
                         }
                     }
                 } else if self.type == .routeTo {
+                    let oldLocation = unit.location
                     if unit.doMoveOnPath(towards: self.target!, previousETA: 0, buildingRoute: false, in: gameModel) > 0 {
                         action = true
                     } else {
+                        action = oldLocation != self.target!
                         done = true
                     }
                 } else if self.type == .swapUnits {
@@ -565,6 +567,11 @@ public class UnitMission {
                     unit.publishQueuedVisualizationMoves(in: gameModel)
 
                     unit.popMission()
+                }
+                
+                // trader has reached, a target but has moves left
+                if unit.isTrading() && unit.movesLeft() > 0 {
+                    unit.continueTrading(in: gameModel)
                 }
             } else {
                 // if we can still act, process the mission again
