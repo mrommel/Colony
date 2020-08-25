@@ -3704,7 +3704,30 @@ public class Player: AbstractPlayer {
             popupData = PopupData(goodyType: .freeBuilder)
             
         case .freeTrader:
+            var bestCityDistance = -1
+            var bestCityRef: AbstractCity? = nil
+            
+            // Find the closest City to us to add a Pop point to
+            for cityRef in gameModel.cities(of: self) {
+                
+                guard let city = cityRef else {
+                    continue
+                }
+                
+                let distance = tile.point.distance(to: city.location)
+
+                if bestCityDistance == -1 || distance < bestCityDistance {
+                    bestCityDistance = distance
+                    bestCityRef = cityRef
+                }
+            }
+
+            guard let bestCity = bestCityRef else {
+                fatalError("no city found for this player")
+            }
+            
             let traderUnit = Unit(at: tile.point, type: .trader, owner: self)
+            traderUnit.origin = bestCity.location
             gameModel.add(unit: traderUnit)
             traderUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
             

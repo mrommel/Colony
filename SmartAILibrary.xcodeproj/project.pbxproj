@@ -89,6 +89,7 @@
 		C956BF6224F10B99009702B4 /* MoveOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956BF6124F10B99009702B4 /* MoveOptions.swift */; };
 		C956BF6424F10BAF009702B4 /* CombatModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956BF6324F10BAF009702B4 /* CombatModifier.swift */; };
 		C956BF6624F16683009702B4 /* PlayerYields.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956BF6524F16683009702B4 /* PlayerYields.swift */; };
+		C956BF6A24F3C7B9009702B4 /* TradeRouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956BF6924F3C7B9009702B4 /* TradeRouteTests.swift */; };
 		C957AA322436357E00203024 /* Civ5Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA312436357E00203024 /* Civ5Feature.swift */; };
 		C957AA34243635B300203024 /* Civ5MapHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C957AA33243635B300203024 /* Civ5MapHeader.swift */; };
 		C957AA37243635D500203024 /* BinarySwift in Frameworks */ = {isa = PBXBuildFile; productRef = C957AA36243635D500203024 /* BinarySwift */; };
@@ -355,6 +356,7 @@
 		C956BF6124F10B99009702B4 /* MoveOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveOptions.swift; sourceTree = "<group>"; };
 		C956BF6324F10BAF009702B4 /* CombatModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatModifier.swift; sourceTree = "<group>"; };
 		C956BF6524F16683009702B4 /* PlayerYields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerYields.swift; sourceTree = "<group>"; };
+		C956BF6924F3C7B9009702B4 /* TradeRouteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeRouteTests.swift; sourceTree = "<group>"; };
 		C957AA312436357E00203024 /* Civ5Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5Feature.swift; sourceTree = "<group>"; };
 		C957AA33243635B300203024 /* Civ5MapHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapHeader.swift; sourceTree = "<group>"; };
 		C957AA382436368200203024 /* Civ5MapPlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapPlot.swift; sourceTree = "<group>"; };
@@ -759,6 +761,7 @@
 				C90FA34B24BDF25300733331 /* RandomTests.swift */,
 				C9C0DCE024D7486E004D9F06 /* GreatPersonsTests.swift */,
 				C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */,
+				C956BF6924F3C7B9009702B4 /* TradeRouteTests.swift */,
 			);
 			path = SmartAILibraryTests;
 			sourceTree = "<group>";
@@ -1332,6 +1335,7 @@
 			files = (
 				C92D220923E1DC3300BB9238 /* PlayerTechTests.swift in Sources */,
 				C92317BD23D6EAB5001FC723 /* HierarchicalStateMachineTests.swift in Sources */,
+				C956BF6A24F3C7B9009702B4 /* TradeRouteTests.swift in Sources */,
 				C9FEEB9C245B5C2E00C51552 /* CityCitizensTests.swift in Sources */,
 				C9DFCF7A23F2AFB10032243D /* MapModelTests.swift in Sources */,
 				C92D221523E2118400BB9238 /* GovernmentTypeTests.swift in Sources */,

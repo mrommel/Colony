@@ -21,7 +21,7 @@ class UnitTradeRouteData {
     
     func doTurn(for unit: AbstractUnit?, in gameModel: GameModel?) {
         
-        print("--- trader")
+        //print("--- trader")
         guard let unit = unit else {
             fatalError("cant get unit")
         }

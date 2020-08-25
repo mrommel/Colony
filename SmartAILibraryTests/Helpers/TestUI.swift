@@ -35,6 +35,11 @@ class TestUI: UserInterfaceProtocol {
     func show(unit: AbstractUnit?) {}
     func hide(unit: AbstractUnit?) {}
     func move(unit: AbstractUnit?, on points: [HexPoint]) {}
+    func refresh(unit: AbstractUnit?) {}
+    func animate(unit: AbstractUnit?, animation: UnitAnimationType) {}
+    
+    func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool)->()) {}
+    func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?)->()) {}
     
     func select(tech: TechType) {}
     func select(civic: CivicType) {}

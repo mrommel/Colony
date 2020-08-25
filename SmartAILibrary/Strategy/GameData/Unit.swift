@@ -211,6 +211,11 @@ public protocol AbstractUnit: class, Codable {
     func isTrading() -> Bool
 }
 
+public protocol UnitMovedDelegate: class {
+    
+    func moved(to location: HexPoint)
+}
+
 public class Unit: AbstractUnit {
     
     static let maxHealth: Double = 100.0
@@ -248,7 +253,12 @@ public class Unit: AbstractUnit {
     }
 
     public let type: UnitType
-    private(set) public var location: HexPoint
+    private(set) public var location: HexPoint {
+        didSet {
+            self.unitMoved?.moved(to: self.location)
+        }
+    }
+
     private var facingDirection: HexDirection = .south
     public var player: AbstractPlayer?
     private(set) public var leader: LeaderType // for restoring from file
@@ -288,6 +298,8 @@ public class Unit: AbstractUnit {
     
     // trader
     var tradeRouteData: UnitTradeRouteData? = nil
+    
+    weak var unitMoved: UnitMovedDelegate?
     
     // MARK: constructors
 
@@ -1330,7 +1342,8 @@ public class Unit: AbstractUnit {
         self.publishQueuedVisualizationMoves(in: gameModel)
 
         if path.count > 0 {
-            return (Int(path.cost - usedPathCost)) / self.maxMoves(in: gameModel)
+            let tmp = (path.cost - usedPathCost) / Double(self.maxMoves(in: gameModel))
+            return Int(tmp.rounded(.toNearestOrAwayFromZero))
         }
 
         return 1
@@ -2074,6 +2087,10 @@ public class Unit: AbstractUnit {
         }
         
         if otherPlayer == nil {
+            return true
+        }
+        
+        if self.isTrading() {
             return true
         }
 
@@ -4024,6 +4041,7 @@ extension Unit {
                 if self.activityTypeValue == .mission {
 
                     if let headMission = self.missions.peek() {
+                        
                         headMission.continueMission(steps: 0, in: gameModel)
                     }
                 }
