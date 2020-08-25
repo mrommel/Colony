@@ -160,8 +160,8 @@ public enum BuildType: Int, Codable {
         case .none: return BuildTypeData(name: "None", duration: 0)
         case .repair: return BuildTypeData(name: "Repair", repair: true, duration: 300)
             
-        case .ancientRoad: return BuildTypeData(name: "Road", required: .wheel, era: .ancient, route: .ancientRoad, duration: 300)
-        case .classicalRoad: return BuildTypeData(name: "Road", required: .wheel, era: .classical, route: .classicalRoad, duration: 300)
+        case .ancientRoad: return BuildTypeData(name: "Road", era: .ancient, route: .ancientRoad, duration: 300)
+        case .classicalRoad: return BuildTypeData(name: "Road", era: .classical, route: .classicalRoad, duration: 300)
             
         case .removeRoad: return BuildTypeData(name: "Remove Road", required: .wheel, removeRoad: true, duration: 300)
             

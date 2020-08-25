@@ -100,18 +100,12 @@ class TradeRouteTests: XCTestCase {
         traderUnit.unitMoved = self
         
         // WHEN
-        var turnCounter = 0
-        var firstTurn = true
+        traderUnit.doEstablishTradeRoute(to: aiCity, in: gameModel)
         
-        var traderCreated = false
+        var turnCounter = 0
         self.hasVisited = false
         
         repeat {
-
-            if firstTurn {
-                traderCreated = traderUnit.doEstablishTradeRoute(to: aiCity, in: gameModel)
-                firstTurn = false
-            }
 
             while !humanPlayer.canFinishTurn() {
 
@@ -121,10 +115,9 @@ class TradeRouteTests: XCTestCase {
             humanPlayer.endTurn(in: gameModel)
 
             turnCounter += 1
-        } while turnCounter < 10
+        } while turnCounter < 10 && !self.hasVisited
 
         // THEN
-        XCTAssertEqual(traderCreated, true, "trader is not created")
         XCTAssertEqual(self.hasVisited, true, "not visited trade city within first 10 turns")
     }
 }

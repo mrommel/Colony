@@ -72,6 +72,7 @@
 		C92D221723E22D6600BB9238 /* PolicyCardsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D221623E22D6600BB9238 /* PolicyCardsTests.swift */; };
 		C92D221923E2CC1200BB9238 /* Civics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D221823E2CC1200BB9238 /* Civics.swift */; };
 		C92D221B23E2D80500BB9238 /* FeatureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D221A23E2D80500BB9238 /* FeatureType.swift */; };
+		C930FFB824F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C930FFB724F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift */; };
 		C934523E240A50C4007508ED /* Combat.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934523D240A50C4007508ED /* Combat.swift */; };
 		C93D66A624028D9B00F5157B /* AStarPathfinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A524028D9B00F5157B /* AStarPathfinder.swift */; };
 		C93D66A824028DB500F5157B /* HexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A724028DB500F5157B /* HexPath.swift */; };
@@ -133,6 +134,7 @@
 		C97A38E323F3E3CD008A8AE9 /* TileArray2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97A38E223F3E3CD008A8AE9 /* TileArray2D.swift */; };
 		C97A38E523F562F3008A8AE9 /* DiplomaticPact.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97A38E423F562F3008A8AE9 /* DiplomaticPact.swift */; };
 		C97A38E723F57DD9008A8AE9 /* DiplomaticApproachWeights.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97A38E623F57DD9008A8AE9 /* DiplomaticApproachWeights.swift */; };
+		C97AF98D24F551A2005F45EA /* UnitTradeRouteState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AF98C24F551A2005F45EA /* UnitTradeRouteState.swift */; };
 		C97CD3B2243CB01400FABCC0 /* HandicapType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3B1243CB01400FABCC0 /* HandicapType.swift */; };
 		C97CD3B6243D14BC00FABCC0 /* UnitCaptureDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3B5243D14BC00FABCC0 /* UnitCaptureDefinition.swift */; };
 		C98CBE0124338C02005EE397 /* ClimateZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBDFD24338C02005EE397 /* ClimateZone.swift */; };
@@ -339,6 +341,7 @@
 		C92D221623E22D6600BB9238 /* PolicyCardsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardsTests.swift; sourceTree = "<group>"; };
 		C92D221823E2CC1200BB9238 /* Civics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civics.swift; sourceTree = "<group>"; };
 		C92D221A23E2D80500BB9238 /* FeatureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureType.swift; sourceTree = "<group>"; };
+		C930FFB724F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveTypeUnitAwarePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C934523D240A50C4007508ED /* Combat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combat.swift; sourceTree = "<group>"; };
 		C93D66A524028D9B00F5157B /* AStarPathfinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStarPathfinder.swift; sourceTree = "<group>"; };
 		C93D66A724028DB500F5157B /* HexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexPath.swift; sourceTree = "<group>"; };
@@ -399,6 +402,7 @@
 		C97A38E223F3E3CD008A8AE9 /* TileArray2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileArray2D.swift; sourceTree = "<group>"; };
 		C97A38E423F562F3008A8AE9 /* DiplomaticPact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticPact.swift; sourceTree = "<group>"; };
 		C97A38E623F57DD9008A8AE9 /* DiplomaticApproachWeights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticApproachWeights.swift; sourceTree = "<group>"; };
+		C97AF98C24F551A2005F45EA /* UnitTradeRouteState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTradeRouteState.swift; sourceTree = "<group>"; };
 		C97CD3B1243CB01400FABCC0 /* HandicapType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandicapType.swift; sourceTree = "<group>"; };
 		C97CD3B5243D14BC00FABCC0 /* UnitCaptureDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitCaptureDefinition.swift; sourceTree = "<group>"; };
 		C98CBDFD24338C02005EE397 /* ClimateZone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClimateZone.swift; path = SmartAILibrary/Strategy/MapGeneration/Enums/ClimateZone.swift; sourceTree = SOURCE_ROOT; };
@@ -602,6 +606,7 @@
 				C98CBDFB24338B90005EE397 /* MapGeneration */,
 				C957AA302436353500203024 /* MapLoading */,
 				C90FC39123D88E6B00720B32 /* Enums */,
+				C930FFB624F54726002B4D07 /* PathfinderDataSources */,
 				C98DBFA423DF21D000B6CE25 /* GameData */,
 				C92317C923D77B36001FC723 /* GrandStrategyAI.swift */,
 				C920E99923DB17EB008DEAB4 /* DiplomaticAI.swift */,
@@ -613,8 +618,6 @@
 				C97A38E623F57DD9008A8AE9 /* DiplomaticApproachWeights.swift */,
 				C9BB750B246D5813004BE448 /* DiplomacyRequests.swift */,
 				C90FC39F23D8968D00720B32 /* GameModel.swift */,
-				C9A0573D24293D4F00D0FEAB /* MoveTypeIgnoreUnitsPathfinderDataSource.swift */,
-				C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */,
 				C9DFCF6923F294C00032243D /* CivicDiscoveredMessage.swift */,
 				C964BA1E23EAF01A00CA379C /* CityStrategyAI.swift */,
 				C904DFB223F5D05600491A16 /* BuildingProductionAI.swift */,
@@ -633,7 +636,6 @@
 				C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */,
 				C960E1DD24E688240049DC83 /* TradeRoutes.swift */,
 				C956BF5924F015C5009702B4 /* TradeRoute.swift */,
-				C956BF5724F015A6009702B4 /* TradeRoutePathfinderDataSource.swift */,
 			);
 			path = Strategy;
 			sourceTree = "<group>";
@@ -803,6 +805,17 @@
 			path = "Rule-based System";
 			sourceTree = "<group>";
 		};
+		C930FFB624F54726002B4D07 /* PathfinderDataSources */ = {
+			isa = PBXGroup;
+			children = (
+				C9A0573D24293D4F00D0FEAB /* MoveTypeIgnoreUnitsPathfinderDataSource.swift */,
+				C9F76AAC242EA54C0018672A /* InfluencePathfinderDataSource.swift */,
+				C956BF5724F015A6009702B4 /* TradeRoutePathfinderDataSource.swift */,
+				C930FFB724F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift */,
+			);
+			path = PathfinderDataSources;
+			sourceTree = "<group>";
+		};
 		C957AA302436353500203024 /* MapLoading */ = {
 			isa = PBXGroup;
 			children = (
@@ -879,6 +892,7 @@
 				C9ABAF2123F69CE70023AC1B /* Projects.swift */,
 				C964BA2C23EBF58E00CA379C /* AdvisorMessage.swift */,
 				C907085523EC5F5600281161 /* Unit.swift */,
+				C956BF5D24F105FC009702B4 /* UnitTradeRouteData.swift */,
 				C9FE1411241517D2008CC6B3 /* UnitMission.swift */,
 				C9C003BC23FEDCE00031C7F9 /* Operation.swift */,
 				C9C2FE3623F6DFC700185235 /* BuildQueue.swift */,
@@ -972,9 +986,9 @@
 				C93D66A92402913100F5157B /* UnitMovementType.swift */,
 				C9EC4E142443AECA001A0597 /* CommandType.swift */,
 				C956BF5B24F105C9009702B4 /* UnitTradeRouteDirection.swift */,
-				C956BF5D24F105FC009702B4 /* UnitTradeRouteData.swift */,
 				C956BF5F24F10B85009702B4 /* UnitActivityType.swift */,
 				C956BF6124F10B99009702B4 /* MoveOptions.swift */,
+				C97AF98C24F551A2005F45EA /* UnitTradeRouteState.swift */,
 			);
 			path = Unit;
 			sourceTree = "<group>";
@@ -1185,6 +1199,7 @@
 				C9C0DCD924D45673004D9F06 /* GreatPersonType.swift in Sources */,
 				C9DFCF6E23F29BBE0032243D /* SiteEvaluator.swift in Sources */,
 				C9A0573E24293D4F00D0FEAB /* MoveTypeIgnoreUnitsPathfinderDataSource.swift in Sources */,
+				C930FFB824F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift in Sources */,
 				C9D8DF7023EDB42F0091C917 /* UnitDomainType.swift in Sources */,
 				C9DFCF6C23F29B5B0032243D /* RegionFinder.swift in Sources */,
 				C9B1D2922435B11600033791 /* MapLoader.swift in Sources */,
@@ -1235,6 +1250,7 @@
 				C90FC39323D88EA400720B32 /* GrandStrategyAIType.swift in Sources */,
 				C9DFCF8023F2C69F0032243D /* TileFertilityEvaluator.swift in Sources */,
 				C964BA1923EAD18200CA379C /* UnitType.swift in Sources */,
+				C97AF98D24F551A2005F45EA /* UnitTradeRouteState.swift in Sources */,
 				C9EF13972423C02C003B3DAD /* LandDisputeLevelType.swift in Sources */,
 				C9DFCF6A23F294C00032243D /* CivicDiscoveredMessage.swift in Sources */,
 				C920E99C23DB1DBA008DEAB4 /* DiplomaticDealAI.swift in Sources */,

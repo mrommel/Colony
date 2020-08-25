@@ -1471,14 +1471,14 @@ class Tile: AbstractTile {
     func movementCost(for movementType: UnitMovementType, from source: AbstractTile) -> Double {
 
         // start with terrain cost
-        let terrainCost = self.terrain().movementCost(for: movementType)
+        var terrainCost = self.terrain().movementCost(for: movementType)
 
         if terrainCost == UnitMovementType.max {
             return UnitMovementType.max
         }
         
         // hills
-        let hillCosts = self.hillsVal ? 1.0 : 0.0
+        var hillCosts = self.hillsVal ? 1.0 : 0.0
 
         // add feature costs
         var featureCosts: Double = 0.0
@@ -1496,7 +1496,42 @@ class Tile: AbstractTile {
         // add river crossing cost
         var riverCost: Double = 0.0
         if source.isRiverToCross(towards: self) {
-            riverCost = 1.0 // FIXME - river cost per movementType
+            riverCost = 3.0 // FIXME - river cost per movementType
+        }
+        
+        // https://civilization.fandom.com/wiki/Roads_(Civ6)
+        switch self.route() {
+            
+        case .none:
+            // NOOP
+            break
+            
+        case .ancientRoad:
+            // Starting road, well-packed dirt. Most terrain costs 1 MP; crossing rivers still costs 3 MP.
+            terrainCost = 1.0
+            hillCosts = 0.0
+            featureCosts = 0.0
+            
+        case .classicalRoad:
+            // Adds bridges over rivers; crossing them now also costs 1 MP.
+            terrainCost = 1.0
+            hillCosts = 0.0
+            featureCosts = 0.0
+            riverCost = 0.0
+        
+        case .industrialRoad:
+            // Paved roads are developed; 0.75 MP per tile.
+            terrainCost = 0.75
+            hillCosts = 0.0
+            featureCosts = 0.0
+            riverCost = 0.0
+            
+        case .modernRoad:
+            // Asphalted roads are developed; 0.50 MP per tile.
+            terrainCost = 0.5
+            hillCosts = 0.0
+            featureCosts = 0.0
+            riverCost = 0.0
         }
 
         return terrainCost + hillCosts + featureCosts + riverCost

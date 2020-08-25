@@ -96,19 +96,19 @@ public enum TerrainType: Int, Codable {
             }
             
             if self == .grass {
-                return 1.1
+                return 1.0
             }
             
             if self == .desert {
-                return 1.2
+                return 1.0
             }
             
             if self == .tundra {
-                return 1.1
+                return 1.0
             }
             
             if self == .snow {
-                return 1.5
+                return 1.0
             }
             
             return UnitMovementType.max

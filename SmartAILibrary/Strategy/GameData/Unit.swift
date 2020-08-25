@@ -4092,7 +4092,11 @@ extension Unit {
     
     public func start(tradeRoute: TradeRoute, in gameModel: GameModel?) {
         
-        self.tradeRouteData = UnitTradeRouteData(from: tradeRoute)
+        guard let currentTurn = gameModel?.currentTurn else {
+            fatalError("cant get data")
+        }
+        
+        self.tradeRouteData = UnitTradeRouteData(from: tradeRoute, in: currentTurn)
         
         self.continueTrading(in: gameModel)
     }
