@@ -29,7 +29,7 @@ enum UnitFormationPosition {
 enum UnitFormationType: Int, Codable {
 
     case none
-    
+
     case smallCityAttackForce
     case basicCityAttackForce // MUFORMATION_BASIC_CITY_ATTACK_FORCE
     case fastPillagers // MUFORMATION_FAST_PILLAGERS
@@ -39,11 +39,12 @@ enum UnitFormationType: Int, Codable {
     case navalEscort // MUFORMATION_NAVAL_ESCORT
     case antiBarbarianTeam // MUFORMATION_ANTI_BARBARIAN_TEAM
     case biggerCityAttackForce // MUFORMATION_BIGGER_CITY_ATTACK_FORCE
+    case colonizationParty // MUFORMATION_COLONIZATION_PARTY
 
     func slots() -> [UnitFormationSlot] {
 
         switch self {
-            
+
         case .none: return []
 
         case .smallCityAttackForce: return [
@@ -97,13 +98,13 @@ enum UnitFormationType: Int, Codable {
                 UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: false),
             ]
         case .navalEscort: return [
-            UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .frontline, required: true),
-            UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: true),
-            UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
-            UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
-            UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
-            UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
-            UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
+                UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
+                UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
+                UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
+                UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
+                UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
             ]
         case .antiBarbarianTeam: return [
                 UnitFormationSlot(primaryUnitTask: .fastAttack, secondaryUnitTask: .defense, position: .frontline, required: true),
@@ -111,26 +112,34 @@ enum UnitFormationType: Int, Codable {
                 UnitFormationSlot(primaryUnitTask: .fastAttack, secondaryUnitTask: .defense, position: .frontline, required: true),
                 UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: false),
             ]
-            
+
         case .biggerCityAttackForce: return [
-            UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .fastAttack, position: .frontline, required: true),
-            UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .defense, position: .frontline, required: true),
-            UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .defense, position: .frontline, required: true),
-            UnitFormationSlot(primaryUnitTask: .defense, secondaryUnitTask: .counter, position: .frontline, required: true),
-            UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
-            UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
-            UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
-            UnitFormationSlot(primaryUnitTask: .ranged, secondaryUnitTask: .cityBombard, position: .bombard, required: true),
-            UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .counter, position: .frontline, required: false),
-            UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .counter, position: .frontline, required: false),
-            UnitFormationSlot(primaryUnitTask: .general, secondaryUnitTask: .general, position: .civilianSupport, required: false),
-            UnitFormationSlot(primaryUnitTask: .citySpecial, secondaryUnitTask: .citySpecial, position: .civilianSupport, required: false),
+                UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .fastAttack, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .defense, secondaryUnitTask: .counter, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .ranged, secondaryUnitTask: .cityBombard, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .counter, position: .frontline, required: false),
+                UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .counter, position: .frontline, required: false),
+                UnitFormationSlot(primaryUnitTask: .general, secondaryUnitTask: .general, position: .civilianSupport, required: false),
+                UnitFormationSlot(primaryUnitTask: .citySpecial, secondaryUnitTask: .citySpecial, position: .civilianSupport, required: false),
+            ]
+
+        case .colonizationParty: return [
+                UnitFormationSlot(primaryUnitTask: .settle, secondaryUnitTask: .settle, position: .civilianSupport, required: true),
+                UnitFormationSlot(primaryUnitTask: .defense, secondaryUnitTask: .counter, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .navalEscort, required: true),
+                UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .navalEscort, required: false),
+                UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .navalEscort, required: false)
             ]
         }
     }
-    
+
     func isRequiresNavalUnitConsistency() -> Bool {
-        
+
         return self == .navalEscort
     }
 }

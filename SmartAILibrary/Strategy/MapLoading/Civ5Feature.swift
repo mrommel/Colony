@@ -33,7 +33,7 @@ extension FeatureType {
             return .atoll
         case "FEATURE_REEF":
             return .reef
-        case "FEATURE_ULURU": // FIXME
+        case "FEATURE_ULURU":
             return .uluru
         case "FEATURE_CRATER": // FIXME
             return nil
@@ -41,7 +41,7 @@ extension FeatureType {
             return nil
         case "FEATURE_MESA": // FIXME
             return nil
-        case "FEATURE_VOLCANO": // FIXME
+        case "FEATURE_VOLCANO": 
             return .volcano
         case "FEATURE_GIBRALTAR": // FIXME
             return nil

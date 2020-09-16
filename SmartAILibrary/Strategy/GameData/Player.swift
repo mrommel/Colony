@@ -2080,62 +2080,70 @@ public class Player: AbstractPlayer {
 
     @discardableResult public func addOperation(of type: UnitOperationType, towards otherPlayer: AbstractPlayer?, target targetCity: AbstractCity?, in area: HexArea?, muster musterCity: AbstractCity? = nil, in gameModel: GameModel?) -> Operation {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var operation: Operation
+        
         switch type {
 
         case .foundCity:
-            let operation = FoundCityOperation(in: area)
-            operation.initialize(for: self, enemy: otherPlayer, area: area, target: targetCity, in: gameModel)
-            self.operations?.add(operation: operation)
-            return operation
+            operation = FoundCityOperation()
             
         case .cityCloseDefense:
-            fatalError("not implemented yet")
-            break
+            operation = CityCloseDefenseOperation()
             
         case .basicCityAttack:
-            fatalError("not implemented yet")
-            break
+            operation = BasicCityAttackOperation()
             
         case .pillageEnemy:
-            fatalError("not implemented yet")
-            break
+            operation = PillageEnemyOperation()
+        
         case .rapidResponse:
-            fatalError("not implemented yet")
-            break
+            operation = RapidResponseOperation()
+            
         case .destroyBarbarianCamp:
-            fatalError("not implemented yet")
-            break
+            operation = DestroyBarbarianCampOperation()
+            
         case .navalAttack:
-            fatalError("not implemented yet")
-            break
+            operation = NavalAttackOperation()
+            
         case .navalSuperiority:
-            fatalError("not implemented yet")
-            break
+            operation = NavalSuperiorityOperation()
+            
         case .navalBombard:
-            fatalError("not implemented yet")
-            break
+            operation = NavalBombardmentOperation()
+            
         case .colonize:
-            fatalError("not implemented yet")
-            break
+             operation = NavalEscortedOperation()
+            
         case .notSoQuickColonize:
-            fatalError("not implemented yet")
-            break
+            operation = QuickColonizeOperation() // ???
+            
         case .quickColonize:
-            fatalError("not implemented yet")
-            break
+            operation = QuickColonizeOperation()
+            
         case .pureNavalCityAttack:
-            fatalError("not implemented yet")
-            break
+            operation = PureNavalCityAttackOperation()
+            
         case .smallCityAttack:
-            fatalError("not implemented yet")
-            break
+            operation = SmallCityAttackOperation()
+            
         case .sneakCityAttack:
-            fatalError("not implemented yet")
-            break
+            if gameModel.currentTurn < 50 && self.leader.trait(for: .boldness) >= 5 {
+                operation = QuickSneakCityAttackOperation()
+            } else {
+                operation = SneakCityAttackOperation()
+            }
+            
         case .navalSneakAttack:
-            fatalError("not implemented yet")
-            break
+            operation = NavalSneakAttackOperation()
         }
+        
+        operation.initialize(for: self, enemy: otherPlayer, area: area, target: targetCity, in: gameModel)
+        self.operations?.add(operation: operation)
+        return operation
     }
 
     /// Find the best spot in the entire world for this unit to settle

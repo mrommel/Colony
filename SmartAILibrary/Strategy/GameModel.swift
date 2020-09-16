@@ -1174,6 +1174,27 @@ public class GameModel: Codable {
 
         return false
     }
+    
+    /// returns true. if one of the adjacent tiles of point is owned by different player than player
+    func isAdjacentOwned(of point: HexPoint, otherThan player: AbstractPlayer?) -> Bool {
+        
+        guard let player = player else {
+            fatalError("cant get player")
+        }
+        
+        for neighbor in point.neighbors() {
+            
+            guard let tile = self.map.tile(at: neighbor) else {
+                continue
+            }
+
+            if tile.hasOwner() && !player.isEqual(to: tile.owner()) {
+                return true
+            }
+        }
+
+        return false
+    }
 
     public func isFreshWater(at point: HexPoint) -> Bool {
 
@@ -1387,5 +1408,15 @@ extension GameModel {
     func numberOfWaterPlots() -> Int {
 
         return self.map.numberOfWaterPlots()
+    }
+    
+    func loggingEnabled() -> Bool {
+        
+        return true
+    }
+    
+    func aiLoggingEnabled() -> Bool {
+        
+        return true
     }
 }

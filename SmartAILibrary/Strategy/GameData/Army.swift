@@ -12,6 +12,7 @@ public enum ArmyState: Int, Codable {
 
     case waitingForUnitsToReinforce
     case movingToDestination
+    case waitingForUnitsToCatchUp
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
