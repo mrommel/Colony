@@ -40,6 +40,7 @@ enum UnitFormationType: Int, Codable {
     case antiBarbarianTeam // MUFORMATION_ANTI_BARBARIAN_TEAM
     case biggerCityAttackForce // MUFORMATION_BIGGER_CITY_ATTACK_FORCE
     case colonizationParty // MUFORMATION_COLONIZATION_PARTY
+    case quickColonySettler // MUFORMATION_QUICK_COLONY_SETTLER
 
     func slots() -> [UnitFormationSlot] {
 
@@ -134,6 +135,10 @@ enum UnitFormationType: Int, Codable {
                 UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .navalEscort, required: true),
                 UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .navalEscort, required: false),
                 UnitFormationSlot(primaryUnitTask: .escortSea, secondaryUnitTask: .reserveSea, position: .navalEscort, required: false)
+            ]
+
+        case .quickColonySettler: return [
+                UnitFormationSlot(primaryUnitTask: .settle, secondaryUnitTask: .settle, position: .civilianSupport, required: true)
             ]
         }
     }

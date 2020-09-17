@@ -213,6 +213,7 @@ public class Operation: Codable, Equatable {
     }
 
     /// Assigns available units to our operation. Returns true if all needed units assigned.
+    @discardableResult
     func grabUnitsFromTheReserves(at musterPosition: HexPoint?, for targetPosition: HexPoint?, in gameModel: GameModel?) -> Bool {
 
         var returnVal = true

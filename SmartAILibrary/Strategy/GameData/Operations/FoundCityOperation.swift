@@ -25,98 +25,90 @@ class FoundCityOperation: EscortedOperation {
     
     override func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel,
+            let player = self.player else {
+                
+            fatalError("cant get values")
+        }
+        
         super.initialize(for: player, enemy: enemy, area: area, target: target, muster: muster, in: gameModel)
         
         self.moveType = .singleHex
         
         // Find the free civilian (that triggered this operation)
-        pOurCivilian = FindBestCivilian();
-
-        if(pOurCivilian != NULL && iID != -1)
-        {
+        if let ourCivilian = self.findBestCivilian(in: gameModel) {
+            
             // Find a destination (not worrying about safe paths)
-            pTargetSite = FindBestTarget(pOurCivilian, false);
-
-            if(pTargetSite != NULL)
-            {
-                SetTargetPlot(pTargetSite);
+            if let targetSite = self.findBestTarget(for: ourCivilian, onlySafePaths: false, in: gameModel) {
+                
+                self.targetPosition = targetSite.point
+                self.musterPosition = ourCivilian.location
+                self.area = gameModel.area(of: ourCivilian.location)
 
                 // create the armies that are needed and set the state to ARMYAISTATE_WAITING_FOR_UNITS_TO_REINFORCE
-                CvArmyAI* pArmyAI = GET_PLAYER(m_eOwner).addArmyAI();
-                if(pArmyAI)
-                {
-                    m_viArmyIDs.push_back(pArmyAI->GetID());
-                    pArmyAI->Init(pArmyAI->GetID(),m_eOwner,m_iID);
-                    pArmyAI->SetArmyAIState(ARMYAISTATE_WAITING_FOR_UNITS_TO_REINFORCE);
-                    pArmyAI->SetFormationIndex(GetFormation());
+                self.army = Army(of: self.player, for: nil, with: .settlerEscort)
+                self.army?.state = .waitingForUnitsToReinforce
+                
+                // Figure out the initial rally point - for this operation it is wherever our civilian is standing
+                self.army?.goal = targetSite.point
+                self.army?.muster = ourCivilian.location
 
-                    // Figure out the initial rally point - for this operation it is wherever our civilian is standing
-                    pArmyAI->SetGoalPlot(pTargetSite);
-                    CvPlot* pMusterPt = pOurCivilian->plot();
-                    SetMusterPlot(pMusterPt);
-                    pArmyAI->SetXY(pMusterPt->getX(), pMusterPt->getY());
-                    SetDefaultArea(pMusterPt->getArea());
+                // Add the settler to our army
+                self.army?.add(unit: ourCivilian, to: 0)
 
-                    // Add the settler to our army
-                    pArmyAI->AddUnit(pOurCivilian->GetID(), 0);
-
-                    // Add the escort as a unit we need to build
-                    m_viListOfUnitsWeStillNeedToBuild.clear();
-                    OperationSlot thisOperationSlot;
-                    thisOperationSlot.m_iOperationID = m_iID;
-                    thisOperationSlot.m_iArmyID = pArmyAI->GetID();
-                    thisOperationSlot.m_iSlotID = 1;
-                    m_viListOfUnitsWeStillNeedToBuild.push_back(thisOperationSlot);
-
-                    // try to get the escort from existing units that are waiting around
-                    GrabUnitsFromTheReserves(pMusterPt, pTargetSite);
-                    if(pArmyAI->GetNumSlotsFilled() > 1)
-                    {
-                        pArmyAI->SetArmyAIState(ARMYAISTATE_WAITING_FOR_UNITS_TO_CATCH_UP);
-                        m_eCurrentState = AI_OPERATION_STATE_GATHERING_FORCES;
-                    }
-                    else
-                    {
-                        // There was no escort immediately available.  Let's look for a "safe" city site instead
-                        if (eOwner == -1 || GET_PLAYER(eOwner).getNumCities() > 1 || GET_PLAYER(eOwner).GetDiplomacyAI()->GetBoldness() > 5) // unless we'd rather play it safe
-                        {
-                            pNewTarget = FindBestTarget(pOurCivilian, true);
-                        }
-
-                        // If no better target, we'll wait it out for an escort
-                        if(pNewTarget == NULL)
-                        {
-                            // Need to add it back in to list of what to build (was cleared before since marked optional)
-                            m_viListOfUnitsWeStillNeedToBuild.clear();
-                            OperationSlot thisOperationSlot2;
-                            thisOperationSlot2.m_iOperationID = m_iID;
-                            thisOperationSlot2.m_iArmyID = pArmyAI->GetID();
-                            thisOperationSlot2.m_iSlotID = 1;
-                            m_viListOfUnitsWeStillNeedToBuild.push_back(thisOperationSlot2);
-                            m_eCurrentState = AI_OPERATION_STATE_RECRUITING_UNITS;
-                        }
-
-                        // Send the settler by himself to this safe location
-                        else
-                        {
-                            m_bEscorted = false;
-
-                            // Clear the list of units we need
-                            m_viListOfUnitsWeStillNeedToBuild.clear();
-
-                            // Change the muster point
-                            pArmyAI->SetGoalPlot(pNewTarget);
-                            SetMusterPlot(pOurCivilian->plot());
-                            pArmyAI->SetXY(GetMusterPlot()->getX(), GetMusterPlot()->getY());
-
-                            // Send the settler directly to the target
-                            pArmyAI->SetArmyAIState(ARMYAISTATE_MOVING_TO_DESTINATION);
-                            m_eCurrentState = AI_OPERATION_STATE_MOVING_TO_TARGET;
-                        }
-                    }
+                // Add the escort as a unit we need to build
+                self.listOfUnitsWeStillNeedToBuild.removeAll()
                     
-                    //LogOperationStart();
+                let slot = self.army!.formation.slots()[1]
+                let thisOperationSlot = OperationSlot(operation: self, army: self.army, slot: slot, slotIndex: 1)
+                self.listOfUnitsWeStillNeedToBuild.append(thisOperationSlot)
+
+                // try to get the escort from existing units that are waiting around
+                self.grabUnitsFromTheReserves(at: self.musterPosition, for: self.targetPosition, in: gameModel)
+                    
+                if self.army!.numOfSlotsFilled() > 1 {
+                    self.army?.state = .waitingForUnitsToCatchUp
+                    self.state = .gatheringForces
+                } else {
+                    
+                    var newTarget: AbstractTile? = nil
+                    
+                    // There was no escort immediately available.  Let's look for a "safe" city site instead
+                    if self.player == nil || gameModel.cities(of: player).count > 1 || player.leader.trait(for: .boldness) > 5 {
+                        // unless we'd rather play it safe
+                        newTarget = self.findBestTarget(for: ourCivilian, onlySafePaths: true, in: gameModel)
+                    }
+
+                    // If no better target, we'll wait it out for an escort
+                    if newTarget == nil {
+                        // Need to add it back in to list of what to build (was cleared before since marked optional)
+                        self.listOfUnitsWeStillNeedToBuild.removeAll()
+                        
+                        let slot2 = self.army!.formation.slots()[1]
+                        let thisOperationSlot2 = OperationSlot(operation: self, army: self.army, slot: slot2, slotIndex: 1)
+                        self.listOfUnitsWeStillNeedToBuild.append(thisOperationSlot2)
+                        self.state = .recruitingUnits
+                    } else {
+                        // Send the settler by himself to this safe location
+                        self.escorted = false
+
+                        // Clear the list of units we need
+                        self.listOfUnitsWeStillNeedToBuild.removeAll()
+
+                        // Change the muster point
+                        self.army?.goal = newTarget!.point
+                        self.musterPosition = ourCivilian.location
+                        
+                        self.army?.position = musterPosition!
+
+                        // Send the settler directly to the target
+                        self.army?.state = .movingToDestination
+                        self.state = .movingToTarget
+                    }
                 }
+                
+                //LogOperationStart();
+                
             } else {
                 // Lost our target, abort
                 self.state = .aborted(reason: .lostTarget)
@@ -234,13 +226,18 @@ class FoundCityOperation: EscortedOperation {
     }
 
     /// Find the plot where we want to settle
-    override func findBestTarget(for unit: AbstractUnit?, in gameModel: GameModel?) -> AbstractTile? {
+    func findBestTarget(for unit: AbstractUnit?, onlySafePaths: Bool, in gameModel: GameModel?) -> AbstractTile? {
 
         guard let unit = unit else {
             fatalError("cant get unit")
         }
 
         let area = gameModel?.area(of: unit.location)
-        return self.player?.bestSettlePlot(for: unit, in: gameModel, escorted: self.escorted, area: area)
+        if let tile = self.player?.bestSettlePlot(for: unit, in: gameModel, escorted: onlySafePaths, area: area) {
+            return tile
+        }
+        
+        self.area = nil
+        return self.player?.bestSettlePlot(for: unit, in: gameModel, escorted: onlySafePaths, area: nil)
     }
 }

@@ -51,7 +51,6 @@ class NavalEscortedOperation: Operation {
             self.targetPosition = targetSite.point
 
             // create the armies that are needed and set the state to ARMYAISTATE_WAITING_FOR_UNITS_TO_REINFORCE
-
             self.army = Army(of: self.player, for: nil, with: .colonizationParty)
             self.army?.state = .waitingForUnitsToReinforce
             self.army?.goal = targetSite.point

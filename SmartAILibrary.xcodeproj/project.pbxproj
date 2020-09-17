@@ -167,6 +167,7 @@
 		C98DBFB823E0D86000B6CE25 /* TechTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB723E0D86000B6CE25 /* TechTests.swift */; };
 		C98DBFBA23E0D8C700B6CE25 /* Techs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB923E0D8C700B6CE25 /* Techs.swift */; };
 		C9956853247E90B00005E9EA /* Eurekas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9956852247E90AF0005E9EA /* Eurekas.swift */; };
+		C997902B25133377003E52C9 /* CityCloseDefenseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997902A25133377003E52C9 /* CityCloseDefenseOperation.swift */; };
 		C99C4FC1242682DD00070038 /* TestUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C4FC0242682DD00070038 /* TestUI.swift */; };
 		C99C4FC32426ACD200070038 /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C4FC22426ACD200070038 /* UserInterface.swift */; };
 		C9A0573C24291C3E00D0FEAB /* Wonders.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0573B24291C3E00D0FEAB /* Wonders.swift */; };
@@ -443,6 +444,7 @@
 		C98DBFB723E0D86000B6CE25 /* TechTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechTests.swift; sourceTree = "<group>"; };
 		C98DBFB923E0D8C700B6CE25 /* Techs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Techs.swift; sourceTree = "<group>"; };
 		C9956852247E90AF0005E9EA /* Eurekas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eurekas.swift; sourceTree = "<group>"; };
+		C997902A25133377003E52C9 /* CityCloseDefenseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCloseDefenseOperation.swift; sourceTree = "<group>"; };
 		C99C4FC0242682DD00070038 /* TestUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUI.swift; sourceTree = "<group>"; };
 		C99C4FC22426ACD200070038 /* UserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
 		C9A0573B24291C3E00D0FEAB /* Wonders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wonders.swift; sourceTree = "<group>"; };
@@ -879,6 +881,7 @@
 				C908E3CF2510C34900657B62 /* NavalEscortedOperation.swift */,
 				C97213E42510C1E7009BCE40 /* FoundCityOperation.swift */,
 				C908E3D82511E7AA00657B62 /* QuickColonizeOperation.swift */,
+				C997902A25133377003E52C9 /* CityCloseDefenseOperation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
@@ -1108,7 +1111,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Michael Rommel";
 				TargetAttributes = {
 					C923179623D62A6B001FC723 = {
@@ -1273,6 +1276,7 @@
 				C960E1DE24E688240049DC83 /* TradeRoutes.swift in Sources */,
 				C9C0DCD724D44799004D9F06 /* GreatPeople.swift in Sources */,
 				C98DBFA323DF219100B6CE25 /* City.swift in Sources */,
+				C997902B25133377003E52C9 /* CityCloseDefenseOperation.swift in Sources */,
 				C9E74CB3248E1AE4003EF256 /* DiplomaticPlayerArray.swift in Sources */,
 				C9DFCF8223F30BDC0032243D /* StrengthType.swift in Sources */,
 				C955FBCE246065D600605618 /* AmenitiesState.swift in Sources */,
@@ -1469,6 +1473,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1532,6 +1537,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

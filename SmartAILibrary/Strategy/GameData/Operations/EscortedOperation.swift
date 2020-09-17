@@ -10,7 +10,7 @@ import Foundation
 
 class EscortedOperation: Operation {
 
-    let escorted: Bool
+    var escorted: Bool
     let civilianType: UnitTaskType
 
     init(type: UnitOperationType, escorted: Bool, civilianType: UnitTaskType) {
