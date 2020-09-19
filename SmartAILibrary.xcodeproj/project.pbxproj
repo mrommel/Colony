@@ -168,6 +168,10 @@
 		C98DBFBA23E0D8C700B6CE25 /* Techs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB923E0D8C700B6CE25 /* Techs.swift */; };
 		C9956853247E90B00005E9EA /* Eurekas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9956852247E90AF0005E9EA /* Eurekas.swift */; };
 		C997902B25133377003E52C9 /* CityCloseDefenseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997902A25133377003E52C9 /* CityCloseDefenseOperation.swift */; };
+		C997905B2513F822003E52C9 /* EnemyTerritoryOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997905A2513F822003E52C9 /* EnemyTerritoryOperation.swift */; };
+		C99790612514B697003E52C9 /* PillageEnemyOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99790602514B697003E52C9 /* PillageEnemyOperation.swift */; };
+		C997906525169773003E52C9 /* RapidResponseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997906425169773003E52C9 /* RapidResponseOperation.swift */; };
+		C99790692516A4B8003E52C9 /* DestroyBarbarianCampOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99790682516A4B8003E52C9 /* DestroyBarbarianCampOperation.swift */; };
 		C99C4FC1242682DD00070038 /* TestUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C4FC0242682DD00070038 /* TestUI.swift */; };
 		C99C4FC32426ACD200070038 /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C4FC22426ACD200070038 /* UserInterface.swift */; };
 		C9A0573C24291C3E00D0FEAB /* Wonders.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0573B24291C3E00D0FEAB /* Wonders.swift */; };
@@ -445,6 +449,10 @@
 		C98DBFB923E0D8C700B6CE25 /* Techs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Techs.swift; sourceTree = "<group>"; };
 		C9956852247E90AF0005E9EA /* Eurekas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eurekas.swift; sourceTree = "<group>"; };
 		C997902A25133377003E52C9 /* CityCloseDefenseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCloseDefenseOperation.swift; sourceTree = "<group>"; };
+		C997905A2513F822003E52C9 /* EnemyTerritoryOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyTerritoryOperation.swift; sourceTree = "<group>"; };
+		C99790602514B697003E52C9 /* PillageEnemyOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillageEnemyOperation.swift; sourceTree = "<group>"; };
+		C997906425169773003E52C9 /* RapidResponseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidResponseOperation.swift; sourceTree = "<group>"; };
+		C99790682516A4B8003E52C9 /* DestroyBarbarianCampOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestroyBarbarianCampOperation.swift; sourceTree = "<group>"; };
 		C99C4FC0242682DD00070038 /* TestUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUI.swift; sourceTree = "<group>"; };
 		C99C4FC22426ACD200070038 /* UserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
 		C9A0573B24291C3E00D0FEAB /* Wonders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wonders.swift; sourceTree = "<group>"; };
@@ -876,12 +884,16 @@
 				C908E3D72510C41100657B62 /* Enums */,
 				C91BE62A23FED2F300912962 /* Operations.swift */,
 				C9C003BC23FEDCE00031C7F9 /* Operation.swift */,
+				C997905A2513F822003E52C9 /* EnemyTerritoryOperation.swift */,
 				C97213E92510C241009BCE40 /* BasicCityAttackOperation.swift */,
 				C97213E62510C207009BCE40 /* EscortedOperation.swift */,
 				C908E3CF2510C34900657B62 /* NavalEscortedOperation.swift */,
 				C97213E42510C1E7009BCE40 /* FoundCityOperation.swift */,
 				C908E3D82511E7AA00657B62 /* QuickColonizeOperation.swift */,
 				C997902A25133377003E52C9 /* CityCloseDefenseOperation.swift */,
+				C99790602514B697003E52C9 /* PillageEnemyOperation.swift */,
+				C997906425169773003E52C9 /* RapidResponseOperation.swift */,
+				C99790682516A4B8003E52C9 /* DestroyBarbarianCampOperation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
@@ -1184,6 +1196,7 @@
 				C9C0DCDF24D5FD58004D9F06 /* CityYields.swift in Sources */,
 				C9DFCF6323F14D9D0032243D /* MilitaryThreatType.swift in Sources */,
 				C92317BB23D665AD001FC723 /* FiniteStateTransition.swift in Sources */,
+				C99790612514B697003E52C9 /* PillageEnemyOperation.swift in Sources */,
 				C92317B923D6375B001FC723 /* FiniteState.swift in Sources */,
 				C908E3D62510C3F600657B62 /* OperationStateType.swift in Sources */,
 				C9588ACB241A9F5000304E9A /* RouteType.swift in Sources */,
@@ -1218,6 +1231,7 @@
 				C97A38E723F57DD9008A8AE9 /* DiplomaticApproachWeights.swift in Sources */,
 				C964BA1D23EAE76C00CA379C /* CityStrategyType.swift in Sources */,
 				C957AA392436368200203024 /* Civ5MapPlot.swift in Sources */,
+				C997905B2513F822003E52C9 /* EnemyTerritoryOperation.swift in Sources */,
 				C957AA34243635B300203024 /* Civ5MapHeader.swift in Sources */,
 				C964BA1F23EAF01A00CA379C /* CityStrategyAI.swift in Sources */,
 				C9C2FE4123F9DD0700185235 /* PlayerStateAllWars.swift in Sources */,
@@ -1235,6 +1249,7 @@
 				C91B0A5323FD37500065C62A /* UnitAbilityType.swift in Sources */,
 				C98CBE0124338C02005EE397 /* ClimateZone.swift in Sources */,
 				C9DFCF6723F18ED60032243D /* PlayerProximityType.swift in Sources */,
+				C99790692516A4B8003E52C9 /* DestroyBarbarianCampOperation.swift in Sources */,
 				C9D8DF7823F147DF0091C917 /* ApproachBias.swift in Sources */,
 				C907086023ED48A000281161 /* MapSize.swift in Sources */,
 				C91B0023243DCE6000C422C8 /* GoodyHuts.swift in Sources */,
@@ -1286,6 +1301,7 @@
 				C90FC39723D8909F00720B32 /* LeaderType.swift in Sources */,
 				C908E3D02510C34900657B62 /* NavalEscortedOperation.swift in Sources */,
 				C957AA3B2436372D00203024 /* Civ5Terrain.swift in Sources */,
+				C997906525169773003E52C9 /* RapidResponseOperation.swift in Sources */,
 				C90FC3A023D8968D00720B32 /* GameModel.swift in Sources */,
 				C92317C123D6EB21001FC723 /* HierarchicalState.swift in Sources */,
 				C9ABAF2423F6BCF00023AC1B /* Districts.swift in Sources */,

@@ -1400,7 +1400,7 @@ public class Player: AbstractPlayer {
         self.tacticalAI?.turn(in: gameModel)
         
         // Start: OPERATIONAL AI UNIT PROCESSING
-        self.operations?.doDelayedDeath()
+        self.operations?.doDelayedDeath(in: gameModel)
         self.armies?.doDelayedDeath()
         
         for unitRef in gameModel.units(of: self) {
@@ -1409,7 +1409,7 @@ public class Player: AbstractPlayer {
         
         self.operations?.turn(in: gameModel)
         
-        self.operations?.doDelayedDeath()
+        self.operations?.doDelayedDeath(in: gameModel)
         
         self.armies?.turn(in: gameModel)
         

@@ -51,7 +51,7 @@ class NavalEscortedOperation: Operation {
             self.targetPosition = targetSite.point
 
             // create the armies that are needed and set the state to ARMYAISTATE_WAITING_FOR_UNITS_TO_REINFORCE
-            self.army = Army(of: self.player, for: nil, with: .colonizationParty)
+            self.army = Army(of: self.player, for: nil, with: self.formation(in: gameModel))
             self.army?.state = .waitingForUnitsToReinforce
             self.army?.goal = targetSite.point
                 
@@ -80,8 +80,13 @@ class NavalEscortedOperation: Operation {
         }
     }
     
+    override func formation(in gameModel: GameModel?) -> UnitFormationType {
+        
+        return .colonizationParty
+    }
+    
     /// Find the port our operation will leave from
-    func operationStartCity(in gameModel: GameModel?) -> AbstractCity? {
+    override func operationStartCity(in gameModel: GameModel?) -> AbstractCity? {
         
         guard let gameModel = gameModel,
             let player = self.player else {

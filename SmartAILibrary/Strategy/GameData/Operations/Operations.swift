@@ -71,13 +71,13 @@ class Operations: Codable {
         return rtnValue
     }
     
-    func doDelayedDeath() {
+    func doDelayedDeath(in gameModel: GameModel?) {
         
         var operationsToDelete: [Operation?] = []
         
         for operation in self.operations {
             
-            if operation.doDelayedDeath() {
+            if operation.doDelayedDeath(in: gameModel) {
                 operationsToDelete.append(operation)
             }
         }

@@ -14,6 +14,15 @@ import Foundation
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class QuickColonizeOperation: FoundCityOperation {
     
+    override init() {
+
+        super.init(type: .quickColonize)
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+    
     /// Kick off this operation
     override func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
 
@@ -31,7 +40,7 @@ class QuickColonizeOperation: FoundCityOperation {
                 
                 self.targetPosition = targetSite.point
 
-                self.army = Army(of: self.player, for: self, with: .quickColonySettler) // MUFORMATION_QUICK_COLONY_SETTLER
+                self.army = Army(of: self.player, for: self, with: self.formation(in: gameModel))
                 self.army?.state = .waitingForUnitsToReinforce
 
                 // Figure out the initial rally point - for this operation it is wherever our civilian is standing
@@ -54,6 +63,11 @@ class QuickColonizeOperation: FoundCityOperation {
                 self.state = .aborted(reason: .lostTarget)
             }
         }
+    }
+    
+    override func formation(in gameModel: GameModel?) -> UnitFormationType {
+        
+        return .quickColonySettler // MUFORMATION_QUICK_COLONY_SETTLER
     }
     
     override func findBestCivilian(in gameModel: GameModel?) -> AbstractUnit? {

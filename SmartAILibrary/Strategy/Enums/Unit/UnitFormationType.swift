@@ -41,6 +41,8 @@ enum UnitFormationType: Int, Codable {
     case biggerCityAttackForce // MUFORMATION_BIGGER_CITY_ATTACK_FORCE
     case colonizationParty // MUFORMATION_COLONIZATION_PARTY
     case quickColonySettler // MUFORMATION_QUICK_COLONY_SETTLER
+    case closeCityDefense // MUFORMATION_CLOSE_CITY_DEFENSE
+    case rapidResponseForce // MUFORMATION_RAPID_RESPONSE_FORCE
 
     func slots() -> [UnitFormationSlot] {
 
@@ -139,6 +141,20 @@ enum UnitFormationType: Int, Codable {
 
         case .quickColonySettler: return [
                 UnitFormationSlot(primaryUnitTask: .settle, secondaryUnitTask: .settle, position: .civilianSupport, required: true)
+            ]
+
+        case .closeCityDefense: return [
+                UnitFormationSlot(primaryUnitTask: .counter, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .ranged, secondaryUnitTask: .defense, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .counter, secondaryUnitTask: .defense, position: .frontline, required: false),
+                UnitFormationSlot(primaryUnitTask: .ranged, secondaryUnitTask: .defense, position: .bombard, required: false)
+            ]
+
+        case .rapidResponseForce: return [
+                UnitFormationSlot(primaryUnitTask: .counter, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .fastAttack, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .ranged, secondaryUnitTask: .defense, position: .bombard, required: false),
+                UnitFormationSlot(primaryUnitTask: .fastAttack, secondaryUnitTask: .defense, position: .frontline, required: false)
             ]
         }
     }

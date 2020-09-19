@@ -41,7 +41,7 @@ class EscortedOperation: Operation {
                 self.updateTarget(to: targetSite)
 
                 // create the armies that are needed and set the state to ARMYAISTATE_WAITING_FOR_UNITS_TO_REINFORCE
-                let army = Army(of: player, for: self, with: .settlerEscort)
+                let army = Army(of: player, for: self, with: self.formation(in: gameModel))
                 army.state = .waitingForUnitsToReinforce
 
                 // Figure out the initial rally point - for this operation it is wherever our civilian is standing
@@ -62,6 +62,11 @@ class EscortedOperation: Operation {
                 self.listOfUnitsWeStillNeedToBuild.append(OperationSlot(operation: self, army: army, slot: escortFormationSlot, slotIndex: escortSlotIndex))
             }
         }
+    }
+    
+    override func formation(in gameModel: GameModel?) -> UnitFormationType {
+        
+        fatalError("must be overridden")
     }
 
     func findBestTarget(for unit: AbstractUnit?, in gameModel: GameModel?) -> AbstractTile? {

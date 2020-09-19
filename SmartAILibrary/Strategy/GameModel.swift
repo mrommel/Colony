@@ -868,6 +868,29 @@ public class GameModel: Codable {
 
         return nil
     }
+    
+    func findCity(of player: AbstractPlayer, closestTo location: HexPoint) -> AbstractCity? {
+     
+        var bestCity: AbstractCity? = nil
+        var bestDistance: Int = Int(INT_MAX)
+        
+        for cityRef in self.map.cities(for: player) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            let distance = location.distance(to: city.location)
+            
+            if distance < bestDistance {
+                
+                bestDistance = distance
+                bestCity = cityRef
+            }
+        }
+        
+        return bestCity
+    }
 
     func area(of location: HexPoint) -> HexArea? {
 

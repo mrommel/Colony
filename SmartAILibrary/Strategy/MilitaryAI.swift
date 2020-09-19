@@ -842,7 +842,7 @@ public class MilitaryAI: Codable {
                     
                     if let operation = operationRef {
                         
-                        if !operation.shouldAbort() && target.targetCity!.isCoastal(in: gameModel) {
+                        if !operation.shouldAbort(in: gameModel) && target.targetCity!.isCoastal(in: gameModel) {
                         
                             let flavorNaval = player.valueOfStrategyAndPersonalityFlavor(of: .naval)
                             let numSuperiority = player.numberOfOperationsOf(type: .navalSuperiority)
@@ -857,7 +857,7 @@ public class MilitaryAI: Codable {
             }
 
             if let operation = operationRef {
-                if !operation.shouldAbort() {
+                if !operation.shouldAbort(in: gameModel) {
                     return true
                 }
             }

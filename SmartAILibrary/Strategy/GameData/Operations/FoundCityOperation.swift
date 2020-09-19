@@ -19,6 +19,11 @@ class FoundCityOperation: EscortedOperation {
         super.init(type: .foundCity, escorted: true, civilianType: .settle)
     }
     
+    init(type: UnitOperationType) {
+
+        super.init(type: type, escorted: true, civilianType: .settle)
+    }
+    
     public required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
@@ -46,7 +51,7 @@ class FoundCityOperation: EscortedOperation {
                 self.area = gameModel.area(of: ourCivilian.location)
 
                 // create the armies that are needed and set the state to ARMYAISTATE_WAITING_FOR_UNITS_TO_REINFORCE
-                self.army = Army(of: self.player, for: nil, with: .settlerEscort)
+                self.army = Army(of: self.player, for: nil, with: self.formation(in: gameModel))
                 self.army?.state = .waitingForUnitsToReinforce
                 
                 // Figure out the initial rally point - for this operation it is wherever our civilian is standing
@@ -114,6 +119,11 @@ class FoundCityOperation: EscortedOperation {
                 self.state = .aborted(reason: .lostTarget)
             }
         }
+    }
+    
+    override func formation(in gameModel: GameModel?) -> UnitFormationType {
+        
+        return .settlerEscort // MUFORMATION_SETTLER_ESCORT
     }
 
     /// If at target, found city; if at muster point, merge settler and escort and move out

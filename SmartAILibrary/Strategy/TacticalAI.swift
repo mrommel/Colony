@@ -363,8 +363,12 @@ public class TacticalAI: Codable {
         var targetType: TacticalTargetType = .none
         var navalMission: Bool = false
 
-        init() {
+        init(location: HexPoint = HexPoint(x: -1, y: -1), lastTurn: Int = -1, targetType: TacticalTargetType = .none, navalMission: Bool = false) {
 
+            self.location = location
+            self.lastTurn = lastTurn
+            self.targetType = targetType
+            self.navalMission = navalMission
         }
         
         required init(from decoder: Decoder) throws {

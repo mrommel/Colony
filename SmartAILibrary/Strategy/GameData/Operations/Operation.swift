@@ -155,6 +155,11 @@ public class Operation: Codable, Equatable {
 
         // Reset();
     }
+    
+    func formation(in gameModel: GameModel?) -> UnitFormationType {
+        
+        return .none
+    }
 
     func isAllNavalOperation() -> Bool {
 
@@ -660,9 +665,9 @@ public class Operation: Codable, Equatable {
     }
 
     /// Delete the operation if marked to go away
-    func doDelayedDeath() -> Bool {
+    func doDelayedDeath(in gameModel: GameModel?) -> Bool {
         
-        if self.shouldAbort() {
+        if self.shouldAbort(in: gameModel) {
             
             if self.state == .successful {
                 self.kill(with: .success)
@@ -676,22 +681,24 @@ public class Operation: Codable, Equatable {
     }
     
     /// Returns true when we should abort the operation totally (besides when we have lost all units in it)
-    func shouldAbort() -> Bool {
+    func shouldAbort(in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel,
+              let army = self.army else {
+            fatalError("cant get gameModel")
+        }
         
         // Mark units in successful operation
         if self.state == .successful {
             
-            /*for (unsigned int uiI = 0; uiI < m_viArmyIDs.size(); uiI++)
-            {
-                CvArmyAI* pArmy = GET_PLAYER(m_eOwner).getArmyAI(m_viArmyIDs[uiI]);
-
-                pUnit = pArmy->GetFirstUnit();
-                while (pUnit)
-                {
-                    pUnit->SetDeployFromOperationTurn(GC.getGame().getGameTurn());
-                    pUnit = pArmy->GetNextUnit();
+            for unitRef in army.units() {
+                 
+                guard let unit = unitRef else {
+                    continue
                 }
-            }*/
+                
+                unit.setDeployFromOperationTurn(to: gameModel.currentTurn)
+            }
         }
 
         return self.state == .aborted(reason: .none) || self.state == .successful
@@ -749,6 +756,16 @@ public class Operation: Codable, Equatable {
         }
 
         return rtnValue
+    }
+    
+    func operationStartCity(in gameModel: GameModel?) -> AbstractCity? {
+        
+        return nil
+    }
+    
+    func armyMoved(in gameModel: GameModel?) -> Bool {
+        
+        return false
     }
 
     public static func == (lhs: Operation, rhs: Operation) -> Bool {

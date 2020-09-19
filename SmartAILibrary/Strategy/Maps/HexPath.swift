@@ -129,6 +129,18 @@ public class HexPath: Decodable {
         return HexPath(points: newPoints, costs: newCosts)
     }
     
+    public func path(without items: Int) -> HexPath? {
+        
+        if self.count <= items {
+            return nil
+        }
+        
+        let newPoints = Array(self.pointsValue.prefix(upTo: self.count - items))
+        let newCosts = Array(self.costs.prefix(upTo: self.count - items))
+        
+        return HexPath(points: newPoints, costs: newCosts)
+    }
+    
     public func points() -> [HexPoint] {
         
         return self.pointsValue
