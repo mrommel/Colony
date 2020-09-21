@@ -15,6 +15,11 @@ class BasicCityAttackOperation: EnemyTerritoryOperation {
         super.init(type: .basicCityAttack)
     }
     
+    override init(type: UnitOperationType) {
+
+        super.init(type: type)
+    }
+    
     public required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
@@ -124,7 +129,7 @@ class BasicCityAttackOperation: EnemyTerritoryOperation {
                 if centerOfMass.distance(to: self.targetPosition ?? HexPoint.invalid) <= 4 { // AI_OPERATIONAL_CITY_ATTACK_DEPLOY_RANGE
                     
                     // Notify Diplo AI we're in place for attack
-                    self.player?.diplomacyAI.musteringForAttack(against: self.enemy, to: true)
+                    self.player?.diplomacyAI?.updateMusteringForAttack(against: self.enemy, to: true)
 
                     // Notify tactical AI to focus on this area
                     let zone = TacticalAI.TemporaryZone(location: self.targetPosition!, lastTurn: gameModel.currentTurn + 5 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */, targetType: .city)

@@ -31,7 +31,7 @@ class FoundCityOperation: EscortedOperation {
     override func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel,
-            let player = self.player else {
+            let player = player else {
                 
             fatalError("cant get values")
         }

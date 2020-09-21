@@ -5180,4 +5180,18 @@ public class DiplomaticAI: Codable {
         
         self.playerDict.updateWantPeaceCounter(with: otherPlayer, to: value)
     }
+    
+    // ---------
+    
+    /// Are we building up for an attack on ePlayer?
+    func isMusteringForAttack(against otherPlayer: AbstractPlayer?) -> Bool {
+        
+        return self.playerDict.isMusteringForAttack(against: otherPlayer)
+    }
+    
+    /// Sets whether or not we're building up for an attack on ePlayer
+    func updateMusteringForAttack(against otherPlayer: AbstractPlayer?, to value: Bool) {
+        
+        self.playerDict.updateMusteringForAttack(against: otherPlayer, to: value)
+    }
 }

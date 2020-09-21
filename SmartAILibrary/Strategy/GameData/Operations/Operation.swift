@@ -767,6 +767,11 @@ public class Operation: Codable, Equatable {
         
         return false
     }
+    
+    func isCivilianRequired() -> Bool {
+        
+        fatalError("niy")
+    }
 
     public static func == (lhs: Operation, rhs: Operation) -> Bool {
 

@@ -930,6 +930,23 @@ public class GameModel: Codable {
     }
 
     // MARK: tile methods
+    
+    public func points() -> [HexPoint] {
+        
+        var pointList: [HexPoint] = []
+        let mapWidth = self.mapSize().width()
+        let mapHeight = self.mapSize().height()
+        
+        pointList.reserveCapacity(mapWidth * mapHeight)
+        
+        for x in 0..<mapWidth {
+            for y in 0..<mapHeight {
+                pointList.append(HexPoint(x: x, y: y))
+            }
+        }
+        
+        return pointList
+    }
 
     public func randomLocation() -> HexPoint {
 

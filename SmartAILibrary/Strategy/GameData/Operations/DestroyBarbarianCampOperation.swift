@@ -14,13 +14,15 @@ import Foundation
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
     
-    let civilianRescue: Bool
-    let unitToRescue: Int?
+    var civilianRescue: Bool
+    var unitToRescue: AbstractUnit?
     
     init() {
         
         self.civilianRescue = false
         self.unitToRescue = nil
+        
+        super.init(type: .destroyBarbarianCamp)
     }
     
     public required init(from decoder: Decoder) throws {
@@ -39,7 +41,12 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
     }
 
     /// Same as default version except if just gathered forces, check to see if a better target has presented itself
-    func armyInPosition(in gameModel: GameModel) -> Bool {
+    override func armyInPosition(in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel,
+              let army = self.army else {
+            fatalError("cant get basics")
+        }
         
         var stateChanged = false
 
@@ -56,55 +63,50 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
             // If no target left, abort
             if possibleBetterTarget == nil {
                 self.state = .aborted(reason: .lostTarget);
-            }
-
-            // If target changed, reset to this new one
-            else if(possibleBetterTarget != GetTargetPlot())
-            {
+            } else if possibleBetterTarget! != self.targetPosition {
+                // If target changed, reset to this new one
                 // If we're traveling on a single continent, set our destination to be a few plots shy of the final target
-                if (pArmy->GetArea() == possibleBetterTarget->getArea())
-                {
-                    CvPlot* pDeployPt = GC.getStepFinder().GetXPlotsFromEnd(GetOwner(), GetEnemy(), pArmy->Plot(), possibleBetterTarget, GC.getAI_OPERATIONAL_BARBARIAN_CAMP_DEPLOY_RANGE(), false);
-                    if(pDeployPt != NULL)
-                    {
-                        pArmy->SetGoalPlot(pDeployPt);
-                        SetTargetPlot(possibleBetterTarget);
+                if self.army?.area == gameModel.area(of: possibleBetterTarget!) {
+                    
+                    // Reset our destination to be a few plots shy of the final target
+                    let pathFinder = AStarPathfinder()
+                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self.player)
+                    
+                    if let path = pathFinder.shortestPath(fromTileCoord: self.army!.position, toTileCoord: possibleBetterTarget!),
+                        let reducedPath = path.path(without: 2 /* AI_OPERATIONAL_BARBARIAN_CAMP_DEPLOY_RANGE */),
+                        let deployPoint = reducedPath.last {
+                        
+                        self.army?.goal = deployPoint.0
+                        self.targetPosition = deployPoint.0
                     }
-                }
-
-                // Coming in from the sea. Just head to the camp
-                else
-                {
-                    pArmy->SetGoalPlot(possibleBetterTarget);
-                    SetTargetPlot(possibleBetterTarget);
+                } else {
+                    // Coming in from the sea. Just head to the camp
+                    self.army?.goal = possibleBetterTarget!
+                    self.targetPosition = possibleBetterTarget!
                 }
             }
 
         // See if reached our target, if so give control of these units to the tactical AI
-        case AI_OPERATION_STATE_MOVING_TO_TARGET:
-        {
-            if (plotDistance(pArmy->GetX(), pArmy->GetY(), pArmy->GetGoalX(), pArmy->GetGoalY()) <= 1)
-            {
-                // Notify tactical AI to focus on this area
-                CvTemporaryZone zone;
-                zone.SetX(GetTargetPlot()->getX());
-                zone.SetY(GetTargetPlot()->getY());
-                zone.SetTargetType(AI_TACTICAL_TARGET_BARBARIAN_CAMP);
-                zone.SetLastTurn(GC.getGame().getGameTurn() + GC.getAI_TACTICAL_MAP_TEMP_ZONE_TURNS());
-                GET_PLAYER(m_eOwner).GetTacticalAI()->AddTemporaryZone(zone);
+        case .movingToTarget:
 
-                m_eCurrentState = AI_OPERATION_STATE_SUCCESSFUL_FINISH;
+            if army.position.distance(to: army.goal) <= 1 {
+                
+                // Notify tactical AI to focus on this area
+                let zone = TacticalAI.TemporaryZone(location: self.targetPosition!, lastTurn: gameModel.currentTurn + 5 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */, targetType: .barbarianCamp, navalMission: false)
+
+                self.player?.tacticalAI?.add(temporaryZone: zone)
+
+                self.state = .successful
             }
-        }
-        break;
 
         // In all other cases use base class version
-        case AI_OPERATION_STATE_ABORTED:
-        case AI_OPERATION_STATE_RECRUITING_UNITS:
-        case AI_OPERATION_STATE_AT_TARGET:
-            return CvAIOperation::ArmyInPosition(pArmy);
-            break;
-        };
+        case .aborted(reason: _), .recruitingUnits, .atTarget:
+            return super.armyInPosition(in: gameModel)
+            
+        default:
+            // NOOP
+        break
+        }
 
         return stateChanged
     }
@@ -112,144 +114,139 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
     /// Returns true when we should abort the operation totally (besides when we have lost all units in it)
     override func shouldAbort(in gameModel: GameModel?) -> Bool {
 
-        CvString strMsg;
-
+        guard let gameModel = gameModel,
+              let targetPosition = self.targetPosition,
+              let targetPlot = gameModel.tile(at: targetPosition),
+              let player = self.player,
+              let army = self.army else {
+            fatalError("cant get basics")
+        }
+        
         // If parent says we're done, don't even check anything else
-        bool rtnValue = CvAIOperation::ShouldAbort();
+        var rtnValue = super.shouldAbort(in: gameModel)
 
-        if(!rtnValue)
-        {
+        if !rtnValue {
+            
             // See if our target camp is still there
-            if (!m_bCivilianRescue && GetTargetPlot()->getImprovementType() != GC.getBARBARIAN_CAMP_IMPROVEMENT())
-            {
+            if !self.civilianRescue && targetPlot.improvement() != .barbarianCamp {
                 // Success!  The camp is gone
-                if(GC.getLogging() && GC.getAILogging())
-                {
-                    strMsg.Format("Barbarian camp at (x=%d y=%d) no longer exists. Aborting", GetTargetPlot()->getX(), GetTargetPlot()->getY());
-                    LogOperationSpecialMessage(strMsg);
+                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                    print("Barbarian camp at \(targetPosition) no longer exists. Aborting")
                 }
-                return true;
-            }
-
-            else if (m_bCivilianRescue)
-            {
+                
+                return true
+            } else if self.civilianRescue {
+                
                 // is the unit rescued?
-                CvPlayerAI& BarbPlayer = GET_PLAYER(BARBARIAN_PLAYER);
-                CvUnit* pUnitToRescue = BarbPlayer.getUnit(m_iUnitToRescue);
-                if (!pUnitToRescue)
-                {
-                    if (GC.getLogging() && GC.getAILogging())
-                    {
-                        strMsg.Format ("Civilian can no longer be rescued from barbarians. Aborting");
-                        LogOperationSpecialMessage(strMsg);
+                if self.unitToRescue == nil || self.unitToRescue!.isDelayedDeath() {
+                    
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        print("Civilian can no longer be rescued from barbarians. Aborting");
                     }
-                    return true;
-                }
-                else
-                {
-                    if (pUnitToRescue->GetOriginalOwner() != m_eOwner || (pUnitToRescue->AI_getUnitAIType() != UNITAI_SETTLE && pUnitToRescue->AI_getUnitAIType() != UNITAI_WORKER))
-                    {
-                        if (GC.getLogging() && GC.getAILogging())
-                        {
-                            strMsg.Format ("Civilian can no longer be rescued from barbarians. Aborting");
-                            LogOperationSpecialMessage(strMsg);
+                    return true
+                } else {
+                    
+                    guard let unitToRescue = self.unitToRescue else {
+                        fatalError("cant get unitToRescue")
+                    }
+                    
+                    if unitToRescue.originalLeader != player.leader || (!unitToRescue.has(task: .settle) && !unitToRescue.has(task: .work)) {
+                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                            print("Civilian can no longer be rescued from barbarians. Aborting")
                         }
-                        return true;
+                        return true
                     }
                 }
-            }
-
-            else if(m_eCurrentState != AI_OPERATION_STATE_RECRUITING_UNITS)
-            {
+            } else if self.state != .recruitingUnits {
+                
                 // If down below strength of camp, abort
-                CvArmyAI* pThisArmy = GET_PLAYER(m_eOwner).getArmyAI(m_viArmyIDs[0]);
-                CvPlot* pTarget = GetTargetPlot();
-                UnitHandle pCampDefender = pTarget->getBestDefender(NO_PLAYER);
-                if(pCampDefender && pThisArmy->GetTotalPower() < pCampDefender->GetPower())
-                {
-                    if(GC.getLogging() && GC.getAILogging())
-                    {
-                        strMsg.Format("Barbarian camp stronger (%d) than our units (%d). Aborting", pCampDefender->GetPower(), pThisArmy->GetTotalPower());
-                        LogOperationSpecialMessage(strMsg);
+                let campDefender = gameModel.unit(at: targetPosition)
+                      
+                if campDefender != nil && army.totalPower() < campDefender!.power() {
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        print("Barbarian camp stronger (campDefender!.power()) than our units army.totalPower(). Aborting")
                     }
-                    return true;
+                    return true
                 }
             }
         }
 
-        return rtnValue;
+        return rtnValue
     }
 
     /// Find the barbarian camp we want to eliminate
     override func findBestTarget(in gameModel: GameModel?) -> HexPoint? {
 
-        int iPlotLoop;
-        CvPlot* pBestPlot = NULL;
-        CvPlot* pPlot;
-        int iBestPlotDistance = MAX_INT;
-        int iCurPlotDistance;
+        guard let gameModel = gameModel,
+              let barbarianPlayer = gameModel.barbarianPlayer(),
+              let player = self.player else {
+            
+            fatalError("cant get basics")
+        }
+        
+        self.civilianRescue = false
+        
+        var bestDistance: Int = Int.max
+        var bestPlot: HexPoint? = nil
 
-        m_bCivilianRescue = false;
-
-        TeamTypes eTeam = GET_PLAYER(m_eOwner).getTeam();
-        ImprovementTypes eBarbCamp = (ImprovementTypes) GC.getBARBARIAN_CAMP_IMPROVEMENT();
-
-        CvCity* pStartCity;
-        pStartCity = GetOperationStartCity();
-        if(pStartCity != NULL)
-        {
+        if let startCity = self.operationStartCity(in: gameModel) {
 
             // look for good captured civilians of ours (settlers and workers, not missionaries)
             // these will be even more important than just a camp
             // btw - the AI will cheat here - as a human I would use a combination of memory and intuition to find these, since our current AI has neither of these...
-            CvPlayerAI& BarbPlayer = GET_PLAYER(BARBARIAN_PLAYER);
-
-            CvUnit* pLoopUnit = NULL;
-            int iLoop;
-            for (pLoopUnit = BarbPlayer.firstUnit(&iLoop); pLoopUnit != NULL; pLoopUnit = BarbPlayer.nextUnit(&iLoop))
-            {
-                if (pLoopUnit->GetOriginalOwner() == m_eOwner && (pLoopUnit->AI_getUnitAIType() == UNITAI_SETTLE || pLoopUnit->AI_getUnitAIType() == UNITAI_WORKER || pLoopUnit->AI_getUnitAIType() == UNITAI_ARCHAEOLOGIST))
-                {
-                    iCurPlotDistance = GC.getStepFinder().GetStepDistanceBetweenPoints(m_eOwner, m_eEnemy, pLoopUnit->plot(), pStartCity->plot());
-                    if (iCurPlotDistance < iBestPlotDistance)
-                    {
-                        pBestPlot = pLoopUnit->plot();
-                        iBestPlotDistance = iCurPlotDistance;
-                        m_bCivilianRescue = true;
-                        m_iUnitToRescue = pLoopUnit->GetID();
+            
+            let pathFinder = AStarPathfinder()
+            pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self.player)
+            
+            for loopUnitRef in gameModel.units(of: barbarianPlayer) {
+                
+                guard let loopUnit = loopUnitRef else {
+                    continue
+                }
+                
+                if loopUnit.originalLeader == player.leader && (loopUnit.has(task: .settle) || loopUnit.has(task: .work)/* || loopUnit.has(task: .archaeologist)*/) {
+                    
+                    let distance: Int = pathFinder.shortestPath(fromTileCoord: loopUnit.location, toTileCoord: startCity.location)?.count ?? Int.max
+                    
+                    if distance < bestDistance {
+                        
+                        bestDistance = distance
+                        bestPlot = loopUnit.location
+                        self.civilianRescue = true
+                        self.unitToRescue = loopUnitRef
                     }
                 }
             }
 
-            if (!pBestPlot)
-            {
+            // no unit to capture - check for camps
+            if bestPlot == nil {
+                
+                let mapSize = gameModel.mapSize()
+                
                 // Look at map for Barbarian camps
-                for (iPlotLoop = 0; iPlotLoop < GC.getMap().numPlots(); iPlotLoop++)
-                {
-                    pPlot = GC.getMap().plotByIndexUnchecked(iPlotLoop);
-
-                    if (pPlot->isRevealed(eTeam))
-                    {
-                        if (pPlot->getRevealedImprovementType(eTeam) == eBarbCamp)
-                        {
-                            // Make sure camp is in the same area as our start city
-                            //if (pPlot->getArea() == pStartCity->getArea())
-                            {
-                                iCurPlotDistance = GC.getStepFinder().GetStepDistanceBetweenPoints(m_eOwner, m_eEnemy, pPlot, pStartCity->plot());
-
-                                if (iCurPlotDistance < iBestPlotDistance)
-                                {
-                                    pBestPlot = pPlot;
-                                    iBestPlotDistance = iCurPlotDistance;
+                for x in 0..<mapSize.width() {
+                    for y in 0..<mapSize.height() {
+                        
+                        if let tile = gameModel.tile(x: x, y: y) {
+                            
+                            if tile.isDiscovered(by: player) {
+                                if tile.has(improvement: .barbarianCamp) {
+                                    
+                                    let distance: Int = pathFinder.shortestPath(fromTileCoord: tile.point, toTileCoord: startCity.location)?.count ?? Int.max
+                                    
+                                    if distance < bestDistance {
+                                        
+                                        bestDistance = distance
+                                        bestPlot = tile.point
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-
         }
 
-        return pBestPlot;
+        return bestPlot
     }
 }

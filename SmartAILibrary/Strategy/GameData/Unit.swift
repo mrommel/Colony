@@ -14,12 +14,14 @@ public protocol AbstractUnit: class, Codable {
     var type: UnitType { get }
     var player: AbstractPlayer? { get set }
     var leader: LeaderType { get } // for restore from file only
+    var originalLeader: LeaderType { get set }
     var origin: HexPoint { get set } // to get the city the unit was created in
     var task: UnitTaskType { get }
 
     func name() -> String
     func isBarbarian() -> Bool
     func isHuman() -> Bool
+    func isEnemy(of otherPlayer: AbstractPlayer?) -> Bool
     func unitClassType() -> UnitClassType
 
     func civilianAttackPriority() -> CivilianAttackPriorityType
@@ -226,6 +228,7 @@ public class Unit: AbstractUnit {
         case location
         case player
         case leader
+        case originalLeader
         case origin
         case promotions
         case task
@@ -262,6 +265,7 @@ public class Unit: AbstractUnit {
     private var facingDirection: HexDirection = .south
     public var player: AbstractPlayer?
     private(set) public var leader: LeaderType // for restoring from file
+    public var originalLeader: LeaderType
     public var origin: HexPoint
     internal var promotions: AbstractPromotions?
     public var task: UnitTaskType
@@ -309,6 +313,7 @@ public class Unit: AbstractUnit {
         self.location = location
         self.player = owner
         self.leader = owner!.leader
+        self.originalLeader = owner!.leader
         self.task = type.defaultTask()
         self.origin = location
 
@@ -335,6 +340,7 @@ public class Unit: AbstractUnit {
         self.type = try container.decode(UnitType.self, forKey: .type)
         self.location = try container.decode(HexPoint.self, forKey: .location)
         self.leader = try container.decode(LeaderType.self, forKey: .leader)
+        self.originalLeader = try container.decode(LeaderType.self, forKey: .originalLeader)
         self.promotions = try container.decode(Promotions.self, forKey: .promotions)
         self.task = try container.decode(UnitTaskType.self, forKey: .task)
         self.deathDelay = try container.decode(Bool.self, forKey: .deathDelay)
@@ -374,6 +380,7 @@ public class Unit: AbstractUnit {
         try container.encode(self.type, forKey: .type)
         try container.encode(self.location, forKey: .location)
         try container.encode(self.player!.leader, forKey: .leader)
+        try container.encode(self.originalLeader, forKey: .originalLeader)
         let promotionsWrapper = self.promotions as? Promotions
         try container.encode(promotionsWrapper, forKey: .promotions)
         try container.encode(self.task, forKey: .task)
@@ -419,11 +426,26 @@ public class Unit: AbstractUnit {
     
     public func isHuman() -> Bool {
        
-        guard let player  = self.player else {
+        guard let player = self.player else {
             fatalError("cant get player")
         }
         
         return player.isHuman()
+    }
+    
+    public func isEnemy(of otherPlayer: AbstractPlayer?) -> Bool {
+        
+        guard let player = self.player,
+              let otherPlayer = otherPlayer else {
+            fatalError("cant get player")
+        }
+        
+        // barbarians are always enemies
+        if player.isBarbarian() || otherPlayer.isBarbarian() {
+            return true
+        }
+        
+        return player.isAtWar(with: otherPlayer)
     }
 
     public func unitClassType() -> UnitClassType {

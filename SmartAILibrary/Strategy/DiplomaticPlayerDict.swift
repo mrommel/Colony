@@ -76,6 +76,7 @@ class DiplomaticPlayerDict: Codable {
             case turnOfLastMeeting
             case numTurnsLockedIntoWar
             case wantPeaceCounter
+            case musteringForAttack
             
             // coop
             case coopAgreements
@@ -137,6 +138,7 @@ class DiplomaticPlayerDict: Codable {
         var turnOfLastMeeting: Int
         var numTurnsLockedIntoWar: Int
         var wantPeaceCounter: Int
+        var musteringForAttack: Bool
         
         // coop
         var coopAgreements: DiplomaticPlayerArray<CoopWarState>
@@ -198,6 +200,7 @@ class DiplomaticPlayerDict: Codable {
             self.turnOfLastMeeting = -1
             self.numTurnsLockedIntoWar = 0
             self.wantPeaceCounter = 0
+            self.musteringForAttack = false
             
             // agreements
             self.coopAgreements = DiplomaticPlayerArray<CoopWarState>()
@@ -262,6 +265,7 @@ class DiplomaticPlayerDict: Codable {
             self.turnOfLastMeeting = try container.decode(Int.self, forKey: .turnOfLastMeeting)
             self.numTurnsLockedIntoWar = try container.decode(Int.self, forKey: .numTurnsLockedIntoWar)
             self.wantPeaceCounter = try container.decode(Int.self, forKey: .wantPeaceCounter)
+            self.musteringForAttack = try container.decode(Bool.self, forKey: .musteringForAttack)
             
             // agreements
             self.coopAgreements = try container.decode(DiplomaticPlayerArray<CoopWarState>.self, forKey: .coopAgreements)
@@ -326,6 +330,7 @@ class DiplomaticPlayerDict: Codable {
             try container.encode(self.turnOfLastMeeting, forKey: .turnOfLastMeeting)
             try container.encode(self.numTurnsLockedIntoWar, forKey: .numTurnsLockedIntoWar)
             try container.encode(self.wantPeaceCounter, forKey: .wantPeaceCounter)
+            try container.encode(self.musteringForAttack, forKey: .musteringForAttack)
             
             try container.encode(self.coopAgreements, forKey: .coopAgreements)
             try container.encode(self.workingAgainstAgreements, forKey: .workingAgainstAgreements)
@@ -1212,6 +1217,27 @@ class DiplomaticPlayerDict: Codable {
         
         if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
             item.wantPeaceCounter = value
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    // MARK: mustering for attack
+    
+    func isMusteringForAttack(against otherPlayer: AbstractPlayer?) -> Bool {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            return item.musteringForAttack
+        } else {
+            fatalError("not gonna happen")
+        }
+    }
+    
+    /// Sets whether or not we're building up for an attack on ePlayer
+    func updateMusteringForAttack(against otherPlayer: AbstractPlayer?, to value: Bool) {
+        
+        if let item = self.items.first(where: { $0.leader == otherPlayer?.leader }) {
+            item.musteringForAttack = value
         } else {
             fatalError("not gonna happen")
         }

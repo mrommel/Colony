@@ -37,13 +37,18 @@ enum UnitFormationType: Int, Codable {
     case navalSquadron // MUFORMATION_NAVAL_SQUADRON
     case navalInvasion // MUFORMATION_NAVAL_INVASION
     case navalEscort // MUFORMATION_NAVAL_ESCORT
+    case navalBombardment // MUFORMATION_NAVAL_BOMBARDMENT
+    case navalCityAttack // MUFORMATION_PURE_NAVAL_CITY_ATTACK
     case antiBarbarianTeam // MUFORMATION_ANTI_BARBARIAN_TEAM
     case biggerCityAttackForce // MUFORMATION_BIGGER_CITY_ATTACK_FORCE
     case colonizationParty // MUFORMATION_COLONIZATION_PARTY
     case quickColonySettler // MUFORMATION_QUICK_COLONY_SETTLER
     case closeCityDefense // MUFORMATION_CLOSE_CITY_DEFENSE
     case rapidResponseForce // MUFORMATION_RAPID_RESPONSE_FORCE
+    case earlyRush // MUFORMATION_EARLY_RUSH
 
+    // https://civilization.fandom.com/wiki/Module:Data/Civ5/BNW/MultiUnitFormation_Values
+    // https://github.com/LoneGazebo/Community-Patch-DLL/blob/3783d7f1f870984ebdbfaa486eca181335151322/Community%20Patch/Core%20Files/Core%20Values/New_CIV5MultiUnitFormations.xml
     func slots() -> [UnitFormationSlot] {
 
         switch self {
@@ -109,6 +114,23 @@ enum UnitFormationType: Int, Codable {
                 UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
                 UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: false),
             ]
+        case .navalBombardment: return [
+                UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .ranged, position: .bombard, required: false),
+                UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .ranged, position: .bombard, required: false),
+                // FIXME admiral
+            ]
+        case .navalCityAttack: return [
+                UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .cityBombard /*assauld*/, secondaryUnitTask: .reserveSea, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .cityBombard /*assauld*/, secondaryUnitTask: .reserveSea, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .cityBombard /*assauld*/, secondaryUnitTask: .reserveSea, position: .bombard, required: false),
+                //UnitFormationSlot(primaryUnitTask: .carrierSea, secondaryUnitTask: .reserveSea, position: .bombard, required: false),
+                UnitFormationSlot(primaryUnitTask: .attackSea, secondaryUnitTask: .reserveSea, position: .frontline, required: true),
+                // FIXME admiral
+            ]
         case .antiBarbarianTeam: return [
                 UnitFormationSlot(primaryUnitTask: .fastAttack, secondaryUnitTask: .defense, position: .frontline, required: true),
                 UnitFormationSlot(primaryUnitTask: .fastAttack, secondaryUnitTask: .defense, position: .frontline, required: true),
@@ -155,6 +177,17 @@ enum UnitFormationType: Int, Codable {
                 UnitFormationSlot(primaryUnitTask: .fastAttack, secondaryUnitTask: .defense, position: .frontline, required: true),
                 UnitFormationSlot(primaryUnitTask: .ranged, secondaryUnitTask: .defense, position: .bombard, required: false),
                 UnitFormationSlot(primaryUnitTask: .fastAttack, secondaryUnitTask: .defense, position: .frontline, required: false)
+            ]
+
+        case .earlyRush: return [
+                UnitFormationSlot(primaryUnitTask: .attack, secondaryUnitTask: .fastAttack, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .counter, secondaryUnitTask: .defense, position: .frontline, required: true),
+                UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .cityBombard, secondaryUnitTask: .ranged, position: .bombard, required: true),
+                UnitFormationSlot(primaryUnitTask: .ranged, secondaryUnitTask: .cityBombard, position: .bombard, required: false),
+                UnitFormationSlot(primaryUnitTask: .ranged, secondaryUnitTask: .cityBombard, position: .bombard, required: false),
+                UnitFormationSlot(primaryUnitTask: .general, secondaryUnitTask: .general, position: .civilianSupport, required: false),
+                UnitFormationSlot(primaryUnitTask: .citySpecial, secondaryUnitTask: .citySpecial, position: .civilianSupport, required: false),
             ]
         }
     }

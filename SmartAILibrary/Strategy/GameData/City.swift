@@ -175,6 +175,7 @@ public protocol AbstractCity: class, Codable {
     func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Double
     func buyPlotScore(in gameModel: GameModel?) -> (Int, HexPoint)
     func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int)
+    func countNumImprovedPlots(in gameModel: GameModel?) -> Int
     
     func isProductionAutomated() -> Bool
     func setProductionAutomated(to newValue: Bool, clear: Bool, in gameModel: GameModel?)
@@ -3393,6 +3394,29 @@ public class City: AbstractCity {
         }
         
         return Int(self.numPlotsAcquiredList.weight(of: otherPlayer.leader))
+    }
+    
+    public func countNumImprovedPlots(in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel,
+              let cityCitizens = self.cityCitizens,
+              let player = self.player else {
+            
+            fatalError("cant get basics")
+        }
+        
+        var result = 0
+        
+        for point in cityCitizens.workingTileLocations() {
+            
+            if let tile = gameModel.tile(at: point) {
+                if tile.hasAnyImprovement() && player.isEqual(to: tile.owner()) {
+                    result += 1
+                }
+            }
+        }
+        
+        return result
     }
     
     //    --------------------------------------------------------------------------------

@@ -1751,6 +1751,100 @@ public class MilitaryAI: Codable {
 
         return highestThreatendCity
     }
+    
+    /// Find the port operation operations against this enemy should leave from
+    func nearestCoastalCity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> AbstractCity? {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no game model given")
+        }
+        
+        guard let player = self.player else {
+            fatalError("no player given")
+        }
+        
+        guard let otherPlayer = otherPlayer else {
+            fatalError("no otherPlayer given")
+        }
+        
+        var bestCoastalCity: AbstractCity? = nil
+        var bestDistance: Int = Int.max
+        
+        for loopCityRef in gameModel.cities(of: player) {
+            
+            guard let loopCity = loopCityRef else {
+                continue
+            }
+            
+            if gameModel.isCoastal(at: loopCity.location) {
+                
+                for enemyCityRef in gameModel.cities(of: otherPlayer) {
+                    
+                    guard let enemyCity = enemyCityRef,
+                          let enemyCityTile = gameModel.tile(at: enemyCity.location) else {
+                        continue
+                    }
+                    
+                    // Check all revealed enemy cities
+                    if gameModel.isCoastal(at: enemyCity.location) && enemyCityTile.isDiscovered(by: player) {
+                        
+                        // On same body of water?
+                        // if(OnSameBodyOfWater(pLoopCity, pEnemyCity)) {
+                        let distance = enemyCity.location.distance(to: loopCity.location)
+                        
+                        if distance < bestDistance {
+                            bestDistance = distance
+                            bestCoastalCity = loopCity
+                        }
+                        // }
+                    }
+                }
+            }
+        }
+        
+        return bestCoastalCity
+    }
+    
+    func waterTileAdjacent(to target: HexPoint, for unit: AbstractUnit?, in gameModel: GameModel?) -> AbstractTile? {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no game model given")
+        }
+        
+        var bestDistance = Int.max
+        var coastalPlot: AbstractTile? = nil
+        
+        let pathFinder = AStarPathfinder()
+        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: self.player)
+        
+        // Find a coastal water tile adjacent to enemy city
+        for adjacentPoint in target.neighbors() {
+            
+            guard let adjacentPlot = gameModel.tile(at: adjacentPoint) else {
+                continue
+            }
+            
+            if adjacentPlot.terrain() == .shore {
+                
+                if let unit = unit {
+                    if pathFinder.turnsToReachTarget(for: unit, to: adjacentPoint) < Int.max {
+                     
+                        let distance = unit.location.distance(to: adjacentPoint)
+                    
+                        if distance < bestDistance {
+                        
+                            bestDistance = distance
+                            coastalPlot = adjacentPlot
+                        }
+                    }
+                } else {
+                    return adjacentPlot
+                }
+            }
+        }
+        
+        return coastalPlot
+    }
 }
 
 class MilitaryAIHelpers {

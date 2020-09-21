@@ -11,13 +11,18 @@ import Foundation
 /// Base class for operations that require a naval escort for land units
 class NavalEscortedOperation: Operation {
     
-    let civilianType: UnitTaskType
+    var civilianType: UnitTaskType
     
-    init() {
+    convenience init() {
+        
+        self.init(type: .colonize) // ???
+    }
+    
+    override init(type: UnitOperationType) {
 
         self.civilianType = .settle
 
-        super.init(type: .colonize) // ???
+        super.init(type: type)
     }
     
     public required init(from decoder: Decoder) throws {
@@ -273,6 +278,11 @@ class NavalEscortedOperation: Operation {
         self.army?.state = .movingToDestination
         self.state = .movingToTarget
 
+        return true
+    }
+    
+    override func isCivilianRequired() -> Bool {
+        
         return true
     }
 }
