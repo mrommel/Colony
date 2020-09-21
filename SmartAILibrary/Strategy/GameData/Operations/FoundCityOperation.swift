@@ -236,7 +236,7 @@ class FoundCityOperation: EscortedOperation {
     }
 
     /// Find the plot where we want to settle
-    func findBestTarget(for unit: AbstractUnit?, onlySafePaths: Bool, in gameModel: GameModel?) -> AbstractTile? {
+    override func findBestTarget(for unit: AbstractUnit?, onlySafePaths: Bool = true, in gameModel: GameModel?) -> AbstractTile? {
 
         guard let unit = unit else {
             fatalError("cant get unit")

@@ -142,7 +142,7 @@ class NavalAttackOperation: NavalEscortedOperation {
     }
 
     /// Find the city we want to attack
-    override func findBestTarget(for unit: AbstractUnit?, in gameModel: GameModel?) -> AbstractTile? {
+    override func findBestTarget(for unit: AbstractUnit?, onlySafePaths: Bool, in gameModel: GameModel?) -> AbstractTile? {
         
         fatalError("Obsolete function called CvAIOperationNavalAttack::FindBestTarget()")
     }

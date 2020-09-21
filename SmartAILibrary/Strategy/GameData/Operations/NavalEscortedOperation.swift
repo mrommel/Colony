@@ -251,7 +251,7 @@ class NavalEscortedOperation: Operation {
     }
 
     /// Find the plot where we want to settle
-    func findBestTarget(for unit: AbstractUnit?, in gameModel: GameModel?) -> AbstractTile? {
+    func findBestTarget(for unit: AbstractUnit?, onlySafePaths: Bool = true, in gameModel: GameModel?) -> AbstractTile? {
     
         return self.player?.bestSettlePlot(for: unit, in: gameModel, escorted: true, area: nil)
     }

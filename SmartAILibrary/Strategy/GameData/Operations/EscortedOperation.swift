@@ -36,7 +36,7 @@ class EscortedOperation: Operation {
         if let civilian = self.findBestCivilian(in: gameModel) {
 
             // Find a destination (not worrying about safe paths)
-            if let targetSite = findBestTarget(for: civilian, in: gameModel) {
+            if let targetSite = self.findBestTarget(for: civilian, in: gameModel) {
 
                 self.updateTarget(to: targetSite)
 
@@ -69,7 +69,7 @@ class EscortedOperation: Operation {
         fatalError("must be overridden")
     }
 
-    func findBestTarget(for unit: AbstractUnit?, in gameModel: GameModel?) -> AbstractTile? {
+    func findBestTarget(for unit: AbstractUnit?, onlySafePaths: Bool = true, in gameModel: GameModel?) -> AbstractTile? {
 
         fatalError("need to be overriden")
     }

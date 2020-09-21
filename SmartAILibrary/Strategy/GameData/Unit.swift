@@ -1687,7 +1687,7 @@ public class Unit: AbstractUnit {
             load();
         }*/
 
-        // Can someone can see the plot we moved our Unit into?
+        // Can someone see the plot we moved our Unit into?
         for loopPlayer in gameModel.players {
 
             if player.isEqual(to: loopPlayer) {
