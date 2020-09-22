@@ -907,7 +907,7 @@ public class GameModel: Codable {
         }
 
         // pyramids
-        if player.has(wonder: .pyramids, in: self) {
+        if player.has(wonder: .pyramids, in: self) && unit?.type == .builder {
             unit?.changeBuildCharges(change: 1)
         }
 

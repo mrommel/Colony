@@ -166,6 +166,7 @@
 		C98DBFB623E0BF9000B6CE25 /* CivicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB523E0BF9000B6CE25 /* CivicType.swift */; };
 		C98DBFB823E0D86000B6CE25 /* TechTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB723E0D86000B6CE25 /* TechTests.swift */; };
 		C98DBFBA23E0D8C700B6CE25 /* Techs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB923E0D8C700B6CE25 /* Techs.swift */; };
+		C99496932519E4300049C2D6 /* BasicCityAttackOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99496922519E4300049C2D6 /* BasicCityAttackOperationTests.swift */; };
 		C9956853247E90B00005E9EA /* Eurekas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9956852247E90AF0005E9EA /* Eurekas.swift */; };
 		C997902B25133377003E52C9 /* CityCloseDefenseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997902A25133377003E52C9 /* CityCloseDefenseOperation.swift */; };
 		C997905B2513F822003E52C9 /* EnemyTerritoryOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997905A2513F822003E52C9 /* EnemyTerritoryOperation.swift */; };
@@ -456,6 +457,7 @@
 		C98DBFB523E0BF9000B6CE25 /* CivicType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicType.swift; sourceTree = "<group>"; };
 		C98DBFB723E0D86000B6CE25 /* TechTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechTests.swift; sourceTree = "<group>"; };
 		C98DBFB923E0D8C700B6CE25 /* Techs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Techs.swift; sourceTree = "<group>"; };
+		C99496922519E4300049C2D6 /* BasicCityAttackOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicCityAttackOperationTests.swift; sourceTree = "<group>"; };
 		C9956852247E90AF0005E9EA /* Eurekas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eurekas.swift; sourceTree = "<group>"; };
 		C997902A25133377003E52C9 /* CityCloseDefenseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCloseDefenseOperation.swift; sourceTree = "<group>"; };
 		C997905A2513F822003E52C9 /* EnemyTerritoryOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyTerritoryOperation.swift; sourceTree = "<group>"; };
@@ -787,6 +789,7 @@
 				C9B1D2A2243612FF00033791 /* Maps */,
 				C907085B23ED45C200281161 /* Helpers */,
 				C90FA34F24C229C800733331 /* Resources */,
+				C99496912519E41E0049C2D6 /* OperationTests */,
 				C90D2E2E24C317980029AA11 /* AssetExtractionTests.swift */,
 				C92317A523D62A6B001FC723 /* FiniteStateMachineTests.swift */,
 				C92317BC23D6EAB5001FC723 /* HierarchicalStateMachineTests.swift */,
@@ -996,6 +999,14 @@
 				C956BF6324F10BAF009702B4 /* CombatModifier.swift */,
 			);
 			path = GameData;
+			sourceTree = "<group>";
+		};
+		C99496912519E41E0049C2D6 /* OperationTests */ = {
+			isa = PBXGroup;
+			children = (
+				C99496922519E4300049C2D6 /* BasicCityAttackOperationTests.swift */,
+			);
+			path = OperationTests;
 			sourceTree = "<group>";
 		};
 		C9A0573F24293EA200D0FEAB /* City */ = {
@@ -1456,6 +1467,7 @@
 				C92D220923E1DC3300BB9238 /* PlayerTechTests.swift in Sources */,
 				C92317BD23D6EAB5001FC723 /* HierarchicalStateMachineTests.swift in Sources */,
 				C956BF6A24F3C7B9009702B4 /* TradeRouteTests.swift in Sources */,
+				C99496932519E4300049C2D6 /* BasicCityAttackOperationTests.swift in Sources */,
 				C9FEEB9C245B5C2E00C51552 /* CityCitizensTests.swift in Sources */,
 				C9DFCF7A23F2AFB10032243D /* MapModelTests.swift in Sources */,
 				C92D221523E2118400BB9238 /* GovernmentTypeTests.swift in Sources */,

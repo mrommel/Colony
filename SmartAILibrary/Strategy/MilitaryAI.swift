@@ -836,6 +836,8 @@ public class MilitaryAI: Codable {
                 let formation: UnitFormationType = gameModel.handicap > HandicapType.prince ? .biggerCityAttackForce : .basicCityAttackForce
                 filledSlots = MilitaryAIHelpers.numberOfFillableSlots(for: self.player, formation: formation, requiresNavalMoves: false, numberSlotsRequired: &numRequiredSlots, numberLandReservesUsed: &landReservesUsed, in: gameModel)
                 
+                error: self.landReservesAvailable() negativ 
+                
                 if (numRequiredSlots - filledSlots) <= numUnitsWillingToBuild && landReservesUsed <= self.landReservesAvailable() {
                     
                     operationRef = player.addOperation(of: .basicCityAttack, towards: target.targetCity!.player, target: target.targetCity, in: gameModel.area(of: target.targetCity!.location), muster: target.musterCity, in: gameModel)
@@ -979,7 +981,7 @@ public class MilitaryAI: Codable {
         // Build a list of all the possible start city/target city pairs
         //static CvWeightedVector<CvMilitaryTarget, SAFE_ESTIMATE_NUM_CITIES* 10, true> prelimWeightedTargetList;
         //prelimWeightedTargetList.clear();
-        var prelimWeightedTargetList: WeightedList<MilitaryTarget> = WeightedList<MilitaryTarget>()
+        let prelimWeightedTargetList: WeightedList<MilitaryTarget> = WeightedList<MilitaryTarget>()
         
         for friendlyCityRef in gameModel.cities(of: player) {
             
@@ -1155,6 +1157,9 @@ public class MilitaryAI: Codable {
                 }
             }*/
         } else {
+            
+            pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: player)
+            
             // Can't embark yet
             if !pathFinder.doesPathExist(fromTileCoord: target.musterCity!.location, toTileCoord: target.targetCity!.location) {
                 targetRef?.pathLength = -1  // Call off attack, no path
