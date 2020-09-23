@@ -668,7 +668,7 @@ public enum UnitType: Int, Codable {
         case .trader: return .trade
             
         case .scout: return .explore
-        case .warrior: return .explore
+        case .warrior: return .defense
         case .slinger: return .ranged
         case .archer: return .ranged
         case .spearman: return .defense

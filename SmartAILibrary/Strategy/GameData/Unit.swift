@@ -16,7 +16,6 @@ public protocol AbstractUnit: class, Codable {
     var leader: LeaderType { get } // for restore from file only
     var originalLeader: LeaderType { get set }
     var origin: HexPoint { get set } // to get the city the unit was created in
-    var task: UnitTaskType { get }
 
     func name() -> String
     func isBarbarian() -> Bool
@@ -32,6 +31,8 @@ public protocol AbstractUnit: class, Codable {
     func hasSameType(as otherUnit: AbstractUnit?) -> Bool
     func isOf(unitClass: UnitClassType) -> Bool
     func has(task: UnitTaskType) -> Bool
+    func task() -> UnitTaskType
+    func set(task: UnitTaskType)
     func domain() -> UnitDomainType
 
     func canMove() -> Bool
@@ -268,7 +269,7 @@ public class Unit: AbstractUnit {
     public var originalLeader: LeaderType
     public var origin: HexPoint
     internal var promotions: AbstractPromotions?
-    public var task: UnitTaskType
+    private var taskValue: UnitTaskType
     private var deathDelay: Bool = false
 
     private var armyRef: Army?
@@ -314,7 +315,7 @@ public class Unit: AbstractUnit {
         self.player = owner
         self.leader = owner!.leader
         self.originalLeader = owner!.leader
-        self.task = type.defaultTask()
+        self.taskValue = type.defaultTask()
         self.origin = location
 
         self.healthPointsValue = Int(Unit.maxHealth)
@@ -342,7 +343,7 @@ public class Unit: AbstractUnit {
         self.leader = try container.decode(LeaderType.self, forKey: .leader)
         self.originalLeader = try container.decode(LeaderType.self, forKey: .originalLeader)
         self.promotions = try container.decode(Promotions.self, forKey: .promotions)
-        self.task = try container.decode(UnitTaskType.self, forKey: .task)
+        self.taskValue = try container.decode(UnitTaskType.self, forKey: .task)
         self.deathDelay = try container.decode(Bool.self, forKey: .deathDelay)
         self.origin = try container.decode(HexPoint.self, forKey: .origin)
 
@@ -383,7 +384,7 @@ public class Unit: AbstractUnit {
         try container.encode(self.originalLeader, forKey: .originalLeader)
         let promotionsWrapper = self.promotions as? Promotions
         try container.encode(promotionsWrapper, forKey: .promotions)
-        try container.encode(self.task, forKey: .task)
+        try container.encode(self.taskValue, forKey: .task)
         try container.encode(self.deathDelay, forKey: .deathDelay)
         try container.encode(self.origin, forKey: .origin)
 
@@ -2527,6 +2528,19 @@ public class Unit: AbstractUnit {
     public func has(task: UnitTaskType) -> Bool {
 
         return self.type.unitTasks().contains(task)
+    }
+    
+    public func task() -> UnitTaskType {
+        
+        return self.taskValue
+    }
+    public func set(task: UnitTaskType) {
+        
+        guard self.has(task: task) else {
+            fatalError("cannot assign task '\(task)' to current unit \(self.type)")
+        }
+        
+        self.taskValue = task
     }
 
     public func domain() -> UnitDomainType {

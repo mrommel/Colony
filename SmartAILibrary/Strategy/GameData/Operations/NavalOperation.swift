@@ -182,7 +182,7 @@ class NavalOperation: EnemyTerritoryOperation {
                 continue
             }
             
-            if !loopUnit.has(task: .exploreSea) && loopUnit.has(task: .attackSea) && loopUnit.army() == nil {
+            if loopUnit.task() != .exploreSea && loopUnit.task() == .attackSea && loopUnit.army() == nil {
                 return loopUnitRef
             }
         }

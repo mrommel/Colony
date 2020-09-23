@@ -414,7 +414,7 @@ public class EconomicAI: Codable {
 
         // RECON ON OUR HOME CONTINENT
 
-        let iNumExploringUnits = gameModel.units(of: player).count(where: { $0!.has(task: .explore) }) + self.explorersDisbandedValue
+        let iNumExploringUnits = gameModel.units(of: player).count(where: { $0!.task() == .explore }) + self.explorersDisbandedValue
         var iStrategyWeight = 100.0
         var iWeightThreshold = 110 - player.personalAndGrandStrategyFlavor(for: .recon) * 10
 
@@ -457,7 +457,7 @@ public class EconomicAI: Codable {
 
         } else {
             // How many Units do we have exploring or being trained to do this job? The more Units we have the less we want this Strategy
-            let iNumExploringUnits = gameModel.units(of: player).count(where: { $0!.has(task: .exploreSea) })
+            let iNumExploringUnits = gameModel.units(of: player).count(where: { $0!.task() == .exploreSea })
             var iStrategyWeight = 100.0
             var iWeightThreshold = 110 - player.personalAndGrandStrategyFlavor(for: .navalRecon) * 10
 
@@ -633,7 +633,7 @@ public class EconomicAI: Codable {
                 continue
             }
 
-            if !unit.has(task: .explore) {
+            if unit.task() != .explore {
                 continue
             }
 

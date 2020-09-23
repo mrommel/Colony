@@ -215,7 +215,7 @@ class UnitFormationHelper {
             }
 
             // Don't count scouts
-            if unit.has(task: .explore) || unit.has(task: .exploreSea) {
+            if unit.task() == .explore || unit.task() == .exploreSea {
                 continue
             }
 
@@ -225,7 +225,7 @@ class UnitFormationHelper {
             }
 
             for var slot in slots {
-                if unit.has(task: slot.primaryUnitTask) || unit.has(task: slot.secondaryUnitTask) {
+                if unit.task() == slot.primaryUnitTask || unit.task() == slot.secondaryUnitTask {
                     slot.filled = true
 
                     willBeFilled += 1

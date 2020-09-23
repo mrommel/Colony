@@ -521,7 +521,7 @@ enum CityStrategyType: Int, Codable {
             }
         }
 
-        let numBuilders = gameModel.units(of: player).count(where: { $0!.has(task: .work) })
+        let numBuilders = gameModel.units(of: player).count(where: { $0!.task() == .work })
 
         let numCities = max(1, (currentNumCities * 3) / 4)
         if numBuilders >= numCities {
@@ -583,8 +583,8 @@ enum CityStrategyType: Int, Codable {
             }
         }
 
-        let numSettlers = gameModel.units(of: player).count(where: { $0!.has(task: .settle) })
-        let numBuilders = gameModel.units(of: player).count(where: { $0!.has(task: .work) })
+        let numSettlers = gameModel.units(of: player).count(where: { $0!.task() == .settle })
+        let numBuilders = gameModel.units(of: player).count(where: { $0!.task() == .work })
 
         let numCities = max(1, (currentNumCities * 3) / 4)
         if numBuilders >= numCities {
@@ -719,7 +719,7 @@ enum CityStrategyType: Int, Codable {
         }
         
         let numCities = gameModel.cities(of: player).count
-        let numSettlers = gameModel.units(of: player).count(where: { $0!.has(task: .settle) })
+        let numSettlers = gameModel.units(of: player).count(where: { $0!.task() == .settle })
         let numCitiesAndSettlers = numCities + numSettlers
         
         if numCitiesAndSettlers < 3 {

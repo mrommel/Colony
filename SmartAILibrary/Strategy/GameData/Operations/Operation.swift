@@ -341,10 +341,10 @@ public class Operation: Codable, Equatable {
             if let unit = unitRef {
 
                 // Make sure he's not needed by the tactical AI or already in an army or scouting
-                if unit.army() == nil && unit.has(task: .explore) && unit.has(task: .exploreSea) {
+                if unit.army() == nil && unit.task() != .explore && unit.task() != .exploreSea {
 
                     // Is this unit one of the requested types?
-                    if unit.has(task: slot.slot.primaryUnitTask) || unit.has(task: slot.slot.secondaryUnitTask) {
+                    if unit.task() == slot.slot.primaryUnitTask || unit.task() == slot.slot.secondaryUnitTask {
 
                         // Is his health okay?
                         if !unit.isCombatUnit() || unit.healthPoints() >= 75 /* AI_OPERATIONAL_PERCENT_HEALTH_FOR_OPERATION */ {

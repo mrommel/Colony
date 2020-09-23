@@ -251,7 +251,7 @@ public class HomelandAI {
             if let unit = unitRef {
                 
                 // Never want immobile/dead units or ones that have already moved
-                if !unit.processedInTurn() && !unit.isDelayedDeath() && unit.task != .unknown && unit.canMove() {
+                if !unit.processedInTurn() && !unit.isDelayedDeath() && unit.task() != .unknown && unit.canMove() {
                 
                     self.currentTurnUnits.append(unit)
                 }
@@ -279,7 +279,7 @@ public class HomelandAI {
                 continue
             }
             
-            if loopUnit.isAutomated() && !loopUnit.processedInTurn() && loopUnit.task != .unknown && loopUnit.canMove() {
+            if loopUnit.isAutomated() && !loopUnit.processedInTurn() && loopUnit.task() != .unknown && loopUnit.canMove() {
                 self.currentTurnUnits.append(loopUnit)
             }
         }
@@ -616,7 +616,7 @@ public class HomelandAI {
             
             if let currentTurnUnit = currentTurnUnitRef {
                 
-                if currentTurnUnit.has(task: .work) || (currentTurnUnit.isAutomated() && currentTurnUnit.domain() == .land && currentTurnUnit.automateType() == .build) {
+                if currentTurnUnit.task() == .work || (currentTurnUnit.isAutomated() && currentTurnUnit.domain() == .land && currentTurnUnit.automateType() == .build) {
                     
                     let homelandUnit = HomelandUnit(unit: currentTurnUnit)
                     self.currentMoveUnits.append(homelandUnit)
@@ -1050,7 +1050,7 @@ public class HomelandAI {
                     }
 
                     // Scouts aren't useful unless recon is entirely shut off
-                    if loopUnit.has(task: .explore) && economicAI.reconState() != .enough {
+                    if loopUnit.task() == .explore && economicAI.reconState() != .enough {
                         continue
                     }
 
@@ -1163,7 +1163,7 @@ public class HomelandAI {
             
             if let currentTurnUnit = currentTurnUnitRef {
                 
-                if currentTurnUnit.has(task: .explore) || (currentTurnUnit.isAutomated() && currentTurnUnit.domain() == .land && currentTurnUnit.automateType() == .explore) {
+                if currentTurnUnit.task() == .explore || (currentTurnUnit.isAutomated() && currentTurnUnit.domain() == .land && currentTurnUnit.automateType() == .explore) {
                     
                     let homelandUnit = HomelandUnit(unit: currentTurnUnit)
                     self.currentMoveUnits.append(homelandUnit)
@@ -1367,7 +1367,7 @@ public class HomelandAI {
                         self.unitProcessed(unit: unit)
                     } else {
                         // If this is a land explorer and there is no ignore unit path to a friendly city, then disband him
-                        if unit.has(task: .explore) {
+                        if unit.task() == .explore {
 
                             /*CvCity* pLoopCity;
                             int iLoop;*/
@@ -1390,7 +1390,7 @@ public class HomelandAI {
                                 unit.doKill(delayed: false, by: nil, in: gameModel)
                                 player.economicAI?.incrementExplorersDisbanded()
                             }
-                        } else if unit.has(task: .exploreSea) {
+                        } else if unit.task() == .exploreSea {
                             // NOOP
                         }
                     }

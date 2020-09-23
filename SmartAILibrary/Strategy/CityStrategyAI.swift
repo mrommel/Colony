@@ -432,7 +432,7 @@ public class CityStrategyAI: Codable {
         let unitsOfPlayer = gameModel.units(of: player)
         let buildables = BuildableItemWeights()
         
-        let settlerOnMap = unitsOfPlayer.count(where: { $0!.has(task: .settle) })
+        let settlerOnMap = unitsOfPlayer.count(where: { $0!.task() == .settle })
         
         // Check units for operations first
         // FIXME

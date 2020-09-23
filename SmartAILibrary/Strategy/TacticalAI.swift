@@ -625,7 +625,7 @@ public class TacticalAI: Codable {
             if let unit = unitRef {
                 
                 // Never want immobile/dead units, explorers, ones that have already moved
-                if unit.has(task: .explore) || !unit.canMove() {
+                if unit.task() == .explore || !unit.canMove() {
                     continue
                 } else if player.leader == .barbar {
                     // We want ALL the barbarians that are not guarding a camp
@@ -4179,7 +4179,7 @@ public class TacticalAI: Codable {
                 }
             }
 
-            if returnValue == false && unit.has(task: .settle) {
+            if returnValue == false && unit.task() == .settle {
 
                 if numCities < 5 {
                     returnValue = true
@@ -4205,9 +4205,9 @@ public class TacticalAI: Codable {
             //embarked civilians
             if unit.isEmbarked() && !unit.isCombatUnit() {
                 return true
-            } else if unit.has(task: .settle) && turn >= 50 {
+            } else if unit.task() == .settle && turn >= 50 {
                 return true
-            } else if unit.has(task: .work) && turn < 50 { //early game?
+            } else if unit.task() == .work && turn < 50 { //early game?
                 return true
             }
         }

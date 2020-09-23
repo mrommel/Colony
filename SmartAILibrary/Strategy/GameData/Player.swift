@@ -2538,7 +2538,7 @@ public class Player: AbstractPlayer {
                 continue
             }
             
-            if !loopUnit.processedInTurn() && (loopUnit.isAutomated() && loopUnit.task != .unknown && loopUnit.canMove()) {
+            if !loopUnit.processedInTurn() && (loopUnit.isAutomated() && loopUnit.task() != .unknown && loopUnit.canMove()) {
                 return true
             }
         }

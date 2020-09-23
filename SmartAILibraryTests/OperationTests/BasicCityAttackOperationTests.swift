@@ -35,22 +35,22 @@ class BasicCityAttackOperationTests: XCTestCase {
         let gameModel = GameModel(victoryTypes: [.domination],
                                   handicap: .chieftain,
                                   turnsElapsed: 0,
-                                  players: [playerTrajan, playerBarbarian, playerAlexander],
+                                  players: [playerBarbarian, playerTrajan, playerAlexander],
                                   on: mapModel)
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
         
         // build cities
-        let cityBerlin = City(name: "Berlin", at: HexPoint(x: 15, y: 8), capital: true, owner: playerAlexander)
+        let cityBerlin = City(name: "Berlin", at: HexPoint(x: 15, y: 8), capital: true, owner: playerTrajan)
         cityBerlin.initialize(in: gameModel)
         gameModel.add(city: cityBerlin)
         
-        let cityLeipzig = City(name: "Leipzig", at: HexPoint(x: 20, y: 24), capital: false, owner: playerAlexander)
+        let cityLeipzig = City(name: "Leipzig", at: HexPoint(x: 20, y: 24), capital: false, owner: playerTrajan)
         cityLeipzig.initialize(in: gameModel)
         gameModel.add(city: cityLeipzig)
         
-        let cityParis = City(name: "Paris", at: HexPoint(x: 35, y: 24), capital: false, owner: playerTrajan)
+        let cityParis = City(name: "Paris", at: HexPoint(x: 35, y: 24), capital: false, owner: playerAlexander)
         cityParis.initialize(in: gameModel)
         gameModel.add(city: cityParis)
         
@@ -60,14 +60,17 @@ class BasicCityAttackOperationTests: XCTestCase {
         XCTAssertEqual(gameModel.tile(at: HexPoint(x: 35, y: 24))?.isWater(), false)
         
         // initial units
-        let playerAlexanderWarrior = Unit(at: HexPoint(x: 20, y: 25), type: .warrior, owner: playerAlexander)
+        let playerTrajanWarrior = Unit(at: HexPoint(x: 20, y: 25), type: .warrior, owner: playerTrajan)
+        gameModel.add(unit: playerTrajanWarrior)
+        
+        let playerTrajanArcher = Unit(at: HexPoint(x: 20, y: 25), type: .archer, owner: playerTrajan)
+        gameModel.add(unit: playerTrajanArcher)
+        
+        let playerTrajanSettler = Unit(at: HexPoint(x: 21, y: 25), type: .settler, owner: playerTrajan)
+        gameModel.add(unit: playerTrajanSettler)
+        
+        let playerAlexanderWarrior = Unit(at: HexPoint(x: 35, y: 20), type: .warrior, owner: playerAlexander)
         gameModel.add(unit: playerAlexanderWarrior)
-        
-        let playerAlexanderSettler = Unit(at: HexPoint(x: 21, y: 25), type: .settler, owner: playerAlexander)
-        gameModel.add(unit: playerAlexanderSettler)
-        
-        let playerAugustusWarrior = Unit(at: HexPoint(x: 15, y: 16), type: .warrior, owner: playerTrajan)
-        gameModel.add(unit: playerAugustusWarrior)
         
         let playerBarbarianWarrior = Unit(at: HexPoint(x: 10, y: 7), type: .barbarianWarrior, owner: playerBarbarian)
         gameModel.add(unit: playerBarbarianWarrior)

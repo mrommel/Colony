@@ -739,7 +739,7 @@ public class MilitaryAI: Codable {
                         
                         // Not willing to build units to get this off the ground
                         if filledSlots >= numRequiredSlots /* && landReservesUsed <= self.andReservesAvailable() */ {
-                            self.requestPillageEnemy(towards: otherPlayer)
+                            self.requestPillageEnemy(towards: otherPlayer, in: gameModel)
                         }
                         
                     case .calm:
@@ -759,7 +759,7 @@ public class MilitaryAI: Codable {
                             
                             // Not willing to build units to get this off the ground
                             if filledSlots >= numRequiredSlots /* && landReservesUsed <= self.andReservesAvailable() */ {
-                                self.requestPillageEnemy(towards: otherPlayer)
+                                self.requestPillageEnemy(towards: otherPlayer, in: gameModel)
                             }   
                         }
                         
@@ -836,8 +836,6 @@ public class MilitaryAI: Codable {
                 let formation: UnitFormationType = gameModel.handicap > HandicapType.prince ? .biggerCityAttackForce : .basicCityAttackForce
                 filledSlots = MilitaryAIHelpers.numberOfFillableSlots(for: self.player, formation: formation, requiresNavalMoves: false, numberSlotsRequired: &numRequiredSlots, numberLandReservesUsed: &landReservesUsed, in: gameModel)
                 
-                error: self.landReservesAvailable() negativ 
-                
                 if (numRequiredSlots - filledSlots) <= numUnitsWillingToBuild && landReservesUsed <= self.landReservesAvailable() {
                     
                     operationRef = player.addOperation(of: .basicCityAttack, towards: target.targetCity!.player, target: target.targetCity, in: gameModel.area(of: target.targetCity!.location), muster: target.musterCity, in: gameModel)
@@ -870,6 +868,7 @@ public class MilitaryAI: Codable {
     
     func landReservesAvailable() -> Int {
         
+        // error: result negativ
         return self.baseData.numLandUnits - self.baseData.numLandUnitsInArmies - self.baseData.mandatoryReserveSize
     }
     
@@ -1375,9 +1374,23 @@ public class MilitaryAI: Codable {
     }
     
     /// Send an army to force concessions
-    func requestPillageEnemy(towards otherPlayer: AbstractPlayer?) {
+    func requestPillageEnemy(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
         
-        fatalError("requestPillageEnemy not implemented")
+        var numRequiredSlots = 0
+        var landReservesUsed = 0
+        let filledSlots = MilitaryAIHelpers.numberOfFillableSlots(for: self.player, formation: .fastPillagers, requiresNavalMoves: false, numberSlotsRequired: &numRequiredSlots, numberLandReservesUsed: &landReservesUsed, in: gameModel)
+            
+        if filledSlots >= numRequiredSlots && landReservesUsed <= self.landReservesAvailable() {
+            
+            if let operation = self.player?.addOperation(of: .pillageEnemy, towards: otherPlayer, target: nil, in: nil, in: gameModel) {
+                
+                if !operation.shouldAbort(in: gameModel) {
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 
     func landDefenseState() -> DefenseStateType {
@@ -1438,7 +1451,7 @@ public class MilitaryAI: Codable {
             }
 
             // Don't count exploration units
-            if unit.has(task: .explore) || unit.has(task: .exploreSea) {
+            if unit.task() == .explore || unit.task() == .exploreSea {
                 continue
             }
 
@@ -1486,7 +1499,7 @@ public class MilitaryAI: Codable {
 
         // 1 Unit per City & 1 per Settler
         iNumUnitsWanted += Double(gameModel.cities(of: player).count) * 1.0
-        iNumUnitsWanted += Double(gameModel.units(of: player).count(where: { $0!.has(task: .settle) })) * 1.0
+        iNumUnitsWanted += Double(gameModel.units(of: player).count(where: { $0!.task() == .settle })) * 1.0
 
         self.baseData.mandatoryReserveSize = Int(Double(iNumUnitsWanted) * multiplier)
 
@@ -1879,7 +1892,7 @@ class MilitaryAIHelpers {
             }
             
             // Don't count scouts
-            if !loopUnit.has(task: .explore) && !loopUnit.has(task: .exploreSea) {
+            if loopUnit.task() != .explore && loopUnit.task() != .exploreSea {
                 
                 // Don't count units that are damaged too heavily
                 if loopUnit.healthPoints() < loopUnit.maxHealthPoints() * 80 /* AI_OPERATIONAL_PERCENT_HEALTH_FOR_OPERATION */ / 100 {

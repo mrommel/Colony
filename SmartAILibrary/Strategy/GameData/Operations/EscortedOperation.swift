@@ -91,7 +91,7 @@ class EscortedOperation: Operation {
 
             if let unit = unitRef {
 
-                if unit.has(task: self.civilianType) {
+                if unit.task() == self.civilianType {
 
                     if unit.army() == nil {
 

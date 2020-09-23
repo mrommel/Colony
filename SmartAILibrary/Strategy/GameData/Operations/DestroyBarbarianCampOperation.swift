@@ -150,7 +150,7 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
                         fatalError("cant get unitToRescue")
                     }
                     
-                    if unitToRescue.originalLeader != player.leader || (!unitToRescue.has(task: .settle) && !unitToRescue.has(task: .work)) {
+                    if unitToRescue.originalLeader != player.leader || (unitToRescue.task() != .settle && unitToRescue.task() != .work) {
                         if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
                             print("Civilian can no longer be rescued from barbarians. Aborting")
                         }
@@ -204,7 +204,7 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
                     continue
                 }
                 
-                if loopUnit.originalLeader == player.leader && (loopUnit.has(task: .settle) || loopUnit.has(task: .work)/* || loopUnit.has(task: .archaeologist)*/) {
+                if loopUnit.originalLeader == player.leader && (loopUnit.task() == .settle || loopUnit.task() == .work/* || loopUnit.task: .archaeologist)*/) {
                     
                     let distance: Int = pathFinder.shortestPath(fromTileCoord: loopUnit.location, toTileCoord: startCity.location)?.count ?? Int.max
                     
