@@ -2141,7 +2141,7 @@ public class Player: AbstractPlayer {
             operation = NavalSneakAttackOperation()
         }
         
-        operation.initialize(for: self, enemy: otherPlayer, area: area, target: targetCity, in: gameModel)
+        operation.initialize(for: self, enemy: otherPlayer, area: area, target: targetCity, muster: musterCity, in: gameModel)
         self.operations?.add(operation: operation)
         return operation
     }

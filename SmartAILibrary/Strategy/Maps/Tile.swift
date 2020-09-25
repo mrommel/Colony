@@ -58,6 +58,7 @@ public protocol AbstractTile: Codable {
 
     func isOpenGround() -> Bool
     func isWater() -> Bool
+    func isLand() -> Bool
     func isRoughGround() -> Bool
     func isImpassable() -> Bool
 
@@ -1175,7 +1176,12 @@ class Tile: AbstractTile {
 
     func isWater() -> Bool {
         
-        return self.terrain().isWater()
+        return self.terrainVal.isWater()
+    }
+    
+    func isLand() -> Bool {
+        
+        return self.terrainVal.isLand()
     }
     
     func isFlatlands() -> Bool {

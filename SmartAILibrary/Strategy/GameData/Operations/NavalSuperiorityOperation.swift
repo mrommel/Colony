@@ -50,10 +50,10 @@ class NavalSuperiorityOperation: NavalOperation {
                 self.targetPosition = targetPlot
                 self.army?.goal = targetPlot
 
-                if self.army?.muster != nil {
+                if self.selectInitialMusterPoint(in: gameModel) != nil {
                     
-                    self.army?.position = muster!.location
-                    self.area = gameModel.area(of: muster!.location)
+                    self.army?.position = self.musterPosition!
+                    self.area = gameModel.area(of: self.musterPosition!)
 
                     // Find the list of units we need to build before starting this operation in earnest
                     self.buildListOfUnitsWeStillNeedToBuild()

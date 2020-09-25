@@ -413,7 +413,7 @@ public class MilitaryAI: Codable {
         self.updateMilitaryStrategies(in: gameModel)
         self.updateThreats(in: gameModel)
 
-        if player.isHuman() {
+        if !player.isHuman() {
 
             self.updateOperations(in: gameModel)
             //self.makeEmergencyPurchases()
@@ -847,7 +847,9 @@ public class MilitaryAI: Codable {
                             let flavorNaval = player.valueOfStrategyAndPersonalityFlavor(of: .naval)
                             let numSuperiority = player.numberOfOperationsOf(type: .navalSuperiority)
                             let numBombard = player.numberOfOperationsOf(type: .navalBombard)
-                            let maxOperations = flavorNaval
+                            let maxOperations = flavorNaval / 2
+                            // major naval map => maxOperations *= 2
+                            
                             if numSuperiority + numBombard <= maxOperations {
                                 player.addOperation(of: .navalSuperiority, towards: nil, target: nil, in: nil, in: gameModel)
                             }

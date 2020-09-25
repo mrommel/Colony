@@ -61,7 +61,7 @@ extension FeatureType {
             return nil
         case "FEATURE_LAKE_VICTORIA": // FIXME
             return nil
-        case "FEATURE_KILIMANJARO": // FIXME
+        case "FEATURE_KILIMANJARO": 
             return .mountKilimanjaro
         case "FEATURE_SOLOMONS_MINES": // FIXME
             return nil

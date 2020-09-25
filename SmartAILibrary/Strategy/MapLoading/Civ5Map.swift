@@ -169,6 +169,7 @@ class Civ5Map {
                     tile.set(feature: feature1st)
                 }
                 
+                // wonders
                 if let feature2nd = plot.feature2ndType {
                     tile.set(feature: feature2nd)
                 }

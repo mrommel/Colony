@@ -194,6 +194,23 @@ public class MapModel: Codable {
         return nil
     }
     
+    public func points() -> [HexPoint] {
+        
+        var pointList: [HexPoint] = []
+        let mapWidth = self.size.width()
+        let mapHeight = self.size.height()
+        
+        pointList.reserveCapacity(mapWidth * mapHeight)
+        
+        for x in 0..<mapWidth {
+            for y in 0..<mapHeight {
+                pointList.append(HexPoint(x: x, y: y))
+            }
+        }
+        
+        return pointList
+    }
+    
     // MARK: city methods
     
     public func nearestCity(at pt: HexPoint, of player: AbstractPlayer?) -> AbstractCity? {
@@ -379,6 +396,15 @@ public class MapModel: Codable {
         if self.valid(point: point) {
             self.tiles[point.x, point.y]?.set(hills: hills)
         }
+    }
+    
+    public func feature(at point: HexPoint) -> FeatureType {
+        
+        if let tile = self.tile(at: point) {
+            return tile.feature()
+        }
+        
+        return .none
     }
     
     public func set(feature featureType: FeatureType, at point: HexPoint) {

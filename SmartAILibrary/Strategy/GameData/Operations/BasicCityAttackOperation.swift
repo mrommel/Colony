@@ -31,7 +31,10 @@ class BasicCityAttackOperation: EnemyTerritoryOperation {
             fatalError("cant get gameModel")
         }
 
-        super.initialize(for: player, enemy: enemy, area: area, in: gameModel)
+        self.player = player
+        self.enemy = enemy
+        self.area = area
+        self.shouldReplaceLossesWithReinforcements = false
  
         self.moveType = .enemyTerritory
         self.startPosition = muster?.location

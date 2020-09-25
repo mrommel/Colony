@@ -329,6 +329,20 @@ extension MenuScene {
             let mapLoader = MapLoader()
             if let map = mapLoader.load(from: url, for: leader) {
                 
+                var volcanoPoints: [HexPoint] = []
+                
+                // post process
+                for pt in map.points() {
+                    if map.feature(at: pt) == .volcano {
+                        volcanoPoints.append(pt)
+                        map.set(feature: .mountains, at: pt)
+                    }
+                }
+                
+                for pt in volcanoPoints.shuffle().suffix(3) {
+                    map.set(feature: .volcano, at: pt)
+                }
+                
                 mapParameter = map
                 
                 DispatchQueue.main.async {

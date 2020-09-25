@@ -142,10 +142,7 @@ class NavalOperation: EnemyTerritoryOperation {
     /// Returns true when we should abort the operation totally (besides when we have lost all units in it)
     override func shouldAbort(in gameModel: GameModel?) -> Bool {
 
-        guard let gameModel = gameModel,
-              let enemy = self.enemy,
-              let target = self.targetPosition,
-              let targetPlot = gameModel.tile(at: target) else {
+        guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
         
@@ -153,6 +150,18 @@ class NavalOperation: EnemyTerritoryOperation {
         let rtnValue = super.shouldAbort(in: gameModel)
 
         if !rtnValue {
+            
+            if self.targetPosition == nil {
+                return true
+            }
+            
+            guard let target = self.targetPosition,
+                  let targetPlot = gameModel.tile(at: target),
+                  let enemy = self.enemy else {
+                
+                return false
+            }
+            
             // See if our target city is still owned by our enemy
             if !enemy.isEqual(to: targetPlot.owner()) {
                 // Success!  The city has been captured/destroyed
@@ -182,11 +191,43 @@ class NavalOperation: EnemyTerritoryOperation {
                 continue
             }
             
-            if loopUnit.task() != .exploreSea && loopUnit.task() == .attackSea && loopUnit.army() == nil {
+            // skip explorer
+            guard loopUnit.task() != .exploreSea else {
+                continue
+            }
+            
+            if loopUnit.has(task: .attackSea) && loopUnit.army() == nil {
                 return loopUnitRef
             }
         }
         
+        return nil
+    }
+    
+    /// Find the port our operation will leave from
+    override func operationStartCity(in gameModel: GameModel?) -> AbstractCity? {
+        
+        guard let gameModel = gameModel,
+              let player = self.player else {
+            fatalError("cant get gameModel")
+        }
+        
+        if let startPosition = self.startPosition {
+            return gameModel.city(at: startPosition)
+        }
+
+        // Just find first coastal city
+        for cityRef in gameModel.cities(of: player) {
+        
+            guard let city = cityRef else {
+                continue
+            }
+            
+            if gameModel.isCoastal(at: city.location) {
+                return cityRef
+            }
+        }
+
         return nil
     }
 }

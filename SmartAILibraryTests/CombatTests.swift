@@ -45,8 +45,8 @@ class CombatTests: XCTestCase {
         let result = Combat.predictMeleeAttack(between: attacker, and: defender, in: gameModel)
         
         // THEN
-        XCTAssertEqual(result.attackerDamage, 23)
-        XCTAssertEqual(result.defenderDamage, 23)
+        XCTAssertEqual(result.attackerDamage, 27)
+        XCTAssertEqual(result.defenderDamage, 31)
     }
     
     func testCombatWarriorAgainstCity() {
@@ -82,8 +82,8 @@ class CombatTests: XCTestCase {
         let result = Combat.predictMeleeAttack(between: attacker, and: city, in: gameModel)
         
         // THEN
-        XCTAssertEqual(result.attackerDamage, 21)
-        XCTAssertEqual(result.defenderDamage, 39)
+        XCTAssertEqual(result.attackerDamage, 22)
+        XCTAssertEqual(result.defenderDamage, 44)
         XCTAssertEqual(city.maxHealthPoints(), 200)
     }
     
@@ -129,8 +129,8 @@ class CombatTests: XCTestCase {
         let result = Combat.predictMeleeAttack(between: attacker, and: city, in: gameModel)
         
         // THEN
-        XCTAssertEqual(result.attackerDamage, 21)
-        XCTAssertEqual(result.defenderDamage, 39)
+        XCTAssertEqual(result.attackerDamage, 22)
+        XCTAssertEqual(result.defenderDamage, 16)
         XCTAssertEqual(city.maxHealthPoints(), 300)
     }
     
@@ -168,7 +168,7 @@ class CombatTests: XCTestCase {
         
         // THEN
         XCTAssertEqual(result.attackerDamage, 0)
-        XCTAssertEqual(result.defenderDamage, 21)
+        XCTAssertEqual(result.defenderDamage, 22)
     }
     
     func testCombatRangeArcherAgainstCity() {
@@ -205,7 +205,7 @@ class CombatTests: XCTestCase {
         
         // THEN
         XCTAssertEqual(result.attackerDamage, 0)
-        XCTAssertEqual(result.defenderDamage, 32)
+        XCTAssertEqual(result.defenderDamage, 30)
         XCTAssertEqual(city.maxHealthPoints(), 200)
     }
     
@@ -242,7 +242,7 @@ class CombatTests: XCTestCase {
         
         // THEN
         XCTAssertEqual(result.attackerDamage, 0)
-        XCTAssertEqual(result.defenderDamage, 28)
+        XCTAssertEqual(result.defenderDamage, 41)
     }
     
     func testCombatRangeTwoArcherAgainstWarrior() {
@@ -278,6 +278,6 @@ class CombatTests: XCTestCase {
         
         // THEN
         XCTAssertEqual(result.attackerDamage, 0)
-        XCTAssertEqual(result.defenderDamage, 64)
+        XCTAssertEqual(result.defenderDamage, 41)
     }
 }
