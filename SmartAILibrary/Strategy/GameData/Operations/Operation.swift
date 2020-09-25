@@ -758,9 +758,83 @@ public class Operation: Codable, Equatable {
         return rtnValue
     }
     
+    /// Find the area where our operation is occurring
     func operationStartCity(in gameModel: GameModel?) -> AbstractCity? {
         
-        return nil
+        guard let gameModel = gameModel,
+              let player = self.player else {
+            fatalError("cant get gameModel")
+        }
+        
+        if let startPosition = self.startPosition {
+            return gameModel.city(at: startPosition)
+        }
+
+        var bestTotal: Int = 0
+        var bestArea: HexArea? = nil
+        var bestCity: AbstractCity? = nil
+
+        // Do we still have a capital?
+        if let capitalCity = gameModel.capital(of: player) {
+            return capitalCity
+        }
+
+        // No capital, find the area with the most combined cities between us and our enemy (and need at least 1 from each)
+        for loopArea in gameModel.areas() {
+            
+            guard let centerTile = gameModel.tile(at: loopArea.center()) else {
+                continue
+            }
+            
+            if centerTile.isWater() {
+                continue
+            }
+            
+            let myCities = gameModel.cities(of: player, in: loopArea).count
+            var enemyCities = 0
+            if myCities > 0 {
+                
+                if self.enemy != nil && self.enemy!.leader != .barbar {
+                    enemyCities = gameModel.cities(of: self.enemy!, in: loopArea).count
+                    if enemyCities == 0 {
+                        continue
+                    }
+                } else {
+                    enemyCities = 0
+                }
+
+                if (myCities + enemyCities) > bestTotal {
+                    bestTotal = myCities + enemyCities
+                    bestArea = loopArea
+                }
+            }
+        }
+
+        if let bestArea = bestArea {
+            
+            // Know which continent to use, now use our largest city there as the start city
+            //CvCity* pCity;
+            bestTotal = 0
+            
+            for cityRef in gameModel.cities(of: player) {
+
+                guard let city = cityRef else {
+                    continue
+                }
+                
+                if gameModel.area(of: city.location) == bestArea {
+                    
+                    if city.population() > bestTotal {
+                        bestTotal = city.population()
+                        bestCity = cityRef
+                    }
+                }
+            }
+            
+            return bestCity
+        } else {
+            return nil
+        }
     }
     
     func armyMoved(in gameModel: GameModel?) -> Bool {

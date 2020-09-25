@@ -115,11 +115,15 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
     override func shouldAbort(in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel,
-              let targetPosition = self.targetPosition,
-              let targetPlot = gameModel.tile(at: targetPosition),
               let player = self.player,
               let army = self.army else {
             fatalError("cant get basics")
+        }
+        
+        guard let targetPosition = self.targetPosition,
+              let targetPlot = gameModel.tile(at: targetPosition) else {
+            
+            return true
         }
         
         // If parent says we're done, don't even check anything else

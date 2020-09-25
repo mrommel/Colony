@@ -121,6 +121,27 @@ public class HexArea: Codable {
         return self.value
     }
     
+    func center() -> HexPoint {
+        
+        var sx = 0
+        var sy = 0
+        var num = 0
+        
+        for point in self.points {
+            
+            sx += point.x
+            sy += point.y
+            
+            num += 1
+        }
+        
+        if num == 0 {
+            return HexPoint.invalid
+        }
+        
+        return HexPoint(x: sx / num, y: sy / num)
+    }
+    
     /// puts all points left of dx in first area and all points right of dx in second area
     func divideHorizontally(at dx: Int) -> (HexArea, HexArea) {
         

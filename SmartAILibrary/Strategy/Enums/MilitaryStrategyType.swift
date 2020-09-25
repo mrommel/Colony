@@ -476,7 +476,7 @@ enum MilitaryStrategyType: Int, Codable {
         // Two visible camps or 4 Barbarians will trigger this
         let strategyWeight = militaryAI.barbarianData().barbarianCampCount * 50 + militaryAI.barbarianData().visibleBarbarianCount * 25
         
-        if strategyWeight > 100 {
+        if strategyWeight >= 100 {
             return true
         }
         

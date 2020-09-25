@@ -118,7 +118,7 @@ public class GameModel: Codable {
         // init some classes
         for player in self.players {
 
-            for cityRef in map.cities(for: player.leader) {
+            for cityRef in map.cities(of: player.leader) {
 
                 guard let city = cityRef else {
                     continue
@@ -852,7 +852,12 @@ public class GameModel: Codable {
 
     public func cities(of player: AbstractPlayer) -> [AbstractCity?] {
 
-        return self.map.cities(for: player)
+        return self.map.cities(of: player)
+    }
+    
+    public func cities(of player: AbstractPlayer, in area: HexArea) -> [AbstractCity?] {
+        
+        return self.map.cities(of: player, in: area)
     }
 
     public func city(at location: HexPoint) -> AbstractCity? {
@@ -862,7 +867,7 @@ public class GameModel: Codable {
 
     func capital(of player: AbstractPlayer) -> AbstractCity? {
 
-        if let cap = self.map.cities(for: player).first(where: { $0?.isCapital() == true }) {
+        if let cap = self.map.cities(of: player).first(where: { $0?.isCapital() == true }) {
             return cap
         }
 
@@ -874,7 +879,7 @@ public class GameModel: Codable {
         var bestCity: AbstractCity? = nil
         var bestDistance: Int = Int(INT_MAX)
         
-        for cityRef in self.map.cities(for: player) {
+        for cityRef in self.map.cities(of: player) {
             
             guard let city = cityRef else {
                 continue

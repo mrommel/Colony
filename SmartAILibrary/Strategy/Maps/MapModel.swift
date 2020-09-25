@@ -267,14 +267,19 @@ public class MapModel: Codable {
         }
     }
     
-    func cities(for player: AbstractPlayer) -> [AbstractCity?] {
+    func cities(of player: AbstractPlayer) -> [AbstractCity?] {
         
         return self.cities.filter({ $0?.leader == player.leader })
     }
     
-    func cities(for leader: LeaderType) -> [AbstractCity?] {
+    func cities(of leader: LeaderType) -> [AbstractCity?] {
         
         return self.cities.filter({ $0?.leader == leader })
+    }
+    
+    func cities(of player: AbstractPlayer, in area: HexArea) -> [AbstractCity?] {
+        
+        return self.cities.filter({ $0?.leader == player.leader && area.contains($0?.location ?? HexPoint.invalid) })
     }
     
     func city(at location: HexPoint) -> AbstractCity? {
