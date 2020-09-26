@@ -73,7 +73,7 @@ enum MilitaryStrategyType: Int, Codable {
         case .enoughNavalUnits: return nil
 
         case .empireDefense: return nil
-            case .empireDefenseCritical: return nil
+        case .empireDefenseCritical: return nil
         case .atWar: return nil
         case .warMobilization: return nil
         case .eradicateBarbarians: return nil
@@ -337,10 +337,10 @@ enum MilitaryStrategyType: Int, Codable {
 
         return militaryAI.landDefenseState() == .needed
     }
-    
+
     // "Empire Defense" Player Strategy: If we have less than 1 unit per city (tweaked a bit by threat level), we NEED some units
     private func shouldBeActiveEmpireDefenseCritical(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let player = player else {
             fatalError("cant get player")
         }
@@ -409,7 +409,7 @@ enum MilitaryStrategyType: Int, Codable {
                 if !player.hasMet(with: otherPlayer) {
                     continue
                 }
-                
+
                 if diplomacyAI.warGoal(towards: otherPlayer) == .prepare {
                     iCurrentWeight += 100
                 }
@@ -445,7 +445,7 @@ enum MilitaryStrategyType: Int, Codable {
         guard let militaryAI = player.militaryAI else {
             fatalError("cant get militaryAI")
         }
-        
+
         guard let diplomacyAI = player.diplomacyAI else {
             fatalError("cant get militaryAI")
         }
@@ -466,46 +466,46 @@ enum MilitaryStrategyType: Int, Codable {
                 }
             }
         }
-        
+
         // If we have an operation of this type running, we don't want to turn this strategy off
         // FIXME
         /*if (pPlayer->haveAIOperationOfType(AI_OPERATION_DESTROY_BARBARIAN_CAMP)) {
             return true;
         }*/
-        
+
         // Two visible camps or 4 Barbarians will trigger this
         let strategyWeight = militaryAI.barbarianData().barbarianCampCount * 50 + militaryAI.barbarianData().visibleBarbarianCount * 25
-        
+
         if strategyWeight >= 100 {
             return true
         }
-        
+
         return false
     }
-    
+
     func shouldBeActiveWinningWars(for player: AbstractPlayer?) -> Bool {
-        
+
         guard let player = player else {
             fatalError("cant get player")
         }
-        
+
         guard let diplomacyAI = player.diplomacyAI else {
             fatalError("cant get militaryAI")
         }
-        
+
         return diplomacyAI.stateOfAllWars == .winning
     }
-    
+
     func shouldBeActiveLosingWars(for player: AbstractPlayer?) -> Bool {
-        
+
         guard let player = player else {
             fatalError("cant get player")
         }
-        
+
         guard let diplomacyAI = player.diplomacyAI else {
             fatalError("cant get militaryAI")
         }
-        
+
         return diplomacyAI.stateOfAllWars == .losing
     }
 
