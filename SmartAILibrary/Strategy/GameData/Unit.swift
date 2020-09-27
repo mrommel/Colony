@@ -77,6 +77,7 @@ public protocol AbstractUnit: class, Codable {
     func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int
     func defensiveStrengthModifier(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> [CombatModifier]
     func defenseModifier(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool,in gameModel: GameModel?) -> Int
+    func isUnderEnemyRangedAttack() -> Bool
     
     func sight() -> Int
     func range() -> Int
@@ -885,6 +886,12 @@ public class Unit: AbstractUnit {
         }
 
         return modifierValue
+    }
+    
+    public func isUnderEnemyRangedAttack() -> Bool {
+        
+        // FIXME
+        return false
     }
 
     // Combat eligibility routines
@@ -2464,6 +2471,9 @@ public class Unit: AbstractUnit {
         } catch {
             fatalError("unexpected error: \(error)")
         }
+        
+        // also heal completely
+        self.set(healthPoints: self.maxHealthPoints())
     }
 
     private func choosePromotion() -> UnitPromotionType {

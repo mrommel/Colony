@@ -33,6 +33,7 @@ public class HomelandAI {
     
     static let flavorDampening = 0.3 // AI_TACTICAL_FLAVOR_DAMPENING_FOR_MOVE_PRIORITIZATION
     static let defensiveMoveTurns = 4 // AI_HOMELAND_MAX_DEFENSIVE_MOVE_TURNS
+    static let maxDangerLevel = 100000.0 // MAX_DANGER_VALUE
     
     var targetedCities: [HomelandTarget]
     var targetedSentryPoints: [HomelandTarget]
@@ -642,8 +643,7 @@ public class HomelandAI {
                 self.plotExplorerMoves(in: gameModel)
             case .exploreSea:
                 // AI_HOMELAND_MOVE_EXPLORE_SEA:
-                // FIXME self.plotExplorerSeaMoves()
-                break
+                self.plotExplorerSeaMoves(in: gameModel)
             case .settle:
                 // AI_HOMELAND_MOVE_SETTLE:
                 self.plotFirstTurnSettlerMoves(in: gameModel)
@@ -652,24 +652,19 @@ public class HomelandAI {
                 self.plotGarrisonMoves(in: gameModel)
             case .heal:
                 // AI_HOMELAND_MOVE_HEAL:
-                // FIXME self.plotHealMoves()
-                break
+                self.plotHealMoves(in: gameModel)
             case .toSafety:
                 // AI_HOMELAND_MOVE_TO_SAFETY:
-                // FIXME self.plotMovesToSafety()
-                break
+                self.plotMovesToSafety(in: gameModel)
             case .mobileReserve:
                 // AI_HOMELAND_MOVE_MOBILE_RESERVE:
-                // FIXME self.plotMobileReserveMoves()
-                break
+                self.plotMobileReserveMoves(in: gameModel)
             case .sentry:
                 // AI_HOMELAND_MOVE_SENTRY:
-                // FIXME self.plotSentryMoves()
-                break
+                self.plotSentryMoves(in: gameModel)
             case .worker:
                 // AI_HOMELAND_MOVE_WORKER:
                 self.plotWorkerMoves(in: gameModel)
-                break
             case .workerSea:
                 // AI_HOMELAND_MOVE_WORKER_SEA:
                 // FIXME self.plotWorkerSeaMoves()
@@ -684,14 +679,13 @@ public class HomelandAI {
                 break
             case .ancientRuins:
                 // AI_HOMELAND_MOVE_ANCIENT_RUINS:
-                //self.plotAncientRuinMoves(in: gameModel)
-                break
+                self.plotAncientRuinMoves(in: gameModel)
             case .aircraftToTheFront:
                 // AI_HOMELAND_MOVE_AIRCRAFT_TO_THE_FRONT:
                 // FIXME self.plotAircraftMoves()
                 break
             default:
-                //print("not implemented: HomelandAI - \(movePriorityItem.type)")
+                print("not implemented: HomelandAI - \(movePriorityItem.type)")
                 break
             }
         }
@@ -714,7 +708,44 @@ public class HomelandAI {
                 currentTurnUnit.push(mission: UnitMission(type: .skip), in: gameModel)
                 currentTurnUnit.set(turnProcessed: true)
                 
-                print("<< ### Unassigned \(currentTurnUnit.name()) at \(currentTurnUnit.location) ### >>")
+                print("<< HomelandAI ### Unassigned \(currentTurnUnit.name()) at \(currentTurnUnit.location) ### >>")
+            }
+        }
+    }
+    
+    /// Pop goody huts nearby
+    func plotAncientRuinMoves(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        // Do we have any targets of this type?
+        if !self.targetedAncientRuins.isEmpty {
+            // Prioritize them (LATER)
+
+            // See how many moves of this type we can execute
+            for (index, homelandTarget) in self.targetedAncientRuins.enumerated() {
+                
+                guard let targetTile = gameModel.tile(at: homelandTarget.target ?? HexPoint.invalid) else {
+                    continue
+                }
+                
+                self.findUnitsFor(move: .ancientRuins, firstTime: index == 0, in: gameModel)
+                
+                if self.currentMoveHighPriorityUnits.count + self.currentMoveUnits.count > 0 {
+                    
+                    if self.bestUnitToReachTarget(target: targetTile, maxTurns: HomelandAI.defensiveMoveTurns, in: gameModel) {
+                        
+                        self.executeMoveToTarget(target: targetTile, garrisonIfPossible: false, in: gameModel)
+                        
+                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                            
+                            print("Moving to goody hut (non-explorer), \(targetTile.point)")
+                            // LogHomelandMessage(strLogString);
+                        }
+                    }
+                }
             }
         }
     }
@@ -758,6 +789,336 @@ public class HomelandAI {
                 }
                 
                 firstRun = false
+            }
+        }
+    }
+    
+    /// Find out which units would like to heal
+    func plotHealMoves(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no gameModel given")
+        }
+        
+        self.clearCurrentMoveUnits()
+
+        // Loop through all recruited units
+        for currentTurnUnit in self.currentTurnUnits {
+            
+            if let unit = currentTurnUnit {
+                
+                guard let tile = gameModel.tile(at: unit.location) else {
+                    continue
+                }
+                
+                if !unit.isHuman() {
+                    
+                    // Am I under 100% health and not at sea or already in a city?
+                    if unit.healthPoints() < unit.maxHealthPoints() && !unit.isEmbarked() && gameModel.city(at: unit.location) == nil {
+                        
+                        // If I'm a naval unit I need to be in friendly territory
+                        if unit.domain() != .sea || tile.isFriendlyTerritory(for: self.player, in: gameModel) {
+                            
+                            if !unit.isUnderEnemyRangedAttack() {
+                                
+                                self.currentMoveUnits.append(HomelandUnit(unit: unit))
+                                
+                                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+
+                                    print("\(unit.type) healing at \(unit.location)")
+                                    // LogHomelandMessage(strLogString);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if self.currentMoveUnits.count > 0 {
+            self.executeHeals(in: gameModel)
+        }
+    }
+    
+    /// Heal chosen units
+    func executeHeals(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no gameModel given")
+        }
+        
+        // FStaticVector< CvHomelandUnit, 64, true, c_eCiv5GameplayDLL >::iterator it;
+        for currentMoveUnit in self.currentMoveUnits {
+            
+            if let unit = currentMoveUnit?.unit {
+                
+                if unit.canFortify(at: unit.location, in: gameModel) {
+                    unit.push(mission: UnitMission(type: .fortify), in: gameModel)
+                    unit.set(fortifiedThisTurn: true, in: gameModel)
+                } else {
+                    unit.push(mission: UnitMission(type: .skip), in: gameModel)
+                }
+                self.unitProcessed(unit: unit)
+            }
+        }
+    }
+    
+    /// Moved endangered units to safe hexes
+    func plotMovesToSafety(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no gameModel given")
+        }
+        
+        self.clearCurrentMoveUnits()
+
+        // Loop through all recruited units
+        for currentTurnUnit in self.currentTurnUnits {
+            
+            if let unit = currentTurnUnit {
+                
+                guard let tile = gameModel.tile(at: unit.location) else {
+                    continue
+                }
+                
+                guard let dangerLevel = self.player?.dangerPlotsAI?.danger(at: unit.location) else {
+                    continue
+                }
+                
+                // Danger value of plot must be greater than 0
+                if dangerLevel > 0 {
+                    
+                    var addUnit = false
+
+                    // If civilian (or embarked unit) always ready to flee
+                    // slewis - 4.18.2013 - Problem here is that a combat unit that is a boat can get stuck in a city hiding from barbarians on the land
+                    if !unit.canDefend() {
+                        if unit.isAutomated() && unit.baseCombatStrength(ignoreEmbarked: true) > 0 {
+                            // then this is our special case
+                        } else {
+                            addUnit = true
+                        }
+                    } else if unit.healthPoints() < unit.maxHealthPoints() {
+                        // Also may be true if a damaged combat unit
+                        if unit.isBarbarian() {
+                            // Barbarian combat units - only naval units flee (but they flee if have taken ANY damage)
+                            if unit.domain() == .sea {
+                                addUnit = true
+                            }
+                        } else if unit.isUnderEnemyRangedAttack() || unit.attackStrength(against: nil, or: nil, on: tile, in: gameModel) * 2 <= unit.baseCombatStrength(ignoreEmbarked: false) {
+                            // Everyone else flees at less than or equal to 50% combat strength
+                            addUnit = true
+                        }
+                    } else if !unit.isBarbarian() {
+                        // Also flee if danger is really high in current plot (but not if we're barbarian)
+                        let acceptableDanger = unit.attackStrength(against: nil, or: nil, on: tile, in: gameModel) * 100
+                        if Int(dangerLevel) > acceptableDanger {
+                            addUnit = true
+                        }
+                    }
+
+                    if addUnit {
+                        // Just one unit involved in this move to execute
+                        self.currentMoveUnits.append(HomelandUnit(unit: unit))
+                    }
+                }
+            }
+        }
+
+
+        if self.currentMoveUnits.count > 0 {
+            self.executeMovesToSafestPlot(in: gameModel)
+        }
+    }
+    
+    private func preferenceLevel(x: Double, y: Double) -> Double {
+        
+        return (x * HomelandAI.maxDangerLevel) + ((HomelandAI.maxDangerLevel - 1.0) - y)
+    }
+    
+    /// Moves units to the hex with the lowest danger
+    func executeMovesToSafestPlot(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no gameModel given")
+        }
+        
+        guard let dangerPlotsAI = self.player?.dangerPlotsAI else {
+            fatalError("no dangerPlotsAI given")
+        }
+
+        for currentMoveUnit in self.currentMoveUnits {
+
+            //WeightedPlotVector aBestPlotList;
+            //aBestPlotList.reserve(100);
+            let bestPlotList = WeightedPoints()
+
+            if let unit = currentMoveUnit?.unit {
+                
+                var bestPoint: HexPoint? = nil
+
+                let range = unit.maxMoves(in: gameModel)
+
+                // For each plot within movement range of the fleeing unit
+                for pt in unit.location.areaWith(radius: range) {
+                    
+                    guard let plot = gameModel.tile(at: pt) else {
+                        continue
+                    }
+                    
+                    //   prefer being in a city with the lowest danger value
+                    //   prefer being in a plot with no danger value
+                    //   prefer being under a unit with the lowest danger value
+                    //   prefer being in your own territory with the lowest danger value
+                    //   prefer the lowest danger value
+                    
+                    let danger = dangerPlotsAI.danger(at: pt)
+                    let isZeroDanger = danger <= 0
+                    let isInCity = gameModel.city(at: pt) != nil
+                    let isInCover = false // FIXME - another combat unit shields civilian
+                    let isInTerritory = plot.ownerLeader() == self.player?.leader
+                    
+                    //#define PREFERENCE_LEVEL(x, y) (x * MAX_DANGER_VALUE) + ((MAX_DANGER_VALUE - 1) - y)
+                    
+                    assert(danger < HomelandAI.maxDangerLevel)
+                            
+                    var score: Double = 0.0
+
+                    if isInCity{
+                        score = self.preferenceLevel(x: 5.0, y: danger)
+                    } else if isZeroDanger {
+                        if isInTerritory {
+                            score = self.preferenceLevel(x: 4.0, y: danger)
+                        } else {
+                            score = self.preferenceLevel(x: 3.0, y: danger)
+                        }
+                    } else if isInCover {
+                        score = self.preferenceLevel(x: 2.0, y: danger)
+                    }
+                    else if isInTerritory {
+                        score = self.preferenceLevel(x: 1.0, y: danger)
+                    } else {
+                        // if we have no good home, head to the lowest danger value
+                        score = self.preferenceLevel(x: 0.0, y: danger)
+                    }
+
+                    bestPlotList.add(weight: score, for: plot.point)
+                }
+
+                // highest score will be first.
+                bestPlotList.sort() // TODO: verify that sorting is in right direction
+
+                // Now loop through the sorted score list and go to the best one we can reach in one turn.
+                // #define EXECUTEMOVESTOSAFESTPLOT_FAILURE_LIMIT
+                var failureLimit = 10
+                
+                //uint uiListSize;
+                while bestPlotList.count > 0 {
+                    
+                    bestPoint = bestPlotList.pop()
+                    
+                    if unit.canReach(at: bestPoint!, in: 1, in: gameModel) {
+                        break
+                    } else {
+                        failureLimit -= 1
+                    }
+
+                    if failureLimit <= 0 {
+                        bestPoint = nil // reset
+                        break
+                    }
+                }
+
+                if let bestPoint = bestPoint {
+                    
+                    // Move to the lowest danger value found
+                    unit.push(mission: UnitMission(type: .moveTo, at: bestPoint), in: gameModel)//->PushMission(CvTypes::getMISSION_MOVE_TO(), pBestPlot->getX(), pBestPlot->getY(), MOVE_UNITS_IGNORE_DANGER);
+                    unit.finishMoves()
+                    self.unitProcessed(unit: unit)
+
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        print("Moving \(unit.type) to safety, \(bestPoint)")
+                        // LogHomelandMessage(strLogString);
+                    }
+                }
+            }
+        }
+    }
+    
+    /// Send units to roads for quick movement to face any threat
+    func plotMobileReserveMoves(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no gameModel given")
+        }
+        
+        // Do we have any targets of this type?
+        if !self.targetedHomelandRoads.isEmpty {
+            
+            // Prioritize them (LATER)
+            
+            // See how many moves of this type we can execute
+            for (index, targetedHomelandRoad) in self.targetedHomelandRoads.enumerated() {
+                
+                guard let targetTile = gameModel.tile(at: targetedHomelandRoad.target ?? HexPoint.invalid) else {
+                    continue
+                }
+                
+                self.findUnitsFor(move: .mobileReserve, firstTime: (index == 0), in: gameModel)
+
+                if self.currentMoveHighPriorityUnits.count + self.currentMoveUnits.count > 0 {
+                    
+                    if self.bestUnitToReachTarget(target: targetTile, maxTurns: Int.max, in: gameModel) {
+                        
+                        self.executeMoveToTarget(target: targetTile, garrisonIfPossible: false, in: gameModel)
+
+                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                            
+                            print("Moving to mobile reserve muster pt, \(targetedHomelandRoad.target ?? HexPoint.invalid)")
+                            // LogHomelandMessage(strLogString);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /// Send units to sentry points around borders
+    func plotSentryMoves(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no gameModel given")
+        }
+        
+        // Do we have any targets of this type?
+        if !self.targetedSentryPoints.isEmpty {
+            // Prioritize them (LATER)
+
+            // See how many moves of this type we can execute
+            for (index, targetedSentryPoint) in self.targetedSentryPoints.enumerated() {
+
+                // AI_PERF_FORMAT("Homeland-perf.csv", ("PlotSentryMoves, Turn %03d, %s", GC.getGame().getElapsedGameTurns(), m_pPlayer->getCivilizationShortDescription()) );
+
+                // CvPlot* pTarget = GC.getMap().plot(m_TargetedSentryPoints[iI].GetTargetX(), m_TargetedSentryPoints[iI].GetTargetY());
+                guard let targetTile = gameModel.tile(at: targetedSentryPoint.target ?? HexPoint.invalid) else {
+                    continue
+                }
+                
+                self.findUnitsFor(move: .sentry, firstTime: (index == 0), in: gameModel)
+
+                if self.currentMoveHighPriorityUnits.count + self.currentMoveUnits.count > 0 {
+                    
+                    if self.bestUnitToReachTarget(target: targetTile, maxTurns: Int.max, in: gameModel) {
+                        
+                        self.executeMoveToTarget(target: targetTile, garrisonIfPossible: false, in: gameModel)
+
+                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                            
+                            print("Moving to sentry point, \(targetedSentryPoint.target ?? HexPoint.invalid), Priority: \(targetedSentryPoint.threatValue)")
+                            // LogHomelandMessage(strLogString);
+                        }
+                    }
+                }
             }
         }
     }
@@ -1173,6 +1534,34 @@ public class HomelandAI {
 
         if self.currentMoveUnits.count > 0 {
             
+            // Execute twice so explorers who can reach the end of their sight can move again
+            self.executeExplorerMoves(in: gameModel)
+            self.executeExplorerMoves(in: gameModel)
+        }
+    }
+    
+    /// Get units with explore AI and plan their moves
+    func plotExplorerSeaMoves(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        self.clearCurrentMoveUnits()
+
+        // Loop through all recruited units
+        for currentTurnUnit in self.currentTurnUnits {
+            
+            if let unit = currentTurnUnit {
+                
+                if unit.task() == .exploreSea || (unit.isAutomated() && unit.domain() == .sea && unit.automateType() == .explore) {
+
+                    self.currentMoveUnits.append(HomelandUnit(unit: currentTurnUnit))
+                }
+            }
+        }
+
+        if self.currentMoveUnits.count > 0 {
             // Execute twice so explorers who can reach the end of their sight can move again
             self.executeExplorerMoves(in: gameModel)
             self.executeExplorerMoves(in: gameModel)

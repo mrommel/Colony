@@ -129,9 +129,9 @@ extension GameScene: UserInterfaceProtocol {
     
     func refresh(unit: AbstractUnit?) {
         
-        if let refreshUnit = unit {
-            print("refresh unit: \(refreshUnit)")
-        }
+        /*if let refreshUnit = unit {
+            print("refresh unit: \(refreshUnit.type) at \(refreshUnit.location)")
+        }*/
         
         if unit?.activityType() == .hold || unit?.activityType() == .sleep {
             self.animate(unit: unit, animation: .fortify)

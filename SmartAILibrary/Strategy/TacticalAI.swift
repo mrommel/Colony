@@ -829,107 +829,124 @@ public class TacticalAI: Codable {
         
         switch tacticalMove.moveType {
             
-        case .moveNoncombatantsToSafety: // TACTICAL_MOVE_NONCOMBATANTS_TO_SAFETY
+        case .moveNoncombatantsToSafety:
+            // TACTICAL_MOVE_NONCOMBATANTS_TO_SAFETY
             self.plotMovesToSafety(combatUnits: false, in: gameModel)
-        case .reposition: // TACTICAL_REPOSITION
+        case .reposition:
+            // TACTICAL_REPOSITION
             self.plotRepositionMoves(in: gameModel)
         case .garrisonAlreadyThere:
+            // TACTICAL_GARRISON_ALREADY_THERE
             self.plotGarrisonMoves(numTurnsAway: 0, in: gameModel)
         case .garrisonToAllowBombards:
+            // TACTICAL_GARRISON_TO_ALLOW_BOMBARD
             self.plotGarrisonMoves(numTurnsAway: 1, mustAllowRangedAttack: true, in: gameModel)
-        /*
         case .captureCity:
-            fatalError("not implemented yet")
+            // TACTICAL_CAPTURE_CITY
+            self.plotCaptureCityMoves(in: gameModel)
         case .damageCity:
-            fatalError("not implemented yet")
+            // TACTICAL_DAMAGE_CITY
+            self.plotDamageCityMoves(in: gameModel)
         case .destroyHighUnit:
-            fatalError("not implemented yet")
+            // TACTICAL_DESTROY_HIGH_UNIT
+            self.plotDestroyUnitMoves(targetType: .highPriorityUnit, mustBeAbleToKill: true, attackAtPoorOdds: false, in: gameModel)
         case .destroyMediumUnit:
-            fatalError("not implemented yet")
+            // TACTICAL_DESTROY_MEDIUM_UNIT
+            self.plotDestroyUnitMoves(targetType: .mediumPriorityUnit, mustBeAbleToKill: true, attackAtPoorOdds: false, in: gameModel)
         case .destroyLowUnit:
-            fatalError("not implemented yet")
+            // TACTICAL_DESTROY_LOW_UNIT
+            self.plotDestroyUnitMoves(targetType: .lowPriorityUnit, mustBeAbleToKill: true, attackAtPoorOdds: false, in: gameModel)
         case .toSafety:
-            fatalError("not implemented yet")
+            // TACTICAL_TO_SAFETY
+            self.plotMovesToSafety(combatUnits: true, in: gameModel)
         case .attritHighUnit:
-            fatalError("not implemented yet")
+            // TACTICAL_ATTRIT_HIGH_UNIT
+            self.plotDestroyUnitMoves(targetType: .highPriorityUnit, mustBeAbleToKill: false, attackAtPoorOdds: false, in: gameModel)
         case .attritMediumUnit:
-            fatalError("not implemented yet")
+            // TACTICAL_ATTRIT_MEDIUM_UNIT
+            self.plotDestroyUnitMoves(targetType: .mediumPriorityUnit, mustBeAbleToKill: false, attackAtPoorOdds: false, in: gameModel)
         case .attritLowUnit:
-            fatalError("not implemented yet")
+            // TACTICAL_ATTRIT_LOW_UNIT
+            self.plotDestroyUnitMoves(targetType: .lowPriorityUnit, mustBeAbleToKill: false, attackAtPoorOdds: false, in: gameModel)
         case .barbarianCamp:
-            //fatalError("not implemented yet")
-            // FIXME
-            break
+            // TACTICAL_BARBARIAN_CAMP
+            self.plotBarbarianCampMoves()
         case .pillage:
-            fatalError("not implemented yet")
+            // TACTICAL_PILLAGE
+            self.plotPillageMoves(targetType: .improvement, firstPass: true, in: gameModel)
         case .civilianAttack:
             fatalError("not implemented yet")
         case .safeBombards:
-            fatalError("not implemented yet")
+            // TACTICAL_SAFE_BOMBARDS
+            self.plotSafeBombardMoves()
         case .heal:
-            //fatalError("not implemented yet")
-            // FIXME
-            break
+            // TACTICAL_HEAL
+            self.plotHealMoves()
         case .ancientRuins:
-            fatalError("not implemented yet")
-        case .garrisonToAllowBombards:
-            fatalError("not implemented yet")
+            // TACTICAL_ANCIENT_RUINS
+            self.plotAncientRuinMoves()
         case .bastionAlreadyThere:
-            //fatalError("not implemented yet")
-            // FIXME
-            break
+            // TACTICAL_BASTION_ALREADY_THERE
+            self.plotBastionMoves(0);
         case .guardImprovementAlreadyThere:
-            //fatalError("not implemented yet")
-            // FIXME
-            break
+            // TACTICAL_GUARD_IMPROVEMENT_ALREADY_THERE
+            self.plotGuardImprovementMoves(0)
         case .bastionOneTurn:
-            //fatalError("not implemented yet")
-            // FIXME
-            break
+            // TACTICAL_BASTION_1_TURN
+            self.plotBastionMoves(1)
         case .garrisonOneTurn:
-            //fatalError("not implemented yet")
-            // FIXME
-            break
+            // TACTICAL_GARRISON_1_TURN
+            self.plotGarrisonMoves(1)
         case .guardImprovementOneTurn:
-            //fatalError("not implemented yet")
-            // FIXME
-            break
+            // TACTICAL_GUARD_IMPROVEMENT_1_TURN
+            self.plotGuardImprovementMoves(1)
         case .airSweep:
-            fatalError("not implemented yet")
+            // TACTICAL_AIR_SWEEP
+            self.plotAirSweepMoves()
         case .airIntercept:
-            fatalError("not implemented yet")
+            // TACTICAL_AIR_INTERCEPT
+            self.plotAirInterceptMoves()
         case .airRebase:
-            //fatalError("not implemented yet")
-            // FIXME
-            break
+            fatalError("not implemented yet")
         case .closeOnTarget:
-            fatalError("not implemented yet")
+            // TACTICAL_CLOSE_ON_TARGET
+            self.plotCloseOnTarget(true /*bCheckDominance*/)
         case .moveOperation:
-            fatalError("not implemented yet")
+            // TACTICAL_MOVE_OPERATIONS
+            self.plotOperationalArmyMoves()
         case .emergencyPurchases:
-            fatalError("not implemented yet")
+            // TACTICAL_EMERGENCY_PURCHASES
+            self.PlotEmergencyPurchases()
         case .postureWithdraw:
-            fatalError("not implemented yet")
+            // TACTICAL_POSTURE_WITHDRAW
+            self.plotWithdrawMoves()
         case .postureSitAndBombard:
-            fatalError("not implemented yet")
+            // TACTICAL_POSTURE_SIT_AND_BOMBARD
+            self.plotSitAndBombardMoves()
         case .postureAttritFromRange:
-            fatalError("not implemented yet")
+            // TACTICAL_POSTURE_ATTRIT_FROM_RANGE
+            self.plotAttritFromRangeMoves()
         case .postureExploitFlanks:
-            fatalError("not implemented yet")
+            // TACTICAL_POSTURE_EXPLOIT_FLANKS
+            self.plotExploitFlanksMoves()
         case .postureSteamroll:
-            fatalError("not implemented yet")
+            // TACTICAL_POSTURE_STEAMROLL
+            self.plotSteamrollMoves()
         case .postureSurgicalCityStrike:
-            fatalError("not implemented yet")
+            // TACTICAL_POSTURE_SURGICAL_CITY_STRIKE
+            self.plotSurgicalCityStrikeMoves()
         case .postureHedgehog:
-            fatalError("not implemented yet")
+            // TACTICAL_POSTURE_HEDGEHOG
+            self.plotHedgehogMoves()
         case .postureCounterAttack:
-            fatalError("not implemented yet")
+            // TACTICAL_POSTURE_COUNTERATTACK
+            self.plotCounterAttackMoves()
         case .postureShoreBombardment:
-            fatalError("not implemented yet")*/
-        
+            // TACTICAL_POSTURE_SHORE_BOMBARDMENT
+            self.plotShoreBombardmentMoves()
         default:
             // NOOP
-            //print("not implemented: TacticalAI - \(tacticalMove.moveType)")
+            print("not implemented: TacticalAI - \(tacticalMove.moveType)")
             break
         }
     }
@@ -1580,11 +1597,11 @@ public class TacticalAI: Codable {
             }
         }
         
-        self.reviewUnassignedUnits(in: gameModel)
+        self.reviewUnassignedBarbarianUnits(in: gameModel)
     }
     
     /// Log that we couldn't find assignments for some units
-    func reviewUnassignedUnits(in gameModel: GameModel?) {
+    func reviewUnassignedBarbarianUnits(in gameModel: GameModel?) {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1601,7 +1618,7 @@ public class TacticalAI: Codable {
                     currentTurnUnit.push(mission: UnitMission(type: .skip), in: gameModel)
                     currentTurnUnit.set(turnProcessed: true)
                     
-                    print("Unassigned \(currentTurnUnit.name()) at \(currentTurnUnit.location)")
+                    print("<< TacticalAI - barbarian ### Unassigned \(currentTurnUnit.name()) at \(currentTurnUnit.location)")
                 }
             }
         }

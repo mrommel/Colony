@@ -10,6 +10,17 @@ import Foundation
 
 class WeightedPoints: WeightedList<HexPoint> {
     
+    func pop() -> HexPoint? {
+        
+        if let first = self.items.first {
+            
+            self.items = [WeightedItem<HexPoint>](self.items.suffix(from: 1))
+            
+            return first.itemType
+        }
+        
+        return nil
+    }
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
