@@ -470,6 +470,36 @@ public class TacticalAI: Codable {
                 return domain == .sea
             }
         }
+        
+        /// Still a living target?
+        func isTargetStillAlive(for attackingPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+            
+            guard let gameModel = gameModel else {
+                fatalError("cant get gameModel")
+            }
+
+            if self.targetType == .lowPriorityUnit ||
+                self.targetType == .mediumPriorityUnit ||
+                self.targetType == .highPriorityUnit {
+                
+                if let enemyDefender = gameModel.visibleEnemy(at: self.target, for: attackingPlayer) {
+                    
+                    if !enemyDefender.isDelayedDeath() {
+                        return true
+                    }
+                }
+            } else if self.targetType == .city {
+                
+                if let enemyCity = gameModel.visibleEnemyCity(at: self.target, for: attackingPlayer) {
+                    
+                    if self.targetLeader == enemyCity.player?.leader {
+                        return true
+                    }
+                }
+            }
+            
+            return false
+        }
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -628,16 +658,10 @@ public class TacticalAI: Codable {
                 if unit.task() == .explore || !unit.canMove() {
                     continue
                 } else if player.leader == .barbar {
+                    
                     // We want ALL the barbarians that are not guarding a camp
-                    /*if let tile = gameModel.tile(at: unit.location) {
-                        if tile.has(improvement: .barbarianCamp) {
-                            unit.finishMoves()
-                            self.unitProcessed(unit: unit, markTacticalMap: unit.isCombatUnit(), in: gameModel)
-                        } else {*/
-                            unit.set(tacticalMove: .unassigned)
-                            self.currentTurnUnits.append(unit)
-                        /*}
-                    }*/
+                    unit.set(tacticalMove: .unassigned)
+                    self.currentTurnUnits.append(unit)
                 } else if unit.domain() == .air {
                     // and air units
                     unit.set(tacticalMove: .unassigned)
@@ -648,9 +672,9 @@ public class TacticalAI: Codable {
                 } else {
                     // Is this one in an operation we can't interrupt?
                     if let army = unit.army() {
-                        //if army.canInterrupt(unit: unit) {
-                        unit.set(tacticalMove: .none)
-                        //}
+                        if army.canTacticalAIInterrupt(unit: unit) {
+                            unit.set(tacticalMove: .none)
+                        }
                     } else {
                         // Non-zero danger value, near enemy, or deploying out of an operation?
                         let danger = dangerPlotsAI.danger(at: unit.location)
@@ -729,13 +753,286 @@ public class TacticalAI: Codable {
     }
 
     /// Process units that we recruited out of operational moves.  Haven't used them, so let them go ahead with those moves
-    func updateOperationalArmyMoves() {
+    func updateOperationalArmyMoves(in gameModel: GameModel?) {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
         guard let operations = self.player?.operations else {
             fatalError("cant get operations")
         }
 
-        fatalError("not implement yet")
+        // Update all operations (moved down - previously was in the PlayerAI object)
+        for operation in operations {
+            
+            if operation.lastTurnMoved() < gameModel.currentTurn {
+                
+                switch operation.moveType {
+                
+                case .none:
+                    // NOOP
+                break
+                case .singleHex:
+                    self.plotSingleHexOperationMoves(for: operation as? EscortedOperation, in: gameModel)
+                case .enemyTerritory:
+                    self.plotEnemyTerritoryOperationMoves(operation as? EnemyTerritoryOperation)
+                case .navalEscort:
+                    self.plotNavalEscortOperationMoves(operation as? NavalEscortedOperation)
+                case .freeformNaval:
+                    self.plotFreeformNavalOperationMoves(operation as? NavalOperation)
+                case .rebase:
+                    // NOOP
+                break
+                }
+                
+                operation.set(lastTurnMoved: gameModel.currentTurn)
+                operation.checkOnTarget(in: gameModel)
+            }
+        }
+
+        for operation in operations {
+            
+            operation.doDelayedDeath(in: gameModel)
+        }
+    }
+    
+    // MARK: OPERATIONAL AI SUPPORT FUNCTIONS
+
+    /// Move a single stack (civilian plus escort) to its destination
+    func plotSingleHexOperationMoves(for operation: EscortedOperation?, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let operation = operation else {
+            return
+        }
+
+        // Simplification - assume only 1 army per operation now
+        guard let army = operation.army else {
+            return
+        }
+        
+        guard let civilian = army.unit(at: 0) else {
+            return
+        }
+
+        // ESCORT AND CIVILIAN MEETING UP
+        if army.state == .waitingForUnitsToReinforce || army.state == .waitingForUnitsToCatchUp {
+            
+            guard let escort = army.unit(at: 1) else {
+                // Escort died or was poached for other tactical action, operation will clean itself up when call CheckOnTarget()
+                return
+            }
+            
+            if escort.processedInTurn() {
+                return
+            }
+
+            // Check to make sure escort can get to civilian
+            if escort.path(towards: civilian.location, in: gameModel) != nil {
+                
+                // He can, so have civilian remain in place
+                self.executeMoveToPlot(of: civilian, to: civilian.location, in: gameModel)
+
+                if army.numOfSlotsFilled() > 1 {
+                    
+                    // Move escort over
+                    self.executeMoveToPlot(of: escort, to: civilian.location, in: gameModel)
+                    
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        
+                        print("Moving escorting \(escort.type) to civilian for operation, Civilian at \(civilian.location), \(escort.location)")
+                        // LogTacticalMessage(strLogString);
+                    }
+                }
+            } else {
+                // Find a new place to meet up, look at all hexes adjacent to civilian
+                for neighbor in civilian.location.neighbors() {
+                    
+                    guard let neighborTile = gameModel.tile(at: neighbor) else {
+                        continue
+                    }
+                    
+                    if escort.canEnterTerrain(of: neighborTile) && escort.canEnterTerritory(of: self.player, ignoreRightOfPassage: false, isDeclareWarMove: false) {
+                        
+                        if gameModel.unit(at: neighbor) == nil {
+                            
+                            if escort.path(towards: neighbor, in: gameModel) != nil && civilian.path(towards: neighbor, in: gameModel) != nil {
+                                
+                                self.executeMoveToPlot(of: escort, to: neighbor, in: gameModel)
+                                self.executeMoveToPlot(of: civilian, to: neighbor, in: gameModel)
+                                
+                                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                    
+                                    print("Moving escorting \(escort.type) to open hex, Open \(neighbor), \(escort.location)")
+                                    // LogTacticalMessage(strLogString);
+                                    
+                                    print("Moving \(civilian.type) to open hex, Open \(neighbor), \(civilian.location)")
+                                    // LogTacticalMessage(strLogString);
+                                }
+                                
+                                return
+                            }
+                        }
+                    }
+                }
+ 
+                // Didn't find an alternative, must abort operation
+                operation.retarget(civilian: civilian, within: army, in: gameModel)
+                civilian.finishMoves()
+                escort.finishMoves()
+                
+                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                    
+                    print("Retargeting civilian escort operation. No empty tile adjacent to civilian to meet.")
+                    // LogTacticalMessage(strLogString);
+                }
+            }
+        } else {
+            // MOVING TO TARGET
+            // If we're not there yet, we have work to do (otherwise CheckOnTarget() will finish operation for us)
+            if civilian.location != operation.targetPosition {
+                
+                // Look at where we'd move this turn taking units into consideration
+                // int iFlags = 0;
+                //if army.numOfSlotsFilled() > 1 {
+                    // iFlags = MOVE_UNITS_IGNORE_DANGER;
+                //}
+
+                // Handle case of no path found at all for civilian
+                if let path = civilian.path(towards: operation.targetPosition!, in: gameModel) {
+                    
+                    let civilianMove = path.last!.0
+                    let saveMoves = civilianMove == operation.targetPosition
+                    
+                    if army.numOfSlotsFilled() == 1 {
+                        
+                        self.executeMoveToPlot(of: civilian, to: civilianMove, saveMoves: saveMoves, in: gameModel)
+                        
+                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                            
+                            print("Moving \(civilian.type) without escort to target, \(civilian.location)")
+                            // LogTacticalMessage(strLogString);
+                        }
+                    } else {
+                        guard let escort = army.unit(at: 1) else {
+                            return
+                        }
+
+                        // See if escort can move to the same location in one turn
+                        if escort.turnsToReach(at: civilianMove, in: gameModel) <= 1 {
+                            
+                            self.executeMoveToPlot(of: civilian, to: civilianMove, saveMoves: saveMoves, in: gameModel)
+                            self.executeMoveToPlot(of: escort, to: civilianMove, in: gameModel);
+                            
+                            if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                
+                                print("Moving \(civilian.type) to target, \(civilian.location)")
+                                // LogTacticalMessage(strLogString);
+                                
+                                print("Moving escorting \(escort.type) to target, \(escort.location)")
+                                // LogTacticalMessage(strLogString);
+                            }
+                        } else {
+                            let tacticalMap = gameModel.tacticalAnalysisMap()
+                            let cell = tacticalMap.plots[civilianMove]!
+                            
+                            let blockingUnit = gameModel.unit(at: civilianMove)
+
+                            // See if friendly blocking unit is ending the turn there, or if no blocking unit (which indicates this is somewhere civilian
+                            // can move that escort can't -- like minor civ territory), then find a new path based on moving the escort
+                            if cell.friendlyTurnEndTile || blockingUnit == nil {
+                                
+                                if let path = escort.path(towards: operation.targetPosition!, in: gameModel) {
+                                    
+                                    let escortMove = path.last!.0
+                                    let saveMoves = escortMove == operation.targetPosition
+
+                                    // See if civilian can move to the same location in one turn
+                                    if civilian.turnsToReach(at: escortMove, in: gameModel) <= 1 {
+                                        
+                                        self.executeMoveToPlot(of: escort, to: escortMove, in: gameModel)
+                                        self.executeMoveToPlot(of: civilian, to: escortMove, saveMoves: saveMoves, in: gameModel)
+                                        
+                                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                            
+                                            print("Moving escorting \(escort.type) to target, \(escort.location)")
+                                            //LogTacticalMessage(strLogString);
+                                            
+                                            print("Moving \(civilian.type) to target, \(civilian.location)")
+                                            //LogTacticalMessage(strLogString);
+                                        }
+                                    } else {
+                                        // Didn't find an alternative, retarget operation
+                                        operation.retarget(civilian: civilian, within: army, in: gameModel)
+                                        civilian.finishMoves()
+                                        escort.finishMoves()
+                                        
+                                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                            
+                                            print("Retargeting civilian escort operation. Too many blocking units.");
+                                            // LogTacticalMessage(strLogString);
+                                        }
+                                    }
+                                } else {
+                                    operation.retarget(civilian: civilian, within: army, in: gameModel)
+                                    civilian.finishMoves()
+                                    escort.finishMoves()
+                                    
+                                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                        
+                                        print("Retargeting civilian escort operation (path lost to target), \(operation.targetPosition!)")
+                                        // LogTacticalMessage(strLogString);
+                                    }
+                                }
+                            } else {
+                                // Looks like we should be able to move the blocking unit out of the way
+                                if self.executeMoveOfBlockingUnit(of: blockingUnit, in: gameModel) {
+                                    
+                                    self.executeMoveToPlot(of: escort, to: civilianMove, in: gameModel)
+                                    self.executeMoveToPlot(of: civilian, to: civilianMove, saveMoves: saveMoves, in: gameModel)
+                                    
+                                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                        
+                                        print("Moving escorting \(escort.type) to target, \(escort.location)")
+                                        // LogTacticalMessage(strLogString);
+                                        
+                                        print("Moving \(civilian.type) to target, \(civilian.location)")
+                                        // LogTacticalMessage(strLogString);
+                                    }
+                                } else {
+
+                                    // Didn't find an alternative, try retargeting operation
+                                    operation.retarget(civilian: civilian, within: army, in: gameModel)
+                                    civilian.finishMoves()
+                                    escort.finishMoves()
+                                    
+                                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                        print("Retargeting civilian escort operation. Could not move blocking unit.");
+                                        // LogTacticalMessage(strLogString);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    operation.retarget(civilian: civilian, within: army, in: gameModel)
+                    civilian.finishMoves()
+                    
+                    if let escort = army.unit(at: 1) {
+                        escort.finishMoves()
+                    }
+                    
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        print("Retargeting civilian escort operation (path lost to target), \(operation.targetPosition!)")
+                        // LogTacticalMessage(strLogString);
+                    }
+                }
+            }
+        }
     }
     
     func processDominanceZones(in gameModel: GameModel?) {
@@ -870,7 +1167,7 @@ public class TacticalAI: Codable {
             self.plotDestroyUnitMoves(targetType: .lowPriorityUnit, mustBeAbleToKill: false, attackAtPoorOdds: false, in: gameModel)
         case .barbarianCamp:
             // TACTICAL_BARBARIAN_CAMP
-            self.plotBarbarianCampMoves()
+            self.plotBarbarianCampMoves(in: gameModel)
         case .pillage:
             // TACTICAL_PILLAGE
             self.plotPillageMoves(targetType: .improvement, firstPass: true, in: gameModel)
@@ -878,7 +1175,7 @@ public class TacticalAI: Codable {
             fatalError("not implemented yet")
         case .safeBombards:
             // TACTICAL_SAFE_BOMBARDS
-            self.plotSafeBombardMoves()
+            self.plotSafeBombardMoves(in: gameModel)
         case .heal:
             // TACTICAL_HEAL
             self.plotHealMoves()
@@ -887,7 +1184,7 @@ public class TacticalAI: Codable {
             self.plotAncientRuinMoves()
         case .bastionAlreadyThere:
             // TACTICAL_BASTION_ALREADY_THERE
-            self.plotBastionMoves(0);
+            self.plotBastionMoves(0)
         case .guardImprovementAlreadyThere:
             // TACTICAL_GUARD_IMPROVEMENT_ALREADY_THERE
             self.plotGuardImprovementMoves(0)
@@ -896,7 +1193,7 @@ public class TacticalAI: Codable {
             self.plotBastionMoves(1)
         case .garrisonOneTurn:
             // TACTICAL_GARRISON_1_TURN
-            self.plotGarrisonMoves(1)
+            self.plotGarrisonMoves(numTurnsAway: 1, in: gameModel)
         case .guardImprovementOneTurn:
             // TACTICAL_GUARD_IMPROVEMENT_1_TURN
             self.plotGuardImprovementMoves(1)
@@ -967,6 +1264,66 @@ public class TacticalAI: Codable {
 
         if self.currentMoveUnits.count > 0 {
             self.executeRepositionMoves(in: gameModel)
+        }
+    }
+    
+    /// Find all targets that we can bombard easily
+    func plotSafeBombardMoves(in gameModel: GameModel?) {
+        
+        for targetRef in self.zoneTargets(for: .highPriorityUnit) {
+            
+            guard let target = targetRef else {
+                continue
+            }
+            
+            if target.isTargetStillAlive(for: self.player, in: gameModel) {
+                
+                // m_pMap->ClearDynamicFlags();
+                // m_pMap->SetTargetBombardCells(pTargetPlot, m_pMap->GetBestFriendlyRange(), m_pMap->CanIgnoreLOS());
+                self.executeSafeBombards(on: target, in: gameModel)
+            }
+        }
+        
+        for targetRef in self.zoneTargets(for: .mediumPriorityUnit) {
+            
+            guard let target = targetRef else {
+                continue
+            }
+            
+            if target.isTargetStillAlive(for: self.player, in: gameModel) {
+                
+                // m_pMap->ClearDynamicFlags();
+                // m_pMap->SetTargetBombardCells(pTargetPlot, m_pMap->GetBestFriendlyRange(), m_pMap->CanIgnoreLOS());
+                self.executeSafeBombards(on: target, in: gameModel)
+            }
+        }
+        
+        for targetRef in self.zoneTargets(for: .lowPriorityUnit) {
+            
+            guard let target = targetRef else {
+                continue
+            }
+            
+            if target.isTargetStillAlive(for: self.player, in: gameModel) {
+                
+                // m_pMap->ClearDynamicFlags();
+                // m_pMap->SetTargetBombardCells(pTargetPlot, m_pMap->GetBestFriendlyRange(), m_pMap->CanIgnoreLOS());
+                self.executeSafeBombards(on: target, in: gameModel)
+            }
+        }
+
+        for targetRef in self.zoneTargets(for: .embarkedMilitaryUnit) {
+            
+            guard let target = targetRef else {
+                continue
+            }
+            
+            if target.isTargetStillAlive(for: self.player, in: gameModel) {
+                
+                // m_pMap->ClearDynamicFlags();
+                // m_pMap->SetTargetBombardCells(pTargetPlot, m_pMap->GetBestFriendlyRange(), m_pMap->CanIgnoreLOS());
+                self.executeSafeBombards(on: target, in: gameModel)
+            }
         }
     }
     
@@ -2340,6 +2697,56 @@ public class TacticalAI: Codable {
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    /// Assign a unit to capture an undefended barbarian camp
+    func plotBarbarianCampMoves(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for target in self.zoneTargets(for: .barbarianCamp) {
+            
+            guard let targetPoint = target?.target else {
+                continue
+            }
+            
+            // See what units we have who can reach target this turn
+            /*guard let plot = gameModel.tile(at: targetPoint) else {
+                continue
+            }*/
+            
+            if self.findUnitsWithinStrikingDistance(towards: targetPoint, numTurnsAway: 1, noRangedUnits: false, navalOnly: false, mustMoveThrough: false, includeBlockedUnits: false, willPillage: false, targetUndefended: true, in: gameModel) {
+                
+                // Queue best one up to capture it
+                self.executeBarbarianCampMove(at: targetPoint, in: gameModel)
+                
+                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                    
+                    print("Removing barbarian camp, \(targetPoint)")
+                    // LogTacticalMessage(strLogString);
+                }
+                
+                self.deleteTemporaryZone(at: targetPoint)
+            }
+        }
+    }
+    
+    /// Capture the gold from a barbarian camp
+    func executeBarbarianCampMove(at point: HexPoint, in gameModel: GameModel?) {
+        
+        if let currentMoveUnit = self.currentMoveUnits.first {
+            // Move first one to target
+            if let unit = currentMoveUnit?.unit {
+                
+                unit.push(mission: UnitMission(type: .moveTo, at: point), in: gameModel)
+                unit.finishMoves()
+
+                // Delete this unit from those we have to move
+                self.unitProcessed(unit: unit, in: gameModel)
             }
         }
     }

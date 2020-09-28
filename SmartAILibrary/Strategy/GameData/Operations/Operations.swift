@@ -15,7 +15,7 @@ class Operations: Codable {
         case operations
     }
     
-    private var operations: [Operation]
+    internal var operations: [Operation]
     
     init() {
         
@@ -109,5 +109,38 @@ class Operations: Codable {
         }
 
         return false
+    }
+}
+
+public struct OperationIterator: IteratorProtocol {
+    
+    private let operations: Operations
+    private var index = 0
+    
+    init(operations: Operations) {
+        self.operations = operations
+    }
+    
+    mutating public func next() -> Operation? {
+        
+        guard 0 <= index else {
+            return nil
+        }
+        
+        // prevent out of bounds
+        guard index < self.operations.operations.count else {
+            return nil
+        }
+        
+        let point = self.operations.operations[index]
+        index += 1
+        return point
+    }
+}
+
+extension Operations: Sequence {
+    
+    public func makeIterator() -> OperationIterator {
+        return OperationIterator(operations: self)
     }
 }

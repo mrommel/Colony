@@ -52,6 +52,8 @@ public class Operation: Codable, Equatable {
         case startPosition
         case musterPosition
         case targetPosition
+        
+        case lastTurnMoved
     }
 
     let identifier: String
@@ -71,6 +73,8 @@ public class Operation: Codable, Equatable {
     var startPosition: HexPoint? = nil // Coordinates of start city
     var musterPosition: HexPoint? = nil // Coordinates of muster plot
     var targetPosition: HexPoint? = nil // Coordinates of target plot
+    
+    private var lastTurnMovedValue: Int = -1
 
     init(type: UnitOperationType) {
 
@@ -97,6 +101,8 @@ public class Operation: Codable, Equatable {
         self.startPosition = try container.decodeIfPresent(HexPoint.self, forKey: .startPosition)
         self.musterPosition = try container.decodeIfPresent(HexPoint.self, forKey: .musterPosition)
         self.targetPosition = try container.decodeIfPresent(HexPoint.self, forKey: .targetPosition)
+        
+        self.lastTurnMovedValue = try container.decode(Int.self, forKey: .lastTurnMoved)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -118,6 +124,8 @@ public class Operation: Codable, Equatable {
         try container.encodeIfPresent(self.startPosition, forKey: .startPosition)
         try container.encodeIfPresent(self.musterPosition, forKey: .musterPosition)
         try container.encodeIfPresent(self.targetPosition, forKey: .targetPosition)
+        
+        try container.encode(self.lastTurnMovedValue, forKey: .lastTurnMoved)
     }
 
     func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
@@ -132,6 +140,9 @@ public class Operation: Codable, Equatable {
         // create the armies that are needed and set the state to ARMYAISTATE_WAITING_FOR_UNITS_TO_REINFORCE
         self.buildListOfUnitsWeStillNeedToBuild()
         let _ = self.grabUnitsFromTheReserves(at: nil, for: nil, in: gameModel)
+        
+        //
+        self.set(lastTurnMoved: gameModel?.currentTurn ?? -1)
     }
     
     /// Delete allocated objects
@@ -169,6 +180,16 @@ public class Operation: Codable, Equatable {
     func isMixedLandNavalOperation() -> Bool {
 
         return false
+    }
+    
+    func lastTurnMoved() -> Int {
+        
+        return self.lastTurnMovedValue
+    }
+    
+    func set(lastTurnMoved: Int) {
+        
+        self.lastTurnMovedValue = lastTurnMoved
     }
 
     func updateTarget(to point: HexPoint) {
@@ -393,6 +414,7 @@ public class Operation: Codable, Equatable {
     }
 
     /// See if armies are ready to hand off units to the tactical AI (and do so if ready)
+    @discardableResult
     func checkOnTarget(in gameModel: GameModel?) -> Bool {
 
         if self.army == nil {
@@ -665,6 +687,7 @@ public class Operation: Codable, Equatable {
     }
 
     /// Delete the operation if marked to go away
+    @discardableResult
     func doDelayedDeath(in gameModel: GameModel?) -> Bool {
         
         if self.shouldAbort(in: gameModel) {
