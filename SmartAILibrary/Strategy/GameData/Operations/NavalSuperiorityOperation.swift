@@ -360,7 +360,7 @@ class NavalSuperiorityOperation: NavalOperation {
         return bestPlot
     }
     
-    func canTacticalAIInterruptOperation() -> Bool {
+    override func canTacticalAIInterrupt() -> Bool {
         
         return true
     }

@@ -171,7 +171,7 @@ class PureNavalCityAttackOperation: NavalOperation {
         return .navalCityAttack // MUFORMATION_PURE_NAVAL_CITY_ATTACK
     }
     
-    func canTacticalAIInterruptOperation() -> Bool {
+    override func canTacticalAIInterrupt() -> Bool {
         
         return true
     }

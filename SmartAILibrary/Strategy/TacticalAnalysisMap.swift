@@ -40,7 +40,7 @@ class TacticalAnalysisMap {
     let tacticalRange = 10 // AI_TACTICAL_RECRUIT_RANGE
     let unitStrengthMultiplier: Int // 10 AI_TACTICAL_MAP_UNIT_STRENGTH_MULTIPLIER * tacticalRange
     let tempZoneRadius = 5 // AI_TACTICAL_MAP_TEMP_ZONE_RADIUS
-    var bestFriendlyRange = 0
+    var bestFriendlyRangeValue = 0
 
     var turnBuild: Int
     var playerBuild: AbstractPlayer?
@@ -48,6 +48,7 @@ class TacticalAnalysisMap {
     var plots: Array2D<TacticalAnalysisCell>
     var enemyUnits: [AbstractUnit?]
     var dominanceZones: [TacticalDominanceZone]
+    var ignoreLineOfSight: Bool
 
     // MARK: internal class
 
@@ -126,11 +127,18 @@ class TacticalAnalysisMap {
             
             self.dominanceZone = nil
         }
+        
+        // TACTICAL_FLAG_REVEALED
 
         // Is this plot revealed to this player?
+        // TACTICAL_FLAG_VISIBLE
         var revealed: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 0) }
             get { return self.bits.valueOfBit(at: 0) }
+        }
+        
+        func isRevealed() -> Bool {
+            return self.bits.valueOfBit(at: 0)
         }
 
         // Is this plot visible to this player?
@@ -138,32 +146,46 @@ class TacticalAnalysisMap {
             set { self.bits.setValueOfBit(value: newValue, at: 1) }
             get { return self.bits.valueOfBit(at: 1) }
         }
+        
+        func isVisivle() -> Bool {
+            return self.bits.valueOfBit(at: 1)
+        }
 
         // Is this terrain impassable to this player?
+        // TACTICAL_FLAG_IMPASSABLE_TERRAIN
         var impassableTerrain: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 2) }
             get { return self.bits.valueOfBit(at: 2) }
         }
 
         // Is this neutral territory impassable to this player?
+        // TACTICAL_FLAG_IMPASSABLE_TERRITORY
         var impassableTerritory: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 3) }
             get { return self.bits.valueOfBit(at: 3) }
         }
 
         // A tile no enemy unit can see?
+        // TACTICAL_FLAG_NOT_VISIBLE_TO_ENEMY
         var notVisibleToEnemy: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 4) }
             get { return self.bits.valueOfBit(at: 4) }
         }
 
         // Enemy can strike at a unit here
+        // TACTICAL_FLAG_SUBJECT_TO_ENEMY_ATTACK
         var subjectToAttack: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 5) }
             get { return self.bits.valueOfBit(at: 5) }
         }
+        
+        func isSubjectToAttack() -> Bool {
+            
+            return self.bits.valueOfBit(at: 5)
+        }
 
         // Enemy can move to this tile and still have movement left this turn
+        // TACTICAL_FLAG_FRIENDLY_TURN_END_TILE
         var enemyCanMovePast: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 6) }
             get { return self.bits.valueOfBit(at: 6) }
@@ -176,18 +198,21 @@ class TacticalAnalysisMap {
         }
 
         // Friendly city here?
+        // TACTICAL_FLAG_FRIENDLY_CITY
         var friendlyCity: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 8) }
             get { return self.bits.valueOfBit(at: 8) }
         }
 
         // Enemy city here?
+        // TACTICAL_FLAG_ENEMY_CITY
         var enemyCity: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 9) }
             get { return self.bits.valueOfBit(at: 9) }
         }
 
         // Neutral city here?
+        // TACTICAL_FLAG_NEUTRAL_CITY
         var neutralCity: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 10) }
             get { return self.bits.valueOfBit(at: 10) }
@@ -198,39 +223,71 @@ class TacticalAnalysisMap {
         }
 
         // Water?
+        // TACTICAL_FLAG_WATER
         var water: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 11) }
             get { return self.bits.valueOfBit(at: 11) }
         }
 
         // Ocean?
+        // TACTICAL_FLAG_OCEAN
         var ocean: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 12) }
             get { return self.bits.valueOfBit(at: 12) }
         }
 
         // Territory owned by the active player
+        // TACTICAL_FLAG_OWN_TERRITORY
         var ownTerritory: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 13) }
             get { return self.bits.valueOfBit(at: 13) }
         }
 
         // Territory owned by allies
+        // TACTICAL_FLAG_FRIENDLY_TERRITORY
         var friendlyTerritory: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 14) }
             get { return self.bits.valueOfBit(at: 14) }
         }
 
         // Territory owned by enemies
+        // TACTICAL_FLAG_ENEMY_TERRITORY
         var enemyTerritory: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 15) }
             get { return self.bits.valueOfBit(at: 15) }
         }
 
         // Territory that is unclaimed
+        // TACTICAL_FLAG_UNCLAIMED_TERRITORY
         var unclaimedTerritory: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 16) }
             get { return self.bits.valueOfBit(at: 16) }
+        }
+        
+        // Is this a plot we can use to bombard the target?
+        // TACTICAL_FLAG_WITHIN_RANGE_OF_TARGET
+        var withinRangeOfTarget: Bool {
+            set { self.bits.setValueOfBit(value: newValue, at: 17) }
+            get { return self.bits.valueOfBit(at: 17) }
+        }
+        
+        func isWithinRangeOfTarget() -> Bool {
+            
+            return self.bits.valueOfBit(at: 17)
+        }
+
+        // Does this plot help provide a flanking bonus on target?
+        // TACTICAL_FLAG_CAN_USE_TO_FLANK
+        var canUseToFlank: Bool {
+            set { self.bits.setValueOfBit(value: newValue, at: 18) }
+            get { return self.bits.valueOfBit(at: 18) }
+        }
+           
+        // Should be a safe spot to deploy ranged units
+        // TACTICAL_FLAG_SAFE_DEPLOYMENT
+        var safeDeployment: Bool {
+            set { self.bits.setValueOfBit(value: newValue, at: 19) }
+            get { return self.bits.valueOfBit(at: 19) }
         }
 
         static func == (lhs: TacticalAnalysisMap.TacticalAnalysisCell, rhs: TacticalAnalysisMap.TacticalAnalysisCell) -> Bool {
@@ -297,6 +354,7 @@ class TacticalAnalysisMap {
         self.isBuild = false
         self.enemyUnits = []
         self.dominanceZones = []
+        self.ignoreLineOfSight = false
     }
 
     /// Fill the map with data for this AI player's turn
@@ -354,12 +412,82 @@ class TacticalAnalysisMap {
         }
     }
     
+    func bestFriendlyRange() -> Int {
+        
+        return self.bestFriendlyRangeValue
+    }
+    
+    func canIgnoreLightOfSight() -> Bool {
+        
+        return self.ignoreLineOfSight
+    }
+    
+    func set(bestFriendlyRange value: Int) {
+        
+        self.bestFriendlyRangeValue = value
+    }
+    
+    // Clear all dynamic data flags from the map
+    func clearDynamicFlags() {
+        
+        for x in 0..<self.plots.width {
+            for y in 0..<self.plots.height {
+                
+                self.plots[x, y]?.withinRangeOfTarget = false
+                self.plots[x, y]?.canUseToFlank = false
+                self.plots[x, y]?.safeDeployment = false
+                self.plots[x, y]?.deploymentScore = 0
+            }
+        }
+    }
+    
+    /// Mark cells we can use to bomb a specific target
+    func setTargetBombardCells(target: HexPoint, bestFriendlyRange range: Int, canIgnoreLightOfSight: Bool, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let targetPlot = gameModel.tile(at: target) else {
+            fatalError("cant get targetPlot")
+        }
+
+        for dx in -range...range {
+            for dy in -range...range {
+                
+                let loopPoint = HexPoint(x: target.x + dx, y: target.y + dy)
+                
+                guard let loopPlot = gameModel.tile(at: loopPoint) else {
+                    continue
+                }
+                
+                let distance = loopPoint.distance(to: target)
+                
+                if distance > 0 && distance <= range {
+                    
+                    guard let plot = self.plots[loopPoint] else {
+                        continue
+                    }
+                     
+                    if plot.revealed && !plot.impassableTerrain && !plot.impassableTerritory {
+                        
+                        if !plot.enemyCity && !plot.neutralCity {
+                            if ignoreLineOfSight || loopPlot.canSee(tile: targetPlot, for: self.playerBuild, range: range, in: gameModel) {
+                                plot.withinRangeOfTarget = true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+                
+                    
+                        
+
+    }
+    
     // Is this plot in dangerous territory?
     func isInEnemyDominatedZone(at point: HexPoint) -> Bool {
-        
-        //CvTacticalAnalysisCell *pCell;
-        //int iPlotIndex;
-        //CvTacticalDominanceZone *pZone;
 
         let cell = self.plots[point]
         
@@ -457,8 +585,8 @@ class TacticalAnalysisMap {
                         tempZone.friendlyStrength += strength * self.unitStrengthMultiplier
                         tempZone.friendlyRangedStrength += friendlyUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
                         
-                        if friendlyUnit.range() > self.bestFriendlyRange {
-                            self.bestFriendlyRange = friendlyUnit.range()
+                        if friendlyUnit.range() > self.bestFriendlyRangeValue {
+                            self.bestFriendlyRangeValue = friendlyUnit.range()
                         }
                         
                         tempZone.friendlyUnitCount += 1
@@ -588,8 +716,8 @@ class TacticalAnalysisMap {
                                         dominanceZone.friendlyStrength += unitStrength * multiplier * self.unitStrengthMultiplier
                                         dominanceZone.friendlyRangedStrength += unit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
 
-                                        if unit.range() > self.bestFriendlyRange {
-                                            self.bestFriendlyRange = unit.range()
+                                        if unit.range() > self.bestFriendlyRangeValue {
+                                            self.bestFriendlyRangeValue = unit.range()
                                         }
 
                                         dominanceZone.friendlyUnitCount += 1

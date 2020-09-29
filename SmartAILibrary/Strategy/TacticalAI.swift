@@ -309,6 +309,22 @@ class TacticalUnit: Comparable {
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  CLASS:      CvOperationUnit
+//!  \brief        One unit moving with operational army currently being processed
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class OperationUnit {
+    
+    let unit: AbstractUnit?
+    let position: UnitFormationPosition
+    
+    init(unit: AbstractUnit?, at position: UnitFormationPosition) {
+        
+        self.unit = unit
+        self.position = position
+    }
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvTacticalAI
 //!  \brief        A player's AI to control units as they fight out battles
 //
@@ -339,6 +355,11 @@ public class TacticalAI: Codable {
     var currentMoveCities: [TacticalCity?]
     var currentMoveUnits: [TacticalUnit?]
     var currentMoveHighPriorityUnits: [TacticalUnit?]
+    
+    // Operational AI support data
+    var operationUnits: [OperationUnit]
+    var generalsToMove: [OperationUnit]
+    var paratroopersToMove: [OperationUnit]
     
     var movePriotityTurn: Int = 0
     var currentSeriesId: Int = -1
@@ -593,6 +614,10 @@ public class TacticalAI: Codable {
         self.currentMoveCities = []
         self.currentMoveUnits = []
         self.currentMoveHighPriorityUnits = []
+        
+        self.operationUnits = []
+        self.generalsToMove = []
+        self.paratroopersToMove = []
     }
     
     required public init(from decoder: Decoder) throws {
@@ -612,6 +637,10 @@ public class TacticalAI: Codable {
         self.currentMoveUnits = []
         self.currentMoveHighPriorityUnits = []
 
+        self.operationUnits = []
+        self.generalsToMove = []
+        self.paratroopersToMove = []
+        
         self.movePriotityTurn = try container.decode(Int.self, forKey: .movePriotityTurn)
     }
     
@@ -672,7 +701,7 @@ public class TacticalAI: Codable {
                 } else {
                     // Is this one in an operation we can't interrupt?
                     if let army = unit.army() {
-                        if army.canTacticalAIInterrupt(unit: unit) {
+                        if army.canTacticalAIInterrupt() {
                             unit.set(tacticalMove: .none)
                         }
                     } else {
@@ -776,7 +805,7 @@ public class TacticalAI: Codable {
                 case .singleHex:
                     self.plotSingleHexOperationMoves(for: operation as? EscortedOperation, in: gameModel)
                 case .enemyTerritory:
-                    self.plotEnemyTerritoryOperationMoves(operation as? EnemyTerritoryOperation)
+                    self.plotEnemyTerritoryOperationMoves(operation: operation as? EnemyTerritoryOperation, in: gameModel)
                 case .navalEscort:
                     self.plotNavalEscortOperationMoves(operation as? NavalEscortedOperation)
                 case .freeformNaval:
@@ -1035,6 +1064,259 @@ public class TacticalAI: Codable {
         }
     }
     
+    /// Move a large army to its destination against an enemy target
+    func plotEnemyTerritoryOperationMoves(for operation: EnemyTerritoryOperation?, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        // Simplification - assume only 1 army per operation now
+        guard let thisArmy = operation?.army else {
+            return
+        }
+
+        self.operationUnits.removeAll()
+        self.generalsToMove.removeAll()
+        self.paratroopersToMove.removeAll()
+        thisArmy.updateCheckpointTurns(in: gameModel)
+
+        // RECRUITING
+        if thisArmy.state == .waitingForUnitsToReinforce {
+            
+            // If no estimate for when recruiting will end, let the rest of the AI use these units
+            if thisArmy.turnAtNextCheckpoint() == ArmyFormationSlot.unknownTurnAtCheckpoint {
+                return
+            } else {
+                
+                for (index, slot) in thisArmy.formation.slots().enumerated() {
+                    
+                    // See if we are just able to get to muster point in time.  If so, time for us to head over there
+                    if let unit = thisArmy.unit(at: index), let slotEntry = thisArmy.slot(at: index) {
+                        
+                        if !unit.processedInTurn() {
+                            
+                            // Great general?
+                            if unit.isGreatGeneral() || unit.isGreatAdmiral() {
+                                
+                                if unit.moves() > 0 {
+
+                                    self.generalsToMove.append(OperationUnit(unit: unit, at: .civilianSupport))
+                                }
+                            } else {
+
+                                let formationSlotEntry = thisArmy.formation.slots()[index]
+                                
+                                // Continue moving to target
+                                if slotEntry.hasStartedOnOperation() {
+                                    self.moveWithFormation(unit: unit, at: formationSlotEntry.position)
+                                } else {
+                                    // See if we are just able to get to muster point in time.  If so, time for us to head over there
+                                    let turns = unit.turnsToReach(at: operation!.musterPosition!, in: gameModel)
+                                    if turns + gameModel.currentTurn >= thisArmy.turnAtNextCheckpoint() {
+                                        slotEntry.set(startedOnOperation: true)
+                                        self.moveWithFormation(unit: unit, at: formationSlotEntry.position)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                self.executeGatherMoves(thisArmy)
+            }
+        } else if thisArmy.state == .waitingForUnitsToCatchUp { // GATHERING FORCES
+            
+            self.clearEnemiesNearArmy(thisArmy)
+
+            // Request moves for all units
+            for (index, slot) in thisArmy.formation.slots().enumerated() {
+                
+                if let unit = thisArmy.unit(at: index), let slotEntry = thisArmy.slot(at: index) {
+                    
+                    if !unit.processedInTurn() {
+                        // Great general or admiral?
+                        if unit.isGreatGeneral() || unit.isGreatAdmiral() {
+                
+                            if unit.moves() > 0 {
+
+                                self.generalsToMove.append(OperationUnit(unit: unit, at: .civilianSupport))
+                            }
+                        } else {
+                            slotEntry.set(startedOnOperation: true)
+                            
+                            let formationSlotEntry = thisArmy.formation.slots()[index]
+                            self.moveWithFormation(unit: unit, at: formationSlotEntry.position)
+                        }
+                    }
+                }
+            }
+                
+            self.executeGatherMoves(thisArmy)
+            
+        } else if thisArmy.state == .movingToDestination { // MOVING TO TARGET
+             
+            // Update army's current location
+            //CvPlot* pThisTurnTarget;
+            //CvPlot* pClosestCurrentCOMonPath = NULL;
+            var closestCurrentCenterOfMassOnPath: HexPoint = HexPoint.invalid
+            guard let thisTurnTarget = operation.computeCenterOfMassForTurn(thisArmy, &closestCurrentCenterOfMassOnPath) else {
+                operation?.state = .aborted(reason: .lostPath)
+                return
+            }
+
+            thisArmy.position = thisTurnTarget
+            self.clearEnemiesNearArmy(thisArmy)
+
+            // Request moves for all units
+            for (index, slot) in thisArmy.formation.slots().enumerated() {
+                
+                if let unit = thisArmy.unit(at: index), let slotEntry = thisArmy.slot(at: index) {
+                    
+                    if !unit.processedInTurn() {
+                        
+                        // Great general or admiral?
+                        if unit.isGreatGeneral() || unit.isGreatAdmiral() {
+                
+                            if unit.moves() > 0 {
+
+                                self.generalsToMove.append(OperationUnit(unit: unit, at: .civilianSupport))
+                            }
+                        } else {
+
+                            let formationSlotEntry = thisArmy.formation.slots()[index]
+                            self.moveWithFormation(unit: unit, at: formationSlotEntry.position)
+                        }
+                    }
+                }
+            }
+            
+            self.executeFormationMoves(thisArmy, closestCurrentCOMonPath)
+        }
+
+        if self.paratroopersToMove.count > 0 {
+            //MoveParatroopers(pThisArmy);
+        }
+
+        if self.generalsToMove.count > 0 {
+            self.moveGreatGeneral(thisArmy)
+        }
+    }
+    
+    /// Store off a new unit that needs to move as part of an operational AI formation
+    func moveWithFormation(unit: AbstractUnit?, at position: UnitFormationPosition) {
+        
+        if unit?.moves() ?? 0 > 0 {
+            self.operationUnits.append(OperationUnit(unit: unit, at: position))
+        }
+    }
+    
+    /// Gather all units requested through calls to MoveWithFormation() to army's location
+    func executeGatherMoves(of army: Army?, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let army = army else {
+            return
+        }
+        /*
+        AITacticalTargetType eTargetType;
+        CvPlot* pLoopPlot;*/
+
+        if self.operationUnits.count == 0 {
+            return
+        }
+
+        let target = army.position
+
+        // Gathering - treat everyone as a melee unit; don't need ranged in the rear yet
+        let numUnits = self.operationUnits.count
+
+        // Range around target based on number of units we need to place
+        var range = OperationHelpers.gatherRangeFor(numOfUnits: numUnits)
+
+        // Try one time with computed range
+        var foundEnoughDeploymentPlots = false
+        if self.scoreDeploymentPlots(target, army, numUnits, 0, range) {
+            // Did we get twice as many possible plots as units?
+            if self.tempTargets.count >= (numUnits * 2) {
+                foundEnoughDeploymentPlots = true;
+            } else {
+                self.tempTargets.removeAll()
+                range = 3
+            }
+        }
+
+        if !foundEnoughDeploymentPlots {
+            
+            if !self.scoreDeploymentPlots(target, army, numUnits, 0, range) {
+                
+                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                    
+                    print("Operation aborting. Army ID: \(army.identifier). Not enough spaces to deploy near target")
+                    //LogTacticalMessage(strLogString);
+                }
+                
+                army.operation?.state = .aborted(reason: .noRoomDeploy)
+                return
+            }
+        }
+
+        // Compute the moves to get the best deployment
+        self.tempTargets.sort()
+        self.potentialBlocks.removeAll()
+        var done = false
+
+        var unitsToPlace = numUnits
+
+        for tempTarget in self.tempTargets {
+            
+            let targetType = tempTarget.targetType
+
+            pLoopPlot = GC.getMap().plot(m_TempTargets[iI].GetTargetX(), m_TempTargets[iI].GetTargetY());
+            
+            // Don't use if there's already a unit not in the army here
+            UnitHandle pUnitAlreadyThere = pLoopPlot->getBestDefender(NO_PLAYER);
+            if (!pUnitAlreadyThere || pUnitAlreadyThere->getArmyID() == pArmy->GetID())
+            {
+                if self.findClosestOperationUnit(pLoopPlot, true /*bSafeForRanged*/, false /*bMustBeRangedUnit*/))
+                {
+                    for(unsigned int jJ = 0; jJ < m_CurrentMoveUnits.size(); jJ++)
+                    {
+                        CvBlockingUnit block;
+                        block.SetUnitID(m_CurrentMoveUnits[jJ].GetID());
+                        block.SetPlot(pLoopPlot);
+                        block.SetNumChoices((int)m_CurrentMoveUnits.size());
+                        block.SetDistanceToTarget(m_CurrentMoveUnits[jJ].GetMovesToTarget());
+                        m_PotentialBlocks.push_back(block);
+                    }
+                    
+                    unitsToPlace -= 1
+                    if unitsToPlace == 0 {
+                        done = true
+                    }
+                }
+            }
+        }
+
+        // Now ready to make the assignments
+        self.assignDeployingUnits(iUnits - iUnitsToPlace)
+
+        self.performChosenMoves()
+
+        // Log if someone in army didn't get a move assigned (how do we address this in the future?)
+        if self.chosenBlocks.count < numUnits {
+            
+            if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                
+                print("No gather move for \(numUnits - self.chosenBlocks.count) units")
+                // LogTacticalMessage(strMsg);
+            }
+        }
+    }
+    
     func processDominanceZones(in gameModel: GameModel?) {
         
         guard let gameModel = gameModel else {
@@ -1178,10 +1460,10 @@ public class TacticalAI: Codable {
             self.plotSafeBombardMoves(in: gameModel)
         case .heal:
             // TACTICAL_HEAL
-            self.plotHealMoves()
+            self.plotHealMoves(in: gameModel)
         case .ancientRuins:
             // TACTICAL_ANCIENT_RUINS
-            self.plotAncientRuinMoves()
+            self.plotAncientRuinMoves(in: gameModel)
         case .bastionAlreadyThere:
             // TACTICAL_BASTION_ALREADY_THERE
             self.plotBastionMoves(0)
@@ -1213,7 +1495,7 @@ public class TacticalAI: Codable {
             self.plotOperationalArmyMoves()
         case .emergencyPurchases:
             // TACTICAL_EMERGENCY_PURCHASES
-            self.PlotEmergencyPurchases()
+            self.plotEmergencyPurchases()
         case .postureWithdraw:
             // TACTICAL_POSTURE_WITHDRAW
             self.plotWithdrawMoves()
@@ -1270,6 +1552,10 @@ public class TacticalAI: Codable {
     /// Find all targets that we can bombard easily
     func plotSafeBombardMoves(in gameModel: GameModel?) {
         
+        guard let tacticalAnalysisMap = gameModel?.tacticalAnalysisMap() else {
+            fatalError("cant get tacticalAnalysisMap")
+        }
+        
         for targetRef in self.zoneTargets(for: .highPriorityUnit) {
             
             guard let target = targetRef else {
@@ -1278,8 +1564,12 @@ public class TacticalAI: Codable {
             
             if target.isTargetStillAlive(for: self.player, in: gameModel) {
                 
-                // m_pMap->ClearDynamicFlags();
-                // m_pMap->SetTargetBombardCells(pTargetPlot, m_pMap->GetBestFriendlyRange(), m_pMap->CanIgnoreLOS());
+                let bestFriendlyRange = tacticalAnalysisMap.bestFriendlyRange()
+                let canIgnoreLightOfSight = tacticalAnalysisMap.canIgnoreLightOfSight()
+                
+                tacticalAnalysisMap.clearDynamicFlags()
+                tacticalAnalysisMap.setTargetBombardCells(target: target.target, bestFriendlyRange: bestFriendlyRange, canIgnoreLightOfSight: canIgnoreLightOfSight, in: gameModel)
+
                 self.executeSafeBombards(on: target, in: gameModel)
             }
         }
@@ -1320,10 +1610,304 @@ public class TacticalAI: Codable {
             
             if target.isTargetStillAlive(for: self.player, in: gameModel) {
                 
+                
                 // m_pMap->ClearDynamicFlags();
                 // m_pMap->SetTargetBombardCells(pTargetPlot, m_pMap->GetBestFriendlyRange(), m_pMap->CanIgnoreLOS());
                 self.executeSafeBombards(on: target, in: gameModel)
             }
+        }
+    }
+    
+    /// Do we already have a queued attack running on this plot? Return series ID if yes, -1 if no.
+    func plotAlreadyTargeted(point: HexPoint) -> Int {
+        
+        if self.queuedAttacks.count > 0 {
+            
+            for queuedAttack in self.queuedAttacks {
+                
+                if point == queuedAttack.target?.target {
+                    return queuedAttack.seriesId
+                }
+            }
+        }
+        
+        return -1
+    }
+    
+    /// Bombard enemy units from plots they can't reach (return true if some attack made)
+    @discardableResult
+    func executeSafeBombards(on target: TacticalTarget, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        /* bool bCityCanAttack = false;*/
+        var firstAttackerCity: AbstractCity? = nil
+        var firstAttackerUnit: AbstractUnit? = nil
+        var firstAttackCity: Bool = false
+        var requiredDamage: Int = 0
+        
+        guard let targetPlot = gameModel.tile(at: target.target) else {
+            fatalError("can get targetPlot")
+        }
+
+        if self.plotAlreadyTargeted(point: target.target) != -1 {
+            return false
+        }
+
+        // Get required damage on unit target
+        if let defender = gameModel.visibleEnemy(at: target.target, for: self.player) {
+            
+            requiredDamage = defender.healthPoints()
+
+            // If this is a unit target we might also be able to hit it with a city
+            let cityCanAttack = self.findCitiesWithinStrikingDistance(of: target.target, in: gameModel)
+            if cityCanAttack {
+                
+                self.computeTotalExpectedBombardDamage(against: defender, in: gameModel)
+
+                // Start by applying damage from city bombards
+                for currentMoveCity in self.currentMoveCities {
+                    
+                    if let city = currentMoveCity?.city {
+                        
+                        if self.queueAttack(attacker: city, target: target, ranged: true) {
+                            firstAttackerCity = city
+                            firstAttackCity = true
+                        }
+
+                        // Subtract off expected damage
+                        requiredDamage -= currentMoveCity?.expectedTargetDamage ?? 0
+                    }
+                }
+            }
+        } else {
+            // Get required damage on city target
+            
+            if let city = gameModel.city(at: target.target) {
+                
+                requiredDamage = city.maxHealthPoints() - city.healthPoints()
+
+                // Can't eliminate a city with ranged fire, so don't target one if that is low on health
+                if requiredDamage <= 1 {
+                    return false
+                }
+            }
+        }
+
+        // Need to keep hitting target?
+        if requiredDamage <= 0 {
+            return false
+        }
+
+        // For each of our ranged units, see if they are already in a plot that can bombard that can't be attacked.
+        // If so, bombs away!
+        self.currentMoveUnits.removeAll()
+        
+        for currentTurnUnit in currentTurnUnits {
+            
+            guard let unit = currentTurnUnit else {
+                continue
+            }
+            
+            if unit.canAttackRanged() && !unit.isOutOfAttacks() {
+                
+                guard let cell = gameModel.tacticalAnalysisMap().plots[unit.location] else {
+                    continue
+                }
+                
+                if cell.withinRangeOfTarget && !cell.subjectToAttack && self.isExpectedToDamageWithRangedAttack(by: unit, towards: target.target, in: gameModel) {
+                    
+                    if unit.canSetUpForRangedAttack() {
+                        
+                        unit.set(setUpForRangedAttack: true)
+                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                            
+                            print("Set up \(unit.type) for ranged attack")
+                            // LogTacticalMessage(strMsg, false);
+                        }
+                    }
+
+                    if unit.canMove() && unit.canRangeStrike(at: target.target, needWar: true, noncombatAllowed: true) {
+                        
+                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                            
+                            print("Making a safe bombard (no move) with \(unit.name()), Target \(target.target), At \(unit.location)")
+                            // LogTacticalMessage(strMsg, false);
+                        }
+
+                        if self.queueAttack(attacker: unit, target: target, ranged: true) {
+                            firstAttackerUnit = unit
+                        }
+
+                        // Save off ID so can be cleared from list to process for turn
+                        self.currentMoveUnits.append(TacticalUnit(unit: unit))
+                    }
+                }
+            }
+        }
+
+        // Clear out the units we just processed from the list for this turn
+        for currentMoveUnit in self.currentMoveUnits {
+            self.unitProcessed(unit: currentMoveUnit?.unit, in: gameModel)
+        }
+
+        // For each plot that we can bombard from that the enemy can't attack, try and move a ranged unit there.
+        // If so, make that move and mark that tile as blocked with our unit.  If unit has movement left, queue up an attack
+        /*int iDX, iDY;
+        CvPlot* pLoopPlot;
+        int iPlotIndex;
+        CvTacticalAnalysisCell* pCell;*/
+
+        for turnsToReach in 0...2 {
+            
+            let range = gameModel.tacticalAnalysisMap().bestFriendlyRange()
+
+            for dx in -range...range {
+                for dy in -range...range {
+                    
+                    let loopPoint = HexPoint(x: target.target.x + dx, y: target.target.y + dy)
+                    guard let loopPlot = gameModel.tile(at: loopPoint) else {
+                        continue
+                    }
+                    
+                    let distance = target.target.distance(to: loopPoint)
+                    
+                    if distance > 0 && distance <= range {
+                        
+                        guard let cell = gameModel.tacticalAnalysisMap().plots[loopPoint] else {
+                            continue
+                        }
+                        
+                        if cell.isRevealed() && cell.canUseForOperationGathering() {
+                            
+                            if cell.isWithinRangeOfTarget() && !cell.isSubjectToAttack() {
+                                
+                                let haveLightOfSight = loopPlot.canSee(tile: targetPlot, for: self.player, range: range, in: gameModel)
+                                
+                                if self.findClosestUnit(towards: loopPlot, numTurnsAway: turnsToReach, mustHaveHalfHP: false, mustBeRangedUnit: true, rangeRequired: distance, needsIgnoreLineOfSight: !haveLightOfSight, mustBeMeleeUnit: false, ignoreUnits: true, rangedAttackTarget: targetPlot, in: gameModel) {
+                                    
+                                    if let unit = self.currentMoveUnits.first??.unit {
+                                        
+                                        // Check for presence of unmovable friendly units
+                                        let blockingUnit = gameModel.unit(at: loopPoint)
+                                        if blockingUnit == nil || self.executeMoveOfBlockingUnit(of: blockingUnit, in: gameModel) {
+                                            
+                                            unit.push(mission: UnitMission(type: .moveTo, at: loopPoint), in: gameModel)
+
+                                            if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                                
+                                                print("Moving closer for safe bombard with \(unit.name()), Target \(target.target), Bombard From \(loopPoint), Now At \(unit.location)")
+                                                // LogTacticalMessage(strMsg, false);
+                                            }
+
+                                            self.unitProcessed(unit: unit, in: gameModel)
+
+                                            if unit.canSetUpForRangedAttack() {
+                                                unit.set(setUpForRangedAttack: true)
+                                                
+                                                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                                    
+                                                    print("Set up \(unit.name()) for ranged attack")
+                                                    // LogTacticalMessage(strMsg, false);
+                                                }
+                                            }
+
+                                            if unit.canMove() && !unit.isOutOfAttacks() && unit.canRangeStrike(at: target.target, needWar: false, noncombatAllowed: true) {
+                                                
+                                                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                                    
+                                                    print("Making a safe bombard (half move) with \(unit.name()), Target \(target.target), At \(unit.location)")
+                                                    // LogTacticalMessage(strMsg, false);
+                                                }
+
+                                                if self.queueAttack(attacker: unit, target: target, ranged: true) {
+                                                    firstAttackerUnit = unit
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+        // Launch the initial attack plotted
+        if let city = firstAttackerCity {
+            self.launchAttack(for: city, target: target, firstAttack: true, ranged: true, in: gameModel)
+            return true
+        } else if let unit = firstAttackerUnit {
+            self.launchAttack(for: unit, target: target, firstAttack: true, ranged: true, in: gameModel)
+            return true
+        }
+        
+        return false
+    }
+    
+    /// Assigns units to heal
+    func plotHealMoves(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        self.currentMoveUnits.removeAll()
+
+        // Loop through all recruited units
+        for currentTurnUnit in self.currentTurnUnits {
+            
+            guard let unit = currentTurnUnit else {
+                continue
+            }
+            
+            // Am I under 100% health and not embarked or already in a city?
+            if unit.healthPoints() < unit.maxHealthPoints() && !unit.isEmbarked() && gameModel.city(at: unit.location) == nil {
+                
+                // If I'm a naval unit I need to be in friendly territory
+                if unit.domain() != .sea || gameModel.tile(at: unit.location)!.isFriendlyTerritory(for: self.player, in: gameModel) {
+                    
+                    if !unit.isUnderEnemyRangedAttack() {
+                        
+                        self.currentMoveUnits.append(TacticalUnit(unit: unit))
+
+                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                            
+                            print("Healing at, \(unit.location)")
+                            // LogTacticalMessage(strLogString);
+                        }
+                    }
+                }
+            }
+        }
+        
+        if self.currentMoveUnits.count > 0 {
+            
+            self.executeHeals(in: gameModel)
+        }
+    }
+    
+    /// Heal chosen units
+    private func executeHeals(in gameModel: GameModel?) {
+        
+        for currentMoveUnit in self.currentMoveUnits {
+            
+            guard let unit = currentMoveUnit?.unit else {
+                continue
+            }
+            
+            if unit.canFortify(at: unit.location, in: gameModel) {
+                unit.push(mission: UnitMission(type: .fortify), in: gameModel)
+                unit.set(fortifiedThisTurn: true, in: gameModel)
+            } else {
+                unit.push(mission: UnitMission(type: .skip), in: gameModel)
+            }
+            
+            self.unitProcessed(unit: unit, in: gameModel)
         }
     }
     
@@ -1460,6 +2044,87 @@ public class TacticalAI: Codable {
         }
 
         return bestMovePlot
+    }
+    
+    /// Fills m_CurrentMoveUnits with all units within X turns of a target (returns TRUE if 1 or more found)
+    func findClosestUnit(towards target: AbstractTile?, numTurnsAway: Int, mustHaveHalfHP: Bool, mustBeRangedUnit: Bool, rangeRequired: Int, needsIgnoreLineOfSight: Bool, mustBeMeleeUnit: Bool, ignoreUnits: Bool, rangedAttackTarget: AbstractTile?, in gameModel: GameModel?) -> Bool {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let target = target else {
+            fatalError("cant get target")
+        }
+        
+        var rtnValue = false;
+        self.currentMoveUnits.removeAll()
+
+        // Loop through all units available to tactical AI this turn
+        for currentTurnUnit in self.currentTurnUnits {
+            
+            guard let loopUnit = currentTurnUnit else {
+                continue
+            }
+
+            var validUnit = true
+
+            // don't use non-combat units (but consider embarked for now)
+            if !loopUnit.isCombatUnit() {
+                validUnit = false
+            } else if mustHaveHalfHP && loopUnit.damage() * 2 > 100 {
+                validUnit = false
+            } else if mustBeRangedUnit && ((target.isWater() && loopUnit.domain() == .land) ||
+                                            (!target.isWater() && gameModel.city(at: target.point) == nil && loopUnit.domain() == .sea)) {
+                validUnit = false
+            } else if mustBeRangedUnit && !loopUnit.canAttackRanged() {
+                validUnit = false
+            } else if mustBeRangedUnit && loopUnit.range() < rangeRequired {
+                validUnit = false
+            } else if mustBeRangedUnit && !loopUnit.canAttackRanged()  {
+                validUnit = false
+            } else if mustBeRangedUnit && loopUnit.isOutOfAttacks() {
+                validUnit = false
+            } else if rangedAttackTarget != nil && mustBeRangedUnit && !self.isExpectedToDamageWithRangedAttack(by: loopUnit, towards: rangedAttackTarget!.point, in: gameModel) {
+                validUnit = false
+            } else if needsIgnoreLineOfSight && !loopUnit.isRangeAttackIgnoreLineOfSight() {
+                validUnit = false
+            } else if mustBeMeleeUnit && loopUnit.canAttackRanged() {
+                validUnit = false
+            }
+
+            let distance = loopUnit.location.distance(to: target.point)
+            
+            if numTurnsAway == 0 && distance > (TacticalAI.recruitRange / 2) || numTurnsAway == 1 && distance > TacticalAI.recruitRange {
+                validUnit = false
+            }
+
+            if validUnit {
+                
+                let turns = loopUnit.turnsToReach(at: target.point /*, ignoreUnits, (iNumTurnsAway==0)*/, in: gameModel)
+                
+                if turns <= numTurnsAway {
+                    let tacticalUnit = TacticalUnit(unit: loopUnit, attackStrength: 1000 - turns, healthPercent: 10)
+                    tacticalUnit.movesToTarget = distance
+                    self.currentMoveUnits.append(tacticalUnit)
+                    
+                    rtnValue = true
+                }
+            }
+        }
+
+        // Now sort them by turns to reach
+        //std::stable_sort(m_CurrentMoveUnits.begin(), m_CurrentMoveUnits.end());
+        self.currentMoveUnits.sort { (aRef, bRef) -> Bool in
+            
+            if let a = aRef, let b = bRef {
+                return a.movesToTarget < b.movesToTarget
+            }
+            
+            return false
+        }
+
+        return rtnValue
     }
     
     /// Moved endangered units to safe hexes
@@ -3188,6 +3853,7 @@ public class TacticalAI: Codable {
     }
     
     /// Estimates the bombard damage we can apply to a target
+    @discardableResult
     func computeTotalExpectedBombardDamage(against defender: AbstractUnit?, in gameModel: GameModel?) -> Int {
         
         var rtnValue = 0

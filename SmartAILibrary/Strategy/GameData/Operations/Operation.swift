@@ -869,6 +869,11 @@ public class Operation: Codable, Equatable {
         
         fatalError("niy")
     }
+    
+    func canTacticalAIInterrupt() -> Bool {
+        
+        return false
+    }
 
     public static func == (lhs: Operation, rhs: Operation) -> Bool {
 

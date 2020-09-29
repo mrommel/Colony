@@ -8,13 +8,6 @@
 
 import Foundation
 
-public enum ArmyState: Int, Codable {
-
-    case waitingForUnitsToReinforce
-    case movingToDestination
-    case waitingForUnitsToCatchUp
-}
-
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvArmyAI
 //!  \brief        One army in an operational maneuver
@@ -56,7 +49,7 @@ public class Army: Codable {
 
     var area: HexArea? = nil
 
-    private var unitsArray: [AbstractUnit?] = []
+    private var formationEntries: [ArmyFormationSlot?] = []
 
     init(of owner: AbstractPlayer?, for operation: Operation?, with formation: UnitFormationType) {
 
@@ -67,7 +60,10 @@ public class Army: Codable {
         self.domain = .land
         self.state = .waitingForUnitsToReinforce
 
-        self.unitsArray = Array.init(repeating: nil, count: formation.slots().count)
+        // Build all the formation entries
+        for _ in 0..<formation.slots().count {
+            self.formationEntries.append(ArmyFormationSlot())
+        }
     }
     
     public required init(from decoder: Decoder) throws {
@@ -87,7 +83,10 @@ public class Army: Codable {
         
         self.area = try container.decodeIfPresent(HexArea.self, forKey: .area)
         
-        self.unitsArray = Array.init(repeating: nil, count: formation.slots().count)
+        // Build all the formation entries
+        for _ in 0..<formation.slots().count {
+            self.formationEntries.append(ArmyFormationSlot())
+        }
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -110,9 +109,9 @@ public class Army: Codable {
     /// Delete the army
     func kill() {
 
-        for unitRef in self.unitsArray {
+        for entry in self.formationEntries {
             
-            unitRef?.assign(to: nil)
+            entry?.unit?.assign(to: nil)
         }
     }
 
@@ -123,7 +122,8 @@ public class Army: Codable {
     }
     
     /// Kill off the army if waiting to die (returns true if army was killed)
-    @discardableResult func doDelayedDeath() -> Bool {
+    @discardableResult
+    func doDelayedDeath() -> Bool {
         
         if self.numOfSlotsFilled() == 0 && self.state != .waitingForUnitsToReinforce {
             self.kill()
@@ -138,10 +138,10 @@ public class Army: Codable {
 
         var returnArray: [AbstractUnit?] = []
 
-        for unitRef in self.unitsArray {
+        for entry in self.formationEntries {
 
-            if unitRef != nil {
-                returnArray.append(unitRef)
+            if let unit = entry?.unit {
+                returnArray.append(unit)
             }
         }
 
@@ -150,7 +150,105 @@ public class Army: Codable {
 
     func unit(at slotIndex: Int) -> AbstractUnit? {
 
-        return self.unitsArray[slotIndex]
+        return self.formationEntries[slotIndex]?.unit
+    }
+    
+    /// How many slots are there in this formation if filled
+    func numFormationEntries() -> Int {
+        
+        return self.formationEntries.count
+    }
+    
+    func slot(at slotIndex: Int) -> ArmyFormationSlot? {
+
+        return self.formationEntries[slotIndex]
+    }
+
+    /// How many slots do we currently have filled?
+    func numSlotsFilled() -> Int {
+        
+        var rtnValue = 0
+
+        for formationEntry in self.formationEntries {
+            
+            if formationEntry?.unit != nil {
+                rtnValue += 1
+            }
+        }
+        return rtnValue
+    }
+
+    /// What turn will a unit arrive on target?
+    func set(estimatedTurn turn: Int, of slotId: Int, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var turnAtCheckpoint: Int
+
+        if turn == ArmyFormationSlot.notIncludingInOperation || turn == ArmyFormationSlot.unknownTurnAtCheckpoint {
+            turnAtCheckpoint = turn
+        } else {
+            turnAtCheckpoint = gameModel.currentTurn + turn
+        }
+
+        self.formationEntries[slotId]?.set(turnAtCheckpoint: turnAtCheckpoint)
+    }
+
+    /// What turn will the army as a whole arrive on target?
+    func turnAtNextCheckpoint() -> Int {
+        
+        var rtnValue = ArmyFormationSlot.notIncludingInOperation
+
+        for formationEntry in self.formationEntries {
+            
+            if formationEntry?.estimatedTurnAtCheckpoint == ArmyFormationSlot.unknownTurnAtCheckpoint {
+                return ArmyFormationSlot.unknownTurnAtCheckpoint
+            } else if formationEntry!.estimatedTurnAtCheckpoint > rtnValue {
+                rtnValue = formationEntry!.estimatedTurnAtCheckpoint
+            }
+        }
+
+        return rtnValue
+    }
+
+    /// Recalculate when each unit will arrive on target
+    func updateCheckpointTurns(in gameModel: GameModel?) {
+        
+        for (index, formationEntry) in self.formationEntries.enumerated() {
+            
+            // No reestimate for units being built
+            if let unit = formationEntry?.unit {
+
+                let turnsToReachCheckpoint = unit.turnsToReach(at: self.position, in: gameModel)
+                if turnsToReachCheckpoint < Int.max {
+                    self.set(estimatedTurn: turnsToReachCheckpoint, of: index, in: gameModel)
+                }
+            }
+        }
+    }
+
+    /// How many units of this type are in army?
+    func numUnitsOf(position: UnitFormationPosition) -> Int {
+        
+        var rtnValue = 0
+
+        for (index, formationEntry) in self.formationEntries.enumerated() {
+            
+            if let unit = formationEntry?.unit {
+                
+                if unit.moves() > 0 {
+                    
+                    let slot = self.formation.slots()[index]
+                    if slot.position == position {
+                        rtnValue += 1
+                    }
+                }
+            }
+        }
+        
+        return rtnValue
     }
 
     /// Get center of mass of units in army (account for world wrap!)
@@ -279,6 +377,22 @@ public class Army: Codable {
     func disable(slot: UnitFormationSlot) {
 
         fatalError("not implemented yet")
+    }
+    
+    /// Is this part of an operation that allows units to be poached by tactical AI?
+    func canTacticalAIInterrupt() -> Bool {
+        
+        // If the operation is still assembling, by all means interrupt it
+        if self.state == .waitingForUnitsToReinforce ||
+            self.state == .waitingForUnitsToCatchUp {
+            return true
+        }
+
+        if let operation = self.operation {
+            return operation.canTacticalAIInterrupt()
+        }
+        
+        return false
     }
 }
 

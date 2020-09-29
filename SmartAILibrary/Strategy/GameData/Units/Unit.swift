@@ -104,6 +104,9 @@ public protocol AbstractUnit: class, Codable {
     func doAttack(into destination: HexPoint, /* flags */ steps: Int, in gameModel: GameModel?) -> Bool
     func canRangeStrike(at point: HexPoint, needWar: Bool, noncombatAllowed: Bool) -> Bool
     func doRangeAttack(at target: HexPoint, in gameModel: GameModel?) -> Bool
+    func canSetUpForRangedAttack() -> Bool
+    func isRangeAttackIgnoreLineOfSight() -> Bool
+    func set(setUpForRangedAttack: Bool)
     func canDefend() -> Bool
     func canSentry(in gameModel: GameModel?) -> Bool
 
@@ -208,6 +211,7 @@ public protocol AbstractUnit: class, Codable {
     func isBusy() -> Bool
     
     func isGreatGeneral() -> Bool
+    func isGreatAdmiral() -> Bool
     
     // trade routes
     func start(tradeRoute: TradeRoute, in gameModel: GameModel?)
@@ -241,6 +245,7 @@ public class Unit: AbstractUnit {
         case garrisoned
 
         case moves
+        case setUpForRangedAttack
         case experience
         case fortify
         case isEmbarked
@@ -280,6 +285,7 @@ public class Unit: AbstractUnit {
 
     //
     var movesValue: Int
+    var setUpForRangedAttackValue: Bool
     var experienceValue: Int // 0..400
     var fortifyValue: Int
     var isEmbarkedValue: Bool = false
@@ -323,6 +329,7 @@ public class Unit: AbstractUnit {
         self.experienceValue = 0
         self.movesValue = type.moves()
         self.fortifyValue = 0
+        self.setUpForRangedAttackValue = false
         self.numberOfAttacksMade = 0
         self.numberOfAttacks = 1
 
@@ -354,6 +361,7 @@ public class Unit: AbstractUnit {
 
         self.movesValue = try container.decode(Int.self, forKey: .moves)
         self.experienceValue = try container.decode(Int.self, forKey: .experience)
+        self.setUpForRangedAttackValue = try container.decode(Bool.self, forKey: .setUpForRangedAttack)
         self.isEmbarkedValue = try container.decode(Bool.self, forKey: .isEmbarked)
         self.healthPointsValue = try container.decode(Int.self, forKey: .healthPoints)
         self.fortifyValue = try container.decode(Int.self, forKey: .fortify)
@@ -395,6 +403,7 @@ public class Unit: AbstractUnit {
 
         try container.encode(self.movesValue, forKey: .moves)
         try container.encode(self.experienceValue, forKey: .experience)
+        try container.encode(self.setUpForRangedAttackValue, forKey: .setUpForRangedAttack)
         try container.encode(self.fortifyValue, forKey: .fortify)
         try container.encode(self.isEmbarkedValue, forKey: .isEmbarked)
         try container.encode(self.healthPointsValue, forKey: .healthPoints)
@@ -1047,6 +1056,59 @@ public class Unit: AbstractUnit {
     public func doRangeAttack(at target: HexPoint, in gameModel: GameModel?) -> Bool {
 
         fatalError("niy")
+    }
+    
+    public func canSetUpForRangedAttack() -> Bool {
+        
+        if !self.isMustSetUpToRangedAttack() {
+            return false
+        }
+
+        if self.isSetUpForRangedAttack() {
+            return false
+        }
+
+        if self.isEmbarked() {
+            return false
+        }
+
+        if self.movesLeft() <= 0 {
+            return false
+        }
+
+        return true
+    }
+    
+    public func isRangeAttackIgnoreLineOfSight() -> Bool {
+        
+        return false // FIXME
+    }
+    
+    public func set(setUpForRangedAttack value: Bool) {
+        
+        if value != self.setUpForRangedAttackValue {
+            
+            self.setUpForRangedAttackValue = value
+            
+            if value == true {
+                //self.changeMoves(by: -1)
+                self.movesValue -= 1
+
+                if self.movesValue < 0 {
+                    self.movesValue = 0
+                }
+            }
+        }
+    }
+    
+    func isMustSetUpToRangedAttack() -> Bool {
+        
+        return self.setUpForRangedAttackValue
+    }
+    
+    public func isSetUpForRangedAttack() -> Bool {
+        
+        return false
     }
 
     public func canRangeStrike(at point: HexPoint, needWar: Bool, noncombatAllowed: Bool) -> Bool {
@@ -4120,6 +4182,11 @@ extension Unit {
     public func isGreatGeneral() -> Bool {
         
         return self.type == .general
+    }
+    
+    public func isGreatAdmiral() -> Bool {
+        
+        return self.type == .admiral
     }
     
     //    --------------------------------------------------------------------------------
