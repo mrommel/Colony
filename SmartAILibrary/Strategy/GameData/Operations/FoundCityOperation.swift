@@ -71,7 +71,7 @@ class FoundCityOperation: EscortedOperation {
                 // try to get the escort from existing units that are waiting around
                 self.grabUnitsFromTheReserves(at: self.musterPosition, for: self.targetPosition, in: gameModel)
                     
-                if self.army!.numOfSlotsFilled() > 1 {
+                if self.army!.numSlotsFilled() > 1 {
                     self.army?.state = .waitingForUnitsToCatchUp
                     self.state = .gatheringForces
                 } else {

@@ -2173,8 +2173,8 @@ public class Player: AbstractPlayer {
         evalDistance = (evalDistance * gameModel.mapSize().numberOfTiles()) / defaultNumTiles
         evalDistance = max(defaultEvalDistance, evalDistance)
 
-        if (escorted /* && GC.getMap().GetAIMapHint() & 1*/) //  is this primarily a naval map
-        {
+        //  is this primarily a naval map
+        if escorted && gameModel.isPrimarilyNaval() {
             evalDistance *= 3
             evalDistance /= 2
         }

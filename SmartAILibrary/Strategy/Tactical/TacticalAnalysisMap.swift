@@ -190,6 +190,11 @@ class TacticalAnalysisMap {
             set { self.bits.setValueOfBit(value: newValue, at: 6) }
             get { return self.bits.valueOfBit(at: 6) }
         }
+        
+        func isEnemyCanMovePast() -> Bool {
+            
+            return self.enemyCanMovePast
+        }
 
         // Is one of our friendly units ending its move here?
         var friendlyTurnEndTile: Bool {
@@ -228,12 +233,22 @@ class TacticalAnalysisMap {
             set { self.bits.setValueOfBit(value: newValue, at: 11) }
             get { return self.bits.valueOfBit(at: 11) }
         }
+        
+        func isWater() -> Bool {
+            
+            return self.water
+        }
 
         // Ocean?
         // TACTICAL_FLAG_OCEAN
         var ocean: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 12) }
             get { return self.bits.valueOfBit(at: 12) }
+        }
+        
+        func isOcean() -> Bool {
+            
+            return self.ocean
         }
 
         // Territory owned by the active player
@@ -333,6 +348,7 @@ class TacticalAnalysisMap {
         var enemyRangedStrength: Int
         var enemyUnitCount: Int
         var enemyRangedUnitCount: Int
+        var enemyNavalUnitCount: Int
 
         var rangeClosestEnemyUnit: Int
         
@@ -563,7 +579,7 @@ class TacticalAnalysisMap {
 
             tempZoneRef = zone
         } else {
-            tempZoneRef = TacticalDominanceZone(territoryType: territoryType, dominanceFlag: .noUnitsPresent, owner: owner, area: tile.area, isWater: tile.terrain().isWater(), closestCity: bestCity, center: tile, navalInvasion: false, friendlyStrength: 0, friendlyRangedStrength: 0, friendlyUnitCount: 0, friendlyRangedUnitCount: 0, enemyStrength: 0, enemyRangedStrength: 0, enemyUnitCount: 0, enemyRangedUnitCount: 0, rangeClosestEnemyUnit: 0, dominanceValue: 0)
+            tempZoneRef = TacticalDominanceZone(territoryType: territoryType, dominanceFlag: .noUnitsPresent, owner: owner, area: tile.area, isWater: tile.terrain().isWater(), closestCity: bestCity, center: tile, navalInvasion: false, friendlyStrength: 0, friendlyRangedStrength: 0, friendlyUnitCount: 0, friendlyRangedUnitCount: 0, enemyStrength: 0, enemyRangedStrength: 0, enemyUnitCount: 0, enemyRangedUnitCount: 0, enemyNavalUnitCount: 0, rangeClosestEnemyUnit: 0, dominanceValue: 0)
         }
 
         // If this isn't owned territory, update zone with military strength info
@@ -614,6 +630,10 @@ class TacticalAnalysisMap {
                         
                         if enemyUnit.range() > 0 {
                             tempZone.enemyRangedUnitCount += 1
+                        }
+                        
+                        if enemyUnit.domain() == .sea {
+                            tempZone.enemyNavalUnitCount += 1
                         }
                     }
                 }
@@ -721,6 +741,77 @@ class TacticalAnalysisMap {
                                         }
 
                                         dominanceZone.friendlyUnitCount += 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Repeat for all visible enemy units (or adjacent to visible)
+                    for otherPlayer in gameModel.players {
+                        
+                        if player.isAtWar(with: otherPlayer) {
+                            
+                            for loopUnitRef in gameModel.units(of: otherPlayer) {
+                                
+                                guard let loopUnit = loopUnitRef else {
+                                    continue
+                                }
+                                
+                                if loopUnit.isCombatUnit() {
+                                    
+                                    if loopUnit.domain() == .air ||
+                                        (loopUnit.domain() == .land && !dominanceZone.isWater) ||
+                                        (loopUnit.domain() == .sea && dominanceZone.isWater) {
+    
+                                        if let plot = gameModel.tile(at: loopUnit.location) {
+                                            
+                                            var visible = true
+                                            let distance = loopUnit.location.distance(to: closestCity.location)
+                                            
+                                            if distance <= self.tacticalRange {
+                                                
+                                                let multiplier = (self.tacticalRange + 4 - distance)  // "4" so unit strength isn't totally dominated by proximity to city
+                                                if !plot.isVisible(to: player) && !gameModel.isAdjacentDiscovered(of: loopUnit.location, for: player) {
+                                                    visible = false
+                                                }
+                                                
+                                                if multiplier > 0 {
+                                                    
+                                                    var unitStrength = loopUnit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
+                                                    if unitStrength == 0 && loopUnit.isEmbarked() && !dominanceZone.isWater {
+                                                        unitStrength = loopUnit.baseCombatStrength(ignoreEmbarked: true)
+                                                    }
+
+                                                    if !visible {
+                                                        unitStrength /= 2
+                                                    }
+
+                                                    dominanceZone.enemyStrength += unitStrength * multiplier * unitStrengthMultiplier
+
+                                                    var rangedStrength = loopUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
+                                                    if !visible {
+                                                        rangedStrength /= 2
+                                                    }
+
+                                                    dominanceZone.enemyRangedStrength = rangedStrength
+
+                                                    if visible {
+                                                        dominanceZone.enemyUnitCount += 1
+                                                        if distance < dominanceZone.rangeClosestEnemyUnit {
+                                                            dominanceZone.rangeClosestEnemyUnit = distance
+                                                        }
+                                                        
+                                                        if loopUnit.isRanged() {
+                                                            dominanceZone.enemyRangedUnitCount += 1
+                                                        }
+                                                        if loopUnit.domain() == .sea {
+                                                            dominanceZone.enemyNavalUnitCount += 1
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -1051,6 +1142,7 @@ class TacticalAnalysisMap {
                         enemyRangedStrength: 0,
                         enemyUnitCount: 0,
                         enemyRangedUnitCount: 0,
+                        enemyNavalUnitCount: 0,
                         rangeClosestEnemyUnit: 0,
                         dominanceValue: 0)
 

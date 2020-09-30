@@ -429,7 +429,7 @@ public class Operation: Codable, Equatable {
         case .singleHex:
 
             if let army = self.army {
-                if army.numOfSlotsFilled() >= 1 {
+                if army.numSlotsFilled() >= 1 {
 
                     let civilian = army.unit(at: 0)
 
@@ -444,7 +444,7 @@ public class Operation: Codable, Equatable {
                         break
 
                     case .gatheringForces:
-                        if army.numOfSlotsFilled() == 1 {
+                        if army.numSlotsFilled() == 1 {
 
                             self.armyInPosition(in: gameModel)
                             return true
@@ -477,7 +477,7 @@ public class Operation: Codable, Equatable {
             let gatheredTolerance = self.gatherTolerance(of: army, position: self.musterPosition, in: gameModel)
 
             if let army = self.army {
-                if army.numOfSlotsFilled() >= 1 {
+                if army.numSlotsFilled() >= 1 {
 
                     switch self.state {
 
@@ -525,7 +525,7 @@ public class Operation: Codable, Equatable {
             let gatheredTolerance = self.gatherTolerance(of: army, position: self.musterPosition, in: gameModel)
 
             if let army = self.army {
-                if army.numOfSlotsFilled() >= 1 {
+                if army.numSlotsFilled() >= 1 {
 
                     switch self.state {
 
@@ -572,7 +572,7 @@ public class Operation: Codable, Equatable {
             let gatheredTolerance = self.gatherTolerance(of: army, position: self.musterPosition, in: gameModel)
 
             if let army = self.army {
-                if army.numOfSlotsFilled() >= 1 {
+                if army.numSlotsFilled() >= 1 {
 
                     switch self.state {
 
@@ -632,7 +632,7 @@ public class Operation: Codable, Equatable {
         let tacticalMap = gameModel.tacticalAnalysisMap()
 
         // Find out how many units are trying to gather
-        let numUnits = army.numOfSlotsFilled()
+        let numUnits = army.numSlotsFilled()
 
         // If not more than 1, zero tolerance is fine (we should get the unit to the gather point)
         if numUnits < 1 {

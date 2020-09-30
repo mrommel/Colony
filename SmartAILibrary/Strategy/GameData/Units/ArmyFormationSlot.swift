@@ -13,7 +13,7 @@ class ArmyFormationSlot {
     static let unknownTurnAtCheckpoint = -1
     static let notIncludingInOperation = -2
     
-    let unit: AbstractUnit?
+    var unit: AbstractUnit?
     var estimatedTurnAtCheckpoint: Int
     var startedOnOperation: Bool
     

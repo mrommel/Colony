@@ -146,6 +146,26 @@ public class HexPath: Decodable {
         return self.pointsValue
     }
     
+    func endTurnPlot(for unit: AbstractUnit?) -> HexPoint? {
+        
+        guard let unit = unit else {
+            fatalError("cant get gameModel")
+        }
+        
+        assert(unit.location == self.pointsValue[0])
+        
+        var moves: Double = Double(unit.movesLeft())
+        var index = 0
+        
+        while moves > 0 {
+            
+            moves -= self.costs[index]
+            index += 1
+        }
+        
+        return self.pointsValue[index]
+    }
+    
     public subscript(index: Int) -> (HexPoint, Double) {
         get {
             precondition(index < self.pointsValue.count, "Index \(index) is out of range")

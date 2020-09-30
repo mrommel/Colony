@@ -928,7 +928,30 @@ public class GameModel: Codable {
 
         return self.map.unit(at: point)
     }
+    
+    public func numFriendlyUnits(at point: HexPoint, player: AbstractPlayer?, of type: UnitType) -> Int {
+        
+        if let unit = self.map.unit(at: point) {
+            
+            var playerMatches = true
+            
+            if let player = player {
+                playerMatches = player.isEqual(to: unit.player)
+            }
+            
+            if unit.type == type && playerMatches {
+                return 1
+            }
+        }
+        
+        return 0
+    }
 
+    func isPrimarilyNaval() -> Bool {
+        
+        return false
+    }
+    
     func remove(unit: AbstractUnit?) {
 
         self.map.remove(unit: unit)

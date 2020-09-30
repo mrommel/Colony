@@ -193,6 +193,18 @@
 		C9A057452429E61700D0FEAB /* WonderProductionAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A057442429E61700D0FEAB /* WonderProductionAI.swift */; };
 		C9A125A0249CBE8900D5E3A1 /* BaseMapHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */; };
 		C9A1B55725230A6900AC2292 /* OperationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B55625230A6900AC2292 /* OperationHelpers.swift */; };
+		C9A1B55C2523116B00AC2292 /* OperationUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B55B2523116B00AC2292 /* OperationUnit.swift */; };
+		C9A1B5602523117B00AC2292 /* TacticalUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B55F2523117B00AC2292 /* TacticalUnit.swift */; };
+		C9A1B5642523118E00AC2292 /* TacticalPostureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B5632523118E00AC2292 /* TacticalPostureType.swift */; };
+		C9A1B5682523119F00AC2292 /* TacticalCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B5672523119F00AC2292 /* TacticalCity.swift */; };
+		C9A1B56C252311C000AC2292 /* TacticalMoveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B56B252311C000AC2292 /* TacticalMoveType.swift */; };
+		C9A1B570252311D600AC2292 /* TacticalTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B56F252311D600AC2292 /* TacticalTargetType.swift */; };
+		C9A1B574252311EA00AC2292 /* TemporaryZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B573252311EA00AC2292 /* TemporaryZone.swift */; };
+		C9A1B578252311FF00AC2292 /* TacticalTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B577252311FF00AC2292 /* TacticalTarget.swift */; };
+		C9A1B57C2523121300AC2292 /* QueuedAttack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B57B2523121300AC2292 /* QueuedAttack.swift */; };
+		C9A1B5802523122400AC2292 /* TacticalMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B57F2523122400AC2292 /* TacticalMove.swift */; };
+		C9A1B5842523123300AC2292 /* TacticalPosture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B5832523123300AC2292 /* TacticalPosture.swift */; };
+		C9A1B588252313E400AC2292 /* BlockingUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B587252313E400AC2292 /* BlockingUnit.swift */; };
 		C9A50FE3242244C5006AA47B /* UsecaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A50FE2242244C5006AA47B /* UsecaseTests.swift */; };
 		C9AAC26E24D9666100FF1E35 /* GreatPersons.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */; };
 		C9AAC27024D97FFE00FF1E35 /* GameModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */; };
@@ -488,6 +500,18 @@
 		C9A057442429E61700D0FEAB /* WonderProductionAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderProductionAI.swift; sourceTree = "<group>"; };
 		C9A1259F249CBE8800D5E3A1 /* BaseMapHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseMapHandler.swift; sourceTree = "<group>"; };
 		C9A1B55625230A6900AC2292 /* OperationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationHelpers.swift; sourceTree = "<group>"; };
+		C9A1B55B2523116B00AC2292 /* OperationUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationUnit.swift; sourceTree = "<group>"; };
+		C9A1B55F2523117B00AC2292 /* TacticalUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalUnit.swift; sourceTree = "<group>"; };
+		C9A1B5632523118E00AC2292 /* TacticalPostureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalPostureType.swift; sourceTree = "<group>"; };
+		C9A1B5672523119F00AC2292 /* TacticalCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalCity.swift; sourceTree = "<group>"; };
+		C9A1B56B252311C000AC2292 /* TacticalMoveType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalMoveType.swift; sourceTree = "<group>"; };
+		C9A1B56F252311D600AC2292 /* TacticalTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalTargetType.swift; sourceTree = "<group>"; };
+		C9A1B573252311EA00AC2292 /* TemporaryZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryZone.swift; sourceTree = "<group>"; };
+		C9A1B577252311FF00AC2292 /* TacticalTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalTarget.swift; sourceTree = "<group>"; };
+		C9A1B57B2523121300AC2292 /* QueuedAttack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedAttack.swift; sourceTree = "<group>"; };
+		C9A1B57F2523122400AC2292 /* TacticalMove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalMove.swift; sourceTree = "<group>"; };
+		C9A1B5832523123300AC2292 /* TacticalPosture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalPosture.swift; sourceTree = "<group>"; };
+		C9A1B587252313E400AC2292 /* BlockingUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingUnit.swift; sourceTree = "<group>"; };
 		C9A50FE2242244C5006AA47B /* UsecaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsecaseTests.swift; sourceTree = "<group>"; };
 		C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersons.swift; sourceTree = "<group>"; };
 		C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelTests.swift; sourceTree = "<group>"; };
@@ -672,6 +696,7 @@
 				C90FC39123D88E6B00720B32 /* Enums */,
 				C930FFB624F54726002B4D07 /* PathfinderDataSources */,
 				C98DBFA423DF21D000B6CE25 /* GameData */,
+				C9A1B55A2523114B00AC2292 /* Tactical */,
 				C92317C923D77B36001FC723 /* GrandStrategyAI.swift */,
 				C920E99923DB17EB008DEAB4 /* DiplomaticAI.swift */,
 				C9D8DF7923F14B7A0091C917 /* DiplomaticPlayerDict.swift */,
@@ -690,9 +715,6 @@
 				C9C2FE3423F6DF4300185235 /* BuildableItemWeights.swift */,
 				C964BA2423EB5D1200CA379C /* EconomicAI.swift */,
 				C964BA2623EB6C4700CA379C /* MilitaryAI.swift */,
-				C9EE60A92401DCC300535B93 /* TacticalAI.swift */,
-				C9C2FE4423FB289300185235 /* DangerPlotsAI.swift */,
-				C93D66AB24044EA700F5157B /* TacticalAnalysisMap.swift */,
 				C9FE140F24140F8B008CC6B3 /* HomelandAI.swift */,
 				C9588ABB2417EF8900304E9A /* BuilderTaskingAI.swift */,
 				C99C4FC22426ACD200070038 /* UserInterface.swift */,
@@ -1049,6 +1071,28 @@
 			path = City;
 			sourceTree = "<group>";
 		};
+		C9A1B55A2523114B00AC2292 /* Tactical */ = {
+			isa = PBXGroup;
+			children = (
+				C9EE60A92401DCC300535B93 /* TacticalAI.swift */,
+				C9C2FE4423FB289300185235 /* DangerPlotsAI.swift */,
+				C93D66AB24044EA700F5157B /* TacticalAnalysisMap.swift */,
+				C9A1B55B2523116B00AC2292 /* OperationUnit.swift */,
+				C9A1B55F2523117B00AC2292 /* TacticalUnit.swift */,
+				C9A1B5632523118E00AC2292 /* TacticalPostureType.swift */,
+				C9A1B5672523119F00AC2292 /* TacticalCity.swift */,
+				C9A1B56B252311C000AC2292 /* TacticalMoveType.swift */,
+				C9A1B56F252311D600AC2292 /* TacticalTargetType.swift */,
+				C9A1B573252311EA00AC2292 /* TemporaryZone.swift */,
+				C9A1B577252311FF00AC2292 /* TacticalTarget.swift */,
+				C9A1B57B2523121300AC2292 /* QueuedAttack.swift */,
+				C9A1B57F2523122400AC2292 /* TacticalMove.swift */,
+				C9A1B5832523123300AC2292 /* TacticalPosture.swift */,
+				C9A1B587252313E400AC2292 /* BlockingUnit.swift */,
+			);
+			path = Tactical;
+			sourceTree = "<group>";
+		};
 		C9B1D2A2243612FF00033791 /* Maps */ = {
 			isa = PBXGroup;
 			children = (
@@ -1248,12 +1292,14 @@
 				C98DBFBA23E0D8C700B6CE25 /* Techs.swift in Sources */,
 				C965A52C23FC628400BCEB54 /* ResourceType.swift in Sources */,
 				C9C0DCDB24D45698004D9F06 /* GreatPerson.swift in Sources */,
+				C9A1B55C2523116B00AC2292 /* OperationUnit.swift in Sources */,
 				C92317BF23D6EAEA001FC723 /* HierarchicalStateMachine.swift in Sources */,
 				C9C2FE3B23F89F2E00185235 /* Religion.swift in Sources */,
 				C9BB750C246D5813004BE448 /* DiplomacyRequests.swift in Sources */,
 				C9C0DCDF24D5FD58004D9F06 /* CityYields.swift in Sources */,
 				C9DFCF6323F14D9D0032243D /* MilitaryThreatType.swift in Sources */,
 				C92317BB23D665AD001FC723 /* FiniteStateTransition.swift in Sources */,
+				C9A1B578252311FF00AC2292 /* TacticalTarget.swift in Sources */,
 				C99790612514B697003E52C9 /* PillageEnemyOperation.swift in Sources */,
 				C92317B923D6375B001FC723 /* FiniteState.swift in Sources */,
 				C908E3D62510C3F600657B62 /* OperationStateType.swift in Sources */,
@@ -1271,6 +1317,7 @@
 				C97213EA2510C241009BCE40 /* BasicCityAttackOperation.swift in Sources */,
 				C9E74CB8248FA896003EF256 /* LeaderEmotionType.swift in Sources */,
 				C98DBFAC23E01A2600B6CE25 /* Tile.swift in Sources */,
+				C9A1B588252313E400AC2292 /* BlockingUnit.swift in Sources */,
 				C964BA2323EB564300CA379C /* EconomicStrategyType.swift in Sources */,
 				C907085823EC5F9A00281161 /* UnitClassType.swift in Sources */,
 				C93D66A624028D9B00F5157B /* AStarPathfinder.swift in Sources */,
@@ -1285,6 +1332,7 @@
 				C98CBE0C24338E06005EE397 /* MapOptionRainfall.swift in Sources */,
 				C9C0DCE324D74C37004D9F06 /* GreatPersonPoints.swift in Sources */,
 				C91BE62B23FED2F300912962 /* Operations.swift in Sources */,
+				C9A1B57C2523121300AC2292 /* QueuedAttack.swift in Sources */,
 				C9EE60AA2401DCC300535B93 /* TacticalAI.swift in Sources */,
 				C98DBFA823DF2F5300B6CE25 /* EraType.swift in Sources */,
 				C98CBE0624338D12005EE397 /* MapOptionClimate.swift in Sources */,
@@ -1295,6 +1343,7 @@
 				C997905B2513F822003E52C9 /* EnemyTerritoryOperation.swift in Sources */,
 				C957AA34243635B300203024 /* Civ5MapHeader.swift in Sources */,
 				C964BA1F23EAF01A00CA379C /* CityStrategyAI.swift in Sources */,
+				C9A1B574252311EA00AC2292 /* TemporaryZone.swift in Sources */,
 				C9C2FE4123F9DD0700185235 /* PlayerStateAllWars.swift in Sources */,
 				C997906D25175A12003E52C9 /* NavalAttackOperation.swift in Sources */,
 				C907086423ED525400281161 /* HexArea.swift in Sources */,
@@ -1337,6 +1386,7 @@
 				C907086223ED48B900281161 /* MapModel.swift in Sources */,
 				C9C2FE4923FC20D600185235 /* Promotions.swift in Sources */,
 				C9E0D57224424C66001AA97A /* NotificationType.swift in Sources */,
+				C9A1B5682523119F00AC2292 /* TacticalCity.swift in Sources */,
 				C964BA1B23EAE5A100CA379C /* BuildableItem.swift in Sources */,
 				C9C2FE3323F6DEE300185235 /* WeightedList.swift in Sources */,
 				C98DBFAE23E0467000B6CE25 /* Yields.swift in Sources */,
@@ -1353,6 +1403,8 @@
 				C9C2FE3923F6E1A600185235 /* UnitProductionAI.swift in Sources */,
 				C960E1DE24E688240049DC83 /* TradeRoutes.swift in Sources */,
 				C9C0DCD724D44799004D9F06 /* GreatPeople.swift in Sources */,
+				C9A1B5602523117B00AC2292 /* TacticalUnit.swift in Sources */,
+				C9A1B56C252311C000AC2292 /* TacticalMoveType.swift in Sources */,
 				C98DBFA323DF219100B6CE25 /* City.swift in Sources */,
 				C997902B25133377003E52C9 /* CityCloseDefenseOperation.swift in Sources */,
 				C9E74CB3248E1AE4003EF256 /* DiplomaticPlayerArray.swift in Sources */,
@@ -1387,9 +1439,11 @@
 				C9DFCF6A23F294C00032243D /* CivicDiscoveredMessage.swift in Sources */,
 				C920E99C23DB1DBA008DEAB4 /* DiplomaticDealAI.swift in Sources */,
 				C9D8DF7223EE0E790091C917 /* DefenseStateType.swift in Sources */,
+				C9A1B5802523122400AC2292 /* TacticalMove.swift in Sources */,
 				C92317B623D62CFA001FC723 /* InfluenceMap.swift in Sources */,
 				C934523E240A50C4007508ED /* Combat.swift in Sources */,
 				C9DFCF6123F14D150032243D /* PlayerApproachType.swift in Sources */,
+				C9A1B5842523123300AC2292 /* TacticalPosture.swift in Sources */,
 				C92317C323D6EB53001FC723 /* HierarchicalStateTransition.swift in Sources */,
 				C90FC38E23D88E0100720B32 /* FlavorType.swift in Sources */,
 				C9588AC32418B70F00304E9A /* CityCitizens.swift in Sources */,
@@ -1430,6 +1484,7 @@
 				C9E74CBC248FA8D9003EF256 /* DiplomaticRequestMessage.swift in Sources */,
 				C90FA36124C2394700733331 /* TextureAtlasLoader.swift in Sources */,
 				C978E0EE252269C3008B8001 /* ArmyFormationSlot.swift in Sources */,
+				C9A1B5642523118E00AC2292 /* TacticalPostureType.swift in Sources */,
 				C92D221B23E2D80500BB9238 /* FeatureType.swift in Sources */,
 				C99790812518F325003E52C9 /* PureNavalCityAttackOperation.swift in Sources */,
 				C956BF5A24F015C5009702B4 /* TradeRoute.swift in Sources */,
@@ -1478,6 +1533,7 @@
 				C90FA35F24C233E500733331 /* TextureAtlas.swift in Sources */,
 				C92317B323D62AD2001FC723 /* FiniteStateMachine.swift in Sources */,
 				C965A52E23FC6A3600BCEB54 /* River.swift in Sources */,
+				C9A1B570252311D600AC2292 /* TacticalTargetType.swift in Sources */,
 				C99C4FC32426ACD200070038 /* UserInterface.swift in Sources */,
 				C90FC39E23D8966800720B32 /* GrandStrategyAIConfidence.swift in Sources */,
 			);

@@ -2022,7 +2022,7 @@ public class HomelandAI {
             }
             
             // if we can't get there this turn, forget it
-            let path = unit.path(towards: point, in: gameModel)
+            let path = unit.path(towards: point, options: .none, in: gameModel)
             if path == nil || path!.count > 1 {
                 continue
             }

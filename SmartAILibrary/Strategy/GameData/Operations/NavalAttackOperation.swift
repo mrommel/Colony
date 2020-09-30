@@ -107,7 +107,7 @@ class NavalAttackOperation: NavalEscortedOperation {
                     self.player?.diplomacyAI?.updateMusteringForAttack(against: self.enemy, to: true)
 
                     // Notify tactical AI to focus on this area
-                    let zone = TacticalAI.TemporaryZone(location: self.targetPosition!, lastTurn: gameModel.currentTurn + 5 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */, targetType: .city, navalMission: true)
+                    let zone = TemporaryZone(location: self.targetPosition!, lastTurn: gameModel.currentTurn + 5 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */, targetType: .city, navalMission: true)
                     self.player?.tacticalAI?.add(temporaryZone: zone)
 
                     self.state = .successful

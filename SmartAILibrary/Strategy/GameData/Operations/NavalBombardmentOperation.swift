@@ -120,7 +120,7 @@ class NavalBombardmentOperation: NavalOperation {
             if self.army?.position == self.army?.goal {
                 
                 // Notify tactical AI to focus on this area
-                let zone = TacticalAI.TemporaryZone(location: self.targetPosition!, lastTurn: gameModel.currentTurn + 1 /* AI_TACTICAL_MAP_BOMBARDMENT_ZONE_TURNS */, targetType: .bombardmentZone)
+                let zone = TemporaryZone(location: self.targetPosition!, lastTurn: gameModel.currentTurn + 1 /* AI_TACTICAL_MAP_BOMBARDMENT_ZONE_TURNS */, targetType: .bombardmentZone)
                 self.player?.tacticalAI?.add(temporaryZone: zone)
                 
                 self.state = .successful

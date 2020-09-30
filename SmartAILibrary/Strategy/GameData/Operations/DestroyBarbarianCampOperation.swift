@@ -92,7 +92,7 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
             if army.position.distance(to: army.goal) <= 1 {
                 
                 // Notify tactical AI to focus on this area
-                let zone = TacticalAI.TemporaryZone(location: self.targetPosition!, lastTurn: gameModel.currentTurn + 5 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */, targetType: .barbarianCamp, navalMission: false)
+                let zone = TemporaryZone(location: self.targetPosition!, lastTurn: gameModel.currentTurn + 5 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */, targetType: .barbarianCamp, navalMission: false)
 
                 self.player?.tacticalAI?.add(temporaryZone: zone)
 

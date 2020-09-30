@@ -125,7 +125,7 @@ public class Army: Codable {
     @discardableResult
     func doDelayedDeath() -> Bool {
         
-        if self.numOfSlotsFilled() == 0 && self.state != .waitingForUnitsToReinforce {
+        if self.numSlotsFilled() == 0 && self.state != .waitingForUnitsToReinforce {
             self.kill()
             return true
         }
@@ -363,14 +363,9 @@ public class Army: Codable {
         return sumOfPower
     }
 
-    func numOfSlotsFilled() -> Int {
-
-        return self.unitsArray.count(where: { $0 != nil })
-    }
-
     func add(unit: AbstractUnit?, to slotIndex: Int) {
 
-        self.unitsArray[slotIndex] = unit
+        self.formationEntries[slotIndex]?.unit = unit
         unit?.assign(to: self)
     }
 

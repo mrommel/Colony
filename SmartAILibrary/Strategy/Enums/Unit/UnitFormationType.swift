@@ -20,6 +20,8 @@ struct UnitFormationSlot {
 
 enum UnitFormationPosition {
 
+    case none
+    
     case bombard
     case frontline
     case civilianSupport

@@ -330,7 +330,7 @@ class NavalSuperiorityOperation: NavalOperation {
                         
                         if adjacentPlot.terrain() == .shore {
                             
-                            if initialUnit.path(towards: adjacentPoint, in: gameModel) != nil {
+                            if initialUnit.path(towards: adjacentPoint, options: .none, in: gameModel) != nil {
                                 bestPlot = adjacentPoint
                             }
                         }
@@ -347,7 +347,7 @@ class NavalSuperiorityOperation: NavalOperation {
                             
                             if adjacentPlot.terrain() == .shore {
                                 
-                                if initialUnit.path(towards: adjacentPoint, in: gameModel) != nil {
+                                if initialUnit.path(towards: adjacentPoint, options: .none, in: gameModel) != nil {
                                     bestPlot = adjacentPoint
                                 }
                             }

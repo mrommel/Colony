@@ -42,7 +42,7 @@ public protocol AbstractUnit: class, Codable {
     func maxMoves(in gameModel: GameModel?) -> Int
     func movementType() -> UnitMovementType
     func baseMoves(into domain: UnitDomainType, in gameModel: GameModel?) -> Int
-    func path(towards target: HexPoint, in gameModel: GameModel?) -> HexPath?
+    func path(towards target: HexPoint, options: MoveOptions, in gameModel: GameModel?) -> HexPath?
     @discardableResult func doMoveOnPath(towards target: HexPoint, previousETA: Int, buildingRoute: Bool, in gameModel: GameModel?) -> Int
     @discardableResult func doMove(on target: HexPoint, in gameModel: GameModel?) -> Bool
     func readyToMove() -> Bool
@@ -1269,7 +1269,7 @@ public class Unit: AbstractUnit {
         return self.type.moves() /*+ self.extraMoves()*/ + extraNavalMoves + extraGoldenAgeMoves + extraUnitCombatTypeMoves
     }
 
-    public func path(towards target: HexPoint, in gameModel: GameModel?) -> HexPath? {
+    public func path(towards target: HexPoint, options: MoveOptions, in gameModel: GameModel?) -> HexPath? {
 
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, ignoreOwner: self.type == .trader)
@@ -1331,7 +1331,7 @@ public class Unit: AbstractUnit {
             return 0
         }
 
-        guard let path = self.path(towards: target, in: gameModel) else {
+        guard let path = self.path(towards: target, options: .none, in: gameModel) else {
             print("Unable to generate path with BuildRouteFinder")
             return 0
         }
@@ -4015,7 +4015,7 @@ extension Unit {
             }
         case .routeTo:
             if let target = mission.target {
-                if gameModel.valid(point: target) && mission.unit?.path(towards: target, in: gameModel) != nil {
+                if gameModel.valid(point: target) && mission.unit?.path(towards: target, options: .none, in: gameModel) != nil {
                     return true
                 }
             }

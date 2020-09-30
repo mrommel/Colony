@@ -8,322 +8,6 @@
 
 import Foundation
 
-public enum TacticalTargetType: Int, Codable {
-
-    case none // AI_TACTICAL_TARGET_NONE
-    case city // AI_TACTICAL_TARGET_CITY
-    case barbarianCamp // AI_TACTICAL_TARGET_BARBARIAN_CAMP
-    case improvement // AI_TACTICAL_TARGET_IMPROVEMENT
-    case blockadeResourcePoint // AI_TACTICAL_TARGET_BLOCKADE_RESOURCE_POINT
-    case lowPriorityUnit // AI_TACTICAL_TARGET_LOW_PRIORITY_UNIT,    // Can't attack one of our cities
-    case mediumPriorityUnit // AI_TACTICAL_TARGET_MEDIUM_PRIORITY_UNIT, // Can damage one of our cities
-    case highPriorityUnit // AI_TACTICAL_TARGET_HIGH_PRIORITY_UNIT,   // Can contribute to capturing one of our cities
-    case cityToDefend // AI_TACTICAL_TARGET_CITY_TO_DEFEND
-    case improvementToDefend // AI_TACTICAL_TARGET_IMPROVEMENT_TO_DEFEND
-    case defensiveBastion // AI_TACTICAL_TARGET_DEFENSIVE_BASTION
-    case ancientRuins // AI_TACTICAL_TARGET_ANCIENT_RUINS
-    case bombardmentZone // AI_TACTICAL_TARGET_BOMBARDMENT_ZONE,     // Used for naval bombardment operation
-    case embarkedMilitaryUnit // AI_TACTICAL_TARGET_EMBARKED_MILITARY_UNIT
-    case embarkedCivilian // AI_TACTICAL_TARGET_EMBARKED_CIVILIAN
-    case lowPriorityCivilian // AI_TACTICAL_TARGET_LOW_PRIORITY_CIVILIAN
-    case mediumPriorityCivilian // AI_TACTICAL_TARGET_MEDIUM_PRIORITY_CIVILIAN
-    case highPriorityCivilian // AI_TACTICAL_TARGET_HIGH_PRIORITY_CIVILIAN
-    case veryHighPriorityCivilian // AI_TACTICAL_TARGET_VERY_HIGH_PRIORITY_CIVILIAN
-    
-    case tradeUnitSea // AI_TACTICAL_TARGET_TRADE_UNIT_SEA,
-    case tradeUnitLand // AI_TACTICAL_TARGET_TRADE_UNIT_LAND,
-    case tradeUnitSeaPlot // AI_TACTICAL_TARGET_TRADE_UNIT_SEA_PLOT, // Used for idle unit moves to plunder trade routes that go through our territory
-    case tradeUnitLandPlot // AI_TACTICAL_TARGET_TRADE_UNIT_LAND_PLOT,
-    case citadel // AI_TACTICAL_TARGET_CITADEL
-    case improvementResource // AI_TACTICAL_TARGET_IMPROVEMENT_RESOURCE
-}
-
-public enum TacticalMoveType: Int, Codable {
-    
-    case none
-    
-    case unassigned // TACTICAL_UNASSIGNED
-    case moveNoncombatantsToSafety // TACTICAL_MOVE_NONCOMBATANTS_TO_SAFETY
-    case captureCity // TACTICAL_CAPTURE_CITY
-    case damageCity // TACTICAL_DAMAGE_CITY
-    case destroyHighUnit // TACTICAL_DESTROY_HIGH_UNIT
-    case destroyMediumUnit // TACTICAL_DESTROY_MEDIUM_UNIT
-    case destroyLowUnit // TACTICAL_DESTROY_LOW_UNIT
-    case toSafety // TACTICAL_TO_SAFETY
-    case attritHighUnit // TACTICAL_ATTRIT_HIGH_UNIT
-    case attritMediumUnit // TACTICAL_ATTRIT_MEDIUM_UNIT
-    case attritLowUnit // TACTICAL_ATTRIT_LOW_UNIT
-    case reposition // TACTICAL_REPOSITION
-    case barbarianCamp // TACTICAL_BARBARIAN_CAMP
-    case pillage // TACTICAL_PILLAGE
-    case civilianAttack // TACTICAL_CIVILIAN_ATTACK
-    case safeBombards // TACTICAL_SAFE_BOMBARDS
-    case heal // TACTICAL_HEAL
-    case ancientRuins // TACTICAL_ANCIENT_RUINS
-    case garrisonToAllowBombards // TACTICAL_GARRISON_TO_ALLOW_BOMBARD
-    case bastionAlreadyThere // TACTICAL_BASTION_ALREADY_THERE
-    case garrisonAlreadyThere // TACTICAL_GARRISON_ALREADY_THERE
-    case guardImprovementAlreadyThere // TACTICAL_GUARD_IMPROVEMENT_ALREADY_THERE
-    case bastionOneTurn // TACTICAL_BASTION_1_TURN
-    case garrisonOneTurn // TACTICAL_GARRISON_1_TURN
-    case guardImprovementOneTurn // TACTICAL_GUARD_IMPROVEMENT_1_TURN
-    case airSweep // TACTICAL_AIR_SWEEP
-    case airIntercept // TACTICAL_AIR_INTERCEPT
-    case airRebase // TACTICAL_AIR_REBASE
-    case closeOnTarget // TACTICAL_CLOSE_ON_TARGET
-    case moveOperation // TACTICAL_MOVE_OPERATIONS
-    case emergencyPurchases // TACTICAL_EMERGENCY_PURCHASES
-    
-    /// postures ///////////////////
-    
-    case postureWithdraw // TACTICAL_POSTURE_WITHDRAW
-    case postureSitAndBombard // TACTICAL_POSTURE_SIT_AND_BOMBARD
-    case postureAttritFromRange // TACTICAL_POSTURE_ATTRIT_FROM_RANGE
-    case postureExploitFlanks // TACTICAL_POSTURE_EXPLOIT_FLANKS
-    case postureSteamroll // TACTICAL_POSTURE_STEAMROLL
-    case postureSurgicalCityStrike // TACTICAL_POSTURE_SURGICAL_CITY_STRIKE
-    case postureHedgehog // TACTICAL_POSTURE_HEDGEHOG
-    case postureCounterAttack // TACTICAL_POSTURE_COUNTERATTACK
-    case postureShoreBombardment // TACTICAL_POSTURE_SHORE_BOMBARDMENT
-    
-    /// barbarian ///////////////////
-    
-    case barbarianCaptureCity // AI_TACTICAL_BARBARIAN_CAPTURE_CITY,
-    case barbarianDamageCity // AI_TACTICAL_BARBARIAN_DAMAGE_CITY,
-    case barbarianDestroyHighPriorityUnit // AI_TACTICAL_BARBARIAN_DESTROY_HIGH_PRIORITY_UNIT,
-    case barbarianDestroyMediumPriorityUnit // AI_TACTICAL_BARBARIAN_DESTROY_MEDIUM_PRIORITY_UNIT,
-    case barbarianDestroyLowPriorityUnit // AI_TACTICAL_BARBARIAN_DESTROY_LOW_PRIORITY_UNIT,
-    case barbarianMoveToSafety // AI_TACTICAL_BARBARIAN_MOVE_TO_SAFETY,
-    case barbarianAttritHighPriorityUnit // AI_TACTICAL_BARBARIAN_ATTRIT_HIGH_PRIORITY_UNIT,
-    case barbarianAttritMediumPriorityUnit // AI_TACTICAL_BARBARIAN_ATTRIT_MEDIUM_PRIORITY_UNIT,
-    case barbarianAttritLowPriorityUnit // AI_TACTICAL_BARBARIAN_ATTRIT_LOW_PRIORITY_UNIT,
-    case barbarianPillage // AI_TACTICAL_BARBARIAN_PILLAGE,
-    case barbarianBlockadeResource // AI_TACTICAL_BARBARIAN_PRIORITY_BLOCKADE_RESOURCE,
-    case barbarianCivilianAttack // AI_TACTICAL_BARBARIAN_CIVILIAN_ATTACK,
-    case barbarianAggressiveMove // AI_TACTICAL_BARBARIAN_AGGRESSIVE_MOVE,
-    case barbarianPassiveMove // AI_TACTICAL_BARBARIAN_PASSIVE_MOVE,
-    case barbarianCampDefense // AI_TACTICAL_BARBARIAN_CAMP_DEFENSE,
-    case barbarianGuardCamp
-    case barbarianDesperateAttack // AI_TACTICAL_BARBARIAN_DESPERATE_ATTACK,
-    case barbarianEscortCivilian // AI_TACTICAL_BARBARIAN_ESCORT_CIVILIAN,
-    case barbarianPlunderTradeUnit // AI_TACTICAL_BARBARIAN_PLUNDER_TRADE_UNIT,
-    case barbarianPillageCitadel // AI_TACTICAL_BARBARIAN_PILLAGE_CITADEL,
-    case barbarianPillageNextTurn // AI_TACTICAL_BARBARIAN_PILLAGE_NEXT_TURN
-    
-    static var allBarbarianMoves: [TacticalMoveType] {
-        
-        return [.barbarianCaptureCity, .barbarianDamageCity, .barbarianDestroyHighPriorityUnit, .barbarianDestroyMediumPriorityUnit, .barbarianDestroyLowPriorityUnit, .barbarianMoveToSafety, .barbarianAttritHighPriorityUnit, .barbarianAttritMediumPriorityUnit, .barbarianAttritLowPriorityUnit, .barbarianPillage, .barbarianBlockadeResource, .barbarianCivilianAttack, .barbarianAggressiveMove, .barbarianPassiveMove, .barbarianCampDefense, .barbarianDesperateAttack, .barbarianEscortCivilian, .barbarianPlunderTradeUnit, .barbarianPillageCitadel, .barbarianPillageNextTurn, .barbarianGuardCamp
-        ]
-    }
-    
-    static var allPlayerMoves: [TacticalMoveType] {
-    
-        return [.moveNoncombatantsToSafety, .captureCity, .damageCity, .destroyHighUnit, .destroyMediumUnit, .destroyLowUnit, .toSafety, .attritHighUnit, .attritMediumUnit, .attritLowUnit, .reposition, .barbarianCamp, .pillage, .civilianAttack, .safeBombards, .heal, .ancientRuins, .garrisonToAllowBombards, .bastionAlreadyThere, .garrisonAlreadyThere, .guardImprovementAlreadyThere, .bastionOneTurn, .garrisonOneTurn, .guardImprovementOneTurn, .airSweep, .airIntercept, .airRebase, .closeOnTarget, .moveOperation, .emergencyPurchases
-        ]
-    }
-    
-    struct TacticalMoveTypeData {
-        
-        let operationsCanRecruit: Bool
-        let dominanceZoneMove: Bool
-        let offenseFlavorWeight: Int
-        let defenseFlavorWeight: Int
-        let priority: Int
-    }
-    
-    func priority() -> Int {
-        
-        return self.data().priority
-    }
-    
-    func dominanceZoneMove() -> Bool {
-        
-        return self.data().dominanceZoneMove
-    }
-    
-    func canRecruitForOperations() -> Bool {
-        
-        return self.data().operationsCanRecruit
-    }
-    
-    // MARK: private methods
-    
-    private func data() -> TacticalMoveTypeData {
-        
-        switch self {
-            
-        case .none: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: -1)
-            
-        case .barbarianGuardCamp: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 200)
-        case .unassigned: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: -1)
-        case .moveNoncombatantsToSafety: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 0)
-        case .captureCity: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 100, defenseFlavorWeight: 0, priority: 150)
-        case .damageCity: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 100, defenseFlavorWeight: 0, priority: 15)
-        case .destroyHighUnit: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 140)
-        case .destroyMediumUnit: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 120)
-        case .destroyLowUnit: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 110)
-        case .closeOnTarget: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 45)
-        case .toSafety: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 11)
-        case .attritHighUnit: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 17)
-        case .attritMediumUnit: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 15)
-        case .attritLowUnit: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 12)
-        case .reposition: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 50, defenseFlavorWeight: 50, priority: 1)
-        case .barbarianCamp: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 100, defenseFlavorWeight: 0, priority: 10)
-        case .pillage: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 100, defenseFlavorWeight: 0, priority: 40)
-        case .civilianAttack: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 100, defenseFlavorWeight: 0, priority: 65)
-        case .safeBombards: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 100, defenseFlavorWeight: 0, priority: 60)
-        case .heal: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 8)
-        case .ancientRuins: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 50, defenseFlavorWeight: 50, priority: 25)
-        case .garrisonToAllowBombards: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 20)
-        case .bastionAlreadyThere: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 7)
-        case .garrisonAlreadyThere: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 6)
-        case .guardImprovementAlreadyThere: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 5)
-        case .bastionOneTurn: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 4)
-        case .garrisonOneTurn: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 3)
-        case .guardImprovementOneTurn: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 2)
-        case .airSweep: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 100, defenseFlavorWeight: 0, priority: 10)
-        case .airIntercept: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 20)
-        case .airRebase: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 100, priority: 1)
-        case .postureWithdraw: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 101)
-        case .postureSitAndBombard: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 105)
-        case .postureAttritFromRange: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 104)
-        case .postureExploitFlanks: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 107)
-        case .postureSteamroll: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 108)
-        case .postureSurgicalCityStrike: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 106)
-        case .postureHedgehog: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 50)
-        case .postureCounterAttack: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 103)
-        case .postureShoreBombardment: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 100)
-            
-        case .moveOperation: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 80)
-        case .emergencyPurchases: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 200)
-            
-        // https://github.com/chvrsi/BarbariansEvolved/blob/00a6feec72fa7d95ef026d821f008bdbbf3ee3ab/xml/BarbarianDefines.xml
-            
-        case .barbarianCaptureCity: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 9)
-        case .barbarianDamageCity: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 5)
-        case .barbarianDestroyHighPriorityUnit: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 16)
-        case .barbarianDestroyMediumPriorityUnit: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 15)
-        case .barbarianDestroyLowPriorityUnit: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 14)
-        case .barbarianMoveToSafety: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 10)
-        case .barbarianAttritHighPriorityUnit: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 10)
-        case .barbarianAttritMediumPriorityUnit: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 7)
-        case .barbarianAttritLowPriorityUnit: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 6)
-        case .barbarianPillage: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 12)
-        case .barbarianBlockadeResource: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 10)
-        case .barbarianCivilianAttack: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 13)
-        case .barbarianAggressiveMove: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 3)
-        case .barbarianPassiveMove: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: -1)
-        case .barbarianCampDefense: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 13)
-        case .barbarianDesperateAttack: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 0)
-        case .barbarianEscortCivilian: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 30)
-        case .barbarianPlunderTradeUnit: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 20)
-        case .barbarianPillageCitadel: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 14)
-        case .barbarianPillageNextTurn: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 4)
-        }
-    }
-}
-
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//  CLASS:      CvTacticalPosture
-//!  \brief        The posture an AI has adopted for fighting in a specific dominance zone
-//
-//!  Key Attributes:
-//!  - Used to keep consistency in approach from turn-to-turn
-//!  - Reevaluated by tactical AI each turn before units are moved for this zone
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-enum TacticalPostureType {
-    
-    case none
-    case withdraw
-    case sitAndBombard
-    case attritFromRange
-    case exploitFlanks
-    case steamRoll
-    case surgicalCityStrike
-    case hedgehog
-    case counterAttack
-    case shoreBombardment
-    case emergencyPurchases
-}
-
-// Object stored in the list of current move cities (currentMoveCities)
-class TacticalCity: Comparable {
-
-    let attackStrength: Int
-    var expectedTargetDamage: Int
-    let city: AbstractCity?
-    
-    init(attackStrength: Int = 0, expectedTargetDamage: Int = 0, city: AbstractCity? = nil) {
-        
-        self.attackStrength = attackStrength
-        self.expectedTargetDamage = expectedTargetDamage
-        self.city = city
-    }
-    
-    static func < (lhs: TacticalCity, rhs: TacticalCity) -> Bool {
-        
-        return lhs.attackStrength > rhs.attackStrength
-    }
-    
-    static func == (lhs: TacticalCity, rhs: TacticalCity) -> Bool {
-        
-        return false
-    }
-}
-
-// Object stored in the list of current move units (currentMoveUnits)
-class TacticalUnit: Comparable {
-
-    var attackStrength: Int
-    var healthPercent: Int
-    var movesToTarget: Int
-    var expectedTargetDamage: Int
-    var expectedSelfDamage: Int
-    var unit: AbstractUnit?
-    
-    init(unit: AbstractUnit? = nil, attackStrength: Int = 0, healthPercent: Int = 0) {
-        
-        self.attackStrength = attackStrength
-        self.healthPercent = healthPercent
-        self.movesToTarget = 0
-        self.expectedTargetDamage = 0
-        self.expectedSelfDamage = 0
-        self.unit = unit
-    }
-    
-    // Derived
-    func attackPriority() -> Int {
-        
-        return self.attackStrength * self.healthPercent
-    }
-    
-    static func < (lhs: TacticalUnit, rhs: TacticalUnit) -> Bool {
-        
-        return lhs.attackStrength > rhs.attackStrength
-    }
-    
-    static func == (lhs: TacticalUnit, rhs: TacticalUnit) -> Bool {
-        
-        return false
-    }
-}
-
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//  CLASS:      CvOperationUnit
-//!  \brief        One unit moving with operational army currently being processed
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-class OperationUnit {
-    
-    let unit: AbstractUnit?
-    let position: UnitFormationPosition
-    
-    init(unit: AbstractUnit?, at position: UnitFormationPosition) {
-        
-        self.unit = unit
-        self.position = position
-    }
-}
-
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  CLASS:      CvTacticalAI
 //!  \brief        A player's AI to control units as they fight out battles
@@ -350,11 +34,19 @@ public class TacticalAI: Codable {
     var movePriorityList: [TacticalMove]
     var postures: [TacticalPosture]
     var zoneTargets: [TacticalTarget]
+    var tempTargets: [TacticalTarget]
     
     var currentTurnUnits: [AbstractUnit?]
     var currentMoveCities: [TacticalCity?]
     var currentMoveUnits: [TacticalUnit?]
     var currentMoveHighPriorityUnits: [TacticalUnit?]
+    var currentDominanceZone: TacticalAnalysisMap.TacticalDominanceZone? = nil
+    
+    // Blocking (and flanking) position data
+    var potentialBlocks: [BlockingUnit?]
+    var temporaryBlocks: [BlockingUnit?]
+    var chosenBlocks: [BlockingUnit?]
+    var newlyChosen: [BlockingUnit?]
     
     // Operational AI support data
     var operationUnits: [OperationUnit]
@@ -367,234 +59,6 @@ public class TacticalAI: Codable {
     static let recruitRange = 10
     static let repositionRange = 10 // AI_TACTICAL_REPOSITION_RANGE
 
-    // MARK: internal classes
-
-    class TemporaryZone: Codable {
-        
-        enum CodingKeys: String, CodingKey {
-        
-            case location
-            case lastTurn
-            case targetType
-            case navalMission
-        }
-
-        var location: HexPoint = HexPoint(x: -1, y: -1)
-        var lastTurn: Int = -1
-        var targetType: TacticalTargetType = .none
-        var navalMission: Bool = false
-
-        init(location: HexPoint = HexPoint(x: -1, y: -1), lastTurn: Int = -1, targetType: TacticalTargetType = .none, navalMission: Bool = false) {
-
-            self.location = location
-            self.lastTurn = lastTurn
-            self.targetType = targetType
-            self.navalMission = navalMission
-        }
-        
-        required init(from decoder: Decoder) throws {
-            
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-            self.location = try container.decode(HexPoint.self, forKey: .location)
-            self.lastTurn = try container.decode(Int.self, forKey: .lastTurn)
-            self.targetType = try container.decode(TacticalTargetType.self, forKey: .targetType)
-            self.navalMission = try container.decode(Bool.self, forKey: .navalMission)
-        }
-        
-        func encode(to encoder: Encoder) throws {
-            
-            var container = encoder.container(keyedBy: CodingKeys.self)
-
-            try container.encode(self.location, forKey: .location)
-            try container.encode(self.lastTurn, forKey: .lastTurn)
-            try container.encode(self.targetType, forKey: .targetType)
-            try container.encode(self.navalMission, forKey: .navalMission)
-        }
-    }
-
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //  CLASS:      CvTacticalTarget
-    //!  \brief        A target of opportunity for the tactical AI this turn
-    //
-    //!  Key Attributes:
-    //!  - Arises during processing of CvTacticalAI::FindTacticalTargets()
-    //!  - Targets are reexamined each turn (so shouldn't need to be serialized)
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    class TacticalTarget: Codable {
-
-        enum CodingKeys: String, CodingKey {
-        
-            case targetType
-            case target
-            case targetLeader
-            case dominanceZone
-        }
-        
-        var targetType: TacticalTargetType
-        let target: HexPoint
-        var targetLeader: LeaderType
-        let dominanceZone: TacticalAnalysisMap.TacticalDominanceZone?
-
-        // aux data
-        var unit: AbstractUnit? = nil
-        var damage: Int = 0
-        var city: AbstractCity? = nil
-        var threatValue: Int = 0
-        var tile: AbstractTile? = nil
-        
-        init(targetType: TacticalTargetType, target: HexPoint, targetLeader: LeaderType, dominanceZone: TacticalAnalysisMap.TacticalDominanceZone?) {
-            
-            self.targetType = targetType
-            self.target = target
-            self.targetLeader = targetLeader
-            self.dominanceZone = dominanceZone
-        }
-        
-        required init(from decoder: Decoder) throws {
-        
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-            self.targetType = try container.decode(TacticalTargetType.self, forKey: .targetType)
-            self.target = try container.decode(HexPoint.self, forKey: .target)
-            self.targetLeader = try container.decode(LeaderType.self, forKey: .targetLeader)
-            self.dominanceZone = nil // try container.decodeIfPresent(TacticalAnalysisMap.TacticalDominanceZone.self, forKey: .dominanceZone)
-        }
-        
-        func encode(to encoder: Encoder) throws {
-        
-            var container = encoder.container(keyedBy: CodingKeys.self)
-
-            try container.encode(self.targetType, forKey: .targetType)
-            try container.encode(self.target, forKey: .target)
-            try container.encode(self.targetLeader, forKey: .targetLeader)
-            //try container.encodeIfPresent(self.dominanceZone, forKey: .dominanceZone)
-        }
-        
-        /// This target make sense for this domain of unit/zone?
-        func isTargetValidIn(domain: UnitDomainType) -> Bool {
-        
-            switch self.targetType {
-            
-            case .none: return false
-                
-                // always valid
-            case .city, .cityToDefend, .lowPriorityCivilian, .mediumPriorityCivilian, .highPriorityCivilian, .veryHighPriorityCivilian, .lowPriorityUnit, .mediumPriorityUnit, .highPriorityUnit:
-                return true
-                
-                // land targets
-            case .barbarianCamp, .improvement, .improvementToDefend, .defensiveBastion, .ancientRuins, .tradeUnitLand, .tradeUnitLandPlot, .citadel, .improvementResource:
-                return domain == .land
-                
-                // sea targets
-            case .blockadeResourcePoint, .bombardmentZone, .embarkedMilitaryUnit, .embarkedCivilian, .tradeUnitSea, .tradeUnitSeaPlot:
-                return domain == .sea
-            }
-        }
-        
-        /// Still a living target?
-        func isTargetStillAlive(for attackingPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
-            
-            guard let gameModel = gameModel else {
-                fatalError("cant get gameModel")
-            }
-
-            if self.targetType == .lowPriorityUnit ||
-                self.targetType == .mediumPriorityUnit ||
-                self.targetType == .highPriorityUnit {
-                
-                if let enemyDefender = gameModel.visibleEnemy(at: self.target, for: attackingPlayer) {
-                    
-                    if !enemyDefender.isDelayedDeath() {
-                        return true
-                    }
-                }
-            } else if self.targetType == .city {
-                
-                if let enemyCity = gameModel.visibleEnemyCity(at: self.target, for: attackingPlayer) {
-                    
-                    if self.targetLeader == enemyCity.player?.leader {
-                        return true
-                    }
-                }
-            }
-            
-            return false
-        }
-    }
-    
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //  CLASS:      CvQueuedAttack
-    //!  \brief        A planned attack waiting to execute
-    //
-    //!  Key Attributes:
-    //!  - Arises during processing of CvTacticalAI::ExecuteAttacks() or ProcessUnit()
-    //!  - Created by calling QueueFirstAttack() or QueueSubsequentAttack()
-    //!  - Combat animation system calls back into tactical AI when animation completes with call CombatResolved()
-    //!  - This callback signals it is time to execute the next attack
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    class QueuedAttack {
-        
-        var attackerUnit: AbstractUnit?
-        var attackerCity: AbstractCity?
-        var target: TacticalTarget?
-        var ranged: Bool
-        var cityAttack: Bool
-        var seriesId: Int
-        
-        init() {
-            self.attackerUnit = nil
-            self.attackerCity = nil
-            self.target = nil
-            self.ranged = false
-            self.cityAttack = false
-            self.seriesId = -1
-        }
-    }
-    
-    class TacticalMove: Comparable, CustomStringConvertible, CustomDebugStringConvertible {
-        
-        var moveType: TacticalMoveType
-        var priority: Int
-        
-        init() {
-            
-            self.moveType = .unassigned
-            self.priority = TacticalMoveType.unassigned.priority()
-        }
-        
-        // this will sort highest priority to the beginning
-        static func < (lhs: TacticalAI.TacticalMove, rhs: TacticalAI.TacticalMove) -> Bool {
-            return lhs.priority > rhs.priority
-        }
-        
-        static func == (lhs: TacticalAI.TacticalMove, rhs: TacticalAI.TacticalMove) -> Bool {
-            return lhs.priority == rhs.priority && lhs.moveType == rhs.moveType
-        }
-        
-        var description: String {
-            return "TacticalMove(\(self.priority), \(self.moveType))"
-        }
-
-        var debugDescription: String {
-            return "TacticalMove(\(self.priority), \(self.moveType))"
-        }
-    }
-    
-    class TacticalPosture {
-        
-        let type: TacticalPostureType
-        let player: AbstractPlayer?
-        let city: AbstractCity?
-        let isWater: Bool
-        
-        init(of type: TacticalPostureType, for player: AbstractPlayer?, in city: AbstractCity?, isWater: Bool) {
-            self.type = type
-            self.player = player
-            self.city = city
-            self.isWater = isWater
-        }
-    }
 
     // MARK: constructors
 
@@ -609,11 +73,18 @@ public class TacticalAI: Codable {
         self.movePriorityList = []
         self.postures = []
         self.zoneTargets = []
+        self.tempTargets = []
         
         self.currentTurnUnits = []
         self.currentMoveCities = []
         self.currentMoveUnits = []
         self.currentMoveHighPriorityUnits = []
+        
+        self.potentialBlocks = []
+        self.temporaryBlocks = []
+        self.chosenBlocks = []
+        self.newlyChosen = []
+
         
         self.operationUnits = []
         self.generalsToMove = []
@@ -631,6 +102,7 @@ public class TacticalAI: Codable {
         self.movePriorityList = []
         self.postures = []
         self.zoneTargets = []
+        self.tempTargets = []
         
         self.currentTurnUnits = []
         self.currentMoveCities = []
@@ -805,11 +277,11 @@ public class TacticalAI: Codable {
                 case .singleHex:
                     self.plotSingleHexOperationMoves(for: operation as? EscortedOperation, in: gameModel)
                 case .enemyTerritory:
-                    self.plotEnemyTerritoryOperationMoves(operation: operation as? EnemyTerritoryOperation, in: gameModel)
+                    self.plotEnemyTerritoryOperationMoves(for: operation as? EnemyTerritoryOperation, in: gameModel)
                 case .navalEscort:
-                    self.plotNavalEscortOperationMoves(operation as? NavalEscortedOperation)
+                    self.plotNavalEscortOperationMoves(for: operation as? NavalEscortedOperation, in: gameModel)
                 case .freeformNaval:
-                    self.plotFreeformNavalOperationMoves(operation as? NavalOperation)
+                    self.plotFreeformNavalOperationMoves(for: operation as? NavalOperation, in: gameModel)
                 case .rebase:
                     // NOOP
                 break
@@ -861,12 +333,12 @@ public class TacticalAI: Codable {
             }
 
             // Check to make sure escort can get to civilian
-            if escort.path(towards: civilian.location, in: gameModel) != nil {
+            if escort.path(towards: civilian.location, options: .none, in: gameModel) != nil {
                 
                 // He can, so have civilian remain in place
                 self.executeMoveToPlot(of: civilian, to: civilian.location, in: gameModel)
 
-                if army.numOfSlotsFilled() > 1 {
+                if army.numSlotsFilled() > 1 {
                     
                     // Move escort over
                     self.executeMoveToPlot(of: escort, to: civilian.location, in: gameModel)
@@ -889,7 +361,7 @@ public class TacticalAI: Codable {
                         
                         if gameModel.unit(at: neighbor) == nil {
                             
-                            if escort.path(towards: neighbor, in: gameModel) != nil && civilian.path(towards: neighbor, in: gameModel) != nil {
+                            if escort.path(towards: neighbor, options: .none, in: gameModel) != nil && civilian.path(towards: neighbor, options: .none, in: gameModel) != nil {
                                 
                                 self.executeMoveToPlot(of: escort, to: neighbor, in: gameModel)
                                 self.executeMoveToPlot(of: civilian, to: neighbor, in: gameModel)
@@ -932,12 +404,12 @@ public class TacticalAI: Codable {
                 //}
 
                 // Handle case of no path found at all for civilian
-                if let path = civilian.path(towards: operation.targetPosition!, in: gameModel) {
+                if let path = civilian.path(towards: operation.targetPosition!, options: .none, in: gameModel) {
                     
                     let civilianMove = path.last!.0
                     let saveMoves = civilianMove == operation.targetPosition
                     
-                    if army.numOfSlotsFilled() == 1 {
+                    if army.numSlotsFilled() == 1 {
                         
                         self.executeMoveToPlot(of: civilian, to: civilianMove, saveMoves: saveMoves, in: gameModel)
                         
@@ -975,7 +447,7 @@ public class TacticalAI: Codable {
                             // can move that escort can't -- like minor civ territory), then find a new path based on moving the escort
                             if cell.friendlyTurnEndTile || blockingUnit == nil {
                                 
-                                if let path = escort.path(towards: operation.targetPosition!, in: gameModel) {
+                                if let path = escort.path(towards: operation.targetPosition!, options: .none, in: gameModel) {
                                     
                                     let escortMove = path.last!.0
                                     let saveMoves = escortMove == operation.targetPosition
@@ -1123,11 +595,11 @@ public class TacticalAI: Codable {
                     }
                 }
                 
-                self.executeGatherMoves(thisArmy)
+                self.executeGatherMoves(of: thisArmy, in: gameModel)
             }
         } else if thisArmy.state == .waitingForUnitsToCatchUp { // GATHERING FORCES
             
-            self.clearEnemiesNearArmy(thisArmy)
+            self.clearEnemiesNearArmy(army: thisArmy, in: gameModel)
 
             // Request moves for all units
             for (index, slot) in thisArmy.formation.slots().enumerated() {
@@ -1152,7 +624,7 @@ public class TacticalAI: Codable {
                 }
             }
                 
-            self.executeGatherMoves(thisArmy)
+            self.executeGatherMoves(of: thisArmy, in: gameModel)
             
         } else if thisArmy.state == .movingToDestination { // MOVING TO TARGET
              
@@ -1166,7 +638,7 @@ public class TacticalAI: Codable {
             }
 
             thisArmy.position = thisTurnTarget
-            self.clearEnemiesNearArmy(thisArmy)
+            self.clearEnemiesNearArmy(army: thisArmy, in: gameModel)
 
             // Request moves for all units
             for (index, slot) in thisArmy.formation.slots().enumerated() {
@@ -1191,7 +663,7 @@ public class TacticalAI: Codable {
                 }
             }
             
-            self.executeFormationMoves(thisArmy, closestCurrentCOMonPath)
+            self.executeFormationMoves(for: thisArmy, closestCurrentCenterOfMassOnPath: closestCurrentCenterOfMassOnPath, in: gameModel)
         }
 
         if self.paratroopersToMove.count > 0 {
@@ -1199,7 +671,482 @@ public class TacticalAI: Codable {
         }
 
         if self.generalsToMove.count > 0 {
-            self.moveGreatGeneral(thisArmy)
+            self.moveGreatGeneral(army: thisArmy, in: gameModel)
+        }
+    }
+    
+    /// Move a great general with an operation
+    func moveGreatGeneral(army: Army?, in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for generalsToMove in self.generalsToMove {
+            
+            var bestPlot: AbstractTile? = nil
+            var bestScore = -1
+
+            if let general = generalsToMove.unit {
+                
+                let range = (general.maxMoves(in: gameModel) * 3) /* / MOVE_DENOMINATOR */  // Enough to make a decent road move
+                
+                for evalPoint in general.location.areaWith(radius: range) {
+                    
+                    guard let evalPlot = gameModel.tile(at: evalPoint) else {
+                        continue
+                    }
+                    
+                    if general.canReach(at: evalPoint, in: 1, in: gameModel) {
+                        
+                        let score = self.scoreGreatGeneralPlot(general, evalPlot, army)
+
+                        if score > bestScore && score > 0 {
+                            bestScore = score;
+                            bestPlot = evalPlot
+                        }
+                    }
+                }
+
+                if let bestPlot = bestPlot {
+                    
+                    self.executeMoveToPlot(of: general, to: bestPlot.point, in: gameModel)
+
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        
+                        var distToOperationCenter = -1
+
+                        if let army = army {
+                            
+                            if let centerOfMass = army.centerOfMass(in: gameModel) {
+                                distToOperationCenter = centerOfMass.distance(to: bestPlot.point)
+                            }
+                        }
+
+                        print("Deploying \(general.name()), To \(bestPlot.point), At \(general.location), Plot Score: \(bestScore), Dist from COM: \(distToOperationCenter)")
+                        // LogTacticalMessage(strMsg);
+                    }
+                }
+            }
+        }
+
+        return
+    }
+    
+    /// Complete moves for all units requested through calls to MoveWithFormation()
+    func executeFormationMoves(for army: Army, closestCurrentCenterOfMassOnPath: HexPoint, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        /*CvPlot* pTarget;
+        UnitHandle pUnit;
+        AITacticalTargetType eTargetType;
+        CvPlot* pLoopPlot;
+        FStaticVector<CvOperationUnit, SAFE_ESTIMATE_NUM_MULTIUNITFORMATION_ENTRIES, true, c_eCiv5GameplayDLL, 0>::iterator it;*/
+
+        if self.operationUnits.count == 0 {
+            return
+        }
+
+        let target = army.position
+
+        var meleeUnits: Int = 0
+        var rangedUnits: Int = 0
+        
+        for operationUnit in self.operationUnits {
+            
+            guard let unit = operationUnit.unit else {
+                continue
+            }
+            
+            if unit.canAttackRanged() {
+                rangedUnits += 1
+            } else {
+                meleeUnits += 1
+            }
+        }
+
+        // See if we have enough places to put everyone
+        if !self.scoreFormationPlots(army, target, closestCurrentCenterOfMassOnPath, meleeUnits + rangedUnits) {
+            
+            if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                
+                print("Operation aborting. Army ID: \(army.identifier). Not enough spaces to deploy along formation's path")
+                // LogTacticalMessage(strLogString);
+            }
+            
+            army.operation?.state = .aborted(reason: .noRoomDeploy)
+            
+        } else {
+            // Compute the moves to get the best deployment
+            self.tempTargets.sort()
+
+            // First loop for melee units who should be out front
+            var meleeUnitsToPlace = meleeUnits
+            var done = false
+            
+            for tempTarget in self.tempTargets {
+                
+                if done {
+                    continue
+                }
+                
+                let targetType = tempTarget.targetType
+
+                guard let loopPlot = gameModel.tile(at: tempTarget.target) else {
+                    fatalError("can get loopPlot")
+                }
+
+                // Don't use if there's already someone here
+                if gameModel.unit(at: tempTarget.target) == nil {
+                    
+                    if self.findClosestOperationUnit(target: loopPlot, safeForRanged: false, mustBeRangedUnit: false, in: gameModel) {
+                        
+                        if let innerUnit = self.currentMoveUnits.first??.unit {
+                            
+                            var moveWasSafe = false
+                            self.moveToUsingSafeEmbark(unit: innerUnit, target: loopPlot.point, moveWasSafe: &moveWasSafe, in: gameModel)
+                            innerUnit.finishMoves()
+                            
+                            if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                
+                                print("Deploying melee unit, \(innerUnit.name()), To \(tempTarget.target), At \(innerUnit.location)")
+                                // LogTacticalMessage(strMsg);
+                            }
+                            
+                            meleeUnitsToPlace -= 1
+                        }
+                    }
+                }
+                
+                if meleeUnitsToPlace == 0 {
+                    done = true
+                }
+            }
+
+            // Log if someone in army didn't get a move assigned
+            if meleeUnitsToPlace > 0 {
+                
+                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                    
+                    print("No army deployment move for \(meleeUnitsToPlace) melee units")
+                    // LogTacticalMessage(strMsg);
+                }
+            }
+
+            // Second loop for ranged units
+            var rangedUnitsToPlace = rangedUnits
+            done = false
+            
+            for tempTarget in self.tempTargets {
+                
+                let targetType = tempTarget.targetType
+
+                guard let loopPlot = gameModel.tile(at: tempTarget.target) else {
+                    continue
+                }
+                
+                if targetType == .highPriorityUnit {
+                    // Don't use if there's already someone here
+                    if gameModel.unit(at: tempTarget.target) == nil {
+                        
+                        if self.findClosestOperationUnit(target: loopPlot, safeForRanged: true, mustBeRangedUnit: true, in: gameModel) {
+                            
+                            if let innerUnit = self.currentMoveUnits.first??.unit {
+                                var moveWasSafe = false
+                                self.moveToUsingSafeEmbark(unit: innerUnit, target: loopPlot.point, moveWasSafe: &moveWasSafe, in: gameModel)
+                                innerUnit.finishMoves()
+                                
+                                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                    
+                                    print("Deploying ranged unit, \(innerUnit.name()), To \(loopPlot.point), At \(innerUnit.location)")
+                                    // LogTacticalMessage(strMsg);
+                                }
+                                
+                                rangedUnitsToPlace -= 1
+                            }
+                        }
+                    }
+                }
+                
+                if rangedUnitsToPlace == 0 {
+                    done = true
+                }
+            }
+
+            // Third loop for ranged units we couldn't put in an ideal spot
+            for tempTarget in self.tempTargets {
+                
+                let targetType = tempTarget.targetType
+
+                guard let loopPlot = gameModel.tile(at: tempTarget.target) else {
+                    continue
+                }
+                
+                if targetType == .highPriorityUnit {
+                    // Don't use if there's already someone here
+                    if gameModel.unit(at: tempTarget.target) == nil {
+                        
+                        if self.findClosestOperationUnit(target: loopPlot, safeForRanged: true, mustBeRangedUnit: true, in: gameModel) {
+                            
+                            if let innerUnit = self.currentMoveUnits.first??.unit {
+                                
+                                var moveWasSafe = false
+                                self.moveToUsingSafeEmbark(unit: innerUnit, target: loopPlot.point, moveWasSafe: &moveWasSafe, in: gameModel)
+                                innerUnit.finishMoves()
+                                
+                                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                    
+                                    print("Deploying ranged unit (Pass 2), \(innerUnit.name()), To \(loopPlot.point), At \(innerUnit.location)")
+                                    // LogTacticalMessage(strMsg);
+                                }
+                                
+                                rangedUnitsToPlace -= 1
+                            }
+                        }
+                    }
+                        
+                    if rangedUnitsToPlace == 0 {
+                        done = true
+                    }
+                }
+            }
+
+            // Log if someone in army didn't get a move assigned
+            if rangedUnitsToPlace > 0 {
+                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                    print("No army deployment move for %d ranged units", rangedUnitsToPlace);
+                    // LogTacticalMessage(strMsg);
+                }
+            }
+        }
+    }
+    
+    /// Low-level wrapper on CvUnit::PushMission() for move to missions that avoids embarking if dangerous. Returns true if any move made
+    func moveToUsingSafeEmbark(unit: AbstractUnit?, target: HexPoint, moveWasSafe: inout Bool, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        moveWasSafe = true
+
+        // Move right away, if not a land unit
+        if unit.domain() != .land {
+            unit.push(mission: UnitMission(type: .moveTo, at: target), in: gameModel)
+            return true
+        }
+
+        // If a land unit, get path to target
+        if let path = unit.path(towards: target, options: .none, in: gameModel) {
+            
+            guard let movePoint = path.endTurnPlot(for: unit),
+                  let movePlot = gameModel.tile(at: movePoint) else {
+                fatalError("cant get movePlot")
+            }
+            
+            // On land?  If so go ahead and move there
+            if !movePlot.isWater() {
+                unit.push(mission: UnitMission(type: .moveTo, at: target), in: gameModel)
+                return true
+            } else { // How dangerous is this plot?
+                var dangerous = false
+
+                let cell = gameModel.tacticalAnalysisMap().plots[target]
+                if cell!.isSubjectToAttack() {
+                    // Enemy naval unit can definitely attack this plot
+                    dangerous = true
+                } else {
+                    if gameModel.tacticalAnalysisMap().isInEnemyDominatedZone(at: target) {
+                        // Also dangerous in an enemy dominated naval zone
+                        dangerous = true
+                    }
+                }
+
+                // Not dangerous, proceed
+                if !dangerous {
+                    unit.push(mission: UnitMission(type: .moveTo, at: target), in: gameModel)
+                    return true
+                } else {
+                    // Dangerous - try to move just on land
+                    if unit.path(towards: target, options: .stayOnLand, in: gameModel) == nil {
+                        
+                        // No land path so just risk move to sea
+                        unit.push(mission: UnitMission(type: .moveTo, at: target), in: gameModel)
+
+                        // Hopefully the calling routine might be able to pull escort over to stack with this unit
+                        moveWasSafe = false
+                        return true;
+                    } else {
+                        unit.push(mission: UnitMission(type: .moveTo, at: target, options: .stayOnLand), in: gameModel)
+                        return true
+                    }
+                }
+            }
+        } else {
+            // No path this may happen if a unit has moved up and blocked our path to our target plot
+            // If calling routine is moving a bunch of units like this it should retry these units
+            moveWasSafe = false
+            return false
+        }
+    }
+
+    
+    /// Fills m_CurrentMoveUnits with all units in operation that can get to target (returns TRUE if 1 or more found)
+    func findClosestOperationUnit(target: AbstractTile?, safeForRanged: Bool, mustBeRangedUnit: Bool, in gameModel: GameModel?) -> Bool {
+        
+        guard let targetTile = target else {
+            fatalError("cant get target")
+        }
+        
+        /*FStaticVector<CvOperationUnit, SAFE_ESTIMATE_NUM_MULTIUNITFORMATION_ENTRIES, true, c_eCiv5GameplayDLL, 0>::iterator it;
+        UnitHandle pLoopUnit;*/
+
+        var rtnValue = false
+        self.currentMoveUnits.removeAll()
+
+        // Loop through all units available to operation
+        for operationUnit in self.operationUnits {
+            
+            if let loopUnit = operationUnit.unit {
+                var validUnit = true
+
+                if loopUnit.hasMoved(in: gameModel) {
+                    validUnit = false
+                } else if !safeForRanged && loopUnit.canAttackRanged() {
+                    validUnit = false
+                } else if mustBeRangedUnit && !loopUnit.canAttackRanged() {
+                    validUnit = false
+                }
+
+                if validUnit {
+                    
+                    let turns = loopUnit.turnsToReach(at: targetTile.point, in: gameModel)
+
+                    if turns != Int.max {
+                        
+                        let tacticalUnit = TacticalUnit(unit: loopUnit, attackStrength: 1000 - turns, healthPercent: 10)
+                        tacticalUnit.movesToTarget = targetTile.point.distance(to: loopUnit.location)
+                        currentMoveUnits.append(tacticalUnit)
+                        rtnValue = true
+                    }
+                }
+            }
+        }
+
+        // Now sort them by turns to reach
+        self.currentMoveUnits.sort { (aRef, bRef) -> Bool in
+            
+            if let a = aRef, let b = bRef {
+                return a.movesToTarget < b.movesToTarget
+            }
+            
+            return false
+        }
+
+        return rtnValue
+    }
+    
+    /// Queues up attacks on enemy units on or adjacent to army's desired center
+    func clearEnemiesNearArmy(army: Army, in gameModel: GameModel?) {
+        
+        let range = 1
+        var enemyNear = false
+        
+        guard let tacticalAnalysisMap = gameModel?.tacticalAnalysisMap() else {
+            fatalError("cant get tacticalAnalysisMap")
+        }
+
+        // Loop through all appropriate targets to see if any is of concern
+        for target in self.allTargets {
+            
+            // Is the target of an appropriate type?
+            if target.targetType == .highPriorityUnit ||
+                target.targetType == .mediumPriorityUnit ||
+                target.targetType ==  .lowPriorityUnit {
+                
+                // Is this unit near enough?
+                if army.position.distance(to: target.target) <= range {
+                    enemyNear = true
+                    break
+                }
+            }
+        }
+
+        if enemyNear {
+            
+            // Add units from army to tactical AI for this turn
+            for unitRef in army.units() {
+                
+                guard let unit = unitRef else {
+                    continue
+                }
+
+                if !unit.processedInTurn() && !unit.isDelayedDeath() && unit.canMove() {
+                    
+                    if !self.currentTurnUnits.contains(where: { $0?.location == unit.location && $0?.type == unit.type }) {
+                        
+                        self.currentTurnUnits.append(unitRef)
+                    }
+                }
+            }
+
+            // Now attack these targets
+            for allTarget in self.allTargets {
+                
+                // Is the target of an appropriate type?
+                if allTarget.targetType == .highPriorityUnit ||
+                    allTarget.targetType == .mediumPriorityUnit ||
+                    allTarget.targetType == .lowPriorityUnit {
+                    
+                    if allTarget.isTargetStillAlive(for: self.player, in: gameModel) {
+                        
+                        // Is this unit near enough?
+                        if allTarget.target.distance(to: army.position) <= range {
+                            
+                            guard let plot = gameModel?.tile(at: allTarget.target) else {
+                                fatalError("cant get plot")
+                            }
+
+                            tacticalAnalysisMap.clearDynamicFlags();
+                            
+                            let bestFriendlyRange = tacticalAnalysisMap.bestFriendlyRange()
+                            let ignoreLineOfSight = tacticalAnalysisMap.ignoreLineOfSight
+                            tacticalAnalysisMap.setTargetBombardCells(target: allTarget.target, bestFriendlyRange: bestFriendlyRange, canIgnoreLightOfSight: ignoreLineOfSight, in: gameModel)
+
+                            var attackUnderway = self.executeSafeBombards(on: allTarget, in: gameModel)
+                            var attackMade = false
+                            if allTarget.isTargetStillAlive(for: self.player, in: gameModel) {
+                                attackMade = self.executeProtectedBombards(allTarget, attackUnderway)
+                            }
+                            
+                            if attackMade {
+                                attackUnderway = true
+                            }
+                            
+                            if allTarget.isTargetStillAlive(for: self.player, in: gameModel) {
+                                
+                                if let defender = gameModel?.visibleEnemy(at: allTarget.target, for: self.player) {
+                                    
+                                    allTarget.damage = defender.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
+                                    self.currentMoveCities.removeAll()
+                                    
+                                    if self.findUnitsWithinStrikingDistance(towards: allTarget.target, numTurnsAway: 1, in: gameModel) {
+                                        self.computeTotalExpectedDamage(target: allTarget, and: plot, in: gameModel)
+                                        self.executeAttack(target: allTarget, targetPlot: plot, inflictWhatWeTake: true, mustSurviveAttack: true, in: gameModel)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -1221,9 +1168,6 @@ public class TacticalAI: Codable {
         guard let army = army else {
             return
         }
-        /*
-        AITacticalTargetType eTargetType;
-        CvPlot* pLoopPlot;*/
 
         if self.operationUnits.count == 0 {
             return
@@ -1239,7 +1183,7 @@ public class TacticalAI: Codable {
 
         // Try one time with computed range
         var foundEnoughDeploymentPlots = false
-        if self.scoreDeploymentPlots(target, army, numUnits, 0, range) {
+        if self.scoreDeploymentPlots(point: target, army: army, numMeleeUnits: numUnits, numRangedUnits: 0, range: range, in: gameModel) {
             // Did we get twice as many possible plots as units?
             if self.tempTargets.count >= (numUnits * 2) {
                 foundEnoughDeploymentPlots = true;
@@ -1251,7 +1195,7 @@ public class TacticalAI: Codable {
 
         if !foundEnoughDeploymentPlots {
             
-            if !self.scoreDeploymentPlots(target, army, numUnits, 0, range) {
+            if !self.scoreDeploymentPlots(point: target, army: army, numMeleeUnits: numUnits, numRangedUnits: 0, range: range, in: gameModel) {
                 
                 if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
                     
@@ -1275,36 +1219,39 @@ public class TacticalAI: Codable {
             
             let targetType = tempTarget.targetType
 
-            pLoopPlot = GC.getMap().plot(m_TempTargets[iI].GetTargetX(), m_TempTargets[iI].GetTargetY());
+            guard let loopPlot = gameModel.tile(at: tempTarget.target) else {
+                continue
+            }
             
             // Don't use if there's already a unit not in the army here
-            UnitHandle pUnitAlreadyThere = pLoopPlot->getBestDefender(NO_PLAYER);
-            if (!pUnitAlreadyThere || pUnitAlreadyThere->getArmyID() == pArmy->GetID())
-            {
-                if self.findClosestOperationUnit(pLoopPlot, true /*bSafeForRanged*/, false /*bMustBeRangedUnit*/))
-                {
-                    for(unsigned int jJ = 0; jJ < m_CurrentMoveUnits.size(); jJ++)
-                    {
-                        CvBlockingUnit block;
-                        block.SetUnitID(m_CurrentMoveUnits[jJ].GetID());
-                        block.SetPlot(pLoopPlot);
-                        block.SetNumChoices((int)m_CurrentMoveUnits.size());
-                        block.SetDistanceToTarget(m_CurrentMoveUnits[jJ].GetMovesToTarget());
-                        m_PotentialBlocks.push_back(block);
-                    }
-                    
-                    unitsToPlace -= 1
-                    if unitsToPlace == 0 {
-                        done = true
+            if let unitAlreadyThere = gameModel.unit(at: tempTarget.target) {
+                
+                if unitAlreadyThere.army()?.identifier == army.identifier {
+                
+                    if self.findClosestOperationUnit(target: loopPlot, safeForRanged: true, mustBeRangedUnit: false, in: gameModel) {
+                        
+                        for currentMoveUnitRef in self.currentMoveUnits {
+                            
+                            guard let currentMoveUnit = currentMoveUnitRef else {
+                                continue
+                            }
+                            
+                            self.potentialBlocks.append(BlockingUnit(unit: currentMoveUnit.unit, at: tempTarget.target, numChoices: self.currentMoveUnits.count, distanceToTarget: currentMoveUnit.movesToTarget))
+                        }
+                        
+                        unitsToPlace -= 1
+                        if unitsToPlace == 0 {
+                            done = true
+                        }
                     }
                 }
             }
         }
 
         // Now ready to make the assignments
-        self.assignDeployingUnits(iUnits - iUnitsToPlace)
+        self.assignDeployingUnits(numUnits - unitsToPlace)
 
-        self.performChosenMoves()
+        self.performChosenMoves(in: gameModel)
 
         // Log if someone in army didn't get a move assigned (how do we address this in the future?)
         if self.chosenBlocks.count < numUnits {
@@ -1313,6 +1260,308 @@ public class TacticalAI: Codable {
                 
                 print("No gather move for \(numUnits - self.chosenBlocks.count) units")
                 // LogTacticalMessage(strMsg);
+            }
+        }
+    }
+    
+    /// Pick best hexes for deploying our army (based on safety, terrain, and keeping a tight formation). Returns false if insufficient free plots.
+    func scoreDeploymentPlots(point target: HexPoint, army: Army, numMeleeUnits: Int, numRangedUnits: Int, range: Int, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        let tacticalAnalysisMap = gameModel.tacticalAnalysisMap()
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        /*int iDX, iDY;
+        int iScore;
+        CvPlot* pPlot;
+        CvTacticalAnalysisCell* pCell;*/
+        var safeForDeployment: Bool
+        var forcedToUseWater: Bool
+        var numSafePlotsFound = 0;
+        var numDeployPlotsFound = 0;
+        //CvTacticalTarget target;*/
+
+        // We'll store the hexes we've found here
+        self.tempTargets.removeAll()
+
+        for dx in -range...range {
+            
+            for dy in -range...range {
+                
+                let plotPoint = HexPoint(x: target.x + dx, y: target.y + dy)
+                
+                if let plot = gameModel.tile(at: plotPoint) {
+                    
+                    safeForDeployment = true
+                    forcedToUseWater = false
+
+                    let plotDistance = plotPoint.distance(to: target)
+                    if plotDistance <= range {
+                        
+                        //int iPlotIndex = GC.getMap().plotNum(pPlot->getX(), pPlot->getY());
+                        guard let cell = tacticalAnalysisMap.plots[plotPoint], let operation = army.operation else {
+                            continue
+                        }
+                        
+                        var valid = false
+                        if operation.isMixedLandNavalOperation() && cell.canUseForOperationGatheringCheckWater(isWater: true) {
+                            valid = true
+                        } else if operation.isAllNavalOperation() && cell.canUseForOperationGatheringCheckWater(isWater: true) {
+                            valid = true
+                        } else if !operation.isAllNavalOperation() && !operation.isMixedLandNavalOperation() && (cell.canUseForOperationGatheringCheckWater(isWater: false) || gameModel.isPrimarilyNaval()) {
+                            valid = true
+                            if cell.isWater() {
+                                forcedToUseWater = true
+                            }
+                        }
+
+                        if operation.isMixedLandNavalOperation() || operation.isAllNavalOperation() {
+                            
+                            if !army.isAllOceanGoing(in: gameModel) && cell.isOcean() {
+                                valid = false
+                            }
+                        }
+
+                        if valid {
+                            // Skip this plot if friendly unit that isn't in this army
+                            if let friendlyUnit = cell.friendlyMilitaryUnit {
+                                if friendlyUnit.army()?.identifier != army.identifier {
+                                    continue
+                                }
+                            }
+
+                            numDeployPlotsFound += 1
+                            var score = 600 - (plotDistance * 100)
+                            if cell.isSubjectToAttack() {
+                                score -= 100
+                                safeForDeployment = false
+                            } else {
+                                numSafePlotsFound += 1
+                            }
+                            
+                            if cell.isEnemyCanMovePast() {
+                                score -= 100
+                            }
+                            
+                            if gameModel.city(at: plotPoint) != nil && player.isEqual(to: gameModel.tile(at: plotPoint)?.owner()) {
+                                score += 100
+                            } else {
+                                score += cell.defenseModifier * 2
+                            }
+                            
+                            if forcedToUseWater {
+                                score = 10
+                            }
+
+                            cell.safeDeployment = safeForDeployment
+                            cell.deploymentScore = score
+
+                            // Save this in our list of potential targets
+                            let tacticalTarget = TacticalTarget(targetType: .none, target: plotPoint)
+                            
+                            tacticalTarget.threatValue = score // or damage ?
+
+                            // A bit of a hack -- use high priority targets to indicate safe plots for ranged units
+                            if safeForDeployment {
+                                tacticalTarget.targetType = .highPriorityUnit
+                            } else {
+                                tacticalTarget.targetType = .lowPriorityUnit
+                            }
+
+                            self.tempTargets.append(tacticalTarget)
+                        }
+                    }
+                }
+            }
+        }
+
+        // Make sure we found enough
+        if numSafePlotsFound < numRangedUnits || numDeployPlotsFound < (numMeleeUnits + numRangedUnits) {
+            return false
+        }
+
+        return true
+    }
+    
+    /// Make and log selected movements
+    func performChosenMoves(fallbackMoveRange: Int = 1, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        // Make moves up into hexes, starting with units already close to their final destination
+        self.chosenBlocks.sort { (aRef, bRef) -> Bool in
+            return aRef!.distanceToTarget < bRef!.distanceToTarget
+        }
+
+        // First loop through is for units that have a unit moving into their hex.  They need to leave first!
+        for chosenBlockRef in self.chosenBlocks {
+            
+            guard let chosenBlock = chosenBlockRef else {
+                continue
+            }
+            
+            if let unit = chosenBlock.unit {
+                
+                if unit.location != chosenBlock.point && self.isInChosenMoves(unit.location) && gameModel.numFriendlyUnits(at: chosenBlock.point, player: self.player, of: unit.type) == 0 {
+                    
+                    var moveWasSafe = false
+                    self.moveToUsingSafeEmbark(unit: unit, target: chosenBlock.point, moveWasSafe: &moveWasSafe, in: gameModel)
+
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        
+                        print("Deploying \(unit.name()) (to get out of way), To \(chosenBlock.point), At \(unit.location), Distance Before Move: \(chosenBlock.distanceToTarget)")
+                        //LogTacticalMessage(strMsg);
+                    }
+
+                    // Use number of choices field to indicate already moved
+                    chosenBlockRef?.numChoices = -1
+                }
+            }
+        }
+
+        // Second loop is for units moving into their chosen spot normally
+        for chosenBlockRef in self.chosenBlocks {
+            
+            guard let chosenBlock = chosenBlockRef else {
+                continue
+            }
+            
+            if let unit = chosenBlock.unit {
+                
+                if unit.location == chosenBlock.point {
+                    chosenBlockRef?.numChoices = -1
+                } else {
+                    // Someone we didn't move above?
+                    if chosenBlock.numChoices != -1 {
+                        
+                        let plotBeforeMove = unit.location
+                        var moveWasSafe = false
+                        self.moveToUsingSafeEmbark(unit: unit, target: chosenBlock.point, moveWasSafe: &moveWasSafe, in: gameModel)
+
+                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                            
+                            print("Deploying \(unit.name()), To \(chosenBlock.point), At \(unit.location), Distance Before Move: \(chosenBlock.distanceToTarget)")
+                            // LogTacticalMessage(strMsg);
+                        }
+
+                        // Use number of choices field to indicate already moved
+                        if plotBeforeMove != unit.location {
+                            chosenBlockRef?.numChoices = -1
+                        }
+                    }
+                }
+            }
+        }
+
+        // Third loop is for units we still haven't been able to move (other units must be blocking their target for this turn)
+        if fallbackMoveRange > 0 {
+            
+            for chosenBlockRef in self.chosenBlocks {
+                
+                guard let chosenBlock = chosenBlockRef else {
+                    continue
+                }
+                
+                if let unit = chosenBlock.unit {
+                    
+                    // Someone we didn't move above?
+                    if chosenBlock.numChoices != -1 {
+                        
+                        let plotBeforeMove = unit.location
+
+                        if self.moveToEmptySpaceNearTarget(unit: unit, target: chosenBlock.point, land: unit.domain() == .land, in: gameModel) {
+                            
+                            if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                
+                                print("Deploying \(unit.name()) to space near target, Target \(chosenBlock.point): %d, At \(unit.location), Distance Before Move: \(chosenBlock.distanceToTarget)")
+                                // LogTacticalMessage(strMsg);
+                            }
+
+                            if plotBeforeMove != unit.location {
+                                chosenBlockRef?.numChoices = -1
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Fourth loop let's unit end within 2 of target
+        if fallbackMoveRange > 1 {
+            
+            for chosenBlockRef in self.chosenBlocks {
+                
+                guard let chosenBlock = chosenBlockRef else {
+                    continue
+                }
+                
+                if let unit = chosenBlock.unit {
+                    
+                    // Someone we didn't move above?
+                    if chosenBlock.numChoices != -1 {
+                        
+                        if self.moveToEmptySpaceTwoFromTarget(unit, chosenBlock.point, unit.domain() == .land, in: gameModel)
+                        {
+                            if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                
+                                print("Deploying \(unit.name()) to space within 2 of target, Target \(chosenBlock.point), At \(unit.location), Distance Before Move: \(chosenBlock.distanceToTarget)")
+                                // LogTacticalMessage(strMsg);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Finish moves for all units
+        for chosenBlockRef in self.chosenBlocks {
+            
+            guard let chosenBlock = chosenBlockRef else {
+                continue
+            }
+            
+            if let unit = chosenBlock.unit {
+                
+                if !unit.isDelayedDeath() {
+                    if unit.moves() > 0 {
+                        if unit.canPillage(at: unit.location, in: gameModel) && unit.damage() > 0 {
+                            unit.push(mission: UnitMission(type: .pillage), in: gameModel)
+                            
+                            if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                
+                                print("Already in position, will pillage with \(unit.name()), \(chosenBlock.point)")
+                                // LogTacticalMessage(strMsg);
+                            }
+
+                        } else if unit.canFortify(at: unit.location, in: gameModel) {
+                            unit.push(mission: UnitMission(type: .fortify), in: gameModel)
+                            
+                            if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                
+                                print("Already in position, will fortify with \(unit.name()), \(chosenBlock.point)")
+                                // LogTacticalMessage(strMsg);
+                            }
+                        } else {
+                            if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                                
+                                print("Already in position, no move for \(unit.name()), \(chosenBlock.point)")
+                                // LogTacticalMessage(strMsg);
+                            }
+                        }
+                        
+                        unit.finishMoves()
+                    }
+                    
+                    self.unitProcessed(unit: unit, in: gameModel)
+                }
             }
         }
     }
@@ -1344,6 +1593,8 @@ public class TacticalAI: Codable {
                         
                         for dominanceZone in tacticalAnalysisMap.dominanceZones {
 
+                            self.currentDominanceZone = dominanceZone
+                            
                             let postureType = self.findPostureType(for: dominanceZone)
                             
                             // Is this move of the right type for this zone?
@@ -1463,71 +1714,158 @@ public class TacticalAI: Codable {
             self.plotHealMoves(in: gameModel)
         case .ancientRuins:
             // TACTICAL_ANCIENT_RUINS
-            self.plotAncientRuinMoves(in: gameModel)
+            self.plotAncientRuinMoves(turnsAway: 1, in: gameModel)
         case .bastionAlreadyThere:
             // TACTICAL_BASTION_ALREADY_THERE
-            self.plotBastionMoves(0)
+            self.plotBastionMoves(numTurnsAway: 0, in: gameModel)
         case .guardImprovementAlreadyThere:
             // TACTICAL_GUARD_IMPROVEMENT_ALREADY_THERE
-            self.plotGuardImprovementMoves(0)
+            self.plotGuardImprovementMoves(numTurnsAway: 0, in: gameModel)
         case .bastionOneTurn:
             // TACTICAL_BASTION_1_TURN
-            self.plotBastionMoves(1)
+            self.plotBastionMoves(numTurnsAway: 1, in: gameModel)
         case .garrisonOneTurn:
             // TACTICAL_GARRISON_1_TURN
             self.plotGarrisonMoves(numTurnsAway: 1, in: gameModel)
         case .guardImprovementOneTurn:
             // TACTICAL_GUARD_IMPROVEMENT_1_TURN
-            self.plotGuardImprovementMoves(1)
+            self.plotGuardImprovementMoves(numTurnsAway: 1, in: gameModel)
         case .airSweep:
             // TACTICAL_AIR_SWEEP
-            self.plotAirSweepMoves()
+            self.plotAirSweepMoves(in: gameModel)
         case .airIntercept:
             // TACTICAL_AIR_INTERCEPT
-            self.plotAirInterceptMoves()
+            self.plotAirInterceptMoves(in: gameModel)
         case .airRebase:
             fatalError("not implemented yet")
         case .closeOnTarget:
             // TACTICAL_CLOSE_ON_TARGET
-            self.plotCloseOnTarget(true /*bCheckDominance*/)
+            self.plotCloseOnTarget(checkDominance: true, in: gameModel)
         case .moveOperation:
             // TACTICAL_MOVE_OPERATIONS
-            self.plotOperationalArmyMoves()
+            self.plotOperationalArmyMoves(in: gameModel)
         case .emergencyPurchases:
             // TACTICAL_EMERGENCY_PURCHASES
-            self.plotEmergencyPurchases()
+            self.plotEmergencyPurchases(in: gameModel)
         case .postureWithdraw:
             // TACTICAL_POSTURE_WITHDRAW
-            self.plotWithdrawMoves()
+            self.plotWithdrawMoves(in: gameModel)
         case .postureSitAndBombard:
             // TACTICAL_POSTURE_SIT_AND_BOMBARD
-            self.plotSitAndBombardMoves()
+            self.plotSitAndBombardMoves(in: gameModel)
         case .postureAttritFromRange:
             // TACTICAL_POSTURE_ATTRIT_FROM_RANGE
-            self.plotAttritFromRangeMoves()
+            self.plotAttritFromRangeMoves(in: gameModel)
         case .postureExploitFlanks:
             // TACTICAL_POSTURE_EXPLOIT_FLANKS
-            self.plotExploitFlanksMoves()
+            self.plotExploitFlanksMoves(in: gameModel)
         case .postureSteamroll:
             // TACTICAL_POSTURE_STEAMROLL
-            self.plotSteamrollMoves()
+            self.plotSteamrollMoves(in: gameModel)
         case .postureSurgicalCityStrike:
             // TACTICAL_POSTURE_SURGICAL_CITY_STRIKE
-            self.plotSurgicalCityStrikeMoves()
+            self.plotSurgicalCityStrikeMoves(in: gameModel)
         case .postureHedgehog:
             // TACTICAL_POSTURE_HEDGEHOG
-            self.plotHedgehogMoves()
+            self.plotHedgehogMoves(in: gameModel)
         case .postureCounterAttack:
             // TACTICAL_POSTURE_COUNTERATTACK
-            self.plotCounterAttackMoves()
+            self.plotCounterAttackMoves(in: gameModel)
         case .postureShoreBombardment:
             // TACTICAL_POSTURE_SHORE_BOMBARDMENT
-            self.plotShoreBombardmentMoves()
+            self.plotShoreBombardmentMoves(in: gameModel)
         default:
             // NOOP
             print("not implemented: TacticalAI - \(tacticalMove.moveType)")
             break
         }
+    }
+    
+    /// Pop goody huts nearby
+    private func plotAncientRuinMoves(turnsAway: Int, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for zoneTargetRef in self.zoneTargets(for: .ancientRuins) {
+            
+            guard let zoneTarget = zoneTargetRef else {
+                continue
+            }
+            
+            // Grab units that make sense for this move type
+            guard let plot = gameModel.tile(at: zoneTarget.target) else {
+                continue
+            }
+            
+            self.findUnitsFor(move: .ancientRuins, target: plot, rangedOnly: false, in: gameModel)
+
+            if self.currentMoveHighPriorityUnits.count + self.currentMoveUnits.count > 0 {
+                
+                self.executeMoveToTarget(target: plot.point, garrisonIfPossible: false, in: gameModel)
+
+                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                    
+                    print("Moving to goody hut, \(zoneTarget.target), Turns Away: \(turnsAway)")
+                    // LogTacticalMessage(strLogString);
+                }
+            }
+        }
+    }
+    
+    /// Establish a defensive bastion adjacent to a city
+    private func plotBastionMoves(numTurnsAway: Int, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for zoneTargetRef in self.zoneTargets(for: .defensiveBastion) {
+            
+            guard let zoneTarget = zoneTargetRef else {
+                continue
+            }
+            
+            // Grab units that make sense for this move type
+            guard let plot = gameModel.tile(at: zoneTarget.target) else {
+                continue
+            }
+            
+            self.findUnitsFor(move: .bastionAlreadyThere, target: plot, turnsAway: numTurnsAway, rangedOnly: false, in: gameModel)
+
+            if self.currentMoveHighPriorityUnits.count + self.currentMoveUnits.count > 0 {
+                
+                self.executeMoveToTarget(target: zoneTarget.target, garrisonIfPossible: false, in: gameModel)
+                
+                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                    
+                    print("Bastion, \(zoneTarget.target), Priority: \(zoneTarget.threatValue), Turns Away: \(numTurnsAway)")
+                    // LogTacticalMessage(strLogString);
+                }
+            }
+        }
+        
+        /*CvTacticalTarget* pTarget;
+        pTarget = GetFirstZoneTarget(AI_TACTICAL_TARGET_DEFENSIVE_BASTION);
+        while(pTarget != NULL)
+        {
+            // Grab units that make sense for this move type
+            CvPlot* pPlot = GC.getMap().plot(pTarget->GetTargetX(), pTarget->GetTargetY());
+            FindUnitsForThisMove((TacticalAIMoveTypes)m_CachedInfoTypes[eTACTICAL_BASTION_ALREADY_THERE], pPlot, iNumTurnsAway);
+
+            if(m_CurrentMoveHighPriorityUnits.size() + m_CurrentMoveUnits.size() > 0)
+            {
+                ExecuteMoveToTarget(pPlot);
+                
+                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                    
+                    print("Bastion, X: %d, Y: %d, Priority: %d, Turns Away: %d", pTarget->GetTargetX(), pTarget->GetTargetY(), pTarget->GetAuxIntData(), iNumTurnsAway);
+                    // LogTacticalMessage(strLogString);
+                }
+            }
+            pTarget = GetNextZoneTarget();
+        }*/
     }
     
     /// Move units to a better location
@@ -2325,10 +2663,12 @@ public class TacticalAI: Codable {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
-        let targets = self.zoneTargets.filter({ $0.targetType == .cityToDefend })
 
-        for target in targets {
+        for targetRef in self.zoneTargets(for: .cityToDefend) {
+            
+            guard let target = targetRef else {
+                continue
+            }
             
             guard let tile = gameModel.tile(at: target.target) else {
                 continue
@@ -2350,6 +2690,472 @@ public class TacticalAI: Codable {
                 }
             }
             
+        }
+    }
+    
+    /// Make a defensive move to guard an improvement
+    func plotGuardImprovementMoves(numTurnsAway: Int, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for targetRef in self.zoneTargets(for: .improvementToDefend) {
+            
+            // Grab units that make sense for this move type
+            guard let target = targetRef else {
+                continue
+            }
+            
+            guard let tile = gameModel.tile(at: target.target) else {
+                continue
+            }
+            
+            self.findUnitsFor(move: .bastionAlreadyThere, target: tile, turnsAway: numTurnsAway, rangedOnly: false, in: gameModel)
+            
+            if self.currentMoveHighPriorityUnits.count + self.currentMoveUnits.count > 0 {
+                
+                self.executeMoveToTarget(target: target.target, garrisonIfPossible: false, in: gameModel)
+                
+                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                    
+                    print("Guard Improvement, \(target.target), Turns Away: \(numTurnsAway)")
+                    //LogTacticalMessage(strLogString);
+                }
+            }
+        }
+    }
+    
+    // FIXME
+    /// Set fighters to air sweep
+    func plotAirSweepMoves(in gameModel: GameModel?) {
+        
+        //list<int>::iterator it;
+        self.currentMoveUnits.removeAll()
+        //CvTacticalUnit unit;
+        //CvTacticalDominanceZone *pZone;
+
+        // Loop through all recruited units
+        for currentTurnUnit in self.currentTurnUnits {
+            
+            if let unit = currentTurnUnit {
+            
+                if unit.damage() * 2 < 100 { /* MAX_HIT_POINTS */
+
+                    // Am I eligible to air sweep and have a target?
+                    /*if unit.canAirSweep() && !m_pPlayer->GetMilitaryAI()->WillAirUnitRebase(pUnit.pointer()) && m_pPlayer->GetMilitaryAI()->GetBestAirSweepTarget(pUnit.pointer()) != NULL)
+                    {
+                        CvPlot* pUnitPlot = pUnit->plot();
+                        CvCity* pCity = pUnitPlot->getPlotCity();
+                        pZone = NULL;
+
+                        // On a carrier or in a city where we are dominant?
+                        if (pCity)
+                        {
+                            pZone = m_pMap->GetZoneByCity(pCity, false);
+                        }
+                        if (!pCity || !pZone || pZone->GetDominanceFlag() == TACTICAL_DOMINANCE_FRIENDLY)
+                        {
+                            unit.SetID(pUnit->GetID());
+                            m_CurrentMoveUnits.push_back(unit);
+
+                            if(GC.getLogging() && GC.getAILogging())
+                            {
+                                CvString strLogString;
+                                strLogString.Format("Ready to air sweep enemy air units at, X: %d, Y: %d", pUnit->getX(), pUnit->getY());
+                                LogTacticalMessage(strLogString);
+                            }
+                        }
+                    }*/
+                }
+            }
+        }
+
+        if self.currentMoveUnits.count > 0 {
+            // self.executeAirSweepMoves(in: gameModel)
+        }
+    }
+    
+    /// Set fighters to intercept
+    func plotAirInterceptMoves(in gameModel: GameModel?) {
+        
+        /*list<int>::iterator it;
+        m_CurrentMoveUnits.clear();
+        CvTacticalUnit unit;
+        CvTacticalDominanceZone *pZone;
+
+        // Loop through all recruited units
+        for(it = m_CurrentTurnUnits.begin(); it != m_CurrentTurnUnits.end(); it++)
+        {
+            UnitHandle pUnit = m_pPlayer->getUnit(*it);
+            if(pUnit)
+            {
+                // Am I eligible to intercept?
+                if(pUnit->canAirPatrol(NULL) && !m_pPlayer->GetMilitaryAI()->WillAirUnitRebase(pUnit.pointer()))
+                {
+                    CvPlot* pUnitPlot = pUnit->plot();
+                    CvCity* pCity = pUnitPlot->getPlotCity();
+                    pZone = NULL;
+
+                    if (pCity)
+                    {
+                        pZone = m_pMap->GetZoneByCity(pCity, false);
+                    }
+                    int iNumNearbyBombers = m_pPlayer->GetMilitaryAI()->GetNumEnemyAirUnitsInRange(pUnitPlot, m_iRecruitRange, false/*bCountFighters*/, true/*bCountBombers*/);
+
+                    // On a carrier or in a city where we are not dominant and near some enemy bombers?
+                    if (!pCity || !pZone || pZone->GetDominanceFlag() != TACTICAL_DOMINANCE_FRIENDLY)
+                    {
+                        if (iNumNearbyBombers > 0)
+                        {
+                            unit.SetID(pUnit->GetID());
+                            m_CurrentMoveUnits.push_back(unit);
+
+                            if(GC.getLogging() && GC.getAILogging())
+                            {
+                                CvString strLogString;
+                                strLogString.Format("Ready to intercept enemy air units at, X: %d, Y: %d", pUnit->getX(), pUnit->getY());
+                                LogTacticalMessage(strLogString);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(m_CurrentMoveUnits.size() > 0)
+        {
+            ExecuteAirInterceptMoves();
+        }
+         */
+    }
+    
+    /// Close units in on primary target of this dominance zone
+    func plotCloseOnTarget(checkDominance: Bool, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let zone = self.currentDominanceZone else {
+            return
+        }
+        
+        if checkDominance {
+            if zone.dominanceFlag == .enemy {
+                return
+            }
+        }
+        
+        // Flank attacks done; if in an enemy zone, close in on target
+        if zone.territoryType == .tempZone {
+
+            self.executeCloseOnTarget(target: TacticalTarget(targetType: .barbarianCamp, target: zone.center!.point, targetLeader: .barbar, dominanceZone: zone), zone: zone, in: gameModel)
+            
+        } else if zone.territoryType == .enemy && zone.closestCity != nil {
+            
+            let canSeeCity = gameModel.tile(at: zone.closestCity!.location)!.isVisible(to: self.player)
+
+            // If we can't see the city, be careful advancing on it.  We want to be sure we're not heavily outnumbered
+            if !canSeeCity || zone.friendlyStrength > (zone.enemyStrength / 2) {
+ 
+                self.executeCloseOnTarget(target: TacticalTarget(targetType: .city, target: zone.closestCity!.location, targetLeader: zone.closestCity!.leader, dominanceZone: zone), zone: zone, in: gameModel)
+            }
+        }
+    }
+    
+    /// Process units that we recruited out of operational moves.  Haven't used them, so let them go ahead with those moves
+    func plotOperationalArmyMoves(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let operations = self.player?.operations else {
+            fatalError("cant get operations")
+        }
+        
+        // Update all operations (moved down - previously was in the PlayerAI object)
+        for operation in operations {
+            
+            if operation.lastTurnMoved() < gameModel.currentTurn {
+                
+                switch operation.moveType {
+                
+                case .none:
+                    // NOOP
+                break
+                case .singleHex:
+                    self.plotSingleHexOperationMoves(for: operation as? EscortedOperation, in: gameModel)
+                case .enemyTerritory:
+                    self.plotEnemyTerritoryOperationMoves(for: operation as? EnemyTerritoryOperation, in: gameModel)
+                case .navalEscort:
+                    self.plotNavalEscortOperationMoves(for: operation as? NavalEscortedOperation, in: gameModel)
+                case .freeformNaval:
+                    self.plotFreeformNavalOperationMoves(for: operation as? NavalOperation, in: gameModel)
+                case .rebase:
+                    // NOOP
+                break
+                }
+                
+                operation.set(lastTurnMoved: gameModel.currentTurn)
+                operation.checkOnTarget(in: gameModel)
+            }
+        }
+
+        var killedSomething: Bool = false
+        
+        repeat {
+            killedSomething = false
+            
+            for operation in operations {
+                
+                if operation.doDelayedDeath(in: gameModel) {
+                    killedSomething = true
+                    break
+                }
+            }
+            // hack
+        } while killedSomething
+    }
+    
+    /// Spend money to buy defenses
+    func plotEmergencyPurchases(in gameModel: GameModel?) {
+        
+        CvCity* pCity;
+            UnitHandle pCityDefender;
+            CvUnit* pUnit;
+
+            if(m_pPlayer->isMinorCiv())
+            {
+                return;
+            }
+
+            // Is this a dominance zone where we're defending a city?
+            CvTacticalDominanceZone* pZone = GC.getGame().GetTacticalAnalysisMap()->GetZone(m_iCurrentZoneIndex);
+            pCity = pZone->GetClosestCity();
+            if(pCity && pCity->getOwner() == m_pPlayer->GetID() && pZone->GetTerritoryType() == TACTICAL_TERRITORY_FRIENDLY && pZone->GetEnemyUnitCount() > 0)
+            {
+                // Make sure the city isn't about to fall.  Test by seeing if there are high priority unit targets
+                for(unsigned int iI = 0; iI < m_ZoneTargets.size() && !pCity->isCapital(); iI++)
+                {
+                    if(m_ZoneTargets[iI].GetTargetType() == AI_TACTICAL_TARGET_HIGH_PRIORITY_UNIT)
+                    {
+                        return;   // Abandon hope for this city; save our money to use elsewhere
+                    }
+                }
+
+                m_pPlayer->GetMilitaryAI()->BuyEmergencyBuilding(pCity);
+
+                // If two defenders, assume already have land and sea and skip this city
+                if (pCity->plot()->getNumDefenders(m_pPlayer->GetID()) < 2)
+                {
+                    bool bBuyNavalUnit = false;
+                    bool bBuyLandUnit = false;
+
+                    pCityDefender = pCity->plot()->getBestDefender(m_pPlayer->GetID());
+                    if (!pCityDefender)
+                    {
+                        bBuyLandUnit = true;
+                        if (pCity->isCoastal())
+                        {
+                            bBuyNavalUnit = true;
+                        }
+                    }
+                    else
+                    {
+                        if (pCityDefender->getDomainType() == DOMAIN_LAND)
+                        {
+                            if (pCity->isCoastal())
+                            {
+                                bBuyNavalUnit = true;
+                            }
+                        }
+                        else
+                        {
+                            bBuyLandUnit = true;
+                        }
+                    }
+
+                    if (bBuyLandUnit)
+                    {
+                        pUnit = m_pPlayer->GetMilitaryAI()->BuyEmergencyUnit(UNITAI_CITY_BOMBARD, pCity);
+                        if(!pUnit)
+                        {
+                            pUnit = m_pPlayer->GetMilitaryAI()->BuyEmergencyUnit(UNITAI_RANGED, pCity);
+                        }
+                    }
+
+                    if (bBuyNavalUnit)
+                    {
+                        pUnit = m_pPlayer->GetMilitaryAI()->BuyEmergencyUnit(UNITAI_ASSAULT_SEA, pCity);
+                        if (pUnit)
+                        {
+                            // Bought one, don't need to buy melee naval later
+                            bBuyNavalUnit = false;
+                        }
+                    }
+
+                    // Always can try to buy air units
+                    pUnit = m_pPlayer->GetMilitaryAI()->BuyEmergencyUnit(UNITAI_ATTACK_AIR, pCity);
+                    if (!pUnit)
+                    {
+                        pUnit = m_pPlayer->GetMilitaryAI()->BuyEmergencyUnit(UNITAI_DEFENSE_AIR, pCity);
+                    }
+
+                    // Melee naval if didn't buy Ranged naval, (or not)
+                    //if (bBuyNavalUnit)
+                    //{
+                    //    pUnit = m_pPlayer->GetMilitaryAI()->BuyEmergencyUnit(UNITAI_ATTACK_SEA, pCity);
+                    //}
+                }
+            }
+    }
+    
+    /// Move forces in toward our target
+    func executeCloseOnTarget(target: TacticalTarget, zone: TacticalAnalysisMap.TacticalDominanceZone, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        var rangedUnits = 0
+        var meleeUnits = 0
+        var generals = 0
+        
+        let tacticalRadius = gameModel.tacticalAnalysisMap().tacticalRange
+
+        guard let targetPlot = gameModel.tile(at: target.target) else {
+            fatalError("cant get targetPlot")
+        }
+        
+        self.operationUnits.removeAll()
+        self.generalsToMove.removeAll()
+
+        for currentTurnUnit in self.currentTurnUnits {
+            
+            if let unit = currentTurnUnit {
+                
+                // If not naval invasion, proper domain of unit?
+                if zone.navalInvasion ||
+                    (zone.isWater && unit.domain() == .sea || !zone.isWater && unit.domain() == .land) {
+                    
+                    // Find units really close to target or somewhat close that just came out of an operation
+                    let distance = unit.location.distance(to: target.target)
+                    if distance <= tacticalRadius || (distance <= (4 /* AI_OPERATIONAL_CITY_ATTACK_DEPLOY_RANGE */ * 3) && unit.deployFromOperationTurn() + 5 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */ >= gameModel.currentTurn) {
+                        
+                        let operationUnit = OperationUnit(unit: unit)
+
+                        if unit.canAttackRanged() {
+                            operationUnit.position = .bombard
+                            rangedUnits += 1
+                            self.operationUnits.append(operationUnit)
+
+                        } else if unit.isGreatGeneral() || unit.isGreatAdmiral() {
+                            
+                            operationUnit.position = .civilianSupport
+                            generals += 1
+                            self.generalsToMove.append(operationUnit)
+                        } else {
+                            
+                            operationUnit.position = .frontline
+                            meleeUnits += 1
+                            self.operationUnits.append(operationUnit)
+                        }
+                    }
+                }
+            }
+        }
+
+        // If have any units to move...
+        if self.operationUnits.count > 0 {
+            
+            /* Land only unless invasion or no enemy naval presence */
+            var landOnly = true
+            if zone.navalInvasion || zone.enemyNavalUnitCount == 0 {
+                landOnly = false
+            }
+            
+            self.scoreCloseOnPlots(targetPlot, landOnly)
+
+            // Compute the moves to get the best deployment
+            self.tempTargets.sort()
+            self.potentialBlocks.removeAll()
+
+            var rangedUnitsToPlace = rangedUnits
+            var meleeUnitsToPlace = meleeUnits
+
+            // First loop for ranged unit spots
+            var done = false
+            for tempTarget in self.tempTargets {
+                
+                if done {
+                    continue
+                }
+
+                if tempTarget.targetType == .highPriorityUnit {
+                    
+                    guard let loopPlot = gameModel.tile(at: tempTarget.target) else {
+                        continue
+                    }
+                    
+                    if self.findClosestOperationUnit(target: loopPlot, safeForRanged: true, mustBeRangedUnit: true, in: gameModel) {
+                        
+                        for currentMoveUnit in self.currentMoveUnits {
+
+                            self.potentialBlocks.append(BlockingUnit(unit: currentMoveUnit?.unit, at: loopPlot.point, numChoices: self.currentMoveUnits.count, distanceToTarget: currentMoveUnit!.movesToTarget))
+                        }
+
+                        rangedUnitsToPlace -= 1
+                        if rangedUnitsToPlace == 0 {
+                            done = true
+                        }
+                    }
+                }
+            }
+            
+            self.assignDeployingUnits(rangedUnits - rangedUnitsToPlace)
+            self.performChosenMoves(in: gameModel)
+
+            // Second loop for everyone else (including remaining ranged units)
+            self.potentialBlocks.removeAll()
+            meleeUnits += rangedUnitsToPlace
+            meleeUnitsToPlace += rangedUnitsToPlace
+            done = false
+            
+            for tempTarget in self.tempTargets {
+                
+                if done {
+                    continue
+                }
+                
+                if tempTarget.targetType == .highPriorityUnit {
+                    
+                    guard let loopPlot = gameModel.tile(at: tempTarget.target) else {
+                        continue
+                    }
+                    
+                    if self.findClosestOperationUnit(target: loopPlot, safeForRanged: true, mustBeRangedUnit: false, in: gameModel) {
+                        
+                        for currentMoveUnit in self.currentMoveUnits {
+
+                            self.potentialBlocks.append(BlockingUnit(unit: currentMoveUnit?.unit, at: loopPlot.point, numChoices: self.currentMoveUnits.count, distanceToTarget: currentMoveUnit!.movesToTarget))
+                        }
+
+                        meleeUnitsToPlace -= 1
+                        if meleeUnitsToPlace == 0 {
+                            done = true
+                        }
+                    }
+                }
+            }
+            
+            self.assignDeployingUnits(meleeUnits - meleeUnitsToPlace)
+            self.performChosenMoves(in: gameModel)
+        }
+
+        if self.generalsToMove.count > 0 {
+            self.moveGreatGeneral(army: nil, in: gameModel)
         }
     }
     
@@ -2766,7 +3572,7 @@ public class TacticalAI: Codable {
                     }
 
                     // Handle case of no path found at all for civilian
-                    if let path = civilian.path(towards: target, in: gameModel) {
+                    if let path = civilian.path(towards: target, options: .none, in: gameModel) {
                         
                         let civilianMove = path.last!.0 // pCivilian->GetPathEndTurnPlot();
 
@@ -2808,7 +3614,7 @@ public class TacticalAI: Codable {
                                         }
                                     } else {
                                         
-                                        if let path = civilian.path(towards: target, in: gameModel) {
+                                        if let path = civilian.path(towards: target, options: .none, in: gameModel) {
                                             
                                             let escortMove = path.last!.0
 
@@ -3770,6 +4576,7 @@ public class TacticalAI: Codable {
     }
     
     /// Estimates the damage we can apply to a target
+    @discardableResult
     func computeTotalExpectedDamage(target: TacticalTarget?, and targetPlot: AbstractTile?, in gameModel: GameModel?) -> Int {
         
         guard let gameModel = gameModel else {

@@ -15,22 +15,24 @@ public class UnitMission {
     var target: HexPoint? = nil
     var startedInTurn: Int = -1
     var buildType: BuildType? = nil
+    var options: MoveOptions
 
-    public init(type: UnitMissionType, buildType: BuildType? = nil, at target: HexPoint? = nil) {
+    public init(type: UnitMissionType, buildType: BuildType? = nil, at target: HexPoint? = nil, options: MoveOptions = .none) {
 
         self.type = type
         self.target = target
         self.buildType = buildType
+        self.options = options
 
         if type.needsTarget() && target == nil {
             fatalError("need target")
         }
     }
 
-    func turn(in gameModel: GameModel?) {
+    /*func turn(in gameModel: GameModel?) {
 
         fatalError("not implemented yet")
-    }
+    }*/
 
     /// Initiate a mission
     func start(in gameModel: GameModel?) {
