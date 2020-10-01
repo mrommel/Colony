@@ -98,7 +98,7 @@ class NavalAttackOperation: NavalEscortedOperation {
             // See if reached our target, if so give control of these units to the tactical AI
         case .movingToTarget:
         
-            if let centerOfMass = self.army?.centerOfMass(in: gameModel) {
+            if let centerOfMass = self.army?.centerOfMass(domain: .sea, in: gameModel) {
                 
                 // Are we within tactical range of our target? (larger than usual range for a naval attack)
                 if centerOfMass.distance(to: self.targetPosition!) <= 4 /* AI_OPERATIONAL_CITY_ATTACK_DEPLOY_RANGE */ * 2 {

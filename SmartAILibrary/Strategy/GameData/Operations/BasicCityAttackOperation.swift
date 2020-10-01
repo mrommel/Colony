@@ -127,7 +127,7 @@ class BasicCityAttackOperation: EnemyTerritoryOperation {
         case .movingToTarget:
         
             // Are we within tactical range of our target?
-            if let centerOfMass = self.army?.centerOfMass(in: gameModel) {
+            if let centerOfMass = self.army?.centerOfMass(domain: .land, in: gameModel) {
                 
                 if centerOfMass.distance(to: self.targetPosition ?? HexPoint.invalid) <= 4 { // AI_OPERATIONAL_CITY_ATTACK_DEPLOY_RANGE
                     

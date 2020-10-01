@@ -16,8 +16,9 @@ public struct MoveOptions : OptionSet {
         self.rawValue = rawValue
     }
 
-    static public let none        = MoveOptions([])
-    static public let declareWar  = MoveOptions(rawValue: 1 << 0)
-    static public let attack      = MoveOptions(rawValue: 1 << 1)
-    static public let stayOnLand  = MoveOptions(rawValue: 1 << 2)
+    static public let none         = MoveOptions([])
+    static public let declareWar   = MoveOptions(rawValue: 1 << 0)
+    static public let attack       = MoveOptions(rawValue: 1 << 1)
+    static public let stayOnLand   = MoveOptions(rawValue: 1 << 2)
+    static public let ignoreDanger = MoveOptions(rawValue: 1 << 3)
 }

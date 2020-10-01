@@ -230,7 +230,7 @@ public class Army: Codable {
     }
 
     /// How many units of this type are in army?
-    func numUnitsOf(position: UnitFormationPosition) -> Int {
+    func numUnits(at position: UnitFormationPosition) -> Int {
         
         var rtnValue = 0
 
@@ -252,7 +252,7 @@ public class Army: Codable {
     }
 
     /// Get center of mass of units in army (account for world wrap!)
-    func centerOfMass(in gameModel: GameModel?) -> HexPoint? {
+    func centerOfMass(domain: UnitDomainType, in gameModel: GameModel?) -> HexPoint? {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -264,6 +264,8 @@ public class Army: Codable {
         let worldWidth = gameModel.mapSize().width()
         var referenceUnitX = -1
         var numUnits = 0
+        
+        var rtnValue: HexPoint?
 
         for unitRef in self.units() {
 
@@ -297,10 +299,50 @@ public class Army: Codable {
             }
             let averageY = (totalY + (numUnits / 2)) / numUnits
             
-            return HexPoint(x: averageX, y: averageY)
+            rtnValue = HexPoint(x: averageX, y: averageY)
+        }
+        
+        // Domain check
+        if domain != .none && rtnValue != nil {
+            
+            guard let rtnPlot = gameModel.tile(at: rtnValue!) else {
+                fatalError("cant get rtnValue plot")
+            }
+            
+            if rtnPlot.isWater() && domain == .land || !rtnPlot.isWater() && domain == .sea {
+                
+                // Find an adjacent plot that works
+                for loopPoint in rtnValue!.neighbors() {
+                    
+                    guard let loopPlot = gameModel.tile(at: loopPoint) else {
+                        continue
+                    }
+                        
+                    if loopPlot.isWater() && domain == .sea || !loopPlot.isWater() && domain == .land {
+                        return loopPoint
+                    }
+                }
+
+                // Try two plots out if really having problems
+                for loopPoint in rtnValue!.areaWith(radius: 2) {
+                    
+                    if loopPoint.distance(to: rtnValue!) == 2 {
+                        guard let loopPlot = gameModel.tile(at: loopPoint) else {
+                            continue
+                        }
+                            
+                        if loopPlot.isWater() && domain == .sea || !loopPlot.isWater() && domain == .land {
+                            return loopPoint
+                        }
+                    }
+                }
+
+                // Give up - just use location of first unit
+                rtnValue = self.unit(at: 0)?.location
+            }
         }
 
-        return nil
+        return rtnValue
     }
 
     /// Return distance from this plot of unit in army farthest away

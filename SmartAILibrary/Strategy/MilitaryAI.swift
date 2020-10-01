@@ -1865,6 +1865,62 @@ public class MilitaryAI: Codable {
         
         return coastalPlot
     }
+    
+    @discardableResult
+    func buyEmergencyBuilding(in city: AbstractCity?) -> BuildingType? {
+        
+        fatalError("not implemented")
+    }
+
+    @discardableResult
+    func buyEmergencyUnit(task: UnitTaskType, in city: AbstractCity?) -> AbstractUnit? {
+        
+        fatalError("not implemented")
+    }
+    
+    func coastalPlotAdjacent(to target: HexPoint, army: Army?, in gameModel: GameModel?) -> HexPoint? {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var coastalPlot: HexPoint? = nil
+        var bestDistance = Int.max
+        var initialUnit: AbstractUnit? = nil
+        
+        if army != nil {
+            initialUnit = army?.unit(at: 0)
+        }
+
+        // Find a coastal water tile adjacent to enemy city
+        for adjacentPoint in target.neighbors() {
+            
+            guard let adjacentPlot = gameModel.tile(at: adjacentPoint) else {
+                continue
+            }
+
+            if adjacentPlot.isWater() && adjacentPlot.terrain() == .shore {
+                
+                // Check for path if we have a unit, otherwise don't worry about it
+                if let initialUnit = initialUnit {
+                    
+                    if initialUnit.turnsToReach(at: adjacentPoint, in: gameModel) < Int.max  {
+
+                        let distance = initialUnit.location.distance(to: target)
+                        
+                        if distance < bestDistance {
+                            bestDistance = distance
+                            coastalPlot = adjacentPoint
+                        }
+                    }
+                } else {
+                    return adjacentPoint
+                }
+            }
+        }
+
+        return coastalPlot
+    }
 }
 
 class MilitaryAIHelpers {

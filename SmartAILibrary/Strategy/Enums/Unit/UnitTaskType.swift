@@ -33,6 +33,9 @@ public enum UnitTaskType: Int, Codable {
     case reserveSea
     case shadow
     
+    case attackAir
+    case defenseAir
+    
     case general
     
     case citySpecial

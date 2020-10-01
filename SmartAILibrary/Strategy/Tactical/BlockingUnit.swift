@@ -20,7 +20,7 @@ class BlockingUnit {
     let unit: AbstractUnit?
     let point: HexPoint
     var numChoices: Int
-    let distanceToTarget: Int
+    var distanceToTarget: Int
     
     init(unit: AbstractUnit? = nil, at point: HexPoint, numChoices: Int = 0, distanceToTarget: Int = 0) {
         

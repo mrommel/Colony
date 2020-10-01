@@ -88,6 +88,7 @@ class NavalOperation: EnemyTerritoryOperation {
     }
 
     /// Same as default version except if just gathered forces and this operation never reaches a final target (just keeps attacking until dead or the operation is ended)
+    @discardableResult
     override func armyInPosition(in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel,

@@ -27,7 +27,7 @@ class TacticalTarget: Codable {
     }
     
     var targetType: TacticalTargetType
-    let target: HexPoint
+    var target: HexPoint
     var targetLeader: LeaderType
     let dominanceZone: TacticalAnalysisMap.TacticalDominanceZone?
 

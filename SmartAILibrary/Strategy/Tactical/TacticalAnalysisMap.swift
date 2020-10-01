@@ -193,13 +193,18 @@ class TacticalAnalysisMap {
         
         func isEnemyCanMovePast() -> Bool {
             
-            return self.enemyCanMovePast
+            return self.bits.valueOfBit(at: 6)
         }
 
         // Is one of our friendly units ending its move here?
         var friendlyTurnEndTile: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 7) }
             get { return self.bits.valueOfBit(at: 7) }
+        }
+        
+        func isFriendlyTurnEndTile() -> Bool {
+                
+            return self.bits.valueOfBit(at: 7)
         }
 
         // Friendly city here?
@@ -496,10 +501,41 @@ class TacticalAnalysisMap {
                 }
             }
         }
-                
-                    
-                        
+    }
+    
+    // Mark cells we can use to bomb a specific target
+    func setTargetFlankBonusCells(target: AbstractTile?, in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let target = target else {
+            fatalError("cant get target")
+        }
+        
+        //CvPlot* pLoopPlot;
+        //int iPlotIndex;
 
+        // No flank attacks on units at sea (where all combat is bombards)
+        if target.isWater() {
+            return
+        }
+
+        for loopPoint in target.point.neighbors() {
+            
+            guard let plot = self.plots[loopPoint] else {
+                continue
+            }
+            
+            if plot.isRevealed() && !plot.impassableTerrain && !plot.impassableTerritory {
+                if !plot.friendlyCity && !plot.enemyCity && !plot.neutralCity {
+                    if !plot.isFriendlyTurnEndTile() && plot.enemyMilitaryUnit == nil {
+                        plot.canUseToFlank = true
+                    }
+                }
+            }
+        }
     }
     
     // Is this plot in dangerous territory?

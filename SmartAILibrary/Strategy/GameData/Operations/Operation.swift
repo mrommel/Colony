@@ -490,7 +490,7 @@ public class Operation: Codable, Equatable {
                         break
 
                     case .gatheringForces:
-                        if let centerOfMass = army.centerOfMass(in: gameModel), let musterPosition = self.musterPosition {
+                        if let centerOfMass = army.centerOfMass(domain: self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land, in: gameModel), let musterPosition = self.musterPosition {
 
                             if centerOfMass.distance(to: musterPosition) <= gatheredTolerance && army.furthestUnitDistance(towards: musterPosition) <= gatheredTolerance * 3 / 2 {
 
@@ -501,7 +501,7 @@ public class Operation: Codable, Equatable {
 
                     case .movingToTarget:
 
-                        if let centerOfMass = army.centerOfMass(in: gameModel), let targetPosition = self.targetPosition {
+                        if let centerOfMass = army.centerOfMass(domain:  self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land, in: gameModel), let targetPosition = self.targetPosition {
 
                             if centerOfMass.distance(to: targetPosition) <= gatheredTolerance && army.furthestUnitDistance(towards: targetPosition) <= gatheredTolerance * 3 / 2 {
 
@@ -538,7 +538,7 @@ public class Operation: Codable, Equatable {
                         break
 
                     case .gatheringForces:
-                        if let centerOfMass = army.centerOfMass(in: gameModel), let musterPosition = self.musterPosition {
+                        if let centerOfMass = army.centerOfMass(domain: .sea, in: gameModel), let musterPosition = self.musterPosition {
 
                             if centerOfMass.distance(to: musterPosition) <= gatheredTolerance && army.furthestUnitDistance(towards: musterPosition) <= gatheredTolerance * 3 {
 
@@ -549,7 +549,7 @@ public class Operation: Codable, Equatable {
 
                     case .movingToTarget:
 
-                        if let centerOfMass = army.centerOfMass(in: gameModel), let targetPosition = self.targetPosition {
+                        if let centerOfMass = army.centerOfMass(domain: .sea, in: gameModel), let targetPosition = self.targetPosition {
 
                             if centerOfMass.distance(to: targetPosition) <= gatheredTolerance && army.furthestUnitDistance(towards: targetPosition) <= gatheredTolerance * 3 {
 
@@ -585,7 +585,7 @@ public class Operation: Codable, Equatable {
                         break
 
                     case .gatheringForces:
-                        if let centerOfMass = army.centerOfMass(in: gameModel), let musterPosition = self.musterPosition {
+                        if let centerOfMass = army.centerOfMass(domain: .sea, in: gameModel), let musterPosition = self.musterPosition {
 
                             if centerOfMass.distance(to: musterPosition) <= gatheredTolerance && army.furthestUnitDistance(towards: musterPosition) <= gatheredTolerance * 3 / 2 {
 
@@ -765,7 +765,7 @@ public class Operation: Codable, Equatable {
                 
                 // Use the step path finder to compute distance
                 let distanceMusterToTarget = (pathFinder.shortestPath(fromTileCoord: musterPosition, toTileCoord: targetPosition) ?? HexPath()).count
-                let distanceCurrentToTarget = (pathFinder.shortestPath(fromTileCoord: army.centerOfMass(in: gameModel) ?? musterPosition, toTileCoord: targetPosition) ?? HexPath()).count
+                let distanceCurrentToTarget = (pathFinder.shortestPath(fromTileCoord: army.centerOfMass(domain: self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land, in: gameModel) ?? musterPosition, toTileCoord: targetPosition) ?? HexPath()).count
 
                 if distanceMusterToTarget <= 0 {
                     return 0
@@ -878,6 +878,102 @@ public class Operation: Codable, Equatable {
     public static func == (lhs: Operation, rhs: Operation) -> Bool {
 
         return lhs.type == rhs.type && lhs.area == rhs.area && lhs.enemy?.leader == rhs.enemy?.leader && lhs.moveType == rhs.moveType && lhs.targetPosition == rhs.targetPosition
+    }
+    
+    /// Pick this turn's desired "center of mass" for the army
+    func computeCenterOfMassForTurn(closestCurrentCenterOfMassOnPath: inout HexPoint, in gameModel: GameModel?) -> HexPoint? {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var rtnValue: HexPoint? = nil
+        //CvPlayer &kPlayer = GET_PLAYER(m_eOwner);
+
+        switch state {
+        
+        case .aborted(reason: _), .atTarget, .successful:
+            // NOOP
+            break;
+
+        case .recruitingUnits, .gatheringForces:
+            // Just use the muster point if we're still recruiting/gathering
+            rtnValue = self.musterPosition
+            break;
+
+        case .movingToTarget:
+
+            //CvPlot* pCenterOfMass = 0;
+            //CvPlot* pLastTurnArmyPlot = 0;
+            //CvAStarNode* pNode1 = 0;
+            //CvAStarNode* pNode2 = 0;
+            //var lastNodeIndex = 0
+            //FStaticVector<CvAStarNode*, SAFE_ESTIMATE_MAX_PATH_LEN, true, c_eCiv5GameplayDLL, 0> m_NodesOnPath;
+            //m_NodesOnPath.clear();
+
+            var goalPoint: HexPoint? = self.army?.goal
+            
+            // Is goal a city and we're a naval operation?  If so, go just offshore.
+            guard let goal = goalPoint,
+                  let goalPlot = gameModel.tile(at: goal) else {
+                return nil
+            }
+            
+            if !goalPlot.isWater() && self.isAllNavalOperation() {
+                goalPoint = self.player?.militaryAI?.coastalPlotAdjacent(to: goal, army: self.army, in: gameModel)
+            }
+
+            let lastTurnArmyPlot = self.army?.position
+            
+            let centerOfMass = self.army?.centerOfMass(domain: self.isAllNavalOperation() || self.isMixedLandNavalOperation() ? .sea : .land, in: gameModel)
+            
+            if lastTurnArmyPlot != nil && centerOfMass != nil && goalPoint != nil {
+                
+                fatalError("not implemented yet")
+                /*
+                // Push center of mass forward a number of hexes equal to average movement
+                GC.getStepFinder().SetData(&m_eEnemy);
+                GC.getStepFinder().SetDestValidFunc(NULL); // remove the area check
+                GC.getStepFinder().SetValidFunc(StepValidAnyArea); // remove the area check
+                bool bFound = GC.getStepFinder().GeneratePath(pCenterOfMass->getX(), pCenterOfMass->getY(), pGoalPlot->getX(), pGoalPlot->getY(), m_eOwner, false);
+                GC.getStepFinder().SetValidFunc(StepValid); // remove the area check
+                GC.getStepFinder().SetDestValidFunc(StepDestValid); // restore the area check
+                
+                if (bFound)
+                {
+                    pNode1 = GC.getStepFinder().GetLastNode();
+
+                    // Starting at the end, loop through the entire path
+                    while (pNode1)
+                    {
+                        m_NodesOnPath.push_back(pNode1);
+                        pNode1 = pNode1->m_pParent;
+                    }
+
+                    iLastNodeIndex = m_NodesOnPath.size() - 1;
+
+                    // Move back up path from best node a number of spaces equal to army's movement rate + 1
+                    int iJumpAhead = pArmy->GetMovementRate() + 1;
+                    int iNode1Index = max(0, iLastNodeIndex - iJumpAhead);
+                    int iNode2Index = min(iNode1Index + 2, iLastNodeIndex);
+                    pNode1 = m_NodesOnPath[iNode1Index];
+                    pNode2 = m_NodesOnPath[iNode2Index];
+                    
+                    pRtnValue = GC.getMap().plot(pNode1->m_iX, pNode1->m_iY);
+                    *ppClosestCurrentCOMonPath = GC.getMap().plot(pNode2->m_iX, pNode2->m_iY);
+                    
+                } else {
+                    // Can't plot a path, probably due to change of control of hexes.  Will probably abort the operation
+                    return nil
+                } */
+            }
+            
+        default:
+            // NOOP
+            break
+        }
+        
+        return rtnValue
     }
 }
 
