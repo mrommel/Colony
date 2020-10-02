@@ -72,11 +72,10 @@ public class HomelandAI {
         // case none // AI_HOMELAND_MOVE_ADMIRAL_GARRISON,
         // case none // AI_HOMELAND_MOVE_SPACESHIP_PART,
         case aircraftToTheFront // AI_HOMELAND_MOVE_AIRCRAFT_TO_THE_FRONT,
-        //case treasure // AI_HOMELAND_MOVE_TREASURE,
         //case none // AI_HOMELAND_MOVE_PROPHET_RELIGION,
         //case missionary // AI_HOMELAND_MOVE_MISSIONARY,
         // case inquisitor // AI_HOMELAND_MOVE_INQUISITOR,
-        //case tradeUnit // AI_HOMELAND_MOVE_TRADE_UNIT,
+        case tradeUnit // AI_HOMELAND_MOVE_TRADE_UNIT,
         //case archaeologist // AI_HOMELAND_MOVE_ARCHAEOLOGIST,
         //case addSpaceshipPart // AI_HOMELAND_MOVE_ADD_SPACESHIP_PART,
         //case airlift // AI_HOMELAND_MOVE_AIRLIFT
@@ -84,7 +83,7 @@ public class HomelandAI {
         static var all: [HomelandMoveType] {
             
             return [
-                .explore, .exploreSea, .settle, .garrison, .heal, .toSafety, .mobileReserve, .sentry, .worker, .workerSea, .patrol, .upgrade, ancientRuins, .aircraftToTheFront
+                .explore, .exploreSea, .settle, .garrison, .heal, .toSafety, .mobileReserve, .sentry, .worker, .workerSea, .patrol, .upgrade, ancientRuins, .aircraftToTheFront, .tradeUnit
             ]
         }
         
@@ -102,6 +101,7 @@ public class HomelandAI {
         }
         
         private func data() -> HomelandMoveTypeData {
+            
             switch self {
 
             case .none: return HomelandMoveTypeData(name: "", priority: 0)
@@ -121,6 +121,8 @@ public class HomelandAI {
             case .upgrade: return HomelandMoveTypeData(name: "", priority: 25)
             case .ancientRuins: return HomelandMoveTypeData(name: "", priority: 40)
             case .aircraftToTheFront: return HomelandMoveTypeData(name: "", priority: 50)
+                
+            case .tradeUnit: return HomelandMoveTypeData(name: "", priority: 100)
             }
         }
     }
@@ -491,7 +493,7 @@ public class HomelandAI {
         let flavorImprove = 0
         let flavorNavalImprove = 0
         let flavorExplore = Int(Double(player.valueOfPersonalityFlavor(of: .recon)) * HomelandAI.flavorDampening)
-        //let flavorGold = player.valueOfPersonalityFlavor(of: .gold)
+        let flavorGold = player.valueOfPersonalityFlavor(of: .gold)
         //let flavorScience = player.valueOfPersonalityFlavor(of: .science)
         //let flavorWonder = player.valueOfPersonalityFlavor(of: .wonder)
         let flavorMilitaryTraining = player.valueOfPersonalityFlavor(of: .militaryTraining)
@@ -541,6 +543,10 @@ public class HomelandAI {
                 
                 if homelandMoveType == .ancientRuins {
                     priority += flavorExplore
+                }
+                
+                if homelandMoveType == .tradeUnit {
+                    priority += flavorGold
                 }
                 
                 // Store off this move and priority
@@ -630,6 +636,146 @@ public class HomelandAI {
         }
     }
     
+    /// When nothing better to do, have units patrol to an adjacent tiles
+    func plotPatrolMoves(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("no gameModel given")
+        }
+        
+        self.clearCurrentMoveUnits()
+
+        // Loop through all remaining units
+        for currentTurnUnit in self.currentTurnUnits {
+            
+            guard let unit = currentTurnUnit else {
+                continue
+            }
+            
+            if !unit.isHuman() && unit.domain() != .air && !unit.isTrading() {
+
+                if let target = self.findPatrolTarget(for: unit, in: gameModel) {
+                    
+                    let homelandUnit = HomelandUnit(unit: unit)
+                    homelandUnit.target = target
+                    self.currentMoveUnits.append(homelandUnit)
+                    
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        
+                        print("\(unit.name()) patrolling to, \(target), Current \(unit.location)")
+                        // LogHomelandMessage(strLogString);
+                    }
+                }
+            }
+        }
+
+        if self.currentMoveUnits.count > 0 {
+            self.executePatrolMoves(in: gameModel)
+        }
+    }
+    
+    /// Patrol with chosen units
+    func executePatrolMoves(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for currentMoveUnit in self.currentMoveUnits {
+            
+            if let unit = currentMoveUnit?.unit, let target = currentMoveUnit?.target  {
+                
+                unit.push(mission: UnitMission(type: .moveTo, at: target), in: gameModel)
+                unit.finishMoves()
+                
+                self.unitProcessed(unit: unit)
+            }
+        }
+    }
+    
+    /// See if there is an adjacent plot we can wander to
+    func findPatrolTarget(for unit: AbstractUnit?, in gameModel: GameModel?) -> HexPoint? {
+
+        guard let gameModel = gameModel, let unit = unit, let unitPlayer = unit.player else {
+            fatalError("cant get gameModel")
+        }
+        
+        var bestValue = 0
+        var bestPlot: HexPoint? = nil
+
+        for adjacentPoint in unit.location.neighbors() {
+            
+            guard gameModel.tile(at: adjacentPoint) != nil else {
+                continue
+            }
+
+            if unit.canMove(into: adjacentPoint, options: .none, in: gameModel) {
+                
+                if !gameModel.isEnemyVisible(at: adjacentPoint, for: self.player) {
+                    
+                    if unit.path(towards: adjacentPoint, options: .none, in: gameModel) != nil {
+                        
+                        var value = (1 + Int.random(number: 10000))
+
+                        // Prefer wandering in our own territory
+                        if unitPlayer.isEqual(to: unit.player) {
+                            value += 10000
+                        }
+
+                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                            
+                            print("Adjacent Patrol Plot Score, \(value), \(adjacentPoint)")
+                            // LogPatrolMessage(strLogString, pUnit);
+                        }
+
+                        if value > bestValue {
+                            bestValue = value
+                            bestPlot = adjacentPoint
+                        }
+                    } else {
+                        if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                            
+                            print("Adjacent Patrol Plot !GeneratePath(), \(adjacentPoint)")
+                            // LogPatrolMessage(strLogString, pUnit);
+                        }
+                    }
+                } else {
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        
+                        print("Adjacent Patrol Plot !isVisibleEnemyUnit(), , \(adjacentPoint)")
+                        //LogPatrolMessage(strLogString, pUnit);
+                    }
+                }
+            } else {
+                if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                    
+                    print("Adjacent Patrol Plot not valid, , \(adjacentPoint)")
+                    //LogPatrolMessage(strLogString, pUnit);
+                }
+            }
+        }
+
+        if let bestPlot = bestPlot {
+            
+            if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+
+                print("Patrol Target FOUND, \(bestValue), \(bestPlot)")
+                // LogPatrolMessage(strLogString, pUnit);
+            }
+
+            //CvAssert(!pUnit->atPlot(*pBestPlot));
+            return bestPlot
+        } else {
+            if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                
+                print("Patrol Target NOT FOUND")
+                // LogPatrolMessage(strLogString, pUnit);
+            }
+        }
+
+        return nil
+    }
+    
     /// Choose which moves to run and assign units to it
     func assignHomelandMoves(in gameModel: GameModel?) {
 
@@ -671,11 +817,10 @@ public class HomelandAI {
                 break
             case .patrol:
                 // AI_HOMELAND_MOVE_PATROL:
-                // FIXME self.plotPatrolMoves()
-                break
+                self.plotPatrolMoves(in: gameModel)
             case .upgrade:
                 // AI_HOMELAND_MOVE_UPGRADE:
-                // FIXME self.plotUpgradeMoves()
+                // self.plotUpgradeMoves(in: gameModel)
                 break
             case .ancientRuins:
                 // AI_HOMELAND_MOVE_ANCIENT_RUINS:
@@ -684,6 +829,60 @@ public class HomelandAI {
                 // AI_HOMELAND_MOVE_AIRCRAFT_TO_THE_FRONT:
                 // FIXME self.plotAircraftMoves()
                 break
+            case .tradeUnit:
+                // AI_HOMELAND_MOVE_TRADE_UNIT:
+                //self.plotTradeUnitMoves(in: gameModel)
+            break
+            // TODO
+            /*case .writer:
+                // AI_HOMELAND_MOVE_WRITER:
+                self.plotWriterMoves()*/
+            /*case AI_HOMELAND_MOVE_ARTIST_GOLDEN_AGE:
+                PlotArtistMoves();
+                break;
+            case AI_HOMELAND_MOVE_MUSICIAN:
+                PlotMusicianMoves();
+                break;
+            case AI_HOMELAND_MOVE_SCIENTIST_FREE_TECH:
+                PlotScientistMoves();
+                break;
+            case AI_HOMELAND_MOVE_ENGINEER_HURRY:
+                PlotEngineerMoves();
+                break;
+            case AI_HOMELAND_MOVE_MERCHANT_TRADE:
+                PlotMerchantMoves();
+                break;
+            case AI_HOMELAND_MOVE_GENERAL_GARRISON:
+                PlotGeneralMoves();
+                break;
+            case AI_HOMELAND_MOVE_ADMIRAL_GARRISON:
+                PlotAdmiralMoves();
+                break;
+            case AI_HOMELAND_MOVE_PROPHET_RELIGION:
+                PlotProphetMoves();
+                break;
+            case AI_HOMELAND_MOVE_MISSIONARY:
+                PlotMissionaryMoves();
+                break;
+            case AI_HOMELAND_MOVE_INQUISITOR:
+                PlotInquisitorMoves();
+                break;
+            case AI_HOMELAND_MOVE_AIRCRAFT_TO_THE_FRONT:
+                PlotAircraftMoves();
+                break;
+            case AI_HOMELAND_MOVE_ADD_SPACESHIP_PART:
+                PlotSSPartAdds();
+                break;
+            case AI_HOMELAND_MOVE_SPACESHIP_PART:
+                PlotSSPartMoves();
+                break;*/
+            /*case AI_HOMELAND_MOVE_ARCHAEOLOGIST:
+                PlotArchaeologistMoves();
+                break;
+            case AI_HOMELAND_MOVE_AIRLIFT:
+                PlotAirliftMoves();
+                break;*/
+                
             default:
                 print("not implemented: HomelandAI - \(movePriorityItem.type)")
                 break

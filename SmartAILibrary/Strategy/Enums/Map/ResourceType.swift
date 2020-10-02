@@ -88,7 +88,7 @@ public enum ResourceType: Int, Codable {
         case .rice: return "Rice"
         case .deer: return "Deer"
         case .sheep: return "Sheep"
-        case .copper: return "Cooper"
+        case .copper: return "Copper"
         case .stone: return "Stone"
         case .bananas: return "Bananas"
         case .cattle: return "Cattle"
