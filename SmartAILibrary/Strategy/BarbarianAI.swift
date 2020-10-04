@@ -372,7 +372,7 @@ class BarbarianAI: Codable {
         let range = 2 /* MAX_BARBARIANS_FROM_CAMP_NEARBY_RANGE */
 
         // is this camp empty - first priority is to fill it
-        if gameModel.unit(at: point) == nil {
+        if gameModel.unit(at: point, of: .combat) == nil {
 
             if let unitType = self.randomBarbarianUnitType(in: plot.area!, for: .fastAttack, in: gameModel) {
                 
@@ -392,7 +392,7 @@ class BarbarianAI: Codable {
 
         for loopPoint in point.areaWith(radius: range) {
             
-            if let loopUnit = gameModel.unit(at: loopPoint) {
+            if let loopUnit = gameModel.unit(at: loopPoint, of: .combat) {
 
                 if loopUnit.isBarbarian() {
                     numNearbyUnits += 1
@@ -413,7 +413,7 @@ class BarbarianAI: Codable {
 
                 if let loopPlot = gameModel.tile(at: loopPoint) {
 
-                    if gameModel.unit(at: loopPoint) == nil {
+                    if gameModel.unit(at: loopPoint, of: .combat) == nil {
 
                         if !loopPlot.isImpassable() && !loopPlot.has(feature: .mountains) {
 

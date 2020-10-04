@@ -337,7 +337,7 @@ public class UnitMission {
 
                         //pOriginationPlot = unit.plot();
 
-                        if let unit2 = gameModel.unit(at: targetPoint) {
+                        if let unit2 = gameModel.unit(at: targetPoint, of: .combat) {
 
                             if unit2.hasSameType(as: unit) && unit2.readyToMove() {
                                 // Start the swap
@@ -356,7 +356,7 @@ public class UnitMission {
                     }
                 } else if self.type == .moveToUnit {
 
-                    if let targetUnit = gameModel.unit(at: self.target!) {
+                    if let targetUnit = gameModel.unit(at: self.target!, of: .combat) {
 
                         if unit.has(task: .shadow) && self.type != .group {
 
@@ -390,7 +390,7 @@ public class UnitMission {
                     if let targetPoint = self.target, let targetCity = gameModel.city(at: targetPoint) {
 
                         // check to see if the city exists, is on our team, and does not have a garrisoned unit
-                        if targetCity.player?.leader != unitPlayer.leader || gameModel.unit(at: targetPoint) != nil {
+                        if targetCity.player?.leader != unitPlayer.leader || gameModel.unit(at: targetPoint, of: .combat) != nil {
                             action = false
                             done = true
                             break
@@ -468,7 +468,7 @@ public class UnitMission {
                 } else if self.type == .moveToUnit {
 
                     //UnitHandle pTargetUnit = GET_PLAYER((PlayerTypes)kMissionData.iData1).getUnit(kMissionData.iData2);
-                    if let targetUnit = gameModel.unit(at: target!) {
+                    if let targetUnit = gameModel.unit(at: target!, of: .combat) {
                         fatalError("dont get it")
                         //if ((!pTargetUnit) ||unit. plot() == pTargetUnit->plot()) {
                         done = true

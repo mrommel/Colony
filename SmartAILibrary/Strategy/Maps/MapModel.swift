@@ -8,6 +8,11 @@
 
 import Foundation
 
+public enum UnitMapType {
+
+    case combat
+    case civilian
+}
 
 public class MapModel: Codable {
     
@@ -327,18 +332,23 @@ public class MapModel: Codable {
         return self.units.filter({ $0?.leader == leader })
     }
     
-    func unit(at point: HexPoint) -> AbstractUnit? {
+    func unit(at point: HexPoint, of mapType: UnitMapType) -> AbstractUnit? {
         
-        if let unit = self.units.first(where: { $0?.location == point }) {
+        if let unit = self.units.first(where: { $0?.location == point && ((mapType == .civilian && $0?.unitClassType() == .civilian) || (mapType == .combat && $0?.unitClassType() != .civilian)) }) {
             return unit
         }
         
         return nil
     }
     
+    func units(at point: HexPoint) -> [AbstractUnit?] {
+
+        return self.units.filter({ $0?.location == point })
+    }
+    
     func remove(unit: AbstractUnit?) {
     
-        self.units.removeAll(where: { $0?.location == unit?.location && $0?.player?.leader == unit?.player?.leader })
+        self.units.removeAll(where: { $0?.location == unit?.location && $0?.unitMapType() == unit?.unitMapType() && $0?.player?.leader == unit?.player?.leader })
     }
     
     // MARK: tile methods

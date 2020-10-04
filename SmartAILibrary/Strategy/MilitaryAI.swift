@@ -1563,7 +1563,7 @@ public class MilitaryAI: Codable {
                     }
 
                     if tile.isVisible(to: self.player) {
-                        if let unit = gameModel.unit(at: pt) {
+                        if let unit = gameModel.unit(at: pt, of: .combat) {
                             if unit.isOf(unitType: .barbarianWarrior) {
                                 self.barbarianDataVal.visibleBarbarianCount += 1
                             }

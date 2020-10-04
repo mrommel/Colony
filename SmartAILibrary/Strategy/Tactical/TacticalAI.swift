@@ -465,7 +465,7 @@ public class TacticalAI: Codable {
                     
                     if escort.canEnterTerrain(of: neighborTile) && escort.canEnterTerritory(of: self.player, ignoreRightOfPassage: false, isDeclareWarMove: false) {
                         
-                        if gameModel.unit(at: neighbor) == nil {
+                        if !gameModel.areUnits(at: neighbor) {
                             
                             if escort.path(towards: neighbor, options: .none, in: gameModel) != nil && civilian.path(towards: neighbor, options: .none, in: gameModel) != nil {
                                 
@@ -547,7 +547,7 @@ public class TacticalAI: Codable {
                             let tacticalMap = gameModel.tacticalAnalysisMap()
                             let cell = tacticalMap.plots[civilianMove]!
                             
-                            let blockingUnit = gameModel.unit(at: civilianMove)
+                            let blockingUnit = gameModel.unit(at: civilianMove, of: .combat)
 
                             // See if friendly blocking unit is ending the turn there, or if no blocking unit (which indicates this is somewhere civilian
                             // can move that escort can't -- like minor civ territory), then find a new path based on moving the escort
@@ -950,7 +950,7 @@ public class TacticalAI: Codable {
                             } else {
                                 // Using step finder could get tripped up by ocean hexes (since they are in the area but not valid movement targets for coastal vessels.  Watch this!
                                 let pathFinder = AStarPathfinder()
-                                pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .swim, for: self.player)
+                                pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .swim, for: self.player, unitMapType: .combat)
                                 
                                 let path = pathFinder.shortestPath(fromTileCoord: unitAtSea.location, toTileCoord: adjacentPoint)
                                 let distance: Int = path == nil ? 0 : Int(path!.cost)
@@ -1031,7 +1031,7 @@ public class TacticalAI: Codable {
 
                             // At sea?
                             let pathFinder = AStarPathfinder()
-                            pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .swim, for: self.player)
+                            pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .swim, for: self.player, unitMapType: .combat)
                             
                             let path = pathFinder.shortestPath(fromTileCoord: unit.location, toTileCoord: bestPlot)
                             let distance: Int = path == nil ? 0 : Int(path!.cost)
@@ -1374,7 +1374,7 @@ public class TacticalAI: Codable {
         }
 
         // Another player's unit here?
-        if let unit = gameModel.unit(at: target.point) {
+        if let unit = gameModel.unit(at: target.point, of: .combat) {
             if !player.isEqual(to: unit.player) {
                 return 0
             } else if !general.isEqual(to: unit) && !unit.canAttack() && unit.hasMoved(in: gameModel) {
@@ -1385,7 +1385,7 @@ public class TacticalAI: Codable {
 
         // Danger value
         let dangerValue = player.dangerPlotsAI!.danger(at: target.point)
-        var bestDefender = gameModel.unit(at: target.point)
+        var bestDefender = gameModel.unit(at: target.point, of: .combat)
 
         // Friendly city here?
         if let city = gameModel.city(at: target.point) {
@@ -1560,7 +1560,7 @@ public class TacticalAI: Codable {
                 }
 
                 // Don't use if there's already someone here
-                if gameModel.unit(at: tempTarget.target) == nil {
+                if !gameModel.areUnits(at: tempTarget.target) {
                     
                     if self.findClosestOperationUnit(target: loopPlot, safeForRanged: false, mustBeRangedUnit: false, in: gameModel) {
                         
@@ -1610,7 +1610,7 @@ public class TacticalAI: Codable {
                 
                 if targetType == .highPriorityUnit {
                     // Don't use if there's already someone here
-                    if gameModel.unit(at: tempTarget.target) == nil {
+                    if gameModel.unit(at: tempTarget.target, of: .combat) == nil {
                         
                         if self.findClosestOperationUnit(target: loopPlot, safeForRanged: true, mustBeRangedUnit: true, in: gameModel) {
                             
@@ -1647,7 +1647,7 @@ public class TacticalAI: Codable {
                 
                 if targetType == .highPriorityUnit {
                     // Don't use if there's already someone here
-                    if gameModel.unit(at: tempTarget.target) == nil {
+                    if gameModel.unit(at: tempTarget.target, of: .combat) == nil {
                         
                         if self.findClosestOperationUnit(target: loopPlot, safeForRanged: true, mustBeRangedUnit: true, in: gameModel) {
                             
@@ -2097,7 +2097,7 @@ public class TacticalAI: Codable {
             }
             
             // Don't use if there's already a unit not in the army here
-            if let unitAlreadyThere = gameModel.unit(at: tempTarget.target) {
+            if let unitAlreadyThere = gameModel.unit(at: tempTarget.target, of: .combat) {
                 
                 if unitAlreadyThere.army()?.identifier == army.identifier {
                 
@@ -2283,7 +2283,7 @@ public class TacticalAI: Codable {
             
             if let unit = chosenBlock.unit {
                 
-                if unit.location != chosenBlock.point && self.isInChosenMoves(at: unit.location) && gameModel.numFriendlyUnits(at: chosenBlock.point, player: self.player, of: unit.type) == 0 {
+                if unit.location != chosenBlock.point && self.isInChosenMoves(at: unit.location) && gameModel.numFriendlyUnits(at: chosenBlock.point, player: self.player, of: unit.unitMapType()) == 0 {
                     
                     var moveWasSafe = false
                     self.moveToUsingSafeEmbark(unit: unit, target: chosenBlock.point, moveWasSafe: &moveWasSafe, in: gameModel)
@@ -2458,7 +2458,7 @@ public class TacticalAI: Codable {
                 
                 // Must be currently empty of friendly combat units
                 // Enemies too
-                if gameModel.unit(at: loopPoint) == nil {
+                if gameModel.unit(at: loopPoint, of: .combat) == nil {
 
                     let loopCity = gameModel.city(at: loopPoint)
                     
@@ -3059,7 +3059,7 @@ public class TacticalAI: Codable {
                                     if let unit = self.currentMoveUnits.first??.unit {
                                         
                                         // Check for presence of unmovable friendly units
-                                        let blockingUnit = gameModel.unit(at: loopPoint)
+                                        let blockingUnit = gameModel.unit(at: loopPoint, of: .combat)
                                         if blockingUnit == nil || self.executeMoveOfBlockingUnit(of: blockingUnit, in: gameModel) {
                                             
                                             unit.push(mission: UnitMission(type: .moveTo, at: loopPoint), in: gameModel)
@@ -3228,7 +3228,7 @@ public class TacticalAI: Codable {
                     
                     // Must be currently empty of friendly combat units
                     // Enemies too
-                    let occupant = gameModel.unit(at: neighbor)
+                    let occupant = gameModel.unit(at: neighbor, of: .combat)
                     
                     if occupant == nil {
                         
@@ -3295,7 +3295,7 @@ public class TacticalAI: Codable {
                         
                         if unitTile.area == tile.area {
                             
-                            let unitAtTile = gameModel.unit(at: tile.point)
+                            let unitAtTile = gameModel.unit(at: tile.point, of: .combat)
                             if noLikeUnit != nil || (unitAtTile != nil && unitAtTile!.hasSameType(as: noLikeUnit)) {
                                 
                                 let value = unit.turnsToReach(at: tile.point, in: gameModel)
@@ -3491,7 +3491,7 @@ public class TacticalAI: Codable {
                     }
                     
                     // Can't be a plot with another player's unit in it or another of our unit of same type
-                    if let otherUnit = gameModel.unit(at: neighbor) {
+                    if let otherUnit = gameModel.unit(at: neighbor, of: .combat) {
                         
                         if otherUnit.player?.leader == currentUnit.player?.leader {
                             continue
@@ -3514,7 +3514,7 @@ public class TacticalAI: Codable {
                     let isZeroDanger = danger <= 0.0
                     let city = gameModel.city(at: neighbor)
                     let isInCity = city != nil ? city!.player?.leader == self.player?.leader : false
-                    let unit = gameModel.unit(at: neighbor)
+                    let unit = gameModel.unit(at: neighbor, of: .combat)
                     let isInCover = unit != nil
                     let tile = gameModel.tile(at: neighbor)
                     let isInTerritory = tile != nil ? tile?.owner()?.leader == self.player?.leader : false
@@ -3878,12 +3878,12 @@ public class TacticalAI: Codable {
 
                 // If two defenders, assume already have land and sea and skip this city
                 // FIXME
-                if gameModel.unit(at: city.location) == nil {
+                if gameModel.unit(at: city.location, of: .combat) == nil {
                     
                     var buyNavalUnit = false
                     var buyLandUnit = false
 
-                    if let cityDefender = gameModel.unit(at: city.location) { // FIXME
+                    if let cityDefender = gameModel.unit(at: city.location, of: .combat) { // FIXME
                     
                         if cityDefender.domain() == .land {
                             if gameModel.isCoastal(at: city.location) {
@@ -6112,7 +6112,7 @@ public class TacticalAI: Codable {
                     
                     var escortRef: AbstractUnit? = nil
                     
-                    if let loopUnit = gameModel.unit(at: current) {
+                    if let loopUnit = gameModel.unit(at: current, of: .combat) {
                         
                         if civilian.player!.isEqual(to: loopUnit.player) {
                             escortRef = loopUnit
@@ -6150,7 +6150,7 @@ public class TacticalAI: Codable {
                                     
                                     // See if friendly blocking unit is ending the turn there, or if no blocking unit (which indicates this is somewhere civilian
                                     // can move that escort can't), then find a new path based on moving the escort
-                                    if let blockingUnit = gameModel.unit(at: civilianMove) {
+                                    if let blockingUnit = gameModel.unit(at: civilianMove, of: .combat) {
                                         
                                         // Looks like we should be able to move the blocking unit out of the way
                                         if self.executeMoveOfBlockingUnit(of: blockingUnit, in: gameModel) {
@@ -6427,7 +6427,7 @@ public class TacticalAI: Codable {
             
             for considerLocation in unit.location.areaWith(radius: movementRange) {
                 
-                if gameModel.unit(at: considerLocation) != nil {
+                if gameModel.unit(at: considerLocation, of: .combat) != nil {
                     continue
                 }
                 
@@ -6683,7 +6683,7 @@ public class TacticalAI: Codable {
                     continue
                 }
                 
-                if let defender = gameModel.unit(at: targetLocation) {
+                if let defender = gameModel.unit(at: targetLocation, of: .combat) {
                 
                     unitCanAttack = self.findUnitsWithinStrikingDistance(towards: targetLocation, numTurnsAway: 1, noRangedUnits: false, navalOnly: false, in: gameModel)
                     cityCanAttack = self.findCitiesWithinStrikingDistance(of: targetLocation, in: gameModel)
@@ -7086,7 +7086,7 @@ public class TacticalAI: Codable {
                     continue
                 }
             
-                if let defender = gameModel.unit(at: targetLocation) {
+                if let defender = gameModel.unit(at: targetLocation, of: .combat) {
                     
                     unitCanAttack = self.findUnitsWithinStrikingDistance(towards: tile.point, numTurnsAway: 1, noRangedUnits: false, in: gameModel)
                     cityCanAttack = self.findCitiesWithinStrikingDistance(of: targetLocation, in: gameModel)
@@ -7154,7 +7154,7 @@ public class TacticalAI: Codable {
             switch target.targetType {
                 
             case .highPriorityUnit, .mediumPriorityUnit, .lowPriorityUnit:
-                if let defender = gameModel.unit(at: targetPlot.point) {
+                if let defender = gameModel.unit(at: targetPlot.point, of: .combat) {
 
                     if attacker.canAttackRanged() {
                         let result = Combat.predictRangedAttack(between: attacker, and: defender, in: gameModel)
@@ -7325,7 +7325,7 @@ public class TacticalAI: Codable {
             
             let result = Combat.predictRangedAttack(between: attacker, and: city, in: gameModel)
             expectedDamage = result.defenderDamage
-        } else if let defender = gameModel.unit(at: targetLocation) {
+        } else if let defender = gameModel.unit(at: targetLocation, of: .combat) {
             
             let result = Combat.predictRangedAttack(between: attacker, and: defender, in: gameModel)
             expectedDamage = result.defenderDamage
@@ -8188,7 +8188,7 @@ public class TacticalAI: Codable {
                             }
                         } else {
                             
-                            let unitRef = gameModel.unit(at: tile.point)
+                            let unitRef = gameModel.unit(at: tile.point, of: .combat)
                             if let unit = unitRef {
                                 if diplomacyAI.isAtWar(with: unit.player) {
                                     

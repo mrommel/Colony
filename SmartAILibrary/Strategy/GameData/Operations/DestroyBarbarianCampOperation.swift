@@ -164,7 +164,7 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
             } else if self.state != .recruitingUnits {
                 
                 // If down below strength of camp, abort
-                let campDefender = gameModel.unit(at: targetPosition)
+                let campDefender = gameModel.unit(at: targetPosition, of: .combat)
                       
                 if campDefender != nil && army.totalPower() < campDefender!.power() {
                     if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {

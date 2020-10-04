@@ -924,22 +924,33 @@ public class GameModel: Codable {
         return self.map.units(for: player)
     }
 
-    public func unit(at point: HexPoint) -> AbstractUnit? {
+    public func unit(at point: HexPoint, of mapType: UnitMapType) -> AbstractUnit? {
 
-        return self.map.unit(at: point)
+        return self.map.unit(at: point, of: mapType)
     }
     
-    public func numFriendlyUnits(at point: HexPoint, player: AbstractPlayer?, of type: UnitType) -> Int {
+    func units(at point: HexPoint) -> [AbstractUnit?] {
         
-        if let unit = self.map.unit(at: point) {
+        return self.map.units(at: point)
+    }
+    
+    func areUnits(at point: HexPoint) -> Bool {
+        
+        return self.map.units(at: point).count == 0
+    }
+    
+    public func numFriendlyUnits(at point: HexPoint, player: AbstractPlayer?, of unitMapType: UnitMapType) -> Int {
+        
+        if let unit = self.map.unit(at: point, of: unitMapType) {
             
             var playerMatches = true
             
+            // FIXME allies
             if let player = player {
                 playerMatches = player.isEqual(to: unit.player)
             }
             
-            if unit.type == type && playerMatches {
+            if playerMatches {
                 return 1
             }
         }
@@ -1150,12 +1161,12 @@ public class GameModel: Codable {
         return CitySiteEvaluator(map: self.map)
     }
 
-    func isEnemyVisible(at location: HexPoint, for player: AbstractPlayer?) -> Bool {
+    func isEnemyVisible(at location: HexPoint, for player: AbstractPlayer?, of unitMapType: UnitMapType = .combat) -> Bool {
 
-        return self.visibleEnemy(at: location, for: player) != nil
+        return self.visibleEnemy(at: location, for: player, of: unitMapType) != nil
     }
 
-    func visibleEnemy(at location: HexPoint, for player: AbstractPlayer?) -> AbstractUnit? {
+    func visibleEnemy(at location: HexPoint, for player: AbstractPlayer?, of unitMapType: UnitMapType = .combat) -> AbstractUnit? {
 
         guard let diplomacyAI = player?.diplomacyAI else {
             fatalError("cant get diplomacyAI")
@@ -1163,7 +1174,7 @@ public class GameModel: Codable {
 
         if let tile = self.tile(at: location) {
             if tile.isVisible(to: player) {
-                if let enemyUnit = self.unit(at: location) {
+                if let enemyUnit = self.unit(at: location, of: unitMapType) {
                     if diplomacyAI.isAtWar(with: enemyUnit.player) {
                         return enemyUnit
                     }
@@ -1203,9 +1214,11 @@ public class GameModel: Codable {
         return MoveTypeIgnoreUnitsPathfinderDataSource(in: self.map, for: movementType, for: player)
     }
 
-    public func unitAwarePathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?, ignoreOwner: Bool = false) -> PathfinderDataSource {
+    public func unitAwarePathfinderDataSource(for movementType: UnitMovementType, for player: AbstractPlayer?, ignoreOwner: Bool = false, unitMapType: UnitMapType) -> PathfinderDataSource {
         
-        return MoveTypeUnitAwarePathfinderDataSource(in: self, for: movementType, for: player, ignoreOwner: ignoreOwner)
+        let options = MoveTypeUnitAwareOptions(ignoreSight: true, ignoreOwner: ignoreOwner, unitMapType: unitMapType)
+        
+        return MoveTypeUnitAwarePathfinderDataSource(in: self, for: movementType, for: player, options: options)
     }
 
     func friendlyCityAdjacent(to point: HexPoint, for player: AbstractPlayer?) -> AbstractCity? {

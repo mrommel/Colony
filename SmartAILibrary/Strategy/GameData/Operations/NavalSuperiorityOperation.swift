@@ -266,25 +266,28 @@ class NavalSuperiorityOperation: NavalOperation {
                     
                     if plot.isWater() {
                         
-                        // FIXME: handle multiple units at one plot
-                        if let loopUnit: AbstractUnit = gameModel.unit(at: plot.point) {
+                        // handle multiple units at one plot
+                        for loopUnitRef in gameModel.units(at: plot.point) {
                             
-                            if loopUnit.isEnemy(of: player) == true {
+                            if let loopUnit = loopUnitRef {
                                 
-                                let plotDistance = initialUnit.location.distance(to: plot.point)
-                                var score = baseMoves * plotDistance
-                                
-                                if loopUnit.isTrading() {
-                                    // we want to plunder trade routes of possible
-                                    score /= 3
-                                }
-                                
-                                if loopUnit.isEmbarked() {
-                                    // we want to take out embarked units more than ships
-                                    score = (score * 2) / 3
-                                }
+                                if loopUnit.isEnemy(of: player) == true {
+                                    
+                                    let plotDistance = initialUnit.location.distance(to: plot.point)
+                                    var score = baseMoves * plotDistance
+                                    
+                                    if loopUnit.isTrading() {
+                                        // we want to plunder trade routes of possible
+                                        score /= 3
+                                    }
+                                    
+                                    if loopUnit.isEmbarked() {
+                                        // we want to take out embarked units more than ships
+                                        score = (score * 2) / 3
+                                    }
 
-                                weightedPoints.add(weight: score, for: plot.point)
+                                    weightedPoints.add(weight: score, for: plot.point)
+                                }
                             }
                         }
                     } else if gameModel.city(at: plot.point) != nil && gameModel.isCoastal(at: plot.point) {

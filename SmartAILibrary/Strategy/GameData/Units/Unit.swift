@@ -22,6 +22,7 @@ public protocol AbstractUnit: class, Codable {
     func isHuman() -> Bool
     func isEnemy(of otherPlayer: AbstractPlayer?) -> Bool
     func unitClassType() -> UnitClassType
+    func unitMapType() -> UnitMapType
 
     func civilianAttackPriority() -> CivilianAttackPriorityType
     func captureUnitType() -> UnitType
@@ -463,6 +464,15 @@ public class Unit: AbstractUnit {
 
         return self.type.unitClass()
     }
+    
+    public func unitMapType() -> UnitMapType {
+
+        if self.type.unitClass() == .civilian {
+            return .civilian
+        } else {
+            return .combat
+        }
+    }
 
     public func civilianAttackPriority() -> CivilianAttackPriorityType {
 
@@ -522,7 +532,7 @@ public class Unit: AbstractUnit {
         var extraHealFromUnits: Int = 0
         for neightbor in point.neighbors() {
             
-            if let unit = gameModel.unit(at: neightbor) {
+            if let unit = gameModel.unit(at: neightbor, of: .civilian) {
                 
                 // friends or us
                 if player.isEqual(to: unit.player) || diplomacyAI.isAllianceActive(with: unit.player) {
@@ -955,7 +965,7 @@ public class Unit: AbstractUnit {
 
         if unitPlayer.isHuman() {
 
-            if let defenderUnit = gameModel.unit(at: destination) {
+            if let defenderUnit = gameModel.unit(at: destination, of: .combat) {
 
                 if !diplomacyAI.isAtWar(with: defenderUnit.player) && !defenderUnit.isBarbarian() {
 
@@ -1014,7 +1024,7 @@ public class Unit: AbstractUnit {
                 }
             } else { // Normal unit combat
                 // if there are no defenders, do not attack
-                guard let defenderUnit = gameModel.unit(at: destination) else {
+                guard let defenderUnit = gameModel.unit(at: destination, of: .combat) else {
                     return false
                 }
 
@@ -1272,7 +1282,7 @@ public class Unit: AbstractUnit {
     public func path(towards target: HexPoint, options: MoveOptions, in gameModel: GameModel?) -> HexPath? {
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, ignoreOwner: self.type == .trader)
+        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, ignoreOwner: self.type == .trader, unitMapType: self.unitMapType())
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
 
@@ -1455,7 +1465,7 @@ public class Unit: AbstractUnit {
             fatalError("cant get oldPlot")
         }
 
-        let costDataSource = gameModel.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player)
+        let costDataSource = gameModel.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, unitMapType: self.unitMapType())
 
         if !self.canMove() {
             return false
@@ -1616,7 +1626,7 @@ public class Unit: AbstractUnit {
 
             if self.isCombatUnit() {
 
-                if let loopUnit = gameModel.unit(at: newLocation) {
+                if let loopUnit = gameModel.unit(at: newLocation, of: .combat) {
 
                     guard let loopPlayer = loopUnit.player else {
                         fatalError("cant get loop player")
@@ -2008,7 +2018,7 @@ public class Unit: AbstractUnit {
 
                 if self.canMove(into: loopPlot.point, options: MoveOptions.none, in: gameModel) {
 
-                    if gameModel.unit(at: loopPlot.point) == nil {
+                    if gameModel.unit(at: loopPlot.point, of: .combat) == nil {
                         if !loopPlot.hasOwner() || player.isEqual(to: loopPlot.owner()) {
 
                             if loopPlot.isDiscovered(by: player) {
@@ -2149,7 +2159,8 @@ public class Unit: AbstractUnit {
             return false
         }
 
-        if gameModel.unit(at: point) != nil {
+        // other unit of same type
+        if gameModel.unit(at: point, of: self.unitMapType()) != nil {
             return false
         }
         
@@ -2220,7 +2231,7 @@ public class Unit: AbstractUnit {
         }
 
         // only one unit per tile or we are the 
-        guard gameModel.unit(at: point) == nil || self.location == point else {
+        guard gameModel.unit(at: point, of: self.unitMapType()) == nil || self.location == point else {
             return false
         }
 
@@ -3272,7 +3283,7 @@ public class Unit: AbstractUnit {
             
             let neighor = self.location.neighbor(in: dir)
             
-            if let neighborUnit = gameModel.unit(at: neighor) {
+            if let neighborUnit = gameModel.unit(at: neighor, of: .combat) {
                 
                 // other unit
                 if !player.isEqual(to: neighborUnit.player) {
@@ -3333,7 +3344,7 @@ public class Unit: AbstractUnit {
         // check neighbors for enemy units
         for neighor in self.location.areaWith(radius: self.range()) {
 
-            if let neighborUnit = gameModel.unit(at: neighor) {
+            if let neighborUnit = gameModel.unit(at: neighor, of: .combat) {
                 
                 // other unit
                 if !player.isEqual(to: neighborUnit.player) {
@@ -3404,7 +3415,7 @@ public class Unit: AbstractUnit {
     public func canReach(at point: HexPoint, in turns: Int, in gameModel: GameModel?) -> Bool {
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player)
+        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, unitMapType: self.unitMapType())
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
 
@@ -3418,7 +3429,7 @@ public class Unit: AbstractUnit {
     public func turnsToReach(at point: HexPoint, in gameModel: GameModel?) -> Int {
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player)
+        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, unitMapType: self.unitMapType())
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
 

@@ -79,6 +79,7 @@
 		C92D221B23E2D80500BB9238 /* FeatureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D221A23E2D80500BB9238 /* FeatureType.swift */; };
 		C930FFB824F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C930FFB724F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift */; };
 		C934523E240A50C4007508ED /* Combat.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934523D240A50C4007508ED /* Combat.swift */; };
+		C93479492529AF2A00A4B113 /* AStarPathFinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */; };
 		C93D66A624028D9B00F5157B /* AStarPathfinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A524028D9B00F5157B /* AStarPathfinder.swift */; };
 		C93D66A824028DB500F5157B /* HexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A724028DB500F5157B /* HexPath.swift */; };
 		C93D66AA2402913100F5157B /* UnitMovementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A92402913100F5157B /* UnitMovementType.swift */; };
@@ -387,6 +388,7 @@
 		C92D221A23E2D80500BB9238 /* FeatureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureType.swift; sourceTree = "<group>"; };
 		C930FFB724F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveTypeUnitAwarePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C934523D240A50C4007508ED /* Combat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combat.swift; sourceTree = "<group>"; };
+		C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStarPathFinderTests.swift; sourceTree = "<group>"; };
 		C93D66A524028D9B00F5157B /* AStarPathfinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStarPathfinder.swift; sourceTree = "<group>"; };
 		C93D66A724028DB500F5157B /* HexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexPath.swift; sourceTree = "<group>"; };
 		C93D66A92402913100F5157B /* UnitMovementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMovementType.swift; sourceTree = "<group>"; };
@@ -851,6 +853,7 @@
 				C9C0DCE024D7486E004D9F06 /* GreatPersonsTests.swift */,
 				C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */,
 				C956BF6924F3C7B9009702B4 /* TradeRouteTests.swift */,
+				C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */,
 			);
 			path = SmartAILibraryTests;
 			sourceTree = "<group>";
@@ -1544,6 +1547,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C966A3FF251E68C9000C24B8 /* DestroyBarbarianCampOperationTests.swift in Sources */,
+				C93479492529AF2A00A4B113 /* AStarPathFinderTests.swift in Sources */,
 				C92D220923E1DC3300BB9238 /* PlayerTechTests.swift in Sources */,
 				C92317BD23D6EAB5001FC723 /* HierarchicalStateMachineTests.swift in Sources */,
 				C956BF6A24F3C7B9009702B4 /* TradeRouteTests.swift in Sources */,

@@ -8,21 +8,34 @@
 
 import Foundation
 
+class MoveTypeUnitAwareOptions {
+    
+    let ignoreSight: Bool
+    let ignoreOwner: Bool
+    let unitMapType: UnitMapType
+    
+    init(ignoreSight: Bool = true, ignoreOwner: Bool = false, unitMapType: UnitMapType) {
+        
+        self.ignoreSight = ignoreSight
+        self.ignoreOwner = ignoreOwner
+        self.unitMapType = unitMapType
+    }
+}
+
 class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
 
     let gameModel: GameModel?
     let movementType: UnitMovementType
     let player: AbstractPlayer?
-    let ignoreSight: Bool
-    let ignoreOwner: Bool
+    let options: MoveTypeUnitAwareOptions
 
-    init(in gameModel: GameModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, ignoreSight: Bool = true, ignoreOwner: Bool = false) {
+    init(in gameModel: GameModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, options: MoveTypeUnitAwareOptions) {
 
         self.gameModel = gameModel
         self.movementType = movementType
         self.player = player
-        self.ignoreSight = ignoreSight
-        self.ignoreOwner = ignoreOwner
+        
+        self.options = options
     }
 
     func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
@@ -56,7 +69,7 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                     }
                     
                     // use sight?
-                    if !self.ignoreSight {
+                    if !self.options.ignoreSight {
 
                         // skip if not in sight or discovered
                         if !toTile.isDiscovered(by: self.player) {
@@ -68,8 +81,8 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                         }*/
                     }
                     
-                    // if there is a unit ...
-                    if let otherUnit = gameModel.unit(at: neighbor) {
+                    // if there is a unit of own type ...
+                    if let otherUnit = gameModel.unit(at: neighbor, of: self.options.unitMapType) {
                         
                         // ... there are two cases:
                         if player.isEqual(to: otherUnit.player) {
@@ -94,7 +107,7 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                     if let owner = toTile.owner() {
                         
                         // we cant step into a tile that is owned by another players
-                        if !player.isEqual(to: owner) && !ignoreOwner {
+                        if !player.isEqual(to: owner) && !self.options.ignoreOwner {
                             
                             // unless we are at war, the we can
                             if !diplomacyAI.isAtWar(with: owner) {

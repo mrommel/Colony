@@ -361,7 +361,7 @@ public class HomelandAI {
                             
                             // Don't send another unit, if the tactical AI already sent a garrison here
                             var addTarget = false
-                            if let unit = gameModel.unit(at: point) {
+                            if let unit = gameModel.unit(at: point, of: .combat) {
                             
                                 if unit.isUnderTacticalControl() {
                                     addTarget = true
@@ -402,7 +402,7 @@ public class HomelandAI {
                         newTarget.target = point
                         self.targetedAncientRuins.append(newTarget)
                         
-                    } else if let targetUnit = gameModel.unit(at: point) {
+                    } else if let targetUnit = gameModel.unit(at: point, of: .civilian) {
                         
                         // ... enemy civilian (or embarked) unit?
                         if diplomacyAI.isAtWar(with: targetUnit.player) && !targetUnit.canDefend() {
@@ -411,7 +411,7 @@ public class HomelandAI {
                             newTarget.target = point
                             self.targetedAncientRuins.append(newTarget)
                         }
-                    } else if tile.terrain().isLand() && gameModel.unit(at: point) == nil {
+                    } else if tile.terrain().isLand() && gameModel.unit(at: point, of: .combat) == nil {
                         
                         // ... possible sentry point? (must be empty or only have friendly units)
                         
@@ -2240,7 +2240,7 @@ public class HomelandAI {
                 
             } else if !ignoreUnits {
                 
-                if let otherUnit = gameModel.unit(at: point) {
+                if let otherUnit = gameModel.unit(at: point, of: .combat) {
                     
                     if otherUnit.player?.leader == unit.player?.leader {
                         

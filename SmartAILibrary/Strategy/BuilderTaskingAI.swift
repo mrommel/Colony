@@ -1007,7 +1007,7 @@ public class BuilderTaskingAI {
         }
 
         // other unit at target
-        if unit.location != tile.point && gameModel.unit(at: tile.point) != nil {
+        if unit.location != tile.point && gameModel.unit(at: tile.point, of: .civilian) != nil {
 
             return false
         }

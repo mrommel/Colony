@@ -1112,7 +1112,7 @@ class TacticalAnalysisMap {
             cell.impassableTerritory = impassableTerritory
             cell.defenseModifier = tile.defenseModifier(for: player)
 
-            if let unit = gameModel.unit(at: location) {
+            if let unit = gameModel.unit(at: location, of: .combat) {
 
                 if unit.player?.leader == player.leader {
 

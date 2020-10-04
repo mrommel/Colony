@@ -2690,7 +2690,7 @@ public class City: AbstractCity {
         // No City
         if !tile.isCity() {
             
-            guard let defender = gameModel?.unit(at: point) else {
+            guard let defender = gameModel?.unit(at: point, of: .combat) else {
                 return .aborted
             }
             
