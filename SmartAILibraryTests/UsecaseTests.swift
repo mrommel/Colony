@@ -155,9 +155,9 @@ class UsecaseTests: XCTestCase {
         
         // THEN
         
-        XCTAssertEqual(locationAfterTurn1, HexPoint(x: 16, y: 16))
+        XCTAssertEqual(locationAfterTurn1, HexPoint(x: 15, y: 17))
         
-        XCTAssertEqual(playerAugustusWarrior.location, HexPoint(x: 17, y: 16))
+        XCTAssertEqual(playerAugustusWarrior.location, HexPoint(x: 15, y: 18))
         //XCTAssertEqual(playerAugustusWarrior.isGarrisoned(), true)
     }
     

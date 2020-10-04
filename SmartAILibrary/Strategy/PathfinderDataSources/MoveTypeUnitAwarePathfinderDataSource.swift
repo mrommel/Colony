@@ -13,12 +13,14 @@ class MoveTypeUnitAwareOptions {
     let ignoreSight: Bool
     let ignoreOwner: Bool
     let unitMapType: UnitMapType
+    let canEmbark: Bool
     
-    init(ignoreSight: Bool = true, ignoreOwner: Bool = false, unitMapType: UnitMapType) {
+    init(ignoreSight: Bool = true, ignoreOwner: Bool = false, unitMapType: UnitMapType, canEmbark: Bool) {
         
         self.ignoreSight = ignoreSight
         self.ignoreOwner = ignoreOwner
         self.unitMapType = unitMapType
+        self.canEmbark = canEmbark
     }
 }
 
@@ -64,8 +66,18 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                 if let toTile = gameModel.tile(at: neighbor) {
                     
                     // walkable ?
-                    if toTile.isImpassable() {
-                        continue
+                    if self.movementType == .walk {
+                        if toTile.isWater() && self.options.canEmbark && toTile.isImpassable(for: .swim) {
+                            continue
+                        }
+                        
+                        if toTile.isLand() && toTile.isImpassable(for: .walk) {
+                            continue
+                        }
+                    } else if self.movementType == .swim {
+                        if toTile.isWater() &&  toTile.isImpassable(for: .swim) {
+                            continue
+                        }
                     }
                     
                     // use sight?
@@ -118,7 +130,21 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                     
                     if let fromTile = gameModel.tile(at: coord) {
                         
-                        if toTile.movementCost(for: self.movementType, from: fromTile) < UnitMovementType.max {
+                        let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
+                        var embarkedMovementCosts = UnitMovementType.max
+                        
+                        if self.options.canEmbark && self.movementType == .walk {
+                            
+                            if fromTile.isLand() && toTile.isWater() {
+                                embarkedMovementCosts = 2.0
+                            } else if fromTile.isWater() && toTile.isLand() {
+                                embarkedMovementCosts = 2.0
+                            } else {
+                                embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile)
+                            }
+                        }
+
+                        if min(normalMovementCosts, embarkedMovementCosts) < UnitMovementType.max {
                             walkableCoords.append(neighbor)
                         }
                     }
@@ -138,7 +164,22 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
         if let toTile = gameModel.tile(at: toTileCoord),
             let fromTile = gameModel.tile(at: fromTileCoord) {
             
-            return toTile.movementCost(for: self.movementType, from: fromTile)
+            let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
+            var embarkedMovementCosts = UnitMovementType.max
+            
+            if self.options.canEmbark && self.movementType == .walk {
+                
+                if fromTile.isLand() && toTile.isWater() {
+                    embarkedMovementCosts = 2.0
+                } else if fromTile.isWater() && toTile.isLand() {
+                    embarkedMovementCosts = 2.0
+                } else {
+                    embarkedMovementCosts = toTile.movementCost(for: .swim, from: fromTile)
+                }
+            }
+
+            return min(normalMovementCosts, embarkedMovementCosts)
+            // return toTile.movementCost(for: self.movementType, from: fromTile)
         }
 
         return UnitMovementType.max

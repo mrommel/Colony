@@ -545,7 +545,7 @@ public class MapModel: Codable {
         
         if let tile = self.tile(at: point) {
             
-            if tile.terrain().isWater() || tile.isImpassable() {
+            if tile.terrain().isWater() || tile.isImpassable(for: .walk) {
                 return false
             }
             

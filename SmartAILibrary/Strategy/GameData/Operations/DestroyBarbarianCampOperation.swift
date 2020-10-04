@@ -70,7 +70,7 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
                     
                     // Reset our destination to be a few plots shy of the final target
                     let pathFinder = AStarPathfinder()
-                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self.player)
+                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self.player, unitMapType: .combat, canEmbark: player!.canEmbark())
                     
                     if let path = pathFinder.shortestPath(fromTileCoord: self.army!.position, toTileCoord: possibleBetterTarget!),
                         let reducedPath = path.path(without: 2 /* AI_OPERATIONAL_BARBARIAN_CAMP_DEPLOY_RANGE */),
@@ -200,7 +200,7 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
             // btw - the AI will cheat here - as a human I would use a combination of memory and intuition to find these, since our current AI has neither of these...
             
             let pathFinder = AStarPathfinder()
-            pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self.player)
+            pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self.player, unitMapType: .combat, canEmbark: self.player!.canEmbark())
             
             for loopUnitRef in gameModel.units(of: barbarianPlayer) {
                 

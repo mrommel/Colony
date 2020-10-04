@@ -67,7 +67,7 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
         }
         
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(for: .walk, for: originCity?.player)
+        pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(for: .walk, for: originCity?.player, unitMapType: .combat, canEmbark: true)
         
         guard let path = pathFinder.shortestPath(fromTileCoord: originCityLocation, toTileCoord: targetCityLocation) else {
             print("no path")

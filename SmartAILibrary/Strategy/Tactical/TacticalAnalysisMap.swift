@@ -1068,7 +1068,7 @@ class TacticalAnalysisMap {
 
             cell.revealed = tile.isDiscovered(by: self.playerBuild)
             cell.visible = tile.isVisible(to: self.playerBuild)
-            cell.impassableTerrain = tile.isImpassable()
+            cell.impassableTerrain = tile.isImpassable(for: .walk) || tile.isImpassable(for: .swim)
             cell.water = tile.terrain().isWater()
             cell.ocean = tile.terrain() == .ocean
 
@@ -1246,7 +1246,7 @@ class TacticalAnalysisMap {
                 let pt = HexPoint(x: x, y: y)
                 if let tile = gameModel.tile(at: pt), let plot = self.plots[x, y] {
 
-                    if tile.isDiscovered(by: self.playerBuild) && !tile.isImpassable() {
+                    if tile.isDiscovered(by: self.playerBuild) && !tile.isImpassable(for: .walk) {
 
                         if !tile.isVisibleToEnemy(of: player, in: gameModel) {
 
@@ -1263,7 +1263,7 @@ class TacticalAnalysisMap {
 
                                 if let enemyUnit = enemyUnitRef {
 
-                                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: enemyUnit.movementType(), for: enemyUnit.player)
+                                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: enemyUnit.movementType(), for: enemyUnit.player, unitMapType: .combat, canEmbark: enemyUnit.player!.canEmbark())
 
                                     let unitArea = gameModel.area(of: enemyUnit.location)
                                     if tile.area == unitArea {

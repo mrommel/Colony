@@ -8,19 +8,33 @@
 
 import Foundation
 
+class MoveTypeIgnoreUnitsOptions {
+    
+    let ignoreSight: Bool
+    let unitMapType: UnitMapType
+    let canEmbark: Bool
+    
+    init(ignoreSight: Bool = true, unitMapType: UnitMapType, canEmbark: Bool) {
+        
+        self.ignoreSight = ignoreSight
+        self.unitMapType = unitMapType
+        self.canEmbark = canEmbark
+    }
+}
+
 class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
 
     let mapModel: MapModel?
     let movementType: UnitMovementType
     let player: AbstractPlayer?
-    let ignoreSight: Bool
+    let options: MoveTypeIgnoreUnitsOptions
 
-    init(in mapModel: MapModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, ignoreSight: Bool = true) {
+    init(in mapModel: MapModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, options: MoveTypeIgnoreUnitsOptions) {
 
         self.mapModel = mapModel
         self.movementType = movementType
         self.player = player
-        self.ignoreSight = ignoreSight
+        self.options = options
     }
 
     func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
@@ -41,12 +55,22 @@ class MoveTypeIgnoreUnitsPathfinderDataSource: PathfinderDataSource {
                 if let toTile = mapModel.tile(at: neighbor) {
                     
                     // walkable ?
-                    if toTile.isImpassable() {
-                        continue
+                    if self.movementType == .walk {
+                        if toTile.isWater() && self.options.canEmbark && toTile.isImpassable(for: .swim) {
+                            continue
+                        }
+                        
+                        if toTile.isLand() && toTile.isImpassable(for: .walk) {
+                            continue
+                        }
+                    } else if self.movementType == .swim {
+                        if toTile.isWater() &&  toTile.isImpassable(for: .swim) {
+                            continue
+                        }
                     }
                     
                     // use sight?
-                    if !self.ignoreSight {
+                    if !self.options.ignoreSight {
 
                         // skip if not in sight or discovered
                         if !toTile.isDiscovered(by: self.player) {

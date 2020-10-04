@@ -295,7 +295,7 @@ public class Operation: Codable, Equatable {
                 fatalError("cant get iterator")
             }
 
-            pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(for: unit.movementType(), for: searchUnit.unit?.player)
+            pathFinder.dataSource = gameModel?.ignoreUnitsPathfinderDataSource(for: unit.movementType(), for: searchUnit.unit?.player, unitMapType: .combat, canEmbark: true)
 
             if let searchUnitLocation = searchUnit.unit?.location {
                 var pathDistance = Double.greatestFiniteMagnitude
@@ -753,7 +753,7 @@ public class Operation: Codable, Equatable {
                 let armyMoveType: UnitMovementType = self.moveType == .navalEscort || self.moveType == .freeformNaval ? .swim : .walk
                 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: armyMoveType, for: self.player)
+                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: armyMoveType, for: self.player, unitMapType: .combat, canEmbark: true)
                 
                 guard let musterPosition = self.musterPosition else {
                     fatalError("muster position not available")

@@ -60,7 +60,7 @@ public protocol AbstractTile: Codable {
     func isWater() -> Bool
     func isLand() -> Bool
     func isRoughGround() -> Bool
-    func isImpassable() -> Bool
+    func isImpassable(for movementType: UnitMovementType) -> Bool
 
     // improvements
     func hasAnyImprovement() -> Bool
@@ -1451,10 +1451,10 @@ class Tile: AbstractTile {
         return result
     }
 
-    func isImpassable() -> Bool {
+    func isImpassable(for movementType: UnitMovementType) -> Bool {
 
         // start with terrain cost
-        let terrainCost = self.terrain().movementCost(for: .walk)
+        let terrainCost = self.terrain().movementCost(for: movementType)
 
         if terrainCost == UnitMovementType.max {
             return true
@@ -1462,7 +1462,7 @@ class Tile: AbstractTile {
 
         if self.featureValue != .none {
 
-            let featureCost = self.featureValue.movementCost(for: .walk)
+            let featureCost = self.featureValue.movementCost(for: movementType)
 
             if featureCost == UnitMovementType.max {
                 return true

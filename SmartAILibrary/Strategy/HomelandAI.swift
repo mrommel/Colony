@@ -1786,7 +1786,7 @@ public class HomelandAI {
         var foundNearbyExplorePlot = false
 
         let pathfinder = AStarPathfinder()
-        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: player)
+        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: player, unitMapType: .combat, canEmbark: player.canEmbark())
         
         for homelandUnit in self.currentMoveUnits {
             

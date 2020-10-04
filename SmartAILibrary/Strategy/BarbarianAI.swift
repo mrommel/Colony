@@ -197,7 +197,7 @@ class BarbarianAI: Codable {
                 // Plot must be valid (not Water, nonvisible)
                 if !loopPlot.isWater() {
 
-                    if !loopPlot.isImpassable() && !loopPlot.has(feature: .mountains) {
+                    if !loopPlot.isImpassable(for: .walk) && !loopPlot.has(feature: .mountains) {
 
                         if !loopPlot.hasOwner() && !loopPlot.isVisibleAny() {
 
@@ -415,7 +415,7 @@ class BarbarianAI: Codable {
 
                     if gameModel.unit(at: loopPoint, of: .combat) == nil {
 
-                        if !loopPlot.isImpassable() && !loopPlot.has(feature: .mountains) {
+                        if !loopPlot.isImpassable(for: .walk) && !loopPlot.has(feature: .mountains) {
 
                             if !loopPlot.isCity() && !loopPlot.has(feature: .lake) {
                                 // Water Tiles are only valid when the Barbs have the proper Tech

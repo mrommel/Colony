@@ -1065,7 +1065,7 @@ public class MilitaryAI: Codable {
                 }
                 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: player)
+                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: player, unitMapType: .combat, canEmbark: player.canEmbark())
                 if !pathFinder.doesPathExist(fromTileCoord: seaPlotNearMuster.point, toTileCoord: seaPlotNearTarget.point) {
                     continue
                 }
@@ -1123,7 +1123,7 @@ public class MilitaryAI: Codable {
         var pathLength = 0
         
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: player)
+        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: player, unitMapType: .combat, canEmbark: player.canEmbark())
 
         // Can embark
         if player.canEmbark() {
@@ -1159,7 +1159,7 @@ public class MilitaryAI: Codable {
             }*/
         } else {
             
-            pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: player)
+            pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: player, unitMapType: .combat, canEmbark: player.canEmbark())
             
             // Can't embark yet
             if !pathFinder.doesPathExist(fromTileCoord: target.musterCity!.location, toTileCoord: target.targetCity!.location) {
@@ -1343,7 +1343,7 @@ public class MilitaryAI: Codable {
                     if !attackByLand {
                         numBlocked += 1
                     } else {
-                        if loopPlot.isImpassable() {
+                        if loopPlot.isImpassable(for: .walk) {
                             numBlocked += 1
                         }
                     }
@@ -1835,7 +1835,7 @@ public class MilitaryAI: Codable {
         var coastalPlot: AbstractTile? = nil
         
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: self.player)
+        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .swim, for: self.player, unitMapType: .combat, canEmbark: self.player!.canEmbark())
         
         // Find a coastal water tile adjacent to enemy city
         for adjacentPoint in target.neighbors() {

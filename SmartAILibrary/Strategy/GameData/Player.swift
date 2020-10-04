@@ -1956,7 +1956,7 @@ public class Player: AbstractPlayer {
                 }
                 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self)
+                pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self, unitMapType: .combat, canEmbark: self.canEmbark())
 
                 if let path = pathFinder.shortestPath(fromTileCoord: location, toTileCoord: capital.location) {
                     // If within TradeRoute6 Trade Route range of the Capital6 Capital, a road to it.
@@ -2423,7 +2423,7 @@ public class Player: AbstractPlayer {
         }
 
         let pathfinder = AStarPathfinder()
-        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self)
+        pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self, unitMapType: .combat, canEmbark: self.canEmbark())
         
         if let _ = pathfinder.shortestPath(fromTileCoord: playerCapital.location, toTileCoord: targetCity.location) {
             return true
