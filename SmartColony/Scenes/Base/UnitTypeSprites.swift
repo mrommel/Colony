@@ -73,7 +73,7 @@ extension UnitType {
             // ancient
         case .settler: return "settler-idle-0"
         case .builder: return "builder-idle-0"
-        case .trader: return "trader-idle-0"
+        case .trader: return "cart_right-0"
 
         case .scout: return "archer-idle-0"
         case .warrior: return "warrior-idle-0"
@@ -120,8 +120,7 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "idle")
 
         case .trader:
-            let textureAtlas = TextureAtlasLoader.load(named: "trader")
-            return textureAtlas?.gameObjectAtlas(for: "idle")
+            return GameObjectAtlas(atlasName: "Trader", template: "cart_right-", range: 0..<2)
 
         case .scout:
             let textureAtlas = TextureAtlasLoader.load(named: "scout")
@@ -180,8 +179,7 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "walk", in: "south")
 
         case .trader:
-            let textureAtlas = TextureAtlasLoader.load(named: "trader")
-            return textureAtlas?.gameObjectAtlas(for: "walk", in: "south")
+            return GameObjectAtlas(atlasName: "Trader", template: "cart_down-", range: 0..<14)
 
         case .scout:
             let textureAtlas = TextureAtlasLoader.load(named: "scout")
@@ -240,7 +238,7 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "walk", in: "north")
 
         case .trader:
-            return nil
+            return GameObjectAtlas(atlasName: "Trader", template: "cart_up-", range: 0..<14)
 
         case .scout:
             let textureAtlas = TextureAtlasLoader.load(named: "scout")
@@ -299,8 +297,7 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "walk", in: "west", mirror: true)
 
         case .trader:
-            let textureAtlas = TextureAtlasLoader.load(named: "trader")
-            return textureAtlas?.gameObjectAtlas(for: "walk", in: "west", mirror: true)
+            return GameObjectAtlas(atlasName: "Trader", template: "cart_right-", range: 0..<14)
 
         case .scout:
             let textureAtlas = TextureAtlasLoader.load(named: "scout")
@@ -358,8 +355,7 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "walk", in: "west")
 
         case .trader:
-            let textureAtlas = TextureAtlasLoader.load(named: "trader")
-            return textureAtlas?.gameObjectAtlas(for: "walk", in: "west")
+            return GameObjectAtlas(atlasName: "Trader", template: "cart_left-", range: 0..<14)
 
         case .scout:
             let textureAtlas = TextureAtlasLoader.load(named: "scout")
