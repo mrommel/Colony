@@ -337,7 +337,7 @@ class UnitLayer: SKNode {
 
                     let pathFinder = AStarPathfinder()
 
-                    pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player)
+                    pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player, ignoreOwner: false, unitMapType: selectedUnit.unitMapType(), canEmbark: selectedUnit.canEverEmbark())
 
                     if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: hex) {
 

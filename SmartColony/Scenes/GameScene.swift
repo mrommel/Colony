@@ -599,9 +599,14 @@ class GameScene: BaseScene {
             }
         } else {
 
-            if let unit = viewModel?.game?.unit(at: position) {
-                if humanPlayer.isEqual(to: unit.player) {
-                    self.select(unit: unit)
+            if let combatUnit = viewModel?.game?.unit(at: position, of: .combat) {
+                if humanPlayer.isEqual(to: combatUnit.player) {
+                    self.select(unit: combatUnit)
+                    return
+                }
+            } else if let civilianUnit = viewModel?.game?.unit(at: position, of: .civilian) {
+                if humanPlayer.isEqual(to: civilianUnit.player) {
+                    self.select(unit: civilianUnit)
                     return
                 }
             }
@@ -641,7 +646,7 @@ class GameScene: BaseScene {
             if position != selectedUnit.location {
 
                 let pathFinder = AStarPathfinder()
-                pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player)
+                pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player, unitMapType: selectedUnit.unitMapType(), canEmbark: selectedUnit.canEverEmbark())
                 
                 // update
                 self.updateCommands(for: selectedUnit)
@@ -734,7 +739,7 @@ class GameScene: BaseScene {
 
             if self.uiCombatMode == .melee {
                 
-                if let unitToAttack = self.viewModel?.game?.unit(at: position) {
+                if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
                     
                     self.bottomCombatBar?.combatPrediction(of: selectedUnit, against: unitToAttack, mode: .melee, in: self.viewModel?.game)
                 }
@@ -993,7 +998,7 @@ extension GameScene: BottomLeftBarDelegate {
                 
                 let neighbor = unit.location.neighbor(in: dir)
                 
-                if let otherUnit = self.viewModel?.game?.unit(at: neighbor) {
+                if let otherUnit = self.viewModel?.game?.unit(at: neighbor, of: .combat) {
                     
                     if (!player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player)) || otherUnit.isBarbarian() {
                         self.mapNode?.unitLayer.showAttackFocus(at: neighbor)
@@ -1023,7 +1028,7 @@ extension GameScene: BottomLeftBarDelegate {
             // check neighbors
             for neighbor in unit.location.areaWith(radius: unit.range()) {
                 
-                if let otherUnit = self.viewModel?.game?.unit(at: neighbor) {
+                if let otherUnit = self.viewModel?.game?.unit(at: neighbor, of: .combat) {
                     
                     if !player.isEqual(to: otherUnit.player) && diplomacyAI.isAtWar(with: otherUnit.player) {
                         self.mapNode?.unitLayer.showAttackFocus(at: neighbor)
@@ -1117,7 +1122,7 @@ extension GameScene: BottomLeftBarDelegate {
             fatalError("cant get game")
         }
 
-        guard let unit = gameModel.unit(at: location) else {
+        guard let unit = gameModel.unit(at: location, of: .combat) else {
             fatalError("cant get unit at \(location)")
         }
         

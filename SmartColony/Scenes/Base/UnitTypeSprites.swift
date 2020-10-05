@@ -81,7 +81,7 @@ extension UnitType {
         case .archer: return "archer-idle-0"
         case .spearman: return "archer-idle-0"
         case .heavyChariot: return "archer-idle-0"
-        case .galley: return "archer-idle-0"
+        case .galley: return "galley_right-0"
 
             // industrial
         case .medic: return "archer-idle-0"
@@ -143,7 +143,9 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "idle")
 
         case .heavyChariot: return nil
-        case .galley: return nil
+            
+        case .galley:
+            return GameObjectAtlas(atlasName: "Galley", template: "galley_idle-", range: 0..<3)
 
             // industrial
         case .medic: return nil
@@ -199,8 +201,11 @@ extension UnitType {
         case .spearman:
             let textureAtlas = TextureAtlasLoader.load(named: "spearman")
             return textureAtlas?.gameObjectAtlas(for: "walk", in: "south")
+            
         case .heavyChariot: return nil
-        case .galley: return nil
+            
+        case .galley:
+            return GameObjectAtlas(atlasName: "Galley", template: "galley_south-", range: 0..<3)
 
             // industrial
         case .medic: return nil
@@ -257,7 +262,9 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "walk", in: "north")
 
         case .heavyChariot: return nil
-        case .galley: return nil
+            
+        case .galley:
+            return GameObjectAtlas(atlasName: "Galley", template: "galley_north-", range: 0..<3)
 
             // industrial
         case .medic: return nil
@@ -315,7 +322,9 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "walk", in: "west", mirror: true)
 
         case .heavyChariot: return nil
-        case .galley: return nil
+            
+        case .galley:
+            return GameObjectAtlas(atlasName: "Galley", template: "galley_rigth-", range: 0..<3)
 
             // industrial
         case .medic: return nil
@@ -372,7 +381,9 @@ extension UnitType {
             return textureAtlas?.gameObjectAtlas(for: "walk", in: "west")
 
         case .heavyChariot: return nil
-        case .galley: return nil
+            
+        case .galley:
+            return GameObjectAtlas(atlasName: "Galley", template: "galley_left-", range: 0..<3)
 
             // industrial
         case .medic: return nil
