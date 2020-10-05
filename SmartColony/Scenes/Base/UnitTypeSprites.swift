@@ -321,7 +321,7 @@ extension UnitType {
         case .heavyChariot: return nil
             
         case .galley:
-            return GameObjectAtlas(atlasName: "Galley", template: "galley_rigth-", range: 0..<3)
+            return GameObjectAtlas(atlasName: "Galley", template: "galley_right-", range: 0..<3)
 
             // industrial
         case .medic: return nil

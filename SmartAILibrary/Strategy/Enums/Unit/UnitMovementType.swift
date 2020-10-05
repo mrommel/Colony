@@ -13,6 +13,7 @@ public enum UnitMovementType {
     static let max = 1000.0
     
     case immobile
+    case swimShallow
     case swim
     case walk
 }

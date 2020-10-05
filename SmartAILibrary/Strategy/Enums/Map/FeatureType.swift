@@ -397,6 +397,9 @@ public enum FeatureType: Int, Codable {
             
         case .swim:
             return UnitMovementType.max
+            
+        case .swimShallow:
+            return UnitMovementType.max
         
         case .walk:
             return Double(self.movementCosts())

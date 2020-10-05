@@ -128,6 +128,15 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                         }
                     }
                     
+                    if let city = gameModel.city(at: neighbor) {
+                        
+                        // own city has little costs
+                        if player.isEqual(to: city.player) {
+                            walkableCoords.append(neighbor)
+                            continue
+                        }
+                    }
+                    
                     if let fromTile = gameModel.tile(at: coord) {
                         
                         let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
@@ -157,12 +166,20 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
 
     func costToMove(fromTileCoord: HexPoint, toAdjacentTileCoord toTileCoord: HexPoint) -> Double {
 
-        guard let gameModel = self.gameModel else {
+        guard let gameModel = self.gameModel, let player = self.player else {
             fatalError("cant get gameModel")
         }
         
         if let toTile = gameModel.tile(at: toTileCoord),
             let fromTile = gameModel.tile(at: fromTileCoord) {
+            
+            if let city = gameModel.city(at: toTileCoord) {
+                
+                // own city has little costs
+                if player.isEqual(to: city.player) {
+                    return 0.7
+                }
+            }
             
             let normalMovementCosts = toTile.movementCost(for: self.movementType, from: fromTile)
             var embarkedMovementCosts = UnitMovementType.max

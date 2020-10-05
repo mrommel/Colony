@@ -709,7 +709,7 @@ public enum UnitType: Int, Codable {
         case .spearman: return .walk
         case .heavyChariot: return .walk // FIXME
 
-        case .galley: return .swim
+        case .galley: return .swimShallow
             
             // industral
         case .medic: return .walk

@@ -90,6 +90,14 @@ public enum TerrainType: Int, Codable {
             
             return UnitMovementType.max
             
+        case .swimShallow:
+
+            if self == .shore {
+                return 1.0
+            }
+            
+            return UnitMovementType.max
+            
         case .walk:
             if self == .plains {
                 return 1.0
