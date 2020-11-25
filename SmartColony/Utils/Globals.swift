@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 public struct Globals {
     
@@ -78,10 +79,10 @@ public extension Globals {
         public static let systemFont = UIFont.systemFont(ofSize: 24)
         public static let systemFontFamilyname = systemFont.familyName
         
-        public static let customFontBold = UIFont(name: "DIN Next for AVM", size: 24)
-        public static let customFontBoldFamilyname = "DIN Next for AVM"
+        public static let customFontBold = UIFont(name: "Alte DIN 1451 Mittelschrift", size: 24)
+        public static let customFontBoldFamilyname = "Alte DIN 1451 Mittelschrift"
         
-        public static let customFont = UIFont(name: "DIN Next for AVM", size: 24)
-        public static let customFontFamilyname = "DIN Next for AVM"
+        public static let customFont = UIFont(name: "Alte DIN 1451 Mittelschrift", size: 24)
+        public static let customFontFamilyname = "Alte DIN 1451 Mittelschrift"
     }
 }

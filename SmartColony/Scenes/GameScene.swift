@@ -689,7 +689,8 @@ class GameScene: BaseScene {
         }
 
         guard let bottomLeftBar = self.bottomLeftBar, !bottomLeftBar.frame.contains(cameraLocation) else {
-            print("touch ended in left bar")
+            //print("touch ended in left bar")
+            self.bottomLeftBar?.touchesEnded(touches, with: event)
             return
         }
 

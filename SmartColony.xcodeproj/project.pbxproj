@@ -89,6 +89,7 @@
 		C95D9D60244A3147007C522E /* TechDialog.xml in Resources */ = {isa = PBXBuildFile; fileRef = C95D9D5F244A3147007C522E /* TechDialog.xml */; };
 		C95D9D62244A3244007C522E /* TechDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95D9D61244A3244007C522E /* TechDialog.swift */; };
 		C95D9D65244A32A0007C522E /* TechDisplayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95D9D64244A32A0007C522E /* TechDisplayNode.swift */; };
+		C96AF109256DAB9900D6F74C /* alte-din-1451-mittelschrift.regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C96AF108256DAB9900D6F74C /* alte-din-1451-mittelschrift.regular.ttf */; };
 		C976046F24E2770100E2267D /* trader.xml in Resources */ = {isa = PBXBuildFile; fileRef = C976046D24E2770000E2267D /* trader.xml */; };
 		C976047024E2770100E2267D /* trader.png in Resources */ = {isa = PBXBuildFile; fileRef = C976046E24E2770100E2267D /* trader.png */; };
 		C976047224E28F3F00E2267D /* SelectPromotionDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C976047124E28F3E00E2267D /* SelectPromotionDialog.swift */; };
@@ -158,10 +159,6 @@
 		C9B1D23C2434B77500033791 /* NineGridTextureSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D23B2434B77500033791 /* NineGridTextureSprite.swift */; };
 		C9B1D23E2434B7BE00033791 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D23D2434B7BE00033791 /* Globals.swift */; };
 		C9B1D2402434B83800033791 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D23F2434B83800033791 /* CGSizeExtension.swift */; };
-		C9B1D2462434B9AE00033791 /* DINNext-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2422434B9AE00033791 /* DINNext-Light.ttf */; };
-		C9B1D2472434B9AE00033791 /* DINNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2432434B9AE00033791 /* DINNext-Bold.ttf */; };
-		C9B1D2482434B9AE00033791 /* DINNext-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2442434B9AE00033791 /* DINNext-Regular.ttf */; };
-		C9B1D2492434B9AE00033791 /* DINNext-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2452434B9AE00033791 /* DINNext-Heavy.ttf */; };
 		C9B1D24B2434C3D600033791 /* MenuSceneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D24A2434C3D600033791 /* MenuSceneExtension.swift */; };
 		C9B1D24E2434C4F700033791 /* MapTypeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D24D2434C4F700033791 /* MapTypeDialog.swift */; };
 		C9B1D25B2434C82F00033791 /* DropdownNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D25A2434C82F00033791 /* DropdownNode.swift */; };
@@ -363,6 +360,7 @@
 		C95D9D5F244A3147007C522E /* TechDialog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TechDialog.xml; sourceTree = "<group>"; };
 		C95D9D61244A3244007C522E /* TechDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDialog.swift; sourceTree = "<group>"; };
 		C95D9D64244A32A0007C522E /* TechDisplayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDisplayNode.swift; sourceTree = "<group>"; };
+		C96AF108256DAB9900D6F74C /* alte-din-1451-mittelschrift.regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "alte-din-1451-mittelschrift.regular.ttf"; sourceTree = "<group>"; };
 		C976046D24E2770000E2267D /* trader.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = trader.xml; sourceTree = "<group>"; };
 		C976046E24E2770100E2267D /* trader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trader.png; sourceTree = "<group>"; };
 		C976047124E28F3E00E2267D /* SelectPromotionDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPromotionDialog.swift; sourceTree = "<group>"; };
@@ -432,10 +430,6 @@
 		C9B1D23B2434B77500033791 /* NineGridTextureSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineGridTextureSprite.swift; sourceTree = "<group>"; };
 		C9B1D23D2434B7BE00033791 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		C9B1D23F2434B83800033791 /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
-		C9B1D2422434B9AE00033791 /* DINNext-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Light.ttf"; sourceTree = "<group>"; };
-		C9B1D2432434B9AE00033791 /* DINNext-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Bold.ttf"; sourceTree = "<group>"; };
-		C9B1D2442434B9AE00033791 /* DINNext-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Regular.ttf"; sourceTree = "<group>"; };
-		C9B1D2452434B9AE00033791 /* DINNext-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINNext-Heavy.ttf"; sourceTree = "<group>"; };
 		C9B1D24A2434C3D600033791 /* MenuSceneExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSceneExtension.swift; sourceTree = "<group>"; };
 		C9B1D24D2434C4F700033791 /* MapTypeDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypeDialog.swift; sourceTree = "<group>"; };
 		C9B1D25A2434C82F00033791 /* DropdownNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownNode.swift; sourceTree = "<group>"; };
@@ -861,10 +855,7 @@
 		C9B1D2412434B98600033791 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				C9B1D2432434B9AE00033791 /* DINNext-Bold.ttf */,
-				C9B1D2452434B9AE00033791 /* DINNext-Heavy.ttf */,
-				C9B1D2422434B9AE00033791 /* DINNext-Light.ttf */,
-				C9B1D2442434B9AE00033791 /* DINNext-Regular.ttf */,
+				C96AF108256DAB9900D6F74C /* alte-din-1451-mittelschrift.regular.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -1112,8 +1103,6 @@
 				C90D2E4424C37A360029AA11 /* long_swordman.xml in Resources */,
 				C97CD3A9243B4EC100FABCC0 /* Units.xcassets in Resources */,
 				C921AC0324C72D8A00CF8967 /* GovernmentDialog.xml in Resources */,
-				C9B1D2492434B9AE00033791 /* DINNext-Heavy.ttf in Resources */,
-				C9B1D2482434B9AE00033791 /* DINNext-Regular.ttf in Resources */,
 				C9EC4E1D24445873001A0597 /* Cities.xcassets in Resources */,
 				C97BC0D024C2EEF5008237F6 /* knight.xml in Resources */,
 				C90D2E3F24C379D90029AA11 /* horseman.xml in Resources */,
@@ -1121,7 +1110,6 @@
 				C90D2E4624C37A360029AA11 /* man_at_arms.xml in Resources */,
 				C9B1D2902435B09A00033791 /* earth_standard.map in Resources */,
 				C90D2E4524C37A360029AA11 /* man_at_arms.png in Resources */,
-				C9B1D2462434B9AE00033791 /* DINNext-Light.ttf in Resources */,
 				C9B1D22824348C6E00033791 /* LaunchScreen.storyboard in Resources */,
 				C957AA49243641A100203024 /* MapSizeDialog.xml in Resources */,
 				C90D2E3B24C379420029AA11 /* archer.png in Resources */,
@@ -1155,7 +1143,6 @@
 				C97BC0CF24C2EEF5008237F6 /* knight.png in Resources */,
 				C90D2E4B24C37A570029AA11 /* pikeman.png in Resources */,
 				C9EC9EED24EEE1B200E07C18 /* SelectTradeCityDialog.xml in Resources */,
-				C9B1D2472434B9AE00033791 /* DINNext-Bold.ttf in Resources */,
 				C97BC0BF24C2EEA2008237F6 /* spearman.png in Resources */,
 				C99A591324643831006431EE /* CityBuildingsDialog.xml in Resources */,
 				C957AA50243641D300203024 /* MapLoadingDialog.xml in Resources */,
@@ -1165,6 +1152,7 @@
 				C95B3E0F2439244D002F5A86 /* Tiles.xcassets in Resources */,
 				C9DC1C95248692E500235743 /* ConfirmationDialog.xml in Resources */,
 				C976046F24E2770100E2267D /* trader.xml in Resources */,
+				C96AF109256DAB9900D6F74C /* alte-din-1451-mittelschrift.regular.ttf in Resources */,
 				C9B1D223243481D900033791 /* Main.storyboard in Resources */,
 				C90D2E4D24C37AF90029AA11 /* scout.png in Resources */,
 				C9F91B43244B9B3E0081EDC8 /* Civics.xcassets in Resources */,

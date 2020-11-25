@@ -22,10 +22,7 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>DINNext-Bold.ttf</string>
-		<string>DINNext-Heavy.ttf</string>
-		<string>DINNext-Light.ttf</string>
-		<string>DINNext-Regular.ttf</string>
+		<string>alte-din-1451-mittelschrift.regular.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
