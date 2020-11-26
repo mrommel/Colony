@@ -571,7 +571,7 @@ public class UnitMission {
                     unit.popMission()
                 }
                 
-                // trader has reached, a target but has moves left
+                // trader has reached a target but has moves left
                 if unit.isTrading() && unit.movesLeft() > 0 {
                     unit.continueTrading(in: gameModel)
                 }
