@@ -2073,6 +2073,14 @@ public class City: AbstractCity {
                 return false
             }
         }
+        
+        // only coastal cities can build ships
+        if unitType.unitClass() == .navalMelee || unitType.unitClass() == .navalRanged || unitType.unitClass() == .navalRaider || unitType.unitClass() == .navalCarrier {
+        
+            if !self.isCoastal(in: gameModel) {
+                return false
+            }
+        }
 
         return true
     }
