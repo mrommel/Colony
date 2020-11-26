@@ -14,6 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Verify
-      run: pwd
+      run: ls
     - name: Build & Test
       run: set -o pipefail && xcodebuild -workspace Colony.xcworkspace -scheme SmartColony -destination platform\=iOS\ Simulator,OS\=14.2,name\=iPhone\ 12 build test | xcpretty
