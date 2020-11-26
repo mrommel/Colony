@@ -1,5 +1,7 @@
 # Colony
 
+![Swift](https://github.com/mrommel/Colony/workflows/Swift/badge.svg)
+
 Civ5 based iOS app
 
 ## Memo
