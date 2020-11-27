@@ -10,9 +10,9 @@ import Foundation
 
 // https://civilization.fandom.com/wiki/Units_(Civ6)
 public enum UnitClassType {
-    
+
     case civilian
-    
+
     case melee
     case recon
     case ranged
@@ -20,16 +20,16 @@ public enum UnitClassType {
     case lightCavalry
     case heavyCavalry
     case siege
-    
+
     case navalMelee
     case navalRanged
     case navalRaider
     case navalCarrier
-    
+
     case airFighter
     case airBomber
-    
+
     case support
-    
+
     case city
 }
