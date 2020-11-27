@@ -1,6 +1,6 @@
 # Colony
 
-![Swift](https://github.com/mrommel/Colony/workflows/Swift/badge.svg)
+![Swift](https://github.com/mrommel/Colony/workflows/Swift/badge.svg) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/250267c7467d403c9a3c1c0b4af7271f)](https://www.codacy.com/gh/mrommel/Colony/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mrommel/Colony&amp;utm_campaign=Badge_Grade)
 
 Civ5 based iOS app
 
