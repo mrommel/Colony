@@ -61,7 +61,7 @@ class ViewController: NSViewController {
             
             let mapOptions = MapOptions(withSize: MapSize.tiny, leader: .alexander, handicap: .settler)
             mapOptions.enhanced.sealevel = .low
-            
+
             let generator = MapGenerator(with: mapOptions)
             generator.progressHandler = { progress, text in
                 //mapLoadingDialog.showProgress(value: progress, text: text)
@@ -93,6 +93,7 @@ class ViewController: NSViewController {
        // NSLog("scaleAction tag   = %d", Int(sender.selectedTag()))
         
         switch Int(sender.selectedTag()) {
+        
         case 0:
             self.mapView.setViewSize(0.5)
             break
@@ -111,8 +112,7 @@ class ViewController: NSViewController {
 extension ViewController: MapViewDelegate {
     
     func moveBy(dx: CGFloat, dy: CGFloat) {
-        
-        //print("moveBy(\(dx), \(dy)")
+
         self.scrollingView.contentView.bounds.origin = self.scrollingView.contentView.bounds.origin - CGPoint(x: dx, y: dy)
     }
     
