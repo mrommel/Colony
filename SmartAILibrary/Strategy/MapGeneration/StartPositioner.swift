@@ -326,6 +326,5 @@ class StartPositioner {
         } else {
             fatalError("wrong number of sub divisions")
         }
-        
     }
 }

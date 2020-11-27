@@ -37,8 +37,12 @@ protocol MapViewDelegate: class {
 
 class MapView: NSView {
     
+    // constants
     let offset = CGPoint(x: 575, y: 1360)
     let unitSize: NSSize = NSMakeSize(1.0, 1.0)
+    
+    // properties
+    var scale: CGFloat = 1.0
     var downPoint: CGPoint? = nil
     var initialPoint: CGPoint? = nil
     
@@ -50,8 +54,8 @@ class MapView: NSView {
         didSet {
             
             if let size = map?.contentSize() {
-                self.widthConstraint?.constant = size.width + 10
-                self.heightConstraint?.constant = size.height
+                self.widthConstraint?.constant = (size.width + 10) * self.scale
+                self.heightConstraint?.constant = size.height * self.scale
                 
                 print("set new size: \(size)")
             }
@@ -161,25 +165,26 @@ class MapView: NSView {
     
     private func setup() {
         
-        let c = self.constraints
-        //print("c: \(c)")
-        
-        self.heightConstraint = c[0]
-        self.widthConstraint = c[1]
-    }
-    
-    func resetScaling() {
-        
-        self.scaleUnitSquare(to: self.convert(self.unitSize, from: nil))
+        self.widthConstraint = self.constraints.first(where: { $0.identifier == "canvas_width" })
+        self.heightConstraint = self.constraints.first(where: { $0.identifier == "canvas_height" })
     }
     
     /// setViewSize - sets the size of the view
     /// - parameter value: size
     ///
-    func setViewSize(_ value:Double) {
+    func setViewSize(_ value: CGFloat) {
         
         //NSLog("setViewSize = %f",value)
-        self.resetScaling()
+        // self.scaleUnitSquare(to: self.convert(self.unitSize, from: nil))
+        
+        self.scale = value
+        
+        if let size = self.map?.contentSize() {
+            self.widthConstraint?.constant = (size.width + 10) * self.scale
+            self.heightConstraint?.constant = size.height * self.scale
+            
+            print("set new size: \(size)")
+        }
         
         // First, match our scaling to the window's coordinate system
         self.scaleUnitSquare(to: NSMakeSize(CGFloat(value), CGFloat(value)))

@@ -709,15 +709,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="306"/>
                         <subviews>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YQE-LO-PDa">
-                                <rect key="frame" x="8" y="8" width="356" height="290"/>
+                                <rect key="frame" x="8" y="8" width="336" height="290"/>
                                 <clipView key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WH0-AL-eHF">
-                                    <rect key="frame" x="0.0" y="0.0" width="356" height="290"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="336" height="290"/>
                                     <subviews>
                                         <view translatesAutoresizingMaskIntoConstraints="NO" id="I2I-Mu-6h0" customClass="MapView" customModule="SmartMapEditor" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="1200" height="1000"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="1200" id="HM4-1W-Oiu"/>
-                                                <constraint firstAttribute="height" constant="1000" id="a8f-9C-K8V"/>
+                                                <constraint firstAttribute="width" constant="1200" identifier="canvas_width" id="HM4-1W-Oiu"/>
+                                                <constraint firstAttribute="height" constant="1000" identifier="canvas_height" id="a8f-9C-K8V"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -727,16 +727,16 @@
                                     </constraints>
                                 </clipView>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="OeV-ee-lNu">
-                                    <rect key="frame" x="0.0" y="274" width="356" height="16"/>
+                                    <rect key="frame" x="0.0" y="274" width="336" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="LPD-Vl-ekb">
-                                    <rect key="frame" x="340" y="0.0" width="16" height="290"/>
+                                    <rect key="frame" x="320" y="0.0" width="16" height="290"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5TH-fn-GXB">
-                                <rect key="frame" x="372" y="8" width="100" height="290"/>
+                                <rect key="frame" x="352" y="8" width="120" height="290"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H35-l1-Jou">
                                         <rect key="frame" x="0.0" y="176" width="94" height="114"/>
@@ -868,7 +868,7 @@
                                     </customView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="rbr-nD-P9D"/>
+                                    <constraint firstAttribute="width" constant="120" id="rbr-nD-P9D"/>
                                 </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
