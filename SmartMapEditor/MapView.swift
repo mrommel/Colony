@@ -21,25 +21,47 @@ extension Array {
     }
 }
 
+func + (left: CGPoint, right: CGPoint) -> CGPoint {
+    return CGPoint(x: left.x + right.x, y: left.y + right.y)
+}
+
+func - (left: CGPoint, right: CGPoint) -> CGPoint {
+    return CGPoint(x: left.x - right.x, y: left.y - right.y)
+}
+
+protocol MapViewDelegate: class {
+    
+    func moveBy(dx: CGFloat, dy: CGFloat)
+    func focus(on tile: AbstractTile)
+}
+
 class MapView: NSView {
     
-    let GRID_RADIUS: Int = 150
-    let unitSize: NSSize  = NSMakeSize(1.0, 1.0)
+    let offset = CGPoint(x: 575, y: 1360)
+    let unitSize: NSSize = NSMakeSize(1.0, 1.0)
+    var downPoint: CGPoint? = nil
+    var initialPoint: CGPoint? = nil
+    
+    var cursor: HexPoint = HexPoint.zero
+    
+    weak var delegate: MapViewDelegate?
     
     var map: MapModel? = nil {
         didSet {
             
             if let size = map?.contentSize() {
-                self.widthConstraints?.constant = size.width
-                self.heightConstraints?.constant = size.height
+                self.widthConstraint?.constant = size.width + 10
+                self.heightConstraint?.constant = size.height
+                
+                print("set new size: \(size)")
             }
             
             self.needsDisplay = true
         }
     }
     
-    var widthConstraints: NSLayoutConstraint?
-    var heightConstraints: NSLayoutConstraint?
+    var widthConstraint: NSLayoutConstraint?
+    var heightConstraint: NSLayoutConstraint?
     
     override func viewDidMoveToSuperview() {
         
@@ -48,54 +70,53 @@ class MapView: NSView {
     }
     
     override func mouseDown(with event: NSEvent) {
+        
         super.mouseDown(with: event)
         
-        print("mouseDown: \(event.locationInWindow)")
+        self.downPoint = event.locationInWindow
+        self.initialPoint = event.locationInWindow
     }
     
     override func mouseDragged(with event: NSEvent) {
-        super.mouseDragged(with: event)
         
-        print("mouseDragged: \(event.locationInWindow)")
+        super.mouseDragged(with: event)
+
+        if let point = self.downPoint {
+            self.delegate?.moveBy(dx: event.locationInWindow.x - point.x, dy: event.locationInWindow.y - point.y)
+            self.downPoint = event.locationInWindow
+        }
     }
     
     override func mouseUp(with event: NSEvent) {
+        
         super.mouseUp(with: event)
         
-        print("mouseUp: \(event.locationInWindow)")
+        if let point = self.initialPoint {
+            if abs(event.locationInWindow.x - point.x) < 0.001 && abs(event.locationInWindow.y - point.y) < 0.001 {
+                
+                let pointInView = convert(event.locationInWindow, from: nil) - self.offset
+                let pt = HexPoint(screen: pointInView)
+                
+                if let tile = self.map?.tile(at: pt) {
+                    
+                    // print("click at \(pt)")
+                    self.delegate?.focus(on: tile)
+                    self.cursor = pt
+                    self.needsDisplay = true
+                }
+            }
+        }
+        
+        self.downPoint = nil
+        self.initialPoint = nil
     }
     
     override func draw(_ dirtyRect: NSRect) {
         
         super.draw(dirtyRect)
         
-        NSColor.black.setFill()
+        NSColor.darkGray.setFill()
         dirtyRect.fill()
-        
-        //  grid points
-        /*let path:NSBezierPath = NSBezierPath()
-        
-        let rect = NSRect(x: 50.0, y: 50.0, width: 1000.0 - 100.0, height: 1000.0 - 100.0)
-        path.appendRect(rect)
-        path.stroke()
-        
-        for i in 1..<20 {
-            for j in 1..<13 {
-                
-                // TRACK_RADIUS
-                let x_pos = CGFloat(i * GRID_RADIUS)
-                let y_pos = CGFloat(j * GRID_RADIUS)
-                
-                path.move(to: NSMakePoint(x_pos - 5,y_pos))
-                path.line(to: NSMakePoint(x_pos + 5,y_pos))
-                path.move(to: NSMakePoint(x_pos ,y_pos - 5))
-                path.line(to: NSMakePoint(x_pos ,y_pos + 5))
-                path.lineWidth = 1.0
-                
-                path.stroke()
-                
-            }
-        }*/
         
         if let map = self.map {
               
@@ -106,11 +127,13 @@ class MapView: NSView {
             
                 for y in 0..<mapSize.height() {
                 
-                    guard let tile = map.tile(x: x, y: y) else {
+                    let pt = HexPoint(x: x, y: y)
+                    
+                    guard let tile = map.tile(at: pt) else {
                         continue
                     }
 
-                    let screenPoint = HexPoint.toScreen(hex: HexPoint(x: x, y: y))
+                    let screenPoint = HexPoint.toScreen(hex: pt) + offset
                     let textureName: String
                     
                     if tile.hasHills() {
@@ -120,9 +143,16 @@ class MapView: NSView {
                     }
                     
                     if let image = NSImage(named: textureName) {
-                        context?.draw(image.cgImage!, in: CGRect(x: screenPoint.x + 600, y: screenPoint.y + 600, width: 48, height: 48))
+                        context?.draw(image.cgImage!, in: CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48))
                     } else {
                         print("texture \(textureName) not found")
+                    }
+                    
+                    // cursor
+                    if cursor == pt {
+                        if let image = NSImage(named: "cursor") {
+                            context?.draw(image.cgImage!, in: CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48))
+                        }
                     }
                 }
             }
@@ -130,10 +160,17 @@ class MapView: NSView {
     }
     
     private func setup() {
+        
+        let c = self.constraints
+        //print("c: \(c)")
+        
+        self.heightConstraint = c[0]
+        self.widthConstraint = c[1]
     }
     
     func resetScaling() {
-        self.scaleUnitSquare(to: self.convert(unitSize, from:nil))
+        
+        self.scaleUnitSquare(to: self.convert(self.unitSize, from: nil))
     }
     
     /// setViewSize - sets the size of the view
@@ -141,11 +178,11 @@ class MapView: NSView {
     ///
     func setViewSize(_ value:Double) {
         
-        NSLog("setViewSize = %f",value)
+        //NSLog("setViewSize = %f",value)
         self.resetScaling()
         
         // First, match our scaling to the window's coordinate system
-        self.scaleUnitSquare (to: NSMakeSize(CGFloat(value), CGFloat(value)))
-        needsDisplay = true
+        self.scaleUnitSquare(to: NSMakeSize(CGFloat(value), CGFloat(value)))
+        self.needsDisplay = true
     }
 }

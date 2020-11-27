@@ -706,12 +706,12 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="SmartMapEditor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="306"/>
                         <subviews>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YQE-LO-PDa">
-                                <rect key="frame" x="8" y="8" width="356" height="254"/>
+                                <rect key="frame" x="8" y="8" width="356" height="290"/>
                                 <clipView key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WH0-AL-eHF">
-                                    <rect key="frame" x="0.0" y="0.0" width="356" height="254"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="356" height="290"/>
                                     <subviews>
                                         <view translatesAutoresizingMaskIntoConstraints="NO" id="I2I-Mu-6h0" customClass="MapView" customModule="SmartMapEditor" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="1200" height="1000"/>
@@ -727,22 +727,22 @@
                                     </constraints>
                                 </clipView>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="OeV-ee-lNu">
-                                    <rect key="frame" x="0.0" y="238" width="356" height="16"/>
+                                    <rect key="frame" x="0.0" y="274" width="356" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="LPD-Vl-ekb">
-                                    <rect key="frame" x="340" y="0.0" width="16" height="254"/>
+                                    <rect key="frame" x="340" y="0.0" width="16" height="290"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5TH-fn-GXB">
-                                <rect key="frame" x="372" y="8" width="100" height="254"/>
+                                <rect key="frame" x="372" y="8" width="100" height="290"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H35-l1-Jou">
-                                        <rect key="frame" x="0.0" y="128" width="94" height="126"/>
+                                        <rect key="frame" x="0.0" y="176" width="94" height="114"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tpz-Dn-4cK">
-                                                <rect key="frame" x="-2" y="110" width="39" height="16"/>
+                                                <rect key="frame" x="-2" y="98" width="39" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Zoom" id="HFF-Zw-Nz6">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -750,7 +750,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KAM-ng-v9n">
-                                                <rect key="frame" x="40" y="102" width="58" height="25"/>
+                                                <rect key="frame" x="40" y="90" width="58" height="25"/>
                                                 <popUpButtonCell key="cell" type="push" title="0.5" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Dek-74-cdb" id="rnc-Qc-YpC">
                                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="menu"/>
@@ -776,14 +776,93 @@
                                             <real value="3.4028234663852886e+38"/>
                                         </customSpacing>
                                     </stackView>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KNq-m8-0bx">
-                                        <rect key="frame" x="-2" y="104" width="53" height="16"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Position" id="DbL-h2-BBP">
-                                            <font key="font" usesAppearanceFont="YES"/>
-                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tCD-xb-CYN">
+                                        <rect key="frame" x="0.0" y="152" width="90" height="16"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KNq-m8-0bx" customClass="NSLabel" customModule="SmartMapEditor" customModuleProvider="target">
+                                                <rect key="frame" x="-2" y="0.0" width="53" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Position" id="DbL-h2-BBP">
+                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hUD-ci-dpA" customClass="NSLabel" customModule="SmartMapEditor" customModuleProvider="target">
+                                                <rect key="frame" x="55" y="0.0" width="37" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="chd-m4-PmR">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DB8-we-9UU">
+                                        <rect key="frame" x="0.0" y="128" width="83" height="16"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OTX-KP-mbf" customClass="NSLabel" customModule="SmartMapEditor" customModuleProvider="target">
+                                                <rect key="frame" x="-2" y="0.0" width="46" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Terrain" id="oSC-YB-4A5">
+                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0rb-7s-Tx4" customClass="NSLabel" customModule="SmartMapEditor" customModuleProvider="target">
+                                                <rect key="frame" x="48" y="0.0" width="37" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="ATd-8e-DJR">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gep-me-fRb">
+                                        <rect key="frame" x="0.0" y="104" width="67" height="16"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tF5-kG-X5P" customClass="NSLabel" customModule="SmartMapEditor" customModuleProvider="target">
+                                                <rect key="frame" x="-2" y="0.0" width="30" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Hills" id="Ei2-eT-8PV">
+                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B39-j8-W3a" customClass="NSLabel" customModule="SmartMapEditor" customModuleProvider="target">
+                                                <rect key="frame" x="32" y="0.0" width="37" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="NiB-7Z-fpn">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="Pdz-nw-0Kq">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="96"/>
                                     </customView>
@@ -795,8 +874,12 @@
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
@@ -814,10 +897,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="hillValue" destination="B39-j8-W3a" id="nOo-3x-2l5"/>
                         <outlet property="mapView" destination="I2I-Mu-6h0" id="fdt-GR-qcU"/>
                         <outlet property="popUpOutlet" destination="KAM-ng-v9n" id="wqK-95-RDK"/>
-                        <outlet property="positionLabel" destination="KNq-m8-0bx" id="CcZ-QI-Jj7"/>
+                        <outlet property="positionValue" destination="hUD-ci-dpA" id="paa-Dl-UOS"/>
                         <outlet property="scrollingView" destination="YQE-LO-PDa" id="onY-Qc-eME"/>
+                        <outlet property="terrainValue" destination="0rb-7s-Tx4" id="foB-h8-dDk"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
