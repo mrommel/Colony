@@ -14,20 +14,13 @@ extension TerrainType {
 
         switch self {
 
-        case .ocean:
-            return "Ocean"
-        case .shore:
-            return "Shore"
-        case .plains:
-            return "Plains"
-        case .grass:
-            return "Grassland"
-        case .desert:
-            return "Desert"
-        case .tundra:
-            return "Tundra"
-        case .snow:
-            return "Snow"
+        case .ocean: return "Ocean"
+        case .shore: return "Shore"
+        case .plains: return "Plains"
+        case .grass: return "Grassland"
+        case .desert: return "Desert"
+        case .tundra: return "Tundra"
+        case .snow: return "Snow"
         }
     }
 

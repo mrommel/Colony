@@ -19,6 +19,9 @@
 		C968A96825703E5300C11F85 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C968A96725703E5300C11F85 /* SmartAILibrary.framework */; };
 		C968A96925703E5300C11F85 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C968A96725703E5300C11F85 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C968A98B2570451F00C11F85 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968A98A2570451F00C11F85 /* MapView.swift */; };
+		C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD63257286D30044F437 /* NSLabel.swift */; };
+		C9ADAD70257296070044F437 /* ResourceTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD6F257296070044F437 /* ResourceTypeExtension.swift */; };
+		C9ADAD74257296220044F437 /* FeatureTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD73257296220044F437 /* FeatureTypeExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +75,9 @@
 		C968A95E25703D6A00C11F85 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C968A96725703E5300C11F85 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C968A98A2570451F00C11F85 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		C9ADAD63257286D30044F437 /* NSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLabel.swift; sourceTree = "<group>"; };
+		C9ADAD6F257296070044F437 /* ResourceTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceTypeExtension.swift; sourceTree = "<group>"; };
+		C9ADAD73257296220044F437 /* FeatureTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureTypeExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,16 +138,12 @@
 		C968A9222570388D00C11F85 /* SmartMapEditor */ = {
 			isa = PBXGroup;
 			children = (
+				C9ADAD60257286990044F437 /* Data */,
 				C9591AA2257117D100694BEF /* Utils */,
+				C9ADAD61257286A40044F437 /* Views */,
 				C968A9232570388D00C11F85 /* AppDelegate.swift */,
 				C968A9252570388D00C11F85 /* ViewController.swift */,
-				C968A92A2570389700C11F85 /* Assets.xcassets */,
-				C968A92C2570389700C11F85 /* Main.storyboard */,
-				C968A92F2570389700C11F85 /* Info.plist */,
-				C968A9302570389700C11F85 /* SmartMapEditor.entitlements */,
-				C968A9272570388D00C11F85 /* SmartMapEditor.xcdatamodeld */,
-				C968A95825703D3100C11F85 /* TerrainTypeExtension.swift */,
-				C968A98A2570451F00C11F85 /* MapView.swift */,
+				C9ADAD62257286B40044F437 /* Resources */,
 			);
 			path = SmartMapEditor;
 			sourceTree = "<group>";
@@ -171,6 +173,37 @@
 				C968A95E25703D6A00C11F85 /* SmartAILibrary.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9ADAD60257286990044F437 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C968A95825703D3100C11F85 /* TerrainTypeExtension.swift */,
+				C9ADAD73257296220044F437 /* FeatureTypeExtension.swift */,
+				C9ADAD6F257296070044F437 /* ResourceTypeExtension.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		C9ADAD61257286A40044F437 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C968A98A2570451F00C11F85 /* MapView.swift */,
+				C9ADAD63257286D30044F437 /* NSLabel.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C9ADAD62257286B40044F437 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C968A92A2570389700C11F85 /* Assets.xcassets */,
+				C968A92C2570389700C11F85 /* Main.storyboard */,
+				C968A92F2570389700C11F85 /* Info.plist */,
+				C968A9302570389700C11F85 /* SmartMapEditor.entitlements */,
+				C968A9272570388D00C11F85 /* SmartMapEditor.xcdatamodeld */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -305,10 +338,13 @@
 			files = (
 				C968A9262570388D00C11F85 /* ViewController.swift in Sources */,
 				C968A95925703D3100C11F85 /* TerrainTypeExtension.swift in Sources */,
+				C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */,
 				C9591AA4257117E700694BEF /* NSImageExtension.swift in Sources */,
 				C968A98B2570451F00C11F85 /* MapView.swift in Sources */,
+				C9ADAD70257296070044F437 /* ResourceTypeExtension.swift in Sources */,
 				C968A9242570388D00C11F85 /* AppDelegate.swift in Sources */,
 				C968A9292570388D00C11F85 /* SmartMapEditor.xcdatamodeld in Sources */,
+				C9ADAD74257296220044F437 /* FeatureTypeExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,7 +511,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SmartMapEditor/SmartMapEditor.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SmartMapEditor/Resources/SmartMapEditor.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 56RR42EQK6;
@@ -484,7 +520,7 @@
 					"$(SDKROOT)",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = SmartMapEditor/Info.plist;
+				INFOPLIST_FILE = SmartMapEditor/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -503,7 +539,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SmartMapEditor/SmartMapEditor.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SmartMapEditor/Resources/SmartMapEditor.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 56RR42EQK6;
@@ -512,7 +548,7 @@
 					"$(SDKROOT)",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = SmartMapEditor/Info.plist;
+				INFOPLIST_FILE = SmartMapEditor/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

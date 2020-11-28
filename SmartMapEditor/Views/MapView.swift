@@ -138,18 +138,41 @@ class MapView: NSView {
                     }
 
                     let screenPoint = HexPoint.toScreen(hex: pt) + offset
-                    let textureName: String
+
+                    // terrain
+                    let terrainTextureName: String
 
                     if tile.hasHills() {
-                        textureName = tile.terrain().textureNamesHills().item(from: tile.point)
+                        terrainTextureName = tile.terrain().textureNamesHills().item(from: tile.point)
                     } else {
-                        textureName = tile.terrain().textureNames().item(from: tile.point)
+                        terrainTextureName = tile.terrain().textureNames().item(from: tile.point)
                     }
 
-                    if let image = NSImage(named: textureName) {
+                    if let image = NSImage(named: terrainTextureName) {
                         context?.draw(image.cgImage!, in: CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48))
                     } else {
-                        print("texture \(textureName) not found")
+                        print("texture \(terrainTextureName) not found")
+                    }
+
+                    // feature
+                    if tile.feature() != .none {
+                        let featureTextures = tile.feature().textureNames()
+                        let featureTextureName = featureTextures.item(from: tile.point)
+                        if let image = NSImage(named: featureTextureName) {
+                            context?.draw(image.cgImage!, in: CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48))
+                        } else {
+                            print("feature \(featureTextureName) not found")
+                        }
+                    }
+                    
+                    // resource
+                    if tile.resource(for: nil) != .none {
+                        let resourceTextureName = tile.resource(for: nil).textureName()
+                        if let image = NSImage(named: resourceTextureName) {
+                            context?.draw(image.cgImage!, in: CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48))
+                        } else {
+                            print("resource \(resourceTextureName) not found")
+                        }
                     }
 
                     // cursor

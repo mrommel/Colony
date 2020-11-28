@@ -8,36 +8,6 @@
 import Cocoa
 import SmartAILibrary
 
-open class NSLabel: NSTextField {
-    
-    override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
-        
-        self.isBezeled = false
-        self.drawsBackground = false
-        self.isEditable = false
-        self.isSelectable = false
-    }
-    
-    required public init?(coder: NSCoder) {
-        super.init(coder: coder)
-        
-        self.isBezeled = false
-        self.drawsBackground = false
-        self.isEditable = false
-        self.isSelectable = false
-    }
-    
-    var text: String {
-        get {
-            return self.stringValue
-        }
-        set {
-            self.stringValue = newValue
-        }
-    }
-}
-
 class ViewController: NSViewController {
     
     @IBOutlet weak var scrollingView: NSScrollView!
@@ -46,6 +16,8 @@ class ViewController: NSViewController {
     @IBOutlet weak var positionValue: NSLabel!
     @IBOutlet weak var terrainValue: NSLabel!
     @IBOutlet weak var hillValue: NSLabel!
+    @IBOutlet weak var featureValue: NSLabel!
+    @IBOutlet weak var resourceValue: NSLabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,10 +60,7 @@ class ViewController: NSViewController {
     }
     
     @IBAction func scaleAction(_ sender: AnyObject) {
-        
-        //NSLog("scaleAction title = %@", String(sender.title))
-       // NSLog("scaleAction tag   = %d", Int(sender.selectedTag()))
-        
+
         switch Int(sender.selectedTag()) {
         
         case 0:
@@ -121,5 +90,7 @@ extension ViewController: MapViewDelegate {
         self.positionValue.text = "\(tile.point.x), \(tile.point.y)"
         self.terrainValue.text = tile.terrain().name()
         self.hillValue.text = tile.hasHills() ? "true" : "false"
+        self.featureValue.text = tile.feature().name()
+        self.resourceValue.text = tile.resource(for: nil).name()
     }
 }
