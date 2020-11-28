@@ -22,6 +22,7 @@
 		C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD63257286D30044F437 /* NSLabel.swift */; };
 		C9ADAD70257296070044F437 /* ResourceTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD6F257296070044F437 /* ResourceTypeExtension.swift */; };
 		C9ADAD74257296220044F437 /* FeatureTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD73257296220044F437 /* FeatureTypeExtension.swift */; };
+		C9ADAD7A2572D70E0044F437 /* Textures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD792572D70E0044F437 /* Textures.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		C9ADAD63257286D30044F437 /* NSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLabel.swift; sourceTree = "<group>"; };
 		C9ADAD6F257296070044F437 /* ResourceTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceTypeExtension.swift; sourceTree = "<group>"; };
 		C9ADAD73257296220044F437 /* FeatureTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureTypeExtension.swift; sourceTree = "<group>"; };
+		C9ADAD792572D70E0044F437 /* Textures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Textures.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +183,7 @@
 				C968A95825703D3100C11F85 /* TerrainTypeExtension.swift */,
 				C9ADAD73257296220044F437 /* FeatureTypeExtension.swift */,
 				C9ADAD6F257296070044F437 /* ResourceTypeExtension.swift */,
+				C9ADAD792572D70E0044F437 /* Textures.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C968A9262570388D00C11F85 /* ViewController.swift in Sources */,
+				C9ADAD7A2572D70E0044F437 /* Textures.swift in Sources */,
 				C968A95925703D3100C11F85 /* TerrainTypeExtension.swift in Sources */,
 				C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */,
 				C9591AA4257117E700694BEF /* NSImageExtension.swift in Sources */,

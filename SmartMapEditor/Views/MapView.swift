@@ -47,6 +47,8 @@ class MapView: NSView {
     var initialPoint: CGPoint? = nil
 
     var cursor: HexPoint = HexPoint.zero
+    
+    var textures: Textures = Textures(map: nil)
 
     weak var delegate: MapViewDelegate?
 
@@ -59,6 +61,8 @@ class MapView: NSView {
 
                 print("set new size: \(size)")
             }
+            
+            self.textures = Textures(map: map)
 
             self.needsDisplay = true
         }
@@ -141,11 +145,14 @@ class MapView: NSView {
 
                     // terrain
                     let terrainTextureName: String
-
-                    if tile.hasHills() {
-                        terrainTextureName = tile.terrain().textureNamesHills().item(from: tile.point)
+                    if let coastTexture = self.textures.coastTexture(at: tile.point) {
+                        terrainTextureName = coastTexture
                     } else {
-                        terrainTextureName = tile.terrain().textureNames().item(from: tile.point)
+                        if tile.hasHills() {
+                            terrainTextureName = tile.terrain().textureNamesHills().item(from: tile.point)
+                        } else {
+                            terrainTextureName = tile.terrain().textureNames().item(from: tile.point)
+                        }
                     }
 
                     if let image = NSImage(named: terrainTextureName) {
@@ -155,9 +162,23 @@ class MapView: NSView {
                     }
 
                     // feature
-                    if tile.feature() != .none {
-                        let featureTextures = tile.feature().textureNames()
-                        let featureTextureName = featureTextures.item(from: tile.point)
+                    let neighborTileN = map.tile(at: pt.neighbor(in: .north))
+                    let neighborTileNE = map.tile(at: pt.neighbor(in: .northeast))
+                    let neighborTileSE = map.tile(at: pt.neighbor(in: .southeast))
+                    let neighborTileS = map.tile(at: pt.neighbor(in: .south))
+                    let neighborTileSW = map.tile(at: pt.neighbor(in: .southwest))
+                    let neighborTileNW = map.tile(at: pt.neighbor(in: .northwest))
+                    
+                    let neighborTiles: [HexDirection: AbstractTile?]  = [
+                        .north: neighborTileN,
+                        .northeast: neighborTileNE,
+                        .southeast: neighborTileSE,
+                        .south: neighborTileS,
+                        .southwest: neighborTileSW,
+                        .northwest: neighborTileNW
+                    ]
+                    
+                    if let featureTextureName = self.textures.featureTexture(for: tile, neighborTiles: neighborTiles) {
                         if let image = NSImage(named: featureTextureName) {
                             context?.draw(image.cgImage!, in: CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48))
                         } else {
