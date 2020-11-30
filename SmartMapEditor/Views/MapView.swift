@@ -38,7 +38,7 @@ protocol MapViewDelegate: class {
 class MapView: NSView {
 
     // constants
-    let offset = CGPoint(x: 575, y: 1360)
+    let shift = CGPoint(x: 575, y: 1360)
     let unitSize: NSSize = NSMakeSize(1.0, 1.0)
 
     // properties
@@ -56,6 +56,9 @@ class MapView: NSView {
         didSet {
 
             if let size = map?.contentSize() {
+                
+                self.frame = NSMakeRect(0, 0, (size.width + 10) * self.scale, size.height * self.scale)
+                
                 self.widthConstraint?.constant = (size.width + 10) * self.scale
                 self.heightConstraint?.constant = size.height * self.scale
 
@@ -102,7 +105,7 @@ class MapView: NSView {
         if let point = self.initialPoint {
             if abs(event.locationInWindow.x - point.x) < 0.001 && abs(event.locationInWindow.y - point.y) < 0.001 {
 
-                let pointInView = convert(event.locationInWindow, from: nil) - self.offset
+                let pointInView = convert(event.locationInWindow, from: nil) - self.shift
                 let pt = HexPoint(screen: pointInView)
 
                 if let tile = self.map?.tile(at: pt) {
@@ -123,7 +126,7 @@ class MapView: NSView {
 
         super.draw(dirtyRect)
 
-        NSColor.darkGray.setFill()
+        NSColor.lightGray.setFill()
         dirtyRect.fill()
 
         if let map = self.map {
@@ -141,7 +144,7 @@ class MapView: NSView {
                         continue
                     }
 
-                    let screenPoint = HexPoint.toScreen(hex: pt) + offset
+                    let screenPoint = HexPoint.toScreen(hex: pt) + shift
 
                     // terrain
                     let terrainTextureName: String
@@ -158,7 +161,16 @@ class MapView: NSView {
                     if let image = NSImage(named: terrainTextureName) {
                         context?.draw(image.cgImage!, in: CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48))
                     } else {
-                        print("texture \(terrainTextureName) not found")
+                        print("terrain texture \(terrainTextureName) not found")
+                    }
+                    
+                    // river
+                    if let riverTexture = self.textures.riverTexture(at: tile.point) {
+                        if let image = NSImage(named: riverTexture) {
+                            context?.draw(image.cgImage!, in: CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48))
+                        } else {
+                            print("river texture \(riverTexture) not found")
+                        }
                     }
 
                     // feature
@@ -182,7 +194,7 @@ class MapView: NSView {
                         if let image = NSImage(named: featureTextureName) {
                             context?.draw(image.cgImage!, in: CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48))
                         } else {
-                            print("feature \(featureTextureName) not found")
+                            print("feature texture \(featureTextureName) not found")
                         }
                     }
                     
@@ -192,7 +204,7 @@ class MapView: NSView {
                         if let image = NSImage(named: resourceTextureName) {
                             context?.draw(image.cgImage!, in: CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48))
                         } else {
-                            print("resource \(resourceTextureName) not found")
+                            print("resource texture \(resourceTextureName) not found")
                         }
                     }
 
@@ -209,8 +221,13 @@ class MapView: NSView {
 
     private func setup() {
 
-        self.widthConstraint = self.constraints.first(where: { $0.identifier == "canvas_width" })
-        self.heightConstraint = self.constraints.first(where: { $0.identifier == "canvas_height" })
+        //self.widthConstraint = self.constraints.first(where: { $0.identifier == "canvas_width" })
+        //self.heightConstraint = self.constraints.first(where: { $0.identifier == "canvas_height" })
+        
+        self.widthConstraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1000.0)
+        self.heightConstraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1000.0)
+        
+        self.addConstraints([self.widthConstraint!, self.heightConstraint!])
     }
 
     /// setViewSize - sets the size of the view

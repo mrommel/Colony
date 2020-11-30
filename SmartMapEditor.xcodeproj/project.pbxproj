@@ -7,9 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9070A612574445A00276B7D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A602574445A00276B7D /* main.swift */; };
+		C9070A672574F4ED00276B7D /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A662574F4ED00276B7D /* NSMenuItemExtension.swift */; };
+		C9070A6B2574F50C00276B7D /* MapEditorMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A6A2574F50C00276B7D /* MapEditorMenu.swift */; };
+		C9070A712574F64600276B7D /* MapEditorToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A702574F64600276B7D /* MapEditorToolbar.swift */; };
+		C9070A752574F89200276B7D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A742574F89200276B7D /* ContentView.swift */; };
+		C9070A7B2575172400276B7D /* TrackingAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A7A2575172400276B7D /* TrackingAreaView.swift */; };
+		C9070A7F2575174B00276B7D /* TrackingAreaRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A7E2575174B00276B7D /* TrackingAreaRepresentable.swift */; };
+		C9070A832575176500276B7D /* TrackingNSHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A822575176500276B7D /* TrackingNSHostingView.swift */; };
+		C9070A872575178A00276B7D /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A862575178A00276B7D /* ViewExtension.swift */; };
+		C9070A8B257517A900276B7D /* PopUpButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A8A257517A900276B7D /* PopUpButtonView.swift */; };
+		C9070A93257517FB00276B7D /* MapScrollContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A92257517FB00276B7D /* MapScrollContentView.swift */; };
 		C9591AA4257117E700694BEF /* NSImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9591AA3257117E600694BEF /* NSImageExtension.swift */; };
 		C968A9242570388D00C11F85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968A9232570388D00C11F85 /* AppDelegate.swift */; };
-		C968A9262570388D00C11F85 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968A9252570388D00C11F85 /* ViewController.swift */; };
+		C968A9262570388D00C11F85 /* MapEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968A9252570388D00C11F85 /* MapEditorViewController.swift */; };
 		C968A9292570388D00C11F85 /* SmartMapEditor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C968A9272570388D00C11F85 /* SmartMapEditor.xcdatamodeld */; };
 		C968A92B2570389700C11F85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C968A92A2570389700C11F85 /* Assets.xcassets */; };
 		C968A92E2570389700C11F85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C968A92C2570389700C11F85 /* Main.storyboard */; };
@@ -23,6 +34,7 @@
 		C9ADAD70257296070044F437 /* ResourceTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD6F257296070044F437 /* ResourceTypeExtension.swift */; };
 		C9ADAD74257296220044F437 /* FeatureTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD73257296220044F437 /* FeatureTypeExtension.swift */; };
 		C9ADAD7A2572D70E0044F437 /* Textures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD792572D70E0044F437 /* Textures.swift */; };
+		C9ADAD7E2573BEBD0044F437 /* MapEditorWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD7D2573BEBD0044F437 /* MapEditorWindowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,10 +69,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C9070A602574445A00276B7D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		C9070A662574F4ED00276B7D /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
+		C9070A6A2574F50C00276B7D /* MapEditorMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEditorMenu.swift; sourceTree = "<group>"; };
+		C9070A702574F64600276B7D /* MapEditorToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEditorToolbar.swift; sourceTree = "<group>"; };
+		C9070A742574F89200276B7D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C9070A7A2575172400276B7D /* TrackingAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingAreaView.swift; sourceTree = "<group>"; };
+		C9070A7E2575174B00276B7D /* TrackingAreaRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingAreaRepresentable.swift; sourceTree = "<group>"; };
+		C9070A822575176500276B7D /* TrackingNSHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingNSHostingView.swift; sourceTree = "<group>"; };
+		C9070A862575178A00276B7D /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		C9070A8A257517A900276B7D /* PopUpButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpButtonView.swift; sourceTree = "<group>"; };
+		C9070A92257517FB00276B7D /* MapScrollContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScrollContentView.swift; sourceTree = "<group>"; };
 		C9591AA3257117E600694BEF /* NSImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageExtension.swift; sourceTree = "<group>"; };
 		C968A9202570388D00C11F85 /* SmartMapEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartMapEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C968A9232570388D00C11F85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C968A9252570388D00C11F85 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C968A9252570388D00C11F85 /* MapEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEditorViewController.swift; sourceTree = "<group>"; };
 		C968A9282570388D00C11F85 /* SmartMapEditor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartMapEditor.xcdatamodel; sourceTree = "<group>"; };
 		C968A92A2570389700C11F85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C968A92D2570389700C11F85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -80,6 +103,7 @@
 		C9ADAD6F257296070044F437 /* ResourceTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceTypeExtension.swift; sourceTree = "<group>"; };
 		C9ADAD73257296220044F437 /* FeatureTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureTypeExtension.swift; sourceTree = "<group>"; };
 		C9ADAD792572D70E0044F437 /* Textures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Textures.swift; sourceTree = "<group>"; };
+		C9ADAD7D2573BEBD0044F437 /* MapEditorWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEditorWindowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,9 +167,13 @@
 				C9ADAD60257286990044F437 /* Data */,
 				C9591AA2257117D100694BEF /* Utils */,
 				C9ADAD61257286A40044F437 /* Views */,
-				C968A9232570388D00C11F85 /* AppDelegate.swift */,
-				C968A9252570388D00C11F85 /* ViewController.swift */,
 				C9ADAD62257286B40044F437 /* Resources */,
+				C9070A602574445A00276B7D /* main.swift */,
+				C968A9232570388D00C11F85 /* AppDelegate.swift */,
+				C968A9252570388D00C11F85 /* MapEditorViewController.swift */,
+				C9ADAD7D2573BEBD0044F437 /* MapEditorWindowController.swift */,
+				C9070A6A2574F50C00276B7D /* MapEditorMenu.swift */,
+				C9070A702574F64600276B7D /* MapEditorToolbar.swift */,
 			);
 			path = SmartMapEditor;
 			sourceTree = "<group>";
@@ -193,6 +221,14 @@
 			children = (
 				C968A98A2570451F00C11F85 /* MapView.swift */,
 				C9ADAD63257286D30044F437 /* NSLabel.swift */,
+				C9070A662574F4ED00276B7D /* NSMenuItemExtension.swift */,
+				C9070A7A2575172400276B7D /* TrackingAreaView.swift */,
+				C9070A7E2575174B00276B7D /* TrackingAreaRepresentable.swift */,
+				C9070A822575176500276B7D /* TrackingNSHostingView.swift */,
+				C9070A862575178A00276B7D /* ViewExtension.swift */,
+				C9070A8A257517A900276B7D /* PopUpButtonView.swift */,
+				C9070A92257517FB00276B7D /* MapScrollContentView.swift */,
+				C9070A742574F89200276B7D /* ContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -339,16 +375,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C968A9262570388D00C11F85 /* ViewController.swift in Sources */,
+				C968A9262570388D00C11F85 /* MapEditorViewController.swift in Sources */,
 				C9ADAD7A2572D70E0044F437 /* Textures.swift in Sources */,
+				C9070A7B2575172400276B7D /* TrackingAreaView.swift in Sources */,
+				C9070A612574445A00276B7D /* main.swift in Sources */,
+				C9070A7F2575174B00276B7D /* TrackingAreaRepresentable.swift in Sources */,
+				C9070A93257517FB00276B7D /* MapScrollContentView.swift in Sources */,
 				C968A95925703D3100C11F85 /* TerrainTypeExtension.swift in Sources */,
 				C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */,
+				C9070A752574F89200276B7D /* ContentView.swift in Sources */,
 				C9591AA4257117E700694BEF /* NSImageExtension.swift in Sources */,
 				C968A98B2570451F00C11F85 /* MapView.swift in Sources */,
 				C9ADAD70257296070044F437 /* ResourceTypeExtension.swift in Sources */,
+				C9070A6B2574F50C00276B7D /* MapEditorMenu.swift in Sources */,
 				C968A9242570388D00C11F85 /* AppDelegate.swift in Sources */,
+				C9070A712574F64600276B7D /* MapEditorToolbar.swift in Sources */,
+				C9070A872575178A00276B7D /* ViewExtension.swift in Sources */,
 				C968A9292570388D00C11F85 /* SmartMapEditor.xcdatamodeld in Sources */,
+				C9070A832575176500276B7D /* TrackingNSHostingView.swift in Sources */,
 				C9ADAD74257296220044F437 /* FeatureTypeExtension.swift in Sources */,
+				C9070A672574F4ED00276B7D /* NSMenuItemExtension.swift in Sources */,
+				C9070A8B257517A900276B7D /* PopUpButtonView.swift in Sources */,
+				C9ADAD7E2573BEBD0044F437 /* MapEditorWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
