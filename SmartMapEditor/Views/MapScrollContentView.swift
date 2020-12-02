@@ -9,40 +9,16 @@ import Cocoa
 import SwiftUI
 import SmartAILibrary
 
-class MapScrollView: NSScrollView {
-
-    override init(frame: NSRect) {
-
-        super.init(frame: frame)
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(scrollViewDidScroll),
-            name: NSScrollView.didLiveScrollNotification,
-            object: self
-        )
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    @objc func scrollViewDidScroll(notification: NSNotification) {
-        // print("self.contentView.bounds.origin = \(self.contentView.bounds.origin)")
-    }
-    
-    func scrollBy(dx: CGFloat, dy: CGFloat) {
-        self.contentView.bounds.origin = self.contentView.bounds.origin - CGPoint(x: dx, y: dy)
-    }
-}
-
+// https://www.calincrist.com/blog/2020-04-12-how-to-get-notified-for-changes-in-swiftui/
 struct MapScrollContentView: NSViewRepresentable {
 
     @Binding var focus: AbstractTile?
+    @Binding var mapZoom: CGFloat
 
     typealias UIViewType = MapScrollView
 
     var scrollView: MapScrollView? = MapScrollView(frame: .zero)
+    var mapView: MapView? = MapView()
 
     func makeNSView(context: Context) -> MapScrollView {
 
@@ -50,8 +26,8 @@ struct MapScrollContentView: NSViewRepresentable {
         self.scrollView?.hasVerticalScroller = true
         self.scrollView?.hasHorizontalScroller = true
 
-        let mapView = MapView(frame: NSMakeRect(0, 0, 1000, 1000))
-        mapView.delegate = context.coordinator
+        mapView?.delegate = context.coordinator
+        mapView?.setViewSize(self.$mapZoom.wrappedValue)
         self.scrollView?.documentView = mapView
 
         // load map
@@ -70,7 +46,7 @@ struct MapScrollContentView: NSViewRepresentable {
 
                 // ensure that this runs on UI thread
                 DispatchQueue.main.async {
-                    mapView.map = map
+                    mapView?.map = map
 
                     // show okay button
                     print("map - progress: ready")
@@ -83,28 +59,32 @@ struct MapScrollContentView: NSViewRepresentable {
 
     func updateNSView(_ scrollView: MapScrollView, context: Context) {
 
+        // print("map scroll content view update to: \(self.$mapZoom.wrappedValue)")
+        self.mapView?.setViewSize(self.$mapZoom.wrappedValue)
     }
 
     func makeCoordinator() -> MapScrollContentView.Coordinator {
-        Coordinator(scrollView: self.scrollView)
+        
+        Coordinator(mapScrollContentView: self)
     }
 
     final class Coordinator: NSObject, MapViewDelegate {
 
-        let scrollView: MapScrollView?
+        var mapScrollContentView: MapScrollContentView?
 
-        init(scrollView: MapScrollView?) {
+        init(mapScrollContentView: MapScrollContentView?) {
 
-            self.scrollView = scrollView
+            self.mapScrollContentView = mapScrollContentView
         }
 
         func moveBy(dx: CGFloat, dy: CGFloat) {
 
-            self.scrollView?.scrollBy(dx: dx, dy: dy)
+            self.mapScrollContentView?.scrollView?.scrollBy(dx: dx, dy: dy)
         }
 
         func focus(on tile: AbstractTile) {
-            //self.scrollView.focus = tile
+
+            self.mapScrollContentView?.$focus.wrappedValue = tile
         }
     }
 }

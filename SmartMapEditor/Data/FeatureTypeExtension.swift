@@ -9,7 +9,7 @@ import SmartAILibrary
 
 extension FeatureType {
 
-    func name() -> String {
+    /*func name() -> String {
 
         switch self {
 
@@ -35,7 +35,7 @@ extension FeatureType {
         case .yosemite: return "Yosemite"
         case .uluru: return "Uluru"
         }
-    }
+    }*/
     
     func textureNames() -> [String] {
         

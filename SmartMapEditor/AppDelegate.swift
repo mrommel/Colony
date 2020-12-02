@@ -17,7 +17,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         self.window = NSWindow(contentRect: NSMakeRect(0, 0, NSScreen.main?.frame.width ?? 200, NSScreen.main?.frame.height ?? 200), styleMask: [.miniaturizable, .closable, .resizable, .titled], backing: .buffered, defer: false)
         self.window?.title = "SmartMapEditor"
-        //self.window?.contentViewController = MapEditorViewController()
         self.window?.contentView = NSHostingView(rootView: ContentView())
         self.window?.toolbar = MapEditorToolbar(identifier: .init("Default"))
         self.window?.makeKeyAndOrderFront(nil)
@@ -27,12 +26,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-    // MARK: - actions
-
-    @IBAction func newAction(_ sender: AnyObject?) {
-
-        NSDocumentController.shared.newDocument(sender)
-        print("abc")
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        
+        return true
     }
 
     // MARK: - Core Data stack
