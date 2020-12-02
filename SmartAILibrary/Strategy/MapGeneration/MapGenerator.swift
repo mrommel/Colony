@@ -361,8 +361,12 @@ public class MapGenerator: BaseMapHandler {
     
     func updateBiomeForPolar(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
         
-        if Double.random > 0.7 {
+        if Double.random > 0.5 {
             grid?.set(hills: true, at: point)
+        }
+        
+        if Double.random > 0.5 {
+            grid?.set(feature: .ice, at: point)
         }
         
         grid?.set(terrain: .snow, at: point)

@@ -8,19 +8,9 @@
 import Cocoa
 import AppKit
 import CoreGraphics
-import SmartAILibrary
 import SwiftUI
-
-extension Array {
-
-    public func item(from point: HexPoint) -> Element {
-        //let index = Int.random(minimum: 0, maximum: self.count - 1)
-
-        let index = (point.x + point.y) % self.count
-
-        return self[index]
-    }
-}
+import SmartAILibrary
+import SmartAssets
 
 func + (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x + right.x, y: left.y + right.y)
@@ -65,6 +55,9 @@ class MapView: NSView {
 
                 print("set new size: \(size)")
             }
+            
+            let iceFeatureTiles = map?.points().filter({ map?.tile(at: $0)?.feature() == .ice})
+            print("ice tiles: \(iceFeatureTiles?.count)")
             
             self.textures = Textures(map: map)
 
@@ -172,12 +165,14 @@ class MapView: NSView {
                     
                     // populate cache if needed
                     if !self.imageCache.exists(key: terrainTextureName) {
-                        self.imageCache.add(image: NSImage(named: terrainTextureName), for: terrainTextureName)
+                        self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: terrainTextureName), for: terrainTextureName)
+                        // self.imageCache.add(image: NSImage(named: terrainTextureName), for: terrainTextureName)
                     }
 
                     // fetch from cache
                     context?.draw(self.imageCache.image(for: terrainTextureName).cgImage!, in: tileRect)
 
+                    continue
                     
                     // river
                     if let riverTexture = self.textures.riverTexture(at: tile.point) {
@@ -192,39 +187,45 @@ class MapView: NSView {
                     }
 
                     // feature
-                    let neighborTileN = map.tile(at: pt.neighbor(in: .north))
-                    let neighborTileNE = map.tile(at: pt.neighbor(in: .northeast))
-                    let neighborTileSE = map.tile(at: pt.neighbor(in: .southeast))
-                    let neighborTileS = map.tile(at: pt.neighbor(in: .south))
-                    let neighborTileSW = map.tile(at: pt.neighbor(in: .southwest))
-                    let neighborTileNW = map.tile(at: pt.neighbor(in: .northwest))
-                    
-                    let neighborTiles: [HexDirection: AbstractTile?]  = [
-                        .north: neighborTileN,
-                        .northeast: neighborTileNE,
-                        .southeast: neighborTileSE,
-                        .south: neighborTileS,
-                        .southwest: neighborTileSW,
-                        .northwest: neighborTileNW
-                    ]
-                    
-                    if let featureTextureName = self.textures.featureTexture(for: tile, neighborTiles: neighborTiles) {
+                    // place forests etc
+                    if tile.feature() != .none {
                         
-                        // populate cache if needed
-                        if !self.imageCache.exists(key: featureTextureName) {
-                            self.imageCache.add(image: NSImage(named: featureTextureName), for: featureTextureName)
+                        let neighborTileN = map.tile(at: pt.neighbor(in: .north))
+                        let neighborTileNE = map.tile(at: pt.neighbor(in: .northeast))
+                        let neighborTileSE = map.tile(at: pt.neighbor(in: .southeast))
+                        let neighborTileS = map.tile(at: pt.neighbor(in: .south))
+                        let neighborTileSW = map.tile(at: pt.neighbor(in: .southwest))
+                        let neighborTileNW = map.tile(at: pt.neighbor(in: .northwest))
+                        
+                        let neighborTiles: [HexDirection: AbstractTile?]  = [
+                            .north: neighborTileN,
+                            .northeast: neighborTileNE,
+                            .southeast: neighborTileSE,
+                            .south: neighborTileS,
+                            .southwest: neighborTileSW,
+                            .northwest: neighborTileNW
+                        ]
+                        
+                        if let featureTextureName = self.textures.featureTexture(for: tile, neighborTiles: neighborTiles) {
+                            
+                            // populate cache if needed
+                            if !self.imageCache.exists(key: featureTextureName) {
+                                self.imageCache.add(image: NSImage(named: featureTextureName), for: featureTextureName)
+                            }
+                            
+                            // fetch from cache
+                            context?.draw(self.imageCache.image(for: featureTextureName).cgImage!, in: tileRect)
                         }
-                        
-                        // fetch from cache
-                        context?.draw(self.imageCache.image(for: featureTextureName).cgImage!, in: tileRect)
                     }
                     
                     if tile.feature() != .ice {
+                        
                         if let iceTextureName = self.textures.iceTexture(at: tile.point) {
 
                             // populate cache if needed
                             if !self.imageCache.exists(key: iceTextureName) {
-                                self.imageCache.add(image: NSImage(named: iceTextureName), for: iceTextureName)
+                                self.imageCache.add(image: Bundle.main.image(forResource: iceTextureName), for: iceTextureName)
+                                //self.imageCache.add(image: NSImage(named: iceTextureName), for: iceTextureName)
                             }
                             
                             // fetch from cache
