@@ -1,10 +1,12 @@
 {
   "images" : [
     {
+      "filename" : "river-ne@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "river-ne@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

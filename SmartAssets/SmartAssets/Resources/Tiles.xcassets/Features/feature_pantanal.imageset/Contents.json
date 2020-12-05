@@ -1,10 +1,12 @@
 {
   "images" : [
     {
+      "filename" : "feature_pantanal@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "feature_pantanal@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

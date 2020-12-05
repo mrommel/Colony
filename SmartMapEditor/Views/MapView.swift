@@ -42,7 +42,15 @@ class MapView: NSView {
     var imageCache: ImageCache = ImageCache()
 
     weak var delegate: MapViewDelegate?
-
+    
+    /*override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }*/
+    
     var map: MapModel? = nil {
         didSet {
 
@@ -162,25 +170,12 @@ class MapView: NSView {
                             terrainTextureName = tile.terrain().textureNames().item(from: tile.point)
                         }
                     }
-                    
-                    // populate cache if needed
-                    if !self.imageCache.exists(key: terrainTextureName) {
-                        self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: terrainTextureName), for: terrainTextureName)
-                        // self.imageCache.add(image: NSImage(named: terrainTextureName), for: terrainTextureName)
-                    }
 
                     // fetch from cache
                     context?.draw(self.imageCache.image(for: terrainTextureName).cgImage!, in: tileRect)
-
-                    continue
                     
                     // river
                     if let riverTexture = self.textures.riverTexture(at: tile.point) {
-                        
-                        // populate cache if needed
-                        if !self.imageCache.exists(key: riverTexture) {
-                            self.imageCache.add(image: NSImage(named: riverTexture), for: riverTexture)
-                        }
                         
                         // fetch from cache
                         context?.draw(self.imageCache.image(for: riverTexture).cgImage!, in: tileRect)
@@ -208,11 +203,6 @@ class MapView: NSView {
                         
                         if let featureTextureName = self.textures.featureTexture(for: tile, neighborTiles: neighborTiles) {
                             
-                            // populate cache if needed
-                            if !self.imageCache.exists(key: featureTextureName) {
-                                self.imageCache.add(image: NSImage(named: featureTextureName), for: featureTextureName)
-                            }
-                            
                             // fetch from cache
                             context?.draw(self.imageCache.image(for: featureTextureName).cgImage!, in: tileRect)
                         }
@@ -223,10 +213,10 @@ class MapView: NSView {
                         if let iceTextureName = self.textures.iceTexture(at: tile.point) {
 
                             // populate cache if needed
-                            if !self.imageCache.exists(key: iceTextureName) {
-                                self.imageCache.add(image: Bundle.main.image(forResource: iceTextureName), for: iceTextureName)
+                            /*if !self.imageCache.exists(key: iceTextureName) {
+                                self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: iceTextureName), for: iceTextureName)
                                 //self.imageCache.add(image: NSImage(named: iceTextureName), for: iceTextureName)
-                            }
+                            }*/
                             
                             // fetch from cache
                             context?.draw(self.imageCache.image(for: iceTextureName).cgImage!, in: tileRect)
@@ -239,9 +229,9 @@ class MapView: NSView {
                         let resourceTextureName = tile.resource(for: nil).textureName()
                         
                         // populate cache if needed
-                        if !self.imageCache.exists(key: resourceTextureName) {
-                            self.imageCache.add(image: NSImage(named: resourceTextureName), for: resourceTextureName)
-                        }
+                        /*if !self.imageCache.exists(key: resourceTextureName) {
+                            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: resourceTextureName), for: resourceTextureName)
+                        }*/
                         
                         // fetch from cache
                         context?.draw(self.imageCache.image(for: resourceTextureName).cgImage!, in: tileRect)
@@ -272,7 +262,39 @@ class MapView: NSView {
         
         self.addConstraints([self.widthConstraint!, self.heightConstraint!])
         
-        // pre load assets
+        // load assets into image cache
+        print("-- pre-load images --")
+        
+        print("- load \(self.textures.allTerrainTextureNames.count) terrain, \(self.textures.allRiverTextureNames.count) river and \(self.textures.allCoastTextureNames.count) coast textures")
+        for terrainTextureName in self.textures.allTerrainTextureNames {
+            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: terrainTextureName), for: terrainTextureName)
+        }
+        
+        for coastTextureName in self.textures.allCoastTextureNames {
+            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: coastTextureName), for: coastTextureName)
+        }
+        
+        for riverTextureName in self.textures.allRiverTextureNames {
+            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: riverTextureName), for: riverTextureName)
+        }
+        
+        print("- load \(self.textures.allFeatureTextureNames.count) feature (+ \(self.textures.allIceFeatureTextureNames.count) ice) textures")
+        for featureTextureName in self.textures.allFeatureTextureNames {
+            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: featureTextureName), for: featureTextureName)
+        }
+        
+        for iceFeatureTextureName in self.textures.allIceFeatureTextureNames {
+            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
+        }
+        
+        print("- load \(self.textures.allResourceTextureNames.count) resource textures")
+        for resourceTextureName in self.textures.allResourceTextureNames {
+            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: resourceTextureName), for: resourceTextureName)
+        }
+        
+        // feature_ice-se-sw
+        
+        print("-- all textures loaded --")
     }
 
     /// setViewSize - sets the size of the view

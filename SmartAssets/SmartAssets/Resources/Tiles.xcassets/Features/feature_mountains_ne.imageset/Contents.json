@@ -1,10 +1,12 @@
 {
   "images" : [
     {
+      "filename" : "feature_mountains_ne@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "feature_mountains_ne@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

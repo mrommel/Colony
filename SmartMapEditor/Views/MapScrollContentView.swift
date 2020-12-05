@@ -18,7 +18,7 @@ struct MapScrollContentView: NSViewRepresentable {
     typealias UIViewType = MapScrollView
 
     var scrollView: MapScrollView? = MapScrollView(frame: .zero)
-    var mapView: MapView? = MapView()
+    var mapView: MapView? = MapView(frame: .zero)
 
     func makeNSView(context: Context) -> MapScrollView {
 

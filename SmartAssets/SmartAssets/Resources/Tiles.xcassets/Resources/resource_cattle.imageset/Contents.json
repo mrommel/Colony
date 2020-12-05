@@ -1,10 +1,12 @@
 {
   "images" : [
     {
+      "filename" : "resource_cattle@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "resource_cattle@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

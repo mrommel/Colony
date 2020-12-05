@@ -1,10 +1,12 @@
 {
   "images" : [
     {
+      "filename" : "resource_coal@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "resource_coal@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

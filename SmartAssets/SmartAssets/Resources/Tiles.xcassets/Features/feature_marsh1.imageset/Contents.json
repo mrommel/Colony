@@ -1,10 +1,12 @@
 {
   "images" : [
     {
+      "filename" : "feature_marsh1@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "feature_marsh1@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

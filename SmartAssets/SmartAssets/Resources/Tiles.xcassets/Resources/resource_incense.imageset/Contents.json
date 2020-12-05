@@ -1,10 +1,12 @@
 {
   "images" : [
     {
+      "filename" : "resource_incense@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "resource_incense@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

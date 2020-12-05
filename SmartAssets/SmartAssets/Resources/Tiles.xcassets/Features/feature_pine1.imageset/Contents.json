@@ -1,10 +1,12 @@
 {
   "images" : [
     {
+      "filename" : "feature_pine1@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "feature_pine1@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

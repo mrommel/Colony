@@ -9,13 +9,43 @@ import SmartAILibrary
 
 public class Textures {
     
+    private static let allTextureSuffixes: [String] = [
+        "-n", "-n-ne", "-n-ne-nw", "-n-ne-s", "-n-ne-s-nw", "-n-ne-s-sw", "-n-ne-s-sw-nw", "-n-ne-se", "-n-ne-se-nw", "-n-ne-se-s", "-n-ne-se-s-nw", "-n-ne-se-s-sw", "-n-ne-se-s-sw-nw", "-n-ne-se-sw", "-n-ne-se-sw-nw", "-n-ne-sw", "-n-ne-sw-nw", "-n-nw", "-n-s", "-n-s-nw", "-n-s-sw", "-n-s-sw-nw", "-n-se", "-n-se-nw", "-n-se-s", "-n-se-s-nw", "-n-se-s-sw", "-n-se-s-sw-nw", "-n-se-sw", "-n-se-sw-nw", "-n-sw", "-n-sw-nw", "-ne", "-ne-nw", "-ne-s", "-ne-s-nw", "-ne-s-sw", "-ne-s-sw-nw", "-ne-se", "-ne-se-nw", "-ne-se-s", "-ne-se-s-nw", "-ne-se-s-sw", "-ne-se-s-sw-nw", "-ne-se-sw", "-ne-se-sw-nw", "-ne-sw", "-ne-sw-nw", "-nw", "-s", "-s-nw", "-s-sw", "-s-sw-nw", "-se", "-se-nw", "-se-s", "-se-s-nw", "-se-s-sw", "-se-s-sw-nw", "-se-sw", "-se-sw-nw", "-sw", "-sw-nw"
+    ]
+    
     let map: MapModel?
+    
+    public let allTerrainTextureNames: [String]
+    public let allCoastTextureNames: [String]
+    public let allRiverTextureNames: [String]
+    public let allFeatureTextureNames: [String]
+    public let allIceFeatureTextureNames: [String]
+    public let allResourceTextureNames: [String]
     
     public init(map: MapModel?) {
         
         self.map = map
+        self.allTerrainTextureNames = [
+            "terrain_desert", "terrain_plains_hills3", "terrain_grass_hills3", "terrain_desert_hills", "terrain_tundra", "terrain_desert_hills2", "terrain_tundra2", "terrain_shore", "terrain_desert_hills3", "terrain_ocean", "terrain_tundra3", "terrain_snow", "terrain_plains", "terrain_snow_hills", "terrain_grass", "terrain_snow_hills2", "terrain_tundra_hills", "terrain_plains_hills", "terrain_plains_hills2", "terrain_grass_hills", "terrain_snow_hills3", "terrain_grass_hills2"
+        ]
+        
+        self.allCoastTextureNames = Textures.allTextureSuffixes.map({ "beach\($0)" })
+        
+        self.allRiverTextureNames = [
+            "river-mouth-e", "river-n-se", "river-mouth-se", "river-ne", "river-n-ne-se", "river-mouth-ne", "river-n", "river-mouth-sw", "river-se", "river-n-ne", "river-mouth-nw", "river-ne-se", "river-mouth-w"
+        ]
+        
+        self.allFeatureTextureNames = [
+            "feature_atoll", "feature_mountains_ne_sw", "feature_ice5", "feature_rainforest1", "feature_delicateArch", "feature_mountains_nw", "feature_ice6", "feature_rainforest2", "feature_floodplains", "feature_mountains_se", "feature_marsh1", "feature_mountains_se_nw", "feature_reef", "feature_forest1", "feature_marsh2", "feature_mountains_sw", "feature_uluru", "feature_forest2", "feature_mountEverest", "feature_none", "feature_galapagos", "feature_mountKilimanjaro", "feature_yosemite", "feature_greatBarrierReef", "feature_mountains1", "feature_oasis1", "feature_ice1", "feature_mountains2", "feature_oasis2", "feature_ice2", "feature_mountains3", "feature_pantanal", "feature_ice3", "feature_pine1", "feature_mountains_ne", "feature_ice4", "feature_pine1", "feature_pine2"
+        ]
+        
+        self.allIceFeatureTextureNames = Textures.allTextureSuffixes.map({ "feature_ice\($0)" }) + Textures.allTextureSuffixes.map({ "feature_ice-to-water\($0)" })
+        
+        self.allResourceTextureNames = [
+            "resource_banana", "resource_marble", "resource_deer", "resource_sheep", "resource_horse", "resource_whales", "resource_cattle", "resource_niter", "resource_dyes", "resource_silk", "resource_incense", "resource_wheat", "resource_coal", "resource_oil", "resource_fish", "resource_spices", "resource_iron", "resource_wine", "resource_copper", "resource_pearls", "resource_furs", "resource_stone", "resource_ivory", "resource_cotton", "resource_rice", "resource_gold", "resource_uranium"
+        ]
     }
-    
+
     public func coastTexture(at point: HexPoint) -> String? {
         
         guard let map = self.map else {

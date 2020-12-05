@@ -1,10 +1,12 @@
 {
   "images" : [
     {
+      "filename" : "resource_dyes@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "resource_dyes@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

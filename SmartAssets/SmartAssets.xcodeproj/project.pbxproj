@@ -43,6 +43,7 @@
 		C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTypeExtension.swift; sourceTree = "<group>"; };
 		C98E68B02577D28E00BD93CA /* TerrainTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerrainTypeExtension.swift; sourceTree = "<group>"; };
 		C98E68B62577D8C900BD93CA /* Tiles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Tiles.xcassets; sourceTree = "<group>"; };
+		C98E68BA25794C0E00BD93CA /* CheckScript.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = CheckScript.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +78,7 @@
 		C931ADC72577D06D0002BA2F /* SmartAssets */ = {
 			isa = PBXGroup;
 			children = (
+				C98E68BA25794C0E00BD93CA /* CheckScript.swift */,
 				C98E68B52577D8B400BD93CA /* Resources */,
 				C98E68B42577D29600BD93CA /* Data */,
 				C931ADD12577D0E30002BA2F /* Textures.swift */,
