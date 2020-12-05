@@ -64,8 +64,8 @@ class MapView: NSView {
                 print("set new size: \(size)")
             }
             
-            let iceFeatureTiles = map?.points().filter({ map?.tile(at: $0)?.feature() == .ice})
-            print("ice tiles: \(iceFeatureTiles?.count)")
+            // let iceFeatureTiles = map?.points().filter({ map?.tile(at: $0)?.feature() == .ice})
+            // print("ice tiles: \(iceFeatureTiles?.count)")
             
             self.textures = Textures(map: map)
 
@@ -307,6 +307,8 @@ class MapView: NSView {
         if let size = self.map?.contentSize() {
             self.widthConstraint?.constant = (size.width + 10) * self.scale
             self.heightConstraint?.constant = size.height * self.scale
+            
+            self.frame = NSMakeRect(0, 0, (size.width + 10) * self.scale, size.height * self.scale)
 
             print("set new size: \(size)")
         }
