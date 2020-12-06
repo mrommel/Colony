@@ -23,6 +23,17 @@ extension TerrainType {
         case .snow: return "Snow"
         }
     }
+    
+    public static func from(name: String) -> TerrainType? {
+        
+        for terrain in TerrainType.all {
+            if terrain.name() == name {
+                return terrain
+            }
+        }
+        
+        return nil
+    }
 
     public func textureNames() -> [String] {
 

@@ -164,7 +164,7 @@ public protocol AbstractTile: Codable {
     func set(builderAIScratchPad: BuilderAIScratchPad)
 }
 
-class Tile: AbstractTile {
+public class Tile: AbstractTile {
 
     enum CodingKeys: CodingKey {
 
@@ -191,8 +191,8 @@ class Tile: AbstractTile {
         case buildProgress
     }
 
-    var point: HexPoint
-    var area: HexArea?
+    public var point: HexPoint
+    public var area: HexArea?
 
     private var terrainVal: TerrainType
     private var hillsVal: Bool
@@ -224,7 +224,7 @@ class Tile: AbstractTile {
 
     private var builderAIScratchPadValue: BuilderAIScratchPad
 
-    init(point: HexPoint, terrain: TerrainType, hills: Bool = false, feature: FeatureType = .none) {
+    public init(point: HexPoint, terrain: TerrainType, hills: Bool = false, feature: FeatureType = .none) {
 
         self.point = point
         self.terrainVal = terrain
@@ -252,7 +252,7 @@ class Tile: AbstractTile {
         self.builderAIScratchPadValue = BuilderAIScratchPad(turn: -1, routeType: .none, leader: .none, value: -1)
     }
 
-    required init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -299,7 +299,7 @@ class Tile: AbstractTile {
         self.builderAIScratchPadValue = BuilderAIScratchPad(turn: -1, routeType: .none, leader: .none, value: -1)
     }
 
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
 
@@ -344,27 +344,27 @@ class Tile: AbstractTile {
 
     // for tests
 
-    internal func set(terrain: TerrainType) {
+    public func set(terrain: TerrainType) {
 
         self.terrainVal = terrain
     }
 
-    func terrain() -> TerrainType {
+    public func terrain() -> TerrainType {
 
         return self.terrainVal
     }
 
-    func hasHills() -> Bool {
+    public func hasHills() -> Bool {
 
         return self.hillsVal
     }
 
-    func set(hills: Bool) {
+    public func set(hills: Bool) {
 
         self.hillsVal = hills
     }
 
-    func defenseModifier(for player: AbstractPlayer?) -> Int {
+    public func defenseModifier(for player: AbstractPlayer?) -> Int {
 
         var modifier = 0
 
@@ -397,7 +397,7 @@ class Tile: AbstractTile {
     }
 
     /// Is this a plot that's friendly to our team? (owned by us or someone we have Open Borders with)
-    func isFriendlyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+    public func isFriendlyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
         guard let player = player else {
             fatalError("cant get player")
@@ -430,7 +430,7 @@ class Tile: AbstractTile {
         return false
     }
     
-    func isEnemyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+    public func isEnemyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
         guard let player = player else {
             fatalError("cant get player")
@@ -463,12 +463,12 @@ class Tile: AbstractTile {
         return false
     }
 
-    func isFriendlyCity(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+    public func isFriendlyCity(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
         return self.isFriendlyTerritory(for: player, in: gameModel) && self.isCity()
     }
 
-    func isVisibleToEnemy(of player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+    public func isVisibleToEnemy(of player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -502,7 +502,7 @@ class Tile: AbstractTile {
         return false
     }
 
-    func isOpenGround() -> Bool {
+    public func isOpenGround() -> Bool {
 
         if self.hasHills() {
             return false
@@ -519,7 +519,7 @@ class Tile: AbstractTile {
         return true
     }
 
-    func isRoughGround() -> Bool {
+    public func isRoughGround() -> Bool {
 
         if self.hasHills() {
             return true
@@ -538,7 +538,7 @@ class Tile: AbstractTile {
 
     // end for tests
 
-    func yields(for player: AbstractPlayer?, ignoreFeature: Bool) -> Yields {
+    public func yields(for player: AbstractPlayer?, ignoreFeature: Bool) -> Yields {
 
         var returnYields = Yields(food: 0, production: 0, gold: 0, science: 0)
 
@@ -582,7 +582,7 @@ class Tile: AbstractTile {
         return false
     }*/
 
-    func yieldsWith(buildType: BuildType, for player: AbstractPlayer?, ignoreFeature: Bool = false) -> Yields {
+    public func yieldsWith(buildType: BuildType, for player: AbstractPlayer?, ignoreFeature: Bool = false) -> Yields {
 
         // Will the build remove the feature?
         var ignoreFeatureValue = ignoreFeature
@@ -623,17 +623,17 @@ class Tile: AbstractTile {
 
     // MARK: improvement methods
 
-    func hasAnyImprovement() -> Bool {
+    public func hasAnyImprovement() -> Bool {
 
         return self.improvementValue != .none
     }
 
-    func improvement() -> ImprovementType {
+    public func improvement() -> ImprovementType {
 
         return self.improvementValue
     }
 
-    func possibleImprovements() -> [ImprovementType] {
+    public func possibleImprovements() -> [ImprovementType] {
 
         var possibleTileImprovements: [ImprovementType] = []
 
@@ -647,7 +647,7 @@ class Tile: AbstractTile {
         return possibleTileImprovements
     }
 
-    func removeImprovement() {
+    public func removeImprovement() {
 
         self.set(improvement: .none)
     }
@@ -669,12 +669,12 @@ class Tile: AbstractTile {
         }
     }
 
-    func has(improvement: ImprovementType) -> Bool {
+    public func has(improvement: ImprovementType) -> Bool {
 
         return self.improvementValue == improvement
     }
 
-    func set(improvement improvementType: ImprovementType) {
+    public func set(improvement improvementType: ImprovementType) {
 
         let oldImprovement = self.improvement()
 
@@ -858,21 +858,21 @@ class Tile: AbstractTile {
         }
     }
 
-    func isImprovementPillaged() -> Bool {
+    public func isImprovementPillaged() -> Bool {
 
         return self.improvementPillagedValue
     }
 
-    func setImprovement(pillaged: Bool) {
+    public func setImprovement(pillaged: Bool) {
 
         self.improvementPillagedValue = pillaged
     }
 
-    func doImprovement() {
+    public func doImprovement() {
 
     }
 
-    func productionFromFeatureRemoval(by buildType: BuildType) -> Int {
+    public func productionFromFeatureRemoval(by buildType: BuildType) -> Int {
 
         if !self.hasAnyFeature() {
             return 0
@@ -894,27 +894,27 @@ class Tile: AbstractTile {
         return 0
     }
 
-    func has(route: RouteType) -> Bool {
+    public func has(route: RouteType) -> Bool {
 
         return self.routeValue == route
     }
     
-    func hasAnyRoute() -> Bool {
+    public func hasAnyRoute() -> Bool {
 
         return self.routeValue != .none
     }
 
-    func canBePillaged() -> Bool {
+    public func canBePillaged() -> Bool {
 
         return self.improvementValue.canBePillaged()
     }
 
-    func isRoutePillaged() -> Bool {
+    public func isRoutePillaged() -> Bool {
 
         return self.routePillagedValue
     }
 
-    func setRoute(pillaged: Bool) {
+    public func setRoute(pillaged: Bool) {
 
         self.routePillagedValue = pillaged
 
@@ -934,7 +934,7 @@ class Tile: AbstractTile {
         return self.routeValue
     }
 
-    func canBuild(buildType: BuildType, by player: AbstractPlayer?) -> Bool {
+    public func canBuild(buildType: BuildType, by player: AbstractPlayer?) -> Bool {
 
         // Can't build nothing!
         if buildType == .none {
@@ -967,7 +967,7 @@ class Tile: AbstractTile {
         self.ownerLeaderValue = .none
     }
 
-    func set(owner: AbstractPlayer?) throws {
+    public func set(owner: AbstractPlayer?) throws {
 
         if owner == nil {
             throw TileError.emptyOwner
@@ -981,44 +981,44 @@ class Tile: AbstractTile {
         self.ownerLeaderValue = owner!.leader
     }
 
-    func owner() -> AbstractPlayer? {
+    public func owner() -> AbstractPlayer? {
 
         return self.ownerValue
     }
 
-    func hasOwner() -> Bool {
+    public func hasOwner() -> Bool {
 
         return self.ownerValue != nil
     }
     
-    func ownerLeader() -> LeaderType {
+    public func ownerLeader() -> LeaderType {
         
         return self.ownerLeaderValue
     }
 
     // MARK: work related methods
 
-    func isCity() -> Bool {
+    public func isCity() -> Bool {
 
         return self.city != nil
     }
 
-    func set(city: AbstractCity?) throws {
+    public func set(city: AbstractCity?) throws {
 
         self.city = city
     }
 
-    func isWorked() -> Bool {
+    public func isWorked() -> Bool {
 
         return self.workedBy != nil
     }
 
-    func workingCity() -> AbstractCity? {
+    public func workingCity() -> AbstractCity? {
 
         return self.workedBy
     }
     
-    internal func workingCityName() -> String? {
+    public func workingCityName() -> String? {
 
         return self.workedByCityName
     }
@@ -1032,7 +1032,7 @@ class Tile: AbstractTile {
         self.workedBy = nil
     }
 
-    func setWorkingCity(to city: AbstractCity?) throws {
+    public func setWorkingCity(to city: AbstractCity?) throws {
 
         if city == nil {
             throw TileError.emptyWorker
@@ -1047,12 +1047,12 @@ class Tile: AbstractTile {
 
     // MARK: ...
 
-    func isDiscovered(by player: AbstractPlayer?) -> Bool {
+    public func isDiscovered(by player: AbstractPlayer?) -> Bool {
 
         return self.discovered.isDiscovered(by: player)
     }
 
-    func discover(by player: AbstractPlayer?, in gameModel: GameModel?) {
+    public func discover(by player: AbstractPlayer?, in gameModel: GameModel?) {
 
         guard let player = player else {
             fatalError("cant get player")
@@ -1076,57 +1076,57 @@ class Tile: AbstractTile {
 
     // MARK: sight
 
-    func isVisible(to player: AbstractPlayer?) -> Bool {
+    public func isVisible(to player: AbstractPlayer?) -> Bool {
 
         return self.discovered.isVisible(to: player)
     }
     
-    func isVisibleAny() -> Bool {
+    public func isVisibleAny() -> Bool {
         
         return self.discovered.isVisibleAny()
     }
 
-    func sight(by player: AbstractPlayer?) {
+    public func sight(by player: AbstractPlayer?) {
 
         self.discovered.sight(by: player)
     }
 
-    func conceal(to player: AbstractPlayer?) {
+    public func conceal(to player: AbstractPlayer?) {
 
         self.discovered.conceal(to: player)
     }
 
     // MARK: feature methods
 
-    func hasAnyFeature() -> Bool {
+    public func hasAnyFeature() -> Bool {
 
         return self.featureValue != .none
     }
 
-    func feature() -> FeatureType {
+    public func feature() -> FeatureType {
 
         return self.featureValue
     }
 
-    func has(feature: FeatureType) -> Bool {
+    public func has(feature: FeatureType) -> Bool {
 
         return self.featureValue == feature
     }
 
-    func set(feature: FeatureType) {
+    public func set(feature: FeatureType) {
 
         self.featureValue = feature
     }
 
     // MARK: resource methods
 
-    func hasAnyResource(for player: AbstractPlayer?) -> Bool {
+    public func hasAnyResource(for player: AbstractPlayer?) -> Bool {
 
         return self.resource(for: player) != .none
     }
 
     // if no player is provided, no check for tech
-    func resource(for player: AbstractPlayer?) -> ResourceType {
+    public func resource(for player: AbstractPlayer?) -> ResourceType {
 
         if self.resourceValue != .none {
 
@@ -1149,37 +1149,37 @@ class Tile: AbstractTile {
         return .none
     }
 
-    func has(resource: ResourceType, for player: AbstractPlayer?) -> Bool {
+    public func has(resource: ResourceType, for player: AbstractPlayer?) -> Bool {
 
         return self.resource(for: player) == resource
     }
 
-    func set(resource: ResourceType) {
+    public func set(resource: ResourceType) {
 
         self.resourceValue = resource
     }
 
-    func has(resourceType: ResourceUsageType, for player: AbstractPlayer?) -> Bool {
+    public func has(resourceType: ResourceUsageType, for player: AbstractPlayer?) -> Bool {
 
         return self.resource(for: player).usage() == resourceType
     }
 
-    func set(resourceQuantity: Int) {
+    public func set(resourceQuantity: Int) {
 
         self.resourceQuantityValue = resourceQuantity
     }
 
-    func resourceQuantity() -> Int {
+    public func resourceQuantity() -> Int {
 
         return self.resourceQuantityValue
     }
 
-    func isWater() -> Bool {
+    public func isWater() -> Bool {
         
         return self.terrainVal.isWater()
     }
     
-    func isLand() -> Bool {
+    public func isLand() -> Bool {
         
         return self.terrainVal.isLand()
     }
@@ -1201,7 +1201,7 @@ class Tile: AbstractTile {
         return true
     }
 
-    func isValidDomainFor(unit: AbstractUnit?) -> Bool {
+    public func isValidDomainFor(unit: AbstractUnit?) -> Bool {
 
         if self.isValidDomainForAction(of: unit) {
             return true
@@ -1210,7 +1210,7 @@ class Tile: AbstractTile {
         return self.isCity()
     }
 
-    func isValidDomainForAction(of unit: AbstractUnit?) -> Bool {
+    public func isValidDomainForAction(of unit: AbstractUnit?) -> Bool {
 
         guard let unit = unit else {
             fatalError("cant get unit")
@@ -1229,7 +1229,7 @@ class Tile: AbstractTile {
         }
     }
 
-    func canHave(resource: ResourceType, ignoreLatitude: Bool = false, in mapModel: MapModel?) -> Bool {
+    public func canHave(resource: ResourceType, ignoreLatitude: Bool = false, in mapModel: MapModel?) -> Bool {
 
         guard let mapModel = mapModel else {
             fatalError("cant get gameModel")
@@ -1317,23 +1317,23 @@ class Tile: AbstractTile {
 
     // MARK: ocean / continent methods
 
-    func set(ocean: Ocean?) {
+    public func set(ocean: Ocean?) {
 
         self.ocean = ocean
     }
 
-    func set(continent: Continent?) {
+    public func set(continent: Continent?) {
 
         self.continentValue = continent
     }
 
-    func set(river: River?, with flow: FlowDirection) throws {
+    public func set(river: River?, with flow: FlowDirection) throws {
         self.riverName = river?.name
 
         try setRiver(flow: flow)
     }
 
-    func isRiver() -> Bool {
+    public func isRiver() -> Bool {
 
         return self.riverName != nil && (self.isRiverInNorth() || self.isRiverInNorthEast() || self.isRiverInSouthEast())
     }
@@ -1451,7 +1451,7 @@ class Tile: AbstractTile {
         return result
     }
 
-    func isImpassable(for movementType: UnitMovementType) -> Bool {
+    public func isImpassable(for movementType: UnitMovementType) -> Bool {
 
         // start with terrain cost
         let terrainCost = self.terrain().movementCost(for: movementType)
@@ -1474,7 +1474,7 @@ class Tile: AbstractTile {
 
     /// cost to enter a terrain given the specified movementType
     /// -1.0 means not possible
-    func movementCost(for movementType: UnitMovementType, from source: AbstractTile) -> Double {
+    public func movementCost(for movementType: UnitMovementType, from source: AbstractTile) -> Double {
 
         // start with terrain cost
         var terrainCost = self.terrain().movementCost(for: movementType)
@@ -1548,7 +1548,7 @@ class Tile: AbstractTile {
         return self.point.distance(to: candidate) == 1
     }
 
-    func isRiverToCross(towards target: AbstractTile) -> Bool {
+    public func isRiverToCross(towards target: AbstractTile) -> Bool {
 
         if !self.isNeighbor(to: target.point) {
             return false
@@ -1579,7 +1579,7 @@ class Tile: AbstractTile {
         }
     }
 
-    func seeThroughLevel() -> Int {
+    public func seeThroughLevel() -> Int {
 
         var level = 0
 
@@ -1603,7 +1603,7 @@ class Tile: AbstractTile {
     }
 
     // FIXME wrap world !
-    func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, in gameModel: GameModel?) -> Bool {
+    public func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1646,17 +1646,17 @@ class Tile: AbstractTile {
         return false
     }
 
-    func isOn(continent: Continent?) -> Bool {
+    public func isOn(continent: Continent?) -> Bool {
 
         return self.continentValue?.identifier == continent?.identifier
     }
 
-    func sameContinent(as otherTile: AbstractTile) -> Bool {
+    public func sameContinent(as otherTile: AbstractTile) -> Bool {
 
         return otherTile.isOn(continent: self.continentValue)
     }
 
-    func continentIdentifier() -> String? {
+    public func continentIdentifier() -> String? {
 
         if let identifier = self.continentValue?.identifier {
             return "\(identifier)"
@@ -1666,12 +1666,12 @@ class Tile: AbstractTile {
     }
 
     // scratch pad
-    func builderAIScratchPad() -> BuilderAIScratchPad {
+    public func builderAIScratchPad() -> BuilderAIScratchPad {
 
         return self.builderAIScratchPadValue
     }
 
-    func set(builderAIScratchPad: BuilderAIScratchPad) {
+    public func set(builderAIScratchPad: BuilderAIScratchPad) {
 
         self.builderAIScratchPadValue = builderAIScratchPad
     }
@@ -1685,7 +1685,7 @@ class Tile: AbstractTile {
 
     // Returns true if build finished...
     @discardableResult
-    func changeBuildProgress(of buildType: BuildType, change: Int, for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
+    public func changeBuildProgress(of buildType: BuildType, change: Int, for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
         /*guard let gameModel = gameModel else {
          fatalError("cant get gameModel")
@@ -1885,8 +1885,15 @@ class Tile: AbstractTile {
         return (production, city)
     }
 
-    func buildProgress(of buildType: BuildType) -> Int {
+    public func buildProgress(of buildType: BuildType) -> Int {
 
         return Int(self.buildProgressList.weight(of: buildType))
+    }
+}
+
+extension Tile: Equatable {
+    
+    public static func == (lhs: Tile, rhs: Tile) -> Bool {
+        return lhs.point == rhs.point
     }
 }

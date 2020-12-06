@@ -9,7 +9,7 @@ import SmartAILibrary
 
 extension ResourceType {
 
-    public func name() -> String {
+    /*public func name() -> String {
 
         switch self {
 
@@ -53,6 +53,17 @@ extension ResourceType {
         case .uranium: return "Uranium"
         case .niter: return "Niter"
         }
+    }*/
+    
+    public static func from(name: String) -> ResourceType? {
+        
+        for resource in ResourceType.all {
+            if resource.name() == name {
+                return resource
+            }
+        }
+        
+        return nil
     }
 
     public func textureMarkerName() -> String {

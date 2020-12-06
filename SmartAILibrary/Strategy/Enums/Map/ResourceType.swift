@@ -63,7 +63,7 @@ public enum ResourceType: Int, Codable {
     // Antiquity Site
     // Shipwreck
 
-    static var all: [ResourceType] {
+    public static var all: [ResourceType] {
         return [
             // bonus
             .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .fish,
@@ -78,7 +78,7 @@ public enum ResourceType: Int, Codable {
 
     // MARK: methods
     
-    func name() -> String {
+    public func name() -> String {
         
         switch self {
             

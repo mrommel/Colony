@@ -20,6 +20,8 @@ public enum TerrainType: Int, Codable {
     case shore
     case ocean
     
+    public static let all: [TerrainType] = [.grass, .plains, .desert, .tundra, .snow, .shore, .ocean]
+    
     func yields() -> Yields {
         
         switch self {

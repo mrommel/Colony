@@ -23,7 +23,7 @@ func - (left: CGPoint, right: CGPoint) -> CGPoint {
 protocol MapViewDelegate: class {
 
     func moveBy(dx: CGFloat, dy: CGFloat)
-    func focus(on tile: AbstractTile)
+    func focus(on tile: Tile)
 }
 
 class MapView: NSView {
@@ -37,36 +37,23 @@ class MapView: NSView {
     var initialPoint: CGPoint? = nil
 
     var cursor: HexPoint = HexPoint.zero
-    
+
     var textures: Textures = Textures(map: nil)
     var imageCache: ImageCache = ImageCache()
 
     weak var delegate: MapViewDelegate?
-    
-    /*override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }*/
-    
+
     var map: MapModel? = nil {
         didSet {
-
+            print("--- map has been set ---")
             if let size = map?.contentSize() {
-                
+
                 self.frame = NSMakeRect(0, 0, (size.width + 10) * self.scale, size.height * self.scale)
-                
+
                 self.widthConstraint?.constant = (size.width + 10) * self.scale
                 self.heightConstraint?.constant = size.height * self.scale
-
-                print("set new size: \(size)")
             }
-            
-            // let iceFeatureTiles = map?.points().filter({ map?.tile(at: $0)?.feature() == .ice})
-            // print("ice tiles: \(iceFeatureTiles?.count)")
-            
+
             self.textures = Textures(map: map)
 
             self.needsDisplay = true
@@ -75,7 +62,7 @@ class MapView: NSView {
 
     var widthConstraint: NSLayoutConstraint?
     var heightConstraint: NSLayoutConstraint?
-    
+
     override func viewDidMoveToSuperview() {
 
         if self.superview != nil {
@@ -114,12 +101,12 @@ class MapView: NSView {
 
                 if let tile = self.map?.tile(at: pt) {
 
-                    // print("click at \(pt)")
-                    self.delegate?.focus(on: tile)
+                    self.delegate?.focus(on: tile as! Tile)
                     self.cursor = pt
+
+                    self.redrawTile(at: pt)
+                    //self.setNeedsDisplay(NSMakeRect(pointInView.x, pointInView.y, 48, 48))
                     //self.needsDisplay = true
-                    self.setNeedsDisplay(NSMakeRect(pointInView.x, pointInView.y, 48, 48))
-                    self.needsDisplay = true
                 }
             }
         }
@@ -128,13 +115,20 @@ class MapView: NSView {
         self.initialPoint = nil
     }
 
+    func redrawTile(at point: HexPoint) {
+
+        let screenPoint = HexPoint.toScreen(hex: point) + shift
+        let tileRect = CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48)
+
+        self.setNeedsDisplay(tileRect)
+        self.needsDisplay = true
+    }
+
     override func draw(_ dirtyRect: NSRect) {
 
-        // print("draw(\(dirtyRect))")
-        
         super.draw(dirtyRect)
 
-        NSColor.systemGray.setFill()
+        NSColor.darkGray.setFill()
         dirtyRect.fill()
 
         if let map = self.map {
@@ -150,11 +144,11 @@ class MapView: NSView {
 
                     let screenPoint = HexPoint.toScreen(hex: pt) + shift
                     let tileRect = CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48)
-                    
+
                     if !self.needsToDraw(tileRect) {
                         continue
                     }
-                    
+
                     guard let tile = map.tile(at: pt) else {
                         continue
                     }
@@ -173,10 +167,10 @@ class MapView: NSView {
 
                     // fetch from cache
                     context?.draw(self.imageCache.image(for: terrainTextureName).cgImage!, in: tileRect)
-                    
+
                     // river
                     if let riverTexture = self.textures.riverTexture(at: tile.point) {
-                        
+
                         // fetch from cache
                         context?.draw(self.imageCache.image(for: riverTexture).cgImage!, in: tileRect)
                     }
@@ -184,67 +178,56 @@ class MapView: NSView {
                     // feature
                     // place forests etc
                     if tile.feature() != .none {
-                        
+
                         let neighborTileN = map.tile(at: pt.neighbor(in: .north))
                         let neighborTileNE = map.tile(at: pt.neighbor(in: .northeast))
                         let neighborTileSE = map.tile(at: pt.neighbor(in: .southeast))
                         let neighborTileS = map.tile(at: pt.neighbor(in: .south))
                         let neighborTileSW = map.tile(at: pt.neighbor(in: .southwest))
                         let neighborTileNW = map.tile(at: pt.neighbor(in: .northwest))
-                        
-                        let neighborTiles: [HexDirection: AbstractTile?]  = [
-                            .north: neighborTileN,
-                            .northeast: neighborTileNE,
-                            .southeast: neighborTileSE,
-                            .south: neighborTileS,
-                            .southwest: neighborTileSW,
-                            .northwest: neighborTileNW
+
+                        let neighborTiles: [HexDirection: AbstractTile?] = [
+                                .north: neighborTileN,
+                                .northeast: neighborTileNE,
+                                .southeast: neighborTileSE,
+                                .south: neighborTileS,
+                                .southwest: neighborTileSW,
+                                .northwest: neighborTileNW
                         ]
-                        
+
                         if let featureTextureName = self.textures.featureTexture(for: tile, neighborTiles: neighborTiles) {
-                            
+
                             // fetch from cache
                             context?.draw(self.imageCache.image(for: featureTextureName).cgImage!, in: tileRect)
                         }
                     }
-                    
+
                     if tile.feature() != .ice {
-                        
+
                         if let iceTextureName = self.textures.iceTexture(at: tile.point) {
 
-                            // populate cache if needed
-                            /*if !self.imageCache.exists(key: iceTextureName) {
-                                self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: iceTextureName), for: iceTextureName)
-                                //self.imageCache.add(image: NSImage(named: iceTextureName), for: iceTextureName)
-                            }*/
-                            
                             // fetch from cache
                             context?.draw(self.imageCache.image(for: iceTextureName).cgImage!, in: tileRect)
                         }
                     }
-                    
+
                     // resource
                     if tile.resource(for: nil) != .none {
-                        
+
                         let resourceTextureName = tile.resource(for: nil).textureName()
-                        
-                        // populate cache if needed
-                        /*if !self.imageCache.exists(key: resourceTextureName) {
-                            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: resourceTextureName), for: resourceTextureName)
-                        }*/
-                        
+
                         // fetch from cache
                         context?.draw(self.imageCache.image(for: resourceTextureName).cgImage!, in: tileRect)
                     }
 
                     // cursor
                     if cursor == pt {
-                        
+
                         // populate cache if needed
                         if !self.imageCache.exists(key: "cursor") {
                             self.imageCache.add(image: NSImage(named: "cursor"), for: "cursor")
                         }
-                        
+
                         // fetch from cache
                         context?.draw(self.imageCache.image(for: "cursor").cgImage!, in: tileRect)
                     }
@@ -256,44 +239,42 @@ class MapView: NSView {
     private func setup() {
 
         self.frame = NSMakeRect(0, 0, 1000.0, 1000.0)
-        
+
         self.widthConstraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1000.0)
         self.heightConstraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1000.0)
-        
+
         self.addConstraints([self.widthConstraint!, self.heightConstraint!])
-        
+
         // load assets into image cache
         print("-- pre-load images --")
-        
+
         print("- load \(self.textures.allTerrainTextureNames.count) terrain, \(self.textures.allRiverTextureNames.count) river and \(self.textures.allCoastTextureNames.count) coast textures")
         for terrainTextureName in self.textures.allTerrainTextureNames {
             self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: terrainTextureName), for: terrainTextureName)
         }
-        
+
         for coastTextureName in self.textures.allCoastTextureNames {
             self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: coastTextureName), for: coastTextureName)
         }
-        
+
         for riverTextureName in self.textures.allRiverTextureNames {
             self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: riverTextureName), for: riverTextureName)
         }
-        
+
         print("- load \(self.textures.allFeatureTextureNames.count) feature (+ \(self.textures.allIceFeatureTextureNames.count) ice) textures")
         for featureTextureName in self.textures.allFeatureTextureNames {
             self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: featureTextureName), for: featureTextureName)
         }
-        
+
         for iceFeatureTextureName in self.textures.allIceFeatureTextureNames {
             self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
         }
-        
+
         print("- load \(self.textures.allResourceTextureNames.count) resource textures")
         for resourceTextureName in self.textures.allResourceTextureNames {
             self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: resourceTextureName), for: resourceTextureName)
         }
-        
-        // feature_ice-se-sw
-        
+
         print("-- all textures loaded --")
     }
 
@@ -302,19 +283,25 @@ class MapView: NSView {
     ///
     func setViewSize(_ value: CGFloat) {
 
+        if self.scale == value {
+            // nothing to do
+            return
+        }
+        
         self.scale = value
 
         if let size = self.map?.contentSize() {
             self.widthConstraint?.constant = (size.width + 10) * self.scale
             self.heightConstraint?.constant = size.height * self.scale
-            
+
             self.frame = NSMakeRect(0, 0, (size.width + 10) * self.scale, size.height * self.scale)
 
-            print("set new size: \(size)")
-        }
+            print("setting value \(value) leads to new size: \(size)")
 
-        // First, match our scaling to the window's coordinate system
-        self.scaleUnitSquare(to: NSMakeSize(CGFloat(value), CGFloat(value)))
-        self.needsDisplay = true
+            // First, match our scaling to the window's coordinate system
+            self.scaleUnitSquare(to: NSMakeSize(CGFloat(value), CGFloat(value)))
+            self.setNeedsDisplay(NSMakeRect(0, 0, (size.width + 10) * self.scale, size.height * self.scale))
+            self.needsDisplay = true
+        }
     }
 }

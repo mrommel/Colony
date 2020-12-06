@@ -37,7 +37,7 @@ public enum FeatureType: Int, Codable {
     // death valley
     
 
-    static var all: [FeatureType] {
+    public static var all: [FeatureType] {
         return [
             .forest, .rainforest, .floodplains, .marsh, .oasis, .reef, .ice, .atoll,
             

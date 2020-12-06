@@ -37,6 +37,17 @@ extension FeatureType {
         }
     }*/
     
+    public static func from(name: String) -> FeatureType? {
+        
+        for feature in FeatureType.all {
+            if feature.name() == name {
+                return feature
+            }
+        }
+        
+        return nil
+    }
+    
     public func textureNames() -> [String] {
         
         switch self {
