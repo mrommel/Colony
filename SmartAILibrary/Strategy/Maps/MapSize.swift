@@ -142,3 +142,8 @@ extension MapSize: Codable {
         }
     }
 }
+
+extension MapSize: Equatable {
+    
+    
+}

@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import AppKit
 
 class MapEditorMenu: NSMenu {
 
@@ -27,20 +28,20 @@ class MapEditorMenu: NSMenu {
             NSMenuItem.separator(),
             NSMenuItem(title: "Quit \(applicationName)", action: #selector(NSApplication.shared.terminate(_:)), keyEquivalent: "q")
         ]
-        
+
         let fileMenu = NSMenuItem()
         fileMenu.submenu = NSMenu(title: "File")
         fileMenu.submenu?.items = [
-            NSMenuItem(title: "New", action: #selector(NSDocumentController.newDocument(_:)), keyEquivalent: "n"),
+            NSMenuItem(title: "New", target: self, action: #selector(MapEditorMenu.newMap(_:)), keyEquivalent: "n"),
             NSMenuItem(title: "Open", action: #selector(NSDocumentController.openDocument(_:)), keyEquivalent: "o"),
-            NSMenuItem.separator(),
-            NSMenuItem(title: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w"),
             NSMenuItem.separator(),
             NSMenuItem(title: "Save", action: #selector(NSDocument.save(_:)), keyEquivalent: "s"),
             NSMenuItem(title: "Save As...", action: #selector(NSDocument.saveAs(_:)), keyEquivalent: "S"),
-            NSMenuItem(title: "Revert to Saved...", action: #selector(NSDocument.revertToSaved(_:)), keyEquivalent: ""),
+            //NSMenuItem(title: "Revert to Saved...", action: #selector(NSDocument.revertToSaved(_:)), keyEquivalent: ""),
+            //NSMenuItem.separator(),
+            //NSMenuItem(title: "Export", action: nil, keyEquivalent: ""),
             NSMenuItem.separator(),
-            NSMenuItem(title: "Export", action: nil, keyEquivalent: ""),
+            NSMenuItem(title: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w"),
         ]
 
         let editMenu = NSMenuItem()
@@ -58,7 +59,7 @@ class MapEditorMenu: NSMenu {
             NSMenuItem(title: "Delete", target: self, action: nil, keyEquivalent: "⌫", modifier: .init()),
             NSMenuItem(title: "Duplicate", action: #selector(NSApplication.copy), keyEquivalent: "d"),
         ]
-        
+
         let viewMenu = NSMenuItem()
         viewMenu.submenu = NSMenu(title: "View")
         viewMenu.submenu?.items = []
@@ -71,19 +72,40 @@ class MapEditorMenu: NSMenu {
             NSMenuItem.separator(),
             NSMenuItem(title: "Show All", action: #selector(NSApplication.arrangeInFront(_:)), keyEquivalent: "m")
         ]
-        
+
         let helpMenu = NSMenuItem()
         let helpMenuSearch = NSMenuItem()
         helpMenuSearch.view = NSTextField()
         helpMenu.submenu = NSMenu(title: "Help")
         helpMenu.submenu?.items = [
             helpMenuSearch,
+            NSMenuItem(title: "Documentation", target: self, action: #selector(openDocumentation(_:)), keyEquivalent: ""),
         ]
-        
+
         self.items = [mainMenu, fileMenu, editMenu, viewMenu, windowMenu, helpMenu]
     }
 
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension MapEditorMenu {
+
+    @objc fileprivate func newMap(_ sender: AnyObject) {
+        print("newMap")
+        
+        if let window = NSApplication.shared.windows.first,
+           let editorViewController = window.contentViewController as? EditorViewController {
+
+            let newMapViewController = NewMapViewController()
+            //newMapViewController.
+            editorViewController.presentAsSheet(newMapViewController)
+        }
+        
+    }
+    
+    @objc fileprivate func openDocumentation(_ sender: AnyObject) {
+        NSWorkspace.shared.open(URL(string: "https://github.com/mrommel/Colony/wiki")!)
     }
 }

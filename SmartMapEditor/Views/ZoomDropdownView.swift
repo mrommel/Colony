@@ -10,7 +10,8 @@ import Cocoa
 
 struct ZoomDropdownView: NSViewRepresentable {
 
-    @ObservedObject var viewModel: ContentViewModel
+    @ObservedObject
+    var viewModel: EditorContentViewModel
 
     //var onSelect: ((_ key: String) -> Void)?
     let options: [String] = ["0.5", "1.0", "2.0"]
@@ -70,19 +71,19 @@ struct ZoomDropdownView: NSViewRepresentable {
         }
         
         @objc func scaleHalfAction(_ sender: NSMenuItem) {
-            let viewModel = sender.representedObject as! ContentViewModel
+            let viewModel = sender.representedObject as! EditorContentViewModel
             viewModel.setZoom(to: 0.5)
             //self.parent?.onSelect?("0.5")
         }
         
         @objc func scaleNormalAction(_ sender: NSMenuItem) {
-            let viewModel = sender.representedObject as! ContentViewModel
+            let viewModel = sender.representedObject as! EditorContentViewModel
             viewModel.setZoom(to: 1.0)
             //self.parent?.onSelect?("1.0")
         }
         
         @objc func scaleDoubleAction(_ sender: NSMenuItem) {
-            let viewModel = sender.representedObject as! ContentViewModel
+            let viewModel = sender.representedObject as! EditorContentViewModel
             viewModel.setZoom(to: 2.0)
             //self.parent?.onSelect?("2.0")
         }

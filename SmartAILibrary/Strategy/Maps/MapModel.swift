@@ -676,3 +676,16 @@ public class MapModel: Codable {
         return CGSize(width: maxX - minX, height: maxY - minY)
     }
 }
+
+extension MapModel: Equatable {
+    
+    public static func == (lhs: MapModel, rhs: MapModel) -> Bool {
+        
+        lhs.updateStatistics()
+        rhs.updateStatistics()
+        
+        return lhs.size == rhs.size &&
+            lhs.numberOfWaterPlots() == rhs.numberOfWaterPlots() &&
+            lhs.numberOfLandPlots() == rhs.numberOfLandPlots()
+    }
+}

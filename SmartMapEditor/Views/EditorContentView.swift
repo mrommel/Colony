@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  EditorContentView.swift
 //  SmartMapEditor
 //
 //  Created by Michael Rommel on 30.11.20.
@@ -9,16 +9,15 @@ import SwiftUI
 import Cocoa
 import SmartAILibrary
 
-
-struct ContentView: View {
+struct EditorContentView: View {
 
     @ObservedObject
-    private var viewModel: ContentViewModel = ContentViewModel()
+    private var viewModel: EditorContentViewModel = EditorContentViewModel()
 
     var body: some View {
         HStack {
             VStack {
-                MapScrollContentView(viewModel: viewModel)
+                MapScrollContentView(viewModel: viewModel).frame(width: 1000, height: 500, alignment: .center)
 
                 HStack {
 
@@ -38,7 +37,7 @@ struct ContentView: View {
                     VStack {
                         Text("Hills")
                         //Text("---")
-                        PopupButton(selectedValue: $viewModel.focusedHillsValue, items: ["true", "false"], onChange: {
+                        PopupButton(selectedValue: $viewModel.focusedHillsValue, items: ["yes", "no"], onChange: {
                             viewModel.setHills(to: $0)
                         }).frame(width: 70, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
@@ -71,13 +70,18 @@ struct ContentView: View {
             .padding(10)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
+    
+    func set(map: MapModel?) {
+        
+        self.viewModel.map = map
+    }
 }
 
 #if DEBUG
     struct ContentView_Previews: PreviewProvider {
 
         static var previews: some View {
-            ContentView()
+            EditorContentView()
         }
     }
 #endif

@@ -8,20 +8,29 @@
 import Foundation
 import SmartAILibrary
 
-class ContentViewModel: ObservableObject {
+class EditorContentViewModel: ObservableObject {
 
-    @Published var zoom: CGFloat
+    @Published
+    var map: MapModel? = nil
+    
+    @Published
+    var zoom: CGFloat
     
     private var focus: AbstractTile? // input, leads to:
-    @Published var focusedPoint: String
-    @Published var focusedTerrainName: String
-    @Published var focusedHillsValue: String
-    @Published var focusedFeatureName: String {
+    @Published
+    var focusedPoint: String
+    @Published
+    var focusedTerrainName: String
+    @Published
+    var focusedHillsValue: String
+    @Published
+    var focusedFeatureName: String {
         didSet {
             print("change: \(focusedFeatureName)")
         }
     }
-    @Published var focusedResourceName: String
+    @Published
+    var focusedResourceName: String
     
     var didChange: ((HexPoint) -> ())? = nil
 
@@ -31,7 +40,7 @@ class ContentViewModel: ObservableObject {
         self.focus = Tile(point: HexPoint(x: -1, y: -1), terrain: TerrainType.ocean)
         self.focusedPoint = "---"
         self.focusedTerrainName = "Ocean"
-        self.focusedHillsValue = "false"
+        self.focusedHillsValue = "no"
         self.focusedFeatureName = "---"
         self.focusedResourceName = "---"
     }
@@ -51,7 +60,7 @@ class ContentViewModel: ObservableObject {
             
             self.focusedTerrainName = tile.terrain().name()
             
-            self.focusedHillsValue = tile.hasHills() ? "true" : "false"
+            self.focusedHillsValue = tile.hasHills() ? "yes" : "no"
             
             if tile.feature() == .none {
                 self.focusedFeatureName = "---"
@@ -81,7 +90,7 @@ class ContentViewModel: ObservableObject {
     
     func setHills(to value: String) {
         
-        let newHills = value == "true"
+        let newHills = value == "yes"
         if let focusTile = self.focus {
             focusTile.set(hills: newHills)
             

@@ -13,7 +13,7 @@ import SmartAILibrary
 struct MapScrollContentView: NSViewRepresentable {
 
     @ObservedObject
-    var viewModel: ContentViewModel
+    var viewModel: EditorContentViewModel
 
     typealias UIViewType = MapScrollView
 
@@ -35,39 +35,18 @@ struct MapScrollContentView: NSViewRepresentable {
         
         self.scrollView.documentView = self.mapView
 
-        // load map
-        DispatchQueue.global(qos: .background).async {
-
-            let mapOptions = MapOptions(withSize: MapSize.tiny, leader: .alexander, handicap: .settler)
-            mapOptions.enhanced.sealevel = .low
-
-            let generator = MapGenerator(with: mapOptions)
-            generator.progressHandler = { progress, text in
-                //mapLoadingDialog.showProgress(value: progress, text: text)
-                print("map - progress: \(progress)")
-            }
-
-            if let map = generator.generate() {
-
-                // ensure that this runs on UI thread
-                DispatchQueue.main.async {
-                    mapView?.map = map
-
-                    // show okay button
-                    print("map - progress: ready")
-                }
-            }
-        }
-
         return scrollView
     }
 
     func updateNSView(_ scrollView: MapScrollView, context: Context) {
 
-        print("map scroll content view update to: \(self.viewModel.zoom)")
-        //self.mapView?.setViewSize(self.viewModel.zoom)
+        // print("map scroll content view update to: \(self.viewModel.zoom)")
         if let mapView = scrollView.documentView as? MapView {
             mapView.setViewSize(self.viewModel.zoom)
+            
+            if mapView.map != self.viewModel.map {
+                mapView.map = self.viewModel.map
+            }
         }
     }
 
