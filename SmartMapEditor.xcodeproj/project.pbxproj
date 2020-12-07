@@ -38,6 +38,10 @@
 		C9AB2C66257E51CB0045DFBC /* NewMapContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C65257E51CB0045DFBC /* NewMapContentView.swift */; };
 		C9AB2C6A257E52920045DFBC /* NSViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C69257E52920045DFBC /* NSViewControllerExtension.swift */; };
 		C9AB2C6E257E66140045DFBC /* NewMapContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C6D257E66130045DFBC /* NewMapContentViewModel.swift */; };
+		C9AB2C74257EB6B10045DFBC /* MapProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C73257EB6B00045DFBC /* MapProgressViewController.swift */; };
+		C9AB2C78257EB6F10045DFBC /* MapProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C77257EB6F10045DFBC /* MapProgressView.swift */; };
+		C9AB2C7C257EB96D0045DFBC /* MapProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */; };
+		C9AB2C83257EC00E0045DFBC /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */; };
 		C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD63257286D30044F437 /* NSLabel.swift */; };
 /* End PBXBuildFile section */
 
@@ -111,6 +115,10 @@
 		C9AB2C65257E51CB0045DFBC /* NewMapContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMapContentView.swift; sourceTree = "<group>"; };
 		C9AB2C69257E52920045DFBC /* NSViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSViewControllerExtension.swift; sourceTree = "<group>"; };
 		C9AB2C6D257E66130045DFBC /* NewMapContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMapContentViewModel.swift; sourceTree = "<group>"; };
+		C9AB2C73257EB6B00045DFBC /* MapProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProgressViewController.swift; sourceTree = "<group>"; };
+		C9AB2C77257EB6F10045DFBC /* MapProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProgressView.swift; sourceTree = "<group>"; };
+		C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProgressViewModel.swift; sourceTree = "<group>"; };
+		C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C9ADAD63257286D30044F437 /* NSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -220,28 +228,40 @@
 			children = (
 				C9AB2C59257E4E6A0045DFBC /* EditorViewController.swift */,
 				C9AB2C5D257E4FFB0045DFBC /* NewMapViewController.swift */,
+				C9AB2C73257EB6B00045DFBC /* MapProgressViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		C9ADAD61257286A40044F437 /* Views */ = {
+		C9AB2C7F257EBA340045DFBC /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				C968A98A2570451F00C11F85 /* MapView.swift */,
 				C9ADAD63257286D30044F437 /* NSLabel.swift */,
 				C9070A662574F4ED00276B7D /* NSMenuItemExtension.swift */,
 				C9070A7A2575172400276B7D /* TrackingAreaView.swift */,
 				C9070A7E2575174B00276B7D /* TrackingAreaRepresentable.swift */,
 				C9070A822575176500276B7D /* TrackingNSHostingView.swift */,
 				C9070A862575178A00276B7D /* ViewExtension.swift */,
+				C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		C9ADAD61257286A40044F437 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C9AB2C7F257EBA340045DFBC /* Base */,
 				C9070A8A257517A900276B7D /* ZoomDropdownView.swift */,
+				C9AB2C54257D2E780045DFBC /* PopupButton.swift */,
+				C968A98A2570451F00C11F85 /* MapView.swift */,
 				C9070A92257517FB00276B7D /* MapScrollContentView.swift */,
+				C931ADB72577B18B0002BA2F /* MapScrollView.swift */,
 				C9070A742574F89200276B7D /* EditorContentView.swift */,
 				C9AB2C4E257D2D5E0045DFBC /* EditorContentViewModel.swift */,
-				C931ADB72577B18B0002BA2F /* MapScrollView.swift */,
-				C9AB2C54257D2E780045DFBC /* PopupButton.swift */,
 				C9AB2C65257E51CB0045DFBC /* NewMapContentView.swift */,
 				C9AB2C6D257E66130045DFBC /* NewMapContentViewModel.swift */,
+				C9AB2C77257EB6F10045DFBC /* MapProgressView.swift */,
+				C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -386,6 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9AB2C7C257EB96D0045DFBC /* MapProgressViewModel.swift in Sources */,
 				C9070A7B2575172400276B7D /* TrackingAreaView.swift in Sources */,
 				C9AB2C66257E51CB0045DFBC /* NewMapContentView.swift in Sources */,
 				C9070A612574445A00276B7D /* main.swift in Sources */,
@@ -402,13 +423,16 @@
 				C968A98B2570451F00C11F85 /* MapView.swift in Sources */,
 				C9070A6B2574F50C00276B7D /* MapEditorMenu.swift in Sources */,
 				C931ADB425769E1C0002BA2F /* ImageCache.swift in Sources */,
+				C9AB2C78257EB6F10045DFBC /* MapProgressView.swift in Sources */,
 				C968A9242570388D00C11F85 /* AppDelegate.swift in Sources */,
 				C9AB2C5A257E4E6A0045DFBC /* EditorViewController.swift in Sources */,
+				C9AB2C74257EB6B10045DFBC /* MapProgressViewController.swift in Sources */,
 				C9AB2C4F257D2D5E0045DFBC /* EditorContentViewModel.swift in Sources */,
 				C9070A712574F64600276B7D /* MapEditorToolbar.swift in Sources */,
 				C9070A872575178A00276B7D /* ViewExtension.swift in Sources */,
 				C968A9292570388D00C11F85 /* SmartMapEditor.xcdatamodeld in Sources */,
 				C9070A832575176500276B7D /* TrackingNSHostingView.swift in Sources */,
+				C9AB2C83257EC00E0045DFBC /* ActivityIndicator.swift in Sources */,
 				C9070A672574F4ED00276B7D /* NSMenuItemExtension.swift in Sources */,
 				C9070A8B257517A900276B7D /* ZoomDropdownView.swift in Sources */,
 			);

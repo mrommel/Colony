@@ -9,8 +9,8 @@ import SwiftUI
 import SmartAILibrary
 
 protocol NewMapContentViewDelegate: NSObject {
-    
-    func generated(map: MapModel?)
+
+    func clickedGenerate(mapType: MapType, mapSize: MapSize)
 }
 
 struct NewMapContentView: View {
@@ -52,10 +52,11 @@ struct NewMapContentView: View {
             Spacer()
             
             Button("Generate") {
-                // print("generate: \(viewModel.type) and \(viewModel.size)")
-                DispatchQueue.global(qos: .background).async {
-                    let map = viewModel.generate()
-                    self.delegate?.generated(map: map)
+                if let mapType: MapType = MapType.from(name: viewModel.type),
+                   let mapSize: MapSize = MapSize.from(name: viewModel.size) {
+                
+                    self.delegate?.clickedGenerate(mapType: mapType, mapSize: mapSize)
+                    // print("generate: \(viewModel.type) and \(viewModel.size)")
                 }
             }
             

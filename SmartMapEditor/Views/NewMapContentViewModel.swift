@@ -66,19 +66,4 @@ class NewMapContentViewModel: ObservableObject {
             self.type = self.typeValue.rawValue
         }
     }
-    
-    func generate() -> MapModel? {
-        
-        // generate map
-        let mapOptions = MapOptions(withSize: self.sizeValue, leader: .alexander, handicap: .settler)
-        mapOptions.enhanced.sealevel = .low
-
-        let generator = MapGenerator(with: mapOptions)
-        generator.progressHandler = { progress, text in
-            // mapLoadingDialog.showProgress(value: progress, text: text)
-            // print("map - progress: \(progress)")
-        }
-
-        return generator.generate()
-    }
 }

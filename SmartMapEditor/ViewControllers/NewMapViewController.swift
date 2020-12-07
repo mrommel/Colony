@@ -9,15 +9,8 @@ import SwiftUI
 import Cocoa
 import SmartAILibrary
 
-class NewMapViewModel {
-    
-    
-}
-
 class NewMapViewController: NSViewController {
 
-    var viewModel: NewMapViewModel?
-    
     init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -37,7 +30,7 @@ class NewMapViewController: NSViewController {
 
 extension NewMapViewController: NewMapContentViewDelegate {
     
-    func generated(map: MapModel?) {
+    func clickedGenerate(mapType: MapType, mapSize: MapSize) {
         
         DispatchQueue.main.async {
             
@@ -45,8 +38,9 @@ extension NewMapViewController: NewMapContentViewDelegate {
             
             if let window = NSApplication.shared.windows.first,
                let editorViewController = window.contentViewController as? EditorViewController {
-
-                editorViewController.viewModel.set(map: map)
+                
+                let mapProgressViewController = MapProgressViewController(mapType: .continent, mapSize: .small)
+                editorViewController.presentAsSheet(mapProgressViewController)
             }
         }
     }

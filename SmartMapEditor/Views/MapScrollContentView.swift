@@ -42,6 +42,7 @@ struct MapScrollContentView: NSViewRepresentable {
 
         // print("map scroll content view update to: \(self.viewModel.zoom)")
         if let mapView = scrollView.documentView as? MapView {
+
             mapView.setViewSize(self.viewModel.zoom)
             
             if mapView.map != self.viewModel.map {
