@@ -23,7 +23,7 @@ struct EditorContentView: View {
 
                     VStack {
                         Text("Location")
-                        Text("\($viewModel.focusedPoint.wrappedValue)")
+                        Text("\($viewModel.focusedPoint.wrappedValue)").frame(width: 80, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
 
                     VStack {
@@ -31,7 +31,7 @@ struct EditorContentView: View {
                         //Text(self.mapFocus?.terrain().name() ?? "---")
                         PopupButton(selectedValue: $viewModel.focusedTerrainName, items: TerrainType.all.map({ $0.name() }), onChange: {
                             viewModel.setTerrain(to: $0)
-                        }).frame(width: 70, height: 16, alignment: .center)
+                        }).frame(width: 80, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
 
                     VStack {
@@ -39,15 +39,22 @@ struct EditorContentView: View {
                         //Text("---")
                         PopupButton(selectedValue: $viewModel.focusedHillsValue, items: ["yes", "no"], onChange: {
                             viewModel.setHills(to: $0)
-                        }).frame(width: 70, height: 16, alignment: .center)
+                        }).frame(width: 80, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
+                    
+                    VStack {
+                        Text("River")
+                        PopupButton(selectedValue: $viewModel.focusedRiverValue, items: ["---", "n", "n-ne", "n-se", "ne-se", "n-ne-se", "se"], onChange: {
+                            viewModel.setRiver(to: $0)
+                        }).frame(width: 80, height: 16, alignment: .center)
+                    }
 
                     VStack {
                         Text("Feature")
                         //Text(self.mapFocus?.feature().name() ?? "---")
                         PopupButton(selectedValue: $viewModel.focusedFeatureName, items: ["---"] + FeatureType.all.map({ $0.name() }), onChange: {
                             viewModel.setFeature(to: $0)
-                        }).frame(width: 70, height: 16, alignment: .center)
+                        }).frame(width: 80, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
 
                     VStack {
@@ -55,7 +62,7 @@ struct EditorContentView: View {
                         //Text(self.mapFocus?.resource(for: nil).name() ?? "---")
                         PopupButton(selectedValue: $viewModel.focusedResourceName, items: ["---"] + ResourceType.all.map({ $0.name() }), onChange: {
                             viewModel.setResource(to: $0)
-                        }).frame(width: 70, height: 16, alignment: .center)
+                        }).frame(width: 80, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
 
                     Spacer()

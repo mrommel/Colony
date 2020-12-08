@@ -27,7 +27,7 @@ public class River: Codable {
     /// - Parameters:
     ///   - name: name of the `River`
     ///   - cornerPoints: list of corners that generate the edges of the river
-    init(with name: String, and cornerPoints: [HexPointWithCorner]) {
+    public init(with name: String, and cornerPoints: [HexPointWithCorner]) {
 
         self.name = name
 

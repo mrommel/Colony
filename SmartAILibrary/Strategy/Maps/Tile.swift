@@ -152,6 +152,7 @@ public protocol AbstractTile: Codable {
     func isRiverInNorthEast() -> Bool
     func isRiverInSouthEast() -> Bool
     func isRiverToCross(towards target: AbstractTile) -> Bool
+    func resetRiver()
     func set(river: River?, with flow: FlowDirection) throws
     func isRiverIn(flow: FlowDirection) -> Bool
 
@@ -1325,6 +1326,14 @@ public class Tile: AbstractTile {
     public func set(continent: Continent?) {
 
         self.continentValue = continent
+    }
+    
+    public func resetRiver() {
+        
+        self.riverName = nil
+        self.riverFlowNorth = .none
+        self.riverFlowNorthEast = .none
+        self.riverFlowSouthEast = .none
     }
 
     public func set(river: River?, with flow: FlowDirection) throws {

@@ -32,5 +32,6 @@ class ImageCache {
         }
         
         fatalError("no image with key: \(key) in cache")
+        // 
     }
 }

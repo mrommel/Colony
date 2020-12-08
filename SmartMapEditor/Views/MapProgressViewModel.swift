@@ -20,21 +20,22 @@ class MapProgressViewModel: ObservableObject {
     
     var mapCreated: MapCreatedHandler? = nil
     
-    let mapSize: MapSize
-    let mapType: MapType
-    
     init(mapType: MapType, mapSize: MapSize) {
-        
-        self.mapType = mapType
-        self.mapSize = mapSize
-        
+
         self.generating = false
         self.progress = ""
         
-        self.start()
+        switch mapType {
+        
+        case .continent:
+            self.generatingContinent(with: mapSize)
+            
+        case .empty:
+            self.generatingEmpty(with: mapSize)
+        }
     }
     
-    func start() {
+    func generatingContinent(with mapSize: MapSize) {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
             
@@ -43,7 +44,7 @@ class MapProgressViewModel: ObservableObject {
             DispatchQueue.global(qos: .background).async {
                 
                 // generate map
-                let mapOptions = MapOptions(withSize: self.mapSize, leader: .alexander, handicap: .settler)
+                let mapOptions = MapOptions(withSize: mapSize, leader: .alexander, handicap: .settler)
                 mapOptions.enhanced.sealevel = .low
 
                 let generator = MapGenerator(with: mapOptions)
@@ -54,6 +55,25 @@ class MapProgressViewModel: ObservableObject {
                 }
 
                 let map = generator.generate()
+                
+                DispatchQueue.main.async {
+                    
+                    self.generating = false
+                    self.mapCreated?(map)
+                }
+            }
+        })
+    }
+    
+    func generatingEmpty(with mapSize: MapSize) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+            
+            self.generating = true
+            
+            DispatchQueue.global(qos: .background).async {
+
+                let map = MapModel(width: mapSize.width(), height: mapSize.height())
                 
                 DispatchQueue.main.async {
                     

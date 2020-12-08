@@ -39,7 +39,7 @@ extension NewMapViewController: NewMapContentViewDelegate {
             if let window = NSApplication.shared.windows.first,
                let editorViewController = window.contentViewController as? EditorViewController {
                 
-                let mapProgressViewController = MapProgressViewController(mapType: .continent, mapSize: .small)
+                let mapProgressViewController = MapProgressViewController(mapType: mapType, mapSize: mapSize)
                 editorViewController.presentAsSheet(mapProgressViewController)
             }
         }
