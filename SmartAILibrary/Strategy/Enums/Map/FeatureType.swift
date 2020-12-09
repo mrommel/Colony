@@ -39,7 +39,7 @@ public enum FeatureType: Int, Codable {
 
     public static var all: [FeatureType] {
         return [
-            .forest, .rainforest, .floodplains, .marsh, .oasis, .reef, .ice, .atoll,
+            .forest, .rainforest, .floodplains, .marsh, .oasis, .reef, .ice, .atoll, .volcano,
             
             .mountains, .lake
         ]

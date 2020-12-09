@@ -7,6 +7,7 @@
 
 import Cocoa
 import AppKit
+import SmartAILibrary
 
 class MapEditorMenu: NSMenu {
 
@@ -33,7 +34,7 @@ class MapEditorMenu: NSMenu {
         fileMenu.submenu = NSMenu(title: "File")
         fileMenu.submenu?.items = [
             NSMenuItem(title: "New", target: self, action: #selector(MapEditorMenu.newMap(_:)), keyEquivalent: "n"),
-            NSMenuItem(title: "Open", action: #selector(NSDocumentController.openDocument(_:)), keyEquivalent: "o"),
+            NSMenuItem(title: "Open", target: self, action: #selector(MapEditorMenu.openMap(_:)), keyEquivalent: "o"),
             NSMenuItem.separator(),
             NSMenuItem(title: "Save", action: #selector(NSDocument.save(_:)), keyEquivalent: "s"),
             NSMenuItem(title: "Save As...", action: #selector(NSDocument.saveAs(_:)), keyEquivalent: "S"),
@@ -93,18 +94,46 @@ class MapEditorMenu: NSMenu {
 extension MapEditorMenu {
 
     @objc fileprivate func newMap(_ sender: AnyObject) {
-        print("newMap")
-        
+
         if let window = NSApplication.shared.windows.first,
-           let editorViewController = window.contentViewController as? EditorViewController {
+            let editorViewController = window.contentViewController as? EditorViewController {
 
             let newMapViewController = NewMapViewController()
-            //newMapViewController.
             editorViewController.presentAsSheet(newMapViewController)
         }
-        
     }
-    
+
+    @objc fileprivate func openMap(_ sender: AnyObject) {
+
+        let dialog = NSOpenPanel()
+
+        dialog.title = "Choose a .map file"
+        dialog.showsResizeIndicator = true
+        dialog.showsHiddenFiles = false
+        dialog.canChooseDirectories = true
+        dialog.canCreateDirectories = true
+        dialog.allowsMultipleSelection = false
+        dialog.allowedFileTypes = ["map"]
+
+        if dialog.runModal() == NSApplication.ModalResponse.OK {
+ 
+            if let path = dialog.url?.path {
+
+                if let window = NSApplication.shared.windows.first,
+                    let editorViewController = window.contentViewController as? EditorViewController {
+                    
+                    let mapLoadingViewController = MapLoadingViewController(url: dialog.url)
+                    editorViewController.presentAsSheet(mapLoadingViewController)
+                }
+            } else {
+                print("no path")
+            }
+        } else {
+            // User clicked on "Cancel"
+            return
+        }
+    }
+
     @objc fileprivate func openDocumentation(_ sender: AnyObject) {
         NSWorkspace.shared.open(URL(string: "https://github.com/mrommel/Colony/wiki")!)
     }

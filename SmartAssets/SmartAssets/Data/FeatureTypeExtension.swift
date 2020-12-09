@@ -9,34 +9,6 @@ import SmartAILibrary
 
 extension FeatureType {
 
-    /*func name() -> String {
-
-        switch self {
-
-        case .none: return ""
-            
-        case .forest: return "Forest"
-        case .rainforest: return "Rainforest"
-        case .floodplains: return "Floodplains"
-        case .marsh: return "Marsh"
-        case .oasis: return "Oasis"
-        case .reef: return "Reef"
-        case .ice: return "Ice"
-        case .atoll: return "Atoll"
-        case .volcano: return "Volcano"
-        case .mountains: return "Mountains"
-        case .lake: return "Lake"
-        case .delicateArch: return "Delicate Arch"
-        case .galapagos: return "Galapagos"
-        case .greatBarrierReef: return "Great Barrier Reef"
-        case .mountEverest: return "Mount Everest"
-        case .mountKilimanjaro: return "Mount Kilimanjaro"
-        case .pantanal: return "Pantanal"
-        case .yosemite: return "Yosemite"
-        case .uluru: return "Uluru"
-        }
-    }*/
-    
     public static func from(name: String) -> FeatureType? {
         
         for feature in FeatureType.all {

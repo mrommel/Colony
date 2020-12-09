@@ -247,32 +247,33 @@ class MapView: NSView {
 
         // load assets into image cache
         print("-- pre-load images --")
+        let bundle = Bundle.init(for: Textures.self)
 
         print("- load \(self.textures.allTerrainTextureNames.count) terrain, \(self.textures.allRiverTextureNames.count) river and \(self.textures.allCoastTextureNames.count) coast textures")
         for terrainTextureName in self.textures.allTerrainTextureNames {
-            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: terrainTextureName), for: terrainTextureName)
+            self.imageCache.add(image: bundle.image(forResource: terrainTextureName), for: terrainTextureName)
         }
 
         for coastTextureName in self.textures.allCoastTextureNames {
-            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: coastTextureName), for: coastTextureName)
+            self.imageCache.add(image: bundle.image(forResource: coastTextureName), for: coastTextureName)
         }
 
         for riverTextureName in self.textures.allRiverTextureNames {
-            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: riverTextureName), for: riverTextureName)
+            self.imageCache.add(image: bundle.image(forResource: riverTextureName), for: riverTextureName)
         }
 
         print("- load \(self.textures.allFeatureTextureNames.count) feature (+ \(self.textures.allIceFeatureTextureNames.count) ice) textures")
         for featureTextureName in self.textures.allFeatureTextureNames {
-            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: featureTextureName), for: featureTextureName)
+            self.imageCache.add(image: bundle.image(forResource: featureTextureName), for: featureTextureName)
         }
 
         for iceFeatureTextureName in self.textures.allIceFeatureTextureNames {
-            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
+            self.imageCache.add(image: bundle.image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
         }
 
         print("- load \(self.textures.allResourceTextureNames.count) resource textures")
         for resourceTextureName in self.textures.allResourceTextureNames {
-            self.imageCache.add(image: Bundle.init(for: Textures.self).image(forResource: resourceTextureName), for: resourceTextureName)
+            self.imageCache.add(image: bundle.image(forResource: resourceTextureName), for: resourceTextureName)
         }
 
         print("-- all textures loaded --")
