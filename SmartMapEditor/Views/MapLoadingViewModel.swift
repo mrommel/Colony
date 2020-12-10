@@ -40,7 +40,7 @@ class MapLoadingViewModel: ObservableObject {
                         self.mapLoaded?(map)
                     }
                 } else {
-                    fatalError("cant load \(url?.path)")
+                    fatalError("cant load \(url?.path ?? "none")")
                 }
             }
         })

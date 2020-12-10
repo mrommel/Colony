@@ -1444,10 +1444,10 @@ public class Player: AbstractPlayer {
                     }
                 case .none:
                     fatalError("Unit with no Domain")
-                default:
+                /*default:
                     if pass == 3 {
                         loopUnit.doTurn(in: gameModel)
-                    }
+                    }*/
                 }
             }
         }

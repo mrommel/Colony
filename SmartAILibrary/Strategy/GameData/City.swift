@@ -854,8 +854,8 @@ public class City: AbstractCity {
 
         // Want progress to be a value between 0 and 5
         techProgress = techProgress / 100.0 * 5 /* CITY_STRENGTH_TECH_BASE */
-        var techExponent = 2.0 /* CITY_STRENGTH_TECH_EXPONENT */
-        var techMultiplier = 2.0 /* CITY_STRENGTH_TECH_MULTIPLIER */
+        let techExponent = 2.0 /* CITY_STRENGTH_TECH_EXPONENT */
+        let techMultiplier = 2.0 /* CITY_STRENGTH_TECH_MULTIPLIER */
 
         // The way all of this adds up...
         // 25% of the way through the game provides an extra 3.12
@@ -1239,9 +1239,9 @@ public class City: AbstractCity {
 
         var okay = true
 
-        let maxedUnitGoldPercent = 100 /* MAXED_UNIT_GOLD_PERCENT*/
-        let maxedBuildingGoldPercent = 100 /* MAXED_BUILDING_GOLD_PERCENT */
-        let maxedProjectGoldPercent = 300 /* MAXED_PROJECT_GOLD_PERCENT */
+        // let maxedUnitGoldPercent = 100 /* MAXED_UNIT_GOLD_PERCENT*/
+        // let maxedBuildingGoldPercent = 100 /* MAXED_BUILDING_GOLD_PERCENT */
+        // let maxedProjectGoldPercent = 300 /* MAXED_PROJECT_GOLD_PERCENT */
 
         /*for unitType in UnitType.all {
             

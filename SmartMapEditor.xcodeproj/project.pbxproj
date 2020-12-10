@@ -34,6 +34,9 @@
 		C9AAF4A42581185F00D7F357 /* MapLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */; };
 		C9AAF4A82581194600D7F357 /* MapLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */; };
 		C9AAF4AC25811A8100D7F357 /* MapLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4AB25811A8100D7F357 /* MapLoadingView.swift */; };
+		C9AAF4B525816A0700D7F357 /* MapSavingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4B425816A0700D7F357 /* MapSavingViewController.swift */; };
+		C9AAF4BB2581FB8900D7F357 /* MapSavingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4BA2581FB8900D7F357 /* MapSavingViewModel.swift */; };
+		C9AAF4C62581FF7300D7F357 /* MapSavingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4C52581FF7300D7F357 /* MapSavingView.swift */; };
 		C9AB2C4F257D2D5E0045DFBC /* EditorContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C4E257D2D5E0045DFBC /* EditorContentViewModel.swift */; };
 		C9AB2C55257D2E780045DFBC /* PopupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C54257D2E780045DFBC /* PopupButton.swift */; };
 		C9AB2C5A257E4E6A0045DFBC /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C59257E4E6A0045DFBC /* EditorViewController.swift */; };
@@ -114,6 +117,9 @@
 		C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewController.swift; sourceTree = "<group>"; };
 		C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewModel.swift; sourceTree = "<group>"; };
 		C9AAF4AB25811A8100D7F357 /* MapLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingView.swift; sourceTree = "<group>"; };
+		C9AAF4B425816A0700D7F357 /* MapSavingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSavingViewController.swift; sourceTree = "<group>"; };
+		C9AAF4BA2581FB8900D7F357 /* MapSavingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSavingViewModel.swift; sourceTree = "<group>"; };
+		C9AAF4C52581FF7300D7F357 /* MapSavingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSavingView.swift; sourceTree = "<group>"; };
 		C9AB2C4E257D2D5E0045DFBC /* EditorContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorContentViewModel.swift; sourceTree = "<group>"; };
 		C9AB2C54257D2E780045DFBC /* PopupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupButton.swift; sourceTree = "<group>"; };
 		C9AB2C59257E4E6A0045DFBC /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
@@ -246,6 +252,7 @@
 				C9AB2C5D257E4FFB0045DFBC /* NewMapViewController.swift */,
 				C9AB2C73257EB6B00045DFBC /* MapProgressViewController.swift */,
 				C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */,
+				C9AAF4B425816A0700D7F357 /* MapSavingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -279,6 +286,8 @@
 				C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */,
 				C9AAF4AB25811A8100D7F357 /* MapLoadingView.swift */,
 				C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */,
+				C9AAF4C52581FF7300D7F357 /* MapSavingView.swift */,
+				C9AAF4BA2581FB8900D7F357 /* MapSavingViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -426,6 +435,7 @@
 				C9AB2C7C257EB96D0045DFBC /* MapProgressViewModel.swift in Sources */,
 				C9070A7B2575172400276B7D /* TrackingAreaView.swift in Sources */,
 				C9AAF4A42581185F00D7F357 /* MapLoadingViewController.swift in Sources */,
+				C9AAF4BB2581FB8900D7F357 /* MapSavingViewModel.swift in Sources */,
 				C9AB2C66257E51CB0045DFBC /* NewMapContentView.swift in Sources */,
 				C9070A612574445A00276B7D /* main.swift in Sources */,
 				C9070A7F2575174B00276B7D /* TrackingAreaRepresentable.swift in Sources */,
@@ -436,6 +446,7 @@
 				C9AB2C6A257E52920045DFBC /* NSViewControllerExtension.swift in Sources */,
 				C9AB2C5E257E4FFB0045DFBC /* NewMapViewController.swift in Sources */,
 				C9AB2C6E257E66140045DFBC /* NewMapContentViewModel.swift in Sources */,
+				C9AAF4B525816A0700D7F357 /* MapSavingViewController.swift in Sources */,
 				C9070A752574F89200276B7D /* EditorContentView.swift in Sources */,
 				C9591AA4257117E700694BEF /* NSImageExtension.swift in Sources */,
 				C9AB2C55257D2E780045DFBC /* PopupButton.swift in Sources */,
@@ -446,6 +457,7 @@
 				C9AAF4A82581194600D7F357 /* MapLoadingViewModel.swift in Sources */,
 				C968A9242570388D00C11F85 /* AppDelegate.swift in Sources */,
 				C9AB2C5A257E4E6A0045DFBC /* EditorViewController.swift in Sources */,
+				C9AAF4C62581FF7300D7F357 /* MapSavingView.swift in Sources */,
 				C9AB2C74257EB6B10045DFBC /* MapProgressViewController.swift in Sources */,
 				C9AB2C4F257D2D5E0045DFBC /* EditorContentViewModel.swift in Sources */,
 				C9070A712574F64600276B7D /* MapEditorToolbar.swift in Sources */,

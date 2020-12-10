@@ -209,6 +209,7 @@
 		C9A50FE3242244C5006AA47B /* UsecaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A50FE2242244C5006AA47B /* UsecaseTests.swift */; };
 		C9AAC26E24D9666100FF1E35 /* GreatPersons.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */; };
 		C9AAC27024D97FFE00FF1E35 /* GameModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */; };
+		C9AAF4C02581FC8000D7F357 /* MapWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4BF2581FC8000D7F357 /* MapWriter.swift */; };
 		C9ABAF2023F68E4A0023AC1B /* ProjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABAF1F23F68E4A0023AC1B /* ProjectType.swift */; };
 		C9ABAF2223F69CE70023AC1B /* Projects.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABAF2123F69CE70023AC1B /* Projects.swift */; };
 		C9ABAF2423F6BCF00023AC1B /* Districts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABAF2323F6BCF00023AC1B /* Districts.swift */; };
@@ -517,6 +518,7 @@
 		C9A50FE2242244C5006AA47B /* UsecaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsecaseTests.swift; sourceTree = "<group>"; };
 		C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersons.swift; sourceTree = "<group>"; };
 		C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelTests.swift; sourceTree = "<group>"; };
+		C9AAF4BF2581FC8000D7F357 /* MapWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWriter.swift; sourceTree = "<group>"; };
 		C9ABAF1F23F68E4A0023AC1B /* ProjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectType.swift; sourceTree = "<group>"; };
 		C9ABAF2123F69CE70023AC1B /* Projects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projects.swift; sourceTree = "<group>"; };
 		C9ABAF2323F6BCF00023AC1B /* Districts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Districts.swift; sourceTree = "<group>"; };
@@ -695,6 +697,7 @@
 				C907085E23ED489600281161 /* Maps */,
 				C98CBDFB24338B90005EE397 /* MapGeneration */,
 				C957AA302436353500203024 /* MapLoading */,
+				C9AAF4BE2581FC6200D7F357 /* MapWriting */,
 				C90FC39123D88E6B00720B32 /* Enums */,
 				C930FFB624F54726002B4D07 /* PathfinderDataSources */,
 				C98DBFA423DF21D000B6CE25 /* GameData */,
@@ -1096,6 +1099,14 @@
 			path = Tactical;
 			sourceTree = "<group>";
 		};
+		C9AAF4BE2581FC6200D7F357 /* MapWriting */ = {
+			isa = PBXGroup;
+			children = (
+				C9AAF4BF2581FC8000D7F357 /* MapWriter.swift */,
+			);
+			path = MapWriting;
+			sourceTree = "<group>";
+		};
 		C9B1D2A2243612FF00033791 /* Maps */ = {
 			isa = PBXGroup;
 			children = (
@@ -1467,6 +1478,7 @@
 				C964BA2923EB6CDC00CA379C /* MilitaryStrategyType.swift in Sources */,
 				C9E74CC0248FC6C0003EF256 /* DiplomaticStateMachine.swift in Sources */,
 				C997908D2519044E003E52C9 /* QuickSneakCityAttackOperation.swift in Sources */,
+				C9AAF4C02581FC8000D7F357 /* MapWriter.swift in Sources */,
 				C9F76AAB242E14C00018672A /* PurchaseType.swift in Sources */,
 				C9C2FE3F23F93DA600185235 /* CivilizationType.swift in Sources */,
 				C98CBE0A24338D47005EE397 /* MapOptions.swift in Sources */,

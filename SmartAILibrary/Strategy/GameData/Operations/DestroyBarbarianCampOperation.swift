@@ -127,7 +127,7 @@ class DestroyBarbarianCampOperation: EnemyTerritoryOperation {
         }
         
         // If parent says we're done, don't even check anything else
-        var rtnValue = super.shouldAbort(in: gameModel)
+        let rtnValue = super.shouldAbort(in: gameModel)
 
         if !rtnValue {
             

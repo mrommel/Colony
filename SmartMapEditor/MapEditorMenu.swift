@@ -36,8 +36,8 @@ class MapEditorMenu: NSMenu {
             NSMenuItem(title: "New", target: self, action: #selector(MapEditorMenu.newMap(_:)), keyEquivalent: "n"),
             NSMenuItem(title: "Open", target: self, action: #selector(MapEditorMenu.openMap(_:)), keyEquivalent: "o"),
             NSMenuItem.separator(),
-            NSMenuItem(title: "Save", action: #selector(NSDocument.save(_:)), keyEquivalent: "s"),
-            NSMenuItem(title: "Save As...", action: #selector(NSDocument.saveAs(_:)), keyEquivalent: "S"),
+            //NSMenuItem(title: "Save", action: #selector(NSDocument.save(_:)), keyEquivalent: "s"),
+            NSMenuItem(title: "Save As...", target: self, action: #selector(MapEditorMenu.saveMap(_:)), keyEquivalent: "S"),
             //NSMenuItem(title: "Revert to Saved...", action: #selector(NSDocument.revertToSaved(_:)), keyEquivalent: ""),
             //NSMenuItem.separator(),
             //NSMenuItem(title: "Export", action: nil, keyEquivalent: ""),
@@ -117,20 +117,42 @@ extension MapEditorMenu {
 
         if dialog.runModal() == NSApplication.ModalResponse.OK {
  
-            if let path = dialog.url?.path {
-
-                if let window = NSApplication.shared.windows.first,
-                    let editorViewController = window.contentViewController as? EditorViewController {
-                    
-                    let mapLoadingViewController = MapLoadingViewController(url: dialog.url)
-                    editorViewController.presentAsSheet(mapLoadingViewController)
-                }
-            } else {
+            guard dialog.url?.path != nil else {
                 print("no path")
+                return
+            }
+
+            if let window = NSApplication.shared.windows.first,
+               let editorViewController = window.contentViewController as? EditorViewController {
+                
+                let mapLoadingViewController = MapLoadingViewController(url: dialog.url)
+                editorViewController.presentAsSheet(mapLoadingViewController)
             }
         } else {
             // User clicked on "Cancel"
             return
+        }
+    }
+    
+    @objc fileprivate func saveMap(_ sender: AnyObject) {
+        
+        let dialog = NSSavePanel()
+        
+        dialog.nameFieldStringValue = "new.map"
+        
+        if dialog.runModal() == NSApplication.ModalResponse.OK {
+            
+            if let window = NSApplication.shared.windows.first,
+               let editorViewController = window.contentViewController as? EditorViewController {
+                
+                if let map = editorViewController.viewModel.currentMap() {
+                
+                    let mapSavingViewController = MapSavingViewController(map: map, to: dialog.url)
+                    editorViewController.presentAsSheet(mapSavingViewController)
+                } else {
+                    print("no map")
+                }
+            }
         }
     }
 

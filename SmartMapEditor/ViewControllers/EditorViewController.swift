@@ -13,11 +13,18 @@ class EditorViewModel {
     
     typealias MapChangeHandler = (MapModel?) -> Void
     
+    private var map: MapModel? = nil
     var mapChanged: MapChangeHandler? = nil
     
     func set(map: MapModel?) {
 
+        self.map = map
         self.mapChanged?(map)
+    }
+    
+    func currentMap() -> MapModel? {
+        
+        return self.map
     }
 }
 
