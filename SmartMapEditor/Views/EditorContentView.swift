@@ -10,11 +10,16 @@ import Cocoa
 import SmartAILibrary
 
 struct PlainGroupBoxStyle: GroupBoxStyle {
+    
     func makeBody(configuration: Configuration) -> some View {
+        
         VStack(alignment: .leading) {
             configuration.label
             configuration.content
         }
+        .padding(8)
+        .background(Color(.controlBackgroundColor))
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
     }
 }
 
@@ -39,16 +44,16 @@ struct EditorContentView: View {
                                 .foregroundColor(.white)) {
                             PopupButton(selectedValue: $viewModel.brushTypeName, items: MapBrushType.all.map({ $0.name() }), onChange: {
                                 viewModel.setBrushType(to: $0)
-                            }).frame(width: 80, height: 16, alignment: .center)
+                            }).frame(width: 90, height: 16, alignment: .center)
                         }.groupBoxStyle(PlainGroupBoxStyle())
 
                         Divider()
                         
-                        GroupBox(label: Label("Size", systemImage: "lasso")
+                        GroupBox(label: Label("Size", systemImage: "hexagon")
                                 .foregroundColor(.white)) {
                             PopupButton(selectedValue: $viewModel.brushSizeName, items: MapBrushSize.all.map({ $0.name() }), onChange: {
                                 viewModel.setBrushSize(to: $0)
-                            }).frame(width: 80, height: 16, alignment: .center)
+                            }).frame(width: 90, height: 16, alignment: .center)
                         }.groupBoxStyle(PlainGroupBoxStyle())
 
                         Divider()
@@ -58,14 +63,21 @@ struct EditorContentView: View {
                                     .foregroundColor(.white)) {
                                 PopupButton(selectedValue: $viewModel.brushTerrainName, items: TerrainType.all.map({ $0.name() }), onChange: {
                                     viewModel.setBrushTerrain(to: $0)
-                                }).frame(width: 80, height: 16, alignment: .center)
+                                }).frame(width: 90, height: 16, alignment: .center)
                             }.groupBoxStyle(PlainGroupBoxStyle())
-                        } else {
+                        } else if self.viewModel.brush.type.name() == "Feature" {
                             GroupBox(label: Label("Feature", systemImage: "pencil")
                                     .foregroundColor(.white)) {
-                                PopupButton(selectedValue: $viewModel.brushFeatureName, items: FeatureType.all.map({ $0.name() }), onChange: {
+                                PopupButton(selectedValue: $viewModel.brushFeatureName, items: ["None"] + FeatureType.all.map({ $0.name() }), onChange: {
                                     viewModel.setBrushFeature(to: $0)
-                                }).frame(width: 80, height: 16, alignment: .center)
+                                }).frame(width: 90, height: 16, alignment: .center)
+                            }.groupBoxStyle(PlainGroupBoxStyle())
+                        } else {
+                            GroupBox(label: Label("Resource", systemImage: "pencil")
+                                    .foregroundColor(.white)) {
+                                PopupButton(selectedValue: $viewModel.brushResourceName, items: ["None"] + ResourceType.all.map({ $0.name() }), onChange: {
+                                    viewModel.setBrushResource(to: $0)
+                                }).frame(width: 90, height: 16, alignment: .center)
                             }.groupBoxStyle(PlainGroupBoxStyle())
                         }
                         
@@ -76,6 +88,7 @@ struct EditorContentView: View {
 
                     VStack {
                         Text("Location")
+                        
                         Text("\($viewModel.focusedPoint.wrappedValue)").frame(width: 80, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
 

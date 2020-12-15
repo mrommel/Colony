@@ -8,127 +8,6 @@
 import Foundation
 import SmartAILibrary
 
-enum MapBrushType {
-    
-    case terrain
-    case feature
-    
-    func name() -> String {
-        
-        switch self {
-        
-        case .terrain:
-            return "Terrain"
-        case .feature:
-            return "Feature"
-        }
-    }
-    
-    static func from(name: String) -> MapBrushType? {
-        
-        for mapBrushType in MapBrushType.all {
-            if mapBrushType.name() == name {
-                return mapBrushType
-            }
-        }
-        
-        return nil
-    }
-    
-    static var all: [MapBrushType] {
-        return [.terrain, .feature]
-    }
-}
-
-enum MapBrushSize {
-    
-    case small
-    case medium
-    case large
-    case huge
-    
-    func name() -> String {
-        
-        switch self {
-        
-        case .small:
-            return "Small"
-        case .medium:
-            return "Medium"
-        case .large:
-            return "Large"
-        case .huge:
-            return "Huge"
-        }
-    }
-    
-    static func from(name: String) -> MapBrushSize? {
-        
-        for mapBrushSize in MapBrushSize.all {
-            if mapBrushSize.name() == name {
-                return mapBrushSize
-            }
-        }
-        
-        return nil
-    }
-    
-    static var all: [MapBrushSize] {
-        return [.small, .medium, .large, .huge]
-    }
-    
-    func radius() -> Int {
-        
-        switch self {
-        
-        case .small:
-            return 0
-        case .medium:
-            return 1
-        case .large:
-            return 2
-        case .huge:
-            return 3
-        }
-    }
-}
-
-class MapBrush {
-
-    var type: MapBrushType = .terrain
-    var size: MapBrushSize = .small
-    var terrainValue: TerrainType = .ocean
-    var featureValue: FeatureType = .none
-    
-    func setType(to typeName: String) {
-
-        if let newType = MapBrushType.from(name: typeName) {
-            self.type = newType
-        }
-    }
-    
-    func setSize(to sizeName: String) {
-
-        if let newSize = MapBrushSize.from(name: sizeName) {
-            self.size = newSize
-        }
-    }
-    
-    func setTerrain(to terrainName: String) {
-        
-        if let newTerrain = TerrainType.from(name: terrainName) {
-            self.terrainValue = newTerrain
-        }
-    }
-    
-    func setFeature(to featureName: String) {
-        
-        if let newFeature = FeatureType.from(name: featureName) {
-            self.featureValue = newFeature
-        }
-    }
-}
-
 class EditorContentViewModel: ObservableObject {
 
     @Published
@@ -172,6 +51,9 @@ class EditorContentViewModel: ObservableObject {
     
     @Published
     var brushFeatureName: String
+    
+    @Published
+    var brushResourceName: String
 
     var didChange: ((HexPoint) -> ())? = nil
 
@@ -193,6 +75,7 @@ class EditorContentViewModel: ObservableObject {
         self.brushSizeName = "Small"
         self.brushTerrainName = "Ocean"
         self.brushFeatureName = "None"
+        self.brushResourceName = "None"
     }
 
     func setZoom(to value: CGFloat) {
@@ -390,7 +273,17 @@ class EditorContentViewModel: ObservableObject {
         self.brushFeatureName = value
     }
     
+    func setBrushResource(to value: String) {
+        
+        self.brush.setResource(to: value)
+        self.brushResourceName = value
+    }
+    
     func draw(at point: HexPoint) {
+        
+        guard let map = self.map else {
+            return
+        }
         
         let area: HexArea = point.areaWith(radius: self.brush.size.radius())
         let updateArea: HexArea = area
@@ -403,8 +296,8 @@ class EditorContentViewModel: ObservableObject {
             }
             
             // check to make ocean to shore
-            for pt in self.map!.points() {
-                if self.map!.terrain(at: pt) == TerrainType.ocean && self.map!.isAdjacentToLand(at: pt) {
+            for pt in map.points() {
+                if map.terrain(at: pt) == TerrainType.ocean && map.isAdjacentToLand(at: pt) {
                     self.map?.set(terrain: .shore, at: pt)
                     updateArea.add(point: pt)
                 }
@@ -419,6 +312,15 @@ class EditorContentViewModel: ObservableObject {
             for pt in area {
                 
                 self.map?.set(feature: self.brush.featureValue, at: pt)
+                
+                // trigger redraw
+                self.didChange?(pt)
+            }
+            
+        case .resource:
+            for pt in area {
+                
+                self.map?.set(resource: self.brush.resourceValue, at: pt)
                 
                 // trigger redraw
                 self.didChange?(pt)

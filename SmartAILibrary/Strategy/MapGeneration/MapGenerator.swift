@@ -23,7 +23,7 @@ public class MapGenerator: BaseMapHandler {
 	let height: Int
 
 	let terrain: Array2D<TerrainType>
-	let zones: Array2D<ClimateZone>
+	let climateZones: Array2D<ClimateZone>
 	let distanceToCoast: Array2D<Int>
 	var springLocations: [HexPoint]
 
@@ -44,7 +44,7 @@ public class MapGenerator: BaseMapHandler {
 		// prepare terrain, distanceToCoast and zones
         self.terrain = Array2D<TerrainType>(width: self.width, height: self.height)
         self.distanceToCoast = Array2D<Int>(width: self.width, height: self.height)
-        self.zones = Array2D<ClimateZone>(width: self.width, height: self.height)
+        self.climateZones = Array2D<ClimateZone>(width: self.width, height: self.height)
 		self.springLocations = []
 	}
 
@@ -203,23 +203,23 @@ public class MapGenerator: BaseMapHandler {
 
 	func setClimateZones() {
 
-		self.zones.fill(with: .temperate)
+		self.climateZones.fill(with: .temperate)
 
 		for x in 0..<width {
 			for y in 0..<height {
 
 				let latitude = abs(Double(height / 2 - y)) / Double(height / 2)
 
-				if latitude > 0.9 {
-					self.zones[x, y] = .polar
+				if latitude > 0.9 || y == 0 || y == height - 1 {
+					self.climateZones[x, y] = .polar
 				} else if latitude > 0.65 {
-					self.zones[x, y] = .subpolar
+					self.climateZones[x, y] = .subpolar
 				} else if latitude > 0.4 {
-					self.zones[x, y] = .temperate
+					self.climateZones[x, y] = .temperate
 				} else if latitude > 0.2 {
-					self.zones[x, y] = .subtropic
+					self.climateZones[x, y] = .subtropic
 				} else {
-					self.zones[x, y] = .tropic
+					self.climateZones[x, y] = .tropic
 				}
 			}
 		}
@@ -240,7 +240,7 @@ public class MapGenerator: BaseMapHandler {
 				}
 
 				if distance < 2 {
-					self.zones[x, y] = self.zones[x, y]?.moderate
+					self.climateZones[x, y] = self.climateZones[x, y]?.moderate
 				}
 			}
 		}
@@ -314,7 +314,7 @@ public class MapGenerator: BaseMapHandler {
                     mountainSpots.append(KeyValuePair<HexPoint, Double>(key: gridPoint, value: heightMap[x, y]!))
                     landPlots += 1
                     
-                    self.updateBiome(at: gridPoint, on: grid, elevation: heightMap[x, y]!, moisture: moistureMap[x, y]!, climate: self.zones[x, y]!)
+                    self.updateBiome(at: gridPoint, on: grid, elevation: heightMap[x, y]!, moisture: moistureMap[x, y]!, climate: self.climateZones[x, y]!)
 				}
 			}
 		}
@@ -339,6 +339,9 @@ public class MapGenerator: BaseMapHandler {
         guard let grid = gridRef else {
             fatalError("no grid")
         }
+        
+        // precheck
+        // let polarPlots = self.climateZones.filter(where: { $0 == .polar })//.count
         
         // presets
         let rainForestPercent = 36
@@ -375,7 +378,7 @@ public class MapGenerator: BaseMapHandler {
                 if tile.isWater() {
 
                     var canHaveIce = false
-                    if grid.canHave(feature: .ice, at: gridPoint) && !grid.river(at: gridPoint) && self.zones[x, y] == .polar {
+                    if grid.canHave(feature: .ice, at: gridPoint) && !grid.river(at: gridPoint) && (y == 0 || y == grid.size.height() - 1) /*&& self.climateZones[x, y] == .polar*/ {
                         waterTilesWithIcePossible.append(gridPoint)
                         canHaveIce = true
                     }
@@ -554,10 +557,6 @@ public class MapGenerator: BaseMapHandler {
         
         if Double.random > 0.5 {
             grid?.set(hills: true, at: point)
-        }
-        
-        if Double.random > 0.5 {
-            grid?.set(feature: .ice, at: point)
         }
         
         grid?.set(terrain: .snow, at: point)

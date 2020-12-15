@@ -354,7 +354,7 @@ public enum FeatureType: Int, Codable {
         case .marsh: return FeatureData(name: "Marsh", yields: Yields(food: 3, production: 0, gold: 0, science: 0), isWonder: false)
         case .oasis: return FeatureData(name: "Oasis", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWonder: false)
         case .reef: return FeatureData(name: "Reef", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWonder: false)
-        case .ice: return FeatureData(name: "Marsh", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
+        case .ice: return FeatureData(name: "Ice", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
         case .atoll: return FeatureData(name: "Atoll", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWonder: false)
         case .volcano: return FeatureData(name: "Volcano", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
             

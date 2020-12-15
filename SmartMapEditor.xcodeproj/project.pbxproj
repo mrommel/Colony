@@ -50,6 +50,9 @@
 		C9AB2C7C257EB96D0045DFBC /* MapProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */; };
 		C9AB2C83257EC00E0045DFBC /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */; };
 		C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD63257286D30044F437 /* NSLabel.swift */; };
+		C9F3AE0D25894F3100027DD6 /* MapBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE0C25894F3000027DD6 /* MapBrush.swift */; };
+		C9F3AE1125894F5500027DD6 /* MapBrushSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */; };
+		C9F3AE1525894F6B00027DD6 /* MapBrushType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +137,9 @@
 		C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProgressViewModel.swift; sourceTree = "<group>"; };
 		C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C9ADAD63257286D30044F437 /* NSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLabel.swift; sourceTree = "<group>"; };
+		C9F3AE0C25894F3000027DD6 /* MapBrush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrush.swift; sourceTree = "<group>"; };
+		C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrushSize.swift; sourceTree = "<group>"; };
+		C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrushType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +176,9 @@
 				C9591AA3257117E600694BEF /* NSImageExtension.swift */,
 				C931ADB325769E1C0002BA2F /* ImageCache.swift */,
 				C9AB2C69257E52920045DFBC /* NSViewControllerExtension.swift */,
+				C9F3AE0C25894F3000027DD6 /* MapBrush.swift */,
+				C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */,
+				C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -453,6 +462,7 @@
 			files = (
 				C9AB2C7C257EB96D0045DFBC /* MapProgressViewModel.swift in Sources */,
 				C9070A7B2575172400276B7D /* TrackingAreaView.swift in Sources */,
+				C9F3AE1525894F6B00027DD6 /* MapBrushType.swift in Sources */,
 				C9AAF4A42581185F00D7F357 /* MapLoadingViewController.swift in Sources */,
 				C9AAF4BB2581FB8900D7F357 /* MapSavingViewModel.swift in Sources */,
 				C9AB2C66257E51CB0045DFBC /* NewMapContentView.swift in Sources */,
@@ -461,6 +471,7 @@
 				C9AAF4AC25811A8100D7F357 /* MapLoadingView.swift in Sources */,
 				C9070A93257517FB00276B7D /* MapScrollContentView.swift in Sources */,
 				C931ADB82577B18C0002BA2F /* MapScrollView.swift in Sources */,
+				C9F3AE1125894F5500027DD6 /* MapBrushSize.swift in Sources */,
 				C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */,
 				C9AB2C6A257E52920045DFBC /* NSViewControllerExtension.swift in Sources */,
 				C9AB2C5E257E4FFB0045DFBC /* NewMapViewController.swift in Sources */,
@@ -474,6 +485,7 @@
 				C931ADB425769E1C0002BA2F /* ImageCache.swift in Sources */,
 				C9AB2C78257EB6F10045DFBC /* MapProgressView.swift in Sources */,
 				C9AAF4A82581194600D7F357 /* MapLoadingViewModel.swift in Sources */,
+				C9F3AE0D25894F3100027DD6 /* MapBrush.swift in Sources */,
 				C968A9242570388D00C11F85 /* AppDelegate.swift in Sources */,
 				C9AB2C5A257E4E6A0045DFBC /* EditorViewController.swift in Sources */,
 				C9AAF4C62581FF7300D7F357 /* MapSavingView.swift in Sources */,

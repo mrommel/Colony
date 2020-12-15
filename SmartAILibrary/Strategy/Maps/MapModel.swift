@@ -445,7 +445,7 @@ public class MapModel: Codable {
             // check tile itself (no suroundings)
             if featureType.isPossible(on: tile) {
                 
-                // additional check for marsh
+                // additional check for flood plains
                 if featureType == .floodplains {
                     return self.river(at: tile.point)
                 }
