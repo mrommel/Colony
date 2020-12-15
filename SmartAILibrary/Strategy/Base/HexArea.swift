@@ -104,7 +104,7 @@ public class HexArea: Codable {
     
     // MARK: methods
     
-    func add(point: HexPoint) {
+    public func add(point: HexPoint) {
         self.points.append(point)
     }
     

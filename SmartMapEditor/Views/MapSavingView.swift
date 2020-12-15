@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 protocol MapSavingViewDelegate: NSObject {
     
@@ -23,12 +24,14 @@ struct MapSavingView: View {
         
         VStack {
 
+            AnimatedImage(name: "animated-map.gif").clipShape(Circle()).scaledToFit()
+            
             Text("Saving Map")
 
             ActivityIndicator(isAnimating: $viewModel.saving, style: .spinning)
 
         }.padding(EdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 2))
-        .frame(width: 200, height: 120, alignment: .leading)
+        .frame(width: 200, height: 250, alignment: .center)
     }
     
     func bind() {

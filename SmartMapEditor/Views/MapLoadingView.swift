@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SDWebImageSwiftUI
 
 protocol MapLoadingViewDelegate: NSObject {
     
@@ -23,13 +24,15 @@ struct MapLoadingView: View {
     var body: some View {
         
         VStack {
+            
+            AnimatedImage(name: "animated-map.gif").clipShape(Circle()).scaledToFit()
 
             Text("Loading Map")
 
             ActivityIndicator(isAnimating: $viewModel.loading, style: .spinning)
 
         }.padding(EdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 2))
-        .frame(width: 200, height: 120, alignment: .leading)
+        .frame(width: 200, height: 250, alignment: .center)
     }
     
     func bind() {

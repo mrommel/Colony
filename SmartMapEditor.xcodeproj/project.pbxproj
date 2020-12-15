@@ -16,7 +16,6 @@
 		C9070A7F2575174B00276B7D /* TrackingAreaRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A7E2575174B00276B7D /* TrackingAreaRepresentable.swift */; };
 		C9070A832575176500276B7D /* TrackingNSHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A822575176500276B7D /* TrackingNSHostingView.swift */; };
 		C9070A872575178A00276B7D /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A862575178A00276B7D /* ViewExtension.swift */; };
-		C9070A8B257517A900276B7D /* ZoomDropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A8A257517A900276B7D /* ZoomDropdownView.swift */; };
 		C9070A93257517FB00276B7D /* MapScrollContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A92257517FB00276B7D /* MapScrollContentView.swift */; };
 		C931ADB425769E1C0002BA2F /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931ADB325769E1C0002BA2F /* ImageCache.swift */; };
 		C931ADB82577B18C0002BA2F /* MapScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931ADB72577B18B0002BA2F /* MapScrollView.swift */; };
@@ -95,7 +94,6 @@
 		C9070A7E2575174B00276B7D /* TrackingAreaRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingAreaRepresentable.swift; sourceTree = "<group>"; };
 		C9070A822575176500276B7D /* TrackingNSHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingNSHostingView.swift; sourceTree = "<group>"; };
 		C9070A862575178A00276B7D /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
-		C9070A8A257517A900276B7D /* ZoomDropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomDropdownView.swift; sourceTree = "<group>"; };
 		C9070A92257517FB00276B7D /* MapScrollContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScrollContentView.swift; sourceTree = "<group>"; };
 		C931ADB325769E1C0002BA2F /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		C931ADB72577B18B0002BA2F /* MapScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScrollView.swift; sourceTree = "<group>"; };
@@ -202,6 +200,7 @@
 			children = (
 				C9591AA2257117D100694BEF /* Utils */,
 				C9ADAD61257286A40044F437 /* Views */,
+				C9A5B5C72588A2ED00836AEB /* ViewModels */,
 				C9AB2C58257E4E570045DFBC /* ViewControllers */,
 				C9ADAD62257286B40044F437 /* Resources */,
 				C9070A602574445A00276B7D /* main.swift */,
@@ -239,6 +238,18 @@
 				C968A95E25703D6A00C11F85 /* SmartAILibrary.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9A5B5C72588A2ED00836AEB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C9AB2C4E257D2D5E0045DFBC /* EditorContentViewModel.swift */,
+				C9AB2C6D257E66130045DFBC /* NewMapContentViewModel.swift */,
+				C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */,
+				C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */,
+				C9AAF4BA2581FB8900D7F357 /* MapSavingViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		C9AAF4B125811A9B00D7F357 /* Map */ = {
@@ -283,17 +294,11 @@
 			children = (
 				C9AB2C7F257EBA340045DFBC /* Base */,
 				C9AAF4B125811A9B00D7F357 /* Map */,
-				C9070A8A257517A900276B7D /* ZoomDropdownView.swift */,
 				C9070A742574F89200276B7D /* EditorContentView.swift */,
-				C9AB2C4E257D2D5E0045DFBC /* EditorContentViewModel.swift */,
 				C9AB2C65257E51CB0045DFBC /* NewMapContentView.swift */,
-				C9AB2C6D257E66130045DFBC /* NewMapContentViewModel.swift */,
 				C9AB2C77257EB6F10045DFBC /* MapProgressView.swift */,
-				C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */,
 				C9AAF4AB25811A8100D7F357 /* MapLoadingView.swift */,
-				C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */,
 				C9AAF4C52581FF7300D7F357 /* MapSavingView.swift */,
-				C9AAF4BA2581FB8900D7F357 /* MapSavingViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -480,7 +485,6 @@
 				C9070A832575176500276B7D /* TrackingNSHostingView.swift in Sources */,
 				C9AB2C83257EC00E0045DFBC /* ActivityIndicator.swift in Sources */,
 				C9070A672574F4ED00276B7D /* NSMenuItemExtension.swift in Sources */,
-				C9070A8B257517A900276B7D /* ZoomDropdownView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,6 +24,7 @@ protocol MapViewDelegate: class {
 
     func moveBy(dx: CGFloat, dy: CGFloat)
     func focus(on tile: Tile)
+    func draw(at point: HexPoint)
 }
 
 class MapView: NSView {
@@ -35,6 +36,7 @@ class MapView: NSView {
     private var scale: CGFloat = 1.0
     var downPoint: CGPoint? = nil
     var initialPoint: CGPoint? = nil
+    var rightDownPoint: CGPoint? = nil
 
     var cursor: HexPoint = HexPoint.zero
 
@@ -71,6 +73,7 @@ class MapView: NSView {
         }
     }
 
+    // left button down
     override func mouseDown(with event: NSEvent) {
 
         super.mouseDown(with: event)
@@ -79,6 +82,16 @@ class MapView: NSView {
         self.initialPoint = event.locationInWindow
     }
 
+    override func rightMouseDown(with event: NSEvent) {
+        
+        super.rightMouseDown(with: event)
+        
+        let pointInView = convert(event.locationInWindow, from: nil) - self.shift
+        let pt = HexPoint(screen: pointInView)
+        
+        self.delegate?.draw(at: pt)
+    }
+    
     override func mouseDragged(with event: NSEvent) {
 
         super.mouseDragged(with: event)
@@ -89,6 +102,16 @@ class MapView: NSView {
         }
     }
 
+    override func rightMouseDragged(with event: NSEvent) {
+        
+        super.rightMouseDragged(with: event)
+        
+        let pointInView = convert(event.locationInWindow, from: nil) - self.shift
+        let pt = HexPoint(screen: pointInView)
+        
+        self.delegate?.draw(at: pt)
+    }
+    
     override func mouseUp(with event: NSEvent) {
 
         super.mouseUp(with: event)
@@ -105,8 +128,6 @@ class MapView: NSView {
                     self.cursor = pt
 
                     self.redrawTile(at: pt)
-                    //self.setNeedsDisplay(NSMakeRect(pointInView.x, pointInView.y, 48, 48))
-                    //self.needsDisplay = true
                 }
             }
         }
@@ -297,7 +318,7 @@ class MapView: NSView {
 
             self.frame = NSMakeRect(0, 0, (size.width + 10) * self.scale, size.height * self.scale)
 
-            print("setting value \(value) leads to new size: \(size)")
+            print("setting value \(value) leads to new size: \(self.frame.size) (original: \(size))")
 
             // First, match our scaling to the window's coordinate system
             self.scaleUnitSquare(to: NSMakeSize(CGFloat(value), CGFloat(value)))

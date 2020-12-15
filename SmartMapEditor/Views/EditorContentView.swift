@@ -9,6 +9,15 @@ import SwiftUI
 import Cocoa
 import SmartAILibrary
 
+struct PlainGroupBoxStyle: GroupBoxStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        VStack(alignment: .leading) {
+            configuration.label
+            configuration.content
+        }
+    }
+}
+
 struct EditorContentView: View {
 
     @ObservedObject
@@ -17,8 +26,52 @@ struct EditorContentView: View {
     var body: some View {
         HStack {
             VStack {
-                MapScrollContentView(viewModel: viewModel).frame(width: 1000, height: 500, alignment: .center)
+                
+                HStack {
+                    MapScrollContentView(viewModel: viewModel).frame(width: 1000, height: 500, alignment: .center)
 
+                    VStack {
+                        Label("Brush", systemImage: "paintbrush.fill")
+                        
+                        Divider()
+                                     
+                        GroupBox(label: Label("Type", systemImage: "highlighter")
+                                .foregroundColor(.white)) {
+                            PopupButton(selectedValue: $viewModel.brushTypeName, items: MapBrushType.all.map({ $0.name() }), onChange: {
+                                viewModel.setBrushType(to: $0)
+                            }).frame(width: 80, height: 16, alignment: .center)
+                        }.groupBoxStyle(PlainGroupBoxStyle())
+
+                        Divider()
+                        
+                        GroupBox(label: Label("Size", systemImage: "lasso")
+                                .foregroundColor(.white)) {
+                            PopupButton(selectedValue: $viewModel.brushSizeName, items: MapBrushSize.all.map({ $0.name() }), onChange: {
+                                viewModel.setBrushSize(to: $0)
+                            }).frame(width: 80, height: 16, alignment: .center)
+                        }.groupBoxStyle(PlainGroupBoxStyle())
+
+                        Divider()
+                        
+                        if self.viewModel.brush.type.name() == "Terrain" {
+                            GroupBox(label: Label("Terrain", systemImage: "pencil")
+                                    .foregroundColor(.white)) {
+                                PopupButton(selectedValue: $viewModel.brushTerrainName, items: TerrainType.all.map({ $0.name() }), onChange: {
+                                    viewModel.setBrushTerrain(to: $0)
+                                }).frame(width: 80, height: 16, alignment: .center)
+                            }.groupBoxStyle(PlainGroupBoxStyle())
+                        } else {
+                            GroupBox(label: Label("Feature", systemImage: "pencil")
+                                    .foregroundColor(.white)) {
+                                PopupButton(selectedValue: $viewModel.brushFeatureName, items: FeatureType.all.map({ $0.name() }), onChange: {
+                                    viewModel.setBrushFeature(to: $0)
+                                }).frame(width: 80, height: 16, alignment: .center)
+                            }.groupBoxStyle(PlainGroupBoxStyle())
+                        }
+                        
+                    }.frame(width: 120, height: 500, alignment: .leading)
+                }
+                
                 HStack {
 
                     VStack {
@@ -28,7 +81,7 @@ struct EditorContentView: View {
 
                     VStack {
                         Text("Terrain")
-                        //Text(self.mapFocus?.terrain().name() ?? "---")
+
                         PopupButton(selectedValue: $viewModel.focusedTerrainName, items: TerrainType.all.map({ $0.name() }), onChange: {
                             viewModel.setTerrain(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
@@ -36,7 +89,7 @@ struct EditorContentView: View {
 
                     VStack {
                         Text("Hills")
-                        //Text("---")
+
                         PopupButton(selectedValue: $viewModel.focusedHillsValue, items: ["yes", "no"], onChange: {
                             viewModel.setHills(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
@@ -44,14 +97,15 @@ struct EditorContentView: View {
                     
                     VStack {
                         Text("River")
+                        
                         PopupButton(selectedValue: $viewModel.focusedRiverValue, items: ["---", "n", "n-ne", "n-se", "ne-se", "n-ne-se", "se"], onChange: {
                             viewModel.setRiver(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
-                    }
+                    }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
 
                     VStack {
                         Text("Feature")
-                        //Text(self.mapFocus?.feature().name() ?? "---")
+                        
                         PopupButton(selectedValue: $viewModel.focusedFeatureName, items: ["---"] + FeatureType.all.map({ $0.name() }), onChange: {
                             viewModel.setFeature(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
@@ -59,7 +113,7 @@ struct EditorContentView: View {
 
                     VStack {
                         Text("Resource")
-                        //Text(self.mapFocus?.resource(for: nil).name() ?? "---")
+                        
                         PopupButton(selectedValue: $viewModel.focusedResourceName, items: ["---"] + ResourceType.all.map({ $0.name() }), onChange: {
                             viewModel.setResource(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
@@ -69,8 +123,12 @@ struct EditorContentView: View {
 
                     VStack {
                         Text("Zoom")
-                        ZoomDropdownView(viewModel: viewModel).frame(width: 70, height: 20, alignment: .center)
-                    }
+                        
+                        PopupButton(selectedValue: $viewModel.selectedZoomName, items: ["0.5", "1.0", "2.0"], onChange: {
+                            viewModel.setZoom(to: $0)
+                        }).frame(width: 80, height: 16, alignment: .center)
+
+                    }.padding(EdgeInsets(top: 2, leading: 2, bottom: 6, trailing: 6))
                 }
             }
         }

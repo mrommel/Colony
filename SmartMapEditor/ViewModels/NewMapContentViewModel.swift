@@ -8,7 +8,7 @@
 import SwiftUI
 import SmartAILibrary
 
-enum MapType: String {
+/*enum MapType: String {
     
     case empty = "Empty"
     case continent = "Continent"
@@ -27,7 +27,7 @@ enum MapType: String {
         
         return nil
     }
-}
+}*/
 
 class NewMapContentViewModel: ObservableObject {
     
@@ -45,7 +45,7 @@ class NewMapContentViewModel: ObservableObject {
     init() {
         
         self.typeValue = .empty
-        self.type = self.typeValue.rawValue
+        self.type = self.typeValue.name()
         
         self.sizeValue = .tiny
         self.size = self.sizeValue.name()
@@ -63,7 +63,7 @@ class NewMapContentViewModel: ObservableObject {
         
         if let typeValue = MapType.from(name: newTypeString) {
             self.typeValue = typeValue
-            self.type = self.typeValue.rawValue
+            self.type = self.typeValue.name()
         }
     }
 }

@@ -341,11 +341,11 @@ public class MapGenerator: BaseMapHandler {
         }
         
         // presets
-        let rainForestPercent = 44 // 36
-        let forestPercent = 22 // 24
+        let rainForestPercent = 36
+        let forestPercent = 22
         let marshPercent = 3
         let oasisPercent = 1
-        let reefPercent = 8
+        let reefPercent = 5
         
         var waterTilesWithIcePossible: [HexPoint] = []
         var waterTilesWithReefPossible: [HexPoint] = []
@@ -399,7 +399,7 @@ public class MapGenerator: BaseMapHandler {
         for reefLocation in waterTilesWithReefPossible.shuffled {
             
             // 10% chance for reefs
-            if (reefFeatures * 100 / landTilesWithFeaturePossible.count) <= reefPercent {
+            if (reefFeatures * 100 / waterTilesWithReefPossible.count) <= reefPercent {
                 gridRef?.set(feature: .reef, at: reefLocation)
                 reefFeatures += 1
             }

@@ -28,7 +28,7 @@ struct NewMapContentView: View {
             HStack {
                 Text("Type").padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
                 PopupButton(selectedValue: $viewModel.type,
-                            items: MapType.all.map({ $0.rawValue }),
+                            items: MapType.all.map({ $0.name() }),
                             onChange: {
                                 viewModel.setType(to: $0)
                             }

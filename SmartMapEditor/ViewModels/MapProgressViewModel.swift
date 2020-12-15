@@ -27,15 +27,18 @@ class MapProgressViewModel: ObservableObject {
         
         switch mapType {
         
-        case .continent:
-            self.generatingContinent(with: mapSize)
+        case .continents:
+            self.generatingContinents(with: mapSize)
+            
+        case .earth, .pangaea, .archipelago, .inlandsea, .custom:
+            self.generatingEmpty(with: mapSize)
             
         case .empty:
             self.generatingEmpty(with: mapSize)
         }
     }
     
-    func generatingContinent(with mapSize: MapSize) {
+    func generatingContinents(with mapSize: MapSize) {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
             

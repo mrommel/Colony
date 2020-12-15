@@ -74,5 +74,10 @@ struct MapScrollContentView: NSViewRepresentable {
 
             self.mapScrollContentView?.viewModel.setFocus(to: tile)
         }
+        
+        func draw(at point: HexPoint) {
+
+            self.mapScrollContentView?.viewModel.draw(at: point)
+        }
     }
 }

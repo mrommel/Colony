@@ -16,6 +16,7 @@
 		C98E68B22577D28E00BD93CA /* ResourceTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */; };
 		C98E68B32577D28E00BD93CA /* TerrainTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68B02577D28E00BD93CA /* TerrainTypeExtension.swift */; };
 		C98E68B72577D8C900BD93CA /* Tiles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C98E68B62577D8C900BD93CA /* Tiles.xcassets */; };
+		C9A5B5CD2588A50500836AEB /* MapTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5B5CC2588A50500836AEB /* MapTypeExtension.swift */; };
 		C9AB2C72257E6B350045DFBC /* MapSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C71257E6B350045DFBC /* MapSizeExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		C98E68B02577D28E00BD93CA /* TerrainTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerrainTypeExtension.swift; sourceTree = "<group>"; };
 		C98E68B62577D8C900BD93CA /* Tiles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Tiles.xcassets; sourceTree = "<group>"; };
 		C98E68BA25794C0E00BD93CA /* CheckScript.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = CheckScript.swift; sourceTree = "<group>"; };
+		C9A5B5CC2588A50500836AEB /* MapTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypeExtension.swift; sourceTree = "<group>"; };
 		C9AB2C71257E6B350045DFBC /* MapSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSizeExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +108,7 @@
 				C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */,
 				C98E68B02577D28E00BD93CA /* TerrainTypeExtension.swift */,
 				C9AB2C71257E6B350045DFBC /* MapSizeExtension.swift */,
+				C9A5B5CC2588A50500836AEB /* MapTypeExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 				C9AB2C72257E6B350045DFBC /* MapSizeExtension.swift in Sources */,
 				C98E68B32577D28E00BD93CA /* TerrainTypeExtension.swift in Sources */,
 				C98E68B12577D28E00BD93CA /* FeatureTypeExtension.swift in Sources */,
+				C9A5B5CD2588A50500836AEB /* MapTypeExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -399,6 +399,15 @@ public class MapModel: Codable {
         try self.tile(at: point)?.set(owner: player)
     }
     
+    public func terrain(at point: HexPoint) -> TerrainType {
+        
+        if let tile = self.tile(at: point) {
+            return tile.terrain()
+        }
+        
+        return .ocean
+    }
+    
     public func set(terrain terrainType: TerrainType, at point: HexPoint) {
         
         if let tile = self.tile(at: point) {
@@ -605,6 +614,32 @@ public class MapModel: Codable {
             if let neighborTerrain = self.tile(at: neighbor)?.terrain {
 
                 if neighborTerrain().isWater() {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
+    
+    /// returns wether this ocean or shore tile is adjacent to land
+    ///
+    public func isAdjacentToLand(at point: HexPoint) -> Bool {
+        
+        guard let terrain = self.tile(at: point)?.terrain else {
+            fatalError("cant get terrain")
+        }
+
+        // we are only coastal if we are on water
+        if terrain().isLand() {
+            return false
+        }
+        
+        for neighbor in point.neighbors() {
+
+            if let neighborTerrain = self.tile(at: neighbor)?.terrain {
+
+                if neighborTerrain().isLand() {
                     return true
                 }
             }
