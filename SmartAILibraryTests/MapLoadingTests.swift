@@ -13,7 +13,7 @@ import XCTest
 
 class MapLoadingTests: XCTestCase {
     
-    var downloadsFolder: URL = {
+    private var downloadsFolder: URL = {
         let fm = FileManager.default
         let folder = fm.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
 
@@ -35,18 +35,12 @@ class MapLoadingTests: XCTestCase {
         
         let map = civ5Map?.toMap()
         
-        let encoder = JSONEncoder()
-        let data = try encoder.encode(map)
-        let string = String(data: data, encoding: .utf8)!
-        
         let filename = downloadsFolder.appendingPathComponent("earth_duel.map")
         
-        do {
-            try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-        } catch {
-            
-        }
+        let writer = MapWriter()
+        let saved = writer.write(map: map, to: filename)
 
+        XCTAssertTrue(saved)
         XCTAssertNotNil(map)
     }
     
@@ -61,18 +55,12 @@ class MapLoadingTests: XCTestCase {
         
         let map = civ5Map?.toMap()
         
-        let encoder = JSONEncoder()
-        let data = try encoder.encode(map)
-        let string = String(data: data, encoding: .utf8)!
-        
         let filename = downloadsFolder.appendingPathComponent("earth_tiny.map")
         
-        do {
-            try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-        } catch {
-            
-        }
+        let writer = MapWriter()
+        let saved = writer.write(map: map, to: filename)
 
+        XCTAssertTrue(saved)
         XCTAssertNotNil(map)
     }
     
@@ -87,18 +75,12 @@ class MapLoadingTests: XCTestCase {
         
         let map = civ5Map?.toMap()
         
-        let encoder = JSONEncoder()
-        let data = try encoder.encode(map)
-        let string = String(data: data, encoding: .utf8)!
-        
         let filename = downloadsFolder.appendingPathComponent("earth_small.map")
         
-        do {
-            try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-        } catch {
-            
-        }
+        let writer = MapWriter()
+        let saved = writer.write(map: map, to: filename)
 
+        XCTAssertTrue(saved)
         XCTAssertNotNil(map)
     }
     
@@ -113,18 +95,12 @@ class MapLoadingTests: XCTestCase {
         
         let map = civ5Map?.toMap()
         
-        let encoder = JSONEncoder()
-        let data = try encoder.encode(map)
-        let string = String(data: data, encoding: .utf8)!
-        
         let filename = downloadsFolder.appendingPathComponent("earth_standard.map")
         
-        do {
-            try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-        } catch {
-            
-        }
+        let writer = MapWriter()
+        let saved = writer.write(map: map, to: filename)
 
+        XCTAssertTrue(saved)
         XCTAssertNotNil(map)
     }
     
@@ -139,18 +115,12 @@ class MapLoadingTests: XCTestCase {
         
         let map = civ5Map?.toMap()
         
-        let encoder = JSONEncoder()
-        let data = try encoder.encode(map)
-        let string = String(data: data, encoding: .utf8)!
-        
         let filename = downloadsFolder.appendingPathComponent("earth_large.map")
         
-        do {
-            try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-        } catch {
-            
-        }
+        let writer = MapWriter()
+        let saved = writer.write(map: map, to: filename)
 
+        XCTAssertTrue(saved)
         XCTAssertNotNil(map)
     }
     
@@ -165,18 +135,12 @@ class MapLoadingTests: XCTestCase {
         
         let map = civ5Map?.toMap()
         
-        let encoder = JSONEncoder()
-        let data = try encoder.encode(map)
-        let string = String(data: data, encoding: .utf8)!
-        
         let filename = downloadsFolder.appendingPathComponent("earth_huge.map")
         
-        do {
-            try string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-        } catch {
-            
-        }
+        let writer = MapWriter()
+        let saved = writer.write(map: map, to: filename)
 
+        XCTAssertTrue(saved)
         XCTAssertNotNil(map)
     }
     

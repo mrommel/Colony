@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SDWebImageSwiftUI
 
 protocol MapProgressViewDelegate: NSObject {
     
@@ -24,14 +25,16 @@ struct MapProgressView: View {
         
         VStack {
 
+            AnimatedImage(name: "animated-map.gif").clipShape(Circle()).scaledToFit()
+            
             Text("Generating Map")
             
             Text($viewModel.progress.wrappedValue)
 
             ActivityIndicator(isAnimating: $viewModel.generating, style: .spinning)
 
-        }.padding(EdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 2))
-        .frame(width: 200, height: 120, alignment: .leading)
+        }.padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
+        .frame(width: 200, height: 250, alignment: .center)
     }
     
     func bind() {

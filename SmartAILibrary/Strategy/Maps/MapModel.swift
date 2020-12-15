@@ -429,6 +429,25 @@ public class MapModel: Codable {
         }
     }
     
+    public func canHave(feature featureType: FeatureType, at point: HexPoint) -> Bool {
+        
+        if let tile = self.tile(at: point) {
+            
+            // check tile itself (no suroundings)
+            if featureType.isPossible(on: tile) {
+                
+                // additional check for marsh
+                if featureType == .floodplains {
+                    return self.river(at: tile.point)
+                }
+                
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     public func set(resource resourceType: ResourceType, at point: HexPoint) {
         
         if let tile = self.tile(at: point) {

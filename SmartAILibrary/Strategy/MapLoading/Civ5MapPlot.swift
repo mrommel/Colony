@@ -68,7 +68,10 @@ struct Civ5MapPlot: Codable {
         self.artStyle = ArtStyle(rawValue: Int(artStyleValue)) ?? ArtStyle.none
         let feature2stTypeIndex: UInt8 = try reader.read()
         if feature2stTypeIndex != 255 {
-            self.feature2ndType = FeatureType.fromCiv5String(value: header.feature2ndTypes[Int(feature2stTypeIndex)])
+            guard let featureType = FeatureType.fromCiv5String(value: header.feature2ndTypes[Int(feature2stTypeIndex)]) else {
+                fatalError("feature type not handled: \(header.feature2ndTypes[Int(feature2stTypeIndex)])")
+            }
+            self.feature2ndType = featureType
         } else {
             self.feature2ndType = nil
         }

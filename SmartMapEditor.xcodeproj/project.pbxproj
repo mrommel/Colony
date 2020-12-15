@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -31,6 +31,8 @@
 		C968A96825703E5300C11F85 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C968A96725703E5300C11F85 /* SmartAILibrary.framework */; };
 		C968A96925703E5300C11F85 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C968A96725703E5300C11F85 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C968A98B2570451F00C11F85 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968A98A2570451F00C11F85 /* MapView.swift */; };
+		C9A5B5BB258897B600836AEB /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C9A5B5BA258897B600836AEB /* SDWebImageSwiftUI */; };
+		C9A5B5BF2588982A00836AEB /* animated-map.gif in Resources */ = {isa = PBXBuildFile; fileRef = C9A5B5BE2588982A00836AEB /* animated-map.gif */; };
 		C9AAF4A42581185F00D7F357 /* MapLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */; };
 		C9AAF4A82581194600D7F357 /* MapLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */; };
 		C9AAF4AC25811A8100D7F357 /* MapLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4AB25811A8100D7F357 /* MapLoadingView.swift */; };
@@ -114,6 +116,8 @@
 		C968A95E25703D6A00C11F85 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C968A96725703E5300C11F85 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C968A98A2570451F00C11F85 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		C9A5B5BE2588982A00836AEB /* animated-map.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "animated-map.gif"; sourceTree = "<group>"; };
+		C9A5B5C225889C3C00836AEB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewController.swift; sourceTree = "<group>"; };
 		C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewModel.swift; sourceTree = "<group>"; };
 		C9AAF4AB25811A8100D7F357 /* MapLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingView.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9A5B5BB258897B600836AEB /* SDWebImageSwiftUI in Frameworks */,
 				C968A96825703E5300C11F85 /* SmartAILibrary.framework in Frameworks */,
 				C931ADDE2577D1160002BA2F /* SmartAssets.framework in Frameworks */,
 			);
@@ -203,6 +208,7 @@
 				C968A9232570388D00C11F85 /* AppDelegate.swift */,
 				C9070A6A2574F50C00276B7D /* MapEditorMenu.swift */,
 				C9070A702574F64600276B7D /* MapEditorToolbar.swift */,
+				C9A5B5C225889C3C00836AEB /* README.md */,
 			);
 			path = SmartMapEditor;
 			sourceTree = "<group>";
@@ -297,6 +303,7 @@
 			children = (
 				C968A92A2570389700C11F85 /* Assets.xcassets */,
 				C968A92F2570389700C11F85 /* Info.plist */,
+				C9A5B5BE2588982A00836AEB /* animated-map.gif */,
 				C968A9302570389700C11F85 /* SmartMapEditor.entitlements */,
 				C968A9272570388D00C11F85 /* SmartMapEditor.xcdatamodeld */,
 			);
@@ -320,6 +327,9 @@
 			dependencies = (
 			);
 			name = SmartMapEditor;
+			packageProductDependencies = (
+				C9A5B5BA258897B600836AEB /* SDWebImageSwiftUI */,
+			);
 			productName = SmartMapEditor;
 			productReference = C968A9202570388D00C11F85 /* SmartMapEditor.app */;
 			productType = "com.apple.product-type.application";
@@ -391,6 +401,9 @@
 				Base,
 			);
 			mainGroup = C968A9172570388D00C11F85;
+			packageReferences = (
+				C9A5B5B9258897B600836AEB /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			productRefGroup = C968A9212570388D00C11F85 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -407,6 +420,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9A5B5BF2588982A00836AEB /* animated-map.gif in Resources */,
 				C968A92B2570389700C11F85 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -797,6 +811,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C9A5B5B9258897B600836AEB /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C9A5B5BA258897B600836AEB /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9A5B5B9258897B600836AEB /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C968A9272570388D00C11F85 /* SmartMapEditor.xcdatamodeld */ = {

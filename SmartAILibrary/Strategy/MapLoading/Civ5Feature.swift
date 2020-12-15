@@ -27,26 +27,26 @@ extension FeatureType {
             return .floodplains
             
         // special
-        case "FEATURE_FALLOUT": // FIXME
-            return nil
+        case "FEATURE_FALLOUT":
+            return .fallout
         case "FEATURE_ATOLL":
             return .atoll
         case "FEATURE_REEF":
             return .reef
         case "FEATURE_ULURU":
             return .uluru
-        case "FEATURE_CRATER": // FIXME
-            return nil
-        case "FEATURE_FUJI": // FIXME
-            return nil
-        case "FEATURE_MESA": // FIXME
-            return nil
+        case "FEATURE_CRATER":
+            return .barringCrater
+        case "FEATURE_FUJI":
+            return .fuji
+        case "FEATURE_MESA":
+            return .mesa
         case "FEATURE_VOLCANO": 
             return .volcano
-        case "FEATURE_GIBRALTAR": // FIXME
-            return nil
-        case "FEATURE_GEYSER": // FIXME
-            return nil
+        case "FEATURE_GIBRALTAR":
+            return .gibraltar
+        case "FEATURE_GEYSER":
+            return .geyser
         case "FEATURE_FOUNTAIN_YOUTH": // FIXME
             return nil
         case "FEATURE_POTOSI": // FIXME

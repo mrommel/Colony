@@ -23,6 +23,7 @@ extension FeatureType {
     public func textureNames() -> [String] {
         
         switch self {
+        
         case .none:
             return []
         case .forest:
@@ -48,6 +49,8 @@ extension FeatureType {
             return ["feature_mountains1", "feature_mountains2", "feature_mountains3"]
         case .lake:
             return ["feature_lake"]
+        case .fallout:
+            return ["feature_fallout"]
             
         case .delicateArch:
             return ["feature_delicateArch"]
@@ -65,6 +68,16 @@ extension FeatureType {
             return ["feature_yosemite"]
         case .uluru:
             return ["feature_uluru"]
+        case .fuji:
+            return ["feature_fuji"]
+        case .barringCrater:
+            return ["feature_barringCrater"]
+        case .mesa:
+            return ["feature_mesa"]
+        case .gibraltar:
+            return ["feature_gibraltar"]
+        case .geyser:
+            return ["feature_geyser"]
         }
     }
 }
