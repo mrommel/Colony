@@ -78,6 +78,10 @@ extension FeatureType {
             return ["feature_gibraltar"]
         case .geyser:
             return ["feature_geyser"]
+        case .potosi:
+            return ["feature_potosi"]
+        case .fountainOfYouth:
+            return ["feature_fountainOfYouth"]
         }
     }
 }

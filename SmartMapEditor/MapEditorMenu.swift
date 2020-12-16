@@ -36,6 +36,8 @@ class MapEditorMenu: NSMenu {
             NSMenuItem(title: "New", target: self, action: #selector(MapEditorMenu.newMap(_:)), keyEquivalent: "n"),
             NSMenuItem(title: "Open", target: self, action: #selector(MapEditorMenu.openMap(_:)), keyEquivalent: "o"),
             NSMenuItem.separator(),
+            NSMenuItem(title: "Import Civ5 Map", target: self, action: #selector(MapEditorMenu.importCiv5Map(_:)), keyEquivalent: "i"),
+            NSMenuItem.separator(),
             //NSMenuItem(title: "Save", action: #selector(NSDocument.save(_:)), keyEquivalent: "s"),
             NSMenuItem(title: "Save As...", target: self, action: #selector(MapEditorMenu.saveMap(_:)), keyEquivalent: "S"),
             //NSMenuItem(title: "Revert to Saved...", action: #selector(NSDocument.revertToSaved(_:)), keyEquivalent: ""),
@@ -62,8 +64,10 @@ class MapEditorMenu: NSMenu {
         ]
 
         let viewMenu = NSMenuItem()
-        viewMenu.submenu = NSMenu(title: "View")
-        viewMenu.submenu?.items = []
+        viewMenu.submenu = NSMenu(title: "Map")
+        viewMenu.submenu?.items = [
+            NSMenuItem(title: "Edit Meta Data", target: self, action: #selector(MapEditorMenu.editMetaData(_:)), keyEquivalent: "e"),
+        ]
 
         let windowMenu = NSMenuItem()
         windowMenu.submenu = NSMenu(title: "Window")
@@ -134,6 +138,37 @@ extension MapEditorMenu {
         }
     }
     
+    @objc fileprivate func importCiv5Map(_ sender: AnyObject) {
+        
+        let dialog = NSOpenPanel()
+
+        dialog.title = "Choose a .Civ5Map file"
+        dialog.showsResizeIndicator = true
+        dialog.showsHiddenFiles = false
+        dialog.canChooseDirectories = true
+        dialog.canCreateDirectories = true
+        dialog.allowsMultipleSelection = false
+        dialog.allowedFileTypes = ["Civ5Map"]
+
+        if dialog.runModal() == NSApplication.ModalResponse.OK {
+ 
+            guard dialog.url?.path != nil else {
+                print("no path")
+                return
+            }
+
+            if let window = NSApplication.shared.windows.first,
+               let editorViewController = window.contentViewController as? EditorViewController {
+                
+                let civ5mapImportingViewController = Civ5MapImportingViewController(url: dialog.url)
+                editorViewController.presentAsSheet(civ5mapImportingViewController)
+            }
+        } else {
+            // User clicked on "Cancel"
+            return
+        }
+    }
+    
     @objc fileprivate func saveMap(_ sender: AnyObject) {
         
         let dialog = NSSavePanel()
@@ -154,6 +189,11 @@ extension MapEditorMenu {
                 }
             }
         }
+    }
+    
+    @objc fileprivate func editMetaData(_ sender: AnyObject) {
+        
+        print("editMetaData")
     }
 
     @objc fileprivate func openDocumentation(_ sender: AnyObject) {

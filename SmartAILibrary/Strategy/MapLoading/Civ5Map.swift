@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Civ5Map {
+public class Civ5Map {
     
     let header: Civ5MapHeader
     let plots: Array2D<Civ5MapPlot>
@@ -145,9 +145,12 @@ class Civ5Map {
         return []
     }
     
-    func toMap() -> MapModel? {
+    public func toMap() -> MapModel? {
         
         let map = MapModel(width: Int(header.width), height: Int(header.height))
+        
+        map.name = self.header.mapName
+        map.summary = self.header.summary
         
         for y in 0..<Int(header.height) {
             for x in 0..<Int(header.width) {

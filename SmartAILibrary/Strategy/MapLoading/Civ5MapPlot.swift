@@ -57,8 +57,8 @@ struct Civ5MapPlot: Codable {
         if self.elevation == 1 {
             self.hills = true
         } else if self.elevation == 2 {
-            if self.feature1stType != nil {
-                fatalError("cant set mountain")
+            if let currentFeature = self.feature1stType {
+                print("warning: setting mountain removes \(currentFeature)")
             }
             
             self.feature1stType = .mountains

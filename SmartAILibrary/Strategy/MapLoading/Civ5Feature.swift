@@ -48,9 +48,9 @@ extension FeatureType {
         case "FEATURE_GEYSER":
             return .geyser
         case "FEATURE_FOUNTAIN_YOUTH": // FIXME
-            return nil
+            return .fountainOfYouth
         case "FEATURE_POTOSI": // FIXME
-            return nil
+            return .potosi
         case "FEATURE_EL_DORADO": // FIXME
             return nil
         case "FEATURE_SRI_PADA": // FIXME

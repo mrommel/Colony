@@ -5,6 +5,7 @@ import Cocoa
 
 /*
  run
+ cd ~/Prog/Colony/SmartAssets/SmartAssets
  ./CheckScript.swift ~/Prog/Colony\ Resource/Features_ice
  */
 

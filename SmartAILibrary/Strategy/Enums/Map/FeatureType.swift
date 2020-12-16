@@ -40,6 +40,8 @@ public enum FeatureType: Int, Codable {
     case mesa
     case gibraltar
     case geyser
+    case potosi // civ5
+    case fountainOfYouth // civ5 + civ6
 
     public static var all: [FeatureType] {
         return [
@@ -49,7 +51,7 @@ public enum FeatureType: Int, Codable {
     
     public static var naturalWonders: [FeatureType] {
         return [
-            .delicateArch, .galapagos, .greatBarrierReef, .mountEverest, .mountKilimanjaro, .pantanal, .yosemite, .uluru, .fuji, .barringCrater, .mesa, .gibraltar, .geyser
+            .delicateArch, .galapagos, .greatBarrierReef, .mountEverest, .mountKilimanjaro, .pantanal, .yosemite, .uluru, .fuji, .barringCrater, .mesa, .gibraltar, .geyser, .potosi, .fountainOfYouth
         ]
     }
     
@@ -113,6 +115,8 @@ public enum FeatureType: Int, Codable {
         case .mesa: return self.isMesaPossible(on: tile)
         case .gibraltar: return self.isGibraltarPossible(on: tile)
         case .geyser: return self.isGeyserPossible(on: tile)
+        case .potosi: return self.isPotosiPossible(on: tile)
+        case .fountainOfYouth: return self.isFountainOfYouthPossible(on: tile)
             
         }
     }
@@ -151,6 +155,8 @@ public enum FeatureType: Int, Codable {
         case .mesa: return false
         case .gibraltar: return false
         case .geyser: return false
+        case .potosi: return false
+        case .fountainOfYouth: return false
         }
     }
     
@@ -188,6 +194,8 @@ public enum FeatureType: Int, Codable {
         case .mesa: return true
         case .gibraltar: return true
         case .geyser: return true
+        case .potosi: return true
+        case .fountainOfYouth: return true
         }
     }
     
@@ -225,6 +233,8 @@ public enum FeatureType: Int, Codable {
         case .mesa: return 0
         case .gibraltar: return 0
         case .geyser: return 0
+        case .potosi: return 0
+        case .fountainOfYouth: return 0
         }
     }
     
@@ -262,6 +272,8 @@ public enum FeatureType: Int, Codable {
         case .mesa: return 0
         case .gibraltar: return 0
         case .geyser: return 0
+        case .potosi: return 0
+        case .fountainOfYouth: return 0
         }
     }
     
@@ -299,6 +311,8 @@ public enum FeatureType: Int, Codable {
         case .mesa: return UnitMovementType.max
         case .gibraltar: return UnitMovementType.max
         case .geyser: return UnitMovementType.max
+        case .potosi: return UnitMovementType.max
+        case .fountainOfYouth: return UnitMovementType.max
         }
     }
     
@@ -337,6 +351,8 @@ public enum FeatureType: Int, Codable {
         case .mesa: return 2
         case .gibraltar: return 2
         case .geyser: return 2
+        case .potosi: return 2
+        case .fountainOfYouth: return 2
         }
     }
 
@@ -376,6 +392,8 @@ public enum FeatureType: Int, Codable {
         case .mesa: return FeatureData(name: "The Grand Mesa", yields: Yields(food: 0, production: 2, gold: 3, science: 0, culture: 0, faith: 0), isWonder: true)
         case .gibraltar: return FeatureData(name: "Rock of Gibraltar", yields: Yields(food: 2, production: 0, gold: 5, science: 0, culture: 0, faith: 0), isWonder: true)
         case .geyser: return FeatureData(name: "Old Faithful", yields: Yields(food: 0, production: 0, gold: 0, science: 2, culture: 0, faith: 0), isWonder: true)
+        case .potosi: return FeatureData(name: "Cerro de Potosi", yields: Yields(food: 0, production: 0, gold: 10, science: 0, culture: 0, faith: 0), isWonder: true)
+        case .fountainOfYouth: return FeatureData(name: "Fountain of Youth", yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0), isWonder: true) // fixme: 10 happiness
         }
     }
 
@@ -474,6 +492,30 @@ public enum FeatureType: Int, Codable {
     private func isGeyserPossible(on tile: AbstractTile) -> Bool {
         
         if tile.terrain() != .grass && tile.terrain() != .plains && tile.terrain() != .tundra {
+            return false
+        }
+        
+        return true
+    }
+    
+    // https://civilization.fandom.com/wiki/Cerro_de_Potosi_(Civ5)
+    private func isPotosiPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.terrain() != .plains {
+            return false
+        }
+        
+        if tile.feature() != .mountains {
+            return false
+        }
+        
+        return true
+    }
+    
+    // https://civilization.fandom.com/wiki/Fountain_of_Youth_(Civ5)
+    private func isFountainOfYouthPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.terrain() != .plains {
             return false
         }
         

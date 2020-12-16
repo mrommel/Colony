@@ -18,6 +18,9 @@ public class MapModel: Codable {
     
     enum CodingKeys: CodingKey {
         
+        case name
+        case summary
+        
         case size
         case cities
         case units
@@ -28,6 +31,9 @@ public class MapModel: Codable {
         case areas
         case rivers
     }
+    
+    public var name: String
+    public var summary: String
     
     public let size: MapSize
     private var cities: [AbstractCity?]
@@ -47,6 +53,9 @@ public class MapModel: Codable {
     private var numberOfWaterPlotsValue: Int = 0
     
     public init(size: MapSize) {
+        
+        self.name = "no name"
+        self.summary = "no summary"
         
         self.size = size
         self.cities = []
@@ -71,6 +80,9 @@ public class MapModel: Codable {
     public required init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? "no name"
+        self.summary = try container.decodeIfPresent(String.self, forKey: .summary) ?? "no summary"
         
         self.size = try container.decode(MapSize.self, forKey: .size)
         self.cities = try container.decode([City?].self, forKey: .cities)
@@ -135,6 +147,9 @@ public class MapModel: Codable {
     public func encode(to encoder: Encoder) throws {
         
         var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.name, forKey: .name)
+        try container.encode(self.summary, forKey: .summary)
         
         try container.encode(self.size, forKey: .size)
         let wrappedCities: [City?] = self.cities.map { $0 as? City }

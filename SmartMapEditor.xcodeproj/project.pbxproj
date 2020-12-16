@@ -53,6 +53,9 @@
 		C9F3AE0D25894F3100027DD6 /* MapBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE0C25894F3000027DD6 /* MapBrush.swift */; };
 		C9F3AE1125894F5500027DD6 /* MapBrushSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */; };
 		C9F3AE1525894F6B00027DD6 /* MapBrushType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */; };
+		C9F3AE192589EC0600027DD6 /* Civ5MapImportingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE182589EC0600027DD6 /* Civ5MapImportingViewController.swift */; };
+		C9F3AE1D2589EC4400027DD6 /* Civ5MapImportingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1C2589EC4400027DD6 /* Civ5MapImportingViewModel.swift */; };
+		C9F3AE212589EDD500027DD6 /* Civ5MapImportingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE202589EDD500027DD6 /* Civ5MapImportingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +143,9 @@
 		C9F3AE0C25894F3000027DD6 /* MapBrush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrush.swift; sourceTree = "<group>"; };
 		C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrushSize.swift; sourceTree = "<group>"; };
 		C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrushType.swift; sourceTree = "<group>"; };
+		C9F3AE182589EC0600027DD6 /* Civ5MapImportingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapImportingViewController.swift; sourceTree = "<group>"; };
+		C9F3AE1C2589EC4400027DD6 /* Civ5MapImportingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapImportingViewModel.swift; sourceTree = "<group>"; };
+		C9F3AE202589EDD500027DD6 /* Civ5MapImportingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapImportingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +263,7 @@
 				C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */,
 				C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */,
 				C9AAF4BA2581FB8900D7F357 /* MapSavingViewModel.swift */,
+				C9F3AE1C2589EC4400027DD6 /* Civ5MapImportingViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -279,6 +286,7 @@
 				C9AB2C73257EB6B00045DFBC /* MapProgressViewController.swift */,
 				C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */,
 				C9AAF4B425816A0700D7F357 /* MapSavingViewController.swift */,
+				C9F3AE182589EC0600027DD6 /* Civ5MapImportingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -308,6 +316,7 @@
 				C9AB2C77257EB6F10045DFBC /* MapProgressView.swift */,
 				C9AAF4AB25811A8100D7F357 /* MapLoadingView.swift */,
 				C9AAF4C52581FF7300D7F357 /* MapSavingView.swift */,
+				C9F3AE202589EDD500027DD6 /* Civ5MapImportingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -467,6 +476,7 @@
 				C9AAF4BB2581FB8900D7F357 /* MapSavingViewModel.swift in Sources */,
 				C9AB2C66257E51CB0045DFBC /* NewMapContentView.swift in Sources */,
 				C9070A612574445A00276B7D /* main.swift in Sources */,
+				C9F3AE192589EC0600027DD6 /* Civ5MapImportingViewController.swift in Sources */,
 				C9070A7F2575174B00276B7D /* TrackingAreaRepresentable.swift in Sources */,
 				C9AAF4AC25811A8100D7F357 /* MapLoadingView.swift in Sources */,
 				C9070A93257517FB00276B7D /* MapScrollContentView.swift in Sources */,
@@ -480,9 +490,11 @@
 				C9070A752574F89200276B7D /* EditorContentView.swift in Sources */,
 				C9591AA4257117E700694BEF /* NSImageExtension.swift in Sources */,
 				C9AB2C55257D2E780045DFBC /* PopupButton.swift in Sources */,
+				C9F3AE1D2589EC4400027DD6 /* Civ5MapImportingViewModel.swift in Sources */,
 				C968A98B2570451F00C11F85 /* MapView.swift in Sources */,
 				C9070A6B2574F50C00276B7D /* MapEditorMenu.swift in Sources */,
 				C931ADB425769E1C0002BA2F /* ImageCache.swift in Sources */,
+				C9F3AE212589EDD500027DD6 /* Civ5MapImportingView.swift in Sources */,
 				C9AB2C78257EB6F10045DFBC /* MapProgressView.swift in Sources */,
 				C9AAF4A82581194600D7F357 /* MapLoadingViewModel.swift in Sources */,
 				C9F3AE0D25894F3100027DD6 /* MapBrush.swift in Sources */,
