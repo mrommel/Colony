@@ -22,51 +22,52 @@ public enum TerrainType: Int, Codable {
     
     public static let all: [TerrainType] = [.grass, .plains, .desert, .tundra, .snow, .shore, .ocean]
     
-    func yields() -> Yields {
-        
-        switch self {
-            
-        case .grass:
-            return Yields(food: 2, production: 0, gold: 0, science: 0)
-        case .plains:
-            return Yields(food: 1, production: 1, gold: 0, science: 0)
-        case .desert:
-            return Yields(food: 0, production: 0, gold: 0, science: 0)
-        case .tundra:
-            return Yields(food: 1, production: 0, gold: 0, science: 0)
-        case .snow:
-            return Yields(food: 0, production: 0, gold: 0, science: 0)
-            
-        case .shore:
-            return Yields(food: 1, production: 0, gold: 1, science: 0)
-        case .ocean:
-            return Yields(food: 1, production: 0, gold: 0, science: 0)
-        }
+    // MARK: public methods
+    
+    public func name() -> String {
+
+        return self.data().name
+    }
+    
+    public func yields() -> Yields {
+
+        return self.data().yields
     }
     
     public func isLand() -> Bool {
         
-        switch self {
-        case .grass, .plains, .desert, .tundra, .snow:
-            return true
-        case .shore, .ocean:
-            return false
-        }
+        return !self.data().isWater
     }
     
     public func isWater() -> Bool {
         
-        switch self {
-        case .grass, .plains, .desert, .tundra, .snow:
-            return false
-        case .shore, .ocean:
-            return true
-        }
+        return self.data().isWater
     }
     
-    func attackModifier() -> Int {
+    // MARK: internal classes
+    
+    private struct TerrainData {
         
-        return 0
+        let name: String
+        let yields: Yields
+        let isWater: Bool
+    }
+    
+    // MARK: private methods
+    
+    private func data() -> TerrainData {
+        
+        switch self {
+
+        case .ocean: return TerrainData(name: "Ocean", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWater: true)
+        case .shore: return TerrainData(name: "Shore", yields: Yields(food: 1, production: 0, gold: 1, science: 0), isWater: true)
+            
+        case .plains: return TerrainData(name: "Plains", yields: Yields(food: 1, production: 1, gold: 0, science: 0), isWater: false)
+        case .grass: return TerrainData(name: "Grassland", yields: Yields(food: 2, production: 0, gold: 0, science: 0), isWater: false)
+        case .desert: return TerrainData(name: "Desert", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWater: false)
+        case .tundra: return TerrainData(name: "Tundra", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWater: false)
+        case .snow: return TerrainData(name: "Snow", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWater: false)
+        }
     }
     
     func defenseModifier() -> Int {

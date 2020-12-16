@@ -8,52 +8,6 @@
 import SmartAILibrary
 
 extension ResourceType {
-
-    /*public func name() -> String {
-
-        switch self {
-
-        case .none: return "---"
-
-        case .wheat: return "Wheat"
-        case .rice: return "Rice"
-        case .deer: return "Deer"
-        case .sheep: return "Sheep"
-        case .copper: return "Copper"
-        case .stone: return "Stone"
-        case .bananas: return "Bananas"
-        case .cattle: return "Cattle"
-        case .fish: return "Fish"
-
-            // luxury
-        case .marble: return "Marble"
-        case .gems: return "Gems"
-        case .furs: return "Furs"
-        case .citrus: return "Citrus"
-        case .tea: return "Tea"
-        case .sugar: return "Sugar"
-        case .whales: return "Whales"
-        case .pearls: return "Pearls"
-        case .ivory: return "Ivory"
-        case .wine: return "Wine"
-        case .cotton: return "Cotton"
-        case .dyes: return "Dyes"
-        case .incense: return "Incense"
-        case .silk: return "Silk"
-        case .silver: return "Silver"
-        case .gold: return "Gold"
-        case .spices: return "Spices"
-
-            // strategic
-        case .horses: return "Horses"
-        case .iron: return "Iron"
-        case .coal: return "Coal"
-        case .oil: return "Oil"
-        case .aluminium: return "Aliminium"
-        case .uranium: return "Uranium"
-        case .niter: return "Niter"
-        }
-    }*/
     
     public static func from(name: String) -> ResourceType? {
         
