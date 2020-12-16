@@ -81,12 +81,13 @@ extension ResourceType {
         case .bananas: return "resource_marker_banana"
         case .cattle: return "resource_marker_cattle"
         case .fish: return "resource_marker_fish"
+        case .crab: return "resource_marker_crab" // <----
+            
         case .marble: return "resource_marker_marble"
         case .gems: return "resource_marker_gems"
         case .furs: return "resource_marker_furs"
         case .citrus: return "resource_marker_citrus"
         case .tea: return "resource_marker_tea"
-
         case .sugar: return "resource_marker_sugar"
         case .whales: return "resource_marker_whales"
         case .pearls: return "resource_marker_pearls"
@@ -99,6 +100,8 @@ extension ResourceType {
         case .silver: return "resource_marker_silver"
         case .gold: return "resource_marker_gold"
         case .spices: return "resource_marker_spices"
+        case .salt: return "resource_marker_salt" // <----
+        case .cocoa: return "resource_marker_cacao" // <----
 
         case .horses: return "resource_marker_horse"
         case .iron: return "resource_marker_iron"
@@ -125,12 +128,13 @@ extension ResourceType {
         case .bananas: return "resource_banana"
         case .cattle: return "resource_cattle"
         case .fish: return "resource_fish"
+        case .crab: return "resource_crab"
+            
         case .marble: return "resource_marble"
         case .gems: return "resource_gems"
         case .furs: return "resource_furs"
         case .citrus: return "resource_citrus"
         case .tea: return "resource_tea"
-
         case .sugar: return "resource_sugar"
         case .whales: return "resource_whales"
         case .pearls: return "resource_pearls"
@@ -143,6 +147,8 @@ extension ResourceType {
         case .silver: return "resource_silver"
         case .gold: return "resource_gold"
         case .spices: return "resource_spices"
+        case .salt: return "resource_salt"
+        case .cocoa: return "resource_cocoa"
 
         case .horses: return "resource_horse"
         case .iron: return "resource_iron"

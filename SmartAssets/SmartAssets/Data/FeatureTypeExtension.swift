@@ -82,6 +82,8 @@ extension FeatureType {
             return ["feature_potosi"]
         case .fountainOfYouth:
             return ["feature_fountainOfYouth"]
+        case .lakeVictoria:
+            return ["feature_lakeVictoria"]
         }
     }
 }
