@@ -156,7 +156,7 @@ struct EditorContentView: View {
 }
 
 #if DEBUG
-    struct ContentView_Previews: PreviewProvider {
+    struct EditorContentView_Previews: PreviewProvider {
 
         static var previews: some View {
             EditorContentView()

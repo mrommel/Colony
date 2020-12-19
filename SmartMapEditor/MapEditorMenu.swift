@@ -192,8 +192,16 @@ extension MapEditorMenu {
     }
     
     @objc fileprivate func editMetaData(_ sender: AnyObject) {
-        
-        print("editMetaData")
+
+        if let window = NSApplication.shared.windows.first,
+           let editorViewController = window.contentViewController as? EditorViewController {
+            
+            if let map = editorViewController.viewModel.currentMap() {
+                
+                let editMetaDataViewController = EditMetaDataViewController(of: map)
+                editorViewController.presentAsSheet(editMetaDataViewController)
+            }
+        }
     }
 
     @objc fileprivate func openDocumentation(_ sender: AnyObject) {

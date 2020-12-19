@@ -26,7 +26,7 @@ extension MapSize {
         case .huge: return "Huge"
             
         case .custom(width: let width, height: let height):
-            return "Custom(\(width), \(height)"
+            return "Custom(\(width), \(height))"
         }
     }
 
