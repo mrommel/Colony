@@ -165,6 +165,11 @@ class EditorContentViewModel: ObservableObject {
             self.didChange?(focusTile.point)
         }
     }
+    
+    func riverValueNames() -> [String] {
+        
+        return ["---", "n", "n-ne", "n-se", "ne-se", "n-ne-se", "se"]
+    }
 
     func setRiver(to value: String) {
 

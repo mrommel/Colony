@@ -95,7 +95,9 @@ struct EditorContentView: View {
                     VStack {
                         Text("Terrain")
 
-                        PopupButton(selectedValue: $viewModel.focusedTerrainName, items: TerrainType.all.map({ $0.name() }), onChange: {
+                        PopupButton(selectedValue: $viewModel.focusedTerrainName,
+                                    items: TerrainType.all.map({ $0.name() }),
+                                    onChange: {
                             viewModel.setTerrain(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
@@ -103,7 +105,9 @@ struct EditorContentView: View {
                     VStack {
                         Text("Hills")
 
-                        PopupButton(selectedValue: $viewModel.focusedHillsValue, items: ["yes", "no"], onChange: {
+                        PopupButton(selectedValue: $viewModel.focusedHillsValue,
+                                    items: ["yes", "no"],
+                                    onChange: {
                             viewModel.setHills(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
@@ -111,7 +115,9 @@ struct EditorContentView: View {
                     VStack {
                         Text("River")
                         
-                        PopupButton(selectedValue: $viewModel.focusedRiverValue, items: ["---", "n", "n-ne", "n-se", "ne-se", "n-ne-se", "se"], onChange: {
+                        PopupButton(selectedValue: $viewModel.focusedRiverValue,
+                                    items: viewModel.riverValueNames(),
+                                    onChange: {
                             viewModel.setRiver(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
@@ -119,7 +125,9 @@ struct EditorContentView: View {
                     VStack {
                         Text("Feature")
                         
-                        PopupButton(selectedValue: $viewModel.focusedFeatureName, items: ["---"] + FeatureType.all.map({ $0.name() }), onChange: {
+                        PopupButton(selectedValue: $viewModel.focusedFeatureName,
+                                    items: ["---"] + FeatureType.all.map({ $0.name() }),
+                                    onChange: {
                             viewModel.setFeature(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
@@ -127,7 +135,9 @@ struct EditorContentView: View {
                     VStack {
                         Text("Resource")
                         
-                        PopupButton(selectedValue: $viewModel.focusedResourceName, items: ["---"] + ResourceType.all.map({ $0.name() }), onChange: {
+                        PopupButton(selectedValue: $viewModel.focusedResourceName,
+                                    items: ["---"] + ResourceType.all.map({ $0.name() }),
+                                    onChange: {
                             viewModel.setResource(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
@@ -147,7 +157,9 @@ struct EditorContentView: View {
                     VStack {
                         Text("Zoom")
                         
-                        PopupButton(selectedValue: $viewModel.selectedZoomName, items: ["0.5", "1.0", "2.0"], onChange: {
+                        PopupButton(selectedValue: $viewModel.selectedZoomName,
+                                    items: ["0.5", "1.0", "2.0"],
+                                    onChange: {
                             viewModel.setZoom(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
 
