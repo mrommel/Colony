@@ -71,13 +71,17 @@ struct EditorContentView: View {
                             GroupBox(label: Label("Resources", systemImage: "pencil")
                                     .foregroundColor(.white)) {
                                 
-                                Button(action: { viewModel.clearResources() }) {
+                                Button(action: {
+                                    viewModel.clearResources()
+                                }, label: {
                                     Label("Clear", systemImage: "trash")
-                                }
+                                })
                                 
-                                Button(action: { viewModel.scatterResources() }) {
+                                Button(action: {
+                                    viewModel.scatterResources()
+                                }, label: {
                                     Label("Scatter", systemImage: "lasso.sparkles")
-                                }
+                                })
                                 
                                 PopupButton(selectedValue: $viewModel.brushResourceName,
                                             items: viewModel.resourceOptionNames(),

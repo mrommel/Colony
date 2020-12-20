@@ -10,53 +10,23 @@ import SmartAILibrary
 
 class EditorContentViewModel: ObservableObject {
 
-    @Published
-    var map: MapModel? = nil
-
-    @Published
-    var zoom: CGFloat
-
+    @Published var map: MapModel? = nil
+    @Published var zoom: CGFloat
     private var focus: AbstractTile? // input, leads to:
-    @Published
-    var focusedPoint: String
-    @Published
-    var focusedTerrainName: String
-    @Published
-    var focusedHillsValue: String
-    @Published
-    var focusedRiverValue: String
-    @Published
-    var focusedFeatureName: String {
-        didSet {
-            print("change: \(focusedFeatureName)")
-        }
-    }
-    @Published
-    var focusedResourceName: String
-
-    @Published
-    var focusedStartLocationName: String
-
-    @Published
-    var selectedZoomName: String
-
-    @Published
-    var brush: MapBrush
-
-    @Published
-    var brushTypeName: String
-
-    @Published
-    var brushSizeName: String
-
-    @Published
-    var brushTerrainName: String
-
-    @Published
-    var brushFeatureName: String
-
-    @Published
-    var brushResourceName: String
+    @Published var focusedPoint: String
+    @Published var focusedTerrainName: String
+    @Published var focusedHillsValue: String
+    @Published var focusedRiverValue: String
+    @Published var focusedFeatureName: String
+    @Published var focusedResourceName: String
+    @Published var focusedStartLocationName: String
+    @Published var selectedZoomName: String
+    @Published var brush: MapBrush
+    @Published var brushTypeName: String
+    @Published var brushSizeName: String
+    @Published var brushTerrainName: String
+    @Published var brushFeatureName: String
+    @Published var brushResourceName: String
 
     var didChange: ((HexPoint) -> ())? = nil
 

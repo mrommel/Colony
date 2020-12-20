@@ -9,7 +9,7 @@ import Cocoa
 import SwiftUI
 
 struct PlainGroupBoxStyle: GroupBoxStyle {
-    
+
     func makeBody(configuration: Configuration) -> some View {
         
         VStack(alignment: .leading) {
