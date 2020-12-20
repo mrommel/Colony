@@ -10,10 +10,16 @@ import Foundation
 
 public enum MapType {
     
+    case empty
     case earth
     case pangaea
     case continents
     case archipelago
     case inlandsea
     case custom
+    
+    public static var all: [MapType] {
+        
+        return [.empty, .earth, .pangaea, .continents, .archipelago, .inlandsea, .custom]
+    }
 }

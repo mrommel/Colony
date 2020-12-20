@@ -890,7 +890,7 @@ public class MilitaryAI: Codable {
         }
         
         var chosenTarget = MilitaryTarget()
-        var weightedTargetList: WeightedList<MilitaryTarget> = WeightedList<MilitaryTarget>()
+        let weightedTargetList: WeightedList<MilitaryTarget> = WeightedList<MilitaryTarget>()
 
         // Estimate the relative strength of units near our cities and near their cities (can't use TacticalAnalysisMap because we may not be at war - and that it isn't current if we are calling this from the DiploAI)
         for friendlyCityRef in gameModel.cities(of: player) {
@@ -1042,7 +1042,7 @@ public class MilitaryAI: Codable {
         
         while iI < prelimWeightedTargetList.count && targetsConsidered < 25 {
             
-            var target: MilitaryTarget = prelimWeightedTargetList.items[iI].itemType
+            let target: MilitaryTarget = prelimWeightedTargetList.items[iI].itemType
             var weight = 0
 
             // If a sea target, we haven't checked the path yet.  Do that now
@@ -1376,6 +1376,7 @@ public class MilitaryAI: Codable {
     }
     
     /// Send an army to force concessions
+    @discardableResult
     func requestPillageEnemy(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
         
         var numRequiredSlots = 0

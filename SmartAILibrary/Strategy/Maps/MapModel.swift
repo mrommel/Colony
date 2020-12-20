@@ -18,6 +18,9 @@ public class MapModel: Codable {
     
     enum CodingKeys: CodingKey {
         
+        case name
+        case summary
+        
         case size
         case cities
         case units
@@ -28,6 +31,9 @@ public class MapModel: Codable {
         case areas
         case rivers
     }
+    
+    public var name: String
+    public var summary: String
     
     public let size: MapSize
     private var cities: [AbstractCity?]
@@ -47,6 +53,9 @@ public class MapModel: Codable {
     private var numberOfWaterPlotsValue: Int = 0
     
     public init(size: MapSize) {
+        
+        self.name = "no name"
+        self.summary = "no summary"
         
         self.size = size
         self.cities = []
@@ -71,6 +80,9 @@ public class MapModel: Codable {
     public required init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? "no name"
+        self.summary = try container.decodeIfPresent(String.self, forKey: .summary) ?? "no summary"
         
         self.size = try container.decode(MapSize.self, forKey: .size)
         self.cities = try container.decode([City?].self, forKey: .cities)
@@ -135,6 +147,9 @@ public class MapModel: Codable {
     public func encode(to encoder: Encoder) throws {
         
         var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.name, forKey: .name)
+        try container.encode(self.summary, forKey: .summary)
         
         try container.encode(self.size, forKey: .size)
         let wrappedCities: [City?] = self.cities.map { $0 as? City }
@@ -399,6 +414,15 @@ public class MapModel: Codable {
         try self.tile(at: point)?.set(owner: player)
     }
     
+    public func terrain(at point: HexPoint) -> TerrainType {
+        
+        if let tile = self.tile(at: point) {
+            return tile.terrain()
+        }
+        
+        return .ocean
+    }
+    
     public func set(terrain terrainType: TerrainType, at point: HexPoint) {
         
         if let tile = self.tile(at: point) {
@@ -427,6 +451,25 @@ public class MapModel: Codable {
         if let tile = self.tile(at: point) {
             tile.set(feature: featureType)
         }
+    }
+    
+    public func canHave(feature featureType: FeatureType, at point: HexPoint) -> Bool {
+        
+        if let tile = self.tile(at: point) {
+            
+            // check tile itself (no suroundings)
+            if featureType.isPossible(on: tile) {
+                
+                // additional check for flood plains
+                if featureType == .floodplains {
+                    return self.river(at: tile.point)
+                }
+                
+                return true
+            }
+        }
+        
+        return false
     }
     
     public func set(resource resourceType: ResourceType, at point: HexPoint) {
@@ -594,6 +637,32 @@ public class MapModel: Codable {
         return false
     }
     
+    /// returns wether this ocean or shore tile is adjacent to land
+    ///
+    public func isAdjacentToLand(at point: HexPoint) -> Bool {
+        
+        guard let terrain = self.tile(at: point)?.terrain else {
+            fatalError("cant get terrain")
+        }
+
+        // we are only coastal if we are on water
+        if terrain().isLand() {
+            return false
+        }
+        
+        for neighbor in point.neighbors() {
+
+            if let neighborTerrain = self.tile(at: neighbor)?.terrain {
+
+                if neighborTerrain().isLand() {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
+    
     // MARK: continents
     
     func continent(by identifier: String) -> Continent? {
@@ -637,5 +706,55 @@ public class MapModel: Codable {
     func numberOfWaterPlots() -> Int {
         
         return self.numberOfWaterPlotsValue
+    }
+    
+    public func contentSize() -> CGSize {
+
+        let mapSize = self.size
+
+        var tmpPoint: CGPoint = CGPoint.zero
+        var minX: CGFloat = CGFloat(Float.greatestFiniteMagnitude)
+        var maxX: CGFloat = CGFloat(Float.leastNormalMagnitude)
+        var minY: CGFloat = CGFloat(Float.greatestFiniteMagnitude)
+        var maxY: CGFloat = CGFloat(Float.leastNormalMagnitude)
+
+        tmpPoint = HexPoint.toScreen(hex: HexPoint(x: mapSize.width(), y: mapSize.height()))
+        minX = min(minX, tmpPoint.x)
+        maxX = max(maxX, tmpPoint.x)
+        minY = min(minY, tmpPoint.y)
+        maxY = max(maxY, tmpPoint.y)
+
+        tmpPoint = HexPoint.toScreen(hex: HexPoint(x: 0, y: mapSize.height()))
+        minX = min(minX, tmpPoint.x)
+        maxX = max(maxX, tmpPoint.x)
+        minY = min(minY, tmpPoint.y)
+        maxY = max(maxY, tmpPoint.y)
+
+        tmpPoint = HexPoint.toScreen(hex: HexPoint(x: mapSize.width(), y: 0))
+        minX = min(minX, tmpPoint.x)
+        maxX = max(maxX, tmpPoint.x)
+        minY = min(minY, tmpPoint.y)
+        maxY = max(maxY, tmpPoint.y)
+
+        tmpPoint = HexPoint.toScreen(hex: HexPoint(x: 0, y: 0))
+        minX = min(minX, tmpPoint.x)
+        maxX = max(maxX, tmpPoint.x)
+        minY = min(minY, tmpPoint.y)
+        maxY = max(maxY, tmpPoint.y)
+
+        return CGSize(width: maxX - minX, height: maxY - minY)
+    }
+}
+
+extension MapModel: Equatable {
+    
+    public static func == (lhs: MapModel, rhs: MapModel) -> Bool {
+        
+        lhs.updateStatistics()
+        rhs.updateStatistics()
+        
+        return lhs.size == rhs.size &&
+            lhs.numberOfWaterPlots() == rhs.numberOfWaterPlots() &&
+            lhs.numberOfLandPlots() == rhs.numberOfLandPlots()
     }
 }

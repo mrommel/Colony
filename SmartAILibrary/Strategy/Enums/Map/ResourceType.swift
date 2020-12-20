@@ -48,9 +48,11 @@ public enum ResourceType: Int, Codable {
     case silver // https://civilization.fandom.com/wiki/Silver_(Civ6)
     case gold // https://civilization.fandom.com/wiki/Gold_Ore_(Civ6)/Gifts_of_the_Nile
     case spices // https://civilization.fandom.com/wiki/Spices_(Civ6)
+    case salt // https://civilization.fandom.com/wiki/Salt_(Civ6)
+    case crab // https://civilization.fandom.com/wiki/Crabs_(Civ6)
+    case cocoa // https://civilization.fandom.com/wiki/Cocoa_(Civ6)
 
     // strategic
-    //case coal
     case horses
     case iron // https://civilization.fandom.com/wiki/Iron_(Civ6)
     case coal // https://civilization.fandom.com/wiki/Coal_(Civ6)
@@ -63,13 +65,13 @@ public enum ResourceType: Int, Codable {
     // Antiquity Site
     // Shipwreck
 
-    static var all: [ResourceType] {
+    public static var all: [ResourceType] {
         return [
             // bonus
-            .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .fish,
+            .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .fish, .crab,
 
             // luxury
-            .marble, .gems, .furs, .citrus, tea, .whales, .pearls, .ivory, .wine, .cotton, .dyes, .incense, .silk, .silver, .gold, .spices,
+            .marble, .gems, .furs, .citrus, tea, .whales, .pearls, .ivory, .wine, .cotton, .dyes, .incense, .silk, .silver, .gold, .spices, .salt, .cocoa,
 
             // strategic
             .horses, .iron, .coal, .oil, .aluminium, .uranium, .niter
@@ -78,7 +80,7 @@ public enum ResourceType: Int, Codable {
 
     // MARK: methods
     
-    func name() -> String {
+    public func name() -> String {
         
         switch self {
             
@@ -112,6 +114,9 @@ public enum ResourceType: Int, Codable {
         case .silver: return "Silver"
         case .gold: return "Gold"
         case .spices: return "Spices"
+        case .crab: return "Crab"
+        case .salt: return "Salt"
+        case .cocoa: return "Cocoa"
             
             // strategic
         case .horses: return "Horses"
@@ -131,10 +136,10 @@ public enum ResourceType: Int, Codable {
         case .none:
             return .bonus
 
-        case .wheat, .rice, .sheep, .deer, .copper, .stone, .bananas, .cattle, .fish:
+        case .wheat, .rice, .sheep, .deer, .copper, .stone, .bananas, .cattle, .fish, .crab:
             return .bonus
 
-        case .gems, .marble, .furs, .citrus, .tea, .sugar, .whales, .pearls, .ivory, .wine, .cotton, .dyes, .incense, .silk, .silver, .gold, .spices:
+        case .gems, .marble, .furs, .citrus, .tea, .sugar, .whales, .pearls, .ivory, .wine, .cotton, .dyes, .incense, .silk, .silver, .gold, .spices, .salt, .cocoa:
             return .luxury
 
         case .iron, .horses, .coal, .oil, .aluminium, .uranium, .niter:
@@ -158,6 +163,7 @@ public enum ResourceType: Int, Codable {
         case .bananas: return Yields(food: 1, production: 0, gold: 0, science: 0)
         case .cattle: return Yields(food: 1, production: 0, gold: 0, science: 0)
         case .fish: return Yields(food: 1, production: 0, gold: 0, science: 0)
+        case .crab: return Yields(food: 0, production: 0, gold: 2, science: 0)
 
             // luxury
         case .gems: return Yields(food: 0, production: 0, gold: 3, science: 0)
@@ -177,6 +183,8 @@ public enum ResourceType: Int, Codable {
         case .silver: return Yields(food: 0, production: 0, gold: 3, science: 0)
         case .gold: return Yields(food: 0, production: 0, gold: 3, science: 0)
         case .spices: return Yields(food: 2, production: 0, gold: 0, science: 0)
+        case .salt: return Yields(food: 1, production: 0, gold: 1, science: 0)
+        case .cocoa: return Yields(food: 1, production: 0, gold: 1, science: 0)
 
             // strategic
         case .iron: return Yields(food: 0, production: 0, gold: 0, science: 1)
@@ -205,16 +213,16 @@ public enum ResourceType: Int, Codable {
         case .stone, .marble:
             return .quarry
 
-        case .bananas, .citrus, .tea, .sugar, .spices, .wine, .cotton, .dyes, .incense, .silk:
+        case .bananas, .citrus, .tea, .sugar, .spices, .wine, .cotton, .dyes, .incense, .silk, .cocoa:
             return .plantation
 
         case .deer, .furs, .ivory:
             return .camp
 
-        case .fish, .whales, .pearls:
+        case .fish, .whales, .pearls, .crab:
             return .fishingBoats
 
-        case .gems, .iron, .copper, .coal, .aluminium, .uranium, .niter, .gold, .silver:
+        case .gems, .iron, .copper, .coal, .aluminium, .uranium, .niter, .gold, .silver, .salt:
             return .mine
             
         case .oil:
@@ -271,6 +279,10 @@ public enum ResourceType: Int, Codable {
                 Flavor(type: .growth, value: 10)
             ]
         case .fish:
+            return [
+                Flavor(type: .navalTileImprovement, value: 10)
+            ]
+        case .crab:
             return [
                 Flavor(type: .navalTileImprovement, value: 10)
             ]
@@ -334,6 +346,12 @@ public enum ResourceType: Int, Codable {
             Flavor(type: .happiness, value: 10)
         ]
         case .spices: return [
+            Flavor(type: .happiness, value: 10)
+        ]
+        case .salt: return [
+            Flavor(type: .happiness, value: 10)
+        ]
+        case .cocoa: return [
             Flavor(type: .happiness, value: 10)
         ]
 
@@ -402,6 +420,9 @@ public enum ResourceType: Int, Codable {
         case .silver: return 4
         case .gold: return 4
         case .spices: return 4
+        case .crab: return 4
+        case .salt: return 4
+        case .cocoa: return 4
 
             // strategic
         case .iron: return 0
@@ -454,6 +475,9 @@ public enum ResourceType: Int, Codable {
         case .silver: return []
         case .gold: return []
         case .spices: return []
+        case .crab: return []
+        case .salt: return []
+        case .cocoa: return []
 
             // strategic
         case .horses: return [2, 4]
@@ -481,6 +505,7 @@ public enum ResourceType: Int, Codable {
         case .bananas: return .irrigation
         case .cattle: return .animalHusbandry
         case .fish: return .celestialNavigation
+        case .crab: return .sailing
 
             // luxury
         case .gems: return .mining
@@ -500,6 +525,8 @@ public enum ResourceType: Int, Codable {
         case .gold: return .mining
         case .spices: return .irrigation
         case .ivory: return .animalHusbandry
+        case .salt: return .mining
+        case .cocoa: return .irrigation
 
             // strategic
         case .iron: return .bronzeWorking
@@ -672,6 +699,8 @@ public enum ResourceType: Int, Codable {
             return terrain == .grass
         case .fish:
             return terrain == .shore
+        case .crab:
+            return terrain == .shore
             
             // luxury
         case .marble:
@@ -708,6 +737,10 @@ public enum ResourceType: Int, Codable {
             return terrain == .grass || terrain == .plains || terrain == .desert
         case .spices:
             return false // only on forest and rainforest feature
+        case .cocoa:
+            return false // only on rainforest feature
+        case .salt:
+            return terrain == .tundra || terrain == .plains || terrain == .desert
             
             // strategic
         case .horses:
@@ -756,6 +789,8 @@ public enum ResourceType: Int, Codable {
         case .dyes: return 3
         case .ivory: return 3
         case .fish: return 3
+        case .crab: return 3
+        case .salt: return 3
         
         case .wheat: return 4
         case .rice: return 4
@@ -764,6 +799,7 @@ public enum ResourceType: Int, Codable {
         case .copper: return 4
         case .stone: return 4
         case .bananas: return 4
+        case .cocoa: return 4
         case .cattle: return 4
         case .gems: return 4
         case .silver: return 4
@@ -781,7 +817,7 @@ public enum ResourceType: Int, Codable {
             
         case .iron, .horses, .coal, .oil, .aluminium, .uranium, .niter: return 100
             
-        case .marble, .furs, .citrus, .tea, .sugar, .wine, .incense, .cotton, .silk, .spices, .dyes, .ivory, .fish, .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .gems, .silver, .gold, .pearls, .whales: return 50
+        case .marble, .furs, .citrus, .tea, .sugar, .wine, .incense, .cotton, .silk, .spices, .dyes, .ivory, .fish, .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .gems, .silver, .gold, .pearls, .whales, .cocoa, .crab, .salt: return 50
         }
     }
     
@@ -793,7 +829,7 @@ public enum ResourceType: Int, Codable {
             
         case .iron, .horses, .coal, .oil, .aluminium, .uranium, .niter: return 10
             
-        case .marble, .furs, .citrus, .tea, .sugar, .wine, .incense, .cotton, .silk, .spices, .dyes, .ivory, .fish, .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .gems, .silver, .gold, .pearls, .whales: return 25
+        case .marble, .furs, .citrus, .tea, .sugar, .wine, .incense, .cotton, .silk, .spices, .dyes, .ivory, .fish, .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .gems, .silver, .gold, .pearls, .whales, .crab, .salt, .cocoa: return 25
         }
     }
     
@@ -815,7 +851,7 @@ public enum ResourceType: Int, Codable {
             return 9
         }
         
-        if self == .fish  {
+        if self == .fish || self == .crab {
             return 12
         }
         

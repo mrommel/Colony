@@ -2975,7 +2975,7 @@ public class DiplomaticAI: Codable {
                 
                 var warDamageLevel: WarDamageLevelType = .none
 
-                var valueLost = self.warValueLost(with: loopPlayer)
+                let valueLost = self.warValueLost(with: loopPlayer)
 
                 if valueLost > 0 {
                     
@@ -4129,7 +4129,7 @@ public class DiplomaticAI: Codable {
                     // If we're out for conquest, then no peace!
                     if self.warGoal(towards: loopPlayer) != .conquest {
                         
-                        var warProjection: WarProjectionType = self.warProjection(against: loopPlayer)
+                        let warProjection: WarProjectionType = self.warProjection(against: loopPlayer)
 
                         // What we're willing to give up.  The higher the number the more we're willing to part with
 
@@ -4148,8 +4148,6 @@ public class DiplomaticAI: Codable {
                             willingToOfferScore += -20 /* PEACE_WILLINGNESS_OFFER_PROJECTION_GOOD */
                         case .veryGood:
                             willingToOfferScore += -50 /* PEACE_WILLINGNESS_OFFER_PROJECTION_VERY_GOOD */
-                        default:
-                            break;
                         }
 
                         // How much damage have we taken?
@@ -4165,12 +4163,11 @@ public class DiplomaticAI: Codable {
                             willingToOfferScore += 50 /* PEACE_WILLINGNESS_OFFER_WAR_DAMAGE_SERIOUS */
                         case .crippled:
                             willingToOfferScore += 80 /* PEACE_WILLINGNESS_OFFER_WAR_DAMAGE_CRIPPLED */
-                        default:
-                            break
                         }
 
                         // How much damage have we dished out?
-                        switch loopPlayer.diplomacyAI?.warDamageLevel(of: self.player) {
+                        switch loopDiplomacyAI.warDamageLevel(of: self.player) {
+                        
                         case .none:
                             willingToOfferScore -= 0 /* PEACE_WILLINGNESS_OFFER_WAR_DAMAGE_NONE */
                         case .minor:
@@ -4181,8 +4178,6 @@ public class DiplomaticAI: Codable {
                             willingToOfferScore -= 50 /* PEACE_WILLINGNESS_OFFER_WAR_DAMAGE_SERIOUS */
                         case .crippled:
                             willingToOfferScore -= 80 /* PEACE_WILLINGNESS_OFFER_WAR_DAMAGE_CRIPPLED */
-                        default:
-                            break
                         }
 
                         // Do the final assessment
@@ -4231,8 +4226,6 @@ public class DiplomaticAI: Codable {
                             willingToAcceptScore += 50 /* PEACE_WILLINGNESS_ACCEPT_PROJECTION_GOOD */
                         case .veryGood:
                             willingToAcceptScore += 100 /* PEACE_WILLINGNESS_ACCEPT_PROJECTION_VERY_GOOD*/
-                        default:
-                            break
                         }
 
                         // How easy would it be for us to squash them?

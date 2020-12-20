@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Civ5Map {
+public class Civ5Map {
     
     let header: Civ5MapHeader
     let plots: Array2D<Civ5MapPlot>
@@ -145,9 +145,12 @@ class Civ5Map {
         return []
     }
     
-    func toMap() -> MapModel? {
+    public func toMap() -> MapModel? {
         
         let map = MapModel(width: Int(header.width), height: Int(header.height))
+        
+        map.name = self.header.mapName
+        map.summary = self.header.summary
         
         for y in 0..<Int(header.height) {
             for x in 0..<Int(header.width) {
@@ -165,11 +168,12 @@ class Civ5Map {
                 
                 tile.set(hills: plot.hills)
                 
+                // base features
                 if let feature1st = plot.feature1stType {
                     tile.set(feature: feature1st)
                 }
                 
-                // wonders
+                // natural wonders
                 if let feature2nd = plot.feature2ndType {
                     tile.set(feature: feature2nd)
                 }
@@ -179,7 +183,7 @@ class Civ5Map {
                     tile.set(resourceQuantity: Int(plot.resourceQuantity))
                 }
                 
-                /*let flows: [FlowDirection] = self.riverFlowsAt(x: x, y: y)
+                let flows: [FlowDirection] = self.riverFlowsAt(x: x, y: y)
                 for flow in flows {
                     do {
                         let river = River(with: "Misc", and: [])
@@ -203,7 +207,7 @@ class Civ5Map {
                     } catch {
                         fatalError("Can't set flow")
                     }
-                }*/
+                }
                 
                 map.set(tile: tile, at: point)
             }

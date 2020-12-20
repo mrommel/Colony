@@ -10,6 +10,12 @@ import SpriteKit
 
 public typealias ProgressHandler = (Double, String) -> Void
 
+struct KeyValuePair<Key, Value> {
+    
+    let key: Key
+    let value: Value
+}
+
 public class MapGenerator: BaseMapHandler {
 
     let options: MapOptions
@@ -17,7 +23,7 @@ public class MapGenerator: BaseMapHandler {
 	let height: Int
 
 	let terrain: Array2D<TerrainType>
-	let zones: Array2D<ClimateZone>
+	let climateZones: Array2D<ClimateZone>
 	let distanceToCoast: Array2D<Int>
 	var springLocations: [HexPoint]
 
@@ -38,7 +44,7 @@ public class MapGenerator: BaseMapHandler {
 		// prepare terrain, distanceToCoast and zones
         self.terrain = Array2D<TerrainType>(width: self.width, height: self.height)
         self.distanceToCoast = Array2D<Int>(width: self.width, height: self.height)
-        self.zones = Array2D<ClimateZone>(width: self.width, height: self.height)
+        self.climateZones = Array2D<ClimateZone>(width: self.width, height: self.height)
 		self.springLocations = []
 	}
 
@@ -61,7 +67,7 @@ public class MapGenerator: BaseMapHandler {
 		self.fillFromElevation(withWaterPercentage: options.waterPercentage, on: heightMap)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.4, "elevation map created")
+			completionHandler(0.3, "elevation map created")
 		}
         
         usleep(10000) // will sleep for 10 milliseconds
@@ -70,7 +76,7 @@ public class MapGenerator: BaseMapHandler {
         self.setClimateZones()
         
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.45, "climate zones generated")
+			completionHandler(0.35, "climate zones generated")
 		}
         
         usleep(10000) // will sleep for 10 milliseconds
@@ -80,7 +86,7 @@ public class MapGenerator: BaseMapHandler {
 		self.refineClimate()
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.5, "coastal distance calculated")
+			completionHandler(0.4, "coastal distance calculated")
 		}
         
         usleep(10000) // will sleep for 10 milliseconds
@@ -89,7 +95,7 @@ public class MapGenerator: BaseMapHandler {
 		self.refineTerrain(on: grid, with: heightMap, and: moistureMap)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.65, "terrain refined")
+			completionHandler(0.5, "terrain refined")
 		}
         
         usleep(10000) // will sleep for 10 milliseconds
@@ -97,7 +103,7 @@ public class MapGenerator: BaseMapHandler {
         self.placeResources(on: grid)
         
         if let completionHandler = self.progressHandler {
-            completionHandler(0.75, "added resouces")
+            completionHandler(0.6, "resouces added")
         }
         
         usleep(10000) // will sleep for 10 milliseconds
@@ -108,12 +114,30 @@ public class MapGenerator: BaseMapHandler {
 		self.put(rivers: rivers, onto: grid)
 
 		if let completionHandler = self.progressHandler {
-			completionHandler(0.8, "springs and rivers identified")
+			completionHandler(0.7, "springs and rivers identified")
 		}
         
         usleep(10000) // will sleep for 10 milliseconds
         
-        // 5th step: continents & oceans
+        // 5th step: features
+        self.refineFeatures(on: grid)
+
+        if let completionHandler = self.progressHandler {
+            completionHandler(0.8, "features added")
+        }
+        
+        usleep(10000) // will sleep for 10 milliseconds
+        
+        // 6th step: features
+        self.refineNaturalWonders(on: grid)
+
+        if let completionHandler = self.progressHandler {
+            completionHandler(0.8, "natural wonders added")
+        }
+        
+        usleep(10000) // will sleep for 10 milliseconds
+        
+        // 7th step: continents & oceans
         self.identifyContinents(on: grid)
         
         if let completionHandler = self.progressHandler {
@@ -179,23 +203,23 @@ public class MapGenerator: BaseMapHandler {
 
 	func setClimateZones() {
 
-		self.zones.fill(with: .temperate)
+		self.climateZones.fill(with: .temperate)
 
 		for x in 0..<width {
 			for y in 0..<height {
 
 				let latitude = abs(Double(height / 2 - y)) / Double(height / 2)
 
-				if latitude > 0.9 {
-					self.zones[x, y] = .polar
+				if latitude > 0.9 || y == 0 || y == height - 1 {
+					self.climateZones[x, y] = .polar
 				} else if latitude > 0.65 {
-					self.zones[x, y] = .subpolar
+					self.climateZones[x, y] = .subpolar
 				} else if latitude > 0.4 {
-					self.zones[x, y] = .temperate
+					self.climateZones[x, y] = .temperate
 				} else if latitude > 0.2 {
-					self.zones[x, y] = .subtropic
+					self.climateZones[x, y] = .subtropic
 				} else {
-					self.zones[x, y] = .tropic
+					self.climateZones[x, y] = .tropic
 				}
 			}
 		}
@@ -216,7 +240,7 @@ public class MapGenerator: BaseMapHandler {
 				}
 
 				if distance < 2 {
-					self.zones[x, y] = self.zones[x, y]?.moderate
+					self.climateZones[x, y] = self.climateZones[x, y]?.moderate
 				}
 			}
 		}
@@ -272,6 +296,9 @@ public class MapGenerator: BaseMapHandler {
 
 	func refineTerrain(on grid: MapModel?, with heightMap: HeightMap, and moistureMap: HeightMap) {
 
+        var mountainSpots: [KeyValuePair<HexPoint, Double>] = []
+        var landPlots: Int = 0
+        
 		for x in 0..<width {
 			for y in 0..<height {
 				let gridPoint = HexPoint(x: x, y: y)
@@ -284,11 +311,178 @@ public class MapGenerator: BaseMapHandler {
 						grid?.set(terrain: .ocean, at: gridPoint)
 					}
 				} else {
-                    self.updateBiome(at: gridPoint, on: grid, elevation: heightMap[x, y]!, moisture: moistureMap[x, y]!, climate: self.zones[x, y]!)
+                    mountainSpots.append(KeyValuePair<HexPoint, Double>(key: gridPoint, value: heightMap[x, y]!))
+                    landPlots += 1
+                    
+                    self.updateBiome(at: gridPoint, on: grid, elevation: heightMap[x, y]!, moisture: moistureMap[x, y]!, climate: self.climateZones[x, y]!)
 				}
 			}
 		}
+        
+        // randomly remove some mountains
+        mountainSpots.shuffle()
+        mountainSpots.removeFirst(100)
+        mountainSpots.sort(by: {  $0.value > $1.value })
+        
+        let numberOfMountains = landPlots * 5 / 100 // 5%
+        
+        // apply
+        for item in mountainSpots.suffix(numberOfMountains) {
+            grid?.set(feature: .mountains, at: item.key)
+        }
+        
+        print("Number of Mountains: \(numberOfMountains)")
 	}
+    
+    private func refineFeatures(on gridRef: MapModel?) {
+        
+        guard let grid = gridRef else {
+            fatalError("no grid")
+        }
+        
+        // precheck
+        // let polarPlots = self.climateZones.filter(where: { $0 == .polar })//.count
+        
+        // presets
+        let rainForestPercent = 36
+        let forestPercent = 22
+        let marshPercent = 3
+        let oasisPercent = 1
+        let reefPercent = 5
+        
+        var waterTilesWithIcePossible: [HexPoint] = []
+        var waterTilesWithReefPossible: [HexPoint] = []
+        var landTilesWithFeaturePossible: [HexPoint] = []
+        
+        // statistics
+        var iceFeatures: Int = 0
+        var reefFeatures: Int = 0
+        var floodPlainsFeatures: Int = 0
+        var oasisFeatures: Int = 0
+        var marshFeatures: Int = 0
+        var rainForestFeatures: Int = 0
+        var forestFeatures: Int = 0
+        
+        for x in 0..<width {
+            for y in 0..<height {
+                let gridPoint = HexPoint(x: x, y: y)
+                
+                guard let tile = grid.tile(at: gridPoint) else {
+                    continue
+                }
+                
+                if (tile.isImpassable(for: .walk) && tile.isImpassable(for: .swim)) || grid.feature(at: gridPoint) != .none {
+                    continue
+                }
+                
+                if tile.isWater() {
+
+                    var canHaveIce = false
+                    if grid.canHave(feature: .ice, at: gridPoint) && !grid.river(at: gridPoint) && (y == 0 || y == grid.size.height() - 1) /*&& self.climateZones[x, y] == .polar*/ {
+                        waterTilesWithIcePossible.append(gridPoint)
+                        canHaveIce = true
+                    }
+                    
+                    if !canHaveIce && grid.canHave(feature: .reef, at: gridPoint) {
+                        waterTilesWithReefPossible.append(gridPoint)
+                    }
+                } else {
+                    landTilesWithFeaturePossible.append(gridPoint)
+                }
+            }
+        }
+        
+        // ice ice baby
+        for iceLocation in waterTilesWithIcePossible {
+            gridRef?.set(feature: .ice, at: iceLocation)
+            iceFeatures += 1
+        }
+        
+        // reef reef baby
+        for reefLocation in waterTilesWithReefPossible.shuffled {
+            
+            // 10% chance for reefs
+            if (reefFeatures * 100 / waterTilesWithReefPossible.count) <= reefPercent {
+                gridRef?.set(feature: .reef, at: reefLocation)
+                reefFeatures += 1
+            }
+        }
+        
+        // second pass, add features to all land plots as appropriate based on the count and percentage of that type
+        for featureLocation in landTilesWithFeaturePossible.shuffled {
+            
+            guard let featureTile = grid.tile(at: featureLocation) else {
+                continue
+            }
+            
+            if grid.canHave(feature: .floodplains, at: featureLocation) {
+                gridRef?.set(feature: .floodplains, at: featureLocation)
+                floodPlainsFeatures += 1
+                
+                continue
+            } else if grid.canHave(feature: .oasis, at: featureLocation) && (oasisFeatures * 100 / landTilesWithFeaturePossible.count) <= oasisPercent {
+                gridRef?.set(feature: .oasis, at: featureLocation)
+                oasisFeatures += 1
+                
+                continue
+            }
+            
+            if grid.canHave(feature: .marsh, at: featureLocation) && (marshFeatures * 100 / landTilesWithFeaturePossible.count) <= marshPercent {
+                // First check to add Marsh
+                gridRef?.set(feature: .marsh, at: featureLocation)
+                marshFeatures += 1
+            } else if grid.canHave(feature: .rainforest, at: featureLocation) && (rainForestFeatures * 100 / landTilesWithFeaturePossible.count) <= rainForestPercent {
+                // First check to add Jungle
+                gridRef?.set(feature: .rainforest, at: featureLocation)
+                rainForestFeatures += 1
+            } else if grid.canHave(feature: .forest, at: featureLocation) && (forestFeatures * 100 / landTilesWithFeaturePossible.count) <= forestPercent {
+                // First check to add Forest
+                gridRef?.set(feature: .forest, at: featureLocation)
+                forestFeatures += 1
+            }
+        }
+        
+        // stats
+        print("Number of Ices: \(iceFeatures)")
+        print("Number of Reefs: \(reefFeatures)")
+        print("Number of Floodplains: \(floodPlainsFeatures)")
+        print("Number of Marshes: \(marshFeatures)")
+        print("Number of Jungle: \(rainForestFeatures)")
+        print("Number of Forest: \(forestFeatures)")
+        print("Number of Oasis: \(oasisFeatures)")
+    }
+    
+    private func refineNaturalWonders(on gridRef: MapModel?) {
+        
+        guard let grid = gridRef else {
+            fatalError("no grid")
+        }
+        
+        var possibleWonderSpots: [FeatureType: [HexPoint]] = [:]
+        
+        // init
+        for naturalWonderType in FeatureType.naturalWonders {
+            possibleWonderSpots[naturalWonderType] = []
+        }
+        
+        for x in 0..<width {
+            for y in 0..<height {
+                let gridPoint = HexPoint(x: x, y: y)
+                
+                for naturalWonderType in FeatureType.naturalWonders.shuffled {
+                    
+                    if grid.canHave(feature: naturalWonderType, at: gridPoint) {
+
+                        possibleWonderSpots[naturalWonderType]?.append(gridPoint)
+                    }
+                }
+            }
+        }
+        
+        for item in possibleWonderSpots.keys {
+            print("Possible spots for \(item) = \(possibleWonderSpots[item]?.count)")
+        }
+    }
     
     // https://github.com/Gedemon/Civ5-YnAEMP/blob/db7cd1bc6a0684411aba700838184bcc6272b166/Override/WorldBuilderRandomItems.lua
     private func numOfResourcesToAdd(for resource: ResourceType, on grid: MapModel?) -> Int {
@@ -361,7 +555,7 @@ public class MapGenerator: BaseMapHandler {
     
     func updateBiomeForPolar(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
         
-        if Double.random > 0.7 {
+        if Double.random > 0.5 {
             grid?.set(hills: true, at: point)
         }
         
@@ -369,12 +563,6 @@ public class MapGenerator: BaseMapHandler {
     }
 
 	func updateBiomeForSubpolar(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
-
-        if elevation > 0.9 && Double.random > 0.5 {
-            grid?.set(feature: .mountains, at: point)
-            grid?.set(terrain: .snow, at: point)
-            return
-        }
         
         if elevation > 0.7 && Double.random > 0.7 {
             grid?.set(hills: true, at: point)
@@ -386,10 +574,6 @@ public class MapGenerator: BaseMapHandler {
             grid?.set(terrain: .snow, at: point)
 			return
 		}
-
-        if moisture > 0.5 && Double.random > 0.5 {
-            grid?.set(feature: .forest, at: point)
-        }
         
         if Double.random > 0.85 {
             grid?.set(hills: true, at: point)
@@ -400,12 +584,6 @@ public class MapGenerator: BaseMapHandler {
 	}
 
 	func updateBiomeForTemperate(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
-
-        if elevation > 0.9 && Double.random > 0.5 {
-            grid?.set(feature: .mountains, at: point)
-            grid?.set(terrain: .grass, at: point)
-            return
-        }
         
         if elevation > 0.7 && Double.random > 0.7 {
             grid?.set(hills: true, at: point)
@@ -421,21 +599,12 @@ public class MapGenerator: BaseMapHandler {
 			grid?.set(terrain: .plains, at: point)
             return
 		} else {
-            if Double.random > 0.5 {
-                grid?.set(feature: .forest, at: point)
-            }
 			grid?.set(terrain: .grass, at: point)
             return
 		}
 	}
 
 	func updateBiomeForSubtropic(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
-
-		if elevation > 0.9 && Double.random > 0.5 {
-			grid?.set(feature: .mountains, at: point)
-            grid?.set(terrain: .grass, at: point)
-            return
-		}
         
         if elevation > 0.7 && Double.random > 0.7 {
             grid?.set(hills: true, at: point)
@@ -449,38 +618,18 @@ public class MapGenerator: BaseMapHandler {
 
 		if moisture < 0.2 {
             if Double.random < 0.3 {
-                // 30% desert
-                if Double.random > 0.9 {
-                    grid?.set(feature: .oasis, at: point)
-                }
                 grid?.set(terrain: .desert, at: point)
             } else {
-                // 70% plains
                 grid?.set(terrain: .plains, at: point)
             }
-            return
 		} else if moisture < 0.6 {
-            if moisture > 0.5 && Double.random > 0.8 {
-                grid?.set(feature: .forest, at: point)
-            }
 			grid?.set(terrain: .plains, at: point)
-            return
 		} else {
-            if moisture > 0.5 && Double.random > 0.8 {
-                grid?.set(feature: .rainforest, at: point)
-            }
 			grid?.set(terrain: .grass, at: point)
-            return
 		}
 	}
 
 	func updateBiomeForTropic(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double) {
-
-		if elevation > 0.9 && Double.random > 0.5 {
-			grid?.set(feature: .mountains, at: point)
-            grid?.set(terrain: .plains, at: point)
-            return
-		}
         
         if elevation > 0.7 && Double.random > 0.7 {
             grid?.set(hills: true, at: point)
@@ -496,22 +645,12 @@ public class MapGenerator: BaseMapHandler {
 		if moisture < 0.3 {
             
             if Double.random < 0.4 {
-                // 70% desert
-                if Double.random > 0.9 {
-                    grid?.set(feature: .oasis, at: point)
-                }
                 grid?.set(terrain: .desert, at: point)
             } else {
-                // 30% plains
                 grid?.set(terrain: .plains, at: point)
             }
-            return
 		} else {
-            if moisture > 0.5 && Double.random > 0.8 {
-                grid?.set(feature: .rainforest, at: point)
-            }
 			grid?.set(terrain: .plains, at: point)
-            return
 		}
 	}
 

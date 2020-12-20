@@ -87,7 +87,7 @@ struct Civ5MapHeader {
         if self.type > Civ5MapType.A {
             let lengthOfStr: Int32 = try reader.read() //int -- Length of String3 (only present in version xB or later)
             let tmp = try reader.readUTF8(Int(lengthOfStr)) //string -- String3 (only present in version xB or later)
-            print(tmp)
+            print("read value: \(tmp)")
         }
     }
 }

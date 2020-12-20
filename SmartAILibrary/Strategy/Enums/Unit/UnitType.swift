@@ -541,25 +541,25 @@ public enum UnitType: Int, Codable {
                 Flavor(type: .ranged, value: 8),
                 Flavor(type: .recon, value: 10),
                 Flavor(type: .offense, value: 3),
-                Flavor(type: .defense, value: 4),
+                Flavor(type: .defense, value: 4)
             ]
         case .archer: return [
                 Flavor(type: .ranged, value: 6),
                 Flavor(type: .recon, value: 3),
                 Flavor(type: .offense, value: 1),
-                Flavor(type: .defense, value: 2),
+                Flavor(type: .defense, value: 2)
             ]
         case .spearman: return [
                 Flavor(type: .defense, value: 4),
                 Flavor(type: .recon, value: 2),
-                Flavor(type: .offense, value: 2),
+                Flavor(type: .offense, value: 2)
             ]
         case .heavyChariot: return [
                 Flavor(type: .recon, value: 9),
                 Flavor(type: .ranged, value: 5),
                 Flavor(type: .mobile, value: 10),
                 Flavor(type: .offense, value: 3),
-                Flavor(type: .defense, value: 6),
+                Flavor(type: .defense, value: 6)
             ]
         case .galley: return []
             

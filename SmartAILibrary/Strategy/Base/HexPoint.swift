@@ -15,7 +15,7 @@ class HexOrientation {
     let b0, b1, b2, b3: Double
     let startAngle: Double // in multiples of 60°
 
-    init(f0: Double, f1: Double, f2: Double, f3: Double, b0: Double, b1: Double, b2: Double, b3: Double, startAngle: Double) {
+    private init(f0: Double, f1: Double, f2: Double, f3: Double, b0: Double, b1: Double, b2: Double, b3: Double, startAngle: Double) {
 
         self.f0 = f0
         self.f1 = f1
@@ -32,15 +32,34 @@ class HexOrientation {
     static let flat = HexOrientation(f0: 3.0 / 2.0, f1: 0, f2: sqrt(3.0) / 2.0, f3: sqrt(3.0), b0: 2.0 / 3.0, b1: 0.0, b2: -1.0 / 3.0, b3: sqrt(3.0) / 3.0, startAngle: 0.0)
 }
 
+// based on https://www.redblobgames.com/grids/hexagons/implementation.html#layout
 struct HexLayout {
 
     let orientation: HexOrientation
     let size: CGSize
     let origin: CGPoint
-
-    // grid type: even-q
     
-    // odd-q
+    static let layout = HexLayout(orientation: HexOrientation.flat, size: CGSize(width: 24, height: 18), origin: CGPoint.zero)
+    
+    func toHex(from screen: CGPoint) -> (Double, Double) {
+
+        let orientationMatrix = self.orientation
+        let point = CGPoint(x: (Double(screen.x) - Double(self.origin.x)) / Double(self.size.width),
+            y: (Double(screen.y) - Double(self.origin.y)) / Double(self.size.height))
+        let q = orientationMatrix.b0 * Double(point.x) + orientationMatrix.b1 * Double(point.y)
+        let r = orientationMatrix.b2 * Double(point.x) + orientationMatrix.b3 * Double(point.y)
+        
+        return (q, r)
+    }
+    
+    func toScreen(from cube: HexCube) -> CGPoint {
+        
+        let orientationMatrix = self.orientation
+        let x = (orientationMatrix.f0 * Double(cube.q) + orientationMatrix.f1 * Double(cube.r)) * Double(self.size.width)
+        let y = (orientationMatrix.f2 * Double(cube.q) + orientationMatrix.f3 * Double(cube.r)) * Double(self.size.height)
+        
+        return CGPoint(x: x + Double(self.origin.x), y: y + Double(self.origin.y))
+    }
 }
 
 public enum HexDirection: Int {
@@ -93,7 +112,7 @@ public enum HexDirection: Int {
         }
     }
 
-    var pickerImage: String {
+    /*var pickerImage: String {
         
         switch self {
         case .north:
@@ -109,7 +128,7 @@ public enum HexDirection: Int {
         case .northwest:
             return "hex_neighbors_nw"
         }
-    }
+    }*/
     
     var opposite: HexDirection {
         
@@ -130,8 +149,7 @@ public enum HexDirection: Int {
     }
 }
 
-import Foundation
-
+// based on https://www.redblobgames.com/grids/hexagons/implementation.html
 public class HexPoint: Codable {
     
     public static let invalid = HexPoint(x: -1, y: -1)
@@ -201,13 +219,7 @@ class HexCube {
     
     convenience init(screen: CGPoint) {
 
-        let layout = HexLayout(orientation: HexOrientation.flat, size: CGSize(width: 24, height: 18), origin: CGPoint.zero)
-        let orientationMatrix = layout.orientation
-        let point = CGPoint(x: (Double(screen.x) - Double(layout.origin.x)) / Double(layout.size.width),
-            y: (Double(screen.y) - Double(layout.origin.y)) / Double(layout.size.height))
-        let q = orientationMatrix.b0 * Double(point.x) + orientationMatrix.b1 * Double(point.y)
-        let r = orientationMatrix.b2 * Double(point.x) + orientationMatrix.b3 * Double(point.y)
-        
+        let (q, r) = HexLayout.layout.toHex(from: screen)
         self.init(qDouble: q, rDouble: r, sDouble: -q - r)
     }
     
@@ -410,11 +422,7 @@ extension HexPoint {
     
     static func toScreen(cube: HexCube) -> CGPoint {
 
-        let layout = HexLayout(orientation: HexOrientation.flat, size: CGSize(width: 24, height: 18), origin: CGPoint.zero)
-        let orientationMatrix = layout.orientation
-        let x = (orientationMatrix.f0 * Double(cube.q) + orientationMatrix.f1 * Double(cube.r)) * Double(layout.size.width)
-        let y = (orientationMatrix.f2 * Double(cube.q) + orientationMatrix.f3 * Double(cube.r)) * Double(layout.size.height)
-        return CGPoint(x: x + Double(layout.origin.x), y: y + Double(layout.origin.y))
+        return HexLayout.layout.toScreen(from: cube)
     }
 
     public static func toScreen(hex: HexPoint) -> CGPoint {

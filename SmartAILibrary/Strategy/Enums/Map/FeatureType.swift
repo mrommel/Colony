@@ -24,6 +24,7 @@ public enum FeatureType: Int, Codable {
     
     case mountains
     case lake
+    case fallout
     
     // natural wonders
     case delicateArch
@@ -34,14 +35,24 @@ public enum FeatureType: Int, Codable {
     case pantanal
     case yosemite
     case uluru
-    // death valley
-    
+    case fuji
+    case barringCrater
+    case mesa
+    case gibraltar
+    case geyser
+    case potosi // civ5
+    case fountainOfYouth // civ5 + civ6
+    case lakeVictoria
 
-    static var all: [FeatureType] {
+    public static var all: [FeatureType] {
         return [
-            .forest, .rainforest, .floodplains, .marsh, .oasis, .reef, .ice, .atoll,
-            
-            .mountains, .lake
+            .forest, .rainforest, .floodplains, .marsh, .oasis, .reef, .ice, .atoll, .volcano, .mountains, .lake, .fallout
+        ]
+    }
+    
+    public static var naturalWonders: [FeatureType] {
+        return [
+            .delicateArch, .galapagos, .greatBarrierReef, .mountEverest, .mountKilimanjaro, .pantanal, .yosemite, .uluru, .fuji, .barringCrater, .mesa, .gibraltar, .geyser, .potosi, .fountainOfYouth, .lakeVictoria
         ]
     }
     
@@ -71,7 +82,7 @@ public enum FeatureType: Int, Codable {
         return self.data().isWonder
     }
 
-    func isPossible(on tile: Tile) -> Bool {
+    func isPossible(on tile: AbstractTile) -> Bool {
 
         switch self {
             
@@ -80,25 +91,35 @@ public enum FeatureType: Int, Codable {
         case .forest: return self.isForestPossible(on: tile)
         case .rainforest: return self.isRainforestPossible(on: tile)
         case .floodplains: return self.isFloodplainsPossible(on: tile)
-        case .marsh: return false // FIXME
-        case .oasis: return false
-        case .reef: return false
-        case .ice: return false
-        case .atoll: return false
-        case .volcano: return false
+        case .marsh: return self.isMarshPossible(on: tile)
+        case .oasis: return self.isOasisPossible(on: tile)
+        case .reef: return self.isReefPossible(on: tile)
+        case .ice: return self.isIcePossible(on: tile)
+        case .atoll: return self.isAtollPossible(on: tile)
+        case .volcano: return self.isVolcanoPossible(on: tile)
             
         case .mountains: return self.isMountainPossible(on: tile)
         case .lake: return self.isLakePossible(on: tile)
+        case .fallout: return self.isFalloutPossible(on: tile)
             
         // natural wonders
-        case .delicateArch: return false
-        case .galapagos: return false
-        case .greatBarrierReef: return false
-        case .mountEverest: return false
-        case .mountKilimanjaro: return false
-        case .pantanal: return false
-        case .yosemite: return false
-        case .uluru: return false
+        case .delicateArch: return self.isDelicateArchPossible(on: tile)
+        case .galapagos: return self.isGalapagosPossible(on: tile)
+        case .greatBarrierReef: return self.isBarrierReefPossible(on: tile)
+        case .mountEverest: return self.isEverestPossible(on: tile)
+        case .mountKilimanjaro: return self.isKilimanjaroPossible(on: tile)
+        case .pantanal: return self.isPantanalPossible(on: tile)
+        case .yosemite: return self.isYosemitePossible(on: tile)
+        case .uluru: return self.isUluruPossible(on: tile)
+        case .fuji: return self.isFujiPossible(on: tile)
+        case .barringCrater: return self.isReefPossible(on: tile)
+        case .mesa: return self.isMesaPossible(on: tile)
+        case .gibraltar: return self.isGibraltarPossible(on: tile)
+        case .geyser: return self.isGeyserPossible(on: tile)
+        case .potosi: return self.isPotosiPossible(on: tile)
+        case .fountainOfYouth: return self.isFountainOfYouthPossible(on: tile)
+        case .lakeVictoria: return self.isLakeVictoriaPossible(on: tile)
+            
         }
     }
 
@@ -120,6 +141,7 @@ public enum FeatureType: Int, Codable {
             
         case .mountains: return false
         case .lake: return false
+        case .fallout: return false
             
         // natural wonders
         case .delicateArch: return false
@@ -130,6 +152,14 @@ public enum FeatureType: Int, Codable {
         case .pantanal: return false
         case .yosemite: return false
         case .uluru: return false
+        case .fuji: return false
+        case .barringCrater: return false
+        case .mesa: return false
+        case .gibraltar: return false
+        case .geyser: return false
+        case .potosi: return false
+        case .fountainOfYouth: return false
+        case .lakeVictoria: return false
         }
     }
     
@@ -151,6 +181,7 @@ public enum FeatureType: Int, Codable {
             
         case .mountains: return true
         case .lake: return false
+        case .fallout: return false
             
         // natural wonders
         case .delicateArch: return true
@@ -161,6 +192,14 @@ public enum FeatureType: Int, Codable {
         case .pantanal: return true
         case .yosemite: return true
         case .uluru: return true
+        case .fuji: return true
+        case .barringCrater: return true
+        case .mesa: return true
+        case .gibraltar: return true
+        case .geyser: return true
+        case .potosi: return true
+        case .fountainOfYouth: return true
+        case .lakeVictoria: return true
         }
     }
     
@@ -182,6 +221,7 @@ public enum FeatureType: Int, Codable {
             
         case .mountains: return 0
         case .lake: return 0
+        case .fallout: return 0
             
         // natural wonders
         case .delicateArch: return 0
@@ -192,7 +232,14 @@ public enum FeatureType: Int, Codable {
         case .pantanal: return 0
         case .yosemite: return 0
         case .uluru: return 0
-        
+        case .fuji: return 0
+        case .barringCrater: return 0
+        case .mesa: return 0
+        case .gibraltar: return 0
+        case .geyser: return 0
+        case .potosi: return 0
+        case .fountainOfYouth: return 0
+        case .lakeVictoria: return 0
         }
     }
     
@@ -214,6 +261,7 @@ public enum FeatureType: Int, Codable {
             
         case .mountains: return 0
         case .lake: return 0
+        case .fallout: return 0
             
         // natural wonders
         case .delicateArch: return 0
@@ -224,6 +272,14 @@ public enum FeatureType: Int, Codable {
         case .pantanal: return -2
         case .yosemite: return 0
         case .uluru: return 0
+        case .fuji: return 0
+        case .barringCrater: return 0
+        case .mesa: return 0
+        case .gibraltar: return 0
+        case .geyser: return 0
+        case .potosi: return 0
+        case .fountainOfYouth: return 0
+        case .lakeVictoria: return 0
         }
     }
     
@@ -245,6 +301,7 @@ public enum FeatureType: Int, Codable {
             
         case .mountains: return 2 // UnitMovementType.max // impassable
         case .lake: return UnitMovementType.max // impassable
+        case .fallout: return 2
             
         // natural wonders
         case .delicateArch: return UnitMovementType.max
@@ -255,6 +312,14 @@ public enum FeatureType: Int, Codable {
         case .pantanal: return 2
         case .yosemite: return UnitMovementType.max
         case .uluru: return UnitMovementType.max
+        case .fuji: return UnitMovementType.max
+        case .barringCrater: return UnitMovementType.max
+        case .mesa: return UnitMovementType.max
+        case .gibraltar: return UnitMovementType.max
+        case .geyser: return UnitMovementType.max
+        case .potosi: return UnitMovementType.max
+        case .fountainOfYouth: return UnitMovementType.max
+        case .lakeVictoria: return UnitMovementType.max
         }
     }
     
@@ -277,6 +342,7 @@ public enum FeatureType: Int, Codable {
             
         case .mountains: return 1
         case .lake: return 2
+        case .fallout: return -3
             
         // natural wonders
         case .delicateArch: return 2
@@ -287,6 +353,14 @@ public enum FeatureType: Int, Codable {
         case .pantanal: return 2
         case .yosemite: return 2
         case .uluru: return 4
+        case .fuji: return 2
+        case .barringCrater: return 2
+        case .mesa: return 2
+        case .gibraltar: return 2
+        case .geyser: return 2
+        case .potosi: return 2
+        case .fountainOfYouth: return 2
+        case .lakeVictoria: return 2
         }
     }
 
@@ -304,12 +378,13 @@ public enum FeatureType: Int, Codable {
         case .marsh: return FeatureData(name: "Marsh", yields: Yields(food: 3, production: 0, gold: 0, science: 0), isWonder: false)
         case .oasis: return FeatureData(name: "Oasis", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWonder: false)
         case .reef: return FeatureData(name: "Reef", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWonder: false)
-        case .ice: return FeatureData(name: "Marsh", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
+        case .ice: return FeatureData(name: "Ice", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
         case .atoll: return FeatureData(name: "Atoll", yields: Yields(food: 1, production: 0, gold: 0, science: 0), isWonder: false)
         case .volcano: return FeatureData(name: "Volcano", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
             
         case .mountains: return FeatureData(name: "Mountains", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
         case .lake: return FeatureData(name: "Lake", yields: Yields(food: 0, production: 0, gold: 0, science: 0), isWonder: false)
+        case .fallout: return FeatureData(name: "Fallout", yields: Yields(food: -3, production: -3, gold: -3, science: 0), isWonder: false)
             
         // natural wonders
         case .delicateArch: return FeatureData(name: "Delicate Arch", yields: Yields(food: 0, production: 0, gold: 1, science: 0, faith: 2), isWonder: true)
@@ -320,11 +395,19 @@ public enum FeatureType: Int, Codable {
         case .pantanal: return FeatureData(name: "Pantanal", yields: Yields(food: 2, production: 0, gold: 0, science: 0, culture: 2), isWonder: true)
         case .yosemite: return FeatureData(name: "Yosemite", yields: Yields(food: 0, production: 0, gold: 1, science: 1), isWonder: true)
         case .uluru: return FeatureData(name: "Uluru", yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 2, faith: 2), isWonder: true)
+        case .fuji: return FeatureData(name: "Fuji", yields: Yields(food: 0, production: 0, gold: 2, science: 0, culture: 2, faith: 2), isWonder: true)
+        case .barringCrater: return FeatureData(name: "The Barringer Crater", yields: Yields(food: 0, production: 0, gold: 2, science: 3, culture: 0, faith: 0), isWonder: true)
+        case .mesa: return FeatureData(name: "The Grand Mesa", yields: Yields(food: 0, production: 2, gold: 3, science: 0, culture: 0, faith: 0), isWonder: true)
+        case .gibraltar: return FeatureData(name: "Rock of Gibraltar", yields: Yields(food: 2, production: 0, gold: 5, science: 0, culture: 0, faith: 0), isWonder: true)
+        case .geyser: return FeatureData(name: "Old Faithful", yields: Yields(food: 0, production: 0, gold: 0, science: 2, culture: 0, faith: 0), isWonder: true)
+        case .potosi: return FeatureData(name: "Cerro de Potosi", yields: Yields(food: 0, production: 0, gold: 10, science: 0, culture: 0, faith: 0), isWonder: true)
+        case .fountainOfYouth: return FeatureData(name: "Fountain of Youth", yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0), isWonder: true) // fixme: 10 happiness
+        case .lakeVictoria: return FeatureData(name: "Lake Victoria", yields: Yields(food: 6, production: 0, gold: 0, science: 0, culture: 0, faith: 0), isWonder: true)
         }
     }
 
     //  Grassland, Grassland (Hills), Plains, Plains (Hills), Tundra and Tundra (Hills).
-    private func isForestPossible(on tile: Tile) -> Bool {
+    private func isForestPossible(on tile: AbstractTile) -> Bool {
 
         if tile.terrain() == .tundra || tile.terrain() == .grass || tile.terrain() == .plains {
             return true
@@ -334,7 +417,7 @@ public enum FeatureType: Int, Codable {
     }
 
     // Modifies Plains and Plains (Hills).
-    private func isRainforestPossible(on tile: Tile) -> Bool {
+    private func isRainforestPossible(on tile: AbstractTile) -> Bool {
 
         if tile.terrain() == .plains {
             return true
@@ -344,20 +427,148 @@ public enum FeatureType: Int, Codable {
     }
 
     // Modifies Deserts (in GS-Only also Plains and Grassland).
-    private func isFloodplainsPossible(on tile: Tile) -> Bool {
+    private func isFloodplainsPossible(on tile: AbstractTile) -> Bool {
 
         if tile.hasHills() {
             return false
         }
 
-        if tile.terrain() == .desert || tile.terrain() == .grass || tile.terrain() == .plains {
-            return true
+        if tile.terrain() != .desert && tile.terrain() != .grass && tile.terrain() != .plains {
+            return false
         }
-
-        return false
+        
+        return true
     }
     
-    private func isMountainPossible(on tile: Tile) -> Bool {
+    private func isMarshPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.hasHills() {
+            return false
+        }
+        
+        if tile.terrain() != .grass {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isOasisPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.hasHills() {
+            return false
+        }
+        
+        if tile.terrain() != .desert {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isReefPossible(on tile: AbstractTile) -> Bool {
+        
+        if !tile.isWater() {
+            return false
+        }
+        
+        if tile.terrain() != .shore {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isMesaPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.feature() != .mountains {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isGibraltarPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.terrain() != .grass {
+            return false
+        }
+        
+        return true
+    }
+    
+    // Grassland, Plains, Tundra, Mountains
+    private func isGeyserPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.terrain() != .grass && tile.terrain() != .plains && tile.terrain() != .tundra {
+            return false
+        }
+        
+        return true
+    }
+    
+    // https://civilization.fandom.com/wiki/Cerro_de_Potosi_(Civ5)
+    private func isPotosiPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.terrain() != .plains {
+            return false
+        }
+        
+        if tile.feature() != .mountains {
+            return false
+        }
+        
+        return true
+    }
+    
+    // https://civilization.fandom.com/wiki/Fountain_of_Youth_(Civ5)
+    private func isFountainOfYouthPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.terrain() != .plains {
+            return false
+        }
+        
+        return true
+    }
+    
+    // https://civilization.fandom.com/wiki/Lake_Victoria_(Civ5)
+    private func isLakeVictoriaPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.terrain() != .plains {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isIcePossible(on tile: AbstractTile) -> Bool {
+        
+        if !tile.isWater() {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isAtollPossible(on tile: AbstractTile) -> Bool {
+        
+        if !tile.isWater() {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isVolcanoPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.feature() != .mountains {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isMountainPossible(on tile: AbstractTile) -> Bool {
 
         if tile.hasHills() {
             return false
@@ -370,12 +581,102 @@ public enum FeatureType: Int, Codable {
         return false
     }
     
-    private func isLakePossible(on tile: Tile) -> Bool {
+    private func isLakePossible(on tile: AbstractTile) -> Bool {
 
         if tile.hasHills() {
             return false
         }
 
+        return true
+    }
+    
+    private func isFalloutPossible(on tile: AbstractTile) -> Bool {
+
+        if !tile.isWater() {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isDelicateArchPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.terrain() != .desert {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isGalapagosPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.terrain() != .shore {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isBarrierReefPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.terrain() != .shore {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isEverestPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.feature() != .mountains {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isKilimanjaroPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.feature() != .mountains {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isPantanalPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.feature() != .marsh {
+            return false
+        }
+        
+        return true
+    }
+
+    private func isYosemitePossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.terrain() != .plains && tile.terrain() != .tundra {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isUluruPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.terrain() != .desert {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isFujiPossible(on tile: AbstractTile) -> Bool {
+        
+        if tile.feature() != .mountains {
+            return false
+        }
+        
         return true
     }
     

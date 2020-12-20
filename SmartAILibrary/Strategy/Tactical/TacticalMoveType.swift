@@ -9,9 +9,9 @@
 import Foundation
 
 public enum TacticalMoveType: Int, Codable {
-    
+
     case none
-    
+
     case unassigned // TACTICAL_UNASSIGNED
     case moveNoncombatantsToSafety // TACTICAL_MOVE_NONCOMBATANTS_TO_SAFETY
     case captureCity // TACTICAL_CAPTURE_CITY

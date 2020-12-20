@@ -4806,7 +4806,7 @@ public class TacticalAI: Codable {
                             if noEnemyAdjacent {
                                 // Do we have a unit that can get off a bombard from here THIS turn
                                 var numTurns = -1
-                                var haveLineOfSight = attackPlot.canSee(tile: targetPlot, for: self.player, range: range, in: gameModel)
+                                let haveLineOfSight = attackPlot.canSee(tile: targetPlot, for: self.player, range: range, in: gameModel)
                                 
                                 if self.findClosestUnit(towards: attackPlot, numTurnsAway: 0, mustHaveHalfHP: false, mustBeRangedUnit: true, rangeRequired: plotDistance, needsIgnoreLineOfSight: !haveLineOfSight, mustBeMeleeUnit: false, ignoreUnits: false, rangedAttackTarget: targetPlot, in: gameModel) {
                                     
@@ -4855,7 +4855,7 @@ public class TacticalAI: Codable {
         }
         
         let plotDistance = self.tempTargets.first!.target.distance(to: target.target)
-        var haveLineOfSight = attackPlot.canSee(tile: targetPlot, for: self.player, range: range, in: gameModel)
+        let haveLineOfSight = attackPlot.canSee(tile: targetPlot, for: self.player, range: range, in: gameModel)
         
         if self.findClosestUnit(towards: attackPlot, numTurnsAway: 0, mustHaveHalfHP: false, mustBeRangedUnit: true , rangeRequired: plotDistance, needsIgnoreLineOfSight: !haveLineOfSight, mustBeMeleeUnit: false,  ignoreUnits: false, rangedAttackTarget: targetPlot, in: gameModel) ||
             self.findClosestUnit(towards: attackPlot, numTurnsAway: 1, mustHaveHalfHP: false, mustBeRangedUnit: true, rangeRequired: plotDistance, needsIgnoreLineOfSight: !haveLineOfSight, mustBeMeleeUnit: false, ignoreUnits: false, rangedAttackTarget: targetPlot, in: gameModel) {
@@ -6104,7 +6104,7 @@ public class TacticalAI: Codable {
             if let target = self.findNearbyTarget(for: civilian, in: Int.max, of: .barbarianCamp, noLikeUnit: civilian, in: gameModel) {
 
                 // If we're not there yet, we have work to do
-                var current = civilian.location
+                let current = civilian.location
                 if current == target {
                     civilian.finishMoves()
                     self.unitProcessed(unit: civilian, in: gameModel)

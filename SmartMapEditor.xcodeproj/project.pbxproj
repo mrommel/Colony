@@ -1,0 +1,892 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C9070A612574445A00276B7D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A602574445A00276B7D /* main.swift */; };
+		C9070A672574F4ED00276B7D /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A662574F4ED00276B7D /* NSMenuItemExtension.swift */; };
+		C9070A6B2574F50C00276B7D /* MapEditorMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A6A2574F50C00276B7D /* MapEditorMenu.swift */; };
+		C9070A712574F64600276B7D /* MapEditorToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A702574F64600276B7D /* MapEditorToolbar.swift */; };
+		C9070A752574F89200276B7D /* EditorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A742574F89200276B7D /* EditorContentView.swift */; };
+		C9070A7B2575172400276B7D /* TrackingAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A7A2575172400276B7D /* TrackingAreaView.swift */; };
+		C9070A7F2575174B00276B7D /* TrackingAreaRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A7E2575174B00276B7D /* TrackingAreaRepresentable.swift */; };
+		C9070A832575176500276B7D /* TrackingNSHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A822575176500276B7D /* TrackingNSHostingView.swift */; };
+		C9070A872575178A00276B7D /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A862575178A00276B7D /* ViewExtension.swift */; };
+		C9070A93257517FB00276B7D /* MapScrollContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A92257517FB00276B7D /* MapScrollContentView.swift */; };
+		C9240FCC258E5DC2007FB7EE /* EditMetaDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9240FCB258E5DC2007FB7EE /* EditMetaDataViewController.swift */; };
+		C9240FD0258E5E0A007FB7EE /* EditMetaDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9240FCF258E5E0A007FB7EE /* EditMetaDataViewModel.swift */; };
+		C9240FD4258E5E4A007FB7EE /* EditMetaDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9240FD3258E5E4A007FB7EE /* EditMetaDataView.swift */; };
+		C931ADB425769E1C0002BA2F /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931ADB325769E1C0002BA2F /* ImageCache.swift */; };
+		C931ADB82577B18C0002BA2F /* MapScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931ADB72577B18B0002BA2F /* MapScrollView.swift */; };
+		C931ADDE2577D1160002BA2F /* SmartAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C931ADDD2577D1160002BA2F /* SmartAssets.framework */; };
+		C931ADDF2577D1160002BA2F /* SmartAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C931ADDD2577D1160002BA2F /* SmartAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C9591AA4257117E700694BEF /* NSImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9591AA3257117E600694BEF /* NSImageExtension.swift */; };
+		C968A9242570388D00C11F85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968A9232570388D00C11F85 /* AppDelegate.swift */; };
+		C968A9292570388D00C11F85 /* SmartMapEditor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C968A9272570388D00C11F85 /* SmartMapEditor.xcdatamodeld */; };
+		C968A92B2570389700C11F85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C968A92A2570389700C11F85 /* Assets.xcassets */; };
+		C968A93A2570389800C11F85 /* SmartMapEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968A9392570389800C11F85 /* SmartMapEditorTests.swift */; };
+		C968A9452570389800C11F85 /* SmartMapEditorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968A9442570389800C11F85 /* SmartMapEditorUITests.swift */; };
+		C968A96825703E5300C11F85 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C968A96725703E5300C11F85 /* SmartAILibrary.framework */; };
+		C968A96925703E5300C11F85 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C968A96725703E5300C11F85 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C968A98B2570451F00C11F85 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968A98A2570451F00C11F85 /* MapView.swift */; };
+		C9A5B5BB258897B600836AEB /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C9A5B5BA258897B600836AEB /* SDWebImageSwiftUI */; };
+		C9AAF4A42581185F00D7F357 /* MapLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */; };
+		C9AAF4A82581194600D7F357 /* MapLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */; };
+		C9AAF4AC25811A8100D7F357 /* MapLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4AB25811A8100D7F357 /* MapLoadingView.swift */; };
+		C9AAF4B525816A0700D7F357 /* MapSavingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4B425816A0700D7F357 /* MapSavingViewController.swift */; };
+		C9AAF4BB2581FB8900D7F357 /* MapSavingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4BA2581FB8900D7F357 /* MapSavingViewModel.swift */; };
+		C9AAF4C62581FF7300D7F357 /* MapSavingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4C52581FF7300D7F357 /* MapSavingView.swift */; };
+		C9AB2C4F257D2D5E0045DFBC /* EditorContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C4E257D2D5E0045DFBC /* EditorContentViewModel.swift */; };
+		C9AB2C55257D2E780045DFBC /* PopupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C54257D2E780045DFBC /* PopupButton.swift */; };
+		C9AB2C5A257E4E6A0045DFBC /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C59257E4E6A0045DFBC /* EditorViewController.swift */; };
+		C9AB2C5E257E4FFB0045DFBC /* NewMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C5D257E4FFB0045DFBC /* NewMapViewController.swift */; };
+		C9AB2C66257E51CB0045DFBC /* NewMapContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C65257E51CB0045DFBC /* NewMapContentView.swift */; };
+		C9AB2C6A257E52920045DFBC /* NSViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C69257E52920045DFBC /* NSViewControllerExtension.swift */; };
+		C9AB2C6E257E66140045DFBC /* NewMapContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C6D257E66130045DFBC /* NewMapContentViewModel.swift */; };
+		C9AB2C74257EB6B10045DFBC /* MapProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C73257EB6B00045DFBC /* MapProgressViewController.swift */; };
+		C9AB2C78257EB6F10045DFBC /* MapProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C77257EB6F10045DFBC /* MapProgressView.swift */; };
+		C9AB2C7C257EB96D0045DFBC /* MapProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */; };
+		C9AB2C83257EC00E0045DFBC /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */; };
+		C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD63257286D30044F437 /* NSLabel.swift */; };
+		C9D78DE7258F7D3F0024ECF0 /* animated-map.gif in Resources */ = {isa = PBXBuildFile; fileRef = C9D78DE6258F7D3F0024ECF0 /* animated-map.gif */; };
+		C9D78DED258FA8000024ECF0 /* PlainGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D78DEC258FA8000024ECF0 /* PlainGroupBoxStyle.swift */; };
+		C9F3AE0D25894F3100027DD6 /* MapBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE0C25894F3000027DD6 /* MapBrush.swift */; };
+		C9F3AE1125894F5500027DD6 /* MapBrushSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */; };
+		C9F3AE1525894F6B00027DD6 /* MapBrushType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */; };
+		C9F3AE192589EC0600027DD6 /* Civ5MapImportingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE182589EC0600027DD6 /* Civ5MapImportingViewController.swift */; };
+		C9F3AE1D2589EC4400027DD6 /* Civ5MapImportingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1C2589EC4400027DD6 /* Civ5MapImportingViewModel.swift */; };
+		C9F3AE212589EDD500027DD6 /* Civ5MapImportingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE202589EDD500027DD6 /* Civ5MapImportingView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C968A9362570389800C11F85 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C968A9182570388D00C11F85 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C968A91F2570388D00C11F85;
+			remoteInfo = SmartMapEditor;
+		};
+		C968A9412570389800C11F85 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C968A9182570388D00C11F85 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C968A91F2570388D00C11F85;
+			remoteInfo = SmartMapEditor;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C968A96A25703E5300C11F85 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C968A96925703E5300C11F85 /* SmartAILibrary.framework in Embed Frameworks */,
+				C931ADDF2577D1160002BA2F /* SmartAssets.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C9070A602574445A00276B7D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		C9070A662574F4ED00276B7D /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
+		C9070A6A2574F50C00276B7D /* MapEditorMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEditorMenu.swift; sourceTree = "<group>"; };
+		C9070A702574F64600276B7D /* MapEditorToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEditorToolbar.swift; sourceTree = "<group>"; };
+		C9070A742574F89200276B7D /* EditorContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorContentView.swift; sourceTree = "<group>"; };
+		C9070A7A2575172400276B7D /* TrackingAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingAreaView.swift; sourceTree = "<group>"; };
+		C9070A7E2575174B00276B7D /* TrackingAreaRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingAreaRepresentable.swift; sourceTree = "<group>"; };
+		C9070A822575176500276B7D /* TrackingNSHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingNSHostingView.swift; sourceTree = "<group>"; };
+		C9070A862575178A00276B7D /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		C9070A92257517FB00276B7D /* MapScrollContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScrollContentView.swift; sourceTree = "<group>"; };
+		C9240FCB258E5DC2007FB7EE /* EditMetaDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMetaDataViewController.swift; sourceTree = "<group>"; };
+		C9240FCF258E5E0A007FB7EE /* EditMetaDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMetaDataViewModel.swift; sourceTree = "<group>"; };
+		C9240FD3258E5E4A007FB7EE /* EditMetaDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMetaDataView.swift; sourceTree = "<group>"; };
+		C931ADB325769E1C0002BA2F /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		C931ADB72577B18B0002BA2F /* MapScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScrollView.swift; sourceTree = "<group>"; };
+		C931ADDD2577D1160002BA2F /* SmartAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9591AA3257117E600694BEF /* NSImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageExtension.swift; sourceTree = "<group>"; };
+		C968A9202570388D00C11F85 /* SmartMapEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartMapEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C968A9232570388D00C11F85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C968A9282570388D00C11F85 /* SmartMapEditor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartMapEditor.xcdatamodel; sourceTree = "<group>"; };
+		C968A92A2570389700C11F85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C968A92F2570389700C11F85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C968A9302570389700C11F85 /* SmartMapEditor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartMapEditor.entitlements; sourceTree = "<group>"; };
+		C968A9352570389800C11F85 /* SmartMapEditorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartMapEditorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C968A9392570389800C11F85 /* SmartMapEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartMapEditorTests.swift; sourceTree = "<group>"; };
+		C968A93B2570389800C11F85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C968A9402570389800C11F85 /* SmartMapEditorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartMapEditorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C968A9442570389800C11F85 /* SmartMapEditorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartMapEditorUITests.swift; sourceTree = "<group>"; };
+		C968A9462570389800C11F85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C968A95E25703D6A00C11F85 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C968A96725703E5300C11F85 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C968A98A2570451F00C11F85 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		C9A5B5C225889C3C00836AEB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewController.swift; sourceTree = "<group>"; };
+		C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewModel.swift; sourceTree = "<group>"; };
+		C9AAF4AB25811A8100D7F357 /* MapLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingView.swift; sourceTree = "<group>"; };
+		C9AAF4B425816A0700D7F357 /* MapSavingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSavingViewController.swift; sourceTree = "<group>"; };
+		C9AAF4BA2581FB8900D7F357 /* MapSavingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSavingViewModel.swift; sourceTree = "<group>"; };
+		C9AAF4C52581FF7300D7F357 /* MapSavingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSavingView.swift; sourceTree = "<group>"; };
+		C9AB2C4E257D2D5E0045DFBC /* EditorContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorContentViewModel.swift; sourceTree = "<group>"; };
+		C9AB2C54257D2E780045DFBC /* PopupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupButton.swift; sourceTree = "<group>"; };
+		C9AB2C59257E4E6A0045DFBC /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
+		C9AB2C5D257E4FFB0045DFBC /* NewMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMapViewController.swift; sourceTree = "<group>"; };
+		C9AB2C65257E51CB0045DFBC /* NewMapContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMapContentView.swift; sourceTree = "<group>"; };
+		C9AB2C69257E52920045DFBC /* NSViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSViewControllerExtension.swift; sourceTree = "<group>"; };
+		C9AB2C6D257E66130045DFBC /* NewMapContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMapContentViewModel.swift; sourceTree = "<group>"; };
+		C9AB2C73257EB6B00045DFBC /* MapProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProgressViewController.swift; sourceTree = "<group>"; };
+		C9AB2C77257EB6F10045DFBC /* MapProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProgressView.swift; sourceTree = "<group>"; };
+		C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProgressViewModel.swift; sourceTree = "<group>"; };
+		C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		C9ADAD63257286D30044F437 /* NSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLabel.swift; sourceTree = "<group>"; };
+		C9D78DE6258F7D3F0024ECF0 /* animated-map.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "animated-map.gif"; path = "../../../Colony Resource/animated-map/animated-map.gif"; sourceTree = "<group>"; };
+		C9D78DEC258FA8000024ECF0 /* PlainGroupBoxStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainGroupBoxStyle.swift; sourceTree = "<group>"; };
+		C9F3AE0C25894F3000027DD6 /* MapBrush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrush.swift; sourceTree = "<group>"; };
+		C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrushSize.swift; sourceTree = "<group>"; };
+		C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrushType.swift; sourceTree = "<group>"; };
+		C9F3AE182589EC0600027DD6 /* Civ5MapImportingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapImportingViewController.swift; sourceTree = "<group>"; };
+		C9F3AE1C2589EC4400027DD6 /* Civ5MapImportingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapImportingViewModel.swift; sourceTree = "<group>"; };
+		C9F3AE202589EDD500027DD6 /* Civ5MapImportingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civ5MapImportingView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C968A91D2570388D00C11F85 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9A5B5BB258897B600836AEB /* SDWebImageSwiftUI in Frameworks */,
+				C968A96825703E5300C11F85 /* SmartAILibrary.framework in Frameworks */,
+				C931ADDE2577D1160002BA2F /* SmartAssets.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C968A9322570389800C11F85 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C968A93D2570389800C11F85 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C9591AA2257117D100694BEF /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				C9591AA3257117E600694BEF /* NSImageExtension.swift */,
+				C931ADB325769E1C0002BA2F /* ImageCache.swift */,
+				C9AB2C69257E52920045DFBC /* NSViewControllerExtension.swift */,
+				C9F3AE0C25894F3000027DD6 /* MapBrush.swift */,
+				C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */,
+				C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		C968A9172570388D00C11F85 = {
+			isa = PBXGroup;
+			children = (
+				C968A9222570388D00C11F85 /* SmartMapEditor */,
+				C968A9382570389800C11F85 /* SmartMapEditorTests */,
+				C968A9432570389800C11F85 /* SmartMapEditorUITests */,
+				C968A9212570388D00C11F85 /* Products */,
+				C968A95D25703D6A00C11F85 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C968A9212570388D00C11F85 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C968A9202570388D00C11F85 /* SmartMapEditor.app */,
+				C968A9352570389800C11F85 /* SmartMapEditorTests.xctest */,
+				C968A9402570389800C11F85 /* SmartMapEditorUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C968A9222570388D00C11F85 /* SmartMapEditor */ = {
+			isa = PBXGroup;
+			children = (
+				C9591AA2257117D100694BEF /* Utils */,
+				C9ADAD61257286A40044F437 /* Views */,
+				C9A5B5C72588A2ED00836AEB /* ViewModels */,
+				C9AB2C58257E4E570045DFBC /* ViewControllers */,
+				C9ADAD62257286B40044F437 /* Resources */,
+				C9070A602574445A00276B7D /* main.swift */,
+				C968A9232570388D00C11F85 /* AppDelegate.swift */,
+				C9070A6A2574F50C00276B7D /* MapEditorMenu.swift */,
+				C9070A702574F64600276B7D /* MapEditorToolbar.swift */,
+				C9A5B5C225889C3C00836AEB /* README.md */,
+			);
+			path = SmartMapEditor;
+			sourceTree = "<group>";
+		};
+		C968A9382570389800C11F85 /* SmartMapEditorTests */ = {
+			isa = PBXGroup;
+			children = (
+				C968A9392570389800C11F85 /* SmartMapEditorTests.swift */,
+				C968A93B2570389800C11F85 /* Info.plist */,
+			);
+			path = SmartMapEditorTests;
+			sourceTree = "<group>";
+		};
+		C968A9432570389800C11F85 /* SmartMapEditorUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C968A9442570389800C11F85 /* SmartMapEditorUITests.swift */,
+				C968A9462570389800C11F85 /* Info.plist */,
+			);
+			path = SmartMapEditorUITests;
+			sourceTree = "<group>";
+		};
+		C968A95D25703D6A00C11F85 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C931ADDD2577D1160002BA2F /* SmartAssets.framework */,
+				C968A96725703E5300C11F85 /* SmartAILibrary.framework */,
+				C968A95E25703D6A00C11F85 /* SmartAILibrary.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9A5B5C72588A2ED00836AEB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C9AB2C4E257D2D5E0045DFBC /* EditorContentViewModel.swift */,
+				C9AB2C6D257E66130045DFBC /* NewMapContentViewModel.swift */,
+				C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */,
+				C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */,
+				C9AAF4BA2581FB8900D7F357 /* MapSavingViewModel.swift */,
+				C9F3AE1C2589EC4400027DD6 /* Civ5MapImportingViewModel.swift */,
+				C9240FCF258E5E0A007FB7EE /* EditMetaDataViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C9AAF4B125811A9B00D7F357 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				C968A98A2570451F00C11F85 /* MapView.swift */,
+				C9070A92257517FB00276B7D /* MapScrollContentView.swift */,
+				C931ADB72577B18B0002BA2F /* MapScrollView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		C9AB2C58257E4E570045DFBC /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C9AB2C59257E4E6A0045DFBC /* EditorViewController.swift */,
+				C9AB2C5D257E4FFB0045DFBC /* NewMapViewController.swift */,
+				C9AB2C73257EB6B00045DFBC /* MapProgressViewController.swift */,
+				C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */,
+				C9AAF4B425816A0700D7F357 /* MapSavingViewController.swift */,
+				C9F3AE182589EC0600027DD6 /* Civ5MapImportingViewController.swift */,
+				C9240FCB258E5DC2007FB7EE /* EditMetaDataViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		C9AB2C7F257EBA340045DFBC /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C9AB2C54257D2E780045DFBC /* PopupButton.swift */,
+				C9ADAD63257286D30044F437 /* NSLabel.swift */,
+				C9070A662574F4ED00276B7D /* NSMenuItemExtension.swift */,
+				C9070A7A2575172400276B7D /* TrackingAreaView.swift */,
+				C9070A7E2575174B00276B7D /* TrackingAreaRepresentable.swift */,
+				C9070A822575176500276B7D /* TrackingNSHostingView.swift */,
+				C9070A862575178A00276B7D /* ViewExtension.swift */,
+				C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */,
+				C9D78DEC258FA8000024ECF0 /* PlainGroupBoxStyle.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		C9ADAD61257286A40044F437 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C9AB2C7F257EBA340045DFBC /* Base */,
+				C9AAF4B125811A9B00D7F357 /* Map */,
+				C9070A742574F89200276B7D /* EditorContentView.swift */,
+				C9AB2C65257E51CB0045DFBC /* NewMapContentView.swift */,
+				C9AB2C77257EB6F10045DFBC /* MapProgressView.swift */,
+				C9AAF4AB25811A8100D7F357 /* MapLoadingView.swift */,
+				C9AAF4C52581FF7300D7F357 /* MapSavingView.swift */,
+				C9F3AE202589EDD500027DD6 /* Civ5MapImportingView.swift */,
+				C9240FD3258E5E4A007FB7EE /* EditMetaDataView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C9ADAD62257286B40044F437 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C968A92A2570389700C11F85 /* Assets.xcassets */,
+				C968A92F2570389700C11F85 /* Info.plist */,
+				C9D78DE6258F7D3F0024ECF0 /* animated-map.gif */,
+				C968A9302570389700C11F85 /* SmartMapEditor.entitlements */,
+				C968A9272570388D00C11F85 /* SmartMapEditor.xcdatamodeld */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C968A91F2570388D00C11F85 /* SmartMapEditor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C968A9492570389800C11F85 /* Build configuration list for PBXNativeTarget "SmartMapEditor" */;
+			buildPhases = (
+				C968A91C2570388D00C11F85 /* Sources */,
+				C968A91D2570388D00C11F85 /* Frameworks */,
+				C968A91E2570388D00C11F85 /* Resources */,
+				C968A96A25703E5300C11F85 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartMapEditor;
+			packageProductDependencies = (
+				C9A5B5BA258897B600836AEB /* SDWebImageSwiftUI */,
+			);
+			productName = SmartMapEditor;
+			productReference = C968A9202570388D00C11F85 /* SmartMapEditor.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C968A9342570389800C11F85 /* SmartMapEditorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C968A94C2570389800C11F85 /* Build configuration list for PBXNativeTarget "SmartMapEditorTests" */;
+			buildPhases = (
+				C968A9312570389800C11F85 /* Sources */,
+				C968A9322570389800C11F85 /* Frameworks */,
+				C968A9332570389800C11F85 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C968A9372570389800C11F85 /* PBXTargetDependency */,
+			);
+			name = SmartMapEditorTests;
+			productName = SmartMapEditorTests;
+			productReference = C968A9352570389800C11F85 /* SmartMapEditorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C968A93F2570389800C11F85 /* SmartMapEditorUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C968A94F2570389800C11F85 /* Build configuration list for PBXNativeTarget "SmartMapEditorUITests" */;
+			buildPhases = (
+				C968A93C2570389800C11F85 /* Sources */,
+				C968A93D2570389800C11F85 /* Frameworks */,
+				C968A93E2570389800C11F85 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C968A9422570389800C11F85 /* PBXTargetDependency */,
+			);
+			name = SmartMapEditorUITests;
+			productName = SmartMapEditorUITests;
+			productReference = C968A9402570389800C11F85 /* SmartMapEditorUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C968A9182570388D00C11F85 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1220;
+				LastUpgradeCheck = 1220;
+				TargetAttributes = {
+					C968A91F2570388D00C11F85 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					C968A9342570389800C11F85 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = C968A91F2570388D00C11F85;
+					};
+					C968A93F2570389800C11F85 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = C968A91F2570388D00C11F85;
+					};
+				};
+			};
+			buildConfigurationList = C968A91B2570388D00C11F85 /* Build configuration list for PBXProject "SmartMapEditor" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C968A9172570388D00C11F85;
+			packageReferences = (
+				C9A5B5B9258897B600836AEB /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
+			productRefGroup = C968A9212570388D00C11F85 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C968A91F2570388D00C11F85 /* SmartMapEditor */,
+				C968A9342570389800C11F85 /* SmartMapEditorTests */,
+				C968A93F2570389800C11F85 /* SmartMapEditorUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C968A91E2570388D00C11F85 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9D78DE7258F7D3F0024ECF0 /* animated-map.gif in Resources */,
+				C968A92B2570389700C11F85 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C968A9332570389800C11F85 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C968A93E2570389800C11F85 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C968A91C2570388D00C11F85 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9AB2C7C257EB96D0045DFBC /* MapProgressViewModel.swift in Sources */,
+				C9070A7B2575172400276B7D /* TrackingAreaView.swift in Sources */,
+				C9F3AE1525894F6B00027DD6 /* MapBrushType.swift in Sources */,
+				C9AAF4A42581185F00D7F357 /* MapLoadingViewController.swift in Sources */,
+				C9AAF4BB2581FB8900D7F357 /* MapSavingViewModel.swift in Sources */,
+				C9AB2C66257E51CB0045DFBC /* NewMapContentView.swift in Sources */,
+				C9070A612574445A00276B7D /* main.swift in Sources */,
+				C9F3AE192589EC0600027DD6 /* Civ5MapImportingViewController.swift in Sources */,
+				C9070A7F2575174B00276B7D /* TrackingAreaRepresentable.swift in Sources */,
+				C9AAF4AC25811A8100D7F357 /* MapLoadingView.swift in Sources */,
+				C9070A93257517FB00276B7D /* MapScrollContentView.swift in Sources */,
+				C931ADB82577B18C0002BA2F /* MapScrollView.swift in Sources */,
+				C9F3AE1125894F5500027DD6 /* MapBrushSize.swift in Sources */,
+				C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */,
+				C9AB2C6A257E52920045DFBC /* NSViewControllerExtension.swift in Sources */,
+				C9AB2C5E257E4FFB0045DFBC /* NewMapViewController.swift in Sources */,
+				C9240FCC258E5DC2007FB7EE /* EditMetaDataViewController.swift in Sources */,
+				C9AB2C6E257E66140045DFBC /* NewMapContentViewModel.swift in Sources */,
+				C9AAF4B525816A0700D7F357 /* MapSavingViewController.swift in Sources */,
+				C9240FD0258E5E0A007FB7EE /* EditMetaDataViewModel.swift in Sources */,
+				C9070A752574F89200276B7D /* EditorContentView.swift in Sources */,
+				C9591AA4257117E700694BEF /* NSImageExtension.swift in Sources */,
+				C9AB2C55257D2E780045DFBC /* PopupButton.swift in Sources */,
+				C9F3AE1D2589EC4400027DD6 /* Civ5MapImportingViewModel.swift in Sources */,
+				C968A98B2570451F00C11F85 /* MapView.swift in Sources */,
+				C9070A6B2574F50C00276B7D /* MapEditorMenu.swift in Sources */,
+				C931ADB425769E1C0002BA2F /* ImageCache.swift in Sources */,
+				C9F3AE212589EDD500027DD6 /* Civ5MapImportingView.swift in Sources */,
+				C9AB2C78257EB6F10045DFBC /* MapProgressView.swift in Sources */,
+				C9AAF4A82581194600D7F357 /* MapLoadingViewModel.swift in Sources */,
+				C9D78DED258FA8000024ECF0 /* PlainGroupBoxStyle.swift in Sources */,
+				C9F3AE0D25894F3100027DD6 /* MapBrush.swift in Sources */,
+				C968A9242570388D00C11F85 /* AppDelegate.swift in Sources */,
+				C9AB2C5A257E4E6A0045DFBC /* EditorViewController.swift in Sources */,
+				C9AAF4C62581FF7300D7F357 /* MapSavingView.swift in Sources */,
+				C9AB2C74257EB6B10045DFBC /* MapProgressViewController.swift in Sources */,
+				C9AB2C4F257D2D5E0045DFBC /* EditorContentViewModel.swift in Sources */,
+				C9070A712574F64600276B7D /* MapEditorToolbar.swift in Sources */,
+				C9070A872575178A00276B7D /* ViewExtension.swift in Sources */,
+				C968A9292570388D00C11F85 /* SmartMapEditor.xcdatamodeld in Sources */,
+				C9070A832575176500276B7D /* TrackingNSHostingView.swift in Sources */,
+				C9240FD4258E5E4A007FB7EE /* EditMetaDataView.swift in Sources */,
+				C9AB2C83257EC00E0045DFBC /* ActivityIndicator.swift in Sources */,
+				C9070A672574F4ED00276B7D /* NSMenuItemExtension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C968A9312570389800C11F85 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C968A93A2570389800C11F85 /* SmartMapEditorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C968A93C2570389800C11F85 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C968A9452570389800C11F85 /* SmartMapEditorUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C968A9372570389800C11F85 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C968A91F2570388D00C11F85 /* SmartMapEditor */;
+			targetProxy = C968A9362570389800C11F85 /* PBXContainerItemProxy */;
+		};
+		C968A9422570389800C11F85 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C968A91F2570388D00C11F85 /* SmartMapEditor */;
+			targetProxy = C968A9412570389800C11F85 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C968A9472570389800C11F85 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C968A9482570389800C11F85 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		C968A94A2570389800C11F85 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SmartMapEditor/Resources/SmartMapEditor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SmartMapEditor/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartMapEditor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C968A94B2570389800C11F85 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SmartMapEditor/Resources/SmartMapEditor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SmartMapEditor/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartMapEditor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C968A94D2570389800C11F85 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				INFOPLIST_FILE = SmartMapEditorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartMapEditorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartMapEditor.app/Contents/MacOS/SmartMapEditor";
+			};
+			name = Debug;
+		};
+		C968A94E2570389800C11F85 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				INFOPLIST_FILE = SmartMapEditorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartMapEditorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartMapEditor.app/Contents/MacOS/SmartMapEditor";
+			};
+			name = Release;
+		};
+		C968A9502570389800C11F85 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				INFOPLIST_FILE = SmartMapEditorUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartMapEditorUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = SmartMapEditor;
+			};
+			name = Debug;
+		};
+		C968A9512570389800C11F85 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				INFOPLIST_FILE = SmartMapEditorUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartMapEditorUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = SmartMapEditor;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C968A91B2570388D00C11F85 /* Build configuration list for PBXProject "SmartMapEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C968A9472570389800C11F85 /* Debug */,
+				C968A9482570389800C11F85 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C968A9492570389800C11F85 /* Build configuration list for PBXNativeTarget "SmartMapEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C968A94A2570389800C11F85 /* Debug */,
+				C968A94B2570389800C11F85 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C968A94C2570389800C11F85 /* Build configuration list for PBXNativeTarget "SmartMapEditorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C968A94D2570389800C11F85 /* Debug */,
+				C968A94E2570389800C11F85 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C968A94F2570389800C11F85 /* Build configuration list for PBXNativeTarget "SmartMapEditorUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C968A9502570389800C11F85 /* Debug */,
+				C968A9512570389800C11F85 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C9A5B5B9258897B600836AEB /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C9A5B5BA258897B600836AEB /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9A5B5B9258897B600836AEB /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		C968A9272570388D00C11F85 /* SmartMapEditor.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C968A9282570388D00C11F85 /* SmartMapEditor.xcdatamodel */,
+			);
+			currentVersion = C968A9282570388D00C11F85 /* SmartMapEditor.xcdatamodel */;
+			path = SmartMapEditor.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = C968A9182570388D00C11F85 /* Project object */;
+}

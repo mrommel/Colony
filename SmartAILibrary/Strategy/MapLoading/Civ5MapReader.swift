@@ -9,12 +9,12 @@
 import Foundation
 import BinarySwift
 
-class Civ5MapReader {
+public class Civ5MapReader {
 
-    init() {
+    public init() {
     }
 
-    func load(from url: URL?) -> Civ5Map? {
+    public func load(from url: URL?) -> Civ5Map? {
         
         if let civ5MapUrl = url {
             

@@ -16,10 +16,17 @@ Tile size:
 96x96 - @2x
 144x144 - @3x
 
-## Links
+## Map Links
+- https://www.redblobgames.com/grids/hexagons/
+
+## Content Links
 - units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245
 - tileset: https://assetstore.unity.com/packages/2d/environments/painted-2d-location-hexes-medieval-fantasy-59271
 - https://github.com/DeamonRealm/AgeOfChampions
 - https://github.com/Gedemon/Civ5-DLL
 - https://github.com/wesnoth/wesnoth
 
+## Macos Links
+- https://swiftui-lab.com/a-powerful-combo/
+- https://medium.com/@theboi/macos-apps-without-storyboard-or-xib-menu-bar-in-swift-5-menubar-and-toolbar-6f6f2fa39ccb
+- https://github.com/lukakerr/NSWindowStyles
