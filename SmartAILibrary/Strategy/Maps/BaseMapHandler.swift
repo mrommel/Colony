@@ -14,7 +14,7 @@ public class BaseMapHandler {
         
     }
     
-    func placeResources(on grid: MapModel?) {
+    public func placeResources(on grid: MapModel?) {
 
         guard let grid = grid else {
             fatalError("cant get grid")

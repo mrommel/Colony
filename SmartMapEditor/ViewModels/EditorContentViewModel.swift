@@ -65,47 +65,21 @@ class EditorContentViewModel: ObservableObject {
         self.zoom = 1.0
         self.focus = Tile(point: HexPoint(x: -1, y: -1), terrain: TerrainType.ocean)
         self.focusedPoint = "---"
-        self.focusedTerrainName = "Ocean"
+        self.focusedTerrainName = TerrainType.ocean.name()
         self.focusedHillsValue = "no"
         self.focusedRiverValue = "---"
-        self.focusedFeatureName = "---"
-        self.focusedResourceName = "---"
+        self.focusedFeatureName = FeatureType.none.name()
+        self.focusedResourceName = ResourceType.none.name()
         self.focusedStartLocationName = "---"
 
         self.selectedZoomName = "1.0"
 
         self.brush = MapBrush()
-        self.brushTypeName = "Terrain"
-        self.brushSizeName = "Small"
-        self.brushTerrainName = "Ocean"
-        self.brushFeatureName = "None"
-        self.brushResourceName = "None"
-    }
-
-    func setZoom(to value: CGFloat) {
-
-        self.zoom = value
-    }
-
-    private func riverName(for tile: AbstractTile?) -> String {
-
-        if let tile = tile {
-            var name: String = ""
-            for flow in FlowDirection.all {
-
-                if tile.isRiverIn(flow: flow) {
-                    name += ("-" + flow.short)
-                }
-            }
-
-            if name.count > 0 {
-                name.removeFirst()
-            }
-
-            return name
-        }
-
-        return ""
+        self.brushTypeName = MapBrushType.terrain.name()
+        self.brushSizeName = MapBrushSize.small.name()
+        self.brushTerrainName = TerrainType.ocean.name()
+        self.brushFeatureName = FeatureType.none.name()
+        self.brushResourceName = ResourceType.none.name()
     }
 
     func setFocus(to tile: AbstractTile?) {
@@ -123,13 +97,13 @@ class EditorContentViewModel: ObservableObject {
             self.focusedRiverValue = self.riverName(for: tile)
 
             if tile.feature() == .none {
-                self.focusedFeatureName = "---"
+                self.focusedFeatureName = FeatureType.none.name()
             } else {
                 self.focusedFeatureName = tile.feature().name()
             }
 
             if tile.resource(for: nil) == .none {
-                self.focusedResourceName = "---"
+                self.focusedResourceName = ResourceType.none.name()
             } else {
                 self.focusedResourceName = tile.resource(for: nil).name()
             }
@@ -142,7 +116,14 @@ class EditorContentViewModel: ObservableObject {
             }
         }
     }
+    
+    // MARK: terrain functions
 
+    func terrainOptionNames() -> [String] {
+        
+        return TerrainType.all.map({ $0.name() })
+    }
+    
     func setTerrain(to terrainName: String) {
 
         if let newTerrain = TerrainType.from(name: terrainName) {
@@ -153,6 +134,13 @@ class EditorContentViewModel: ObservableObject {
                 self.didChange?(focusTile.point)
             }
         }
+    }
+    
+    // MARK: hill functions
+    
+    func hillsOptionNames() -> [String] {
+        
+        return  ["yes", "no"]
     }
 
     func setHills(to value: String) {
@@ -166,7 +154,9 @@ class EditorContentViewModel: ObservableObject {
         }
     }
     
-    func riverValueNames() -> [String] {
+    // MARK: river functions
+    
+    func riverOptionNames() -> [String] {
         
         return ["---", "n", "n-ne", "n-se", "ne-se", "n-ne-se", "se"]
     }
@@ -215,6 +205,34 @@ class EditorContentViewModel: ObservableObject {
             self.didChange?(focusTile.point)
         }
     }
+    
+    private func riverName(for tile: AbstractTile?) -> String {
+
+        if let tile = tile {
+            var name: String = ""
+            for flow in FlowDirection.all {
+
+                if tile.isRiverIn(flow: flow) {
+                    name += ("-" + flow.short)
+                }
+            }
+
+            if name.count > 0 {
+                name.removeFirst()
+            }
+
+            return name
+        }
+
+        return ""
+    }
+    
+    // MARK: feature functions
+    
+    func featureOptionNames() -> [String] {
+        
+        return [FeatureType.none.name()] + FeatureType.all.map({ $0.name() })
+    }
 
     func setFeature(to featureName: String) {
 
@@ -233,6 +251,13 @@ class EditorContentViewModel: ObservableObject {
                 self.didChange?(focusTile.point)
             }
         }
+    }
+    
+    // MARK: resource functions
+    
+    func resourceOptionNames() -> [String] {
+        
+        return [ResourceType.none.name()] + ResourceType.all.map({ $0.name() })
     }
 
     func setResource(to resourceName: String) {
@@ -253,6 +278,88 @@ class EditorContentViewModel: ObservableObject {
             }
         }
     }
+    
+    func clearResources() {
+        
+        guard let map = self.map else {
+            return
+        }
+        
+        var ptsToUpdate: [HexPoint] = []
+        
+        for pt in map.points() {
+            
+            guard let tile = map.tile(at: pt) else {
+                continue
+            }
+            
+            if tile.hasAnyResource(for: nil) {
+                
+                // remove resource
+                tile.set(resource: .none)
+                
+                // mark spot for update
+                ptsToUpdate.append(pt)
+            }
+        }
+        
+        // update
+        for ptToUpdate in ptsToUpdate {
+            
+            // trigger redraw
+            self.didChange?(ptToUpdate)
+        }
+    }
+    
+    func scatterResources() {
+        
+        guard let map = self.map else {
+            return
+        }
+        
+        var ptsToUpdate: [HexPoint] = []
+        
+        for pt in map.points() {
+            
+            guard let tile = map.tile(at: pt) else {
+                continue
+            }
+            
+            if tile.hasAnyResource(for: nil) {
+                
+                // remove resource
+                tile.set(resource: .none)
+                
+                // mark spot for update
+                ptsToUpdate.append(pt)
+            }
+        }
+        
+        // place new resources
+        let handler = BaseMapHandler()
+        handler.placeResources(on: self.map)
+        
+        for pt in map.points() {
+            
+            guard let tile = map.tile(at: pt) else {
+                continue
+            }
+            
+            if tile.hasAnyResource(for: nil) {
+                // mark spot for update
+                ptsToUpdate.append(pt)
+            }
+        }
+        
+        // update
+        for ptToUpdate in ptsToUpdate {
+            
+            // trigger redraw
+            self.didChange?(ptToUpdate)
+        }
+    }
+    
+    // MARK: start location functions
 
     func startLocationNames() -> [String] {
 
@@ -287,6 +394,13 @@ class EditorContentViewModel: ObservableObject {
                 self.didChange?(startLocation.point)
             }
         }
+    }
+    
+    // MARK: zoom functions
+    
+    func zoomOptionNames() -> [String] {
+        
+        return ["0.5", "1.0", "2.0"]
     }
 
     func setZoom(to zoomName: String) {

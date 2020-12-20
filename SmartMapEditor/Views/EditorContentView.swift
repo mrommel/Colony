@@ -9,20 +9,6 @@ import SwiftUI
 import Cocoa
 import SmartAILibrary
 
-struct PlainGroupBoxStyle: GroupBoxStyle {
-    
-    func makeBody(configuration: Configuration) -> some View {
-        
-        VStack(alignment: .leading) {
-            configuration.label
-            configuration.content
-        }
-        .padding(8)
-        .background(Color(.controlBackgroundColor))
-        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-    }
-}
-
 struct EditorContentView: View {
 
     @ObservedObject
@@ -51,6 +37,7 @@ struct EditorContentView: View {
                         
                         GroupBox(label: Label("Size", systemImage: "hexagon")
                                 .foregroundColor(.white)) {
+                            
                             PopupButton(selectedValue: $viewModel.brushSizeName, items: MapBrushSize.all.map({ $0.name() }), onChange: {
                                 viewModel.setBrushSize(to: $0)
                             }).frame(width: 90, height: 16, alignment: .center)
@@ -61,21 +48,40 @@ struct EditorContentView: View {
                         if self.viewModel.brush.type.name() == "Terrain" {
                             GroupBox(label: Label("Terrain", systemImage: "pencil")
                                     .foregroundColor(.white)) {
-                                PopupButton(selectedValue: $viewModel.brushTerrainName, items: TerrainType.all.map({ $0.name() }), onChange: {
+                                
+                                PopupButton(selectedValue: $viewModel.brushTerrainName,
+                                            items: viewModel.terrainOptionNames(),
+                                            onChange: {
                                     viewModel.setBrushTerrain(to: $0)
                                 }).frame(width: 90, height: 16, alignment: .center)
                             }.groupBoxStyle(PlainGroupBoxStyle())
                         } else if self.viewModel.brush.type.name() == "Feature" {
-                            GroupBox(label: Label("Feature", systemImage: "pencil")
+                            
+                            GroupBox(label: Label("Features", systemImage: "pencil")
                                     .foregroundColor(.white)) {
-                                PopupButton(selectedValue: $viewModel.brushFeatureName, items: ["None"] + FeatureType.all.map({ $0.name() }), onChange: {
+                                
+                                PopupButton(selectedValue: $viewModel.brushFeatureName,
+                                            items: viewModel.featureOptionNames(),
+                                            onChange: {
                                     viewModel.setBrushFeature(to: $0)
                                 }).frame(width: 90, height: 16, alignment: .center)
                             }.groupBoxStyle(PlainGroupBoxStyle())
                         } else {
-                            GroupBox(label: Label("Resource", systemImage: "pencil")
+                            
+                            GroupBox(label: Label("Resources", systemImage: "pencil")
                                     .foregroundColor(.white)) {
-                                PopupButton(selectedValue: $viewModel.brushResourceName, items: ["None"] + ResourceType.all.map({ $0.name() }), onChange: {
+                                
+                                Button(action: { viewModel.clearResources() }) {
+                                    Label("Clear", systemImage: "trash")
+                                }
+                                
+                                Button(action: { viewModel.scatterResources() }) {
+                                    Label("Scatter", systemImage: "lasso.sparkles")
+                                }
+                                
+                                PopupButton(selectedValue: $viewModel.brushResourceName,
+                                            items: viewModel.resourceOptionNames(),
+                                            onChange: {
                                     viewModel.setBrushResource(to: $0)
                                 }).frame(width: 90, height: 16, alignment: .center)
                             }.groupBoxStyle(PlainGroupBoxStyle())
@@ -96,7 +102,7 @@ struct EditorContentView: View {
                         Text("Terrain")
 
                         PopupButton(selectedValue: $viewModel.focusedTerrainName,
-                                    items: TerrainType.all.map({ $0.name() }),
+                                    items: viewModel.terrainOptionNames(),
                                     onChange: {
                             viewModel.setTerrain(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
@@ -106,7 +112,7 @@ struct EditorContentView: View {
                         Text("Hills")
 
                         PopupButton(selectedValue: $viewModel.focusedHillsValue,
-                                    items: ["yes", "no"],
+                                    items: viewModel.hillsOptionNames(),
                                     onChange: {
                             viewModel.setHills(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
@@ -116,7 +122,7 @@ struct EditorContentView: View {
                         Text("River")
                         
                         PopupButton(selectedValue: $viewModel.focusedRiverValue,
-                                    items: viewModel.riverValueNames(),
+                                    items: viewModel.riverOptionNames(),
                                     onChange: {
                             viewModel.setRiver(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
@@ -126,7 +132,7 @@ struct EditorContentView: View {
                         Text("Feature")
                         
                         PopupButton(selectedValue: $viewModel.focusedFeatureName,
-                                    items: ["---"] + FeatureType.all.map({ $0.name() }),
+                                    items: viewModel.featureOptionNames(),
                                     onChange: {
                             viewModel.setFeature(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
@@ -136,7 +142,7 @@ struct EditorContentView: View {
                         Text("Resource")
                         
                         PopupButton(selectedValue: $viewModel.focusedResourceName,
-                                    items: ["---"] + ResourceType.all.map({ $0.name() }),
+                                    items: viewModel.resourceOptionNames(),
                                     onChange: {
                             viewModel.setResource(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
@@ -158,7 +164,7 @@ struct EditorContentView: View {
                         Text("Zoom")
                         
                         PopupButton(selectedValue: $viewModel.selectedZoomName,
-                                    items: ["0.5", "1.0", "2.0"],
+                                    items: viewModel.zoomOptionNames(),
                                     onChange: {
                             viewModel.setZoom(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)

@@ -53,6 +53,7 @@
 		C9AB2C83257EC00E0045DFBC /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */; };
 		C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD63257286D30044F437 /* NSLabel.swift */; };
 		C9D78DE7258F7D3F0024ECF0 /* animated-map.gif in Resources */ = {isa = PBXBuildFile; fileRef = C9D78DE6258F7D3F0024ECF0 /* animated-map.gif */; };
+		C9D78DED258FA8000024ECF0 /* PlainGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D78DEC258FA8000024ECF0 /* PlainGroupBoxStyle.swift */; };
 		C9F3AE0D25894F3100027DD6 /* MapBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE0C25894F3000027DD6 /* MapBrush.swift */; };
 		C9F3AE1125894F5500027DD6 /* MapBrushSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */; };
 		C9F3AE1525894F6B00027DD6 /* MapBrushType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */; };
@@ -146,6 +147,7 @@
 		C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C9ADAD63257286D30044F437 /* NSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLabel.swift; sourceTree = "<group>"; };
 		C9D78DE6258F7D3F0024ECF0 /* animated-map.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "animated-map.gif"; path = "../../../Colony Resource/animated-map/animated-map.gif"; sourceTree = "<group>"; };
+		C9D78DEC258FA8000024ECF0 /* PlainGroupBoxStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainGroupBoxStyle.swift; sourceTree = "<group>"; };
 		C9F3AE0C25894F3000027DD6 /* MapBrush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrush.swift; sourceTree = "<group>"; };
 		C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrushSize.swift; sourceTree = "<group>"; };
 		C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrushType.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				C9070A822575176500276B7D /* TrackingNSHostingView.swift */,
 				C9070A862575178A00276B7D /* ViewExtension.swift */,
 				C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */,
+				C9D78DEC258FA8000024ECF0 /* PlainGroupBoxStyle.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -508,6 +511,7 @@
 				C9F3AE212589EDD500027DD6 /* Civ5MapImportingView.swift in Sources */,
 				C9AB2C78257EB6F10045DFBC /* MapProgressView.swift in Sources */,
 				C9AAF4A82581194600D7F357 /* MapLoadingViewModel.swift in Sources */,
+				C9D78DED258FA8000024ECF0 /* PlainGroupBoxStyle.swift in Sources */,
 				C9F3AE0D25894F3100027DD6 /* MapBrush.swift in Sources */,
 				C968A9242570388D00C11F85 /* AppDelegate.swift in Sources */,
 				C9AB2C5A257E4E6A0045DFBC /* EditorViewController.swift in Sources */,
