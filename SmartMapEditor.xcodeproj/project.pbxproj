@@ -34,7 +34,6 @@
 		C968A96925703E5300C11F85 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C968A96725703E5300C11F85 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C968A98B2570451F00C11F85 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968A98A2570451F00C11F85 /* MapView.swift */; };
 		C9A5B5BB258897B600836AEB /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C9A5B5BA258897B600836AEB /* SDWebImageSwiftUI */; };
-		C9A5B5BF2588982A00836AEB /* animated-map.gif in Resources */ = {isa = PBXBuildFile; fileRef = C9A5B5BE2588982A00836AEB /* animated-map.gif */; };
 		C9AAF4A42581185F00D7F357 /* MapLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */; };
 		C9AAF4A82581194600D7F357 /* MapLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */; };
 		C9AAF4AC25811A8100D7F357 /* MapLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4AB25811A8100D7F357 /* MapLoadingView.swift */; };
@@ -53,6 +52,7 @@
 		C9AB2C7C257EB96D0045DFBC /* MapProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */; };
 		C9AB2C83257EC00E0045DFBC /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */; };
 		C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD63257286D30044F437 /* NSLabel.swift */; };
+		C9D78DE7258F7D3F0024ECF0 /* animated-map.gif in Resources */ = {isa = PBXBuildFile; fileRef = C9D78DE6258F7D3F0024ECF0 /* animated-map.gif */; };
 		C9F3AE0D25894F3100027DD6 /* MapBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE0C25894F3000027DD6 /* MapBrush.swift */; };
 		C9F3AE1125894F5500027DD6 /* MapBrushSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */; };
 		C9F3AE1525894F6B00027DD6 /* MapBrushType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */; };
@@ -126,7 +126,6 @@
 		C968A95E25703D6A00C11F85 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C968A96725703E5300C11F85 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C968A98A2570451F00C11F85 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		C9A5B5BE2588982A00836AEB /* animated-map.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "animated-map.gif"; sourceTree = "<group>"; };
 		C9A5B5C225889C3C00836AEB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewController.swift; sourceTree = "<group>"; };
 		C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewModel.swift; sourceTree = "<group>"; };
@@ -146,6 +145,7 @@
 		C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProgressViewModel.swift; sourceTree = "<group>"; };
 		C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C9ADAD63257286D30044F437 /* NSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLabel.swift; sourceTree = "<group>"; };
+		C9D78DE6258F7D3F0024ECF0 /* animated-map.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "animated-map.gif"; path = "../../../Colony Resource/animated-map/animated-map.gif"; sourceTree = "<group>"; };
 		C9F3AE0C25894F3000027DD6 /* MapBrush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrush.swift; sourceTree = "<group>"; };
 		C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrushSize.swift; sourceTree = "<group>"; };
 		C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrushType.swift; sourceTree = "<group>"; };
@@ -335,7 +335,7 @@
 			children = (
 				C968A92A2570389700C11F85 /* Assets.xcassets */,
 				C968A92F2570389700C11F85 /* Info.plist */,
-				C9A5B5BE2588982A00836AEB /* animated-map.gif */,
+				C9D78DE6258F7D3F0024ECF0 /* animated-map.gif */,
 				C968A9302570389700C11F85 /* SmartMapEditor.entitlements */,
 				C968A9272570388D00C11F85 /* SmartMapEditor.xcdatamodeld */,
 			);
@@ -452,7 +452,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A5B5BF2588982A00836AEB /* animated-map.gif in Resources */,
+				C9D78DE7258F7D3F0024ECF0 /* animated-map.gif in Resources */,
 				C968A92B2570389700C11F85 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

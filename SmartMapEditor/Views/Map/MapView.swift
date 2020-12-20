@@ -30,7 +30,7 @@ protocol MapViewDelegate: class {
 class MapView: NSView {
 
     // constants
-    let shift = CGPoint(x: 575, y: 1360)
+    var shift = CGPoint(x: 575, y: 1360)
 
     // properties
     private var scale: CGFloat = 1.0
@@ -48,12 +48,21 @@ class MapView: NSView {
     var map: MapModel? = nil {
         didSet {
             print("--- map has been set ---")
-            if let size = map?.contentSize() {
+            if let size = map?.contentSize(), let mapSize = map?.size {
 
                 self.frame = NSMakeRect(0, 0, (size.width + 10) * self.scale, size.height * self.scale)
 
                 self.widthConstraint?.constant = (size.width + 10) * self.scale
                 self.heightConstraint?.constant = size.height * self.scale
+                
+                // change shift
+                let p0 = HexPoint(x: 0, y: 0)
+                let p1 = HexPoint(x: 0, y: mapSize.height() - 1)
+                let p2 = HexPoint(x: mapSize.width() - 1, y: mapSize.height() - 1)
+                let dx = HexPoint.toScreen(hex: p0).x - HexPoint.toScreen(hex: p1).x
+                let dy = HexPoint.toScreen(hex: p0).y - HexPoint.toScreen(hex: p2).y
+                    
+                self.shift = CGPoint(x: dx, y: dy)
             }
 
             self.textures = Textures(map: map)
@@ -68,9 +77,51 @@ class MapView: NSView {
     override func viewDidMoveToSuperview() {
 
         if self.superview != nil {
-            print("-- viewDidMoveToSuperview")
             self.setup()
         }
+    }
+    
+    private func setup() {
+
+        self.frame = NSMakeRect(0, 0, 1000.0, 1000.0)
+
+        self.widthConstraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1000.0)
+        self.heightConstraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1000.0)
+
+        self.addConstraints([self.widthConstraint!, self.heightConstraint!])
+
+        // load assets into image cache
+        print("-- pre-load images --")
+        let bundle = Bundle.init(for: Textures.self)
+
+        print("- load \(self.textures.allTerrainTextureNames.count) terrain, \(self.textures.allRiverTextureNames.count) river and \(self.textures.allCoastTextureNames.count) coast textures")
+        for terrainTextureName in self.textures.allTerrainTextureNames {
+            self.imageCache.add(image: bundle.image(forResource: terrainTextureName), for: terrainTextureName)
+        }
+
+        for coastTextureName in self.textures.allCoastTextureNames {
+            self.imageCache.add(image: bundle.image(forResource: coastTextureName), for: coastTextureName)
+        }
+
+        for riverTextureName in self.textures.allRiverTextureNames {
+            self.imageCache.add(image: bundle.image(forResource: riverTextureName), for: riverTextureName)
+        }
+
+        print("- load \(self.textures.allFeatureTextureNames.count) feature (+ \(self.textures.allIceFeatureTextureNames.count) ice) textures")
+        for featureTextureName in self.textures.allFeatureTextureNames {
+            self.imageCache.add(image: bundle.image(forResource: featureTextureName), for: featureTextureName)
+        }
+
+        for iceFeatureTextureName in self.textures.allIceFeatureTextureNames {
+            self.imageCache.add(image: bundle.image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
+        }
+
+        print("- load \(self.textures.allResourceTextureNames.count) resource textures")
+        for resourceTextureName in self.textures.allResourceTextureNames {
+            self.imageCache.add(image: bundle.image(forResource: resourceTextureName), for: resourceTextureName)
+        }
+
+        print("-- all textures loaded --")
     }
 
     // left button down
@@ -240,6 +291,16 @@ class MapView: NSView {
                         // fetch from cache
                         context?.draw(self.imageCache.image(for: resourceTextureName).cgImage!, in: tileRect)
                     }
+                    
+                    // start position?
+                    if let startLocation = map.startLocations.first(where: { $0.point == pt }) {
+                        
+                        if !self.imageCache.exists(key: "flag") {
+                            self.imageCache.add(image: NSImage(named: "flag"), for: "flag")
+                        }
+                        
+                        context?.draw(self.imageCache.image(for: "flag").cgImage!, in: tileRect)
+                    }
 
                     // cursor
                     if cursor == pt {
@@ -257,49 +318,6 @@ class MapView: NSView {
         }
     }
 
-    private func setup() {
-
-        self.frame = NSMakeRect(0, 0, 1000.0, 1000.0)
-
-        self.widthConstraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1000.0)
-        self.heightConstraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1000.0)
-
-        self.addConstraints([self.widthConstraint!, self.heightConstraint!])
-
-        // load assets into image cache
-        print("-- pre-load images --")
-        let bundle = Bundle.init(for: Textures.self)
-
-        print("- load \(self.textures.allTerrainTextureNames.count) terrain, \(self.textures.allRiverTextureNames.count) river and \(self.textures.allCoastTextureNames.count) coast textures")
-        for terrainTextureName in self.textures.allTerrainTextureNames {
-            self.imageCache.add(image: bundle.image(forResource: terrainTextureName), for: terrainTextureName)
-        }
-
-        for coastTextureName in self.textures.allCoastTextureNames {
-            self.imageCache.add(image: bundle.image(forResource: coastTextureName), for: coastTextureName)
-        }
-
-        for riverTextureName in self.textures.allRiverTextureNames {
-            self.imageCache.add(image: bundle.image(forResource: riverTextureName), for: riverTextureName)
-        }
-
-        print("- load \(self.textures.allFeatureTextureNames.count) feature (+ \(self.textures.allIceFeatureTextureNames.count) ice) textures")
-        for featureTextureName in self.textures.allFeatureTextureNames {
-            self.imageCache.add(image: bundle.image(forResource: featureTextureName), for: featureTextureName)
-        }
-
-        for iceFeatureTextureName in self.textures.allIceFeatureTextureNames {
-            self.imageCache.add(image: bundle.image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
-        }
-
-        print("- load \(self.textures.allResourceTextureNames.count) resource textures")
-        for resourceTextureName in self.textures.allResourceTextureNames {
-            self.imageCache.add(image: bundle.image(forResource: resourceTextureName), for: resourceTextureName)
-        }
-
-        print("-- all textures loaded --")
-    }
-
     /// setViewSize - sets the size of the view
     /// - parameter value: size
     ///
@@ -310,19 +328,30 @@ class MapView: NSView {
             return
         }
         
+        let oldScale = self.scale
         self.scale = value
+        
+        let factor = value / oldScale
+        print("from \(oldScale) to \(value) means \(factor)")
 
-        if let size = self.map?.contentSize() {
+        if let size = self.map?.contentSize(), let mapSize = self.map?.size {
             self.widthConstraint?.constant = (size.width + 10) * self.scale
             self.heightConstraint?.constant = size.height * self.scale
 
             self.frame = NSMakeRect(0, 0, (size.width + 10) * self.scale, size.height * self.scale)
 
-            print("setting value \(value) leads to new size: \(self.frame.size) (original: \(size))")
-
+            // change shift
+            let p0 = HexPoint(x: 0, y: 0)
+            let p1 = HexPoint(x: 0, y: mapSize.height() - 1)
+            let p2 = HexPoint(x: mapSize.width() - 1, y: mapSize.height() - 1)
+            let dx = HexPoint.toScreen(hex: p0).x - HexPoint.toScreen(hex: p1).x
+            let dy = HexPoint.toScreen(hex: p0).y - HexPoint.toScreen(hex: p2).y
+                
+            self.shift = CGPoint(x: dx, y: dy)
+            
             // First, match our scaling to the window's coordinate system
-            self.scaleUnitSquare(to: NSMakeSize(CGFloat(value), CGFloat(value)))
-            self.setNeedsDisplay(NSMakeRect(0, 0, (size.width + 10) * self.scale, size.height * self.scale))
+            self.scaleUnitSquare(to: NSMakeSize(CGFloat(factor), CGFloat(factor)))
+            // self.setNeedsDisplay(NSMakeRect(0, 0, (size.width + 10) * self.scale, size.height * self.scale))
             self.needsDisplay = true
         }
     }

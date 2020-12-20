@@ -131,6 +131,16 @@ struct EditorContentView: View {
                             viewModel.setResource(to: $0)
                         }).frame(width: 80, height: 16, alignment: .center)
                     }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
+                    
+                    Spacer(minLength: 50)
+                    
+                    VStack {
+                        Text("Start Locations")
+                        
+                        PopupButton(selectedValue: $viewModel.focusedStartLocationName, items: viewModel.startLocationNames(), onChange: {
+                            viewModel.setStartLocation(to: $0)
+                        }).frame(width: 80, height: 16, alignment: .center)
+                    }.padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 12))
 
                     Spacer()
 

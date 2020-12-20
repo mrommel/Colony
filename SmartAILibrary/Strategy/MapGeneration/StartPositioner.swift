@@ -6,11 +6,18 @@
 //  Copyright © 2020 Michael Rommel. All rights reserved.
 //
 
-public struct StartLocation {
+public class StartLocation {
     
-    public let point: HexPoint
+    public var point: HexPoint
     public let leader: LeaderType
     public let isHuman: Bool
+    
+    init(point: HexPoint, leader: LeaderType, isHuman: Bool) {
+        
+        self.point = point
+        self.leader = leader
+        self.isHuman = isHuman
+    }
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -33,25 +33,28 @@ class EditorContentViewModel: ObservableObject {
     }
     @Published
     var focusedResourceName: String
-    
+
+    @Published
+    var focusedStartLocationName: String
+
     @Published
     var selectedZoomName: String
-    
+
     @Published
     var brush: MapBrush
-    
+
     @Published
     var brushTypeName: String
-    
+
     @Published
     var brushSizeName: String
-    
+
     @Published
     var brushTerrainName: String
-    
+
     @Published
     var brushFeatureName: String
-    
+
     @Published
     var brushResourceName: String
 
@@ -67,9 +70,10 @@ class EditorContentViewModel: ObservableObject {
         self.focusedRiverValue = "---"
         self.focusedFeatureName = "---"
         self.focusedResourceName = "---"
-        
+        self.focusedStartLocationName = "---"
+
         self.selectedZoomName = "1.0"
-        
+
         self.brush = MapBrush()
         self.brushTypeName = "Terrain"
         self.brushSizeName = "Small"
@@ -128,6 +132,13 @@ class EditorContentViewModel: ObservableObject {
                 self.focusedResourceName = "---"
             } else {
                 self.focusedResourceName = tile.resource(for: nil).name()
+            }
+
+            if let startLocation = map?.startLocations.first(where: { $0.point == tile.point }) {
+
+                self.focusedStartLocationName = startLocation.leader.name()
+            } else {
+                self.focusedStartLocationName = "---"
             }
         }
     }
@@ -237,64 +248,99 @@ class EditorContentViewModel: ObservableObject {
             }
         }
     }
-    
-    func setZoom(to zoomName: String) {
-        
-        if let newZoomValue = Double(zoomName) {
+
+    func startLocationNames() -> [String] {
+
+        guard let map = self.map else {
+            return []
+        }
+
+        var startLocationNamesList: [String] = []
+
+        startLocationNamesList.append("---")
+
+        for startLocation in map.startLocations {
+
+            startLocationNamesList.append(startLocation.leader.name())
+        }
+
+        return startLocationNamesList
+    }
+
+    func setStartLocation(to leaderName: String) {
+
+        if let focusTile = self.focus {
             
+            if let startLocation = self.map?.startLocations.first(where: { $0.leader.name() == leaderName }) {
+
+                // trigger redraw at old location
+                self.didChange?(startLocation.point)
+                
+                startLocation.point = focusTile.point
+                
+                // trigger redraw at new location
+                self.didChange?(startLocation.point)
+            }
+        }
+    }
+
+    func setZoom(to zoomName: String) {
+
+        if let newZoomValue = Double(zoomName) {
+
             self.zoom = CGFloat(newZoomValue)
             self.selectedZoomName = zoomName
         }
     }
-    
+
     // MARK: brush methods
-    
+
     func setBrushType(to value: String) {
-        
+
         self.brush.setType(to: value)
         self.brushTypeName = value
     }
-    
+
     func setBrushSize(to value: String) {
-        
+
         self.brush.setSize(to: value)
         self.brushSizeName = value
     }
-    
+
     func setBrushTerrain(to value: String) {
-        
+
         self.brush.setTerrain(to: value)
         self.brushTerrainName = value
     }
-    
+
     func setBrushFeature(to value: String) {
-        
+
         self.brush.setFeature(to: value)
         self.brushFeatureName = value
     }
-    
+
     func setBrushResource(to value: String) {
-        
+
         self.brush.setResource(to: value)
         self.brushResourceName = value
     }
-    
+
     func draw(at point: HexPoint) {
-        
+
         guard let map = self.map else {
             return
         }
-        
+
         let area: HexArea = point.areaWith(radius: self.brush.size.radius())
         let updateArea: HexArea = area
-        
+
         switch self.brush.type {
-            
+
         case .terrain:
             for pt in area {
                 self.map?.set(terrain: self.brush.terrainValue, at: pt)
             }
-            
+
             // check to make ocean to shore
             for pt in map.points() {
                 if map.terrain(at: pt) == TerrainType.ocean && map.isAdjacentToLand(at: pt) {
@@ -302,26 +348,26 @@ class EditorContentViewModel: ObservableObject {
                     updateArea.add(point: pt)
                 }
             }
-            
+
             for pt in updateArea {
                 // trigger redraw
                 self.didChange?(pt)
             }
-            
+
         case .feature:
             for pt in area {
-                
+
                 self.map?.set(feature: self.brush.featureValue, at: pt)
-                
+
                 // trigger redraw
                 self.didChange?(pt)
             }
-            
+
         case .resource:
             for pt in area {
-                
+
                 self.map?.set(resource: self.brush.resourceValue, at: pt)
-                
+
                 // trigger redraw
                 self.didChange?(pt)
             }
