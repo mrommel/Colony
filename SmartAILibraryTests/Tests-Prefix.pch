@@ -1,0 +1,16 @@
+//
+//  Tests-Prefix.pch
+//  SmartAILibrary
+//
+//  Created by Michael Rommel on 21.12.20.
+//  Copyright © 2020 Michael Rommel. All rights reserved.
+//
+
+#ifndef Tests_Prefix_pch
+#define Tests_Prefix_pch
+
+#define TEST 1
+// #import <SenTestingKit/SenTestingKit.h>
+// #import "CocoaPlant-Prefix.pch"
+
+#endif /* Tests_Prefix_pch */

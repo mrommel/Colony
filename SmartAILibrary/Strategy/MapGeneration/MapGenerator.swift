@@ -483,58 +483,6 @@ public class MapGenerator: BaseMapHandler {
             print("Possible spots for \(item) = \(possibleWonderSpots[item]?.count)")
         }
     }
-    
-    // https://github.com/Gedemon/Civ5-YnAEMP/blob/db7cd1bc6a0684411aba700838184bcc6272b166/Override/WorldBuilderRandomItems.lua
-    private func numOfResourcesToAdd(for resource: ResourceType, on grid: MapModel?) -> Int {
-        
-        guard let grid = grid else {
-            fatalError("cant get grid")
-        }
-        
-        // Calculate resourceCount, the amount of this resource to be placed:
-        let rand1 = Int.random(maximum: resource.propability())
-        let rand2 = Int.random(maximum: resource.propability())
-        let baseCount = resource.basePropability() + rand1 + rand2
-        
-        // Calculate numPossible, the number of plots that are eligible to have this resource:
-        var numPossible = 0
-        var alreadyPlaced = 0
-        var landTiles = 0
-        
-        for x in 0..<width {
-            for y in 0..<height {
-                let gridPoint = HexPoint(x: x, y: y)
-                
-                if let tile = grid.tile(at: gridPoint) {
-                    if tile.canHave(resource: resource, ignoreLatitude: false, in: grid) {
-                        numPossible += 1
-                    } else if tile.resource(for: nil) == resource {
-                        numPossible += 1
-                        alreadyPlaced += 1
-                    }
-                }
-            }
-        }
-        
-        if resource.tilesPerPossible() > 0 {
-            landTiles = (numPossible / resource.tilesPerPossible())
-        }
-        
-        let realNumCivAlive = self.options.numberOfPlayers
-        let players = Int((realNumCivAlive * resource.playerScale()) / 100)
-        var resourceCount = (baseCount * (landTiles + players)) / 100
-        resourceCount = max(1, resourceCount)
-
-        if resourceCount < alreadyPlaced {
-            resourceCount = 0
-        } else {
-            resourceCount = resourceCount - alreadyPlaced
-        }
-        
-        print("try to place \(resourceCount) \(resource.name()) (\(alreadyPlaced) already placed)" )
-
-        return resourceCount
-    }
 
 	// from http://www.redblobgames.com/maps/terrain-from-noise/
     func updateBiome(at point: HexPoint, on grid: MapModel?, elevation: Double, moisture: Double, climate: ClimateZone) {

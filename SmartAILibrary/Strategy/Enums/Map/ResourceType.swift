@@ -71,7 +71,7 @@ public enum ResourceType: Int, Codable {
             .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .fish, .crab,
 
             // luxury
-            .marble, .gems, .furs, .citrus, tea, .whales, .pearls, .ivory, .wine, .cotton, .dyes, .incense, .silk, .silver, .gold, .spices, .salt, .cocoa,
+            .marble, .gems, .furs, .citrus, tea, .whales, .pearls, .ivory, .wine, .cotton, .dyes, .incense, .silk, .silver, .gold, .spices, .salt, .cocoa, .sugar,
 
             // strategic
             .horses, .iron, .coal, .oil, .aluminium, .uranium, .niter
@@ -79,13 +79,13 @@ public enum ResourceType: Int, Codable {
     }
 
     // MARK: methods
-    
+
     public func name() -> String {
-        
+
         switch self {
-            
+
         case .none: return "---"
-            
+
         case .wheat: return "Wheat"
         case .rice: return "Rice"
         case .deer: return "Deer"
@@ -95,7 +95,7 @@ public enum ResourceType: Int, Codable {
         case .bananas: return "Bananas"
         case .cattle: return "Cattle"
         case .fish: return "Fish"
-            
+
             // luxury
         case .marble: return "Marble"
         case .gems: return "Gems"
@@ -117,7 +117,7 @@ public enum ResourceType: Int, Codable {
         case .crab: return "Crab"
         case .salt: return "Salt"
         case .cocoa: return "Cocoa"
-            
+
             // strategic
         case .horses: return "Horses"
         case .iron: return "Iron"
@@ -224,7 +224,7 @@ public enum ResourceType: Int, Codable {
 
         case .gems, .iron, .copper, .coal, .aluminium, .uranium, .niter, .gold, .silver, .salt:
             return .mine
-            
+
         case .oil:
             return .oilWell // offshoreOilRig !!!
         }
@@ -313,47 +313,47 @@ public enum ResourceType: Int, Codable {
                 Flavor(type: .happiness, value: 10)
             ]
         case .whales:
-        return [
-            Flavor(type: .happiness, value: 10)
-        ]
-            case .pearls:
             return [
                 Flavor(type: .happiness, value: 10)
             ]
-            case .ivory:
+        case .pearls:
+            return [
+                Flavor(type: .happiness, value: 10)
+            ]
+        case .ivory:
             return [
                 Flavor(type: .happiness, value: 10)
             ]
         case .wine: return [
-            Flavor(type: .happiness, value: 10)
-        ]
-        case .cotton:return [
-            Flavor(type: .happiness, value: 10)
-        ]
+                Flavor(type: .happiness, value: 10)
+            ]
+        case .cotton: return [
+                Flavor(type: .happiness, value: 10)
+            ]
         case .dyes: return [
-            Flavor(type: .happiness, value: 10)
-        ]
+                Flavor(type: .happiness, value: 10)
+            ]
         case .incense: return [
-            Flavor(type: .happiness, value: 10)
-        ]
+                Flavor(type: .happiness, value: 10)
+            ]
         case .silk: return [
-            Flavor(type: .happiness, value: 10)
-        ]
+                Flavor(type: .happiness, value: 10)
+            ]
         case .silver: return [
-            Flavor(type: .happiness, value: 10)
-        ]
+                Flavor(type: .happiness, value: 10)
+            ]
         case .gold: return [
-            Flavor(type: .happiness, value: 10)
-        ]
+                Flavor(type: .happiness, value: 10)
+            ]
         case .spices: return [
-            Flavor(type: .happiness, value: 10)
-        ]
+                Flavor(type: .happiness, value: 10)
+            ]
         case .salt: return [
-            Flavor(type: .happiness, value: 10)
-        ]
+                Flavor(type: .happiness, value: 10)
+            ]
         case .cocoa: return [
-            Flavor(type: .happiness, value: 10)
-        ]
+                Flavor(type: .happiness, value: 10)
+            ]
 
             // strategic
         case .iron:
@@ -373,17 +373,17 @@ public enum ResourceType: Int, Codable {
                 Flavor(type: .production, value: 10)
             ]
         case .aluminium:
-        return [
-            Flavor(type: .science, value: 5), Flavor(type: .production, value: 7)
-        ]
+            return [
+                Flavor(type: .science, value: 5), Flavor(type: .production, value: 7)
+            ]
         case .uranium:
             return [
                 Flavor(type: .production, value: 10)
             ]
         case .niter:
-        return [
-            Flavor(type: .production, value: 7), Flavor(type: .growth, value: 5)
-        ]
+            return [
+                Flavor(type: .production, value: 7), Flavor(type: .growth, value: 5)
+            ]
         }
     }
 
@@ -492,324 +492,499 @@ public enum ResourceType: Int, Codable {
 
     func revealTech() -> TechType? {
 
+        return self.data().revealTech
+    }
+
+    private struct FeatureData {
+
+        let name: String
+        let revealTech: TechType?
+
+        // placement
+        let placementOrder: Int
+        let placedOnHills: Bool
+        let placedOnRiverSide: Bool
+        let placedOnFlatlands: Bool
+        let placedOnFeatures: [FeatureType]
+        let placedOnFeatureTerrains: [TerrainType]
+        let placedOnTerrains: [TerrainType]
+    }
+
+    private func data() -> FeatureData {
+
         switch self {
-        case .none: return nil
+
+        case .none:
+            return FeatureData(name: "None",
+                               revealTech: nil,
+                               placementOrder: -1,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [])
 
             // bonus
-        case .wheat: return .pottery
-        case .rice: return .pottery
-        case .deer: return .animalHusbandry
-        case .sheep: return .animalHusbandry
-        case .copper: return .mining
-        case .stone: return .mining
-        case .bananas: return .irrigation
-        case .cattle: return .animalHusbandry
-        case .fish: return .celestialNavigation
-        case .crab: return .sailing
+        case .wheat:
+            return FeatureData(name: "Wheat",
+                               revealTech: .pottery,
+                               placementOrder: 4,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [.floodplains],
+                               placedOnFeatureTerrains: [.desert],
+                               placedOnTerrains: [.plains])
+        case .rice:
+            return FeatureData(name: "Rice",
+                               revealTech: .pottery,
+                               placementOrder: 4,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [.marsh],
+                               placedOnFeatureTerrains: [.grass],
+                               placedOnTerrains: [.grass])
+        case .deer:
+            return FeatureData(name: "Deer",
+                               revealTech: .animalHusbandry,
+                               placementOrder: 4,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [.forest],
+                               placedOnFeatureTerrains: [.grass, .plains, .tundra, .snow],
+                               placedOnTerrains: [.tundra])
+        case .sheep:
+            return FeatureData(name: "Sheep",
+                               revealTech: .animalHusbandry,
+                               placementOrder: 4,
+                               placedOnHills: true,
+                               placedOnRiverSide: true,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass, .plains, .desert])
+        case .copper:
+            return FeatureData(name: "Copper",
+                               revealTech: .mining,
+                               placementOrder: 4,
+                               placedOnHills: true,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass, .plains, .desert, .tundra])
+        case .stone:
+            return FeatureData(name: "Stone",
+                               revealTech: .mining,
+                               placementOrder: 4,
+                               placedOnHills: true,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass])
+        case .bananas:
+            return FeatureData(name: "Bananas",
+                               revealTech: .irrigation,
+                               placementOrder: 4,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [.rainforest],
+                               placedOnFeatureTerrains: [.grass, .plains],
+                               placedOnTerrains: []) // only on rainforest feature
+        case .cattle:
+            return FeatureData(name: "Cattle",
+                               revealTech: .animalHusbandry,
+                               placementOrder: 4,
+                               placedOnHills: false,
+                               placedOnRiverSide: true,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass])
+        case .fish:
+            return FeatureData(name: "Fish",
+                               revealTech: .celestialNavigation,
+                               placementOrder: 4,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.shore])
+        case .crab:
+            return FeatureData(name: "Crab",
+                               revealTech: .sailing,
+                               placementOrder: 4,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.shore])
 
             // luxury
-        case .gems: return .mining
-        case .marble: return .mining
-        case .furs: return .animalHusbandry
-        case .citrus: return .irrigation
-        case .tea: return .irrigation
-        case .sugar: return .irrigation
-        case .whales: return .sailing
-        case .pearls: return .sailing
-        case .wine: return .irrigation
-        case .cotton: return .irrigation
-        case .dyes: return .irrigation
-        case .incense: return .irrigation
-        case .silk: return .irrigation
-        case .silver: return .mining
-        case .gold: return .mining
-        case .spices: return .irrigation
-        case .ivory: return .animalHusbandry
-        case .salt: return .mining
-        case .cocoa: return .irrigation
+        case .gems:
+            return FeatureData(name: "Gems",
+                               revealTech: .mining,
+                               placementOrder: 3,
+                               placedOnHills: true,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [.rainforest],
+                               placedOnFeatureTerrains: [.grass, .plains],
+                               placedOnTerrains: [.grass, .plains, .desert, .tundra])
+        case .marble:
+            return FeatureData(name: "Marble",
+                               revealTech: .mining,
+                               placementOrder: 3,
+                               placedOnHills: true,
+                               placedOnRiverSide: true,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass, .plains])
+        case .furs:
+            return FeatureData(name: "Furs",
+                               revealTech: .animalHusbandry,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [.forest],
+                               placedOnFeatureTerrains: [.grass, .plains, .tundra, .snow],
+                               placedOnTerrains: [.tundra])
+        case .citrus:
+            return FeatureData(name: "Citrus",
+                               revealTech: .irrigation,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass, .plains])
+        case .tea:
+            return FeatureData(name: "Tea",
+                               revealTech: .irrigation,
+                               placementOrder: 3,
+                               placedOnHills: true,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass])
+        case .sugar:
+            return FeatureData(name: "Sugar",
+                               revealTech: .irrigation,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [.floodplains, .marsh],
+                               placedOnFeatureTerrains: [.grass, .plains, .desert],
+                               placedOnTerrains: []) // only on rainforest feature
+        case .whales:
+            return FeatureData(name: "Whales",
+                               revealTech: .sailing,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.shore])
+        case .pearls:
+            return FeatureData(name: "Pearls",
+                               revealTech: .sailing,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.shore])
+        case .wine:
+            return FeatureData(name: "Wine",
+                               revealTech: .irrigation,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass, .plains])
+        case .cotton:
+            return FeatureData(name: "Cotton",
+                               revealTech: .irrigation,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass, .plains])
+        case .dyes:
+            return FeatureData(name: "Dyes",
+                               revealTech: .irrigation,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [.rainforest, .forest],
+                               placedOnFeatureTerrains: [.grass, .plains],
+                               placedOnTerrains: [.grass, .plains]) // only on rainforest
+        case .incense:
+            return FeatureData(name: "Incense",
+                               revealTech: .irrigation,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.plains, .desert])
+        case .silk:
+            return FeatureData(name: "Silk",
+                               revealTech: .irrigation,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [.forest],
+                               placedOnFeatureTerrains: [.grass, .plains],
+                               placedOnTerrains: [.grass, .plains]) // only on forest
+        case .silver:
+            return FeatureData(name: "Silver",
+                               revealTech: .mining,
+                               placementOrder: 3,
+                               placedOnHills: true,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.desert, .tundra])
+        case .gold:
+            return FeatureData(name: "Gold",
+                               revealTech: .mining,
+                               placementOrder: 3,
+                               placedOnHills: true,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass, .plains, .desert])
+        case .spices:
+            return FeatureData(name: "Spices",
+                               revealTech: .irrigation,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [.rainforest],
+                               placedOnFeatureTerrains: [.grass, .plains],
+                               placedOnTerrains: [.grass, .plains]) // only on rainforest
+        case .ivory:
+            return FeatureData(name: "Ivory",
+                               revealTech: .animalHusbandry,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.plains, .desert])
+        case .salt:
+            return FeatureData(name: "Salt",
+                               revealTech: .mining,
+                               placementOrder: 3,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.plains, .desert, .tundra])
+        case .cocoa:
+            return FeatureData(name: "Cocoa",
+                               revealTech: .irrigation,
+                               placementOrder: 3,
+                               placedOnHills: true,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [.rainforest],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass, .plains]) // only on rainforest
 
             // strategic
-        case .iron: return .bronzeWorking
-        case .horses: return .animalHusbandry
-        case .coal: return .industrialization
-        case .aluminium: return .radio
-        case .uranium: return .combinedArms
-        case .niter: return .militaryEngineering
-        case .oil: return .refining
+        case .iron:
+            return FeatureData(name: "Iron",
+                               revealTech: .bronzeWorking,
+                               placementOrder: 0,
+                               placedOnHills: false,
+                               placedOnRiverSide: true,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass, .plains, .desert, .tundra, .snow])
+        case .horses:
+            return FeatureData(name: "Horses",
+                               revealTech: .animalHusbandry,
+                               placementOrder: 1,
+                               placedOnHills: false,
+                               placedOnRiverSide: true,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass, .plains, .tundra])
+        case .coal:
+            return FeatureData(name: "Coal",
+                               revealTech: .industrialization,
+                               placementOrder: 2,
+                               placedOnHills: true,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass, .plains])
+        case .aluminium:
+            return FeatureData(name: "Aluminium",
+                               revealTech: .radio,
+                               placementOrder: 2,
+                               placedOnHills: true,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: false,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [.plains],
+                               placedOnTerrains: [.plains, .desert])
+        case .uranium:
+            return FeatureData(name: "Uranium",
+                               revealTech: .combinedArms,
+                               placementOrder: 2,
+                               placedOnHills: false,
+                               placedOnRiverSide: true,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [.rainforest, .marsh, .forest],
+                               placedOnFeatureTerrains: [.grass, .plains, .desert, .tundra, .snow],
+                               placedOnTerrains: [.grass, .plains, .desert, .tundra, .snow])
+        case .niter:
+            return FeatureData(name: "Niter",
+                               revealTech: .militaryEngineering,
+                               placementOrder: 2,
+                               placedOnHills: false,
+                               placedOnRiverSide: false,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [],
+                               placedOnFeatureTerrains: [],
+                               placedOnTerrains: [.grass, .plains, .desert, .tundra])
+        case .oil:
+            return FeatureData(name: "Oil",
+                               revealTech: .refining,
+                               placementOrder: 2,
+                               placedOnHills: false,
+                               placedOnRiverSide: true,
+                               placedOnFlatlands: true,
+                               placedOnFeatures: [.rainforest, .marsh],
+                               placedOnFeatureTerrains: [.grass, .plains],
+                               placedOnTerrains: [.desert, .tundra, .snow, .shore])
         }
     }
 
     func placedOnHills() -> Bool {
 
-        if self == .coal || self == .gold || self == .copper || self == .marble {
-            return true
-        }
-        
-        if self == .sheep {
-            return true
-        }
+        return self.data().placedOnHills
+    }
 
-        return false
-    }
-    
     func placedOnRiverSide() -> Bool {
-        
-        if self == .cattle || self == .iron || self == .horses || self == .oil || self == .uranium || self == .sheep || self == .marble {
-            return false
-        }
-        
-        return true
+
+        return self.data().placedOnRiverSide
     }
-    
+
     func isFlatlands() -> Bool {
-        
-        if self == .iron || self == .horses || self == .oil || self == .uranium || self == .niter || self == .wheat  || self == .cattle || self == .deer  || self == .bananas || self == .ivory || self == .furs  || self == .dyes  || self == .spices || self == .silk  || self == .sugar || self == .cotton || self == .wine  || self == .incense {
-            return true
-        }
-        
-        return false
+
+        return self.data().placedOnFlatlands
     }
-    
+
     func placedOn(feature: FeatureType) -> Bool {
-        
-        if self == .oil {
-            return feature == .rainforest || feature == .marsh
-        }
-        
-        if self == .uranium {
-            return feature == .rainforest || feature == .forest || feature == .marsh
-        }
-        
-        if self == .wheat {
-            return feature == .floodplains
-        }
-        
-        if self == .rice {
-            return feature == .marsh
-        }
-        
-        if self == .deer {
-            return feature == .forest
-        }
-        
-        if self == .bananas {
-            return feature == .rainforest
-        }
-        
-        if self == .gems {
-            return feature == .rainforest
-        }
-        
-        if self == .furs {
-            return feature == .forest
-        }
-        
-        if self == .dyes {
-            return feature == .rainforest || feature == .forest
-        }
-        
-        if self == .spices {
-            return feature == .rainforest
-        }
-        
-        if self == .silk {
-            return feature == .forest
-        }
-        
-        if self == .sugar {
-            return feature == .floodplains || feature == .marsh
-        }
-        
-        return false
+
+        return self.data().placedOnFeatures.contains(feature)
     }
-    
+
     func placedOn(featureTerrain: TerrainType) -> Bool {
-        
-        if self == .oil {
-            return featureTerrain == .grass || featureTerrain == .plains
-        }
-        
-        if self == .uranium {
-            return featureTerrain == .grass || featureTerrain == .plains || featureTerrain == .desert || featureTerrain == .tundra || featureTerrain == .snow
-        }
-        
-        if self == .wheat {
-            return featureTerrain == .desert
-        }
-        
-        if self == .deer {
-            return featureTerrain == .grass || featureTerrain == .plains || featureTerrain == .tundra || featureTerrain == .snow
-        }
-        
-        if self == .bananas {
-            return featureTerrain == .grass || featureTerrain == .plains
-        }
-        
-        if self == .gems {
-            return featureTerrain == .grass || featureTerrain == .plains
-        }
-        
-        if self == .furs {
-            return featureTerrain == .grass || featureTerrain == .plains || featureTerrain == .tundra || featureTerrain == .snow
-        }
-        
-        if self == .dyes {
-            return featureTerrain == .grass || featureTerrain == .plains
-        }
-        
-        if self == .spices {
-            return featureTerrain == .grass || featureTerrain == .plains
-        }
-        
-        if self == .silk {
-            return featureTerrain == .grass || featureTerrain == .plains
-        }
-        
-        if self == .sugar {
-            return featureTerrain == .grass || featureTerrain == .plains || featureTerrain == .desert
-        }
-        
-        return true
+
+        return self.data().placedOnFeatureTerrains.contains(featureTerrain)
     }
-    
+
     // only checked if no feature
     func placedOn(terrain: TerrainType) -> Bool {
-        
-        switch self {
-            
-        case .none: return false
-            
-            // bonus
-        case .wheat:
-            return terrain == .plains
-        case .rice:
-            return terrain == .grass
-        case .deer:
-            return terrain == .tundra
-        case .sheep:
-            return terrain == .grass || terrain == .plains || terrain == .desert
-        case .copper:
-            // they all can have hills
-            return terrain == .grass || terrain == .plains || terrain == .desert || terrain == .tundra
-        case .stone:
-            return terrain == .grass
-        case .bananas:
-            return false // only on rainforest feature
-        case .cattle:
-            return terrain == .grass
-        case .fish:
-            return terrain == .shore
-        case .crab:
-            return terrain == .shore
-            
-            // luxury
-        case .marble:
-            return terrain == .grass || terrain == .plains
-        case .gems:
-            return terrain == .grass || terrain == .plains || terrain == .desert || terrain == .tundra
-        case .furs:
-            return terrain == .tundra
-        case .citrus:
-            return terrain == .grass || terrain == .plains
-        case .tea:
-            return terrain == .grass
-        case .sugar:
-            return false // only on floodplains, marshes feature
-        case .whales:
-            return terrain == .shore
-        case .pearls:
-            return terrain == .shore
-        case .ivory:
-            return terrain == .plains || terrain == .desert
-        case .wine:
-            return terrain == .grass || terrain == .plains
-        case .cotton:
-            return terrain == .grass || terrain == .plains
-        case .dyes:
-            return false // only on forest and rainforest feature
-        case .incense:
-            return terrain == .plains || terrain == .desert
-        case .silk:
-            return false // only on forest feature
-        case .silver:
-            return terrain == .desert || terrain == .tundra
-        case .gold:
-            return terrain == .grass || terrain == .plains || terrain == .desert
-        case .spices:
-            return false // only on forest and rainforest feature
-        case .cocoa:
-            return false // only on rainforest feature
-        case .salt:
-            return terrain == .tundra || terrain == .plains || terrain == .desert
-            
-            // strategic
-        case .horses:
-            return terrain == .grass || terrain == .plains || terrain == .tundra
-        case .iron:
-            return terrain == .grass || terrain == .plains || terrain == .desert || terrain == .tundra || terrain == .snow
-        case .coal:
-            return terrain == .grass || terrain == .plains
-        case .oil:
-            return terrain == .desert || terrain == .tundra || terrain == .snow || terrain == .shore
-        case .aluminium:
-            return terrain == .plains || terrain == .desert || terrain == .tundra
-        case .uranium:
-            return terrain == .grass || terrain == .plains || terrain == .desert || terrain == .tundra || terrain == .snow
-        case .niter:
-            return terrain == .grass || terrain == .plains || terrain == .desert || terrain == .tundra
-        }
+
+        return self.data().placedOnTerrains.contains(terrain)
     }
-    
+
     func placementOrder() -> Int {
-        
+
+        return self.data().placementOrder
+    }
+
+    // for standard
+    func absoluteBaseAmount() -> Int {
+
         switch self {
-            
+
         case .none: return -1
-            
-        case .iron: return 0
-            
-        case .horses: return 1
-            
-        case .coal: return 2
-        case .oil: return 2
-        case .aluminium: return 2
-        case .uranium: return 2
-        case .niter: return 2
-            
-        case .marble: return 3
-        case .furs: return 3
-        case .citrus: return 3
-        case .tea: return 3
-        case .sugar: return 3
-        case .wine: return 3
-        case .incense: return 3
-        case .cotton: return 3
-        case .silk: return 3
-        case .spices: return 3
-        case .dyes: return 3
-        case .ivory: return 3
-        case .fish: return 3
-        case .crab: return 3
-        case .salt: return 3
-        
-        case .wheat: return 4
-        case .rice: return 4
-        case .deer: return 4
-        case .sheep: return 4
+
+        case .iron: return 12
+
+        case .horses: return 14
+
+        case .coal: return 10
+        case .oil: return 8
+        case .aluminium: return 8
+        case .uranium: return 4
+        case .niter: return 8
+
+        case .marble: return 6
+        case .furs: return 12
+        case .citrus: return 2
+        case .tea: return 2
+        case .sugar: return 1
+        case .wine: return 12
+        case .incense: return 4
+        case .cotton: return 1
+        case .silk: return 1
+        case .spices: return 4
+        case .dyes: return 1
+        case .ivory: return 4
+        case .fish: return 24
+        case .crab: return 8
+        case .salt: return 2
+
+        case .wheat: return 18
+        case .rice: return 12
+        case .deer: return 16
+        case .sheep: return 20
         case .copper: return 4
-        case .stone: return 4
-        case .bananas: return 4
-        case .cocoa: return 4
-        case .cattle: return 4
-        case .gems: return 4
-        case .silver: return 4
-        case .gold: return 4
-        case .pearls: return 4
-        case .whales: return 4
+        case .stone: return 12
+        case .bananas: return 2
+        case .cocoa: return 2
+        case .cattle: return 22
+        case .gems: return 6
+        case .silver: return 10
+        case .gold: return 6
+        case .pearls: return 6
+        case .whales: return 6
         }
     }
-    
-    func basePropability() -> Int {
+
+    func absoluteVarPercent() -> Int {
+
+        return 25
+    }
+
+    /*func basePropability() -> Int {
         
         switch self {
             
@@ -863,7 +1038,7 @@ public enum ResourceType: Int, Codable {
         
         switch self {
             
-            // stractegic
+            // strategic
         case .horses: return 75
         case .iron: return 100
         case .coal: return 75
@@ -873,7 +1048,7 @@ public enum ResourceType: Int, Codable {
         case .niter: return 75
             
         default:
-            return 0
+            return 100
         }
-    }
+    } */
 }

@@ -246,6 +246,8 @@
 		C9C2FE4723FC170700185235 /* UnitPromotionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE4623FC170700185235 /* UnitPromotionType.swift */; };
 		C9C2FE4923FC20D600185235 /* Promotions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE4823FC20D600185235 /* Promotions.swift */; };
 		C9C52FCC23D8EFCC00B34140 /* PlayerScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C52FCB23D8EFCC00B34140 /* PlayerScoringTests.swift */; };
+		C9D78DF12590893C0024ECF0 /* ResourcePlacingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */; };
+		C9D78DF7259094080024ECF0 /* duel_no_resources.map in Resources */ = {isa = PBXBuildFile; fileRef = C9D78DF4259092C80024ECF0 /* duel_no_resources.map */; };
 		C9D8DF6C23ED9B9A0091C917 /* FlavorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8DF6B23ED9B9A0091C917 /* FlavorsTests.swift */; };
 		C9D8DF6E23EDAD7E0091C917 /* UnitTaskType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8DF6D23EDAD7E0091C917 /* UnitTaskType.swift */; };
 		C9D8DF7023EDB42F0091C917 /* UnitDomainType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8DF6F23EDB42F0091C917 /* UnitDomainType.swift */; };
@@ -555,6 +557,9 @@
 		C9C2FE4623FC170700185235 /* UnitPromotionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitPromotionType.swift; sourceTree = "<group>"; };
 		C9C2FE4823FC20D600185235 /* Promotions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promotions.swift; sourceTree = "<group>"; };
 		C9C52FCB23D8EFCC00B34140 /* PlayerScoringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerScoringTests.swift; sourceTree = "<group>"; };
+		C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcePlacingTests.swift; sourceTree = "<group>"; };
+		C9D78DF4259092C80024ECF0 /* duel_no_resources.map */ = {isa = PBXFileReference; explicitFileType = compiled; fileEncoding = 4; path = duel_no_resources.map; sourceTree = "<group>"; };
+		C9D78DFA259097890024ECF0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		C9D8DF6B23ED9B9A0091C917 /* FlavorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorsTests.swift; sourceTree = "<group>"; };
 		C9D8DF6D23EDAD7E0091C917 /* UnitTaskType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTaskType.swift; sourceTree = "<group>"; };
 		C9D8DF6F23EDB42F0091C917 /* UnitDomainType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitDomainType.swift; sourceTree = "<group>"; };
@@ -857,6 +862,8 @@
 				C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */,
 				C956BF6924F3C7B9009702B4 /* TradeRouteTests.swift */,
 				C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */,
+				C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */,
+				C9D78DFA259097890024ECF0 /* Tests-Prefix.pch */,
 			);
 			path = SmartAILibraryTests;
 			sourceTree = "<group>";
@@ -1110,6 +1117,7 @@
 		C9B1D2A2243612FF00033791 /* Maps */ = {
 			isa = PBXGroup;
 			children = (
+				C9D78DF4259092C80024ECF0 /* duel_no_resources.map */,
 				C9B1D2A62436131300033791 /* Earth_Duel.Civ5Map */,
 				C9B1D2A32436131100033791 /* Earth_Huge.Civ5Map */,
 				C9B1D2A42436131200033791 /* Earth_Large.Civ5Map */,
@@ -1287,6 +1295,7 @@
 			files = (
 				C9B1D2AA2436131700033791 /* Earth_Large.Civ5Map in Resources */,
 				C9B1D2AD2436131700033791 /* Earth_Tiny.Civ5Map in Resources */,
+				C9D78DF7259094080024ECF0 /* duel_no_resources.map in Resources */,
 				C9B1D2A92436131700033791 /* Earth_Huge.Civ5Map in Resources */,
 				C9B1D2AC2436131700033791 /* Earth_Duel.Civ5Map in Resources */,
 				C90FA35224C22A6000733331 /* arbalest.xml in Resources */,
@@ -1588,6 +1597,7 @@
 				C98DBFAA23DF34ED00B6CE25 /* CityTests.swift in Sources */,
 				C92317CC23D79F2C001FC723 /* GrandStrategyAITests.swift in Sources */,
 				C9D8DF7623EF6D0B0091C917 /* DiplomacyAITests.swift in Sources */,
+				C9D78DF12590893C0024ECF0 /* ResourcePlacingTests.swift in Sources */,
 				C9F76AAF243314B80018672A /* CivicTests.swift in Sources */,
 				C9AAC27024D97FFE00FF1E35 /* GameModelTests.swift in Sources */,
 				C9D8DF6C23ED9B9A0091C917 /* FlavorsTests.swift in Sources */,
@@ -1805,6 +1815,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 56RR42EQK6;
+				GCC_PREFIX_HEADER = "Tests-Prefix.pch";
 				INFOPLIST_FILE = SmartAILibraryTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1824,6 +1835,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3XR2XX99JT;
+				GCC_PREFIX_HEADER = "Tests-Prefix.pch";
 				INFOPLIST_FILE = SmartAILibraryTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

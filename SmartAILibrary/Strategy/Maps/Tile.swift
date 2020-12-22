@@ -1276,8 +1276,8 @@ public class Tile: AbstractTile {
             }
         }
 
-        if !resource.placedOnRiverSide() {
-            if mapModel.river(at: self.point) {
+        if mapModel.river(at: self.point) {
+            if !resource.placedOnRiverSide() {
                 return false
             }
         }

@@ -128,7 +128,7 @@ class EditorContentViewModel: ObservableObject {
     
     func riverOptionNames() -> [String] {
         
-        return ["---", "n", "n-ne", "n-se", "ne-se", "n-ne-se", "se"]
+        return ["---", "n", "n-ne", "n-se", "ne", "ne-se", "n-ne-se", "se"]
     }
 
     func setRiver(to value: String) {
@@ -152,6 +152,9 @@ class EditorContentViewModel: ObservableObject {
                     focusTile.resetRiver()
                     try focusTile.set(river: river, with: FlowDirection.east)
                     try focusTile.set(river: river, with: FlowDirection.northEast)
+                } else if value == "ne" {
+                    focusTile.resetRiver()
+                    try focusTile.set(river: river, with: FlowDirection.northWest)
                 } else if value == "ne-se" {
                     focusTile.resetRiver()
                     try focusTile.set(river: river, with: FlowDirection.northWest)

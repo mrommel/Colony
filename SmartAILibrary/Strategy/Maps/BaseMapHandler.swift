@@ -8,6 +8,14 @@
 
 import Foundation
 
+public class Utils {
+    
+    static let isRunningUnitTests: Bool = {
+        let environment = ProcessInfo().environment
+        return (environment["XCTestConfigurationFilePath"] != nil)
+    }()
+}
+
 public class BaseMapHandler {
 
     public init() {
@@ -20,7 +28,7 @@ public class BaseMapHandler {
             fatalError("cant get grid")
         }
 
-        let resources = ResourceType.all.sorted(by: { $0.placementOrder() > $1.placementOrder() })
+        let resources = ResourceType.all.sorted(by: { $0.placementOrder() < $1.placementOrder() })
 
         // Add resources
         for resource in resources {
@@ -74,7 +82,7 @@ public class BaseMapHandler {
 
             if let tile = grid.tile(at: point) {
 
-                if self.canPlace(resource: resource, at: tile, on: grid) {
+                if tile.canHave(resource: resource, ignoreLatitude: true, in: grid) {
 
                     let resourceNum = 50 + Int.random(maximum: 20) // FIXME
 
@@ -92,66 +100,73 @@ public class BaseMapHandler {
             }
         }
     }
-
-    // https://github.com/Gedemon/Civ5-YnAEMP/blob/db7cd1bc6a0684411aba700838184bcc6272b166/Override/WorldBuilderRandomItems.lua
-    private func numOfResourcesToAdd(for resource: ResourceType, on grid: MapModel?) -> Int {
+    
+    struct ResourcesInfo {
+        
+        let resource: ResourceType
+        let numPossible: Int
+        let alreadyPlaced: Int
+    }
+    
+    internal func numOfResources(for resource: ResourceType, on grid: MapModel?) -> ResourcesInfo {
 
         guard let grid = grid else {
             fatalError("cant get grid")
         }
 
-        // Calculate resourceCount, the amount of this resource to be placed:
-        let rand1 = Int.random(maximum: resource.propability())
-        let rand2 = Int.random(maximum: resource.propability())
-        let baseCount = resource.basePropability() + rand1 + rand2
-
         // Calculate numPossible, the number of plots that are eligible to have this resource:
         var numPossible = 0
         var alreadyPlaced = 0
-        var landTiles = 0
 
-        for x in 0..<grid.size.width() {
-            for y in 0..<grid.size.height() {
-                let gridPoint = HexPoint(x: x, y: y)
+        // iterate all points
+        for gridPoint in grid.points() {
 
-                if let tile = grid.tile(at: gridPoint) {
-                    if tile.canHave(resource: resource, ignoreLatitude: false, in: grid) {
-                        numPossible += 1
-                    } else if tile.resource(for: nil) == resource {
-                        numPossible += 1
-                        alreadyPlaced += 1
-                    }
+            if let tile = grid.tile(at: gridPoint) {
+                
+                /*if tile.terrain() == .desert || tile.terrain() == .tundra {
+                    print("debug")
+                }*/
+                
+                if tile.canHave(resource: resource, ignoreLatitude: true, in: grid) {
+                    numPossible += 1
+                } else if tile.resource(for: nil) == resource {
+                    numPossible += 1
+                    alreadyPlaced += 1
                 }
             }
         }
 
-        if resource.tilesPerPossible() > 0 {
-            landTiles = (numPossible / resource.tilesPerPossible())
-        }
-
-        let realNumCivAlive = 4 //self.options.numberOfPlayers
-        let players = Int((realNumCivAlive * resource.playerScale()) / 100)
-        var resourceCount = (baseCount * (landTiles + players)) / 100
-        resourceCount = max(1, resourceCount)
-
-        if resourceCount < alreadyPlaced {
-            resourceCount = 0
-        } else {
-            resourceCount = resourceCount - alreadyPlaced
-        }
-
-        print("try to place \(resourceCount) \(resource.name()) (\(alreadyPlaced) already placed)")
-
-        return resourceCount
+        return ResourcesInfo(resource: resource, numPossible: numPossible, alreadyPlaced: alreadyPlaced)
     }
 
-    func canPlace(resource: ResourceType, at tile: AbstractTile?, on grid: MapModel?) -> Bool {
+    // https://github.com/Gedemon/Civ5-YnAEMP/blob/db7cd1bc6a0684411aba700838184bcc6272b166/Override/WorldBuilderRandomItems.lua
+    internal func numOfResourcesToAdd(for resource: ResourceType, on grid: MapModel?) -> Int {
 
-        if let tile = tile {
-            return tile.canHave(resource: resource, ignoreLatitude: true, in: grid)
+        guard let grid = grid else {
+            fatalError("cant get grid")
         }
+        
+        // get info about current resource in map
+        let info = self.numOfResources(for: resource, on: grid)
 
-        return false
+        var absoluteAmount = resource.absoluteBaseAmount()
+        
+        // skip random altering for tests
+        if !Utils.isRunningUnitTests {
+            if resource.absoluteVarPercent() > 0 {
+                let rand1 = absoluteAmount - (absoluteAmount * resource.absoluteVarPercent() / 100)
+                let rand2 = absoluteAmount + (absoluteAmount * resource.absoluteVarPercent() / 100)
+                absoluteAmount = Int.random(minimum: rand1, maximum: rand2)
+            }
+        }
+        
+        absoluteAmount = absoluteAmount - info.alreadyPlaced
+        
+        // limit to possible
+        absoluteAmount = max(0, min(absoluteAmount, info.numPossible))
+        
+        print("try to place \(absoluteAmount) of \(resource.name()) on \(info.numPossible) possible (\(info.alreadyPlaced) already placed)")
+        return absoluteAmount
     }
 
     // CvMapGenerator::addGoodies()

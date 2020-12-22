@@ -42,7 +42,7 @@ public class Textures {
         self.allIceFeatureTextureNames = Textures.allTextureSuffixes.map({ "feature_ice\($0)" }) + Textures.allTextureSuffixes.map({ "feature_ice-to-water\($0)" })
         
         self.allResourceTextureNames = [
-            "resource_banana", "resource_marble", "resource_deer", "resource_sheep", "resource_horse", "resource_whales", "resource_cattle", "resource_niter", "resource_dyes", "resource_silk", "resource_incense", "resource_wheat", "resource_coal", "resource_oil", "resource_fish", "resource_spices", "resource_iron", "resource_wine", "resource_copper", "resource_pearls", "resource_furs", "resource_stone", "resource_ivory", "resource_cotton", "resource_rice", "resource_gold", "resource_uranium", "resource_crab", "resource_salt", "resource_cocoa", "resource_citrus", "resource_sugar", "resource_silver", "resource_aluminium", "resource_gems"
+            "resource_banana", "resource_marble", "resource_deer", "resource_sheep", "resource_horse", "resource_whales", "resource_cattle", "resource_niter", "resource_dyes", "resource_silk", "resource_incense", "resource_wheat", "resource_coal", "resource_oil", "resource_fish", "resource_spices", "resource_iron", "resource_wine", "resource_copper", "resource_pearls", "resource_furs", "resource_stone", "resource_ivory", "resource_cotton", "resource_rice", "resource_gold", "resource_uranium", "resource_crab", "resource_salt", "resource_cocoa", "resource_citrus", "resource_sugar", "resource_silver", "resource_aluminium", "resource_gems", "resource_tea"
         ]
     }
 

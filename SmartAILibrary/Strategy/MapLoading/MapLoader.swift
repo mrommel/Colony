@@ -15,7 +15,7 @@ public class MapLoader: BaseMapHandler {
         super.init()
     }
     
-    public func load(from url: URL?, for leader: LeaderType) -> MapModel? {
+    public func load(from url: URL?, for leader: LeaderType, with numberOfPlayers: Int = 4) -> MapModel? {
 
         if let mapUrl = url {
 
@@ -27,8 +27,6 @@ public class MapLoader: BaseMapHandler {
                 self.placeResources(on: map)
                 self.addGoodies(on: map)
                 
-                let numberOfPlayers = 4
-
                 let startPositioner = StartPositioner(on: map, for: numberOfPlayers)
                 startPositioner.generateRegions()
 
