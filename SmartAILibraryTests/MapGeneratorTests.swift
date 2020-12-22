@@ -25,8 +25,6 @@ class MapGeneratorTests: XCTestCase {
         let jsonData = try! Data(contentsOf: url, options: .mappedIfSafe)
 
         self.map = try! JSONDecoder().decode(MapModel.self, from: jsonData)
-        //let loader = MapLoader()
-        //self.map = loader.load(from: url, for: .alexander, addResources: false)
     }
     
     func testBasic() {
@@ -66,7 +64,7 @@ class MapGeneratorTests: XCTestCase {
         let fishCount = baseHandler.numOfResourcesToAdd(for: .fish, on: self.map)
         
         // THEN
-        XCTAssertEqual(fishCount, 24)
+        XCTAssertEqual(fishCount, 5)
     }
     
     func testCountingCitrusToAdd() {
@@ -77,7 +75,7 @@ class MapGeneratorTests: XCTestCase {
         let citrusCount = baseHandler.numOfResourcesToAdd(for: .citrus, on: self.map)
         
         // THEN
-        XCTAssertEqual(citrusCount, 2)
+        XCTAssertEqual(citrusCount, 1)
     }
     
     func testCountingCocoaToAdd() {
@@ -88,7 +86,7 @@ class MapGeneratorTests: XCTestCase {
         let cocoaCount = baseHandler.numOfResourcesToAdd(for: .cocoa, on: self.map)
         
         // THEN
-        XCTAssertEqual(cocoaCount, 2)
+        XCTAssertEqual(cocoaCount, 1)
     }
     
     func testCountingGemsToAdd() {
@@ -99,7 +97,7 @@ class MapGeneratorTests: XCTestCase {
         let gemsCount = baseHandler.numOfResourcesToAdd(for: .gems, on: self.map)
         
         // THEN
-        XCTAssertEqual(gemsCount, 6)
+        XCTAssertEqual(gemsCount, 1)
     }
     
     func testCountingRiceToAdd() {
@@ -110,7 +108,7 @@ class MapGeneratorTests: XCTestCase {
         let riceCount = baseHandler.numOfResourcesToAdd(for: .rice, on: self.map)
         
         // THEN
-        XCTAssertEqual(riceCount, 12)
+        XCTAssertEqual(riceCount, 2)
     }
     
     func testCountingSaltToAdd() {
@@ -121,7 +119,7 @@ class MapGeneratorTests: XCTestCase {
         let saltCount = baseHandler.numOfResourcesToAdd(for: .salt, on: self.map)
         
         // THEN
-        XCTAssertEqual(saltCount, 2)
+        XCTAssertEqual(saltCount, 1)
     }
     
     func testCountingSilverToAdd() {
@@ -132,7 +130,7 @@ class MapGeneratorTests: XCTestCase {
         let silverCount = baseHandler.numOfResourcesToAdd(for: .silver, on: self.map)
         
         // THEN
-        XCTAssertEqual(silverCount, 7)
+        XCTAssertEqual(silverCount, 2)
     }
     
     func testCountingStoneToAdd() {
@@ -143,7 +141,7 @@ class MapGeneratorTests: XCTestCase {
         let stoneCount = baseHandler.numOfResourcesToAdd(for: .stone, on: self.map)
         
         // THEN
-        XCTAssertEqual(stoneCount, 12)
+        XCTAssertEqual(stoneCount, 2)
     }
     
     func testCountingResourcesToAdd() {

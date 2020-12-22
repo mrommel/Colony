@@ -929,8 +929,8 @@ public enum ResourceType: Int, Codable {
         return self.data().placementOrder
     }
 
-    // for standard
-    func absoluteBaseAmount() -> Int {
+    // for standard map size
+    func baseAmount() -> Int {
 
         switch self {
 
@@ -983,72 +983,4 @@ public enum ResourceType: Int, Codable {
 
         return 25
     }
-
-    /*func basePropability() -> Int {
-        
-        switch self {
-            
-        case .none: return 0
-            
-        case .iron, .horses, .coal, .oil, .aluminium, .uranium, .niter: return 100
-            
-        case .marble, .furs, .citrus, .tea, .sugar, .wine, .incense, .cotton, .silk, .spices, .dyes, .ivory, .fish, .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .gems, .silver, .gold, .pearls, .whales, .cocoa, .crab, .salt: return 50
-        }
-    }
-    
-    func propability() -> Int {
-        
-        switch self {
-            
-        case .none: return 0
-            
-        case .iron, .horses, .coal, .oil, .aluminium, .uranium, .niter: return 10
-            
-        case .marble, .furs, .citrus, .tea, .sugar, .wine, .incense, .cotton, .silk, .spices, .dyes, .ivory, .fish, .wheat, .rice, .deer, .sheep, .copper, .stone, .bananas, .cattle, .gems, .silver, .gold, .pearls, .whales, .crab, .salt, .cocoa: return 25
-        }
-    }
-    
-    func tilesPerPossible() -> Int {
-        
-        if self == .wheat || self == .cattle {
-            return 5
-        }
-        
-        if self == .bananas  {
-            return 6
-        }
-        
-        if self == .sheep  {
-            return 8
-        }
-        
-        if self == .deer  {
-            return 9
-        }
-        
-        if self == .fish || self == .crab {
-            return 12
-        }
-        
-        return 0
-    }
-    
-    // used for upscaling
-    func playerScale()  -> Int {
-        
-        switch self {
-            
-            // strategic
-        case .horses: return 75
-        case .iron: return 100
-        case .coal: return 75
-        case .oil: return 100
-        case .aluminium: return 75
-        case .uranium: return 75
-        case .niter: return 75
-            
-        default:
-            return 100
-        }
-    } */
 }

@@ -149,7 +149,9 @@ public class BaseMapHandler {
         // get info about current resource in map
         let info = self.numOfResources(for: resource, on: grid)
 
-        var absoluteAmount = resource.absoluteBaseAmount()
+        let mapFactor = grid.size.numberOfTiles() * 100 / MapSize.standard.numberOfTiles()
+        
+        var absoluteAmount = max(1, resource.baseAmount() * mapFactor / 100)
         
         // skip random altering for tests
         if !Utils.isRunningUnitTests {
