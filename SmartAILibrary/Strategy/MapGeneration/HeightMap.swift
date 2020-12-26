@@ -8,17 +8,20 @@
 
 import Foundation
 
-class HeightMap: Array2D<Double> {
+// https://www.redblobgames.com/maps/terrain-from-noise/
+public class HeightMap: Array2D<Double> {
 
-    required override init(width: Int, height: Int) {
+    private let tau = .pi * 2.0
+    
+    public required override init(width: Int, height: Int) {
 
         super.init(width: width, height: height)
 
-		self.generate(withOctaves: 4, zoom: 80, andPersistence: 0.52)
+        self.generate(withOctaves: 4, zoom: 1.0, andPersistence: 1.0)
 		self.normalize()
 	}
 
-	required init(width: Int, height: Int, octaves: Int, zoom: Double, andPersistence persistence: Double) {
+    public required init(width: Int, height: Int, octaves: Int, zoom: Double, andPersistence persistence: Double) {
 
         super.init(width: width, height: height)
 
@@ -34,10 +37,10 @@ class HeightMap: Array2D<Double> {
 	generates the heightmap based on the input parameters
 	
 	- parameter octaves: 4
-	- parameter zoom: 80
-	- parameter persistence: 0.52
+	- parameter zoom: 1.0
+	- parameter persistence: 1.0
 	*/
-	func generate(withOctaves octaves: Int, zoom: Double, andPersistence persistence: Double) {
+    public func generate(withOctaves octaves: Int, zoom: Double, andPersistence persistence: Double) {
 
 		let generator = PerlinGenerator()
 
@@ -46,18 +49,30 @@ class HeightMap: Array2D<Double> {
 		generator.persistence = persistence
 
 		for x in 0..<self.width {
-			for y in 0..<self.height {
+            for y in 0..<self.height {
+                
+                let nx = Double(x)/Double(self.width) - 0.5
+                let ny = Double(y)/Double(self.height) - 0.5
+                
+                let angle_x = self.tau * nx
+                
+                /* In "noise parameter space", we need nx and ny to travel the
+                       same distance. The circle created from nx needs to have
+                       circumference=1 to match the length=1 line created from ny,
+                       which means the circle's radius is 1/2π, or 1/tau */
+                
+                // self[x, y] = generator.perlinNoise(x: cos(angle_x) / self.tau, y: sin(angle_x) / self.tau, z: ny, t: 0)
 
-				let value0 = 1.00 * generator.perlinNoise(x: 1.0 * Double(x), y: 1.0 * Double(y), z: 0, t: 0)
-				let value1 = 0.50 * generator.perlinNoise(x: 2.0 * Double(x), y: 2.0 * Double(y), z: 0, t: 0)
-				let value2 = 0.25 * generator.perlinNoise(x: 4.0 * Double(x), y: 4.0 * Double(y), z: 0, t: 0)
+				let value0 = 1.00 * generator.perlinNoise(x: 1.0 * cos(angle_x) / self.tau, y: 1.0 * sin(angle_x) / self.tau, z: 1.0 * ny, t: 0)
+				let value1 = 0.50 * generator.perlinNoise(x: 2.0 * cos(angle_x) / self.tau, y: 2.0 * sin(angle_x) / self.tau, z: 2.0 * ny, t: 0)
+                let value2 = 0.25 * generator.perlinNoise(x: 4.0 * cos(angle_x) / self.tau, y: 4.0 * sin(angle_x) / self.tau, z: 4.0 * ny, t: 0)
 
-				var value = abs(value0 + value1 + value2)
-				if value > 1 {
-					value = 1
+                var value = abs(value0 + value1 + value2) / 1.75
+                if value > 1.0 {
+                    value = 1.0
 				}
 
-				self[x, y] = pow(value, 1.97)
+                self[x, y] = pow(value, 3.0) // 1.97
 			}
 		}
 	}
@@ -80,53 +95,53 @@ class HeightMap: Array2D<Double> {
 
 		return Double(belowNum / (belowNum + aboveNum))
 	}
-    
-    func percentage(above threshold: Double) -> Double {
+
+	func findThresholdBelow(percentage: Double) -> Double {
+
+        var tmpArray: [Double] = []
         
-        var belowNum: Double = 0
-        var aboveNum: Double = 0
-        
+        // fill from map
         for x in 0..<self.width {
             for y in 0..<self.height {
-                let value = self[x, y]
-                if value! < threshold {
-                    belowNum += 1.0
-                } else {
-                    aboveNum += 1.0
+                if let value = self[x, y] {
+                    tmpArray.append(value)
                 }
             }
         }
         
-        return Double(aboveNum / (belowNum + aboveNum))
-    }
-
-	func findWaterLevel(forWaterPercentage waterPercentage: Double) -> Double {
-
-		var waterLevel: Double = 0.05
-		var calculatedWaterPercentage: Double = self.percentage(below: waterLevel)
-
-		while calculatedWaterPercentage < waterPercentage {
-			waterLevel += 0.05
-			calculatedWaterPercentage = self.percentage(below: waterLevel)
-		}
-
-		return waterLevel
+        // sorted smallest first, highest last
+        tmpArray.sort()
+        
+        let thresholdIndex: Int = Int(Double(tmpArray.count) * percentage)
+        
+        return tmpArray[thresholdIndex - 1]
 	}
     
-    func findPeakLevel(forPeakPercentage peakPercentage: Double) -> Double {
+    /// this function takes the complete height map into account
+    /// for land only - please multiply with land values
+    func findThresholdAbove(percentage: Double) -> Double {
         
-        var peakLevel: Double = 1.0
-        var calculatedPeakPercentage: Double = self.percentage(above: peakLevel)
+        var tmpArray: [Double] = []
         
-        while calculatedPeakPercentage < peakPercentage {
-            peakLevel -= 0.05
-            calculatedPeakPercentage = self.percentage(above: peakLevel)
+        // fill from map
+        for x in 0..<self.width {
+            for y in 0..<self.height {
+                if let value = self[x, y] {
+                    tmpArray.append(value)
+                }
+            }
         }
         
-        return peakLevel
+        // sorted smallest first, highest last
+        tmpArray.sort()
+        tmpArray.reverse()
+        
+        let thresholdIndex: Int = Int(Double(tmpArray.count) * percentage)
+        
+        return tmpArray[thresholdIndex - 1]
     }
 
-	func normalize() {
+    public func normalize() {
 
 		var maxValue: Double = Double.leastNormalMagnitude
 		var minValue: Double = Double.greatestFiniteMagnitude

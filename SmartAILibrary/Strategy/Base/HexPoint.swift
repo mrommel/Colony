@@ -64,12 +64,12 @@ struct HexLayout {
 
 public enum HexDirection: Int {
 
-    case north
-    case northeast
-    case southeast
-    case south
-    case southwest
-    case northwest
+    case north = 0
+    case northeast = 1
+    case southeast = 2
+    case south = 3
+    case southwest = 4
+    case northwest = 5
 
     public static var all: [HexDirection] {
         

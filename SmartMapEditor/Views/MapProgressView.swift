@@ -25,7 +25,10 @@ struct MapProgressView: View {
         
         VStack {
 
-            AnimatedImage(name: "animated-map.gif").clipShape(Circle()).scaledToFit()
+            AnimatedImage(name: "animated-map.gif")
+                .frame(width: 64, height: 64, alignment: .center)
+                .clipShape(Circle())
+                .scaledToFit()
             
             Text("Generating Map")
             

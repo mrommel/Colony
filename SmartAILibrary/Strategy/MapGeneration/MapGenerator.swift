@@ -16,13 +16,19 @@ struct KeyValuePair<Key, Value> {
     let value: Value
 }
 
+enum PlotType: Int, Codable {
+    
+    case sea = 0
+    case land = 1
+}
+
 public class MapGenerator: BaseMapHandler {
 
     let options: MapOptions
 	let width: Int
 	let height: Int
 
-	let terrain: Array2D<TerrainType>
+    let plots: Array2D<PlotType>
 	let climateZones: Array2D<ClimateZone>
 	let distanceToCoast: Array2D<Int>
 	var springLocations: [HexPoint]
@@ -42,7 +48,7 @@ public class MapGenerator: BaseMapHandler {
         self.height = options.size.height()
 
 		// prepare terrain, distanceToCoast and zones
-        self.terrain = Array2D<TerrainType>(width: self.width, height: self.height)
+        self.plots = Array2D<PlotType>(width: self.width, height: self.height)
         self.distanceToCoast = Array2D<Int>(width: self.width, height: self.height)
         self.climateZones = Array2D<ClimateZone>(width: self.width, height: self.height)
 		self.springLocations = []
@@ -54,7 +60,7 @@ public class MapGenerator: BaseMapHandler {
         let grid = MapModel(size: MapSize.custom(width: self.width, height: self.height))
 
 		// 0st step: height and moisture map
-		let heightMap = HeightMap(width: self.width, height: self.height)
+        let heightMap = HeightMap(width: self.width, height: self.height, octaves: options.octaves, zoom: 1.0, andPersistence: 1.0) // 4, 80, 0.52
 		let moistureMap = HeightMap(width: self.width, height: self.height)
 
 		if let completionHandler = self.progressHandler {
@@ -64,7 +70,9 @@ public class MapGenerator: BaseMapHandler {
         usleep(10000) // will sleep for 10 milliseconds
 
 		// 1st step: land / water
+        //self.wrapHeightmap
 		self.fillFromElevation(withWaterPercentage: options.waterPercentage, on: heightMap)
+        // self.flipSomeCoastTiles()
 
 		if let completionHandler = self.progressHandler {
 			completionHandler(0.3, "elevation map created")
@@ -93,6 +101,7 @@ public class MapGenerator: BaseMapHandler {
 
 		// 3rd step: refine terrain
 		self.refineTerrain(on: grid, with: heightMap, and: moistureMap)
+        self.blendTerrains(on: grid)
 
 		if let completionHandler = self.progressHandler {
 			completionHandler(0.5, "terrain refined")
@@ -175,18 +184,18 @@ public class MapGenerator: BaseMapHandler {
 
 	// MARK: 1st step methods
 
-	func waterOrLandFrom(elevation: Double, waterLevel: Double) -> TerrainType {
+	func waterOrLandFrom(elevation: Double, waterLevel: Double) -> PlotType {
 
 		if elevation < waterLevel {
-			return TerrainType.ocean
+			return PlotType.sea
 		}
 
-		return TerrainType.grass
+		return PlotType.land
 	}
 
 	func fillFromElevation(withWaterPercentage waterPercentage: Double, on heightMap: HeightMap) {
 
-		let waterLevel = heightMap.findWaterLevel(forWaterPercentage: waterPercentage)
+        let waterLevel = heightMap.findThresholdBelow(percentage: waterPercentage)
         
 		for x in 0..<width {
 			for y in 0..<height {
@@ -194,7 +203,7 @@ public class MapGenerator: BaseMapHandler {
 					continue
 				}
 
-                self.terrain[x, y] = self.waterOrLandFrom(elevation: height, waterLevel: waterLevel)
+                self.plots[x, y] = self.waterOrLandFrom(elevation: height, waterLevel: waterLevel)
 			}
 		}
 	}
@@ -263,7 +272,7 @@ public class MapGenerator: BaseMapHandler {
 					if self.distanceToCoast[x, y] == Int.max {
 
 						// if field is ocean => no distance
-						if self.terrain[x, y] == TerrainType.ocean {
+						if self.plots[x, y] == PlotType.sea {
 							self.distanceToCoast[x, y] = 0
 							actionHappened = true
 						} else {
@@ -296,14 +305,13 @@ public class MapGenerator: BaseMapHandler {
 
 	func refineTerrain(on grid: MapModel?, with heightMap: HeightMap, and moistureMap: HeightMap) {
 
-        var mountainSpots: [KeyValuePair<HexPoint, Double>] = []
         var landPlots: Int = 0
         
 		for x in 0..<width {
 			for y in 0..<height {
 				let gridPoint = HexPoint(x: x, y: y)
 
-				if self.terrain[x, y] == TerrainType.ocean {
+				if self.plots[x, y] == PlotType.sea {
 
 					if heightMap[x, y]! > 0.1 {
 						grid?.set(terrain: .shore, at: gridPoint)
@@ -311,7 +319,6 @@ public class MapGenerator: BaseMapHandler {
 						grid?.set(terrain: .ocean, at: gridPoint)
 					}
 				} else {
-                    mountainSpots.append(KeyValuePair<HexPoint, Double>(key: gridPoint, value: heightMap[x, y]!))
                     landPlots += 1
                     
                     self.updateBiome(at: gridPoint, on: grid, elevation: heightMap[x, y]!, moisture: moistureMap[x, y]!, climate: self.climateZones[x, y]!)
@@ -319,20 +326,151 @@ public class MapGenerator: BaseMapHandler {
 			}
 		}
         
-        // randomly remove some mountains
-        mountainSpots.shuffle()
-        mountainSpots.removeFirst(100)
-        mountainSpots.sort(by: {  $0.value > $1.value })
+        // get highest percent tiles from height map
+        let combinedPercentage = self.options.mountainsPercentage * self.options.landPercentage
+        let mountainThresold = heightMap.findThresholdAbove(percentage: combinedPercentage)
         
-        let numberOfMountains = landPlots * 5 / 100 // 5%
+        var numberOfMountains: Int = 0
         
-        // apply
-        for item in mountainSpots.suffix(numberOfMountains) {
-            grid?.set(feature: .mountains, at: item.key)
+        for x in 0..<width {
+            for y in 0..<height {
+                let gridPoint = HexPoint(x: x, y: y)
+                
+                if heightMap[gridPoint]! >= mountainThresold {
+                    grid?.set(feature: .mountains, at: gridPoint)
+                    numberOfMountains += 1
+                }
+            }
         }
         
         print("Number of Mountains: \(numberOfMountains)")
 	}
+    
+    private func blendTerrains(on gridRef: MapModel?) {
+        
+        guard let grid = gridRef else {
+            fatalError("no grid")
+        }
+        
+        // mglobal.hillsBlendPercent        = 0.45 -- Chance for flat land to become hills per near mountain. Requires at least 2 near mountains.
+        let terrainBlendRange = 3       // range to smooth terrain (desert surrounded by plains turns to plains, etc)
+        let terrainBlendRandom = 0.6  //random modifier for terrain smoothing
+        
+        
+        let points = grid.points().shuffled
+        
+        for pt in points {
+            
+            guard let tile = grid.tile(at: pt) else {
+                continue
+            }
+            
+            if tile.isWater() {
+                continue
+            }
+            
+            let plotPercents = grid.plotStatistics(at: pt, radius: terrainBlendRange)
+            let randPercent = 1.0 + Double.random * 2.0 * terrainBlendRandom - terrainBlendRandom
+            
+            if tile.feature() == .mountains {
+                
+                var numNearMountains = 0
+                
+                for neighbor in tile.point.neighbors() {
+                    
+                    guard let neighborTile = grid.tile(at: neighbor) else {
+                        continue
+                    }
+                    
+                    if neighborTile.feature() == .mountains {
+                        numNearMountains += 1
+                    }
+                }
+                
+                if 2 <= numNearMountains && numNearMountains <= 4 {
+                    self.createPossibleMountainPass(at: tile.point, on: gridRef)
+                }
+            } else {
+                
+                if tile.terrain() == .grass {
+                    if plotPercents.desert + plotPercents.snow >= 0.33 * randPercent {
+                        tile.set(terrain: .plains)
+                        if tile.feature() == .marsh {
+                            tile.set(feature: .forest)
+                        }
+                    }
+                } else if tile.terrain() == .plains {
+                    if plotPercents.desert >= 0.5 * randPercent {
+                         // plot:SetTerrainType(TerrainTypes.TERRAIN_DESERT, true, true)
+                    }
+                } else if tile.terrain() == .desert {
+                    if plotPercents.grass + plotPercents.snow >= 0.25 * randPercent {
+                        tile.set(terrain: .plains)
+                    } /*else if plotPercents.rainforest + plotPercents.MARSH >= 0.25 * randPercent {
+                         plot:SetTerrainType(TerrainTypes.TERRAIN_PLAINS, true, true)
+                    }*/
+                } else if tile.feature() == .rainforest && tile.feature() == .marsh {
+                    if plotPercents.snow + plotPercents.tundra + plotPercents.desert >= 0.25 * randPercent {
+                        tile.set(feature: .none)
+                    }
+                } else if tile.terrain() == .tundra {
+                    if 2.0 * plotPercents.grass + plotPercents.plains + plotPercents.desert >= 0.5 * randPercent {
+                        tile.set(terrain: .plains)
+                    }
+                }
+            }
+        }
+    }
+    
+    func createPossibleMountainPass(at point: HexPoint, on gridRef: MapModel?) {
+        
+        guard let grid = gridRef else {
+            fatalError("no grid")
+        }
+        
+        guard let plot = grid.tile(at: point) else {
+            return
+        }
+        
+        guard plot.feature() == .mountains else {
+            return
+        }
+        
+        let pathFinder = AStarPathfinder()
+        pathFinder.dataSource = MoveTypeIgnoreUnitsPathfinderDataSource(in: grid, for: .walk, for: nil, options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false))
+        
+        var longestRoute = 0
+        
+        for dirA in 0...3 {
+            
+            guard let plotA = grid.tile(at: point.neighbor(in: HexDirection(rawValue: dirA)!)) else {
+                continue
+            }
+            
+            if plotA.terrain().isLand() && plotA.feature() != .mountains {
+                
+                for dirB in (dirA + 2)...5 {
+                    
+                    guard let plotB = grid.tile(at: point.neighbor(in: HexDirection(rawValue: dirB)!)) else {
+                        continue
+                    }
+                    
+                    if plotB.terrain().isLand() && plotB.feature() != .mountains {
+                        
+                        if let path = pathFinder.shortestPath(fromTileCoord: plotA.point, toTileCoord: plotB.point) {
+                            longestRoute = max(longestRoute, path.count)
+                        }
+                        
+                        if longestRoute == 0 || longestRoute > 15 {
+                            print("-- CreatePossibleMountainPass path distance = \(longestRoute) - Change to Hills at \(point)")
+                            plot.set(feature: .none)
+                            plot.set(hills: true)
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     private func refineFeatures(on gridRef: MapModel?) {
         
@@ -716,9 +854,9 @@ public class MapGenerator: BaseMapHandler {
 
 		if lowestValue < Double.greatestFiniteMagnitude {
 
-			let targetTerrain = self.terrain[lowestGridPointWithCorner.point.x, lowestGridPointWithCorner.point.y]
+			let targetPlot = self.plots[lowestGridPointWithCorner.point.x, lowestGridPointWithCorner.point.y]
 
-			if targetTerrain != .ocean {
+			if targetPlot != .sea {
 
 				// TODO: river sometimes get stuck and end in lakes
 

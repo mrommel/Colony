@@ -22,6 +22,7 @@ public class MapModel: Codable {
         case summary
         
         case size
+        case wrapX
         case cities
         case units
         case tiles
@@ -36,6 +37,7 @@ public class MapModel: Codable {
     public var summary: String
     
     public let size: MapSize
+    public let wrapX: Bool
     private var cities: [AbstractCity?]
     private var units: [AbstractUnit?]
     private var tiles: TileArray2D
@@ -58,6 +60,7 @@ public class MapModel: Codable {
         self.summary = "no summary"
         
         self.size = size
+        self.wrapX = true
         self.cities = []
         self.units = []
         self.tiles = TileArray2D(size: size)
@@ -85,6 +88,7 @@ public class MapModel: Codable {
         self.summary = try container.decodeIfPresent(String.self, forKey: .summary) ?? "no summary"
         
         self.size = try container.decode(MapSize.self, forKey: .size)
+        self.wrapX = try container.decodeIfPresent(Bool.self, forKey: .wrapX) ?? true
         self.cities = try container.decode([City?].self, forKey: .cities)
         self.units = try container.decode([Unit?].self, forKey: .units)
         self.tiles = try container.decode(TileArray2D.self, forKey: .tiles)
@@ -152,6 +156,7 @@ public class MapModel: Codable {
         try container.encode(self.summary, forKey: .summary)
         
         try container.encode(self.size, forKey: .size)
+        try container.encode(self.wrapX, forKey: .wrapX)
         let wrappedCities: [City?] = self.cities.map { $0 as? City }
         try container.encode(wrappedCities, forKey: .cities)
         let wrappedUnits: [Unit?] = self.units.map { $0 as? Unit }
@@ -372,6 +377,18 @@ public class MapModel: Codable {
         
         if self.valid(point: point) {
             return self.tiles[point]
+        } else if self.wrapX {
+            var newX = -1
+            
+            if point.x < 0 {
+                newX = point.x + self.size.width()
+            } else if point.x >= self.size.width() {
+                newX = point.x - self.size.width()
+            }
+            
+            if self.valid(x: newX, y: point.y) {
+                return self.tiles[newX, point.y]
+            }
         }
         
         return nil
@@ -381,6 +398,18 @@ public class MapModel: Codable {
         
         if self.valid(x: x, y: y) {
             return self.tiles[x, y]
+        } else if self.wrapX {
+            var newX = -1
+            
+            if x < 0 {
+                newX = x + self.size.width()
+            } else if x >= self.size.width() {
+                newX = x - self.size.width()
+            }
+            
+            if self.valid(x: newX, y: y) {
+                return self.tiles[newX, y]
+            }
         }
         
         return nil
@@ -743,6 +772,77 @@ public class MapModel: Codable {
         maxY = max(maxY, tmpPoint.y)
 
         return CGSize(width: maxX - minX, height: maxY - minY)
+    }
+    
+    func plotStatistics(at point: HexPoint, radius: Int) -> PlotStatistics {
+        
+        var stats: PlotStatistics = PlotStatistics()
+        var validTile = 0.0
+        
+        for pt in point.areaWith(radius: radius) {
+        
+            guard let tile = self.tile(at: pt) else {
+                continue
+            }
+            
+            if tile.terrain() == .ocean {
+                stats.ocean += 1
+            } else if tile.terrain() == .shore {
+                stats.shore += 1
+            } else if tile.terrain() == .plains {
+                stats.plains += 1
+            } else if tile.terrain() == .grass {
+                stats.grass += 1
+            } else if tile.terrain() == .desert {
+                stats.desert += 1
+            } else if tile.terrain() == .tundra {
+                stats.tundra += 1
+            } else if tile.terrain() == .snow {
+                stats.snow += 1
+            }
+            
+            validTile += 1.0
+        }
+        
+        // normalize
+        stats.normalize(with: validTile)
+        
+        return stats
+    }
+}
+
+class PlotStatistics {
+    
+    // terrains
+    var ocean: Double
+    var shore: Double
+    var plains: Double
+    var grass: Double
+    var desert: Double
+    var tundra: Double
+    var snow: Double
+    
+    // features
+    
+    init() {
+        self.ocean = 0.0
+        self.shore = 0.0
+        self.plains = 0.0
+        self.grass = 0.0
+        self.desert = 0.0
+        self.tundra = 0.0
+        self.snow = 0.0
+    }
+    
+    func normalize(with factor: Double) {
+        
+        self.ocean = self.ocean / factor
+        self.shore = self.shore / factor
+        self.plains = self.plains / factor
+        self.grass = self.grass / factor
+        self.desert = self.desert / factor
+        self.tundra = self.tundra / factor
+        self.snow = self.snow / factor
     }
 }
 

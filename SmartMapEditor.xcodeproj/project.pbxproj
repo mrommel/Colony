@@ -54,6 +54,9 @@
 		C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD63257286D30044F437 /* NSLabel.swift */; };
 		C9D78DE7258F7D3F0024ECF0 /* animated-map.gif in Resources */ = {isa = PBXBuildFile; fileRef = C9D78DE6258F7D3F0024ECF0 /* animated-map.gif */; };
 		C9D78DED258FA8000024ECF0 /* PlainGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D78DEC258FA8000024ECF0 /* PlainGroupBoxStyle.swift */; };
+		C9D78E042593A3E90024ECF0 /* DebugHeightMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D78E032593A3E90024ECF0 /* DebugHeightMapViewController.swift */; };
+		C9D78E082593A47E0024ECF0 /* DebugHeightMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D78E072593A47E0024ECF0 /* DebugHeightMapViewModel.swift */; };
+		C9D78E0C2593A4D80024ECF0 /* DebugHeightMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D78E0B2593A4D80024ECF0 /* DebugHeightMapView.swift */; };
 		C9F3AE0D25894F3100027DD6 /* MapBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE0C25894F3000027DD6 /* MapBrush.swift */; };
 		C9F3AE1125894F5500027DD6 /* MapBrushSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */; };
 		C9F3AE1525894F6B00027DD6 /* MapBrushType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */; };
@@ -148,6 +151,9 @@
 		C9ADAD63257286D30044F437 /* NSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLabel.swift; sourceTree = "<group>"; };
 		C9D78DE6258F7D3F0024ECF0 /* animated-map.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "animated-map.gif"; path = "../../../Colony Resource/animated-map/animated-map.gif"; sourceTree = "<group>"; };
 		C9D78DEC258FA8000024ECF0 /* PlainGroupBoxStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainGroupBoxStyle.swift; sourceTree = "<group>"; };
+		C9D78E032593A3E90024ECF0 /* DebugHeightMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugHeightMapViewController.swift; sourceTree = "<group>"; };
+		C9D78E072593A47E0024ECF0 /* DebugHeightMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugHeightMapViewModel.swift; sourceTree = "<group>"; };
+		C9D78E0B2593A4D80024ECF0 /* DebugHeightMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugHeightMapView.swift; sourceTree = "<group>"; };
 		C9F3AE0C25894F3000027DD6 /* MapBrush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrush.swift; sourceTree = "<group>"; };
 		C9F3AE1025894F5500027DD6 /* MapBrushSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrushSize.swift; sourceTree = "<group>"; };
 		C9F3AE1425894F6B00027DD6 /* MapBrushType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBrushType.swift; sourceTree = "<group>"; };
@@ -273,6 +279,7 @@
 				C9AAF4BA2581FB8900D7F357 /* MapSavingViewModel.swift */,
 				C9F3AE1C2589EC4400027DD6 /* Civ5MapImportingViewModel.swift */,
 				C9240FCF258E5E0A007FB7EE /* EditMetaDataViewModel.swift */,
+				C9D78E072593A47E0024ECF0 /* DebugHeightMapViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -297,6 +304,7 @@
 				C9AAF4B425816A0700D7F357 /* MapSavingViewController.swift */,
 				C9F3AE182589EC0600027DD6 /* Civ5MapImportingViewController.swift */,
 				C9240FCB258E5DC2007FB7EE /* EditMetaDataViewController.swift */,
+				C9D78E032593A3E90024ECF0 /* DebugHeightMapViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -329,6 +337,7 @@
 				C9AAF4C52581FF7300D7F357 /* MapSavingView.swift */,
 				C9F3AE202589EDD500027DD6 /* Civ5MapImportingView.swift */,
 				C9240FD3258E5E4A007FB7EE /* EditMetaDataView.swift */,
+				C9D78E0B2593A4D80024ECF0 /* DebugHeightMapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -481,6 +490,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9D78E082593A47E0024ECF0 /* DebugHeightMapViewModel.swift in Sources */,
 				C9AB2C7C257EB96D0045DFBC /* MapProgressViewModel.swift in Sources */,
 				C9070A7B2575172400276B7D /* TrackingAreaView.swift in Sources */,
 				C9F3AE1525894F6B00027DD6 /* MapBrushType.swift in Sources */,
@@ -489,6 +499,7 @@
 				C9AB2C66257E51CB0045DFBC /* NewMapContentView.swift in Sources */,
 				C9070A612574445A00276B7D /* main.swift in Sources */,
 				C9F3AE192589EC0600027DD6 /* Civ5MapImportingViewController.swift in Sources */,
+				C9D78E0C2593A4D80024ECF0 /* DebugHeightMapView.swift in Sources */,
 				C9070A7F2575174B00276B7D /* TrackingAreaRepresentable.swift in Sources */,
 				C9AAF4AC25811A8100D7F357 /* MapLoadingView.swift in Sources */,
 				C9070A93257517FB00276B7D /* MapScrollContentView.swift in Sources */,
@@ -502,6 +513,7 @@
 				C9AAF4B525816A0700D7F357 /* MapSavingViewController.swift in Sources */,
 				C9240FD0258E5E0A007FB7EE /* EditMetaDataViewModel.swift in Sources */,
 				C9070A752574F89200276B7D /* EditorContentView.swift in Sources */,
+				C9D78E042593A3E90024ECF0 /* DebugHeightMapViewController.swift in Sources */,
 				C9591AA4257117E700694BEF /* NSImageExtension.swift in Sources */,
 				C9AB2C55257D2E780045DFBC /* PopupButton.swift in Sources */,
 				C9F3AE1D2589EC4400027DD6 /* Civ5MapImportingViewModel.swift in Sources */,

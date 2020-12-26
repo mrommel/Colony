@@ -67,6 +67,8 @@ class MapEditorMenu: NSMenu {
         viewMenu.submenu = NSMenu(title: "Map")
         viewMenu.submenu?.items = [
             NSMenuItem(title: "Edit Meta Data", target: self, action: #selector(MapEditorMenu.editMetaData(_:)), keyEquivalent: "e"),
+            NSMenuItem.separator(),
+            NSMenuItem(title: "Debug HeightMap", target: self, action: #selector(MapEditorMenu.debugHeightMap(_:)), keyEquivalent: "d"),
         ]
 
         let windowMenu = NSMenuItem()
@@ -120,15 +122,15 @@ extension MapEditorMenu {
         dialog.allowedFileTypes = ["map"]
 
         if dialog.runModal() == NSApplication.ModalResponse.OK {
- 
+
             guard dialog.url?.path != nil else {
                 print("no path")
                 return
             }
 
             if let window = NSApplication.shared.windows.first,
-               let editorViewController = window.contentViewController as? EditorViewController {
-                
+                let editorViewController = window.contentViewController as? EditorViewController {
+
                 let mapLoadingViewController = MapLoadingViewController(url: dialog.url)
                 editorViewController.presentAsSheet(mapLoadingViewController)
             }
@@ -137,9 +139,9 @@ extension MapEditorMenu {
             return
         }
     }
-    
+
     @objc fileprivate func importCiv5Map(_ sender: AnyObject) {
-        
+
         let dialog = NSOpenPanel()
 
         dialog.title = "Choose a .Civ5Map file"
@@ -151,15 +153,15 @@ extension MapEditorMenu {
         dialog.allowedFileTypes = ["Civ5Map"]
 
         if dialog.runModal() == NSApplication.ModalResponse.OK {
- 
+
             guard dialog.url?.path != nil else {
                 print("no path")
                 return
             }
 
             if let window = NSApplication.shared.windows.first,
-               let editorViewController = window.contentViewController as? EditorViewController {
-                
+                let editorViewController = window.contentViewController as? EditorViewController {
+
                 let civ5mapImportingViewController = Civ5MapImportingViewController(url: dialog.url)
                 editorViewController.presentAsSheet(civ5mapImportingViewController)
             }
@@ -168,20 +170,20 @@ extension MapEditorMenu {
             return
         }
     }
-    
+
     @objc fileprivate func saveMap(_ sender: AnyObject) {
-        
+
         let dialog = NSSavePanel()
-        
+
         dialog.nameFieldStringValue = "new.map"
-        
+
         if dialog.runModal() == NSApplication.ModalResponse.OK {
-            
+
             if let window = NSApplication.shared.windows.first,
-               let editorViewController = window.contentViewController as? EditorViewController {
-                
+                let editorViewController = window.contentViewController as? EditorViewController {
+
                 if let map = editorViewController.viewModel.currentMap() {
-                
+
                     let mapSavingViewController = MapSavingViewController(map: map, to: dialog.url)
                     editorViewController.presentAsSheet(mapSavingViewController)
                 } else {
@@ -190,17 +192,27 @@ extension MapEditorMenu {
             }
         }
     }
-    
+
     @objc fileprivate func editMetaData(_ sender: AnyObject) {
 
         if let window = NSApplication.shared.windows.first,
-           let editorViewController = window.contentViewController as? EditorViewController {
-            
+            let editorViewController = window.contentViewController as? EditorViewController {
+
             if let map = editorViewController.viewModel.currentMap() {
-                
+
                 let editMetaDataViewController = EditMetaDataViewController(of: map)
                 editorViewController.presentAsSheet(editMetaDataViewController)
             }
+        }
+    }
+
+    @objc fileprivate func debugHeightMap(_ sender: AnyObject) {
+
+        if let window = NSApplication.shared.windows.first,
+            let editorViewController = window.contentViewController as? EditorViewController {
+
+            let debugHeightMapViewController = DebugHeightMapViewController()
+            editorViewController.presentAsSheet(debugHeightMapViewController)
         }
     }
 
