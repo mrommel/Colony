@@ -10,12 +10,6 @@ import SpriteKit
 
 public typealias ProgressHandler = (Double, String) -> Void
 
-struct KeyValuePair<Key, Value> {
-    
-    let key: Key
-    let value: Value
-}
-
 enum PlotType: Int, Codable {
     
     case sea = 0

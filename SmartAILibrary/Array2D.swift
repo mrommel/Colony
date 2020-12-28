@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Array2D<T: Equatable & Codable>: Codable {
+open class Array2D<T: Equatable & Codable>: Codable {
     
     public let width: Int
     public let height: Int
