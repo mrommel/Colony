@@ -49,6 +49,10 @@ extension MenuScene {
             
             // handle earth maps
             switch type {
+            case .empty:
+                print("not handled: empty")
+                fatalError("not implemented")
+                
             case .earth:
                 self.loadEarthMap(sized: size, leader: leader, handicap: handicapType)
                

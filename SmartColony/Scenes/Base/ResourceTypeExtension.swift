@@ -44,6 +44,9 @@ extension ResourceType {
         case .silver: return "resource_marker_silver"
         case .gold: return "resource_marker_gold"
         case .spices: return "resource_marker_spices"
+        case .salt: return "resource_marker_salt"
+        case .crab: return "resource_marker_crab"
+        case .cocoa: return "resource_marker_cocoa"
             
         case .horses: return "resource_marker_horse"
         case .iron: return "resource_marker_iron"
@@ -88,6 +91,9 @@ extension ResourceType {
         case .silver: return "resource_silver"
         case .gold: return "resource_gold"
         case .spices: return "resource_spices"
+        case .salt: return "resource_salt"
+        case .crab: return "resource_crab"
+        case .cocoa: return "resource_cocoa"
             
         case .horses: return "resource_horse"
         case .iron: return "resource_iron"
