@@ -8,6 +8,7 @@
 
 import SpriteKit
 import SmartAILibrary
+import SmartAssets
 
 class TerrainLayer: SKNode {
     
@@ -73,7 +74,9 @@ class TerrainLayer: SKNode {
             }
         }
 
-        let terrainSprite = SKSpriteNode(imageNamed: textureName)
+        let image = ImageCache.shared.image(for: textureName)
+
+        let terrainSprite = SKSpriteNode(texture: SKTexture(image: image))
         terrainSprite.position = position
         terrainSprite.zPosition = tile.terrain().zLevel
         terrainSprite.anchorPoint = CGPoint(x: 0, y: 0)

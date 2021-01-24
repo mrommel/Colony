@@ -70,10 +70,14 @@ extension MenuScene {
                 // one main continent, some small islands
                 
             case .archipelago:
-                print("not handled: archipelago")
-                fatalError("not implemented")
+                //print("not handled: archipelago")
+                //fatalError("not implemented")
                
                 // 8-10 small continents/islands, some small islands
+                let mapOptions = MapOptions(withSize: size, leader: leader, handicap: handicapType)
+                mapOptions.enhanced.sealevel = .high
+               
+                self.generateMap(from: mapOptions)
                
             case .inlandsea:
                 print("not handled: inlandsea")

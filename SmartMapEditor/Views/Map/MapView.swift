@@ -40,8 +40,7 @@ class MapView: NSView {
 
     var cursor: HexPoint = HexPoint.zero
 
-    var textures: Textures = Textures(map: nil)
-    var imageCache: ImageCache = ImageCache()
+    var textures: Textures = Textures(game: nil)
 
     weak var delegate: MapViewDelegate?
 
@@ -65,7 +64,12 @@ class MapView: NSView {
                 self.shift = CGPoint(x: dx, y: dy)
             }
 
-            self.textures = Textures(map: map)
+            // create a dummy game
+            if let m = map {
+                let barbarian = Player(leader: .barbar)
+                let game = GameModel(victoryTypes: [.cultural], handicap: .chieftain, turnsElapsed: 0, players: [barbarian], on: m)
+                self.textures = Textures(game: game)
+            }
 
             self.needsDisplay = true
         }
@@ -96,29 +100,29 @@ class MapView: NSView {
 
         print("- load \(self.textures.allTerrainTextureNames.count) terrain, \(self.textures.allRiverTextureNames.count) river and \(self.textures.allCoastTextureNames.count) coast textures")
         for terrainTextureName in self.textures.allTerrainTextureNames {
-            self.imageCache.add(image: bundle.image(forResource: terrainTextureName), for: terrainTextureName)
+            ImageCache.shared.add(image: bundle.image(forResource: terrainTextureName), for: terrainTextureName)
         }
 
         for coastTextureName in self.textures.allCoastTextureNames {
-            self.imageCache.add(image: bundle.image(forResource: coastTextureName), for: coastTextureName)
+            ImageCache.shared.add(image: bundle.image(forResource: coastTextureName), for: coastTextureName)
         }
 
         for riverTextureName in self.textures.allRiverTextureNames {
-            self.imageCache.add(image: bundle.image(forResource: riverTextureName), for: riverTextureName)
+            ImageCache.shared.add(image: bundle.image(forResource: riverTextureName), for: riverTextureName)
         }
 
         print("- load \(self.textures.allFeatureTextureNames.count) feature (+ \(self.textures.allIceFeatureTextureNames.count) ice) textures")
         for featureTextureName in self.textures.allFeatureTextureNames {
-            self.imageCache.add(image: bundle.image(forResource: featureTextureName), for: featureTextureName)
+            ImageCache.shared.add(image: bundle.image(forResource: featureTextureName), for: featureTextureName)
         }
 
         for iceFeatureTextureName in self.textures.allIceFeatureTextureNames {
-            self.imageCache.add(image: bundle.image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
+            ImageCache.shared.add(image: bundle.image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
         }
 
         print("- load \(self.textures.allResourceTextureNames.count) resource textures")
         for resourceTextureName in self.textures.allResourceTextureNames {
-            self.imageCache.add(image: bundle.image(forResource: resourceTextureName), for: resourceTextureName)
+            ImageCache.shared.add(image: bundle.image(forResource: resourceTextureName), for: resourceTextureName)
         }
 
         print("-- all textures loaded --")
@@ -238,13 +242,13 @@ class MapView: NSView {
                     }
 
                     // fetch from cache
-                    context?.draw(self.imageCache.image(for: terrainTextureName).cgImage!, in: tileRect)
+                    context?.draw(ImageCache.shared.image(for: terrainTextureName).cgImage!, in: tileRect)
 
                     // river
                     if let riverTexture = self.textures.riverTexture(at: tile.point) {
 
                         // fetch from cache
-                        context?.draw(self.imageCache.image(for: riverTexture).cgImage!, in: tileRect)
+                        context?.draw(ImageCache.shared.image(for: riverTexture).cgImage!, in: tileRect)
                     }
 
                     // feature
@@ -270,7 +274,7 @@ class MapView: NSView {
                         if let featureTextureName = self.textures.featureTexture(for: tile, neighborTiles: neighborTiles) {
 
                             // fetch from cache
-                            context?.draw(self.imageCache.image(for: featureTextureName).cgImage!, in: tileRect)
+                            context?.draw(ImageCache.shared.image(for: featureTextureName).cgImage!, in: tileRect)
                         }
                     }
 
@@ -279,7 +283,7 @@ class MapView: NSView {
                         if let iceTextureName = self.textures.iceTexture(at: tile.point) {
 
                             // fetch from cache
-                            context?.draw(self.imageCache.image(for: iceTextureName).cgImage!, in: tileRect)
+                            context?.draw(ImageCache.shared.image(for: iceTextureName).cgImage!, in: tileRect)
                         }
                     }
 
@@ -289,29 +293,29 @@ class MapView: NSView {
                         let resourceTextureName = tile.resource(for: nil).textureName()
 
                         // fetch from cache
-                        context?.draw(self.imageCache.image(for: resourceTextureName).cgImage!, in: tileRect)
+                        context?.draw(ImageCache.shared.image(for: resourceTextureName).cgImage!, in: tileRect)
                     }
                     
                     // start position?
                     if let startLocation = map.startLocations.first(where: { $0.point == pt }) {
                         
-                        if !self.imageCache.exists(key: "flag") {
-                            self.imageCache.add(image: NSImage(named: "flag"), for: "flag")
+                        if !ImageCache.shared.exists(key: "flag") {
+                            ImageCache.shared.add(image: NSImage(named: "flag"), for: "flag")
                         }
                         
-                        context?.draw(self.imageCache.image(for: "flag").cgImage!, in: tileRect)
+                        context?.draw(ImageCache.shared.image(for: "flag").cgImage!, in: tileRect)
                     }
 
                     // cursor
                     if cursor == pt {
 
                         // populate cache if needed
-                        if !self.imageCache.exists(key: "cursor") {
-                            self.imageCache.add(image: NSImage(named: "cursor"), for: "cursor")
+                        if !ImageCache.shared.exists(key: "cursor") {
+                            ImageCache.shared.add(image: NSImage(named: "cursor"), for: "cursor")
                         }
 
                         // fetch from cache
-                        context?.draw(self.imageCache.image(for: "cursor").cgImage!, in: tileRect)
+                        context?.draw(ImageCache.shared.image(for: "cursor").cgImage!, in: tileRect)
                     }
                 }
             }

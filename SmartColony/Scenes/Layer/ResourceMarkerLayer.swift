@@ -8,6 +8,7 @@
 
 import SpriteKit
 import SmartAILibrary
+import SmartAssets
 
 class ResourceMarkerLayer: SKNode {
     

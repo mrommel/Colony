@@ -200,6 +200,9 @@
 		C9E74CB5248E862C003EF256 /* SKLabelNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CB4248E862C003EF256 /* SKLabelNodeExtension.swift */; };
 		C9E74CC42492C0F5003EF256 /* HorizontalLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CC32492C0F4003EF256 /* HorizontalLineNode.swift */; };
 		C9E74CC62493760F003EF256 /* SizableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CC52493760E003EF256 /* SizableNode.swift */; };
+		C9EAE49225B717250097011D /* SmartAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EAE49125B717250097011D /* SmartAssets.framework */; };
+		C9EAE49325B717250097011D /* SmartAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9EAE49125B717250097011D /* SmartAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C9EAE4BC25B7404C0097011D /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EAE4BB25B7404C0097011D /* ImageCache.swift */; };
 		C9EB9F562451A95500F13B02 /* LeftHeaderBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F552451A95500F13B02 /* LeftHeaderBarNode.swift */; };
 		C9EB9F582451B8AE00F13B02 /* BaseProgressNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F572451B8AE00F13B02 /* BaseProgressNode.swift */; };
 		C9EB9F5A2452C4E400F13B02 /* CityChooseProductionDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F592452C4E400F13B02 /* CityChooseProductionDialog.swift */; };
@@ -272,6 +275,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				C9B1D20A2434757600033791 /* SmartAILibrary.framework in Embed Frameworks */,
+				C9EAE49325B717250097011D /* SmartAssets.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -471,6 +475,8 @@
 		C9E74CB4248E862C003EF256 /* SKLabelNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKLabelNodeExtension.swift; sourceTree = "<group>"; };
 		C9E74CC32492C0F4003EF256 /* HorizontalLineNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalLineNode.swift; sourceTree = "<group>"; };
 		C9E74CC52493760E003EF256 /* SizableNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizableNode.swift; sourceTree = "<group>"; };
+		C9EAE49125B717250097011D /* SmartAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EAE4BB25B7404C0097011D /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		C9EB9F552451A95500F13B02 /* LeftHeaderBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftHeaderBarNode.swift; sourceTree = "<group>"; };
 		C9EB9F572451B8AE00F13B02 /* BaseProgressNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseProgressNode.swift; sourceTree = "<group>"; };
 		C9EB9F592452C4E400F13B02 /* CityChooseProductionDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityChooseProductionDialog.swift; sourceTree = "<group>"; };
@@ -537,6 +543,7 @@
 				C9108F49243630A70023C76D /* XMLCoder in Frameworks */,
 				C9B1D2092434757600033791 /* SmartAILibrary.framework in Frameworks */,
 				C9108F46243630550023C76D /* Rswift in Frameworks */,
+				C9EAE49225B717250097011D /* SmartAssets.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,6 +754,7 @@
 		C9B1D2072434757600033791 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9EAE49125B717250097011D /* SmartAssets.framework */,
 				C9B1D2082434757600033791 /* SmartAILibrary.framework */,
 			);
 			name = Frameworks;
@@ -848,6 +856,7 @@
 				C9DC1C8424839E5600235743 /* GameStorage.swift */,
 				C921AC0824C8D3A800CF8967 /* NSAttributedStringExtension.swift */,
 				C926E47E24C9D9C50073F3E1 /* StringExtension.swift */,
+				C9EAE4BB25B7404C0097011D /* ImageCache.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1254,6 +1263,7 @@
 				C947871D2472ECF700FAAC99 /* GameSceneUserInterface.swift in Sources */,
 				C95B3E092438E78E002F5A86 /* FeatureLayer.swift in Sources */,
 				C9B1D22A2434934600033791 /* MenuScene.swift in Sources */,
+				C9EAE4BC25B7404C0097011D /* ImageCache.swift in Sources */,
 				C9EC4E1924445082001A0597 /* CityLayer.swift in Sources */,
 				C9EC4E1F244459B8001A0597 /* CityDialog.swift in Sources */,
 				C921AC0924C8D3A900CF8967 /* NSAttributedStringExtension.swift in Sources */,

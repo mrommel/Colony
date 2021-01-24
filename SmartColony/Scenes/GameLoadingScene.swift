@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import SmartAssets
 
 class GameLoadingScene: BaseScene {
 
@@ -89,7 +90,40 @@ class GameLoadingScene: BaseScene {
     }
     
     private func preloadAssets(completion: (() -> Void)!) {
-        // Load your assets
+        
+        // load assets into image cache
+        print("-- pre-load images --")
+        let bundle = Bundle.init(for: Textures.self)
+        let textures = Textures(game: nil)
+
+        print("- load \(textures.allTerrainTextureNames.count) terrain, \(textures.allRiverTextureNames.count) river and \(textures.allCoastTextureNames.count) coast textures")
+        for terrainTextureName in textures.allTerrainTextureNames {
+            ImageCache.shared.add(image: UIImage(named: terrainTextureName, in: bundle, with: nil), for: terrainTextureName)
+        }
+
+        for coastTextureName in textures.allCoastTextureNames {
+            ImageCache.shared.add(image: UIImage(named: coastTextureName, in: bundle, with: nil), for: coastTextureName)
+        }
+
+        for riverTextureName in textures.allRiverTextureNames {
+            ImageCache.shared.add(image: UIImage(named: riverTextureName, in: bundle, with: nil), for: riverTextureName)
+        }
+
+        print("- load \(textures.allFeatureTextureNames.count) feature (+ \(textures.allIceFeatureTextureNames.count) ice) textures")
+        for featureTextureName in textures.allFeatureTextureNames {
+            ImageCache.shared.add(image: UIImage(named: featureTextureName, in: bundle, with: nil), for: featureTextureName)
+        }
+
+        for iceFeatureTextureName in textures.allIceFeatureTextureNames {
+            ImageCache.shared.add(image: UIImage(named: iceFeatureTextureName, in: bundle, with: nil), for: iceFeatureTextureName)
+        }
+
+        print("- load \(textures.allResourceTextureNames.count) resource textures")
+        for resourceTextureName in textures.allResourceTextureNames {
+            ImageCache.shared.add(image: UIImage(named: resourceTextureName, in: bundle, with: nil), for: resourceTextureName)
+        }
+
+        print("-- all textures loaded --")
         
         completion()
     }

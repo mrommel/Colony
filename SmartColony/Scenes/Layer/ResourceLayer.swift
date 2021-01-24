@@ -8,12 +8,14 @@
 
 import SpriteKit
 import SmartAILibrary
+import SmartAssets
 
 class ResourceLayer: SKNode {
     
     let player: AbstractPlayer?
     weak var gameModel: GameModel?
     var textureUtils: TextureUtils?
+    var textures: Textures?
     
     init(player: AbstractPlayer?) {
         
@@ -36,6 +38,7 @@ class ResourceLayer: SKNode {
         }
         
         self.textureUtils = TextureUtils(with: gameModel)
+        self.textures = Textures(game: gameModel)
         
         let mapSize = gameModel.mapSize()
 
@@ -66,9 +69,10 @@ class ResourceLayer: SKNode {
         // place forests etc
         if resource != .none {
 
-            let textureName = resource.textureName()
+            let resourceTextureName = resource.textureName()
+            let image = ImageCache.shared.image(for: resourceTextureName)
 
-            let resourceSprite = SKSpriteNode(imageNamed: textureName)
+            let resourceSprite = SKSpriteNode(texture: SKTexture(image: image))
             resourceSprite.position = position
             resourceSprite.zPosition = Globals.ZLevels.resource
             resourceSprite.anchorPoint = CGPoint(x: 0, y: 0)

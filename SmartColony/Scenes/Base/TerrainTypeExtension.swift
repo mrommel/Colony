@@ -28,7 +28,7 @@ extension TerrainType {
 
 extension TerrainType {
     
-    func textureNames() -> [String] {
+    /*func textureNames() -> [String] {
         switch self {
             case .ocean:
                 return ["terrain_ocean"]
@@ -64,7 +64,7 @@ extension TerrainType {
             case .snow:
                 return ["terrain_snow_hills", "terrain_snow_hills2", "terrain_snow_hills3"]
         }
-    }
+    }*/
     
     var zLevel: CGFloat {
         

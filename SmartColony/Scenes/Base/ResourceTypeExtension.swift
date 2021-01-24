@@ -11,7 +11,7 @@ import CoreGraphics
 
 extension ResourceType {
     
-    func textureMarkerName() -> String {
+    /*func textureMarkerName() -> String {
         
         switch self {
             
@@ -103,5 +103,5 @@ extension ResourceType {
         case .uranium: return "resource_uranium"
         case .niter: return "resource_niter"
         }
-    }
+    }*/
 }

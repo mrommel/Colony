@@ -8,12 +8,14 @@
 
 import SpriteKit
 import SmartAILibrary
+import SmartAssets
 
 class FeatureLayer: SKNode {
     
     let player: AbstractPlayer?
     weak var gameModel: GameModel?
     var textureUtils: TextureUtils?
+    var textures: Textures?
     
     init(player: AbstractPlayer?) {
         
@@ -36,6 +38,7 @@ class FeatureLayer: SKNode {
         }
         
         self.textureUtils = TextureUtils(with: gameModel)
+        self.textures = Textures(game: gameModel)
         
         let mapSize = gameModel.mapSize()
 
@@ -58,52 +61,31 @@ class FeatureLayer: SKNode {
         // place forests etc
         if feature != .none {
 
-            let textureName: String
-            if tile.terrain() == .tundra && feature == .forest {
-                textureName = ["feature_pine1", "feature_pine2"].item(from: tile.point)
-            } else if feature == .mountains {
-                
-                let mountainsN = (neighborTiles[.north]??.feature() ?? .none) == .mountains
-                let mountainsNE = (neighborTiles[.northeast]??.feature() ?? .none) == .mountains
-                let mountainsSE = (neighborTiles[.southeast]??.feature() ?? .none) == .mountains
-                let mountainsS = (neighborTiles[.south]??.feature() ?? .none) == .mountains
-                let mountainsSW = (neighborTiles[.southwest]??.feature() ?? .none) == .mountains
-                let mountainsNW = (neighborTiles[.northwest]??.feature() ?? .none) == .mountains
-                
-                if !mountainsN && mountainsNE && !mountainsSE && !mountainsS && !mountainsSW && !mountainsNW {
-                    textureName = "feature_mountains_ne"
-                } else if !mountainsN && !mountainsNE && !mountainsSE && !mountainsS && mountainsSW && !mountainsNW {
-                    textureName = "feature_mountains_sw"
-                } else if !mountainsN && mountainsNE && !mountainsSE && !mountainsS && mountainsSW && !mountainsNW {
-                    textureName = "feature_mountains_ne_sw"
-                } else if !mountainsN && !mountainsNE && mountainsSE && !mountainsS && !mountainsSW && !mountainsNW {
-                    textureName = "feature_mountains_se"
-                } else if !mountainsN && !mountainsNE && !mountainsSE && !mountainsS && !mountainsSW && mountainsNW {
-                    textureName = "feature_mountains_nw"
-                } else if !mountainsN && !mountainsNE && mountainsSE && !mountainsS && !mountainsSW && mountainsNW {
-                    textureName = "feature_mountains_se_nw"
-                } else {
-                    textureName = feature.textureNamesHex().item(from: tile.point)
+            if tile.feature() != .none {
+
+                if let textureName = self.textures?.featureTexture(for: tile, neighborTiles: neighborTiles) {
+
+                    let image = ImageCache.shared.image(for: textureName)
+
+                    let featureSprite = SKSpriteNode(texture: SKTexture(image: image))
+                    featureSprite.position = position
+                    featureSprite.zPosition = Globals.ZLevels.feature // feature.zLevel
+                    featureSprite.anchorPoint = CGPoint(x: 0, y: 0)
+                    featureSprite.color = .black
+                    featureSprite.colorBlendFactor = 1.0 - alpha
+                    self.addChild(featureSprite)
+
+                    self.textureUtils?.set(featureSprite: featureSprite, at: tile.point)
                 }
-            } else {
-                textureName = feature.textureNamesHex().item(from: tile.point)
             }
-
-            let featureSprite = SKSpriteNode(imageNamed: textureName)
-            featureSprite.position = position
-            featureSprite.zPosition = Globals.ZLevels.feature // feature.zLevel
-            featureSprite.anchorPoint = CGPoint(x: 0, y: 0)
-            featureSprite.color = .black
-            featureSprite.colorBlendFactor = 1.0 - alpha
-            self.addChild(featureSprite)
-
-            self.textureUtils?.set(featureSprite: featureSprite, at: tile.point)
         }
         
         if feature != .ice {
             if let iceTexture = self.textureUtils?.iceTexture(at: tile.point) {
 
-                let iceSprite = SKSpriteNode(imageNamed: iceTexture)
+                let image = ImageCache.shared.image(for: iceTexture)
+
+                let iceSprite = SKSpriteNode(texture: SKTexture(image: image))
                 iceSprite.position = position
                 iceSprite.zPosition = Globals.ZLevels.feature
                 iceSprite.anchorPoint = CGPoint(x: 0, y: 0)

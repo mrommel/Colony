@@ -11,7 +11,7 @@ import CoreGraphics
 
 extension FeatureType {
     
-    func textureNamesHex() -> [String] {
+    /*func textureNamesHex() -> [String] {
         
         switch self {
         case .none:
@@ -75,5 +75,5 @@ extension FeatureType {
         case .lakeVictoria:
             return ["feature_lakeVictoria"]
         }
-    }
+    }*/
 }

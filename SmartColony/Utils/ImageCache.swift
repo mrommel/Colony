@@ -1,15 +1,16 @@
 //
 //  ImageCache.swift
-//  SmartMapEditor
+//  SmartColony
 //
-//  Created by Michael Rommel on 01.12.20.
+//  Created by Michael Rommel on 19.01.21.
+//  Copyright © 2021 Michael Rommel. All rights reserved.
 //
 
-import Cocoa
+import UIKit
 
 public class ImageCache {
     
-    private var dict: [String: NSImage] = [:]
+    private var dict: [String: UIImage] = [:]
     
     public static let shared = ImageCache()
         
@@ -22,7 +23,7 @@ public class ImageCache {
         return self.dict[key] != nil
     }
     
-    public func add(image: NSImage?, for key: String) {
+    public func add(image: UIImage?, for key: String) {
  
         guard image != nil else {
             print("Could not load \(key)")
@@ -32,7 +33,7 @@ public class ImageCache {
         self.dict[key] = image
     }
     
-    public func image(for key: String) -> NSImage {
+    public func image(for key: String) -> UIImage {
         
         if let image = self.dict[key] {
             return image
