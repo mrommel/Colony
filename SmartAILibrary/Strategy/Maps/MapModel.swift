@@ -15,7 +15,7 @@ public enum UnitMapType {
     case civilian
 }
 
-public class MapModel: Codable {
+open class MapModel: Codable {
     
     enum CodingKeys: CodingKey {
         
