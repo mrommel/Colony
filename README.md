@@ -18,6 +18,7 @@ Tile size:
 
 ## Map Links
 - https://www.redblobgames.com/grids/hexagons/
+- https://drtardigrade.itch.io/worldhistorysim
 
 ## Content Links
 - units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245

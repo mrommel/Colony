@@ -276,6 +276,9 @@
 		C9DFCF8423F30C310032243D /* PlayerWarFaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DFCF8323F30C310032243D /* PlayerWarFaceType.swift */; };
 		C9E0D57024424C0C001AA97A /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D56F24424C0C001AA97A /* Notifications.swift */; };
 		C9E0D57224424C66001AA97A /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D57124424C66001AA97A /* NotificationType.swift */; };
+		C9E58A5E25E54BB500D1D49B /* TribeArray2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E58A5B25E54BB400D1D49B /* TribeArray2D.swift */; };
+		C9E58A6225E54BBC00D1D49B /* TribeTileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E58A6125E54BBC00D1D49B /* TribeTileInfo.swift */; };
+		C9E58A6625E54BE300D1D49B /* MapModel+Tribes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E58A6525E54BE300D1D49B /* MapModel+Tribes.swift */; };
 		C9E6A04624A488A000AF65A4 /* GreatWorkSlotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E6A04524A488A000AF65A4 /* GreatWorkSlotType.swift */; };
 		C9E6A04824A4B62B00AF65A4 /* GreatWorks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E6A04724A4B62B00AF65A4 /* GreatWorks.swift */; };
 		C9E74CAD248CE146003EF256 /* PeaceTreatyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CAC248CE146003EF256 /* PeaceTreatyType.swift */; };
@@ -588,6 +591,9 @@
 		C9DFCF8323F30C310032243D /* PlayerWarFaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerWarFaceType.swift; sourceTree = "<group>"; };
 		C9E0D56F24424C0C001AA97A /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C9E0D57124424C66001AA97A /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
+		C9E58A5B25E54BB400D1D49B /* TribeArray2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeArray2D.swift; sourceTree = "<group>"; };
+		C9E58A6125E54BBC00D1D49B /* TribeTileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeTileInfo.swift; sourceTree = "<group>"; };
+		C9E58A6525E54BE300D1D49B /* MapModel+Tribes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapModel+Tribes.swift"; sourceTree = "<group>"; };
 		C9E6A04524A488A000AF65A4 /* GreatWorkSlotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatWorkSlotType.swift; sourceTree = "<group>"; };
 		C9E6A04724A4B62B00AF65A4 /* GreatWorks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatWorks.swift; sourceTree = "<group>"; };
 		C9E74CAC248CE146003EF256 /* PeaceTreatyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeaceTreatyType.swift; sourceTree = "<group>"; };
@@ -655,7 +661,10 @@
 				C965A52D23FC6A3600BCEB54 /* River.swift */,
 				C907085F23ED48A000281161 /* MapSize.swift */,
 				C97A38E223F3E3CD008A8AE9 /* TileArray2D.swift */,
+				C9E58A5B25E54BB400D1D49B /* TribeArray2D.swift */,
 				C907086123ED48B900281161 /* MapModel.swift */,
+				C9E58A6525E54BE300D1D49B /* MapModel+Tribes.swift */,
+				C9E58A6125E54BBC00D1D49B /* TribeTileInfo.swift */,
 				C907086523ED578100281161 /* TileDiscovered.swift */,
 				C9DFCF6B23F29B5B0032243D /* RegionFinder.swift */,
 				C9DFCF6D23F29BBE0032243D /* SiteEvaluator.swift */,
@@ -1364,6 +1373,7 @@
 				C997907D2518BFAB003E52C9 /* NavalBombardmentOperation.swift in Sources */,
 				C957AA392436368200203024 /* Civ5MapPlot.swift in Sources */,
 				C997905B2513F822003E52C9 /* EnemyTerritoryOperation.swift in Sources */,
+				C9E58A6625E54BE300D1D49B /* MapModel+Tribes.swift in Sources */,
 				C957AA34243635B300203024 /* Civ5MapHeader.swift in Sources */,
 				C964BA1F23EAF01A00CA379C /* CityStrategyAI.swift in Sources */,
 				C9A1B574252311EA00AC2292 /* TemporaryZone.swift in Sources */,
@@ -1386,6 +1396,7 @@
 				C99790692516A4B8003E52C9 /* DestroyBarbarianCampOperation.swift in Sources */,
 				C9D8DF7823F147DF0091C917 /* ApproachBias.swift in Sources */,
 				C907086023ED48A000281161 /* MapSize.swift in Sources */,
+				C9E58A6225E54BBC00D1D49B /* TribeTileInfo.swift in Sources */,
 				C91B0023243DCE6000C422C8 /* GoodyHuts.swift in Sources */,
 				C965A53623FC6B2F00BCEB54 /* RiverEdge.swift in Sources */,
 				C9E74CB1248D48E1003EF256 /* WarDamageLevelType.swift in Sources */,
@@ -1446,6 +1457,7 @@
 				C9A125A0249CBE8900D5E3A1 /* BaseMapHandler.swift in Sources */,
 				C9E74CAF248D41E5003EF256 /* WarProjectionType.swift in Sources */,
 				C997909125190496003E52C9 /* SneakCityAttackOperation.swift in Sources */,
+				C9E58A5E25E54BB500D1D49B /* TribeArray2D.swift in Sources */,
 				C9DFCF7023F29CFC0032243D /* Ocean.swift in Sources */,
 				C9588AC12417FEB100304E9A /* CityConnections.swift in Sources */,
 				C9E74CBA248FA8B8003EF256 /* DiplomaticRequestState.swift in Sources */,

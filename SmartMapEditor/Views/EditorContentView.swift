@@ -91,6 +91,24 @@ struct EditorContentView: View {
                             }.groupBoxStyle(PlainGroupBoxStyle())
                         }
                         
+                        Spacer(minLength: 20)
+                        
+                        GroupBox(label: Label("Simulation", systemImage: "network")
+                                    .foregroundColor(.white)) {
+                            
+                            Button(action: {
+                                viewModel.initTribes()
+                            }, label: {
+                                Label("Start", systemImage: "wand.and.stars")
+                            })
+                            
+                            Button(action: {
+                                viewModel.iterateTribes()
+                            }, label: {
+                                Label("Iterate", systemImage: "play")
+                            })
+                        }.groupBoxStyle(PlainGroupBoxStyle())
+                        
                     }.frame(width: 120, height: 500, alignment: .leading)
                 }
                 

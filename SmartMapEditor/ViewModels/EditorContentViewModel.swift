@@ -87,6 +87,23 @@ class EditorContentViewModel: ObservableObject {
         }
     }
     
+    // MARK: iterate map
+    
+    func initTribes() {
+        
+        guard let map = self.map else {
+            return
+        }
+
+        let startLocations = map.startLocations.map({ $0.point })
+        self.map?.setupTribes(at: startLocations)
+    }
+    
+    func iterateTribes() {
+        
+        self.map?.updateTribes()
+    }
+    
     // MARK: terrain functions
 
     func terrainOptionNames() -> [String] {

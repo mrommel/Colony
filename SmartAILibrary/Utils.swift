@@ -28,6 +28,26 @@ extension Double {
     }
 }
 
+extension Float {
+    
+    // Returns a random floating point number between 0.0 and 1.0, inclusive.
+    public static var random: Float {
+        return Float(arc4random()) / 0xFFFFFFFF
+    }
+    
+    /**
+     Create a random number Double
+     
+     - parameter min: Double
+     - parameter max: Double
+     
+     - returns: Double
+     */
+    public static func random(minimum: Float, maximum: Float) -> Float {
+        return Float.random * (maximum - minimum) + minimum
+    }
+}
+
 extension Collection {
     
     public func count(where test: (Element) throws -> Bool) rethrows -> Int {

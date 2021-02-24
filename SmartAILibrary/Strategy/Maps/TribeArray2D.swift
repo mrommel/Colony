@@ -1,7 +1,13 @@
 import Foundation
-import SmartAILibrary
 
-public class TribeArray2D {
+public class TribeArray2D: Codable {
+    
+    enum CodingKeys: CodingKey {
+        
+        case width
+        case height
+        case array
+    }
     
     public let width: Int
     public let height: Int
@@ -19,6 +25,26 @@ public class TribeArray2D {
         self.width = width
         self.height = height
         self.array = [TribeTileInfo?](repeating: nil, count: height * width)
+    }
+    
+    required public init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.width = try container.decode(Int.self, forKey: .width)
+        self.height = try container.decode(Int.self, forKey: .height)
+        self.array = try container.decode([TribeTileInfo?].self, forKey: .array)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.width, forKey: .width)
+        try container.encode(self.height, forKey: .height)
+        
+        let wrappedTiles: [TribeTileInfo?] = self.array.map { $0 as? TribeTileInfo }
+        try container.encode(wrappedTiles, forKey: .array)
     }
     
     // MARK methods
