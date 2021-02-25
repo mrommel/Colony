@@ -33,6 +33,10 @@ struct MapScrollContentView: NSViewRepresentable {
             self.mapView?.redrawTile(at: pt)
         }
         
+        self.viewModel.shouldRedraw = {
+            self.mapView?.redrawAll()
+        }
+        
         self.scrollView.documentView = self.mapView
 
         return scrollView
@@ -57,7 +61,7 @@ struct MapScrollContentView: NSViewRepresentable {
     }
 
     final class Coordinator: NSObject, MapViewDelegate {
-
+        
         var mapScrollContentView: MapScrollContentView?
 
         init(mapScrollContentView: MapScrollContentView?) {

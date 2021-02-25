@@ -29,6 +29,7 @@ class EditorContentViewModel: ObservableObject {
     @Published var brushResourceName: String
 
     var didChange: ((HexPoint) -> ())? = nil
+    var shouldRedraw: (() -> ())? = nil
 
     init() {
 
@@ -102,6 +103,8 @@ class EditorContentViewModel: ObservableObject {
     func iterateTribes() {
         
         self.map?.updateTribes()
+        
+        self.shouldRedraw?()
     }
     
     // MARK: terrain functions

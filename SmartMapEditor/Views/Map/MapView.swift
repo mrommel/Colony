@@ -199,6 +199,11 @@ class MapView: NSView {
         self.setNeedsDisplay(tileRect)
         self.needsDisplay = true
     }
+    
+    func redrawAll() {
+        
+        self.needsDisplay = true
+    }
 
     override func draw(_ dirtyRect: NSRect) {
 
@@ -296,14 +301,36 @@ class MapView: NSView {
                         context?.draw(ImageCache.shared.image(for: resourceTextureName).cgImage!, in: tileRect)
                     }
                     
-                    // start position?
-                    if let startLocation = map.startLocations.first(where: { $0.point == pt }) {
+                    // draw start position
+                    if map.startLocations.first(where: { $0.point == pt }) != nil {
                         
                         if !ImageCache.shared.exists(key: "flag") {
                             ImageCache.shared.add(image: NSImage(named: "flag"), for: "flag")
                         }
-                        
+        
                         context?.draw(ImageCache.shared.image(for: "flag").cgImage!, in: tileRect)
+                    }
+                    
+                    // inhabitants
+                    let inhabitants = map.inhabitants(at: pt)
+                        
+                    if inhabitants > 0 {
+                        
+                        /*if !ImageCache.shared.exists(key: "flag") {
+                            ImageCache.shared.add(image: NSImage(named: "flag"), for: "flag")
+                        }*/
+                        
+                        if inhabitants > 10000 {
+                            context?.draw(NSImage(named: "bars_veryhigh")!.cgImage!, in: tileRect)
+                        } else if inhabitants > 5000 {
+                            context?.draw(NSImage(named: "bars_high")!.cgImage!, in: tileRect)
+                        } else if inhabitants > 2000 {
+                            context?.draw(NSImage(named: "bars_medium")!.cgImage!, in: tileRect)
+                        } else if inhabitants > 1000 {
+                            context?.draw(NSImage(named: "bars_small")!.cgImage!, in: tileRect)
+                        } else {
+                            context?.draw(NSImage(named: "bars_verysmall")!.cgImage!, in: tileRect)
+                        }
                     }
 
                     // cursor

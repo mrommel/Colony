@@ -171,6 +171,15 @@ extension MapModel {
         
         return max(terrainValue + featureValue + riverValue, 0)
     }
+    
+    public func inhabitants(at point: HexPoint) -> Int {
+        
+        if let tribesItem = self.tribes[point.x, point.y] {
+            return tribesItem.inhabitants
+        }
+        
+        return 0
+    }
 
     public func updateTribes() {
         
@@ -215,7 +224,9 @@ extension MapModel {
                         
                         tribesItem.inhabitants = tmpInhabitants - tmpMigratants
 
-                        print("tribe at (\(x), \(y)): \(tribesItem.items.first?.type.rawValue) - \(tribesItem.inhabitants) people - growthRate: \(growthRate), migratants: \(tmpMigratants) people")
+                        if let type = tribesItem.items.first?.type {
+                            print("tribe at (\(x), \(y)): \(type.rawValue) - \(tribesItem.inhabitants) people - growthRate: \(growthRate), migratants: \(tmpMigratants) people")
+                        }
                     }
                 }
             }
@@ -230,7 +241,7 @@ extension MapModel {
                     if migratants > 0 {
                         // find neighbors
                         // @TODO: if sailing is invented - some random far away lands
-                        var neighborPositions: WeightedList<HexPoint> = WeightedList<HexPoint>()
+                        let neighborPositions: WeightedList<HexPoint> = WeightedList<HexPoint>()
                         
                         for neighbor in HexPoint(x: x, y: y).neighbors() {
                             let supported = self.peopleSupported(by: foodHarvestingType, at: neighbor)
