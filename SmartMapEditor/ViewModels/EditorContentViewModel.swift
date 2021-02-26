@@ -102,7 +102,9 @@ class EditorContentViewModel: ObservableObject {
     
     func iterateTribes() {
         
-        self.map?.updateTribes()
+        for _ in 0..<50 {
+            self.map?.updateTribes()
+        }
         
         self.shouldRedraw?()
     }

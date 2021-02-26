@@ -249,6 +249,8 @@ extension MapModel {
                             neighborPositions.add(weight: supported, for: neighbor)
                         }
                         
+                        neighborPositions.sort()
+                        
                         if let bestLocation = neighborPositions.chooseBest(),
                            let bestTribesItem = self.tribes[bestLocation.x, bestLocation.y] {
                             

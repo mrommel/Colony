@@ -12,6 +12,10 @@ import SmartAILibrary
 class MapEditorMenu: NSMenu {
 
     private lazy var applicationName = ProcessInfo.processInfo.processName
+    
+    var showStartLocationsMenuItem: NSMenuItem?
+    var showInhabitantsBarMenuItem: NSMenuItem?
+    var showSupportedPeopleMenuItem: NSMenuItem?
 
     override init(title: String) {
         super.init(title: title)
@@ -62,14 +66,35 @@ class MapEditorMenu: NSMenu {
             NSMenuItem(title: "Delete", target: self, action: nil, keyEquivalent: "⌫", modifier: .init()),
             NSMenuItem(title: "Duplicate", action: #selector(NSApplication.copy), keyEquivalent: "d"),
         ]
-
-        let viewMenu = NSMenuItem()
-        viewMenu.submenu = NSMenu(title: "Map")
-        viewMenu.submenu?.items = [
+        
+        let mapMenu = NSMenuItem()
+        mapMenu.submenu = NSMenu(title: "Map")
+        mapMenu.submenu?.items = [
             NSMenuItem(title: "Edit Meta Data", target: self, action: #selector(MapEditorMenu.editMetaData(_:)), keyEquivalent: "e"),
             NSMenuItem.separator(),
             NSMenuItem(title: "Debug HeightMap", target: self, action: #selector(MapEditorMenu.debugHeightMap(_:)), keyEquivalent: "d"),
         ]
+
+        let layersMenu = NSMenuItem()
+        layersMenu.submenu = NSMenu(title: "Layers")
+        
+        self.showStartLocationsMenuItem = NSMenuItem(title: "Show Start Locations", target: self, action: #selector(MapEditorMenu.toogleShowStartLocations(_:)), keyEquivalent: "")
+        self.showStartLocationsMenuItem?.onStateImage = NSImage(named: NSImage.statusAvailableName)
+        self.showStartLocationsMenuItem?.offStateImage = NSImage(named: NSImage.statusUnavailableName)
+        layersMenu.submenu?.addItem(self.showStartLocationsMenuItem!)
+        
+        self.showInhabitantsBarMenuItem = NSMenuItem(title: "Show Inhabitants Bars", target: self, action: #selector(MapEditorMenu.toogleShowInhabitantsBars(_:)), keyEquivalent: "")
+        self.showInhabitantsBarMenuItem?.onStateImage = NSImage(named: NSImage.statusAvailableName)
+        self.showInhabitantsBarMenuItem?.offStateImage = NSImage(named: NSImage.statusUnavailableName)
+        layersMenu.submenu?.addItem(self.showInhabitantsBarMenuItem!)
+        
+        self.showSupportedPeopleMenuItem = NSMenuItem(title: "Show Supported People", target: self, action: #selector(MapEditorMenu.toogleShowSupportedPeople(_:)), keyEquivalent: "")
+        self.showSupportedPeopleMenuItem?.onStateImage = NSImage(named: NSImage.statusAvailableName)
+        self.showSupportedPeopleMenuItem?.offStateImage = NSImage(named: NSImage.statusUnavailableName)
+        layersMenu.submenu?.addItem(self.showSupportedPeopleMenuItem!)
+        
+        let viewMenu = NSMenuItem()
+        viewMenu.submenu = NSMenu(title: "View")
 
         let windowMenu = NSMenuItem()
         windowMenu.submenu = NSMenu(title: "Window")
@@ -89,7 +114,7 @@ class MapEditorMenu: NSMenu {
             NSMenuItem(title: "Documentation", target: self, action: #selector(openDocumentation(_:)), keyEquivalent: ""),
         ]
 
-        self.items = [mainMenu, fileMenu, editMenu, viewMenu, windowMenu, helpMenu]
+        self.items = [mainMenu, fileMenu, editMenu, mapMenu, layersMenu, viewMenu, windowMenu, helpMenu]
     }
 
     required init(coder: NSCoder) {
@@ -189,6 +214,32 @@ extension MapEditorMenu {
                 } else {
                     print("no map")
                 }
+            }
+        }
+    }
+    
+    @objc fileprivate func toogleShowStartLocations(_ sender: AnyObject) {
+        print("toogleShowStartLocations")
+    }
+    
+    @objc fileprivate func toogleShowInhabitantsBars(_ sender: AnyObject) {
+        print("toogleShowInhabitantsBars")
+    }
+    
+    @objc fileprivate func toogleShowSupportedPeople(_ sender: AnyObject) {
+        print("toogleShowSupportedPeople")
+        
+        let currentState = self.showSupportedPeopleMenuItem?.state ?? .off
+        self.showSupportedPeopleMenuItem?.state = currentState == .off ? .on : .off
+        
+        if let window = NSApplication.shared.windows.first,
+            let editorViewController = window.contentViewController as? EditorViewController {
+
+            if let map = editorViewController.viewModel.currentMap() {
+
+                print("do something")
+            } else {
+                print("no map")
             }
         }
     }
