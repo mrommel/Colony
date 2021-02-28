@@ -20,11 +20,20 @@ func - (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x - right.x, y: left.y - right.y)
 }
 
+struct MapDisplayOptions {
+    
+    let showStartPositions: Bool
+    let showInhabitants: Bool
+    let showSupportedPeople: Bool
+}
+
 protocol MapViewDelegate: class {
 
     func moveBy(dx: CGFloat, dy: CGFloat)
     func focus(on tile: Tile)
     func draw(at point: HexPoint)
+    
+    func options() -> MapDisplayOptions?
 }
 
 class MapView: NSView {
@@ -216,6 +225,7 @@ class MapView: NSView {
 
             let context = NSGraphicsContext.current?.cgContext
             let mapSize = map.size
+            let options = self.delegate?.options() ?? MapDisplayOptions(showStartPositions: false, showInhabitants: false, showSupportedPeople: false)
 
             for x in 0..<mapSize.width() {
 
@@ -302,35 +312,71 @@ class MapView: NSView {
                     }
                     
                     // draw start position
-                    if map.startLocations.first(where: { $0.point == pt }) != nil {
-                        
-                        if !ImageCache.shared.exists(key: "flag") {
-                            ImageCache.shared.add(image: NSImage(named: "flag"), for: "flag")
+                    if options.showStartPositions {
+                        if map.startLocations.first(where: { $0.point == pt }) != nil {
+                            
+                            if !ImageCache.shared.exists(key: "flag") {
+                                ImageCache.shared.add(image: NSImage(named: "flag"), for: "flag")
+                            }
+            
+                            context?.draw(ImageCache.shared.image(for: "flag").cgImage!, in: tileRect)
                         }
-        
-                        context?.draw(ImageCache.shared.image(for: "flag").cgImage!, in: tileRect)
                     }
                     
                     // inhabitants
-                    let inhabitants = map.inhabitants(at: pt)
-                        
-                    if inhabitants > 0 {
-                        
-                        /*if !ImageCache.shared.exists(key: "flag") {
-                            ImageCache.shared.add(image: NSImage(named: "flag"), for: "flag")
-                        }*/
-                        
-                        if inhabitants > 10000 {
-                            context?.draw(NSImage(named: "bars_veryhigh")!.cgImage!, in: tileRect)
-                        } else if inhabitants > 5000 {
-                            context?.draw(NSImage(named: "bars_high")!.cgImage!, in: tileRect)
-                        } else if inhabitants > 2000 {
-                            context?.draw(NSImage(named: "bars_medium")!.cgImage!, in: tileRect)
-                        } else if inhabitants > 1000 {
-                            context?.draw(NSImage(named: "bars_small")!.cgImage!, in: tileRect)
-                        } else {
-                            context?.draw(NSImage(named: "bars_verysmall")!.cgImage!, in: tileRect)
+                    if options.showInhabitants {
+                        let inhabitants = map.inhabitants(at: pt)
+                            
+                        if inhabitants > 0 {
+                            
+                            /*if !ImageCache.shared.exists(key: "flag") {
+                                ImageCache.shared.add(image: NSImage(named: "flag"), for: "flag")
+                            }*/
+                            
+                            if inhabitants > 10000 {
+                                context?.draw(NSImage(named: "bars_veryhigh")!.cgImage!, in: tileRect)
+                            } else if inhabitants > 5000 {
+                                context?.draw(NSImage(named: "bars_high")!.cgImage!, in: tileRect)
+                            } else if inhabitants > 2000 {
+                                context?.draw(NSImage(named: "bars_medium")!.cgImage!, in: tileRect)
+                            } else if inhabitants > 1000 {
+                                context?.draw(NSImage(named: "bars_small")!.cgImage!, in: tileRect)
+                            } else {
+                                context?.draw(NSImage(named: "bars_verysmall")!.cgImage!, in: tileRect)
+                            }
                         }
+                    }
+                    
+                    if options.showSupportedPeople {
+                        
+                        let supportedPeople: Int = map.peopleSupported(by: .hunterGatherer, at: pt)
+                        
+                        context?.saveGState()
+
+                        // Parameters
+                        let margin: CGFloat = 10
+                        let color = CGColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
+                        let fontSize: CGFloat = 8
+                        // You can use the Font Book app to find the name
+                        let fontName = "Chalkboard" as CFString
+                        let font = CTFontCreateWithName(fontName, fontSize, nil)
+
+                        let attributes: [NSAttributedString.Key : Any] = [.font: font, .foregroundColor: color]
+
+                        // Text
+                        let string = "\(supportedPeople)"
+                        let attributedString = NSAttributedString(string: string, attributes: attributes)
+
+                        // Render
+                        let line = CTLineCreateWithAttributedString(attributedString)
+                        let stringRect = CTLineGetImageBounds(line, context)
+
+                        context?.textPosition = CGPoint(x: tileRect.maxX - stringRect.width - margin,
+                                                        y: tileRect.minY + margin)
+
+                        CTLineDraw(line, context!)
+
+                        context?.restoreGState()
                     }
 
                     // cursor

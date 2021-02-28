@@ -220,27 +220,40 @@ extension MapEditorMenu {
     
     @objc fileprivate func toogleShowStartLocations(_ sender: AnyObject) {
         print("toogleShowStartLocations")
+        
+        let currentState = self.showStartLocationsMenuItem?.state ?? .off
+        self.showStartLocationsMenuItem?.state = currentState == .off ? .on : .off // toogle
+        
+        if let window = NSApplication.shared.windows.first,
+            let editorViewController = window.contentViewController as? EditorViewController {
+
+            editorViewController.viewModel.setShowStartLocations(to: currentState == .off ? true : false)
+        }
     }
     
     @objc fileprivate func toogleShowInhabitantsBars(_ sender: AnyObject) {
         print("toogleShowInhabitantsBars")
+        
+        let currentState = self.showInhabitantsBarMenuItem?.state ?? .off
+        self.showInhabitantsBarMenuItem?.state = currentState == .off ? .on : .off // toogle
+        
+        if let window = NSApplication.shared.windows.first,
+            let editorViewController = window.contentViewController as? EditorViewController {
+
+            editorViewController.viewModel.setShowInhabitants(to: currentState == .off ? true : false)
+        }
     }
     
     @objc fileprivate func toogleShowSupportedPeople(_ sender: AnyObject) {
         print("toogleShowSupportedPeople")
         
         let currentState = self.showSupportedPeopleMenuItem?.state ?? .off
-        self.showSupportedPeopleMenuItem?.state = currentState == .off ? .on : .off
+        self.showSupportedPeopleMenuItem?.state = currentState == .off ? .on : .off // toogle
         
         if let window = NSApplication.shared.windows.first,
             let editorViewController = window.contentViewController as? EditorViewController {
 
-            if let map = editorViewController.viewModel.currentMap() {
-
-                print("do something")
-            } else {
-                print("no map")
-            }
+            editorViewController.viewModel.setShowSupportedPeople(to: currentState == .off ? true : false)
         }
     }
 

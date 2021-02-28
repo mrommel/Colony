@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum FoodHarvestingType {
+public enum FoodHarvestingType {
     
     case hunterGatherer
     case settled
@@ -155,7 +155,7 @@ extension MapModel {
         }
     }
     
-    private func peopleSupported(by foodHarvestingType: FoodHarvestingType, at point: HexPoint) -> Int {
+    public func peopleSupported(by foodHarvestingType: FoodHarvestingType, at point: HexPoint) -> Int {
         
         if !self.valid(point: point) {
             return 0

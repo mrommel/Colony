@@ -83,5 +83,10 @@ struct MapScrollContentView: NSViewRepresentable {
 
             self.mapScrollContentView?.viewModel.draw(at: point)
         }
+        
+        func options() -> MapDisplayOptions? {
+            
+            return self.mapScrollContentView?.viewModel.options()
+        }
     }
 }

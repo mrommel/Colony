@@ -36,6 +36,7 @@
 		C968A96825703E5300C11F85 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C968A96725703E5300C11F85 /* SmartAILibrary.framework */; };
 		C968A96925703E5300C11F85 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C968A96725703E5300C11F85 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C968A98B2570451F00C11F85 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968A98A2570451F00C11F85 /* MapView.swift */; };
+		C96B4CF925EB8F0D00AAB5E2 /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96B4CF825EB8F0D00AAB5E2 /* EditorViewModel.swift */; };
 		C9A5B5BB258897B600836AEB /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C9A5B5BA258897B600836AEB /* SDWebImageSwiftUI */; };
 		C9AAF4A42581185F00D7F357 /* MapLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */; };
 		C9AAF4A82581194600D7F357 /* MapLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */; };
@@ -136,6 +137,7 @@
 		C968A95E25703D6A00C11F85 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C968A96725703E5300C11F85 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C968A98A2570451F00C11F85 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		C96B4CF825EB8F0D00AAB5E2 /* EditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		C9A5B5C225889C3C00836AEB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewController.swift; sourceTree = "<group>"; };
 		C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewModel.swift; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 		C9AB2C58257E4E570045DFBC /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C96B4CF825EB8F0D00AAB5E2 /* EditorViewModel.swift */,
 				C9AB2C59257E4E6A0045DFBC /* EditorViewController.swift */,
 				C9AB2C5D257E4FFB0045DFBC /* NewMapViewController.swift */,
 				C9AB2C73257EB6B00045DFBC /* MapProgressViewController.swift */,
@@ -511,6 +514,7 @@
 				C9F3AE192589EC0600027DD6 /* Civ5MapImportingViewController.swift in Sources */,
 				C9D78E0C2593A4D80024ECF0 /* DebugHeightMapView.swift in Sources */,
 				C9070A7F2575174B00276B7D /* TrackingAreaRepresentable.swift in Sources */,
+				C96B4CF925EB8F0D00AAB5E2 /* EditorViewModel.swift in Sources */,
 				C933DCB12597A20000C20B82 /* PixelImage.swift in Sources */,
 				C9AAF4AC25811A8100D7F357 /* MapLoadingView.swift in Sources */,
 				C9070A93257517FB00276B7D /* MapScrollContentView.swift in Sources */,

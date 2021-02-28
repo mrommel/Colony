@@ -203,6 +203,21 @@ struct EditorContentView: View {
         
         self.viewModel.map = map
     }
+    
+    func setShowStartLocations(to value: Bool) {
+        
+        self.viewModel.setShowStartLocations(to: value)
+    }
+    
+    func setShowInhabitants(to value: Bool) {
+        
+        self.viewModel.setShowInhabitants(to: value)
+    }
+    
+    func setShowSupportedPeople(to value: Bool) {
+        
+        self.viewModel.setShowSupportedPeople(to: value)
+    }
 }
 
 #if DEBUG

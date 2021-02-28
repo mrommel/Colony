@@ -27,6 +27,10 @@ class EditorContentViewModel: ObservableObject {
     @Published var brushTerrainName: String
     @Published var brushFeatureName: String
     @Published var brushResourceName: String
+    
+    private var showStartLocations: Bool = false
+    private var showInhabitants: Bool = false
+    private var showSupportedPeople: Bool = false
 
     var didChange: ((HexPoint) -> ())? = nil
     var shouldRedraw: (() -> ())? = nil
@@ -86,6 +90,29 @@ class EditorContentViewModel: ObservableObject {
                 self.focusedStartLocationName = "---"
             }
         }
+    }
+    
+    func setShowStartLocations(to value: Bool) {
+        
+        self.showStartLocations = value
+        self.shouldRedraw?()
+    }
+    
+    func setShowInhabitants(to value: Bool) {
+        
+        self.showInhabitants = value
+        self.shouldRedraw?()
+    }
+    
+    func setShowSupportedPeople(to value: Bool) {
+        
+        self.showSupportedPeople = value
+        self.shouldRedraw?()
+    }
+    
+    func options() -> MapDisplayOptions {
+        
+        return MapDisplayOptions(showStartPositions: self.showStartLocations, showInhabitants: self.showInhabitants, showSupportedPeople: self.showSupportedPeople)
     }
     
     // MARK: iterate map
