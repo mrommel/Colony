@@ -37,6 +37,7 @@
 		C968A96925703E5300C11F85 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C968A96725703E5300C11F85 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C968A98B2570451F00C11F85 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968A98A2570451F00C11F85 /* MapView.swift */; };
 		C96B4CF925EB8F0D00AAB5E2 /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96B4CF825EB8F0D00AAB5E2 /* EditorViewModel.swift */; };
+		C96B4CFF25EBCD7900AAB5E2 /* CGContextExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96B4CFE25EBCD7900AAB5E2 /* CGContextExtension.swift */; };
 		C9A5B5BB258897B600836AEB /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C9A5B5BA258897B600836AEB /* SDWebImageSwiftUI */; };
 		C9AAF4A42581185F00D7F357 /* MapLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */; };
 		C9AAF4A82581194600D7F357 /* MapLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */; };
@@ -138,6 +139,7 @@
 		C968A96725703E5300C11F85 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C968A98A2570451F00C11F85 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C96B4CF825EB8F0D00AAB5E2 /* EditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
+		C96B4CFE25EBCD7900AAB5E2 /* CGContextExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGContextExtension.swift; sourceTree = "<group>"; };
 		C9A5B5C225889C3C00836AEB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewController.swift; sourceTree = "<group>"; };
 		C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewModel.swift; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 				C9070A862575178A00276B7D /* ViewExtension.swift */,
 				C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */,
 				C9D78DEC258FA8000024ECF0 /* PlainGroupBoxStyle.swift */,
+				C96B4CFE25EBCD7900AAB5E2 /* CGContextExtension.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 				C9591AA4257117E700694BEF /* NSImageExtension.swift in Sources */,
 				C9AB2C55257D2E780045DFBC /* PopupButton.swift in Sources */,
 				C9F3AE1D2589EC4400027DD6 /* Civ5MapImportingViewModel.swift in Sources */,
+				C96B4CFF25EBCD7900AAB5E2 /* CGContextExtension.swift in Sources */,
 				C968A98B2570451F00C11F85 /* MapView.swift in Sources */,
 				C9070A6B2574F50C00276B7D /* MapEditorMenu.swift in Sources */,
 				C931ADB425769E1C0002BA2F /* ImageCache.swift in Sources */,

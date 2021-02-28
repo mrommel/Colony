@@ -351,32 +351,12 @@ class MapView: NSView {
                         
                         let supportedPeople: Int = map.peopleSupported(by: .hunterGatherer, at: pt)
                         
-                        context?.saveGState()
-
-                        // Parameters
-                        let margin: CGFloat = 10
                         let color = CGColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
-                        let fontSize: CGFloat = 8
-                        // You can use the Font Book app to find the name
-                        let fontName = "Chalkboard" as CFString
-                        let font = CTFontCreateWithName(fontName, fontSize, nil)
+                        let font = CTFontCreateWithName("Chalkboard" as CFString, 0.0, nil)
 
                         let attributes: [NSAttributedString.Key : Any] = [.font: font, .foregroundColor: color]
-
-                        // Text
-                        let string = "\(supportedPeople)"
-                        let attributedString = NSAttributedString(string: string, attributes: attributes)
-
-                        // Render
-                        let line = CTLineCreateWithAttributedString(attributedString)
-                        let stringRect = CTLineGetImageBounds(line, context)
-
-                        context?.textPosition = CGPoint(x: tileRect.maxX - stringRect.width - margin,
-                                                        y: tileRect.minY + margin)
-
-                        CTLineDraw(line, context!)
-
-                        context?.restoreGState()
+                        
+                        context?.drawText(text: "\(supportedPeople)", at: tileRect.origin, with: attributes)
                     }
 
                     // cursor
