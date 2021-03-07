@@ -379,6 +379,22 @@ open class MapModel: Codable {
         self.units.removeAll(where: { $0?.location == unit?.location && $0?.unitMapType() == unit?.unitMapType() && $0?.player?.leader == unit?.player?.leader })
     }
     
+    // MARK: wrapping
+    
+    public func wrap(point: HexPoint) -> HexPoint {
+        
+        if self.wrapX {
+            
+            if point.x < 0 {
+                return HexPoint(x: point.x + self.size.width(), y: point.y)
+            } else if point.x >= self.size.width() {
+                return HexPoint(x: point.x - self.size.width(), y: point.y)
+            }
+        }
+        
+        return point
+    }
+    
     // MARK: tile methods
     
     public func tile(at point: HexPoint) -> AbstractTile? {

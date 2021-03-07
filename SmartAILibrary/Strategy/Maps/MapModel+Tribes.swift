@@ -8,128 +8,6 @@
 
 import Foundation
 
-public enum FoodHarvestingType {
-    
-    case hunterGatherer
-    case settled
-    
-    func peopleSupportedOn(terrain: TerrainType) -> Int {
-        
-        switch self {
-        case .hunterGatherer:
-            return self.peopleSupportedByHunterGatheringOn(terrain: terrain)
-        case .settled:
-            return self.peopleSupportedBySettledOn(terrain: terrain)
-        }
-    }
-    
-    func peopleBonusWith(feature: FeatureType) -> Int {
-        
-        switch self {
-        case .hunterGatherer:
-            return self.peopleBonusByHunterGatheringWith(feature: feature)
-        case .settled:
-            return self.peopleBonusBySettledWith(feature: feature)
-        }
-    }
-    
-    private func peopleSupportedByHunterGatheringOn(terrain: TerrainType) -> Int {
-        
-        switch terrain {
-        
-        case .grass:
-            return 2500
-        case .plains:
-            return 2000
-        case .desert:
-            return 500
-        case .tundra:
-            return 1500
-        case .snow:
-            return 500
-        case .shore:
-            return 0
-        case .ocean:
-            return 0
-        }
-    }
-    
-    private func peopleSupportedBySettledOn(terrain: TerrainType) -> Int {
-        
-        switch terrain {
-        
-        case .grass:
-            return 10000
-        case .plains:
-            return 5000
-        case .desert:
-            return 0
-        case .tundra:
-            return 2500
-        case .snow:
-            return 0
-        case .shore:
-            return 0
-        case .ocean:
-            return 0
-        }
-    }
-    
-    private func peopleBonusByHunterGatheringWith(feature: FeatureType) -> Int {
-        
-        switch feature {
-        
-        case .none:
-            return 0
-        case .forest:
-            return 1000
-        case .rainforest:
-            return 700
-        case .floodplains:
-            return 200
-        case .marsh:
-            return 200
-        case .oasis:
-            return 1000
-        case .reef:
-            return 0
-        case .ice:
-            return 0
-        case .atoll:
-            return 0
-        default:
-            return 0
-        }
-    }
-    
-    private func peopleBonusBySettledWith(feature: FeatureType) -> Int {
-        
-        switch feature {
-        
-        case .none:
-            return 0
-        case .forest:
-            return -500
-        case .rainforest:
-            return 700
-        case .floodplains:
-            return 200
-        case .marsh:
-            return 200
-        case .oasis:
-            return 1000
-        case .reef:
-            return 0
-        case .ice:
-            return 0
-        case .atoll:
-            return 0
-        default:
-            return 0
-        }
-    }
-}
-
 extension MapModel {
 
     public func setupTribes(at points: [HexPoint]) {
@@ -157,19 +35,25 @@ extension MapModel {
     
     public func peopleSupported(by foodHarvestingType: FoodHarvestingType, at point: HexPoint) -> Int {
         
-        if !self.valid(point: point) {
+        guard self.valid(point: point) else {
             return 0
         }
         
-        let terrain = self.terrain(at: point)
-        let feature = self.feature(at: point)
-        let river = self.river(at: point)
+        guard let tile = self.tile(at: point) else {
+            return 0
+        }
+        
+        let terrain = tile.terrain()
+        let feature = tile.feature()
+        let river = tile.isRiver()
+        let hills = tile.hasHills()
         
         let terrainValue = foodHarvestingType.peopleSupportedOn(terrain: terrain)
         let featureValue = foodHarvestingType.peopleBonusWith(feature: feature)
         let riverValue = river ? 1000 : 0
+        let hillsValue = hills ? -100 : 0
         
-        return max(terrainValue + featureValue + riverValue, 0)
+        return max(terrainValue + featureValue + riverValue + hillsValue, 0)
     }
     
     public func inhabitants(at point: HexPoint) -> Int {
@@ -243,10 +127,17 @@ extension MapModel {
                         // @TODO: if sailing is invented - some random far away lands
                         let neighborPositions: WeightedList<HexPoint> = WeightedList<HexPoint>()
                         
-                        for neighbor in HexPoint(x: x, y: y).neighbors() {
+                        for var neighbor in HexPoint(x: x, y: y).neighbors() {
+                            
+                            // wrap if needed
+                            neighbor = self.wrap(point: neighbor)
+                            
                             let supported = self.peopleSupported(by: foodHarvestingType, at: neighbor)
                             
-                            neighborPositions.add(weight: supported, for: neighbor)
+                            // make sure the neighbors are on the map
+                            if self.valid(point: neighbor) {
+                                neighborPositions.add(weight: supported, for: neighbor)
+                            }
                         }
                         
                         neighborPositions.sort()
@@ -261,16 +152,37 @@ extension MapModel {
                                     bestTribesItem.items.append(TribeItem(type: mostRecentTribe.type))
                                 }
                             }
+                        } else {
+                            // hm, what happened to those people?
                         }
                         
-                        if let secondBestLocation = neighborPositions.chooseSecondBest(),
-                           let secondBestTribesItem = self.tribes[secondBestLocation.x, secondBestLocation.y] {
+                        if Float.random < 0.5 {
+                            if let secondBestLocation = neighborPositions.chooseSecondBest(),
+                               let secondBestTribesItem = self.tribes[secondBestLocation.x, secondBestLocation.y] {
+                                
+                                secondBestTribesItem.inhabitants += migratants * 25 / 100
+                                
+                                if secondBestTribesItem.items.count == 0 {
+                                    if let mostRecentTribe = tribesItem.items.first {
+                                        secondBestTribesItem.items.append(TribeItem(type: mostRecentTribe.type))
+                                    }
+                                }
+                            }
+                        } else {
+                            // random tile
+                            let positionWithFood = neighborPositions.filter({ $0.weight > 0 })
                             
-                            secondBestTribesItem.inhabitants += migratants * 25 / 100
-                            
-                            if secondBestTribesItem.items.count == 0 {
-                                if let mostRecentTribe = tribesItem.items.first {
-                                    secondBestTribesItem.items.append(TribeItem(type: mostRecentTribe.type))
+                            if positionWithFood.count > 0 {
+                                if let randomPosition = positionWithFood.chooseRandom(),
+                                   let randomTribesItem = self.tribes[randomPosition.x, randomPosition.y] {
+                                    
+                                    randomTribesItem.inhabitants += migratants * 25 / 100
+                                    
+                                    if randomTribesItem.items.count == 0 {
+                                        if let mostRecentTribe = tribesItem.items.first {
+                                            randomTribesItem.items.append(TribeItem(type: mostRecentTribe.type))
+                                        }
+                                    }
                                 }
                             }
                         }

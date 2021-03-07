@@ -184,6 +184,15 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         return self.items[1].itemType
     }
     
+    func chooseRandom() -> T? {
+        
+        if self.items.count < 1 {
+            return nil
+        }
+        
+        return self.items.randomElement()?.itemType
+    }
+    
     func append(contentsOf contents: WeightedList<T>) {
         
         self.items.append(contentsOf: contents.items)
