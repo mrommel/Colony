@@ -8,10 +8,10 @@
 
 import Foundation
 
-public enum FoodHarvestingType {
+public enum FoodHarvestingType: Int, Codable {
     
-    case hunterGatherer
-    case settled
+    case hunterGatherer = 0
+    case settled = 1
     
     func peopleSupportedOn(terrain: TerrainType) -> Int {
         

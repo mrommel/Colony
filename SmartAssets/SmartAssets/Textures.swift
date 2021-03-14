@@ -21,6 +21,7 @@ public class Textures {
     public let allFeatureTextureNames: [String]
     public let allIceFeatureTextureNames: [String]
     public let allResourceTextureNames: [String]
+    public let allBorderTextureNames: [String]
     
     public init(game: GameModel?) {
         
@@ -44,6 +45,40 @@ public class Textures {
         self.allResourceTextureNames = [
             "resource_banana", "resource_marble", "resource_deer", "resource_sheep", "resource_horse", "resource_whales", "resource_cattle", "resource_niter", "resource_dyes", "resource_silk", "resource_incense", "resource_wheat", "resource_coal", "resource_oil", "resource_fish", "resource_spices", "resource_iron", "resource_wine", "resource_copper", "resource_pearls", "resource_furs", "resource_stone", "resource_ivory", "resource_cotton", "resource_rice", "resource_gold", "resource_uranium", "resource_crab", "resource_salt", "resource_cocoa", "resource_citrus", "resource_sugar", "resource_silver", "resource_aluminium", "resource_gems", "resource_tea"
         ]
+        
+        self.allBorderTextureNames = Textures.allTextureSuffixes.map({ "border\($0)" })
+            /*"border_se_s_sw_nw", "border_n_ne_se_s_sw_nw", "border_n_ne_se_s_nw", "border_n_s_nw", "border_n_ne_s", "border_n", "border_n_sw_nw
+            border_se_s_sw", "border_ne_se", "border_ne", "border_se_s_nw
+            border_ne_se_s_sw_nw
+            border_ne_se_s
+            border_se
+            border_n_se_sw_nw
+            border_n_ne
+            border_n_ne_se_sw
+            border_all
+            border_ne_s_nw
+            border_sw_nw
+            border_n_ne_se_nw
+            border_n_se
+            border_ne_se_sw_nw
+            border_ne_sw_nw
+            border_n_ne_se
+            border_ne_s_sw
+            border_s_sw_nw
+            border_n_ne_nw
+            border_n_se_s
+            border_se_nw
+            border_s
+            border_n_se_s_sw_nw
+            border_n_ne_sw_nw
+            border_n_s
+            border_n_ne_se_sw_nw
+            border_n_se_s_nw
+            border_ne_se_nw
+            border_n_nw
+            border_n_ne_se_s
+            border_se_s", "border_ne_se_s_nw", "border_se_sw", "border_n_ne_s_sw_nw", "border_n_ne_sw", "border_n_se_s_sw", "border_ne_se_sw", "border_n_sw", "border_ne_se_s_sw"
+        ]*/
     }
 
     public func coastTexture(at point: HexPoint) -> String? {
@@ -288,7 +323,6 @@ public class Textures {
             return nil
         }
         
-        
         var texture = "river" // "river-n-ne-se-s-sw-nw"
         for flow in FlowDirection.all {
             
@@ -302,5 +336,40 @@ public class Textures {
         }
         
         return texture
+    }
+    
+    public func borderTexture(at point: HexPoint, in area: HexArea) -> String? {
+        
+        var textureName = "border"
+
+        if !area.contains(where: { $0 == point.neighbor(in: .north) }) {
+            textureName += "-n"
+        }
+
+        if !area.contains(where: { $0 == point.neighbor(in: .northeast) }) {
+            textureName += "-ne"
+        }
+
+        if !area.contains(where: { $0 == point.neighbor(in: .southeast) }) {
+            textureName += "-se"
+        }
+
+        if !area.contains(where: { $0 == point.neighbor(in: .south) }) {
+            textureName += "-s"
+        }
+
+        if !area.contains(where: { $0 == point.neighbor(in: .southwest) }) {
+            textureName += "-sw"
+        }
+
+        if !area.contains(where: { $0 == point.neighbor(in: .northwest) }) {
+            textureName += "-nw"
+        }
+
+        if textureName == "border" {
+            return "border-all"
+        }
+
+        return textureName
     }
 }

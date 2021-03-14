@@ -61,6 +61,19 @@ public class TribeArray2D: Codable {
             array[row * self.width + column] = newValue
         }
     }
+    
+    public subscript(point: HexPoint) -> TribeTileInfo? {
+        get {
+            precondition(point.x < self.width, "Column \(point.x) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            precondition(point.y < self.height, "Row \(point.y) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            return array[point.y * self.width + point.x]
+        }
+        set {
+            precondition(point.x < self.width, "Column \(point.x) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            precondition(point.y < self.height, "Row \(point.y) Index is out of range. Array<T>(columns: \(self.width), rows:\(self.height))")
+            array[point.y * self.width + point.x] = newValue
+        }
+    }
 }
 
 // MARK: fill methods

@@ -112,7 +112,7 @@ class EditorContentViewModel: ObservableObject {
     
     func options() -> MapDisplayOptions {
         
-        return MapDisplayOptions(showStartPositions: self.showStartLocations, showInhabitants: self.showInhabitants, showSupportedPeople: self.showSupportedPeople)
+        return MapDisplayOptions(showFeatures: true, showResources: true, showBorders: true, showStartPositions: self.showStartLocations, showInhabitants: self.showInhabitants, showSupportedPeople: self.showSupportedPeople)
     }
     
     // MARK: iterate map
@@ -123,8 +123,7 @@ class EditorContentViewModel: ObservableObject {
             return
         }
 
-        let startLocations = map.startLocations.map({ $0.point })
-        self.map?.setupTribes(at: startLocations)
+        self.map?.setupTribes(at: map.startLocations)
     }
     
     func iterateTribes() {

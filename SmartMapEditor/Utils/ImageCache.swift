@@ -38,7 +38,7 @@ public class ImageCache {
             return image
         }
         
-        fatalError("no image with key: \(key) in cache")
+        fatalError("no image with key: '\(key)' in cache")
         /*
          convert sepimage-0.png sepimage-1.png  -background transparent -layers flatten imagecopy.png
          

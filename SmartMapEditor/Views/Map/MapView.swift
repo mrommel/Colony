@@ -20,7 +20,36 @@ func - (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x - right.x, y: left.y - right.y)
 }
 
+extension CGImage {
+    
+    func mapColor(color0: NSColor, color1: NSColor) -> CGImage? {
+            
+        guard let filter = CIFilter(name: "CIFalseColor" ) else {
+            return nil
+        }
+        
+        let ciiimage = CIImage(cgImage: self)
+        
+        filter.setValue(ciiimage, forKey: kCIInputImageKey)
+        filter.setValue(CIColor(color: color0), forKey: "inputColor0")
+        filter.setValue(CIColor(color: color1), forKey: "inputColor1")
+
+        let resultImage = filter.outputImage
+        
+        let cicontext = CIContext(options: nil)
+        let imageRef: CGImage? =  cicontext.createCGImage(resultImage!, from: CGRect(origin: CGPoint.zero, size: NSSize(width: self.width, height: self.height)))
+
+        return imageRef
+    }
+}
+
 struct MapDisplayOptions {
+    
+    static let standard: MapDisplayOptions = MapDisplayOptions(showFeatures: false, showResources: false, showBorders: false, showStartPositions: false, showInhabitants: false, showSupportedPeople: false)
+    
+    let showFeatures: Bool
+    let showResources: Bool
+    let showBorders: Bool
     
     let showStartPositions: Bool
     let showInhabitants: Bool
@@ -133,6 +162,11 @@ class MapView: NSView {
         for resourceTextureName in self.textures.allResourceTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: resourceTextureName), for: resourceTextureName)
         }
+        
+        print("- load \(self.textures.allBorderTextureNames.count) border textures")
+        for borderTextureName in self.textures.allBorderTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: borderTextureName), for: borderTextureName)
+        }
 
         print("-- all textures loaded --")
     }
@@ -225,7 +259,7 @@ class MapView: NSView {
 
             let context = NSGraphicsContext.current?.cgContext
             let mapSize = map.size
-            let options = self.delegate?.options() ?? MapDisplayOptions(showStartPositions: false, showInhabitants: false, showSupportedPeople: false)
+            let options = self.delegate?.options() ?? MapDisplayOptions.standard
 
             for x in 0..<mapSize.width() {
 
@@ -258,57 +292,80 @@ class MapView: NSView {
 
                     // fetch from cache
                     context?.draw(ImageCache.shared.image(for: terrainTextureName).cgImage!, in: tileRect)
-
+                    
                     // river
                     if let riverTexture = self.textures.riverTexture(at: tile.point) {
 
                         // fetch from cache
                         context?.draw(ImageCache.shared.image(for: riverTexture).cgImage!, in: tileRect)
                     }
-
-                    // feature
-                    // place forests etc
-                    if tile.feature() != .none {
-
-                        let neighborTileN = map.tile(at: pt.neighbor(in: .north))
-                        let neighborTileNE = map.tile(at: pt.neighbor(in: .northeast))
-                        let neighborTileSE = map.tile(at: pt.neighbor(in: .southeast))
-                        let neighborTileS = map.tile(at: pt.neighbor(in: .south))
-                        let neighborTileSW = map.tile(at: pt.neighbor(in: .southwest))
-                        let neighborTileNW = map.tile(at: pt.neighbor(in: .northwest))
-
-                        let neighborTiles: [HexDirection: AbstractTile?] = [
-                                .north: neighborTileN,
-                                .northeast: neighborTileNE,
-                                .southeast: neighborTileSE,
-                                .south: neighborTileS,
-                                .southwest: neighborTileSW,
-                                .northwest: neighborTileNW
-                        ]
-
-                        if let featureTextureName = self.textures.featureTexture(for: tile, neighborTiles: neighborTiles) {
-
-                            // fetch from cache
-                            context?.draw(ImageCache.shared.image(for: featureTextureName).cgImage!, in: tileRect)
+                    
+                    // border
+                    if options.showBorders {
+                        
+                        for tribe in map.tribes {
+                            if tribe.area.contains(tile.point) {
+                                
+                                if let borderTexture = self.textures.borderTexture(at: tile.point, in: tribe.area) {
+                                    
+                                    if borderTexture != "border-all" {
+                                        let image = ImageCache.shared.image(for: borderTexture).cgImage!
+                                        // context?.draw(image, in: tileRect)
+                                        
+                                        context?.draw(image.mapColor(color0: tribe.type.main, color1: tribe.type.accent)!, in: tileRect)
+                                    }
+                                }
+                            }
                         }
                     }
 
-                    if tile.feature() != .ice {
+                    // feature
+                    if options.showFeatures {
+                        // place forests etc
+                        if tile.feature() != .none {
 
-                        if let iceTextureName = self.textures.iceTexture(at: tile.point) {
+                            let neighborTileN = map.tile(at: pt.neighbor(in: .north))
+                            let neighborTileNE = map.tile(at: pt.neighbor(in: .northeast))
+                            let neighborTileSE = map.tile(at: pt.neighbor(in: .southeast))
+                            let neighborTileS = map.tile(at: pt.neighbor(in: .south))
+                            let neighborTileSW = map.tile(at: pt.neighbor(in: .southwest))
+                            let neighborTileNW = map.tile(at: pt.neighbor(in: .northwest))
 
-                            // fetch from cache
-                            context?.draw(ImageCache.shared.image(for: iceTextureName).cgImage!, in: tileRect)
+                            let neighborTiles: [HexDirection: AbstractTile?] = [
+                                    .north: neighborTileN,
+                                    .northeast: neighborTileNE,
+                                    .southeast: neighborTileSE,
+                                    .south: neighborTileS,
+                                    .southwest: neighborTileSW,
+                                    .northwest: neighborTileNW
+                            ]
+
+                            if let featureTextureName = self.textures.featureTexture(for: tile, neighborTiles: neighborTiles) {
+
+                                // fetch from cache
+                                context?.draw(ImageCache.shared.image(for: featureTextureName).cgImage!, in: tileRect)
+                            }
+                        }
+
+                        if tile.feature() != .ice {
+
+                            if let iceTextureName = self.textures.iceTexture(at: tile.point) {
+
+                                // fetch from cache
+                                context?.draw(ImageCache.shared.image(for: iceTextureName).cgImage!, in: tileRect)
+                            }
                         }
                     }
 
                     // resource
-                    if tile.resource(for: nil) != .none {
+                    if options.showResources {
+                        if tile.resource(for: nil) != .none {
 
-                        let resourceTextureName = tile.resource(for: nil).textureName()
+                            let resourceTextureName = tile.resource(for: nil).textureName()
 
-                        // fetch from cache
-                        context?.draw(ImageCache.shared.image(for: resourceTextureName).cgImage!, in: tileRect)
+                            // fetch from cache
+                            context?.draw(ImageCache.shared.image(for: resourceTextureName).cgImage!, in: tileRect)
+                        }
                     }
                     
                     // draw start position

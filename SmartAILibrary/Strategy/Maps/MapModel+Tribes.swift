@@ -10,26 +10,19 @@ import Foundation
 
 extension MapModel {
 
-    public func setupTribes(at points: [HexPoint]) {
+    public func setupTribes(at startLocations: [StartLocation]) {
 
-        var tribeTypes = TribeType.all.shuffled.suffix(points.count)
+        // var tribeTypes = TribeType.all.shuffled.suffix(points.count)
 
         // place some tribes
-        for point in points {
-            let tribeItem = self.tribes[point.x, point.y]
-
-            guard let selectedTribe = tribeTypes.first else {
-                fatalError("cant get first tribe")
-            }
-
-            tribeTypes.removeFirst()
-
-            if tribeItem?.items.count ?? 0 < tribeItem?.maxTribes ?? 0 {
-                
-                print("added tribe: \(selectedTribe) at \(point.x), \(point.y)")
-                tribeItem?.items.append(TribeItem(type: selectedTribe))
-                tribeItem?.inhabitants = 1000 // start with a thousand people
-            }
+        for startLocation in startLocations {
+            let tribeTile = self.tribeTiles[startLocation.point.x, startLocation.point.y]
+            let selectedCivilization = startLocation.leader.civilization()
+            
+            print("added tribe: \(selectedCivilization) at \(startLocation.point.x), \(startLocation.point.y)")
+            tribeTile?.setup(with: selectedCivilization)
+            
+            self.tribes.append(TribeInfo(type: selectedCivilization))
         }
     }
     
@@ -58,7 +51,7 @@ extension MapModel {
     
     public func inhabitants(at point: HexPoint) -> Int {
         
-        if let tribesItem = self.tribes[point.x, point.y] {
+        if let tribesItem = self.tribeTiles[point.x, point.y] {
             return tribesItem.inhabitants
         }
         
@@ -77,9 +70,9 @@ extension MapModel {
         // growth
         for x in 0..<size.width() {
             for y in 0..<size.height() {
-                if let tribesItem = self.tribes[x, y] {
+                if let tribesItem = self.tribeTiles[x, y] {
 
-                    if tribesItem.items.count > 0 {
+                    if let civilizationType = tribesItem.type {
                         
                         // growth
                         let supportedPeople = self.peopleSupported(by: foodHarvestingType, at: HexPoint(x: x, y: y))
@@ -108,9 +101,7 @@ extension MapModel {
                         
                         tribesItem.inhabitants = tmpInhabitants - tmpMigratants
 
-                        if let type = tribesItem.items.first?.type {
-                            print("tribe at (\(x), \(y)): \(type.rawValue) - \(tribesItem.inhabitants) people - growthRate: \(growthRate), migratants: \(tmpMigratants) people")
-                        }
+                        print("tribe at (\(x), \(y)): \(civilizationType.rawValue) - \(tribesItem.inhabitants) people - growthRate: \(growthRate), migratants: \(tmpMigratants) people")
                     }
                 }
             }
@@ -119,7 +110,9 @@ extension MapModel {
         // do migration
         for x in 0..<size.width() {
             for y in 0..<size.height() {
-                if let tribesItem = self.tribes[x, y], let migratants = migrationArray[x, y] {
+                if let tribesItem = self.tribeTiles[x, y],
+                   let civilizationType = tribesItem.type,
+                   let migratants = migrationArray[x, y] {
                     
                     // when we have people who are willing to leave ...
                     if migratants > 0 {
@@ -143,13 +136,15 @@ extension MapModel {
                         neighborPositions.sort()
                         
                         if let bestLocation = neighborPositions.chooseBest(),
-                           let bestTribesItem = self.tribes[bestLocation.x, bestLocation.y] {
+                           let bestTribesItem = self.tribeTiles[bestLocation] {
                             
-                            bestTribesItem.inhabitants += migratants * 75 / 100
+                            bestTribesItem.inhabitants += migratants * 66 / 100
                             
-                            if bestTribesItem.items.count == 0 {
-                                if let mostRecentTribe = tribesItem.items.first {
-                                    bestTribesItem.items.append(TribeItem(type: mostRecentTribe.type))
+                            if bestTribesItem.type == nil {
+                                bestTribesItem.setup(with: civilizationType)
+                                
+                                if let tribe = self.tribes.first(where: { $0.type == civilizationType }) {
+                                    tribe.area.add(point: bestLocation)
                                 }
                             }
                         } else {
@@ -158,13 +153,15 @@ extension MapModel {
                         
                         if Float.random < 0.5 {
                             if let secondBestLocation = neighborPositions.chooseSecondBest(),
-                               let secondBestTribesItem = self.tribes[secondBestLocation.x, secondBestLocation.y] {
+                               let secondBestTribesItem = self.tribeTiles[secondBestLocation] {
                                 
-                                secondBestTribesItem.inhabitants += migratants * 25 / 100
+                                secondBestTribesItem.inhabitants += migratants * 34 / 100
                                 
-                                if secondBestTribesItem.items.count == 0 {
-                                    if let mostRecentTribe = tribesItem.items.first {
-                                        secondBestTribesItem.items.append(TribeItem(type: mostRecentTribe.type))
+                                if secondBestTribesItem.type == nil {
+                                    secondBestTribesItem.setup(with: civilizationType)
+                                    
+                                    if let tribe = self.tribes.first(where: { $0.type == civilizationType }) {
+                                        tribe.area.add(point: secondBestLocation)
                                     }
                                 }
                             }
@@ -174,13 +171,15 @@ extension MapModel {
                             
                             if positionWithFood.count > 0 {
                                 if let randomPosition = positionWithFood.chooseRandom(),
-                                   let randomTribesItem = self.tribes[randomPosition.x, randomPosition.y] {
+                                   let randomTribesItem = self.tribeTiles[randomPosition] {
                                     
-                                    randomTribesItem.inhabitants += migratants * 25 / 100
+                                    randomTribesItem.inhabitants += migratants * 34 / 100
                                     
-                                    if randomTribesItem.items.count == 0 {
-                                        if let mostRecentTribe = tribesItem.items.first {
-                                            randomTribesItem.items.append(TribeItem(type: mostRecentTribe.type))
+                                    if randomTribesItem.type == nil {
+                                        randomTribesItem.setup(with: civilizationType)
+                                        
+                                        if let tribe = self.tribes.first(where: { $0.type == civilizationType }) {
+                                            tribe.area.add(point: randomPosition)
                                         }
                                     }
                                 }
@@ -196,7 +195,7 @@ extension MapModel {
         // finalize
         for x in 0..<size.width() {
             for y in 0..<size.height() {
-                if let tribesItem = self.tribes[x, y] {
+                if let tribesItem = self.tribeTiles[x, y] {
                     tribesItem.update()
                 }
             }
