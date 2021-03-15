@@ -11,9 +11,7 @@ import Foundation
 extension MapModel {
 
     public func setupTribes(at startLocations: [StartLocation]) {
-
-        // var tribeTypes = TribeType.all.shuffled.suffix(points.count)
-
+        
         // place some tribes
         for startLocation in startLocations {
             let tribeTile = self.tribeTiles[startLocation.point.x, startLocation.point.y]

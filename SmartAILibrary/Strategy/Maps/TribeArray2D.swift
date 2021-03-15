@@ -43,7 +43,7 @@ public class TribeArray2D: Codable {
         try container.encode(self.width, forKey: .width)
         try container.encode(self.height, forKey: .height)
         
-        let wrappedTiles: [TribeTileInfo?] = self.array.map { $0 as? TribeTileInfo }
+        let wrappedTiles: [TribeTileInfo?] = self.array.map { $0 }
         try container.encode(wrappedTiles, forKey: .array)
     }
     
