@@ -8,7 +8,7 @@ public class TribeTileInfo: Codable {
         case inhabitants
     }
     
-    var type: CivilizationType? = nil
+    var civilizationType: CivilizationType? = nil
     var inhabitants: Int = 0
     // var ratio: Float = 1.0
     // var foodBasket: Int = 0
@@ -19,7 +19,7 @@ public class TribeTileInfo: Codable {
     
     func setup(with type: CivilizationType) {
         
-        self.type = type
+        self.civilizationType = type
         
         if self.inhabitants == 0 {
             self.inhabitants = 1000 // start with a thousand people
@@ -30,7 +30,7 @@ public class TribeTileInfo: Codable {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        self.type = try container.decodeIfPresent(CivilizationType.self, forKey: .type)
+        self.civilizationType = try container.decodeIfPresent(CivilizationType.self, forKey: .type)
         self.inhabitants = try container.decode(Int.self, forKey: .inhabitants)
     }
     
@@ -38,13 +38,13 @@ public class TribeTileInfo: Codable {
         
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        try container.encodeIfPresent(self.type, forKey: .type)
+        try container.encodeIfPresent(self.civilizationType, forKey: .type)
         try container.encode(self.inhabitants, forKey: .inhabitants)
     }
     
     func population(of type: CivilizationType) -> Int {
         
-        if self.type == type {
+        if self.civilizationType == type {
             return self.inhabitants
         }
         
@@ -54,7 +54,7 @@ public class TribeTileInfo: Codable {
     func update() {
         
         if self.inhabitants == 0 {
-            self.type = nil
+            self.civilizationType = nil
             return
         }
     }

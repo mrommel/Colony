@@ -385,6 +385,12 @@ extension HexPoint {
         return selfCube.distance(to: hexCube)
     }
     
+    func distanceTo(x: Int, y: Int) -> Int {
+        let selfCube = HexCube(hex: self)
+        let hexCube = HexCube(hex: HexPoint(x: x, y: y))
+        return selfCube.distance(to: hexCube)
+    }
+    
     // returns the direction of the neighbor (or nil when this is not a neighbor)
     public func direction(towards hex: HexPoint) -> HexDirection? {
         

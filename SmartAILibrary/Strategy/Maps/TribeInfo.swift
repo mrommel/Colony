@@ -75,4 +75,16 @@ public class TribeInfo: Codable {
         try container.encode(self.agricultureInvented, forKey: .agricultureInvented)
         try container.encode(self.domesticationInvented, forKey: .domesticationInvented)
     }
+    
+    func add(point: HexPoint) {
+        
+        if !self.area.points.contains(where: { $0 == point }) {
+            self.area.add(point: point)
+        }
+    }
+    
+    func numberOfTiles() -> Int {
+        
+        return self.area.points.count
+    }
 }
