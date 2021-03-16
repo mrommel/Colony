@@ -83,6 +83,13 @@ public class TribeInfo: Codable {
         }
     }
     
+    func remove(point: HexPoint) {
+        
+        if self.area.points.contains(where: { $0 == point }) {
+            self.area.remove(point: point)
+        }
+    }
+    
     func numberOfTiles() -> Int {
         
         return self.area.points.count

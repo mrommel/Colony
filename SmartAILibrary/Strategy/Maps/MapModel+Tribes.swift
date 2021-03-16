@@ -105,6 +105,20 @@ extension MapModel {
         }
     }
     
+    public var allPoints: [HexPoint] {
+        
+        var points: [HexPoint] = []
+        
+        for x in 0..<size.width() {
+            for y in 0..<size.height() {
+                
+                points.append(HexPoint(x: x, y: y))
+            }
+        }
+        
+        return points
+    }
+    
     public func updateTribes() {
         
         print("------------------------------")
@@ -125,93 +139,91 @@ extension MapModel {
         }
         
         // do migration
-        for x in 0..<size.width() {
-            for y in 0..<size.height() {
-                if let tribesItem = self.tribeTiles[x, y],
-                    let civilizationType = tribesItem.civilizationType,
-                    let migratants = migrationArray[x, y] {
+        for point in self.allPoints {
+            if let tribesItem = self.tribeTiles[point],
+                let civilizationType = tribesItem.civilizationType,
+                let migratants = migrationArray[point] {
+                
+                // when we have people who are willing to leave ...
+                if migratants > 0 {
                     
-                    // when we have people who are willing to leave ...
-                    if migratants > 0 {
+                    // if the tribes ruling system does not support more tiles, stop here
+                    if let tribe = self.tribes.first(where: { $0.type == civilizationType }) {
                         
-                        // if the tribes ruling system does not support more tiles, stop here
+                        let maxTiles = 16
+                        if tribe.numberOfTiles() > maxTiles {
+                            tribe.emigrants += migratants
+                            continue
+                        }
+                    }
+                    
+                    // find neighbors
+                    // @TODO: if sailing is invented - some random far away lands
+                    let neighborPositions: WeightedList<HexPoint> = WeightedList<HexPoint>()
+                    
+                    for var neighbor in point.neighbors() {
+                        
+                        // wrap neighbor if needed
+                        neighbor = self.wrap(point: neighbor)
+                        
+                        let supported = self.peopleSupported(by: foodHarvestingType, at: neighbor)
+                        
+                        // make sure the neighbors are on the map
+                        if !self.valid(point: neighbor) {
+                            continue
+                        }
+                        
+                        // if the tribes ruling system does not support a larger distance to the capital, skip this tile
                         if let tribe = self.tribes.first(where: { $0.type == civilizationType }) {
                             
-                            let maxTiles = 16
-                            if tribe.numberOfTiles() > maxTiles {
-                                tribe.emigrants += migratants
+                            let maxDistance = 8
+                            if tribe.capital.distance(to: neighbor) > maxDistance {
                                 continue
                             }
                         }
                         
-                        // find neighbors
-                        // @TODO: if sailing is invented - some random far away lands
-                        let neighborPositions: WeightedList<HexPoint> = WeightedList<HexPoint>()
+                        neighborPositions.add(weight: supported, for: neighbor)
+                    }
+                    
+                    neighborPositions.sort()
+                    
+                    if let bestLocation = neighborPositions.chooseBest(),
+                       let bestTribesItem = self.tribeTiles[bestLocation] {
                         
-                        for var neighbor in HexPoint(x: x, y: y).neighbors() {
-                            
-                            // wrap neighbor if needed
-                            neighbor = self.wrap(point: neighbor)
-                            
-                            let supported = self.peopleSupported(by: foodHarvestingType, at: neighbor)
-                            
-                            // make sure the neighbors are on the map
-                            if !self.valid(point: neighbor) {
-                                continue
-                            }
-                            
-                            // if the tribes ruling system does not support a larger distance to the capital, skip this tile
-                            if let tribe = self.tribes.first(where: { $0.type == civilizationType }) {
-                                
-                                let maxDistance = 8
-                                if tribe.capital.distance(to: neighbor) > maxDistance {
-                                    continue
-                                }
-                            }
-                            
-                            neighborPositions.add(weight: supported, for: neighbor)
+                        if bestTribesItem.civilizationType == nil {
+                            self.setupNewTile(at: bestLocation, for: civilizationType, with: migratants * 66 / 100)
+                        } else {
+                            bestTribesItem.inhabitants += migratants * 66 / 100
                         }
-                        
-                        neighborPositions.sort()
-                        
-                        if let bestLocation = neighborPositions.chooseBest(),
-                           let bestTribesItem = self.tribeTiles[bestLocation] {
+                    } else {
+                        // if we don't have any valid spot
+                        if let tribe = self.tribes.first(where: { $0.type == civilizationType }) {
+                            tribe.emigrants += migratants
+                        }
+                    }
+                    
+                    if Float.random < 0.5 {
+                        if let secondBestLocation = neighborPositions.chooseSecondBest(),
+                           let secondBestTribesItem = self.tribeTiles[secondBestLocation] {
                             
-                            if bestTribesItem.civilizationType == nil {
-                                self.setupNewTile(at: bestLocation, for: civilizationType, with: migratants * 66 / 100)
+                            if secondBestTribesItem.civilizationType == nil {
+                                self.setupNewTile(at: secondBestLocation, for: civilizationType, with: migratants * 34 / 100)
                             } else {
-                                bestTribesItem.inhabitants += migratants * 66 / 100
-                            }
-                        } else {
-                            // if we don't have any valid spot
-                            if let tribe = self.tribes.first(where: { $0.type == civilizationType }) {
-                                tribe.emigrants += migratants
+                                secondBestTribesItem.inhabitants += migratants * 34 / 100
                             }
                         }
+                    } else {
+                        // random tile
+                        let positionWithFood = neighborPositions.filter({ $0.weight > 0 })
                         
-                        if Float.random < 0.5 {
-                            if let secondBestLocation = neighborPositions.chooseSecondBest(),
-                               let secondBestTribesItem = self.tribeTiles[secondBestLocation] {
+                        if positionWithFood.count > 0 {
+                            if let randomPosition = positionWithFood.chooseRandom(),
+                               let randomTribesItem = self.tribeTiles[randomPosition] {
                                 
-                                if secondBestTribesItem.civilizationType == nil {
-                                    self.setupNewTile(at: secondBestLocation, for: civilizationType, with: migratants * 34 / 100)
+                                if randomTribesItem.civilizationType == nil {
+                                    self.setupNewTile(at: randomPosition, for: civilizationType, with: migratants * 34 / 100)
                                 } else {
-                                    secondBestTribesItem.inhabitants += migratants * 34 / 100
-                                }
-                            }
-                        } else {
-                            // random tile
-                            let positionWithFood = neighborPositions.filter({ $0.weight > 0 })
-                            
-                            if positionWithFood.count > 0 {
-                                if let randomPosition = positionWithFood.chooseRandom(),
-                                   let randomTribesItem = self.tribeTiles[randomPosition] {
-                                    
-                                    if randomTribesItem.civilizationType == nil {
-                                        self.setupNewTile(at: randomPosition, for: civilizationType, with: migratants * 34 / 100)
-                                    } else {
-                                        randomTribesItem.inhabitants += migratants * 34 / 100
-                                    }
+                                    randomTribesItem.inhabitants += migratants * 34 / 100
                                 }
                             }
                         }
@@ -220,11 +232,68 @@ extension MapModel {
             }
         }
         
-        // spawn a new tribe
+        // create some events
         for tribe in self.tribes {
             
+            if Int.random(minimum: 0, maximum: 100) < 2 {
+                print("-- event: find new capital")
+                
+                let tilesWithPopulation: WeightedPoints = WeightedPoints()
+                
+                for pt in tribe.area.points {
+                    guard let bestTribesItem = self.tribeTiles[pt] else {
+                        continue
+                    }
+                        
+                    tilesWithPopulation.add(weight: bestTribesItem.inhabitants, for: pt)
+                }
+                
+                tilesWithPopulation.sort()
+                
+                if let newCapitalLocation = tilesWithPopulation.chooseBest() {
+                    
+                    if tribe.capital != newCapitalLocation {
+                        print("-- event: found new capital for \(tribe.type) at \(newCapitalLocation)")
+                        tribe.capital = newCapitalLocation
+                    }
+                }
+            }
+            
+            if Int.random(minimum: 0, maximum: 100) < 3 {
+                print("-- event: abandon least populated tile")
+                
+                // make sure we have more than
+                if tribe.numberOfTiles() > 2 {
+                
+                    let tilesWithPopulation: WeightedPoints = WeightedPoints()
+                    
+                    for pt in tribe.area.points {
+                        guard let bestTribesItem = self.tribeTiles[pt] else {
+                            continue
+                        }
+                            
+                        tilesWithPopulation.add(weight: bestTribesItem.inhabitants, for: pt)
+                    }
+                    
+                    tilesWithPopulation.sortReverse()
+                
+                    if let leastPopulatedLocation = tilesWithPopulation.chooseBest() {
+                        
+                        if let tribesItem = self.tribeTiles[leastPopulatedLocation] {
+                            tribesItem.inhabitants = 0
+                            tribesItem.civilizationType = nil
+                        }
+                        
+                        tribe.remove(point: leastPopulatedLocation)
+                        
+                        print("-- event: abandoned tile at \(leastPopulatedLocation) of \(tribe.type)")
+                    }
+                }
+            }
+            
+            // spawn a new tribe
             if tribe.emigrants > 1000 {
-                print("enough emigrants to spawn a new tribe")
+                print("-- event: enough emigrants to spawn a new tribe")
             }
         }
         

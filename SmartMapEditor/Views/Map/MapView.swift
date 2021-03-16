@@ -102,7 +102,7 @@ class MapView: NSView {
                 self.shift = CGPoint(x: dx, y: dy)
             }
 
-            // create a dummy game
+            // create a dummy game to init Textures
             if let m = map {
                 let barbarian = Player(leader: .barbar)
                 let game = GameModel(victoryTypes: [.cultural], handicap: .chieftain, turnsElapsed: 0, players: [barbarian], on: m)
@@ -169,6 +169,37 @@ class MapView: NSView {
         }
 
         print("-- all textures loaded --")
+        
+        // populate cache if needed
+        if !ImageCache.shared.exists(key: "cursor") {
+            ImageCache.shared.add(image: NSImage(named: "cursor"), for: "cursor")
+        }
+        
+        if !ImageCache.shared.exists(key: "flag") {
+            ImageCache.shared.add(image: NSImage(named: "flag"), for: "flag")
+        }
+        
+        if !ImageCache.shared.exists(key: "capital") {
+            ImageCache.shared.add(image: NSImage(named: "capital"), for: "capital")
+        }
+        
+        if !ImageCache.shared.exists(key: "bars_veryhigh") {
+            ImageCache.shared.add(image: NSImage(named: "bars_veryhigh"), for: "bars_veryhigh")
+        }
+        if !ImageCache.shared.exists(key: "bars_high") {
+            ImageCache.shared.add(image: NSImage(named: "bars_high"), for: "bars_high")
+        }
+        if !ImageCache.shared.exists(key: "bars_medium") {
+            ImageCache.shared.add(image: NSImage(named: "bars_medium"), for: "bars_medium")
+        }
+        if !ImageCache.shared.exists(key: "bars_small") {
+            ImageCache.shared.add(image: NSImage(named: "bars_small"), for: "bars_small")
+        }
+        if !ImageCache.shared.exists(key: "bars_verysmall") {
+            ImageCache.shared.add(image: NSImage(named: "bars_verysmall"), for: "bars_verysmall")
+        }
+        
+        print("-- all icons loaded --")
     }
 
     // left button down
@@ -295,8 +326,6 @@ class MapView: NSView {
                     
                     // river
                     if let riverTexture = self.textures.riverTexture(at: tile.point) {
-
-                        // fetch from cache
                         context?.draw(ImageCache.shared.image(for: riverTexture).cgImage!, in: tileRect)
                     }
                     
@@ -310,8 +339,6 @@ class MapView: NSView {
                                     
                                     if borderTexture != "border-all" {
                                         let image = ImageCache.shared.image(for: borderTexture).cgImage!
-                                        // context?.draw(image, in: tileRect)
-                                        
                                         context?.draw(image.mapColor(color0: tribe.type.main, color1: tribe.type.accent)!, in: tileRect)
                                     }
                                 }
@@ -341,8 +368,6 @@ class MapView: NSView {
                             ]
 
                             if let featureTextureName = self.textures.featureTexture(for: tile, neighborTiles: neighborTiles) {
-
-                                // fetch from cache
                                 context?.draw(ImageCache.shared.image(for: featureTextureName).cgImage!, in: tileRect)
                             }
                         }
@@ -350,8 +375,6 @@ class MapView: NSView {
                         if tile.feature() != .ice {
 
                             if let iceTextureName = self.textures.iceTexture(at: tile.point) {
-
-                                // fetch from cache
                                 context?.draw(ImageCache.shared.image(for: iceTextureName).cgImage!, in: tileRect)
                             }
                         }
@@ -362,44 +385,40 @@ class MapView: NSView {
                         if tile.resource(for: nil) != .none {
 
                             let resourceTextureName = tile.resource(for: nil).textureName()
-
-                            // fetch from cache
                             context?.draw(ImageCache.shared.image(for: resourceTextureName).cgImage!, in: tileRect)
-                        }
-                    }
-                    
-                    // draw start position
-                    if options.showStartPositions {
-                        if map.startLocations.first(where: { $0.point == pt }) != nil {
-                            
-                            if !ImageCache.shared.exists(key: "flag") {
-                                ImageCache.shared.add(image: NSImage(named: "flag"), for: "flag")
-                            }
-            
-                            context?.draw(ImageCache.shared.image(for: "flag").cgImage!, in: tileRect)
                         }
                     }
                     
                     // inhabitants
                     if options.showInhabitants {
                         let inhabitants = map.inhabitants(at: pt)
-                            
-                        if inhabitants > 0 {
-                            
-                            /*if !ImageCache.shared.exists(key: "flag") {
-                                ImageCache.shared.add(image: NSImage(named: "flag"), for: "flag")
-                            }*/
-                            
-                            if inhabitants > 10000 {
-                                context?.draw(NSImage(named: "bars_veryhigh")!.cgImage!, in: tileRect)
-                            } else if inhabitants > 5000 {
-                                context?.draw(NSImage(named: "bars_high")!.cgImage!, in: tileRect)
-                            } else if inhabitants > 2000 {
-                                context?.draw(NSImage(named: "bars_medium")!.cgImage!, in: tileRect)
-                            } else if inhabitants > 1000 {
-                                context?.draw(NSImage(named: "bars_small")!.cgImage!, in: tileRect)
-                            } else {
-                                context?.draw(NSImage(named: "bars_verysmall")!.cgImage!, in: tileRect)
+
+                        if inhabitants > 10000 {
+                            context?.draw(ImageCache.shared.image(for: "bars_veryhigh").cgImage!, in: tileRect)
+                        } else if inhabitants > 5000 {
+                            context?.draw(ImageCache.shared.image(for: "bars_high").cgImage!, in: tileRect)
+                        } else if inhabitants > 2000 {
+                            context?.draw(ImageCache.shared.image(for: "bars_medium").cgImage!, in: tileRect)
+                        } else if inhabitants > 1000 {
+                            context?.draw(ImageCache.shared.image(for: "bars_small").cgImage!, in: tileRect)
+                        } else if inhabitants > 0 {
+                            context?.draw(ImageCache.shared.image(for: "bars_verysmall").cgImage!, in: tileRect)
+                        }
+                    }
+                    
+                    // draw start position
+                    if options.showStartPositions {
+                        if map.startLocations.first(where: { $0.point == pt }) != nil {
+                            context?.draw(ImageCache.shared.image(for: "flag").cgImage!, in: tileRect)
+                        }
+                    }
+                    
+                    // capital
+                    if true /* options.showCapital */ {
+                        
+                        for tribe in map.tribes {
+                            if tile.point == tribe.capital {
+                                context?.draw(ImageCache.shared.image(for: "capital").cgImage!, in: tileRect)
                             }
                         }
                     }
@@ -418,13 +437,6 @@ class MapView: NSView {
 
                     // cursor
                     if cursor == pt {
-
-                        // populate cache if needed
-                        if !ImageCache.shared.exists(key: "cursor") {
-                            ImageCache.shared.add(image: NSImage(named: "cursor"), for: "cursor")
-                        }
-
-                        // fetch from cache
                         context?.draw(ImageCache.shared.image(for: "cursor").cgImage!, in: tileRect)
                     }
                 }
