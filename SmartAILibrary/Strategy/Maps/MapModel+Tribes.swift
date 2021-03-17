@@ -292,8 +292,82 @@ extension MapModel {
             }
             
             // spawn a new tribe
-            if tribe.emigrants > 1000 {
+            if tribe.emigrants > 2500 {
                 print("-- event: enough emigrants to spawn a new tribe")
+                
+                if self.tribes.count > 8 {
+                    // not more than 8 civs
+                    // TODO: make dynamic
+                    continue
+                }
+                
+                var allCivilizationTypes = CivilizationType.all
+                let usedCivilizationTypes: [CivilizationType] = self.tribes.map({ $0.type })
+                
+                for usedCivilizationType in usedCivilizationTypes {
+                    allCivilizationTypes.removeAll(where: { $0 == usedCivilizationType })
+                }
+                
+                let civilizationTypeToSpawn = allCivilizationTypes.randomItem()
+                
+                let tilesToSpawn: WeightedPoints = WeightedPoints()
+                
+                for dir in HexDirection.all {
+                    var locationToSpawn = tribe.capital.neighbor(in: dir, and: 10)
+                    
+                    // wrap neighbor if needed
+                    locationToSpawn = self.wrap(point: locationToSpawn)
+                    
+                    if !self.valid(point: locationToSpawn) {
+                        continue
+                    }
+                    
+                    // sum of tiles in area of 3 diameter
+                    let possibleArea = locationToSpawn.areaWith(radius: 3)
+                    var areaInhabitants = 0
+                    var areaSupported = 0
+                    for possibleAreaPoint in possibleArea {
+                        if self.valid(point: possibleAreaPoint) {
+                            if let tribesItem = self.tribeTiles[possibleAreaPoint] {
+                                areaInhabitants += tribesItem.inhabitants
+                            }
+                        }
+                        
+                        areaSupported += self.peopleSupported(by: .hunterGatherer, at: possibleAreaPoint)
+                    }
+                    
+                    // we only consider this area, when there is enough space
+                    if areaInhabitants > 0 {
+                        continue
+                    }
+                    
+                    // verify that a path can be found
+                    let pathfinder = AStarPathfinder()
+                    pathfinder.dataSource = MoveTypeIgnoreUnitsPathfinderDataSource(in: self, for: .walk, for: nil, options: MoveTypeIgnoreUnitsOptions(unitMapType: .civilian, canEmbark: false))
+                    
+                    if !pathfinder.doesPathExist(fromTileCoord: tribe.capital, toTileCoord: locationToSpawn) {
+                        continue
+                    }
+                    
+                    // only add tile if it supports food
+                    // no oceans or mountains are added
+                    if areaSupported > 8000 {
+                        tilesToSpawn.add(weight: areaSupported, for: locationToSpawn)
+                    }
+                }
+                
+                tilesToSpawn.sort()
+                
+                if let bestTileToSpawn = tilesToSpawn.chooseFromTopChoices() {
+      
+                    let newTribe = TribeInfo(type: civilizationTypeToSpawn)
+                    newTribe.capital = bestTileToSpawn
+                    self.tribes.append(newTribe)
+                    
+                    self.setupNewTile(at: bestTileToSpawn, for: civilizationTypeToSpawn, with: tribe.emigrants)
+
+                    tribe.emigrants = 0
+                }
             }
         }
         

@@ -21,6 +21,14 @@ public enum CivilizationType: String, Codable {
     case egyptian
     case german
     case russian
+    
+    // ///////////////////////////
+    
+    public static var all: [CivilizationType] = [
+        .greek, .roman, .english, .aztecs, .persian, .french, .egyptian, .german, .russian
+    ]
+    
+    // ///////////////////////////
 
     public func name() -> String {
 

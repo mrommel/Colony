@@ -232,6 +232,10 @@ func + (left: HexCube, right: HexCube) -> HexCube {
     return HexCube(q: left.q + right.q, r: left.r + right.r, s: left.s + right.s)
 }
 
+func * (left: HexCube, factor: Int) -> HexCube {
+    return HexCube(q: left.q * factor, r: left.r * factor, s: left.s * factor)
+}
+
 extension HexDirection {
     
     var cubeDirection: HexCube {
@@ -334,8 +338,8 @@ extension HexPoint {
         return self.distance(to: point) == 1
     }
     
-    public func neighbor(in direction: HexDirection) -> HexPoint {
-        let cubeNeighbor = HexCube(hex: self) + direction.cubeDirection
+    public func neighbor(in direction: HexDirection, and distance: Int = 1) -> HexPoint {
+        let cubeNeighbor = HexCube(hex: self) + direction.cubeDirection * distance
         return HexPoint(cube: cubeNeighbor)
     }
     
