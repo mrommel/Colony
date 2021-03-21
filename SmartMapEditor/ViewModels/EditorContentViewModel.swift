@@ -7,6 +7,7 @@
 
 import Foundation
 import SmartAILibrary
+import SmartMacOSUILibrary
 
 class EditorContentViewModel: ObservableObject {
 

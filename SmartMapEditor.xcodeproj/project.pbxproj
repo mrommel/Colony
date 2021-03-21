@@ -32,8 +32,8 @@
 		C968A96825703E5300C11F85 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C968A96725703E5300C11F85 /* SmartAILibrary.framework */; };
 		C968A96925703E5300C11F85 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C968A96725703E5300C11F85 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C96B4CF925EB8F0D00AAB5E2 /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96B4CF825EB8F0D00AAB5E2 /* EditorViewModel.swift */; };
-		C99A88A22607A4D2003B8B73 /* SmartColonyMacOSUILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A88A12607A4D2003B8B73 /* SmartColonyMacOSUILibrary.framework */; };
-		C99A88A32607A4D2003B8B73 /* SmartColonyMacOSUILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C99A88A12607A4D2003B8B73 /* SmartColonyMacOSUILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C99A88A92607A50D003B8B73 /* SmartMacOSUILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A88A82607A50D003B8B73 /* SmartMacOSUILibrary.framework */; };
+		C99A88AA2607A50D003B8B73 /* SmartMacOSUILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C99A88A82607A50D003B8B73 /* SmartMacOSUILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C9A5B5BB258897B600836AEB /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C9A5B5BA258897B600836AEB /* SDWebImageSwiftUI */; };
 		C9AAF4A42581185F00D7F357 /* MapLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */; };
 		C9AAF4A82581194600D7F357 /* MapLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */; };
@@ -91,9 +91,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C99A88AA2607A50D003B8B73 /* SmartMacOSUILibrary.framework in Embed Frameworks */,
 				C968A96925703E5300C11F85 /* SmartAILibrary.framework in Embed Frameworks */,
 				C931ADDF2577D1160002BA2F /* SmartAssets.framework in Embed Frameworks */,
-				C99A88A32607A4D2003B8B73 /* SmartColonyMacOSUILibrary.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -133,6 +133,7 @@
 		C968A96725703E5300C11F85 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C96B4CF825EB8F0D00AAB5E2 /* EditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		C99A88A12607A4D2003B8B73 /* SmartColonyMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartColonyMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C99A88A82607A50D003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A5B5C225889C3C00836AEB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C9AAF4A32581185F00D7F357 /* MapLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewController.swift; sourceTree = "<group>"; };
 		C9AAF4A72581194600D7F357 /* MapLoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLoadingViewModel.swift; sourceTree = "<group>"; };
@@ -171,9 +172,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C99A88A22607A4D2003B8B73 /* SmartColonyMacOSUILibrary.framework in Frameworks */,
 				C9A5B5BB258897B600836AEB /* SDWebImageSwiftUI in Frameworks */,
 				C968A96825703E5300C11F85 /* SmartAILibrary.framework in Frameworks */,
+				C99A88A92607A50D003B8B73 /* SmartMacOSUILibrary.framework in Frameworks */,
 				C931ADDE2577D1160002BA2F /* SmartAssets.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,6 +270,7 @@
 		C968A95D25703D6A00C11F85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C99A88A82607A50D003B8B73 /* SmartMacOSUILibrary.framework */,
 				C99A88A12607A4D2003B8B73 /* SmartColonyMacOSUILibrary.framework */,
 				C931ADDD2577D1160002BA2F /* SmartAssets.framework */,
 				C968A96725703E5300C11F85 /* SmartAILibrary.framework */,

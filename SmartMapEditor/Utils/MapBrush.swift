@@ -7,6 +7,7 @@
 
 import Foundation
 import SmartAILibrary
+import SmartAssets
 
 class MapBrush {
 
