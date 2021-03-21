@@ -10,17 +10,23 @@ import SwiftUI
 import SmartAILibrary
 
 // https://www.calincrist.com/blog/2020-04-12-how-to-get-notified-for-changes-in-swiftui/
-struct MapScrollContentView: NSViewRepresentable {
+public struct MapScrollContentView: NSViewRepresentable {
 
     @ObservedObject
-    var viewModel: EditorContentViewModel
+    //var viewModel: EditorContentViewModel
+    var viewModel: MapScrollContentViewModel
 
     typealias UIViewType = MapScrollView
 
     var scrollView: MapScrollView = MapScrollView(frame: .zero)
     var mapView: MapView? = MapView(frame: .zero)
+    
+    public init(viewModel: MapScrollContentViewModel) {
+        
+        self.viewModel = viewModel
+    }
 
-    func makeNSView(context: Context) -> MapScrollView {
+    public func makeNSView(context: Context) -> MapScrollView {
 
         self.scrollView.setAccessibilityEnabled(true)
         self.scrollView.hasVerticalScroller = true
@@ -42,7 +48,7 @@ struct MapScrollContentView: NSViewRepresentable {
         return scrollView
     }
 
-    func updateNSView(_ scrollView: MapScrollView, context: Context) {
+    public func updateNSView(_ scrollView: MapScrollView, context: Context) {
 
         // print("map scroll content view update to: \(self.viewModel.zoom)")
         if let mapView = scrollView.documentView as? MapView {
@@ -55,12 +61,12 @@ struct MapScrollContentView: NSViewRepresentable {
         }
     }
 
-    func makeCoordinator() -> MapScrollContentView.Coordinator {
+    public func makeCoordinator() -> MapScrollContentView.Coordinator {
         
         Coordinator(mapScrollContentView: self)
     }
 
-    final class Coordinator: NSObject, MapViewDelegate {
+    final public class Coordinator: NSObject, MapViewDelegate {
         
         var mapScrollContentView: MapScrollContentView?
 

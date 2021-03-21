@@ -1,0 +1,647 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C99A887A2607A063003B8B73 /* SmartColonyMacOSUILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A88792607A063003B8B73 /* SmartColonyMacOSUILibrary.framework */; };
+		C99A887B2607A063003B8B73 /* SmartColonyMacOSUILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C99A88792607A063003B8B73 /* SmartColonyMacOSUILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C9F6EB1A260790850052140C /* SmartColonyMacOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */; };
+		C9F6EB1C260790850052140C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB1B260790850052140C /* ContentView.swift */; };
+		C9F6EB1E2607908B0052140C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F6EB1D2607908B0052140C /* Assets.xcassets */; };
+		C9F6EB212607908B0052140C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F6EB202607908B0052140C /* Preview Assets.xcassets */; };
+		C9F6EB232607908B0052140C /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB222607908B0052140C /* Persistence.swift */; };
+		C9F6EB262607908B0052140C /* SmartColonyMacOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB242607908B0052140C /* SmartColonyMacOS.xcdatamodeld */; };
+		C9F6EB322607908C0052140C /* SmartColonyMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB312607908C0052140C /* SmartColonyMacOSTests.swift */; };
+		C9F6EB3D2607908C0052140C /* SmartColonyMacOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB3C2607908C0052140C /* SmartColonyMacOSUITests.swift */; };
+		C9F6EB6D26079CB40052140C /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F6EB6C26079CB40052140C /* SmartAILibrary.framework */; };
+		C9F6EB6E26079CB40052140C /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9F6EB6C26079CB40052140C /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C9F6EB2E2607908C0052140C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9F6EB0E260790840052140C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9F6EB15260790840052140C;
+			remoteInfo = SmartColonyMacOS;
+		};
+		C9F6EB392607908C0052140C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9F6EB0E260790840052140C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9F6EB15260790840052140C;
+			remoteInfo = SmartColonyMacOS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C9F6EB6F26079CB40052140C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C99A887B2607A063003B8B73 /* SmartColonyMacOSUILibrary.framework in Embed Frameworks */,
+				C9F6EB6E26079CB40052140C /* SmartAILibrary.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C99A88792607A063003B8B73 /* SmartColonyMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartColonyMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9F6EB16260790850052140C /* SmartColonyMacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartColonyMacOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyMacOSApp.swift; sourceTree = "<group>"; };
+		C9F6EB1B260790850052140C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C9F6EB1D2607908B0052140C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C9F6EB202607908B0052140C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C9F6EB222607908B0052140C /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		C9F6EB252607908B0052140C /* SmartColonyMacOS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartColonyMacOS.xcdatamodel; sourceTree = "<group>"; };
+		C9F6EB272607908B0052140C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9F6EB282607908B0052140C /* SmartColonyMacOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartColonyMacOS.entitlements; sourceTree = "<group>"; };
+		C9F6EB2D2607908C0052140C /* SmartColonyMacOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartColonyMacOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9F6EB312607908C0052140C /* SmartColonyMacOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyMacOSTests.swift; sourceTree = "<group>"; };
+		C9F6EB332607908C0052140C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9F6EB382607908C0052140C /* SmartColonyMacOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartColonyMacOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9F6EB3C2607908C0052140C /* SmartColonyMacOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyMacOSUITests.swift; sourceTree = "<group>"; };
+		C9F6EB3E2607908C0052140C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9F6EB6C26079CB40052140C /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C9F6EB13260790840052140C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C99A887A2607A063003B8B73 /* SmartColonyMacOSUILibrary.framework in Frameworks */,
+				C9F6EB6D26079CB40052140C /* SmartAILibrary.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6EB2A2607908C0052140C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6EB352607908C0052140C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C9F6EB0D260790840052140C = {
+			isa = PBXGroup;
+			children = (
+				C9F6EB18260790850052140C /* SmartColonyMacOS */,
+				C9F6EB302607908C0052140C /* SmartColonyMacOSTests */,
+				C9F6EB3B2607908C0052140C /* SmartColonyMacOSUITests */,
+				C9F6EB17260790850052140C /* Products */,
+				C9F6EB6926079CA40052140C /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C9F6EB17260790850052140C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9F6EB16260790850052140C /* SmartColonyMacOS.app */,
+				C9F6EB2D2607908C0052140C /* SmartColonyMacOSTests.xctest */,
+				C9F6EB382607908C0052140C /* SmartColonyMacOSUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C9F6EB18260790850052140C /* SmartColonyMacOS */ = {
+			isa = PBXGroup;
+			children = (
+				C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */,
+				C9F6EB1B260790850052140C /* ContentView.swift */,
+				C9F6EB1D2607908B0052140C /* Assets.xcassets */,
+				C9F6EB222607908B0052140C /* Persistence.swift */,
+				C9F6EB272607908B0052140C /* Info.plist */,
+				C9F6EB282607908B0052140C /* SmartColonyMacOS.entitlements */,
+				C9F6EB242607908B0052140C /* SmartColonyMacOS.xcdatamodeld */,
+				C9F6EB1F2607908B0052140C /* Preview Content */,
+			);
+			path = SmartColonyMacOS;
+			sourceTree = "<group>";
+		};
+		C9F6EB1F2607908B0052140C /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C9F6EB202607908B0052140C /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C9F6EB302607908C0052140C /* SmartColonyMacOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				C9F6EB312607908C0052140C /* SmartColonyMacOSTests.swift */,
+				C9F6EB332607908C0052140C /* Info.plist */,
+			);
+			path = SmartColonyMacOSTests;
+			sourceTree = "<group>";
+		};
+		C9F6EB3B2607908C0052140C /* SmartColonyMacOSUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C9F6EB3C2607908C0052140C /* SmartColonyMacOSUITests.swift */,
+				C9F6EB3E2607908C0052140C /* Info.plist */,
+			);
+			path = SmartColonyMacOSUITests;
+			sourceTree = "<group>";
+		};
+		C9F6EB6926079CA40052140C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C99A88792607A063003B8B73 /* SmartColonyMacOSUILibrary.framework */,
+				C9F6EB6C26079CB40052140C /* SmartAILibrary.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C9F6EB15260790840052140C /* SmartColonyMacOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9F6EB412607908C0052140C /* Build configuration list for PBXNativeTarget "SmartColonyMacOS" */;
+			buildPhases = (
+				C9F6EB12260790840052140C /* Sources */,
+				C9F6EB13260790840052140C /* Frameworks */,
+				C9F6EB14260790840052140C /* Resources */,
+				C9F6EB6F26079CB40052140C /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartColonyMacOS;
+			packageProductDependencies = (
+			);
+			productName = SmartColonyMacOS;
+			productReference = C9F6EB16260790850052140C /* SmartColonyMacOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C9F6EB2C2607908C0052140C /* SmartColonyMacOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9F6EB442607908C0052140C /* Build configuration list for PBXNativeTarget "SmartColonyMacOSTests" */;
+			buildPhases = (
+				C9F6EB292607908C0052140C /* Sources */,
+				C9F6EB2A2607908C0052140C /* Frameworks */,
+				C9F6EB2B2607908C0052140C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C9F6EB2F2607908C0052140C /* PBXTargetDependency */,
+			);
+			name = SmartColonyMacOSTests;
+			productName = SmartColonyMacOSTests;
+			productReference = C9F6EB2D2607908C0052140C /* SmartColonyMacOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C9F6EB372607908C0052140C /* SmartColonyMacOSUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9F6EB472607908C0052140C /* Build configuration list for PBXNativeTarget "SmartColonyMacOSUITests" */;
+			buildPhases = (
+				C9F6EB342607908C0052140C /* Sources */,
+				C9F6EB352607908C0052140C /* Frameworks */,
+				C9F6EB362607908C0052140C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C9F6EB3A2607908C0052140C /* PBXTargetDependency */,
+			);
+			name = SmartColonyMacOSUITests;
+			productName = SmartColonyMacOSUITests;
+			productReference = C9F6EB382607908C0052140C /* SmartColonyMacOSUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C9F6EB0E260790840052140C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					C9F6EB15260790840052140C = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					C9F6EB2C2607908C0052140C = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = C9F6EB15260790840052140C;
+					};
+					C9F6EB372607908C0052140C = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = C9F6EB15260790840052140C;
+					};
+				};
+			};
+			buildConfigurationList = C9F6EB11260790840052140C /* Build configuration list for PBXProject "SmartColonyMacOS" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C9F6EB0D260790840052140C;
+			productRefGroup = C9F6EB17260790850052140C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C9F6EB15260790840052140C /* SmartColonyMacOS */,
+				C9F6EB2C2607908C0052140C /* SmartColonyMacOSTests */,
+				C9F6EB372607908C0052140C /* SmartColonyMacOSUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C9F6EB14260790840052140C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9F6EB212607908B0052140C /* Preview Assets.xcassets in Resources */,
+				C9F6EB1E2607908B0052140C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6EB2B2607908C0052140C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6EB362607908C0052140C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C9F6EB12260790840052140C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9F6EB232607908B0052140C /* Persistence.swift in Sources */,
+				C9F6EB1C260790850052140C /* ContentView.swift in Sources */,
+				C9F6EB1A260790850052140C /* SmartColonyMacOSApp.swift in Sources */,
+				C9F6EB262607908B0052140C /* SmartColonyMacOS.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6EB292607908C0052140C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9F6EB322607908C0052140C /* SmartColonyMacOSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6EB342607908C0052140C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9F6EB3D2607908C0052140C /* SmartColonyMacOSUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C9F6EB2F2607908C0052140C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9F6EB15260790840052140C /* SmartColonyMacOS */;
+			targetProxy = C9F6EB2E2607908C0052140C /* PBXContainerItemProxy */;
+		};
+		C9F6EB3A2607908C0052140C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9F6EB15260790840052140C /* SmartColonyMacOS */;
+			targetProxy = C9F6EB392607908C0052140C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C9F6EB3F2607908C0052140C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C9F6EB402607908C0052140C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		C9F6EB422607908C0052140C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SmartColonyMacOS/SmartColonyMacOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"SmartColonyMacOS/Preview Content\"";
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SmartColonyMacOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C9F6EB432607908C0052140C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SmartColonyMacOS/SmartColonyMacOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"SmartColonyMacOS/Preview Content\"";
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SmartColonyMacOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C9F6EB452607908C0052140C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				INFOPLIST_FILE = SmartColonyMacOSTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartColonyMacOS.app/Contents/MacOS/SmartColonyMacOS";
+			};
+			name = Debug;
+		};
+		C9F6EB462607908C0052140C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				INFOPLIST_FILE = SmartColonyMacOSTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartColonyMacOS.app/Contents/MacOS/SmartColonyMacOS";
+			};
+			name = Release;
+		};
+		C9F6EB482607908C0052140C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				INFOPLIST_FILE = SmartColonyMacOSUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = SmartColonyMacOS;
+			};
+			name = Debug;
+		};
+		C9F6EB492607908C0052140C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				INFOPLIST_FILE = SmartColonyMacOSUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = SmartColonyMacOS;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C9F6EB11260790840052140C /* Build configuration list for PBXProject "SmartColonyMacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F6EB3F2607908C0052140C /* Debug */,
+				C9F6EB402607908C0052140C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9F6EB412607908C0052140C /* Build configuration list for PBXNativeTarget "SmartColonyMacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F6EB422607908C0052140C /* Debug */,
+				C9F6EB432607908C0052140C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9F6EB442607908C0052140C /* Build configuration list for PBXNativeTarget "SmartColonyMacOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F6EB452607908C0052140C /* Debug */,
+				C9F6EB462607908C0052140C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9F6EB472607908C0052140C /* Build configuration list for PBXNativeTarget "SmartColonyMacOSUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F6EB482607908C0052140C /* Debug */,
+				C9F6EB492607908C0052140C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C9F6EB242607908B0052140C /* SmartColonyMacOS.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C9F6EB252607908B0052140C /* SmartColonyMacOS.xcdatamodel */,
+			);
+			currentVersion = C9F6EB252607908B0052140C /* SmartColonyMacOS.xcdatamodel */;
+			path = SmartColonyMacOS.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = C9F6EB0E260790840052140C /* Project object */;
+}

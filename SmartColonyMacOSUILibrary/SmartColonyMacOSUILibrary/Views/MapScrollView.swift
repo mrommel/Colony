@@ -7,7 +7,7 @@
 
 import Cocoa
 
-class MapScrollView: NSScrollView {
+public class MapScrollView: NSScrollView {
 
     override init(frame: NSRect) {
 
