@@ -9,10 +9,8 @@ import Foundation
 import SmartAILibrary
 import SmartMacOSUILibrary
 
-class EditorContentViewModel: ObservableObject {
+class EditorContentViewModel: MapScrollContentViewModel {
 
-    @Published var map: MapModel? = nil
-    @Published var zoom: CGFloat
     private var focus: AbstractTile? // input, leads to:
     @Published var focusedPoint: String
     @Published var focusedTerrainName: String
@@ -33,12 +31,8 @@ class EditorContentViewModel: ObservableObject {
     private var showInhabitants: Bool = false
     private var showSupportedPeople: Bool = false
 
-    var didChange: ((HexPoint) -> ())? = nil
-    var shouldRedraw: (() -> ())? = nil
+    override init() {
 
-    init() {
-
-        self.zoom = 1.0
         self.focus = Tile(point: HexPoint(x: -1, y: -1), terrain: TerrainType.ocean)
         self.focusedPoint = "---"
         self.focusedTerrainName = TerrainType.ocean.name()
@@ -56,9 +50,11 @@ class EditorContentViewModel: ObservableObject {
         self.brushTerrainName = TerrainType.ocean.name()
         self.brushFeatureName = FeatureType.none.name()
         self.brushResourceName = ResourceType.none.name()
+        
+        super.init()
     }
 
-    func setFocus(to tile: AbstractTile?) {
+    override func setFocus(to tile: AbstractTile?) {
 
         self.focus = tile
 
@@ -111,7 +107,7 @@ class EditorContentViewModel: ObservableObject {
         self.shouldRedraw?()
     }
     
-    func options() -> MapDisplayOptions {
+    override func options() -> MapDisplayOptions {
         
         return MapDisplayOptions(showFeatures: true, showResources: true, showBorders: true, showStartPositions: self.showStartLocations, showInhabitants: self.showInhabitants, showSupportedPeople: self.showSupportedPeople)
     }
@@ -466,7 +462,7 @@ class EditorContentViewModel: ObservableObject {
         self.brushResourceName = value
     }
 
-    func draw(at point: HexPoint) {
+    override func draw(at point: HexPoint) {
 
         guard let map = self.map else {
             return

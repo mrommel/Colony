@@ -9,11 +9,12 @@ import SwiftUI
 
 @main
 struct SmartColonyMacOSApp: App {
-    let persistenceController = PersistenceController.shared
+    
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
-        WindowGroup<ContentView> {
-            ContentView()
+        WindowGroup<GameView> {
+            GameView()
         }
     }
 }

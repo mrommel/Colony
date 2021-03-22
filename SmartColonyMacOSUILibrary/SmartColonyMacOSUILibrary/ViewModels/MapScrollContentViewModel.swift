@@ -8,27 +8,27 @@
 import Foundation
 import SmartAILibrary
 
-public class MapScrollContentViewModel: ObservableObject {
+open class MapScrollContentViewModel: ObservableObject {
     
-    @Published var map: MapModel? = nil
-    @Published var zoom: CGFloat
+    @Published public var map: MapModel? = nil
+    @Published public var zoom: CGFloat
     
-    var didChange: ((HexPoint) -> ())? = nil
-    var shouldRedraw: (() -> ())? = nil
+    public var didChange: ((HexPoint) -> ())? = nil
+    public var shouldRedraw: (() -> ())? = nil
 
     public init() {
         self.zoom = 1.0
     }
     
-    func setFocus(to tile: AbstractTile?) {
+    open func setFocus(to tile: AbstractTile?) {
     }
     
-    func options() -> MapDisplayOptions {
+    open func options() -> MapDisplayOptions {
         
         return MapDisplayOptions(showFeatures: true, showResources: true, showBorders: true, showStartPositions: false, showInhabitants: false, showSupportedPeople: false)
     }
     
-    func draw(at point: HexPoint) {
+    open func draw(at point: HexPoint) {
 
         guard let map = self.map else {
             return

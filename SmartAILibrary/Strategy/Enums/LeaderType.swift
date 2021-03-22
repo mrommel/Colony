@@ -24,7 +24,7 @@ public enum LeaderType: Int, Codable {
     case barbarossa
     case peterTheGreat
 
-    static var all: [LeaderType] {
+    public static var all: [LeaderType] {
         return [.alexander, .trajan, .victoria, .cyrus, .montezuma, .napoleon, .cleopatra, .barbarossa, .peterTheGreat]
     }
 

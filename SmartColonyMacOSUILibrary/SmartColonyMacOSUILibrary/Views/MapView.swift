@@ -263,8 +263,8 @@ class MapView: NSView {
 
         super.draw(dirtyRect)
 
-        NSColor.darkGray.setFill()
-        dirtyRect.fill()
+        // NSColor.darkGray.setFill()
+        // dirtyRect.fill()
 
         if let map = self.map {
 

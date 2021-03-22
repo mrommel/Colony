@@ -14,21 +14,13 @@ struct EditorContentView: View {
 
     @ObservedObject
     private var viewModel: EditorContentViewModel = EditorContentViewModel()
-    var mapViewModel: MapScrollContentViewModel
-    
-    init() {
-        
-        self.mapViewModel = MapScrollContentViewModel()
-        
-        self.mapViewModel.
-    }
 
     var body: some View {
         HStack {
             VStack {
                 
                 HStack {
-                    MapScrollContentView(viewModel: mapViewModel).frame(width: 1000, height: 500, alignment: .center)
+                    MapScrollContentView(viewModel: viewModel).frame(width: 1000, height: 500, alignment: .center)
 
                     VStack {
                         Label("Brush", systemImage: "paintbrush.fill")
