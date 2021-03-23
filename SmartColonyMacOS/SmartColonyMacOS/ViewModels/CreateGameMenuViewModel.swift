@@ -10,36 +10,116 @@ import SmartAssets
 import Cocoa
 import SmartAILibrary
 
-struct LeaderData {
+struct PickerData {
     let name: String
     let image: NSImage
 }
 
+protocol CreateGameMenuViewModelDelegate: class {
+    
+    func started()
+    func canceled()
+}
+
 class CreateGameMenuViewModel: ObservableObject {
     
-    func leaderImage(for leaderType: LeaderType) -> NSImage {
+    @Published
+    private var selectedLeaderIndex = 0
+    
+    @Published
+    private var selectedDifficultyIndex = 0
+    
+    @Published
+    private var selectedMapTypeIndex = 0
+    
+    @Published
+    private var selectedMapSizeIndex = 0
+    
+    weak var delegate: CreateGameMenuViewModelDelegate?
+    
+    var leaders: [PickerData] {
         
-        let targetSize = NSSize(width: 16, height: 16)
+        var array: [PickerData] = []
+
+        for leaderType in [LeaderType.none] + LeaderType.all {
+            array.append(PickerData(name: leaderType.name(), image: self.leaderImage(for: leaderType)))
+        }
+        
+        return array
+    }
+    
+    var handicaps: [PickerData] {
+        
+        var array: [PickerData] = []
+
+        for handicapType in HandicapType.all {
+            array.append(PickerData(name: handicapType.name(), image: self.handicapImage(for: handicapType)))
+        }
+        
+        return array
+    }
+    
+    var mapTypes: [PickerData] {
+        
+        var array: [PickerData] = []
+
+        for mapType in MapType.all {
+            array.append(PickerData(name: mapType.name(), image: self.mapTypeImage(for: mapType)))
+        }
+        
+        return array
+    }
+    
+    var mapSizes: [PickerData] {
+        
+        var array: [PickerData] = []
+
+        for mapSize in MapSize.all {
+            array.append(PickerData(name: mapSize.name(), image: self.mapSizeImage(for: mapSize)))
+        }
+        
+        return array
+    }
+    
+    // MARK: methods methods
+    
+    func start() {
+        
+        self.delegate?.started()
+    }
+    
+    func cancel() {
+        
+        self.delegate?.canceled()
+    }
+    
+    // MARK: private methods
+    
+    private func leaderImage(for leaderType: LeaderType, targetSize: NSSize = NSSize(width: 16, height: 16)) -> NSImage {
+
         let bundle = Bundle.init(for: Textures.self)
         
         return (bundle.image(forResource: leaderType.textureName())?.resize(withSize: targetSize))!
     }
     
-    var leaders: [LeaderData] {
+    private func handicapImage(for handicapType: HandicapType, targetSize: NSSize = NSSize(width: 16, height: 16)) -> NSImage {
+
+        let bundle = Bundle.init(for: Textures.self)
         
-        var array: [LeaderData] = []
+        return (bundle.image(forResource: handicapType.textureName())?.resize(withSize: targetSize))!
+    }
+    
+    private func mapTypeImage(for mapType: MapType, targetSize: NSSize = NSSize(width: 16, height: 16)) -> NSImage {
         
-        for leader in LeaderType.all {
-            array.append(LeaderData(name: leader.name(), image: self.leaderImage(for: leader)))
-        }
-        /*array.append(LeaderData(name: "Random Leader",
-                                image: ))
+        let bundle = Bundle.init(for: Textures.self)
         
+        return (bundle.image(forResource: mapType.textureName())?.resize(withSize: targetSize))!
+    }
+    
+    private func mapSizeImage(for mapSize: MapSize, targetSize: NSSize = NSSize(width: 16, height: 16)) -> NSImage {
         
-        array.append(LeaderData(name: "Alexander", image: bundle.image(forResource: "leader-alexander")!))
-        array.append(LeaderData(name: "Augustus", image: bundle.image(forResource: "leader-augustus")!))
-        array.append(LeaderData(name: "Barbarossa", image: bundle.image(forResource: "leader-barbarossa")!))*/
+        let bundle = Bundle.init(for: Textures.self)
         
-        return array
+        return (bundle.image(forResource: mapSize.textureName())?.resize(withSize: targetSize))!
     }
 }

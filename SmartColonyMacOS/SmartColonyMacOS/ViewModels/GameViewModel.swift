@@ -35,6 +35,7 @@ class GameViewModel: ObservableObject {
         
         // connect delegates
         self.menuViewModel.delegate = self
+        self.createGameMenuViewModel.delegate = self
     }
 }
 
@@ -44,5 +45,17 @@ extension GameViewModel: MenuViewModelDelegate {
         
         self.showMenu = false
         self.showNewGameMenu = true
+    }
+}
+
+extension GameViewModel: CreateGameMenuViewModelDelegate {
+    
+    func started() {
+        
+    }
+    
+    func canceled() {
+        self.showMenu = true
+        self.showNewGameMenu = false
     }
 }
