@@ -9,27 +9,6 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-/*enum MapType: String {
-    
-    case empty = "Empty"
-    case continent = "Continent"
-    
-    static var all: [MapType] {
-        return [.empty, .continent]
-    }
-    
-    public static func from(name: String) -> MapType? {
-        
-        for mapType in MapType.all {
-            if mapType.rawValue == name {
-                return mapType
-            }
-        }
-        
-        return nil
-    }
-}*/
-
 class NewMapContentViewModel: ObservableObject {
     
     @Published

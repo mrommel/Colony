@@ -16,8 +16,7 @@ struct PopupButton<T: Hashable> : NSViewRepresentable
 
     private let onChange: ((T) -> Void)?
 
-    init(selectedValue: Binding<T>, items: [T], onChange: ((T) -> Void)? = nil)
-    {
+    init(selectedValue: Binding<T>, items: [T], onChange: ((T) -> Void)? = nil) {
         self._selectedValue = selectedValue
         self._items = Binding.constant(items)
         self.onChange = onChange

@@ -51,7 +51,6 @@
 		C9AB2C74257EB6B10045DFBC /* MapProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C73257EB6B00045DFBC /* MapProgressViewController.swift */; };
 		C9AB2C78257EB6F10045DFBC /* MapProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C77257EB6F10045DFBC /* MapProgressView.swift */; };
 		C9AB2C7C257EB96D0045DFBC /* MapProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */; };
-		C9AB2C83257EC00E0045DFBC /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */; };
 		C9ADAD64257286D30044F437 /* NSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADAD63257286D30044F437 /* NSLabel.swift */; };
 		C9D78DED258FA8000024ECF0 /* PlainGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D78DEC258FA8000024ECF0 /* PlainGroupBoxStyle.swift */; };
 		C9D78E042593A3E90024ECF0 /* DebugHeightMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D78E032593A3E90024ECF0 /* DebugHeightMapViewController.swift */; };
@@ -151,7 +150,6 @@
 		C9AB2C73257EB6B00045DFBC /* MapProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProgressViewController.swift; sourceTree = "<group>"; };
 		C9AB2C77257EB6F10045DFBC /* MapProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProgressView.swift; sourceTree = "<group>"; };
 		C9AB2C7B257EB96D0045DFBC /* MapProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProgressViewModel.swift; sourceTree = "<group>"; };
-		C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C9ADAD63257286D30044F437 /* NSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLabel.swift; sourceTree = "<group>"; };
 		C9D78DEC258FA8000024ECF0 /* PlainGroupBoxStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainGroupBoxStyle.swift; sourceTree = "<group>"; };
 		C9D78E032593A3E90024ECF0 /* DebugHeightMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugHeightMapViewController.swift; sourceTree = "<group>"; };
@@ -320,7 +318,6 @@
 				C9070A7E2575174B00276B7D /* TrackingAreaRepresentable.swift */,
 				C9070A822575176500276B7D /* TrackingNSHostingView.swift */,
 				C9070A862575178A00276B7D /* ViewExtension.swift */,
-				C9AB2C82257EC00E0045DFBC /* ActivityIndicator.swift */,
 				C9D78DEC258FA8000024ECF0 /* PlainGroupBoxStyle.swift */,
 			);
 			path = Base;
@@ -535,7 +532,6 @@
 				C9F6EB552607923D0052140C /* CGImageExtension.swift in Sources */,
 				C9070A832575176500276B7D /* TrackingNSHostingView.swift in Sources */,
 				C9240FD4258E5E4A007FB7EE /* EditMetaDataView.swift in Sources */,
-				C9AB2C83257EC00E0045DFBC /* ActivityIndicator.swift in Sources */,
 				C9070A672574F4ED00276B7D /* NSMenuItemExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

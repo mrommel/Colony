@@ -33,7 +33,7 @@ struct MenuView: View {
             Button("New Game") {
                 print("new game")
                 viewModel.startNewGame()
-            }.buttonStyle(MenuButtonStyle())
+            }.buttonStyle(SelectedMenuButtonStyle())
             
             Button("Load Game") {
                 print("load game")

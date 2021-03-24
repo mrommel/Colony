@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MainView.swift
 //  SmartColonyMacOS
 //
 //  Created by Michael Rommel on 21.03.21.
@@ -8,10 +8,10 @@
 import SwiftUI
 import SmartMacOSUILibrary
 
-struct GameView: View {
+struct MainView: View {
     
     @ObservedObject
-    var viewModel: GameViewModel
+    var viewModel: MainViewModel
     
     var body: some View {
         ZStack {
@@ -21,42 +21,41 @@ struct GameView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                if self.viewModel.showMenu == true {
+                if self.viewModel.presentedView == .menu {
                     MenuView(viewModel: self.viewModel.menuViewModel)
                 }
                 
-                if self.viewModel.showNewGameMenu == true {
+                if self.viewModel.presentedView == .newGameMenu {
                     CreateGameMenuView(viewModel: self.viewModel.createGameMenuViewModel)
                 }
-
-                if self.viewModel.showMap == true {
-                    MapScrollContentView(viewModel: self.viewModel.mapViewModel)
-                        .scaledToFill()
-                        .edgesIgnoringSafeArea(.all)
-                    //.frame(width: 1000, height: 500, alignment: .center)
+                
+                if self.viewModel.presentedView == .loadingGame {
+                    GenerateGameView(viewModel: self.viewModel.generateGameViewModel)
                 }
-            }.padding(.vertical, 25)
+
+                if self.viewModel.presentedView == .game {
+                    GameScrollContentView(viewModel: self.viewModel.gameViewModel)
+                        .edgesIgnoringSafeArea(.all)
+                }
+            }
+            .padding(.vertical, 25)
         }
         .toolbar {
-            Button(action: addItem) {
-                Label("Add Item", systemImage: "plus")
+            Button(action: self.viewModel.doTurn) {
+                Label("Turn", systemImage: "arrow.right.circle.fill")
             }
         }
     }
     
     init() {
         
-        self.viewModel = GameViewModel()
-    }
-    
-    private func addItem() {
-        
+        self.viewModel = MainViewModel()
     }
 }
 
-struct GameView_Previews: PreviewProvider {
+/*struct GameView_Previews: PreviewProvider {
     
     static var previews: some View {
         GameView()
     }
-}
+}*/

@@ -12,9 +12,9 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-public struct MapDisplayOptions {
+public struct GameDisplayOptions {
     
-    static let standard: MapDisplayOptions = MapDisplayOptions(showFeatures: false, showResources: false, showBorders: false, showStartPositions: false, showInhabitants: false, showSupportedPeople: false)
+    static let standard: GameDisplayOptions = GameDisplayOptions(showFeatures: false, showResources: false, showBorders: false, showStartPositions: false, showInhabitants: false, showSupportedPeople: false)
     
     let showFeatures: Bool
     let showResources: Bool
@@ -36,16 +36,16 @@ public struct MapDisplayOptions {
     }
 }
 
-protocol MapViewDelegate: class {
+protocol GameViewDelegate: class {
 
     func moveBy(dx: CGFloat, dy: CGFloat)
     func focus(on tile: Tile)
     func draw(at point: HexPoint)
     
-    func options() -> MapDisplayOptions?
+    func options() -> GameDisplayOptions?
 }
 
-class MapView: NSView {
+class GameView: NSView {
 
     // constants
     var shift = CGPoint(x: 575, y: 1360)
@@ -60,12 +60,12 @@ class MapView: NSView {
 
     var textures: Textures = Textures(game: nil)
 
-    weak var delegate: MapViewDelegate?
+    weak var delegate: GameViewDelegate?
 
-    var map: MapModel? = nil {
+    var game: GameModel? = nil {
         didSet {
-            print("--- map has been set ---")
-            if let size = map?.contentSize(), let mapSize = map?.size {
+            print("--- game has been set ---")
+            if let size = game?.contentSize(), let mapSize = game?.mapSize() {
 
                 self.frame = NSMakeRect(0, 0, (size.width + 10) * self.scale, size.height * self.scale)
 
@@ -82,12 +82,7 @@ class MapView: NSView {
                 self.shift = CGPoint(x: dx, y: dy)
             }
 
-            // create a dummy game to init Textures
-            if let m = map {
-                let barbarian = Player(leader: .barbar)
-                let game = GameModel(victoryTypes: [.cultural], handicap: .chieftain, turnsElapsed: 0, players: [barbarian], on: m)
-                self.textures = Textures(game: game)
-            }
+            self.textures = Textures(game: game)
 
             self.needsDisplay = true
         }
@@ -231,7 +226,7 @@ class MapView: NSView {
                 let pointInView = convert(event.locationInWindow, from: nil) - self.shift
                 let pt = HexPoint(screen: pointInView)
 
-                if let tile = self.map?.tile(at: pt) {
+                if let tile = self.game?.tile(at: pt) {
 
                     self.delegate?.focus(on: tile as! Tile)
                     self.cursor = pt
@@ -266,11 +261,11 @@ class MapView: NSView {
         // NSColor.darkGray.setFill()
         // dirtyRect.fill()
 
-        if let map = self.map {
+        if let game = self.game {
 
             let context = NSGraphicsContext.current?.cgContext
-            let mapSize = map.size
-            let options = self.delegate?.options() ?? MapDisplayOptions.standard
+            let mapSize = game.mapSize()
+            let options = self.delegate?.options() ?? GameDisplayOptions.standard
 
             for x in 0..<mapSize.width() {
 
@@ -285,7 +280,7 @@ class MapView: NSView {
                         continue
                     }
 
-                    guard let tile = map.tile(at: pt) else {
+                    guard let tile = game.tile(at: pt) else {
                         continue
                     }
 
@@ -312,7 +307,7 @@ class MapView: NSView {
                     // border
                     if options.showBorders {
                         
-                        for tribe in map.tribes {
+                        /*for tribe in map.tribes {
                             if tribe.area.contains(tile.point) {
                                 
                                 if let borderTexture = self.textures.borderTexture(at: tile.point, in: tribe.area) {
@@ -323,7 +318,7 @@ class MapView: NSView {
                                     }
                                 }
                             }
-                        }
+                        }*/
                     }
 
                     // feature
@@ -331,12 +326,12 @@ class MapView: NSView {
                         // place forests etc
                         if tile.feature() != .none {
 
-                            let neighborTileN = map.tile(at: pt.neighbor(in: .north))
-                            let neighborTileNE = map.tile(at: pt.neighbor(in: .northeast))
-                            let neighborTileSE = map.tile(at: pt.neighbor(in: .southeast))
-                            let neighborTileS = map.tile(at: pt.neighbor(in: .south))
-                            let neighborTileSW = map.tile(at: pt.neighbor(in: .southwest))
-                            let neighborTileNW = map.tile(at: pt.neighbor(in: .northwest))
+                            let neighborTileN = game.tile(at: pt.neighbor(in: .north))
+                            let neighborTileNE = game.tile(at: pt.neighbor(in: .northeast))
+                            let neighborTileSE = game.tile(at: pt.neighbor(in: .southeast))
+                            let neighborTileS = game.tile(at: pt.neighbor(in: .south))
+                            let neighborTileSW = game.tile(at: pt.neighbor(in: .southwest))
+                            let neighborTileNW = game.tile(at: pt.neighbor(in: .northwest))
 
                             let neighborTiles: [HexDirection: AbstractTile?] = [
                                     .north: neighborTileN,
@@ -371,7 +366,7 @@ class MapView: NSView {
                     
                     // inhabitants
                     if options.showInhabitants {
-                        let inhabitants = map.inhabitants(at: pt)
+                        /*let inhabitants = map.inhabitants(at: pt)
 
                         if inhabitants > 10000 {
                             context?.draw(ImageCache.shared.image(for: "bars_veryhigh").cgImage!, in: tileRect)
@@ -383,36 +378,36 @@ class MapView: NSView {
                             context?.draw(ImageCache.shared.image(for: "bars_small").cgImage!, in: tileRect)
                         } else if inhabitants > 0 {
                             context?.draw(ImageCache.shared.image(for: "bars_verysmall").cgImage!, in: tileRect)
-                        }
+                        }*/
                     }
                     
                     // draw start position
                     if options.showStartPositions {
-                        if map.startLocations.first(where: { $0.point == pt }) != nil {
+                        /*if map.startLocations.first(where: { $0.point == pt }) != nil {
                             context?.draw(ImageCache.shared.image(for: "flag").cgImage!, in: tileRect)
-                        }
+                        }*/
                     }
                     
                     // capital
                     if true /* options.showCapital */ {
                         
-                        for tribe in map.tribes {
+                        /*for tribe in map.tribes {
                             if tile.point == tribe.capital {
                                 context?.draw(ImageCache.shared.image(for: "capital").cgImage!, in: tileRect)
                             }
-                        }
+                        }*/
                     }
                     
                     if options.showSupportedPeople {
                         
-                        let supportedPeople: Int = map.peopleSupported(by: .hunterGatherer, at: pt)
+                        /*let supportedPeople: Int = map.peopleSupported(by: .hunterGatherer, at: pt)
                         
                         let color = CGColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
                         let font = CTFontCreateWithName("Chalkboard" as CFString, 0.0, nil)
 
                         let attributes: [NSAttributedString.Key : Any] = [.font: font, .foregroundColor: color]
                         
-                        context?.drawText(text: "\(supportedPeople)", at: tileRect.origin, with: attributes)
+                        context?.drawText(text: "\(supportedPeople)", at: tileRect.origin, with: attributes)*/
                     }
 
                     // cursor
@@ -440,7 +435,7 @@ class MapView: NSView {
         let factor = value / oldScale
         print("from \(oldScale) to \(value) means \(factor)")
 
-        if let size = self.map?.contentSize(), let mapSize = self.map?.size {
+        if let size = self.game?.contentSize(), let mapSize = self.game?.mapSize() {
             self.widthConstraint?.constant = (size.width + 10) * self.scale
             self.heightConstraint?.constant = size.height * self.scale
 

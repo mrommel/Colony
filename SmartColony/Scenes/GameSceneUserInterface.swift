@@ -9,7 +9,7 @@
 import SmartAILibrary
 import SpriteKit
 
-extension GameScene: UserInterfaceProtocol {
+extension GameScene: UserInterfaceDelegate {
     
     func showPopup(popupType: PopupType, with data: PopupData?) {
         

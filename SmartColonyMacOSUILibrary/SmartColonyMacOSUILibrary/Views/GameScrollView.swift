@@ -1,5 +1,5 @@
 //
-//  MapScrollView.swift
+//  GameScrollView.swift
 //  SmartMapEditor
 //
 //  Created by Michael Rommel on 02.12.20.
@@ -7,11 +7,14 @@
 
 import Cocoa
 
-public class MapScrollView: NSScrollView {
+public class GameScrollView: NSScrollView {
 
     override init(frame: NSRect) {
 
         super.init(frame: frame)
+ 
+        // hide background
+        self.contentView.drawsBackground = false
     }
 
     required init?(coder: NSCoder) {

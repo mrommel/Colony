@@ -10,7 +10,7 @@ import Foundation
 
 @testable import SmartAILibrary
 
-class TestUI: UserInterfaceProtocol {
+class TestUI: UserInterfaceDelegate {
     
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData? = nil) { }
     

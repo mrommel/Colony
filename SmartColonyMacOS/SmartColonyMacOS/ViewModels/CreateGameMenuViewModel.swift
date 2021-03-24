@@ -17,23 +17,23 @@ struct PickerData {
 
 protocol CreateGameMenuViewModelDelegate: class {
     
-    func started()
+    func started(with leaderType: LeaderType, on handicapType: HandicapType, with mapType: MapType, and mapSize: MapSize)
     func canceled()
 }
 
 class CreateGameMenuViewModel: ObservableObject {
     
     @Published
-    private var selectedLeaderIndex = 0
+    var selectedLeaderIndex: Int = 0
     
     @Published
-    private var selectedDifficultyIndex = 0
+    var selectedDifficultyIndex: Int = 0
     
     @Published
-    private var selectedMapTypeIndex = 0
+    var selectedMapTypeIndex: Int = 0
     
     @Published
-    private var selectedMapSizeIndex = 0
+    var selectedMapSizeIndex: Int = 0
     
     weak var delegate: CreateGameMenuViewModelDelegate?
     
@@ -85,7 +85,17 @@ class CreateGameMenuViewModel: ObservableObject {
     
     func start() {
         
-        self.delegate?.started()
+        let allLeaders = [LeaderType.none] + LeaderType.all
+        let leaderType = allLeaders[self.selectedLeaderIndex]
+        
+        let handicap = HandicapType.all[self.selectedDifficultyIndex]
+        
+        let mapType = MapType.all[self.selectedMapTypeIndex]
+        let mapSize = MapSize.all[self.selectedMapSizeIndex]
+        
+        print("--- start game with: \(leaderType.name()) on \(handicap) with a map: \(mapType) (\(mapSize))")
+        
+        self.delegate?.started(with: leaderType, on: handicap, with: mapType, and: mapSize)
     }
     
     func cancel() {

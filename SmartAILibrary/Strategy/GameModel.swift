@@ -56,7 +56,7 @@ public class GameModel: Codable {
 
     private let map: MapModel
     private let tacticalAnalysisMapVal: TacticalAnalysisMap
-    public weak var userInterface: UserInterfaceProtocol?
+    public weak var userInterface: UserInterfaceDelegate?
     private var waitDiploPlayer: AbstractPlayer? = nil
     private var wondersBuilt: AbstractWonders? = nil
     private var greatPersons: GreatPersons? = nil

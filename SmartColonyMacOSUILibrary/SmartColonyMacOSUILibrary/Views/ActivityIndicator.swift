@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ActivityIndicator: NSViewRepresentable {
+public struct ActivityIndicator: NSViewRepresentable {
 
     @Binding public var isAnimating: Bool
     public let style: NSProgressIndicator.Style

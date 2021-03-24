@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915514C260A59DF003710BE /* ActivityIndicator.swift */; };
+		C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155160260B2978003710BE /* GameDisplayOptions.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C99A88722607A01C003B8B73 /* MapScrollContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A886F2607A01B003B8B73 /* MapScrollContentView.swift */; };
-		C99A88732607A01C003B8B73 /* MapScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88702607A01B003B8B73 /* MapScrollView.swift */; };
-		C99A88742607A01C003B8B73 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88712607A01B003B8B73 /* MapView.swift */; };
-		C99A88772607A02D003B8B73 /* MapScrollContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88762607A02D003B8B73 /* MapScrollContentViewModel.swift */; };
+		C99A88722607A01C003B8B73 /* GameScrollContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A886F2607A01B003B8B73 /* GameScrollContentView.swift */; };
+		C99A88732607A01C003B8B73 /* GameScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88702607A01B003B8B73 /* GameScrollView.swift */; };
+		C99A88742607A01C003B8B73 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88712607A01B003B8B73 /* GameView.swift */; };
+		C99A88772607A02D003B8B73 /* GameScrollContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88762607A02D003B8B73 /* GameScrollContentViewModel.swift */; };
 		C99A887E2607A06C003B8B73 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */; };
 		C99A887F2607A06C003B8B73 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C99A88842607A190003B8B73 /* SmartAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A88832607A190003B8B73 /* SmartAssets.framework */; };
@@ -39,13 +41,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C915514C260A59DF003710BE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		C9155160260B2978003710BE /* GameDisplayOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDisplayOptions.swift; sourceTree = "<group>"; };
 		C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartColonyMacOSUILibrary.h; sourceTree = "<group>"; };
 		C99A886026079F4C003B8B73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C99A886F2607A01B003B8B73 /* MapScrollContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapScrollContentView.swift; sourceTree = "<group>"; };
-		C99A88702607A01B003B8B73 /* MapScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapScrollView.swift; sourceTree = "<group>"; };
-		C99A88712607A01B003B8B73 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		C99A88762607A02D003B8B73 /* MapScrollContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScrollContentViewModel.swift; sourceTree = "<group>"; };
+		C99A886F2607A01B003B8B73 /* GameScrollContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScrollContentView.swift; sourceTree = "<group>"; };
+		C99A88702607A01B003B8B73 /* GameScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScrollView.swift; sourceTree = "<group>"; };
+		C99A88712607A01B003B8B73 /* GameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		C99A88762607A02D003B8B73 /* GameScrollContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScrollContentViewModel.swift; sourceTree = "<group>"; };
 		C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A88832607A190003B8B73 /* SmartAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A88872607A1D3003B8B73 /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
@@ -100,9 +104,10 @@
 		C99A886D26079FE0003B8B73 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C99A886F2607A01B003B8B73 /* MapScrollContentView.swift */,
-				C99A88702607A01B003B8B73 /* MapScrollView.swift */,
-				C99A88712607A01B003B8B73 /* MapView.swift */,
+				C99A886F2607A01B003B8B73 /* GameScrollContentView.swift */,
+				C99A88702607A01B003B8B73 /* GameScrollView.swift */,
+				C99A88712607A01B003B8B73 /* GameView.swift */,
+				C915514C260A59DF003710BE /* ActivityIndicator.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -110,7 +115,7 @@
 		C99A886E26079FE5003B8B73 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				C99A88762607A02D003B8B73 /* MapScrollContentViewModel.swift */,
+				C99A88762607A02D003B8B73 /* GameScrollContentViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -132,6 +137,7 @@
 				C99A88912607A269003B8B73 /* NSImageExtension.swift */,
 				C99A888B2607A1FD003B8B73 /* ImageCache.swift */,
 				C99A88872607A1D3003B8B73 /* CGPointExtension.swift */,
+				C9155160260B2978003710BE /* GameDisplayOptions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -217,14 +223,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
-				C99A88732607A01C003B8B73 /* MapScrollView.swift in Sources */,
-				C99A88742607A01C003B8B73 /* MapView.swift in Sources */,
+				C99A88732607A01C003B8B73 /* GameScrollView.swift in Sources */,
+				C99A88742607A01C003B8B73 /* GameView.swift in Sources */,
 				C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
 				C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */,
-				C99A88772607A02D003B8B73 /* MapScrollContentViewModel.swift in Sources */,
-				C99A88722607A01C003B8B73 /* MapScrollContentView.swift in Sources */,
+				C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */,
+				C99A88772607A02D003B8B73 /* GameScrollContentViewModel.swift in Sources */,
+				C99A88722607A01C003B8B73 /* GameScrollContentView.swift in Sources */,
 				C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */,
+				C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

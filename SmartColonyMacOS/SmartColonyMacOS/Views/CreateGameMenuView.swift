@@ -9,32 +9,6 @@ import Foundation
 import SwiftUI
 import SmartAssets
 
-struct PickerView: View {
-    
-    let title: String
-    let data: [PickerData]
-    
-    @State
-    var selectedIndex: Int
-    
-    var body: some View {
-        
-        Picker(selection: $selectedIndex, label: Text(title)) {
-            ForEach(0 ..< data.count) { i in
-                HStack {
-                    Image(nsImage: data[i].image)
-                    Text(data[i].name)
-                }
-                .frame(minWidth: 0, maxWidth: 200)
-                .padding(4)
-                .tag(i)
-            }
-        }
-        .frame(minWidth: 0, maxWidth: 350)
-        .padding(4)
-    }
-}
-
 struct CreateGameMenuView: View {
     
     @ObservedObject
@@ -50,61 +24,21 @@ struct CreateGameMenuView: View {
             
             Form {
                 Section {
-                    Picker(selection: $viewModel.selectedLeaderIndex, label: Text("Choose Leader")) {
-                        ForEach(0 ..< viewModel.leaders.count) { i in
-                            HStack {
-                                Image(nsImage: viewModel.leaders[i].image)
-                                Text(viewModel.leaders[i].name)
-                            }
-                            .frame(minWidth: 0, maxWidth: 200)
-                            .padding(4)
-                            .tag(i)
-                        }
-                    }
-                    .frame(minWidth: 0, maxWidth: 350)
-                    .padding(4)
+                    DataPicker(title: "Choose Leader",
+                               data: self.viewModel.leaders,
+                               selection: $viewModel.selectedLeaderIndex)
                     
-                    Picker(selection: $viewModel.selectedDifficultyIndex, label: Text("Choose Difficulty")) {
-                        ForEach(0 ..< viewModel.handicaps.count) { i in
-                            HStack {
-                                Image(nsImage: viewModel.handicaps[i].image)
-                                Text(viewModel.handicaps[i].name)
-                            }
-                            .frame(minWidth: 0, maxWidth: 200)
-                            .padding(4)
-                            .tag(i)
-                        }
-                    }
-                    .frame(minWidth: 0, maxWidth: 350)
-                    .padding(4)
+                    DataPicker(title: "Choose Difficulty",
+                               data: self.viewModel.handicaps,
+                               selection: $viewModel.selectedDifficultyIndex)
                     
-                    Picker(selection: $viewModel.selectedMapTypeIndex, label: Text("Choose Map Type")) {
-                        ForEach(0 ..< viewModel.mapTypes.count) { i in
-                            HStack {
-                                Image(nsImage: viewModel.mapTypes[i].image)
-                                Text(viewModel.mapTypes[i].name)
-                            }
-                            .frame(minWidth: 0, maxWidth: 200)
-                            .padding(4)
-                            .tag(i)
-                        }
-                    }
-                    .frame(minWidth: 0, maxWidth: 350)
-                    .padding(4)
+                    DataPicker(title: "Choose Map Type",
+                               data: self.viewModel.mapTypes,
+                               selection: $viewModel.selectedMapTypeIndex)
                     
-                    Picker(selection: $viewModel.selectedMapSizeIndex, label: Text("Choose Map Size")) {
-                        ForEach(0 ..< viewModel.mapSizes.count) { i in
-                            HStack {
-                                Image(nsImage: viewModel.mapSizes[i].image)
-                                Text(viewModel.mapSizes[i].name)
-                            }
-                            .frame(minWidth: 0, maxWidth: 200)
-                            .padding(4)
-                            .tag(i)
-                        }
-                    }
-                    .frame(minWidth: 0, maxWidth: 350)
-                    .padding(4)
+                    DataPicker(title: "Choose Map Size",
+                               data: self.viewModel.mapSizes,
+                               selection: $viewModel.selectedMapSizeIndex)
                 }
             }
             
@@ -112,12 +46,12 @@ struct CreateGameMenuView: View {
             
             HStack {
                 Button("Cancel") {
-                    viewModel.cancel()
+                    self.viewModel.cancel()
                 }.buttonStyle(MenuButtonStyle()).padding(.top, 20).padding(.trailing, 20)
                 
                 Button("Start") {
-                    viewModel.start()
-                }.buttonStyle(MenuButtonStyle()).padding(.top, 20)
+                    self.viewModel.start()
+                }.buttonStyle(SelectedMenuButtonStyle()).padding(.top, 20)
             }
         }
     }

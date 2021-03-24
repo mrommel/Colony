@@ -13,8 +13,8 @@ struct SmartColonyMacOSApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
-        WindowGroup<GameView> {
-            GameView()
+        WindowGroup<MainView> {
+            MainView()
         }
     }
 }
