@@ -18,6 +18,15 @@ extension NSImage {
 }
 
 extension NSImage {
+    convenience init(color: NSColor, size: NSSize) {
+        self.init(size: size)
+        lockFocus()
+        color.drawSwatch(in: NSRect(origin: .zero, size: size))
+        unlockFocus()
+    }
+}
+
+extension NSImage {
 
     /// The height of the image.
     var height: CGFloat {
@@ -122,4 +131,22 @@ extension NSImage {
 /// - creatingPngRepresentationFailed: Is thrown when the creation of the png representation failed.
 enum NSImageExtensionError: Error {
     case unwrappingPNGRepresentationFailed
+}
+
+func drawImageInCGContext(size: CGSize, drawFunc: (_ context: CGContext) -> ()) -> NSImage {
+    let colorSpace = CGColorSpaceCreateDeviceRGB()
+    let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+    let context = CGContext(
+        data: nil,
+        width: Int(size.width),
+        height: Int(size.height),
+        bitsPerComponent: 8,
+        bytesPerRow: 0,
+        space: colorSpace,
+        bitmapInfo: bitmapInfo.rawValue)
+    
+    drawFunc(context!)
+    
+    let image = context!.makeImage()!
+    return NSImage(cgImage: image, size: size)
 }

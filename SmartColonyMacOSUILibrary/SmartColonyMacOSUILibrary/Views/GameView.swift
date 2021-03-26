@@ -12,30 +12,6 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-public struct GameDisplayOptions {
-    
-    static let standard: GameDisplayOptions = GameDisplayOptions(showFeatures: false, showResources: false, showBorders: false, showStartPositions: false, showInhabitants: false, showSupportedPeople: false)
-    
-    let showFeatures: Bool
-    let showResources: Bool
-    let showBorders: Bool
-    
-    let showStartPositions: Bool
-    let showInhabitants: Bool
-    let showSupportedPeople: Bool
-    
-    public init(showFeatures: Bool, showResources: Bool, showBorders: Bool, showStartPositions: Bool, showInhabitants: Bool, showSupportedPeople: Bool) {
-        
-        self.showFeatures = showFeatures
-        self.showResources = showResources
-        self.showBorders = showBorders
-        
-        self.showStartPositions = showStartPositions
-        self.showInhabitants = showInhabitants
-        self.showSupportedPeople = showSupportedPeople
-    }
-}
-
 protocol GameViewDelegate: class {
 
     func moveBy(dx: CGFloat, dy: CGFloat)
@@ -45,7 +21,22 @@ protocol GameViewDelegate: class {
     func options() -> GameDisplayOptions?
 }
 
-class GameView: NSView {
+public struct GameView: View {
+    
+    let viewModel: GameViewModel
+    
+    public var body: some View {
+        ZStack(alignment: .topLeading) {
+            TerrainLayerView(viewModel: viewModel.terrainLayerViewModel)
+            // river
+            FeatureLayerView(viewModel: viewModel.featureLayerViewModel)
+        }
+    }
+}
+
+
+
+/*class GameView2: NSView {
 
     // constants
     var shift = CGPoint(x: 575, y: 1360)
@@ -256,7 +247,11 @@ class GameView: NSView {
 
     override func draw(_ dirtyRect: NSRect) {
 
-        super.draw(dirtyRect)
+        guard let human = self.game?.humanPlayer() else {
+            return
+        }
+        
+        // super.draw(dirtyRect)
 
         // NSColor.darkGray.setFill()
         // dirtyRect.fill()
@@ -281,6 +276,10 @@ class GameView: NSView {
                     }
 
                     guard let tile = game.tile(at: pt) else {
+                        continue
+                    }
+                    
+                    guard tile.isVisible(to: human) else {
                         continue
                     }
 
@@ -456,4 +455,4 @@ class GameView: NSView {
             self.needsDisplay = true
         }
     }
-}
+}*/

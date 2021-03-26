@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915514C260A59DF003710BE /* ActivityIndicator.swift */; };
 		C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155160260B2978003710BE /* GameDisplayOptions.swift */; };
+		C9155175260BB382003710BE /* TerrainLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155174260BB382003710BE /* TerrainLayerView.swift */; };
+		C9155177260BB3B4003710BE /* TerrainLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155176260BB3B4003710BE /* TerrainLayerViewModel.swift */; };
+		C9155179260BCEE7003710BE /* FeatureLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155178260BCEE7003710BE /* FeatureLayerViewModel.swift */; };
+		C915517B260BD284003710BE /* FeatureLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915517A260BD284003710BE /* FeatureLayerView.swift */; };
+		C915517D260C7D9D003710BE /* BaseLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915517C260C7D9D003710BE /* BaseLayerViewModel.swift */; };
+		C93AA695260DD8C00053DF74 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA694260DD8C00053DF74 /* GameViewModel.swift */; };
+		C93AA699260DD93B0053DF74 /* GameHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA698260DD93B0053DF74 /* GameHostingView.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C99A88722607A01C003B8B73 /* GameScrollContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A886F2607A01B003B8B73 /* GameScrollContentView.swift */; };
 		C99A88732607A01C003B8B73 /* GameScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88702607A01B003B8B73 /* GameScrollView.swift */; };
@@ -43,6 +50,13 @@
 /* Begin PBXFileReference section */
 		C915514C260A59DF003710BE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C9155160260B2978003710BE /* GameDisplayOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDisplayOptions.swift; sourceTree = "<group>"; };
+		C9155174260BB382003710BE /* TerrainLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainLayerView.swift; sourceTree = "<group>"; };
+		C9155176260BB3B4003710BE /* TerrainLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainLayerViewModel.swift; sourceTree = "<group>"; };
+		C9155178260BCEE7003710BE /* FeatureLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLayerViewModel.swift; sourceTree = "<group>"; };
+		C915517A260BD284003710BE /* FeatureLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLayerView.swift; sourceTree = "<group>"; };
+		C915517C260C7D9D003710BE /* BaseLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLayerViewModel.swift; sourceTree = "<group>"; };
+		C93AA694260DD8C00053DF74 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		C93AA698260DD93B0053DF74 /* GameHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHostingView.swift; sourceTree = "<group>"; };
 		C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartColonyMacOSUILibrary.h; sourceTree = "<group>"; };
 		C99A886026079F4C003B8B73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -72,6 +86,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C9155172260BB304003710BE /* Layers */ = {
+			isa = PBXGroup;
+			children = (
+				C915517C260C7D9D003710BE /* BaseLayerViewModel.swift */,
+				C9155176260BB3B4003710BE /* TerrainLayerViewModel.swift */,
+				C9155178260BCEE7003710BE /* FeatureLayerViewModel.swift */,
+			);
+			path = Layers;
+			sourceTree = "<group>";
+		};
+		C9155173260BB371003710BE /* Layers */ = {
+			isa = PBXGroup;
+			children = (
+				C9155174260BB382003710BE /* TerrainLayerView.swift */,
+				C915517A260BD284003710BE /* FeatureLayerView.swift */,
+			);
+			path = Layers;
+			sourceTree = "<group>";
+		};
 		C99A885226079F4C003B8B73 = {
 			isa = PBXGroup;
 			children = (
@@ -104,9 +137,11 @@
 		C99A886D26079FE0003B8B73 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C9155173260BB371003710BE /* Layers */,
 				C99A886F2607A01B003B8B73 /* GameScrollContentView.swift */,
 				C99A88702607A01B003B8B73 /* GameScrollView.swift */,
 				C99A88712607A01B003B8B73 /* GameView.swift */,
+				C93AA698260DD93B0053DF74 /* GameHostingView.swift */,
 				C915514C260A59DF003710BE /* ActivityIndicator.swift */,
 			);
 			path = Views;
@@ -115,7 +150,9 @@
 		C99A886E26079FE5003B8B73 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				C9155172260BB304003710BE /* Layers */,
 				C99A88762607A02D003B8B73 /* GameScrollContentViewModel.swift */,
+				C93AA694260DD8C00053DF74 /* GameViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -222,17 +259,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C915517B260BD284003710BE /* FeatureLayerView.swift in Sources */,
+				C9155177260BB3B4003710BE /* TerrainLayerViewModel.swift in Sources */,
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
 				C99A88732607A01C003B8B73 /* GameScrollView.swift in Sources */,
 				C99A88742607A01C003B8B73 /* GameView.swift in Sources */,
 				C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
+				C93AA695260DD8C00053DF74 /* GameViewModel.swift in Sources */,
+				C915517D260C7D9D003710BE /* BaseLayerViewModel.swift in Sources */,
 				C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */,
 				C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */,
+				C93AA699260DD93B0053DF74 /* GameHostingView.swift in Sources */,
 				C99A88772607A02D003B8B73 /* GameScrollContentViewModel.swift in Sources */,
 				C99A88722607A01C003B8B73 /* GameScrollContentView.swift in Sources */,
 				C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */,
+				C9155175260BB382003710BE /* TerrainLayerView.swift in Sources */,
 				C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */,
+				C9155179260BCEE7003710BE /* FeatureLayerViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

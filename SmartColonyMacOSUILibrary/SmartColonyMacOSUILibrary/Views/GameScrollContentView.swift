@@ -19,7 +19,7 @@ public struct GameScrollContentView: NSViewRepresentable {
     typealias UIViewType = GameScrollView
 
     var scrollView: GameScrollView = GameScrollView(frame: .zero)
-    var gameView: GameView? = GameView(frame: .zero)
+    var gameView: GameHostingView = GameHostingView(viewModel: GameViewModel())
     
     public init(viewModel: GameScrollContentViewModel) {
         
@@ -31,8 +31,13 @@ public struct GameScrollContentView: NSViewRepresentable {
         self.scrollView.setAccessibilityEnabled(true)
         self.scrollView.hasVerticalScroller = true
         self.scrollView.hasHorizontalScroller = true
+        
+        self.scrollView.allowsMagnification = true
+        self.scrollView.magnification = 1
+        self.scrollView.minMagnification = 0.1
+        self.scrollView.maxMagnification = 4
 
-        self.gameView?.delegate = context.coordinator
+        /*self.gameView?.delegate = context.coordinator
         self.gameView?.setViewSize(self.viewModel.zoom)
         
         self.viewModel.didChange = { pt in
@@ -41,7 +46,7 @@ public struct GameScrollContentView: NSViewRepresentable {
         
         self.viewModel.shouldRedraw = {
             self.gameView?.redrawAll()
-        }
+        }*/
         
         self.scrollView.documentView = self.gameView
 
@@ -51,12 +56,12 @@ public struct GameScrollContentView: NSViewRepresentable {
     public func updateNSView(_ scrollView: GameScrollView, context: Context) {
 
         // print("map scroll content view update to: \(self.viewModel.zoom)")
-        if let gameView = scrollView.documentView as? GameView {
+        if let gameView = scrollView.documentView as? GameHostingView {
 
-            gameView.setViewSize(self.viewModel.zoom)
+            gameView.gameView.viewModel.setViewSize(self.viewModel.zoom)
             
             //if gameView.game. != self.viewModel.game {
-                gameView.game = self.viewModel.game
+            gameView.gameView.viewModel.game = self.viewModel.game
             //}
         }
     }

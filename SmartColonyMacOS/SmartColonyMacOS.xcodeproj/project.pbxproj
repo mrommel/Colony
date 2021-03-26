@@ -210,13 +210,13 @@
 				C91D82A326087C1900DD5AFE /* Utils */,
 				C9022F802608C18600C6773A /* ViewModels */,
 				C91D82A02608792000DD5AFE /* Views */,
-				C9F6EB222607908B0052140C /* Persistence.swift */,
 				C91D82972607D6C600DD5AFE /* Resources */,
 				C9F6EB1F2607908B0052140C /* Preview Content */,
 				C9F6EB282607908B0052140C /* SmartColonyMacOS.entitlements */,
 				C9F6EB242607908B0052140C /* SmartColonyMacOS.xcdatamodeld */,
 				C91D82912607B79B00DD5AFE /* AppDelegate.swift */,
 				C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */,
+				C9F6EB222607908B0052140C /* Persistence.swift */,
 			);
 			path = SmartColonyMacOS;
 			sourceTree = "<group>";

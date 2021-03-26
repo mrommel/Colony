@@ -1,5 +1,5 @@
 //
-//  MapScrollContentViewModel.swift
+//  GameScrollContentViewModel.swift
 //  SmartColonyMacOSUILibrary
 //
 //  Created by Michael Rommel on 21.03.21.
