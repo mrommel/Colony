@@ -13,7 +13,6 @@ import SmartAILibrary
 public struct GameScrollContentView: NSViewRepresentable {
 
     @ObservedObject
-    //var viewModel: EditorContentViewModel
     var viewModel: GameScrollContentViewModel
 
     typealias UIViewType = GameScrollView
@@ -27,42 +26,37 @@ public struct GameScrollContentView: NSViewRepresentable {
     }
 
     public func makeNSView(context: Context) -> GameScrollView {
-
+        
         self.scrollView.setAccessibilityEnabled(true)
         self.scrollView.hasVerticalScroller = true
         self.scrollView.hasHorizontalScroller = true
         
         self.scrollView.allowsMagnification = true
-        self.scrollView.magnification = 1
+        self.scrollView.magnification = 0.5
         self.scrollView.minMagnification = 0.1
         self.scrollView.maxMagnification = 4
-
+        
         /*self.gameView?.delegate = context.coordinator
-        self.gameView?.setViewSize(self.viewModel.zoom)
-        
-        self.viewModel.didChange = { pt in
-            self.gameView?.redrawTile(at: pt)
-        }
-        
-        self.viewModel.shouldRedraw = {
-            self.gameView?.redrawAll()
-        }*/
+         self.gameView?.setViewSize(self.viewModel.zoom)
+         
+         self.viewModel.didChange = { pt in
+         self.gameView?.redrawTile(at: pt)
+         }
+         
+         self.viewModel.shouldRedraw = {
+         self.gameView?.redrawAll()
+         }*/
         
         self.scrollView.documentView = self.gameView
-
+        
         return scrollView
     }
 
     public func updateNSView(_ scrollView: GameScrollView, context: Context) {
 
-        // print("map scroll content view update to: \(self.viewModel.zoom)")
         if let gameView = scrollView.documentView as? GameHostingView {
 
-            gameView.gameView.viewModel.setViewSize(self.viewModel.zoom)
-            
-            //if gameView.game. != self.viewModel.game {
-            gameView.gameView.viewModel.game = self.viewModel.game
-            //}
+            gameView.rootView.assign(game: self.viewModel.game)
         }
     }
 

@@ -16,40 +16,50 @@ struct MenuView: View {
         
         VStack {
             
-            Text("SmartColony").font(.largeTitle)
+            Spacer(minLength: 1)
+            
+            Text("SmartColony")
+                .font(.largeTitle)
             
             Divider()
             
-            Button(action: {
-                print("tutorials")
-            }) {
-                Text("Tutorials")
-            }.buttonStyle(MenuButtonStyle())
+            GroupBox {
             
-            Button("Resume Game") {
-                print("resume game")
-            }.buttonStyle(MenuButtonStyle())
+                Button(action: {
+                    print("tutorials")
+                }) {
+                    Text("Tutorials")
+                }.buttonStyle(MenuButtonStyle())
+                
+                Button("Resume Game") {
+                    print("resume game")
+                }.buttonStyle(MenuButtonStyle())
+                
+                Button("New Game") {
+                    print("new game")
+                    viewModel.startNewGame()
+                }.buttonStyle(SelectedMenuButtonStyle())
+                
+                Button("Load Game") {
+                    print("load game")
+                }.buttonStyle(MenuButtonStyle())
+                
+                Button("Options") {
+                    print("options")
+                }.buttonStyle(MenuButtonStyle())
+                
+                Button("Pedia") {
+                    print("pedia")
+                }.buttonStyle(MenuButtonStyle())
+                
+                Button("Quit") {
+                    viewModel.showingQuitConfirmationAlert = true
+                }
+                .buttonStyle(MenuButtonStyle())
+                .padding(.top, 45)
+            }
             
-            Button("New Game") {
-                print("new game")
-                viewModel.startNewGame()
-            }.buttonStyle(SelectedMenuButtonStyle())
-            
-            Button("Load Game") {
-                print("load game")
-            }.buttonStyle(MenuButtonStyle())
-            
-            Button("Options") {
-                print("options")
-            }.buttonStyle(MenuButtonStyle())
-            
-            Button("Pedia") {
-                print("pedia")
-            }.buttonStyle(MenuButtonStyle())
-            
-            Button("Quit") {
-                viewModel.showingQuitConfirmationAlert = true
-            }.buttonStyle(MenuButtonStyle()).padding(.top, 45)
+            Spacer(minLength: 1)
             
         }.padding(.vertical, 25)
         

@@ -15,71 +15,39 @@ class FeatureLayerViewModel: BaseLayerViewModel {
         super.init(game: game)
     }
     
-    override func update() {
+    override func render(tile: AbstractTile, into context: CGContext?, at tileRect: CGRect, in game: GameModel) {
+
+        let pt = tile.point
         
-        guard let game = self.game else {
-            return
-        }
-        
-        guard let human = self.game?.humanPlayer() else {
-            return
-        }
-        
-        let tmpImage = drawImageInCGContext(size: self.size) { (context) -> () in
-            let mapSize = game.mapSize()
-            //let options = GameDisplayOptions.standard
+        // place forests etc
+        if tile.feature() != .none {
 
-            for x in 0..<mapSize.width() {
+            let neighborTileN = game.tile(at: pt.neighbor(in: .north))
+            let neighborTileNE = game.tile(at: pt.neighbor(in: .northeast))
+            let neighborTileSE = game.tile(at: pt.neighbor(in: .southeast))
+            let neighborTileS = game.tile(at: pt.neighbor(in: .south))
+            let neighborTileSW = game.tile(at: pt.neighbor(in: .southwest))
+            let neighborTileNW = game.tile(at: pt.neighbor(in: .northwest))
 
-                for y in 0..<mapSize.height() {
+            let neighborTiles: [HexDirection: AbstractTile?] = [
+                    .north: neighborTileN,
+                    .northeast: neighborTileNE,
+                    .southeast: neighborTileSE,
+                    .south: neighborTileS,
+                    .southwest: neighborTileSW,
+                    .northwest: neighborTileNW
+            ]
 
-                    let pt = HexPoint(x: x, y: y)
-
-                    let screenPoint = HexPoint.toScreen(hex: pt) + shift
-                    let tileRect = CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48)
-                    
-                    guard let tile = game.tile(at: pt) else {
-                        continue
-                    }
-                    
-                    guard tile.isVisible(to: human) else {
-                        continue
-                    }
-
-                    // place forests etc
-                    if tile.feature() != .none {
-
-                        let neighborTileN = game.tile(at: pt.neighbor(in: .north))
-                        let neighborTileNE = game.tile(at: pt.neighbor(in: .northeast))
-                        let neighborTileSE = game.tile(at: pt.neighbor(in: .southeast))
-                        let neighborTileS = game.tile(at: pt.neighbor(in: .south))
-                        let neighborTileSW = game.tile(at: pt.neighbor(in: .southwest))
-                        let neighborTileNW = game.tile(at: pt.neighbor(in: .northwest))
-
-                        let neighborTiles: [HexDirection: AbstractTile?] = [
-                                .north: neighborTileN,
-                                .northeast: neighborTileNE,
-                                .southeast: neighborTileSE,
-                                .south: neighborTileS,
-                                .southwest: neighborTileSW,
-                                .northwest: neighborTileNW
-                        ]
-
-                        if let featureTextureName = self.textures.featureTexture(for: tile, neighborTiles: neighborTiles) {
-                            context.draw(ImageCache.shared.image(for: featureTextureName).cgImage!, in: tileRect)
-                        }
-                    }
-
-                    if tile.feature() != .ice {
-
-                        if let iceTextureName = self.textures.iceTexture(at: tile.point) {
-                            context.draw(ImageCache.shared.image(for: iceTextureName).cgImage!, in: tileRect)
-                        }
-                    }
-                }
+            if let featureTextureName = self.textures.featureTexture(for: tile, neighborTiles: neighborTiles) {
+                context?.draw(ImageCache.shared.image(for: featureTextureName).cgImage!, in: tileRect)
             }
         }
 
-        self.image = tmpImage
+        if tile.feature() != .ice {
+
+            if let iceTextureName = self.textures.iceTexture(at: tile.point) {
+                context?.draw(ImageCache.shared.image(for: iceTextureName).cgImage!, in: tileRect)
+            }
+        }
     }
 }

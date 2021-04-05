@@ -23,14 +23,36 @@ protocol GameViewDelegate: class {
 
 public struct GameView: View {
     
-    let viewModel: GameViewModel
+    private let viewModel: GameViewModel
+    private let contentSize: CGSize
+    
+    public init(viewModel: GameViewModel) {
+        
+        self.viewModel = viewModel
+        self.contentSize = self.viewModel.game?.contentSize() ?? CGSize(width: 100, height: 100)
+    }
     
     public var body: some View {
+        
         ZStack(alignment: .topLeading) {
-            TerrainLayerView(viewModel: viewModel.terrainLayerViewModel)
-            // river
-            FeatureLayerView(viewModel: viewModel.featureLayerViewModel)
+            
+            TerrainLayerView(viewModel: self.viewModel.terrainLayerViewModel)
+            RiverLayerView(viewModel: self.viewModel.riverLayerViewModel)
+            // border
+            // cursor?
+            FeatureLayerView(viewModel: self.viewModel.featureLayerViewModel)
+            ResourceLayerView(viewModel: self.viewModel.resourceLayerViewModel)
+            
+            // debug
+            HexCoordLayerView(viewModel: self.viewModel.hexCoordLayerViewModel)
         }
+        .frame(width: self.contentSize.width * 3.0, height: self.contentSize.height * 3.0, alignment: .topLeading)
+    }
+    
+    func assign(game: GameModel?) {
+        
+        // forward to model
+        self.viewModel.game = game
     }
 }
 

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "button_policies_needed@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

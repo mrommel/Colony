@@ -18,6 +18,8 @@ struct CreateGameMenuView: View {
         
         VStack {
             
+            Spacer(minLength: 1)
+            
             Text("SmartColony").font(.largeTitle)
             
             Divider()
@@ -53,6 +55,8 @@ struct CreateGameMenuView: View {
                     self.viewModel.start()
                 }.buttonStyle(SelectedMenuButtonStyle()).padding(.top, 20)
             }
+            
+            Spacer(minLength: 1)
         }
     }
 }

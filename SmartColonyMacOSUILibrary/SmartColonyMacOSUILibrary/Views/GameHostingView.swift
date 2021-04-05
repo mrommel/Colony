@@ -13,15 +13,14 @@ class GameHostingView: NSHostingView<GameView> {
     
     var widthConstraint: NSLayoutConstraint?
     var heightConstraint: NSLayoutConstraint?
-    
-    let gameView: GameView
+
     var downPoint: CGPoint? = nil
     var initialPoint: CGPoint? = nil
     var rightDownPoint: CGPoint? = nil
-    var shift = CGPoint(x: 575, y: 1360)
+    var shift: CGPoint = CGPoint(x: 0, y: 0)
     
     init(viewModel: GameViewModel) {
-        
+
         // load assets into image cache
         print("-- pre-load images --")
         let bundle = Bundle.init(for: Textures.self)
@@ -66,7 +65,7 @@ class GameHostingView: NSHostingView<GameView> {
             ImageCache.shared.add(image: NSImage(named: "cursor"), for: "cursor")
         }
         
-        if !ImageCache.shared.exists(key: "flag") {
+        /*if !ImageCache.shared.exists(key: "flag") {
             ImageCache.shared.add(image: NSImage(named: "flag"), for: "flag")
         }
         
@@ -88,35 +87,20 @@ class GameHostingView: NSHostingView<GameView> {
         }
         if !ImageCache.shared.exists(key: "bars_verysmall") {
             ImageCache.shared.add(image: NSImage(named: "bars_verysmall"), for: "bars_verysmall")
-        }
+        }*/
         
         print("-- all icons loaded --")
+            
+        super.init(rootView: GameView(viewModel: viewModel))
         
-        self.gameView = GameView(viewModel: viewModel)
-        super.init(rootView: self.gameView)
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        self.widthConstraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 2500.0)
-        self.heightConstraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 2500.0)
+        self.widthConstraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100)
+        self.heightConstraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100)
 
         self.addConstraints([self.widthConstraint!, self.heightConstraint!])
         
-        if let size = viewModel.game?.contentSize(), let mapSize = viewModel.game?.mapSize() {
-
-            self.frame = NSMakeRect(0, 0, (size.width + 10) * /*self.scale*/1, size.height * /*self.scale*/1)
-
-            self.widthConstraint?.constant = (size.width + 10) * /*self.scale*/1
-            self.heightConstraint?.constant = size.height * /*self.scale*/1
-            
-            // change shift
-            let p0 = HexPoint(x: 0, y: 0)
-            let p1 = HexPoint(x: 0, y: mapSize.height() - 1)
-            let p2 = HexPoint(x: mapSize.width() - 1, y: mapSize.height() - 1)
-            let dx = HexPoint.toScreen(hex: p0).x - HexPoint.toScreen(hex: p1).x
-            let dy = HexPoint.toScreen(hex: p0).y - HexPoint.toScreen(hex: p2).y
-                
-            self.shift = CGPoint(x: dx, y: dy)
-        }
+        viewModel.delegate = self
     }
     
     @objc required dynamic init?(coder aDecoder: NSCoder) {
@@ -143,6 +127,7 @@ class GameHostingView: NSHostingView<GameView> {
         let pointInView = convert(event.locationInWindow, from: nil) - self.shift
         let pt = HexPoint(screen: pointInView)
         
+        print("rightMouseDown \(pt)")
         //self.delegate?.draw(at: pt)
     }
     
@@ -160,9 +145,10 @@ class GameHostingView: NSHostingView<GameView> {
         
         super.rightMouseDragged(with: event)
         
-        let pointInView = convert(event.locationInWindow, from: nil) - self.shift
+        let pointInView = self.convert(event.locationInWindow, from: nil) - self.shift
         let pt = HexPoint(screen: pointInView)
         
+        print("rightMouseDragged \(pt)")
         //self.delegate?.draw(at: pt)
     }
     
@@ -173,8 +159,26 @@ class GameHostingView: NSHostingView<GameView> {
         if let point = self.initialPoint {
             if abs(event.locationInWindow.x - point.x) < 0.001 && abs(event.locationInWindow.y - point.y) < 0.001 {
 
-                let pointInView = convert(event.locationInWindow, from: nil) - self.shift
-                let pt = HexPoint(screen: pointInView)
+                // reverse
+                // let screenPoint = (HexPoint.toScreen(hex: pt) * 3.0) + self.shift
+                // =>
+                // HexPoint.toScreen(hex: pt) * 3.0 = screenPoint - self.shift
+                // HexPoint.toScreen(hex: pt) = (screenPoint - self.shift) / 3.0
+                
+                var tmp = event.locationInWindow
+                tmp.y = self.frame.height - tmp.y
+                let pointInView = self.convert(tmp, from: nil) - self.shift
+                
+                let scrollView = self.superview?.superview as? GameScrollView
+                var zoom: CGFloat = 1.0 // (scrollView?.magnification ?? 1.0)
+                zoom /= 3.0 // for upscale
+                
+                let finalScreenPoint = pointInView * zoom
+                
+                let pt = HexPoint(screen: finalScreenPoint)
+                
+                print("mouseUp \(pt) at magnification: \((scrollView?.magnification ?? 1.0)) => \(zoom)")
+                print("finalScreenPoint: \(finalScreenPoint) --- ")
 
                 /*if let tile = self.game?.tile(at: pt) {
 
@@ -189,6 +193,12 @@ class GameHostingView: NSHostingView<GameView> {
         self.downPoint = nil
         self.initialPoint = nil
     }
+    
+    override func magnify(with event: NSEvent) {
+        
+        super.magnify(with: event)
+        // print("magnification \(event.magnification)")
+    }
 
     func redrawTile(at point: HexPoint) {
 
@@ -196,6 +206,26 @@ class GameHostingView: NSHostingView<GameView> {
         let tileRect = CGRect(x: screenPoint.x, y: screenPoint.y, width: 48, height: 48)
 
         self.setNeedsDisplay(tileRect)
+        self.needsDisplay = true
+    }
+}
+
+extension GameHostingView: GameViewModelDelegate {
+    
+    func sizeChanged(to size: CGSize) {
+        
+        self.frame = NSMakeRect(0, 0, size.width, size.height)
+        
+        self.widthConstraint?.constant = size.width
+        self.heightConstraint?.constant = size.height
+        
+        self.needsDisplay = true
+    }
+    
+    func shiftChanged(to shift: CGPoint) {
+        
+        self.shift = shift
+        
         self.needsDisplay = true
     }
 }

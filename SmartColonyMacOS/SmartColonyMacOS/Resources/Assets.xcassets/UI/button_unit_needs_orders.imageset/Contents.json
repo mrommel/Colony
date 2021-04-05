@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "button_unit_needs_orders@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

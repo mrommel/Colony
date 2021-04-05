@@ -19,12 +19,16 @@ struct GenerateGameView: View {
         
         VStack {
             
+            Spacer(minLength: 1)
+            
             Text("SmartColony").font(.largeTitle)
             
             Divider()
             
             Text("Loading")
             ActivityIndicator(isAnimating: self.$viewModel.loading, style: .spinning)
+            
+            Spacer(minLength: 1)
         }
     }
 }

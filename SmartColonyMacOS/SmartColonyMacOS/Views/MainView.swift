@@ -7,20 +7,31 @@
 
 import SwiftUI
 import SmartMacOSUILibrary
+import SmartAILibrary
 
 struct MainView: View {
     
     @ObservedObject
     var viewModel: MainViewModel
     
+    @State
+    var cursor: CGPoint = .zero
+    
+    @State
+    var scale: CGFloat = 1.0
+    
+    @State
+    var contentOffset: CGPoint = .zero
+    
     var body: some View {
         ZStack {
             Image("background_macos")
                 .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
-            
+                .aspectRatio(contentMode: .fill)
+                .frame(minWidth: 400, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity, alignment: .topLeading)
+
             VStack {
+                
                 if self.viewModel.presentedView == .menu {
                     MenuView(viewModel: self.viewModel.menuViewModel)
                 }
@@ -32,30 +43,46 @@ struct MainView: View {
                 if self.viewModel.presentedView == .loadingGame {
                     GenerateGameView(viewModel: self.viewModel.generateGameViewModel)
                 }
-
+                
                 if self.viewModel.presentedView == .game {
-                    GameScrollContentView(viewModel: self.viewModel.gameViewModel)
-                        .edgesIgnoringSafeArea(.all)
+                    
+                    ZStack {
+                        TrackableScrollView(
+                            axes: [.horizontal, .vertical],
+                            showsIndicators: true,
+                            cursor: self.$cursor,
+                            scale: self.$scale,
+                            contentOffset: self.$contentOffset) {
+                            
+                            GameView(viewModel: self.viewModel.gameViewModel)
+                        }
+                        .background(Color.black.opacity(0.5))
+                        
+                        BottomLeftBarView(viewModel: self.viewModel.gameViewModel)
+                    }
                 }
             }
-            .padding(.vertical, 25)
+            .frame(minWidth: 400, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity, alignment: .topLeading)
+            .padding(.all, 1)
+            
+            /*Text("\(cursorFormatter.transform(screenPoint: self.cursor, contentSize: self.viewModel.gameViewModel.size, shift: self.viewModel.gameViewModel.shift).x)")
+                .background(Color.black.opacity(0.5))*/
         }
-        .toolbar {
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+        /*.toolbar {
             Button(action: self.viewModel.doTurn) {
                 Label("Turn", systemImage: "arrow.right.circle.fill")
             }
-        }
+        }*/
     }
     
     init() {
         
         self.viewModel = MainViewModel()
     }
-}
-
-/*struct GameView_Previews: PreviewProvider {
     
-    static var previews: some View {
-        GameView()
-    }
-}*/
+    var cursorFormatter: CursorTransformator = {
+        let formatter = CursorTransformator()
+        return formatter
+    }()
+}

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "button_promotion@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
