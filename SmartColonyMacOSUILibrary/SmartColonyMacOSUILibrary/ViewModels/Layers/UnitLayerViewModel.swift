@@ -1,0 +1,152 @@
+//
+//  UnitLayerViewModel.swift
+//  SmartMacOSUILibrary
+//
+//  Created by Michael Rommel on 05.04.21.
+//
+
+import SmartAILibrary
+import SwiftUI
+
+class UnitItem: ObservableObject, Identifiable, Equatable {
+    
+    var id = UUID()
+    
+    @Published
+    var name: String
+    
+    @Published
+    var type: UnitType
+    
+    @Published
+    var location: CGPoint
+    
+    init(name: String, type: UnitType, location: CGPoint) {
+        self.name = name
+        self.type = type
+        self.location = location
+    }
+    
+    func assets() -> [String] {
+        
+        switch self.type {
+        
+        case .settler:
+            return Array(0...15).map{"settler-idle-\($0)"}
+        case .builder:
+            return Array(0...10).map{"archer-idle-\($0)"}
+        default:
+            return ["warrior-idle-0"]
+        /*
+         case .trader:
+         <#code#>
+         case .scout:
+         <#code#>
+         case .warrior:
+         <#code#>
+         case .slinger:
+         <#code#>
+         case .archer:
+         <#code#>
+         case .spearman:
+         <#code#>
+         case .heavyChariot:
+         <#code#>
+         case .galley:
+         <#code#>
+         case .medic:
+         <#code#>
+         case .artist:
+         <#code#>
+         case .admiral:
+         <#code#>
+         case .engineer:
+         <#code#>
+         case .general:
+         <#code#>
+         case .merchant:
+         <#code#>
+         case .musician:
+         <#code#>
+         case .prophet:
+         <#code#>
+         case .scientist:
+         <#code#>
+         case .writer:
+         <#code#>
+         case .barbarianWarrior:
+         <#code#>
+         case .barbarianArcher:
+         <#code#>
+         */
+        }
+    }
+    
+    static func == (lhs: UnitItem, rhs: UnitItem) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
+class UnitLayerViewModel: BaseLayerViewModel, ObservableObject {
+    
+    @Published
+    var units: [UnitItem]
+    
+    override init(game: GameModel?) {
+        
+        self.units = []
+        
+        super.init(game: game)
+    }
+    
+    override func update() {
+        
+        guard let game = self.game else {
+            return
+        }
+        
+        for player in game.players {
+            
+            for unitRef in game.units(of: player) {
+                
+                /*guard let unit = unitRef else {
+                 continue
+                 }
+                 
+                 //let screenPoint = (HexPoint.toScreen(hex: unit.location) * self.factor) + self.shift
+                 //let tileRect = CGRect(x: screenPoint.x, y: screenPoint.y, width: 48 * self.factor, height: 48 * self.factor)
+                 */
+                
+                self.show(unit: unitRef, in: game)
+            }
+        }
+        
+    }
+    
+    func show(unit: AbstractUnit?, in game: GameModel) {
+        
+        guard let human = self.game?.humanPlayer() else {
+            return
+        }
+        
+        guard let unit = unit else {
+            fatalError("cant get unit")
+        }
+        
+        if let tile = game.tile(at: unit.location) {
+            
+            if !tile.isVisible(to: human) {
+                
+                return
+            }
+        }
+        
+        var screenPoint = (HexPoint.toScreen(hex: unit.location) * self.factor) + self.shift
+        
+        screenPoint.y = size.height - screenPoint.y
+        
+        print("add \(unit.name()) at \(unit.location)")
+        
+        self.units.append(UnitItem(name: unit.name(), type: unit.type, location: screenPoint))
+    }
+}

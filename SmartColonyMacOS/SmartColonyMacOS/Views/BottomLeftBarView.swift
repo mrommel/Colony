@@ -29,7 +29,7 @@ struct BottomLeftBarView: View {
                     Image("unit_commands_body")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 400, height: 224)
+                        .frame(width: 200, height: 112)
                         .onTapGesture {
                             print("unit_commands_body tapped!")
                         }
@@ -37,16 +37,16 @@ struct BottomLeftBarView: View {
                     Image("black_circle")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 180, height: 180)
-                        .padding(.top, 20)
-                        .padding(.leading, 6)
+                        .frame(width: 90, height: 90)
+                        .padding(.top, 10)
+                        .padding(.leading, 3)
                     
                     Image("button_generic")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 166, height: 166)
-                        .padding(.top, 30)
-                        .padding(.leading, 12)
+                        .frame(width: 83, height: 83)
+                        .padding(.top, 15)
+                        .padding(.leading, 6)
                         .onTapGesture {
                             //print("button tapped!")
                             self.viewModel.doTurn()
@@ -55,7 +55,7 @@ struct BottomLeftBarView: View {
                     Image("unit_canvas")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 222, height: 224)
+                        .frame(width: 111, height: 112)
                         .allowsHitTesting(false)
                 }
             }

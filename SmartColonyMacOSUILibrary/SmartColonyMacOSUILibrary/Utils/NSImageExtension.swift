@@ -9,15 +9,26 @@ import Cocoa
 import CoreGraphics
 
 extension NSImage {
-
+    
     var cgImage: CGImage? {
-
+        
         var proposedRect = CGRect(origin: .zero, size: self.size)
         return cgImage(forProposedRect: &proposedRect, context: nil, hints: nil)
+    }
+    
+    /// The height of the image.
+    var height: CGFloat {
+        return size.height
+    }
+
+    /// The width of the image.
+    var width: CGFloat {
+        return size.width
     }
 }
 
 extension NSImage {
+    
     convenience init(color: NSColor, size: NSSize) {
         self.init(size: size)
         lockFocus()
@@ -28,16 +39,6 @@ extension NSImage {
 
 extension NSImage {
 
-    /// The height of the image.
-    var height: CGFloat {
-        return size.height
-    }
-
-    /// The width of the image.
-    var width: CGFloat {
-        return size.width
-    }
-
     /// A PNG representation of the image.
     var PNGRepresentation: Data? {
         if let tiff = self.tiffRepresentation, let tiffData = NSBitmapImageRep(data: tiff) {
@@ -45,23 +46,6 @@ extension NSImage {
         }
 
         return nil
-    }
-
-    // MARK: Resizing
-    /// Resize the image to the given size.
-    ///
-    /// - Parameter size: The size to resize the image to.
-    /// - Returns: The resized image.
-    public func resize(withSize targetSize: NSSize) -> NSImage? {
-        let frame = NSRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
-        guard let representation = self.bestRepresentation(for: frame, context: nil, hints: nil) else {
-            return nil
-        }
-        let image = NSImage(size: targetSize, flipped: false, drawingHandler: { (_) -> Bool in
-            return representation.draw(in: frame)
-        })
-
-        return image
     }
 
     /// Copy the image and resize it to the supplied size, while maintaining it's

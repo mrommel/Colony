@@ -24,6 +24,17 @@
 		C93AA6A9260F23640053DF74 /* HexCoordLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6A8260F23640053DF74 /* HexCoordLayerView.swift */; };
 		C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6AA260F24640053DF74 /* CGRectExtension.swift */; };
 		C988EAB4261B331800300C39 /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAB3261B331800300C39 /* TrackableScrollView.swift */; };
+		C988EAD1261B6ED500300C39 /* BorderLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */; };
+		C988EAD3261B6EE900300C39 /* RoadLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */; };
+		C988EAD5261B6F3500300C39 /* BorderLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD4261B6F3500300C39 /* BorderLayerView.swift */; };
+		C988EAD7261B6F7B00300C39 /* RoadLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD6261B6F7B00300C39 /* RoadLayerView.swift */; };
+		C988EAD9261B705A00300C39 /* ImprovementLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD8261B705A00300C39 /* ImprovementLayerViewModel.swift */; };
+		C988EADB261B707600300C39 /* CityLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EADA261B707600300C39 /* CityLayerViewModel.swift */; };
+		C988EADD261B708000300C39 /* UnitLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EADC261B708000300C39 /* UnitLayerViewModel.swift */; };
+		C988EADF261B70A800300C39 /* ImprovementLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EADE261B70A800300C39 /* ImprovementLayerView.swift */; };
+		C988EAE1261B70B400300C39 /* CityLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE0261B70B400300C39 /* CityLayerView.swift */; };
+		C988EAE3261B70BE00300C39 /* UnitLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE2261B70BE00300C39 /* UnitLayerView.swift */; };
+		C988EAE5261B724500300C39 /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE4261B724500300C39 /* AnimatedImage.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C99A88722607A01C003B8B73 /* GameScrollContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A886F2607A01B003B8B73 /* GameScrollContentView.swift */; };
 		C99A88732607A01C003B8B73 /* GameScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88702607A01B003B8B73 /* GameScrollView.swift */; };
@@ -73,6 +84,17 @@
 		C93AA6A8260F23640053DF74 /* HexCoordLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexCoordLayerView.swift; sourceTree = "<group>"; };
 		C93AA6AA260F24640053DF74 /* CGRectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
 		C988EAB3261B331800300C39 /* TrackableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
+		C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderLayerViewModel.swift; sourceTree = "<group>"; };
+		C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadLayerViewModel.swift; sourceTree = "<group>"; };
+		C988EAD4261B6F3500300C39 /* BorderLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderLayerView.swift; sourceTree = "<group>"; };
+		C988EAD6261B6F7B00300C39 /* RoadLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadLayerView.swift; sourceTree = "<group>"; };
+		C988EAD8261B705A00300C39 /* ImprovementLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementLayerViewModel.swift; sourceTree = "<group>"; };
+		C988EADA261B707600300C39 /* CityLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLayerViewModel.swift; sourceTree = "<group>"; };
+		C988EADC261B708000300C39 /* UnitLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitLayerViewModel.swift; sourceTree = "<group>"; };
+		C988EADE261B70A800300C39 /* ImprovementLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementLayerView.swift; sourceTree = "<group>"; };
+		C988EAE0261B70B400300C39 /* CityLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLayerView.swift; sourceTree = "<group>"; };
+		C988EAE2261B70BE00300C39 /* UnitLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitLayerView.swift; sourceTree = "<group>"; };
+		C988EAE4261B724500300C39 /* AnimatedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImage.swift; sourceTree = "<group>"; };
 		C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartColonyMacOSUILibrary.h; sourceTree = "<group>"; };
 		C99A886026079F4C003B8B73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -108,8 +130,13 @@
 				C915517C260C7D9D003710BE /* BaseLayerViewModel.swift */,
 				C9155176260BB3B4003710BE /* TerrainLayerViewModel.swift */,
 				C93AA69E260DDE210053DF74 /* RiverLayerViewModel.swift */,
+				C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */,
+				C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */,
 				C9155178260BCEE7003710BE /* FeatureLayerViewModel.swift */,
 				C93AA6A0260DE1550053DF74 /* ResourceLayerViewModel.swift */,
+				C988EAD8261B705A00300C39 /* ImprovementLayerViewModel.swift */,
+				C988EADA261B707600300C39 /* CityLayerViewModel.swift */,
+				C988EADC261B708000300C39 /* UnitLayerViewModel.swift */,
 				C93AA6A6260F232B0053DF74 /* HexCoordLayerViewModel.swift */,
 			);
 			path = Layers;
@@ -120,8 +147,13 @@
 			children = (
 				C9155174260BB382003710BE /* TerrainLayerView.swift */,
 				C93AA6A2260DE3830053DF74 /* RiverLayerView.swift */,
+				C988EAD4261B6F3500300C39 /* BorderLayerView.swift */,
+				C988EAD6261B6F7B00300C39 /* RoadLayerView.swift */,
 				C915517A260BD284003710BE /* FeatureLayerView.swift */,
 				C93AA6A4260DE47B0053DF74 /* ResourceLayerView.swift */,
+				C988EADE261B70A800300C39 /* ImprovementLayerView.swift */,
+				C988EAE0261B70B400300C39 /* CityLayerView.swift */,
+				C988EAE2261B70BE00300C39 /* UnitLayerView.swift */,
 				C93AA6A8260F23640053DF74 /* HexCoordLayerView.swift */,
 			);
 			path = Layers;
@@ -131,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				C915514C260A59DF003710BE /* ActivityIndicator.swift */,
+				C988EAE4261B724500300C39 /* AnimatedImage.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -291,6 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C988EAE5261B724500300C39 /* AnimatedImage.swift in Sources */,
 				C93AA6A7260F232B0053DF74 /* HexCoordLayerViewModel.swift in Sources */,
 				C915517B260BD284003710BE /* FeatureLayerView.swift in Sources */,
 				C9155177260BB3B4003710BE /* TerrainLayerViewModel.swift in Sources */,
@@ -300,22 +334,32 @@
 				C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */,
 				C93AA6A3260DE3830053DF74 /* RiverLayerView.swift in Sources */,
 				C93AA69F260DDE210053DF74 /* RiverLayerViewModel.swift in Sources */,
+				C988EAD5261B6F3500300C39 /* BorderLayerView.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
+				C988EAD3261B6EE900300C39 /* RoadLayerViewModel.swift in Sources */,
 				C93AA695260DD8C00053DF74 /* GameViewModel.swift in Sources */,
 				C93AA6A5260DE47B0053DF74 /* ResourceLayerView.swift in Sources */,
 				C915517D260C7D9D003710BE /* BaseLayerViewModel.swift in Sources */,
+				C988EAD9261B705A00300C39 /* ImprovementLayerViewModel.swift in Sources */,
+				C988EAE1261B70B400300C39 /* CityLayerView.swift in Sources */,
 				C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */,
 				C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */,
 				C93AA699260DD93B0053DF74 /* GameHostingView.swift in Sources */,
+				C988EAD1261B6ED500300C39 /* BorderLayerViewModel.swift in Sources */,
 				C99A88772607A02D003B8B73 /* GameScrollContentViewModel.swift in Sources */,
+				C988EADF261B70A800300C39 /* ImprovementLayerView.swift in Sources */,
+				C988EADB261B707600300C39 /* CityLayerViewModel.swift in Sources */,
 				C99A88722607A01C003B8B73 /* GameScrollContentView.swift in Sources */,
 				C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */,
+				C988EAE3261B70BE00300C39 /* UnitLayerView.swift in Sources */,
 				C93AA6A1260DE1550053DF74 /* ResourceLayerViewModel.swift in Sources */,
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
 				C9155175260BB382003710BE /* TerrainLayerView.swift in Sources */,
 				C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */,
+				C988EAD7261B6F7B00300C39 /* RoadLayerView.swift in Sources */,
 				C93AA6A9260F23640053DF74 /* HexCoordLayerView.swift in Sources */,
 				C9155179260BCEE7003710BE /* FeatureLayerViewModel.swift in Sources */,
+				C988EADD261B708000300C39 /* UnitLayerViewModel.swift in Sources */,
 				C988EAB4261B331800300C39 /* TrackableScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

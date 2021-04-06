@@ -47,38 +47,6 @@ public class Textures {
         ]
         
         self.allBorderTextureNames = Textures.allTextureSuffixes.map({ "border\($0)" })
-            /*"border_se_s_sw_nw", "border_n_ne_se_s_sw_nw", "border_n_ne_se_s_nw", "border_n_s_nw", "border_n_ne_s", "border_n", "border_n_sw_nw
-            border_se_s_sw", "border_ne_se", "border_ne", "border_se_s_nw
-            border_ne_se_s_sw_nw
-            border_ne_se_s
-            border_se
-            border_n_se_sw_nw
-            border_n_ne
-            border_n_ne_se_sw
-            border_all
-            border_ne_s_nw
-            border_sw_nw
-            border_n_ne_se_nw
-            border_n_se
-            border_ne_se_sw_nw
-            border_ne_sw_nw
-            border_n_ne_se
-            border_ne_s_sw
-            border_s_sw_nw
-            border_n_ne_nw
-            border_n_se_s
-            border_se_nw
-            border_s
-            border_n_se_s_sw_nw
-            border_n_ne_sw_nw
-            border_n_s
-            border_n_ne_se_sw_nw
-            border_n_se_s_nw
-            border_ne_se_nw
-            border_n_nw
-            border_n_ne_se_s
-            border_se_s", "border_ne_se_s_nw", "border_se_sw", "border_n_ne_s_sw_nw", "border_n_ne_sw", "border_n_se_s_sw", "border_ne_se_sw", "border_n_sw", "border_ne_se_s_sw"
-        ]*/
     }
 
     public func coastTexture(at point: HexPoint) -> String? {

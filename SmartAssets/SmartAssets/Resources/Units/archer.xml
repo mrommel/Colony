@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:2c1bc9df4cfd40a658acefaa267a379a:aa7f2ac9c0cb96cd92708835c8fa57e0:3a3f1c41fa724cdf1902fbff723391ed$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+
+<TextureAtlas texture="archer.png" width="860" height="860">
+    
+  <!-- Define the unit type-->
+  <unit id ="archer">
+
+    <!-- Attack Action-->
+    <action enum="attack" speed="203">
+      <direction enum="south">
+        <sprite n="archer_attack/000_archer_attack.bmp" x="1" y="1" w="47" h="52" pX="0.617021" pY="0.711538"/>
+        <sprite n="archer_attack/001_archer_attack.bmp" x="50" y="1" w="40" h="54" pX="0.675" pY="0.685185"/>
+        <sprite n="archer_attack/002_archer_attack.bmp" x="92" y="1" w="28" h="60" pX="0.714286" pY="0.783333"/>
+        <sprite n="archer_attack/003_archer_attack.bmp" x="122" y="1" w="21" h="60" pX="0.619048" pY="0.833333"/>
+        <sprite n="archer_attack/004_archer_attack.bmp" x="145" y="1" w="22" h="61" pX="0.590909" pY="0.836066"/>
+        <sprite n="archer_attack/005_archer_attack.bmp" x="169" y="1" w="23" h="60" pX="0.608696" pY="0.833333"/>
+        <sprite n="archer_attack/006_archer_attack.bmp" x="194" y="1" w="21" h="62" pX="0.619048" pY="0.83871"/>
+        <sprite n="archer_attack/007_archer_attack.bmp" x="217" y="1" w="33" h="53" pX="0.69697" pY="0.792453"/>
+        <sprite n="archer_attack/008_archer_attack.bmp" x="252" y="1" w="46" h="48" pX="0.608696" pY="0.791667"/>
+        <sprite n="archer_attack/009_archer_attack.bmp" x="300" y="1" w="49" h="46" pX="0.571429" pY="0.804348"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="archer_attack/010_archer_attack.bmp" x="351" y="1" w="35" h="48" pX="0.714286" pY="0.791667"/>
+        <sprite n="archer_attack/011_archer_attack.bmp" x="388" y="1" w="39" h="52" pX="0.717949" pY="0.807692"/>
+        <sprite n="archer_attack/012_archer_attack.bmp" x="429" y="1" w="34" h="60" pX="0.647059" pY="0.866667"/>
+        <sprite n="archer_attack/013_archer_attack.bmp" x="465" y="1" w="32" h="59" pX="0.59375" pY="0.881356"/>
+        <sprite n="archer_attack/014_archer_attack.bmp" x="499" y="1" w="37" h="57" pX="0.594595" pY="0.912281"/>
+        <sprite n="archer_attack/015_archer_attack.bmp" x="538" y="1" w="33" h="59" pX="0.575758" pY="0.898305"/>
+        <sprite n="archer_attack/016_archer_attack.bmp" x="573" y="1" w="32" h="61" pX="0.5625" pY="0.885246"/>
+        <sprite n="archer_attack/017_archer_attack.bmp" x="607" y="1" w="35" h="57" pX="0.657143" pY="0.842105"/>
+        <sprite n="archer_attack/018_archer_attack.bmp" x="644" y="1" w="36" h="49" pX="0.722222" pY="0.795918"/>
+        <sprite n="archer_attack/019_archer_attack.bmp" x="682" y="1" w="42" h="47" pX="0.642857" pY="0.808511"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="archer_attack/020_archer_attack.bmp" x="726" y="1" w="44" h="52" pX="0.613636" pY="0.807692"/>
+        <sprite n="archer_attack/021_archer_attack.bmp" x="772" y="1" w="49" h="56" pX="0.653061" pY="0.857143"/>
+        <sprite n="archer_attack/022_archer_attack.bmp" x="1" y="65" w="41" h="58" pX="0.585366" pY="0.913793"/>
+        <sprite n="archer_attack/023_archer_attack.bmp" x="44" y="65" w="39" h="58" pX="0.512821" pY="0.913793"/>
+        <sprite n="archer_attack/024_archer_attack.bmp" x="85" y="65" w="38" h="58" pX="0.5" pY="0.913793"/>
+        <sprite n="archer_attack/025_archer_attack.bmp" x="125" y="65" w="39" h="58" pX="0.512821" pY="0.913793"/>
+        <sprite n="archer_attack/026_archer_attack.bmp" x="166" y="65" w="41" h="58" pX="0.487805" pY="0.913793"/>
+        <sprite n="archer_attack/027_archer_attack.bmp" x="209" y="65" w="39" h="58" pX="0.564103" pY="0.896552"/>
+        <sprite n="archer_attack/028_archer_attack.bmp" x="250" y="65" w="37" h="55" pX="0.540541" pY="0.818182"/>
+        <sprite n="archer_attack/029_archer_attack.bmp" x="289" y="65" w="33" h="50" pX="0.515152" pY="0.76"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="archer_attack/030_archer_attack.bmp" x="324" y="65" w="34" h="48" pX="0.5" pY="0.854167"/>
+        <sprite n="archer_attack/031_archer_attack.bmp" x="360" y="65" w="36" h="55" pX="0.527778" pY="0.872727"/>
+        <sprite n="archer_attack/032_archer_attack.bmp" x="398" y="65" w="33" h="60" pX="0.484848" pY="0.883333"/>
+        <sprite n="archer_attack/033_archer_attack.bmp" x="433" y="65" w="29" h="61" pX="0.413793" pY="0.868852"/>
+        <sprite n="archer_attack/034_archer_attack.bmp" x="464" y="65" w="27" h="61" pX="0.37037" pY="0.852459"/>
+        <sprite n="archer_attack/035_archer_attack.bmp" x="493" y="65" w="28" h="61" pX="0.392857" pY="0.868852"/>
+        <sprite n="archer_attack/036_archer_attack.bmp" x="523" y="65" w="33" h="60" pX="0.393939" pY="0.866667"/>
+        <sprite n="archer_attack/037_archer_attack.bmp" x="558" y="65" w="36" h="60" pX="0.472222" pY="0.883333"/>
+        <sprite n="archer_attack/038_archer_attack.bmp" x="596" y="65" w="35" h="53" pX="0.514286" pY="0.867925"/>
+        <sprite n="archer_attack/039_archer_attack.bmp" x="633" y="65" w="34" h="46" pX="0.5" pY="0.826087"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="archer_attack/040_archer_attack.bmp" x="669" y="65" w="45" h="48" pX="0.4" pY="0.791667"/>
+        <sprite n="archer_attack/041_archer_attack.bmp" x="716" y="65" w="35" h="53" pX="0.342857" pY="0.811321"/>
+        <sprite n="archer_attack/042_archer_attack.bmp" x="753" y="65" w="24" h="59" pX="0.375" pY="0.830508"/>
+        <sprite n="archer_attack/043_archer_attack.bmp" x="779" y="65" w="19" h="61" pX="0.473684" pY="0.836066"/>
+        <sprite n="archer_attack/044_archer_attack.bmp" x="800" y="65" w="20" h="62" pX="0.5" pY="0.822581"/>
+        <sprite n="archer_attack/045_archer_attack.bmp" x="822" y="65" w="18" h="60" pX="0.5" pY="0.833333"/>
+        <sprite n="archer_attack/046_archer_attack.bmp" x="1" y="129" w="21" h="61" pX="0.428571" pY="0.803279"/>
+        <sprite n="archer_attack/047_archer_attack.bmp" x="24" y="129" w="27" h="59" pX="0.333333" pY="0.830508"/>
+        <sprite n="archer_attack/048_archer_attack.bmp" x="53" y="129" w="42" h="50" pX="0.428571" pY="0.8"/>
+        <sprite n="archer_attack/049_archer_attack.bmp" x="97" y="129" w="47" h="47" pX="0.468085" pY="0.787234"/>
+      </direction>
+      </action>
+
+    <!--Die Action-->
+    <action enum ="die" speed="200">
+      <direction enum="south">
+        <sprite n="archer_die/000_archer_die.bmp" x="146" y="129" w="36" h="46" pX="0.388889" pY="0.782609"/>
+        <sprite n="archer_die/001_archer_die.bmp" x="184" y="129" w="36" h="49" pX="0.388889" pY="0.734694"/>
+        <sprite n="archer_die/002_archer_die.bmp" x="222" y="129" w="30" h="56" pX="-0.1" pY="0.696429"/>
+        <sprite n="archer_die/003_archer_die.bmp" x="254" y="129" w="49" h="76" pX="0" pY="0.789474"/>
+        <sprite n="archer_die/004_archer_die.bmp" x="305" y="129" w="61" h="81" pX="0.0983607" pY="0.802469"/>
+        <sprite n="archer_die/005_archer_die.bmp" x="368" y="129" w="70" h="65" pX="0.128571" pY="0.738462"/>
+        <sprite n="archer_die/006_archer_die.bmp" x="440" y="129" w="74" h="74" pX="0.121622" pY="0.72973"/>
+        <sprite n="archer_die/007_archer_die.bmp" x="516" y="129" w="75" h="67" pX="0.146667" pY="0.716418"/>
+        <sprite n="archer_die/008_archer_die.bmp" x="593" y="129" w="78" h="54" pX="0.141026" pY="0.648148"/>
+        <sprite n="archer_die/009_archer_die.bmp" x="673" y="129" w="78" h="55" pX="0.141026" pY="0.654545"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="archer_die/010_archer_die.bmp" x="753" y="129" w="25" h="52" pX="0.76" pY="0.730769"/>
+        <sprite n="archer_die/011_archer_die.bmp" x="780" y="129" w="43" h="50" pX="0.465116" pY="0.66"/>
+        <sprite n="archer_die/012_archer_die.bmp" x="1" y="212" w="52" h="54" pX="0.288462" pY="0.685185"/>
+        <sprite n="archer_die/013_archer_die.bmp" x="55" y="212" w="78" h="61" pX="0.166667" pY="0.721311"/>
+        <sprite n="archer_die/014_archer_die.bmp" x="135" y="212" w="81" h="62" pX="0.148148" pY="0.709677"/>
+        <sprite n="archer_die/015_archer_die.bmp" x="218" y="212" w="86" h="62" pX="0.139535" pY="0.580645"/>
+        <sprite n="archer_die/016_archer_die.bmp" x="306" y="212" w="83" h="73" pX="0.108434" pY="0.561644"/>
+        <sprite n="archer_die/017_archer_die.bmp" x="391" y="212" w="79" h="64" pX="0.101266" pY="0.515625"/>
+        <sprite n="archer_die/018_archer_die.bmp" x="472" y="212" w="77" h="52" pX="0.0909091" pY="0.384615"/>
+        <sprite n="archer_die/019_archer_die.bmp" x="551" y="212" w="78" h="53" pX="0.0897436" pY="0.396226"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="archer_die/020_archer_die.bmp" x="631" y="212" w="26" h="53" pX="0.807692" pY="0.792453"/>
+        <sprite n="archer_die/021_archer_die.bmp" x="659" y="212" w="31" h="54" pX="0.870968" pY="0.685185"/>
+        <sprite n="archer_die/022_archer_die.bmp" x="692" y="212" w="54" h="55" pX="0.592593" pY="0.672727"/>
+        <sprite n="archer_die/023_archer_die.bmp" x="748" y="212" w="75" h="65" pX="0.413333" pY="0.584615"/>
+        <sprite n="archer_die/024_archer_die.bmp" x="1" y="287" w="72" h="63" pX="0.402778" pY="0.52381"/>
+        <sprite n="archer_die/025_archer_die.bmp" x="75" y="287" w="78" h="60" pX="0.448718" pY="0.433333"/>
+        <sprite n="archer_die/026_archer_die.bmp" x="155" y="287" w="88" h="60" pX="0.420455" pY="0.416667"/>
+        <sprite n="archer_die/027_archer_die.bmp" x="245" y="287" w="96" h="45" pX="0.364583" pY="0.244444"/>
+        <sprite n="archer_die/028_archer_die.bmp" x="343" y="287" w="106" h="43" pX="0.330189" pY="0.186047"/>
+        <sprite n="archer_die/029_archer_die.bmp" x="451" y="287" w="110" h="42" pX="0.318182" pY="0.166667"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="archer_die/030_archer_die.bmp" x="563" y="287" w="33" h="50" pX="0.818182" pY="0.92"/>
+        <sprite n="archer_die/031_archer_die.bmp" x="598" y="287" w="31" h="56" pX="1.06452" pY="0.785714"/>
+        <sprite n="archer_die/032_archer_die.bmp" x="631" y="287" w="29" h="58" pX="1.17241" pY="0.655172"/>
+        <sprite n="archer_die/033_archer_die.bmp" x="662" y="287" w="44" h="72" pX="0.772727" pY="0.5"/>
+        <sprite n="archer_die/034_archer_die.bmp" x="708" y="287" w="58" h="74" pX="0.551724" pY="0.486486"/>
+        <sprite n="archer_die/035_archer_die.bmp" x="768" y="287" w="81" h="62" pX="0.592593" pY="0.370968"/>
+        <sprite n="archer_die/036_archer_die.bmp" x="1" y="363" w="95" h="54" pX="0.621053" pY="0.277778"/>
+        <sprite n="archer_die/037_archer_die.bmp" x="98" y="363" w="94" h="43" pX="0.606383" pY="0.139535"/>
+        <sprite n="archer_die/038_archer_die.bmp" x="194" y="363" w="97" h="42" pX="0.597938" pY="0.119048"/>
+        <sprite n="archer_die/039_archer_die.bmp" x="293" y="363" w="100" h="42" pX="0.58" pY="0.119048"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="archer_die/040_archer_die.bmp" x="395" y="363" w="35" h="52" pX="0.628571" pY="0.942308"/>
+        <sprite n="archer_die/041_archer_die.bmp" x="432" y="363" w="41" h="53" pX="0.853659" pY="0.962264"/>
+        <sprite n="archer_die/042_archer_die.bmp" x="475" y="363" w="35" h="55" pX="1.05714" pY="0.8"/>
+        <sprite n="archer_die/043_archer_die.bmp" x="512" y="363" w="56" h="66" pX="1.03571" pY="0.666667"/>
+        <sprite n="archer_die/044_archer_die.bmp" x="570" y="363" w="66" h="65" pX="0.939394" pY="0.661538"/>
+        <sprite n="archer_die/045_archer_die.bmp" x="638" y="363" w="71" h="60" pX="0.873239" pY="0.633333"/>
+        <sprite n="archer_die/046_archer_die.bmp" x="711" y="363" w="73" h="46" pX="0.849315" pY="0.413043"/>
+        <sprite n="archer_die/047_archer_die.bmp" x="1" y="431" w="74" h="51" pX="0.837838" pY="0.352941"/>
+        <sprite n="archer_die/048_archer_die.bmp" x="77" y="431" w="77" h="56" pX="0.831169" pY="0.339286"/>
+        <sprite n="archer_die/049_archer_die.bmp" x="156" y="431" w="77" h="58" pX="0.831169" pY="0.327586"/>
+      </direction>
+    </action>
+
+    <!--Disappear Action-->
+    <action enum ="disappear" speed="1500">
+      <direction enum="south">
+        <sprite n="archer_dissapear/000_archer_dissapear.bmp" x="235" y="431" w="76" h="53" pX="0.131579" pY="0.660377"/>
+        <sprite n="archer_dissapear/001_archer_dissapear.bmp" x="313" y="431" w="76" h="53" pX="0.131579" pY="0.660377"/>
+        <sprite n="archer_dissapear/002_archer_dissapear.bmp" x="391" y="431" w="74" h="53" pX="0.135135" pY="0.660377"/>
+        <sprite n="archer_dissapear/003_archer_dissapear.bmp" x="467" y="431" w="68" h="53" pX="0.0588235" pY="0.660377"/>
+        <sprite n="archer_dissapear/004_archer_dissapear.bmp" x="537" y="431" w="68" h="52" pX="0.0588235" pY="0.673077"/>
+      </direction>
+
+      <direction enum="south-west">
+        <sprite n="archer_dissapear/005_archer_dissapear.bmp" x="607" y="431" w="76" h="51" pX="0.0789474" pY="0.392157"/>
+        <sprite n="archer_dissapear/006_archer_dissapear.bmp" x="685" y="431" w="76" h="49" pX="0.0789474" pY="0.387755"/>
+        <sprite n="archer_dissapear/007_archer_dissapear.bmp" x="763" y="431" w="75" h="48" pX="0.0666667" pY="0.375"/>
+        <sprite n="archer_dissapear/008_archer_dissapear.bmp" x="1" y="491" w="75" h="48" pX="0.0666667" pY="0.375"/>
+        <sprite n="archer_dissapear/009_archer_dissapear.bmp" x="78" y="491" w="75" h="48" pX="0.0666667" pY="0.375"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite n="archer_dissapear/010_archer_dissapear.bmp" x="155" y="491" w="108" h="40" pX="0.314815" pY="0.15"/>
+        <sprite n="archer_dissapear/011_archer_dissapear.bmp" x="265" y="491" w="107" h="40" pX="0.317757" pY="0.15"/>
+        <sprite n="archer_dissapear/012_archer_dissapear.bmp" x="374" y="491" w="107" h="40" pX="0.317757" pY="0.15"/>
+        <sprite n="archer_dissapear/013_archer_dissapear.bmp" x="483" y="491" w="103" h="40" pX="0.291262" pY="0.15"/>
+        <sprite n="archer_dissapear/014_archer_dissapear.bmp" x="588" y="491" w="103" h="35" pX="0.291262" pY="0.0857143"/>
+      </direction>
+
+      <direction enum="north-west">
+        <sprite n="archer_dissapear/015_archer_dissapear.bmp" x="693" y="491" w="98" h="40" pX="0.581633" pY="0.1"/>
+        <sprite n="archer_dissapear/016_archer_dissapear.bmp" x="1" y="541" w="98" h="40" pX="0.581633" pY="0.1"/>
+        <sprite n="archer_dissapear/017_archer_dissapear.bmp" x="101" y="541" w="96" h="40" pX="0.572917" pY="0.1"/>
+        <sprite n="archer_dissapear/018_archer_dissapear.bmp" x="199" y="541" w="96" h="40" pX="0.572917" pY="0.1"/>
+        <sprite n="archer_dissapear/019_archer_dissapear.bmp" x="297" y="541" w="96" h="40" pX="0.572917" pY="0.1"/>
+      </direction>
+
+      <direction enum="north">
+        <sprite n="archer_dissapear/020_archer_dissapear.bmp" x="395" y="541" w="75" h="56" pX="0.84" pY="0.321429"/>
+        <sprite n="archer_dissapear/021_archer_dissapear.bmp" x="472" y="541" w="71" h="54" pX="0.873239" pY="0.314815"/>
+        <sprite n="archer_dissapear/022_archer_dissapear.bmp" x="545" y="541" w="69" h="51" pX="0.898551" pY="0.294118"/>
+        <sprite n="archer_dissapear/023_archer_dissapear.bmp" x="616" y="541" w="67" h="51" pX="0.925373" pY="0.294118"/>
+        <sprite n="archer_dissapear/024_archer_dissapear.bmp" x="685" y="541" w="66" h="49" pX="0.939394" pY="0.306122"/>
+      </direction>
+    </action>
+
+    <!--Idle Action-->
+    <action enum ="idle" speed="150">
+      <direction enum="south">
+        <sprite n="archer_idle/000_archer_idle.bmp" x="753" y="541" w="49" h="51" pX="0.591837" pY="0.72549"/>
+        <sprite n="archer_idle/001_archer_idle.bmp" x="804" y="541" w="48" h="51" pX="0.583333" pY="0.72549"/>
+        <sprite n="archer_idle/002_archer_idle.bmp" x="1" y="599" w="49" h="51" pX="0.591837" pY="0.745098"/>
+        <sprite n="archer_idle/003_archer_idle.bmp" x="52" y="599" w="48" h="51" pX="0.583333" pY="0.745098"/>
+        <sprite n="archer_idle/004_archer_idle.bmp" x="102" y="599" w="48" h="51" pX="0.5625" pY="0.745098"/>
+        <sprite n="archer_idle/005_archer_idle.bmp" x="152" y="599" w="49" h="51" pX="0.571429" pY="0.745098"/>
+        <sprite n="archer_idle/006_archer_idle.bmp" x="203" y="599" w="49" h="51" pX="0.571429" pY="0.745098"/>
+        <sprite n="archer_idle/007_archer_idle.bmp" x="254" y="599" w="49" h="51" pX="0.571429" pY="0.745098"/>
+        <sprite n="archer_idle/008_archer_idle.bmp" x="305" y="599" w="49" h="51" pX="0.571429" pY="0.745098"/>
+        <sprite n="archer_idle/009_archer_idle.bmp" x="356" y="599" w="47" h="51" pX="0.574468" pY="0.745098"/>
+      </direction>
+
+      <direction enum="south-west">
+    <sprite n="archer_idle/010_archer_idle.bmp" x="405" y="599" w="35" h="48" pX="0.657143" pY="0.791667"/>
+    <sprite n="archer_idle/011_archer_idle.bmp" x="442" y="599" w="37" h="48" pX="0.675676" pY="0.791667"/>
+    <sprite n="archer_idle/012_archer_idle.bmp" x="481" y="599" w="38" h="48" pX="0.657895" pY="0.791667"/>
+    <sprite n="archer_idle/013_archer_idle.bmp" x="521" y="599" w="39" h="48" pX="0.641026" pY="0.791667"/>
+    <sprite n="archer_idle/014_archer_idle.bmp" x="562" y="599" w="40" h="48" pX="0.65" pY="0.791667"/>
+    <sprite n="archer_idle/015_archer_idle.bmp" x="604" y="599" w="41" h="48" pX="0.634146" pY="0.791667"/>
+    <sprite n="archer_idle/016_archer_idle.bmp" x="647" y="599" w="41" h="48" pX="0.634146" pY="0.791667"/>
+    <sprite n="archer_idle/017_archer_idle.bmp" x="690" y="599" w="40" h="48" pX="0.65" pY="0.791667"/>
+    <sprite n="archer_idle/018_archer_idle.bmp" x="732" y="599" w="39" h="48" pX="0.641026" pY="0.791667"/>
+    <sprite n="archer_idle/019_archer_idle.bmp" x="773" y="599" w="38" h="48" pX="0.657895" pY="0.791667"/>
+      </direction>
+
+      <direction enum="west">
+           <sprite n="archer_idle/020_archer_idle.bmp" x="813" y="599" w="41" h="49" pX="0.609756" pY="0.77551"/>
+    <sprite n="archer_idle/021_archer_idle.bmp" x="1" y="652" w="41" h="50" pX="0.609756" pY="0.76"/>
+    <sprite n="archer_idle/022_archer_idle.bmp" x="44" y="652" w="39" h="50" pX="0.589744" pY="0.76"/>
+    <sprite n="archer_idle/023_archer_idle.bmp" x="85" y="652" w="37" h="50" pX="0.567568" pY="0.76"/>
+    <sprite n="archer_idle/024_archer_idle.bmp" x="124" y="652" w="40" h="50" pX="0.6" pY="0.76"/>
+    <sprite n="archer_idle/025_archer_idle.bmp" x="166" y="652" w="39" h="50" pX="0.589744" pY="0.76"/>
+    <sprite n="archer_idle/026_archer_idle.bmp" x="207" y="652" w="39" h="50" pX="0.589744" pY="0.76"/>
+    <sprite n="archer_idle/027_archer_idle.bmp" x="248" y="652" w="40" h="50" pX="0.6" pY="0.76"/>
+    <sprite n="archer_idle/028_archer_idle.bmp" x="290" y="652" w="38" h="50" pX="0.578947" pY="0.76"/>
+    <sprite n="archer_idle/029_archer_idle.bmp" x="330" y="652" w="40" h="50" pX="0.6" pY="0.76"/>
+
+
+      </direction>
+
+      <direction enum="north-west">
+            <sprite n="archer_idle/030_archer_idle.bmp" x="372" y="652" w="34" h="51" pX="0.558824" pY="0.745098"/>
+    <sprite n="archer_idle/031_archer_idle.bmp" x="408" y="652" w="36" h="51" pX="0.583333" pY="0.745098"/>
+    <sprite n="archer_idle/032_archer_idle.bmp" x="446" y="652" w="37" h="51" pX="0.594595" pY="0.745098"/>
+    <sprite n="archer_idle/033_archer_idle.bmp" x="485" y="652" w="37" h="51" pX="0.594595" pY="0.745098"/>
+    <sprite n="archer_idle/034_archer_idle.bmp" x="524" y="652" w="38" h="51" pX="0.605263" pY="0.745098"/>
+    <sprite n="archer_idle/035_archer_idle.bmp" x="564" y="652" w="38" h="51" pX="0.605263" pY="0.745098"/>
+    <sprite n="archer_idle/036_archer_idle.bmp" x="604" y="652" w="38" h="51" pX="0.605263" pY="0.745098"/>
+    <sprite n="archer_idle/037_archer_idle.bmp" x="644" y="652" w="38" h="51" pX="0.605263" pY="0.745098"/>
+    <sprite n="archer_idle/038_archer_idle.bmp" x="684" y="652" w="37" h="51" pX="0.594595" pY="0.745098"/>
+    <sprite n="archer_idle/039_archer_idle.bmp" x="723" y="652" w="37" h="51" pX="0.594595" pY="0.745098"/>
+    <sprite n="archer_idle/040_archer_idle.bmp" x="762" y="652" w="34" h="51" pX="0.558824" pY="0.745098"/>
+
+      </direction>
+
+      <direction enum="north">
+        <sprite n="archer_idle/041_archer_idle.bmp" x="798" y="652" w="39" h="45" pX="0.538462" pY="0.822222"/>
+        <sprite n="archer_idle/042_archer_idle.bmp" x="1" y="705" w="39" h="45" pX="0.589744" pY="0.822222"/>
+        <sprite n="archer_idle/043_archer_idle.bmp" x="42" y="705" w="40" h="45" pX="0.575" pY="0.822222"/>
+        <sprite n="archer_idle/044_archer_idle.bmp" x="84" y="705" w="40" h="45" pX="0.575" pY="0.822222"/>
+        <sprite n="archer_idle/045_archer_idle.bmp" x="126" y="705" w="39" h="45" pX="0.589744" pY="0.822222"/>
+        <sprite n="archer_idle/046_archer_idle.bmp" x="167" y="705" w="38" h="45" pX="0.605263" pY="0.822222"/>
+        <sprite n="archer_idle/047_archer_idle.bmp" x="207" y="705" w="38" h="45" pX="0.605263" pY="0.822222"/>
+        <sprite n="archer_idle/048_archer_idle.bmp" x="247" y="705" w="39" h="45" pX="0.589744" pY="0.822222"/>
+        <sprite n="archer_idle/049_archer_idle.bmp" x="288" y="705" w="40" h="45" pX="0.575" pY="0.822222"/>
+        <sprite n="archer_idle/050_archer_idle.bmp" x="330" y="705" w="41" h="45" pX="0.560976" pY="0.822222"/>
+        <sprite n="archer_idle/051_archer_idle.bmp" x="373" y="705" w="39" h="45" pX="0.512821" pY="0.822222"/>
+      </direction>
+    </action>
+
+    <!--Walk Action-->
+    <action enum ="walk" speed="100">
+      <direction enum="south">
+            <sprite n="archer_walk/000_archer_walk.bmp" x="414" y="705" w="20" h="48" pX="0.5" pY="0.791667"/>
+    <sprite n="archer_walk/001_archer_walk.bmp" x="436" y="705" w="22" h="48" pX="0.5" pY="0.75"/>
+    <sprite n="archer_walk/002_archer_walk.bmp" x="460" y="705" w="22" h="50" pX="0.5" pY="0.74"/>
+    <sprite n="archer_walk/003_archer_walk.bmp" x="484" y="705" w="23" h="50" pX="0.478261" pY="0.74"/>
+    <sprite n="archer_walk/004_archer_walk.bmp" x="509" y="705" w="21" h="49" pX="0.47619" pY="0.734694"/>
+    <sprite n="archer_walk/005_archer_walk.bmp" x="532" y="705" w="21" h="48" pX="0.47619" pY="0.729167"/>
+    <sprite n="archer_walk/006_archer_walk.bmp" x="555" y="705" w="22" h="49" pX="0.454545" pY="0.734694"/>
+    <sprite n="archer_walk/007_archer_walk.bmp" x="579" y="705" w="23" h="50" pX="0.434783" pY="0.74"/>
+    <sprite n="archer_walk/008_archer_walk.bmp" x="604" y="705" w="22" h="49" pX="0.454545" pY="0.755102"/>
+    <sprite n="archer_walk/009_archer_walk.bmp" x="628" y="705" w="22" h="49" pX="0.454545" pY="0.755102"/>
+
+      </direction>
+
+      <direction enum="south-west">    
+<sprite n="archer_walk/010_archer_walk.bmp" x="652" y="705" w="38" h="43" pX="0.5" pY="0.837209"/>
+    <sprite n="archer_walk/011_archer_walk.bmp" x="692" y="705" w="39" h="43" pX="0.538462" pY="0.837209"/>
+    <sprite n="archer_walk/012_archer_walk.bmp" x="733" y="705" w="36" h="45" pX="0.583333" pY="0.844444"/>
+    <sprite n="archer_walk/013_archer_walk.bmp" x="771" y="705" w="34" h="46" pX="0.647059" pY="0.804348"/>
+    <sprite n="archer_walk/014_archer_walk.bmp" x="807" y="705" w="32" h="46" pX="0.59375" pY="0.782609"/>
+    <sprite n="archer_walk/015_archer_walk.bmp" x="1" y="757" w="30" h="45" pX="0.566667" pY="0.777778"/>
+    <sprite n="archer_walk/016_archer_walk.bmp" x="33" y="757" w="29" h="45" pX="0.586207" pY="0.777778"/>
+    <sprite n="archer_walk/017_archer_walk.bmp" x="64" y="757" w="31" h="45" pX="0.580645" pY="0.8"/>
+    <sprite n="archer_walk/018_archer_walk.bmp" x="97" y="757" w="34" h="45" pX="0.558824" pY="0.822222"/>
+    <sprite n="archer_walk/019_archer_walk.bmp" x="133" y="757" w="38" h="44" pX="0.526316" pY="0.840909"/>
+
+      </direction>
+
+      <direction enum="west">
+    <sprite n="archer_walk/020_archer_walk.bmp" x="173" y="757" w="46" h="44" pX="0.391304" pY="0.840909"/>
+    <sprite n="archer_walk/021_archer_walk.bmp" x="221" y="757" w="47" h="44" pX="0.446809" pY="0.840909"/>
+    <sprite n="archer_walk/022_archer_walk.bmp" x="270" y="757" w="49" h="45" pX="0.489796" pY="0.844444"/>
+    <sprite n="archer_walk/023_archer_walk.bmp" x="321" y="757" w="49" h="44" pX="0.530612" pY="0.840909"/>
+    <sprite n="archer_walk/024_archer_walk.bmp" x="372" y="757" w="41" h="43" pX="0.536585" pY="0.837209"/>
+    <sprite n="archer_walk/025_archer_walk.bmp" x="415" y="757" w="43" h="42" pX="0.604651" pY="0.833333"/>
+    <sprite n="archer_walk/026_archer_walk.bmp" x="460" y="757" w="46" h="42" pX="0.565217" pY="0.833333"/>
+    <sprite n="archer_walk/027_archer_walk.bmp" x="508" y="757" w="48" h="43" pX="0.5" pY="0.837209"/>
+    <sprite n="archer_walk/028_archer_walk.bmp" x="558" y="757" w="49" h="44" pX="0.469388" pY="0.840909"/>
+    <sprite n="archer_walk/029_archer_walk.bmp" x="609" y="757" w="47" h="44" pX="0.425532" pY="0.840909"/>
+      </direction>
+
+      <direction enum="north-west">    
+<sprite n="archer_walk/030_archer_walk.bmp" x="658" y="757" w="34" h="47" pX="0.352941" pY="0.787234"/>
+    <sprite n="archer_walk/031_archer_walk.bmp" x="694" y="757" w="33" h="47" pX="0.333333" pY="0.787234"/>
+    <sprite n="archer_walk/032_archer_walk.bmp" x="729" y="757" w="36" h="47" pX="0.388889" pY="0.808511"/>
+    <sprite n="archer_walk/033_archer_walk.bmp" x="767" y="757" w="38" h="45" pX="0.447368" pY="0.844444"/>
+    <sprite n="archer_walk/034_archer_walk.bmp" x="807" y="757" w="39" h="45" pX="0.487179" pY="0.822222"/>
+    <sprite n="archer_walk/035_archer_walk.bmp" x="1" y="806" w="40" h="45" pX="0.525" pY="0.822222"/>
+    <sprite n="archer_walk/036_archer_walk.bmp" x="43" y="806" w="42" h="43" pX="0.47619" pY="0.837209"/>
+    <sprite n="archer_walk/037_archer_walk.bmp" x="87" y="806" w="40" h="45" pX="0.425" pY="0.822222"/>
+    <sprite n="archer_walk/038_archer_walk.bmp" x="129" y="806" w="37" h="46" pX="0.378378" pY="0.804348"/>
+    <sprite n="archer_walk/039_archer_walk.bmp" x="168" y="806" w="34" h="47" pX="0.323529" pY="0.787234"/>
+
+      </direction>
+
+      <direction enum="north">
+             <sprite n="archer_walk/040_archer_walk.bmp" x="204" y="806" w="23" h="52" pX="0.565217" pY="0.711538"/>
+    <sprite n="archer_walk/041_archer_walk.bmp" x="229" y="806" w="22" h="52" pX="0.545455" pY="0.711538"/>
+    <sprite n="archer_walk/042_archer_walk.bmp" x="253" y="806" w="21" h="52" pX="0.52381" pY="0.730769"/>
+    <sprite n="archer_walk/043_archer_walk.bmp" x="276" y="806" w="21" h="51" pX="0.52381" pY="0.745098"/>
+    <sprite n="archer_walk/044_archer_walk.bmp" x="299" y="806" w="24" h="50" pX="0.541667" pY="0.78"/>
+    <sprite n="archer_walk/045_archer_walk.bmp" x="325" y="806" w="25" h="50" pX="0.52" pY="0.8"/>
+    <sprite n="archer_walk/046_archer_walk.bmp" x="352" y="806" w="25" h="50" pX="0.56" pY="0.76"/>
+    <sprite n="archer_walk/047_archer_walk.bmp" x="379" y="806" w="25" h="51" pX="0.6" pY="0.72549"/>
+    <sprite n="archer_walk/048_archer_walk.bmp" x="406" y="806" w="24" h="53" pX="0.625" pY="0.716981"/>
+    <sprite n="archer_walk/049_archer_walk.bmp" x="432" y="806" w="24" h="53" pX="0.583333" pY="0.716981"/>
+
+      </direction>
+    </action>
+  </unit>
+</TextureAtlas>

@@ -19,10 +19,14 @@ public class GameViewModel {
     
     var terrainLayerViewModel: TerrainLayerViewModel?
     var riverLayerViewModel: RiverLayerViewModel?
-    // border
+    var borderLayerViewModel: BorderLayerViewModel?
+    var roadLayerViewModel: RoadLayerViewModel?
     // cursor?
     var featureLayerViewModel: FeatureLayerViewModel?
     var resourceLayerViewModel: ResourceLayerViewModel?
+    var improvementLayerViewModel: ImprovementLayerViewModel?
+    var cityLayerViewModel: CityLayerViewModel?
+    var unitLayerViewModel: UnitLayerViewModel?
     
     // debug
     var hexCoordLayerViewModel: HexCoordLayerViewModel?
@@ -41,7 +45,12 @@ public class GameViewModel {
             self.riverLayerViewModel = RiverLayerViewModel(game: self.game)
             self.riverLayerViewModel?.update()
             
-            // border
+            self.borderLayerViewModel = BorderLayerViewModel(game: self.game)
+            self.borderLayerViewModel?.update()
+            
+            self.roadLayerViewModel = RoadLayerViewModel(game: self.game)
+            self.roadLayerViewModel?.update()
+            
             // cursor?
             
             self.featureLayerViewModel = FeatureLayerViewModel(game: self.game)
@@ -49,6 +58,17 @@ public class GameViewModel {
             
             self.resourceLayerViewModel = ResourceLayerViewModel(game: self.game)
             self.resourceLayerViewModel?.update()
+            
+            self.improvementLayerViewModel = ImprovementLayerViewModel(game: self.game)
+            self.improvementLayerViewModel?.update()
+            
+            self.cityLayerViewModel = CityLayerViewModel(game: self.game)
+            self.cityLayerViewModel?.update()
+            
+            self.unitLayerViewModel = UnitLayerViewModel(game: self.game)
+            self.unitLayerViewModel?.update()
+            
+            // debug
             
             self.hexCoordLayerViewModel = HexCoordLayerViewModel(game: self.game)
             self.hexCoordLayerViewModel?.update()
@@ -80,10 +100,16 @@ public class GameViewModel {
         
         self.terrainLayerViewModel = nil
         self.riverLayerViewModel = nil
-        // border
+        
         // cursor?
         self.featureLayerViewModel = nil
         self.resourceLayerViewModel = nil
+        self.improvementLayerViewModel = nil
+        self.cityLayerViewModel = nil
+        self.unitLayerViewModel = nil
+        
+        // debug
+        self.hexCoordLayerViewModel = nil
         
         // load assets into image cache
         print("-- pre-load images --")
@@ -121,6 +147,21 @@ public class GameViewModel {
         for borderTextureName in textures.allBorderTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: borderTextureName), for: borderTextureName)
         }
+        
+        var unitTextures: Int = 0
+        for unitType in UnitType.all {
+            
+            if let idleTextures = unitType.idleAtlas?.textures {
+                for (index, texture) in idleTextures.enumerated() {
+                    ImageCache.shared.add(image: texture, for: "\(unitType.name().lowercased())-idle-\(index)")
+                    
+                    unitTextures += 1
+                }
+            } else {
+                print("cant get idle textures of \(unitType.name())")
+            }
+        }
+        print("- load \(unitTextures) unit textures")
 
         print("-- all textures loaded --")
         
