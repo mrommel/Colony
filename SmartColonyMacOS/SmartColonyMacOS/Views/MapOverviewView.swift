@@ -10,6 +10,14 @@ import SwiftUI
 struct MapOverviewView: View {
     
     var body: some View {
-        Text("MapOverview")
+        ZStack {
+            Text("MapOverview")
+            
+            Rectangle()
+                .fill(Color.red)
+                .frame(width: 200, height: 100, alignment: .center)
+                
+        }
+        .frame(width: 200, height: 100, alignment: .center)
     }
 }

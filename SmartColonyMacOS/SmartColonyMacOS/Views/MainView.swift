@@ -59,6 +59,8 @@ struct MainView: View {
                         .background(Color.black.opacity(0.5))
                         
                         BottomLeftBarView(viewModel: self.viewModel.gameViewModel)
+                        
+                        BottomRightBarView(viewModel: self.viewModel.gameViewModel)
                     }
                 }
             }
