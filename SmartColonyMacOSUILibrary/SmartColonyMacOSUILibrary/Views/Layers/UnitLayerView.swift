@@ -21,29 +21,21 @@ public struct UnitLayerView: View {
         ForEach(self.viewModel.units) { unit in
 
             ZStack {
-                //Image(nsImage: ImageCache.shared.image(for: unit.assets()[0]))
+                //RoundedRectangle(cornerRadius: 15, style: .continuous)
+                //    .fill(Color.red)
+                
                 AnimatedUnitView(
                     unit.type.idleAtlas?.textures ?? [],
                     templateImage: unit.type.idleAtlas?.textures.first,
                     interval: 0.5,
                     loop: true)
-                    //.resizable()
-                    //.scaledToFit()
-                    .frame(width: 144, height: 144, alignment: .center)
+                    .frame(width: 72, height: 72, alignment: .center)
                 
                 Text(unit.name)
             }
             .frame(width: 144, height: 144, alignment: .center)
             .padding(.leading, unit.location.x)
             .padding(.top, unit.location.y)
-            
-            /*AnimatedImage(unit.assets(), interval: 0.5)
-                .padding(.leading, unit.location.x)
-                .padding(.top, unit.location.y)*/
-                
-            /*Text(unit.name)
-                .padding(.leading, unit.location.x)
-                .padding(.top, unit.location.y)*/
         }
     }
 }

@@ -88,9 +88,13 @@ class UnitLayerViewModel: BaseLayerViewModel, ObservableObject {
         
         var screenPoint = (HexPoint.toScreen(hex: unit.location) * self.factor) + self.shift
         
-        screenPoint.y = size.height - screenPoint.y
+        screenPoint.y = size.height - screenPoint.y - 144
         
+        // debug
         print("add \(unit.name()) at \(unit.location)")
+        if unit.type != .builder {
+            return
+        }
         
         self.units.append(UnitItem(name: unit.name(), type: unit.type, location: screenPoint))
     }

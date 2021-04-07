@@ -26,7 +26,6 @@ class MainViewModel: ObservableObject {
     var menuViewModel: MenuViewModel
     var createGameMenuViewModel: CreateGameMenuViewModel
     var generateGameViewModel: GenerateGameViewModel
-    //var gameViewModel: GameScrollContentViewModel
     var gameViewModel: GameViewModel
     
     init() {
@@ -35,22 +34,12 @@ class MainViewModel: ObservableObject {
         self.menuViewModel = MenuViewModel()
         self.createGameMenuViewModel = CreateGameMenuViewModel()
         self.generateGameViewModel = GenerateGameViewModel()
-        
-        //self.gameViewModel = GameScrollContentViewModelExtended()
         self.gameViewModel = GameViewModel()
         
         // connect delegates
         self.menuViewModel.delegate = self
         self.createGameMenuViewModel.delegate = self
         self.generateGameViewModel.delegate = self
-    }
-    
-    func doTurn() {
-        
-        if self.presentedView == .game {
-            
-            //self.gameViewModel.doTurn()
-        }
     }
 }
 
@@ -80,6 +69,7 @@ extension MainViewModel: GenerateGameViewModelDelegate {
     
     func created(game: GameModel?) {
 
+        self.gameViewModel.loadAssets()
         self.gameViewModel.game = game
         
         self.presentedView = .game

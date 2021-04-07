@@ -110,6 +110,9 @@ public class GameViewModel {
         
         // debug
         self.hexCoordLayerViewModel = nil
+    }
+    
+    public func loadAssets() {
         
         // load assets into image cache
         print("-- pre-load images --")
