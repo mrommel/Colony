@@ -21,9 +21,14 @@ public struct UnitLayerView: View {
         ForEach(self.viewModel.units) { unit in
 
             ZStack {
-                Image(nsImage: ImageCache.shared.image(for: unit.assets()[0]))
-                    .resizable()
-                    .scaledToFit()
+                //Image(nsImage: ImageCache.shared.image(for: unit.assets()[0]))
+                AnimatedUnitView(
+                    unit.type.idleAtlas?.textures ?? [],
+                    templateImage: unit.type.idleAtlas?.textures.first,
+                    interval: 0.5,
+                    loop: true)
+                    //.resizable()
+                    //.scaledToFit()
                     .frame(width: 144, height: 144, alignment: .center)
                 
                 Text(unit.name)

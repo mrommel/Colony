@@ -27,61 +27,6 @@ class UnitItem: ObservableObject, Identifiable, Equatable {
         self.location = location
     }
     
-    func assets() -> [String] {
-        
-        switch self.type {
-        
-        case .settler:
-            return Array(0...15).map{"settler-idle-\($0)"}
-        case .builder:
-            return Array(0...10).map{"archer-idle-\($0)"}
-        default:
-            return ["warrior-idle-0"]
-        /*
-         case .trader:
-         <#code#>
-         case .scout:
-         <#code#>
-         case .warrior:
-         <#code#>
-         case .slinger:
-         <#code#>
-         case .archer:
-         <#code#>
-         case .spearman:
-         <#code#>
-         case .heavyChariot:
-         <#code#>
-         case .galley:
-         <#code#>
-         case .medic:
-         <#code#>
-         case .artist:
-         <#code#>
-         case .admiral:
-         <#code#>
-         case .engineer:
-         <#code#>
-         case .general:
-         <#code#>
-         case .merchant:
-         <#code#>
-         case .musician:
-         <#code#>
-         case .prophet:
-         <#code#>
-         case .scientist:
-         <#code#>
-         case .writer:
-         <#code#>
-         case .barbarianWarrior:
-         <#code#>
-         case .barbarianArcher:
-         <#code#>
-         */
-        }
-    }
-    
     static func == (lhs: UnitItem, rhs: UnitItem) -> Bool {
         return lhs.id == rhs.id
     }

@@ -60,7 +60,7 @@ public struct TrackableScrollView<Content: View>: View {
                 let tmpScale = self.contentScale * delta
                 //let tmpScale: CGFloat = 1.0
                 
-                print("magnitude: \(tmpScale)")
+                // print("magnitude: \(tmpScale)")
                 
                 self.contentScale = tmpScale
                 self.$contentScale.wrappedValue = tmpScale
@@ -80,7 +80,7 @@ public struct TrackableScrollView<Content: View>: View {
                 self.cursor = tmpCursor
                 self.$cursor.wrappedValue = tmpCursor
                 
-                print("cursor: \(self.cursor)")
+                // print("cursor: \(self.cursor)")
             }.onEnded { value in
                 //value.
             }
