@@ -17,6 +17,7 @@ protocol GameViewModelDelegate: class {
 
 public class GameViewModel {
     
+    // layers
     var terrainLayerViewModel: TerrainLayerViewModel?
     var riverLayerViewModel: RiverLayerViewModel?
     var borderLayerViewModel: BorderLayerViewModel?
@@ -28,8 +29,12 @@ public class GameViewModel {
     var cityLayerViewModel: CityLayerViewModel?
     var unitLayerViewModel: UnitLayerViewModel?
     
-    // debug
+    // layers - debug
     var hexCoordLayerViewModel: HexCoordLayerViewModel?
+    
+    // overview
+    var mapOverviewViewModel: MapOverviewViewModel?
+    
     
     public var shift: CGPoint = .zero
     public var size: CGSize = .zero
@@ -72,6 +77,8 @@ public class GameViewModel {
             
             self.hexCoordLayerViewModel = HexCoordLayerViewModel(game: self.game)
             self.hexCoordLayerViewModel?.update()
+            
+            self.mapOverviewViewModel = MapOverviewViewModel(with: self.game)
             
             self.game?.userInterface = self
             

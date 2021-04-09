@@ -47,6 +47,21 @@ extension TypeColor {
     public static var matterhornGray: TypeColor = TypeColor(hex: "#535353")! // Dark Gray
     public static var nero: TypeColor = TypeColor(hex: "#181818")! // Black
     
+    public struct Terrain {
+    
+        public static var ocean: TypeColor = TypeColor(hex: "#3f607f")!
+        public static var shore: TypeColor = TypeColor(hex: "#5c80a2")!
+        public static var plains: TypeColor = TypeColor(hex: "#77753c")!
+        public static var grass: TypeColor = TypeColor(hex: "#869655")!
+        public static var desert: TypeColor = TypeColor(hex: "#e2c170")!
+        public static var tundra: TypeColor = TypeColor(hex: "#696c4d")!
+        public static var snow: TypeColor = TypeColor(hex: "#d1e4f2")!
+        
+        public static var mountains: TypeColor = TypeColor(hex: "#b69856")!
+        
+        public static var background: TypeColor = TypeColor(hex: "#ad8a66")!
+    }
+    
     internal convenience init?(hex: String) {
         let hex = String(hex.description)
         

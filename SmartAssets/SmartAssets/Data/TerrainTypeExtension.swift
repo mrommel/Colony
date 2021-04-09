@@ -5,7 +5,7 @@
 //  Created by Michael Rommel on 26.11.20.
 //
 
-import Foundation
+import Cocoa
 import SmartAILibrary
 
 extension TerrainType {
@@ -60,6 +60,22 @@ extension TerrainType {
             return ["terrain_tundra_hills"]
         case .snow:
             return ["terrain_snow_hills", "terrain_snow_hills2", "terrain_snow_hills3"]
+        }
+    }
+}
+
+extension TerrainType {
+    
+    public func overviewColor() -> NSColor {
+        
+        switch self {
+        case .ocean: return NSColor.Terrain.ocean
+        case .shore: return NSColor.Terrain.shore
+        case .plains: return NSColor.Terrain.plains
+        case .grass: return NSColor.Terrain.grass
+        case .desert: return NSColor.Terrain.desert
+        case .tundra: return NSColor.Terrain.tundra
+        case .snow: return NSColor.Terrain.snow
         }
     }
 }

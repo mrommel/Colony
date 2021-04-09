@@ -12,7 +12,7 @@ import SpriteKit
 
 extension TerrainType {
     
-    func overviewColor() -> UIColor {
+    public func overviewColor() -> UIColor {
         
         switch self {
         case .ocean: return UIColor(red: 79, green: 112, blue: 141)

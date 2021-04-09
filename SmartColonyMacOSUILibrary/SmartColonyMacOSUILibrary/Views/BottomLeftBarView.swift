@@ -1,14 +1,13 @@
 //
 //  BottomMenuView.swift
-//  SmartColonyMacOS
+//  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 05.04.21.
 //
 
 import SwiftUI
-import SmartMacOSUILibrary
 
-struct BottomLeftBarView: View {
+public struct BottomLeftBarView: View {
     
     private let viewModel: GameViewModel
     
@@ -17,7 +16,7 @@ struct BottomLeftBarView: View {
         self.viewModel = viewModel
     }
     
-    var body: some View {
+    public var body: some View {
         HStack {
             
             VStack(alignment: .leading, spacing: 10) {

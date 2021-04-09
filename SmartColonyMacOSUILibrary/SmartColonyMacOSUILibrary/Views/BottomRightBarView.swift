@@ -1,14 +1,13 @@
 //
 //  BottomRightBarView.swift
-//  SmartColonyMacOS
+//  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 07.04.21.
 //
 
 import SwiftUI
-import SmartMacOSUILibrary
 
-struct BottomRightBarView: View {
+public struct BottomRightBarView: View {
     
     private let viewModel: GameViewModel
     
@@ -17,7 +16,7 @@ struct BottomRightBarView: View {
         self.viewModel = viewModel
     }
     
-    var body: some View {
+    public var body: some View {
         HStack {
             
             Spacer()
@@ -25,7 +24,7 @@ struct BottomRightBarView: View {
             VStack(alignment: .trailing, spacing: 10) {
 
                 Spacer()
-                MapOverviewView()
+                MapOverviewView(viewModel: self.viewModel.mapOverviewViewModel!)
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
