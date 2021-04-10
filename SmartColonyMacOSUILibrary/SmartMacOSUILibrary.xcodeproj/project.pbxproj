@@ -55,6 +55,7 @@
 		C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D84261EF7F100341241 /* MapOverviewView.swift */; };
 		C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D8B261EF87000341241 /* BottomRightBarView.swift */; };
 		C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */; };
+		C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FD308426223EA200153752 /* DemoGameModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -121,6 +122,7 @@
 		C9A61D84261EF7F100341241 /* MapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewView.swift; sourceTree = "<group>"; };
 		C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomLeftBarView.swift; sourceTree = "<group>"; };
 		C9A61D8B261EF87000341241 /* BottomRightBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomRightBarView.swift; sourceTree = "<group>"; };
+		C9FD308426223EA200153752 /* DemoGameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoGameModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +260,7 @@
 				C9155160260B2978003710BE /* GameDisplayOptions.swift */,
 				C93AA6AA260F24640053DF74 /* CGRectExtension.swift */,
 				C9A61D80261EE55600341241 /* PixelBuffer.swift */,
+				C9FD308426223EA200153752 /* DemoGameModel.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				C93AA6A9260F23640053DF74 /* HexCoordLayerView.swift in Sources */,
 				C9155179260BCEE7003710BE /* FeatureLayerViewModel.swift in Sources */,
 				C988EADD261B708000300C39 /* UnitLayerViewModel.swift in Sources */,
+				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
 				C988EAB4261B331800300C39 /* TrackableScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

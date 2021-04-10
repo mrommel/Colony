@@ -9,23 +9,13 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-struct MapOverviewModifier: ViewModifier {
-
-  func body(content: Content) -> some View {
-    
-    return content
-        .frame(width: 156, height: 94, alignment: .top)
-  }
-}
-
 extension Image {
     
-  func mapOverview() -> some View {
-    self
-      .resizable()
-      .aspectRatio(contentMode: .fill)
-      .modifier(MapOverviewModifier())
-  }
+    func mapOverview() -> some View {
+        self
+            .resizable()
+            .frame(width: 156, height: 94)
+    }
 }
 
 public struct MapOverviewView: View {
@@ -37,7 +27,7 @@ public struct MapOverviewView: View {
     
     public var body: some View {
         
-        ZStack {
+        ZStack(alignment: .bottomTrailing) {
             
             Image("map_overview_canvas")
                 .resizable()
@@ -46,10 +36,18 @@ public struct MapOverviewView: View {
             
             self.viewModel.image
                 .mapOverview()
-                //.padding(.trailing, 11)
-                //.padding(.bottom, 1)
+                .frame(width: 156, height: 94)
+                .offset(x: -8, y: -2)
         }
-        .frame(width: 200, height: 112, alignment: .bottomTrailing)
-        .background(Color.red.opacity(0.5))
+        .frame(width: 200, height: 112)
+    }
+}
+
+struct MapOverviewView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        
+        let viewModel = MapOverviewViewModel(with: DemoGameModel())
+        MapOverviewView(viewModel: viewModel)
     }
 }
