@@ -45,7 +45,7 @@ public struct GameView: View {
             ResourceLayerView(viewModel: self.viewModel.resourceLayerViewModel)
             ImprovementLayerView(viewModel: self.viewModel.improvementLayerViewModel)
             CityLayerView(viewModel: self.viewModel.cityLayerViewModel)
-            UnitLayerView(viewModel: self.viewModel.unitLayerViewModel!)
+            UnitLayerView(viewModel: self.viewModel.unitLayerViewModel ?? UnitLayerViewModel(game: nil))
             
             // -- debug --
             // yield

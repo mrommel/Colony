@@ -9,7 +9,9 @@ import SwiftUI
 
 public struct ActivityIndicator: NSViewRepresentable {
 
-    @Binding public var isAnimating: Bool
+    @Binding
+    public var isAnimating: Bool
+    
     public let style: NSProgressIndicator.Style
     public let controlSize: NSControl.ControlSize
     public let hideWhenNotAnimating: Bool

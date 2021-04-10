@@ -7,7 +7,19 @@
 
 import SwiftUI
 
-struct DataPicker: View {
+public class PickerData {
+    
+    public let name: String
+    public let image: NSImage
+    
+    public init(name: String, image: NSImage) {
+        
+        self.name = name
+        self.image = image
+    }
+}
+
+public struct DataPicker: View {
     
     let title: String
     let data: [PickerData]
@@ -15,7 +27,16 @@ struct DataPicker: View {
     @Binding
     var selection: Int
     
-    var body: some View {
+    public init(title: String,
+                data: [PickerData],
+                selection: Binding<Int>) {
+        
+        self.title = title
+        self.data = data
+        self._selection = selection
+    }
+    
+    public var body: some View {
         
         Picker(selection: $selection, label: Text(title)) {
             ForEach(0 ..< data.count) { i in
@@ -42,7 +63,7 @@ struct DataPicker_Previews: PreviewProvider {
         
         Group {
             DataPicker(title: "Title", data: data, selection: .constant(0))
-            DataPicker(title: "Title", data: data, selection: .constant(0))
+            //DataPicker(title: "Title", data: data, selection: .constant(0))
         }
     }
 }

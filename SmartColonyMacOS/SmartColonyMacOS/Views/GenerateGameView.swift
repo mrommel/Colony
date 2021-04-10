@@ -32,3 +32,14 @@ struct GenerateGameView: View {
         }
     }
 }
+
+struct GenerateGameView_Previews: PreviewProvider {
+
+    //static var gameViewModel: GameViewModel = GameViewModel(game: DemoGameModel())
+    static var viewModel = GenerateGameViewModel()
+    
+    static var previews: some View {
+        
+        GenerateGameView(viewModel: viewModel)
+    }
+}

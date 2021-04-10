@@ -12,7 +12,6 @@
 		C9022F882608C2BF00C6773A /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9022F872608C2BF00C6773A /* MainViewModel.swift */; };
 		C9022F8E2608DCA800C6773A /* CreateGameMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9022F8D2608DCA800C6773A /* CreateGameMenuView.swift */; };
 		C9022F982609341300C6773A /* CreateGameMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9022F972609341300C6773A /* CreateGameMenuViewModel.swift */; };
-		C9022FA4260A198000C6773A /* DataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9022FA3260A198000C6773A /* DataPicker.swift */; };
 		C9155153260A5C52003710BE /* GenerateGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155152260A5C52003710BE /* GenerateGameView.swift */; };
 		C9155159260A5C8F003710BE /* GenerateGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155158260A5C8F003710BE /* GenerateGameViewModel.swift */; };
 		C91D828D2607B6B500DD5AFE /* SmartMacOSUILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C91D828C2607B6B500DD5AFE /* SmartMacOSUILibrary.framework */; };
@@ -74,7 +73,6 @@
 		C9022F872608C2BF00C6773A /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		C9022F8D2608DCA800C6773A /* CreateGameMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGameMenuView.swift; sourceTree = "<group>"; };
 		C9022F972609341300C6773A /* CreateGameMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGameMenuViewModel.swift; sourceTree = "<group>"; };
-		C9022FA3260A198000C6773A /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
 		C9155152260A5C52003710BE /* GenerateGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateGameView.swift; sourceTree = "<group>"; };
 		C9155158260A5C8F003710BE /* GenerateGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateGameViewModel.swift; sourceTree = "<group>"; };
 		C91D828C2607B6B500DD5AFE /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,7 +159,6 @@
 		C91D82A02608792000DD5AFE /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C9022FA3260A198000C6773A /* DataPicker.swift */,
 				C91D829C2608791A00DD5AFE /* MenuView.swift */,
 				C9022F8D2608DCA800C6773A /* CreateGameMenuView.swift */,
 				C9155152260A5C52003710BE /* GenerateGameView.swift */,
@@ -387,7 +384,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9022FA4260A198000C6773A /* DataPicker.swift in Sources */,
 				C9F6EB232607908B0052140C /* Persistence.swift in Sources */,
 				C9F6EB1C260790850052140C /* MainView.swift in Sources */,
 				C9022F8E2608DCA800C6773A /* CreateGameMenuView.swift in Sources */,

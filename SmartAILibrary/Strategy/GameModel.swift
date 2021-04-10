@@ -26,7 +26,7 @@ enum GameStateType: Int, Codable {
     case extended
 }
 
-public class GameModel: Codable {
+open class GameModel: Codable {
 
     enum CodingKeys: CodingKey {
 

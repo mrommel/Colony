@@ -11,10 +11,13 @@ import SwiftUI
 struct SmartColonyMacOSApp: App {
     
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
+    @ObservedObject
+    var viewModel = MainViewModel()
 
     var body: some Scene {
         WindowGroup<MainView> {
-            MainView()
+            MainView(viewModel: viewModel)
         }
     }
 }

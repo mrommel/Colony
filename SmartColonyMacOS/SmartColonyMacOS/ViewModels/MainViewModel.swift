@@ -28,13 +28,18 @@ class MainViewModel: ObservableObject {
     var generateGameViewModel: GenerateGameViewModel
     var gameViewModel: GameViewModel
     
-    init() {
-        self.presentedView = .menu
+    init(presentedView: PresentedViewType = .menu,
+         menuViewModel: MenuViewModel = MenuViewModel(),
+         createGameMenuViewModel: CreateGameMenuViewModel = CreateGameMenuViewModel(),
+         generateGameViewModel: GenerateGameViewModel = GenerateGameViewModel(),
+         gameViewModel: GameViewModel = GameViewModel()) {
         
-        self.menuViewModel = MenuViewModel()
-        self.createGameMenuViewModel = CreateGameMenuViewModel()
-        self.generateGameViewModel = GenerateGameViewModel()
-        self.gameViewModel = GameViewModel()
+        self.presentedView = presentedView
+        
+        self.menuViewModel = menuViewModel
+        self.createGameMenuViewModel = createGameMenuViewModel
+        self.generateGameViewModel = generateGameViewModel
+        self.gameViewModel = gameViewModel
         
         // connect delegates
         self.menuViewModel.delegate = self

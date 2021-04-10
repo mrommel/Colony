@@ -24,7 +24,7 @@ public struct BottomRightBarView: View {
             VStack(alignment: .trailing, spacing: 10) {
 
                 Spacer()
-                MapOverviewView(viewModel: self.viewModel.mapOverviewViewModel!)
+                MapOverviewView(viewModel: self.viewModel.mapOverviewViewModel ?? MapOverviewViewModel(with: nil))
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)

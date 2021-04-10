@@ -44,66 +44,11 @@ public class GameViewModel {
     
     public var game: GameModel? {
         didSet {
-            self.terrainLayerViewModel = TerrainLayerViewModel(game: self.game)
-            self.terrainLayerViewModel?.update()
-            
-            self.riverLayerViewModel = RiverLayerViewModel(game: self.game)
-            self.riverLayerViewModel?.update()
-            
-            self.borderLayerViewModel = BorderLayerViewModel(game: self.game)
-            self.borderLayerViewModel?.update()
-            
-            self.roadLayerViewModel = RoadLayerViewModel(game: self.game)
-            self.roadLayerViewModel?.update()
-            
-            // cursor?
-            
-            self.featureLayerViewModel = FeatureLayerViewModel(game: self.game)
-            self.featureLayerViewModel?.update()
-            
-            self.resourceLayerViewModel = ResourceLayerViewModel(game: self.game)
-            self.resourceLayerViewModel?.update()
-            
-            self.improvementLayerViewModel = ImprovementLayerViewModel(game: self.game)
-            self.improvementLayerViewModel?.update()
-            
-            self.cityLayerViewModel = CityLayerViewModel(game: self.game)
-            self.cityLayerViewModel?.update()
-            
-            self.unitLayerViewModel = UnitLayerViewModel(game: self.game)
-            self.unitLayerViewModel?.update()
-            
-            // debug
-            
-            self.hexCoordLayerViewModel = HexCoordLayerViewModel(game: self.game)
-            self.hexCoordLayerViewModel?.update()
-            
-            self.mapOverviewViewModel = MapOverviewViewModel(with: self.game)
-            
-            self.game?.userInterface = self
-            
-            guard let contentSize = self.game?.contentSize(), let mapSize = self.game?.mapSize() else {
-                fatalError("cant get sizes")
-            }
-            
-            self.size = CGSize(width: (contentSize.width + 10) * self.factor, height: contentSize.height * self.factor)
-            
-            self.delegate?.sizeChanged(to: self.size)
-            
-            // init shift
-            let p0 = HexPoint(x: 0, y: 0)
-            let p1 = HexPoint(x: 0, y: mapSize.height() - 1)
-            let p2 = HexPoint(x: mapSize.width() - 1, y: mapSize.height() - 1)
-            let dx = HexPoint.toScreen(hex: p0).x - HexPoint.toScreen(hex: p1).x
-            let dy = HexPoint.toScreen(hex: p0).y - HexPoint.toScreen(hex: p2).y
-            
-            self.shift = CGPoint(x: dx, y: dy) * self.factor
-            
-            self.delegate?.shiftChanged(to: self.shift)
+            self.gameUpdated()
         }
     }
     
-    public init() {
+    public init(game: GameModel? = nil) {
         
         self.terrainLayerViewModel = nil
         self.riverLayerViewModel = nil
@@ -117,6 +62,10 @@ public class GameViewModel {
         
         // debug
         self.hexCoordLayerViewModel = nil
+        
+        if game != nil {
+            self.game = game
+        }
     }
     
     public func loadAssets() {
@@ -179,6 +128,66 @@ public class GameViewModel {
         if !ImageCache.shared.exists(key: "cursor") {
             ImageCache.shared.add(image: NSImage(named: "cursor"), for: "cursor")
         }
+    }
+    
+    private func gameUpdated() {
+        
+        self.terrainLayerViewModel = TerrainLayerViewModel(game: self.game)
+        self.terrainLayerViewModel?.update()
+        
+        self.riverLayerViewModel = RiverLayerViewModel(game: self.game)
+        self.riverLayerViewModel?.update()
+        
+        self.borderLayerViewModel = BorderLayerViewModel(game: self.game)
+        self.borderLayerViewModel?.update()
+        
+        self.roadLayerViewModel = RoadLayerViewModel(game: self.game)
+        self.roadLayerViewModel?.update()
+        
+        // cursor?
+        
+        self.featureLayerViewModel = FeatureLayerViewModel(game: self.game)
+        self.featureLayerViewModel?.update()
+        
+        self.resourceLayerViewModel = ResourceLayerViewModel(game: self.game)
+        self.resourceLayerViewModel?.update()
+        
+        self.improvementLayerViewModel = ImprovementLayerViewModel(game: self.game)
+        self.improvementLayerViewModel?.update()
+        
+        self.cityLayerViewModel = CityLayerViewModel(game: self.game)
+        self.cityLayerViewModel?.update()
+        
+        self.unitLayerViewModel = UnitLayerViewModel(game: self.game)
+        self.unitLayerViewModel?.update()
+        
+        // debug
+        
+        self.hexCoordLayerViewModel = HexCoordLayerViewModel(game: self.game)
+        self.hexCoordLayerViewModel?.update()
+        
+        self.mapOverviewViewModel = MapOverviewViewModel(with: self.game)
+        
+        self.game?.userInterface = self
+        
+        guard let contentSize = self.game?.contentSize(), let mapSize = self.game?.mapSize() else {
+            fatalError("cant get sizes")
+        }
+        
+        self.size = CGSize(width: (contentSize.width + 10) * self.factor, height: contentSize.height * self.factor)
+        
+        self.delegate?.sizeChanged(to: self.size)
+        
+        // init shift
+        let p0 = HexPoint(x: 0, y: 0)
+        let p1 = HexPoint(x: 0, y: mapSize.height() - 1)
+        let p2 = HexPoint(x: mapSize.width() - 1, y: mapSize.height() - 1)
+        let dx = HexPoint.toScreen(hex: p0).x - HexPoint.toScreen(hex: p1).x
+        let dy = HexPoint.toScreen(hex: p0).y - HexPoint.toScreen(hex: p2).y
+        
+        self.shift = CGPoint(x: dx, y: dy) * self.factor
+        
+        self.delegate?.shiftChanged(to: self.shift)
     }
     
     public func doTurn() {

@@ -9,11 +9,7 @@ import Foundation
 import SmartAssets
 import Cocoa
 import SmartAILibrary
-
-struct PickerData {
-    let name: String
-    let image: NSImage
-}
+import SmartMacOSUILibrary
 
 protocol CreateGameMenuViewModelDelegate: class {
     
@@ -109,27 +105,27 @@ class CreateGameMenuViewModel: ObservableObject {
 
         let bundle = Bundle.init(for: Textures.self)
         
-        return (bundle.image(forResource: leaderType.textureName())?.resize(withSize: targetSize))!
+        return (bundle.image(forResource: leaderType.textureName())?.resize(withSize: targetSize)) ?? NSImage(named: "sun.max.fill")!
     }
     
     private func handicapImage(for handicapType: HandicapType, targetSize: NSSize = NSSize(width: 16, height: 16)) -> NSImage {
 
         let bundle = Bundle.init(for: Textures.self)
         
-        return (bundle.image(forResource: handicapType.textureName())?.resize(withSize: targetSize))!
+        return (bundle.image(forResource: handicapType.textureName())?.resize(withSize: targetSize)) ?? NSImage(named: "sun.max.fill")!
     }
     
     private func mapTypeImage(for mapType: MapType, targetSize: NSSize = NSSize(width: 16, height: 16)) -> NSImage {
         
         let bundle = Bundle.init(for: Textures.self)
         
-        return (bundle.image(forResource: mapType.textureName())?.resize(withSize: targetSize))!
+        return (bundle.image(forResource: mapType.textureName())?.resize(withSize: targetSize)) ?? NSImage(named: "sun.max.fill")!
     }
     
     private func mapSizeImage(for mapSize: MapSize, targetSize: NSSize = NSSize(width: 16, height: 16)) -> NSImage {
         
         let bundle = Bundle.init(for: Textures.self)
         
-        return (bundle.image(forResource: mapSize.textureName())?.resize(withSize: targetSize))!
+        return (bundle.image(forResource: mapSize.textureName())?.resize(withSize: targetSize)) ?? NSImage(named: "sun.max.fill")!
     }
 }

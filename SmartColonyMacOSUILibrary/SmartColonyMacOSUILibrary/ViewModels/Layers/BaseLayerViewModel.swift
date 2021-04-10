@@ -21,25 +21,29 @@ class BaseLayerViewModel {
     init(game: GameModel?) {
         self.game = game
         
-        guard let contentSize = self.game?.contentSize(),
-           let mapSize = self.game?.mapSize() else {
-            fatalError("cant get sizes")
-        }
+        if let contentSize = self.game?.contentSize(), let mapSize = self.game?.mapSize() {
         
-        self.size = CGSize(width: (contentSize.width + 10) * factor, height: contentSize.height * factor)
-        
-        // change shift
-        let p0 = HexPoint(x: 0, y: 0)
-        let p1 = HexPoint(x: 0, y: mapSize.height() - 1)
-        let p2 = HexPoint(x: mapSize.width() - 1, y: mapSize.height() - 1)
-        let dx = HexPoint.toScreen(hex: p0).x - HexPoint.toScreen(hex: p1).x
-        let dy = HexPoint.toScreen(hex: p0).y - HexPoint.toScreen(hex: p2).y
+            self.size = CGSize(width: (contentSize.width + 10) * factor, height: contentSize.height * factor)
             
-        self.shift = CGPoint(x: dx, y: dy) * factor
-        
-        self.image = NSImage(color: .navyBlue, size: NSSize(width: self.size.width, height: self.size.height))
-        
-        self.textures = Textures(game: self.game)
+            // change shift
+            let p0 = HexPoint(x: 0, y: 0)
+            let p1 = HexPoint(x: 0, y: mapSize.height() - 1)
+            let p2 = HexPoint(x: mapSize.width() - 1, y: mapSize.height() - 1)
+            let dx = HexPoint.toScreen(hex: p0).x - HexPoint.toScreen(hex: p1).x
+            let dy = HexPoint.toScreen(hex: p0).y - HexPoint.toScreen(hex: p2).y
+                
+            self.shift = CGPoint(x: dx, y: dy) * factor
+            
+            self.image = NSImage(color: .navyBlue, size: NSSize(width: self.size.width, height: self.size.height))
+            
+            self.textures = Textures(game: self.game)
+        } else {
+            // dummy
+            self.size = CGSize(width: 200, height: 150)
+            self.shift = CGPoint.zero
+            self.image = NSImage(color: .navyBlue, size: NSSize(width: self.size.width, height: self.size.height))
+            self.textures = Textures(game: self.game)
+        }
     }
     
     func update() {

@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import SmartAssets
+import SmartMacOSUILibrary
 
 struct CreateGameMenuView: View {
     
@@ -58,5 +59,16 @@ struct CreateGameMenuView: View {
             
             Spacer(minLength: 1)
         }
+    }
+}
+
+struct CreateGameMenuView_Previews: PreviewProvider {
+
+    //static var gameViewModel: GameViewModel = GameViewModel(game: DemoGameModel())
+    static var viewModel = CreateGameMenuViewModel()
+    
+    static var previews: some View {
+        
+        CreateGameMenuView(viewModel: viewModel)
     }
 }

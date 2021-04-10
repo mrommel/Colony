@@ -24,29 +24,40 @@ public class MapOverviewViewModel: ObservableObject {
         
         self.game = game
         
-        guard let game = self.game else {
-            fatalError("no game given")
-        }
+        if let game = self.game {
         
-        self.player = game.humanPlayer()
-        
-        let mapSize = game.mapSize()
-        self.buffer = PixelBuffer(width: mapSize.width(), height: mapSize.height(), color: NSColor.black)
+            self.player = game.humanPlayer()
+            
+            let mapSize = game.mapSize()
+            self.buffer = PixelBuffer(width: mapSize.width(), height: mapSize.height(), color: NSColor.black)
 
-        guard let bufferImage = self.buffer.toNSImage() else {
-            fatalError("can't create image from buffer")
-        }
-
-        self.image = Image(nsImage: bufferImage)
-
-        for y in 0..<mapSize.height() {
-            for x in 0..<mapSize.width() {
-
-                self.updateBufferAt(x: x, y: y)
+            guard let bufferImage = self.buffer.toNSImage() else {
+                fatalError("can't create image from buffer")
             }
-        }
 
-        self.updateTextureFromBuffer()
+            self.image = Image(nsImage: bufferImage)
+
+            for y in 0..<mapSize.height() {
+                for x in 0..<mapSize.width() {
+
+                    self.updateBufferAt(x: x, y: y)
+                }
+            }
+
+            self.updateTextureFromBuffer()
+        } else {
+            // demo initialization
+            self.player = nil
+            
+            let mapSize = MapSize.duel
+            self.buffer = PixelBuffer(width: mapSize.width(), height: mapSize.height(), color: NSColor.black)
+            
+            guard let bufferImage = self.buffer.toNSImage() else {
+                fatalError("can't create image from buffer")
+            }
+
+            self.image = Image(nsImage: bufferImage)
+        }
     }
     
     private func updateBufferAt(x: Int, y: Int) {
