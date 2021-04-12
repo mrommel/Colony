@@ -14,15 +14,6 @@ struct MainView: View {
     @ObservedObject
     var viewModel: MainViewModel
     
-    @State
-    var cursor: CGPoint = .zero
-    
-    @State
-    var scale: CGFloat = 1.0
-    
-    @State
-    var contentOffset: CGPoint = .zero
-    
     var body: some View {
         ZStack {
             Image("background_macos")
@@ -46,7 +37,8 @@ struct MainView: View {
                 
                 if self.viewModel.presentedView == .game {
                     
-                    ZStack {
+                    GameView(viewModel: self.viewModel.gameViewModel)
+                    /*ZStack {
                         TrackableScrollView(
                             axes: [.horizontal, .vertical],
                             showsIndicators: true,
@@ -61,7 +53,7 @@ struct MainView: View {
                         BottomLeftBarView(viewModel: self.viewModel.mapViewModel)
                         
                         BottomRightBarView(viewModel: self.viewModel.mapViewModel)
-                    }
+                    }*/
                 }
             }
             .frame(minWidth: 400, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity, alignment: .topLeading)
@@ -81,10 +73,10 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
 
-    static var mapViewModel: MapViewModel = MapViewModel(game: DemoGameModel())
+    static var gameViewModel: GameViewModel = GameViewModel(game: DemoGameModel())
     static var viewModel = MainViewModel(
         presentedView: .game,
-        mapViewModel: mapViewModel)
+        gameViewModel: gameViewModel)
     
     static var previews: some View {
         

@@ -52,6 +52,8 @@
 		C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D84261EF7F100341241 /* MapOverviewView.swift */; };
 		C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D8B261EF87000341241 /* BottomRightBarView.swift */; };
 		C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */; };
+		C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDCF8A262476E6002488F6 /* GameView.swift */; };
+		C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDCF8C2624771C002488F6 /* GameViewModel.swift */; };
 		C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FD308426223EA200153752 /* DemoGameModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +118,8 @@
 		C9A61D84261EF7F100341241 /* MapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewView.swift; sourceTree = "<group>"; };
 		C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomLeftBarView.swift; sourceTree = "<group>"; };
 		C9A61D8B261EF87000341241 /* BottomRightBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomRightBarView.swift; sourceTree = "<group>"; };
+		C9BDCF8A262476E6002488F6 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		C9BDCF8C2624771C002488F6 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		C9FD308426223EA200153752 /* DemoGameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoGameModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,6 +177,7 @@
 				C915514C260A59DF003710BE /* ActivityIndicator.swift */,
 				C988EAE4261B724500300C39 /* AnimatedUnitView.swift */,
 				C94507A8262232E400CFD27D /* DataPicker.swift */,
+				C988EAB3261B331800300C39 /* TrackableScrollView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -213,9 +218,9 @@
 				C93AA6AE2611C1B20053DF74 /* Base */,
 				C99A88712607A01B003B8B73 /* MapView.swift */,
 				C9A61D84261EF7F100341241 /* MapOverviewView.swift */,
-				C988EAB3261B331800300C39 /* TrackableScrollView.swift */,
 				C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */,
 				C9A61D8B261EF87000341241 /* BottomRightBarView.swift */,
+				C9BDCF8A262476E6002488F6 /* GameView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -227,6 +232,7 @@
 				C99A88762607A02D003B8B73 /* GameScrollContentViewModel.swift */,
 				C93AA694260DD8C00053DF74 /* MapViewModel.swift */,
 				C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */,
+				C9BDCF8C2624771C002488F6 /* GameViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -368,8 +374,10 @@
 				C988EAE3261B70BE00300C39 /* UnitLayerView.swift in Sources */,
 				C93AA6A1260DE1550053DF74 /* ResourceLayerViewModel.swift in Sources */,
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
+				C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */,
 				C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */,
 				C9155175260BB382003710BE /* TerrainLayerView.swift in Sources */,
+				C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */,
 				C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */,
 				C988EAD7261B6F7B00300C39 /* RoadLayerView.swift in Sources */,
 				C93AA6A9260F23640053DF74 /* HexCoordLayerView.swift in Sources */,

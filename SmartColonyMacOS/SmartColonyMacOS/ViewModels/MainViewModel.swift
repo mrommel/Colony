@@ -26,20 +26,20 @@ class MainViewModel: ObservableObject {
     var menuViewModel: MenuViewModel
     var createGameMenuViewModel: CreateGameMenuViewModel
     var generateGameViewModel: GenerateGameViewModel
-    var mapViewModel: MapViewModel
+    var gameViewModel: GameViewModel
     
     init(presentedView: PresentedViewType = .menu,
          menuViewModel: MenuViewModel = MenuViewModel(),
          createGameMenuViewModel: CreateGameMenuViewModel = CreateGameMenuViewModel(),
          generateGameViewModel: GenerateGameViewModel = GenerateGameViewModel(),
-         mapViewModel: MapViewModel = MapViewModel()) {
+         gameViewModel: GameViewModel = GameViewModel()) {
         
         self.presentedView = presentedView
         
         self.menuViewModel = menuViewModel
         self.createGameMenuViewModel = createGameMenuViewModel
         self.generateGameViewModel = generateGameViewModel
-        self.mapViewModel = mapViewModel
+        self.gameViewModel = gameViewModel
         
         // connect delegates
         self.menuViewModel.delegate = self
@@ -74,8 +74,8 @@ extension MainViewModel: GenerateGameViewModelDelegate {
     
     func created(game: GameModel?) {
 
-        self.mapViewModel.loadAssets()
-        self.mapViewModel.game = game
+        self.gameViewModel.loadAssets()
+        self.gameViewModel.assign(game: game)
         
         self.presentedView = .game
     }
