@@ -9,9 +9,9 @@ import SwiftUI
 
 public struct BottomLeftBarView: View {
     
-    private let viewModel: GameViewModel
+    private let viewModel: MapViewModel
     
-    public init(viewModel: GameViewModel) {
+    public init(viewModel: MapViewModel) {
         
         self.viewModel = viewModel
     }
@@ -100,7 +100,7 @@ struct BottomLeftBarView_Previews: PreviewProvider {
     
     static var previews: some View {
         
-        let viewModel = GameViewModel()
+        let viewModel = MapViewModel()
         BottomLeftBarView(viewModel: viewModel)
     }
 }

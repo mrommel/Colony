@@ -15,7 +15,7 @@ protocol GameViewModelDelegate: class {
     func shiftChanged(to shift: CGPoint)
 }
 
-public class GameViewModel {
+public class MapViewModel {
     
     // layers
     var terrainLayerViewModel: TerrainLayerViewModel?
@@ -206,7 +206,7 @@ public class GameViewModel {
     }
 }
 
-extension GameViewModel: UserInterfaceDelegate {
+extension MapViewModel: UserInterfaceDelegate {
     
     public func showPopup(popupType: PopupType, with data: PopupData?) {
         

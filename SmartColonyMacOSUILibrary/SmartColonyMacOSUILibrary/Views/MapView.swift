@@ -12,21 +12,12 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-protocol GameViewDelegate: class {
-
-    func moveBy(dx: CGFloat, dy: CGFloat)
-    func focus(on tile: Tile)
-    func draw(at point: HexPoint)
+public struct MapView: View {
     
-    func options() -> GameDisplayOptions?
-}
-
-public struct GameView: View {
-    
-    private let viewModel: GameViewModel
+    private let viewModel: MapViewModel
     private let contentSize: CGSize
     
-    public init(viewModel: GameViewModel) {
+    public init(viewModel: MapViewModel) {
         
         self.viewModel = viewModel
         self.contentSize = self.viewModel.game?.contentSize() ?? CGSize(width: 100, height: 100)

@@ -14,8 +14,7 @@
 		C9155179260BCEE7003710BE /* FeatureLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155178260BCEE7003710BE /* FeatureLayerViewModel.swift */; };
 		C915517B260BD284003710BE /* FeatureLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915517A260BD284003710BE /* FeatureLayerView.swift */; };
 		C915517D260C7D9D003710BE /* BaseLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915517C260C7D9D003710BE /* BaseLayerViewModel.swift */; };
-		C93AA695260DD8C00053DF74 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA694260DD8C00053DF74 /* GameViewModel.swift */; };
-		C93AA699260DD93B0053DF74 /* GameHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA698260DD93B0053DF74 /* GameHostingView.swift */; };
+		C93AA695260DD8C00053DF74 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA694260DD8C00053DF74 /* MapViewModel.swift */; };
 		C93AA69F260DDE210053DF74 /* RiverLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA69E260DDE210053DF74 /* RiverLayerViewModel.swift */; };
 		C93AA6A1260DE1550053DF74 /* ResourceLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6A0260DE1550053DF74 /* ResourceLayerViewModel.swift */; };
 		C93AA6A3260DE3830053DF74 /* RiverLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6A2260DE3830053DF74 /* RiverLayerView.swift */; };
@@ -37,9 +36,7 @@
 		C988EAE3261B70BE00300C39 /* UnitLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE2261B70BE00300C39 /* UnitLayerView.swift */; };
 		C988EAE5261B724500300C39 /* AnimatedUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE4261B724500300C39 /* AnimatedUnitView.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C99A88722607A01C003B8B73 /* GameScrollContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A886F2607A01B003B8B73 /* GameScrollContentView.swift */; };
-		C99A88732607A01C003B8B73 /* GameScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88702607A01B003B8B73 /* GameScrollView.swift */; };
-		C99A88742607A01C003B8B73 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88712607A01B003B8B73 /* GameView.swift */; };
+		C99A88742607A01C003B8B73 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88712607A01B003B8B73 /* MapView.swift */; };
 		C99A88772607A02D003B8B73 /* GameScrollContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88762607A02D003B8B73 /* GameScrollContentViewModel.swift */; };
 		C99A887E2607A06C003B8B73 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */; };
 		C99A887F2607A06C003B8B73 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -81,8 +78,7 @@
 		C9155178260BCEE7003710BE /* FeatureLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLayerViewModel.swift; sourceTree = "<group>"; };
 		C915517A260BD284003710BE /* FeatureLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLayerView.swift; sourceTree = "<group>"; };
 		C915517C260C7D9D003710BE /* BaseLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLayerViewModel.swift; sourceTree = "<group>"; };
-		C93AA694260DD8C00053DF74 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
-		C93AA698260DD93B0053DF74 /* GameHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHostingView.swift; sourceTree = "<group>"; };
+		C93AA694260DD8C00053DF74 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		C93AA69E260DDE210053DF74 /* RiverLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverLayerViewModel.swift; sourceTree = "<group>"; };
 		C93AA6A0260DE1550053DF74 /* ResourceLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLayerViewModel.swift; sourceTree = "<group>"; };
 		C93AA6A2260DE3830053DF74 /* RiverLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverLayerView.swift; sourceTree = "<group>"; };
@@ -106,9 +102,7 @@
 		C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartColonyMacOSUILibrary.h; sourceTree = "<group>"; };
 		C99A886026079F4C003B8B73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C99A886F2607A01B003B8B73 /* GameScrollContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScrollContentView.swift; sourceTree = "<group>"; };
-		C99A88702607A01B003B8B73 /* GameScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScrollView.swift; sourceTree = "<group>"; };
-		C99A88712607A01B003B8B73 /* GameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		C99A88712607A01B003B8B73 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C99A88762607A02D003B8B73 /* GameScrollContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScrollContentViewModel.swift; sourceTree = "<group>"; };
 		C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A88832607A190003B8B73 /* SmartAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -217,10 +211,7 @@
 			children = (
 				C9155173260BB371003710BE /* Layers */,
 				C93AA6AE2611C1B20053DF74 /* Base */,
-				C99A886F2607A01B003B8B73 /* GameScrollContentView.swift */,
-				C99A88702607A01B003B8B73 /* GameScrollView.swift */,
-				C99A88712607A01B003B8B73 /* GameView.swift */,
-				C93AA698260DD93B0053DF74 /* GameHostingView.swift */,
+				C99A88712607A01B003B8B73 /* MapView.swift */,
 				C9A61D84261EF7F100341241 /* MapOverviewView.swift */,
 				C988EAB3261B331800300C39 /* TrackableScrollView.swift */,
 				C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */,
@@ -234,7 +225,7 @@
 			children = (
 				C9155172260BB304003710BE /* Layers */,
 				C99A88762607A02D003B8B73 /* GameScrollContentViewModel.swift */,
-				C93AA694260DD8C00053DF74 /* GameViewModel.swift */,
+				C93AA694260DD8C00053DF74 /* MapViewModel.swift */,
 				C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */,
 			);
 			path = ViewModels;
@@ -354,8 +345,7 @@
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
-				C99A88732607A01C003B8B73 /* GameScrollView.swift in Sources */,
-				C99A88742607A01C003B8B73 /* GameView.swift in Sources */,
+				C99A88742607A01C003B8B73 /* MapView.swift in Sources */,
 				C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */,
 				C93AA6A3260DE3830053DF74 /* RiverLayerView.swift in Sources */,
 				C93AA69F260DDE210053DF74 /* RiverLayerViewModel.swift in Sources */,
@@ -363,19 +353,17 @@
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
 				C988EAD3261B6EE900300C39 /* RoadLayerViewModel.swift in Sources */,
 				C94507A9262232E400CFD27D /* DataPicker.swift in Sources */,
-				C93AA695260DD8C00053DF74 /* GameViewModel.swift in Sources */,
+				C93AA695260DD8C00053DF74 /* MapViewModel.swift in Sources */,
 				C93AA6A5260DE47B0053DF74 /* ResourceLayerView.swift in Sources */,
 				C915517D260C7D9D003710BE /* BaseLayerViewModel.swift in Sources */,
 				C988EAD9261B705A00300C39 /* ImprovementLayerViewModel.swift in Sources */,
 				C988EAE1261B70B400300C39 /* CityLayerView.swift in Sources */,
 				C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */,
 				C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */,
-				C93AA699260DD93B0053DF74 /* GameHostingView.swift in Sources */,
 				C988EAD1261B6ED500300C39 /* BorderLayerViewModel.swift in Sources */,
 				C99A88772607A02D003B8B73 /* GameScrollContentViewModel.swift in Sources */,
 				C988EADF261B70A800300C39 /* ImprovementLayerView.swift in Sources */,
 				C988EADB261B707600300C39 /* CityLayerViewModel.swift in Sources */,
-				C99A88722607A01C003B8B73 /* GameScrollContentView.swift in Sources */,
 				C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */,
 				C988EAE3261B70BE00300C39 /* UnitLayerView.swift in Sources */,
 				C93AA6A1260DE1550053DF74 /* ResourceLayerViewModel.swift in Sources */,

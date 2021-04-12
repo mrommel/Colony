@@ -54,13 +54,13 @@ struct MainView: View {
                             scale: self.$scale,
                             contentOffset: self.$contentOffset) {
                             
-                            GameView(viewModel: self.viewModel.gameViewModel)
+                            MapView(viewModel: self.viewModel.mapViewModel)
                         }
                         .background(Color.black.opacity(0.5))
                         
-                        BottomLeftBarView(viewModel: self.viewModel.gameViewModel)
+                        BottomLeftBarView(viewModel: self.viewModel.mapViewModel)
                         
-                        BottomRightBarView(viewModel: self.viewModel.gameViewModel)
+                        BottomRightBarView(viewModel: self.viewModel.mapViewModel)
                     }
                 }
             }
@@ -71,11 +71,6 @@ struct MainView: View {
                 .background(Color.black.opacity(0.5))*/
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-        /*.toolbar {
-            Button(action: self.viewModel.doTurn) {
-                Label("Turn", systemImage: "arrow.right.circle.fill")
-            }
-        }*/
     }
     
     var cursorFormatter: CursorTransformator = {
@@ -86,10 +81,10 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
 
-    static var gameViewModel: GameViewModel = GameViewModel(game: DemoGameModel())
+    static var mapViewModel: MapViewModel = MapViewModel(game: DemoGameModel())
     static var viewModel = MainViewModel(
         presentedView: .game,
-        gameViewModel: gameViewModel)
+        mapViewModel: mapViewModel)
     
     static var previews: some View {
         
