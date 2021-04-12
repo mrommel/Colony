@@ -9,16 +9,8 @@ import SwiftUI
 
 public struct GameView: View {
     
-    private let viewModel: GameViewModel
-    
-    @State
-    var cursor: CGPoint = .zero
-    
-    @State
-    var scale: CGFloat = 1.0
-    
-    @State
-    var contentOffset: CGPoint = .zero
+    @ObservedObject
+    private var viewModel: GameViewModel
     
     public init(viewModel: GameViewModel) {
         
@@ -31,9 +23,9 @@ public struct GameView: View {
             TrackableScrollView(
                 axes: [.horizontal, .vertical],
                 showsIndicators: true,
-                cursor: self.$cursor,
-                scale: self.$scale,
-                contentOffset: self.$contentOffset) {
+                cursor: self.$viewModel.cursor,
+                scale: self.$viewModel.scale,
+                contentOffset: self.$viewModel.contentOffset) {
                 
                 MapView(viewModel: self.viewModel.mapViewModel)
             }

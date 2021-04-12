@@ -9,9 +9,18 @@ import SmartAILibrary
 import SmartAssets
 import Cocoa
 
-public class GameViewModel {
+public class GameViewModel: ObservableObject {
 
     var mapViewModel: MapViewModel
+    
+    @Published
+    var cursor: CGPoint = .zero
+    
+    @Published
+    var scale: CGFloat = 1.0
+    
+    @Published
+    var contentOffset: CGPoint = .zero
     
     public init(game: GameModel? = nil, mapViewModel: MapViewModel = MapViewModel()) {
         
