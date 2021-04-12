@@ -9,7 +9,7 @@ import SmartAILibrary
 import SmartAssets
 import Cocoa
 
-protocol GameViewModelDelegate: class {
+protocol MapViewModelDelegate: class {
     
     func sizeChanged(to size: CGSize)
     func shiftChanged(to shift: CGPoint)
@@ -35,12 +35,11 @@ public class MapViewModel {
     // overview
     var mapOverviewViewModel: MapOverviewViewModel?
     
-    
     public var shift: CGPoint = .zero
     public var size: CGSize = .zero
     let factor: CGFloat = 3.0
     
-    weak var delegate: GameViewModelDelegate?
+    weak var delegate: MapViewModelDelegate?
     
     public var game: GameModel? {
         didSet {

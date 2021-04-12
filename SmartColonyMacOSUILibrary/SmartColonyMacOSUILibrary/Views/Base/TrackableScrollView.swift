@@ -23,7 +23,7 @@ public struct TrackableScrollView<Content: View>: View {
     let content: Content
     
     @Binding
-    private var cursor: CGPoint
+    private var clickPosition: CGPoint
     
     @Binding
     private var contentScale: CGFloat
@@ -36,14 +36,14 @@ public struct TrackableScrollView<Content: View>: View {
     
     public init(axes: Axis.Set = .vertical,
          showsIndicators: Bool = true,
-         cursor: Binding<CGPoint> = .constant(.zero),
+         clickPosition: Binding<CGPoint> = .constant(.zero),
          scale: Binding<CGFloat> = .constant(1.0),
          contentOffset: Binding<CGPoint> = .constant(.zero),
          @ViewBuilder content: () -> Content ) {
         
         self.axes = axes
         self.showsIndicators = showsIndicators
-        self._cursor = cursor
+        self._clickPosition = clickPosition
         self._contentScale = scale
         self._contentOffset = contentOffset
         
@@ -77,10 +77,10 @@ public struct TrackableScrollView<Content: View>: View {
                 let cy = (value.location.y - self.$contentOffset.wrappedValue.y) / self.$contentScale.wrappedValue
                 let tmpCursor = CGPoint(x: cx, y: cy)
                 
-                self.cursor = tmpCursor
-                self.$cursor.wrappedValue = tmpCursor
+                self.clickPosition = tmpCursor
+                self.$clickPosition.wrappedValue = tmpCursor
                 
-                // print("cursor: \(self.cursor)")
+                //print("cursor: \(self.cursor)")
             }.onEnded { value in
                 //value.
             }

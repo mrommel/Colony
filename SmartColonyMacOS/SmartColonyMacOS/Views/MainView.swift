@@ -36,39 +36,14 @@ struct MainView: View {
                 }
                 
                 if self.viewModel.presentedView == .game {
-                    
                     GameView(viewModel: self.viewModel.gameViewModel)
-                    /*ZStack {
-                        TrackableScrollView(
-                            axes: [.horizontal, .vertical],
-                            showsIndicators: true,
-                            cursor: self.$cursor,
-                            scale: self.$scale,
-                            contentOffset: self.$contentOffset) {
-                            
-                            MapView(viewModel: self.viewModel.mapViewModel)
-                        }
-                        .background(Color.black.opacity(0.5))
-                        
-                        BottomLeftBarView(viewModel: self.viewModel.mapViewModel)
-                        
-                        BottomRightBarView(viewModel: self.viewModel.mapViewModel)
-                    }*/
                 }
             }
             .frame(minWidth: 400, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity, alignment: .topLeading)
             .padding(.all, 1)
-            
-            /*Text("\(cursorFormatter.transform(screenPoint: self.cursor, contentSize: self.viewModel.gameViewModel.size, shift: self.viewModel.gameViewModel.shift).x)")
-                .background(Color.black.opacity(0.5))*/
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     }
-    
-    var cursorFormatter: CursorTransformator = {
-        let formatter = CursorTransformator()
-        return formatter
-    }()
 }
 
 struct MainView_Previews: PreviewProvider {

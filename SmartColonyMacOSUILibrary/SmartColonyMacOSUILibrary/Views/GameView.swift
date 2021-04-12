@@ -23,7 +23,7 @@ public struct GameView: View {
             TrackableScrollView(
                 axes: [.horizontal, .vertical],
                 showsIndicators: true,
-                cursor: self.$viewModel.cursor,
+                clickPosition: self.$viewModel.clickPosition,
                 scale: self.$viewModel.scale,
                 contentOffset: self.$viewModel.contentOffset) {
                 

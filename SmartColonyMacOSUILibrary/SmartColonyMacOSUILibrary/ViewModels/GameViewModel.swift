@@ -14,13 +14,26 @@ public class GameViewModel: ObservableObject {
     var mapViewModel: MapViewModel
     
     @Published
-    var cursor: CGPoint = .zero
+    var clickPosition: CGPoint = .zero  {
+        didSet {
+            let cursor = cursorFormatter.transform(screenPoint: clickPosition, contentSize: self.mapViewModel.size, shift: self.mapViewModel.shift)
+            print("cursor: \(cursor)")
+        }
+    }
     
     @Published
     var scale: CGFloat = 1.0
     
     @Published
     var contentOffset: CGPoint = .zero
+    
+    @Published
+    var cursor: HexPoint? = nil
+    
+    private var cursorFormatter: CursorTransformator = {
+        let formatter = CursorTransformator()
+        return formatter
+    }()
     
     public init(game: GameModel? = nil, mapViewModel: MapViewModel = MapViewModel()) {
         
