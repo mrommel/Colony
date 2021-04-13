@@ -16,8 +16,7 @@ public class GameViewModel: ObservableObject {
     @Published
     var clickPosition: CGPoint = .zero  {
         didSet {
-            let cursor = cursorFormatter.transform(screenPoint: clickPosition, contentSize: self.mapViewModel.size, shift: self.mapViewModel.shift)
-            print("cursor: \(cursor)")
+            self.clickPositionUpdated()
         }
     }
     
@@ -29,11 +28,6 @@ public class GameViewModel: ObservableObject {
     
     @Published
     var cursor: HexPoint? = nil
-    
-    private var cursorFormatter: CursorTransformator = {
-        let formatter = CursorTransformator()
-        return formatter
-    }()
     
     public init(game: GameModel? = nil, mapViewModel: MapViewModel = MapViewModel()) {
         
@@ -109,5 +103,17 @@ public class GameViewModel: ObservableObject {
         if !ImageCache.shared.exists(key: "cursor") {
             ImageCache.shared.add(image: NSImage(named: "cursor"), for: "cursor")
         }
+    }
+    
+    private func clickPositionUpdated() {
+        // to get a better screen resolution everything is scaled up (@3x assets)
+        let factor: CGFloat = 3.0
+        
+        // first calculate the "real" screen coordinate and then the HexPoint
+        let x = (clickPosition.x - self.mapViewModel.shift.x) / factor
+        let y = ((self.mapViewModel.size.height - clickPosition.y) - self.mapViewModel.shift.y) / factor
+
+        // update the cursor
+        self.cursor = HexPoint(screen: CGPoint(x: x, y: y))
     }
 }

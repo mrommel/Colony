@@ -21,6 +21,7 @@
 		C91D82A526087C2400DD5AFE /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91D82A426087C2400DD5AFE /* Globals.swift */; };
 		C91D82AB26087CE400DD5AFE /* SmartAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C91D82AA26087CE400DD5AFE /* SmartAssets.framework */; };
 		C91D82AC26087CE400DD5AFE /* SmartAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C91D82AA26087CE400DD5AFE /* SmartAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C97111322625726400B58AAE /* AppMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97111312625726400B58AAE /* AppMenu.swift */; };
 		C9F6EB1A260790850052140C /* SmartColonyMacOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */; };
 		C9F6EB1C260790850052140C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB1B260790850052140C /* MainView.swift */; };
 		C9F6EB1E2607908B0052140C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F6EB1D2607908B0052140C /* Assets.xcassets */; };
@@ -79,6 +80,7 @@
 		C91D829C2608791A00DD5AFE /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		C91D82A426087C2400DD5AFE /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		C91D82AA26087CE400DD5AFE /* SmartAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C97111312625726400B58AAE /* AppMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMenu.swift; sourceTree = "<group>"; };
 		C99A88792607A063003B8B73 /* SmartColonyMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartColonyMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F6EB16260790850052140C /* SmartColony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartColony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyMacOSApp.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				C9F6EB282607908B0052140C /* SmartColonyMacOS.entitlements */,
 				C9F6EB242607908B0052140C /* SmartColonyMacOS.xcdatamodeld */,
 				C91D82912607B79B00DD5AFE /* AppDelegate.swift */,
+				C97111312625726400B58AAE /* AppMenu.swift */,
 				C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */,
 				C9F6EB222607908B0052140C /* Persistence.swift */,
 			);
@@ -384,6 +387,7 @@
 				C9F6EB232607908B0052140C /* Persistence.swift in Sources */,
 				C9F6EB1C260790850052140C /* MainView.swift in Sources */,
 				C9022F8E2608DCA800C6773A /* CreateGameMenuView.swift in Sources */,
+				C97111322625726400B58AAE /* AppMenu.swift in Sources */,
 				C9022F7D2608C14600C6773A /* MenuButtonStyle.swift in Sources */,
 				C9022F822608C19600C6773A /* MenuViewModel.swift in Sources */,
 				C9155159260A5C8F003710BE /* GenerateGameViewModel.swift in Sources */,

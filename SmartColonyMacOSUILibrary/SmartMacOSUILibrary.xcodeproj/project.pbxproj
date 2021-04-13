@@ -23,7 +23,7 @@
 		C93AA6A9260F23640053DF74 /* HexCoordLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6A8260F23640053DF74 /* HexCoordLayerView.swift */; };
 		C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6AA260F24640053DF74 /* CGRectExtension.swift */; };
 		C94507A9262232E400CFD27D /* DataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94507A8262232E400CFD27D /* DataPicker.swift */; };
-		C97111202624C3E900B58AAE /* CursorTransformator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971111F2624C3E800B58AAE /* CursorTransformator.swift */; };
+		C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9711125262569D600B58AAE /* NSMenuItemExtension.swift */; };
 		C988EAB4261B331800300C39 /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAB3261B331800300C39 /* TrackableScrollView.swift */; };
 		C988EAD1261B6ED500300C39 /* BorderLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */; };
 		C988EAD3261B6EE900300C39 /* RoadLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */; };
@@ -90,7 +90,7 @@
 		C93AA6A8260F23640053DF74 /* HexCoordLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexCoordLayerView.swift; sourceTree = "<group>"; };
 		C93AA6AA260F24640053DF74 /* CGRectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
 		C94507A8262232E400CFD27D /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
-		C971111F2624C3E800B58AAE /* CursorTransformator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorTransformator.swift; sourceTree = "<group>"; };
+		C9711125262569D600B58AAE /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
 		C988EAB3261B331800300C39 /* TrackableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
 		C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderLayerViewModel.swift; sourceTree = "<group>"; };
 		C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadLayerViewModel.swift; sourceTree = "<group>"; };
@@ -180,7 +180,6 @@
 				C988EAE4261B724500300C39 /* AnimatedUnitView.swift */,
 				C94507A8262232E400CFD27D /* DataPicker.swift */,
 				C988EAB3261B331800300C39 /* TrackableScrollView.swift */,
-				C971111F2624C3E800B58AAE /* CursorTransformator.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -261,6 +260,7 @@
 				C93AA6AA260F24640053DF74 /* CGRectExtension.swift */,
 				C9A61D80261EE55600341241 /* PixelBuffer.swift */,
 				C9FD308426223EA200153752 /* DemoGameModel.swift */,
+				C9711125262569D600B58AAE /* NSMenuItemExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -375,6 +375,7 @@
 				C988EADB261B707600300C39 /* CityLayerViewModel.swift in Sources */,
 				C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */,
 				C988EAE3261B70BE00300C39 /* UnitLayerView.swift in Sources */,
+				C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */,
 				C93AA6A1260DE1550053DF74 /* ResourceLayerViewModel.swift in Sources */,
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
 				C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */,
@@ -385,7 +386,6 @@
 				C988EAD7261B6F7B00300C39 /* RoadLayerView.swift in Sources */,
 				C93AA6A9260F23640053DF74 /* HexCoordLayerView.swift in Sources */,
 				C9155179260BCEE7003710BE /* FeatureLayerViewModel.swift in Sources */,
-				C97111202624C3E900B58AAE /* CursorTransformator.swift in Sources */,
 				C988EADD261B708000300C39 /* UnitLayerViewModel.swift in Sources */,
 				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
 				C988EAB4261B331800300C39 /* TrackableScrollView.swift in Sources */,

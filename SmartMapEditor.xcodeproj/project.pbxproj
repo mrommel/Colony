@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		C9070A612574445A00276B7D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A602574445A00276B7D /* main.swift */; };
-		C9070A672574F4ED00276B7D /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A662574F4ED00276B7D /* NSMenuItemExtension.swift */; };
 		C9070A6B2574F50C00276B7D /* MapEditorMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A6A2574F50C00276B7D /* MapEditorMenu.swift */; };
 		C9070A712574F64600276B7D /* MapEditorToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A702574F64600276B7D /* MapEditorToolbar.swift */; };
 		C9070A752574F89200276B7D /* EditorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9070A742574F89200276B7D /* EditorContentView.swift */; };
@@ -101,7 +100,6 @@
 
 /* Begin PBXFileReference section */
 		C9070A602574445A00276B7D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		C9070A662574F4ED00276B7D /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
 		C9070A6A2574F50C00276B7D /* MapEditorMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEditorMenu.swift; sourceTree = "<group>"; };
 		C9070A702574F64600276B7D /* MapEditorToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEditorToolbar.swift; sourceTree = "<group>"; };
 		C9070A742574F89200276B7D /* EditorContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorContentView.swift; sourceTree = "<group>"; };
@@ -313,7 +311,6 @@
 			children = (
 				C9AB2C54257D2E780045DFBC /* PopupButton.swift */,
 				C9ADAD63257286D30044F437 /* NSLabel.swift */,
-				C9070A662574F4ED00276B7D /* NSMenuItemExtension.swift */,
 				C9070A7A2575172400276B7D /* TrackingAreaView.swift */,
 				C9070A7E2575174B00276B7D /* TrackingAreaRepresentable.swift */,
 				C9070A822575176500276B7D /* TrackingNSHostingView.swift */,
@@ -532,7 +529,6 @@
 				C9F6EB552607923D0052140C /* CGImageExtension.swift in Sources */,
 				C9070A832575176500276B7D /* TrackingNSHostingView.swift in Sources */,
 				C9240FD4258E5E4A007FB7EE /* EditMetaDataView.swift in Sources */,
-				C9070A672574F4ED00276B7D /* NSMenuItemExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
