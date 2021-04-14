@@ -46,6 +46,43 @@ class MainViewModel: ObservableObject {
         self.createGameMenuViewModel.delegate = self
         self.generateGameViewModel.delegate = self
     }
+    
+    func centerCapital() {
+        
+        guard self.presentedView == .game else {
+            return
+        }
+        
+        // add center on capital (or start location)
+        self.gameViewModel.centerCapital()
+    }
+    
+    func zoomIn() {
+        
+        guard self.presentedView == .game else {
+            return
+        }
+        
+        self.gameViewModel.zoomIn()
+    }
+    
+    func zoomOut() {
+        
+        guard self.presentedView == .game else {
+            return
+        }
+        
+        self.gameViewModel.zoomOut()
+    }
+    
+    func zoomReset() {
+        
+        guard self.presentedView == .game else {
+            return
+        }
+        
+        self.gameViewModel.zoomReset()
+    }
 }
 
 extension MainViewModel: MenuViewModelDelegate {

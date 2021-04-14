@@ -15,14 +15,14 @@ protocol MapViewModelDelegate: class {
     func shiftChanged(to shift: CGPoint)
 }
 
-public class MapViewModel {
+public class MapViewModel: ObservableObject {
     
     // layers
     var terrainLayerViewModel: TerrainLayerViewModel?
     var riverLayerViewModel: RiverLayerViewModel?
     var borderLayerViewModel: BorderLayerViewModel?
     var roadLayerViewModel: RoadLayerViewModel?
-    // cursor?
+    var cursorLayerViewModel: CursorLayerViewModel?
     var featureLayerViewModel: FeatureLayerViewModel?
     var resourceLayerViewModel: ResourceLayerViewModel?
     var improvementLayerViewModel: ImprovementLayerViewModel?
@@ -35,9 +35,12 @@ public class MapViewModel {
     // overview
     var mapOverviewViewModel: MapOverviewViewModel?
     
+    //@Published
+    //public var focused: HexPoint?
+    
     public var shift: CGPoint = .zero
     public var size: CGSize = .zero
-    let factor: CGFloat = 3.0
+    private let factor: CGFloat = 3.0
     
     weak var delegate: MapViewModelDelegate?
     
@@ -51,8 +54,7 @@ public class MapViewModel {
         
         self.terrainLayerViewModel = nil
         self.riverLayerViewModel = nil
-        
-        // cursor?
+        self.cursorLayerViewModel = nil
         self.featureLayerViewModel = nil
         self.resourceLayerViewModel = nil
         self.improvementLayerViewModel = nil
@@ -81,7 +83,8 @@ public class MapViewModel {
         self.roadLayerViewModel = RoadLayerViewModel(game: self.game)
         self.roadLayerViewModel?.update()
         
-        // cursor?
+        self.cursorLayerViewModel = CursorLayerViewModel(game: self.game)
+        self.cursorLayerViewModel?.update()
         
         self.featureLayerViewModel = FeatureLayerViewModel(game: self.game)
         self.featureLayerViewModel?.update()
@@ -125,6 +128,15 @@ public class MapViewModel {
         self.shift = CGPoint(x: dx, y: dy) * self.factor
         
         self.delegate?.shiftChanged(to: self.shift)
+    }
+    
+    public func moveCursor(to point: HexPoint) {
+        
+        self.cursorLayerViewModel?.cursor = point
+    }
+    
+    public func centerOnCursor() {
+        
     }
     
     public func doTurn() {

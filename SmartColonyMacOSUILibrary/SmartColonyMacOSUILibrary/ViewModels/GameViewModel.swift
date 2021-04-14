@@ -8,6 +8,7 @@
 import SmartAILibrary
 import SmartAssets
 import Cocoa
+import SwiftUI
 
 public class GameViewModel: ObservableObject {
 
@@ -28,6 +29,9 @@ public class GameViewModel: ObservableObject {
     
     @Published
     var cursor: HexPoint? = nil
+    
+    @Published
+    var scrollTarget: Int? = nil
     
     public init(game: GameModel? = nil, mapViewModel: MapViewModel = MapViewModel()) {
         
@@ -103,6 +107,57 @@ public class GameViewModel: ObservableObject {
         if !ImageCache.shared.exists(key: "cursor") {
             ImageCache.shared.add(image: NSImage(named: "cursor"), for: "cursor")
         }
+    }
+    
+    public func centerCapital() {
+        
+        guard let game = self.mapViewModel.game else {
+            print("cant center on capital: game not set")
+            return
+        }
+        
+        guard let human = game.humanPlayer() else {
+            print("cant center on capital: human not set")
+            return
+        }
+        
+        if let capital = game.capital(of: human) {
+            self.mapViewModel.moveCursor(to: capital.location)
+            self.centerOnCursor()
+            return
+        }
+            
+        if let unitRef = game.units(of: human).first, let unit = unitRef {
+            self.mapViewModel.moveCursor(to: unit.location)
+            self.centerOnCursor()
+            return
+        }
+        
+        print("cant center on capital: no capital nor units")
+    }
+    
+    public func centerOnCursor() {
+        
+        //self.mapViewModel.centerOnCursor()
+        if let cursor = self.mapViewModel.cursorLayerViewModel?.cursor {
+            
+            self.scrollTarget = cursor.x + cursor.y * 1000
+        }
+    }
+    
+    public func zoomIn() {
+        
+        self.scale = self.scale * 1.5
+    }
+    
+    public func zoomOut() {
+        
+        self.scale = self.scale * 0.75
+    }
+    
+    public func zoomReset() {
+        
+        self.scale = 1.0
     }
     
     private func clickPositionUpdated() {

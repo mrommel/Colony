@@ -865,7 +865,7 @@ open class GameModel: Codable {
         return self.map.city(at: location)
     }
 
-    func capital(of player: AbstractPlayer) -> AbstractCity? {
+    public func capital(of player: AbstractPlayer) -> AbstractCity? {
 
         if let cap = self.map.cities(of: player).first(where: { $0?.isCapital() == true }) {
             return cap
@@ -874,7 +874,7 @@ open class GameModel: Codable {
         return nil
     }
     
-    func findCity(of player: AbstractPlayer, closestTo location: HexPoint) -> AbstractCity? {
+    public func findCity(of player: AbstractPlayer, closestTo location: HexPoint) -> AbstractCity? {
      
         var bestCity: AbstractCity? = nil
         var bestDistance: Int = Int(INT_MAX)

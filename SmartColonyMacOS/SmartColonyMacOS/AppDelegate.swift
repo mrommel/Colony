@@ -10,13 +10,14 @@ import AppKit
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return true
-    }
-    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
-        NSApplication.shared.mainMenu = AppMenu()
+        //NSApplication.shared.mainMenu = AppMenu()
+    }
+    
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        
+        return true
     }
     
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {

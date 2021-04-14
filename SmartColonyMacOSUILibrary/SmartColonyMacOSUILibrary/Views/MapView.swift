@@ -13,7 +13,7 @@ import SmartAILibrary
 import SmartAssets
 
 public struct MapView: View {
-    
+        
     private let viewModel: MapViewModel
     private let contentSize: CGSize
     
@@ -27,23 +27,28 @@ public struct MapView: View {
         
         ZStack(alignment: .topLeading) {
             
-            TerrainLayerView(viewModel: self.viewModel.terrainLayerViewModel)
-            RiverLayerView(viewModel: self.viewModel.riverLayerViewModel)
-            BorderLayerView(viewModel: self.viewModel.borderLayerViewModel)
-            RoadLayerView(viewModel: self.viewModel.roadLayerViewModel)
-            // cursor?
-            FeatureLayerView(viewModel: self.viewModel.featureLayerViewModel)
-            ResourceLayerView(viewModel: self.viewModel.resourceLayerViewModel)
-            ImprovementLayerView(viewModel: self.viewModel.improvementLayerViewModel)
-            CityLayerView(viewModel: self.viewModel.cityLayerViewModel)
-            UnitLayerView(viewModel: self.viewModel.unitLayerViewModel ?? UnitLayerViewModel(game: nil))
+            Group {
+                TerrainLayerView(viewModel: self.viewModel.terrainLayerViewModel)
+                RiverLayerView(viewModel: self.viewModel.riverLayerViewModel)
+                BorderLayerView(viewModel: self.viewModel.borderLayerViewModel)
+                RoadLayerView(viewModel: self.viewModel.roadLayerViewModel)
+                //CursorLayerView(viewModel: self.viewModel.cursorLayerViewModel ?? CursorLayerViewModel(game: nil))
+                FeatureLayerView(viewModel: self.viewModel.featureLayerViewModel)
+                CursorLayerView(viewModel: self.viewModel.cursorLayerViewModel ?? CursorLayerViewModel(game: nil))
+                ResourceLayerView(viewModel: self.viewModel.resourceLayerViewModel)
+                ImprovementLayerView(viewModel: self.viewModel.improvementLayerViewModel)
+                CityLayerView(viewModel: self.viewModel.cityLayerViewModel)
+                UnitLayerView(viewModel: self.viewModel.unitLayerViewModel ?? UnitLayerViewModel(game: nil))
+            }
             
-            // -- debug --
-            // yield
-            // water
-            HexCoordLayerView(viewModel: self.viewModel.hexCoordLayerViewModel)
-            // citizen
-            // tooltip ?
+            Group {
+                // -- debug --
+                // yield
+                // water
+                HexCoordLayerView(viewModel: self.viewModel.hexCoordLayerViewModel)
+                // citizen
+                // tooltip ?
+            }
         }
         .frame(width: self.contentSize.width * 3.0, height: self.contentSize.height * 3.0, alignment: .topLeading)
     }
