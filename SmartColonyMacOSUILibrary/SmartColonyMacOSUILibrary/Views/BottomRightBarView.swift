@@ -24,18 +24,18 @@ public struct BottomRightBarView: View {
             VStack(alignment: .trailing, spacing: 10) {
 
                 Spacer()
-                MapOverviewView(viewModel: self.viewModel.mapOverviewViewModel ?? MapOverviewViewModel(with: nil))
+                MapOverviewView(viewModel: MapOverviewViewModel())
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     }
 }
 
-struct BottomRightBarView_Previews: PreviewProvider {
+/*struct BottomRightBarView_Previews: PreviewProvider {
     
     static var previews: some View {
         
-        let viewModel = MapViewModel()
+        let viewModel = MapViewModel(game: <#Binding<GameModel?>#>)
         BottomRightBarView(viewModel: viewModel)
     }
-}
+}*/

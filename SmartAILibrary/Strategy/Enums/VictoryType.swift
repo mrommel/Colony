@@ -8,8 +8,8 @@
 
 import Foundation
 
-public enum VictoryType: Int, Codable {
-    
+public enum VictoryType: Int, Codable, Comparable {
+
     case domination
     case cultural
     case science
@@ -17,5 +17,9 @@ public enum VictoryType: Int, Codable {
     
     static var all: [VictoryType] {
         return [.domination, .cultural, .science, .diplomatic]
+    }
+    
+    public static func < (lhs: VictoryType, rhs: VictoryType) -> Bool {
+        return lhs.rawValue < rhs.rawValue
     }
 }

@@ -32,21 +32,14 @@ class UnitItem: ObservableObject, Identifiable, Equatable {
     }
 }
 
-class UnitLayerViewModel: BaseLayerViewModel, ObservableObject {
+class UnitLayerViewModel: BaseLayerViewModel {
     
     @Published
-    var units: [UnitItem]
+    var units: [UnitItem] = []
     
-    override init(game: GameModel?) {
+    override func update(from game: GameModel?) {
         
-        self.units = []
-        
-        super.init(game: game)
-    }
-    
-    override func update() {
-        
-        guard let game = self.game else {
+        guard let game = game else {
             return
         }
         
@@ -68,9 +61,9 @@ class UnitLayerViewModel: BaseLayerViewModel, ObservableObject {
         
     }
     
-    func show(unit: AbstractUnit?, in game: GameModel) {
+    func show(unit: AbstractUnit?, in game: GameModel?) {
         
-        guard let human = self.game?.humanPlayer() else {
+        guard let human = game?.humanPlayer() else {
             return
         }
         
@@ -78,7 +71,7 @@ class UnitLayerViewModel: BaseLayerViewModel, ObservableObject {
             fatalError("cant get unit")
         }
         
-        if let tile = game.tile(at: unit.location) {
+        if let tile = game?.tile(at: unit.location) {
             
             if !tile.isVisible(to: human) {
                 

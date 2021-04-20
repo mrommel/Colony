@@ -12,7 +12,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
-        //NSApplication.shared.mainMenu = AppMenu()
+        print("### applicationDidFinishLaunching ###")
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
@@ -26,5 +26,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // If we got here, it is time to quit.
         return .terminateNow
+    }
+    
+    func applicationDidBecomeActive(_ notification: Notification) {
+        
+        
+    }
+    
+    func applicationWillResignActive(_ notification: Notification) {
+        
+        
     }
 }

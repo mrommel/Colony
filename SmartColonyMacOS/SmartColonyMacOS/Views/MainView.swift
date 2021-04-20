@@ -13,7 +13,7 @@ struct MainView: View {
     
     @ObservedObject
     var viewModel: MainViewModel
-    
+
     var body: some View {
         ZStack {
             Image("background_macos")
@@ -21,31 +21,56 @@ struct MainView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(minWidth: 400, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity, alignment: .topLeading)
 
-            VStack {
-                
-                if self.viewModel.presentedView == .menu {
-                    MenuView(viewModel: self.viewModel.menuViewModel)
-                }
-                
-                if self.viewModel.presentedView == .newGameMenu {
-                    CreateGameMenuView(viewModel: self.viewModel.createGameMenuViewModel)
-                }
-                
-                if self.viewModel.presentedView == .loadingGame {
-                    GenerateGameView(viewModel: self.viewModel.generateGameViewModel)
-                }
-                
-                if self.viewModel.presentedView == .game {
-                    GameView(viewModel: self.viewModel.gameViewModel)
-                }
-            }
-            .frame(minWidth: 400, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity, alignment: .topLeading)
-            .padding(.all, 1)
+            self.content
+                .frame(minWidth: 400, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity, alignment: .topLeading)
+                .padding(.all, 1)
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     }
+    
+    private var content: AnyView {
+        switch self.viewModel.presentedView {
+            
+        case .menu:
+            return AnyView(self.menuView)
+        case .newGameMenu:
+            return AnyView(self.createGameMenuView)
+        case .loadingGame:
+            return AnyView(self.generateGameView)
+        case .game:
+            return AnyView(self.gameView)
+        }
+    }
 }
 
+// MARK: - Loading Content
+
+extension MainView {
+    
+    private var menuView: some View {
+        MenuView(viewModel: self.viewModel.menuViewModel)
+    }
+    
+    private var createGameMenuView: some View {
+        CreateGameMenuView(viewModel: self.viewModel.createGameMenuViewModel)
+    }
+    
+    private var generateGameView: some View {
+        GenerateGameView(viewModel: self.viewModel.generateGameViewModel)
+    }
+    
+    private var gameView: some View {
+        GameView(viewModel: self.viewModel.gameViewModel)
+    }
+    
+    /*func failedView(_ error: Error) -> some View {
+     ErrorView(error: error, retryAction: {
+         // self.reloadCountries()
+     })
+     }*/
+}
+
+/*
 struct MainView_Previews: PreviewProvider {
 
     static var gameViewModel: GameViewModel = GameViewModel(game: DemoGameModel())
@@ -58,3 +83,4 @@ struct MainView_Previews: PreviewProvider {
         MainView(viewModel: viewModel)
     }
 }
+*/

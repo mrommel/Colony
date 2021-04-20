@@ -10,10 +10,6 @@ import SmartAILibrary
 
 class HexCoordLayerViewModel: BaseLayerViewModel {
     
-    override init(game: GameModel?) {
-        super.init(game: game)
-    }
-    
     override func render(tile: AbstractTile, into context: CGContext?, at tileRect: CGRect, in game: GameModel) {
 
         let color = CGColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)

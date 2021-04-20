@@ -13,6 +13,12 @@ public struct GameView: View {
     @ObservedObject
     private var viewModel: GameViewModel
     
+    @State
+    private var mapViewModel: MapViewModel = MapViewModel()
+    
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
+    
     public init(viewModel: GameViewModel) {
         
         self.viewModel = viewModel
@@ -21,19 +27,16 @@ public struct GameView: View {
     public var body: some View {
         
         ZStack {
-            TrackableScrollView(
-                axes: [.horizontal, .vertical],
-                showsIndicators: true,
-                clickPosition: self.$viewModel.clickPosition,
-                scale: self.$viewModel.scale,
-                scrollTarget: self.$viewModel.scrollTarget,
-                contentOffset: self.$viewModel.contentOffset) {
+            
+            ScrollableView(scrollTo: self.$viewModel.scrollTarget,
+                           clickOn: self.$viewModel.clickPosition,
+                           magnification: self.$viewModel.scale) {
                 
-                MapView(viewModel: self.viewModel.mapViewModel)
+                MapView(viewModel: self.mapViewModel)
             }
             .background(Color.black.opacity(0.5))
             
-            Text("focus: \(self.viewModel.scrollTarget ?? 0)")
+            //Text("focus: \(self.viewModel.scrollTarget?.x ?? 0.0), \(self.viewModel.scrollTarget?.y ?? 0.0)")
             
             BottomLeftBarView(viewModel: self.viewModel.mapViewModel)
             

@@ -5,24 +5,39 @@
 //  Created by Michael Rommel on 25.03.21.
 //
 
+import SwiftUI
 import Cocoa
 import SmartAILibrary
 import SmartAssets
 
-class BaseLayerViewModel {
+class BaseLayerViewModel: ObservableObject {
     
     var image: NSImage
-    let game: GameModel?
-    let textures: Textures
-    let size: CGSize
+    var textures: Textures = Textures(game: nil)
+    var size: CGSize
     var shift: CGPoint
     let factor: CGFloat = 3.0
     
-    init(game: GameModel?) {
-        self.game = game
+    init() {
+        self.size = .zero
+        self.image = NSImage(color: .navyBlue, size: NSSize(width: 100, height: 100))
+        self.shift = .zero
+    }
+    
+    func update(from game: GameModel?) {
         
-        if let contentSize = self.game?.contentSize(), let mapSize = self.game?.mapSize() {
+        guard let game = game else {
+            return
+        }
         
+        guard let human = game.humanPlayer() else {
+            return
+        }
+        
+        let contentSize = game.contentSize()
+        let mapSize = game.mapSize()
+        
+        if self.size == .zero {
             self.size = CGSize(width: (contentSize.width + 10) * factor, height: contentSize.height * factor)
             
             // change shift
@@ -36,24 +51,7 @@ class BaseLayerViewModel {
             
             self.image = NSImage(color: .navyBlue, size: NSSize(width: self.size.width, height: self.size.height))
             
-            self.textures = Textures(game: self.game)
-        } else {
-            // dummy
-            self.size = CGSize(width: 200, height: 150)
-            self.shift = CGPoint.zero
-            self.image = NSImage(color: .navyBlue, size: NSSize(width: self.size.width, height: self.size.height))
-            self.textures = Textures(game: self.game)
-        }
-    }
-    
-    func update() {
-        
-        guard let game = self.game else {
-            return
-        }
-        
-        guard let human = self.game?.humanPlayer() else {
-            return
+            self.textures = Textures(game: game)
         }
         
         let tmpImage = drawImageInCGContext(size: self.size) { (context) -> () in

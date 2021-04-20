@@ -8,14 +8,18 @@
 import SmartAILibrary
 import SmartAssets
 import Cocoa
+import SwiftUI
 
-protocol MapViewModelDelegate: class {
+/*protocol MapViewModelDelegate: class {
     
     func sizeChanged(to size: CGSize)
     func shiftChanged(to shift: CGPoint)
-}
+}*/
 
 public class MapViewModel: ObservableObject {
+    
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
     
     // layers
     var terrainLayerViewModel: TerrainLayerViewModel?
@@ -33,90 +37,61 @@ public class MapViewModel: ObservableObject {
     var hexCoordLayerViewModel: HexCoordLayerViewModel?
     
     // overview
-    var mapOverviewViewModel: MapOverviewViewModel?
+    //var mapOverviewViewModel: MapOverviewViewModel?
     
-    //@Published
-    //public var focused: HexPoint?
-    
+    @Published
     public var shift: CGPoint = .zero
+    
+    @Published
     public var size: CGSize = .zero
+    
     private let factor: CGFloat = 3.0
     
-    weak var delegate: MapViewModelDelegate?
-    
-    public var game: GameModel? {
-        didSet {
-            self.gameUpdated()
-        }
-    }
-    
-    public init(game: GameModel? = nil) {
+    public init() {
         
-        self.terrainLayerViewModel = nil
-        self.riverLayerViewModel = nil
-        self.cursorLayerViewModel = nil
-        self.featureLayerViewModel = nil
-        self.resourceLayerViewModel = nil
-        self.improvementLayerViewModel = nil
-        self.cityLayerViewModel = nil
-        self.unitLayerViewModel = nil
+        self.terrainLayerViewModel = TerrainLayerViewModel()
+        self.riverLayerViewModel = RiverLayerViewModel()
+        self.borderLayerViewModel = BorderLayerViewModel()
+        self.roadLayerViewModel = RoadLayerViewModel()
+        self.cursorLayerViewModel = CursorLayerViewModel()
+        self.featureLayerViewModel = FeatureLayerViewModel()
+        self.resourceLayerViewModel = ResourceLayerViewModel()
+        self.improvementLayerViewModel = ImprovementLayerViewModel()
+        self.cityLayerViewModel = CityLayerViewModel()
+        self.unitLayerViewModel = UnitLayerViewModel()
         
         // debug
-        self.hexCoordLayerViewModel = nil
-        
-        if game != nil {
-            self.game = game
-        }
+        self.hexCoordLayerViewModel = HexCoordLayerViewModel()
     }
     
-    private func gameUpdated() {
-        
-        self.terrainLayerViewModel = TerrainLayerViewModel(game: self.game)
-        self.terrainLayerViewModel?.update()
-        
-        self.riverLayerViewModel = RiverLayerViewModel(game: self.game)
-        self.riverLayerViewModel?.update()
-        
-        self.borderLayerViewModel = BorderLayerViewModel(game: self.game)
-        self.borderLayerViewModel?.update()
-        
-        self.roadLayerViewModel = RoadLayerViewModel(game: self.game)
-        self.roadLayerViewModel?.update()
-        
-        self.cursorLayerViewModel = CursorLayerViewModel(game: self.game)
-        self.cursorLayerViewModel?.update()
-        
-        self.featureLayerViewModel = FeatureLayerViewModel(game: self.game)
-        self.featureLayerViewModel?.update()
-        
-        self.resourceLayerViewModel = ResourceLayerViewModel(game: self.game)
-        self.resourceLayerViewModel?.update()
-        
-        self.improvementLayerViewModel = ImprovementLayerViewModel(game: self.game)
-        self.improvementLayerViewModel?.update()
-        
-        self.cityLayerViewModel = CityLayerViewModel(game: self.game)
-        self.cityLayerViewModel?.update()
-        
-        self.unitLayerViewModel = UnitLayerViewModel(game: self.game)
-        self.unitLayerViewModel?.update()
+    func gameUpdated() {
+
+        self.terrainLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.riverLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.borderLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.roadLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.cursorLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.featureLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.resourceLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.improvementLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.cityLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.unitLayerViewModel?.update(from: self.gameEnvironment.game.value)
         
         // debug
+        self.hexCoordLayerViewModel?.update(from: self.gameEnvironment.game.value)
         
-        self.hexCoordLayerViewModel = HexCoordLayerViewModel(game: self.game)
-        self.hexCoordLayerViewModel?.update()
+        // overview
+        // self.mapOverviewViewModel?.update()
         
-        self.mapOverviewViewModel = MapOverviewViewModel(with: self.game)
+        //self.gameEnvironment.game?.userInterface = self
         
-        self.game?.userInterface = self
-        
-        guard let contentSize = self.game?.contentSize(), let mapSize = self.game?.mapSize() else {
+        guard let contentSize = self.gameEnvironment.game.value?.contentSize(), let mapSize = self.gameEnvironment.game.value?.mapSize() else {
             fatalError("cant get sizes")
         }
         
         self.size = CGSize(width: (contentSize.width + 10) * self.factor, height: contentSize.height * self.factor)
         
-        self.delegate?.sizeChanged(to: self.size)
+        //self.delegate?.sizeChanged(to: self.size)
         
         // init shift
         let p0 = HexPoint(x: 0, y: 0)
@@ -127,12 +102,7 @@ public class MapViewModel: ObservableObject {
         
         self.shift = CGPoint(x: dx, y: dy) * self.factor
         
-        self.delegate?.shiftChanged(to: self.shift)
-    }
-    
-    public func moveCursor(to point: HexPoint) {
-        
-        self.cursorLayerViewModel?.cursor = point
+        //self.delegate?.shiftChanged(to: self.shift)
     }
     
     public func centerOnCursor() {
@@ -142,7 +112,7 @@ public class MapViewModel: ObservableObject {
     public func doTurn() {
         
         print("turn")
-        guard let humanPlayer = self.game?.humanPlayer() else {
+        /*guard let humanPlayer = self.game?.humanPlayer() else {
             fatalError("no human player given")
         }
         
@@ -151,7 +121,7 @@ public class MapViewModel: ObservableObject {
             self.game?.update()
         }
 
-        humanPlayer.endTurn(in: self.game)
+        humanPlayer.endTurn(in: self.game)*/
     }
 }
 

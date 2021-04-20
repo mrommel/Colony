@@ -1469,3 +1469,33 @@ extension GameModel {
         return true
     }
 }
+
+extension Array where Element: Comparable {
+    func containsSameElements(as other: [Element]) -> Bool {
+        return self.count == other.count && self.sorted() == other.sorted()
+    }
+}
+
+extension GameModel: Equatable {
+    
+    public static func == (lhs: GameModel, rhs: GameModel) -> Bool {
+
+        if !lhs.victoryTypes.containsSameElements(as: rhs.victoryTypes) {
+            return false
+        }
+        
+        if lhs.handicap != rhs.handicap {
+            return false
+        }
+        
+        if lhs.currentTurn != rhs.currentTurn {
+            return false
+        }
+        
+        if lhs.map != rhs.map {
+            return false
+        }
+        
+        return true
+    }
+}

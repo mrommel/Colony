@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import SmartMacOSUILibrary
+import Combine
+import SmartAILibrary
 
 // https://troz.net/post/2021/swiftui_mac_menus/
 class GameCommandsModel: ObservableObject {
@@ -19,6 +22,10 @@ class GameCommandsModel: ObservableObject {
     
     func centerCapital() {
         self.viewModel.centerCapital()
+    }
+    
+    func centerOnCursor() {
+        self.viewModel.centerOnCursor()
     }
     
     func zoomIn() {
@@ -50,19 +57,35 @@ struct GameCommands: Commands {
                 Text("Center to capital")
             })
             
+            Button(action: {
+                self.commandModel.centerOnCursor()
+            }, label: {
+                Image(systemName: "paperplane.circle.fill")
+                Text("Center on cursor")
+            })
+            
             Divider()
             
-            Button("Zoom In") {
+            Button(action: {
                 self.commandModel.zoomIn()
-            }.keyboardShortcut("+")
+            }, label: {
+                Image(systemName: "plus.magnifyingglass")
+                Text("Zoom In")
+            }).keyboardShortcut("+")
             
-            Button("Zoom Out") {
+            Button(action: {
                 self.commandModel.zoomOut()
-            }.keyboardShortcut("-")
-    
-            Button("Zoom 1:1") {
+            }, label: {
+                Image(systemName: "minus.magnifyingglass")
+                Text("Zoom Out")
+            }).keyboardShortcut("-")
+            
+            Button(action: {
                 self.commandModel.zoomReset()
-            }.keyboardShortcut("r")
+            }, label: {
+                Image(systemName: "1.magnifyingglass")
+                Text("Zoom 1:1")
+            }).keyboardShortcut("r")
             
             Divider()
         }
@@ -71,7 +94,7 @@ struct GameCommands: Commands {
 
 @main
 struct SmartColonyMacOSApp: App {
-    
+
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     @ObservedObject
@@ -79,7 +102,7 @@ struct SmartColonyMacOSApp: App {
     
     @ObservedObject
     var commandModel: GameCommandsModel
-    
+
     init() {
         
         let mainViewModel = MainViewModel()
@@ -89,7 +112,7 @@ struct SmartColonyMacOSApp: App {
     }
 
     var body: some Scene {
-        WindowGroup<MainView> {
+        WindowGroup {
             MainView(viewModel: viewModel)
         }
         .commands {

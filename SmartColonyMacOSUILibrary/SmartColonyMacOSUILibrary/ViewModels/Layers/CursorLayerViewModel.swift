@@ -8,41 +8,27 @@
 import SwiftUI
 import SmartAILibrary
 
-class CursorLayerViewModel: BaseLayerViewModel, ObservableObject {
+class CursorLayerViewModel: BaseLayerViewModel {
     
-    @Published
-    var cursor: HexPoint? = nil {
-        didSet {
-            self.updateCursorOffset()
-        }
-    }
-    
-    @Published
-    var cursorOffset: CGSize? = nil
-    
-    override init(game: GameModel?) {
-        super.init(game: game)
-    }
-    
-    override func update() {
+    override func update(from game: GameModel?) {
         
-        guard self.game != nil else {
+        guard game != nil else {
             return
         }
         
-        self.updateCursorOffset()
+        // NOOP
     }
  
     override func render(tile: AbstractTile, into context: CGContext?, at tileRect: CGRect, in game: GameModel) {
         
     }
     
-    func updateCursorOffset() {
+    func calcCursorOffset(of cursor: HexPoint) -> CGSize {
         
-        var screenPoint = (HexPoint.toScreen(hex: self.cursor ?? .zero) * self.factor) + self.shift
+        var screenPoint = (HexPoint.toScreen(hex: cursor) * self.factor) + self.shift
         
         screenPoint.y = size.height - screenPoint.y - 144
-        
-        self.cursorOffset = screenPoint.size()
+
+        return screenPoint.size()
     }
 }

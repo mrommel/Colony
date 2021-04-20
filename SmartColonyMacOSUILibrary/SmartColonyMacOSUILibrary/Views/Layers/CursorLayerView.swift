@@ -48,8 +48,14 @@ func *(l: CGSize, r: CGFloat) -> CGSize { return CGSize(width: l.width * r, heig
 
 public struct CursorLayerView: View {
     
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
+    
     @ObservedObject
     var viewModel: CursorLayerViewModel
+    
+    @State
+    var cursorOffset: CGSize = .zero
     
     init(viewModel: CursorLayerViewModel) {
         
@@ -57,10 +63,15 @@ public struct CursorLayerView: View {
     }
     
     public var body: some View {
+        
         Image("cursor")
             .resizable()
             .scaledToFit()
             .frame(width: 144, height: 144, alignment: .center)
-            .offset(self.viewModel.cursorOffset ?? CGSize.zero)
+            .offset(self.cursorOffset)
+            .onReceive(self.gameEnvironment.cursor) { value in
+                self.cursorOffset = self.viewModel.calcCursorOffset(of: value)
+                print("cursor: \(value) => \(self.cursorOffset)")
+            }
     }
 }

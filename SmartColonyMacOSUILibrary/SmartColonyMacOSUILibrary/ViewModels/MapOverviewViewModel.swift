@@ -12,19 +12,19 @@ import SmartAssets
 
 public class MapOverviewViewModel: ObservableObject {
     
-    private var buffer: PixelBuffer
+    private var buffer: PixelBuffer = PixelBuffer(width: MapSize.duel.width(), height: MapSize.duel.height(), color: NSColor.black)
     
-    private weak var game: GameModel?
     private weak var player: AbstractPlayer?
     
     @Published
     var image: Image = Image(systemName: "sun.max.fill")
     
-    public init(with game: GameModel?) {
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
+    
+    public init() {
         
-        self.game = game
-        
-        if let game = self.game {
+        if let game = gameEnvironment.game.value {
         
             self.player = game.humanPlayer()
             
@@ -48,10 +48,7 @@ public class MapOverviewViewModel: ObservableObject {
         } else {
             // demo initialization
             self.player = nil
-            
-            let mapSize = MapSize.duel
-            self.buffer = PixelBuffer(width: mapSize.width(), height: mapSize.height(), color: NSColor.black)
-            
+
             guard let bufferImage = self.buffer.toNSImage() else {
                 fatalError("can't create image from buffer")
             }
@@ -60,9 +57,36 @@ public class MapOverviewViewModel: ObservableObject {
         }
     }
     
+    func assign(game: GameModel?) {
+        
+        guard let game = self.gameEnvironment.game.value else {
+            fatalError("need to assign a valid game")
+        }
+        
+        self.player = game.humanPlayer()
+        
+        let mapSize = game.mapSize()
+        self.buffer = PixelBuffer(width: mapSize.width(), height: mapSize.height(), color: NSColor.black)
+
+        guard let bufferImage = self.buffer.toNSImage() else {
+            fatalError("can't create image from buffer")
+        }
+
+        self.image = Image(nsImage: bufferImage)
+
+        for y in 0..<mapSize.height() {
+            for x in 0..<mapSize.width() {
+
+                self.updateBufferAt(x: x, y: y)
+            }
+        }
+
+        self.updateTextureFromBuffer()
+    }
+    
     private func updateBufferAt(x: Int, y: Int) {
 
-        guard let game = self.game else {
+        guard let game = self.gameEnvironment.game.value else {
             fatalError("no map")
         }
 

@@ -14,8 +14,11 @@ public class GameViewModel: ObservableObject {
 
     var mapViewModel: MapViewModel
     
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
+    
     @Published
-    var clickPosition: CGPoint = .zero  {
+    var clickPosition: CGPoint? = .zero  {
         didSet {
             self.clickPositionUpdated()
         }
@@ -28,23 +31,11 @@ public class GameViewModel: ObservableObject {
     var contentOffset: CGPoint = .zero
     
     @Published
-    var cursor: HexPoint? = nil
+    var scrollTarget: CGPoint? = nil
     
-    @Published
-    var scrollTarget: Int? = nil
-    
-    public init(game: GameModel? = nil, mapViewModel: MapViewModel = MapViewModel()) {
+    public init(mapViewModel: MapViewModel) {
         
         self.mapViewModel = mapViewModel
-        
-        if game != nil {
-            self.mapViewModel.game = game
-        }
-    }
-    
-    public func assign(game: GameModel?) {
-        
-        self.mapViewModel.game = game
     }
     
     public func loadAssets() {
@@ -111,7 +102,7 @@ public class GameViewModel: ObservableObject {
     
     public func centerCapital() {
         
-        guard let game = self.mapViewModel.game else {
+        guard let game = self.gameEnvironment.game.value else {
             print("cant center on capital: game not set")
             return
         }
@@ -122,13 +113,13 @@ public class GameViewModel: ObservableObject {
         }
         
         if let capital = game.capital(of: human) {
-            self.mapViewModel.moveCursor(to: capital.location)
+            self.gameEnvironment.moveCursor(to: capital.location)
             self.centerOnCursor()
             return
         }
             
         if let unitRef = game.units(of: human).first, let unit = unitRef {
-            self.mapViewModel.moveCursor(to: unit.location)
+            self.gameEnvironment.moveCursor(to: unit.location)
             self.centerOnCursor()
             return
         }
@@ -139,10 +130,14 @@ public class GameViewModel: ObservableObject {
     public func centerOnCursor() {
         
         //self.mapViewModel.centerOnCursor()
-        if let cursor = self.mapViewModel.cursorLayerViewModel?.cursor {
+        let cursor = self.gameEnvironment.cursor.value
             
-            self.scrollTarget = cursor.x + cursor.y * 1000
-        }
+        var screenPoint = HexPoint.toScreen(hex: cursor) * 3.0 + self.mapViewModel.shift
+
+        screenPoint.y = self.mapViewModel.size.height - screenPoint.y - 144
+            
+        print("scroll to: \(screenPoint)")
+        self.scrollTarget = screenPoint
     }
     
     public func zoomIn() {
@@ -161,6 +156,11 @@ public class GameViewModel: ObservableObject {
     }
     
     private func clickPositionUpdated() {
+        
+        guard let clickPosition = self.clickPosition else {
+            return
+        }
+        
         // to get a better screen resolution everything is scaled up (@3x assets)
         let factor: CGFloat = 3.0
         
@@ -169,6 +169,8 @@ public class GameViewModel: ObservableObject {
         let y = ((self.mapViewModel.size.height - clickPosition.y) - self.mapViewModel.shift.y) / factor
 
         // update the cursor
-        self.cursor = HexPoint(screen: CGPoint(x: x, y: y))
+        let cursor = HexPoint(screen: CGPoint(x: x, y: y))
+        
+        self.gameEnvironment.moveCursor(to: cursor)
     }
 }

@@ -22,6 +22,9 @@ class MainViewModel: ObservableObject {
     @Published
     var presentedView: PresentedViewType
     
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
+    
     // sub view models
     var menuViewModel: MenuViewModel
     var createGameMenuViewModel: CreateGameMenuViewModel
@@ -32,7 +35,7 @@ class MainViewModel: ObservableObject {
          menuViewModel: MenuViewModel = MenuViewModel(),
          createGameMenuViewModel: CreateGameMenuViewModel = CreateGameMenuViewModel(),
          generateGameViewModel: GenerateGameViewModel = GenerateGameViewModel(),
-         gameViewModel: GameViewModel = GameViewModel()) {
+         gameViewModel: GameViewModel = GameViewModel(mapViewModel: MapViewModel())) {
         
         self.presentedView = presentedView
         
@@ -45,6 +48,7 @@ class MainViewModel: ObservableObject {
         self.menuViewModel.delegate = self
         self.createGameMenuViewModel.delegate = self
         self.generateGameViewModel.delegate = self
+        // self.gameViewModel.delegate = self <== close game?
     }
     
     func centerCapital() {
@@ -55,6 +59,16 @@ class MainViewModel: ObservableObject {
         
         // add center on capital (or start location)
         self.gameViewModel.centerCapital()
+    }
+    
+    func centerOnCursor() {
+        
+        guard self.presentedView == .game else {
+            return
+        }
+        
+        // add center on cursor
+        self.gameViewModel.centerOnCursor()
     }
     
     func zoomIn() {
@@ -112,7 +126,8 @@ extension MainViewModel: GenerateGameViewModelDelegate {
     func created(game: GameModel?) {
 
         self.gameViewModel.loadAssets()
-        self.gameViewModel.assign(game: game)
+        
+        self.gameEnvironment.assign(game: game)
         
         self.presentedView = .game
     }

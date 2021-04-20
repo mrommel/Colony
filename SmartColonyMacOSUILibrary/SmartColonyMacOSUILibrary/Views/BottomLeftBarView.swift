@@ -95,7 +95,7 @@ public struct BottomLeftBarView: View {
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     }
 }
-
+/*
 struct BottomLeftBarView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -103,4 +103,4 @@ struct BottomLeftBarView_Previews: PreviewProvider {
         let viewModel = MapViewModel()
         BottomLeftBarView(viewModel: viewModel)
     }
-}
+}*/
