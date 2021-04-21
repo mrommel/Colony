@@ -13,9 +13,6 @@ public struct GameView: View {
     @ObservedObject
     private var viewModel: GameViewModel
     
-    @State
-    private var mapViewModel: MapViewModel = MapViewModel()
-    
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
     
@@ -32,7 +29,7 @@ public struct GameView: View {
                            clickOn: self.$viewModel.clickPosition,
                            magnification: self.$viewModel.scale) {
                 
-                MapView(viewModel: self.mapViewModel)
+                MapView(viewModel: self.viewModel.mapViewModel)
             }
             .background(Color.black.opacity(0.5))
             

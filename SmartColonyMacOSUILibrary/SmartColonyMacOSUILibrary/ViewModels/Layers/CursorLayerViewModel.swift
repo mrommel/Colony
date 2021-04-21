@@ -9,16 +9,18 @@ import SwiftUI
 import SmartAILibrary
 
 class CursorLayerViewModel: BaseLayerViewModel {
-    
+ 
     override func update(from game: GameModel?) {
         
-        guard game != nil else {
+        guard let game = game else {
             return
         }
         
-        // NOOP
+        if self.size == .zero {
+            self.updateSizeAndShift(from: game)
+        }
     }
- 
+    
     override func render(tile: AbstractTile, into context: CGContext?, at tileRect: CGRect, in game: GameModel) {
         
     }

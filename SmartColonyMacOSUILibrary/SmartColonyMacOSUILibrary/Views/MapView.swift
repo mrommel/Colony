@@ -57,7 +57,7 @@ public struct MapView: View {
             // update viewport size
             self.contentSize = game?.contentSize() ?? CGSize(width: 100, height: 100)
             
-            // notify redraw
+            // notify redraw & update size and offset?
             self.viewModel.gameUpdated()
         }
     }

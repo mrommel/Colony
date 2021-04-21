@@ -43,6 +43,10 @@ class UnitLayerViewModel: BaseLayerViewModel {
             return
         }
         
+        if self.size == .zero {
+            self.updateSizeAndShift(from: game)
+        }
+        
         for player in game.players {
             
             for unitRef in game.units(of: player) {

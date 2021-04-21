@@ -110,7 +110,7 @@ struct ScrollableView<Content:View>: NSViewControllerRepresentable {
                         if let scrollView: NSScrollView = notification.object as? NSScrollView {
                             let visibleRect = scrollView.contentView.visibleRect
                             
-                            print("update visibleRect: \(visibleRect)")
+                            //print("update visibleRect: \(visibleRect)")
                             self.internScrollableView?.gameEnvironment.change(visibleRect: visibleRect)
                         }
                     }
@@ -130,7 +130,7 @@ struct ScrollableView<Content:View>: NSViewControllerRepresentable {
                             print("update magnification: \(scrollView.magnification)")
                             self.internScrollableView?.magnification = scrollView.magnification
                             
-                            print("update visibleRect: \(visibleRect)")
+                            //print("update visibleRect: \(visibleRect)")
                             self.internScrollableView?.gameEnvironment.change(visibleRect: visibleRect)
                         }
                     }
@@ -184,24 +184,6 @@ class NSScrollViewController<Content: View> : NSViewController, ObservableObject
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
-    @objc func scrollViewDidScroll(_ notification: Notification) {
-        if let scrollView: NSScrollView = notification.object as? NSScrollView {
-            let visibleRect = scrollView.contentView.visibleRect
-            
-            print("visibleRect: \(visibleRect)")
-            // todo: minimap
-        }
-    }
-    
-    @objc func scrollViewDidMagnify(_ notification: Notification) {
-        if let scrollView: NSScrollView = notification.object as? NSScrollView {
-            let visibleRect = scrollView.contentView.visibleRect
-            
-            print("visibleRect: \(visibleRect)")
-            // todo: minimap
-        }
-    }
 }
 
 protocol TrackedScrollViewDelegate {
@@ -229,6 +211,7 @@ class TrackedScrollView: NSScrollView {
         pointInView.x += documentVisibleRect.origin.x
         pointInView.y += documentVisibleRect.origin.y
         
+        //print("clicked on \(pointInView)")
         self.delegate?.clicked(on: pointInView)
     }
     
