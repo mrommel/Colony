@@ -151,6 +151,7 @@ struct ScrollableView<Content:View>: NSViewControllerRepresentable {
 
 extension ScrollableView: TrackedScrollViewDelegate {
     
+    // this point is already in content space
     func clicked(on point: CGPoint) {
         
         //print("mouse click: \(point.x), \(point.y)")
@@ -223,7 +224,7 @@ class TrackedScrollView: NSScrollView {
     
     override func mouseDown(with event: NSEvent) {
         
-        var pointInView = convert(event.locationInWindow, from: nil)
+        var pointInView = convert(event.locationInWindow, from: nil) / self.magnification
         
         pointInView.x += documentVisibleRect.origin.x
         pointInView.y += documentVisibleRect.origin.y
