@@ -32,12 +32,10 @@ public class MapViewModel: ObservableObject {
     var improvementLayerViewModel: ImprovementLayerViewModel?
     var cityLayerViewModel: CityLayerViewModel?
     var unitLayerViewModel: UnitLayerViewModel?
+    // resourceMarker
     
     // layers - debug
     var hexCoordLayerViewModel: HexCoordLayerViewModel?
-    
-    // overview
-    //var mapOverviewViewModel: MapOverviewViewModel?
     
     @Published
     public var shift: CGPoint = .zero
@@ -105,9 +103,9 @@ public class MapViewModel: ObservableObject {
         //self.delegate?.shiftChanged(to: self.shift)
     }
     
-    public func centerOnCursor() {
+    /*public func centerOnCursor() {
         
-    }
+    }*/
     
     public func doTurn() {
         

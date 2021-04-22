@@ -9,6 +9,17 @@ import SwiftUI
 import SmartAILibrary
 import Combine
 
+public struct MapDisplayOptions {
+    
+    public var showResourceMarkers: Bool = true
+    public var showWater: Bool = false
+    public var showYields: Bool = false
+    public var showCitizen: Bool = false
+    
+    // debug
+    public var showHexCoordinates: Bool = false
+}
+
 extension EnvironmentValues {
     
     public var gameEnvironment: GameEnvironment {
@@ -26,6 +37,7 @@ public class GameEnvironment: EnvironmentKey {
     public let game = CurrentValueSubject<GameModel?, Never>(nil)
     public let cursor = CurrentValueSubject<HexPoint, Never>(.zero)
     public let visibleRect = CurrentValueSubject<CGRect, Never>(.zero)
+    public let displayOptions = CurrentValueSubject<MapDisplayOptions, Never>(MapDisplayOptions())
 
     public static let defaultValue = GameEnvironment()
 

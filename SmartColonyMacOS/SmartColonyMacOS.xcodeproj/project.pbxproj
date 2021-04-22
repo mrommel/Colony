@@ -22,6 +22,10 @@
 		C91D82AB26087CE400DD5AFE /* SmartAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C91D82AA26087CE400DD5AFE /* SmartAssets.framework */; };
 		C91D82AC26087CE400DD5AFE /* SmartAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C91D82AA26087CE400DD5AFE /* SmartAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C94AD87D2626BB7000836BDC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C94AD87C2626BB7000836BDC /* Credits.rtf */; };
+		C9855D5F263144C300468ED0 /* CheckboxSquareToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D5E263144C300468ED0 /* CheckboxSquareToggleStyle.swift */; };
+		C9855D63263144E200468ED0 /* CheckboxCircleToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D62263144E200468ED0 /* CheckboxCircleToggleStyle.swift */; };
+		C9855D672631450800468ED0 /* GameCommandsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D662631450800468ED0 /* GameCommandsModel.swift */; };
+		C9855D6B2631452200468ED0 /* GameCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D6A2631452200468ED0 /* GameCommands.swift */; };
 		C9F6EB1A260790850052140C /* SmartColonyMacOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */; };
 		C9F6EB1C260790850052140C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB1B260790850052140C /* MainView.swift */; };
 		C9F6EB1E2607908B0052140C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F6EB1D2607908B0052140C /* Assets.xcassets */; };
@@ -81,6 +85,10 @@
 		C91D82A426087C2400DD5AFE /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		C91D82AA26087CE400DD5AFE /* SmartAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C94AD87C2626BB7000836BDC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		C9855D5E263144C300468ED0 /* CheckboxSquareToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxSquareToggleStyle.swift; sourceTree = "<group>"; };
+		C9855D62263144E200468ED0 /* CheckboxCircleToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxCircleToggleStyle.swift; sourceTree = "<group>"; };
+		C9855D662631450800468ED0 /* GameCommandsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCommandsModel.swift; sourceTree = "<group>"; };
+		C9855D6A2631452200468ED0 /* GameCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCommands.swift; sourceTree = "<group>"; };
 		C99A88792607A063003B8B73 /* SmartColonyMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartColonyMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F6EB16260790850052140C /* SmartColony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartColony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyMacOSApp.swift; sourceTree = "<group>"; };
@@ -132,6 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				C9022F7C2608C14600C6773A /* MenuButtonStyle.swift */,
+				C9855D5E263144C300468ED0 /* CheckboxSquareToggleStyle.swift */,
+				C9855D62263144E200468ED0 /* CheckboxCircleToggleStyle.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -143,6 +153,7 @@
 				C9022F972609341300C6773A /* CreateGameMenuViewModel.swift */,
 				C9155158260A5C8F003710BE /* GenerateGameViewModel.swift */,
 				C9022F872608C2BF00C6773A /* MainViewModel.swift */,
+				C9855D662631450800468ED0 /* GameCommandsModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -164,6 +175,7 @@
 				C9022F8D2608DCA800C6773A /* CreateGameMenuView.swift */,
 				C9155152260A5C52003710BE /* GenerateGameView.swift */,
 				C9F6EB1B260790850052140C /* MainView.swift */,
+				C9855D6A2631452200468ED0 /* GameCommands.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -387,9 +399,13 @@
 			files = (
 				C9F6EB232607908B0052140C /* Persistence.swift in Sources */,
 				C9F6EB1C260790850052140C /* MainView.swift in Sources */,
+				C9855D672631450800468ED0 /* GameCommandsModel.swift in Sources */,
+				C9855D6B2631452200468ED0 /* GameCommands.swift in Sources */,
 				C9022F8E2608DCA800C6773A /* CreateGameMenuView.swift in Sources */,
+				C9855D5F263144C300468ED0 /* CheckboxSquareToggleStyle.swift in Sources */,
 				C9022F7D2608C14600C6773A /* MenuButtonStyle.swift in Sources */,
 				C9022F822608C19600C6773A /* MenuViewModel.swift in Sources */,
+				C9855D63263144E200468ED0 /* CheckboxCircleToggleStyle.swift in Sources */,
 				C9155159260A5C8F003710BE /* GenerateGameViewModel.swift in Sources */,
 				C9155153260A5C52003710BE /* GenerateGameView.swift in Sources */,
 				C9F6EB1A260790850052140C /* SmartColonyMacOSApp.swift in Sources */,

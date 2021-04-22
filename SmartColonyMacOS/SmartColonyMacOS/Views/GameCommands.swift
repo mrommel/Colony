@@ -1,0 +1,79 @@
+//
+//  GameCommands.swift
+//  SmartColonyMacOS
+//
+//  Created by Michael Rommel on 22.04.21.
+//
+
+import SwiftUI
+
+struct GameCommands: Commands {
+    
+    @ObservedObject
+    var commandModel: GameCommandsModel
+    
+    @Binding
+    var toggleDisplayHexCoordinates: Bool
+    
+    @Binding
+    var toggleDisplayResourceMarkers: Bool
+    
+    @CommandsBuilder var body: some Commands {
+        CommandMenu("Game") {
+
+            Button(action: {
+                self.commandModel.centerCapital()
+            }, label: {
+                Image(systemName: "star.circle")
+                Text("Center to capital")
+            })
+            
+            Button(action: {
+                self.commandModel.centerOnCursor()
+            }, label: {
+                Image(systemName: "paperplane.circle.fill")
+                Text("Center on cursor")
+            })
+            
+            Divider()
+            
+            Button(action: {
+                self.commandModel.zoomIn()
+            }, label: {
+                Image(systemName: "plus.magnifyingglass")
+                Text("Zoom In")
+            }).keyboardShortcut("+")
+            
+            Button(action: {
+                self.commandModel.zoomOut()
+            }, label: {
+                Image(systemName: "minus.magnifyingglass")
+                Text("Zoom Out")
+            }).keyboardShortcut("-")
+            
+            Button(action: {
+                self.commandModel.zoomReset()
+            }, label: {
+                Image(systemName: "1.magnifyingglass")
+                Text("Zoom 1:1")
+            }).keyboardShortcut("r")
+            
+            Divider()
+        }
+        
+        CommandMenu("Map") {
+            
+            Toggle(isOn: self.$toggleDisplayResourceMarkers) {
+                Text("Toggle Show Resource Markers")
+            }
+            .toggleStyle(CheckboxSquareToggleStyle())
+            
+            Divider()
+            
+            Toggle(isOn: self.$toggleDisplayHexCoordinates) {
+                Text("Toggle Show Hex Coordinates")
+            }
+            .toggleStyle(CheckboxSquareToggleStyle())
+        }
+    }
+}

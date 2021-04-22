@@ -33,9 +33,28 @@ public class GameViewModel: ObservableObject {
     @Published
     var scrollTarget: CGPoint? = nil
     
+    // map display options
+    
+    @Published
+    public var mapOptionShowHexCoordinates: Bool = false {
+        didSet {
+            self.gameEnvironment.displayOptions.value.showHexCoordinates = self.mapOptionShowHexCoordinates
+        }
+    }
+    
+    @Published
+    public var mapOptionShowResourceMarkers: Bool = false {
+        didSet {
+            self.gameEnvironment.displayOptions.value.showResourceMarkers = self.mapOptionShowResourceMarkers
+        }
+    }
+    
     public init(mapViewModel: MapViewModel) {
         
         self.mapViewModel = mapViewModel
+        
+        self.mapOptionShowHexCoordinates = self.gameEnvironment.displayOptions.value.showHexCoordinates
+        self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
     }
     
     public func loadAssets() {
@@ -154,6 +173,17 @@ public class GameViewModel: ObservableObject {
         
         self.scale = 1.0
     }
+    
+    // map options
+    
+    public func toogleShowHexCoordinates() {
+        
+        var currentMapDisplayOption = self.gameEnvironment.displayOptions.value
+        currentMapDisplayOption.showHexCoordinates = !currentMapDisplayOption.showHexCoordinates
+        self.gameEnvironment.displayOptions.send(currentMapDisplayOption)
+    }
+    
+    // MARK: private methods
     
     private func clickPositionUpdated() {
         
