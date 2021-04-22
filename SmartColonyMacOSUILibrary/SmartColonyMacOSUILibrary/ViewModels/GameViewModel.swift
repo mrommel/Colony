@@ -141,6 +141,10 @@ public class GameViewModel: ObservableObject {
         if !ImageCache.shared.exists(key: "cursor") {
             ImageCache.shared.add(image: NSImage(named: "cursor"), for: "cursor")
         }
+        
+        if !ImageCache.shared.exists(key: "water") {
+            ImageCache.shared.add(image: NSImage(named: "water"), for: "water")
+        }
     }
     
     public func centerCapital() {

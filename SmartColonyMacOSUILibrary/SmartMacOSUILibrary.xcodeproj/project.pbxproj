@@ -32,6 +32,8 @@
 		C9855D712631586300468ED0 /* ResourceMarkerLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D702631586300468ED0 /* ResourceMarkerLayerView.swift */; };
 		C9855D732631928800468ED0 /* YieldsLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D722631928800468ED0 /* YieldsLayerView.swift */; };
 		C9855D75263192B100468ED0 /* YieldsLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D74263192B100468ED0 /* YieldsLayerViewModel.swift */; };
+		C9855D772631B8C900468ED0 /* WaterLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D762631B8C900468ED0 /* WaterLayerView.swift */; };
+		C9855D792631B8FB00468ED0 /* WaterLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D782631B8FB00468ED0 /* WaterLayerViewModel.swift */; };
 		C988EAD1261B6ED500300C39 /* BorderLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */; };
 		C988EAD3261B6EE900300C39 /* RoadLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */; };
 		C988EAD5261B6F3500300C39 /* BorderLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD4261B6F3500300C39 /* BorderLayerView.swift */; };
@@ -105,6 +107,8 @@
 		C9855D702631586300468ED0 /* ResourceMarkerLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMarkerLayerView.swift; sourceTree = "<group>"; };
 		C9855D722631928800468ED0 /* YieldsLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldsLayerView.swift; sourceTree = "<group>"; };
 		C9855D74263192B100468ED0 /* YieldsLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldsLayerViewModel.swift; sourceTree = "<group>"; };
+		C9855D762631B8C900468ED0 /* WaterLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterLayerView.swift; sourceTree = "<group>"; };
+		C9855D782631B8FB00468ED0 /* WaterLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterLayerViewModel.swift; sourceTree = "<group>"; };
 		C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderLayerViewModel.swift; sourceTree = "<group>"; };
 		C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadLayerViewModel.swift; sourceTree = "<group>"; };
 		C988EAD4261B6F3500300C39 /* BorderLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderLayerView.swift; sourceTree = "<group>"; };
@@ -160,6 +164,7 @@
 				C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */,
 				C94AD878262627C800836BDC /* CursorLayerViewModel.swift */,
 				C9155178260BCEE7003710BE /* FeatureLayerViewModel.swift */,
+				C9855D782631B8FB00468ED0 /* WaterLayerViewModel.swift */,
 				C93AA6A0260DE1550053DF74 /* ResourceLayerViewModel.swift */,
 				C988EAD8261B705A00300C39 /* ImprovementLayerViewModel.swift */,
 				C988EADA261B707600300C39 /* CityLayerViewModel.swift */,
@@ -180,6 +185,7 @@
 				C988EAD6261B6F7B00300C39 /* RoadLayerView.swift */,
 				C94AD87A2626281A00836BDC /* CursorLayerView.swift */,
 				C915517A260BD284003710BE /* FeatureLayerView.swift */,
+				C9855D762631B8C900468ED0 /* WaterLayerView.swift */,
 				C93AA6A4260DE47B0053DF74 /* ResourceLayerView.swift */,
 				C988EADE261B70A800300C39 /* ImprovementLayerView.swift */,
 				C988EAE0261B70B400300C39 /* CityLayerView.swift */,
@@ -376,12 +382,14 @@
 				C9855D75263192B100468ED0 /* YieldsLayerViewModel.swift in Sources */,
 				C9855D712631586300468ED0 /* ResourceMarkerLayerView.swift in Sources */,
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
+				C9855D772631B8C900468ED0 /* WaterLayerView.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
 				C99A88742607A01C003B8B73 /* MapView.swift in Sources */,
 				C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */,
 				C93AA6A3260DE3830053DF74 /* RiverLayerView.swift in Sources */,
 				C93AA69F260DDE210053DF74 /* RiverLayerViewModel.swift in Sources */,
 				C988EAD5261B6F3500300C39 /* BorderLayerView.swift in Sources */,
+				C9855D792631B8FB00468ED0 /* WaterLayerViewModel.swift in Sources */,
 				C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
 				C94AD87B2626281A00836BDC /* CursorLayerView.swift in Sources */,

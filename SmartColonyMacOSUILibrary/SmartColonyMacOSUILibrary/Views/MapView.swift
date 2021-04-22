@@ -59,7 +59,7 @@ public struct MapView: View {
             
             Group {
                 if self.showWater {
-                // water
+                    WaterLayerView(viewModel: self.viewModel.waterLayerViewModel)
                 }
                 
                 if self.showYields {

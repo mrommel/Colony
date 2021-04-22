@@ -85,7 +85,7 @@ struct GameCommands: Commands {
             .toggleStyle(CheckboxSquareToggleStyle())
             
             Toggle(isOn: self.$toggleDisplayWater) {
-                Text("Toggle Show Water")
+                Text("Toggle Show Fresh Water")
             }
             .disabled(self.mapMenuDisabled)
             .toggleStyle(CheckboxSquareToggleStyle())

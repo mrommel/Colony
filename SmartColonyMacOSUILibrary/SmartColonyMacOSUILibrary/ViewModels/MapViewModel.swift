@@ -22,6 +22,7 @@ public class MapViewModel: ObservableObject {
     var roadLayerViewModel: RoadLayerViewModel?
     var cursorLayerViewModel: CursorLayerViewModel?
     var featureLayerViewModel: FeatureLayerViewModel?
+    var waterLayerViewModel: WaterLayerViewModel?
     var resourceLayerViewModel: ResourceLayerViewModel?
     var improvementLayerViewModel: ImprovementLayerViewModel?
     var cityLayerViewModel: CityLayerViewModel?
@@ -48,6 +49,7 @@ public class MapViewModel: ObservableObject {
         self.roadLayerViewModel = RoadLayerViewModel()
         self.cursorLayerViewModel = CursorLayerViewModel()
         self.featureLayerViewModel = FeatureLayerViewModel()
+        self.waterLayerViewModel = WaterLayerViewModel()
         self.resourceLayerViewModel = ResourceLayerViewModel()
         self.improvementLayerViewModel = ImprovementLayerViewModel()
         self.cityLayerViewModel = CityLayerViewModel()
@@ -67,6 +69,7 @@ public class MapViewModel: ObservableObject {
         self.roadLayerViewModel?.update(from: self.gameEnvironment.game.value)
         self.cursorLayerViewModel?.update(from: self.gameEnvironment.game.value)
         self.featureLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.waterLayerViewModel?.update(from: self.gameEnvironment.game.value)
         self.resourceLayerViewModel?.update(from: self.gameEnvironment.game.value)
         self.improvementLayerViewModel?.update(from: self.gameEnvironment.game.value)
         self.cityLayerViewModel?.update(from: self.gameEnvironment.game.value)
