@@ -30,6 +30,8 @@
 		C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9711125262569D600B58AAE /* NSMenuItemExtension.swift */; };
 		C9855D6F2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D6E2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift */; };
 		C9855D712631586300468ED0 /* ResourceMarkerLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D702631586300468ED0 /* ResourceMarkerLayerView.swift */; };
+		C9855D732631928800468ED0 /* YieldsLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D722631928800468ED0 /* YieldsLayerView.swift */; };
+		C9855D75263192B100468ED0 /* YieldsLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D74263192B100468ED0 /* YieldsLayerViewModel.swift */; };
 		C988EAD1261B6ED500300C39 /* BorderLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */; };
 		C988EAD3261B6EE900300C39 /* RoadLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */; };
 		C988EAD5261B6F3500300C39 /* BorderLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD4261B6F3500300C39 /* BorderLayerView.swift */; };
@@ -101,6 +103,8 @@
 		C9711125262569D600B58AAE /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
 		C9855D6E2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMarkerLayerViewModel.swift; sourceTree = "<group>"; };
 		C9855D702631586300468ED0 /* ResourceMarkerLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMarkerLayerView.swift; sourceTree = "<group>"; };
+		C9855D722631928800468ED0 /* YieldsLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldsLayerView.swift; sourceTree = "<group>"; };
+		C9855D74263192B100468ED0 /* YieldsLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldsLayerViewModel.swift; sourceTree = "<group>"; };
 		C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderLayerViewModel.swift; sourceTree = "<group>"; };
 		C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadLayerViewModel.swift; sourceTree = "<group>"; };
 		C988EAD4261B6F3500300C39 /* BorderLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderLayerView.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 				C988EADA261B707600300C39 /* CityLayerViewModel.swift */,
 				C988EADC261B708000300C39 /* UnitLayerViewModel.swift */,
 				C9855D6E2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift */,
+				C9855D74263192B100468ED0 /* YieldsLayerViewModel.swift */,
 				C93AA6A6260F232B0053DF74 /* HexCoordLayerViewModel.swift */,
 			);
 			path = Layers;
@@ -180,6 +185,7 @@
 				C988EAE0261B70B400300C39 /* CityLayerView.swift */,
 				C988EAE2261B70BE00300C39 /* UnitLayerView.swift */,
 				C9855D702631586300468ED0 /* ResourceMarkerLayerView.swift */,
+				C9855D722631928800468ED0 /* YieldsLayerView.swift */,
 				C93AA6A8260F23640053DF74 /* HexCoordLayerView.swift */,
 			);
 			path = Layers;
@@ -367,6 +373,7 @@
 				C9155177260BB3B4003710BE /* TerrainLayerViewModel.swift in Sources */,
 				C905B59C26295EA100214CC1 /* ScrollableView.swift in Sources */,
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
+				C9855D75263192B100468ED0 /* YieldsLayerViewModel.swift in Sources */,
 				C9855D712631586300468ED0 /* ResourceMarkerLayerView.swift in Sources */,
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
@@ -404,6 +411,7 @@
 				C93AA6A9260F23640053DF74 /* HexCoordLayerView.swift in Sources */,
 				C9155179260BCEE7003710BE /* FeatureLayerViewModel.swift in Sources */,
 				C988EADD261B708000300C39 /* UnitLayerViewModel.swift in Sources */,
+				C9855D732631928800468ED0 /* YieldsLayerView.swift in Sources */,
 				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

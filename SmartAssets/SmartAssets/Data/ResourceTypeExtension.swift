@@ -73,6 +73,7 @@ extension ResourceType {
 
         case .none: return "resource_default"
 
+            // bonus
         case .wheat: return "resource_wheat"
         case .rice: return "resource_rice"
         case .deer: return "resource_deer"
@@ -84,6 +85,7 @@ extension ResourceType {
         case .fish: return "resource_fish"
         case .crab: return "resource_crab"
             
+            // luxus
         case .marble: return "resource_marble"
         case .gems: return "resource_gems"
         case .furs: return "resource_furs"
@@ -104,6 +106,7 @@ extension ResourceType {
         case .salt: return "resource_salt"
         case .cocoa: return "resource_cocoa"
 
+            // strategic
         case .horses: return "resource_horses"
         case .iron: return "resource_iron"
         case .coal: return "resource_coal"

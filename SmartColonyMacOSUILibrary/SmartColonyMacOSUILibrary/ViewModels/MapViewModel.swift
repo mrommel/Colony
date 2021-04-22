@@ -27,6 +27,7 @@ public class MapViewModel: ObservableObject {
     var cityLayerViewModel: CityLayerViewModel?
     var unitLayerViewModel: UnitLayerViewModel?
     var resourceMarkerLayerViewModel: ResourceMarkerLayerViewModel?
+    var yieldsLayerViewModel: YieldsLayerViewModel?
     
     // layers - debug
     var hexCoordLayerViewModel: HexCoordLayerViewModel?
@@ -52,6 +53,7 @@ public class MapViewModel: ObservableObject {
         self.cityLayerViewModel = CityLayerViewModel()
         self.unitLayerViewModel = UnitLayerViewModel()
         self.resourceMarkerLayerViewModel = ResourceMarkerLayerViewModel()
+        self.yieldsLayerViewModel = YieldsLayerViewModel()
         
         // debug
         self.hexCoordLayerViewModel = HexCoordLayerViewModel()
@@ -70,6 +72,7 @@ public class MapViewModel: ObservableObject {
         self.cityLayerViewModel?.update(from: self.gameEnvironment.game.value)
         self.unitLayerViewModel?.update(from: self.gameEnvironment.game.value)
         self.resourceMarkerLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.yieldsLayerViewModel?.update(from: self.gameEnvironment.game.value)
         
         // debug
         self.hexCoordLayerViewModel?.update(from: self.gameEnvironment.game.value)

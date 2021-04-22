@@ -16,11 +16,16 @@ struct GameCommands: Commands {
     var mapMenuDisabled: Bool
     
     @Binding
-    var toggleDisplayHexCoordinates: Bool
+    var toggleDisplayResourceMarkers: Bool
     
     @Binding
-    var toggleDisplayResourceMarkers: Bool
-
+    var toggleDisplayYields: Bool
+    
+    @Binding
+    var toggleDisplayWater: Bool
+    
+    @Binding
+    var toggleDisplayHexCoordinates: Bool
     
     @CommandsBuilder var body: some Commands {
         CommandMenu("Game") {
@@ -69,6 +74,18 @@ struct GameCommands: Commands {
             
             Toggle(isOn: self.$toggleDisplayResourceMarkers) {
                 Text("Toggle Show Resource Markers")
+            }
+            .disabled(self.mapMenuDisabled)
+            .toggleStyle(CheckboxSquareToggleStyle())
+            
+            Toggle(isOn: self.$toggleDisplayYields) {
+                Text("Toggle Show Yields")
+            }
+            .disabled(self.mapMenuDisabled)
+            .toggleStyle(CheckboxSquareToggleStyle())
+            
+            Toggle(isOn: self.$toggleDisplayWater) {
+                Text("Toggle Show Water")
             }
             .disabled(self.mapMenuDisabled)
             .toggleStyle(CheckboxSquareToggleStyle())

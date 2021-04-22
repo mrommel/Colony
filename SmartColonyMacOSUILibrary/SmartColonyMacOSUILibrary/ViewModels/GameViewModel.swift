@@ -33,7 +33,28 @@ public class GameViewModel: ObservableObject {
     @Published
     var scrollTarget: CGPoint? = nil
     
-    // map display options
+    // MARK: map display options
+    
+    @Published
+    public var mapOptionShowResourceMarkers: Bool = false {
+        didSet {
+            self.gameEnvironment.displayOptions.value.showResourceMarkers = self.mapOptionShowResourceMarkers
+        }
+    }
+    
+    @Published
+    public var mapOptionShowYields: Bool = false {
+        didSet {
+            self.gameEnvironment.displayOptions.value.showYields = self.mapOptionShowYields
+        }
+    }
+    
+    @Published
+    public var mapOptionShowWater: Bool = false {
+        didSet {
+            self.gameEnvironment.displayOptions.value.showWater = self.mapOptionShowWater
+        }
+    }
     
     @Published
     public var mapOptionShowHexCoordinates: Bool = false {
@@ -42,12 +63,7 @@ public class GameViewModel: ObservableObject {
         }
     }
     
-    @Published
-    public var mapOptionShowResourceMarkers: Bool = false {
-        didSet {
-            self.gameEnvironment.displayOptions.value.showResourceMarkers = self.mapOptionShowResourceMarkers
-        }
-    }
+    // MARK: constructor
     
     public init(mapViewModel: MapViewModel) {
         
@@ -86,7 +102,7 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
         }
 
-        print("- load \(textures.allResourceTextureNames.count) resource textures")
+        print("- load \(textures.allResourceTextureNames.count) resource and marker textures")
         for resourceTextureName in textures.allResourceTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: resourceTextureName), for: resourceTextureName)
         }
@@ -97,6 +113,11 @@ public class GameViewModel: ObservableObject {
         print("- load \(textures.allBorderTextureNames.count) border textures")
         for borderTextureName in textures.allBorderTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: borderTextureName), for: borderTextureName)
+        }
+        
+        print("- load \(textures.allYieldsTextureNames.count) yield textures")
+        for yieldTextureName in textures.allYieldsTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: yieldTextureName), for: yieldTextureName)
         }
         
         var unitTextures: Int = 0

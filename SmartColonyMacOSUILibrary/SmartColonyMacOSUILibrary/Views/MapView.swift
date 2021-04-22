@@ -63,7 +63,7 @@ public struct MapView: View {
                 }
                 
                 if self.showYields {
-                // yield
+                    YieldsLayerView(viewModel: self.viewModel.yieldsLayerViewModel)
                 }
                 
                 if self.showResourceMarkers {

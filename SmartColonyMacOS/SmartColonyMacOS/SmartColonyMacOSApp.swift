@@ -36,8 +36,10 @@ struct SmartColonyMacOSApp: App {
         .commands {
             GameCommands(commandModel: self.commandModel,
                          mapMenuDisabled: self.$viewModel.mapMenuDisabled,
-                         toggleDisplayHexCoordinates: self.$commandModel.showDisplayHexCoordinates,
-                         toggleDisplayResourceMarkers: self.$commandModel.showDisplayResourceMarkers)
+                         toggleDisplayResourceMarkers: self.$commandModel.showDisplayResourceMarkers,
+                         toggleDisplayYields: self.$commandModel.showDisplayYields,
+                         toggleDisplayWater: self.$commandModel.showDisplayWater,
+                         toggleDisplayHexCoordinates: self.$commandModel.showDisplayHexCoordinates)
         }
     }
 }

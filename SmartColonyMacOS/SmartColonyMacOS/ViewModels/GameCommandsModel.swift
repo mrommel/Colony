@@ -23,6 +23,20 @@ class GameCommandsModel: ObservableObject {
         }
     }
     
+    @Published
+    var showDisplayYields: Bool = false {
+        didSet {
+            self.changeDisplayYields(to: self.showDisplayYields)
+        }
+    }
+    
+    @Published
+    var showDisplayWater: Bool = false {
+        didSet {
+            self.changeDisplayWater(to: self.showDisplayWater)
+        }
+    }
+    
     // debug
     
     @Published
@@ -37,6 +51,8 @@ class GameCommandsModel: ObservableObject {
     init() {
 
         self.showDisplayResourceMarkers = gameEnvironment.displayOptions.value.showResourceMarkers
+        self.showDisplayYields = gameEnvironment.displayOptions.value.showYields
+        self.showDisplayWater = gameEnvironment.displayOptions.value.showWater
         
         // debug
         self.showDisplayHexCoordinates = gameEnvironment.displayOptions.value.showHexCoordinates
@@ -66,13 +82,23 @@ class GameCommandsModel: ObservableObject {
     
     // map display options
     
-    func changeDisplayHexCoordinates(to value: Bool) {
-
-        self.viewModel?.gameViewModel.mapOptionShowHexCoordinates = value
-    }
-    
     func changeDisplayResourceMarkers(to value: Bool) {
 
         self.viewModel?.gameViewModel.mapOptionShowResourceMarkers = value
+    }
+    
+    func changeDisplayYields(to value: Bool) {
+        
+        self.viewModel?.gameViewModel.mapOptionShowYields = value
+    }
+    
+    func changeDisplayWater(to value: Bool) {
+        
+        self.viewModel?.gameViewModel.mapOptionShowWater = value
+    }
+    
+    func changeDisplayHexCoordinates(to value: Bool) {
+        
+        self.viewModel?.gameViewModel.mapOptionShowHexCoordinates = value
     }
 }

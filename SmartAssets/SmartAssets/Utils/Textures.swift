@@ -23,6 +23,7 @@ public class Textures {
     public let allResourceTextureNames: [String]
     public let allResourceMarkerTextureNames: [String]
     public let allBorderTextureNames: [String]
+    public let allYieldsTextureNames: [String]
     
     public init(game: GameModel?) {
         
@@ -43,15 +44,40 @@ public class Textures {
         
         self.allIceFeatureTextureNames = Textures.allTextureSuffixes.map({ "feature_ice\($0)" }) + Textures.allTextureSuffixes.map({ "feature_ice-to-water\($0)" })
         
-        self.allResourceTextureNames = ResourceType.all.map { $0.textureName() }/*[
-            "resource_banana", "resource_marble", "resource_deer", "resource_sheep", "resource_horses", "resource_whales", "resource_cattle", "resource_niter", "resource_dyes", "resource_silk", "resource_incense", "resource_wheat", "resource_coal", "resource_oil", "resource_fish", "resource_spices", "resource_iron", "resource_wine", "resource_copper", "resource_pearls", "resource_furs", "resource_stone", "resource_ivory", "resource_cotton", "resource_rice", "resource_gold", "resource_uranium", "resource_crab", "resource_salt", "resource_cocoa", "resource_citrus", "resource_sugar", "resource_silver", "resource_aluminium", "resource_gems", "resource_tea"
-        ]*/
+        self.allResourceTextureNames = ResourceType.all.map { $0.textureName() }
         
-        self.allResourceMarkerTextureNames = ResourceType.all.map { $0.textureMarkerName() }/* [
-            "resource-marker-banana", "resource-marker-marble", "resource-marker-deer", "resource-marker-sheep", "resource-marker-horses", "resource-marker-whales", "resource-marker-cattle", "resource-marker-niter", "resource-marker-dyes", "resource-marker-silk", "resource-marker-incense", "resource-marker-wheat", "resource-marker-coal", "resource-marker-oil", "resource-marker-fish", "resource-marker-spices", "resource-marker-iron", "resource-marker-wine", "resource-marker-copper", "resource-marker-pearls", "resource-marker-furs", "resource-marker-stone", "resource-marker-ivory", "resource-marker-cotton", "resource-marker-rice", "resource-marker-gold", "resource-marker-uranium", "resource-marker-crab", "resource-marker-salt", "resource-marker-cocoa", "resource-marker-citrus", "resource-marker-sugar", "resource-marker-silver", "resource-marker-aluminium", "resource-marker-gems", "resource-marker-tea"
-        ]*/
+        self.allResourceMarkerTextureNames = ResourceType.all.map { $0.textureMarkerName() }
         
         self.allBorderTextureNames = Textures.allTextureSuffixes.map({ "border\($0)" })
+        
+        self.allYieldsTextureNames = [
+            // 0
+            "yield-0-0-3",
+            "yield-0-1-0", "yield-0-1-1", "yield-0-1-2", "yield-0-1-3",
+            // 1
+            "yield-1-0-0", "yield-1-0-1", "yield-1-0-2", "yield-1-0-3",
+            "yield-1-1-0", "yield-1-1-1", "yield-1-1-2", "yield-1-1-3",
+            "yield-1-2-0", "yield-1-2-1", "yield-1-2-3",
+            "yield-1-3-0",
+            "yield-1-4-0",
+            // 2
+            "yield-2-0-0", "yield-2-0-1", "yield-2-0-2", "yield-2-0-3",
+            "yield-2-1-0", "yield-2-1-1", "yield-2-1-2", "yield-2-1-3",
+            "yield-2-2-0", "yield-2-2-1", "yield-2-2-2", "yield-2-2-3",
+            "yield-2-3-0",
+            // 3
+            "yield-3-0-0", "yield-3-0-1", "yield-3-0-2", "yield-3-0-3",
+            "yield-3-1-0", "yield-3-1-1", "yield-3-1-2", "yield-3-1-3",
+            "yield-3-2-0", "yield-3-2-1", "yield-3-2-2", "yield-3-2-3",
+            // 4
+            "yield-4-0-0",
+            "yield-4-1-0",
+            // 5
+            "yield-5-0-0",
+            "yield-5-1-0", "yield-5-1-1",
+            // 6
+            "yield-6-0-0",
+        ]
     }
 
     public func coastTexture(at point: HexPoint) -> String? {
@@ -344,5 +370,18 @@ public class Textures {
         }
 
         return textureName
+    }
+    
+    public func yieldTexture(for yields: Yields) -> String? {
+        
+        let food = Int(yields.food)
+        let production = Int(yields.production)
+        let gold = Int(yields.gold)
+        
+        if food == 0 && production == 0 && gold == 0 {
+            return nil
+        }
+        
+        return "yield-\(food)-\(production)-\(gold)"
     }
 }
