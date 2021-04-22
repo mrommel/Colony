@@ -28,6 +28,8 @@
 		C94AD879262627C900836BDC /* CursorLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94AD878262627C800836BDC /* CursorLayerViewModel.swift */; };
 		C94AD87B2626281A00836BDC /* CursorLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94AD87A2626281A00836BDC /* CursorLayerView.swift */; };
 		C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9711125262569D600B58AAE /* NSMenuItemExtension.swift */; };
+		C9855D6F2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D6E2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift */; };
+		C9855D712631586300468ED0 /* ResourceMarkerLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D702631586300468ED0 /* ResourceMarkerLayerView.swift */; };
 		C988EAD1261B6ED500300C39 /* BorderLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */; };
 		C988EAD3261B6EE900300C39 /* RoadLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */; };
 		C988EAD5261B6F3500300C39 /* BorderLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD4261B6F3500300C39 /* BorderLayerView.swift */; };
@@ -97,6 +99,8 @@
 		C94AD878262627C800836BDC /* CursorLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorLayerViewModel.swift; sourceTree = "<group>"; };
 		C94AD87A2626281A00836BDC /* CursorLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorLayerView.swift; sourceTree = "<group>"; };
 		C9711125262569D600B58AAE /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
+		C9855D6E2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMarkerLayerViewModel.swift; sourceTree = "<group>"; };
+		C9855D702631586300468ED0 /* ResourceMarkerLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMarkerLayerView.swift; sourceTree = "<group>"; };
 		C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderLayerViewModel.swift; sourceTree = "<group>"; };
 		C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadLayerViewModel.swift; sourceTree = "<group>"; };
 		C988EAD4261B6F3500300C39 /* BorderLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderLayerView.swift; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 				C988EAD8261B705A00300C39 /* ImprovementLayerViewModel.swift */,
 				C988EADA261B707600300C39 /* CityLayerViewModel.swift */,
 				C988EADC261B708000300C39 /* UnitLayerViewModel.swift */,
+				C9855D6E2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift */,
 				C93AA6A6260F232B0053DF74 /* HexCoordLayerViewModel.swift */,
 			);
 			path = Layers;
@@ -174,6 +179,7 @@
 				C988EADE261B70A800300C39 /* ImprovementLayerView.swift */,
 				C988EAE0261B70B400300C39 /* CityLayerView.swift */,
 				C988EAE2261B70BE00300C39 /* UnitLayerView.swift */,
+				C9855D702631586300468ED0 /* ResourceMarkerLayerView.swift */,
 				C93AA6A8260F23640053DF74 /* HexCoordLayerView.swift */,
 			);
 			path = Layers;
@@ -354,12 +360,14 @@
 				C988EAE5261B724500300C39 /* AnimatedUnitView.swift in Sources */,
 				C93AA6A7260F232B0053DF74 /* HexCoordLayerViewModel.swift in Sources */,
 				C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */,
+				C9855D6F2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift in Sources */,
 				C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */,
 				C915517B260BD284003710BE /* FeatureLayerView.swift in Sources */,
 				C94AD879262627C900836BDC /* CursorLayerViewModel.swift in Sources */,
 				C9155177260BB3B4003710BE /* TerrainLayerViewModel.swift in Sources */,
 				C905B59C26295EA100214CC1 /* ScrollableView.swift in Sources */,
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
+				C9855D712631586300468ED0 /* ResourceMarkerLayerView.swift in Sources */,
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
 				C99A88742607A01C003B8B73 /* MapView.swift in Sources */,

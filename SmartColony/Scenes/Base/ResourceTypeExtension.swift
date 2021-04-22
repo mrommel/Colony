@@ -95,7 +95,7 @@ extension ResourceType {
         case .crab: return "resource_crab"
         case .cocoa: return "resource_cocoa"
             
-        case .horses: return "resource_horse"
+        case .horses: return "resource_horses"
         case .iron: return "resource_iron"
         case .coal: return "resource_coal"
         case .oil: return "resource_oil"

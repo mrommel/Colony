@@ -22,6 +22,9 @@ class MainViewModel: ObservableObject {
     @Published
     var presentedView: PresentedViewType
     
+    @Published
+    var mapMenuDisabled: Bool
+    
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
     
@@ -38,6 +41,7 @@ class MainViewModel: ObservableObject {
          gameViewModel: GameViewModel = GameViewModel(mapViewModel: MapViewModel())) {
         
         self.presentedView = presentedView
+        self.mapMenuDisabled = true
         
         self.menuViewModel = menuViewModel
         self.createGameMenuViewModel = createGameMenuViewModel
@@ -104,6 +108,7 @@ extension MainViewModel: MenuViewModelDelegate {
     func newGameStarted() {
         
         self.presentedView = .newGameMenu
+        self.mapMenuDisabled = true
     }
 }
 
@@ -113,11 +118,13 @@ extension MainViewModel: CreateGameMenuViewModelDelegate {
         
         self.generateGameViewModel.start(with: leaderType, on: handicapType, with: mapType, and: mapSize)
         self.presentedView = .loadingGame
+        self.mapMenuDisabled = true
     }
     
     func canceled() {
         
         self.presentedView = .menu
+        self.mapMenuDisabled = true
     }
 }
 
@@ -130,5 +137,6 @@ extension MainViewModel: GenerateGameViewModelDelegate {
         self.gameEnvironment.assign(game: game)
         
         self.presentedView = .game
+        self.mapMenuDisabled = false
     }
 }

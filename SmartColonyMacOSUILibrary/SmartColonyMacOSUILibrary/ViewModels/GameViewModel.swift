@@ -90,6 +90,9 @@ public class GameViewModel: ObservableObject {
         for resourceTextureName in textures.allResourceTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: resourceTextureName), for: resourceTextureName)
         }
+        for resourceMarkerTextureName in textures.allResourceMarkerTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: resourceMarkerTextureName), for: resourceMarkerTextureName)
+        }
         
         print("- load \(textures.allBorderTextureNames.count) border textures")
         for borderTextureName in textures.allBorderTextureNames {

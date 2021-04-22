@@ -24,6 +24,18 @@ public struct MapView: View {
     var gameEnvironment: GameEnvironment
     
     @State
+    var showWater: Bool = false
+    
+    @State
+    var showYields: Bool = false
+    
+    @State
+    var showResourceMarkers: Bool = false
+    
+    @State
+    var showCitizen: Bool = false
+    
+    @State
     var showHexCoordinates: Bool = false
     
     public var body: some View {
@@ -46,19 +58,19 @@ public struct MapView: View {
             }
             
             Group {
-                if self.gameEnvironment.displayOptions.value.showWater {
+                if self.showWater {
                 // water
                 }
                 
-                if self.gameEnvironment.displayOptions.value.showWater {
+                if self.showYields {
                 // yield
                 }
                 
-                if self.gameEnvironment.displayOptions.value.showResourceMarkers {
-                // resourceMarker
+                if self.showResourceMarkers {
+                    ResourceMarkerLayerView(viewModel: self.viewModel.resourceMarkerLayerViewModel)
                 }
                 
-                if self.gameEnvironment.displayOptions.value.showCitizen {
+                if self.showCitizen {
                 // citizen
                 }
                 
@@ -81,6 +93,11 @@ public struct MapView: View {
             self.viewModel.gameUpdated()
         }
         .onReceive( self.gameEnvironment.displayOptions) { options in
+            self.showWater = options.showWater
+            self.showYields = options.showYields
+            self.showResourceMarkers = options.showResourceMarkers
+            self.showCitizen = options.showCitizen
+            
             self.showHexCoordinates = options.showHexCoordinates
         }
     }

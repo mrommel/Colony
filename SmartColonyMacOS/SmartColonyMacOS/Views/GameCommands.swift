@@ -13,10 +13,14 @@ struct GameCommands: Commands {
     var commandModel: GameCommandsModel
     
     @Binding
+    var mapMenuDisabled: Bool
+    
+    @Binding
     var toggleDisplayHexCoordinates: Bool
     
     @Binding
     var toggleDisplayResourceMarkers: Bool
+
     
     @CommandsBuilder var body: some Commands {
         CommandMenu("Game") {
@@ -31,7 +35,7 @@ struct GameCommands: Commands {
             Button(action: {
                 self.commandModel.centerOnCursor()
             }, label: {
-                Image(systemName: "paperplane.circle.fill")
+                Image(systemName: "paperplane.circle")
                 Text("Center on cursor")
             })
             
@@ -66,6 +70,7 @@ struct GameCommands: Commands {
             Toggle(isOn: self.$toggleDisplayResourceMarkers) {
                 Text("Toggle Show Resource Markers")
             }
+            .disabled(self.mapMenuDisabled)
             .toggleStyle(CheckboxSquareToggleStyle())
             
             Divider()
@@ -73,6 +78,7 @@ struct GameCommands: Commands {
             Toggle(isOn: self.$toggleDisplayHexCoordinates) {
                 Text("Toggle Show Hex Coordinates")
             }
+            .disabled(self.mapMenuDisabled)
             .toggleStyle(CheckboxSquareToggleStyle())
         }
     }

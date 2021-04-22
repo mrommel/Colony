@@ -10,12 +10,6 @@ import SmartAssets
 import Cocoa
 import SwiftUI
 
-/*protocol MapViewModelDelegate: class {
-    
-    func sizeChanged(to size: CGSize)
-    func shiftChanged(to shift: CGPoint)
-}*/
-
 public class MapViewModel: ObservableObject {
     
     @Environment(\.gameEnvironment)
@@ -32,7 +26,7 @@ public class MapViewModel: ObservableObject {
     var improvementLayerViewModel: ImprovementLayerViewModel?
     var cityLayerViewModel: CityLayerViewModel?
     var unitLayerViewModel: UnitLayerViewModel?
-    // resourceMarker
+    var resourceMarkerLayerViewModel: ResourceMarkerLayerViewModel?
     
     // layers - debug
     var hexCoordLayerViewModel: HexCoordLayerViewModel?
@@ -57,6 +51,7 @@ public class MapViewModel: ObservableObject {
         self.improvementLayerViewModel = ImprovementLayerViewModel()
         self.cityLayerViewModel = CityLayerViewModel()
         self.unitLayerViewModel = UnitLayerViewModel()
+        self.resourceMarkerLayerViewModel = ResourceMarkerLayerViewModel()
         
         // debug
         self.hexCoordLayerViewModel = HexCoordLayerViewModel()
@@ -74,6 +69,7 @@ public class MapViewModel: ObservableObject {
         self.improvementLayerViewModel?.update(from: self.gameEnvironment.game.value)
         self.cityLayerViewModel?.update(from: self.gameEnvironment.game.value)
         self.unitLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.resourceMarkerLayerViewModel?.update(from: self.gameEnvironment.game.value)
         
         // debug
         self.hexCoordLayerViewModel?.update(from: self.gameEnvironment.game.value)
@@ -89,8 +85,6 @@ public class MapViewModel: ObservableObject {
         
         self.size = CGSize(width: (contentSize.width + 10) * self.factor, height: contentSize.height * self.factor)
         
-        //self.delegate?.sizeChanged(to: self.size)
-        
         // init shift
         let p0 = HexPoint(x: 0, y: 0)
         let p1 = HexPoint(x: 0, y: mapSize.height() - 1)
@@ -99,17 +93,11 @@ public class MapViewModel: ObservableObject {
         let dy = HexPoint.toScreen(hex: p0).y - HexPoint.toScreen(hex: p2).y
         
         self.shift = CGPoint(x: dx, y: dy) * self.factor
-        
-        //self.delegate?.shiftChanged(to: self.shift)
     }
-    
-    /*public func centerOnCursor() {
-        
-    }*/
     
     public func doTurn() {
         
-        print("turn")
+        print("MapViewModel::turn")
         /*guard let humanPlayer = self.game?.humanPlayer() else {
             fatalError("no human player given")
         }
