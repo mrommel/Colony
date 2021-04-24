@@ -16,10 +16,11 @@ public class Textures {
     let game: GameModel?
     
     public let allTerrainTextureNames: [String]
+    public let allFeatureTextureNames: [String]
+    public let allSnowFeatureTextureNames: [String]
+    public let allIceFeatureTextureNames: [String]
     public let allCoastTextureNames: [String]
     public let allRiverTextureNames: [String]
-    public let allFeatureTextureNames: [String]
-    public let allIceFeatureTextureNames: [String]
     public let allResourceTextureNames: [String]
     public let allResourceMarkerTextureNames: [String]
     public let allBorderTextureNames: [String]
@@ -32,17 +33,19 @@ public class Textures {
             "terrain_desert", "terrain_plains_hills3", "terrain_grass_hills3", "terrain_desert_hills", "terrain_tundra", "terrain_desert_hills2", "terrain_tundra2", "terrain_shore", "terrain_desert_hills3", "terrain_ocean", "terrain_tundra3", "terrain_snow", "terrain_plains", "terrain_snow_hills", "terrain_grass", "terrain_snow_hills2", "terrain_tundra_hills", "terrain_plains_hills", "terrain_plains_hills2", "terrain_grass_hills", "terrain_snow_hills3", "terrain_grass_hills2"
         ]
         
+        self.allFeatureTextureNames = [
+            "feature_atoll", "feature_lake", "feature_mountains_ne_sw", "feature_ice5", "feature_rainforest1", "feature_delicateArch", "feature_mountains_nw", "feature_ice6", "feature_rainforest2", "feature_floodplains", "feature_mountains_se", "feature_marsh1", "feature_mountains_se_nw", "feature_reef", "feature_forest1", "feature_marsh2", "feature_mountains_sw", "feature_uluru", "feature_forest2", "feature_mountEverest", "feature_none", "feature_galapagos", "feature_mountKilimanjaro", "feature_yosemite", "feature_greatBarrierReef", "feature_mountains1", "feature_oasis1", "feature_ice1", "feature_mountains2", "feature_oasis2", "feature_ice2", "feature_mountains3", "feature_pantanal", "feature_ice3", "feature_pine1", "feature_mountains_ne", "feature_ice4", "feature_pine1", "feature_pine2", "feature_volcano", "feature_fallout", "feature_fuji", "feature_barringCrater", "feature_mesa", "feature_gibraltar", "feature_geyser", "feature_potosi", "feature_fountainOfYouth", "feature_lakeVictoria"
+        ]
+        
+        self.allSnowFeatureTextureNames = Textures.allTextureSuffixes.map({ "snow\($0)" }) + Textures.allTextureSuffixes.map({ "snow-to-water\($0)" })
+        
+        self.allIceFeatureTextureNames = Textures.allTextureSuffixes.map({ "feature_ice\($0)" }) + Textures.allTextureSuffixes.map({ "feature_ice-to-water\($0)" })
+        
         self.allCoastTextureNames = Textures.allTextureSuffixes.map({ "beach\($0)" })
         
         self.allRiverTextureNames = [
             "river-mouth-e", "river-n-se", "river-mouth-se", "river-ne", "river-n-ne-se", "river-mouth-ne", "river-n", "river-mouth-sw", "river-se", "river-n-ne", "river-mouth-nw", "river-ne-se", "river-mouth-w"
         ]
-        
-        self.allFeatureTextureNames = [
-            "feature_atoll", "feature_lake", "feature_mountains_ne_sw", "feature_ice5", "feature_rainforest1", "feature_delicateArch", "feature_mountains_nw", "feature_ice6", "feature_rainforest2", "feature_floodplains", "feature_mountains_se", "feature_marsh1", "feature_mountains_se_nw", "feature_reef", "feature_forest1", "feature_marsh2", "feature_mountains_sw", "feature_uluru", "feature_forest2", "feature_mountEverest", "feature_none", "feature_galapagos", "feature_mountKilimanjaro", "feature_yosemite", "feature_greatBarrierReef", "feature_mountains1", "feature_oasis1", "feature_ice1", "feature_mountains2", "feature_oasis2", "feature_ice2", "feature_mountains3", "feature_pantanal", "feature_ice3", "feature_pine1", "feature_mountains_ne", "feature_ice4", "feature_pine1", "feature_pine2", "feature_volcano", "feature_fallout", "feature_fuji", "feature_barringCrater", "feature_mesa", "feature_gibraltar", "feature_geyser", "feature_potosi", "feature_fountainOfYouth", "feature_lakeVictoria"
-        ]
-        
-        self.allIceFeatureTextureNames = Textures.allTextureSuffixes.map({ "feature_ice\($0)" }) + Textures.allTextureSuffixes.map({ "feature_ice-to-water\($0)" })
         
         self.allResourceTextureNames = ResourceType.all.map { $0.textureName() }
         

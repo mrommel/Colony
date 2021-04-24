@@ -27,6 +27,15 @@ public class DemoGameModel: GameModel {
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
         
         super.init(victoryTypes: [.cultural], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
+        
+        let mapSize = mapModel.size
+        for x in 0..<mapSize.width() {
+
+            for y in 0..<mapSize.height() {
+
+                mapModel.tile(at: HexPoint(x: x, y: y))?.discover(by: humanPlayer, in: self)
+            }
+        }
     }
     
     required init(from decoder: Decoder) throws {

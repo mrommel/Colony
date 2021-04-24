@@ -9,7 +9,7 @@
 import SpriteKit
 import SmartAILibrary
 
-class TextureUtils {
+public class TextureUtils {
     
     weak var gameModel: GameModel?
     var tileTextures: Array2D<TextureItem>?
@@ -51,7 +51,7 @@ class TextureUtils {
         }
     }
     
-    init(with gameModel: GameModel?) {
+    public init(with gameModel: GameModel?) {
         
         self.gameModel = gameModel
         
@@ -70,139 +70,139 @@ class TextureUtils {
         }
     }
     
-    func set(terrainSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(terrainSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.terrainSprite = terrainSprite
     }
     
-    func terrainSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func terrainSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.terrainSprite
     }
     
-    func set(snowSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(snowSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.snowSprite = snowSprite
     }
     
-    func snowSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func snowSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.snowSprite
     }
     
-    func set(boardSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(boardSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.boardSprite = boardSprite
     }
     
-    func boardSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func boardSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.boardSprite
     }
     
-    func set(featureSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(featureSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.featureSprite = featureSprite
     }
     
-    func featureSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func featureSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.featureSprite
     }
     
-    func set(resourceSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(resourceSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.resourceSprite = resourceSprite
     }
     
-    func resourceSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func resourceSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.resourceSprite
     }
     
-    func set(resourceMarkerSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(resourceMarkerSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.resourceMarkerSprite = resourceMarkerSprite
     }
     
-    func resourceMarkerSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func resourceMarkerSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.resourceMarkerSprite
     }
     
-    func set(borderSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(borderSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.borderSprite = borderSprite
     }
     
-    func borderSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func borderSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.borderSprite
     }
     
-    func set(iceSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(iceSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.iceSprite = iceSprite
     }
     
-    func iceSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func iceSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.iceSprite
     }
     
-    func set(yieldsSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(yieldsSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.yieldsSprite = yieldsSprite
     }
     
-    func yieldsSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func yieldsSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.yieldsSprite
     }
     
-    func set(waterSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(waterSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.waterSprite = waterSprite
     }
     
-    func waterSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func waterSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.waterSprite
     }
     
-    func set(riverSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(riverSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.riverSprite = riverSprite
     }
     
-    func riverSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func riverSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.riverSprite
     }
     
-    func set(improvementSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(improvementSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.improvementSprite = improvementSprite
     }
     
-    func improvementSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func improvementSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.improvementSprite
     }
     
-    func set(routeSprite: SKSpriteNode?, at point: HexPoint) {
+    public func set(routeSprite: SKSpriteNode?, at point: HexPoint) {
         
         self.tileTextures?[point.x, point.y]?.routeSprite = routeSprite
     }
     
-    func routeSprite(at point: HexPoint) -> SKSpriteNode? {
+    public func routeSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.routeSprite
     }
     
     // MARK -
     
-    func coastTexture(at point: HexPoint) -> String? {
+    /*public func coastTexture(at point: HexPoint) -> String? {
         
         guard let gameModel = self.gameModel else {
             fatalError("cant get gameModel")
@@ -233,7 +233,7 @@ class TextureUtils {
         return texture
     }
     
-    func snowTexture(at point: HexPoint) -> String? {
+    public func snowTexture(at point: HexPoint) -> String? {
         
         guard let gameModel = self.gameModel else {
             fatalError("cant get gameModel")
@@ -265,7 +265,7 @@ class TextureUtils {
         return texture
     }
     
-    func mountainTexture(at point: HexPoint) -> String? {
+    public func mountainTexture(at point: HexPoint) -> String? {
         
         guard let gameModel = self.gameModel else {
             fatalError("cant get gameModel")
@@ -500,10 +500,10 @@ class TextureUtils {
         }
         
         return texture
-    }
+    }*/
 }
 
-extension Array {
+/*extension Array {
 
     public func item(from point: HexPoint) -> Element {
         //let index = Int.random(minimum: 0, maximum: self.count - 1)
@@ -512,4 +512,4 @@ extension Array {
         
         return self[index]
     }
-}
+}*/

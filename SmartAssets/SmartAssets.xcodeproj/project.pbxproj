@@ -50,6 +50,8 @@
 		C9A0985B261CB6930098C5E1 /* man_at_arms.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A09843261CB6920098C5E1 /* man_at_arms.xml */; };
 		C9A0985C261CB6930098C5E1 /* scout.xml in Resources */ = {isa = PBXBuildFile; fileRef = C9A09844261CB6930098C5E1 /* scout.xml */; };
 		C9A0985D261CB6930098C5E1 /* builder.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A09845261CB6930098C5E1 /* builder.png */; };
+		C9A3760D263447390057923E /* TextureUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3760C263447390057923E /* TextureUtils.swift */; };
+		C9A37611263448AC0057923E /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37610263448AC0057923E /* Globals.swift */; };
 		C9A5B5CD2588A50500836AEB /* MapTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5B5CC2588A50500836AEB /* MapTypeExtension.swift */; };
 		C9AB2C72257E6B350045DFBC /* MapSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C71257E6B350045DFBC /* MapSizeExtension.swift */; };
 /* End PBXBuildFile section */
@@ -114,6 +116,8 @@
 		C9A09843261CB6920098C5E1 /* man_at_arms.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = man_at_arms.xml; sourceTree = "<group>"; };
 		C9A09844261CB6930098C5E1 /* scout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = scout.xml; sourceTree = "<group>"; };
 		C9A09845261CB6930098C5E1 /* builder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = builder.png; sourceTree = "<group>"; };
+		C9A3760C263447390057923E /* TextureUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureUtils.swift; sourceTree = "<group>"; };
+		C9A37610263448AC0057923E /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		C9A5B5CC2588A50500836AEB /* MapTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypeExtension.swift; sourceTree = "<group>"; };
 		C9AB2C71257E6B350045DFBC /* MapSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSizeExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -199,11 +203,13 @@
 			isa = PBXGroup;
 			children = (
 				C931ADD12577D0E30002BA2F /* Textures.swift */,
+				C9A3760C263447390057923E /* TextureUtils.swift */,
 				C931ADE22577D1510002BA2F /* ArrayExtension.swift */,
 				C925594925F9569700C2BF28 /* ColorExtension.swift */,
 				C9A0982B261CAD3B0098C5E1 /* NSImageExtension.swift */,
 				C952B9AB261E3930008822DD /* ObjectTextureAtlas.swift */,
 				C952B9AD261E396F008822DD /* TextureAtlasExtension.swift */,
+				C9A37610263448AC0057923E /* Globals.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -349,6 +355,7 @@
 				C9022FA22609D06A00C6773A /* HandicapTypeExtension.swift in Sources */,
 				C98E68B22577D28E00BD93CA /* ResourceTypeExtension.swift in Sources */,
 				C9A0982C261CAD3B0098C5E1 /* NSImageExtension.swift in Sources */,
+				C9A37611263448AC0057923E /* Globals.swift in Sources */,
 				C931ADE32577D1510002BA2F /* ArrayExtension.swift in Sources */,
 				C952B9AE261E396F008822DD /* TextureAtlasExtension.swift in Sources */,
 				C925594A25F9569700C2BF28 /* ColorExtension.swift in Sources */,
@@ -360,6 +367,7 @@
 				C9022FA026093D5300C6773A /* LeaderTypeExtension.swift in Sources */,
 				C952B9AC261E3930008822DD /* ObjectTextureAtlas.swift in Sources */,
 				C9A5B5CD2588A50500836AEB /* MapTypeExtension.swift in Sources */,
+				C9A3760D263447390057923E /* TextureUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

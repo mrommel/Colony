@@ -106,13 +106,17 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: riverTextureName), for: riverTextureName)
         }
 
-        print("- load \(textures.allFeatureTextureNames.count) feature (+ \(textures.allIceFeatureTextureNames.count) ice) textures")
+        print("- load \(textures.allFeatureTextureNames.count) feature (+ \(textures.allIceFeatureTextureNames.count) ice + \(textures.allSnowFeatureTextureNames.count) snow textures")
         for featureTextureName in textures.allFeatureTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: featureTextureName), for: featureTextureName)
         }
 
         for iceFeatureTextureName in textures.allIceFeatureTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: iceFeatureTextureName), for: iceFeatureTextureName)
+        }
+        
+        for snowFeatureTextureName in textures.allSnowFeatureTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: snowFeatureTextureName), for: snowFeatureTextureName)
         }
 
         print("- load \(textures.allResourceTextureNames.count) resource and marker textures")

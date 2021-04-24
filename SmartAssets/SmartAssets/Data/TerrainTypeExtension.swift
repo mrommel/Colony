@@ -62,6 +62,26 @@ extension TerrainType {
             return ["terrain_snow_hills", "terrain_snow_hills2", "terrain_snow_hills3"]
         }
     }
+    
+    public var zLevel: CGFloat {
+        
+        switch self {
+        case .ocean:
+            return Globals.ZLevels.terrain
+        case .shore:
+            return Globals.ZLevels.terrain
+        case .plains:
+            return Globals.ZLevels.terrain
+        case .grass:
+            return Globals.ZLevels.terrain
+        case .desert:
+            return Globals.ZLevels.terrain
+        case .tundra:
+            return Globals.ZLevels.terrain
+        case .snow:
+            return Globals.ZLevels.snow
+        }
+    }
 }
 
 extension TerrainType {

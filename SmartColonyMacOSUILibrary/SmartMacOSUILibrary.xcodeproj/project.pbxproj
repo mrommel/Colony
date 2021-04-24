@@ -56,6 +56,14 @@
 		C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88912607A269003B8B73 /* NSImageExtension.swift */; };
 		C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88972607A2CC003B8B73 /* CGImageExtension.swift */; };
 		C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A889B2607A319003B8B73 /* CGContextExtension.swift */; };
+		C9A3760526340F9B0057923E /* SKMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3760426340F9B0057923E /* SKMapView.swift */; };
+		C9A376072634462A0057923E /* FeatureLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A376062634462A0057923E /* FeatureLayer.swift */; };
+		C9A37609263446360057923E /* TerrainLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37608263446360057923E /* TerrainLayer.swift */; };
+		C9A37613263456E30057923E /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37612263456E30057923E /* BaseScene.swift */; };
+		C9A37615263457210057923E /* SafeAreaNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37614263457210057923E /* SafeAreaNode.swift */; };
+		C9A376172634573E0057923E /* BlurrableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A376162634573E0057923E /* BlurrableNode.swift */; };
+		C9A37619263457D70057923E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37618263457D70057923E /* GameScene.swift */; };
+		C9A3761B263468780057923E /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3761A263468780057923E /* SKNodeExtension.swift */; };
 		C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D80261EE55600341241 /* PixelBuffer.swift */; };
 		C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */; };
 		C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D84261EF7F100341241 /* MapOverviewView.swift */; };
@@ -131,6 +139,14 @@
 		C99A88912607A269003B8B73 /* NSImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageExtension.swift; sourceTree = "<group>"; };
 		C99A88972607A2CC003B8B73 /* CGImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImageExtension.swift; sourceTree = "<group>"; };
 		C99A889B2607A319003B8B73 /* CGContextExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGContextExtension.swift; sourceTree = "<group>"; };
+		C9A3760426340F9B0057923E /* SKMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKMapView.swift; sourceTree = "<group>"; };
+		C9A376062634462A0057923E /* FeatureLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLayer.swift; sourceTree = "<group>"; };
+		C9A37608263446360057923E /* TerrainLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainLayer.swift; sourceTree = "<group>"; };
+		C9A37612263456E30057923E /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
+		C9A37614263457210057923E /* SafeAreaNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeAreaNode.swift; sourceTree = "<group>"; };
+		C9A376162634573E0057923E /* BlurrableNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurrableNode.swift; sourceTree = "<group>"; };
+		C9A37618263457D70057923E /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		C9A3761A263468780057923E /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
 		C9A61D80261EE55600341241 /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
 		C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewViewModel.swift; sourceTree = "<group>"; };
 		C9A61D84261EF7F100341241 /* MapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewView.swift; sourceTree = "<group>"; };
@@ -247,6 +263,14 @@
 				C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */,
 				C9A61D8B261EF87000341241 /* BottomRightBarView.swift */,
 				C9BDCF8A262476E6002488F6 /* GameView.swift */,
+				C9A3760426340F9B0057923E /* SKMapView.swift */,
+				C9A37608263446360057923E /* TerrainLayer.swift */,
+				C9A376062634462A0057923E /* FeatureLayer.swift */,
+				C9A37612263456E30057923E /* BaseScene.swift */,
+				C9A37614263457210057923E /* SafeAreaNode.swift */,
+				C9A376162634573E0057923E /* BlurrableNode.swift */,
+				C9A37618263457D70057923E /* GameScene.swift */,
+				C9A3761A263468780057923E /* SKNodeExtension.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -378,9 +402,12 @@
 				C94AD879262627C900836BDC /* CursorLayerViewModel.swift in Sources */,
 				C9155177260BB3B4003710BE /* TerrainLayerViewModel.swift in Sources */,
 				C905B59C26295EA100214CC1 /* ScrollableView.swift in Sources */,
+				C9A376172634573E0057923E /* BlurrableNode.swift in Sources */,
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
+				C9A376072634462A0057923E /* FeatureLayer.swift in Sources */,
 				C9855D75263192B100468ED0 /* YieldsLayerViewModel.swift in Sources */,
 				C9855D712631586300468ED0 /* ResourceMarkerLayerView.swift in Sources */,
+				C9A37609263446360057923E /* TerrainLayer.swift in Sources */,
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
 				C9855D772631B8C900468ED0 /* WaterLayerView.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
@@ -393,10 +420,13 @@
 				C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
 				C94AD87B2626281A00836BDC /* CursorLayerView.swift in Sources */,
+				C9A37615263457210057923E /* SafeAreaNode.swift in Sources */,
 				C988EAD3261B6EE900300C39 /* RoadLayerViewModel.swift in Sources */,
 				C94507A9262232E400CFD27D /* DataPicker.swift in Sources */,
 				C93AA695260DD8C00053DF74 /* MapViewModel.swift in Sources */,
 				C93AA6A5260DE47B0053DF74 /* ResourceLayerView.swift in Sources */,
+				C9A37619263457D70057923E /* GameScene.swift in Sources */,
+				C9A3761B263468780057923E /* SKNodeExtension.swift in Sources */,
 				C915517D260C7D9D003710BE /* BaseLayerViewModel.swift in Sources */,
 				C988EAD9261B705A00300C39 /* ImprovementLayerViewModel.swift in Sources */,
 				C988EAE1261B70B400300C39 /* CityLayerView.swift in Sources */,
@@ -407,6 +437,7 @@
 				C988EADB261B707600300C39 /* CityLayerViewModel.swift in Sources */,
 				C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */,
 				C988EAE3261B70BE00300C39 /* UnitLayerView.swift in Sources */,
+				C9A3760526340F9B0057923E /* SKMapView.swift in Sources */,
 				C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */,
 				C93AA6A1260DE1550053DF74 /* ResourceLayerViewModel.swift in Sources */,
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
@@ -417,6 +448,7 @@
 				C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */,
 				C988EAD7261B6F7B00300C39 /* RoadLayerView.swift in Sources */,
 				C93AA6A9260F23640053DF74 /* HexCoordLayerView.swift in Sources */,
+				C9A37613263456E30057923E /* BaseScene.swift in Sources */,
 				C9155179260BCEE7003710BE /* FeatureLayerViewModel.swift in Sources */,
 				C988EADD261B708000300C39 /* UnitLayerViewModel.swift in Sources */,
 				C9855D732631928800468ED0 /* YieldsLayerView.swift in Sources */,
