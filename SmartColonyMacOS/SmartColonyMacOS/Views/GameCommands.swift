@@ -24,8 +24,15 @@ struct GameCommands: Commands {
     @Binding
     var toggleDisplayWater: Bool
     
+    // debug
+    
     @Binding
     var toggleDisplayHexCoordinates: Bool
+    
+    @Binding
+    var toggleDisplayCompleteMap: Bool
+    
+    // MARK: view
     
     @CommandsBuilder var body: some Commands {
         CommandMenu("Game") {
@@ -42,7 +49,7 @@ struct GameCommands: Commands {
             }, label: {
                 Image(systemName: "paperplane.circle")
                 Text("Center on cursor")
-            })
+            }).keyboardShortcut("c")
             
             Divider()
             
@@ -73,19 +80,19 @@ struct GameCommands: Commands {
         CommandMenu("Map") {
             
             Toggle(isOn: self.$toggleDisplayResourceMarkers) {
-                Text("Toggle Show Resource Markers")
+                Text("Show Resource Markers")
             }
             .disabled(self.mapMenuDisabled)
             .toggleStyle(CheckboxSquareToggleStyle())
             
             Toggle(isOn: self.$toggleDisplayYields) {
-                Text("Toggle Show Yields")
+                Text("Show Yields")
             }
             .disabled(self.mapMenuDisabled)
             .toggleStyle(CheckboxSquareToggleStyle())
             
             Toggle(isOn: self.$toggleDisplayWater) {
-                Text("Toggle Show Fresh Water")
+                Text("Show Fresh Water")
             }
             .disabled(self.mapMenuDisabled)
             .toggleStyle(CheckboxSquareToggleStyle())
@@ -93,7 +100,13 @@ struct GameCommands: Commands {
             Divider()
             
             Toggle(isOn: self.$toggleDisplayHexCoordinates) {
-                Text("Toggle Show Hex Coordinates")
+                Text("Show Hex Coordinates")
+            }
+            .disabled(self.mapMenuDisabled)
+            .toggleStyle(CheckboxSquareToggleStyle())
+            
+            Toggle(isOn: self.$toggleDisplayCompleteMap) {
+                Text("Show complete map")
             }
             .disabled(self.mapMenuDisabled)
             .toggleStyle(CheckboxSquareToggleStyle())

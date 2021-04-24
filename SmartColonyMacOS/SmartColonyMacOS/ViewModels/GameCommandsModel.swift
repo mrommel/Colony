@@ -46,6 +46,13 @@ class GameCommandsModel: ObservableObject {
         }
     }
     
+    @Published
+    var showDisplayCompleteMap: Bool = false {
+        didSet {
+            self.changeDisplayCompleteMap(to: self.showDisplayCompleteMap)
+        }
+    }
+    
     // MARK: constructor
     
     init() {
@@ -56,6 +63,7 @@ class GameCommandsModel: ObservableObject {
         
         // debug
         self.showDisplayHexCoordinates = gameEnvironment.displayOptions.value.showHexCoordinates
+        self.showDisplayCompleteMap = gameEnvironment.displayOptions.value.showCompleteMap
     }
     
     // MARK: methods
@@ -100,5 +108,10 @@ class GameCommandsModel: ObservableObject {
     func changeDisplayHexCoordinates(to value: Bool) {
         
         self.viewModel?.gameViewModel.mapOptionShowHexCoordinates = value
+    }
+    
+    func changeDisplayCompleteMap(to value: Bool) {
+        
+        self.viewModel?.gameViewModel.mapOptionShowCompleteMap = value
     }
 }

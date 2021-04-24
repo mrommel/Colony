@@ -15,6 +15,7 @@ public struct MapDisplayOptions {
     public var showWater: Bool = false
     public var showYields: Bool = false
     public var showCitizen: Bool = false
+    public var showCompleteMap: Bool = false
     
     // debug
     public var showHexCoordinates: Bool = false

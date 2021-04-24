@@ -39,7 +39,8 @@ struct SmartColonyMacOSApp: App {
                          toggleDisplayResourceMarkers: self.$commandModel.showDisplayResourceMarkers,
                          toggleDisplayYields: self.$commandModel.showDisplayYields,
                          toggleDisplayWater: self.$commandModel.showDisplayWater,
-                         toggleDisplayHexCoordinates: self.$commandModel.showDisplayHexCoordinates)
+                         toggleDisplayHexCoordinates: self.$commandModel.showDisplayHexCoordinates,
+                         toggleDisplayCompleteMap: self.$commandModel.showDisplayCompleteMap)
         }
     }
 }

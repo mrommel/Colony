@@ -71,7 +71,7 @@ public class Textures {
             "yield-3-2-0", "yield-3-2-1", "yield-3-2-2", "yield-3-2-3",
             // 4
             "yield-4-0-0",
-            "yield-4-1-0",
+            "yield-4-1-0", "yield-4-1-1", "yield-4-1-2", "yield-4-1-3",
             // 5
             "yield-5-0-0",
             "yield-5-1-0", "yield-5-1-1",

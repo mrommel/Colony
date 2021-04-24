@@ -62,30 +62,35 @@ public class MapViewModel: ObservableObject {
     }
     
     func gameUpdated() {
+        
+        let game: GameModel? = self.gameEnvironment.game.value
+        let showCompleteMap: Bool = self.gameEnvironment.displayOptions.value.showCompleteMap
+        
+        print("redraw map with showCompleteMap: \(showCompleteMap)")
 
-        self.terrainLayerViewModel?.update(from: self.gameEnvironment.game.value)
-        self.riverLayerViewModel?.update(from: self.gameEnvironment.game.value)
-        self.borderLayerViewModel?.update(from: self.gameEnvironment.game.value)
-        self.roadLayerViewModel?.update(from: self.gameEnvironment.game.value)
-        self.cursorLayerViewModel?.update(from: self.gameEnvironment.game.value)
-        self.featureLayerViewModel?.update(from: self.gameEnvironment.game.value)
-        self.waterLayerViewModel?.update(from: self.gameEnvironment.game.value)
-        self.resourceLayerViewModel?.update(from: self.gameEnvironment.game.value)
-        self.improvementLayerViewModel?.update(from: self.gameEnvironment.game.value)
-        self.cityLayerViewModel?.update(from: self.gameEnvironment.game.value)
-        self.unitLayerViewModel?.update(from: self.gameEnvironment.game.value)
-        self.resourceMarkerLayerViewModel?.update(from: self.gameEnvironment.game.value)
-        self.yieldsLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.terrainLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
+        self.riverLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
+        self.borderLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
+        self.roadLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
+        self.cursorLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
+        self.featureLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
+        self.waterLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
+        self.resourceLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
+        self.improvementLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
+        self.cityLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
+        self.unitLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
+        self.resourceMarkerLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
+        self.yieldsLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
         
         // debug
-        self.hexCoordLayerViewModel?.update(from: self.gameEnvironment.game.value)
+        self.hexCoordLayerViewModel?.update(from: game, showCompleteMap: showCompleteMap)
         
         // overview
         // self.mapOverviewViewModel?.update()
         
         //self.gameEnvironment.game?.userInterface = self
         
-        guard let contentSize = self.gameEnvironment.game.value?.contentSize(), let mapSize = self.gameEnvironment.game.value?.mapSize() else {
+        guard let contentSize = game?.contentSize(), let mapSize = game?.mapSize() else {
             fatalError("cant get sizes")
         }
         

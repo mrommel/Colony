@@ -10,7 +10,7 @@ import SmartAILibrary
 
 class CursorLayerViewModel: BaseLayerViewModel {
  
-    override func update(from game: GameModel?) {
+    override func update(from game: GameModel?, showCompleteMap: Bool) {
         
         guard let game = game else {
             return

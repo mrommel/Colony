@@ -49,7 +49,7 @@ class BaseLayerViewModel: ObservableObject {
         self.textures = Textures(game: game)
     }
     
-    func update(from game: GameModel?) {
+    func update(from game: GameModel?, showCompleteMap: Bool = true) {
         
         guard let game = game else {
             return
@@ -65,16 +65,12 @@ class BaseLayerViewModel: ObservableObject {
         
         let tmpImage = drawImageInCGContext(size: self.size) { (context) -> () in
             let mapSize = game.mapSize()
-            //let options = GameDisplayOptions.standard
 
             for x in 0..<mapSize.width() {
 
                 for y in 0..<mapSize.height() {
 
                     let pt = HexPoint(x: x, y: y)
-
-                    //let screenPoint = HexPoint.toScreen(hex: pt) + self.shift
-                    //let tileRect = CGRect(x: screenPoint.x , y: screenPoint.y, width: 48, height: 48)
                     let screenPoint = (HexPoint.toScreen(hex: pt) * self.factor) + self.shift
                     let tileRect = CGRect(x: screenPoint.x, y: screenPoint.y, width: 48 * self.factor, height: 48 * self.factor)
                     
@@ -82,9 +78,9 @@ class BaseLayerViewModel: ObservableObject {
                         continue
                     }
                     
-                    /*guard tile.isVisible(to: human) else {
+                    guard tile.isVisible(to: human) || showCompleteMap else {
                         continue
-                    }*/
+                    }
                     
                     self.render(tile: tile, into: context, at: tileRect, in: game)
                 }

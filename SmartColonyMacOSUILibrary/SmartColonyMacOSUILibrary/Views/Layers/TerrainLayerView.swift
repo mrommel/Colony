@@ -9,13 +9,14 @@ import SwiftUI
 
 public struct TerrainLayerView: View {
     
-    let viewModel: TerrainLayerViewModel?
+    @ObservedObject
+    var viewModel: TerrainLayerViewModel
     
-    init(viewModel: TerrainLayerViewModel?) {
+    init(viewModel: TerrainLayerViewModel) {
         self.viewModel = viewModel
     }
     
     public var body: some View {
-        Image(nsImage: self.viewModel?.image ?? NSImage(color: .red, size: NSSize(width: 500, height: 500)))
+        Image(nsImage: self.viewModel.image)
     }
 }

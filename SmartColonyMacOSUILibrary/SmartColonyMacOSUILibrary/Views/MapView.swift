@@ -35,15 +35,20 @@ public struct MapView: View {
     @State
     var showCitizen: Bool = false
     
+    // debug
+    
     @State
     var showHexCoordinates: Bool = false
+    
+    @State
+    var showCompleteMap: Bool = false
     
     public var body: some View {
         
         ZStack(alignment: .topLeading) {
             
             Group {
-                TerrainLayerView(viewModel: self.viewModel.terrainLayerViewModel)
+                TerrainLayerView(viewModel: self.viewModel.terrainLayerViewModel ?? TerrainLayerViewModel())
                 RiverLayerView(viewModel: self.viewModel.riverLayerViewModel)
                 BorderLayerView(viewModel: self.viewModel.borderLayerViewModel)
                 RoadLayerView(viewModel: self.viewModel.roadLayerViewModel)
@@ -83,7 +88,7 @@ public struct MapView: View {
             }
         }
         .frame(width: self.contentSize.width * 3.0, height: self.contentSize.height * 3.0, alignment: .topLeading)
-        .onReceive(gameEnvironment.game) { game in
+        .onReceive(self.gameEnvironment.game) { game in
             print("received a new game")
             
             // update viewport size
@@ -92,13 +97,24 @@ public struct MapView: View {
             // notify redraw & update size and offset?
             self.viewModel.gameUpdated()
         }
-        .onReceive( self.gameEnvironment.displayOptions) { options in
+        .onReceive(self.gameEnvironment.displayOptions) { options in
+            
+            // these only show / hide layers
             self.showWater = options.showWater
             self.showYields = options.showYields
             self.showResourceMarkers = options.showResourceMarkers
             self.showCitizen = options.showCitizen
             
             self.showHexCoordinates = options.showHexCoordinates
+            
+            // this will trigger a redraw
+            if self.showCompleteMap != options.showCompleteMap {
+
+                // notify redraw
+                self.viewModel.gameUpdated()
+                
+                self.showCompleteMap = options.showCompleteMap
+            }
         }
     }
 }

@@ -56,10 +56,19 @@ public class GameViewModel: ObservableObject {
         }
     }
     
+    // debug
+    
     @Published
     public var mapOptionShowHexCoordinates: Bool = false {
         didSet {
             self.gameEnvironment.displayOptions.value.showHexCoordinates = self.mapOptionShowHexCoordinates
+        }
+    }
+    
+    @Published
+    public var mapOptionShowCompleteMap: Bool = false {
+        didSet {
+            self.gameEnvironment.displayOptions.value.showCompleteMap = self.mapOptionShowCompleteMap
         }
     }
     
@@ -69,8 +78,12 @@ public class GameViewModel: ObservableObject {
         
         self.mapViewModel = mapViewModel
         
-        self.mapOptionShowHexCoordinates = self.gameEnvironment.displayOptions.value.showHexCoordinates
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
+        self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
+        self.mapOptionShowYields = self.gameEnvironment.displayOptions.value.showYields
+        
+        self.mapOptionShowHexCoordinates = self.gameEnvironment.displayOptions.value.showHexCoordinates
+        self.mapOptionShowCompleteMap = self.gameEnvironment.displayOptions.value.showCompleteMap
     }
     
     public func loadAssets() {
