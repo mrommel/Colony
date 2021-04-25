@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "snow-to-water-s-sw-nw-n@1x.png",
+      "filename" : "snow-to-water-sw-nw@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "snow-to-water-s-sw-nw-n@2x.png",
+      "filename" : "snow-to-water-sw-nw@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "snow-to-water-s-sw-nw-n@3x.png",
+      "filename" : "snow-to-water-sw-nw@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

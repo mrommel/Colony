@@ -91,8 +91,10 @@ class TerrainLayer: SKNode {
         if tile.terrain() != .snow {
         
             if let snowTexture = self.textures?.snowTexture(at: tile.point) {
+                
+                let image = ImageCache.shared.image(for: snowTexture)
 
-                let snowSprite = SKSpriteNode(imageNamed: snowTexture)
+                let snowSprite = SKSpriteNode(texture: SKTexture(image: image))
                 snowSprite.position = position
                 snowSprite.zPosition = Globals.ZLevels.snow
                 snowSprite.anchorPoint = CGPoint(x: 0, y: 0)
