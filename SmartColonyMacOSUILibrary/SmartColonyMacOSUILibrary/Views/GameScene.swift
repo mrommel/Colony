@@ -97,3 +97,13 @@ class GameScene: BaseScene {
         self.cameraNode.run(zoomInAction)
     }
 }
+
+extension GameScene {
+    
+    override func mouseDown(with event: NSEvent) {
+        let location = event.location(in: self)
+        let touchLocation = self.convert(location, to: self.viewHex) / 3.0
+        let position = HexPoint(screen: touchLocation)
+        print("position clicked: \(position)")
+    }
+}

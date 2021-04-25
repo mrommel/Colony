@@ -66,7 +66,7 @@ class FeatureLayer: SKNode {
 
                     let image = ImageCache.shared.image(for: textureName)
 
-                    let featureSprite = SKSpriteNode(texture: SKTexture(image: image))
+                    let featureSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
                     featureSprite.position = position
                     featureSprite.zPosition = Globals.ZLevels.feature // feature.zLevel
                     featureSprite.anchorPoint = CGPoint(x: 0, y: 0)
@@ -84,7 +84,7 @@ class FeatureLayer: SKNode {
 
                 let image = ImageCache.shared.image(for: iceTexture)
 
-                let iceSprite = SKSpriteNode(texture: SKTexture(image: image))
+                let iceSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
                 iceSprite.position = position
                 iceSprite.zPosition = Globals.ZLevels.feature
                 iceSprite.anchorPoint = CGPoint(x: 0, y: 0)
@@ -125,7 +125,7 @@ class FeatureLayer: SKNode {
             
             self.clear(tile: tile)
             
-            let screenPoint = HexPoint.toScreen(hex: pt)
+            let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
             
             let neighborTileN = gameModel.tile(at: pt.neighbor(in: .north))
             let neighborTileNE = gameModel.tile(at: pt.neighbor(in: .northeast))

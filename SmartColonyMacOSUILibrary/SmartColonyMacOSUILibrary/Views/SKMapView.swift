@@ -181,9 +181,9 @@ struct SKMapView : NSViewRepresentable {
     class Coordinator: NSObject {
         var gameScene: GameScene?
         
-        /*func resizeScene(proxy: GeometryProxy) {
-            gameScene?.size = proxy.size
-        }*/
+        func resizeScene(to size: CGSize) {
+            gameScene?.size = size
+        }
     }
     
     func makeCoordinator() -> Coordinator {
@@ -203,7 +203,6 @@ struct SKMapView : NSViewRepresentable {
         
         // init SpriteKit Scene
         let gameScene = GameScene(size: .zero) // SKScene(size: self.size)
-        //gameScene.size = proxy.size
         gameScene.scaleMode = .resizeFill
         gameScene.backgroundColor = NSColor.clear
         
@@ -216,7 +215,10 @@ struct SKMapView : NSViewRepresentable {
 
         //print("updated new game: \(self.game)")
         if self.game != nil {
-            //context.coordinator.resizeScene(proxy: proxy)
+            
+            let contentSize = self.game?.contentSize() ?? CGSize(width: 100, height: 100)
+            print("update scene size: \(contentSize * 3.0)")
+            context.coordinator.resizeScene(to: contentSize)
             
             context.coordinator.gameScene?.viewModel = GameSceneViewModel(with: game)
         
@@ -227,15 +229,3 @@ struct SKMapView : NSViewRepresentable {
         }
     }
 }
-
-//#if DEBUG
-/*struct SKMapView_Previews : PreviewProvider {
-    
-    static var previews: some View {
-        SKMapView(game: DemoGameModel(), size: CGSize(width: 200, height: 200))
-            .edgesIgnoringSafeArea(.all)
-            .previewLayout(.sizeThatFits)
-            .background(Color.red)
-    }
-}*/
-//#endif

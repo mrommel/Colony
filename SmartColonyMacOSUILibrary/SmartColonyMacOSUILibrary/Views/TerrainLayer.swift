@@ -48,7 +48,7 @@ class TerrainLayer: SKNode {
                 
                 let pt = HexPoint(x: x, y: y)
                 if let tile = gameModel.tile(at: pt) {
-                    let screenPoint = HexPoint.toScreen(hex: pt)
+                    let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
                     
                     if tile.isVisible(to: self.player) || true {
                         self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
@@ -77,7 +77,7 @@ class TerrainLayer: SKNode {
 
         let image = ImageCache.shared.image(for: textureName)
 
-        let terrainSprite = SKSpriteNode(texture: SKTexture(image: image))
+        let terrainSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
         terrainSprite.position = position
         terrainSprite.zPosition = tile.terrain().zLevel
         terrainSprite.anchorPoint = CGPoint(x: 0, y: 0)
@@ -94,7 +94,7 @@ class TerrainLayer: SKNode {
                 
                 let image = ImageCache.shared.image(for: snowTexture)
 
-                let snowSprite = SKSpriteNode(texture: SKTexture(image: image))
+                let snowSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
                 snowSprite.position = position
                 snowSprite.zPosition = Globals.ZLevels.snow
                 snowSprite.anchorPoint = CGPoint(x: 0, y: 0)

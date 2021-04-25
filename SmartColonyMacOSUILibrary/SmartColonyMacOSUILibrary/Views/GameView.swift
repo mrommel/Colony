@@ -38,27 +38,28 @@ public struct GameView: View {
                 MapView(viewModel: self.viewModel.mapViewModel)
             }
             .background(Color.black.opacity(0.5))*/
+            
             ScrollableView(scrollTo: self.$viewModel.scrollTarget,
                            clickOn: self.$viewModel.clickPosition,
                            magnification: self.$viewModel.scale) {
-                //GeometryReader { proxy in
-                    SKMapView(game: self.$game)
-                        .onReceive(self.gameEnvironment.game) { game in
+                
+                SKMapView(game: self.$game)
+                    .onReceive(self.gameEnvironment.game) { game in
+                        
+                        if let game = game {
                             // update viewport size
-                            self.contentSize = game?.contentSize() ?? CGSize(width: 100, height: 100)
+                            self.contentSize = game.contentSize()
                             
-                            print("received a new game: \(game?.mapSize().name() ?? "abc")")
-                            print("size: \(self.contentSize)")
+                            print("received a new game: \(game.mapSize().name())")
+                            print("set size: \(self.contentSize * 3.0)")
                             self.game = game
                         }
-                        
-                //}
-                .frame(width: self.contentSize.width * 3.0, height: self.contentSize.height * 3.0, alignment: .topLeading)
+                    }
+                    .frame(width: self.contentSize.width * 3.0, height: self.contentSize.height * 3.0, alignment: .topLeading)
+                    .background(Color.red.opacity(0.5))
                 
             }
             .background(Color.black.opacity(0.5))
-            
-            //Text("focus: \(self.viewModel.scrollTarget?.x ?? 0.0), \(self.viewModel.scrollTarget?.y ?? 0.0)")
             
             BottomLeftBarView(viewModel: self.viewModel.mapViewModel)
             
