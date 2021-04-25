@@ -43,7 +43,7 @@ public struct GameView: View {
                            clickOn: self.$viewModel.clickPosition,
                            magnification: self.$viewModel.scale) {
                 
-                SKMapView(game: self.$game)
+                MapView(game: self.$game)
                     .onReceive(self.gameEnvironment.game) { game in
                         
                         if let game = game {
@@ -51,7 +51,7 @@ public struct GameView: View {
                             self.contentSize = game.contentSize()
                             
                             print("received a new game: \(game.mapSize().name())")
-                            print("set size: \(self.contentSize * 3.0)")
+                            //print("set size: \(self.contentSize * 3.0)")
                             self.game = game
                         }
                     }
@@ -61,9 +61,9 @@ public struct GameView: View {
             }
             .background(Color.black.opacity(0.5))
             
-            BottomLeftBarView(viewModel: self.viewModel.mapViewModel)
+            BottomLeftBarView(/*viewModel: self.viewModel.mapViewModel*/)
             
-            BottomRightBarView(viewModel: self.viewModel.mapViewModel)
+            BottomRightBarView(/*viewModel: self.viewModel.mapViewModel*/)
         }
     }
 }

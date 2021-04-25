@@ -1,120 +1,71 @@
 //
-//  MapView.swift
-//  SmartMapEditor
+//  SKMapView.swift
+//  SmartMacOSUILibrary
 //
-//  Created by Michael Rommel on 26.11.20.
+//  Created by Michael Rommel on 24.04.21.
 //
 
-import Cocoa
-import AppKit
-import CoreGraphics
 import SwiftUI
+import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
-public struct MapView: View {
+// resize https://www.hackingwithswift.com/forums/swiftui/swiftui-spritekit-macos-catalina-10-15/2662
+struct MapView : NSViewRepresentable {
+    
+    @Binding
+    var game: GameModel?
+    
+    //let proxy: GeometryProxy
+    
+    class Coordinator: NSObject {
+        var gameScene: GameScene?
         
-    @ObservedObject
-    var viewModel: MapViewModel
+        func resizeScene(to size: CGSize) {
+            gameScene?.size = size
+        }
+    }
     
-    @State
-    var contentSize: CGSize = CGSize(width: 100, height: 100)
+    func makeCoordinator() -> Coordinator {
+        // add bindings here
+        return Coordinator()
+    }
     
-    @Environment(\.gameEnvironment)
-    var gameEnvironment: GameEnvironment
-    
-    @State
-    var showWater: Bool = false
-    
-    @State
-    var showYields: Bool = false
-    
-    @State
-    var showResourceMarkers: Bool = false
-    
-    @State
-    var showCitizen: Bool = false
-    
-    // debug
-    
-    @State
-    var showHexCoordinates: Bool = false
-    
-    @State
-    var showCompleteMap: Bool = false
-    
-    public var body: some View {
+    func makeNSView(context: Context) -> SKView {
         
-        ZStack(alignment: .topLeading) {
-            
-            Group {
-                TerrainLayerView(viewModel: self.viewModel.terrainLayerViewModel ?? TerrainLayerViewModel())
-                RiverLayerView(viewModel: self.viewModel.riverLayerViewModel)
-                BorderLayerView(viewModel: self.viewModel.borderLayerViewModel)
-                RoadLayerView(viewModel: self.viewModel.roadLayerViewModel)
-                FeatureLayerView(viewModel: self.viewModel.featureLayerViewModel)
-                // todo: split into lower feature
-                CursorLayerView(viewModel: self.viewModel.cursorLayerViewModel ?? CursorLayerViewModel())
-                // todo: and upper feature
-                ResourceLayerView(viewModel: self.viewModel.resourceLayerViewModel)
-                ImprovementLayerView(viewModel: self.viewModel.improvementLayerViewModel)
-                CityLayerView(viewModel: self.viewModel.cityLayerViewModel)
-                UnitLayerView(viewModel: self.viewModel.unitLayerViewModel ?? UnitLayerViewModel())
-            }
-            
-            Group {
-                if self.showWater {
-                    WaterLayerView(viewModel: self.viewModel.waterLayerViewModel)
-                }
-                
-                if self.showYields {
-                    YieldsLayerView(viewModel: self.viewModel.yieldsLayerViewModel)
-                }
-                
-                if self.showResourceMarkers {
-                    ResourceMarkerLayerView(viewModel: self.viewModel.resourceMarkerLayerViewModel)
-                }
-                
-                if self.showCitizen {
-                // citizen
-                }
-                
-                // -- debug --
-                if self.showHexCoordinates {
-                    HexCoordLayerView(viewModel: self.viewModel.hexCoordLayerViewModel)
-                }
-                
-                // tooltip ?
-            }
-        }
-        .frame(width: self.contentSize.width * 3.0, height: self.contentSize.height * 3.0, alignment: .topLeading)
-        .onReceive(self.gameEnvironment.game) { game in
-            print("received a new game")
-            
-            // update viewport size
-            self.contentSize = game?.contentSize() ?? CGSize(width: 100, height: 100)
-            
-            // notify redraw & update size and offset?
-            self.viewModel.gameUpdated()
-        }
-        .onReceive(self.gameEnvironment.displayOptions) { options in
-            
-            // these only show / hide layers
-            self.showWater = options.showWater
-            self.showYields = options.showYields
-            self.showResourceMarkers = options.showResourceMarkers
-            self.showCitizen = options.showCitizen
-            
-            self.showHexCoordinates = options.showHexCoordinates
-            
-            // this will trigger a redraw
-            if self.showCompleteMap != options.showCompleteMap {
+        let view = SKView(frame: .zero)
+        view.preferredFramesPerSecond = 60
+        
+        #if DEBUG
+        view.showsFPS = true
+        view.showsNodeCount = true
+        #endif
+        
+        // init SpriteKit Scene
+        let gameScene = GameScene(size: .zero)
+        gameScene.scaleMode = .resizeFill
+        gameScene.backgroundColor = NSColor.clear
+        
+        context.coordinator.gameScene = gameScene
+        
+        return view
+    }
+ 
+    func updateNSView(_ view: SKView, context: Context) {
 
-                // notify redraw
-                self.viewModel.gameUpdated()
-                
-                self.showCompleteMap = options.showCompleteMap
-            }
+        //print("updated new game: \(self.game)")
+        if self.game != nil {
+            
+            let contentSize = self.game?.contentSize() ?? CGSize(width: 100, height: 100)
+            //print("update scene size: \(contentSize * CGFloat(3.0))")
+            context.coordinator.resizeScene(to: contentSize)
+            
+            context.coordinator.gameScene?.viewModel = GameSceneViewModel(with: game)
+        
+            view.presentScene(context.coordinator.gameScene)
+            view.ignoresSiblingOrder = false
+            
+            context.coordinator.gameScene?.updateLayout()
         }
     }
 }

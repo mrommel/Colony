@@ -12,7 +12,7 @@ import SwiftUI
 
 public class GameViewModel: ObservableObject {
 
-    var mapViewModel: MapViewModel
+    //var mapViewModel: MapViewModel
     
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
@@ -74,9 +74,9 @@ public class GameViewModel: ObservableObject {
     
     // MARK: constructor
     
-    public init(mapViewModel: MapViewModel) {
+    public init(/*mapViewModel: MapViewModel*/) {
         
-        self.mapViewModel = mapViewModel
+        //self.mapViewModel = mapViewModel
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -137,6 +137,11 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: yieldTextureName), for: yieldTextureName)
         }
         
+        print("- load \(textures.allBoardTextureNames.count) board textures")
+        for allBoardTextureName in textures.allBoardTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: allBoardTextureName), for: allBoardTextureName)
+        }
+        
         var unitTextures: Int = 0
         for unitType in UnitType.all {
             
@@ -194,14 +199,14 @@ public class GameViewModel: ObservableObject {
     public func centerOnCursor() {
         
         //self.mapViewModel.centerOnCursor()
-        let cursor = self.gameEnvironment.cursor.value
+        /*let cursor = self.gameEnvironment.cursor.value
             
-        var screenPoint = HexPoint.toScreen(hex: cursor) * 3.0 + self.mapViewModel.shift
+        var screenPoint = HexPoint.toScreen(hex: cursor) * 3.0 // + self.mapViewModel.shift
 
         screenPoint.y = self.mapViewModel.size.height - screenPoint.y - 144
             
         print("scroll to: \(screenPoint)")
-        self.scrollTarget = screenPoint
+        self.scrollTarget = screenPoint*/
     }
     
     public func zoomIn() {
@@ -232,7 +237,7 @@ public class GameViewModel: ObservableObject {
     
     private func clickPositionUpdated() {
         
-        guard let clickPosition = self.clickPosition else {
+        /*guard let clickPosition = self.clickPosition else {
             return
         }
         
@@ -246,6 +251,6 @@ public class GameViewModel: ObservableObject {
         // update the cursor
         let cursor = HexPoint(screen: CGPoint(x: x, y: y))
         
-        self.gameEnvironment.moveCursor(to: cursor)
+        self.gameEnvironment.moveCursor(to: cursor)*/
     }
 }

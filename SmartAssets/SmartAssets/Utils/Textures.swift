@@ -25,6 +25,7 @@ public class Textures {
     public let allResourceMarkerTextureNames: [String]
     public let allBorderTextureNames: [String]
     public let allYieldsTextureNames: [String]
+    public let allBoardTextureNames: [String]
     
     public init(game: GameModel?) {
         
@@ -81,6 +82,8 @@ public class Textures {
             // 6
             "yield-6-0-0",
         ]
+        
+        self.allBoardTextureNames = ["board-s-sw", "board-se-s-sw", "board-se-s", "board-se", "board-sw"]
     }
 
     public func coastTexture(at point: HexPoint) -> String? {
@@ -386,5 +389,37 @@ public class Textures {
         }
         
         return "yield-\(food)-\(production)-\(gold)"
+    }
+    
+    public func calderaTexure(at hex: HexPoint) -> String? {
+        
+        guard let game = self.game else {
+            fatalError("cant get gameModel")
+        }
+        
+        let calderaIsSouth = hex.y == game.mapSize().height() - 1 //self.isCalderaSouth(at: hex)
+        let calderaIsEast = hex.x == game.mapSize().width() - 1 // self.isCalderaEast(at: hex)
+
+        if calderaIsSouth || calderaIsEast {
+            if calderaIsSouth && calderaIsEast {
+                return "board-se-s-sw"
+            }
+            
+            if calderaIsSouth {
+                return "board-s-sw"
+            }
+            
+            if hex.y % 2 == 1 {
+                return "board-se"
+            }
+            
+            return "board-se-s"
+        }
+
+        if hex.x == 0 && hex.y % 2 == 1 {
+            return "board-sw"
+        }
+
+        return nil
     }
 }

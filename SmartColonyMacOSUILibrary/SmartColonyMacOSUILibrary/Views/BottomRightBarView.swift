@@ -9,12 +9,12 @@ import SwiftUI
 
 public struct BottomRightBarView: View {
     
-    private let viewModel: MapViewModel
+    /*private let viewModel: MapViewModel
     
     public init(viewModel: MapViewModel) {
         
         self.viewModel = viewModel
-    }
+    }*/
     
     public var body: some View {
         HStack {

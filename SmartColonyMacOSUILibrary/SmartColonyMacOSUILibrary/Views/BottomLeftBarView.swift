@@ -9,12 +9,12 @@ import SwiftUI
 
 public struct BottomLeftBarView: View {
     
-    private let viewModel: MapViewModel
+    /*private let viewModel: MapViewModel
     
     public init(viewModel: MapViewModel) {
         
         self.viewModel = viewModel
-    }
+    }*/
     
     public var body: some View {
         HStack {
@@ -48,7 +48,7 @@ public struct BottomLeftBarView: View {
                         .padding(.leading, 6)
                         .onTapGesture {
                             //print("button tapped!")
-                            self.viewModel.doTurn()
+                            //self.viewModel.doTurn()
                         }
                     
                     Image("unit_canvas")

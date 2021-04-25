@@ -10,43 +10,12 @@
 		C905B59C26295EA100214CC1 /* ScrollableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C905B59B26295EA000214CC1 /* ScrollableView.swift */; };
 		C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915514C260A59DF003710BE /* ActivityIndicator.swift */; };
 		C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155160260B2978003710BE /* GameDisplayOptions.swift */; };
-		C9155175260BB382003710BE /* TerrainLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155174260BB382003710BE /* TerrainLayerView.swift */; };
-		C9155177260BB3B4003710BE /* TerrainLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155176260BB3B4003710BE /* TerrainLayerViewModel.swift */; };
-		C9155179260BCEE7003710BE /* FeatureLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155178260BCEE7003710BE /* FeatureLayerViewModel.swift */; };
-		C915517B260BD284003710BE /* FeatureLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915517A260BD284003710BE /* FeatureLayerView.swift */; };
-		C915517D260C7D9D003710BE /* BaseLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915517C260C7D9D003710BE /* BaseLayerViewModel.swift */; };
 		C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920C425262EB03F0024EC0E /* GameEnvironment.swift */; };
-		C93AA695260DD8C00053DF74 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA694260DD8C00053DF74 /* MapViewModel.swift */; };
-		C93AA69F260DDE210053DF74 /* RiverLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA69E260DDE210053DF74 /* RiverLayerViewModel.swift */; };
-		C93AA6A1260DE1550053DF74 /* ResourceLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6A0260DE1550053DF74 /* ResourceLayerViewModel.swift */; };
-		C93AA6A3260DE3830053DF74 /* RiverLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6A2260DE3830053DF74 /* RiverLayerView.swift */; };
-		C93AA6A5260DE47B0053DF74 /* ResourceLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6A4260DE47B0053DF74 /* ResourceLayerView.swift */; };
-		C93AA6A7260F232B0053DF74 /* HexCoordLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6A6260F232B0053DF74 /* HexCoordLayerViewModel.swift */; };
-		C93AA6A9260F23640053DF74 /* HexCoordLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6A8260F23640053DF74 /* HexCoordLayerView.swift */; };
 		C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6AA260F24640053DF74 /* CGRectExtension.swift */; };
 		C94507A9262232E400CFD27D /* DataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94507A8262232E400CFD27D /* DataPicker.swift */; };
-		C94AD879262627C900836BDC /* CursorLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94AD878262627C800836BDC /* CursorLayerViewModel.swift */; };
-		C94AD87B2626281A00836BDC /* CursorLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94AD87A2626281A00836BDC /* CursorLayerView.swift */; };
 		C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9711125262569D600B58AAE /* NSMenuItemExtension.swift */; };
-		C9855D6F2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D6E2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift */; };
-		C9855D712631586300468ED0 /* ResourceMarkerLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D702631586300468ED0 /* ResourceMarkerLayerView.swift */; };
-		C9855D732631928800468ED0 /* YieldsLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D722631928800468ED0 /* YieldsLayerView.swift */; };
-		C9855D75263192B100468ED0 /* YieldsLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D74263192B100468ED0 /* YieldsLayerViewModel.swift */; };
-		C9855D772631B8C900468ED0 /* WaterLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D762631B8C900468ED0 /* WaterLayerView.swift */; };
-		C9855D792631B8FB00468ED0 /* WaterLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D782631B8FB00468ED0 /* WaterLayerViewModel.swift */; };
-		C988EAD1261B6ED500300C39 /* BorderLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */; };
-		C988EAD3261B6EE900300C39 /* RoadLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */; };
-		C988EAD5261B6F3500300C39 /* BorderLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD4261B6F3500300C39 /* BorderLayerView.swift */; };
-		C988EAD7261B6F7B00300C39 /* RoadLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD6261B6F7B00300C39 /* RoadLayerView.swift */; };
-		C988EAD9261B705A00300C39 /* ImprovementLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAD8261B705A00300C39 /* ImprovementLayerViewModel.swift */; };
-		C988EADB261B707600300C39 /* CityLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EADA261B707600300C39 /* CityLayerViewModel.swift */; };
-		C988EADD261B708000300C39 /* UnitLayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EADC261B708000300C39 /* UnitLayerViewModel.swift */; };
-		C988EADF261B70A800300C39 /* ImprovementLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EADE261B70A800300C39 /* ImprovementLayerView.swift */; };
-		C988EAE1261B70B400300C39 /* CityLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE0261B70B400300C39 /* CityLayerView.swift */; };
-		C988EAE3261B70BE00300C39 /* UnitLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE2261B70BE00300C39 /* UnitLayerView.swift */; };
 		C988EAE5261B724500300C39 /* AnimatedUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE4261B724500300C39 /* AnimatedUnitView.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C99A88742607A01C003B8B73 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88712607A01B003B8B73 /* MapView.swift */; };
 		C99A887E2607A06C003B8B73 /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */; };
 		C99A887F2607A06C003B8B73 /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C99A88842607A190003B8B73 /* SmartAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99A88832607A190003B8B73 /* SmartAssets.framework */; };
@@ -56,7 +25,7 @@
 		C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88912607A269003B8B73 /* NSImageExtension.swift */; };
 		C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88972607A2CC003B8B73 /* CGImageExtension.swift */; };
 		C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A889B2607A319003B8B73 /* CGContextExtension.swift */; };
-		C9A3760526340F9B0057923E /* SKMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3760426340F9B0057923E /* SKMapView.swift */; };
+		C9A3760526340F9B0057923E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3760426340F9B0057923E /* MapView.swift */; };
 		C9A376072634462A0057923E /* FeatureLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A376062634462A0057923E /* FeatureLayer.swift */; };
 		C9A37609263446360057923E /* TerrainLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37608263446360057923E /* TerrainLayer.swift */; };
 		C9A37613263456E30057923E /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37612263456E30057923E /* BaseScene.swift */; };
@@ -64,6 +33,11 @@
 		C9A376172634573E0057923E /* BlurrableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A376162634573E0057923E /* BlurrableNode.swift */; };
 		C9A37619263457D70057923E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37618263457D70057923E /* GameScene.swift */; };
 		C9A3761B263468780057923E /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3761A263468780057923E /* SKNodeExtension.swift */; };
+		C9A3761F2635F70F0057923E /* MapNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3761E2635F70F0057923E /* MapNode.swift */; };
+		C9A376292635FC260057923E /* ResourceLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A376282635FC260057923E /* ResourceLayer.swift */; };
+		C9A3762B2635FDAF0057923E /* BoardLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3762A2635FDAF0057923E /* BoardLayer.swift */; };
+		C9A3762D2635FF620057923E /* RiverLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3762C2635FF620057923E /* RiverLayer.swift */; };
+		C9A3762F263600800057923E /* ResourceMarkerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3762E263600800057923E /* ResourceMarkerLayer.swift */; };
 		C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D80261EE55600341241 /* PixelBuffer.swift */; };
 		C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */; };
 		C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D84261EF7F100341241 /* MapOverviewView.swift */; };
@@ -93,45 +67,14 @@
 		C905B59B26295EA000214CC1 /* ScrollableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableView.swift; sourceTree = "<group>"; };
 		C915514C260A59DF003710BE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C9155160260B2978003710BE /* GameDisplayOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDisplayOptions.swift; sourceTree = "<group>"; };
-		C9155174260BB382003710BE /* TerrainLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainLayerView.swift; sourceTree = "<group>"; };
-		C9155176260BB3B4003710BE /* TerrainLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainLayerViewModel.swift; sourceTree = "<group>"; };
-		C9155178260BCEE7003710BE /* FeatureLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLayerViewModel.swift; sourceTree = "<group>"; };
-		C915517A260BD284003710BE /* FeatureLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLayerView.swift; sourceTree = "<group>"; };
-		C915517C260C7D9D003710BE /* BaseLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLayerViewModel.swift; sourceTree = "<group>"; };
 		C920C425262EB03F0024EC0E /* GameEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEnvironment.swift; sourceTree = "<group>"; };
-		C93AA694260DD8C00053DF74 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
-		C93AA69E260DDE210053DF74 /* RiverLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverLayerViewModel.swift; sourceTree = "<group>"; };
-		C93AA6A0260DE1550053DF74 /* ResourceLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLayerViewModel.swift; sourceTree = "<group>"; };
-		C93AA6A2260DE3830053DF74 /* RiverLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverLayerView.swift; sourceTree = "<group>"; };
-		C93AA6A4260DE47B0053DF74 /* ResourceLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLayerView.swift; sourceTree = "<group>"; };
-		C93AA6A6260F232B0053DF74 /* HexCoordLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexCoordLayerViewModel.swift; sourceTree = "<group>"; };
-		C93AA6A8260F23640053DF74 /* HexCoordLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexCoordLayerView.swift; sourceTree = "<group>"; };
 		C93AA6AA260F24640053DF74 /* CGRectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
 		C94507A8262232E400CFD27D /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
-		C94AD878262627C800836BDC /* CursorLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorLayerViewModel.swift; sourceTree = "<group>"; };
-		C94AD87A2626281A00836BDC /* CursorLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorLayerView.swift; sourceTree = "<group>"; };
 		C9711125262569D600B58AAE /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
-		C9855D6E2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMarkerLayerViewModel.swift; sourceTree = "<group>"; };
-		C9855D702631586300468ED0 /* ResourceMarkerLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMarkerLayerView.swift; sourceTree = "<group>"; };
-		C9855D722631928800468ED0 /* YieldsLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldsLayerView.swift; sourceTree = "<group>"; };
-		C9855D74263192B100468ED0 /* YieldsLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldsLayerViewModel.swift; sourceTree = "<group>"; };
-		C9855D762631B8C900468ED0 /* WaterLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterLayerView.swift; sourceTree = "<group>"; };
-		C9855D782631B8FB00468ED0 /* WaterLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterLayerViewModel.swift; sourceTree = "<group>"; };
-		C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderLayerViewModel.swift; sourceTree = "<group>"; };
-		C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadLayerViewModel.swift; sourceTree = "<group>"; };
-		C988EAD4261B6F3500300C39 /* BorderLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderLayerView.swift; sourceTree = "<group>"; };
-		C988EAD6261B6F7B00300C39 /* RoadLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadLayerView.swift; sourceTree = "<group>"; };
-		C988EAD8261B705A00300C39 /* ImprovementLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementLayerViewModel.swift; sourceTree = "<group>"; };
-		C988EADA261B707600300C39 /* CityLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLayerViewModel.swift; sourceTree = "<group>"; };
-		C988EADC261B708000300C39 /* UnitLayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitLayerViewModel.swift; sourceTree = "<group>"; };
-		C988EADE261B70A800300C39 /* ImprovementLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementLayerView.swift; sourceTree = "<group>"; };
-		C988EAE0261B70B400300C39 /* CityLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLayerView.swift; sourceTree = "<group>"; };
-		C988EAE2261B70BE00300C39 /* UnitLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitLayerView.swift; sourceTree = "<group>"; };
 		C988EAE4261B724500300C39 /* AnimatedUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedUnitView.swift; sourceTree = "<group>"; };
 		C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartColonyMacOSUILibrary.h; sourceTree = "<group>"; };
 		C99A886026079F4C003B8B73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C99A88712607A01B003B8B73 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C99A887D2607A06C003B8B73 /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A88832607A190003B8B73 /* SmartAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99A88872607A1D3003B8B73 /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
@@ -139,7 +82,7 @@
 		C99A88912607A269003B8B73 /* NSImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageExtension.swift; sourceTree = "<group>"; };
 		C99A88972607A2CC003B8B73 /* CGImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImageExtension.swift; sourceTree = "<group>"; };
 		C99A889B2607A319003B8B73 /* CGContextExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGContextExtension.swift; sourceTree = "<group>"; };
-		C9A3760426340F9B0057923E /* SKMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKMapView.swift; sourceTree = "<group>"; };
+		C9A3760426340F9B0057923E /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C9A376062634462A0057923E /* FeatureLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLayer.swift; sourceTree = "<group>"; };
 		C9A37608263446360057923E /* TerrainLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainLayer.swift; sourceTree = "<group>"; };
 		C9A37612263456E30057923E /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
@@ -147,6 +90,11 @@
 		C9A376162634573E0057923E /* BlurrableNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurrableNode.swift; sourceTree = "<group>"; };
 		C9A37618263457D70057923E /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		C9A3761A263468780057923E /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
+		C9A3761E2635F70F0057923E /* MapNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapNode.swift; sourceTree = "<group>"; };
+		C9A376282635FC260057923E /* ResourceLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLayer.swift; sourceTree = "<group>"; };
+		C9A3762A2635FDAF0057923E /* BoardLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardLayer.swift; sourceTree = "<group>"; };
+		C9A3762C2635FF620057923E /* RiverLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverLayer.swift; sourceTree = "<group>"; };
+		C9A3762E263600800057923E /* ResourceMarkerLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMarkerLayer.swift; sourceTree = "<group>"; };
 		C9A61D80261EE55600341241 /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
 		C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewViewModel.swift; sourceTree = "<group>"; };
 		C9A61D84261EF7F100341241 /* MapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewView.swift; sourceTree = "<group>"; };
@@ -170,45 +118,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C9155172260BB304003710BE /* Layers */ = {
-			isa = PBXGroup;
-			children = (
-				C915517C260C7D9D003710BE /* BaseLayerViewModel.swift */,
-				C9155176260BB3B4003710BE /* TerrainLayerViewModel.swift */,
-				C93AA69E260DDE210053DF74 /* RiverLayerViewModel.swift */,
-				C988EAD0261B6ED400300C39 /* BorderLayerViewModel.swift */,
-				C988EAD2261B6EE900300C39 /* RoadLayerViewModel.swift */,
-				C94AD878262627C800836BDC /* CursorLayerViewModel.swift */,
-				C9155178260BCEE7003710BE /* FeatureLayerViewModel.swift */,
-				C9855D782631B8FB00468ED0 /* WaterLayerViewModel.swift */,
-				C93AA6A0260DE1550053DF74 /* ResourceLayerViewModel.swift */,
-				C988EAD8261B705A00300C39 /* ImprovementLayerViewModel.swift */,
-				C988EADA261B707600300C39 /* CityLayerViewModel.swift */,
-				C988EADC261B708000300C39 /* UnitLayerViewModel.swift */,
-				C9855D6E2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift */,
-				C9855D74263192B100468ED0 /* YieldsLayerViewModel.swift */,
-				C93AA6A6260F232B0053DF74 /* HexCoordLayerViewModel.swift */,
-			);
-			path = Layers;
-			sourceTree = "<group>";
-		};
 		C9155173260BB371003710BE /* Layers */ = {
 			isa = PBXGroup;
 			children = (
-				C9155174260BB382003710BE /* TerrainLayerView.swift */,
-				C93AA6A2260DE3830053DF74 /* RiverLayerView.swift */,
-				C988EAD4261B6F3500300C39 /* BorderLayerView.swift */,
-				C988EAD6261B6F7B00300C39 /* RoadLayerView.swift */,
-				C94AD87A2626281A00836BDC /* CursorLayerView.swift */,
-				C915517A260BD284003710BE /* FeatureLayerView.swift */,
-				C9855D762631B8C900468ED0 /* WaterLayerView.swift */,
-				C93AA6A4260DE47B0053DF74 /* ResourceLayerView.swift */,
-				C988EADE261B70A800300C39 /* ImprovementLayerView.swift */,
-				C988EAE0261B70B400300C39 /* CityLayerView.swift */,
-				C988EAE2261B70BE00300C39 /* UnitLayerView.swift */,
-				C9855D702631586300468ED0 /* ResourceMarkerLayerView.swift */,
-				C9855D722631928800468ED0 /* YieldsLayerView.swift */,
-				C93AA6A8260F23640053DF74 /* HexCoordLayerView.swift */,
+				C9A37608263446360057923E /* TerrainLayer.swift */,
+				C9A376062634462A0057923E /* FeatureLayer.swift */,
+				C9A376282635FC260057923E /* ResourceLayer.swift */,
+				C9A3762A2635FDAF0057923E /* BoardLayer.swift */,
+				C9A3762C2635FF620057923E /* RiverLayer.swift */,
+				C9A3762E263600800057923E /* ResourceMarkerLayer.swift */,
 			);
 			path = Layers;
 			sourceTree = "<group>";
@@ -256,21 +174,15 @@
 		C99A886D26079FE0003B8B73 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C9A376272635FB550057923E /* Scenes */,
 				C9155173260BB371003710BE /* Layers */,
 				C93AA6AE2611C1B20053DF74 /* Base */,
-				C99A88712607A01B003B8B73 /* MapView.swift */,
+				C9A3761D2635F6FD0057923E /* Nodes */,
 				C9A61D84261EF7F100341241 /* MapOverviewView.swift */,
 				C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */,
 				C9A61D8B261EF87000341241 /* BottomRightBarView.swift */,
 				C9BDCF8A262476E6002488F6 /* GameView.swift */,
-				C9A3760426340F9B0057923E /* SKMapView.swift */,
-				C9A37608263446360057923E /* TerrainLayer.swift */,
-				C9A376062634462A0057923E /* FeatureLayer.swift */,
-				C9A37612263456E30057923E /* BaseScene.swift */,
-				C9A37614263457210057923E /* SafeAreaNode.swift */,
-				C9A376162634573E0057923E /* BlurrableNode.swift */,
-				C9A37618263457D70057923E /* GameScene.swift */,
-				C9A3761A263468780057923E /* SKNodeExtension.swift */,
+				C9A3760426340F9B0057923E /* MapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -278,8 +190,6 @@
 		C99A886E26079FE5003B8B73 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				C9155172260BB304003710BE /* Layers */,
-				C93AA694260DD8C00053DF74 /* MapViewModel.swift */,
 				C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */,
 				C9BDCF8C2624771C002488F6 /* GameViewModel.swift */,
 				C920C425262EB03F0024EC0E /* GameEnvironment.swift */,
@@ -299,6 +209,7 @@
 		C99A88862607A1BE003B8B73 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C9A3761A263468780057923E /* SKNodeExtension.swift */,
 				C99A889B2607A319003B8B73 /* CGContextExtension.swift */,
 				C99A88972607A2CC003B8B73 /* CGImageExtension.swift */,
 				C99A88912607A269003B8B73 /* NSImageExtension.swift */,
@@ -311,6 +222,25 @@
 				C9711125262569D600B58AAE /* NSMenuItemExtension.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		C9A3761D2635F6FD0057923E /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				C9A3761E2635F70F0057923E /* MapNode.swift */,
+				C9A37614263457210057923E /* SafeAreaNode.swift */,
+				C9A376162634573E0057923E /* BlurrableNode.swift */,
+			);
+			path = Nodes;
+			sourceTree = "<group>";
+		};
+		C9A376272635FB550057923E /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				C9A37612263456E30057923E /* BaseScene.swift */,
+				C9A37618263457D70057923E /* GameScene.swift */,
+			);
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -394,64 +324,38 @@
 			buildActionMask = 2147483647;
 			files = (
 				C988EAE5261B724500300C39 /* AnimatedUnitView.swift in Sources */,
-				C93AA6A7260F232B0053DF74 /* HexCoordLayerViewModel.swift in Sources */,
 				C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */,
-				C9855D6F2631581E00468ED0 /* ResourceMarkerLayerViewModel.swift in Sources */,
 				C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */,
-				C915517B260BD284003710BE /* FeatureLayerView.swift in Sources */,
-				C94AD879262627C900836BDC /* CursorLayerViewModel.swift in Sources */,
-				C9155177260BB3B4003710BE /* TerrainLayerViewModel.swift in Sources */,
 				C905B59C26295EA100214CC1 /* ScrollableView.swift in Sources */,
 				C9A376172634573E0057923E /* BlurrableNode.swift in Sources */,
+				C9A3762D2635FF620057923E /* RiverLayer.swift in Sources */,
+				C9A376292635FC260057923E /* ResourceLayer.swift in Sources */,
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
+				C9A3762B2635FDAF0057923E /* BoardLayer.swift in Sources */,
 				C9A376072634462A0057923E /* FeatureLayer.swift in Sources */,
-				C9855D75263192B100468ED0 /* YieldsLayerViewModel.swift in Sources */,
-				C9855D712631586300468ED0 /* ResourceMarkerLayerView.swift in Sources */,
 				C9A37609263446360057923E /* TerrainLayer.swift in Sources */,
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
-				C9855D772631B8C900468ED0 /* WaterLayerView.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
-				C99A88742607A01C003B8B73 /* MapView.swift in Sources */,
 				C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */,
-				C93AA6A3260DE3830053DF74 /* RiverLayerView.swift in Sources */,
-				C93AA69F260DDE210053DF74 /* RiverLayerViewModel.swift in Sources */,
-				C988EAD5261B6F3500300C39 /* BorderLayerView.swift in Sources */,
-				C9855D792631B8FB00468ED0 /* WaterLayerViewModel.swift in Sources */,
 				C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
-				C94AD87B2626281A00836BDC /* CursorLayerView.swift in Sources */,
 				C9A37615263457210057923E /* SafeAreaNode.swift in Sources */,
-				C988EAD3261B6EE900300C39 /* RoadLayerViewModel.swift in Sources */,
 				C94507A9262232E400CFD27D /* DataPicker.swift in Sources */,
-				C93AA695260DD8C00053DF74 /* MapViewModel.swift in Sources */,
-				C93AA6A5260DE47B0053DF74 /* ResourceLayerView.swift in Sources */,
 				C9A37619263457D70057923E /* GameScene.swift in Sources */,
 				C9A3761B263468780057923E /* SKNodeExtension.swift in Sources */,
-				C915517D260C7D9D003710BE /* BaseLayerViewModel.swift in Sources */,
-				C988EAD9261B705A00300C39 /* ImprovementLayerViewModel.swift in Sources */,
-				C988EAE1261B70B400300C39 /* CityLayerView.swift in Sources */,
 				C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */,
 				C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */,
-				C988EAD1261B6ED500300C39 /* BorderLayerViewModel.swift in Sources */,
-				C988EADF261B70A800300C39 /* ImprovementLayerView.swift in Sources */,
-				C988EADB261B707600300C39 /* CityLayerViewModel.swift in Sources */,
 				C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */,
-				C988EAE3261B70BE00300C39 /* UnitLayerView.swift in Sources */,
-				C9A3760526340F9B0057923E /* SKMapView.swift in Sources */,
+				C9A3760526340F9B0057923E /* MapView.swift in Sources */,
 				C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */,
-				C93AA6A1260DE1550053DF74 /* ResourceLayerViewModel.swift in Sources */,
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
 				C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */,
 				C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */,
-				C9155175260BB382003710BE /* TerrainLayerView.swift in Sources */,
 				C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */,
 				C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */,
-				C988EAD7261B6F7B00300C39 /* RoadLayerView.swift in Sources */,
-				C93AA6A9260F23640053DF74 /* HexCoordLayerView.swift in Sources */,
+				C9A3761F2635F70F0057923E /* MapNode.swift in Sources */,
+				C9A3762F263600800057923E /* ResourceMarkerLayer.swift in Sources */,
 				C9A37613263456E30057923E /* BaseScene.swift in Sources */,
-				C9155179260BCEE7003710BE /* FeatureLayerViewModel.swift in Sources */,
-				C988EADD261B708000300C39 /* UnitLayerViewModel.swift in Sources */,
-				C9855D732631928800468ED0 /* YieldsLayerView.swift in Sources */,
 				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

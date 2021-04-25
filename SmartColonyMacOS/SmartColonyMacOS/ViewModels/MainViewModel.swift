@@ -38,7 +38,7 @@ class MainViewModel: ObservableObject {
          menuViewModel: MenuViewModel = MenuViewModel(),
          createGameMenuViewModel: CreateGameMenuViewModel = CreateGameMenuViewModel(),
          generateGameViewModel: GenerateGameViewModel = GenerateGameViewModel(),
-         gameViewModel: GameViewModel = GameViewModel(mapViewModel: MapViewModel())) {
+         gameViewModel: GameViewModel = GameViewModel(/*mapViewModel: MapViewModel()*/)) {
         
         self.presentedView = presentedView
         self.mapMenuDisabled = true
