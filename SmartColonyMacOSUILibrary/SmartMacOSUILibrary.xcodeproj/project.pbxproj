@@ -38,6 +38,8 @@
 		C9A3762B2635FDAF0057923E /* BoardLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3762A2635FDAF0057923E /* BoardLayer.swift */; };
 		C9A3762D2635FF620057923E /* RiverLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3762C2635FF620057923E /* RiverLayer.swift */; };
 		C9A3762F263600800057923E /* ResourceMarkerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3762E263600800057923E /* ResourceMarkerLayer.swift */; };
+		C9A3763126369FD90057923E /* YieldLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3763026369FD90057923E /* YieldLayer.swift */; };
+		C9A3763326369FE60057923E /* WaterLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3763226369FE60057923E /* WaterLayer.swift */; };
 		C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D80261EE55600341241 /* PixelBuffer.swift */; };
 		C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */; };
 		C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D84261EF7F100341241 /* MapOverviewView.swift */; };
@@ -95,6 +97,8 @@
 		C9A3762A2635FDAF0057923E /* BoardLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardLayer.swift; sourceTree = "<group>"; };
 		C9A3762C2635FF620057923E /* RiverLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverLayer.swift; sourceTree = "<group>"; };
 		C9A3762E263600800057923E /* ResourceMarkerLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMarkerLayer.swift; sourceTree = "<group>"; };
+		C9A3763026369FD90057923E /* YieldLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldLayer.swift; sourceTree = "<group>"; };
+		C9A3763226369FE60057923E /* WaterLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterLayer.swift; sourceTree = "<group>"; };
 		C9A61D80261EE55600341241 /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
 		C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewViewModel.swift; sourceTree = "<group>"; };
 		C9A61D84261EF7F100341241 /* MapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewView.swift; sourceTree = "<group>"; };
@@ -127,6 +131,8 @@
 				C9A3762A2635FDAF0057923E /* BoardLayer.swift */,
 				C9A3762C2635FF620057923E /* RiverLayer.swift */,
 				C9A3762E263600800057923E /* ResourceMarkerLayer.swift */,
+				C9A3763026369FD90057923E /* YieldLayer.swift */,
+				C9A3763226369FE60057923E /* WaterLayer.swift */,
 			);
 			path = Layers;
 			sourceTree = "<group>";
@@ -174,10 +180,9 @@
 		C99A886D26079FE0003B8B73 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C9A376272635FB550057923E /* Scenes */,
-				C9155173260BB371003710BE /* Layers */,
 				C93AA6AE2611C1B20053DF74 /* Base */,
 				C9A3761D2635F6FD0057923E /* Nodes */,
+				C9A376272635FB550057923E /* Scenes */,
 				C9A61D84261EF7F100341241 /* MapOverviewView.swift */,
 				C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */,
 				C9A61D8B261EF87000341241 /* BottomRightBarView.swift */,
@@ -227,6 +232,7 @@
 		C9A3761D2635F6FD0057923E /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
+				C9155173260BB371003710BE /* Layers */,
 				C9A3761E2635F70F0057923E /* MapNode.swift */,
 				C9A37614263457210057923E /* SafeAreaNode.swift */,
 				C9A376162634573E0057923E /* BlurrableNode.swift */,
@@ -336,6 +342,7 @@
 				C9A37609263446360057923E /* TerrainLayer.swift in Sources */,
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
+				C9A3763126369FD90057923E /* YieldLayer.swift in Sources */,
 				C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */,
 				C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
@@ -349,6 +356,7 @@
 				C9A3760526340F9B0057923E /* MapView.swift in Sources */,
 				C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */,
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
+				C9A3763326369FE60057923E /* WaterLayer.swift in Sources */,
 				C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */,
 				C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */,
 				C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */,

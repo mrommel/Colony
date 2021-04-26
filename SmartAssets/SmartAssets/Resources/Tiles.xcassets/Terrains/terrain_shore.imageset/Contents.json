@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "terrain_shore.png",
+      "filename" : "terrain-shore@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "terrain_shore@2x.png",
+      "filename" : "terrain-shore@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "terrain_shore@3x.png",
+      "filename" : "terrain-shore@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

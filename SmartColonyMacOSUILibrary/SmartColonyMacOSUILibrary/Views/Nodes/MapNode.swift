@@ -21,10 +21,10 @@ class MapNode: SKNode {
     var riverLayer: RiverLayer
     
     // can be shown by map options
-    /*var yieldLayer: YieldLayer
+    var yieldLayer: YieldLayer
     var waterLayer: WaterLayer
     
-    var unitLayer: UnitLayer
+    /*var unitLayer: UnitLayer
     var cityLayer: CityLayer
     var improvementLayer: ImprovementLayer
     var borderLayer: BorderLayer
@@ -49,10 +49,6 @@ class MapNode: SKNode {
         self.terrainLayer = TerrainLayer(player: humanPlayer)
         self.terrainLayer.populate(with: self.game)
         self.terrainLayer.zPosition = Globals.ZLevels.terrain
-        
-        /*self.borderLayer = BorderLayer(player: humanPlayer)
-        self.borderLayer.populate(with: self.game)
-        self.borderLayer.zPosition = Globals.ZLevels.border*/
 
         self.featureLayer = FeatureLayer(player: humanPlayer)
         self.featureLayer.populate(with: self.game)
@@ -73,6 +69,10 @@ class MapNode: SKNode {
         self.riverLayer = RiverLayer(player: humanPlayer)
         self.riverLayer.populate(with: self.game)
         
+        /*self.borderLayer = BorderLayer(player: humanPlayer)
+        self.borderLayer.populate(with: self.game)
+        self.borderLayer.zPosition = Globals.ZLevels.border*/
+        
         /*self.unitLayer = UnitLayer(player: humanPlayer)
         self.unitLayer.populate(with: self.game)
         self.unitLayer.zPosition = Globals.ZLevels.unit
@@ -83,7 +83,7 @@ class MapNode: SKNode {
         
         self.improvementLayer = ImprovementLayer(player: humanPlayer)
         self.improvementLayer.populate(with: self.game)
-        self.improvementLayer.zPosition = Globals.ZLevels.improvement
+        self.improvementLayer.zPosition = Globals.ZLevels.improvement*/
 
         self.yieldLayer = YieldLayer(player: humanPlayer)
         self.yieldLayer.populate(with: self.game)
@@ -93,7 +93,7 @@ class MapNode: SKNode {
         self.waterLayer.populate(with: self.game)
         self.waterLayer.zPosition = Globals.ZLevels.water
         
-        self.tooltipLayer = TooltipLayer(player: humanPlayer)
+        /*self.tooltipLayer = TooltipLayer(player: humanPlayer)
         self.tooltipLayer.populate(with: self.game)
         self.tooltipLayer.zPosition = Globals.ZLevels.tooltips*/
         
@@ -121,12 +121,12 @@ class MapNode: SKNode {
     
     func showYields() {
         
-        // self.addChild(self.yieldLayer)
+        self.addChild(self.yieldLayer)
     }
     
     func hideYields() {
         
-        // self.yieldLayer.removeFromParent()
+        self.yieldLayer.removeFromParent()
     }
     
     func showResourceMarker() {
@@ -141,12 +141,12 @@ class MapNode: SKNode {
     
     func showWater() {
         
-        // self.addChild(self.waterLayer)
+        self.addChild(self.waterLayer)
     }
     
     func hideWater() {
         
-        // self.waterLayer.removeFromParent()
+        self.waterLayer.removeFromParent()
     }
 
     func updateLayout() {
@@ -164,7 +164,7 @@ class MapNode: SKNode {
         //self.improvementLayer.update(tile: tile)
         self.boardLayer.update(tile: tile)
         
-        /*self.yieldLayer.update(tile: tile)
-        self.waterLayer.update(tile: tile)*/
+        self.yieldLayer.update(tile: tile)
+        self.waterLayer.update(tile: tile)
     }
 }

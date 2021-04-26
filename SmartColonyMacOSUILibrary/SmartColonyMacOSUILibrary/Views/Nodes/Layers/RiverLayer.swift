@@ -1,5 +1,5 @@
 //
-//  ResourceMarkerLayer.swift
+//  RiverLayer.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 25.04.21.
@@ -9,18 +9,19 @@ import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
-class ResourceMarkerLayer: SKNode {
+class RiverLayer: SKNode {
     
     let player: AbstractPlayer?
     weak var gameModel: GameModel?
     var textureUtils: TextureUtils?
+    var textures: Textures?
     
     init(player: AbstractPlayer?) {
         
         self.player = player
         
         super.init()
-        self.zPosition = Globals.ZLevels.resourceMarker
+        self.zPosition = Globals.ZLevels.river
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -36,6 +37,7 @@ class ResourceMarkerLayer: SKNode {
         }
         
         self.textureUtils = TextureUtils(with: gameModel)
+        self.textures = Textures(game: gameModel)
         
         let mapSize = gameModel.mapSize()
 
@@ -60,25 +62,19 @@ class ResourceMarkerLayer: SKNode {
     
     func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
 
-        let resource = tile.resource(for: self.player)
-        //let resource = tile.resource(for: nil)
-        
-        // place forests etc
-        if resource != .none {
-
-            let textureName = resource.textureMarkerName()
+        if let riverTextureName = self.textures?.riverTexture(at: tile.point) {
             
-            let image = ImageCache.shared.image(for: textureName)
+            let image = ImageCache.shared.image(for: riverTextureName)
 
-            let resourceSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
-            resourceSprite.position = position
-            resourceSprite.zPosition = Globals.ZLevels.resourceMarker
-            resourceSprite.anchorPoint = CGPoint(x: 0, y: 0)
-            resourceSprite.color = .black
-            resourceSprite.colorBlendFactor = 1.0 - alpha
-            self.addChild(resourceSprite)
+            let riverSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
+            riverSprite.position = position
+            riverSprite.zPosition = Globals.ZLevels.river
+            riverSprite.anchorPoint = CGPoint(x: 0, y: 0)
+            riverSprite.color = .black
+            riverSprite.colorBlendFactor = 1.0 - alpha
+            self.addChild(riverSprite)
 
-            self.textureUtils?.set(resourceMarkerSprite: resourceSprite, at: tile.point)
+            self.textureUtils?.set(riverSprite: riverSprite, at: tile.point)
         }
     }
     
@@ -89,8 +85,8 @@ class ResourceMarkerLayer: SKNode {
         }
         
         if let tile = tile {
-            if let resourceSprite = textureUtils.resourceMarkerSprite(at: tile.point) {
-                self.removeChildren(in: [resourceSprite])
+            if let riverSprite = textureUtils.riverSprite(at: tile.point) {
+                self.removeChildren(in: [riverSprite])
             }
         }
     }
@@ -104,7 +100,7 @@ class ResourceMarkerLayer: SKNode {
             
             let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
             
-            if tile.isVisible(to: self.player) {
+            if tile.isVisible(to: self.player) || true {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
             } else if tile.isDiscovered(by: self.player) {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
