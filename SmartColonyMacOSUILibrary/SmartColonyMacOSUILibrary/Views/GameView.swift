@@ -31,19 +31,11 @@ public struct GameView: View {
         
         ZStack {
             
-            /*ScrollableView(scrollTo: self.$viewModel.scrollTarget,
-                           clickOn: self.$viewModel.clickPosition,
-                           magnification: self.$viewModel.scale) {
-                
-                MapView(viewModel: self.viewModel.mapViewModel)
-            }
-            .background(Color.black.opacity(0.5))*/
-            
             ScrollableView(scrollTo: self.$viewModel.scrollTarget,
-                           clickOn: self.$viewModel.clickPosition,
                            magnification: self.$viewModel.scale) {
                 
-                MapView(game: self.$game)
+                MapView(game: self.$game, magnification: self.$viewModel.scale,
+                        focus: self.$viewModel.focusPosition)
                     .onReceive(self.gameEnvironment.game) { game in
                         
                         if let game = game {
@@ -56,14 +48,13 @@ public struct GameView: View {
                         }
                     }
                     .frame(width: self.contentSize.width * 3.0, height: self.contentSize.height * 3.0, alignment: .topLeading)
-                    .background(Color.red.opacity(0.5))
                 
             }
             .background(Color.black.opacity(0.5))
             
-            BottomLeftBarView(/*viewModel: self.viewModel.mapViewModel*/)
+            BottomLeftBarView()
             
-            BottomRightBarView(/*viewModel: self.viewModel.mapViewModel*/)
+            BottomRightBarView()
         }
     }
 }

@@ -86,10 +86,26 @@ class GameScene: BaseScene {
         self.mapNode?.updateLayout()
     }
 
-    func zoom(to zoomScale: Double) {
+    func zoom(to zoomScale: CGFloat) {
 
-        let zoomInAction = SKAction.scale(to: CGFloat(zoomScale), duration: 0.1)
+        guard self.cameraNode != nil else {
+            return
+        }
+        
+        let zoomInAction = SKAction.scale(to: zoomScale, duration: 3.0)
         self.cameraNode.run(zoomInAction)
+    }
+    
+    func focus(on point: HexPoint) {
+        
+        guard self.cameraNode != nil else {
+            return
+        }
+        
+        let screePoint = HexPoint.toScreen(hex: point) * 3.0
+        
+        let moveCameraAction = SKAction.move(to: CGPoint(x: screePoint.x, y: screePoint.y), duration: 3.0)
+        self.cameraNode.run(moveCameraAction)
     }
 }
 

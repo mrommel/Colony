@@ -17,8 +17,8 @@ struct ScrollableView<Content:View>: NSViewControllerRepresentable {
     @Binding
     var scrollToPosition: CGPoint?
     
-    @Binding
-    var clickOnPosition: CGPoint?
+    //@Binding
+    //var clickOnPosition: CGPoint?
     
     @Binding
     var magnification: CGFloat
@@ -28,13 +28,13 @@ struct ScrollableView<Content:View>: NSViewControllerRepresentable {
     
     init(hasScrollbars: Bool = true,
          scrollTo: Binding<CGPoint?> = .constant(.zero),
-         clickOn: Binding<CGPoint?> = .constant(.zero),
+         //clickOn: Binding<CGPoint?> = .constant(.zero),
          magnification: Binding<CGFloat> = .constant(1.0),
          @ViewBuilder content: @escaping () -> Content) {
         
         // bindings
         self._scrollToPosition = scrollTo
-        self._clickOnPosition = clickOn
+        //self._clickOnPosition = clickOn
         self._magnification = magnification
         
         self.hasScrollbars = hasScrollbars
@@ -155,7 +155,7 @@ extension ScrollableView: TrackedScrollViewDelegate {
     func clicked(on point: CGPoint) {
         
         //print("mouse click: \(point.x), \(point.y)")
-        self.clickOnPosition = point
+        //self.clickOnPosition = point
     }
 }
 

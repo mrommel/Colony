@@ -16,7 +16,11 @@ struct MapView : NSViewRepresentable {
     @Binding
     var game: GameModel?
     
-    //let proxy: GeometryProxy
+    @Binding
+    var magnification: CGFloat
+    
+    @Binding
+    var focus: HexPoint?
     
     class Coordinator: NSObject {
         var gameScene: GameScene?
@@ -57,10 +61,18 @@ struct MapView : NSViewRepresentable {
         if self.game != nil {
             
             let contentSize = self.game?.contentSize() ?? CGSize(width: 100, height: 100)
-            //print("update scene size: \(contentSize * CGFloat(3.0))")
             context.coordinator.resizeScene(to: contentSize)
+            //context.coordinator.gameScene?.zoom(to: self.magnification)
             
-            context.coordinator.gameScene?.viewModel = GameSceneViewModel(with: game)
+            if context.coordinator.gameScene?.viewModel == nil {
+                context.coordinator.gameScene?.viewModel = GameSceneViewModel(with: game)
+            }
+            
+            /*if self.focus != nil {
+                print("focus: \(self.focus!)")
+                context.coordinator.gameScene?.focus(on: self.focus!)
+                self.focus = nil
+            }*/
         
             view.presentScene(context.coordinator.gameScene)
             view.ignoresSiblingOrder = false

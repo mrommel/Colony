@@ -18,11 +18,7 @@ public class GameViewModel: ObservableObject {
     var gameEnvironment: GameEnvironment
     
     @Published
-    var clickPosition: CGPoint? = .zero  {
-        didSet {
-            self.clickPositionUpdated()
-        }
-    }
+    var focusPosition: HexPoint? = nil
     
     @Published
     var scale: CGFloat = 1.0
@@ -74,9 +70,7 @@ public class GameViewModel: ObservableObject {
     
     // MARK: constructor
     
-    public init(/*mapViewModel: MapViewModel*/) {
-        
-        //self.mapViewModel = mapViewModel
+    public init() {
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -198,15 +192,29 @@ public class GameViewModel: ObservableObject {
     
     public func centerOnCursor() {
         
-        //self.mapViewModel.centerOnCursor()
-        /*let cursor = self.gameEnvironment.cursor.value
-            
-        var screenPoint = HexPoint.toScreen(hex: cursor) * 3.0 // + self.mapViewModel.shift
-
-        screenPoint.y = self.mapViewModel.size.height - screenPoint.y - 144
-            
+        let cursor = self.gameEnvironment.cursor.value
+        
+        guard let contentSize = self.gameEnvironment.game.value?.contentSize(), let mapSize = self.gameEnvironment.game.value?.mapSize() else {
+            fatalError("cant get sizes")
+        }
+        
+        let size = CGSize(width: (contentSize.width + 10) * 3.0, height: contentSize.height * 3.0)
+        
+        // init shift
+        let p0 = HexPoint(x: 0, y: 0)
+        let p1 = HexPoint(x: 0, y: mapSize.height() - 1)
+        let p2 = HexPoint(x: mapSize.width() - 1, y: mapSize.height() - 1)
+        let dx = HexPoint.toScreen(hex: p0).x - HexPoint.toScreen(hex: p1).x
+        let dy = HexPoint.toScreen(hex: p0).y - HexPoint.toScreen(hex: p2).y
+        
+        let shift = CGPoint(x: dx, y: dy) * 3.0
+        
+        var screenPoint = HexPoint.toScreen(hex: cursor) * 3.0 + shift
+        
+        screenPoint.y = size.height - screenPoint.y - 144
+        
         print("scroll to: \(screenPoint)")
-        self.scrollTarget = screenPoint*/
+        self.scrollTarget = screenPoint
     }
     
     public func zoomIn() {
