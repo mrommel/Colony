@@ -38,7 +38,7 @@ class CityObject {
 
         self.spriteName = "hex_city_1"
         self.sprite = SKSpriteNode(imageNamed: self.spriteName)
-        self.sprite.position = HexPoint.toScreen(hex: city.location)
+        self.sprite.position = HexPoint.toScreen(hex: city.location) * 3.0
         self.sprite.zPosition = Globals.ZLevels.city
         self.sprite.anchorPoint = CGPoint.lowerLeft
     }

@@ -153,10 +153,10 @@ public class GameViewModel: ObservableObject {
             } else {
                 print("cant get idle textures of \(unitType.name())")
             }
+            
+            ImageCache.shared.add(image: bundle.image(forResource: unitType.typeTexture()), for: unitType.typeTexture())
         }
         print("- load \(unitTextures) unit textures")
-
-        print("-- all textures loaded --")
         
         // populate cache if needed
         if !ImageCache.shared.exists(key: "cursor") {
@@ -166,6 +166,20 @@ public class GameViewModel: ObservableObject {
         if !ImageCache.shared.exists(key: "water") {
             ImageCache.shared.add(image: NSImage(named: "water"), for: "water")
         }
+        
+        if !ImageCache.shared.exists(key: "unit-type-background") {
+            ImageCache.shared.add(image: bundle.image(forResource: "unit-type-background"), for: "unit-type-background")
+        }
+        
+        /*if !ImageCache.shared.exists(key: "focus") {
+            ImageCache.shared.add(image: NSImage(named: "focus"), for: "focus")
+        }
+        
+        if !ImageCache.shared.exists(key: "focus-attack") {
+            ImageCache.shared.add(image: NSImage(named: "focus-attack"), for: "focus-attack")
+        }*/
+        
+        print("-- all textures loaded --")
     }
     
     public func centerCapital() {

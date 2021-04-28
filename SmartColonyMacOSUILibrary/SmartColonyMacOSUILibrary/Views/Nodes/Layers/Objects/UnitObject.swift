@@ -53,29 +53,31 @@ class UnitObject {
         }
 
         let unitTexture = SKTexture(imageNamed: unit.type.spriteName)
-        self.sprite = SKSpriteNode(texture: unitTexture, color: .black, size: CGSize(width: 48, height: 48))
-        self.sprite.position = HexPoint.toScreen(hex: unit.location)
+        self.sprite = SKSpriteNode(texture: unitTexture, color: .black, size: CGSize(width: 144, height: 144))
+        self.sprite.position = HexPoint.toScreen(hex: unit.location) * 3.0
         self.sprite.zPosition = Globals.ZLevels.unit
         self.sprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         
-        let unitTypeBackgroundTexture = SKTexture(imageNamed: "unit_type_background")
-        self.typeBackgroundSprite = SKSpriteNode(texture: unitTypeBackgroundTexture, color: .black, size: CGSize(width: 10, height: 10))
-        self.typeBackgroundSprite.position = CGPoint(x: 8, y: 36)
+        let unitTypeBackgroundImage = ImageCache.shared.image(for: "unit-type-background")
+        let unitTypeBackgroundTexture = SKTexture(image: unitTypeBackgroundImage)
+        self.typeBackgroundSprite = SKSpriteNode(texture: unitTypeBackgroundTexture, color: .black, size: CGSize(width: 30, height: 30))
+        self.typeBackgroundSprite.position = CGPoint(x: 24, y: 36 * 3)
         self.typeBackgroundSprite.zPosition = Globals.ZLevels.unit + 0.05
         self.typeBackgroundSprite.color = civilization.main
         self.typeBackgroundSprite.colorBlendFactor = 1.0
         self.sprite.addChild(self.typeBackgroundSprite)
         
-        let unitTypeIconTexture = SKTexture(imageNamed: unit.type.typeTexture())
-        self.typeIconSprite = SKSpriteNode(texture: unitTypeIconTexture, color: .black, size: CGSize(width: 10, height: 10))
-        self.typeIconSprite.position = CGPoint(x: 8, y: 36)
+        let unitTypeIconImage = ImageCache.shared.image(for: unit.type.typeTexture())
+        let unitTypeIconTexture = SKTexture(image: unitTypeIconImage)
+        self.typeIconSprite = SKSpriteNode(texture: unitTypeIconTexture, color: .black, size: CGSize(width: 30, height: 30))
+        self.typeIconSprite.position = CGPoint(x: 24, y: 36 * 3)
         self.typeIconSprite.zPosition = Globals.ZLevels.unit + 0.06
         self.typeIconSprite.color = civilization.accent
         self.typeIconSprite.colorBlendFactor = 1.0
         self.sprite.addChild(self.typeIconSprite)
         
         self.strengthIndicatorNode = UnitStrengthIndicator(strength: 100)
-        self.strengthIndicatorNode.position = CGPoint(x: 42, y: 16)
+        self.strengthIndicatorNode.position = CGPoint(x: 42 * 3, y: 16 * 3)
         self.strengthIndicatorNode.zPosition = Globals.ZLevels.unit + 0.06
         // dont add
         self.sprite.addChild(self.strengthIndicatorNode)
@@ -111,7 +113,7 @@ class UnitObject {
         } else {
             // if no atlas
             // print("missing atlas")
-            self.sprite.position = HexPoint.toScreen(hex: hex)
+            self.sprite.position = HexPoint.toScreen(hex: hex) * 3.0
             block()
         }
     }
@@ -168,7 +170,7 @@ class UnitObject {
         self.sprite.removeAction(forKey: UnitObject.fortifiedActionKey)
         
         // just to be sure
-        self.sprite.position = HexPoint.toScreen(hex: unit.location)
+        self.sprite.position = HexPoint.toScreen(hex: unit.location) * 3.0
 
         if let atlas = self.atlasIdle {
             let idleFrames = atlas.textures.map { SKTexture(image: $0) }
@@ -187,7 +189,7 @@ class UnitObject {
         self.sprite.removeAction(forKey: UnitObject.idleActionKey)
         
         // just to be sure
-        self.sprite.position = HexPoint.toScreen(hex: unit.location)
+        self.sprite.position = HexPoint.toScreen(hex: unit.location) * 3.0
         
         if let atlas = self.atlasFortified {
             let fortifiedFrames = atlas.textures.map { SKTexture(image: $0) }

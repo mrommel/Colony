@@ -62,6 +62,8 @@ class UnitLayer: SKNode {
                 self.show(unit: unitRef)
             }
         }
+        
+        print("inited with: \(self.unitObjects.count) visible units")
     }
 
     func show(unit: AbstractUnit?) {
@@ -161,7 +163,7 @@ class UnitLayer: SKNode {
 
         let texture = SKTexture(imageNamed: "focus1")
         self.focusNode = SKSpriteNode(texture: texture)
-        self.focusNode?.position = HexPoint.toScreen(hex: unit.location)
+        self.focusNode?.position = HexPoint.toScreen(hex: unit.location) * 3.0
         self.focusNode?.zPosition = Globals.ZLevels.focus
         self.focusNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
 
@@ -193,7 +195,7 @@ class UnitLayer: SKNode {
         let texture = SKTexture(imageNamed: "focus_attack1")
 
         let attackFocusNode = SKSpriteNode(texture: texture)
-        attackFocusNode.position = HexPoint.toScreen(hex: point)
+        attackFocusNode.position = HexPoint.toScreen(hex: point) * 3.0
         attackFocusNode.zPosition = Globals.ZLevels.focus
         attackFocusNode.anchorPoint = CGPoint(x: 0.0, y: 0.0)
 
@@ -250,7 +252,7 @@ class UnitLayer: SKNode {
             }
 
             let pathSprite = SKSpriteNode(imageNamed: textureName)
-            pathSprite.position = HexPoint.toScreen(hex: firstPoint)
+            pathSprite.position = HexPoint.toScreen(hex: firstPoint) * 3.0
             pathSprite.zPosition = Globals.ZLevels.path
             pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
             self.addChild(pathSprite)
@@ -283,7 +285,7 @@ class UnitLayer: SKNode {
                 }
 
                 let pathSprite = SKSpriteNode(imageNamed: textureName)
-                pathSprite.position = HexPoint.toScreen(hex: currentPoint)
+                pathSprite.position = HexPoint.toScreen(hex: currentPoint) * 3.0
                 pathSprite.zPosition = Globals.ZLevels.path
                 pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
                 self.addChild(pathSprite)
@@ -309,7 +311,7 @@ class UnitLayer: SKNode {
             }
 
             let pathSprite = SKSpriteNode(imageNamed: textureName)
-            pathSprite.position = HexPoint.toScreen(hex: lastPoint)
+            pathSprite.position = HexPoint.toScreen(hex: lastPoint) * 3.0
             pathSprite.zPosition = Globals.ZLevels.path
             pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
             self.addChild(pathSprite)

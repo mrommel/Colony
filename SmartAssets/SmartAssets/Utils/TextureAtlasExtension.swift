@@ -38,8 +38,8 @@ extension TextureAtlas {
 
                         if let resizedImage = croppedImage.resize(withSize: croppedSize) {
 
-                            guard let unitMask = bundle.image(forResource: "unit_mask") else {
-                                fatalError("cant get unit_mask")
+                            guard let unitMask = bundle.image(forResource: "unit-mask") else {
+                                fatalError("cant get unit-mask")
                             }
                             
                             let posX: CGFloat = unitMask.size.width / 2.0 - resizedImage.size.width * CGFloat(sprite.pX)
