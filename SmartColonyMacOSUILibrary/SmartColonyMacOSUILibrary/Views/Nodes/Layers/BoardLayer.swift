@@ -9,18 +9,11 @@ import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
-class BoardLayer: SKNode {
+class BoardLayer: BaseLayer {
 
-    let player: AbstractPlayer?
-    weak var gameModel: GameModel?
-    var textureUtils: TextureUtils?
-    var textures: Textures?
+    override init(player: AbstractPlayer?) {
 
-    init(player: AbstractPlayer?) {
-
-        self.player = player
-
-        super.init()
+        super.init(player: player)
         self.zPosition = Globals.ZLevels.labels
     }
 
@@ -39,26 +32,7 @@ class BoardLayer: SKNode {
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
 
-        // map.fogManager?.delegates.addDelegate(self)
-        let mapSize = gameModel.mapSize()
-
-        for x in 0..<mapSize.width() {
-            for y in 0..<mapSize.height() {
-                if let tile = gameModel.tile(x: x, y: y) {
-                    //self.place(tile: tile)
-                    let screenPoint = HexPoint.toScreen(hex: tile.point) * 3.0
-
-                    if let calderaName = self.textures?.calderaTexure(at: tile.point) {
-
-                        if tile.isVisible(to: self.player) || true {
-                            self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 1.0)
-                        } else if tile.isDiscovered(by: self.player) {
-                            self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 0.5)
-                        }
-                    }
-                }
-            }
-        }
+        self.rebuild()
     }
 
     func placeTileHex(for tile: AbstractTile, with calderaName: String, at position: CGPoint, alpha: CGFloat) {
@@ -90,7 +64,7 @@ class BoardLayer: SKNode {
         }
     }
 
-    func update(tile: AbstractTile?) {
+    override func update(tile: AbstractTile?) {
 
         if let tile = tile {
             let pt = tile.point
@@ -100,7 +74,7 @@ class BoardLayer: SKNode {
             let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
 
             if let calderaName = self.textures?.calderaTexure(at: tile.point) {
-                if tile.isVisible(to: self.player) {
+                if tile.isVisible(to: self.player) || self.showCompleteMap {
                     self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 1.0)
                 } else if tile.isDiscovered(by: self.player) {
                     self.placeTileHex(for: tile, with: calderaName, at: screenPoint, alpha: 0.5)

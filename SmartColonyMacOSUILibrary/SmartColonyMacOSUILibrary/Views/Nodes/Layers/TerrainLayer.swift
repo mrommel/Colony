@@ -9,20 +9,13 @@ import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
-class TerrainLayer: SKNode {
-    
-    let player: AbstractPlayer?
-    weak var gameModel: GameModel?
-    var textureUtils: TextureUtils?
-    var textures: Textures?
+class TerrainLayer: BaseLayer {
     
     // MARK: constructor
     
-    init(player: AbstractPlayer?) {
-        
-        self.player = player
-        
-        super.init()
+    override init(player: AbstractPlayer?) {
+
+        super.init(player: player)
         self.zPosition = Globals.ZLevels.terrain
     }
     
@@ -50,7 +43,7 @@ class TerrainLayer: SKNode {
                 if let tile = gameModel.tile(at: pt) {
                     let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
                     
-                    if tile.isVisible(to: self.player) || true {
+                    if tile.isVisible(to: self.player) || self.showCompleteMap {
                         self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
                     } else if tile.isDiscovered(by: self.player) {
                         self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
@@ -124,16 +117,16 @@ class TerrainLayer: SKNode {
         }
     }
     
-    func update(tile: AbstractTile?) {
+    override func update(tile: AbstractTile?) {
         
         if let tile = tile {
             let pt = tile.point
             
             self.clear(tile: tile)
             
-            let screenPoint = HexPoint.toScreen(hex: pt)
+            let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
             
-            if tile.isVisible(to: self.player) {
+            if tile.isVisible(to: self.player) || self.showCompleteMap {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
             } else if tile.isDiscovered(by: self.player) {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)

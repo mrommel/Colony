@@ -64,7 +64,9 @@ struct MapView : NSViewRepresentable {
         if self.game != nil {
             
             let contentSize = self.game?.contentSize() ?? CGSize(width: 100, height: 100)
-            context.coordinator.resizeScene(to: contentSize)
+            if context.coordinator.gameScene?.size != contentSize {
+                context.coordinator.resizeScene(to: contentSize)
+            }
             
             if context.coordinator.gameScene?.viewModel == nil {
                 context.coordinator.gameScene?.viewModel = GameSceneViewModel(with: game)
@@ -74,6 +76,12 @@ struct MapView : NSViewRepresentable {
                 context.coordinator.gameScene?.showHexCoords()
             } else {
                 context.coordinator.gameScene?.hideHexCoords()
+            }
+            
+            if self.gameEnvironment.displayOptions.value.showCompleteMap {
+                context.coordinator.gameScene?.showCompleteMap()
+            } else {
+                context.coordinator.gameScene?.showVisibleMap()
             }
         
             view.presentScene(context.coordinator.gameScene)

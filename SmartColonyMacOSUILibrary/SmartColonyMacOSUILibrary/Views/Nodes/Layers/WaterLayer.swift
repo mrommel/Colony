@@ -9,19 +9,13 @@ import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
-class WaterLayer: SKNode {
-    
-    var player: AbstractPlayer?
-    weak var gameModel: GameModel?
-    var textureUtils: TextureUtils?
+class WaterLayer: BaseLayer {
     
     // MARK: constructor
     
-    init(player: AbstractPlayer?) {
-        
-        self.player = player
-        
-        super.init()
+    override init(player: AbstractPlayer?) {
+
+        super.init(player: player)
         self.zPosition = Globals.ZLevels.water
     }
     
@@ -39,21 +33,7 @@ class WaterLayer: SKNode {
         
         self.textureUtils = TextureUtils(with: gameModel)
         
-        let mapSize = gameModel.mapSize()
-
-        for x in 0..<mapSize.width() {
-            for y in 0..<mapSize.height() {
-                
-                let pt = HexPoint(x: x, y: y)
-                if let tile = gameModel.tile(at: pt) {
-                    let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
-                    
-                    if tile.isVisible(to: self.player) && gameModel.isFreshWater(at: pt) || true {
-                        self.placeWaterHex(for: pt, at: screenPoint)
-                    }
-                }
-            }
-        }
+        self.rebuild()
     }
     
     /// handles all terrain
@@ -73,19 +53,15 @@ class WaterLayer: SKNode {
     }
     
     func clear(tile: AbstractTile?) {
-        
-        guard let textureUtils = self.textureUtils else {
-            fatalError("cant get textureUtils")
-        }
-        
+
         if let tile = tile {
-            if let waterSprite = textureUtils.waterSprite(at: tile.point) {
+            if let waterSprite = self.textureUtils?.waterSprite(at: tile.point) {
                 self.removeChildren(in: [waterSprite])
             }
         }
     }
     
-    func update(tile: AbstractTile?) {
+    override func update(tile: AbstractTile?) {
         
         guard let gameModel = self.gameModel else {
             fatalError("gameModel not set")
@@ -98,7 +74,7 @@ class WaterLayer: SKNode {
             
             let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
             
-            if tile.isVisible(to: self.player) && gameModel.isFreshWater(at: pt) || true {
+            if tile.isVisible(to: self.player) && gameModel.isFreshWater(at: pt) || self.showCompleteMap {
                 self.placeWaterHex(for: pt, at: screenPoint)
             }
         }

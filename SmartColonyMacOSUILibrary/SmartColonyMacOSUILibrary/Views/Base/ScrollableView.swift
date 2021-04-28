@@ -17,9 +17,6 @@ struct ScrollableView<Content:View>: NSViewControllerRepresentable {
     @Binding
     var scrollToPosition: CGPoint?
     
-    //@Binding
-    //var clickOnPosition: CGPoint?
-    
     @Binding
     var magnification: CGFloat
     
@@ -28,13 +25,11 @@ struct ScrollableView<Content:View>: NSViewControllerRepresentable {
     
     init(hasScrollbars: Bool = true,
          scrollTo: Binding<CGPoint?> = .constant(.zero),
-         //clickOn: Binding<CGPoint?> = .constant(.zero),
          magnification: Binding<CGFloat> = .constant(1.0),
          @ViewBuilder content: @escaping () -> Content) {
         
         // bindings
         self._scrollToPosition = scrollTo
-        //self._clickOnPosition = clickOn
         self._magnification = magnification
         
         self.hasScrollbars = hasScrollbars
@@ -51,7 +46,6 @@ struct ScrollableView<Content:View>: NSViewControllerRepresentable {
         scrollViewController.scrollView.delegate = self
         
         context.coordinator.scrollableView = scrollViewController.scrollView
-        //context.coordinator.hostingView = hostingView
         
         return scrollViewController
     }
@@ -72,7 +66,9 @@ struct ScrollableView<Content:View>: NSViewControllerRepresentable {
             viewController.scrollView.magnification = self.magnification
         }
         
-        viewController.hostingController.view.frame.size = viewController.hostingController.view.intrinsicContentSize
+        if viewController.hostingController.view.frame.size != viewController.hostingController.view.intrinsicContentSize {
+            viewController.hostingController.view.frame.size = viewController.hostingController.view.intrinsicContentSize
+        }
     }
     
     public func makeCoordinator() -> ScrollableView.Coordinator {
@@ -200,11 +196,11 @@ class TrackedScrollView: NSScrollView {
         self.addTrackingArea(area)
     }
     
-    override func scrollWheel(with event: NSEvent) {
+    /*override func scrollWheel(with event: NSEvent) {
         super.scrollWheel(with: event)
-    }
+    }*/
     
-    override func mouseDown(with event: NSEvent) {
+    /*override func mouseDown(with event: NSEvent) {
         
         var pointInView = convert(event.locationInWindow, from: nil) / self.magnification
         
@@ -213,9 +209,9 @@ class TrackedScrollView: NSScrollView {
         
         //print("clicked on \(pointInView)")
         self.delegate?.clicked(on: pointInView)
-    }
+    }*/
     
-    override func mouseMoved(with event: NSEvent) {
+    //override func mouseMoved(with event: NSEvent) {
         
         /*var pointInView = convert(event.locationInWindow, from: nil)
         
@@ -223,5 +219,5 @@ class TrackedScrollView: NSScrollView {
         pointInView.y += documentVisibleRect.origin.y*/
         
         //print("visible rect: \(pointInView.x), \(pointInView.y)")
-    }
+    //}
 }

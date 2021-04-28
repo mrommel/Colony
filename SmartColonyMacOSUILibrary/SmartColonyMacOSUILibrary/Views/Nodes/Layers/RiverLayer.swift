@@ -9,18 +9,11 @@ import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
-class RiverLayer: SKNode {
+class RiverLayer: BaseLayer {
     
-    let player: AbstractPlayer?
-    weak var gameModel: GameModel?
-    var textureUtils: TextureUtils?
-    var textures: Textures?
-    
-    init(player: AbstractPlayer?) {
-        
-        self.player = player
-        
-        super.init()
+    override init(player: AbstractPlayer?) {
+
+        super.init(player: player)
         self.zPosition = Globals.ZLevels.river
     }
     
@@ -39,25 +32,7 @@ class RiverLayer: SKNode {
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
         
-        let mapSize = gameModel.mapSize()
-
-        for x in 0..<mapSize.width() {
-            for y in 0..<mapSize.height() {
-
-                let pt = HexPoint(x: x, y: y)
-                
-                if let tile = gameModel.tile(at: pt) {
-                    
-                    let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
-                    
-                    if tile.isVisible(to: self.player) || true {
-                        self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
-                    } else if tile.isDiscovered(by: self.player) {
-                        self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)
-                    }
-                }
-            }
-        }
+        self.rebuild()
     }
     
     func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
@@ -91,7 +66,7 @@ class RiverLayer: SKNode {
         }
     }
     
-    func update(tile: AbstractTile?) {
+    override func update(tile: AbstractTile?) {
         
         if let tile = tile {
             let pt = tile.point
@@ -100,7 +75,7 @@ class RiverLayer: SKNode {
             
             let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
             
-            if tile.isVisible(to: self.player) || true {
+            if tile.isVisible(to: self.player) || self.showCompleteMap {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
             } else if tile.isDiscovered(by: self.player) {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 0.5)

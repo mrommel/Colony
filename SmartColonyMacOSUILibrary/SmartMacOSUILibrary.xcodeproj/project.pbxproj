@@ -13,6 +13,7 @@
 		C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920C425262EB03F0024EC0E /* GameEnvironment.swift */; };
 		C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6AA260F24640053DF74 /* CGRectExtension.swift */; };
 		C94507A9262232E400CFD27D /* DataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94507A8262232E400CFD27D /* DataPicker.swift */; };
+		C968F28F2639455700612D0E /* BaseLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F28E2639455700612D0E /* BaseLayer.swift */; };
 		C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9711125262569D600B58AAE /* NSMenuItemExtension.swift */; };
 		C988EAE5261B724500300C39 /* AnimatedUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE4261B724500300C39 /* AnimatedUnitView.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -73,6 +74,7 @@
 		C920C425262EB03F0024EC0E /* GameEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEnvironment.swift; sourceTree = "<group>"; };
 		C93AA6AA260F24640053DF74 /* CGRectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
 		C94507A8262232E400CFD27D /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
+		C968F28E2639455700612D0E /* BaseLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLayer.swift; sourceTree = "<group>"; };
 		C9711125262569D600B58AAE /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
 		C988EAE4261B724500300C39 /* AnimatedUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedUnitView.swift; sourceTree = "<group>"; };
 		C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,6 +129,7 @@
 		C9155173260BB371003710BE /* Layers */ = {
 			isa = PBXGroup;
 			children = (
+				C968F28E2639455700612D0E /* BaseLayer.swift */,
 				C9A37608263446360057923E /* TerrainLayer.swift */,
 				C9A376062634462A0057923E /* FeatureLayer.swift */,
 				C9A376282635FC260057923E /* ResourceLayer.swift */,
@@ -342,6 +345,7 @@
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
 				C9A3762B2635FDAF0057923E /* BoardLayer.swift in Sources */,
 				C9A376072634462A0057923E /* FeatureLayer.swift in Sources */,
+				C968F28F2639455700612D0E /* BaseLayer.swift in Sources */,
 				C9A37609263446360057923E /* TerrainLayer.swift in Sources */,
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,

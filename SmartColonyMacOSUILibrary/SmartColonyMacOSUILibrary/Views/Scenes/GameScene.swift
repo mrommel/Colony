@@ -85,29 +85,6 @@ class GameScene: BaseScene {
 
         self.mapNode?.updateLayout()
     }
-
-    // does not work
-    /*func zoom(to zoomScale: CGFloat) {
-
-        guard self.cameraNode != nil else {
-            return
-        }
-        
-        let zoomInAction = SKAction.scale(to: zoomScale, duration: 3.0)
-        self.cameraNode.run(zoomInAction)
-    }
-    
-    func focus(on point: HexPoint) {
-        
-        guard self.cameraNode != nil else {
-            return
-        }
-        
-        let screePoint = HexPoint.toScreen(hex: point) * 3.0
-        
-        let moveCameraAction = SKAction.move(to: CGPoint(x: screePoint.x, y: screePoint.y), duration: 3.0)
-        self.cameraNode.run(moveCameraAction)
-    }*/
 }
 
 extension GameScene {
@@ -130,5 +107,15 @@ extension GameScene {
     func hideHexCoords() {
         
         self.mapNode?.hideHexCoords()
+    }
+    
+    func showCompleteMap() {
+        
+        self.mapNode?.showCompleteMap()
+    }
+    
+    func showVisibleMap() {
+        
+        self.mapNode?.showVisibleMap()
     }
 }

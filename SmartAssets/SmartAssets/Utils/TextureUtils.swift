@@ -34,6 +34,7 @@ public class TextureUtils {
         var riverSprite: SKSpriteNode? = nil
         var improvementSprite: SKSpriteNode? = nil
         var routeSprite: SKSpriteNode? = nil
+        var hexLabel: SKLabelNode? = nil
         
         init(point: HexPoint) {
             
@@ -198,6 +199,16 @@ public class TextureUtils {
     public func routeSprite(at point: HexPoint) -> SKSpriteNode? {
         
         return self.tileTextures?[point.x, point.y]?.routeSprite
+    }
+    
+    public func set(hexLabel: SKLabelNode?, at point: HexPoint) {
+        
+        self.tileTextures?[point.x, point.y]?.hexLabel = hexLabel
+    }
+    
+    public func hexLabel(at point: HexPoint) -> SKLabelNode? {
+        
+        return self.tileTextures?[point.x, point.y]?.hexLabel
     }
     
     // MARK -

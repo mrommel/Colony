@@ -9,18 +9,11 @@ import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
-class FeatureLayer: SKNode {
+class FeatureLayer: BaseLayer {
     
-    let player: AbstractPlayer?
-    weak var gameModel: GameModel?
-    var textureUtils: TextureUtils?
-    var textures: Textures?
-    
-    init(player: AbstractPlayer?) {
-        
-        self.player = player
-        
-        super.init()
+    override init(player: AbstractPlayer?) {
+
+        super.init(player: player)
         self.zPosition = Globals.ZLevels.feature
     }
     
@@ -39,18 +32,7 @@ class FeatureLayer: SKNode {
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
         
-        let mapSize = gameModel.mapSize()
-
-        for x in 0..<mapSize.width() {
-            for y in 0..<mapSize.height() {
-
-                let pt = HexPoint(x: x, y: y)
-                
-                if let tile = gameModel.tile(at: pt) {
-                    self.update(tile: tile)
-                }
-            }
-        }
+        self.rebuild()
     }
 
     func placeTileHex(for tile: AbstractTile, neighborTiles: [HexDirection: AbstractTile?], at position: CGPoint, alpha: CGFloat) {
@@ -114,7 +96,7 @@ class FeatureLayer: SKNode {
         }
     }
     
-    func update(tile: AbstractTile?) {
+    override func update(tile: AbstractTile?) {
         
         guard let gameModel = self.gameModel else {
             fatalError("gameModel not set")
@@ -143,7 +125,7 @@ class FeatureLayer: SKNode {
                 .northwest: neighborTileNW
             ]
      
-            if tile.isVisible(to: self.player) || true {
+            if tile.isVisible(to: self.player) || self.showCompleteMap {
                 self.placeTileHex(for: tile, neighborTiles: neighborTiles, at: screenPoint, alpha: 1.0)
             } else if tile.isDiscovered(by: self.player) {
                 self.placeTileHex(for: tile, neighborTiles: neighborTiles, at: screenPoint, alpha: 0.5)

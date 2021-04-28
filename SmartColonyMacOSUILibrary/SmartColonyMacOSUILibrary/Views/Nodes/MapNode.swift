@@ -168,6 +168,62 @@ class MapNode: SKNode {
             self.hexCoordLayer.removeFromParent()
         }
     }
+    
+    func showCompleteMap() {
+        
+        if self.terrainLayer.showCompleteMap {
+            // early stop
+            return
+        }
+        
+        self.terrainLayer.showCompleteMap = true
+        self.terrainLayer.rebuild()
+        self.featureLayer.showCompleteMap = true
+        self.featureLayer.rebuild()
+        self.resourceLayer.showCompleteMap = true
+        self.resourceLayer.rebuild()
+        self.resourceMarkerLayer.showCompleteMap = true
+        self.resourceMarkerLayer.rebuild()
+        self.boardLayer.showCompleteMap = true
+        self.boardLayer.rebuild()
+        self.riverLayer.showCompleteMap = true
+        self.riverLayer.rebuild()
+        /*self.addChild(self.unitLayer)
+        self.addChild(self.cityLayer)
+        self.addChild(self.improvementLayer)
+        self.addChild(self.borderLayer)
+        self.addChild(self.tooltipLayer)*/
+        self.hexCoordLayer.showCompleteMap = true
+        self.hexCoordLayer.rebuild()
+    }
+    
+    func showVisibleMap() {
+        
+        if !self.terrainLayer.showCompleteMap {
+            // early stop
+            return
+        }
+        
+        self.terrainLayer.showCompleteMap = false
+        self.terrainLayer.rebuild()
+        self.featureLayer.showCompleteMap = false
+        self.featureLayer.rebuild()
+        self.resourceLayer.showCompleteMap = false
+        self.resourceLayer.rebuild()
+        self.resourceMarkerLayer.showCompleteMap = false
+        self.resourceMarkerLayer.rebuild()
+        self.boardLayer.showCompleteMap = false
+        self.boardLayer.rebuild()
+        self.riverLayer.showCompleteMap = false
+        self.riverLayer.rebuild()
+        /*self.addChild(self.unitLayer)
+        self.addChild(self.cityLayer)
+        self.addChild(self.improvementLayer)
+        self.addChild(self.borderLayer)
+        self.addChild(self.tooltipLayer)*/
+        self.hexCoordLayer.showCompleteMap = false
+        self.hexCoordLayer.rebuild()
+    }
 
     func updateLayout() {
         
