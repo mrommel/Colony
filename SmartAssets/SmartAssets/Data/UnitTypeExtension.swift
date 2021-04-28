@@ -9,8 +9,49 @@ import Cocoa
 import SmartAILibrary
 
 extension UnitType {
+    
+    public func typeTexture() -> String {
 
-    var spriteName: String {
+        switch self {
+
+            // barbarian
+        case .barbarianWarrior: return "unit-type-warrior"
+        case .barbarianArcher: return "unit-type-archer"
+
+            // ancient
+        case .settler: return "unit-type-settler"
+        case .builder: return "unit-type-builder"
+        case .trader: return "unit-type-trader"
+
+        case .scout: return "unit-type-scout"
+        case .warrior: return "unit-type-warrior"
+        case .slinger: return "unit-type-slinger"
+        case .archer: return "unit-type-archer"
+        case .spearman: return "unit-type-spearman"
+        case .heavyChariot: return "unit-type-heavyChariot"
+        case .galley: return "unit-type-galley"
+
+            // industrial
+        case .medic: return "unit-type-medic"
+            
+            // great people
+        case .admiral: return "unit-type-default"
+        case .artist: return "unit-type-default"
+        case .engineer: return "unit-type-default"
+        case .general: return "unit-type-default"
+        case .merchant: return "unit-type-default"
+        case .musician: return "unit-type-default"
+        case .prophet: return "unit-type-default"
+        case .scientist: return "unit-type-default"
+        case .writer: return "unit-type-default"
+            
+        }
+    }
+}
+
+extension UnitType {
+
+    public var spriteName: String {
 
         switch self {
 
@@ -112,7 +153,7 @@ extension UnitType {
         }
     }
 
-    var walkDownAtlas: ObjectTextureAtlas? {
+    public var walkDownAtlas: ObjectTextureAtlas? {
         
         let bundle = Bundle.init(for: Textures.self)
 
@@ -173,7 +214,7 @@ extension UnitType {
         }
     }
 
-    var walkUpAtlas: ObjectTextureAtlas? {
+    public var walkUpAtlas: ObjectTextureAtlas? {
         
         let bundle = Bundle.init(for: Textures.self)
 
@@ -234,7 +275,7 @@ extension UnitType {
         }
     }
 
-    var walkRightAtlas: ObjectTextureAtlas? {
+    public var walkRightAtlas: ObjectTextureAtlas? {
         
         let bundle = Bundle.init(for: Textures.self)
 
@@ -295,7 +336,7 @@ extension UnitType {
         }
     }
 
-    var walkLeftAtlas: ObjectTextureAtlas? {
+    public var walkLeftAtlas: ObjectTextureAtlas? {
         
         let bundle = Bundle.init(for: Textures.self)
 

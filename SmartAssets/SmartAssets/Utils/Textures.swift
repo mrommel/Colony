@@ -26,6 +26,7 @@ public class Textures {
     public let allBorderTextureNames: [String]
     public let allYieldsTextureNames: [String]
     public let allBoardTextureNames: [String]
+    public let allImprovementTextureNames: [String]
     
     public init(game: GameModel?) {
         
@@ -58,6 +59,7 @@ public class Textures {
             // 0
             "yield-0-0-3",
             "yield-0-1-0", "yield-0-1-1", "yield-0-1-2", "yield-0-1-3",
+            "yield-0-2-0",
             // 1
             "yield-1-0-0", "yield-1-0-1", "yield-1-0-2", "yield-1-0-3",
             "yield-1-1-0", "yield-1-1-1", "yield-1-1-2", "yield-1-1-3",
@@ -84,6 +86,8 @@ public class Textures {
         ]
         
         self.allBoardTextureNames = ["board-s-sw", "board-se-s-sw", "board-se-s", "board-se", "board-sw"]
+        
+        self.allImprovementTextureNames = ImprovementType.all.flatMap { $0.textureNames() } + ImprovementType.goodyHut.textureNames()
     }
 
     public func coastTexture(at point: HexPoint) -> String? {
@@ -421,5 +425,36 @@ public class Textures {
         }
 
         return nil
+    }
+    
+    public func roadTexture(at point: HexPoint) -> String? {
+        
+        guard let gameModel = self.game else {
+            fatalError("cant get gameModel")
+        }
+        
+        if let tile = gameModel.tile(at: point) {
+            if tile.route() == .none {
+                return nil
+            }
+        }
+        
+        var texture = "road" // "road_n_ne_se_s_sw_nw"
+        for direction in HexDirection.all {
+            let neighbor = point.neighbor(in: direction)
+            
+            if let neighborTile = gameModel.tile(at: neighbor) {
+                
+                if neighborTile.route() != .none {
+                    texture += ("_" + direction.short())
+                }
+            }
+        }
+        
+        if texture == "road" {
+            return nil
+        }
+        
+        return texture
     }
 }

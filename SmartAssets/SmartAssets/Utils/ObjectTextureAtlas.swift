@@ -6,19 +6,20 @@
 //
 
 import Cocoa
+import SpriteKit
 
 public class ObjectTextureAtlas {
     
     public let textures: [NSImage]
     public let speed: Double
     
-    init(textures: [NSImage], speed: Double = -1.0) {
+    public init(textures: [NSImage], speed: Double = -1.0) {
         
         self.textures = textures
         self.speed = speed == -1.0 ? 2.0 / Double(self.textures.count) : speed
     }
     
-    init(textures: [String], speed: Double = -1.0) {
+    public init(textures: [String], speed: Double = -1.0) {
         
         let bundle = Bundle.init(for: Textures.self)
         
@@ -26,7 +27,16 @@ public class ObjectTextureAtlas {
         self.speed = speed == -1.0 ? 2.0 / Double(self.textures.count) : speed
     }
     
-    init(template: String, range: Range<Int>, speed: Double = -1.0) {
+    public init(atlasName: String, textures textureNames: [String], speed: Double = -1.0) {
+        
+        let textureAtlas = SKTextureAtlas(named: atlasName)
+        let frames = textureNames.map { textureAtlas.textureNamed($0).cgImage() }
+
+        self.textures = frames.map { NSImage(cgImage: $0, size: CGSize(width: $0.width, height: $0.height)) }
+        self.speed = speed == -1.0 ? 2.0 / Double(self.textures.count) : speed
+    }
+    
+    public init(template: String, range: Range<Int>, speed: Double = -1.0) {
 
         let bundle = Bundle.init(for: Textures.self)
         

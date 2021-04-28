@@ -19,6 +19,7 @@
 		C931ADE32577D1510002BA2F /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931ADE22577D1510002BA2F /* ArrayExtension.swift */; };
 		C952B9AC261E3930008822DD /* ObjectTextureAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952B9AB261E3930008822DD /* ObjectTextureAtlas.swift */; };
 		C952B9AE261E396F008822DD /* TextureAtlasExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952B9AD261E396F008822DD /* TextureAtlasExtension.swift */; };
+		C968F29D2639BA4F00612D0E /* ImprovementTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */; };
 		C988EAE7261B916800300C39 /* Units.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C988EAE6261B916800300C39 /* Units.xcassets */; };
 		C98E68B12577D28E00BD93CA /* FeatureTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AE2577D28E00BD93CA /* FeatureTypeExtension.swift */; };
 		C98E68B22577D28E00BD93CA /* ResourceTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */; };
@@ -84,6 +85,7 @@
 		C931ADE22577D1510002BA2F /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		C952B9AB261E3930008822DD /* ObjectTextureAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectTextureAtlas.swift; sourceTree = "<group>"; };
 		C952B9AD261E396F008822DD /* TextureAtlasExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureAtlasExtension.swift; sourceTree = "<group>"; };
+		C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementTypeExtension.swift; sourceTree = "<group>"; };
 		C988EAE6261B916800300C39 /* Units.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Units.xcassets; sourceTree = "<group>"; };
 		C98E68AE2577D28E00BD93CA /* FeatureTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureTypeExtension.swift; sourceTree = "<group>"; };
 		C98E68AF2577D28E00BD93CA /* ResourceTypeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTypeExtension.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				C9022F9F26093D5300C6773A /* LeaderTypeExtension.swift */,
 				C9022FA12609D06A00C6773A /* HandicapTypeExtension.swift */,
 				C9A09828261C80080098C5E1 /* UnitTypeExtension.swift */,
+				C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				C9022FA22609D06A00C6773A /* HandicapTypeExtension.swift in Sources */,
 				C98E68B22577D28E00BD93CA /* ResourceTypeExtension.swift in Sources */,
 				C9A0982C261CAD3B0098C5E1 /* NSImageExtension.swift in Sources */,
+				C968F29D2639BA4F00612D0E /* ImprovementTypeExtension.swift in Sources */,
 				C9A37611263448AC0057923E /* Globals.swift in Sources */,
 				C931ADE32577D1510002BA2F /* ArrayExtension.swift in Sources */,
 				C952B9AE261E396F008822DD /* TextureAtlasExtension.swift in Sources */,

@@ -30,7 +30,7 @@ public enum ImprovementType: Int, Codable {
     case fort // Occupying unit receives +4 Civ6StrengthIcon Defense Strength, and automatically gains 2 turns of fortification.
     case citadelle
 
-    static var all: [ImprovementType] {
+    public static var all: [ImprovementType] {
         return [.farm, .mine, .quarry, .camp, .pasture, .plantation, .fishingBoats, .oilWell, .fort, .citadelle]
     }
 

@@ -480,38 +480,7 @@ public class TextureUtils {
         }
         
         return "yield_\(food)_\(production)_\(gold)"
-    }
-    
-    func roadTexture(at point: HexPoint) -> String? {
-        
-        guard let gameModel = self.gameModel else {
-            fatalError("cant get gameModel")
-        }
-        
-        if let tile = gameModel.tile(at: point) {
-            if tile.route() == .none {
-                return nil
-            }
-        }
-        
-        var texture = "road" // "road_n_ne_se_s_sw_nw"
-        for direction in HexDirection.all {
-            let neighbor = point.neighbor(in: direction)
-            
-            if let neighborTile = gameModel.tile(at: neighbor) {
-                
-                if neighborTile.route() != .none {
-                    texture += ("_" + direction.short())
-                }
-            }
-        }
-        
-        if texture == "road" {
-            return nil
-        }
-        
-        return texture
-    }*/
+    }s*/
 }
 
 /*extension Array {

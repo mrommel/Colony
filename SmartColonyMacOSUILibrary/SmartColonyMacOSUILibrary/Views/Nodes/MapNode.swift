@@ -19,16 +19,15 @@ class MapNode: SKNode {
     var resourceMarkerLayer: ResourceMarkerLayer
     var boardLayer: BoardLayer
     var riverLayer: RiverLayer
+    var unitLayer: UnitLayer
+    var cityLayer: CityLayer
+    var improvementLayer: ImprovementLayer
+    var borderLayer: BorderLayer
+    // var tooltipLayer: TooltipLayer
     
     // can be shown by map options
     var yieldLayer: YieldLayer
     var waterLayer: WaterLayer
-    
-    /*var unitLayer: UnitLayer
-    var cityLayer: CityLayer
-    var improvementLayer: ImprovementLayer
-    var borderLayer: BorderLayer
-    var tooltipLayer: TooltipLayer*/
     var hexCoordLayer: HexCoordLayer
 
     // MARK: properties
@@ -69,12 +68,13 @@ class MapNode: SKNode {
 
         self.riverLayer = RiverLayer(player: humanPlayer)
         self.riverLayer.populate(with: self.game)
+        self.riverLayer.zPosition = Globals.ZLevels.river
         
-        /*self.borderLayer = BorderLayer(player: humanPlayer)
+        self.borderLayer = BorderLayer(player: humanPlayer)
         self.borderLayer.populate(with: self.game)
-        self.borderLayer.zPosition = Globals.ZLevels.border*/
+        self.borderLayer.zPosition = Globals.ZLevels.border
         
-        /*self.unitLayer = UnitLayer(player: humanPlayer)
+        self.unitLayer = UnitLayer(player: humanPlayer)
         self.unitLayer.populate(with: self.game)
         self.unitLayer.zPosition = Globals.ZLevels.unit
         
@@ -84,7 +84,7 @@ class MapNode: SKNode {
         
         self.improvementLayer = ImprovementLayer(player: humanPlayer)
         self.improvementLayer.populate(with: self.game)
-        self.improvementLayer.zPosition = Globals.ZLevels.improvement*/
+        self.improvementLayer.zPosition = Globals.ZLevels.improvement
 
         self.yieldLayer = YieldLayer(player: humanPlayer)
         self.yieldLayer.populate(with: self.game)
@@ -111,11 +111,11 @@ class MapNode: SKNode {
         self.addChild(self.resourceMarkerLayer)
         self.addChild(self.boardLayer)
         self.addChild(self.riverLayer)
-        /*self.addChild(self.unitLayer)
+        self.addChild(self.unitLayer)
         self.addChild(self.cityLayer)
         self.addChild(self.improvementLayer)
         self.addChild(self.borderLayer)
-        self.addChild(self.tooltipLayer)*/
+        // self.addChild(self.tooltipLayer)
         self.addChild(self.hexCoordLayer)
     }
     
@@ -188,11 +188,15 @@ class MapNode: SKNode {
         self.boardLayer.rebuild()
         self.riverLayer.showCompleteMap = true
         self.riverLayer.rebuild()
-        /*self.addChild(self.unitLayer)
-        self.addChild(self.cityLayer)
-        self.addChild(self.improvementLayer)
-        self.addChild(self.borderLayer)
-        self.addChild(self.tooltipLayer)*/
+        /*self.unitLayer.showCompleteMap = true
+        self.unitLayer.rebuild()
+        self.cityLayer.showCompleteMap = true
+        self.cityLayer.rebuild()*/
+        self.improvementLayer.showCompleteMap = true
+        self.improvementLayer.rebuild()
+        self.borderLayer.showCompleteMap = true
+        self.borderLayer.rebuild()
+        //self.addChild(self.tooltipLayer)
         self.hexCoordLayer.showCompleteMap = true
         self.hexCoordLayer.rebuild()
     }
@@ -216,11 +220,15 @@ class MapNode: SKNode {
         self.boardLayer.rebuild()
         self.riverLayer.showCompleteMap = false
         self.riverLayer.rebuild()
-        /*self.addChild(self.unitLayer)
-        self.addChild(self.cityLayer)
-        self.addChild(self.improvementLayer)
-        self.addChild(self.borderLayer)
-        self.addChild(self.tooltipLayer)*/
+        /*self.unitLayer.showCompleteMap = false
+        self.unitLayer.rebuild()
+        self.cityLayer.showCompleteMap = false
+        self.cityLayer.rebuild()*/
+        self.improvementLayer.showCompleteMap = false
+        self.improvementLayer.rebuild()
+        self.borderLayer.showCompleteMap = false
+        self.borderLayer.rebuild()
+        //self.addChild(self.tooltipLayer)
         self.hexCoordLayer.showCompleteMap = false
         self.hexCoordLayer.rebuild()
     }
@@ -232,12 +240,12 @@ class MapNode: SKNode {
     func update(tile: AbstractTile?) {
         
         self.terrainLayer.update(tile: tile)
-        //self.borderLayer.update(tile: tile)
+        self.borderLayer.update(tile: tile)
         self.featureLayer.update(tile: tile)
         self.resourceLayer.update(tile: tile)
         self.resourceMarkerLayer.update(tile: tile)
         self.riverLayer.update(tile: tile)
-        //self.improvementLayer.update(tile: tile)
+        self.improvementLayer.update(tile: tile)
         self.boardLayer.update(tile: tile)
         
         self.yieldLayer.update(tile: tile)
