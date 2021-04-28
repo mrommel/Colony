@@ -40,6 +40,7 @@
 		C9A3762F263600800057923E /* ResourceMarkerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3762E263600800057923E /* ResourceMarkerLayer.swift */; };
 		C9A3763126369FD90057923E /* YieldLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3763026369FD90057923E /* YieldLayer.swift */; };
 		C9A3763326369FE60057923E /* WaterLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3763226369FE60057923E /* WaterLayer.swift */; };
+		C9A3763C2637E7C80057923E /* HexCoordLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3763B2637E7C80057923E /* HexCoordLayer.swift */; };
 		C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D80261EE55600341241 /* PixelBuffer.swift */; };
 		C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */; };
 		C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D84261EF7F100341241 /* MapOverviewView.swift */; };
@@ -99,6 +100,7 @@
 		C9A3762E263600800057923E /* ResourceMarkerLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMarkerLayer.swift; sourceTree = "<group>"; };
 		C9A3763026369FD90057923E /* YieldLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldLayer.swift; sourceTree = "<group>"; };
 		C9A3763226369FE60057923E /* WaterLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterLayer.swift; sourceTree = "<group>"; };
+		C9A3763B2637E7C80057923E /* HexCoordLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexCoordLayer.swift; sourceTree = "<group>"; };
 		C9A61D80261EE55600341241 /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
 		C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewViewModel.swift; sourceTree = "<group>"; };
 		C9A61D84261EF7F100341241 /* MapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewView.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				C9A3762E263600800057923E /* ResourceMarkerLayer.swift */,
 				C9A3763026369FD90057923E /* YieldLayer.swift */,
 				C9A3763226369FE60057923E /* WaterLayer.swift */,
+				C9A3763B2637E7C80057923E /* HexCoordLayer.swift */,
 			);
 			path = Layers;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */,
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
 				C9A3763326369FE60057923E /* WaterLayer.swift in Sources */,
+				C9A3763C2637E7C80057923E /* HexCoordLayer.swift in Sources */,
 				C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */,
 				C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */,
 				C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */,
@@ -510,7 +514,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOSUILibrary;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -537,7 +541,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOSUILibrary;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

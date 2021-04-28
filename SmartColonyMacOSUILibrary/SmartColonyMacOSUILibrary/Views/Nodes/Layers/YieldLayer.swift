@@ -63,10 +63,6 @@ class YieldLayer: SKNode {
     /// handles all terrain
     func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
 
-        guard let textureUtils = self.textureUtils else {
-            fatalError("cant get textureUtils")
-        }
-
         let yields = tile.yields(for: self.player, ignoreFeature: false)
 
         // yield textures

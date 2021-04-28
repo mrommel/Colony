@@ -86,7 +86,8 @@ class GameScene: BaseScene {
         self.mapNode?.updateLayout()
     }
 
-    func zoom(to zoomScale: CGFloat) {
+    // does not work
+    /*func zoom(to zoomScale: CGFloat) {
 
         guard self.cameraNode != nil else {
             return
@@ -106,7 +107,7 @@ class GameScene: BaseScene {
         
         let moveCameraAction = SKAction.move(to: CGPoint(x: screePoint.x, y: screePoint.y), duration: 3.0)
         self.cameraNode.run(moveCameraAction)
-    }
+    }*/
 }
 
 extension GameScene {
@@ -116,5 +117,18 @@ extension GameScene {
         let touchLocation = self.convert(location, to: self.viewHex) / 3.0
         let position = HexPoint(screen: touchLocation)
         print("position clicked: \(position)")
+    }
+}
+
+extension GameScene {
+    
+    func showHexCoords() {
+        
+        self.mapNode?.showHexCoords()
+    }
+    
+    func hideHexCoords() {
+        
+        self.mapNode?.hideHexCoords()
     }
 }

@@ -190,7 +190,7 @@ public enum UnitAnimationType {
     case unfortify
 }
 
-public protocol UserInterfaceDelegate: class {
+public protocol UserInterfaceDelegate: AnyObject {
     
     func showPopup(popupType: PopupType, with data: PopupData?)
 

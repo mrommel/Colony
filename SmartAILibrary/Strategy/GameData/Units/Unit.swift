@@ -220,7 +220,7 @@ public protocol AbstractUnit: class, Codable {
     func isTrading() -> Bool
 }
 
-public protocol UnitMovedDelegate: class {
+public protocol UnitMovedDelegate: AnyObject {
     
     func moved(to location: HexPoint)
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AbstractTechs: class, Codable {
+public protocol AbstractTechs: AnyObject, Codable {
 
     var player: AbstractPlayer? { get set }
     

@@ -35,6 +35,8 @@ public struct Globals {
         public static let city: CGFloat = 5.8
         public static let yields: CGFloat = 5.9
         
+        public static let hexCoords: CGFloat = 5.95 // debug
+        
         public static let unit: CGFloat = 6.0
         
         public static let unitType: CGFloat = 8.0

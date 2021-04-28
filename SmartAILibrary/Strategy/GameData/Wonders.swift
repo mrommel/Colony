@@ -12,7 +12,7 @@ enum WonderError: Error {
     case alreadyBuild
 }
 
-public protocol AbstractWonders: class, Codable {
+public protocol AbstractWonders: AnyObject, Codable {
     
     var city: AbstractCity? { get set }
     

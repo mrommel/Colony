@@ -14,7 +14,7 @@ enum CivicError: Error {
     case alreadyDiscovered
 }
 
-public protocol AbstractCivics: class, Codable {
+public protocol AbstractCivics: AnyObject, Codable {
 
     var player: AbstractPlayer? { get set }
     

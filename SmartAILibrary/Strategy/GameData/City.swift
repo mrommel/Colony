@@ -39,7 +39,7 @@ public enum CityTaskResultType {
     case completed
 }
 
-public protocol AbstractCity: class, Codable {
+public protocol AbstractCity: AnyObject, Codable {
 
     var name: String { get }
     var player: AbstractPlayer? { get set }

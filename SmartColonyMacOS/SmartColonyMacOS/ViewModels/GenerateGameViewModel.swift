@@ -8,7 +8,7 @@
 import Cocoa
 import SmartAILibrary
 
-protocol GenerateGameViewModelDelegate: class {
+protocol GenerateGameViewModelDelegate: AnyObject {
     
     func created(game: GameModel?)
 }

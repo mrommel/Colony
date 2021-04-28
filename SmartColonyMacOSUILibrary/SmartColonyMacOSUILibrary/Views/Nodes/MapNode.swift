@@ -29,6 +29,7 @@ class MapNode: SKNode {
     var improvementLayer: ImprovementLayer
     var borderLayer: BorderLayer
     var tooltipLayer: TooltipLayer*/
+    var hexCoordLayer: HexCoordLayer
 
     // MARK: properties
 
@@ -97,6 +98,10 @@ class MapNode: SKNode {
         self.tooltipLayer.populate(with: self.game)
         self.tooltipLayer.zPosition = Globals.ZLevels.tooltips*/
         
+        self.hexCoordLayer = HexCoordLayer(player: humanPlayer)
+        self.hexCoordLayer.populate(with: self.game)
+        self.hexCoordLayer.zPosition = Globals.ZLevels.hexCoords
+        
         super.init()
         self.zPosition = 0
 
@@ -111,6 +116,7 @@ class MapNode: SKNode {
         self.addChild(self.improvementLayer)
         self.addChild(self.borderLayer)
         self.addChild(self.tooltipLayer)*/
+        self.addChild(self.hexCoordLayer)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -148,6 +154,20 @@ class MapNode: SKNode {
         
         self.waterLayer.removeFromParent()
     }
+    
+    func showHexCoords() {
+        
+        if self.childNode(withName: HexCoordLayer.kName) == nil {
+            self.addChild(self.hexCoordLayer)
+        }
+    }
+    
+    func hideHexCoords() {
+        
+        if self.childNode(withName: HexCoordLayer.kName) != nil {
+            self.hexCoordLayer.removeFromParent()
+        }
+    }
 
     func updateLayout() {
         
@@ -166,5 +186,7 @@ class MapNode: SKNode {
         
         self.yieldLayer.update(tile: tile)
         self.waterLayer.update(tile: tile)
+        
+        self.hexCoordLayer.update(tile: tile)
     }
 }

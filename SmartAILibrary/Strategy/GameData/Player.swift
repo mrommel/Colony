@@ -34,7 +34,7 @@ class ImprovementCountList: WeightedList<ImprovementType> {
     }
 }
 
-public protocol AbstractPlayer: class, Codable {
+public protocol AbstractPlayer: AnyObject, Codable {
 
     var leader: LeaderType { get }
     var techs: AbstractTechs? { get }

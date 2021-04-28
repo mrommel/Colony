@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-protocol MenuViewModelDelegate: class {
+protocol MenuViewModelDelegate: AnyObject {
     
     func newGameStarted()
 }

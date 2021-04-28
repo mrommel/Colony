@@ -11,7 +11,7 @@ import Cocoa
 import SmartAILibrary
 import SmartMacOSUILibrary
 
-protocol CreateGameMenuViewModelDelegate: class {
+protocol CreateGameMenuViewModelDelegate: AnyObject {
     
     func started(with leaderType: LeaderType, on handicapType: HandicapType, with mapType: MapType, and mapSize: MapSize)
     func canceled()
@@ -20,13 +20,13 @@ protocol CreateGameMenuViewModelDelegate: class {
 class CreateGameMenuViewModel: ObservableObject {
     
     @Published
-    var selectedLeaderIndex: Int = 0
+    var selectedLeaderIndex: Int = 1 // 0
     
     @Published
     var selectedDifficultyIndex: Int = 0
     
     @Published
-    var selectedMapTypeIndex: Int = 0
+    var selectedMapTypeIndex: Int = 3 // 0
     
     @Published
     var selectedMapSizeIndex: Int = 0

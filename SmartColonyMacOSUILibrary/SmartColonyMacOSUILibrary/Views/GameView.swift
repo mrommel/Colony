@@ -34,7 +34,8 @@ public struct GameView: View {
             ScrollableView(scrollTo: self.$viewModel.scrollTarget,
                            magnification: self.$viewModel.scale) {
                 
-                MapView(game: self.$game, magnification: self.$viewModel.scale,
+                MapView(game: self.$game,
+                        magnification: self.$viewModel.scale,
                         focus: self.$viewModel.focusPosition)
                     .onReceive(self.gameEnvironment.game) { game in
                         
@@ -47,6 +48,10 @@ public struct GameView: View {
                             self.game = game
                         }
                     }
+                    /*.onReceive(self.gameEnvironment.displayOptions) { options in
+                        
+                        self.viewModel.mapOptionShowHexCoordinates = options.showHexCoordinates
+                    }*/
                     .frame(width: self.contentSize.width * 3.0, height: self.contentSize.height * 3.0, alignment: .topLeading)
                 
             }

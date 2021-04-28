@@ -22,6 +22,9 @@ struct MapView : NSViewRepresentable {
     @Binding
     var focus: HexPoint?
     
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
+    
     class Coordinator: NSObject {
         var gameScene: GameScene?
         
@@ -62,17 +65,16 @@ struct MapView : NSViewRepresentable {
             
             let contentSize = self.game?.contentSize() ?? CGSize(width: 100, height: 100)
             context.coordinator.resizeScene(to: contentSize)
-            //context.coordinator.gameScene?.zoom(to: self.magnification)
             
             if context.coordinator.gameScene?.viewModel == nil {
                 context.coordinator.gameScene?.viewModel = GameSceneViewModel(with: game)
             }
-            
-            /*if self.focus != nil {
-                print("focus: \(self.focus!)")
-                context.coordinator.gameScene?.focus(on: self.focus!)
-                self.focus = nil
-            }*/
+ 
+            if self.gameEnvironment.displayOptions.value.showHexCoordinates {
+                context.coordinator.gameScene?.showHexCoords()
+            } else {
+                context.coordinator.gameScene?.hideHexCoords()
+            }
         
             view.presentScene(context.coordinator.gameScene)
             view.ignoresSiblingOrder = false
