@@ -16,6 +16,9 @@ public extension Globals {
     struct Colors {
         public static let buttonBackground: TypeColor = TypeColor.matterhornGray.withAlphaComponent(0.5)
         public static let buttonSelectedBackground: TypeColor = TypeColor.crusoe.withAlphaComponent(0.5)
+        
+        public static let progressColor: TypeColor = TypeColor.crusoe
+        public static let progressBackground: TypeColor = TypeColor.matterhornGray.withAlphaComponent(0.5)
     }
 }
 

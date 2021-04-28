@@ -25,8 +25,15 @@ struct GenerateGameView: View {
             
             Divider()
             
-            Text("Loading")
-            ActivityIndicator(isAnimating: self.$viewModel.loading, style: .spinning)
+            Text(self.$viewModel.progressText.wrappedValue)
+            //ActivityIndicator(isAnimating: self.$viewModel.loading, style: .spinning)
+            ProgressCircle(value: self.$viewModel.progressValue,
+                           maxValue: 1.0,
+                                       style: .line,
+                                       backgroundColor: Color(Globals.Colors.progressBackground),
+                                       foregroundColor: Color(Globals.Colors.progressColor),
+                                       lineWidth: 10)
+                        .frame(height: 80)
             
             Spacer(minLength: 1)
         }
@@ -35,11 +42,10 @@ struct GenerateGameView: View {
 
 struct GenerateGameView_Previews: PreviewProvider {
 
-    //static var gameViewModel: GameViewModel = GameViewModel(game: DemoGameModel())
-    static var viewModel = GenerateGameViewModel()
+    static var viewModel = GenerateGameViewModel(initialProgress: 0.3, initialText: "abc")
     
     static var previews: some View {
-        
+
         GenerateGameView(viewModel: viewModel)
     }
 }

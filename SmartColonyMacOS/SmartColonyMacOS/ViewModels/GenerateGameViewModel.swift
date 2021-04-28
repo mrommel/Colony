@@ -16,13 +16,17 @@ protocol GenerateGameViewModelDelegate: AnyObject {
 class GenerateGameViewModel: ObservableObject {
     
     @Published
-    var loading: Bool
+    var progressValue: CGFloat
+    
+    @Published
+    var progressText: String
     
     weak var delegate: GenerateGameViewModelDelegate?
     
-    init() {
+    init(initialProgress: CGFloat = 0.0, initialText: String = "") {
         
-        self.loading = false
+        self.progressValue = initialProgress
+        self.progressText = initialText
     }
     
     func start(with leader: LeaderType, on handicap: HandicapType, with mapType: MapType, and mapSize: MapSize) {
@@ -40,7 +44,8 @@ class GenerateGameViewModel: ObservableObject {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
             
-            self.loading = true
+            self.progressValue = 0.0
+            self.progressText = "Start"
             
             DispatchQueue.global(qos: .background).async {
                 
@@ -51,7 +56,8 @@ class GenerateGameViewModel: ObservableObject {
                 let generator = MapGenerator(with: mapOptions)
                 generator.progressHandler = { progress, text in
                     DispatchQueue.main.async {
-                        //self.progress = text
+                        self.progressValue = CGFloat(progress)
+                        self.progressText = text
                     }
                 }
 
@@ -66,9 +72,13 @@ class GenerateGameViewModel: ObservableObject {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
             
-            self.loading = true
+            self.progressValue = 0.0
+            self.progressText = "Start"
             
             DispatchQueue.global(qos: .background).async {
+                
+                self.progressValue = 1.0
+                self.progressText = "End"
 
                 let map = MapModel(width: mapSize.width(), height: mapSize.height())
                 
@@ -165,7 +175,9 @@ class GenerateGameViewModel: ObservableObject {
         
         DispatchQueue.main.async {
             
-            self.loading = false
+            self.progressValue = 1.0
+            self.progressText = "Ready"
+
             self.delegate?.created(game: game)
         }
     }

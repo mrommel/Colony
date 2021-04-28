@@ -14,6 +14,8 @@
 		C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6AA260F24640053DF74 /* CGRectExtension.swift */; };
 		C94507A9262232E400CFD27D /* DataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94507A8262232E400CFD27D /* DataPicker.swift */; };
 		C968F28F2639455700612D0E /* BaseLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F28E2639455700612D0E /* BaseLayer.swift */; };
+		C968F2972639817A00612D0E /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F2962639817A00612D0E /* ProgressCircle.swift */; };
+		C968F299263981DD00612D0E /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F298263981DD00612D0E /* ProgressBar.swift */; };
 		C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9711125262569D600B58AAE /* NSMenuItemExtension.swift */; };
 		C988EAE5261B724500300C39 /* AnimatedUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988EAE4261B724500300C39 /* AnimatedUnitView.swift */; };
 		C99A886126079F4C003B8B73 /* SmartColonyMacOSUILibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C99A885F26079F4C003B8B73 /* SmartColonyMacOSUILibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -75,6 +77,8 @@
 		C93AA6AA260F24640053DF74 /* CGRectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
 		C94507A8262232E400CFD27D /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
 		C968F28E2639455700612D0E /* BaseLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLayer.swift; sourceTree = "<group>"; };
+		C968F2962639817A00612D0E /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
+		C968F298263981DD00612D0E /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		C9711125262569D600B58AAE /* NSMenuItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuItemExtension.swift; sourceTree = "<group>"; };
 		C988EAE4261B724500300C39 /* AnimatedUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedUnitView.swift; sourceTree = "<group>"; };
 		C99A885C26079F4C003B8B73 /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -150,6 +154,8 @@
 				C988EAE4261B724500300C39 /* AnimatedUnitView.swift */,
 				C94507A8262232E400CFD27D /* DataPicker.swift */,
 				C905B59B26295EA000214CC1 /* ScrollableView.swift */,
+				C968F298263981DD00612D0E /* ProgressBar.swift */,
+				C968F2962639817A00612D0E /* ProgressCircle.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -363,6 +369,7 @@
 				C9A3760526340F9B0057923E /* MapView.swift in Sources */,
 				C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */,
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
+				C968F2972639817A00612D0E /* ProgressCircle.swift in Sources */,
 				C9A3763326369FE60057923E /* WaterLayer.swift in Sources */,
 				C9A3763C2637E7C80057923E /* HexCoordLayer.swift in Sources */,
 				C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */,
@@ -372,6 +379,7 @@
 				C9A3761F2635F70F0057923E /* MapNode.swift in Sources */,
 				C9A3762F263600800057923E /* ResourceMarkerLayer.swift in Sources */,
 				C9A37613263456E30057923E /* BaseScene.swift in Sources */,
+				C968F299263981DD00612D0E /* ProgressBar.swift in Sources */,
 				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

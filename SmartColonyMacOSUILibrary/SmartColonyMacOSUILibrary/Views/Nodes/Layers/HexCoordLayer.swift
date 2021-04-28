@@ -42,7 +42,7 @@ class HexCoordLayer: BaseLayer {
     func placeCoordHex(for point: HexPoint, at position: CGPoint) {
 
         let hexCoordSprite = SKLabelNode(text: "\(point.x), \(point.y)")
-        hexCoordSprite.fontSize = 12.0
+        hexCoordSprite.fontSize = 18.0  
         hexCoordSprite.position = position + CGPoint(x: 72, y: 42)
         hexCoordSprite.zPosition = Globals.ZLevels.hexCoords
         hexCoordSprite.color = .black
