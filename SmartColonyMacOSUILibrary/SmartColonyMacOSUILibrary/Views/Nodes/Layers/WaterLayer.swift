@@ -11,12 +11,15 @@ import SmartAssets
 
 class WaterLayer: BaseLayer {
     
+    static let kName: String = "WaterLayer"
+    
     // MARK: constructor
     
     override init(player: AbstractPlayer?) {
 
         super.init(player: player)
         self.zPosition = Globals.ZLevels.water
+        self.name = WaterLayer.kName
     }
     
     required init?(coder aDecoder: NSCoder) {

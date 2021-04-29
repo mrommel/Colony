@@ -10,6 +10,8 @@ import SmartAILibrary
 import SmartAssets
 
 class YieldLayer: BaseLayer {
+    
+    static let kName: String = "YieldLayer"
 
     // MARK: constructor
 
@@ -17,6 +19,7 @@ class YieldLayer: BaseLayer {
 
         super.init(player: player)
         self.zPosition = Globals.ZLevels.yields
+        self.name = YieldLayer.kName
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -33,8 +36,6 @@ class YieldLayer: BaseLayer {
 
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
-
-        let mapSize = gameModel.mapSize()
 
         self.rebuild()
     }

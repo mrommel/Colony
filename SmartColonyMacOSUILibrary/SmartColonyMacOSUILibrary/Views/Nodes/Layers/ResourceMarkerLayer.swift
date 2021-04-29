@@ -11,10 +11,15 @@ import SmartAssets
 
 class ResourceMarkerLayer: BaseLayer {
     
+    static let kName: String = "ResourceMarkerLayer"
+    
+    // MARK: constructor
+    
     override init(player: AbstractPlayer?) {
         
         super.init(player: player)
         self.zPosition = Globals.ZLevels.resourceMarker
+        self.name = ResourceMarkerLayer.kName
     }
     
     required init?(coder aDecoder: NSCoder) {

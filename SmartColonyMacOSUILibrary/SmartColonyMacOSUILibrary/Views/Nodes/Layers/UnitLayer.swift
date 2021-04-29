@@ -34,9 +34,9 @@ class UnitLayer: SKNode {
         self.player = player
         self.unitObjects = []
 
-        self.atlasFocus = ObjectTextureAtlas(atlasName: "focus", textures: ["focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "focus6", "focus5", "focus4", "focus3", "focus2", "focus1"])
+        self.atlasFocus = ObjectTextureAtlas(textures: ["focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "focus6", "focus5", "focus4", "focus3", "focus2", "focus1"])
 
-        self.atlasAttackFocus = ObjectTextureAtlas(atlasName: "focus_attack", textures: ["focus_attack1", "focus_attack2", "focus_attack3", "focus_attack3", "focus_attack2", "focus_attack1"])
+        self.atlasAttackFocus = ObjectTextureAtlas(textures: ["focus-attack1", "focus-attack2", "focus-attack3", "focus-attack3", "focus-attack2", "focus-attack1"])
 
         super.init()
     }
@@ -161,8 +161,8 @@ class UnitLayer: SKNode {
             self.focusNode = nil
         }
 
-        let texture = SKTexture(imageNamed: "focus1")
-        self.focusNode = SKSpriteNode(texture: texture)
+        let focusImage = ImageCache.shared.image(for: "focus1")
+        self.focusNode = SKSpriteNode(texture: SKTexture(image: focusImage))
         self.focusNode?.position = HexPoint.toScreen(hex: unit.location) * 3.0
         self.focusNode?.zPosition = Globals.ZLevels.focus
         self.focusNode?.anchorPoint = CGPoint(x: 0.0, y: 0.0)
@@ -182,19 +182,17 @@ class UnitLayer: SKNode {
 
     func clearAttackFocus() {
 
-        for attackFocusNode in attackFocusNodes {
-
+        for attackFocusNode in self.attackFocusNodes {
             attackFocusNode?.removeFromParent()
         }
 
-        attackFocusNodes.removeAll()
+        self.attackFocusNodes.removeAll()
     }
 
     func showAttackFocus(at point: HexPoint) {
 
-        let texture = SKTexture(imageNamed: "focus_attack1")
-
-        let attackFocusNode = SKSpriteNode(texture: texture)
+        let focusImage = ImageCache.shared.image(for: "focus_attack1")
+        let attackFocusNode = SKSpriteNode(texture: SKTexture(image: focusImage))
         attackFocusNode.position = HexPoint.toScreen(hex: point) * 3.0
         attackFocusNode.zPosition = Globals.ZLevels.focus
         attackFocusNode.anchorPoint = CGPoint(x: 0.0, y: 0.0)

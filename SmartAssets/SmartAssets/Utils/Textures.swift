@@ -57,7 +57,7 @@ public class Textures {
         
         self.allYieldsTextureNames = [
             // 0
-            "yield-0-0-3",
+            "yield-0-0-1", "yield-0-0-2", "yield-0-0-3",
             "yield-0-1-0", "yield-0-1-1", "yield-0-1-2", "yield-0-1-3",
             "yield-0-2-0",
             // 1
@@ -78,9 +78,11 @@ public class Textures {
             // 4
             "yield-4-0-0",
             "yield-4-1-0", "yield-4-1-1", "yield-4-1-2", "yield-4-1-3",
+            "yield-4-2-0", "yield-4-2-1", "yield-4-2-2", "yield-4-2-3", "yield-4-2-4",
             // 5
             "yield-5-0-0",
             "yield-5-1-0", "yield-5-1-1",
+            "yield-5-2-0",
             // 6
             "yield-6-0-0",
         ]

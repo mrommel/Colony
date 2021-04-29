@@ -118,4 +118,34 @@ extension GameScene {
         
         self.mapNode?.showVisibleMap()
     }
+    
+    func showYields() {
+        
+        self.mapNode?.showYields()
+    }
+    
+    func hideYields() {
+        
+        self.mapNode?.hideYields()
+    }
+    
+    func showWater() {
+        
+        self.mapNode?.showWater()
+    }
+    
+    func hideWater() {
+        
+        self.mapNode?.hideWater()
+    }
+    
+    func showResourceMarkers() {
+        
+        self.mapNode?.showResourceMarker()
+    }
+    
+    func hideResourceMarkers() {
+        
+        self.mapNode?.hideResourceMarker()
+    }
 }

@@ -83,6 +83,24 @@ struct MapView : NSViewRepresentable {
             } else {
                 context.coordinator.gameScene?.showVisibleMap()
             }
+            
+            if self.gameEnvironment.displayOptions.value.showYields {
+                context.coordinator.gameScene?.showYields()
+            } else {
+                context.coordinator.gameScene?.hideYields()
+            }
+            
+            if self.gameEnvironment.displayOptions.value.showResourceMarkers {
+                context.coordinator.gameScene?.showResourceMarkers()
+            } else {
+                context.coordinator.gameScene?.hideResourceMarkers()
+            }
+            
+            if self.gameEnvironment.displayOptions.value.showWater {
+                context.coordinator.gameScene?.showWater()
+            } else {
+                context.coordinator.gameScene?.hideWater()
+            }
         
             view.presentScene(context.coordinator.gameScene)
             view.ignoresSiblingOrder = false

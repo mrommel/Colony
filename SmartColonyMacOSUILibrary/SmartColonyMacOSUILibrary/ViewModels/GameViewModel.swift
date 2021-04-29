@@ -68,6 +68,8 @@ public class GameViewModel: ObservableObject {
         }
     }
     
+    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor"]
+    
     // MARK: constructor
     
     public init() {
@@ -158,26 +160,14 @@ public class GameViewModel: ObservableObject {
         }
         print("- load \(unitTextures) unit textures")
         
-        // populate cache if needed
-        if !ImageCache.shared.exists(key: "cursor") {
-            ImageCache.shared.add(image: NSImage(named: "cursor"), for: "cursor")
+        // populate cache with ui textures
+        print("- load \(self.textureNames.count) misc textures")
+        for textureName in self.textureNames {
+            if !ImageCache.shared.exists(key: textureName) {
+                // load from SmartAsset package
+                ImageCache.shared.add(image: bundle.image(forResource: textureName), for: textureName)
+            }
         }
-        
-        if !ImageCache.shared.exists(key: "water") {
-            ImageCache.shared.add(image: NSImage(named: "water"), for: "water")
-        }
-        
-        if !ImageCache.shared.exists(key: "unit-type-background") {
-            ImageCache.shared.add(image: bundle.image(forResource: "unit-type-background"), for: "unit-type-background")
-        }
-        
-        /*if !ImageCache.shared.exists(key: "focus") {
-            ImageCache.shared.add(image: NSImage(named: "focus"), for: "focus")
-        }
-        
-        if !ImageCache.shared.exists(key: "focus-attack") {
-            ImageCache.shared.add(image: NSImage(named: "focus-attack"), for: "focus-attack")
-        }*/
         
         print("-- all textures loaded --")
     }
@@ -249,35 +239,5 @@ public class GameViewModel: ObservableObject {
     public func zoomReset() {
         
         self.scale = 1.0
-    }
-    
-    // map options
-    
-    public func toogleShowHexCoordinates() {
-        
-        var currentMapDisplayOption = self.gameEnvironment.displayOptions.value
-        currentMapDisplayOption.showHexCoordinates = !currentMapDisplayOption.showHexCoordinates
-        self.gameEnvironment.displayOptions.send(currentMapDisplayOption)
-    }
-    
-    // MARK: private methods
-    
-    private func clickPositionUpdated() {
-        
-        /*guard let clickPosition = self.clickPosition else {
-            return
-        }
-        
-        // to get a better screen resolution everything is scaled up (@3x assets)
-        let factor: CGFloat = 3.0
-        
-        // first calculate the "real" screen coordinate and then the HexPoint
-        let x = (clickPosition.x - self.mapViewModel.shift.x) / factor
-        let y = ((self.mapViewModel.size.height - clickPosition.y) - self.mapViewModel.shift.y) / factor
-
-        // update the cursor
-        let cursor = HexPoint(screen: CGPoint(x: x, y: y))
-        
-        self.gameEnvironment.moveCursor(to: cursor)*/
     }
 }

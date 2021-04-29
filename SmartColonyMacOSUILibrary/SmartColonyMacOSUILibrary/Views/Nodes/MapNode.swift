@@ -108,7 +108,7 @@ class MapNode: SKNode {
         self.addChild(self.terrainLayer)
         self.addChild(self.featureLayer)
         self.addChild(self.resourceLayer)
-        self.addChild(self.resourceMarkerLayer)
+        self.addChild(self.resourceMarkerLayer) // ???
         self.addChild(self.boardLayer)
         self.addChild(self.riverLayer)
         self.addChild(self.unitLayer)
@@ -116,7 +116,7 @@ class MapNode: SKNode {
         self.addChild(self.improvementLayer)
         self.addChild(self.borderLayer)
         // self.addChild(self.tooltipLayer)
-        self.addChild(self.hexCoordLayer)
+        self.addChild(self.hexCoordLayer) // ???
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -127,32 +127,44 @@ class MapNode: SKNode {
     
     func showYields() {
         
-        self.addChild(self.yieldLayer)
+        if self.childNode(withName: YieldLayer.kName) == nil {
+            self.addChild(self.yieldLayer)
+        }
     }
     
     func hideYields() {
         
-        self.yieldLayer.removeFromParent()
+        if self.childNode(withName: YieldLayer.kName) != nil {
+            self.yieldLayer.removeFromParent()
+        }
     }
     
     func showResourceMarker() {
         
-        self.addChild(self.resourceMarkerLayer)
+        if self.childNode(withName: ResourceMarkerLayer.kName) == nil {
+            self.addChild(self.resourceMarkerLayer)
+        }
     }
     
     func hideResourceMarker() {
         
-        self.resourceMarkerLayer.removeFromParent()
+        if self.childNode(withName: ResourceMarkerLayer.kName) != nil {
+            self.resourceMarkerLayer.removeFromParent()
+        }
     }
     
     func showWater() {
         
-        self.addChild(self.waterLayer)
+        if self.childNode(withName: WaterLayer.kName) == nil {
+            self.addChild(self.waterLayer)
+        }
     }
     
     func hideWater() {
         
-        self.waterLayer.removeFromParent()
+        if self.childNode(withName: WaterLayer.kName) != nil {
+            self.waterLayer.removeFromParent()
+        }
     }
     
     func showHexCoords() {
@@ -194,6 +206,10 @@ class MapNode: SKNode {
         self.cityLayer.rebuild()*/
         self.improvementLayer.showCompleteMap = true
         self.improvementLayer.rebuild()
+        self.yieldLayer.showCompleteMap = true
+        self.yieldLayer.rebuild()
+        self.waterLayer.showCompleteMap = true
+        self.waterLayer.rebuild()
         self.borderLayer.showCompleteMap = true
         self.borderLayer.rebuild()
         //self.addChild(self.tooltipLayer)
@@ -226,6 +242,10 @@ class MapNode: SKNode {
         self.cityLayer.rebuild()*/
         self.improvementLayer.showCompleteMap = false
         self.improvementLayer.rebuild()
+        self.yieldLayer.showCompleteMap = false
+        self.yieldLayer.rebuild()
+        self.waterLayer.showCompleteMap = false
+        self.waterLayer.rebuild()
         self.borderLayer.showCompleteMap = false
         self.borderLayer.rebuild()
         //self.addChild(self.tooltipLayer)
@@ -240,17 +260,15 @@ class MapNode: SKNode {
     func update(tile: AbstractTile?) {
         
         self.terrainLayer.update(tile: tile)
-        self.borderLayer.update(tile: tile)
         self.featureLayer.update(tile: tile)
         self.resourceLayer.update(tile: tile)
         self.resourceMarkerLayer.update(tile: tile)
         self.riverLayer.update(tile: tile)
         self.improvementLayer.update(tile: tile)
         self.boardLayer.update(tile: tile)
-        
         self.yieldLayer.update(tile: tile)
         self.waterLayer.update(tile: tile)
-        
+        self.borderLayer.update(tile: tile)
         self.hexCoordLayer.update(tile: tile)
     }
 }
