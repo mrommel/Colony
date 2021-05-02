@@ -26,6 +26,8 @@
 		C9855D63263144E200468ED0 /* CheckboxCircleToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D62263144E200468ED0 /* CheckboxCircleToggleStyle.swift */; };
 		C9855D672631450800468ED0 /* GameCommandsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D662631450800468ED0 /* GameCommandsModel.swift */; };
 		C9855D6B2631452200468ED0 /* GameCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D6A2631452200468ED0 /* GameCommands.swift */; };
+		C9B43FB4263E96A900241012 /* plus.magnifyingglass.png in Resources */ = {isa = PBXBuildFile; fileRef = C9B43FB2263E96A800241012 /* plus.magnifyingglass.png */; };
+		C9B43FB5263E96A900241012 /* minus.magnifyingglass.png in Resources */ = {isa = PBXBuildFile; fileRef = C9B43FB3263E96A900241012 /* minus.magnifyingglass.png */; };
 		C9F6EB1A260790850052140C /* SmartColonyMacOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */; };
 		C9F6EB1C260790850052140C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB1B260790850052140C /* MainView.swift */; };
 		C9F6EB1E2607908B0052140C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F6EB1D2607908B0052140C /* Assets.xcassets */; };
@@ -90,6 +92,8 @@
 		C9855D662631450800468ED0 /* GameCommandsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCommandsModel.swift; sourceTree = "<group>"; };
 		C9855D6A2631452200468ED0 /* GameCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCommands.swift; sourceTree = "<group>"; };
 		C99A88792607A063003B8B73 /* SmartColonyMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartColonyMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9B43FB2263E96A800241012 /* plus.magnifyingglass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.magnifyingglass.png; sourceTree = "<group>"; };
+		C9B43FB3263E96A900241012 /* minus.magnifyingglass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.magnifyingglass.png; sourceTree = "<group>"; };
 		C9F6EB16260790850052140C /* SmartColony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartColony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyMacOSApp.swift; sourceTree = "<group>"; };
 		C9F6EB1B260790850052140C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -162,6 +166,8 @@
 			isa = PBXGroup;
 			children = (
 				C9F6EB1D2607908B0052140C /* Assets.xcassets */,
+				C9B43FB3263E96A900241012 /* minus.magnifyingglass.png */,
+				C9B43FB2263E96A800241012 /* plus.magnifyingglass.png */,
 				C9F6EB272607908B0052140C /* Info.plist */,
 				C94AD87C2626BB7000836BDC /* Credits.rtf */,
 			);
@@ -370,6 +376,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9B43FB4263E96A900241012 /* plus.magnifyingglass.png in Resources */,
+				C9B43FB5263E96A900241012 /* minus.magnifyingglass.png in Resources */,
 				C9F6EB212607908B0052140C /* Preview Assets.xcassets in Resources */,
 				C94AD87D2626BB7000836BDC /* Credits.rtf in Resources */,
 				C9F6EB1E2607908B0052140C /* Assets.xcassets in Resources */,

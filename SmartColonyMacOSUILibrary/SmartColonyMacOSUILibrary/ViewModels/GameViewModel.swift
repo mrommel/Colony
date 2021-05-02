@@ -21,13 +21,16 @@ public class GameViewModel: ObservableObject {
     var focusPosition: HexPoint? = nil
     
     @Published
-    var scale: CGFloat = 1.0
+    var magnification: CGFloat = 1.0
+    
+    @Published
+    var magnificationTarget: CGFloat? = nil
     
     @Published
     var contentOffset: CGPoint = .zero
     
-    @Published
-    var scrollTarget: CGPoint? = nil
+    //@Published
+    //var scrollTarget: CGPoint? = nil
     
     // MARK: map display options
     
@@ -203,7 +206,8 @@ public class GameViewModel: ObservableObject {
         
         let cursor = self.gameEnvironment.cursor.value
         
-        guard let contentSize = self.gameEnvironment.game.value?.contentSize(), let mapSize = self.gameEnvironment.game.value?.mapSize() else {
+        guard let contentSize = self.gameEnvironment.game.value?.contentSize(),
+              let mapSize = self.gameEnvironment.game.value?.mapSize() else {
             fatalError("cant get sizes")
         }
         
@@ -222,22 +226,22 @@ public class GameViewModel: ObservableObject {
         
         screenPoint.y = size.height - screenPoint.y - 144
         
-        print("scroll to: \(screenPoint)")
-        self.scrollTarget = screenPoint
+        print("scroll to: \(cursor) => \(screenPoint)")
+        self.contentOffset/*.scrollTarget*/ = screenPoint
     }
     
     public func zoomIn() {
         
-        self.scale = self.scale * 1.5
+        self.magnificationTarget = self.magnification * 1.5
     }
     
     public func zoomOut() {
         
-        self.scale = self.scale * 0.75
+        self.magnificationTarget = self.magnification * 0.75
     }
     
     public func zoomReset() {
         
-        self.scale = 1.0
+        self.magnificationTarget = 1.0
     }
 }

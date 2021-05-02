@@ -9,6 +9,11 @@ import Cocoa
 
 extension CGImage {
     
+    var size: CGSize {
+        
+        CGSize(width: self.width, height: self.height)
+    }
+    
     func mapColor(color0: NSColor, color1: NSColor) -> CGImage? {
             
         guard let filter = CIFilter(name: "CIFalseColor" ) else {

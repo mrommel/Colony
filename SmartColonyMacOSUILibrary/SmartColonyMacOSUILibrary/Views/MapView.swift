@@ -16,8 +16,8 @@ struct MapView : NSViewRepresentable {
     @Binding
     var game: GameModel?
     
-    @Binding
-    var magnification: CGFloat
+    //@Binding
+    //var magnification: CGFloat
     
     @Binding
     var focus: HexPoint?
@@ -29,7 +29,7 @@ struct MapView : NSViewRepresentable {
         var gameScene: GameScene?
         
         func resizeScene(to size: CGSize) {
-            gameScene?.size = size
+            self.gameScene?.size = size
         }
     }
     
