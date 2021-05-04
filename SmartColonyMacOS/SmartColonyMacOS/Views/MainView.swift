@@ -29,6 +29,7 @@ struct MainView: View {
     }
     
     private var content: AnyView {
+        
         switch self.viewModel.presentedView {
             
         case .menu:

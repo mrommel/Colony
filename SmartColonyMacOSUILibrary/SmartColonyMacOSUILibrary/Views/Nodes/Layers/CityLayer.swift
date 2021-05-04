@@ -11,6 +11,9 @@ import SmartAssets
 
 class CityLayer: SKNode {
     
+    static let kTextureWidth: Int = 48
+    static let kTextureSize: CGSize = CGSize(width: kTextureWidth, height: kTextureWidth)
+    
     let player: AbstractPlayer?
     weak var gameModel: GameModel?
     var textureUtils: TextureUtils?

@@ -35,8 +35,6 @@ class ResourceMarkerLayer: BaseLayer {
         }
         
         self.textureUtils = TextureUtils(with: gameModel)
-        
-        let mapSize = gameModel.mapSize()
 
         self.rebuild()
     }
@@ -53,7 +51,7 @@ class ResourceMarkerLayer: BaseLayer {
             
             let image = ImageCache.shared.image(for: textureName)
 
-            let resourceSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
+            let resourceSprite = SKSpriteNode(texture: SKTexture(image: image), size: ResourceMarkerLayer.kTextureSize)
             resourceSprite.position = position
             resourceSprite.zPosition = Globals.ZLevels.resourceMarker
             resourceSprite.anchorPoint = CGPoint(x: 0, y: 0)
@@ -85,7 +83,7 @@ class ResourceMarkerLayer: BaseLayer {
             
             self.clear(tile: tile)
             
-            let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
+            let screenPoint = HexPoint.toScreen(hex: pt)
             
             if tile.isVisible(to: self.player) || self.showCompleteMap {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)

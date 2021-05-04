@@ -50,7 +50,7 @@ class YieldLayer: BaseLayer {
             
             let image = ImageCache.shared.image(for: textureName)
 
-            let yieldsSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
+            let yieldsSprite = SKSpriteNode(texture: SKTexture(image: image), size: YieldLayer.kTextureSize)
             yieldsSprite.position = position
             yieldsSprite.zPosition = Globals.ZLevels.yields
             yieldsSprite.anchorPoint = CGPoint(x: 0, y: 0)
@@ -78,7 +78,7 @@ class YieldLayer: BaseLayer {
 
             self.clear(tile: tile)
 
-            let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
+            let screenPoint = HexPoint.toScreen(hex: pt)
 
             if tile.isVisible(to: self.player) || self.showCompleteMap {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)

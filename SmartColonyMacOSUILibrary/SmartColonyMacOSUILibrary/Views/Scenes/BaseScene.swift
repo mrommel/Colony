@@ -87,6 +87,8 @@ class BaseScene: SKScene {
         self.safeAreaNode.updateLayout()
         
         // debug
+        // print()
+        // print("=============================================")
         // self.rootNode.renderNodeHierarchy()
         // self.cameraNode.renderNodeHierarchy()
     }

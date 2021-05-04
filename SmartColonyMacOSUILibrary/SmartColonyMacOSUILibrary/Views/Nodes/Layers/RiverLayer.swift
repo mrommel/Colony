@@ -41,7 +41,7 @@ class RiverLayer: BaseLayer {
             
             let image = ImageCache.shared.image(for: riverTextureName)
 
-            let riverSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
+            let riverSprite = SKSpriteNode(texture: SKTexture(image: image), size: RiverLayer.kTextureSize)
             riverSprite.position = position
             riverSprite.zPosition = Globals.ZLevels.river
             riverSprite.anchorPoint = CGPoint(x: 0, y: 0)
@@ -73,7 +73,7 @@ class RiverLayer: BaseLayer {
             
             self.clear(tile: tile)
             
-            let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
+            let screenPoint = HexPoint.toScreen(hex: pt)
             
             if tile.isVisible(to: self.player) || self.showCompleteMap {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)

@@ -18,7 +18,7 @@ public struct MapDisplayOptions {
     public var showCompleteMap: Bool = false
     
     // debug
-    public var showHexCoordinates: Bool = false
+    public var showHexCoordinates: Bool = true
 }
 
 extension EnvironmentValues {

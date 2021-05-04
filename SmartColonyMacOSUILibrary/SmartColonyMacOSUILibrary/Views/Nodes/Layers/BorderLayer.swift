@@ -52,7 +52,7 @@ class BorderLayer: BaseLayer {
                 if let textureName = self.textures?.borderTexture(at: tile.point, in: player.area) {
                     let image = ImageCache.shared.image(for: textureName)
                     
-                    let borderSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
+                    let borderSprite = SKSpriteNode(texture: SKTexture(image: image), size: BorderLayer.kTextureSize)
                     
                     borderSprite.position = position
                     borderSprite.zPosition = Globals.ZLevels.border

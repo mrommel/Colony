@@ -47,7 +47,7 @@ extension SKNode {
         var i = 0
         var beginning = ""
         while i != index {
-            beginning += "          "
+            beginning += "  "
             i += 1
             if i == index {
                 beginning += " "

@@ -44,7 +44,7 @@ class WaterLayer: BaseLayer {
 
         let image = ImageCache.shared.image(for: "water")
 
-        let waterSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
+        let waterSprite = SKSpriteNode(texture: SKTexture(image: image), size: WaterLayer.kTextureSize)
         waterSprite.position = position
         waterSprite.zPosition = Globals.ZLevels.water
         waterSprite.anchorPoint = CGPoint(x: 0, y: 0)
@@ -75,7 +75,7 @@ class WaterLayer: BaseLayer {
             
             self.clear(tile: tile)
             
-            let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
+            let screenPoint = HexPoint.toScreen(hex: pt)
             
             if tile.isVisible(to: self.player) && gameModel.isFreshWater(at: pt) || self.showCompleteMap {
                 self.placeWaterHex(for: pt, at: screenPoint)

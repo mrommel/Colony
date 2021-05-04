@@ -39,7 +39,7 @@ class BoardLayer: BaseLayer {
 
         let image = ImageCache.shared.image(for: calderaName)
 
-        let boardSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
+        let boardSprite = SKSpriteNode(texture: SKTexture(image: image), size: BoardLayer.kTextureSize)
         boardSprite.position = position
         boardSprite.zPosition = Globals.ZLevels.caldera
         boardSprite.anchorPoint = CGPoint(x: 0, y: 0.09)
@@ -71,7 +71,7 @@ class BoardLayer: BaseLayer {
 
             self.clear(tile: tile)
 
-            let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
+            let screenPoint = HexPoint.toScreen(hex: pt)
 
             if let calderaName = self.textures?.calderaTexure(at: tile.point) {
                 if tile.isVisible(to: self.player) || self.showCompleteMap {

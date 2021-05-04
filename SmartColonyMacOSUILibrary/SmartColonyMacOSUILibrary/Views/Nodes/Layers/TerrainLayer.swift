@@ -41,7 +41,7 @@ class TerrainLayer: BaseLayer {
                 
                 let pt = HexPoint(x: x, y: y)
                 if let tile = gameModel.tile(at: pt) {
-                    let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
+                    let screenPoint = HexPoint.toScreen(hex: pt)
                     
                     if tile.isVisible(to: self.player) || self.showCompleteMap {
                         self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)
@@ -56,38 +56,32 @@ class TerrainLayer: BaseLayer {
     /// handles all terrain
     func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
         
-        // place terrain
-        var textureName = ""
-        if let coastTexture = self.textures?.coastTexture(at: tile.point) {
-            textureName = coastTexture
-        } else {
-            if tile.hasHills() {
-                textureName = tile.terrain().textureNamesHills().item(from: tile.point)
-            } else {
-                textureName = tile.terrain().textureNames().item(from: tile.point)
-            }
-        }
-
-        let image = ImageCache.shared.image(for: textureName)
-
-        let terrainSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
-        terrainSprite.position = position
-        terrainSprite.zPosition = tile.terrain().zLevel
-        terrainSprite.anchorPoint = CGPoint(x: 0, y: 0)
-        terrainSprite.color = .black
-        terrainSprite.colorBlendFactor = 1.0 - alpha
-        self.addChild(terrainSprite)
-
-        self.textureUtils?.set(terrainSprite: terrainSprite, at: tile.point)
+        print("TerrainLayer.placeTileHex(at: \(tile.point), position: \(position))")
         
-        // snow
+        // place terrain
+        if let terrainTexture = self.textures?.terrainTexture(at: tile.point) {
+
+            let image = ImageCache.shared.image(for: terrainTexture)
+
+            let terrainSprite = SKSpriteNode(texture: SKTexture(image: image), size: TerrainLayer.kTextureSize)
+            terrainSprite.position = position
+            terrainSprite.zPosition = tile.terrain().zLevel
+            terrainSprite.anchorPoint = CGPoint(x: 0, y: 0)
+            terrainSprite.color = .black
+            terrainSprite.colorBlendFactor = 1.0 - alpha
+            self.addChild(terrainSprite)
+
+            self.textureUtils?.set(terrainSprite: terrainSprite, at: tile.point)
+        }
+        
+        // place snow
         if tile.terrain() != .snow {
         
             if let snowTexture = self.textures?.snowTexture(at: tile.point) {
                 
                 let image = ImageCache.shared.image(for: snowTexture)
 
-                let snowSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
+                let snowSprite = SKSpriteNode(texture: SKTexture(image: image), size: TerrainLayer.kTextureSize)
                 snowSprite.position = position
                 snowSprite.zPosition = Globals.ZLevels.snow
                 snowSprite.anchorPoint = CGPoint(x: 0, y: 0)
@@ -124,7 +118,7 @@ class TerrainLayer: BaseLayer {
             
             self.clear(tile: tile)
             
-            let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
+            let screenPoint = HexPoint.toScreen(hex: pt)
             
             if tile.isVisible(to: self.player) || self.showCompleteMap {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)

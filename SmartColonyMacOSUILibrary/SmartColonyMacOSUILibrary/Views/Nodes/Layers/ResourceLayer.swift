@@ -46,7 +46,7 @@ class ResourceLayer: BaseLayer {
             let resourceTextureName = resource.textureName()
             let image = ImageCache.shared.image(for: resourceTextureName)
 
-            let resourceSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
+            let resourceSprite = SKSpriteNode(texture: SKTexture(image: image), size: ResourceLayer.kTextureSize)
             resourceSprite.position = position
             resourceSprite.zPosition = Globals.ZLevels.resource
             resourceSprite.anchorPoint = CGPoint(x: 0, y: 0)
@@ -78,7 +78,7 @@ class ResourceLayer: BaseLayer {
             
             self.clear(tile: tile)
             
-            let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
+            let screenPoint = HexPoint.toScreen(hex: pt)
             
             if tile.isVisible(to: self.player) || self.showCompleteMap {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)

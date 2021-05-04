@@ -42,8 +42,8 @@ class HexCoordLayer: BaseLayer {
     func placeCoordHex(for point: HexPoint, at position: CGPoint) {
 
         let hexCoordSprite = SKLabelNode(text: "\(point.x), \(point.y)")
-        hexCoordSprite.fontSize = 18.0  
-        hexCoordSprite.position = position + CGPoint(x: 72, y: 42)
+        hexCoordSprite.fontSize = 8.0
+        hexCoordSprite.position = position + CGPoint(x: 24, y: 14)
         hexCoordSprite.zPosition = Globals.ZLevels.hexCoords
         hexCoordSprite.color = .black
         hexCoordSprite.colorBlendFactor = 0.0
@@ -78,7 +78,7 @@ class HexCoordLayer: BaseLayer {
                     
                     self.clear(tile: tile)
                     
-                    let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
+                    let screenPoint = HexPoint.toScreen(hex: pt)
                     
                     if tile.isVisible(to: self.player) || self.showCompleteMap {
                         self.placeCoordHex(for: pt, at: screenPoint)

@@ -10,6 +10,12 @@ import SmartAssets
 import Cocoa
 import SwiftUI
 
+enum PresentedGameViewType {
+    
+    case loading
+    case ready
+}
+
 public class GameViewModel: ObservableObject {
 
     //var mapViewModel: MapViewModel
@@ -29,8 +35,8 @@ public class GameViewModel: ObservableObject {
     @Published
     var contentOffset: CGPoint = .zero
     
-    //@Published
-    //var scrollTarget: CGPoint? = nil
+    @Published
+    var presentedView: PresentedGameViewType
     
     // MARK: map display options
     
@@ -76,6 +82,8 @@ public class GameViewModel: ObservableObject {
     // MARK: constructor
     
     public init() {
+        
+        self.presentedView = .loading
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -206,7 +214,7 @@ public class GameViewModel: ObservableObject {
         
         let cursor = self.gameEnvironment.cursor.value
         
-        guard let contentSize = self.gameEnvironment.game.value?.contentSize(),
+        /*guard let contentSize = self.gameEnvironment.game.value?.contentSize(),
               let mapSize = self.gameEnvironment.game.value?.mapSize() else {
             fatalError("cant get sizes")
         }
@@ -224,24 +232,28 @@ public class GameViewModel: ObservableObject {
         
         var screenPoint = HexPoint.toScreen(hex: cursor) * 3.0 + shift
         
-        screenPoint.y = size.height - screenPoint.y - 144
+        screenPoint.y = size.height - screenPoint.y - 144* /
         
         print("scroll to: \(cursor) => \(screenPoint)")
-        self.contentOffset/*.scrollTarget*/ = screenPoint
+        self.contentOffset/ *.scrollTarget* / = screenPoint*/
+        self.contentOffset = HexPoint.toScreen(hex: cursor)
     }
     
     public func zoomIn() {
         
-        self.magnificationTarget = self.magnification * 1.5
+        //self.magnificationTarget = self.magnification * 1.5
+        self.magnification = self.magnification * 0.75
     }
     
     public func zoomOut() {
         
-        self.magnificationTarget = self.magnification * 0.75
+        //self.magnificationTarget = self.magnification * 0.75
+        self.magnification = self.magnification / 0.75
     }
     
     public func zoomReset() {
         
-        self.magnificationTarget = 1.0
+        //self.magnificationTarget = 1.0
+        self.magnification = 1.0
     }
 }

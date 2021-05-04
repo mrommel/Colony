@@ -72,7 +72,7 @@ class ImprovementLayer: BaseLayer {
                 
                 let image = ImageCache.shared.image(for: roadTextureName)
 
-                let routeSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
+                let routeSprite = SKSpriteNode(texture: SKTexture(image: image), size: ImprovementLayer.kTextureSize)
                 routeSprite.position = position
                 routeSprite.zPosition = Globals.ZLevels.route
                 routeSprite.anchorPoint = CGPoint(x: 0, y: 0)
@@ -109,7 +109,7 @@ class ImprovementLayer: BaseLayer {
 
             self.clear(tile: tile)
 
-            let screenPoint = HexPoint.toScreen(hex: pt) * 3.0
+            let screenPoint = HexPoint.toScreen(hex: pt)
 
             if tile.isVisible(to: self.player) || self.showCompleteMap {
                 self.placeTileHex(for: tile, at: screenPoint, alpha: 1.0)

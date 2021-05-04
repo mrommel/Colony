@@ -31,56 +31,62 @@ public struct GameView: View {
         
         ZStack {
             
-            CustomScrollView(scrollPosition: self.$viewModel.contentOffset,
-                             magnification: self.$viewModel.magnification,
-                             magnificationTarget: self.$viewModel.magnificationTarget) {
-                
-                MapView(game: self.$game,
-                        /*magnification: self.$viewModel.scale,*/
-                        focus: self.$viewModel.focusPosition)
-                    .onReceive(self.gameEnvironment.game) { game in
-                        
-                        if let game = game {
-                            // update viewport size
-                            self.contentSize = game.contentSize()
-                            
-                            print("received a new game: \(game.mapSize().name())")
-                            //print("set size: \(self.contentSize * 3.0)")
-                            self.game = game
-                        }
-                    }
-                    .frame(width: self.contentSize.width * 3.0, height: self.contentSize.height * 3.0, alignment: .topLeading)
-            }
-            .background(Color.black.opacity(0.5))
+            self.content
             
-            Text("offset: \(self.$viewModel.contentOffset.wrappedValue.x), \(self.$viewModel.contentOffset.wrappedValue.y), zoom: \(self.$viewModel.magnification.wrappedValue)")
-                .background(Color.black.opacity(0.5))
+            VStack {
+                Spacer()
             
-            /*ScrollableView(scrollTo: self.$viewModel.scrollTarget,
-                           magnification: self.$viewModel.scale) {
-                
-                MapView(game: self.$game,
-                        magnification: self.$viewModel.scale,
-                        focus: self.$viewModel.focusPosition)
-                    .onReceive(self.gameEnvironment.game) { game in
-                        
-                        if let game = game {
-                            // update viewport size
-                            self.contentSize = game.contentSize()
-                            
-                            print("received a new game: \(game.mapSize().name())")
-                            //print("set size: \(self.contentSize * 3.0)")
-                            self.game = game
-                        }
-                    }
-                    .frame(width: self.contentSize.width * 3.0, height: self.contentSize.height * 3.0, alignment: .topLeading)
-                
+                Text("offset: \(String(format: "%.1f", self.$viewModel.contentOffset.wrappedValue.x)), \(String(format: "%.1f", self.$viewModel.contentOffset.wrappedValue.y)), zoom: \(String(format: "%.2f", self.$viewModel.magnification.wrappedValue))")
+                    .background(Color.black.opacity(0.5))
             }
-            .background(Color.black.opacity(0.5))*/
             
             BottomLeftBarView()
             
-            BottomRightBarView()
+            //BottomRightBarView()
         }
+    }
+    
+    private var content: AnyView {
+        
+        switch self.viewModel.presentedView {
+        
+        case .loading:
+            return AnyView(self.loadingView)
+        case .ready:
+            return AnyView(self.readyView)
+        }
+    }
+}
+
+extension GameView {
+    
+    private var loadingView: some View {
+        
+        Text("Loading")
+            .onReceive(self.gameEnvironment.game) { game in
+                
+                if let game = game {
+                    // update viewport size
+                    self.contentSize = game.contentSize()
+                    self.game = game
+                    self.viewModel.presentedView = .ready
+                }
+            }
+    }
+    
+    private var readyView: some View {
+        
+        //ScrollableView(scrollPosition: self.$viewModel.contentOffset/*,
+        //                 magnification: self.$viewModel.magnification,
+        //                 magnificationTarget: self.$viewModel.magnificationTarget*/) {
+            
+        MapView(game: self.$game,
+                magnification: self.$viewModel.magnification,
+                focus: self.$viewModel.focusPosition)
+                //.frame(width: self.contentSize.width * 3.0, height: self.contentSize.height * 3.0, alignment: .topLeading)
+            /*Color.clear
+                .frame(width: self.contentSize.width * 3.0, height: self.contentSize.height * 3.0, alignment: .topLeading)*/
+        //}
+        //.background(Color.black.opacity(0.3))
     }
 }

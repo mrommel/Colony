@@ -103,7 +103,7 @@ class MapNode: SKNode {
         self.hexCoordLayer.zPosition = Globals.ZLevels.hexCoords
         
         super.init()
-        self.zPosition = 0
+        self.zPosition = 51
 
         self.addChild(self.terrainLayer)
         self.addChild(self.featureLayer)

@@ -80,16 +80,42 @@ public class Textures {
             "yield-4-1-0", "yield-4-1-1", "yield-4-1-2", "yield-4-1-3",
             "yield-4-2-0", "yield-4-2-1", "yield-4-2-2", "yield-4-2-3", "yield-4-2-4",
             // 5
-            "yield-5-0-0",
-            "yield-5-1-0", "yield-5-1-1",
+            "yield-5-0-0", "yield-5-0-1", "yield-5-0-2", "yield-5-0-3",
+            "yield-5-1-0", "yield-5-1-1", "yield-5-1-2",
             "yield-5-2-0",
+            "yield-5-3-0",
             // 6
             "yield-6-0-0",
+            "yield-6-1-0",
         ]
         
         self.allBoardTextureNames = ["board-s-sw", "board-se-s-sw", "board-se-s", "board-se", "board-sw"]
         
         self.allImprovementTextureNames = ImprovementType.all.flatMap { $0.textureNames() } + ImprovementType.goodyHut.textureNames()
+    }
+    
+    public func terrainTexture(at point: HexPoint) -> String {
+        
+        guard let game = self.game else {
+            fatalError("cant get game")
+        }
+        
+        guard let tile = game.tile(at: point) else {
+            fatalError("cant get tile")
+        }
+        
+        var textureName = ""
+        if let coastTexture = self.coastTexture(at: point) {
+            textureName = coastTexture
+        } else {
+            if tile.hasHills() {
+                textureName = tile.terrain().textureNamesHills().item(from: point)
+            } else {
+                textureName = tile.terrain().textureNames().item(from: point)
+            }
+        }
+        
+        return textureName
     }
 
     public func coastTexture(at point: HexPoint) -> String? {
