@@ -39,27 +39,38 @@ extension GameScene: UserInterfaceDelegate {
         
         self.mapNode?.unitLayer.showFocus(for: unit)
         self.viewModel?.selectedUnit = unit
-
-        // TODO: self.updateCommands(for: unit)
+        self.updateCommands(for: unit)
     }
     
     func unselect() {
         
         self.mapNode?.unitLayer.hideFocus()
-        //self.bottomLeftBar?.selectedUnitChanged(to: nil, commands: [], in: nil)
         self.viewModel?.selectedUnit = nil
+        self.viewModel?.selectedUnitChanged(commands: [], in: nil)
     }
     
     func show(unit: AbstractUnit?) {
-        print("todo: show(unit)")
+        
+        // unit gets visible again
+        DispatchQueue.main.async() {
+            self.mapNode?.unitLayer.show(unit: unit)
+        }
     }
     
     func hide(unit: AbstractUnit?) {
-        print("todo: hide(unit)")
+        
+        // unit gets hidden
+        DispatchQueue.main.async() {
+            self.mapNode?.unitLayer.hide(unit: unit)
+            self.unselect()
+        }
     }
     
     func refresh(unit: AbstractUnit?) {
-        print("todo: refresh(unit)")
+        
+        if unit?.activityType() == .hold || unit?.activityType() == .sleep {
+            self.animate(unit: unit, animation: .fortify)
+        }
     }
     
     // show non human unit moving
@@ -74,7 +85,12 @@ extension GameScene: UserInterfaceDelegate {
     }
     
     func animate(unit: AbstractUnit?, animation: UnitAnimationType) {
-        print("todo: animate(unit)")
+        
+        if animation == .fortify {
+            self.mapNode?.unitLayer.fortify(unit: unit)
+        } else {
+            print("cant show unknown animation: \(animation)")
+        }
     }
     
     func select(tech: TechType) {
@@ -94,15 +110,21 @@ extension GameScene: UserInterfaceDelegate {
     }
     
     func show(city: AbstractCity?) {
-        print("todo: show(city)")
+        
+        self.mapNode?.cityLayer.show(city: city)
     }
     
     func update(city: AbstractCity?) {
-        print("todo: update(city)")
+        
+        self.mapNode?.cityLayer.update(city: city)
     }
     
     func refresh(tile: AbstractTile?) {
-        print("todo: refresh(tile)")
+        
+        DispatchQueue.main.async() {
+            self.mapNode?.update(tile: tile)
+            // self.bottomRightBar?.update(tile: tile)
+        }
     }
     
     func showTooltip(at point: HexPoint, text: String, delay: Double) {

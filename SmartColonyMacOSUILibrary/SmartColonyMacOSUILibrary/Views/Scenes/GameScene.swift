@@ -96,7 +96,7 @@ class GameScene: BaseScene {
     
     func zoom(to zoomScale: CGFloat) {
 
-        let zoomInAction = SKAction.scale(to: zoomScale, duration: 1.0)
+        let zoomInAction = SKAction.scale(to: zoomScale, duration: 0.5)
         self.cameraNode.run(zoomInAction)
     }
     
@@ -107,13 +107,21 @@ class GameScene: BaseScene {
     
     func center(on point: CGPoint) {
         
-        let centerAction = SKAction.move(to: point, duration: 1.0)
+        let centerAction = SKAction.move(to: point, duration: 0.5)
         self.cameraNode.run(centerAction)
     }
     
     var currentCenter: CGPoint {
         
         return self.cameraNode.position
+    }
+    
+    func center(on hex: HexPoint) {
+
+        let screenPosition = HexPoint.toScreen(hex: hex)
+        
+        let centerAction = SKAction.move(to: screenPosition, duration: 0.5)
+        self.cameraNode.run(centerAction)
     }
 }
 
@@ -195,7 +203,7 @@ extension GameScene {
                 pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player, unitMapType: selectedUnit.unitMapType(), canEmbark: selectedUnit.canEverEmbark())
                 
                 // update
-                // self.updateCommands(for: selectedUnit)
+                self.updateCommands(for: selectedUnit)
             
                 if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
                     path.prepend(point: selectedUnit.location, cost: 0.0)
@@ -252,7 +260,7 @@ extension GameScene {
                     self.mapNode?.unitLayer.hideFocus()
                     selectedUnit.queueMoveForVisualization(at: selectedUnit.location, in: self.viewModel?.game)
                     selectedUnit.doMoveOnPath(towards: position, previousETA: 0, buildingRoute: false, in: self.viewModel?.game)
-                    //self.updateCommands(for: selectedUnit)
+                    self.updateCommands(for: selectedUnit)
                 }
             //}
         }
@@ -262,6 +270,29 @@ extension GameScene {
     
     override func scrollWheel(with event: NSEvent) {
         print("scroll")
+    }
+    
+    func updateCommands(for unit: AbstractUnit?) {
+        
+        guard let sceneCombatMode = self.viewModel?.sceneCombatMode else {
+            return
+        }
+        
+        if let unit = unit {
+            
+            switch sceneCombatMode {
+                
+            case .none:
+                let commands = unit.commands(in: self.viewModel?.game)
+                self.viewModel?.selectedUnitChanged(commands: commands, in: self.viewModel?.game)
+                
+            case .melee, .ranged:
+                let commands = [Command(type: .cancelAttack, location: HexPoint.invalid)]
+                self.viewModel?.selectedUnitChanged(commands: commands, in: self.viewModel?.game)
+            }
+        } else {
+            self.viewModel?.selectedUnitChanged(commands: [], in: nil)
+        }
     }
 }
 

@@ -9,16 +9,17 @@ import SwiftUI
 
 public struct BottomLeftBarView: View {
     
-    public let viewModel: GameSceneViewModel?
+    @ObservedObject
+    public var viewModel: GameSceneViewModel
     
     public var body: some View {
-        HStack {
+        HStack(alignment: .bottom) {
             
             VStack(alignment: .leading, spacing: 10) {
                 
                 Spacer(minLength: 10)
                 
-                ZStack(alignment: .leading) {
+                ZStack(alignment: .bottomLeading) {
                     
                     Image("unit_commands_body")
                         .resizable()
@@ -35,15 +36,13 @@ public struct BottomLeftBarView: View {
                         .padding(.top, 10)
                         .padding(.leading, 3)
                     
-                    Image("button_generic")
+                    Image(nsImage: self.viewModel.buttonImage())
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
+                        .aspectRatio(contentMode: .fill)
                         .frame(width: 83, height: 83)
-                        .padding(.top, 15)
-                        .padding(.leading, 6)
+                        .offset(x: 6, y: -7)
                         .onTapGesture {
-                            //print("button tapped!")
-                            self.viewModel?.doTurn()
+                            self.viewModel.doTurn()
                         }
                     
                     Image("unit_canvas")
@@ -51,6 +50,12 @@ public struct BottomLeftBarView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 111, height: 112)
                         .allowsHitTesting(false)
+                    
+                    Image(nsImage: self.viewModel.typeImage())
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 16, height: 16)
+                        .offset(x: 5, y: -5)
                 }
             }
             

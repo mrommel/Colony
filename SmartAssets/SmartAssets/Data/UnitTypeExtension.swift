@@ -9,6 +9,15 @@ import Cocoa
 import SmartAILibrary
 
 extension UnitType {
+
+    public func iconTexture() -> NSImage {
+        
+        if let texture = self.idleAtlas?.textures.first {
+            return texture
+        }
+        
+        return NSImage(named: "unit_type_default")!
+    }
     
     public func typeTexture() -> String {
 
