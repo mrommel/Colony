@@ -20,7 +20,6 @@ class UnitObject {
     weak var gameModel: GameModel?
     
     let identifier: String
-    //var spriteName: String
 
     var atlasIdle: ObjectTextureAtlas?
     var atlasFortified: ObjectTextureAtlas?

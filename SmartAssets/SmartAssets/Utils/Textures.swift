@@ -27,6 +27,8 @@ public class Textures {
     public let allYieldsTextureNames: [String]
     public let allBoardTextureNames: [String]
     public let allImprovementTextureNames: [String]
+    public let allPathTextureNames: [String]
+    public let allPathOutTextureNames: [String]
     
     public init(game: GameModel?) {
         
@@ -92,6 +94,9 @@ public class Textures {
         self.allBoardTextureNames = ["board-s-sw", "board-se-s-sw", "board-se-s", "board-se", "board-sw"]
         
         self.allImprovementTextureNames = ImprovementType.all.flatMap { $0.textureNames() } + ImprovementType.goodyHut.textureNames()
+        
+        self.allPathTextureNames = ["path-n-sw", "path-se-nw", "path-n-nw", "path-se-sw", "path-n-se", "path-ne-s", "path-start-s", "path-n-ne", "path-sw-nw", "path-ne-se", "path-start-n", "path-start-sw", "path-se-s", "path-start-nw", "path-n-s", "path-start-se", "path-s-nw", "path-ne-sw", "path-start-ne", "path-s-sw", "path-ne-nw"]
+        self.allPathOutTextureNames = self.allPathTextureNames.map { $0 + "-out" }
     }
     
     public func terrainTexture(at point: HexPoint) -> String {

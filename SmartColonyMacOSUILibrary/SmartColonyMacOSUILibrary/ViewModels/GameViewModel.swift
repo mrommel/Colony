@@ -10,16 +10,8 @@ import SmartAssets
 import Cocoa
 import SwiftUI
 
-enum PresentedGameViewType {
-    
-    case loading
-    case ready
-}
-
 public class GameViewModel: ObservableObject {
 
-    //var mapViewModel: MapViewModel
-    
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
     
@@ -30,13 +22,7 @@ public class GameViewModel: ObservableObject {
     var magnification: CGFloat = 1.0
     
     @Published
-    var magnificationTarget: CGFloat? = nil
-    
-    @Published
-    var contentOffset: CGPoint = .zero
-    
-    @Published
-    var presentedView: PresentedGameViewType
+    var gameSceneViewModel: GameSceneViewModel
     
     // MARK: map display options
     
@@ -83,7 +69,7 @@ public class GameViewModel: ObservableObject {
     
     public init() {
         
-        self.presentedView = .loading
+        self.gameSceneViewModel = GameSceneViewModel()
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -145,13 +131,21 @@ public class GameViewModel: ObservableObject {
         }
         
         print("- load \(textures.allBoardTextureNames.count) board textures")
-        for allBoardTextureName in textures.allBoardTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: allBoardTextureName), for: allBoardTextureName)
+        for boardTextureName in textures.allBoardTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: boardTextureName), for: boardTextureName)
         }
         
         print("- load \(textures.allImprovementTextureNames.count) improvement textures")
-        for allImprovementTextureName in textures.allImprovementTextureNames {
-            ImageCache.shared.add(image: bundle.image(forResource: allImprovementTextureName), for: allImprovementTextureName)
+        for improvementTextureName in textures.allImprovementTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: improvementTextureName), for: improvementTextureName)
+        }
+        
+        print("- load \(textures.allPathTextureNames.count) + \(textures.allPathOutTextureNames.count) path textures")
+        for pathTextureName in textures.allPathTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: pathTextureName), for: pathTextureName)
+        }
+        for pathTextureName in textures.allPathOutTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: pathTextureName), for: pathTextureName)
         }
         
         var unitTextures: Int = 0
@@ -236,7 +230,7 @@ public class GameViewModel: ObservableObject {
         
         print("scroll to: \(cursor) => \(screenPoint)")
         self.contentOffset/ *.scrollTarget* / = screenPoint*/
-        self.contentOffset = HexPoint.toScreen(hex: cursor)
+        //self.contentOffset = HexPoint.toScreen(hex: cursor)
     }
     
     public func zoomIn() {

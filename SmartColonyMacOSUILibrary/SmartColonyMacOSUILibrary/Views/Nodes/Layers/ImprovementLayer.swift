@@ -47,7 +47,7 @@ class ImprovementLayer: BaseLayer {
             let improvementTextureName = improvement.textureNames().item(from: tile.point)
             let image = ImageCache.shared.image(for: improvementTextureName)
 
-            let improvementSprite = SKSpriteNode(texture: SKTexture(image: image), size: CGSize(width: 144, height: 144))
+            let improvementSprite = SKSpriteNode(texture: SKTexture(image: image), size: ImprovementLayer.kTextureSize)
             improvementSprite.position = position
             improvementSprite.zPosition = Globals.ZLevels.improvement
             improvementSprite.anchorPoint = CGPoint(x: 0, y: 0)

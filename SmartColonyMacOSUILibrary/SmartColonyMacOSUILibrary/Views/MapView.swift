@@ -1,5 +1,5 @@
 //
-//  SKMapView.swift
+//  GameSceneView.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 24.04.21.
@@ -11,7 +11,7 @@ import SmartAILibrary
 import SmartAssets
 
 // resize https://www.hackingwithswift.com/forums/swiftui/swiftui-spritekit-macos-catalina-10-15/2662
-struct MapView: NSViewRepresentable {
+struct GameSceneView: NSViewRepresentable {
     
     @Binding
     var game: GameModel?
@@ -27,14 +27,9 @@ struct MapView: NSViewRepresentable {
     
     class Coordinator: NSObject {
         var gameScene: GameScene?
-        
-        func resizeScene(to size: CGSize) {
-            self.gameScene?.size = size
-        }
     }
     
     func makeCoordinator() -> Coordinator {
-        // add bindings here
         return Coordinator()
     }
     
@@ -65,23 +60,13 @@ struct MapView: NSViewRepresentable {
     }
  
     func updateNSView(_ view: SKView, context: Context) {
-
-        //print("updated new game: \(self.game)")
-        guard let game = self.game else {
-            return
-        }
-        
-        /*let contentSize = game.contentSize() * 3.0
-        if context.coordinator.gameScene?.size != contentSize {
-            context.coordinator.resizeScene(to: contentSize)
-        }*/
         
         if context.coordinator.gameScene?.viewModel == nil {
             context.coordinator.gameScene?.viewModel = GameSceneViewModel(with: self.game)
             context.coordinator.gameScene?.setupMap()
         }
         
-        print("## current: \(context.coordinator.gameScene?.currentZoom) => \(self.magnification)")
+        //print("## current: \(context.coordinator.gameScene?.currentZoom) => \(self.magnification)")
         if context.coordinator.gameScene?.currentZoom != self.magnification {
             context.coordinator.gameScene?.zoom(to: self.magnification)
         }

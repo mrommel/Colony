@@ -250,8 +250,10 @@ class UnitLayer: SKNode {
             if !isReallyMovementLeft {
                 textureName = textureName + "-out"
             }
+            
+            let pathImage = ImageCache.shared.image(for: textureName)
 
-            let pathSprite = SKSpriteNode(imageNamed: textureName)
+            let pathSprite = SKSpriteNode(texture: SKTexture(image: pathImage), size: UnitLayer.kTextureSize)
             pathSprite.position = HexPoint.toScreen(hex: firstPoint)
             pathSprite.zPosition = Globals.ZLevels.path
             pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
@@ -284,7 +286,9 @@ class UnitLayer: SKNode {
                     textureName = textureName + "-out"
                 }
 
-                let pathSprite = SKSpriteNode(imageNamed: textureName)
+                let pathImage = ImageCache.shared.image(for: textureName)
+
+                let pathSprite = SKSpriteNode(texture: SKTexture(image: pathImage), size: UnitLayer.kTextureSize)
                 pathSprite.position = HexPoint.toScreen(hex: currentPoint)
                 pathSprite.zPosition = Globals.ZLevels.path
                 pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)
@@ -309,8 +313,14 @@ class UnitLayer: SKNode {
             if !isReallyMovementLeft {
                 textureName = textureName + "-out"
             }
+            
+            if !ImageCache.shared.exists(key: textureName) {
+                return
+            }
 
-            let pathSprite = SKSpriteNode(imageNamed: textureName)
+            let pathImage = ImageCache.shared.image(for: textureName)
+
+            let pathSprite = SKSpriteNode(texture: SKTexture(image: pathImage), size: UnitLayer.kTextureSize)
             pathSprite.position = HexPoint.toScreen(hex: lastPoint)
             pathSprite.zPosition = Globals.ZLevels.path
             pathSprite.anchorPoint = CGPoint(x: 0.0, y: 0.0)

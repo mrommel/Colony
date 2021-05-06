@@ -9,12 +9,7 @@ import SwiftUI
 
 public struct BottomLeftBarView: View {
     
-    /*private let viewModel: MapViewModel
-    
-    public init(viewModel: MapViewModel) {
-        
-        self.viewModel = viewModel
-    }*/
+    public let viewModel: GameSceneViewModel?
     
     public var body: some View {
         HStack {
@@ -48,7 +43,7 @@ public struct BottomLeftBarView: View {
                         .padding(.leading, 6)
                         .onTapGesture {
                             //print("button tapped!")
-                            //self.viewModel.doTurn()
+                            self.viewModel?.doTurn()
                         }
                     
                     Image("unit_canvas")
@@ -60,47 +55,16 @@ public struct BottomLeftBarView: View {
             }
             
             Spacer(minLength: 10)
-        
-            /*VStack(alignment: .leading, spacing: 10) {
-                Text("top leading")
-                Spacer()
-                Text("leading")
-                Spacer()
-                Text("bottom leading")
-                Button("Turn") {
-                    print("turn")
-                }
-            }
-            
-            Spacer()
-            
-            VStack(alignment: .center, spacing: 10) {
-                Text("top center")
-                Spacer()
-                Text("center")
-                Spacer()
-                Text("bottom center")
-            }
-            
-            Spacer()
-            
-            VStack(alignment: .trailing, spacing: 10) {
-                Text("top trailing")
-                Spacer()
-                Text("trailing")
-                Spacer()
-                Text("bottom trailing")
-            }*/
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     }
 }
-/*
+
 struct BottomLeftBarView_Previews: PreviewProvider {
     
     static var previews: some View {
         
-        let viewModel = MapViewModel()
+        let viewModel = GameSceneViewModel()
         BottomLeftBarView(viewModel: viewModel)
     }
-}*/
+}

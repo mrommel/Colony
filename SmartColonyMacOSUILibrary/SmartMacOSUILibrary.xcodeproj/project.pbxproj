@@ -13,6 +13,8 @@
 		C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920C425262EB03F0024EC0E /* GameEnvironment.swift */; };
 		C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6AA260F24640053DF74 /* CGRectExtension.swift */; };
 		C94507A9262232E400CFD27D /* DataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94507A8262232E400CFD27D /* DataPicker.swift */; };
+		C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */; };
+		C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */; };
 		C968F28F2639455700612D0E /* BaseLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F28E2639455700612D0E /* BaseLayer.swift */; };
 		C968F2972639817A00612D0E /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F2962639817A00612D0E /* ProgressCircle.swift */; };
 		C968F299263981DD00612D0E /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F298263981DD00612D0E /* ProgressBar.swift */; };
@@ -37,7 +39,7 @@
 		C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88912607A269003B8B73 /* NSImageExtension.swift */; };
 		C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A88972607A2CC003B8B73 /* CGImageExtension.swift */; };
 		C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A889B2607A319003B8B73 /* CGContextExtension.swift */; };
-		C9A3760526340F9B0057923E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3760426340F9B0057923E /* MapView.swift */; };
+		C9A3760526340F9B0057923E /* GameSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3760426340F9B0057923E /* GameSceneView.swift */; };
 		C9A376072634462A0057923E /* FeatureLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A376062634462A0057923E /* FeatureLayer.swift */; };
 		C9A37609263446360057923E /* TerrainLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37608263446360057923E /* TerrainLayer.swift */; };
 		C9A37613263456E30057923E /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A37612263456E30057923E /* BaseScene.swift */; };
@@ -88,6 +90,8 @@
 		C920C425262EB03F0024EC0E /* GameEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEnvironment.swift; sourceTree = "<group>"; };
 		C93AA6AA260F24640053DF74 /* CGRectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
 		C94507A8262232E400CFD27D /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
+		C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneUserInterface.swift; sourceTree = "<group>"; };
+		C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneViewModel.swift; sourceTree = "<group>"; };
 		C968F28E2639455700612D0E /* BaseLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLayer.swift; sourceTree = "<group>"; };
 		C968F2962639817A00612D0E /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		C968F298263981DD00612D0E /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
@@ -112,7 +116,7 @@
 		C99A88912607A269003B8B73 /* NSImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageExtension.swift; sourceTree = "<group>"; };
 		C99A88972607A2CC003B8B73 /* CGImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImageExtension.swift; sourceTree = "<group>"; };
 		C99A889B2607A319003B8B73 /* CGContextExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGContextExtension.swift; sourceTree = "<group>"; };
-		C9A3760426340F9B0057923E /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		C9A3760426340F9B0057923E /* GameSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneView.swift; sourceTree = "<group>"; };
 		C9A376062634462A0057923E /* FeatureLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLayer.swift; sourceTree = "<group>"; };
 		C9A37608263446360057923E /* TerrainLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainLayer.swift; sourceTree = "<group>"; };
 		C9A37612263456E30057923E /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
@@ -191,6 +195,14 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
+		C950F98C26427E060057A7D1 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
 		C968F2AA2639E98600612D0E /* Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,7 +251,7 @@
 				C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */,
 				C9A61D8B261EF87000341241 /* BottomRightBarView.swift */,
 				C9BDCF8A262476E6002488F6 /* GameView.swift */,
-				C9A3760426340F9B0057923E /* MapView.swift */,
+				C9A3760426340F9B0057923E /* GameSceneView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -247,6 +259,7 @@
 		C99A886E26079FE5003B8B73 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				C950F98C26427E060057A7D1 /* Scenes */,
 				C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */,
 				C9BDCF8C2624771C002488F6 /* GameViewModel.swift */,
 				C920C425262EB03F0024EC0E /* GameEnvironment.swift */,
@@ -301,6 +314,7 @@
 			children = (
 				C9A37612263456E30057923E /* BaseScene.swift */,
 				C9A37618263457D70057923E /* GameScene.swift */,
+				C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -398,6 +412,7 @@
 				C9B43FAD263E8DEE00241012 /* ZoomableScrollView.swift in Sources */,
 				C968F28F2639455700612D0E /* BaseLayer.swift in Sources */,
 				C968F2A92639E97400612D0E /* CityObject.swift in Sources */,
+				C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */,
 				C9A37609263446360057923E /* TerrainLayer.swift in Sources */,
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
@@ -418,9 +433,10 @@
 				C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */,
 				C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */,
 				C968F29F2639BAD500612D0E /* BorderLayer.swift in Sources */,
-				C9A3760526340F9B0057923E /* MapView.swift in Sources */,
+				C9A3760526340F9B0057923E /* GameSceneView.swift in Sources */,
 				C968F2AC2639ED6C00612D0E /* NineGridTextureSprite.swift in Sources */,
 				C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */,
+				C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */,
 				C968F2A72639E8FB00612D0E /* CityLayer.swift in Sources */,
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
 				C968F29B2639B86D00612D0E /* ImprovementLayer.swift in Sources */,

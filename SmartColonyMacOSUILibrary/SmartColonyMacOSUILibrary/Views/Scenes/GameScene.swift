@@ -9,16 +9,6 @@ import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
-class GameSceneViewModel {
-    
-    var game: GameModel?
-    
-    init(with game: GameModel?) {
-        
-        self.game = game
-    }
-}
-
 class GameScene: BaseScene {
 
     // Constants
@@ -89,6 +79,8 @@ class GameScene: BaseScene {
 
         self.mapNode = MapNode(with: viewModel.game)
         self.viewHex?.addChild(self.mapNode!)
+        
+        viewModel.game?.userInterface = self
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -128,6 +120,15 @@ class GameScene: BaseScene {
 extension GameScene {
     
     override func mouseDown(with event: NSEvent) {
+
+        guard let game = self.viewModel?.game else {
+            print("cant get game")
+            return
+        }
+        
+        guard let humanPlayer = game.humanPlayer() else {
+            fatalError("cant get humanPlayer")
+        }
         
         let location = event.location(in: self)
         let touchLocation = self.convert(location, to: self.viewHex!) // / 3.0
@@ -137,27 +138,90 @@ extension GameScene {
         }
         
         let position = HexPoint(screen: location)
-        print("position clicked: \(position)")
+        
+        if event.clickCount >= 2 {
+            print("double click")
+            // double tap opens city
+            if let city = game.city(at: position) {
+
+                if humanPlayer.isEqual(to: city.player) {
+                    self.showScreen(screenType: .city, city: city, other: nil, data: nil)
+                    return
+                }
+            }
+        } else {
+
+            if let combatUnit = game.unit(at: position, of: .combat) {
+                if humanPlayer.isEqual(to: combatUnit.player) {
+                    self.select(unit: combatUnit)
+                    return
+                }
+            } else if let civilianUnit = game.unit(at: position, of: .civilian) {
+                if humanPlayer.isEqual(to: civilianUnit.player) {
+                    self.select(unit: civilianUnit)
+                    return
+                }
+            }
+        }
+
+        self.unselect()
+    }
+    
+    override func rightMouseDown(with event: NSEvent) {
+        
+        print("right down")
+    }
+    
+    override func mouseMoved(with event: NSEvent) {
+        print("moved")
     }
     
     override func mouseDragged(with event: NSEvent) {
+        
+        if let selectedUnit = self.viewModel?.selectedUnit {
+            
+            let location = event.location(in: self)
+            let touchLocation = self.convert(location, to: self.viewHex!) // / 3.0
+            
+            if touchLocation.x.isNaN || touchLocation.y.isNaN {
+                return
+            }
+            
+            let position = HexPoint(screen: location)
+            
+            if position != selectedUnit.location {
 
-        if self.previousLocation == .zero {
+                let pathFinder = AStarPathfinder()
+                pathFinder.dataSource = self.viewModel?.game?.unitAwarePathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player, unitMapType: selectedUnit.unitMapType(), canEmbark: selectedUnit.canEverEmbark())
+                
+                // update
+                // self.updateCommands(for: selectedUnit)
+            
+                if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: position) {
+                    path.prepend(point: selectedUnit.location, cost: 0.0)
+                    self.mapNode?.unitLayer.show(path: path, for: selectedUnit)
+                } else {
+                    self.mapNode?.unitLayer.clearPathSpriteBuffer()
+                }
+            }
+            
+        } else {
+            if self.previousLocation == .zero {
+                
+                self.previousLocation = event.location(in: self)
+                return
+            }
+            
+            let touchLocation = event.location(in: self)
+
+            let deltaX = (touchLocation.x) - (self.previousLocation.x)
+            let deltaY = (touchLocation.y) - (self.previousLocation.y)
+
+            self.cameraNode.position.x -= deltaX * 0.7
+            self.cameraNode.position.y -= deltaY * 0.7
             
             self.previousLocation = event.location(in: self)
-            return
         }
-        
-        let touchLocation = event.location(in: self)
-        print("clicked at: \(touchLocation)")
-
-        let deltaX = (touchLocation.x) - (self.previousLocation.x)
-        let deltaY = (touchLocation.y) - (self.previousLocation.y)
-
-        self.cameraNode.position.x -= deltaX * 0.7
-        self.cameraNode.position.y -= deltaY * 0.7
-        
-        self.previousLocation = event.location(in: self)
     }
     
     override func mouseUp(with event: NSEvent) {
