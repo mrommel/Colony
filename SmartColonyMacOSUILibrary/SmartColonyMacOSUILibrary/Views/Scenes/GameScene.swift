@@ -181,7 +181,7 @@ extension GameScene {
         if let selectedUnit = self.viewModel?.selectedUnit {
             
             let location = event.location(in: self)
-            let touchLocation = self.convert(location, to: self.viewHex!) // / 3.0
+            let touchLocation = self.convert(location, to: self.viewHex!)
             
             if touchLocation.x.isNaN || touchLocation.y.isNaN {
                 return
@@ -225,7 +225,38 @@ extension GameScene {
     }
     
     override func mouseUp(with event: NSEvent) {
+        
+        let location = event.location(in: self)
+        let touchLocation = self.convert(location, to: self.viewHex!)
+        
+        if touchLocation.x.isNaN || touchLocation.y.isNaN {
+            return
+        }
+        
+        let position = HexPoint(screen: location)
 
+        if let selectedUnit = self.viewModel?.selectedUnit {
+
+            /*if self.uiCombatMode == .melee {
+                
+                if let unitToAttack = self.viewModel?.game?.unit(at: position, of: .combat) {
+                    
+                    self.bottomCombatBar?.combatPrediction(of: selectedUnit, against: unitToAttack, mode: .melee, in: self.viewModel?.game)
+                }
+                
+            } else {*/
+                
+                self.mapNode?.unitLayer.clearPathSpriteBuffer()
+                
+                if selectedUnit.location != position {
+                    self.mapNode?.unitLayer.hideFocus()
+                    selectedUnit.queueMoveForVisualization(at: selectedUnit.location, in: self.viewModel?.game)
+                    selectedUnit.doMoveOnPath(towards: position, previousETA: 0, buildingRoute: false, in: self.viewModel?.game)
+                    //self.updateCommands(for: selectedUnit)
+                }
+            //}
+        }
+        
         self.previousLocation = .zero
     }
     

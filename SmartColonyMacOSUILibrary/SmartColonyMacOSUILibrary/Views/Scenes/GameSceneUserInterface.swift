@@ -112,5 +112,4 @@ extension GameScene: UserInterfaceDelegate {
     func focus(on location: HexPoint) {
         print("todo: focus(on)")
     }
-    
 }

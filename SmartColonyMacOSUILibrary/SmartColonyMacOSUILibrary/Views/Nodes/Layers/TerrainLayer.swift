@@ -55,9 +55,7 @@ class TerrainLayer: BaseLayer {
     
     /// handles all terrain
     func placeTileHex(for tile: AbstractTile, at position: CGPoint, alpha: CGFloat) {
-        
-        print("TerrainLayer.placeTileHex(at: \(tile.point), position: \(position))")
-        
+
         // place terrain
         if let terrainTexture = self.textures?.terrainTexture(at: tile.point) {
 
