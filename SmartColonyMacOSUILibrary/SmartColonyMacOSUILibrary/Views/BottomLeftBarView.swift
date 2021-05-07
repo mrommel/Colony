@@ -33,13 +33,54 @@ public struct BottomLeftBarView: View {
                             .offset(x: 0, y: 0)
                         
                         Text(self.viewModel.unitName())
-                            .offset(x: 70, y: -80)
+                            .offset(x: 60, y: -80)
                         
-                        Image("black_circle")
+                        Divider()
+                        
+                        Text(self.viewModel.unitMoves())
+                            .offset(x: 60, y: -60)
+                        
+                        Text(self.viewModel.unitHealth())
+                            .offset(x: 60, y: -40)
+                        
+                        Text(self.viewModel.unitCharges())
+                            .offset(x: 60, y: -20)
+                        
+                        Image(nsImage: self.viewModel.commandImage(at: 3))
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 16, height: 16)
-                            .offset(x: 70, y: -30)
+                            .frame(width: 32, height: 32)
+                            .offset(x: 30, y: -107)
+                            .onTapGesture {
+                                self.viewModel.commandClicked(at: 3)
+                            }
+                        
+                        Image(nsImage: self.viewModel.commandImage(at: 2))
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 32, height: 32)
+                            .offset(x: 65, y: -107)
+                            .onTapGesture {
+                                self.viewModel.commandClicked(at: 2)
+                            }
+                        
+                        Image(nsImage: self.viewModel.commandImage(at: 1))
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 32, height: 32)
+                            .offset(x: 100, y: -107)
+                            .onTapGesture {
+                                self.viewModel.commandClicked(at: 1)
+                            }
+                        
+                        Image(nsImage: self.viewModel.commandImage(at: 0))
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 32, height: 32)
+                            .offset(x: 135, y: -107)
+                            .onTapGesture {
+                                self.viewModel.commandClicked(at: 0)
+                            }
                     }
                     .frame(width: 200, height: 112)
                     .offset(x: self.showCommandsBody ? 60 : -20, y: 0)
@@ -78,6 +119,7 @@ public struct BottomLeftBarView: View {
                             .frame(width: 16, height: 16)
                     }
                     .frame(width: 16, height: 16)
+                    .clipShape(Circle())
                     .offset(x: 5, y: -5)
                     
                     Image("unit_canvas")

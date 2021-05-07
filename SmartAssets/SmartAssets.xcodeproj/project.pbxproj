@@ -17,6 +17,7 @@
 		C931ADD82577D0F80002BA2F /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C931ADD72577D0F80002BA2F /* SmartAILibrary.framework */; };
 		C931ADD92577D0F80002BA2F /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C931ADD72577D0F80002BA2F /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C931ADE32577D1510002BA2F /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931ADE22577D1510002BA2F /* ArrayExtension.swift */; };
+		C950F990264573F30057A7D1 /* CommandTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98F264573F20057A7D1 /* CommandTypeExtension.swift */; };
 		C952B9AC261E3930008822DD /* ObjectTextureAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952B9AB261E3930008822DD /* ObjectTextureAtlas.swift */; };
 		C952B9AE261E396F008822DD /* TextureAtlasExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952B9AD261E396F008822DD /* TextureAtlasExtension.swift */; };
 		C968F29D2639BA4F00612D0E /* ImprovementTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */; };
@@ -83,6 +84,7 @@
 		C931ADD12577D0E30002BA2F /* Textures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Textures.swift; sourceTree = "<group>"; };
 		C931ADD72577D0F80002BA2F /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C931ADE22577D1510002BA2F /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
+		C950F98F264573F20057A7D1 /* CommandTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandTypeExtension.swift; sourceTree = "<group>"; };
 		C952B9AB261E3930008822DD /* ObjectTextureAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectTextureAtlas.swift; sourceTree = "<group>"; };
 		C952B9AD261E396F008822DD /* TextureAtlasExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureAtlasExtension.swift; sourceTree = "<group>"; };
 		C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementTypeExtension.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				C9022FA12609D06A00C6773A /* HandicapTypeExtension.swift */,
 				C9A09828261C80080098C5E1 /* UnitTypeExtension.swift */,
 				C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */,
+				C950F98F264573F20057A7D1 /* CommandTypeExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				C931ADE32577D1510002BA2F /* ArrayExtension.swift in Sources */,
 				C952B9AE261E396F008822DD /* TextureAtlasExtension.swift in Sources */,
 				C925594A25F9569700C2BF28 /* ColorExtension.swift in Sources */,
+				C950F990264573F30057A7D1 /* CommandTypeExtension.swift in Sources */,
 				C9A09829261C80080098C5E1 /* UnitTypeExtension.swift in Sources */,
 				C9AB2C72257E6B350045DFBC /* MapSizeExtension.swift in Sources */,
 				C98E68B32577D28E00BD93CA /* TerrainTypeExtension.swift in Sources */,

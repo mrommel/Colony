@@ -5,8 +5,6 @@
 //  Created by Michael Rommel on 28.04.21.
 //
 
-import Foundation
-
 import SmartAILibrary
 
 extension ImprovementType {

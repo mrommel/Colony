@@ -174,6 +174,15 @@ public class GameViewModel: ObservableObject {
             }
         }
         
+        print("- load \(textures.commandTextureNames.count) + \(textures.commandButtonTextureNames.count) command textures")
+        for commandTextureName in textures.commandTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: commandTextureName), for: commandTextureName)
+        }
+        
+        for commandButtonTextureName in textures.commandButtonTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: commandButtonTextureName), for: commandButtonTextureName)
+        }
+        
         print("-- all textures loaded --")
     }
     

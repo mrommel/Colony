@@ -10,7 +10,7 @@ import SmartAILibrary
 
 extension CommandType {
 
-    func iconTexture() -> String {
+    public func iconTexture() -> String {
 
         switch self {
 
@@ -35,7 +35,7 @@ extension CommandType {
         }
     }
 
-    func commandTexture() -> String {
+    public func commandTexture() -> String {
 
         switch self {
 
