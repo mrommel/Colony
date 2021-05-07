@@ -10,6 +10,18 @@ import SmartAssets
 import Cocoa
 import SwiftUI
 
+protocol GameViewModelDelegate: AnyObject {
+    
+    func focus(on point: HexPoint)
+    /*func handleTurnButtonClicked()
+    func handleFocusOnUnit()
+    func handleTechNeeded()
+    func handleCivicNeeded()
+    func handleProductionNeeded(at point: HexPoint)
+    func handlePoliciesNeeded()
+    func handleUnitPromotion(at point: HexPoint)*/
+}
+
 public class GameViewModel: ObservableObject {
 
     @Environment(\.gameEnvironment)
@@ -70,6 +82,7 @@ public class GameViewModel: ObservableObject {
     public init() {
         
         self.gameSceneViewModel = GameSceneViewModel()
+        self.gameSceneViewModel.delegate = self
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -244,13 +257,11 @@ public class GameViewModel: ObservableObject {
     
     public func zoomIn() {
         
-        //self.magnificationTarget = self.magnification * 1.5
         self.magnification = self.magnification * 0.75
     }
     
     public func zoomOut() {
         
-        //self.magnificationTarget = self.magnification * 0.75
         self.magnification = self.magnification / 0.75
     }
     
@@ -258,5 +269,13 @@ public class GameViewModel: ObservableObject {
         
         //self.magnificationTarget = 1.0
         self.magnification = 1.0
+    }
+}
+
+extension GameViewModel: GameViewModelDelegate {
+    
+    func focus(on point: HexPoint) {
+        
+        self.focusPosition = point
     }
 }

@@ -18,6 +18,8 @@ class GameScene: BaseScene {
     internal var mapNode: MapNode?
     private var viewHex: SKSpriteNode?
     var previousLocation: CGPoint = .zero
+    var lastExecuted: TimeInterval = -1
+    let queue: DispatchQueue = DispatchQueue(label: "update_queue")
     
     // view model
     var viewModel: GameSceneViewModel?
@@ -84,7 +86,48 @@ class GameScene: BaseScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+        
+        // only check once per 0.5 sec
+        if self.lastExecuted + 0.5 < currentTime {
+
+            guard let gameModel = self.viewModel?.game else {
+                return
+            }
+
+            guard let humanPlayer = gameModel.humanPlayer() else {
+                fatalError("cant get human")
+            }
+
+            if self.viewModel!.readyUpdatingAI {
+
+                if humanPlayer.isActive() {
+                    self.viewModel?.changeUITurnState(to: .humanTurns)
+
+                    if self.viewModel!.readyUpdatingHuman {
+
+                        self.viewModel!.readyUpdatingHuman = false
+                        self.queue.async {
+                            //print("-----------> before human processing")
+                            gameModel.update()
+                            //print("-----------> after human processing")
+                            self.viewModel!.readyUpdatingHuman = true
+                        }
+                    }
+
+                } else {
+
+                    self.viewModel!.readyUpdatingAI = false
+                    self.queue.async {
+                        //print("-----------> before AI processing")
+                        gameModel.update()
+                        //print("-----------> after AI processing")
+                        self.viewModel!.readyUpdatingAI = true
+                    }
+                }
+            }
+
+            self.lastExecuted = currentTime
+        }
     }
     
     override func updateLayout() {

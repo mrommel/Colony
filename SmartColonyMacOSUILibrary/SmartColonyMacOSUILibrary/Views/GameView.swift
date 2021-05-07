@@ -39,6 +39,7 @@ public struct GameView: View {
                         self.viewModel.gameSceneViewModel.game = game
                     }
                 }
+                
             
             /*VStack {
                 Spacer()
