@@ -82,3 +82,26 @@ extension NSImage {
         return self
     }
 }
+
+// This will work with Swift 5
+extension NSImage {
+    
+    public func tint(with tintColor: NSColor) -> NSImage {
+        if self.isTemplate == false {
+            return self
+        }
+        
+        let image = self.copy() as! NSImage
+        image.lockFocus()
+        
+        tintColor.set()
+        
+        let imageRect = NSRect(origin: .zero, size: image.size)
+        imageRect.fill(using: .sourceIn)
+        
+        image.unlockFocus()
+        image.isTemplate = false
+        
+        return image
+    }
+}

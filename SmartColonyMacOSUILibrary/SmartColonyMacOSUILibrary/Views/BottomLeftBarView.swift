@@ -12,6 +12,9 @@ public struct BottomLeftBarView: View {
     @ObservedObject
     public var viewModel: GameSceneViewModel
     
+    @State
+    var showCommandsBody: Bool = false
+    
     public var body: some View {
         HStack(alignment: .bottom) {
             
@@ -21,13 +24,30 @@ public struct BottomLeftBarView: View {
                 
                 ZStack(alignment: .bottomLeading) {
                     
-                    Image("unit_commands_body")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 200, height: 112)
-                        .onTapGesture {
-                            print("unit_commands_body tapped!")
+                    ZStack(alignment: .bottomLeading) {
+                        
+                        Image("unit_commands_body")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 200, height: 112)
+                            .offset(x: 0, y: 0)
+                        
+                        Text(self.viewModel.unitName())
+                            .offset(x: 70, y: -80)
+                        
+                        Image("black_circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 16, height: 16)
+                            .offset(x: 70, y: -30)
+                    }
+                    .frame(width: 200, height: 112)
+                    .offset(x: self.showCommandsBody ? 60 : -20, y: 0)
+                    .onReceive(self.viewModel.$showCommands, perform: { value in
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            self.showCommandsBody = value
                         }
+                    })
                     
                     Image("black_circle")
                         .resizable()
@@ -45,17 +65,26 @@ public struct BottomLeftBarView: View {
                             self.viewModel.doTurn()
                         }
                     
+                    ZStack(alignment: .bottomLeading) {
+                        
+                        Image(nsImage: self.viewModel.typeBackgroundImage())
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 16, height: 16)
+                    
+                        Image(nsImage: self.viewModel.typeImage())
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 16, height: 16)
+                    }
+                    .frame(width: 16, height: 16)
+                    .offset(x: 5, y: -5)
+                    
                     Image("unit_canvas")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 111, height: 112)
                         .allowsHitTesting(false)
-                    
-                    Image(nsImage: self.viewModel.typeImage())
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 16, height: 16)
-                        .offset(x: 5, y: -5)
                 }
             }
             
@@ -65,6 +94,7 @@ public struct BottomLeftBarView: View {
     }
 }
 
+/*
 struct BottomLeftBarView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -73,3 +103,4 @@ struct BottomLeftBarView_Previews: PreviewProvider {
         BottomLeftBarView(viewModel: viewModel)
     }
 }
+*/

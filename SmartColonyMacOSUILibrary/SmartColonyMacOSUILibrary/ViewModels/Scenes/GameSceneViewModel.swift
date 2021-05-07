@@ -5,8 +5,9 @@
 //  Created by Michael Rommel on 05.05.21.
 //
 
-import SmartAILibrary
 import Cocoa
+import SmartAILibrary
+import SmartAssets
 
 public class GameSceneViewModel: ObservableObject {
     
@@ -28,6 +29,9 @@ public class GameSceneViewModel: ObservableObject {
     
     @Published
     var turnButtonNotificationType: NotificationType = .unitNeedsOrders
+    
+    @Published
+    var showCommands: Bool = false
     
     public init() {
         
@@ -76,9 +80,41 @@ public class GameSceneViewModel: ObservableObject {
     public func typeImage() -> NSImage {
         
         if let selectedUnit = self.selectedUnit {
-            return ImageCache.shared.image(for: selectedUnit.type.typeTexture())
+            
+            guard let civilization = selectedUnit.player?.leader.civilization() else {
+                fatalError("cant get civ")
+            }
+            
+            let image = ImageCache.shared.image(for: selectedUnit.type.typeTexture())
+            
+            return image.tint(with: civilization.accent)
+            
         } else {
             return ImageCache.shared.image(for: "unit-type-default")
+        }
+    }
+    
+    public func typeBackgroundImage() -> NSImage {
+
+        if let selectedUnit = self.selectedUnit {
+            
+            guard let civilization = selectedUnit.player?.leader.civilization() else {
+                fatalError("cant get civ")
+            }
+
+            return NSImage(color: civilization.main, size: NSSize(width: 16, height: 16))
+            
+        } else {
+            return NSImage(color: .black, size: NSSize(width: 16, height: 16))
+        }
+    }
+    
+    public func unitName() -> String {
+        
+        if let selectedUnit = self.selectedUnit {
+            return selectedUnit.name()
+        } else {
+            return ""
         }
     }
     
@@ -195,6 +231,8 @@ public class GameSceneViewModel: ObservableObject {
              self.unitCommandsCanvasNode?.run(moveAction, withKey: "showUnitCommands", completion: {
              self.unitCommandsVisible = true
              })*/
+            
+            self.showCommands = true
         } else {
             print("no unit")
             /*
@@ -226,6 +264,7 @@ public class GameSceneViewModel: ObservableObject {
              self.unitHealth?.removeFromParent()
              self.unitMoves?.removeFromParent()
              */
+            self.showCommands = false
         }
     }
 }
