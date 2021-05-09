@@ -30,6 +30,7 @@ public class Textures {
     public let allPathTextureNames: [String]
     public let allPathOutTextureNames: [String]
     
+    public let buttonTextureNames: [String]
     public let commandTextureNames: [String]
     public let commandButtonTextureNames: [String]
     
@@ -101,6 +102,7 @@ public class Textures {
         self.allPathTextureNames = ["path-n-sw", "path-se-nw", "path-n-nw", "path-se-sw", "path-n-se", "path-ne-s", "path-start-s", "path-n-ne", "path-sw-nw", "path-ne-se", "path-start-n", "path-start-sw", "path-se-s", "path-start-nw", "path-n-s", "path-start-se", "path-s-nw", "path-ne-sw", "path-start-ne", "path-s-sw", "path-ne-nw"]
         self.allPathOutTextureNames = self.allPathTextureNames.map { $0 + "-out" }
         
+        self.buttonTextureNames = NotificationType.all.map { $0.iconTexture() }
         self.commandTextureNames = CommandType.all.map { $0.iconTexture() }
         self.commandButtonTextureNames = CommandType.all.map { $0.buttonTexture() }
     }

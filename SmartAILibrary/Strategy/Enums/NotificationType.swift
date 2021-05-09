@@ -32,4 +32,6 @@ public enum NotificationType: Int, Codable {
     case unitDied
     
     case greatPersonJoined
+    
+    public static var all: [NotificationType] = [.turn, .generic, .techNeeded, .civicNeeded, .productionNeeded, .canChangeGovernment, .policiesNeeded, .cityGrowth, .starving, .diplomaticDeclaration, .war, .enemyInTerritory, .unitPromotion, .unitNeedsOrders, .unitDied, .greatPersonJoined]
 }

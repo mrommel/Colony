@@ -13,6 +13,8 @@ import SwiftUI
 protocol GameViewModelDelegate: AnyObject {
     
     func focus(on point: HexPoint)
+    
+    func showChangePoliciesDialog()
     /*func handleTurnButtonClicked()
     func handleFocusOnUnit()
     func handleTechNeeded()
@@ -23,6 +25,13 @@ protocol GameViewModelDelegate: AnyObject {
 }
 
 public class GameViewModel: ObservableObject {
+    
+    // type of shown dialog - highlander - there can only be one
+    enum DialogType {
+        
+        case none // standard
+        case policy
+    }
 
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
@@ -35,6 +44,11 @@ public class GameViewModel: ObservableObject {
     
     @Published
     var gameSceneViewModel: GameSceneViewModel
+    
+    // UI
+    
+    @Published
+    var shownDialog: DialogType = .none
     
     // MARK: map display options
     
@@ -187,6 +201,11 @@ public class GameViewModel: ObservableObject {
             }
         }
         
+        print("- load \(textures.buttonTextureNames.count) button textures")
+        for buttonTextureName in textures.buttonTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: buttonTextureName), for: buttonTextureName)
+        }
+        
         print("- load \(textures.commandTextureNames.count) + \(textures.commandButtonTextureNames.count) command textures")
         for commandTextureName in textures.commandTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: commandTextureName), for: commandTextureName)
@@ -273,9 +292,23 @@ public class GameViewModel: ObservableObject {
 }
 
 extension GameViewModel: GameViewModelDelegate {
-    
+
     func focus(on point: HexPoint) {
         
         self.focusPosition = point
+    }
+    
+    func showChangePoliciesDialog() {
+        
+        if self.shownDialog == .policy {
+            // already shown
+            return
+        }
+        
+        if self.shownDialog == .none {
+            self.shownDialog = .policy
+        } else {
+            fatalError("cant show policy dialog, \(self.shownDialog) is currently shown")
+        }
     }
 }

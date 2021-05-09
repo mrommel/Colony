@@ -93,7 +93,7 @@ public class GameSceneViewModel: ObservableObject {
         if let selectedUnit = self.selectedUnit {
             return selectedUnit.type.iconTexture()
         } else {
-            return NSImage(named: "button_generic")! 
+            return ImageCache.shared.image(for: self.turnButtonNotificationType.iconTexture())
         }
     }
     
@@ -435,7 +435,8 @@ extension GameSceneViewModel {
     }
     
     func handlePoliciesNeeded() {
-        fatalError("handlePoliciesNeeded")
+        
+        self.delegate?.showChangePoliciesDialog()
     }
     
     func handleUnitPromotion(at point: HexPoint) {
