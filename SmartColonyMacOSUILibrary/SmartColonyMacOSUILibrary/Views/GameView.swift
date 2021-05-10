@@ -53,8 +53,15 @@ extension GameView {
         case .none:
             return AnyView(EmptyView())
         case .policy:
-            return AnyView(self.policyDialog)
+            return AnyView(PolicyDialogView(viewModel: self.policyDialogViewModel))
         }
+    }
+    
+    private var policyDialogViewModel: PolicyDialogViewModel? {
+        
+        let viewModel = PolicyDialogViewModel()
+        viewModel.delegate = self.viewModel
+        return viewModel
     }
 }
 
@@ -62,7 +69,16 @@ extension GameView {
 
 extension GameView {
     
-    private var policyDialog: some View {
-        Text("Policy")
+    
+}
+
+extension EdgeInsets {
+    init(all metric: CGFloat) {
+        self.init(
+            top: metric,
+            leading: metric,
+            bottom: metric,
+            trailing: metric
+        )
     }
 }

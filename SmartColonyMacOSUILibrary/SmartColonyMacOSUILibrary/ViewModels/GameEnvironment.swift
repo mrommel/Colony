@@ -41,6 +41,14 @@ public class GameEnvironment: EnvironmentKey {
     public let displayOptions = CurrentValueSubject<MapDisplayOptions, Never>(MapDisplayOptions())
 
     public static let defaultValue = GameEnvironment()
+    
+    public init() {
+        
+    }
+    
+    public init(game: GameModel?) {
+        self.game.send(game)
+    }
 
     public func assign(game: GameModel?) {
         self.game.send(game)

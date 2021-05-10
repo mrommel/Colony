@@ -1,13 +1,18 @@
 //
 //  MenuButtonStyle.swift
-//  SmartColonyMacOS
+//  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 22.03.21.
 //
 
 import SwiftUI
+import SmartAssets
 
 public struct MenuButtonStyle: ButtonStyle {
+    
+    public init() {
+        
+    }
     
     public func makeBody(configuration: Self.Configuration) -> some View {
         
@@ -31,6 +36,10 @@ public struct MenuButtonStyle: ButtonStyle {
 }
 
 public struct SelectedMenuButtonStyle: ButtonStyle {
+    
+    public init() {
+        
+    }
     
     public func makeBody(configuration: Self.Configuration) -> some View {
         

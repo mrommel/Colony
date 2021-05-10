@@ -33,6 +33,7 @@ public class Textures {
     public let buttonTextureNames: [String]
     public let commandTextureNames: [String]
     public let commandButtonTextureNames: [String]
+    public let policyCardTextureNames: [String]
     
     public init(game: GameModel?) {
         
@@ -97,7 +98,7 @@ public class Textures {
         
         self.allBoardTextureNames = ["board-s-sw", "board-se-s-sw", "board-se-s", "board-se", "board-sw"]
         
-        self.allImprovementTextureNames = ImprovementType.all.flatMap { $0.textureNames() } + ImprovementType.goodyHut.textureNames()
+        self.allImprovementTextureNames = (ImprovementType.all + [ImprovementType.barbarianCamp, ImprovementType.goodyHut]).flatMap { $0.textureNames() }
         
         self.allPathTextureNames = ["path-n-sw", "path-se-nw", "path-n-nw", "path-se-sw", "path-n-se", "path-ne-s", "path-start-s", "path-n-ne", "path-sw-nw", "path-ne-se", "path-start-n", "path-start-sw", "path-se-s", "path-start-nw", "path-n-s", "path-start-se", "path-s-nw", "path-ne-sw", "path-start-ne", "path-s-sw", "path-ne-nw"]
         self.allPathOutTextureNames = self.allPathTextureNames.map { $0 + "-out" }
@@ -105,6 +106,7 @@ public class Textures {
         self.buttonTextureNames = NotificationType.all.map { $0.iconTexture() }
         self.commandTextureNames = CommandType.all.map { $0.iconTexture() }
         self.commandButtonTextureNames = CommandType.all.map { $0.buttonTexture() }
+        self.policyCardTextureNames = ["policyCard-slot", "policyCard-military", "policyCard-economic", "policyCard-diplomatic", "policyCard-wildcard"]
     }
     
     public func terrainTexture(at point: HexPoint) -> String {

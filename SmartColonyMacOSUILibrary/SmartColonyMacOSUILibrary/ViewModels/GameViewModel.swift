@@ -15,6 +15,8 @@ protocol GameViewModelDelegate: AnyObject {
     func focus(on point: HexPoint)
     
     func showChangePoliciesDialog()
+    
+    func closeDialog()
     /*func handleTurnButtonClicked()
     func handleFocusOnUnit()
     func handleTechNeeded()
@@ -93,7 +95,7 @@ public class GameViewModel: ObservableObject {
     
     // MARK: constructor
     
-    public init() {
+    public init(preloadAssets: Bool = false) {
         
         self.gameSceneViewModel = GameSceneViewModel()
         self.gameSceneViewModel.delegate = self
@@ -104,6 +106,10 @@ public class GameViewModel: ObservableObject {
         
         self.mapOptionShowHexCoordinates = self.gameEnvironment.displayOptions.value.showHexCoordinates
         self.mapOptionShowCompleteMap = self.gameEnvironment.displayOptions.value.showCompleteMap
+        
+        if preloadAssets {
+            self.loadAssets()
+        }
     }
     
     public func loadAssets() {
@@ -215,6 +221,11 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: commandButtonTextureName), for: commandButtonTextureName)
         }
         
+        print("- load \(textures.policyCardTextureNames.count) policy card textures")
+        for policyCardTextureName in textures.policyCardTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: policyCardTextureName), for: policyCardTextureName)
+        }
+        
         print("-- all textures loaded --")
     }
     
@@ -310,5 +321,10 @@ extension GameViewModel: GameViewModelDelegate {
         } else {
             fatalError("cant show policy dialog, \(self.shownDialog) is currently shown")
         }
+    }
+    
+    func closeDialog() {
+        
+        self.shownDialog = .none
     }
 }

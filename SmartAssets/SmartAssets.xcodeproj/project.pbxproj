@@ -19,6 +19,8 @@
 		C931ADE32577D1510002BA2F /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931ADE22577D1510002BA2F /* ArrayExtension.swift */; };
 		C950F990264573F30057A7D1 /* CommandTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98F264573F20057A7D1 /* CommandTypeExtension.swift */; };
 		C950F9922647E2140057A7D1 /* NotificationTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F9912647E2130057A7D1 /* NotificationTypeExtension.swift */; };
+		C950F99D26490A790057A7D1 /* PolicyCardsTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F99C26490A790057A7D1 /* PolicyCardsTypeExtension.swift */; };
+		C950F99F2649290A0057A7D1 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F99E2649290A0057A7D1 /* StringExtension.swift */; };
 		C952B9AC261E3930008822DD /* ObjectTextureAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952B9AB261E3930008822DD /* ObjectTextureAtlas.swift */; };
 		C952B9AE261E396F008822DD /* TextureAtlasExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952B9AD261E396F008822DD /* TextureAtlasExtension.swift */; };
 		C968F29D2639BA4F00612D0E /* ImprovementTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */; };
@@ -87,6 +89,8 @@
 		C931ADE22577D1510002BA2F /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		C950F98F264573F20057A7D1 /* CommandTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandTypeExtension.swift; sourceTree = "<group>"; };
 		C950F9912647E2130057A7D1 /* NotificationTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTypeExtension.swift; sourceTree = "<group>"; };
+		C950F99C26490A790057A7D1 /* PolicyCardsTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardsTypeExtension.swift; sourceTree = "<group>"; };
+		C950F99E2649290A0057A7D1 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		C952B9AB261E3930008822DD /* ObjectTextureAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectTextureAtlas.swift; sourceTree = "<group>"; };
 		C952B9AD261E396F008822DD /* TextureAtlasExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureAtlasExtension.swift; sourceTree = "<group>"; };
 		C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementTypeExtension.swift; sourceTree = "<group>"; };
@@ -193,6 +197,7 @@
 				C968F29C2639BA4F00612D0E /* ImprovementTypeExtension.swift */,
 				C950F98F264573F20057A7D1 /* CommandTypeExtension.swift */,
 				C950F9912647E2130057A7D1 /* NotificationTypeExtension.swift */,
+				C950F99C26490A790057A7D1 /* PolicyCardsTypeExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -219,6 +224,7 @@
 				C952B9AB261E3930008822DD /* ObjectTextureAtlas.swift */,
 				C952B9AD261E396F008822DD /* TextureAtlasExtension.swift */,
 				C9A37610263448AC0057923E /* Globals.swift */,
+				C950F99E2649290A0057A7D1 /* StringExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -360,6 +366,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C950F99D26490A790057A7D1 /* PolicyCardsTypeExtension.swift in Sources */,
 				C931ADD22577D0E30002BA2F /* Textures.swift in Sources */,
 				C9022FA22609D06A00C6773A /* HandicapTypeExtension.swift in Sources */,
 				C98E68B22577D28E00BD93CA /* ResourceTypeExtension.swift in Sources */,
@@ -379,6 +386,7 @@
 				C950F9922647E2140057A7D1 /* NotificationTypeExtension.swift in Sources */,
 				C952B9AC261E3930008822DD /* ObjectTextureAtlas.swift in Sources */,
 				C9A5B5CD2588A50500836AEB /* MapTypeExtension.swift in Sources */,
+				C950F99F2649290A0057A7D1 /* StringExtension.swift in Sources */,
 				C9A3760D263447390057923E /* TextureUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

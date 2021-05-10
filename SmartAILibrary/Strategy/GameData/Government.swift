@@ -21,7 +21,7 @@ public protocol AbstractPolicyCardSet: class, Codable {
     func cardsFilled(in slotType: PolicyCardSlotType, of slots: PolicyCardSlots) -> [PolicyCardType]
 }
 
-class PolicyCardSet: AbstractPolicyCardSet {
+public class PolicyCardSet: AbstractPolicyCardSet {
 
     enum CodingKeys: CodingKey {
 
@@ -32,7 +32,7 @@ class PolicyCardSet: AbstractPolicyCardSet {
 
     // MARK: constructors
 
-    init(cards: [PolicyCardType] = []) {
+    public init(cards: [PolicyCardType] = []) {
 
         self.cardsVal = cards
     }
@@ -51,32 +51,32 @@ class PolicyCardSet: AbstractPolicyCardSet {
         try container.encode(self.cardsVal, forKey: .cards)
     }
 
-    func add(card: PolicyCardType) {
+    public func add(card: PolicyCardType) {
 
         self.cardsVal.append(card)
     }
     
-    func remove(card: PolicyCardType) {
+    public func remove(card: PolicyCardType) {
         
         self.cardsVal.removeAll(where: { $0 == card })
     }
 
-    func has(card: PolicyCardType) -> Bool {
+    public func has(card: PolicyCardType) -> Bool {
 
         return self.cardsVal.contains(card)
     }
     
-    func cards() -> [PolicyCardType] {
+    public func cards() -> [PolicyCardType] {
         
         return self.cardsVal
     }
     
-    func cards(of slotType: PolicyCardSlotType) -> [PolicyCardType] {
+    public func cards(of slotType: PolicyCardSlotType) -> [PolicyCardType] {
         
         return self.cardsVal.filter({ $0.slot() == slotType })
     }
     
-    func cardsFilled(in slotType: PolicyCardSlotType, of slots: PolicyCardSlots) -> [PolicyCardType] {
+    public func cardsFilled(in slotType: PolicyCardSlotType, of slots: PolicyCardSlots) -> [PolicyCardType] {
         
         let militaryCards = self.cardsVal.count(where: { $0.slot() == .military })
         let possibleMilitaryCards = min(militaryCards, slots.military)
@@ -110,7 +110,7 @@ class PolicyCardSet: AbstractPolicyCardSet {
         }
     }
 
-    func valid(in slots: PolicyCardSlots) -> Bool {
+    public func valid(in slots: PolicyCardSlots) -> Bool {
 
         let militaryCards = self.cardsVal.count(where: { $0.slot() == .military })
         let economicCards = self.cardsVal.count(where: { $0.slot() == .economic })
@@ -123,7 +123,7 @@ class PolicyCardSet: AbstractPolicyCardSet {
         return slots.wildcard - remainMilitary - remainEconomic - remainDiplomatic >= 0
     }
     
-    func filled(in slots: PolicyCardSlots) -> Bool {
+    public func filled(in slots: PolicyCardSlots) -> Bool {
 
         let militaryCards = self.cardsVal.count(where: { $0.slot() == .military })
         let economicCards = self.cardsVal.count(where: { $0.slot() == .economic })

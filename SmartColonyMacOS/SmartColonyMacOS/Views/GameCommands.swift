@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SmartMacOSUILibrary
 
 struct GameCommands: Commands {
     
