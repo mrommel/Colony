@@ -87,7 +87,7 @@ public class GameViewModel: ObservableObject {
         }
     }
     
-    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor"]
+    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar"]
     
     // MARK: constructor
     
@@ -233,6 +233,14 @@ public class GameViewModel: ObservableObject {
         }
         for governmentAmbientTextureName in textures.governmentAmbientTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: governmentAmbientTextureName), for: governmentAmbientTextureName)
+        }
+        
+        print("- load \(textures.yieldTextureNames.count) / \(textures.yieldBackgroundTextureNames.count) yield textures")
+        for yieldTextureName in textures.yieldTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: yieldTextureName), for: yieldTextureName)
+        }
+        for yieldBackgroundTextureName in textures.yieldBackgroundTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: yieldBackgroundTextureName), for: yieldBackgroundTextureName)
         }
         
         print("-- all textures loaded --")

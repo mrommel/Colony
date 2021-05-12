@@ -14,19 +14,37 @@ public struct TopBarView: View {
     
     public var body: some View {
         
-        HStack(alignment: .top) {
+        VStack(alignment: .trailing) {
 
-            VStack(alignment: .trailing, spacing: 10) {
+            HStack(alignment: .top, spacing: 10) {
 
+                YieldValueView(viewModel: self.viewModel.scienceYieldValueViewModel())
+                
+                YieldValueView(viewModel: self.viewModel.cultureYieldValueViewModel())
+                
                 Button("Gov") {
                     self.viewModel.delegate?.showChangeGovernmentDialog()
                 }
                 
                 Spacer()
             }
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 24, maxHeight: 24, alignment: .topLeading)
+            .background(Image(nsImage: ImageCache.shared.image(for: "top-bar")))
             
             Spacer()
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     }
 }
+
+
+struct TopBarView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        let _ = GameViewModel(preloadAssets: true)
+        let viewModel = GameSceneViewModel()
+        
+        TopBarView(viewModel: viewModel)
+    }
+}
+

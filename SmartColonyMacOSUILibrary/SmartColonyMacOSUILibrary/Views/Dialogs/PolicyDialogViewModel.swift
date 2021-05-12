@@ -54,8 +54,6 @@ class PolicyDialogViewModel: ObservableObject {
             
             return policyCardViewModel
         }
-        
-        print("created vms")
     }
     
     func governmentName() -> String {
@@ -78,7 +76,6 @@ class PolicyDialogViewModel: ObservableObject {
             fatalError("cant get government")
         }
 
-        //let selected = self.policyCardViewModels.count(where: { $0.state == .selected && $0.policyCardType.slot() == policyCardSlotType })
         let selected = self.choosenPolicyCardSet.cardsFilled(in: policyCardSlotType, of: self.slots).count
         let slots = government.policyCardSlots().numberOfSlots(in: policyCardSlotType)
         

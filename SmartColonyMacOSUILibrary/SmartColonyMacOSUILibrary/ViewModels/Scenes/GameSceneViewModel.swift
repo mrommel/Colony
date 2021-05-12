@@ -353,6 +353,42 @@ public class GameSceneViewModel: ObservableObject {
             self.showTurnButton()
         }
     }
+    
+    func scienceYieldValueViewModel() -> YieldValueViewModel {
+        
+        guard let gameModel = self.game else {
+            return YieldValueViewModel(yieldType: .science, value: 0.0)
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+        
+        var scienceValue = 0.0
+        if let techs = humanPlayer.techs {
+            scienceValue = techs.currentScienceProgress()
+        }
+        
+        return YieldValueViewModel(yieldType: .science, value: scienceValue)
+    }
+    
+    func cultureYieldValueViewModel() -> YieldValueViewModel {
+        
+        guard let gameModel = self.game else {
+            return YieldValueViewModel(yieldType: .culture, value: 0.0)
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+        
+        var cultureValue = 0.0
+        if let civics = humanPlayer.civics {
+            cultureValue = civics.currentCultureProgress()
+        }
+        
+        return YieldValueViewModel(yieldType: .culture, value: cultureValue)
+    }
 }
 
 extension GameSceneViewModel {

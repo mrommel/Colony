@@ -90,8 +90,7 @@ struct PolicyDialogView: View {
         .frame(width: 700, height: 450, alignment: .top)
         .background(
             Image("grid9-dialog")
-                .resizable(capInsets: EdgeInsets(all: 45)
-            )
+                .resizable(capInsets: EdgeInsets(all: 45))
         )
     }
 }

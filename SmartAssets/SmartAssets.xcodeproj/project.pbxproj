@@ -61,6 +61,7 @@
 		C9AB2C72257E6B350045DFBC /* MapSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB2C71257E6B350045DFBC /* MapSizeExtension.swift */; };
 		C9CAC8A2264BC4B200D0668D /* GovernmentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */; };
 		C9CAC8A6264BD17000D0668D /* GovernmentTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */; };
+		C9E87BA7264C573200514B9A /* YieldTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BA6264C573200514B9A /* YieldTypeExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -134,6 +135,7 @@
 		C9AB2C71257E6B350045DFBC /* MapSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSizeExtension.swift; sourceTree = "<group>"; };
 		C9CAC8A1264BC4B200D0668D /* GovernmentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentState.swift; sourceTree = "<group>"; };
 		C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentTypeExtension.swift; sourceTree = "<group>"; };
+		C9E87BA6264C573200514B9A /* YieldTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldTypeExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +206,7 @@
 				C950F9912647E2130057A7D1 /* NotificationTypeExtension.swift */,
 				C950F99C26490A790057A7D1 /* PolicyCardsTypeExtension.swift */,
 				C9CAC8A5264BD17000D0668D /* GovernmentTypeExtension.swift */,
+				C9E87BA6264C573200514B9A /* YieldTypeExtension.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				C9A09829261C80080098C5E1 /* UnitTypeExtension.swift in Sources */,
 				C9AB2C72257E6B350045DFBC /* MapSizeExtension.swift in Sources */,
 				C98E68B32577D28E00BD93CA /* TerrainTypeExtension.swift in Sources */,
+				C9E87BA7264C573200514B9A /* YieldTypeExtension.swift in Sources */,
 				C925594C25F95F9800C2BF28 /* CivilizationTypeExtension.swift in Sources */,
 				C98E68B12577D28E00BD93CA /* FeatureTypeExtension.swift in Sources */,
 				C9022FA026093D5300C6773A /* LeaderTypeExtension.swift in Sources */,
