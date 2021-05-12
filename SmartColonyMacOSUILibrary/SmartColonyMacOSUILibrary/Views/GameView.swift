@@ -13,12 +13,25 @@ public struct GameView: View {
     @ObservedObject
     private var viewModel: GameViewModel
     
+    @ObservedObject
+    private var governmentDialogViewModel: GovernmentDialogViewModel
+    
+    @ObservedObject
+    private var policyDialogViewModel: PolicyDialogViewModel
+    
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
     
     public init(viewModel: GameViewModel) {
         
         self.viewModel = viewModel
+        
+        // dialogs
+        self.governmentDialogViewModel = GovernmentDialogViewModel()
+        self.policyDialogViewModel = PolicyDialogViewModel()
+        
+        self.governmentDialogViewModel.delegate = self.viewModel
+        self.policyDialogViewModel.delegate = self.viewModel
     }
     
     public var body: some View {
@@ -39,10 +52,14 @@ public struct GameView: View {
             
             BottomRightBarView()
             
+            TopBarView(viewModel: self.viewModel.gameSceneViewModel)
+            
             self.dialog
         }
     }
 }
+
+// MARK: - Loading Content
 
 extension GameView {
     
@@ -52,27 +69,16 @@ extension GameView {
         
         case .none:
             return AnyView(EmptyView())
+        case .government:
+            return AnyView(GovernmentDialogView(viewModel: self.governmentDialogViewModel))
         case .policy:
             return AnyView(PolicyDialogView(viewModel: self.policyDialogViewModel))
         }
     }
-    
-    private var policyDialogViewModel: PolicyDialogViewModel? {
-        
-        let viewModel = PolicyDialogViewModel()
-        viewModel.delegate = self.viewModel
-        return viewModel
-    }
-}
-
-// MARK: - Loading Content
-
-extension GameView {
-    
-    
 }
 
 extension EdgeInsets {
+    
     init(all metric: CGFloat) {
         self.init(
             top: metric,

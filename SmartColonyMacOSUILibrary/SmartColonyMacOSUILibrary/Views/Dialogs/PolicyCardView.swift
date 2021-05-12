@@ -49,7 +49,7 @@ struct PolicyCardView_Previews: PreviewProvider {
     
     static var previews: some View {
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = PolicyCardViewModel(policyCardType: .agoge, state: .disabled)
+        let viewModel = PolicyCardViewModel(policyCardType: .agoge, state: .selected)
         
         PolicyCardView(viewModel: viewModel)
     }

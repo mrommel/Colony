@@ -10,14 +10,12 @@ import SmartAILibrary
 
 struct PolicyDialogView: View {
     
-    let viewModel: PolicyDialogViewModel?
-    
-    @State
-    private var showGreeting = true // todo: remove
+    @ObservedObject
+    var viewModel: PolicyDialogViewModel
     
     private var gridItemLayout = [GridItem(.fixed(150)), GridItem(.fixed(150)), GridItem(.fixed(150)), GridItem(.fixed(150))]
     
-    public init(viewModel: PolicyDialogViewModel?) {
+    public init(viewModel: PolicyDialogViewModel) {
         
         self.viewModel = viewModel
     }
@@ -30,24 +28,58 @@ struct PolicyDialogView: View {
                     .bold()
                     .padding()
                 
-                Text(viewModel?.slots.hint() ?? "hint")
+                HStack {
+                    Text("Government: ")
+                    
+                    Text(self.viewModel.governmentName())
+                }
+                
+                HStack {
+                    
+                    Text("Slots:")
+                    
+                    Text(self.viewModel.policyCardSlotTypeText(of: PolicyCardSlotType.military))
+                    
+                    Image(nsImage: self.viewModel.policyCardSlotTypeImage(of: PolicyCardSlotType.military))
+                        .resizable()
+                        .frame(width: 20, height: 20, alignment: .center)
+                    
+                    Text(self.viewModel.policyCardSlotTypeText(of: PolicyCardSlotType.economic))
+                    
+                    Image(nsImage: self.viewModel.policyCardSlotTypeImage(of: PolicyCardSlotType.economic))
+                        .resizable()
+                        .frame(width: 20, height: 20, alignment: .center)
+                    
+                    Text(self.viewModel.policyCardSlotTypeText(of: PolicyCardSlotType.diplomatic))
+                    
+                    Image(nsImage: self.viewModel.policyCardSlotTypeImage(of: PolicyCardSlotType.diplomatic))
+                        .resizable()
+                        .frame(width: 20, height: 20, alignment: .center)
+                    
+                    Text(self.viewModel.policyCardSlotTypeText(of: PolicyCardSlotType.wildcard))
+                    
+                    Image(nsImage: self.viewModel.policyCardSlotTypeImage(of: PolicyCardSlotType.wildcard))
+                        .resizable()
+                        .frame(width: 20, height: 20, alignment: .center)
+                }
+                
+                Text(self.viewModel.hint())
                 
                 ScrollView(.vertical, showsIndicators: true, content: {
                     
                     LazyVGrid(columns: gridItemLayout, spacing: 20) {
                         
-                        ForEach(PolicyCardType.all, id: \.self) {
-                            
-                            let state: PolicyCardState = self.viewModel?.state(of: $0) ?? PolicyCardState.disabled
-                            
-                            PolicyCardView(viewModel: PolicyCardViewModel(policyCardType: $0, state: state))
+                        ForEach(self.viewModel.policyCardViewModels, id: \.self) {
+
+                            PolicyCardView(viewModel: $0)
                                 .background(Color.white.opacity(0.1))
                         }
                     }
                 })
                 
-                Button(action: { self.viewModel?.closeDialog() },
-                       label: {
+                Button(action: {
+                    self.viewModel.closeDialog()
+                }, label: {
                     Text("Okay")
                 })
             }

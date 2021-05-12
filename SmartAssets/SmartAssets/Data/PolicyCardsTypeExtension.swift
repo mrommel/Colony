@@ -24,3 +24,17 @@ extension PolicyCardType {
         }
     }
 }
+
+extension PolicyCardSlotType {
+    
+    public func iconTexture() -> String {
+
+        switch self {
+
+        case .military: return "policyCard-military"
+        case .economic: return "policyCard-economic"
+        case .diplomatic: return "policyCard-diplomatic"
+        case .wildcard: return "policyCard-wildcard"
+        }
+    }
+}

@@ -30,28 +30,45 @@ enum PolicyCardState {
     }
 }
 
-class PolicyCardViewModel: ObservableObject {
+protocol PolicyCardViewModelDelegate: AnyObject {
     
+    func update()
+}
+
+class PolicyCardViewModel: ObservableObject, Hashable {
+      
     // variables
     let policyCardType: PolicyCardType
+    
+    @Published
     var state: PolicyCardState
     
     @Published
     var selected: Bool {
         didSet {
             
-            if self.state == .disabled && self.selected {
+            if self.state == .disabled {
                 self.selected = false
+            } else {
+                if self.selected {
+                    self.state = .selected
+                } else {
+                    self.state = .active
+                }
             }
+            
+            self.delegate?.update()
         }
     }
+    
+    weak var delegate: PolicyCardViewModelDelegate?
     
     init(policyCardType: PolicyCardType, state: PolicyCardState) {
 
         self.policyCardType = policyCardType
         self.state = state
         
-        self.selected = self.state == .selected
+        self.selected = state == .selected
     }
     
     func title() -> String {
@@ -60,25 +77,22 @@ class PolicyCardViewModel: ObservableObject {
     }
     
     func summary() -> String {
-        
-        /*let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-        let bonusTextAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: NSColor.white,
-            .backgroundColor: NSColor.black.withAlphaComponent(0.5),
-            .font: NSFont.boldSystemFont(ofSize: 7),
-            .paragraphStyle: paragraphStyle
-        ]
-        
-        let bonusTextAttributed = NSAttributedString(string: self.policyCardType.bonus().replaceIcons(),
-                                                     attributes: bonusTextAttributes)
-        
-        return bonusTextAttributed*/
+
         return self.policyCardType.bonus().replaceIcons()
     }
     
     func background() -> NSImage {
         
         return ImageCache.shared.image(for: self.policyCardType.iconTexture())
+    }
+    
+    static func == (lhs: PolicyCardViewModel, rhs: PolicyCardViewModel) -> Bool {
+        
+        return lhs.policyCardType == rhs.policyCardType
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        
+        hasher.combine(self.policyCardType)
     }
 }

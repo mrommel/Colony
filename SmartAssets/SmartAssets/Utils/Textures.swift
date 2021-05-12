@@ -34,6 +34,9 @@ public class Textures {
     public let commandTextureNames: [String]
     public let commandButtonTextureNames: [String]
     public let policyCardTextureNames: [String]
+    public let governmentStateBackgroundTextureNames: [String]
+    public let governmentTextureNames: [String]
+    public let governmentAmbientTextureNames: [String]
     
     public init(game: GameModel?) {
         
@@ -107,6 +110,9 @@ public class Textures {
         self.commandTextureNames = CommandType.all.map { $0.iconTexture() }
         self.commandButtonTextureNames = CommandType.all.map { $0.buttonTexture() }
         self.policyCardTextureNames = ["policyCard-slot", "policyCard-military", "policyCard-economic", "policyCard-diplomatic", "policyCard-wildcard"]
+        self.governmentStateBackgroundTextureNames = GovernmentState.all.map { $0.backgroundTexture() }
+        self.governmentTextureNames = GovernmentType.all.map { $0.iconTexture() }
+        self.governmentAmbientTextureNames = GovernmentType.all.map { $0.ambientTexture() }
     }
     
     public func terrainTexture(at point: HexPoint) -> String {

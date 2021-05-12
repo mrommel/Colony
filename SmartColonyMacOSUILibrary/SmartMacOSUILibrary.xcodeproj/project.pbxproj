@@ -69,6 +69,11 @@
 		C9B43FB1263E905B00241012 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FB0263E905B00241012 /* CGSizeExtension.swift */; };
 		C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDCF8A262476E6002488F6 /* GameView.swift */; };
 		C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDCF8C2624771C002488F6 /* GameViewModel.swift */; };
+		C9CAC899264ABBC400D0668D /* GovernmentDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC898264ABBC400D0668D /* GovernmentDialogView.swift */; };
+		C9CAC89B264ABC6D00D0668D /* GovernmentDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC89A264ABC6D00D0668D /* GovernmentDialogViewModel.swift */; };
+		C9CAC89D264ABCBE00D0668D /* GovernmentCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC89C264ABCBE00D0668D /* GovernmentCardView.swift */; };
+		C9CAC89F264ABCC600D0668D /* GovernmentCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC89E264ABCC600D0668D /* GovernmentCardViewModel.swift */; };
+		C9CAC8A4264BC58E00D0668D /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CAC8A3264BC58E00D0668D /* TopBarView.swift */; };
 		C9CE216B2649675B00B47ED4 /* MenuButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C986D16E264938D9006EF052 /* MenuButtonStyle.swift */; };
 		C9CE216C2649675C00B47ED4 /* CheckboxSquareToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C986D16F264938D9006EF052 /* CheckboxSquareToggleStyle.swift */; };
 		C9CE216D2649675F00B47ED4 /* CheckboxCircleToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C986D170264938D9006EF052 /* CheckboxCircleToggleStyle.swift */; };
@@ -157,6 +162,11 @@
 		C9B43FB0263E905B00241012 /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
 		C9BDCF8A262476E6002488F6 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		C9BDCF8C2624771C002488F6 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		C9CAC898264ABBC400D0668D /* GovernmentDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentDialogView.swift; sourceTree = "<group>"; };
+		C9CAC89A264ABC6D00D0668D /* GovernmentDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentDialogViewModel.swift; sourceTree = "<group>"; };
+		C9CAC89C264ABCBE00D0668D /* GovernmentCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentCardView.swift; sourceTree = "<group>"; };
+		C9CAC89E264ABCC600D0668D /* GovernmentCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentCardViewModel.swift; sourceTree = "<group>"; };
+		C9CAC8A3264BC58E00D0668D /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
 		C9CE216E2649678900B47ED4 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		C9FD308426223EA200153752 /* DemoGameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoGameModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -226,6 +236,10 @@
 				C950F996264904150057A7D1 /* PolicyDialogViewModel.swift */,
 				C950F998264908760057A7D1 /* PolicyCardView.swift */,
 				C950F99A264908F80057A7D1 /* PolicyCardViewModel.swift */,
+				C9CAC898264ABBC400D0668D /* GovernmentDialogView.swift */,
+				C9CAC89A264ABC6D00D0668D /* GovernmentDialogViewModel.swift */,
+				C9CAC89C264ABCBE00D0668D /* GovernmentCardView.swift */,
+				C9CAC89E264ABCC600D0668D /* GovernmentCardViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -290,6 +304,7 @@
 				C9A61D84261EF7F100341241 /* MapOverviewView.swift */,
 				C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */,
 				C9A61D8B261EF87000341241 /* BottomRightBarView.swift */,
+				C9CAC8A3264BC58E00D0668D /* TopBarView.swift */,
 				C9BDCF8A262476E6002488F6 /* GameView.swift */,
 				C9A3760426340F9B0057923E /* GameSceneView.swift */,
 			);
@@ -475,7 +490,9 @@
 				C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */,
 				C9CE216C2649675C00B47ED4 /* CheckboxSquareToggleStyle.swift in Sources */,
 				C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */,
+				C9CAC89D264ABCBE00D0668D /* GovernmentCardView.swift in Sources */,
 				C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */,
+				C9CAC899264ABBC400D0668D /* GovernmentDialogView.swift in Sources */,
 				C968F29F2639BAD500612D0E /* BorderLayer.swift in Sources */,
 				C9A3760526340F9B0057923E /* GameSceneView.swift in Sources */,
 				C950F999264908760057A7D1 /* PolicyCardView.swift in Sources */,
@@ -491,16 +508,19 @@
 				C950F99B264908F80057A7D1 /* PolicyCardViewModel.swift in Sources */,
 				C9A3763C2637E7C80057923E /* HexCoordLayer.swift in Sources */,
 				C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */,
+				C9CAC8A4264BC58E00D0668D /* TopBarView.swift in Sources */,
 				C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */,
 				C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */,
 				C9155161260B2978003710BE /* GameDisplayOptions.swift in Sources */,
 				C9A3761F2635F70F0057923E /* MapNode.swift in Sources */,
 				C9CE216F2649678900B47ED4 /* Globals.swift in Sources */,
 				C9A3762F263600800057923E /* ResourceMarkerLayer.swift in Sources */,
+				C9CAC89B264ABC6D00D0668D /* GovernmentDialogViewModel.swift in Sources */,
 				C968F2A52639E5C800612D0E /* UnitStrengthIndicator.swift in Sources */,
 				C9A37613263456E30057923E /* BaseScene.swift in Sources */,
 				C968F299263981DD00612D0E /* ProgressBar.swift in Sources */,
 				C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */,
+				C9CAC89F264ABCC600D0668D /* GovernmentCardViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

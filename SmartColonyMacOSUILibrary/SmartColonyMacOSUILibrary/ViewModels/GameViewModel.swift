@@ -14,16 +14,10 @@ protocol GameViewModelDelegate: AnyObject {
     
     func focus(on point: HexPoint)
     
+    func showChangeGovernmentDialog()
     func showChangePoliciesDialog()
     
     func closeDialog()
-    /*func handleTurnButtonClicked()
-    func handleFocusOnUnit()
-    func handleTechNeeded()
-    func handleCivicNeeded()
-    func handleProductionNeeded(at point: HexPoint)
-    func handlePoliciesNeeded()
-    func handleUnitPromotion(at point: HexPoint)*/
 }
 
 public class GameViewModel: ObservableObject {
@@ -32,6 +26,8 @@ public class GameViewModel: ObservableObject {
     enum DialogType {
         
         case none // standard
+        
+        case government
         case policy
     }
 
@@ -226,6 +222,19 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: policyCardTextureName), for: policyCardTextureName)
         }
         
+        print("- load \(textures.governmentStateBackgroundTextureNames.count) government state background textures")
+        for governmentStateBackgroundTextureName in textures.governmentStateBackgroundTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: governmentStateBackgroundTextureName), for: governmentStateBackgroundTextureName)
+        }
+        
+        print("- load \(textures.governmentTextureNames.count) government and \(textures.governmentAmbientTextureNames.count) ambient textures")
+        for governmentTextureName in textures.governmentTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: governmentTextureName), for: governmentTextureName)
+        }
+        for governmentAmbientTextureName in textures.governmentAmbientTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: governmentAmbientTextureName), for: governmentAmbientTextureName)
+        }
+        
         print("-- all textures loaded --")
     }
     
@@ -307,6 +316,20 @@ extension GameViewModel: GameViewModelDelegate {
     func focus(on point: HexPoint) {
         
         self.focusPosition = point
+    }
+    
+    func showChangeGovernmentDialog() {
+        
+        if self.shownDialog == .government {
+            // already shown
+            return
+        }
+        
+        if self.shownDialog == .none {
+            self.shownDialog = .government
+        } else {
+            fatalError("cant show policy dialog, \(self.shownDialog) is currently shown")
+        }
     }
     
     func showChangePoliciesDialog() {
