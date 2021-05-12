@@ -27,6 +27,24 @@ public enum EraType: Int, Codable {
         return [.ancient, .classical, .medieval, .renaissance, .industrial, .modern, .atomic, .information, .future]
     }
     
+    public func title() -> String {
+        
+        switch self {
+        
+        case .none: return ""
+            
+        case .ancient: return "Ancient"
+        case .classical: return "Classical"
+        case .medieval: return "Medieval"
+        case .renaissance: return "Renaissance"
+        case .industrial: return "Industrial"
+        case .modern: return "Modern"
+        case .atomic: return "Atomic"
+        case .information: return "Information"
+        case .future: return "Future"
+        }
+    }
+    
     internal func value() -> Int {
         
         switch self {

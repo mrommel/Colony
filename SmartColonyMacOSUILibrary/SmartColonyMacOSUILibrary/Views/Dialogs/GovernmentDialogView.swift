@@ -32,10 +32,16 @@ struct GovernmentDialogView: View {
                     
                     LazyVGrid(columns: gridItemLayout, spacing: 20) {
                         
-                        ForEach(self.viewModel.governmentCardViewModels, id: \.self) {
+                        ForEach(self.viewModel.governmentSectionViewModels, id:\.self) { sectionViewModel in
+                    
+                            Section(header: Text(sectionViewModel.title()).font(.title)) {
+                                
+                                ForEach(sectionViewModel.governmentCardViewModels, id:\.self) { governmentCardViewModel in
 
-                            GovernmentCardView(viewModel: $0)
-                                .background(Color.white.opacity(0.1))
+                                    GovernmentCardView(viewModel: governmentCardViewModel)
+                                        .background(Color.white.opacity(0.1))
+                                }
+                            }
                         }
                     }
                 })

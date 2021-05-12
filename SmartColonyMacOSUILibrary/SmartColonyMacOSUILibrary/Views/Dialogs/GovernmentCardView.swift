@@ -28,18 +28,36 @@ struct GovernmentCardView: View {
             
                 Text(self.viewModel.title())
                     .font(.headline)
+                    .padding(.top, 13)
+                    .padding(.leading, 33)
+                    .padding(.trailing, 33)
+                
+                HStack {
+                    
+                    ForEach(self.viewModel.cardImages(), id:\.self) { cardImage in
+                        Image(nsImage: cardImage)
+                            .resizable()
+                            .frame(width: 36, height: 36, alignment: .topLeading)
+                            .padding(.leading, -15)
+                    }
+                }
+                .padding(.top, 20)
+                .padding(.leading, 15)
+                .frame(width: 300, height: 70, alignment: .top)
                     
                 Text(self.viewModel.bonus1Summary())
                     .font(.footnote)
-                    .padding(.top, 85)
+                    .padding(.top, 5)
+                    .padding(.leading, 33)
+                    .padding(.trailing, 33)
                 
                 Text(self.viewModel.bonus2Summary())
                     .font(.footnote)
                     .padding(.top, 15)
+                    .padding(.leading, 33)
+                    .padding(.trailing, 33)
             }
-            .padding(.top, 13)
-            .padding(.leading, 33)
-            .padding(.trailing, 33)
+            .frame(width: 300, height: 200, alignment: .top)
         }
         .frame(width: 300, height: 200, alignment: .topLeading)
     }
@@ -50,7 +68,7 @@ struct GovernmentCardView_Previews: PreviewProvider {
     
     static var previews: some View {
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = GovernmentCardViewModel(governmentType: .chiefdom, state: .active)
+        let viewModel = GovernmentCardViewModel(governmentType: .communism, state: .active)
         
         GovernmentCardView(viewModel: viewModel)
     }

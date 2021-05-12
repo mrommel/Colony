@@ -43,6 +43,13 @@ class GovernmentCardViewModel: ObservableObject, Hashable {
         return self.governmentType.bonus2Summary().replaceIcons()
     }
     
+    func cardImages() -> [NSImage] {
+        
+        let slotTypes = self.governmentType.policyCardSlots().types()
+        
+        return slotTypes.map { ImageCache.shared.image(for: $0.iconTexture()) }
+    }
+    
     func background() -> NSImage {
         
         return ImageCache.shared.image(for: self.state.backgroundTexture())
