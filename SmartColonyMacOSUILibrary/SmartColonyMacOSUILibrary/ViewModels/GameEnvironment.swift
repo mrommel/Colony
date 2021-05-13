@@ -47,7 +47,7 @@ public class GameEnvironment: EnvironmentKey {
     }
     
     public init(game: GameModel?) {
-        self.game.send(game)
+        self.game.value = game
     }
 
     public func assign(game: GameModel?) {

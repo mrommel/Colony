@@ -26,6 +26,14 @@ public struct TopBarView: View {
                     self.viewModel.delegate?.showChangeGovernmentDialog()
                 }
                 
+                Button("Tech") {
+                    self.viewModel.delegate?.showChangeTechDialog()
+                }
+                
+                Button("Civic") {
+                    self.viewModel.delegate?.showChangeCivicDialog()
+                }
+                
                 Spacer()
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 24, maxHeight: 24, alignment: .topLeading)

@@ -19,6 +19,12 @@ public struct GameView: View {
     @ObservedObject
     private var policyDialogViewModel: PolicyDialogViewModel
     
+    @ObservedObject
+    private var techDialogViewModel: TechDialogViewModel
+    
+    @ObservedObject
+    private var civicDialogViewModel: CivicDialogViewModel
+    
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
     
@@ -29,9 +35,13 @@ public struct GameView: View {
         // dialogs
         self.governmentDialogViewModel = GovernmentDialogViewModel()
         self.policyDialogViewModel = PolicyDialogViewModel()
+        self.techDialogViewModel = TechDialogViewModel()
+        self.civicDialogViewModel = CivicDialogViewModel()
         
         self.governmentDialogViewModel.delegate = self.viewModel
         self.policyDialogViewModel.delegate = self.viewModel
+        self.techDialogViewModel.delegate = self.viewModel
+        self.civicDialogViewModel.delegate = self.viewModel
     }
     
     public var body: some View {
@@ -73,6 +83,10 @@ extension GameView {
             return AnyView(GovernmentDialogView(viewModel: self.governmentDialogViewModel))
         case .policy:
             return AnyView(PolicyDialogView(viewModel: self.policyDialogViewModel))
+        case .tech:
+            return AnyView(TechDialogView(viewModel: self.techDialogViewModel))
+        case .civic:
+            return AnyView(CivicDialogView(viewModel: self.civicDialogViewModel))
         }
     }
 }

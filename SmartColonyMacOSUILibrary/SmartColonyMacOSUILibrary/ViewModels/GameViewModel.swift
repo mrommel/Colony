@@ -16,6 +16,8 @@ protocol GameViewModelDelegate: AnyObject {
     
     func showChangeGovernmentDialog()
     func showChangePoliciesDialog()
+    func showChangeTechDialog()
+    func showChangeCivicDialog()
     
     func closeDialog()
 }
@@ -29,6 +31,8 @@ public class GameViewModel: ObservableObject {
         
         case government
         case policy
+        case tech
+        case civic
     }
 
     @Environment(\.gameEnvironment)
@@ -336,7 +340,7 @@ extension GameViewModel: GameViewModelDelegate {
         if self.shownDialog == .none {
             self.shownDialog = .government
         } else {
-            fatalError("cant show policy dialog, \(self.shownDialog) is currently shown")
+            fatalError("cant show government dialog, \(self.shownDialog) is currently shown")
         }
     }
     
@@ -353,6 +357,35 @@ extension GameViewModel: GameViewModelDelegate {
             fatalError("cant show policy dialog, \(self.shownDialog) is currently shown")
         }
     }
+    
+    func showChangeTechDialog() {
+        
+        if self.shownDialog == .tech {
+            // already shown
+            return
+        }
+        
+        if self.shownDialog == .none {
+            self.shownDialog = .tech
+        } else {
+            fatalError("cant show tech dialog, \(self.shownDialog) is currently shown")
+        }
+    }
+    
+    func showChangeCivicDialog() {
+        
+        if self.shownDialog == .civic {
+            // already shown
+            return
+        }
+        
+        if self.shownDialog == .none {
+            self.shownDialog = .civic
+        } else {
+            fatalError("cant show civic dialog, \(self.shownDialog) is currently shown")
+        }
+    }
+    
     
     func closeDialog() {
         
