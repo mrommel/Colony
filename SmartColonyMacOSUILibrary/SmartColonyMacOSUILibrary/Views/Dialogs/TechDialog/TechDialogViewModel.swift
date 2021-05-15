@@ -26,9 +26,16 @@ class TechDialogViewModel: ObservableObject {
             gameRef = self.gameEnvironment.game.value
         }
         
-        guard let techs = gameRef?.humanPlayer()?.techs else {
+        self.rebuildTechs(for: gameRef)
+    }
+    
+    private func rebuildTechs(for game: GameModel?) {
+        
+        guard let techs = game?.humanPlayer()?.techs else {
             fatalError("cant get techs")
         }
+        
+        self.techViewModels = []
         
         let possibleTechs = techs.possibleTechs()
         
@@ -49,33 +56,39 @@ class TechDialogViewModel: ObservableObject {
                         state = .possible
                     }
                     
-                    self.techViewModels.append(TechViewModel(techType: techType, state: state, boosted: techs.eurekaTriggered(for: techType), turns: turns))
+                    let techViewModel = TechViewModel(techType: techType, state: state, boosted: techs.eurekaTriggered(for: techType), turns: turns)
+                    techViewModel.delegate = self
+                    
+                    self.techViewModels.append(techViewModel)
                 } else {
                     self.techViewModels.append(TechViewModel(techType: .none, state: .disabled, boosted: false, turns: -1))
                 }
             }
         }
-        
-        /*for techType in TechType.all {
-            
-            var state: TechTypeState = .disabled
-            
-            if techs.currentTech() == techType {
-                state = .selected
-            } else if techs.has(tech: techType) {
-                state = .researched
-            } else if possibleTechs.contains(techType) {
-                state = .possible
-            }
-            
-            let techViewModel = TechViewModel(techType: techType, state: state)
-            
-            techViewModels.append(techViewModel)
-        }*/
     }
     
     func closeDialog() {
         
         self.delegate?.closeDialog()
+    }
+}
+
+extension TechDialogViewModel: TechViewModelDelegate {
+    
+    func selected(tech: TechType) {
+        
+        let game = self.gameEnvironment.game.value
+        
+        guard let techs = game?.humanPlayer()?.techs else {
+            fatalError("cant get techs")
+        }
+        
+        do {
+            try techs.setCurrent(tech: tech, in: game)
+        
+            self.rebuildTechs(for: game)
+        } catch {
+            print("cant select: \(tech)")
+        }
     }
 }

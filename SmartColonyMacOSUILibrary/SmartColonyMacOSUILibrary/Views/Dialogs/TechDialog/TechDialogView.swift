@@ -36,6 +36,9 @@ struct TechDialogView: View {
 
                             TechView(viewModel: techViewModel)
                                 .padding(0)
+                                .onTapGesture {
+                                    techViewModel.selectTech()
+                                }
                         }
                     }
                 })

@@ -31,11 +31,15 @@ enum TechTypeState {
     }
 }
 
+protocol TechViewModelDelegate: AnyObject {
+    
+    func selected(tech: TechType)
+}
+
 class TechViewModel: ObservableObject, Identifiable {
     
     let id: UUID = UUID()
     
-    @Published
     var techType: TechType
     
     @Published
@@ -43,6 +47,8 @@ class TechViewModel: ObservableObject, Identifiable {
     
     let boosted: Bool
     let turns: Int
+    
+    weak var delegate: TechViewModelDelegate?
     
     init(techType: TechType, state: TechTypeState, boosted: Bool, turns: Int) {
         
@@ -107,10 +113,19 @@ class TechViewModel: ObservableObject, Identifiable {
     
     func boostText() -> String {
         
+        if self.techType.eurekaSummary() == "" {
+            return ""
+        }
+        
         if self.boosted {
             return "Boosted: " + self.techType.eurekaSummary()
         } else {
             return "To boost: " + self.techType.eurekaSummary()
         }
+    }
+    
+    func selectTech() {
+        
+        self.delegate?.selected(tech: self.techType)
     }
 }
