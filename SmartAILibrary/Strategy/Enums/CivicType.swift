@@ -86,7 +86,7 @@ public enum CivicType: String, Codable {
     case spaceRace
 
 
-    static var all: [CivicType] {
+    public static var all: [CivicType] {
         return [
             // ancient
             .stateWorkforce, .craftsmanship, .codeOfLaws, .earlyEmpire, .foreignTrade, .mysticism, .militaryTradition,

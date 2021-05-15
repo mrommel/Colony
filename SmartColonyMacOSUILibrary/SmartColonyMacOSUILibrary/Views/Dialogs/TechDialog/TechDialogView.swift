@@ -12,6 +12,8 @@ struct TechDialogView: View {
     @ObservedObject
     var viewModel: TechDialogViewModel
     
+    private var gridItemLayout = [GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45))]
+    
     public init(viewModel: TechDialogViewModel) {
         
         self.viewModel = viewModel
@@ -26,23 +28,16 @@ struct TechDialogView: View {
                     .bold()
                     .padding()
                 
-                ScrollView(.vertical, showsIndicators: true, content: {
+                ScrollView(.horizontal, showsIndicators: true, content: {
                     
-                    Text("techs")
-                    /*LazyVGrid(columns: gridItemLayout, spacing: 20) {
+                    LazyHGrid(rows: gridItemLayout, spacing: 20) {
                         
-                        ForEach(self.viewModel.governmentSectionViewModels, id:\.self) { sectionViewModel in
-                    
-                            Section(header: Text(sectionViewModel.title()).font(.title)) {
-                                
-                                ForEach(sectionViewModel.governmentCardViewModels, id:\.self) { governmentCardViewModel in
+                        ForEach(self.viewModel.techViewModels) { techViewModel in
 
-                                    GovernmentCardView(viewModel: governmentCardViewModel)
-                                        .background(Color.white.opacity(0.1))
-                                }
-                            }
+                            TechView(viewModel: techViewModel)
+                                .padding(0)
                         }
-                    }*/
+                    }
                 })
                 
                 Button(action: {
@@ -55,9 +50,9 @@ struct TechDialogView: View {
             .padding(.leading, 45)
             .padding(.trailing, 45)
         }
-        .frame(width: 700, height: 450, alignment: .top)
+        .frame(width: 700, height: 550, alignment: .top)
         .background(
-            Image("grid9-dialog")
+            Image(nsImage: ImageCache.shared.image(for: "grid9-dialog"))
                 .resizable(capInsets: EdgeInsets(all: 45)
             )
         )

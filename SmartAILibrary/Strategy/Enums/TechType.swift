@@ -109,7 +109,7 @@ public enum TechType: String, Codable {
     
     case futureTech
 
-    static var all: [TechType] {
+    public static var all: [TechType] {
         return [
             // ancient
             .mining, .pottery, .animalHusbandry, .sailing, .astrology, .irrigation, .writing, .masonry, .archery, .bronzeWorking, .wheel,

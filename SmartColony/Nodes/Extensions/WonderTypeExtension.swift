@@ -6,8 +6,6 @@
 //  Copyright © 2020 Michael Rommel. All rights reserved.
 //
 
-import Foundation
-
 import SmartAILibrary
 
 extension WonderType {

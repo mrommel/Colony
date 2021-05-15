@@ -39,6 +39,12 @@ public class Textures {
     public let governmentAmbientTextureNames: [String]
     public let yieldTextureNames: [String]
     public let yieldBackgroundTextureNames: [String]
+    public let techTextureNames: [String]
+    public let civicTextureNames: [String]
+    public let buildTypeTextureNames: [String]
+    public let buildingTypeTextureNames: [String]
+    public let wonderTypeTextureNames: [String]
+    public let districtTypeTextureNames: [String]
     
     public init(game: GameModel?) {
         
@@ -117,6 +123,12 @@ public class Textures {
         self.governmentAmbientTextureNames = GovernmentType.all.map { $0.ambientTexture() }
         self.yieldTextureNames = YieldType.all.map { $0.iconTexture() }
         self.yieldBackgroundTextureNames = YieldType.all.map { $0.backgroundTexture() }
+        self.techTextureNames = TechType.all.map { $0.iconTexture() }
+        self.civicTextureNames = CivicType.all.map { $0.iconTexture() }
+        self.buildTypeTextureNames = BuildType.all.map { $0.iconTexture() }
+        self.buildingTypeTextureNames = BuildingType.all.map { $0.iconTexture() }
+        self.wonderTypeTextureNames = WonderType.all.map { $0.iconTexture() }
+        self.districtTypeTextureNames = DistrictType.all.map { $0.iconTexture() }
     }
     
     public func terrainTexture(at point: HexPoint) -> String {

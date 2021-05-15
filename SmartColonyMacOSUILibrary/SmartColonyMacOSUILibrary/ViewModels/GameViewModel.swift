@@ -91,7 +91,7 @@ public class GameViewModel: ObservableObject {
         }
     }
     
-    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar"]
+    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching"]
     
     // MARK: constructor
     
@@ -245,6 +245,36 @@ public class GameViewModel: ObservableObject {
         }
         for yieldBackgroundTextureName in textures.yieldBackgroundTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: yieldBackgroundTextureName), for: yieldBackgroundTextureName)
+        }
+        
+        print("- load \(textures.techTextureNames.count) tech type textures")
+        for techTextureName in textures.techTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: techTextureName), for: techTextureName)
+        }
+        
+        print("- load \(textures.civicTextureNames.count) civic type textures")
+        for civicTextureName in textures.civicTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: civicTextureName), for: civicTextureName)
+        }
+        
+        print("- load \(textures.buildTypeTextureNames.count) build type textures")
+        for buildTypeTextureName in textures.buildTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: buildTypeTextureName), for: buildTypeTextureName)
+        }
+        
+        print("- load \(textures.buildingTypeTextureNames.count) building type textures")
+        for buildingTypeTextureName in textures.buildingTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: buildingTypeTextureName), for: buildingTypeTextureName)
+        }
+        
+        print("- load \(textures.wonderTypeTextureNames.count) wonder type textures")
+        for wonderTypeTextureName in textures.wonderTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: wonderTypeTextureName), for: wonderTypeTextureName)
+        }
+        
+        print("- load \(textures.districtTypeTextureNames.count) district type textures")
+        for districtTypeTextureName in textures.districtTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: districtTypeTextureName), for: districtTypeTextureName)
         }
         
         print("-- all textures loaded --")
