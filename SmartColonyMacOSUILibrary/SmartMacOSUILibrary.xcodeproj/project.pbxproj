@@ -64,6 +64,8 @@
 		C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D84261EF7F100341241 /* MapOverviewView.swift */; };
 		C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D8B261EF87000341241 /* BottomRightBarView.swift */; };
 		C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */; };
+		C9A8F0D32651143500584199 /* CivicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0D22651143500584199 /* CivicView.swift */; };
+		C9A8F0D52651149A00584199 /* CivicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0D42651149A00584199 /* CivicViewModel.swift */; };
 		C9B43FAD263E8DEE00241012 /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FAC263E8DEE00241012 /* ZoomableScrollView.swift */; };
 		C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */; };
 		C9B43FB1263E905B00241012 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FB0263E905B00241012 /* CGSizeExtension.swift */; };
@@ -164,6 +166,8 @@
 		C9A61D84261EF7F100341241 /* MapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewView.swift; sourceTree = "<group>"; };
 		C9A61D8A261EF86F00341241 /* BottomLeftBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomLeftBarView.swift; sourceTree = "<group>"; };
 		C9A61D8B261EF87000341241 /* BottomRightBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomRightBarView.swift; sourceTree = "<group>"; };
+		C9A8F0D22651143500584199 /* CivicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicView.swift; sourceTree = "<group>"; };
+		C9A8F0D42651149A00584199 /* CivicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicViewModel.swift; sourceTree = "<group>"; };
 		C9B43FAC263E8DEE00241012 /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskYesNoAlertView.swift; sourceTree = "<group>"; };
 		C9B43FB0263E905B00241012 /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
@@ -423,6 +427,8 @@
 			children = (
 				C9E87BB4264D1D1C00514B9A /* CivicDialogView.swift */,
 				C9E87BB6264D1DC500514B9A /* CivicDialogViewModel.swift */,
+				C9A8F0D22651143500584199 /* CivicView.swift */,
+				C9A8F0D42651149A00584199 /* CivicViewModel.swift */,
 			);
 			path = CivicDialog;
 			sourceTree = "<group>";
@@ -564,6 +570,8 @@
 				C968F2972639817A00612D0E /* ProgressCircle.swift in Sources */,
 				C9A3763326369FE60057923E /* WaterLayer.swift in Sources */,
 				C950F99B264908F80057A7D1 /* PolicyCardViewModel.swift in Sources */,
+				C9A8F0D52651149A00584199 /* CivicViewModel.swift in Sources */,
+				C9A8F0D32651143500584199 /* CivicView.swift in Sources */,
 				C9A3763C2637E7C80057923E /* HexCoordLayer.swift in Sources */,
 				C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */,
 				C9CAC8A4264BC58E00D0668D /* TopBarView.swift in Sources */,
