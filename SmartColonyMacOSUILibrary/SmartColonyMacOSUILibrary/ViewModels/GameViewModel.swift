@@ -19,13 +19,15 @@ protocol GameViewModelDelegate: AnyObject {
     func showChangeTechDialog()
     func showChangeCivicDialog()
     
+    func isShown(screen: ScreenType) -> Bool
+    
     func closeDialog()
 }
 
 public class GameViewModel: ObservableObject {
     
     // type of shown dialog - highlander - there can only be one
-    enum DialogType {
+    /*enum DialogType {
         
         case none // standard
         
@@ -33,7 +35,7 @@ public class GameViewModel: ObservableObject {
         case policy
         case tech
         case civic
-    }
+    }*/
 
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
@@ -50,7 +52,7 @@ public class GameViewModel: ObservableObject {
     // UI
     
     @Published
-    var shownDialog: DialogType = .none
+    var shownDialog: ScreenType = .none
     
     // MARK: map display options
     
@@ -376,13 +378,13 @@ extension GameViewModel: GameViewModelDelegate {
     
     func showChangePoliciesDialog() {
         
-        if self.shownDialog == .policy {
+        if self.shownDialog == .changePolicies {
             // already shown
             return
         }
         
         if self.shownDialog == .none {
-            self.shownDialog = .policy
+            self.shownDialog = .changePolicies
         } else {
             fatalError("cant show policy dialog, \(self.shownDialog) is currently shown")
         }
@@ -390,13 +392,13 @@ extension GameViewModel: GameViewModelDelegate {
     
     func showChangeTechDialog() {
         
-        if self.shownDialog == .tech {
+        if self.shownDialog == .techs {
             // already shown
             return
         }
         
         if self.shownDialog == .none {
-            self.shownDialog = .tech
+            self.shownDialog = .techs
         } else {
             fatalError("cant show tech dialog, \(self.shownDialog) is currently shown")
         }
@@ -404,18 +406,22 @@ extension GameViewModel: GameViewModelDelegate {
     
     func showChangeCivicDialog() {
         
-        if self.shownDialog == .civic {
+        if self.shownDialog == .civics {
             // already shown
             return
         }
         
         if self.shownDialog == .none {
-            self.shownDialog = .civic
+            self.shownDialog = .civics
         } else {
             fatalError("cant show civic dialog, \(self.shownDialog) is currently shown")
         }
     }
     
+    func isShown(screen: ScreenType) -> Bool {
+        
+        return self.shownDialog == screen
+    }
     
     func closeDialog() {
         

@@ -79,14 +79,35 @@ extension GameView {
         
         case .none:
             return AnyView(EmptyView())
-        case .government:
+            
+        case .governmentPolicies:
             return AnyView(GovernmentDialogView(viewModel: self.governmentDialogViewModel))
-        case .policy:
+        case .changePolicies:
             return AnyView(PolicyDialogView(viewModel: self.policyDialogViewModel))
-        case .tech:
+        case .techs:
             return AnyView(TechDialogView(viewModel: self.techDialogViewModel))
-        case .civic:
+        case .civics:
             return AnyView(CivicDialogView(viewModel: self.civicDialogViewModel))
+        case .interimRanking:
+            return AnyView(EmptyView())
+        case .diplomatic:
+            return AnyView(EmptyView())
+        case .city:
+            return AnyView(EmptyView())
+        case .treasury:
+            return AnyView(EmptyView())
+        case .government:
+            return AnyView(EmptyView())
+        case .changeGovernment:
+            return AnyView(EmptyView())
+        case .selectPromotion:
+            return AnyView(EmptyView())
+        case .disbandConfirm:
+            return AnyView(EmptyView())
+        case .selectTradeCity:
+            return AnyView(EmptyView())
+        case .menu:
+            return AnyView(EmptyView())
         }
     }
 }

@@ -12,10 +12,11 @@ extension GameScene: UserInterfaceDelegate {
     
     func showPopup(popupType: PopupType, with data: PopupData?) {
         print("todo: showPopup()")
+        // self.popups.append(GameScenePopupData(popupType: popupType, popupData: data))
     }
     
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?) {
-        print("todo: showScreen")
+        print("todo: showScreen => \(screenType)")
     }
     
     func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType) {
@@ -23,8 +24,8 @@ extension GameScene: UserInterfaceDelegate {
     }
     
     func isShown(screen: ScreenType) -> Bool {
-        print("todo: isShown")
-        return false
+        
+        return self.viewModel?.delegate?.isShown(screen: screen) ?? false
     }
     
     func add(notification: NotificationItem) {
