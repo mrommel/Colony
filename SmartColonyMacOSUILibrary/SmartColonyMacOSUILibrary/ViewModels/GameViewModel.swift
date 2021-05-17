@@ -14,6 +14,9 @@ protocol GameViewModelDelegate: AnyObject {
     
     func focus(on point: HexPoint)
     
+    func showPopup(popupType: PopupType, with data: PopupData?)
+    func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?)
+    
     func showChangeGovernmentDialog()
     func showChangePoliciesDialog()
     func showChangeTechDialog()
@@ -21,7 +24,23 @@ protocol GameViewModelDelegate: AnyObject {
     
     func isShown(screen: ScreenType) -> Bool
     
+    func checkPopups() -> Bool
+    func add(notification: NotificationItem)
+    func remove(notification: NotificationItem)
+    
     func closeDialog()
+}
+
+class GameViewModelPopupData {
+    
+    let popupType: PopupType
+    let popupData: PopupData?
+    
+    init(popupType: PopupType, data popupData: PopupData?) {
+        
+        self.popupType = popupType
+        self.popupData = popupData
+    }
 }
 
 public class GameViewModel: ObservableObject {
@@ -49,10 +68,19 @@ public class GameViewModel: ObservableObject {
     @Published
     var gameSceneViewModel: GameSceneViewModel
     
+    @Published
+    var notificationsViewModel: NotificationsViewModel
+    
     // UI
     
     @Published
-    var shownDialog: ScreenType = .none
+    var currentScreenType: ScreenType = .none
+    
+    @Published
+    var currentPopupType: PopupType = .none
+    
+    @Published
+    var popups: [GameViewModelPopupData] = []
     
     // MARK: map display options
     
@@ -93,14 +121,17 @@ public class GameViewModel: ObservableObject {
         }
     }
     
-    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching"]
+    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching", "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active", "banner"]
     
     // MARK: constructor
     
     public init(preloadAssets: Bool = false) {
         
         self.gameSceneViewModel = GameSceneViewModel()
+        self.notificationsViewModel = NotificationsViewModel()
+        
         self.gameSceneViewModel.delegate = self
+        self.notificationsViewModel.delegate = self
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -350,8 +381,79 @@ public class GameViewModel: ObservableObject {
     
     public func zoomReset() {
         
-        //self.magnificationTarget = 1.0
         self.magnification = 1.0
+    }
+    
+    func displayPopups() {
+        
+        if let firstPopup = self.popups.first {
+
+            print("show popup: \(firstPopup.popupType)")
+
+            switch firstPopup.popupType {
+
+            case .none:
+                // NOOP
+                break
+            case .declareWarQuestion:
+                // NOOP
+                break
+            case .barbarianCampCleared:
+                // NOOP
+                break
+                
+            case .techDiscovered:
+                if let techType = firstPopup.popupData?.tech {
+                    self.showTechDiscoveredPopup(for: techType)
+                } else {
+                    fatalError("popup data did not provide tech")
+                }
+                
+            case .civicDiscovered:
+                if let civicType = firstPopup.popupData?.civic {
+                    self.showCivicDiscoveredPopup(for: civicType)
+                } else {
+                    fatalError("popup data did not provide tech")
+                }
+                
+            case .eraEntered:
+                if let era = firstPopup.popupData?.era {
+                    self.showEnteredEraPopup(for: era)
+                } else {
+                    fatalError("popup data did not provide era")
+                }
+                
+            case .eurekaActivated:
+                if let popupData = firstPopup.popupData {
+                    if popupData.tech != .none {
+                        self.showEurekaActivatedPopup(for: popupData.tech)
+                    } else if popupData.civic != .none {
+                        self.showEurekaActivatedPopup(for: popupData.civic)
+                    }
+                } else {
+                    fatalError("popup data did not provide tech nor civic")
+                }
+                
+            case .goodyHutReward:
+                if let goodyType = firstPopup.popupData?.goodyType {
+                    let cityName = firstPopup.popupData?.cityName
+                    self.showGoodyHutRewardPopup(for: goodyType, in: cityName)
+                } else {
+                    fatalError("popup data did not provide goodyType")
+                }
+        
+            case .unitTrained:
+                // NOOP
+                break
+                
+            case .buildingBuilt:
+                // NOOP
+                break
+            }
+
+            self.popups.removeFirst()
+            return
+        }
     }
 }
 
@@ -362,69 +464,141 @@ extension GameViewModel: GameViewModelDelegate {
         self.focusPosition = point
     }
     
+    func showPopup(popupType: PopupType, with data: PopupData?) {
+    
+        self.popups.append(GameViewModelPopupData(popupType: popupType, data: data))
+    }
+    
+    func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?) {
+        
+        switch screenType {
+
+        case .interimRanking:
+            // self.showInterimRankingDialog()
+            print("==> interimRanking")
+        case .diplomatic:
+            // self.showDiplomaticDialog(with: otherPlayer, data: data, deal: nil)
+            print("==> diplomatic")
+        case .city:
+            // self.showCityDialog(for: city)
+            print("==> city")
+        case .techs:
+            self.showChangeTechDialog()
+        case .civics:
+            self.showChangeCivicDialog()
+        case .treasury:
+            // self.showTreasuryDialog()
+            print("==> treasury")
+        case .menu:
+            // self.showMenuDialog()
+            print("==> menu")
+        case .government:
+            self.showChangeGovernmentDialog()
+        case .selectPromotion:
+            guard let game = self.gameEnvironment.game.value else {
+                fatalError("cant get game")
+            }
+            
+            guard let humanPlayer = game.humanPlayer() else {
+                fatalError("cant get human player")
+            }
+            
+            if let promotableUnit = humanPlayer.firstPromotableUnit(in: game) {
+            
+                // self.handleUnitPromotion(at: promotableUnit.location)
+                print("==> selectPromotion")
+            }
+        default:
+            print("screen: \(screenType) not handled")
+        }
+    }
+    
     func showChangeGovernmentDialog() {
         
-        if self.shownDialog == .government {
+        if self.currentScreenType == .changeGovernment {
             // already shown
             return
         }
         
-        if self.shownDialog == .none {
-            self.shownDialog = .government
+        if self.currentScreenType == .none {
+            self.currentScreenType = .changeGovernment
         } else {
-            fatalError("cant show government dialog, \(self.shownDialog) is currently shown")
+            fatalError("cant show change government dialog, \(self.currentScreenType) is currently shown")
         }
     }
     
     func showChangePoliciesDialog() {
         
-        if self.shownDialog == .changePolicies {
+        if self.currentScreenType == .changePolicies {
             // already shown
             return
         }
         
-        if self.shownDialog == .none {
-            self.shownDialog = .changePolicies
+        if self.currentScreenType == .none {
+            self.currentScreenType = .changePolicies
         } else {
-            fatalError("cant show policy dialog, \(self.shownDialog) is currently shown")
+            fatalError("cant show change policy dialog, \(self.currentScreenType) is currently shown")
         }
     }
     
     func showChangeTechDialog() {
         
-        if self.shownDialog == .techs {
+        if self.currentScreenType == .techs {
             // already shown
             return
         }
         
-        if self.shownDialog == .none {
-            self.shownDialog = .techs
+        if self.currentScreenType == .none {
+            self.currentScreenType = .techs
         } else {
-            fatalError("cant show tech dialog, \(self.shownDialog) is currently shown")
+            fatalError("cant show tech dialog, \(self.currentScreenType) is currently shown")
         }
     }
     
     func showChangeCivicDialog() {
         
-        if self.shownDialog == .civics {
+        if self.currentScreenType == .civics {
             // already shown
             return
         }
         
-        if self.shownDialog == .none {
-            self.shownDialog = .civics
+        if self.currentScreenType == .none {
+            self.currentScreenType = .civics
         } else {
-            fatalError("cant show civic dialog, \(self.shownDialog) is currently shown")
+            fatalError("cant show civic dialog, \(self.currentScreenType) is currently shown")
         }
+    }
+    
+    func checkPopups() -> Bool {
+        
+        if self.currentScreenType == .none {
+
+            if self.popups.count > 0 && self.currentPopupType == .none {
+                self.displayPopups()
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    func add(notification: NotificationItem) {
+        
+        self.notificationsViewModel.add(notification: notification)
+    }
+    
+    func remove(notification: NotificationItem) {
+        
+        self.notificationsViewModel.remove(notification: notification)
     }
     
     func isShown(screen: ScreenType) -> Bool {
         
-        return self.shownDialog == screen
+        return self.currentScreenType == screen
     }
     
     func closeDialog() {
         
-        self.shownDialog = .none
+        self.currentScreenType = .none
     }
 }

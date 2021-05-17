@@ -23,10 +23,23 @@ struct PolicyDialogView: View {
     var body: some View {
         Group {
             VStack(spacing: 10) {
-                Text("Select Policies")
-                    .font(.title2)
-                    .bold()
-                    .padding()
+                HStack {
+                    
+                    Spacer()
+                    
+                    Text("Select Policies")
+                        .font(.title2)
+                        .bold()
+                        .padding()
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        self.viewModel.closeDialog()
+                    }, label: {
+                        Text("X")
+                    })
+                }
                 
                 HStack {
                     Text("Government: ")
@@ -78,7 +91,7 @@ struct PolicyDialogView: View {
                 })
                 
                 Button(action: {
-                    self.viewModel.closeDialog()
+                    self.viewModel.closeAndSaveDialog()
                 }, label: {
                     Text("Okay")
                 })

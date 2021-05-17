@@ -11,12 +11,13 @@ import SpriteKit
 extension GameScene: UserInterfaceDelegate {
     
     func showPopup(popupType: PopupType, with data: PopupData?) {
-        print("todo: showPopup()")
-        // self.popups.append(GameScenePopupData(popupType: popupType, popupData: data))
+
+        self.viewModel?.delegate?.showPopup(popupType: popupType, with: data)
     }
     
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?) {
-        print("todo: showScreen => \(screenType)")
+        
+        self.viewModel?.delegate?.showScreen(screenType: screenType, city: city, other: other, data: data)
     }
     
     func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType) {
@@ -29,11 +30,13 @@ extension GameScene: UserInterfaceDelegate {
     }
     
     func add(notification: NotificationItem) {
-        print("todo: add(notification: \(notification.message))")
+        
+        self.viewModel?.delegate?.add(notification: notification)
     }
     
     func remove(notification: NotificationItem) {
-        print("todo: remove(notification)")
+        
+        self.viewModel?.delegate?.remove(notification: notification)
     }
     
     func select(unit: AbstractUnit?) {

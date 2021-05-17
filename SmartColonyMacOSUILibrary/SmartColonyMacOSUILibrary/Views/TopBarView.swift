@@ -35,16 +35,21 @@ public struct TopBarView: View {
                 }
                 
                 Spacer()
+                
+                Text(self.viewModel.turnText())
+                    .padding(.trailing, 3)
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 24, maxHeight: 24, alignment: .topLeading)
-            .background(Image(nsImage: ImageCache.shared.image(for: "top-bar")))
+            .background(
+                Image(nsImage: ImageCache.shared.image(for: "top-bar"))
+                    .resizable()
+            )
             
             Spacer()
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     }
 }
-
 
 struct TopBarView_Previews: PreviewProvider {
     
@@ -55,4 +60,3 @@ struct TopBarView_Previews: PreviewProvider {
         TopBarView(viewModel: viewModel)
     }
 }
-

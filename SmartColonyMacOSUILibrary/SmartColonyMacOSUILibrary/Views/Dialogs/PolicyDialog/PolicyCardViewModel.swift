@@ -35,7 +35,7 @@ protocol PolicyCardViewModelDelegate: AnyObject {
     func update()
 }
 
-class PolicyCardViewModel: ObservableObject, Hashable {
+class PolicyCardViewModel: ObservableObject {
       
     // variables
     let policyCardType: PolicyCardType
@@ -85,6 +85,9 @@ class PolicyCardViewModel: ObservableObject, Hashable {
         
         return ImageCache.shared.image(for: self.policyCardType.iconTexture())
     }
+}
+ 
+extension PolicyCardViewModel: Hashable {
     
     static func == (lhs: PolicyCardViewModel, rhs: PolicyCardViewModel) -> Bool {
         

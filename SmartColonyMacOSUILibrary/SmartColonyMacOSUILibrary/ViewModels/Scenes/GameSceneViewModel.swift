@@ -26,7 +26,11 @@ public class GameSceneViewModel: ObservableObject {
     }
     
     @Published
-    var game: GameModel?
+    var game: GameModel? {
+        willSet {
+            objectWillChange.send()
+        }
+    }
     
     @Published
     var selectedUnit: AbstractUnit? = nil
@@ -44,6 +48,9 @@ public class GameSceneViewModel: ObservableObject {
     
     @Published
     var showCommands: Bool = false
+    
+    @Published
+    var showBanner: Bool = true
     
     @Published
     var commands: [Command] = []
@@ -211,7 +218,7 @@ public class GameSceneViewModel: ObservableObject {
 
         case .aiTurns:
             // show AI is working banner
-            // self.safeAreaNode.addChild(self.bannerNode!)
+            self.showBanner = true
 
             //self.view?.preferredFramesPerSecond = 15
 
@@ -229,7 +236,7 @@ public class GameSceneViewModel: ObservableObject {
             }*/
             
             // hide AI is working banner
-            //self.bannerNode?.removeFromParent()
+            self.showBanner = false
 
             //self.view?.preferredFramesPerSecond = 60
 
@@ -285,6 +292,15 @@ public class GameSceneViewModel: ObservableObject {
         self.uiTurnState = state
     }
     
+    func turnText() -> String {
+        
+        guard let gameModel = self.game else {
+            return "-"
+        }
+        
+        return gameModel.turnYear()
+    }
+    
     func showTurnButton() {
         
         // self.unitImageNode?.texture = SKTexture(imageNamed: "button_turn")
@@ -327,14 +343,10 @@ public class GameSceneViewModel: ObservableObject {
         guard let humanPlayer = gameModel.humanPlayer() else {
             fatalError("cant get human")
         }
-
-        /*if self.currentScreenType == .none {
-
-            if self.popups.count > 0 && self.currentPopupType == .none {
-                self.displayPopups()
-                return
-            }
-        }*/
+        
+        if self.delegate?.checkPopups() ?? false {
+            return
+        }
 
         if let blockingNotification = humanPlayer.blockingNotification() {
 
@@ -345,7 +357,6 @@ public class GameSceneViewModel: ObservableObject {
                     self.game?.userInterface?.select(unit: unit)
                 }
             } else {
-
                 // no unit selected - show blocking button
                 self.showBlockingButton(for: blockingNotification)
             }

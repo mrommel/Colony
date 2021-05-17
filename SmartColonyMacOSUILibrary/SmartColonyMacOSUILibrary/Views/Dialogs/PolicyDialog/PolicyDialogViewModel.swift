@@ -94,6 +94,11 @@ class PolicyDialogViewModel: ObservableObject {
     
     func closeDialog() {
         
+        self.delegate?.closeDialog()
+    }
+    
+    func closeAndSaveDialog() {
+        
         if !self.verify() {
             
             self.hintText = "The combination is not valid."

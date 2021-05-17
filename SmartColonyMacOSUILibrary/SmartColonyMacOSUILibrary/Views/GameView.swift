@@ -54,17 +54,25 @@ public struct GameView: View {
                 .onReceive(self.gameEnvironment.game) { game in
                     
                     if let game = game {
+                        // print("about to set game")
                         self.viewModel.gameSceneViewModel.game = game
                     }
                 }
             
+            NotificationsView(viewModel: self.viewModel.notificationsViewModel)
+                //.background(Color.green.opacity(0.2))
+            
             BottomLeftBarView(viewModel: self.viewModel.gameSceneViewModel)
+                //.background(Color.red.opacity(0.2))
             
             BottomRightBarView()
             
             TopBarView(viewModel: self.viewModel.gameSceneViewModel)
-            
+                //.background(Color.blue.opacity(0.2))
+
             self.dialog
+            
+            BannerView(viewModel: self.viewModel.gameSceneViewModel)
         }
     }
 }
@@ -75,7 +83,7 @@ extension GameView {
     
     private var dialog: AnyView {
     
-        switch self.viewModel.shownDialog {
+        switch self.viewModel.currentScreenType {
         
         case .none:
             return AnyView(EmptyView())
@@ -97,9 +105,9 @@ extension GameView {
         case .treasury:
             return AnyView(EmptyView())
         case .government:
-            return AnyView(EmptyView())
+            return AnyView(GovernmentDialogView(viewModel: self.governmentDialogViewModel))
         case .changeGovernment:
-            return AnyView(EmptyView())
+            return AnyView(GovernmentDialogView(viewModel: self.governmentDialogViewModel))
         case .selectPromotion:
             return AnyView(EmptyView())
         case .disbandConfirm:
