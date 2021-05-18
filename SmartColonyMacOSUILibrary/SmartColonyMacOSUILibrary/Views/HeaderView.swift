@@ -42,6 +42,7 @@ struct HeaderView: View {
                 // trade routes
                 HeaderButtonView(viewModel: viewModel.tradeRoutesHeaderViewModel())
             }
+            .padding(.top, 24)
             
             Spacer()
         }

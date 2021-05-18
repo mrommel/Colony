@@ -64,6 +64,7 @@
 		C9A48D342652FBE600260EE0 /* TechProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D332652FBE600260EE0 /* TechProgressViewModel.swift */; };
 		C9A48D362653004100260EE0 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D352653004100260EE0 /* HeaderView.swift */; };
 		C9A48D38265396FA00260EE0 /* HeaderButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D37265396FA00260EE0 /* HeaderButtonView.swift */; };
+		C9A48D3A2653A19900260EE0 /* HeaderButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D392653A19900260EE0 /* HeaderButtonViewModel.swift */; };
 		C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D80261EE55600341241 /* PixelBuffer.swift */; };
 		C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */; };
 		C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D84261EF7F100341241 /* MapOverviewView.swift */; };
@@ -176,6 +177,7 @@
 		C9A48D332652FBE600260EE0 /* TechProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechProgressViewModel.swift; sourceTree = "<group>"; };
 		C9A48D352653004100260EE0 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		C9A48D37265396FA00260EE0 /* HeaderButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderButtonView.swift; sourceTree = "<group>"; };
+		C9A48D392653A19900260EE0 /* HeaderButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderButtonViewModel.swift; sourceTree = "<group>"; };
 		C9A61D80261EE55600341241 /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
 		C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewViewModel.swift; sourceTree = "<group>"; };
 		C9A61D84261EF7F100341241 /* MapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewView.swift; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 				C9A8F0DC2651A63100584199 /* NotificationViewModel.swift */,
 				C9A8F0DA2651A61E00584199 /* NotificationsViewModel.swift */,
 				C9A48D332652FBE600260EE0 /* TechProgressViewModel.swift */,
+				C9A48D392653A19900260EE0 /* HeaderButtonViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -572,6 +575,7 @@
 				C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */,
 				C9A48D38265396FA00260EE0 /* HeaderButtonView.swift in Sources */,
 				C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */,
+				C9A48D3A2653A19900260EE0 /* HeaderButtonViewModel.swift in Sources */,
 				C9E87BB7264D1DC500514B9A /* CivicDialogViewModel.swift in Sources */,
 				C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */,
 				C968F2AE2639EE3C00612D0E /* SKLabelNodeExtension.swift in Sources */,
