@@ -121,7 +121,7 @@ public class GameViewModel: ObservableObject {
         }
     }
     
-    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching", "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active", "banner"]
+    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching", "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active", "banner", "science-progress", "culture-progress", "header-bar-button", "header-bar-left", "header-bar-right"]
     
     // MARK: constructor
     
@@ -243,6 +243,21 @@ public class GameViewModel: ObservableObject {
         print("- load \(textures.buttonTextureNames.count) button textures")
         for buttonTextureName in textures.buttonTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: buttonTextureName), for: buttonTextureName)
+        }
+        
+        print("- load \(textures.cultureProgressTextureNames.count) culture progress textures")
+        for cultureProgressTextureName in textures.cultureProgressTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: cultureProgressTextureName), for: cultureProgressTextureName)
+        }
+        
+        print("- load \(textures.scienceProgressTextureNames.count) science progress textures")
+        for scienceProgressTextureName in textures.scienceProgressTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: scienceProgressTextureName), for: scienceProgressTextureName)
+        }
+        
+        print("- load \(textures.headerTextureNames.count) header textures")
+        for headerTextureName in textures.headerTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: headerTextureName), for: headerTextureName)
         }
         
         print("- load \(textures.commandTextureNames.count) + \(textures.commandButtonTextureNames.count) command textures")

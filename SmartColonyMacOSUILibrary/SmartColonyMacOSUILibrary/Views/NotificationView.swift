@@ -30,7 +30,7 @@ struct NotificationView: View {
                 .padding(.leading, 14)
             
             Circle()
-                .fill(Color.blue.opacity(0.3))
+                .fill(Color.clear)
                 .frame(width: 40, height: 40)
                 .padding(.top, 13.5)
                 .padding(.leading, 14)

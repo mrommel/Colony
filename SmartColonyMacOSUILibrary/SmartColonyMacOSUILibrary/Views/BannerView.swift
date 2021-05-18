@@ -41,6 +41,7 @@ struct BannerView: View {
     }
 }
 
+#if DEBUG
 struct BannerView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -50,3 +51,4 @@ struct BannerView_Previews: PreviewProvider {
         BannerView(viewModel: viewModel)
     }
 }
+#endif

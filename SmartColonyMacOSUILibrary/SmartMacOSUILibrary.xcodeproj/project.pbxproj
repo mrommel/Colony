@@ -60,6 +60,10 @@
 		C9A3763326369FE60057923E /* WaterLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3763226369FE60057923E /* WaterLayer.swift */; };
 		C9A3763C2637E7C80057923E /* HexCoordLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3763B2637E7C80057923E /* HexCoordLayer.swift */; };
 		C9A48D302652C8AC00260EE0 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D2F2652C8AC00260EE0 /* BannerView.swift */; };
+		C9A48D322652E9DF00260EE0 /* TechProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D312652E9DF00260EE0 /* TechProgressView.swift */; };
+		C9A48D342652FBE600260EE0 /* TechProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D332652FBE600260EE0 /* TechProgressViewModel.swift */; };
+		C9A48D362653004100260EE0 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D352653004100260EE0 /* HeaderView.swift */; };
+		C9A48D38265396FA00260EE0 /* HeaderButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D37265396FA00260EE0 /* HeaderButtonView.swift */; };
 		C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D80261EE55600341241 /* PixelBuffer.swift */; };
 		C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */; };
 		C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D84261EF7F100341241 /* MapOverviewView.swift */; };
@@ -168,6 +172,10 @@
 		C9A3763226369FE60057923E /* WaterLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterLayer.swift; sourceTree = "<group>"; };
 		C9A3763B2637E7C80057923E /* HexCoordLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexCoordLayer.swift; sourceTree = "<group>"; };
 		C9A48D2F2652C8AC00260EE0 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
+		C9A48D312652E9DF00260EE0 /* TechProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechProgressView.swift; sourceTree = "<group>"; };
+		C9A48D332652FBE600260EE0 /* TechProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechProgressViewModel.swift; sourceTree = "<group>"; };
+		C9A48D352653004100260EE0 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		C9A48D37265396FA00260EE0 /* HeaderButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderButtonView.swift; sourceTree = "<group>"; };
 		C9A61D80261EE55600341241 /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
 		C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewViewModel.swift; sourceTree = "<group>"; };
 		C9A61D84261EF7F100341241 /* MapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewView.swift; sourceTree = "<group>"; };
@@ -337,6 +345,9 @@
 				C9BDCF8A262476E6002488F6 /* GameView.swift */,
 				C9A3760426340F9B0057923E /* GameSceneView.swift */,
 				C9A48D2F2652C8AC00260EE0 /* BannerView.swift */,
+				C9A48D312652E9DF00260EE0 /* TechProgressView.swift */,
+				C9A48D352653004100260EE0 /* HeaderView.swift */,
+				C9A48D37265396FA00260EE0 /* HeaderButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -350,6 +361,7 @@
 				C9A8F0D62651969D00584199 /* GameViewModelDialogs.swift */,
 				C9A8F0DC2651A63100584199 /* NotificationViewModel.swift */,
 				C9A8F0DA2651A61E00584199 /* NotificationsViewModel.swift */,
+				C9A48D332652FBE600260EE0 /* TechProgressViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -558,6 +570,7 @@
 				C9A3763126369FD90057923E /* YieldLayer.swift in Sources */,
 				C9B43FB1263E905B00241012 /* CGSizeExtension.swift in Sources */,
 				C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */,
+				C9A48D38265396FA00260EE0 /* HeaderButtonView.swift in Sources */,
 				C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */,
 				C9E87BB7264D1DC500514B9A /* CivicDialogViewModel.swift in Sources */,
 				C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */,
@@ -571,9 +584,11 @@
 				C9E87BB5264D1D1C00514B9A /* CivicDialogView.swift in Sources */,
 				C9A3761B263468780057923E /* SKNodeExtension.swift in Sources */,
 				C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */,
+				C9A48D362653004100260EE0 /* HeaderView.swift in Sources */,
 				C9CE216C2649675C00B47ED4 /* CheckboxSquareToggleStyle.swift in Sources */,
 				C9A8F0DD2651A63100584199 /* NotificationViewModel.swift in Sources */,
 				C915514D260A59DF003710BE /* ActivityIndicator.swift in Sources */,
+				C9A48D342652FBE600260EE0 /* TechProgressViewModel.swift in Sources */,
 				C9CAC89D264ABCBE00D0668D /* GovernmentCardView.swift in Sources */,
 				C99A889C2607A319003B8B73 /* CGContextExtension.swift in Sources */,
 				C9CAC899264ABBC400D0668D /* GovernmentDialogView.swift in Sources */,
@@ -587,6 +602,7 @@
 				C9E87BA5264C558800514B9A /* YieldValueView.swift in Sources */,
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
 				C968F29B2639B86D00612D0E /* ImprovementLayer.swift in Sources */,
+				C9A48D322652E9DF00260EE0 /* TechProgressView.swift in Sources */,
 				C950F995264902990057A7D1 /* PolicyDialogView.swift in Sources */,
 				C9A8F0DB2651A61E00584199 /* NotificationsViewModel.swift in Sources */,
 				C968F2972639817A00612D0E /* ProgressCircle.swift in Sources */,

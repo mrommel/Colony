@@ -31,6 +31,10 @@ public class Textures {
     public let allPathOutTextureNames: [String]
     
     public let buttonTextureNames: [String]
+    public let cultureProgressTextureNames: [String]
+    public let scienceProgressTextureNames: [String]
+    public let headerTextureNames: [String]
+    
     public let commandTextureNames: [String]
     public let commandButtonTextureNames: [String]
     public let policyCardTextureNames: [String]
@@ -115,6 +119,10 @@ public class Textures {
         self.allPathOutTextureNames = self.allPathTextureNames.map { $0 + "-out" }
         
         self.buttonTextureNames = NotificationType.all.map { $0.iconTexture() }
+        self.cultureProgressTextureNames = Array(0...100).map { "culture_progress_\($0)" }
+        self.scienceProgressTextureNames = Array(0...100).map { "science_progress_\($0)" }
+        self.headerTextureNames = ["header-culture-button-active", "header-culture-button-disabled", "header-government-button-active", "header-government-button-disabled", "header-log-button-active", "header-log-button-disabled", "header-science-button-active", "header-science-button-disabled"]
+        
         self.commandTextureNames = CommandType.all.map { $0.iconTexture() }
         self.commandButtonTextureNames = CommandType.all.map { $0.buttonTexture() }
         self.policyCardTextureNames = ["policyCard-slot", "policyCard-military", "policyCard-economic", "policyCard-diplomatic", "policyCard-wildcard"]

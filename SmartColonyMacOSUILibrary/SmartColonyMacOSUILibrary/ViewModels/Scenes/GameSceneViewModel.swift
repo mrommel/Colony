@@ -365,6 +365,8 @@ public class GameSceneViewModel: ObservableObject {
         }
     }
     
+    // MARK: top view models
+    
     func scienceYieldValueViewModel() -> YieldValueViewModel {
         
         guard let gameModel = self.game else {
@@ -399,6 +401,56 @@ public class GameSceneViewModel: ObservableObject {
         }
         
         return YieldValueViewModel(yieldType: .culture, value: cultureValue)
+    }
+    
+    // MARK: header view models
+    
+    func scienceHeaderViewModel() -> HeaderButtonViewModel {
+        
+        let viewModel = HeaderButtonViewModel(type: .science)
+        viewModel.delegate = self
+        
+        return viewModel
+    }
+    
+    func cultureHeaderViewModel() -> HeaderButtonViewModel {
+        
+        let viewModel = HeaderButtonViewModel(type: .culture)
+        viewModel.delegate = self
+        
+        return viewModel
+    }
+    
+    func governmentHeaderViewModel() -> HeaderButtonViewModel {
+        
+        let viewModel = HeaderButtonViewModel(type: .government)
+        viewModel.delegate = self
+        
+        return viewModel
+    }
+    
+    func logHeaderViewModel() -> HeaderButtonViewModel {
+        
+        let viewModel = HeaderButtonViewModel(type: .log)
+        viewModel.delegate = self
+        
+        return viewModel
+    }
+    
+    func rankingHeaderViewModel() -> HeaderButtonViewModel {
+        
+        let viewModel = HeaderButtonViewModel(type: .ranking)
+        viewModel.delegate = self
+        
+        return viewModel
+    }
+    
+    func tradeRoutesHeaderViewModel() -> HeaderButtonViewModel {
+        
+        let viewModel = HeaderButtonViewModel(type: .tradeRoutes)
+        viewModel.delegate = self
+        
+        return viewModel
     }
 }
 
@@ -488,5 +540,27 @@ extension GameSceneViewModel {
     
     func handleUnitPromotion(at point: HexPoint) {
         fatalError("handleUnitPromotion")
+    }
+}
+
+extension GameSceneViewModel: HeaderButtonViewModelDelegate {
+    
+    func clicked(on type: HeaderButtonType) {
+        
+        switch type {
+        
+        case .science:
+            self.delegate?.showChangeTechDialog()
+        case .culture:
+            print("culture")
+        case .government:
+            print("government")
+        case .log:
+            print("log")
+        case .ranking:
+            print("ranking")
+        case .tradeRoutes:
+            print("tradeRoutes")
+        }
     }
 }

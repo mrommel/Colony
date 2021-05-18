@@ -69,6 +69,8 @@ public struct GameView: View {
             
             TopBarView(viewModel: self.viewModel.gameSceneViewModel)
                 //.background(Color.blue.opacity(0.2))
+            
+            HeaderView(viewModel: self.viewModel.gameSceneViewModel)
 
             self.dialog
             
