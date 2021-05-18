@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AbstractPolicyCardSet: class, Codable {
+public protocol AbstractPolicyCardSet: AnyObject, Codable {
 
     func add(card: PolicyCardType)
     func remove(card: PolicyCardType)

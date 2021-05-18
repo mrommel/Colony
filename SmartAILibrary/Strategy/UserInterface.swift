@@ -173,10 +173,11 @@ public enum ScreenType {
     case civics
     
     case treasury
-    case government
-    case governmentPolicies
+    
+    case government // <-- main dialog
     case changePolicies
     case changeGovernment
+    
     case selectPromotion
     case disbandConfirm
     case selectTradeCity

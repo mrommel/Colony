@@ -13,35 +13,12 @@ public struct GameView: View {
     @ObservedObject
     private var viewModel: GameViewModel
     
-    @ObservedObject
-    private var governmentDialogViewModel: GovernmentDialogViewModel
-    
-    @ObservedObject
-    private var policyDialogViewModel: PolicyDialogViewModel
-    
-    @ObservedObject
-    private var techDialogViewModel: TechDialogViewModel
-    
-    @ObservedObject
-    private var civicDialogViewModel: CivicDialogViewModel
-    
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
     
     public init(viewModel: GameViewModel) {
         
         self.viewModel = viewModel
-        
-        // dialogs
-        self.governmentDialogViewModel = GovernmentDialogViewModel()
-        self.policyDialogViewModel = PolicyDialogViewModel()
-        self.techDialogViewModel = TechDialogViewModel()
-        self.civicDialogViewModel = CivicDialogViewModel()
-        
-        self.governmentDialogViewModel.delegate = self.viewModel
-        self.policyDialogViewModel.delegate = self.viewModel
-        self.techDialogViewModel.delegate = self.viewModel
-        self.civicDialogViewModel.delegate = self.viewModel
     }
     
     public var body: some View {
@@ -90,14 +67,10 @@ extension GameView {
         case .none:
             return AnyView(EmptyView())
             
-        case .governmentPolicies:
-            return AnyView(GovernmentDialogView(viewModel: self.governmentDialogViewModel))
-        case .changePolicies:
-            return AnyView(PolicyDialogView(viewModel: self.policyDialogViewModel))
         case .techs:
-            return AnyView(TechDialogView(viewModel: self.techDialogViewModel))
+            return AnyView(TechDialogView(viewModel: self.viewModel.techDialogViewModel))
         case .civics:
-            return AnyView(CivicDialogView(viewModel: self.civicDialogViewModel))
+            return AnyView(CivicDialogView(viewModel: self.viewModel.civicDialogViewModel))
         case .interimRanking:
             return AnyView(EmptyView())
         case .diplomatic:
@@ -107,9 +80,11 @@ extension GameView {
         case .treasury:
             return AnyView(EmptyView())
         case .government:
-            return AnyView(GovernmentDialogView(viewModel: self.governmentDialogViewModel))
+            return AnyView(GovernmentDialogView(viewModel: self.viewModel.governmentDialogViewModel))
         case .changeGovernment:
-            return AnyView(GovernmentDialogView(viewModel: self.governmentDialogViewModel))
+            return AnyView(ChangeGovernmentDialogView(viewModel: self.viewModel.changeGovernmentDialogViewModel))
+        case .changePolicies:
+            return AnyView(ChangePolicyDialogView(viewModel: self.viewModel.changePolicyDialogViewModel))
         case .selectPromotion:
             return AnyView(EmptyView())
         case .disbandConfirm:

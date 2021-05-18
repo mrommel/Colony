@@ -552,9 +552,9 @@ extension GameSceneViewModel: HeaderButtonViewModelDelegate {
         case .science:
             self.delegate?.showChangeTechDialog()
         case .culture:
-            print("culture")
+            self.delegate?.showChangeCivicDialog()
         case .government:
-            print("government")
+            self.delegate?.showGovernmentDialog()
         case .log:
             print("log")
         case .ranking:

@@ -17,10 +17,12 @@ protocol GameViewModelDelegate: AnyObject {
     func showPopup(popupType: PopupType, with data: PopupData?)
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?)
     
-    func showChangeGovernmentDialog()
-    func showChangePoliciesDialog()
     func showChangeTechDialog()
     func showChangeCivicDialog()
+    
+    func showGovernmentDialog()
+    func showChangeGovernmentDialog()
+    func showChangePoliciesDialog()
     
     func isShown(screen: ScreenType) -> Bool
     
@@ -44,17 +46,6 @@ class GameViewModelPopupData {
 }
 
 public class GameViewModel: ObservableObject {
-    
-    // type of shown dialog - highlander - there can only be one
-    /*enum DialogType {
-        
-        case none // standard
-        
-        case government
-        case policy
-        case tech
-        case civic
-    }*/
 
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
@@ -70,6 +61,21 @@ public class GameViewModel: ObservableObject {
     
     @Published
     var notificationsViewModel: NotificationsViewModel
+    
+    @Published
+    var governmentDialogViewModel: GovernmentDialogViewModel
+    
+    @Published
+    var changeGovernmentDialogViewModel: ChangeGovernmentDialogViewModel
+    
+    @Published
+    var changePolicyDialogViewModel: ChangePolicyDialogViewModel
+    
+    @Published
+    var techDialogViewModel: TechDialogViewModel
+    
+    @Published
+    var civicDialogViewModel: CivicDialogViewModel
     
     // UI
     
@@ -127,11 +133,23 @@ public class GameViewModel: ObservableObject {
     
     public init(preloadAssets: Bool = false) {
         
+        // init models
         self.gameSceneViewModel = GameSceneViewModel()
         self.notificationsViewModel = NotificationsViewModel()
+        self.governmentDialogViewModel = GovernmentDialogViewModel()
+        self.changeGovernmentDialogViewModel = ChangeGovernmentDialogViewModel()
+        self.changePolicyDialogViewModel = ChangePolicyDialogViewModel()
+        self.techDialogViewModel = TechDialogViewModel()
+        self.civicDialogViewModel = CivicDialogViewModel()
         
+        // connect models
         self.gameSceneViewModel.delegate = self
         self.notificationsViewModel.delegate = self
+        self.governmentDialogViewModel.delegate = self
+        self.changeGovernmentDialogViewModel.delegate = self
+        self.changePolicyDialogViewModel.delegate = self
+        self.techDialogViewModel.delegate = self
+        self.civicDialogViewModel.delegate = self
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -508,7 +526,7 @@ extension GameViewModel: GameViewModelDelegate {
             // self.showMenuDialog()
             print("==> menu")
         case .government:
-            self.showChangeGovernmentDialog()
+            self.showGovernmentDialog()
         case .selectPromotion:
             guard let game = self.gameEnvironment.game.value else {
                 fatalError("cant get game")
@@ -528,6 +546,21 @@ extension GameViewModel: GameViewModelDelegate {
         }
     }
     
+    func showGovernmentDialog() {
+        
+        if self.currentScreenType == .government {
+            // already shown
+            return
+        }
+        
+        if self.currentScreenType == .none {
+            self.governmentDialogViewModel.update()
+            self.currentScreenType = .government
+        } else {
+            fatalError("cant show government dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+    
     func showChangeGovernmentDialog() {
         
         if self.currentScreenType == .changeGovernment {
@@ -536,6 +569,7 @@ extension GameViewModel: GameViewModelDelegate {
         }
         
         if self.currentScreenType == .none {
+            self.changeGovernmentDialogViewModel.update()
             self.currentScreenType = .changeGovernment
         } else {
             fatalError("cant show change government dialog, \(self.currentScreenType) is currently shown")
@@ -550,6 +584,7 @@ extension GameViewModel: GameViewModelDelegate {
         }
         
         if self.currentScreenType == .none {
+            self.changePolicyDialogViewModel.update()
             self.currentScreenType = .changePolicies
         } else {
             fatalError("cant show change policy dialog, \(self.currentScreenType) is currently shown")
@@ -564,6 +599,7 @@ extension GameViewModel: GameViewModelDelegate {
         }
         
         if self.currentScreenType == .none {
+            self.techDialogViewModel.update()
             self.currentScreenType = .techs
         } else {
             fatalError("cant show tech dialog, \(self.currentScreenType) is currently shown")
@@ -578,6 +614,7 @@ extension GameViewModel: GameViewModelDelegate {
         }
         
         if self.currentScreenType == .none {
+            self.civicDialogViewModel.update()
             self.currentScreenType = .civics
         } else {
             fatalError("cant show civic dialog, \(self.currentScreenType) is currently shown")
@@ -613,6 +650,9 @@ extension GameViewModel: GameViewModelDelegate {
     }
     
     func closeDialog() {
+        
+        // update some models
+        self.governmentDialogViewModel.update()
         
         self.currentScreenType = .none
     }

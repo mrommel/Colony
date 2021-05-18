@@ -20,6 +20,11 @@ class CivicDialogViewModel: ObservableObject {
     
     init(game: GameModel? = nil) {
         
+        self.update(game: game)
+    }
+    
+    func update(game: GameModel? = nil) {
+        
         var gameRef: GameModel? = game
         
         if gameRef == nil {
@@ -32,7 +37,7 @@ class CivicDialogViewModel: ObservableObject {
     private func rebuildCivics(for game: GameModel?) {
         
         guard let civics = game?.humanPlayer()?.civics else {
-            fatalError("cant get techs")
+            return
         }
         
         self.civicViewModels = []

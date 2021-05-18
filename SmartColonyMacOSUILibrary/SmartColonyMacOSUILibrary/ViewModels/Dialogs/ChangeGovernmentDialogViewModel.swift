@@ -1,5 +1,5 @@
 //
-//  GovernmentDialogViewModel.swift
+//  ChangeGovernmentDialogViewModel.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 11.05.21.
@@ -9,7 +9,7 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-class GovernmentSectionViewModel {
+class ChangeGovernmentSectionViewModel {
     
     let era: EraType
     let governmentCardViewModels: [GovernmentCardViewModel]
@@ -26,9 +26,9 @@ class GovernmentSectionViewModel {
     }
 }
 
-extension GovernmentSectionViewModel: Hashable {
+extension ChangeGovernmentSectionViewModel: Hashable {
     
-    static func == (lhs: GovernmentSectionViewModel, rhs: GovernmentSectionViewModel) -> Bool {
+    static func == (lhs: ChangeGovernmentSectionViewModel, rhs: ChangeGovernmentSectionViewModel) -> Bool {
         
         return lhs.era == rhs.era
     }
@@ -39,20 +39,33 @@ extension GovernmentSectionViewModel: Hashable {
     }
 }
 
-class GovernmentDialogViewModel: ObservableObject {
+class ChangeGovernmentDialogViewModel: ObservableObject {
     
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
     
     @Published
-    var governmentSectionViewModels: [GovernmentSectionViewModel] = []
+    var governmentSectionViewModels: [ChangeGovernmentSectionViewModel] = []
     
     weak var delegate: GameViewModelDelegate?
 
     init() {
         
+        self.update()
+    }
+    
+    func closeDialog() {
+        
+        self.delegate?.closeDialog()
+    }
+}
+
+extension ChangeGovernmentDialogViewModel: GovernmentCardViewModelDelegate {
+    
+    func update() {
+        
         guard let government = self.gameEnvironment.game.value?.humanPlayer()?.government else {
-            fatalError("cant get government")
+            return
         }
         
         let currentGovernmentType = government.currentGovernment()
@@ -74,21 +87,10 @@ class GovernmentDialogViewModel: ObservableObject {
             return governmentCardViewModel
         }
         
-        let governmentEras = Array(Set(GovernmentType.all.map { $0.era() })).sorted()   
+        let governmentEras = Array(Set(GovernmentType.all.map { $0.era() })).sorted()
         self.governmentSectionViewModels = governmentEras.map { era in
             
-            return GovernmentSectionViewModel(era: era, governmentCardViewModels: governmentCardViewModels.filter { $0.governmentType.era() == era } )
+            return ChangeGovernmentSectionViewModel(era: era, governmentCardViewModels: governmentCardViewModels.filter { $0.governmentType.era() == era } )
         }
-    }
-    
-    func closeDialog() {
-        
-        self.delegate?.closeDialog()
-    }
-}
-
-extension GovernmentDialogViewModel: GovernmentCardViewModelDelegate {
-    
-    func update() {
     }
 }

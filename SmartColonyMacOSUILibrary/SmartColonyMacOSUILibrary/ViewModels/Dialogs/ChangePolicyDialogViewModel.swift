@@ -1,5 +1,5 @@
 //
-//  PolicyDialogViewModel.swift
+//  ChangePolicyDialogViewModel.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 10.05.21.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SmartAILibrary
 
-class PolicyDialogViewModel: ObservableObject {
+class ChangePolicyDialogViewModel: ObservableObject {
     
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
@@ -29,8 +29,13 @@ class PolicyDialogViewModel: ObservableObject {
     
     init() {
         
+        self.update()
+    }
+    
+    func update() {
+
         guard let government = self.gameEnvironment.game.value?.humanPlayer()?.government else {
-            fatalError("cant get government")
+            return
         }
         
         self.choosenPolicyCardSet = government.policyCardSet()
@@ -110,9 +115,9 @@ class PolicyDialogViewModel: ObservableObject {
     }
 }
 
-extension PolicyDialogViewModel: PolicyCardViewModelDelegate {
+extension ChangePolicyDialogViewModel: PolicyCardViewModelDelegate {
     
-    func update() {
+    func updateSelection() {
         
         guard let government = self.gameEnvironment.game.value?.humanPlayer()?.government else {
             fatalError("cant get government")

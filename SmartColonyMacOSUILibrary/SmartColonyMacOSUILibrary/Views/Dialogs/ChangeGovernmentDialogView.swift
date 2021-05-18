@@ -1,5 +1,5 @@
 //
-//  GovernmentDialogView.swift
+//  ChangeGovernmentDialogView.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 11.05.21.
@@ -8,14 +8,14 @@
 import SwiftUI
 import SmartAILibrary
 
-struct GovernmentDialogView: View {
+struct ChangeGovernmentDialogView: View {
     
     @ObservedObject
-    var viewModel: GovernmentDialogViewModel
+    var viewModel: ChangeGovernmentDialogViewModel
     
     private var gridItemLayout = [GridItem(.fixed(300)), GridItem(.fixed(300))]
 
-    public init(viewModel: GovernmentDialogViewModel) {
+    public init(viewModel: ChangeGovernmentDialogViewModel) {
         
         self.viewModel = viewModel
     }

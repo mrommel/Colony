@@ -32,7 +32,7 @@ enum PolicyCardState {
 
 protocol PolicyCardViewModelDelegate: AnyObject {
     
-    func update()
+    func updateSelection()
 }
 
 class PolicyCardViewModel: ObservableObject {
@@ -57,7 +57,7 @@ class PolicyCardViewModel: ObservableObject {
                 }
             }
             
-            self.delegate?.update()
+            self.delegate?.updateSelection()
         }
     }
     

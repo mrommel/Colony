@@ -20,6 +20,11 @@ class TechDialogViewModel: ObservableObject {
 
     init(game: GameModel? = nil) {
         
+        self.update(game: game)
+    }
+    
+    func update(game: GameModel? = nil) {
+        
         var gameRef: GameModel? = game
         
         if gameRef == nil {
@@ -32,7 +37,7 @@ class TechDialogViewModel: ObservableObject {
     private func rebuildTechs(for game: GameModel?) {
         
         guard let techs = game?.humanPlayer()?.techs else {
-            fatalError("cant get techs")
+            return
         }
         
         self.techViewModels = []

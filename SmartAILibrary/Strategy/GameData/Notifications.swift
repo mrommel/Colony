@@ -169,7 +169,7 @@ public class NotificationItem: Codable, Equatable {
             self.dismiss(in: gameModel)
             
         case .policiesNeeded:
-            gameModel?.userInterface?.showScreen(screenType: .governmentPolicies, city: nil, other: nil, data: nil)
+            gameModel?.userInterface?.showScreen(screenType: .changePolicies, city: nil, other: nil, data: nil)
             
         case .unitPromotion:
             gameModel?.userInterface?.showScreen(screenType: .selectPromotion, city: nil, other: nil, data: nil)

@@ -1,5 +1,5 @@
 //
-//  PolicyDialogView.swift
+//  ChangePolicyDialogView.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 10.05.21.
@@ -8,14 +8,14 @@
 import SwiftUI
 import SmartAILibrary
 
-struct PolicyDialogView: View {
+struct ChangePolicyDialogView: View {
     
     @ObservedObject
-    var viewModel: PolicyDialogViewModel
+    var viewModel: ChangePolicyDialogViewModel
     
     private var gridItemLayout = [GridItem(.fixed(150)), GridItem(.fixed(150)), GridItem(.fixed(150)), GridItem(.fixed(150))]
     
-    public init(viewModel: PolicyDialogViewModel) {
+    public init(viewModel: ChangePolicyDialogViewModel) {
         
         self.viewModel = viewModel
     }
