@@ -33,6 +33,7 @@ public struct GameView: View {
                     if let game = game {
                         // print("about to set game")
                         self.viewModel.gameSceneViewModel.game = game
+                        
                     }
                 }
             
@@ -75,8 +76,12 @@ extension GameView {
             return AnyView(EmptyView())
         case .diplomatic:
             return AnyView(EmptyView())
+            
         case .city:
-            return AnyView(EmptyView())
+            return AnyView(CityDialogView(viewModel: self.viewModel.cityDialogViewModel))
+        case .cityChooseProduction:
+            return AnyView(CityChooseProductionDialogView(viewModel: self.viewModel.cityChooseProductionDialogViewModel))
+            
         case .treasury:
             return AnyView(EmptyView())
         case .government:
@@ -93,6 +98,8 @@ extension GameView {
             return AnyView(EmptyView())
         case .menu:
             return AnyView(EmptyView())
+        case .cityName:
+            return AnyView(CityNameDialogView(viewModel: self.viewModel.cityNameDialogViewModel))
         }
     }
 }

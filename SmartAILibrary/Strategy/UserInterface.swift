@@ -165,14 +165,14 @@ public enum ScreenType {
     
     case none // map
     
-    case interimRanking
-    case diplomatic
-    
     case city
+    case cityChooseProduction
+    
     case techs
     case civics
-    
     case treasury
+    case interimRanking
+    case diplomatic
     
     case government // <-- main dialog
     case changePolicies
@@ -181,6 +181,7 @@ public enum ScreenType {
     case selectPromotion
     case disbandConfirm
     case selectTradeCity
+    case cityName
     
     case menu
 }
@@ -214,6 +215,7 @@ public protocol UserInterfaceDelegate: AnyObject {
     func select(tech: TechType)
     func select(civic: CivicType)
     
+    // todo - should not be part of the interface protocol
     func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool)->())
     func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?)->())
     

@@ -12,12 +12,23 @@ import SmartAssets
 class YieldValueViewModel: ObservableObject {
     
     let yieldType: YieldType
-    let value: Double
+    
+    @Published
+    var value: Double {
+        didSet {
+            self.valueText = String(format: "%.1f", self.value)
+        }
+    }
+    
+    @Published
+    var valueText: String
     
     init(yieldType: YieldType, value: Double) {
         
         self.yieldType = yieldType
         self.value = value
+        
+        self.valueText = String(format: "%.1f", value)
     }
     
     func iconImage() -> NSImage {
@@ -28,11 +39,6 @@ class YieldValueViewModel: ObservableObject {
     func backgroundImage() -> NSImage {
         
         return ImageCache.shared.image(for: self.yieldType.backgroundTexture())
-    }
-    
-    func valueText() -> String {
-        
-        return String(format: "%.1f", self.value)
     }
 }
 
@@ -48,7 +54,7 @@ struct YieldValueView: View {
                 .resizable()
                 .frame(width: 12, height: 12, alignment: .center)
             
-            Text(self.viewModel.valueText())
+            Text(self.viewModel.valueText)
                 .foregroundColor(Color(self.viewModel.yieldType.fontColor()))
         }
         .background(

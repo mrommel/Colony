@@ -128,6 +128,12 @@ class GameScene: BaseScene {
 
             self.lastExecuted = currentTime
         }
+        
+        if let center = self.viewModel?.centerOn {
+            self.center(on: center)
+            self.zoom(to: 0.5)
+            self.viewModel?.centerOn = nil
+        }
     }
     
     override func updateLayout() {

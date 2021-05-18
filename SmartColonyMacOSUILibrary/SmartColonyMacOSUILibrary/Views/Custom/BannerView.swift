@@ -23,13 +23,19 @@ struct BannerView: View {
                 Spacer()
 
                 if self.viewModel.showBanner {
-                    ZStack {
-                        Text("Other players are taking their turns, please wait ...")
-                    }
-                    .background(
-                        Image(nsImage: ImageCache.shared.image(for: "grid9-button-active"))
+                    VStack(alignment: .center, spacing: 0) {
+                        
+                        Image(nsImage: ImageCache.shared.image(for: "banner"))
                             .resizable()
-                        )
+                            .frame(width: 208, height: 89, alignment: .center)
+                        
+                        Text("Other players are taking their turns, please wait ...")
+                            .frame(width: 360, height: 40, alignment: .center)
+                            .background(
+                                Image(nsImage: ImageCache.shared.image(for: "grid9-button-active"))
+                                    .resizable(capInsets: EdgeInsets(all: 15))
+                            )
+                    }
                 }
                 
                 Spacer()

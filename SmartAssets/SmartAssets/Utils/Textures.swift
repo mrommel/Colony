@@ -34,6 +34,8 @@ public class Textures {
     public let cultureProgressTextureNames: [String]
     public let scienceProgressTextureNames: [String]
     public let headerTextureNames: [String]
+    public let cityProgressTextureNames: [String]
+    public let cityTextureNames: [String]
     
     public let commandTextureNames: [String]
     public let commandButtonTextureNames: [String]
@@ -75,7 +77,7 @@ public class Textures {
         
         self.allResourceMarkerTextureNames = ResourceType.all.map { $0.textureMarkerName() }
         
-        self.allBorderTextureNames = Textures.allTextureSuffixes.map({ "border\($0)" })
+        self.allBorderTextureNames = Textures.allTextureSuffixes.map({ "border\($0)" }) + ["border-all"]
         
         self.allYieldsTextureNames = [
             // 0
@@ -122,6 +124,8 @@ public class Textures {
         self.cultureProgressTextureNames = Array(0...100).map { "culture_progress_\($0)" }
         self.scienceProgressTextureNames = Array(0...100).map { "science_progress_\($0)" }
         self.headerTextureNames = ["header-culture-button-active", "header-culture-button-disabled", "header-government-button-active", "header-government-button-disabled", "header-log-button-active", "header-log-button-disabled", "header-science-button-active", "header-science-button-disabled"]
+        self.cityProgressTextureNames = Array(0...20).map { "linear-progress-\($0 * 5)" }
+        self.cityTextureNames = ["hex-city-1"]
         
         self.commandTextureNames = CommandType.all.map { $0.iconTexture() }
         self.commandButtonTextureNames = CommandType.all.map { $0.buttonTexture() }

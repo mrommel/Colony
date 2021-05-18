@@ -15,10 +15,9 @@ class CityObject {
     weak var gameModel: GameModel?
 
     let identifier: String
-    var spriteName: String
 
     // internal UI elements
-    var sprite: SKSpriteNode
+    private var sprite: SKSpriteNode
     private var nameLabel: SKLabelNode?
     private var nameBackground: SKSpriteNode?
     private var sizeLabel: SKLabelNode?
@@ -36,8 +35,7 @@ class CityObject {
             fatalError("cant get city")
         }
 
-        self.spriteName = "hex_city_1"
-        self.sprite = SKSpriteNode(imageNamed: self.spriteName)
+        self.sprite = SKSpriteNode(texture: SKTexture(image: ImageCache.shared.image(for: "hex-city-1")))
         self.sprite.position = HexPoint.toScreen(hex: city.location)
         self.sprite.zPosition = Globals.ZLevels.city
         self.sprite.anchorPoint = CGPoint.lowerLeft
@@ -63,7 +61,8 @@ class CityObject {
         let nameLabelWidth: Double = Double(city.name.count) * 4.2 + (city.isCapital() ? 10.0 : 0)
         let nameBackgroundWidth = nameLabelWidth + 18.0
 
-        self.nameBackground = NineGridTextureSprite(imageNamed: "city_banner", size: CGSize(width: nameBackgroundWidth, height: 10))
+        let nameImage = ImageCache.shared.image(for: "city-banner")
+        self.nameBackground = NineGridTextureSprite(texture: SKTexture(image: nameImage), color: NSColor.black, size: CGSize(width: nameBackgroundWidth, height: 10))
         self.nameBackground?.position = CGPoint(x: 24, y: 35)
         self.nameBackground?.zPosition = Globals.ZLevels.cityName - 0.1
         self.nameBackground?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
@@ -87,8 +86,9 @@ class CityObject {
         }
         
         let growthProgress: Int = Int(Double(city.growthInTurns() * 100) / Double(city.maxGrowthInTurns())) / 5 * 5
-        let growthProgressTextureName = "linear_progress_\(growthProgress)"
-        let growthProgressTexture = SKTexture(imageNamed: growthProgressTextureName)
+        let growthProgressTextureName = "linear-progress-\(growthProgress)"
+        let growthProgressImage = ImageCache.shared.image(for: growthProgressTextureName)
+        let growthProgressTexture = SKTexture(image: growthProgressImage)
 
         self.growthProgressNode = SKSpriteNode(texture: growthProgressTexture, color: .black, size: CGSize(width: 2, height: 10))
         self.growthProgressNode?.position = CGPoint(x: 24 - nameBackgroundWidth / 2 + 4 + 4, y: 35)

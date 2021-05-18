@@ -24,6 +24,11 @@ protocol GameViewModelDelegate: AnyObject {
     func showChangeGovernmentDialog()
     func showChangePoliciesDialog()
     
+    func showCityNameDialog()
+    func foundCity(named cityName: String)
+    func showCityDialog(for city: AbstractCity?)
+    func showCityChooseProductionDialog(for city: AbstractCity?)
+    
     func isShown(screen: ScreenType) -> Bool
     
     func checkPopups() -> Bool
@@ -77,6 +82,15 @@ public class GameViewModel: ObservableObject {
     @Published
     var civicDialogViewModel: CivicDialogViewModel
     
+    @Published
+    var cityNameDialogViewModel: CityNameDialogViewModel
+    
+    @Published
+    var cityDialogViewModel: CityDialogViewModel
+    
+    @Published
+    var cityChooseProductionDialogViewModel: CityChooseProductionDialogViewModel
+    
     // UI
     
     @Published
@@ -127,7 +141,7 @@ public class GameViewModel: ObservableObject {
         }
     }
     
-    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching", "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active", "banner", "science-progress", "culture-progress", "header-bar-button", "header-bar-left", "header-bar-right"]
+    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching", "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active", "banner", "science-progress", "culture-progress", "header-bar-button", "header-bar-left", "header-bar-right", "city-banner"]
     
     // MARK: constructor
     
@@ -141,6 +155,9 @@ public class GameViewModel: ObservableObject {
         self.changePolicyDialogViewModel = ChangePolicyDialogViewModel()
         self.techDialogViewModel = TechDialogViewModel()
         self.civicDialogViewModel = CivicDialogViewModel()
+        self.cityNameDialogViewModel = CityNameDialogViewModel()
+        self.cityDialogViewModel = CityDialogViewModel()
+        self.cityChooseProductionDialogViewModel = CityChooseProductionDialogViewModel()
         
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -150,6 +167,9 @@ public class GameViewModel: ObservableObject {
         self.changePolicyDialogViewModel.delegate = self
         self.techDialogViewModel.delegate = self
         self.civicDialogViewModel.delegate = self
+        self.cityNameDialogViewModel.delegate = self
+        self.cityDialogViewModel.delegate = self
+        self.cityChooseProductionDialogViewModel.delegate = self
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -278,6 +298,16 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: headerTextureName), for: headerTextureName)
         }
         
+        print("- load \(textures.cityProgressTextureNames.count) city progress textures")
+        for cityProgressTextureName in textures.cityProgressTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: cityProgressTextureName), for: cityProgressTextureName)
+        }
+        
+        print("- load \(textures.cityTextureNames.count) city textures")
+        for cityTextureName in textures.cityTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: cityTextureName), for: cityTextureName)
+        }
+        
         print("- load \(textures.commandTextureNames.count) + \(textures.commandButtonTextureNames.count) command textures")
         for commandTextureName in textures.commandTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: commandTextureName), for: commandTextureName)
@@ -377,29 +407,7 @@ public class GameViewModel: ObservableObject {
         
         let cursor = self.gameEnvironment.cursor.value
         
-        /*guard let contentSize = self.gameEnvironment.game.value?.contentSize(),
-              let mapSize = self.gameEnvironment.game.value?.mapSize() else {
-            fatalError("cant get sizes")
-        }
-        
-        let size = CGSize(width: (contentSize.width + 10) * 3.0, height: contentSize.height * 3.0)
-        
-        // init shift
-        let p0 = HexPoint(x: 0, y: 0)
-        let p1 = HexPoint(x: 0, y: mapSize.height() - 1)
-        let p2 = HexPoint(x: mapSize.width() - 1, y: mapSize.height() - 1)
-        let dx = HexPoint.toScreen(hex: p0).x - HexPoint.toScreen(hex: p1).x
-        let dy = HexPoint.toScreen(hex: p0).y - HexPoint.toScreen(hex: p2).y
-        
-        let shift = CGPoint(x: dx, y: dy) * 3.0
-        
-        var screenPoint = HexPoint.toScreen(hex: cursor) * 3.0 + shift
-        
-        screenPoint.y = size.height - screenPoint.y - 144* /
-        
-        print("scroll to: \(cursor) => \(screenPoint)")
-        self.contentOffset/ *.scrollTarget* / = screenPoint*/
-        //self.contentOffset = HexPoint.toScreen(hex: cursor)
+        print("todo center on cursor")
     }
     
     public func zoomIn() {
@@ -495,6 +503,7 @@ extension GameViewModel: GameViewModelDelegate {
     func focus(on point: HexPoint) {
         
         self.focusPosition = point
+        self.gameSceneViewModel.centerOn = point
     }
     
     func showPopup(popupType: PopupType, with data: PopupData?) {
@@ -618,6 +627,56 @@ extension GameViewModel: GameViewModelDelegate {
             self.currentScreenType = .civics
         } else {
             fatalError("cant show civic dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+    
+    func showCityNameDialog() {
+        
+        if self.currentScreenType == .cityName {
+            // already shown
+            return
+        }
+        
+        if self.currentScreenType == .none {
+            self.cityNameDialogViewModel.update()
+            self.currentScreenType = .cityName
+        } else {
+            fatalError("cant show city name dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+    
+    func foundCity(named cityName: String) {
+        
+        self.gameSceneViewModel.foundCity(named: cityName)
+    }
+    
+    func showCityDialog(for city: AbstractCity?) {
+        
+        if self.currentScreenType == .city {
+            // already shown
+            return
+        }
+        
+        if self.currentScreenType == .none {
+            self.cityDialogViewModel.update(for: city)
+            self.currentScreenType = .city
+        } else {
+            fatalError("cant show city dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+    
+    func showCityChooseProductionDialog(for city: AbstractCity?) {
+        
+        if self.currentScreenType == .cityChooseProduction {
+            // already shown
+            return
+        }
+        
+        if self.currentScreenType == .none {
+            self.cityChooseProductionDialogViewModel.update(for: city)
+            self.currentScreenType = .cityChooseProduction
+        } else {
+            fatalError("cant show city choose production dialog, \(self.currentScreenType) is currently shown")
         }
     }
     

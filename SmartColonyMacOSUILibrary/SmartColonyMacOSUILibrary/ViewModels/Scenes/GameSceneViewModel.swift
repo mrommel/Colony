@@ -29,6 +29,26 @@ public class GameSceneViewModel: ObservableObject {
     var game: GameModel? {
         willSet {
             objectWillChange.send()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                
+                guard let game = self.game else {
+                    return
+                }
+                
+                guard let humanPlayer = game.humanPlayer() else {
+                    return
+                }
+                
+                let unitRefs = game.units(of: humanPlayer)
+                
+                guard let unitRef = unitRefs.first, let unit = unitRef else {
+                    return
+                }
+                
+                print("center on \(unit.location)")
+                self.centerOn = unit.location
+            }
         }
     }
     
@@ -57,6 +77,8 @@ public class GameSceneViewModel: ObservableObject {
     
     var readyUpdatingAI: Bool = true
     var readyUpdatingHuman: Bool = true
+    
+    var centerOn: HexPoint? = nil
     
     weak var delegate: GameViewModelDelegate?
     
@@ -192,6 +214,123 @@ public class GameSceneViewModel: ObservableObject {
         
             let command = self.commands[index]
             print("commandClicked(at: \(command.title()))")
+            self.handle(command: command)
+        }
+    }
+    
+    func handle(command: Command) {
+
+        guard let gameModel = self.game else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        switch command.type {
+        case .found:
+            if let selectedUnit = self.selectedUnit {
+                
+                self.delegate?.showCityNameDialog()
+            }
+        case .buildFarm:
+            if let selectedUnit = self.selectedUnit {
+                let farmBuildMission = UnitMission(type: .build, buildType: .farm, at: selectedUnit.location)
+                selectedUnit.push(mission: farmBuildMission, in: gameModel)
+            }
+            
+        case .buildMine:
+            if let selectedUnit = self.selectedUnit {
+                let mineBuildMission = UnitMission(type: .build, buildType: .mine, at: selectedUnit.location)
+                selectedUnit.push(mission: mineBuildMission, in: gameModel)
+            }
+            
+        case .buildCamp:
+            if let selectedUnit = self.selectedUnit {
+                let campBuildMission = UnitMission(type: .build, buildType: .camp, at: selectedUnit.location)
+                selectedUnit.push(mission: campBuildMission, in: gameModel)
+            }
+        
+        case .buildPasture:
+            if let selectedUnit = self.selectedUnit {
+                let pastureBuildMission = UnitMission(type: .build, buildType: .pasture, at: selectedUnit.location)
+                selectedUnit.push(mission: pastureBuildMission, in: gameModel)
+            }
+            
+        case .buildQuarry:
+            if let selectedUnit = self.selectedUnit {
+                let quarryBuildMission = UnitMission(type: .build, buildType: .quarry, at: selectedUnit.location)
+                selectedUnit.push(mission: quarryBuildMission, in: gameModel)
+            }
+            
+        case .pillage:
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doPillage(in: gameModel)
+            }
+            
+        case .fortify:
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doFortify(in: gameModel)
+            }
+            
+        case .hold:
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.set(activityType: .hold, in: gameModel)
+                //selectedUnit.finishMoves()
+            }
+            
+        case .garrison:
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.doGarrison(in: gameModel)
+            }
+        case .disband:
+            if let selectedUnit = self.selectedUnit {
+                
+                gameModel.userInterface?.askToDisband(unit: selectedUnit, completion: { (disband) in
+                    if disband {
+                        selectedUnit.doKill(delayed: false, by: nil, in: gameModel)
+                    }
+                })
+            }
+        case .establishTradeRoute:
+            if let selectedUnit = self.selectedUnit {
+                
+                guard let originCity = gameModel.city(at: selectedUnit.origin) else {
+                    return // origin city does not exist anymore ?
+                }
+                
+                let cities = selectedUnit.possibleTradeRouteTargets(in: gameModel)
+                
+                gameModel.userInterface?.askForCity(start: originCity, of: cities, completion: { (target) in
+                    
+                    if let targetCity = target {
+                        if !selectedUnit.doEstablishTradeRoute(to: targetCity, in: gameModel) {
+                            print("could not establish a trade route to \(targetCity.name)")
+                        }
+                    }
+                })
+            }
+            
+        case .attack:
+            print("attack")
+            if let selectedUnit = self.selectedUnit {
+                // we need a target here
+                //self.showMeleeTargets(of: selectedUnit)
+                //self.bottomCombatBar?.showCombatView()
+            }
+        
+        case .rangedAttack:
+            print("rangedAttack")
+            if let selectedUnit = self.selectedUnit {
+                // we need a target here
+                //self.showRangedTargets(of: selectedUnit)
+                //self.bottomCombatBar?.showCombatView()
+            }
+            
+        case .cancelAttack:
+            print("cancelAttack")
+            //self.cancelAttacks()
         }
     }
     
@@ -452,6 +591,59 @@ public class GameSceneViewModel: ObservableObject {
         
         return viewModel
     }
+    
+    func techProgressViewModel() -> TechProgressViewModel {
+        
+        guard let gameModel = self.game else {
+            return TechProgressViewModel(tech: .none, progress: 0, boosted: false)
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        if let techs = humanPlayer.techs {
+            if let currentTech = techs.currentTech() {
+                let progressPercentage = techs.currentScienceProgress() / Double(currentTech.cost()) * 100.0
+                return TechProgressViewModel(tech: currentTech, progress: Int(progressPercentage), boosted: false)
+            }
+        }
+
+        return TechProgressViewModel(tech: .none, progress: 0, boosted: false)
+    }
+    
+    func civicProgressViewModel() -> CivicProgressViewModel {
+        
+        guard let gameModel = self.game else {
+            return CivicProgressViewModel(civic: .none, progress: 0, boosted: false)
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        if let civics = humanPlayer.civics {
+            if let currentCivic = civics.currentCivic() {
+                let progressPercentage = civics.currentCultureProgress() / Double(currentCivic.cost()) * 100.0
+                return CivicProgressViewModel(civic: currentCivic, progress: Int(progressPercentage), boosted: false)
+            }
+        }
+
+        return CivicProgressViewModel(civic: .none, progress: 0, boosted: false)
+    }
+    
+    func foundCity(named cityName: String) {
+        
+        if let selectedUnit = self.selectedUnit {
+            let location = selectedUnit.location
+            selectedUnit.doFound(with: cityName, in: self.game)
+            self.game?.userInterface?.unselect()
+
+            if let city = self.game?.city(at: location) {
+                self.game?.userInterface?.showScreen(screenType: .city, city: city, other: nil, data: nil)
+            }
+        }
+    }
 }
 
 extension GameSceneViewModel {
@@ -494,7 +686,6 @@ extension GameSceneViewModel {
             }
             
             self.delegate?.focus(on: unit.location)
-            //self.centerCamera(on: unit.location)
         } else {
 
             guard let gameModel = self.game else {
@@ -522,15 +713,26 @@ extension GameSceneViewModel {
     }
     
     func handleTechNeeded() {
-        fatalError("handleTechNeeded")
+        
+        self.delegate?.showChangeTechDialog()
     }
     
     func handleCivicNeeded() {
-        fatalError("handleCivicNeeded")
+        
+        self.delegate?.showChangeCivicDialog()
     }
     
-    func handleProductionNeeded(at point: HexPoint) {
-        fatalError("handleProductionNeeded")
+    func handleProductionNeeded(at location: HexPoint) {
+        
+        guard let gameModel = self.game else {
+            fatalError("cant get game")
+        }
+
+        guard let city = gameModel.city(at: location) else {
+            fatalError("cant get city at \(location)")
+        }
+
+        self.delegate?.showCityDialog(for: city)
     }
     
     func handlePoliciesNeeded() {

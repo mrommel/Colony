@@ -67,6 +67,14 @@
 		C9A48D3A2653A19900260EE0 /* HeaderButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D392653A19900260EE0 /* HeaderButtonViewModel.swift */; };
 		C9A48D3E2653B9D200260EE0 /* GovernmentDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D3D2653B9D200260EE0 /* GovernmentDialogView.swift */; };
 		C9A48D412653BB4000260EE0 /* GovernmentDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D402653BB4000260EE0 /* GovernmentDialogViewModel.swift */; };
+		C9A48D432653CD4300260EE0 /* CivicProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D422653CD4300260EE0 /* CivicProgressView.swift */; };
+		C9A48D452653CD7500260EE0 /* CivicProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D442653CD7500260EE0 /* CivicProgressViewModel.swift */; };
+		C9A48D472653EB6100260EE0 /* CityNameDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D462653EB6100260EE0 /* CityNameDialogViewModel.swift */; };
+		C9A48D492653EC3A00260EE0 /* CityNameDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D482653EC3A00260EE0 /* CityNameDialogView.swift */; };
+		C9A48D4B2653F8C100260EE0 /* CityDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D4A2653F8C100260EE0 /* CityDialogViewModel.swift */; };
+		C9A48D4D2653FAA600260EE0 /* CityDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D4C2653FAA600260EE0 /* CityDialogView.swift */; };
+		C9A48D4F2654084200260EE0 /* CityChooseProductionDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D4E2654084200260EE0 /* CityChooseProductionDialogViewModel.swift */; };
+		C9A48D51265408A700260EE0 /* CityChooseProductionDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A48D50265408A700260EE0 /* CityChooseProductionDialogView.swift */; };
 		C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D80261EE55600341241 /* PixelBuffer.swift */; };
 		C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */; };
 		C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A61D84261EF7F100341241 /* MapOverviewView.swift */; };
@@ -182,6 +190,14 @@
 		C9A48D392653A19900260EE0 /* HeaderButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderButtonViewModel.swift; sourceTree = "<group>"; };
 		C9A48D3D2653B9D200260EE0 /* GovernmentDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentDialogView.swift; sourceTree = "<group>"; };
 		C9A48D402653BB4000260EE0 /* GovernmentDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernmentDialogViewModel.swift; sourceTree = "<group>"; };
+		C9A48D422653CD4300260EE0 /* CivicProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicProgressView.swift; sourceTree = "<group>"; };
+		C9A48D442653CD7500260EE0 /* CivicProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicProgressViewModel.swift; sourceTree = "<group>"; };
+		C9A48D462653EB6100260EE0 /* CityNameDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityNameDialogViewModel.swift; sourceTree = "<group>"; };
+		C9A48D482653EC3A00260EE0 /* CityNameDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityNameDialogView.swift; sourceTree = "<group>"; };
+		C9A48D4A2653F8C100260EE0 /* CityDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDialogViewModel.swift; sourceTree = "<group>"; };
+		C9A48D4C2653FAA600260EE0 /* CityDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDialogView.swift; sourceTree = "<group>"; };
+		C9A48D4E2654084200260EE0 /* CityChooseProductionDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityChooseProductionDialogViewModel.swift; sourceTree = "<group>"; };
+		C9A48D50265408A700260EE0 /* CityChooseProductionDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityChooseProductionDialogView.swift; sourceTree = "<group>"; };
 		C9A61D80261EE55600341241 /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
 		C9A61D82261EF77E00341241 /* MapOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewViewModel.swift; sourceTree = "<group>"; };
 		C9A61D84261EF7F100341241 /* MapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverviewView.swift; sourceTree = "<group>"; };
@@ -282,6 +298,9 @@
 				C950F994264902990057A7D1 /* ChangePolicyDialogView.swift */,
 				C9E87BAE264D1BA000514B9A /* TechDialogView.swift */,
 				C9E87BB4264D1D1C00514B9A /* CivicDialogView.swift */,
+				C9A48D482653EC3A00260EE0 /* CityNameDialogView.swift */,
+				C9A48D4C2653FAA600260EE0 /* CityDialogView.swift */,
+				C9A48D50265408A700260EE0 /* CityChooseProductionDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -366,6 +385,7 @@
 				C9A8F0DC2651A63100584199 /* NotificationViewModel.swift */,
 				C9A8F0DA2651A61E00584199 /* NotificationsViewModel.swift */,
 				C9A48D332652FBE600260EE0 /* TechProgressViewModel.swift */,
+				C9A48D442653CD7500260EE0 /* CivicProgressViewModel.swift */,
 				C9A48D392653A19900260EE0 /* HeaderButtonViewModel.swift */,
 				C9A8F0D42651149A00584199 /* CivicViewModel.swift */,
 				C9E87BB2264D1CB500514B9A /* TechViewModel.swift */,
@@ -435,6 +455,7 @@
 				C9A48D2F2652C8AC00260EE0 /* BannerView.swift */,
 				C9A8F0DE2651A6CB00584199 /* NotificationView.swift */,
 				C9A48D312652E9DF00260EE0 /* TechProgressView.swift */,
+				C9A48D422653CD4300260EE0 /* CivicProgressView.swift */,
 				C9A48D37265396FA00260EE0 /* HeaderButtonView.swift */,
 				C9A8F0D22651143500584199 /* CivicView.swift */,
 				C9E87BA8264D17CC00514B9A /* TechView.swift */,
@@ -452,6 +473,9 @@
 				C950F996264904150057A7D1 /* ChangePolicyDialogViewModel.swift */,
 				C9E87BB0264D1C2600514B9A /* TechDialogViewModel.swift */,
 				C9E87BB6264D1DC500514B9A /* CivicDialogViewModel.swift */,
+				C9A48D462653EB6100260EE0 /* CityNameDialogViewModel.swift */,
+				C9A48D4A2653F8C100260EE0 /* CityDialogViewModel.swift */,
+				C9A48D4E2654084200260EE0 /* CityChooseProductionDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -536,6 +560,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9A48D51265408A700260EE0 /* CityChooseProductionDialogView.swift in Sources */,
 				C988EAE5261B724500300C39 /* AnimatedUnitView.swift in Sources */,
 				C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */,
 				C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */,
@@ -558,6 +583,7 @@
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
 				C968F2A32639E56F00612D0E /* UnitObject.swift in Sources */,
+				C9A48D472653EB6100260EE0 /* CityNameDialogViewModel.swift in Sources */,
 				C950F997264904150057A7D1 /* ChangePolicyDialogViewModel.swift in Sources */,
 				C9A8F0D92651A39D00584199 /* NotificationsView.swift in Sources */,
 				C9A3763126369FD90057923E /* YieldLayer.swift in Sources */,
@@ -567,6 +593,7 @@
 				C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */,
 				C9A48D3A2653A19900260EE0 /* HeaderButtonViewModel.swift in Sources */,
 				C9E87BB7264D1DC500514B9A /* CivicDialogViewModel.swift in Sources */,
+				C9A48D4D2653FAA600260EE0 /* CityDialogView.swift in Sources */,
 				C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */,
 				C968F2AE2639EE3C00612D0E /* SKLabelNodeExtension.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
@@ -574,6 +601,7 @@
 				C968F2A12639E4E300612D0E /* UnitLayer.swift in Sources */,
 				C9A37615263457210057923E /* SafeAreaNode.swift in Sources */,
 				C9A48D3E2653B9D200260EE0 /* GovernmentDialogView.swift in Sources */,
+				C9A48D432653CD4300260EE0 /* CivicProgressView.swift in Sources */,
 				C94507A9262232E400CFD27D /* DataPicker.swift in Sources */,
 				C9A37619263457D70057923E /* GameScene.swift in Sources */,
 				C9E87BB5264D1D1C00514B9A /* CivicDialogView.swift in Sources */,
@@ -591,16 +619,20 @@
 				C9A3760526340F9B0057923E /* GameSceneView.swift in Sources */,
 				C950F999264908760057A7D1 /* PolicyCardView.swift in Sources */,
 				C968F2AC2639ED6C00612D0E /* NineGridTextureSprite.swift in Sources */,
+				C9A48D4B2653F8C100260EE0 /* CityDialogViewModel.swift in Sources */,
 				C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */,
 				C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */,
 				C968F2A72639E8FB00612D0E /* CityLayer.swift in Sources */,
 				C9E87BA5264C558800514B9A /* YieldValueView.swift in Sources */,
 				C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */,
 				C968F29B2639B86D00612D0E /* ImprovementLayer.swift in Sources */,
+				C9A48D4F2654084200260EE0 /* CityChooseProductionDialogViewModel.swift in Sources */,
 				C9A48D322652E9DF00260EE0 /* TechProgressView.swift in Sources */,
+				C9A48D492653EC3A00260EE0 /* CityNameDialogView.swift in Sources */,
 				C950F995264902990057A7D1 /* ChangePolicyDialogView.swift in Sources */,
 				C9A8F0DB2651A61E00584199 /* NotificationsViewModel.swift in Sources */,
 				C968F2972639817A00612D0E /* ProgressCircle.swift in Sources */,
+				C9A48D452653CD7500260EE0 /* CivicProgressViewModel.swift in Sources */,
 				C9A3763326369FE60057923E /* WaterLayer.swift in Sources */,
 				C9A48D302652C8AC00260EE0 /* BannerView.swift in Sources */,
 				C950F99B264908F80057A7D1 /* PolicyCardViewModel.swift in Sources */,

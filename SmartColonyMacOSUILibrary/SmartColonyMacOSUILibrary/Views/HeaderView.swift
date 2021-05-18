@@ -14,17 +14,17 @@ struct HeaderView: View {
     
     public var body: some View {
         
-        VStack(alignment: .center) {
+        VStack(alignment: .leading, spacing: 0) {
             
             HStack(alignment: .center, spacing: 0) {
                 
-                HeaderButtonView(viewModel: viewModel.scienceHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.scienceHeaderViewModel())
                 
-                HeaderButtonView(viewModel: viewModel.cultureHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.cultureHeaderViewModel())
                 
-                HeaderButtonView(viewModel: viewModel.governmentHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.governmentHeaderViewModel())
                 
-                HeaderButtonView(viewModel: viewModel.logHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.logHeaderViewModel())
                 
                 Image(nsImage: ImageCache.shared.image(for: "header-bar-left"))
                     .resizable()
@@ -37,12 +37,16 @@ struct HeaderView: View {
                     .frame(width: 35, height: 47, alignment: .center)
                 
                 // ranking
-                HeaderButtonView(viewModel: viewModel.rankingHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.rankingHeaderViewModel())
                 
                 // trade routes
-                HeaderButtonView(viewModel: viewModel.tradeRoutesHeaderViewModel())
+                HeaderButtonView(viewModel: self.viewModel.tradeRoutesHeaderViewModel())
             }
             .padding(.top, 24)
+            
+            TechProgressView(viewModel: self.viewModel.techProgressViewModel())
+            
+            CivicProgressView(viewModel: CivicProgressViewModel(civic: .codeOfLaws, progress: 24, boosted: false))
             
             Spacer()
         }
