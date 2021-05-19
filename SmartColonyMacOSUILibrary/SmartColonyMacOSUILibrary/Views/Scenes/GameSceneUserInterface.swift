@@ -98,11 +98,11 @@ extension GameScene: UserInterfaceDelegate {
     }
     
     func select(tech: TechType) {
-        print("todo: select(tech)")
+        print("select tect \(tech)")
     }
     
     func select(civic: CivicType) {
-        print("todo: select(civic)")
+        print("select civic \(civic)")
     }
     
     func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool) -> ()) {

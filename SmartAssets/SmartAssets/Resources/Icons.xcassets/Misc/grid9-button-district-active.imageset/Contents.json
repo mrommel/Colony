@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "grid9-button-district-active.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

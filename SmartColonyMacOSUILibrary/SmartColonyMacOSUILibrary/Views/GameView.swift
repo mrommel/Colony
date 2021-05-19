@@ -26,14 +26,12 @@ public struct GameView: View {
         ZStack {
             
             GameSceneView(viewModel: self.viewModel.gameSceneViewModel,
-                    magnification: self.$viewModel.magnification,
-                    focus: self.$viewModel.focusPosition)
+                    magnification: self.$viewModel.magnification)
                 .onReceive(self.gameEnvironment.game) { game in
                     
                     if let game = game {
-                        // print("about to set game")
+                        print("about to set game to GameSceneViewModel")
                         self.viewModel.gameSceneViewModel.game = game
-                        
                     }
                 }
             

@@ -30,7 +30,7 @@ struct NotificationView: View {
                 .padding(.leading, 14)
             
             Circle()
-                .fill(Color.clear)
+                .fill(Color.white.opacity(0.01))
                 .frame(width: 40, height: 40)
                 .padding(.top, 13.5)
                 .padding(.leading, 14)
@@ -47,7 +47,7 @@ struct NotificationView_Previews: PreviewProvider {
     
     static var previews: some View {
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = NotificationViewModel(type: .cityGrowth)
+        let viewModel = NotificationViewModel(type: .cityGrowth, location: .zero)
         
         NotificationView(viewModel: viewModel)
     }

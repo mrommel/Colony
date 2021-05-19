@@ -13,6 +13,8 @@ struct CityChooseProductionDialogView: View {
     @ObservedObject
     var viewModel: CityChooseProductionDialogViewModel
     
+    private var gridItemLayout = [GridItem(.fixed(300))]
+    
     public init(viewModel: CityChooseProductionDialogViewModel) {
         
         self.viewModel = viewModel
@@ -26,6 +28,36 @@ struct CityChooseProductionDialogView: View {
                     .font(.title2)
                     .bold()
                     .padding()
+                
+                ScrollView(.vertical, showsIndicators: true, content: {
+                    
+                    ForEach(self.viewModel.unitViewModels, id:\.self) { unitViewModel in
+                    
+                        UnitView(viewModel: unitViewModel)
+                    }
+                    
+                    Divider()
+                    
+                    LazyVGrid(columns: gridItemLayout, spacing: 20) {
+                        
+                        ForEach(self.viewModel.districtSectionViewModels, id:\.self) { districtSectionViewModel in
+                            
+                            DistrictView(viewModel: districtSectionViewModel.districtViewModel)
+                    
+                            ForEach(districtSectionViewModel.buildingViewModels, id:\.self) { buildingViewModel in
+                            
+                                BuildingView(viewModel: buildingViewModel)
+                            }
+                        }
+                    }
+                    
+                    Divider()
+                    
+                    ForEach(self.viewModel.wonderViewModels, id:\.self) { wonderViewModel in
+                    
+                        WonderView(viewModel: wonderViewModel)
+                    }
+                })
 
                 Divider()
                 

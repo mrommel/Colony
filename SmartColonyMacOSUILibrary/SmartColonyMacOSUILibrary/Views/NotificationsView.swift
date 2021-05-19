@@ -51,7 +51,7 @@ struct NotificationsView_Previews: PreviewProvider {
     
     static var previews: some View {
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = NotificationsViewModel(types: [.cityGrowth, .generic])
+        let viewModel = NotificationsViewModel(types: [NotificationInfo(type: .cityGrowth, location: .invalid), NotificationInfo(type: .generic, location: .invalid)])
         
         NotificationsView(viewModel: viewModel)
     }

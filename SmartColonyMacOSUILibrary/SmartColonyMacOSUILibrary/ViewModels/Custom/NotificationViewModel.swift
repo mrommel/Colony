@@ -10,18 +10,20 @@ import Cocoa
 
 protocol NotificationViewModelDelegate: AnyObject {
     
-    func clicked(type: NotificationType)
+    func clicked(type: NotificationType, location: HexPoint)
 }
 
 class NotificationViewModel: ObservableObject {
     
     let type: NotificationType
+    let location: HexPoint
     
     weak var delegate: NotificationViewModelDelegate?
     
-    init(type: NotificationType) {
+    init(type: NotificationType, location: HexPoint) {
         
         self.type = type
+        self.location = location
     }
     
     func title() -> String {
@@ -41,7 +43,7 @@ class NotificationViewModel: ObservableObject {
     
     func click() {
         
-        self.delegate?.clicked(type: self.type)
+        self.delegate?.clicked(type: self.type, location: self.location)
     }
 }
 

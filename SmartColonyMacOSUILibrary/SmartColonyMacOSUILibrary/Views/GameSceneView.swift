@@ -18,9 +18,6 @@ struct GameSceneView: NSViewRepresentable {
     @Binding
     var magnification: CGFloat
     
-    @Binding
-    var focus: HexPoint?
-    
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
     

@@ -62,6 +62,11 @@ extension TypeColor {
         public static var background: TypeColor = TypeColor(hex: "#ad8a66")!
     }
     
+    public struct UI {
+        
+        public static var districtActive: TypeColor = TypeColor(hex: "#16344f")!
+    }
+    
     internal convenience init?(hex: String) {
         let hex = String(hex.description)
         

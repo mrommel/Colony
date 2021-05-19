@@ -39,7 +39,6 @@ struct ChangeGovernmentDialogView: View {
                                 ForEach(sectionViewModel.governmentCardViewModels, id:\.self) { governmentCardViewModel in
 
                                     GovernmentCardView(viewModel: governmentCardViewModel)
-                                        .background(Color.white.opacity(0.1))
                                 }
                             }
                         }
