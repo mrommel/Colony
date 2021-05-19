@@ -38,7 +38,7 @@ struct CityChooseProductionDialogView: View {
                     
                     Divider()
                     
-                    LazyVGrid(columns: gridItemLayout, spacing: 20) {
+                    LazyVGrid(columns: gridItemLayout, spacing: 10) {
                         
                         ForEach(self.viewModel.districtSectionViewModels, id:\.self) { districtSectionViewModel in
                             

@@ -8,10 +8,17 @@
 import SwiftUI
 import SmartAILibrary
 
+protocol BuildingViewModelDelegate: AnyObject {
+    
+    func clicked(on buildingType: BuildingType)
+}
+
 class BuildingViewModel: ObservableObject {
     
     let buildingType: BuildingType
     let turns: Int
+    
+    weak var delegate: BuildingViewModelDelegate?
     
     init(buildingType: BuildingType, turns: Int) {
         
@@ -37,6 +44,11 @@ class BuildingViewModel: ObservableObject {
     func background() -> NSImage {
         
         return ImageCache.shared.image(for: "grid9-button-active")
+    }
+    
+    func clicked() {
+        
+        self.delegate?.clicked(on: self.buildingType)
     }
 }
 

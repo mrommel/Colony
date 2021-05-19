@@ -8,10 +8,17 @@
 import SwiftUI
 import SmartAILibrary
 
+protocol WonderViewModelDelegate: AnyObject {
+    
+    func clicked(on wonderType: WonderType)
+}
+
 class WonderViewModel: ObservableObject {
     
     let wonderType: WonderType
     let turns: Int
+    
+    weak var delegate: WonderViewModelDelegate?
     
     init(wonderType: WonderType, turns: Int) {
         
@@ -37,6 +44,11 @@ class WonderViewModel: ObservableObject {
     func background() -> NSImage {
         
         return ImageCache.shared.image(for: "grid9-button-active")
+    }
+    
+    func clicked() {
+        
+        self.delegate?.clicked(on: self.wonderType)
     }
 }
 

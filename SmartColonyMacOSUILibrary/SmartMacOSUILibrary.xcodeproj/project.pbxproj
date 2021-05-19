@@ -87,6 +87,7 @@
 		C9A8F0DB2651A61E00584199 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0DA2651A61E00584199 /* NotificationsViewModel.swift */; };
 		C9A8F0DD2651A63100584199 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0DC2651A63100584199 /* NotificationViewModel.swift */; };
 		C9A8F0DF2651A6CB00584199 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0DE2651A6CB00584199 /* NotificationView.swift */; };
+		C9AA64FD26559C4200907DE1 /* GameButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA64FC26559C4200907DE1 /* GameButtonStyle.swift */; };
 		C9B43FAD263E8DEE00241012 /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FAC263E8DEE00241012 /* ZoomableScrollView.swift */; };
 		C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */; };
 		C9B43FB1263E905B00241012 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FB0263E905B00241012 /* CGSizeExtension.swift */; };
@@ -219,6 +220,7 @@
 		C9A8F0DA2651A61E00584199 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
 		C9A8F0DC2651A63100584199 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		C9A8F0DE2651A6CB00584199 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		C9AA64FC26559C4200907DE1 /* GameButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameButtonStyle.swift; sourceTree = "<group>"; };
 		C9B43FAC263E8DEE00241012 /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskYesNoAlertView.swift; sourceTree = "<group>"; };
 		C9B43FB0263E905B00241012 /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 				C986D16F264938D9006EF052 /* CheckboxSquareToggleStyle.swift */,
 				C986D170264938D9006EF052 /* CheckboxCircleToggleStyle.swift */,
 				C9CE216E2649678900B47ED4 /* Globals.swift */,
+				C9AA64FC26559C4200907DE1 /* GameButtonStyle.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -632,6 +635,7 @@
 				C9A48D3A2653A19900260EE0 /* HeaderButtonViewModel.swift in Sources */,
 				C9E87BB7264D1DC500514B9A /* CivicDialogViewModel.swift in Sources */,
 				C9A48D4D2653FAA600260EE0 /* CityDialogView.swift in Sources */,
+				C9AA64FD26559C4200907DE1 /* GameButtonStyle.swift in Sources */,
 				C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */,
 				C968F2AE2639EE3C00612D0E /* SKLabelNodeExtension.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,

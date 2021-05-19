@@ -8,10 +8,17 @@
 import SwiftUI
 import SmartAILibrary
 
+protocol UnitViewModelDelegate: AnyObject {
+    
+    func clicked(on unitType: UnitType)
+}
+
 class UnitViewModel: ObservableObject {
     
     let unitType: UnitType
     let turns: Int
+    
+    weak var delegate: UnitViewModelDelegate?
     
     init(unitType: UnitType, turns: Int) {
         
@@ -37,6 +44,11 @@ class UnitViewModel: ObservableObject {
     func background() -> NSImage {
         
         return ImageCache.shared.image(for: "grid9-button-active")
+    }
+    
+    func clicked() {
+        
+        self.delegate?.clicked(on: self.unitType)
     }
 }
 

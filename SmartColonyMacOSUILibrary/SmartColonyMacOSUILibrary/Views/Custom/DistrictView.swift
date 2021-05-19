@@ -38,6 +38,9 @@ struct DistrictView: View {
             Image(nsImage: self.viewModel.background())
                 .resizable(capInsets: EdgeInsets(all: 15))
         )
+        .onTapGesture {
+            self.viewModel.clicked()
+        }
     }
 }
 

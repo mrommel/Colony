@@ -72,7 +72,9 @@ class CityChooseProductionDialogViewModel: ObservableObject {
             self.unitViewModels = possibleUnitTypes.map { unitType in
                 
                 let turns = 53 // fixme
-                return UnitViewModel(unitType: unitType, turns: turns)
+                let unitViewModel = UnitViewModel(unitType: unitType, turns: turns)
+                unitViewModel.delegate = self
+                return unitViewModel
             }
             
             // districts / buildings
@@ -81,6 +83,7 @@ class CityChooseProductionDialogViewModel: ObservableObject {
                 if districts.has(district: districtType) {
                     
                     let districtModel = DistrictViewModel(districtType: districtType, active: true)
+                    districtModel.delegate = self
                     
                     // filter buildingTypes
                     let possibleBuildingTypes = BuildingType.all.filter {
@@ -95,25 +98,64 @@ class CityChooseProductionDialogViewModel: ObservableObject {
                         if city.buildQueue.isBuilding(buildingType: buildingType) {
                             // buildingNode.disable()
                         }
-                        return BuildingViewModel(buildingType: buildingType, turns: turns)
+                        let buildingViewModel = BuildingViewModel(buildingType: buildingType, turns: turns)
+                        buildingViewModel.delegate = self
+                        return buildingViewModel
                     }
                     
                     return DistrictSectionViewModel(districtViewModel: districtModel, buildingViewModels: buildingViewModels)
                 } else {
                     let turns = 53 // fixme
                     let districtModel = DistrictViewModel(districtType: districtType, turns: turns, active: false)
+                    districtModel.delegate = self
                     return DistrictSectionViewModel(districtViewModel: districtModel, buildingViewModels: [])
                 }
             }
             
             // wonders
-            
-            
+            let possibleWonderTypes = WonderType.all.filter { wonderType in
+                return city.canBuild(wonder: wonderType, in: game)
+            }
+            self.wonderViewModels = possibleWonderTypes.map { wonderType in
+                
+                let turns = 53 // fixme
+                let wonderViewModel = WonderViewModel(wonderType: wonderType, turns: turns)
+                wonderViewModel.delegate = self
+                return wonderViewModel
+            }
         }
     }
     
     func closeDialog() {
         
         self.delegate?.closeDialog()
+    }
+}
+
+extension CityChooseProductionDialogViewModel: UnitViewModelDelegate {
+    
+    func clicked(on unitType: UnitType) {
+        print("clicked on \(unitType)")
+    }
+}
+
+extension CityChooseProductionDialogViewModel: DistrictViewModelDelegate {
+    
+    func clicked(on districtType: DistrictType) {
+        print("clicked on \(districtType)")
+    }
+}
+
+extension CityChooseProductionDialogViewModel: BuildingViewModelDelegate {
+    
+    func clicked(on buildingType: BuildingType) {
+        print("clicked on \(buildingType)")
+    }
+}
+
+extension CityChooseProductionDialogViewModel: WonderViewModelDelegate {
+    
+    func clicked(on wonderType: WonderType) {
+        print("clicked on \(wonderType)")
     }
 }

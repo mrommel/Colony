@@ -85,14 +85,10 @@ class CityDialogViewModel: ObservableObject {
          */
     }
     
-    func showChooseProductionDialog() {
+    func showManageProductionDialog() {
         
         self.delegate?.closeDialog()
         self.delegate?.showCityChooseProductionDialog(for: self.city)
-    }
-    
-    func showManageProductionDialog() {
-        
     }
     
     func showBuildingsDialog() {

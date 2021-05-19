@@ -26,6 +26,8 @@ struct CityDialogView: View {
                     .font(.title2)
                     .bold()
                     .padding()
+                
+                Text("Population: 1")
 
                 HStack(alignment: .center) {
                     YieldValueView(viewModel: self.viewModel.scienceYieldViewModel)
@@ -41,36 +43,38 @@ struct CityDialogView: View {
                     YieldValueView(viewModel: self.viewModel.faithYieldViewModel)
                 }
                 
+                Divider()
+                
                 // if no current production
-                Button(action: {
-                    self.viewModel.showChooseProductionDialog()
-                }, label: {
-                    Text("Choose Production")
-                })
+                Text("Queue")
                 
-                Button(action: {
-                    self.viewModel.showManageProductionDialog()
-                }, label: {
-                    Text("Manage Production")
-                })
+                Divider()
                 
-                Button(action: {
-                    self.viewModel.showBuildingsDialog()
-                }, label: {
-                    Text("X Buildings")
-                })
+                HStack(alignment: .center) {
+                    
+                    Button("Manage Production", action: {
+                        self.viewModel.showManageProductionDialog()
+                    })
+                    .buttonStyle(GameButtonStyle())
+                    
+                    Button("X Buildings", action: {
+                        self.viewModel.showBuildingsDialog()
+                    })
+                    .buttonStyle(GameButtonStyle())
+                }
                 
-                Button(action: {
-                    self.viewModel.showGrowthDialog()
-                }, label: {
-                    Text("Growth")
-                })
-                
-                Button(action: {
-                    self.viewModel.showManageCitizenDialog()
-                }, label: {
-                    Text("Manage Citizen")
-                })
+                HStack(alignment: .center) {
+                    
+                    Button("Growth", action: {
+                        self.viewModel.showGrowthDialog()
+                    })
+                    .buttonStyle(GameButtonStyle())
+                    
+                    Button("Manage Citizen", action: {
+                        self.viewModel.showManageCitizenDialog()
+                    })
+                    .buttonStyle(GameButtonStyle())
+                }
                 
                 Divider()
                 

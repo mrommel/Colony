@@ -9,12 +9,19 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
+protocol DistrictViewModelDelegate: AnyObject {
+    
+    func clicked(on districtType: DistrictType)
+}
+
 class DistrictViewModel: ObservableObject {
     
     let districtType: DistrictType
     let turns: Int
     
     var active: Bool
+    
+    weak var delegate: DistrictViewModelDelegate?
     
     init(districtType: DistrictType, turns: Int = -1, active: Bool) {
         
@@ -59,5 +66,10 @@ class DistrictViewModel: ObservableObject {
         } else {
             return ImageCache.shared.image(for: "grid9-button-district")
         }
+    }
+    
+    func clicked() {
+        
+        self.delegate?.clicked(on: self.districtType)
     }
 }
