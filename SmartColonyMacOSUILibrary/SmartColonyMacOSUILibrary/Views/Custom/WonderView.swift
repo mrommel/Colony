@@ -5,4 +5,48 @@
 //  Created by Michael Rommel on 19.05.21.
 //
 
-import Foundation
+import SwiftUI
+import SmartAILibrary
+
+struct WonderView: View {
+    
+    @ObservedObject
+    var viewModel: WonderViewModel
+    
+    var body: some View {
+        HStack(alignment: .center, spacing: 10) {
+            
+            Image(nsImage: self.viewModel.icon())
+                .resizable()
+                .frame(width: 24, height: 24, alignment: .topLeading)
+                .padding(.leading, 16)
+                .padding(.top, 9)
+            
+            Text(self.viewModel.title())
+                .padding(.top, 9)
+            
+            Spacer()
+            
+            Text(self.viewModel.turnsText())
+                .padding(.top, 9)
+                .padding(.trailing, 16)
+        }
+        .frame(width: 300, height: 42, alignment: .topLeading)
+        .background(
+            Image(nsImage: self.viewModel.background())
+                .resizable(capInsets: EdgeInsets(all: 15))
+        )
+    }
+}
+
+#if DEBUG
+struct WonderView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        let _ = GameViewModel(preloadAssets: true)
+        let viewModel = WonderViewModel(wonderType: .pyramids, turns: 34)
+        
+        WonderView(viewModel: viewModel)
+    }
+}
+#endif
