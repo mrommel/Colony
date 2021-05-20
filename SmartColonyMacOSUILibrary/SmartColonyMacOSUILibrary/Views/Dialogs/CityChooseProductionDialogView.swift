@@ -33,7 +33,7 @@ struct CityChooseProductionDialogView: View {
                 
                     ScrollView(.vertical, showsIndicators: true, content: {
                         
-                        if self.viewModel.queueViewModels.count != 0 {
+                        if self.viewModel.queueViewModels.count == 0 {
                             Text("Please add a unit / building / wonder")
                         }
                         

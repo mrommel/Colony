@@ -518,8 +518,7 @@ extension GameViewModel: GameViewModelDelegate {
             // self.showDiplomaticDialog(with: otherPlayer, data: data, deal: nil)
             print("==> diplomatic")
         case .city:
-            // self.showCityDialog(for: city)
-            print("==> city")
+            self.showCityDialog(for: city)
         case .techs:
             self.showChangeTechDialog()
         case .civics:
