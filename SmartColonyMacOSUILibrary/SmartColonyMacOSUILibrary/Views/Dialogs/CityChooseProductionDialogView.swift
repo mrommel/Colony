@@ -29,35 +29,60 @@ struct CityChooseProductionDialogView: View {
                     .bold()
                     .padding()
                 
-                ScrollView(.vertical, showsIndicators: true, content: {
-                    
-                    ForEach(self.viewModel.unitViewModels, id:\.self) { unitViewModel in
-                    
-                        UnitView(viewModel: unitViewModel)
-                    }
-                    
-                    Divider()
-                    
-                    LazyVGrid(columns: gridItemLayout, spacing: 10) {
+                HStack(spacing: 10) {
+                
+                    ScrollView(.vertical, showsIndicators: true, content: {
                         
-                        ForEach(self.viewModel.districtSectionViewModels, id:\.self) { districtSectionViewModel in
+                        ForEach(self.viewModel.queueViewModels, id:\.self) { queueViewModel in
+                        
+                            switch queueViewModel.queueType {
                             
-                            DistrictView(viewModel: districtSectionViewModel.districtViewModel)
-                    
-                            ForEach(districtSectionViewModel.buildingViewModels, id:\.self) { buildingViewModel in
-                            
-                                BuildingView(viewModel: buildingViewModel)
+                            case .unit:
+                                UnitView(viewModel: queueViewModel as! UnitViewModel)
+                            case .district:
+                                DistrictView(viewModel: queueViewModel as! DistrictViewModel)
+                            case .building:
+                                BuildingView(viewModel: queueViewModel as! BuildingViewModel)
+                            case .wonder:
+                                WonderView(viewModel: queueViewModel as! WonderViewModel)
+                            default:
+                                Text("type \(queueViewModel.queueType.rawValue)")
                             }
                         }
-                    }
+                    })
                     
                     Divider()
-                    
-                    ForEach(self.viewModel.wonderViewModels, id:\.self) { wonderViewModel in
-                    
-                        WonderView(viewModel: wonderViewModel)
-                    }
-                })
+                
+                    ScrollView(.vertical, showsIndicators: true, content: {
+                        
+                        ForEach(self.viewModel.unitViewModels, id:\.self) { unitViewModel in
+                        
+                            UnitView(viewModel: unitViewModel)
+                        }
+                        
+                        Divider()
+                        
+                        LazyVGrid(columns: gridItemLayout, spacing: 10) {
+                            
+                            ForEach(self.viewModel.districtSectionViewModels, id:\.self) { districtSectionViewModel in
+                                
+                                DistrictView(viewModel: districtSectionViewModel.districtViewModel)
+                        
+                                ForEach(districtSectionViewModel.buildingViewModels, id:\.self) { buildingViewModel in
+                                
+                                    BuildingView(viewModel: buildingViewModel)
+                                }
+                            }
+                        }
+                        
+                        Divider()
+                        
+                        ForEach(self.viewModel.wonderViewModels, id:\.self) { wonderViewModel in
+                        
+                            WonderView(viewModel: wonderViewModel)
+                        }
+                    })
+                }
 
                 Divider()
                 

@@ -11,24 +11,28 @@ import SmartAssets
 
 protocol DistrictViewModelDelegate: AnyObject {
     
-    func clicked(on districtType: DistrictType)
+    func clicked(on districtType: DistrictType, at index: Int)
 }
 
-class DistrictViewModel: ObservableObject {
+class DistrictViewModel: QueueViewModel, ObservableObject {
     
     let districtType: DistrictType
     let turns: Int
+    let index: Int
     
     var active: Bool
     
     weak var delegate: DistrictViewModelDelegate?
     
-    init(districtType: DistrictType, turns: Int = -1, active: Bool) {
+    init(districtType: DistrictType, turns: Int = -1, active: Bool, at index: Int = -1) {
         
         self.districtType = districtType
         self.turns = active ? -1 : turns
         
         self.active = active
+        self.index = index
+        
+        super.init(queueType: .district)
     }
     
     func icon() -> NSImage {
@@ -70,6 +74,6 @@ class DistrictViewModel: ObservableObject {
     
     func clicked() {
         
-        self.delegate?.clicked(on: self.districtType)
+        self.delegate?.clicked(on: self.districtType, at: self.index)
     }
 }

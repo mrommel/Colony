@@ -10,20 +10,24 @@ import SmartAILibrary
 
 protocol WonderViewModelDelegate: AnyObject {
     
-    func clicked(on wonderType: WonderType)
+    func clicked(on wonderType: WonderType, at index: Int)
 }
 
-class WonderViewModel: ObservableObject {
+class WonderViewModel: QueueViewModel, ObservableObject {
     
     let wonderType: WonderType
     let turns: Int
+    let index: Int
     
     weak var delegate: WonderViewModelDelegate?
     
-    init(wonderType: WonderType, turns: Int) {
+    init(wonderType: WonderType, turns: Int, at index: Int = -1) {
         
         self.wonderType = wonderType
         self.turns = turns
+        self.index = index
+        
+        super.init(queueType: .wonder)
     }
     
     func icon() -> NSImage {
@@ -48,11 +52,11 @@ class WonderViewModel: ObservableObject {
     
     func clicked() {
         
-        self.delegate?.clicked(on: self.wonderType)
+        self.delegate?.clicked(on: self.wonderType, at: self.index)
     }
 }
 
-extension WonderViewModel: Hashable {
+/*extension WonderViewModel: Hashable {
     
     static func == (lhs: WonderViewModel, rhs: WonderViewModel) -> Bool {
         
@@ -63,4 +67,4 @@ extension WonderViewModel: Hashable {
         
         hasher.combine(self.wonderType)
     }
-}
+}*/

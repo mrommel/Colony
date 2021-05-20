@@ -10,20 +10,24 @@ import SmartAILibrary
 
 protocol BuildingViewModelDelegate: AnyObject {
     
-    func clicked(on buildingType: BuildingType)
+    func clicked(on buildingType: BuildingType, at index: Int)
 }
 
-class BuildingViewModel: ObservableObject {
+class BuildingViewModel: QueueViewModel, ObservableObject {
     
     let buildingType: BuildingType
     let turns: Int
+    let index: Int
     
     weak var delegate: BuildingViewModelDelegate?
     
-    init(buildingType: BuildingType, turns: Int) {
+    init(buildingType: BuildingType, turns: Int, at index: Int = -1) {
         
         self.buildingType = buildingType
         self.turns = turns
+        self.index = index
+        
+        super.init(queueType: .building)
     }
     
     func icon() -> NSImage {
@@ -48,11 +52,11 @@ class BuildingViewModel: ObservableObject {
     
     func clicked() {
         
-        self.delegate?.clicked(on: self.buildingType)
+        self.delegate?.clicked(on: self.buildingType, at: self.index)
     }
 }
 
-extension BuildingViewModel: Hashable {
+/*extension BuildingViewModel: Hashable {
     
     static func == (lhs: BuildingViewModel, rhs: BuildingViewModel) -> Bool {
         
@@ -63,4 +67,4 @@ extension BuildingViewModel: Hashable {
         
         hasher.combine(self.buildingType)
     }
-}
+}*/
