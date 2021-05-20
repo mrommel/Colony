@@ -33,6 +33,10 @@ struct CityChooseProductionDialogView: View {
                 
                     ScrollView(.vertical, showsIndicators: true, content: {
                         
+                        if self.viewModel.queueViewModels.count != 0 {
+                            Text("Please add a unit / building / wonder")
+                        }
+                        
                         ForEach(self.viewModel.queueViewModels, id:\.self) { queueViewModel in
                         
                             switch queueViewModel.queueType {
@@ -50,6 +54,7 @@ struct CityChooseProductionDialogView: View {
                             }
                         }
                     })
+                    .frame(width: 340, height: 400, alignment: .top)
                     
                     Divider()
                 
@@ -82,6 +87,7 @@ struct CityChooseProductionDialogView: View {
                             WonderView(viewModel: wonderViewModel)
                         }
                     })
+                    .frame(width: 340, height: 400, alignment: .top)
                 }
 
                 Divider()
@@ -96,7 +102,7 @@ struct CityChooseProductionDialogView: View {
             .padding(.leading, 45)
             .padding(.trailing, 45)
         }
-        .frame(width: 500, height: 550, alignment: .top)
+        .frame(width: 800, height: 550, alignment: .top)
         .background(
             Image(nsImage: ImageCache.shared.image(for: "grid9-dialog"))
                 .resizable(capInsets: EdgeInsets(all: 45))

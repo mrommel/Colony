@@ -29,13 +29,14 @@ class CityChooseProductionDialogViewModel: ObservableObject {
     var wonderViewModels: [WonderViewModel] = []
     
     private var city: AbstractCity? = nil
-    private let queueManager: QueueManager
+    private var queueManager: CityBuildQueueManager
     
     weak var delegate: GameViewModelDelegate?
     
     init(city: AbstractCity? = nil) {
 
-        self.queueManager = QueueManager()
+        self.queueManager = CityBuildQueueManager(city: city)
+        self.queueManager.delegate = self
         
         if city != nil {
             self.update(for: city)
@@ -45,6 +46,9 @@ class CityChooseProductionDialogViewModel: ObservableObject {
     func update(for city: AbstractCity?) {
         
         self.city = city
+        
+        self.queueManager = CityBuildQueueManager(city: city)
+        self.queueManager.delegate = self
         
         // populate values
         if let city = city {
@@ -87,7 +91,10 @@ class CityChooseProductionDialogViewModel: ObservableObject {
             }
             
             // districts / buildings
-            self.districtSectionViewModels = DistrictType.all.map { districtType in
+            let possibleDistrictTypes = DistrictType.all.filter { districtType in
+                return city.canConstruct(district: districtType, in: game) || districts.has(district: districtType)
+            }
+            self.districtSectionViewModels = possibleDistrictTypes.map { districtType in
                 
                 if districts.has(district: districtType) {
                     
@@ -236,20 +243,103 @@ extension CityChooseProductionDialogViewModel: UnitViewModelDelegate {
 extension CityChooseProductionDialogViewModel: DistrictViewModelDelegate {
     
     func clicked(on districtType: DistrictType, at index: Int) {
+        
         print("clicked on \(districtType)")
+        
+        guard let game = self.gameEnvironment.game.value else {
+            return
+        }
+        
+        guard let city = self.city else {
+            fatalError("cant get city")
+        }
+        
+        guard let humanPlayer = game.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+        
+        guard humanPlayer.leader == city.player?.leader else {
+            fatalError("human player not city owner")
+        }
+        
+        if city.canConstruct(district: districtType, in: game) {
+            city.startBuilding(district: districtType)
+            
+            self.updateBuildQueue()
+        } else {
+            print("--- this should not happen - selected a district type \(districtType) that cannot be constructed in \(city.name) ---")
+        }
     }
 }
 
 extension CityChooseProductionDialogViewModel: BuildingViewModelDelegate {
     
     func clicked(on buildingType: BuildingType, at index: Int) {
+        
         print("clicked on \(buildingType)")
+        
+        guard let game = self.gameEnvironment.game.value else {
+            return
+        }
+        
+        guard let city = self.city else {
+            fatalError("cant get city")
+        }
+        
+        guard let humanPlayer = game.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+        
+        guard humanPlayer.leader == city.player?.leader else {
+            fatalError("human player not city owner")
+        }
+        
+        if city.canBuild(building: buildingType, in: game) {
+            city.startBuilding(building: buildingType)
+            
+            self.updateBuildQueue()
+        } else {
+            print("--- this should not happen - selected a building type \(buildingType) that cannot be constructed in \(city.name) ---")
+        }
     }
 }
 
 extension CityChooseProductionDialogViewModel: WonderViewModelDelegate {
     
     func clicked(on wonderType: WonderType, at index: Int) {
+        
         print("clicked on \(wonderType)")
+        
+        guard let game = self.gameEnvironment.game.value else {
+            return
+        }
+        
+        guard let city = self.city else {
+            fatalError("cant get city")
+        }
+        
+        guard let humanPlayer = game.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+        
+        guard humanPlayer.leader == city.player?.leader else {
+            fatalError("human player not city owner")
+        }
+        
+        if city.canBuild(wonder: wonderType, in: game) {
+            city.startBuilding(wonder: wonderType)
+            
+            self.updateBuildQueue()
+        } else {
+            print("--- this should not happen - selected a wonder type \(wonderType) that cannot be constructed in \(city.name) ---")
+        }
+    }
+}
+
+extension CityChooseProductionDialogViewModel: CityBuildQueueManagerDelegate {
+    
+    func queueUpdated() {
+        
+        self.updateBuildQueue()
     }
 }
