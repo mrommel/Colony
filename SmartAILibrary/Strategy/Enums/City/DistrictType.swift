@@ -105,4 +105,19 @@ public enum DistrictType: Int, Codable {
         case .industrial: return 1
         }
     }
+    
+    /*public func yields() -> Yields {
+        
+        switch self {
+
+        case .cityCenter: return Yields()
+        case .campus: return Yields()
+        case .holySite: return Yields()
+        case .encampment: return Yields()
+        case .harbor: return Yields()
+        case .entertainment: return Yields()
+        case .commercialHub: return Yields()
+        case .industrial: return Yields()
+        }
+    }*/
 }

@@ -49,6 +49,18 @@ public class Yields {
         case .faith: return self.faith
         }
     }
+    
+    public func list() -> YieldList {
+        
+        let yieldList: YieldList = YieldList()
+        
+        for yieldType in YieldType.all {
+            
+            yieldList.set(weight: self.value(of: yieldType), for: yieldType)
+        }
+        
+        return yieldList
+    }
 }
 
 extension Yields {

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 #if os(macOS)
     import AppKit
@@ -65,6 +66,10 @@ extension TypeColor {
     public struct UI {
         
         public static var districtActive: TypeColor = TypeColor(hex: "#16344f")!
+        public static var dialogBackground: TypeColor = TypeColor(hex: "#01223b")!
+        public static var dialogCenter: TypeColor = TypeColor(hex: "#172d4d")!
+        
+        public static var dialogGradient: Gradient = Gradient(colors: [Color(NSColor.UI.dialogCenter), Color(NSColor.UI.dialogBackground)])
     }
     
     internal convenience init?(hex: String) {
@@ -96,5 +101,58 @@ extension TypeColor {
         var rgbValue: UInt64 = 0
         Scanner(string: cString).scanHexInt64(&rgbValue)
         return rgbValue
+    }
+}
+
+extension TypeColor {
+    
+    private func makeColor(componentDelta: CGFloat) -> TypeColor {
+        
+        var red: CGFloat = 0
+        var blue: CGFloat = 0
+        var green: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        // Extract r,g,b,a components from the
+        // current UIColor
+        getRed(
+            &red,
+            green: &green,
+            blue: &blue,
+            alpha: &alpha
+        )
+        
+        // Create a new UIColor modifying each component
+        // by componentDelta, making the new UIColor either
+        // lighter or darker.
+        return TypeColor(
+            red: add(componentDelta, toComponent: red),
+            green: add(componentDelta, toComponent: green),
+            blue: add(componentDelta, toComponent: blue),
+            alpha: alpha
+        )
+    }
+}
+
+extension TypeColor {
+    
+    // Add value to component ensuring the result is
+    // between 0 and 1
+    private func add(_ value: CGFloat, toComponent: CGFloat) -> CGFloat {
+        
+        return max(0, min(1, toComponent + value))
+    }
+}
+
+extension TypeColor {
+    
+    public func lighter(componentDelta: CGFloat = 0.1) -> TypeColor {
+        
+        return makeColor(componentDelta: componentDelta)
+    }
+    
+    public func darker(componentDelta: CGFloat = 0.1) -> TypeColor {
+        
+        return makeColor(componentDelta: -1 * componentDelta)
     }
 }

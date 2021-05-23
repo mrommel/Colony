@@ -8,6 +8,33 @@
 import SwiftUI
 import SmartAILibrary
 
+enum CityDetailViewType {
+    
+    case buildQueue
+    case buildings
+    case growth
+    case religion
+    
+    static var all: [CityDetailViewType] = [
+        .buildQueue, .buildings, .growth, .religion
+    ]
+    
+    func name() -> String {
+        
+        switch self {
+        
+        case .buildQueue:
+            return "Build Queue"
+        case .buildings:
+            return "Buildings"
+        case .growth:
+            return "Growth"
+        case .religion:
+            return "Religion"
+        }
+    }
+}
+
 class CityDialogViewModel: ObservableObject {
     
     @Environment(\.gameEnvironment)
@@ -33,6 +60,12 @@ class CityDialogViewModel: ObservableObject {
     
     @Published
     var faithYieldViewModel: YieldValueViewModel
+    
+    @Published
+    var cityDetailViewType: CityDetailViewType = CityDetailViewType.buildQueue
+    
+    @Published
+    var buildingsViewModel: CityBuildingsViewModel
 
     private var city: AbstractCity? = nil
     
@@ -46,6 +79,8 @@ class CityDialogViewModel: ObservableObject {
         self.productionYieldViewModel = YieldValueViewModel(yieldType: .production, value: 0.0)
         self.goldYieldViewModel = YieldValueViewModel(yieldType: .gold, value: 0.0)
         self.faithYieldViewModel = YieldValueViewModel(yieldType: .faith, value: 0.0)
+        
+        self.buildingsViewModel = CityBuildingsViewModel(city: city)
         
         if city != nil {
             self.update(for: city)
@@ -71,6 +106,8 @@ class CityDialogViewModel: ObservableObject {
             self.productionYieldViewModel.value = city.productionPerTurn(in: game)
             self.goldYieldViewModel.value = city.goldPerTurn(in: game)
             self.faithYieldViewModel.value = city.faithPerTurn(in: game)
+            
+            self.buildingsViewModel.update(for: city)
         }
         
         /*guard let game = self.gameEnvironment.game.value else {
@@ -85,6 +122,11 @@ class CityDialogViewModel: ObservableObject {
          */
     }
     
+    func show(detail: CityDetailViewType) {
+        
+        self.cityDetailViewType = detail
+    }
+    
     func showManageProductionDialog() {
         
         self.delegate?.closeDialog()
@@ -93,6 +135,8 @@ class CityDialogViewModel: ObservableObject {
     
     func showBuildingsDialog() {
         
+        self.delegate?.closeDialog()
+        self.delegate?.showCityBuildingsDialog(for: self.city)
     }
     
     func showGrowthDialog() {

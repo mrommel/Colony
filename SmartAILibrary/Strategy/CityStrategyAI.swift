@@ -17,7 +17,7 @@ class FlavorList: WeightedList<FlavorType> {
     }
 }
 
-class YieldList: WeightedList<YieldType> {
+public class YieldList: WeightedList<YieldType> {
     
     override func fill() {
         for yieldType in YieldType.all {

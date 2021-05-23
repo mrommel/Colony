@@ -19,17 +19,18 @@ class DistrictViewModel: QueueViewModel, ObservableObject {
     let districtType: DistrictType
     let turns: Int
     let index: Int
+    let showYields: Bool
     
     var active: Bool
     
     weak var delegate: DistrictViewModelDelegate?
     
-    init(districtType: DistrictType, turns: Int = -1, active: Bool, at index: Int = -1) {
+    init(districtType: DistrictType, turns: Int = -1, active: Bool, showYields: Bool = false, at index: Int = -1) {
         
         self.districtType = districtType
         self.turns = active ? -1 : turns
-        
         self.active = active
+        self.showYields = showYields
         self.index = index
         
         super.init(queueType: .district)
@@ -47,11 +48,24 @@ class DistrictViewModel: QueueViewModel, ObservableObject {
     
     func turnsText() -> String {
         
+        if self.showYields {
+            return ""
+        }
+        
         if self.active {
             return "􀆅"
         } else {
             return "\(self.turns) Turns"
         }
+    }
+    
+    func yieldValueViewModel() -> [YieldValueViewModel] {
+        
+        if !self.showYields {
+            return []
+        }
+        
+        return [] // FIXME
     }
     
     func fontColor() -> Color {

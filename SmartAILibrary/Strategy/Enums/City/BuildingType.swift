@@ -84,7 +84,7 @@ public enum BuildingType: Int, Codable {
         return self.data().maintenanceCost
     }
 
-    func yields() -> Yields {
+    public func yields() -> Yields {
         
         return self.data().yields
     }

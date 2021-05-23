@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AbstractReligion: class, Codable {
+public protocol AbstractReligion: AnyObject, Codable {
     
     var player: AbstractPlayer? { get set }
     

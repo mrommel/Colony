@@ -18,13 +18,15 @@ class BuildingViewModel: QueueViewModel, ObservableObject {
     let buildingType: BuildingType
     let turns: Int
     let index: Int
+    let showYields: Bool
     
     weak var delegate: BuildingViewModelDelegate?
     
-    init(buildingType: BuildingType, turns: Int, at index: Int = -1) {
+    init(buildingType: BuildingType, turns: Int, showYields: Bool = false, at index: Int = -1) {
         
         self.buildingType = buildingType
         self.turns = turns
+        self.showYields = showYields
         self.index = index
         
         super.init(queueType: .building)
@@ -42,12 +44,36 @@ class BuildingViewModel: QueueViewModel, ObservableObject {
     
     func turnsText() -> String {
         
+        if self.showYields {
+            return ""
+        }
+        
         return "\(self.turns) Turns"
     }
     
     func background() -> NSImage {
         
         return ImageCache.shared.image(for: "grid9-button-active")
+    }
+    
+    func yieldValueViewModels() -> [YieldValueViewModel] {
+        
+        if !self.showYields {
+            return []
+        }
+        
+        let buildingYield = self.buildingType.yields()
+        var models: [YieldValueViewModel] = []
+        
+        for yieldType in YieldType.all {
+            
+            let yieldValue = buildingYield.value(of: yieldType)
+            if yieldValue > 0.0 {
+                models.append(YieldValueViewModel(yieldType: yieldType, value: yieldValue, withBackground: false))
+            }
+        }
+        
+        return models
     }
     
     func clicked() {

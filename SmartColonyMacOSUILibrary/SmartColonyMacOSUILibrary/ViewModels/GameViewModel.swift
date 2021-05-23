@@ -28,6 +28,7 @@ protocol GameViewModelDelegate: AnyObject {
     func foundCity(named cityName: String)
     func showCityDialog(for city: AbstractCity?)
     func showCityChooseProductionDialog(for city: AbstractCity?)
+    func showCityBuildingsDialog(for city: AbstractCity?)
     
     func isShown(screen: ScreenType) -> Bool
     
@@ -672,6 +673,22 @@ extension GameViewModel: GameViewModelDelegate {
             self.currentScreenType = .cityChooseProduction
         } else {
             fatalError("cant show city choose production dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+    
+    func showCityBuildingsDialog(for city: AbstractCity?) {
+        
+        if self.currentScreenType == .city {
+            // already shown
+            return
+        }
+        
+        if self.currentScreenType == .none {
+            self.cityDialogViewModel.update(for: city)
+            self.cityDialogViewModel.cityDetailViewType = .buildings
+            self.currentScreenType = .city
+        } else {
+            fatalError("cant show city buildings dialog, \(self.currentScreenType) is currently shown")
         }
     }
     

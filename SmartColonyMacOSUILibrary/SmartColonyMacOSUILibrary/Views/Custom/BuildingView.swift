@@ -27,9 +27,24 @@ struct BuildingView: View {
             
             Spacer()
             
-            Text(self.viewModel.turnsText())
+            if self.viewModel.showYields {
+                
+                HStack(alignment: .center, spacing: 0) {
+                    ForEach(self.viewModel.yieldValueViewModels(), id: \.self) { yieldValueViewModel in
+                        
+                        YieldValueView(viewModel: yieldValueViewModel)
+                            .padding(.trailing, 0)
+                            .padding(.leading, -8)
+                    }
+                }
                 .padding(.top, 9)
                 .padding(.trailing, 16)
+                .padding(.leading, 0)
+            } else {
+                Text(self.viewModel.turnsText())
+                    .padding(.top, 9)
+                    .padding(.trailing, 16)
+            }
         }
         .frame(width: 300, height: 42, alignment: .topLeading)
         .background(
@@ -47,9 +62,12 @@ struct BuildingView_Previews: PreviewProvider {
     
     static var previews: some View {
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = BuildingViewModel(buildingType: .granary, turns: 6)
         
-        BuildingView(viewModel: viewModel)
+        BuildingView(viewModel: BuildingViewModel(buildingType: .granary, turns: 6))
+        
+        BuildingView(viewModel: BuildingViewModel(buildingType: .palace, turns: -1, showYields: true))
+        
+        BuildingView(viewModel: BuildingViewModel(buildingType: .granary, turns: 6, showYields: true))
     }
 }
 #endif

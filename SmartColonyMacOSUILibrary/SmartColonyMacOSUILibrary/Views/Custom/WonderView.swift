@@ -27,9 +27,24 @@ struct WonderView: View {
             
             Spacer()
             
-            Text(self.viewModel.turnsText())
+            if self.viewModel.showYields {
+                
+                HStack(alignment: .center, spacing: 0) {
+                    ForEach(self.viewModel.yieldValueViewModels(), id: \.self) { yieldValueViewModel in
+                        
+                        YieldValueView(viewModel: yieldValueViewModel)
+                            .padding(.trailing, 0)
+                            .padding(.leading, -8)
+                    }
+                }
                 .padding(.top, 9)
                 .padding(.trailing, 16)
+                .padding(.leading, 0)
+            } else {
+                Text(self.viewModel.turnsText())
+                    .padding(.top, 9)
+                    .padding(.trailing, 16)
+            }
         }
         .frame(width: 300, height: 42, alignment: .topLeading)
         .background(
@@ -47,9 +62,10 @@ struct WonderView_Previews: PreviewProvider {
     
     static var previews: some View {
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = WonderViewModel(wonderType: .pyramids, turns: 34)
+
+        WonderView(viewModel: WonderViewModel(wonderType: .pyramids, turns: 34))
         
-        WonderView(viewModel: viewModel)
+        WonderView(viewModel: WonderViewModel(wonderType: .pyramids, turns: 34, showYields: true))
     }
 }
 #endif

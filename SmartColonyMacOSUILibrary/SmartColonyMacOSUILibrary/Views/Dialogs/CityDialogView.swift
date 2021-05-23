@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 struct CityDialogView: View {
     
@@ -21,78 +22,90 @@ struct CityDialogView: View {
     var body: some View {
         
         Group {
-            VStack(spacing: 10) {
+            VStack(spacing: 0) {
+                
                 Text(self.viewModel.cityName)
                     .font(.title2)
                     .bold()
-                    .padding()
+                    .padding(.top, 13)
+                    .padding(.bottom, 10)
                 
-                Text("Population: 1")
+                VStack(spacing: 10) {
+                    
+                    Text("Population: 1")
 
-                HStack(alignment: .center) {
-                    YieldValueView(viewModel: self.viewModel.scienceYieldViewModel)
+                    HStack(alignment: .center) {
+                        YieldValueView(viewModel: self.viewModel.scienceYieldViewModel)
+                        
+                        YieldValueView(viewModel: self.viewModel.cultureYieldViewModel)
+                        
+                        YieldValueView(viewModel: self.viewModel.foodYieldViewModel)
+                        
+                        YieldValueView(viewModel: self.viewModel.productionYieldViewModel)
+                        
+                        YieldValueView(viewModel: self.viewModel.goldYieldViewModel)
+                        
+                        YieldValueView(viewModel: self.viewModel.faithYieldViewModel)
+                    }
                     
-                    YieldValueView(viewModel: self.viewModel.cultureYieldViewModel)
+                    Divider()
                     
-                    YieldValueView(viewModel: self.viewModel.foodYieldViewModel)
+                    self.detailView
+                        .frame(width: 440, height: 300, alignment: .top)
                     
-                    YieldValueView(viewModel: self.viewModel.productionYieldViewModel)
+                    Spacer(minLength: 0)
                     
-                    YieldValueView(viewModel: self.viewModel.goldYieldViewModel)
+                    HStack(spacing: 25) {
+                        
+                        ForEach(CityDetailViewType.all, id: \.self) { value in
+                            Button(action: {
+                                self.viewModel.show(detail: value)
+                            }) {
+                                Text(value.name())
+                                    .font(.system(size: 15))
+                                    .foregroundColor(value == self.viewModel.cityDetailViewType
+                                        ? Color.accentColor
+                                        : Color.gray)
+                                    .animation(nil)
+                            }
+                        }
+                    }
                     
-                    YieldValueView(viewModel: self.viewModel.faithYieldViewModel)
+                    Divider()
+                    
+                    Button(action: {
+                        self.viewModel.closeDialog()
+                    }, label: {
+                        Text("Cancel")
+                    })
                 }
-                
-                Divider()
-                
-                // if no current production
-                Text("Queue")
-                
-                Divider()
-                
-                HStack(alignment: .center) {
-                    
-                    Button("Manage Production", action: {
-                        self.viewModel.showManageProductionDialog()
-                    })
-                    .buttonStyle(GameButtonStyle())
-                    
-                    Button("X Buildings", action: {
-                        self.viewModel.showBuildingsDialog()
-                    })
-                    .buttonStyle(GameButtonStyle())
-                }
-                
-                HStack(alignment: .center) {
-                    
-                    Button("Growth", action: {
-                        self.viewModel.showGrowthDialog()
-                    })
-                    .buttonStyle(GameButtonStyle())
-                    
-                    Button("Manage Citizen", action: {
-                        self.viewModel.showManageCitizenDialog()
-                    })
-                    .buttonStyle(GameButtonStyle())
-                }
-                
-                Divider()
-                
-                Button(action: {
-                    self.viewModel.closeDialog()
-                }, label: {
-                    Text("Cancel")
-                })
+                .padding(.top, 10)
+                .background(Color(NSColor.UI.dialogBackground))
             }
-            .padding(.bottom, 45)
-            .padding(.leading, 45)
-            .padding(.trailing, 45)
+            .padding(.bottom, 43)
+            .padding(.leading, 19)
+            .padding(.trailing, 19)
         }
         .frame(width: 500, height: 550, alignment: .top)
         .background(
             Image(nsImage: ImageCache.shared.image(for: "grid9-dialog"))
                 .resizable(capInsets: EdgeInsets(all: 45))
         )
+    }
+    
+    var detailView: AnyView {
+        
+        switch self.viewModel.cityDetailViewType {
+        
+        case .buildQueue:
+            return AnyView(Text("buildQueue"))
+        case .buildings:
+            return AnyView(CityBuildingsView(viewModel: self.viewModel.buildingsViewModel))
+        case .growth:
+            return AnyView(Text("growth"))
+        case .religion:
+            return AnyView(Text("religion"))
+        }
     }
 }
 

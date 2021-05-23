@@ -9,39 +9,6 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
-class YieldValueViewModel: ObservableObject {
-    
-    let yieldType: YieldType
-    
-    @Published
-    var value: Double {
-        didSet {
-            self.valueText = String(format: "%.1f", self.value)
-        }
-    }
-    
-    @Published
-    var valueText: String
-    
-    init(yieldType: YieldType, value: Double) {
-        
-        self.yieldType = yieldType
-        self.value = value
-        
-        self.valueText = String(format: "%.1f", value)
-    }
-    
-    func iconImage() -> NSImage {
-        
-        return ImageCache.shared.image(for: self.yieldType.iconTexture())
-    }
-    
-    func backgroundImage() -> NSImage {
-        
-        return ImageCache.shared.image(for: self.yieldType.backgroundTexture())
-    }
-}
-
 struct YieldValueView: View {
     
     @ObservedObject
@@ -49,20 +16,23 @@ struct YieldValueView: View {
     
     public var body: some View {
         
-        HStack(alignment: .center) {
+        HStack(alignment: .center, spacing: 4) {
             Image(nsImage: self.viewModel.iconImage())
                 .resizable()
                 .frame(width: 12, height: 12, alignment: .center)
             
             Text(self.viewModel.valueText)
-                .foregroundColor(Color(self.viewModel.yieldType.fontColor()))
+                .foregroundColor(Color(self.viewModel.fontColor()))
+                .font(.caption)
         }
+        .padding(.leading, 8)
+        .padding(.trailing, 8)
+        .padding(.top, 4)
+        .padding(.bottom, 4)
         .background(
             Image(nsImage: self.viewModel.backgroundImage())
                 .resizable(capInsets: EdgeInsets(all: 8))
-                .frame(width: 65, height: 20, alignment: .center)
         )
-        .frame(width: 65, height: 20, alignment: .center)
     }
 }
 
@@ -75,6 +45,8 @@ struct YieldValueView_Previews: PreviewProvider {
         YieldValueView(viewModel: YieldValueViewModel(yieldType: .food, value: 2.32))
         
         YieldValueView(viewModel: YieldValueViewModel(yieldType: .production, value: 12.32))
+        
+        YieldValueView(viewModel: YieldValueViewModel(yieldType: .science, value: 12.32, withBackground: false))
     }
 }
 #endif

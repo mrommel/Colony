@@ -8,7 +8,7 @@
 
 import Foundation
 
-class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertible {
+public class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertible {
     
     enum CodingKeys: CodingKey {
         case items
@@ -49,14 +49,14 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
     
     // MARK: constructors
     
-    init() {
+    public init() {
 
         self.items = []
         
         fill()
     }
     
-    required init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -65,7 +65,7 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
     
     // MARK: methods
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         
         var container = encoder.container(keyedBy: CodingKeys.self)
         
@@ -236,7 +236,7 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         return list
     }
 
-    var debugDescription: String {
+    public var debugDescription: String {
 
         var itemText = ""
 
