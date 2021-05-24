@@ -73,7 +73,7 @@ class DistrictViewModel: QueueViewModel, ObservableObject {
         if self.active {
             return .white
         } else {
-            return Color(NSColor.UI.districtActive)
+            return Color(Globals.Colors.districtActive)
         }
     }
     

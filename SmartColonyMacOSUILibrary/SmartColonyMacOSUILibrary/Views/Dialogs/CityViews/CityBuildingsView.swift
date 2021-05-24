@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 struct CityBuildingsView: View {
     
@@ -69,7 +70,7 @@ struct CityBuildingsView: View {
             Spacer()
         })
         .frame(width: 440, height: 300, alignment: .top)
-        .background(RadialGradient(gradient: NSColor.UI.dialogGradient, center: .center, startRadius: 100, endRadius: 200) )
+        .background(Globals.Style.dialogBackground)
     }
 }
 

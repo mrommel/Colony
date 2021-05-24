@@ -66,6 +66,9 @@ class CityDialogViewModel: ObservableObject {
     
     @Published
     var buildingsViewModel: CityBuildingsViewModel
+    
+    @Published
+    var religionViewModel: CityReligionViewModel
 
     private var city: AbstractCity? = nil
     
@@ -81,6 +84,7 @@ class CityDialogViewModel: ObservableObject {
         self.faithYieldViewModel = YieldValueViewModel(yieldType: .faith, value: 0.0)
         
         self.buildingsViewModel = CityBuildingsViewModel(city: city)
+        self.religionViewModel = CityReligionViewModel(city: city)
         
         if city != nil {
             self.update(for: city)
@@ -108,6 +112,7 @@ class CityDialogViewModel: ObservableObject {
             self.faithYieldViewModel.value = city.faithPerTurn(in: game)
             
             self.buildingsViewModel.update(for: city)
+            self.religionViewModel.update(for: city)
         }
         
         /*guard let game = self.gameEnvironment.game.value else {

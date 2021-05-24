@@ -54,6 +54,7 @@ public protocol AbstractCity: AnyObject, Codable {
     var cityStrategy: CityStrategyAI? { get }
     var cityCitizens: CityCitizens? { get }
     var cityTradingPosts: AbstractCityTradingPosts? { get }
+    var cityReligion: AbstractCityReligion? { get }
     var greatWorks: GreatWorks? { get }
 
     //static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
@@ -217,6 +218,7 @@ public class City: AbstractCity {
         case buildQueue
         case cityCitizens
         case greatWorks
+        case cityReligion
         case cityTradingPosts
         
         case healthPoints
@@ -267,6 +269,7 @@ public class City: AbstractCity {
     public var buildQueue: BuildQueue
     public var cityCitizens: CityCitizens?
     public var greatWorks: GreatWorks?
+    public var cityReligion: AbstractCityReligion?
     public var cityTradingPosts: AbstractCityTradingPosts?
     
     private var healthPointsValue: Int // 0..200
@@ -381,6 +384,7 @@ public class City: AbstractCity {
         self.buildQueue = try container.decode(BuildQueue.self, forKey: .buildQueue)
         self.cityCitizens = try container.decode(CityCitizens.self, forKey: .cityCitizens)
         self.greatWorks = try container.decode(GreatWorks.self, forKey: .greatWorks)
+        self.cityReligion = try container.decode(CityReligion.self, forKey: .cityReligion)
         self.cityTradingPosts = try container.decode(CityTradingPosts.self, forKey: .cityTradingPosts)
         
         self.healthPointsValue = try container.decode(Int.self, forKey: .healthPoints)
@@ -445,6 +449,7 @@ public class City: AbstractCity {
         try container.encode(self.buildQueue, forKey: .buildQueue)
         try container.encode(self.cityCitizens, forKey: .cityCitizens)
         try container.encode(self.greatWorks, forKey: .greatWorks)
+        try container.encode(self.cityReligion as! CityReligion, forKey: .cityReligion)
         try container.encode(self.cityTradingPosts as! CityTradingPosts, forKey: .cityTradingPosts)
         
         try container.encode(self.healthPointsValue, forKey: .healthPoints)
@@ -513,6 +518,7 @@ public class City: AbstractCity {
         self.cityStrategy = CityStrategyAI(city: self)
         self.cityCitizens = CityCitizens(city: self)
         self.greatWorks = GreatWorks(city: self)
+        self.cityReligion = CityReligion(city: self)
         self.cityTradingPosts = CityTradingPosts(city: self)
         
         if player.leader.civilization().ability() == .allRoadsLeadToRome {
@@ -689,6 +695,7 @@ public class City: AbstractCity {
         self.updateFeatureSurrounded(in: gameModel)
 
         self.cityStrategy?.turn(with: gameModel)
+        self.cityReligion?.turn(with: gameModel)
 
         self.cityCitizens?.doTurn(with: gameModel)
 

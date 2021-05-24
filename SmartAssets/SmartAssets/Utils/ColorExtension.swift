@@ -65,11 +65,9 @@ extension TypeColor {
     
     public struct UI {
         
-        public static var districtActive: TypeColor = TypeColor(hex: "#16344f")!
-        public static var dialogBackground: TypeColor = TypeColor(hex: "#01223b")!
-        public static var dialogCenter: TypeColor = TypeColor(hex: "#172d4d")!
-        
-        public static var dialogGradient: Gradient = Gradient(colors: [Color(NSColor.UI.dialogCenter), Color(NSColor.UI.dialogBackground)])
+        public static var veryDarkBlue: TypeColor = TypeColor(hex: "#16344f")!
+        public static var midnight: TypeColor = TypeColor(hex: "#01223b")!
+        public static var nileBlue: TypeColor = TypeColor(hex: "#172d4d")!
     }
     
     internal convenience init?(hex: String) {

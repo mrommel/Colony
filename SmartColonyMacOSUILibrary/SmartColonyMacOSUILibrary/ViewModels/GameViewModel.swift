@@ -488,6 +488,16 @@ public class GameViewModel: ObservableObject {
             case .buildingBuilt:
                 // NOOP
                 break
+                
+            case .religionAdopted:
+                if let religionType = firstPopup.popupData?.religionType {
+                    let cityName = firstPopup.popupData?.cityName
+                    
+                    fatalError("religionAdopted")
+                    //self.showGoodyHutRewardPopup(for: goodyType, in: cityName)
+                } else {
+                    fatalError("popup data did not provide goodyType")
+                }
             }
 
             self.popups.removeFirst()

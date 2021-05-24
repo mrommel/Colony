@@ -9,7 +9,9 @@
 import Foundation
 
 // https://civilization.fandom.com/wiki/List_of_pantheons_in_Civ6
-public enum PantheonType {
+public enum PantheonType: Int, Codable {
+    
+    case none
     
     case cityPatronGoddess
     case danceOfTheAurora
@@ -37,6 +39,11 @@ public enum PantheonType {
     case sacredPath
     case stoneCircles
     
+    public func name() -> String {
+        
+        return self.data().name
+    }
+    
     // MARK: internal classes
     
     private struct PantheonData {
@@ -50,6 +57,10 @@ public enum PantheonType {
     private func data() -> PantheonData {
         
         switch self {
+        
+        case .none:
+            return PantheonData(name: "None", bonus: "")
+        
         case .cityPatronGoddess:
             return PantheonData(name: "City Patron Goddess", bonus: "+25% Production Production toward districts in cities without a specialty district.")
         case .danceOfTheAurora:

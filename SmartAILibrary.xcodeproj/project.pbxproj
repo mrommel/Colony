@@ -253,6 +253,7 @@
 		C9D1919B26596315008C9622 /* PantheonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919A26596315008C9622 /* PantheonType.swift */; };
 		C9D1919D265968F3008C9622 /* ReligionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919C265968F3008C9622 /* ReligionType.swift */; };
 		C9D1919F265969CF008C9622 /* BeliefType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919E265969CF008C9622 /* BeliefType.swift */; };
+		C9D191B1265A8975008C9622 /* CityReligion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D191B0265A8975008C9622 /* CityReligion.swift */; };
 		C9D78DF12590893C0024ECF0 /* ResourcePlacingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */; };
 		C9D78DF7259094080024ECF0 /* duel_no_resources.map in Resources */ = {isa = PBXBuildFile; fileRef = C9D78DF4259092C80024ECF0 /* duel_no_resources.map */; };
 		C9D8DF6C23ED9B9A0091C917 /* FlavorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8DF6B23ED9B9A0091C917 /* FlavorsTests.swift */; };
@@ -574,6 +575,7 @@
 		C9D1919A26596315008C9622 /* PantheonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantheonType.swift; sourceTree = "<group>"; };
 		C9D1919C265968F3008C9622 /* ReligionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionType.swift; sourceTree = "<group>"; };
 		C9D1919E265969CF008C9622 /* BeliefType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeliefType.swift; sourceTree = "<group>"; };
+		C9D191B0265A8975008C9622 /* CityReligion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityReligion.swift; sourceTree = "<group>"; };
 		C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcePlacingTests.swift; sourceTree = "<group>"; };
 		C9D78DF4259092C80024ECF0 /* duel_no_resources.map */ = {isa = PBXFileReference; explicitFileType = compiled; fileEncoding = 4; path = duel_no_resources.map; sourceTree = "<group>"; };
 		C9D78DFA259097890024ECF0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
@@ -1078,6 +1080,7 @@
 				C9C0DCD624D44799004D9F06 /* GreatPeople.swift */,
 				C9C0DCE224D74C37004D9F06 /* GreatPersonPoints.swift */,
 				C960E1DB24E675870049DC83 /* CityTradingPosts.swift */,
+				C9D191B0265A8975008C9622 /* CityReligion.swift */,
 				C956BF6324F10BAF009702B4 /* CombatModifier.swift */,
 			);
 			path = GameData;
@@ -1425,6 +1428,7 @@
 				C9DFCF6723F18ED60032243D /* PlayerProximityType.swift in Sources */,
 				C99790692516A4B8003E52C9 /* DestroyBarbarianCampOperation.swift in Sources */,
 				C9D8DF7823F147DF0091C917 /* ApproachBias.swift in Sources */,
+				C9D191B1265A8975008C9622 /* CityReligion.swift in Sources */,
 				C907086023ED48A000281161 /* MapSize.swift in Sources */,
 				C9E58A6225E54BBC00D1D49B /* TribeTileInfo.swift in Sources */,
 				C91B0023243DCE6000C422C8 /* GoodyHuts.swift in Sources */,

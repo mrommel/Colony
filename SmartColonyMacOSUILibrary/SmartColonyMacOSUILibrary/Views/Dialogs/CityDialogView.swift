@@ -78,9 +78,10 @@ struct CityDialogView: View {
                     }, label: {
                         Text("Cancel")
                     })
+                    .padding(.bottom, 8)
                 }
                 .padding(.top, 10)
-                .background(Color(NSColor.UI.dialogBackground))
+                .background(Color(Globals.Colors.dialogBackground))
             }
             .padding(.bottom, 43)
             .padding(.leading, 19)
@@ -104,7 +105,7 @@ struct CityDialogView: View {
         case .growth:
             return AnyView(Text("growth"))
         case .religion:
-            return AnyView(Text("religion"))
+            return AnyView(CityReligionView(viewModel: self.viewModel.religionViewModel))
         }
     }
 }

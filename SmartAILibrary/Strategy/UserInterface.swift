@@ -24,6 +24,8 @@ public enum PopupType {
     
     case unitTrained
     case buildingBuilt
+    
+    case religionAdopted
 }
 
 public class PopupData {
@@ -41,6 +43,7 @@ public class PopupData {
     public let era: EraType
     
     public let goodyType: GoodyType?
+    public let religionType: ReligionType
     
     init(player: AbstractPlayer?) {
         
@@ -57,6 +60,7 @@ public class PopupData {
         self.era = .none
         
         self.goodyType = nil
+        self.religionType = .none
     }
     
     init(money: Int) {
@@ -74,6 +78,7 @@ public class PopupData {
         self.era = .none
         
         self.goodyType = nil
+        self.religionType = .none
     }
     
     init(featureType: FeatureType, production: Int, cityName: String) {
@@ -91,6 +96,7 @@ public class PopupData {
         self.era = .none
         
         self.goodyType = nil
+        self.religionType = .none
     }
     
     init(tech: TechType) {
@@ -108,6 +114,7 @@ public class PopupData {
         self.era = .none
         
         self.goodyType = nil
+        self.religionType = .none
     }
     
     init(civic: CivicType) {
@@ -125,6 +132,7 @@ public class PopupData {
         self.era = .none
         
         self.goodyType = nil
+        self.religionType = .none
     }
     
     init(era: EraType) {
@@ -142,6 +150,7 @@ public class PopupData {
         self.era = era
         
         self.goodyType = nil
+        self.religionType = .none
     }
     
     init(goodyType: GoodyType, for cityName: String = "") {
@@ -157,7 +166,26 @@ public class PopupData {
         self.civic = .none
         
         self.era = .none
+        
         self.goodyType = goodyType
+        self.religionType = .none
+    }
+    
+    init(religionType: ReligionType, for cityName: String = "") {
+        
+        self.player = nil
+        self.money = -1
+        
+        self.featureType = .none
+        self.production = -1
+        self.cityName = cityName
+        
+        self.tech = .none
+        self.civic = .none
+        
+        self.era = .none
+        self.goodyType = nil
+        self.religionType = religionType
     }
 }
 

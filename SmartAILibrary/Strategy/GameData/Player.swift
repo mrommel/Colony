@@ -1342,6 +1342,8 @@ public class Player: AbstractPlayer {
         let faithVal = self.faith(in: gameModel)
         
         self.religion?.add(faith: faithVal)
+        
+        self.religion?.checkFaithProgress(in: gameModel)
     }
     
     func doTurnPost() {

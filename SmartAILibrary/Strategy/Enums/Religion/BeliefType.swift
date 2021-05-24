@@ -17,7 +17,9 @@ public enum BeliefMainType {
 }
 
 // https://civilization.fandom.com/wiki/Beliefs_(Civ6)
-public enum BeliefType {
+public enum BeliefType: Int, Codable {
+    
+    case none
     
     // follower beliefs - mandatory to chose one when founding a religion
     case choralMusic
@@ -61,6 +63,11 @@ public enum BeliefType {
     private func data() -> BeliefData {
         
         switch self {
+        
+        case .none:
+            return BeliefData(name: "None",
+                              mainType: .enhancerBelief,
+                              bonus: "")
         
         // follower beliefs
         case .choralMusic:

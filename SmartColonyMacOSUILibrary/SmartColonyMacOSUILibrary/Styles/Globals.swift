@@ -5,17 +5,32 @@
 //  Created by Michael Rommel on 22.03.21.
 //
 
-import Foundation
 import SmartAssets
+import SwiftUI
 
 public extension Globals {
     
     struct Colors {
+        
         public static let buttonBackground: TypeColor = TypeColor.matterhornGray.withAlphaComponent(0.5)
         public static let buttonSelectedBackground: TypeColor = TypeColor.crusoe.withAlphaComponent(0.5)
         
         public static let progressColor: TypeColor = TypeColor.white
         public static let progressBackground: TypeColor = TypeColor.matterhornGray.withAlphaComponent(0.5)
+        
+        public static var districtActive: TypeColor = TypeColor.UI.veryDarkBlue
+        public static var dialogBackground: TypeColor = TypeColor.UI.midnight
+        public static var dialogCenter: TypeColor = TypeColor.UI.nileBlue
+    }
+}
+
+public extension Globals {
+ 
+    struct Style {
+
+        public static var dialogGradient: Gradient = Gradient(colors: [Color(Globals.Colors.dialogCenter), Color(Globals.Colors.dialogBackground)])
+        
+        public static var dialogBackground: RadialGradient = RadialGradient(gradient: Globals.Style.dialogGradient, center: .center, startRadius: 100, endRadius: 200)
     }
 }
 
