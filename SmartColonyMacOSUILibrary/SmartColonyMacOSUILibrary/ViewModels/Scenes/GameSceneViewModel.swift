@@ -48,6 +48,12 @@ public class GameSceneViewModel: ObservableObject {
                 
                 print("center on \(unit.location)")
                 self.centerOn = unit.location
+                
+                /*
+                CGEvent(mouseEventSource: nil, mouseType: CGEventType.leftMouseDown, mouseCursorPosition: CGPoint(x: 100, y: 100), mouseButton: CGMouseButton.left)?.post(tap: CGEventTapLocation.cghidEventTap)
+                usleep(100)
+                CGEvent(mouseEventSource: nil, mouseType: CGEventType.leftMouseUp, mouseCursorPosition: CGPoint(x: 100, y: 100), mouseButton: CGMouseButton.left)?.post(tap: CGEventTapLocation.cghidEventTap)
+                */
             }
         }
     }

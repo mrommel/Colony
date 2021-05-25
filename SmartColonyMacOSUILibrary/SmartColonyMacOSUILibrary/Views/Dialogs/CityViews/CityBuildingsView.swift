@@ -23,49 +23,65 @@ struct CityBuildingsView: View {
         
         ScrollView(.vertical, showsIndicators: true, content: {
             
-            Text("City breakdown")
-                .font(.headline)
-                .padding(.top, 10)
-            
-            VStack {
-                Text("3 Districts constructed")
+            GroupBox(label: Text("City breakdown")
+                        .font(.headline)
+                        .padding(.top, 10)) {
+                
+                VStack(alignment: .center) {
+                    Text("3 Districts constructed")
+                }
+                .frame(width: 300, height: 18, alignment: .topLeading)
+                .padding(.all, 4)
             }
-            .padding()
-            .background(Color.blue)
             
-            Text("Buildings and Districts")
-                .font(.headline)
-                .padding(.top, 10)
-            
-            VStack {
-                ForEach(self.viewModel.districtSectionViewModels, id:\.self) { districtSectionViewModel in
+            GroupBox(label: Text("Buildings and Districts")
+                        .font(.headline)
+                        .padding(.top, 10)) {
+                
+                VStack(alignment: .center, spacing: 4) {
                     
-                    DistrictView(viewModel: districtSectionViewModel.districtViewModel)
-            
-                    ForEach(districtSectionViewModel.buildingViewModels, id:\.self) { buildingViewModel in
-                    
-                        BuildingView(viewModel: buildingViewModel)
+                    ForEach(self.viewModel.districtSectionViewModels, id:\.self) { districtSectionViewModel in
+                        
+                        DistrictView(viewModel: districtSectionViewModel.districtViewModel)
+                
+                        ForEach(districtSectionViewModel.buildingViewModels, id:\.self) { buildingViewModel in
+                        
+                            BuildingView(viewModel: buildingViewModel)
+                        }
                     }
                 }
+                .padding(.all, 4)
             }
-            .background(Color.blue)
             
-            Text("Wonders")
-                .font(.headline)
-                .padding(.top, 10)
-            
-            VStack {
+            GroupBox(label: Text("Wonders")
+                        .font(.headline)
+                        .padding(.top, 10)) {
                 
-                ForEach(self.viewModel.wonderViewModels, id:\.self) { wonderViewModel in
-                
-                    WonderView(viewModel: wonderViewModel)
+                VStack {
+                    
+                    ForEach(self.viewModel.wonderViewModels, id:\.self) { wonderViewModel in
+                    
+                        WonderView(viewModel: wonderViewModel)
+                    }
+                        
+                        
+                    Text("")
+                        .frame(minWidth: 300, maxWidth: 300, minHeight: 20, maxHeight: .infinity, alignment: .center)
                 }
+                .padding(.all, 4)
             }
-            .background(Color.blue)
             
-            Text("Trading Posts")
-                .font(.headline)
-                .padding(.top, 10)
+            GroupBox(label: Text("Trading Posts")
+                        .font(.headline)
+                        .padding(.top, 10)) {
+                
+                VStack {
+                    
+                    Text("abc")
+                }
+                .frame(minWidth: 300, maxWidth: 300, minHeight: 20, maxHeight: .infinity, alignment: .center)
+                .padding(.all, 4)
+            }
             
             Spacer()
         })

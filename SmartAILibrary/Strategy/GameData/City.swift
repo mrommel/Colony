@@ -124,6 +124,16 @@ public protocol AbstractCity: AnyObject, Codable {
     func growthInTurns() -> Int
     func maxGrowthInTurns() -> Int
     
+    func baseHousing(in gameModel: GameModel?) -> Double
+    func housingFromBuildings() -> Double
+    func housingFromWonders() -> Double
+    func housingFromDistricts() -> Double
+    
+    func amenitiesFromDistrict() -> Double
+    func amenitiesFromWonders(in gameModel: GameModel?) -> Double
+    func amenitiesFromBuildings() -> Double
+    func amenitiesFromLuxuries() -> Double
+    
     func maintenanceCostsPerTurn() -> Double
     
     func productionLastTurn() -> Double
@@ -986,12 +996,12 @@ public class City: AbstractCity {
         return self.luxuries.contains(luxury)
     }
     
-    private func amenitiesFromLuxuries() -> Double {
+    public func amenitiesFromLuxuries() -> Double {
         
         return Double(self.luxuries.count)
     }
     
-    private func amenitiesFromBuildings() -> Double {
+    public func amenitiesFromBuildings() -> Double {
     
         guard let buildings = self.buildings else {
             fatalError("cant get buildings")
@@ -1009,7 +1019,7 @@ public class City: AbstractCity {
         return amenitiesFromBuildings
     }
 
-    private func amenitiesFromWonders(in gameModel: GameModel?) -> Double {
+    public func amenitiesFromWonders(in gameModel: GameModel?) -> Double {
     
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1045,8 +1055,8 @@ public class City: AbstractCity {
         return amenitiesFromWonders
     }
     
-    // amenities from government
-    private func amenitiesFromGovernmentType() -> Double {
+    // amenities from districts
+    public func amenitiesFromDistrict() -> Double {
         
         guard let government = self.player?.government else {
             fatalError("cant get government")
@@ -1056,17 +1066,17 @@ public class City: AbstractCity {
             fatalError("cant get districts")
         }
 
-        var amenitiesFromGovernment: Double = 0.0
+        var amenitiesFromDistrict: Double = 0.0
             
         // "All cities with a district receive +1 Housing6 Housing and +1 Amenities6 Amenity."
         if government.currentGovernment() == .classicalRepublic {
 
             if districts.hasAny() {
-                amenitiesFromGovernment += 1.0
+                amenitiesFromDistrict += 1.0
             }
         }
         
-        return amenitiesFromGovernment
+        return amenitiesFromDistrict
     }
     
     public func amenitiesPerTurn(in gameModel: GameModel?) -> Double {
@@ -1074,7 +1084,7 @@ public class City: AbstractCity {
         var amenitiesPerTurn: Double = 0.0
         
         amenitiesPerTurn += self.amenitiesFromLuxuries()
-        amenitiesPerTurn += self.amenitiesFromGovernmentType()
+        amenitiesPerTurn += self.amenitiesFromDistrict()
         amenitiesPerTurn += self.amenitiesFromBuildings()
         amenitiesPerTurn += self.amenitiesFromWonders(in: gameModel)
         
@@ -1159,6 +1169,7 @@ public class City: AbstractCity {
         
         // update housing value
         self.buildings?.updateHousing()
+        self.districts?.updateHousing()
 
         let foodPerTurn = self.foodPerTurn(in: gameModel)
         self.setLastTurn(foodHarvested: foodPerTurn)
@@ -1614,7 +1625,7 @@ public class City: AbstractCity {
             // +1 Civ6Production Production ... per District.
             if government.currentGovernment() == .democracy {
                 
-                production += Double(districts.numberOfBuildDsitricts())
+                production += Double(districts.numberOfBuildDistricts())
             }
             
             // +20% Civ6Production Production towards Medieval, Renaissance, and Industrial Wonders.

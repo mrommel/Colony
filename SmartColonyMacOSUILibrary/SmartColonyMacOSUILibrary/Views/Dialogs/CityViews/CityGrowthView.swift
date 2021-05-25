@@ -32,7 +32,7 @@ struct CityGrowthView: View {
             GroupBox {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Citizen")
-                    Text("37 turns until a new citizen is born")
+                    Text("\(self.viewModel.growthInTurns) turns until a new citizen is born")
                 }
                 .frame(width: 220, height: 40, alignment: .top)
                 .padding(.all, 4)
@@ -41,70 +41,100 @@ struct CityGrowthView: View {
             
             GroupBox {
                 VStack(spacing: 4) {
-                    HStack(alignment: .center, spacing: 4) {
-                        Text("Food per turn")
-                        Spacer()
-                        Text("+37")
-                    }
-                    .padding(.all, 4)
                     
-                    HStack(alignment: .center, spacing: 4) {
-                        Text("Food consumption")
-                        Spacer()
-                        Text("+37")
+                    Group {
+                        HStack(alignment: .center, spacing: 4) {
+                            Text("Food per turn")
+                            Spacer()
+                            Text(self.viewModel.lastTurnFoodHarvested)
+                        }
+                        .padding(.all, 4)
+                        
+                        HStack(alignment: .center, spacing: 4) {
+                            Text("Food consumption")
+                            Spacer()
+                            Text(self.viewModel.foodConsumption)
+                        }
+                        .padding(.all, 4)
                     }
-                    .padding(.all, 4)
                     
                     Divider()
                     
-                    HStack(alignment: .center, spacing: 4) {
-                        Text("Growth food per turn")
-                        Spacer()
-                        Text("+37")
+                    Group {
+                        HStack(alignment: .center, spacing: 4) {
+                            Text("Growth food per turn")
+                            Spacer()
+                            Text(self.viewModel.foodSurplus)
+                        }
+                        .padding(.all, 4)
+                        
+                        HStack(alignment: .center, spacing: 4) {
+                            Text("Amenities growth bonus")
+                            Spacer()
+                            Text(self.viewModel.amenitiesModifier)
+                        }
+                        .padding(.all, 4)
+                        
+                        HStack(alignment: .center, spacing: 4) {
+                            Text("Other growth bonuses")
+                            Spacer()
+                            Text("???")
+                        }
+                        .padding(.all, 4)
                     }
-                    .padding(.all, 4)
-                    
-                    HStack(alignment: .center, spacing: 4) {
-                        Text("Amenities growth bonus")
-                        Spacer()
-                        Text("+37")
-                    }
-                    .padding(.all, 4)
-                    
-                    HStack(alignment: .center, spacing: 4) {
-                        Text("Other growth bonuses")
-                        Spacer()
-                        Text("+37")
-                    }
-                    .padding(.all, 4)
                     
                     Divider()
                     
-                    HStack(alignment: .center, spacing: 4) {
-                        Text("Modified food per turn")
-                        Spacer()
-                        Text("+37")
+                    Group {
+                        HStack(alignment: .center, spacing: 4) {
+                            Text("Modified food per turn")
+                            Spacer()
+                            Text("???")
+                        }
+                        .padding(.all, 4)
+                        
+                        HStack(alignment: .center, spacing: 4) {
+                            Text("Housing multiplier")
+                            Spacer()
+                            Text(self.viewModel.housingModifier)
+                        }
+                        .padding(.all, 4)
+                        
+                        HStack(alignment: .center, spacing: 4) {
+                            Text("Occupied city multiplier")
+                            Spacer()
+                            Text("???")
+                        }
+                        .padding(.all, 4)
                     }
-                    .padding(.all, 4)
                     
-                    HStack(alignment: .center, spacing: 4) {
-                        Text("Housing multiplier")
-                        Spacer()
-                        Text("+37")
-                    }
-                    .padding(.all, 4)
+                    Divider()
                     
-                    HStack(alignment: .center, spacing: 4) {
-                        Text("Occupied city multiplier")
-                        Spacer()
-                        Text("+37")
+                    Group {
+                        HStack(alignment: .center, spacing: 4) {
+                            Text("Total Food Surplus")
+                            Spacer()
+                            Text(self.viewModel.lastTurnFoodEarned)
+                        }
+                        .padding(.all, 4)
                     }
-                    .padding(.all, 4)
                 }
                 .frame(minWidth: 220, maxWidth: 220, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
                 .padding(.all, 4)
+            
             }
             .frame(minWidth: 250, maxWidth: 250, minHeight: 20, maxHeight: .infinity, alignment: .center)
+            
+            GroupBox {
+                HStack(alignment: .center, spacing: 4) {
+                    Text("Growth in")
+                    Text(self.viewModel.growthInTurns)
+                }
+                .frame(width: 220, height: 20, alignment: .top)
+                .padding(.all, 4)
+            }
+            .frame(width: 250, height: 40, alignment: .top)
+            
         })
         .frame(width: 340, height: 300, alignment: .top)
         
@@ -119,31 +149,77 @@ struct CityGrowthView: View {
             GroupBox {
                 VStack(spacing: 4) {
                     HStack(alignment: .center, spacing: 4) {
-                        Text("Food per turn")
-                        Spacer()
-                        Text("+37")
+                        Text("X Amenities of Y Required")
                     }
                     .padding(.all, 4)
                     
                     HStack(alignment: .center, spacing: 4) {
-                        Text("Food consumption")
+                        Text("Status")
                         Spacer()
-                        Text("+37")
+                        Text("Displeased")
+                    }
+                    .padding(.all, 4)
+                }
+                .frame(width: 220, height: 52, alignment: .topLeading)
+                .padding(.all, 4)
+            }
+            .frame(minWidth: 250, maxWidth: 250, minHeight: 20, maxHeight: .infinity, alignment: .center)
+            
+            GroupBox {
+                VStack(spacing: 4) {
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Citizen Growth")
+                        Spacer()
+                        Text("-15%")
                     }
                     .padding(.all, 4)
                     
                     Divider()
                     
                     HStack(alignment: .center, spacing: 4) {
-                        Text("Growth food per turn")
+                        Text("Luxury")
                         Spacer()
-                        Text("+37")
+                        Text(self.viewModel.amenitiesFromLuxuries)
+                    }
+                    .padding(.all, 4)
+                    
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Entertainment")
+                        Spacer()
+                        Text(self.viewModel.amenitiesFromEntertainment)
+                    }
+                    .padding(.all, 4)
+                    
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Religion")
+                        Spacer()
+                        Text(self.viewModel.amenitiesFromReligion)
+                    }
+                    .padding(.all, 4)
+                    
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("War Weariness")
+                        Spacer()
+                        Text("?")
+                    }
+                    .padding(.all, 4)
+                    
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Civics")
+                        Spacer()
+                        Text("?")
+                    }
+                    .padding(.all, 4)
+                    
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Great People")
+                        Spacer()
+                        Text("0")
                     }
                     .padding(.all, 4)
                 }
                 .frame(minWidth: 220, maxWidth: 220, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
                 .padding(.all, 4)
-
             }
             .frame(minWidth: 250, maxWidth: 250, minHeight: 20, maxHeight: .infinity, alignment: .center)
             
@@ -154,25 +230,70 @@ struct CityGrowthView: View {
             GroupBox {
                 VStack(spacing: 4) {
                     HStack(alignment: .center, spacing: 4) {
-                        Text("Food per turn")
-                        Spacer()
-                        Text("+37")
+                        Text("X Housing for Y Citizen")
                     }
                     .padding(.all, 4)
                     
                     HStack(alignment: .center, spacing: 4) {
-                        Text("Food consumption")
+                        Text("Populationgrowthrate")
                         Spacer()
-                        Text("+37")
+                        Text("???")
+                    }
+                    .padding(.all, 4)
+                }
+                .frame(minWidth: 220, maxWidth: 220, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+                .padding(.all, 4)
+            }
+            .frame(minWidth: 250, maxWidth: 250, minHeight: 20, maxHeight: .infinity, alignment: .center)
+            
+            GroupBox {
+                VStack(spacing: 4) {
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Building")
+                        Spacer()
+                        Text(self.viewModel.housingFromBuildings)
                     }
                     .padding(.all, 4)
                     
-                    Divider()
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("District")
+                        Spacer()
+                        Text(self.viewModel.housingFromDistricts)
+                    }
+                    .padding(.all, 4)
                     
                     HStack(alignment: .center, spacing: 4) {
-                        Text("Growth food per turn")
+                        Text("Water")
                         Spacer()
-                        Text("+37")
+                        Text(self.viewModel.housingFromWater)
+                    }
+                    .padding(.all, 4)
+                    
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Era")
+                        Spacer()
+                        Text("?")
+                    }
+                    .padding(.all, 4)
+                    
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Civics")
+                        Spacer()
+                        Text("?")
+                    }
+                    .padding(.all, 4)
+                    
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Great People")
+                        Spacer()
+                        Text("0")
+                    }
+                    .padding(.all, 4)
+                    
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Improvement")
+                        Spacer()
+                        Text("0")
                     }
                     .padding(.all, 4)
                 }
