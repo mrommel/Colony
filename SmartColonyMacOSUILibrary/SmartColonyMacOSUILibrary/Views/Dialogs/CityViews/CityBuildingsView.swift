@@ -69,7 +69,7 @@ struct CityBuildingsView: View {
             
             Spacer()
         })
-        .frame(width: 440, height: 300, alignment: .top)
+        .frame(width: 700, height: 300, alignment: .top)
         .background(Globals.Style.dialogBackground)
     }
 }

@@ -77,8 +77,6 @@ extension GameView {
             
         case .city:
             return AnyView(CityDialogView(viewModel: self.viewModel.cityDialogViewModel))
-        case .cityChooseProduction:
-            return AnyView(CityChooseProductionDialogView(viewModel: self.viewModel.cityChooseProductionDialogViewModel))
             
         case .treasury:
             return AnyView(EmptyView())

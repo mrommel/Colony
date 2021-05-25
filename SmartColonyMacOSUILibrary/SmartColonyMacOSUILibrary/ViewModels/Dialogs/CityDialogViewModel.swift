@@ -10,25 +10,28 @@ import SmartAILibrary
 
 enum CityDetailViewType {
     
-    case buildQueue
+    case production
     case buildings
     case growth
+    case citizen
     case religion
     
     static var all: [CityDetailViewType] = [
-        .buildQueue, .buildings, .growth, .religion
+        .production, .buildings, .growth, .citizen, .religion
     ]
     
     func name() -> String {
         
         switch self {
         
-        case .buildQueue:
-            return "Build Queue"
+        case .production:
+            return "Production"
         case .buildings:
             return "Buildings"
         case .growth:
             return "Growth"
+        case .citizen:
+            return "Citizen"
         case .religion:
             return "Religion"
         }
@@ -62,10 +65,16 @@ class CityDialogViewModel: ObservableObject {
     var faithYieldViewModel: YieldValueViewModel
     
     @Published
-    var cityDetailViewType: CityDetailViewType = CityDetailViewType.buildQueue
+    var cityDetailViewType: CityDetailViewType = CityDetailViewType.production
+    
+    @Published
+    var productionViewModel: CityProductionViewModel
     
     @Published
     var buildingsViewModel: CityBuildingsViewModel
+    
+    @Published
+    var growthViewModel: CityGrowthViewModel
     
     @Published
     var religionViewModel: CityReligionViewModel
@@ -83,7 +92,9 @@ class CityDialogViewModel: ObservableObject {
         self.goldYieldViewModel = YieldValueViewModel(yieldType: .gold, value: 0.0)
         self.faithYieldViewModel = YieldValueViewModel(yieldType: .faith, value: 0.0)
         
+        self.productionViewModel = CityProductionViewModel(city: city)
         self.buildingsViewModel = CityBuildingsViewModel(city: city)
+        self.growthViewModel = CityGrowthViewModel(city: city)
         self.religionViewModel = CityReligionViewModel(city: city)
         
         if city != nil {
@@ -111,45 +122,16 @@ class CityDialogViewModel: ObservableObject {
             self.goldYieldViewModel.value = city.goldPerTurn(in: game)
             self.faithYieldViewModel.value = city.faithPerTurn(in: game)
             
+            self.productionViewModel.update(for: city)
             self.buildingsViewModel.update(for: city)
+            self.growthViewModel.update(for: city)
             self.religionViewModel.update(for: city)
         }
-        
-        /*guard let game = self.gameEnvironment.game.value else {
-            return
-        }
-        
-        guard let humanPlayer = game.humanPlayer() else {
-            fatalError("cant get human player")
-        }
-        
-        // ???
-         */
     }
     
     func show(detail: CityDetailViewType) {
         
         self.cityDetailViewType = detail
-    }
-    
-    func showManageProductionDialog() {
-        
-        self.delegate?.closeDialog()
-        self.delegate?.showCityChooseProductionDialog(for: self.city)
-    }
-    
-    func showBuildingsDialog() {
-        
-        self.delegate?.closeDialog()
-        self.delegate?.showCityBuildingsDialog(for: self.city)
-    }
-    
-    func showGrowthDialog() {
-        
-    }
-    
-    func showManageCitizenDialog() {
-            
     }
     
     func closeDialog() {

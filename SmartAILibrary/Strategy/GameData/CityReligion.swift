@@ -18,6 +18,13 @@ public class ReligiousWeightList: WeightedList<ReligionType> {
             self.add(weight: 0.0, for: religionType)
         }
     }
+    
+    func removeZeroEntries() {
+        
+        self.items.removeAll(where: { item in
+            item.weight == 0.0
+        })
+    }
 }
 
 public protocol AbstractCityReligion {
@@ -198,7 +205,7 @@ public class CityReligion: AbstractCityReligion, Codable {
     public func citizens() -> ReligiousWeightList {
         
         let citizensVal: ReligiousWeightList = ReligiousWeightList()
-        
+
         for religionType in ReligionType.all {
             
             let citizen = self.citizen(following: religionType)
@@ -206,6 +213,8 @@ public class CityReligion: AbstractCityReligion, Codable {
                 citizensVal.add(weight: citizen, for: religionType)
             }
         }
+        
+        citizensVal.removeZeroEntries()
         
         return citizensVal
     }

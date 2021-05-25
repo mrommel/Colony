@@ -194,7 +194,6 @@ public enum ScreenType {
     case none // map
     
     case city
-    case cityChooseProduction
     
     case techs
     case civics

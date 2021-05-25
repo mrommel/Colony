@@ -35,14 +35,19 @@ struct CityReligionView: View {
                     .padding()
             }
             
-            VStack {
-                ForEach(self.viewModel.citizenReligionViewModels, id:\.self) { citizenReligionViewModel in
-                    
-                    CitizenReligionView(viewModel: citizenReligionViewModel)
+            if self.viewModel.citizenReligionViewModels.count == 0 {
+                Text("No religious people in this city - you need to found a religion.")
+                    .padding()
+            } else {
+                VStack {
+                    ForEach(self.viewModel.citizenReligionViewModels, id:\.self) { citizenReligionViewModel in
+                        
+                        CitizenReligionView(viewModel: citizenReligionViewModel)
+                    }
                 }
             }
         })
-        .frame(width: 440, height: 300, alignment: .top)
+        .frame(width: 700, height: 300, alignment: .top)
         .background(Globals.Style.dialogBackground)
     }
 }

@@ -51,7 +51,7 @@ struct CityDialogView: View {
                     Divider()
                     
                     self.detailView
-                        .frame(width: 440, height: 300, alignment: .top)
+                        .frame(width: 700, height: 300, alignment: .top)
                     
                     Spacer(minLength: 0)
                     
@@ -87,7 +87,7 @@ struct CityDialogView: View {
             .padding(.leading, 19)
             .padding(.trailing, 19)
         }
-        .frame(width: 500, height: 550, alignment: .top)
+        .frame(width: 750, height: 550, alignment: .top)
         .background(
             Image(nsImage: ImageCache.shared.image(for: "grid9-dialog"))
                 .resizable(capInsets: EdgeInsets(all: 45))
@@ -98,12 +98,14 @@ struct CityDialogView: View {
         
         switch self.viewModel.cityDetailViewType {
         
-        case .buildQueue:
-            return AnyView(Text("buildQueue"))
+        case .production:
+            return AnyView(CityProductionView(viewModel: self.viewModel.productionViewModel))
         case .buildings:
             return AnyView(CityBuildingsView(viewModel: self.viewModel.buildingsViewModel))
         case .growth:
-            return AnyView(Text("growth"))
+            return AnyView(CityGrowthView(viewModel: self.viewModel.growthViewModel))
+        case .citizen:
+            return AnyView(Text("Citizen"))
         case .religion:
             return AnyView(CityReligionView(viewModel: self.viewModel.religionViewModel))
         }

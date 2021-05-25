@@ -1,5 +1,5 @@
 //
-//  CityChooseProductionDialogViewModel.swift
+//  CityProductionViewModel.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 18.05.21.
@@ -8,13 +8,10 @@
 import SwiftUI
 import SmartAILibrary
 
-class CityChooseProductionDialogViewModel: ObservableObject {
+class CityProductionViewModel: ObservableObject {
     
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
-    
-    @Published
-    var cityName: String = "-"
     
     @Published
     var queueViewModels: [QueueViewModel] = []
@@ -52,9 +49,7 @@ class CityChooseProductionDialogViewModel: ObservableObject {
         
         // populate values
         if let city = city {
-            
-            self.cityName = city.name
-            
+
             guard let game = self.gameEnvironment.game.value else {
                 return
             }
@@ -201,14 +196,9 @@ class CityChooseProductionDialogViewModel: ObservableObject {
         
         self.queueViewModels = tmpBuildQueueModels
     }
-    
-    func closeDialog() {
-        
-        self.delegate?.closeDialog()
-    }
 }
 
-extension CityChooseProductionDialogViewModel: UnitViewModelDelegate {
+extension CityProductionViewModel: UnitViewModelDelegate {
     
     func clicked(on unitType: UnitType, at index: Int) {
         
@@ -240,7 +230,7 @@ extension CityChooseProductionDialogViewModel: UnitViewModelDelegate {
     }
 }
 
-extension CityChooseProductionDialogViewModel: DistrictViewModelDelegate {
+extension CityProductionViewModel: DistrictViewModelDelegate {
     
     func clicked(on districtType: DistrictType, at index: Int) {
         
@@ -272,7 +262,7 @@ extension CityChooseProductionDialogViewModel: DistrictViewModelDelegate {
     }
 }
 
-extension CityChooseProductionDialogViewModel: BuildingViewModelDelegate {
+extension CityProductionViewModel: BuildingViewModelDelegate {
     
     func clicked(on buildingType: BuildingType, at index: Int) {
         
@@ -304,7 +294,7 @@ extension CityChooseProductionDialogViewModel: BuildingViewModelDelegate {
     }
 }
 
-extension CityChooseProductionDialogViewModel: WonderViewModelDelegate {
+extension CityProductionViewModel: WonderViewModelDelegate {
     
     func clicked(on wonderType: WonderType, at index: Int) {
         
@@ -336,7 +326,7 @@ extension CityChooseProductionDialogViewModel: WonderViewModelDelegate {
     }
 }
 
-extension CityChooseProductionDialogViewModel: CityBuildQueueManagerDelegate {
+extension CityProductionViewModel: CityBuildQueueManagerDelegate {
     
     func queueUpdated() {
         

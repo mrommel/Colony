@@ -85,10 +85,7 @@ public class GameViewModel: ObservableObject {
     
     @Published
     var cityDialogViewModel: CityDialogViewModel
-    
-    @Published
-    var cityChooseProductionDialogViewModel: CityChooseProductionDialogViewModel
-    
+
     // UI
     
     @Published
@@ -155,7 +152,6 @@ public class GameViewModel: ObservableObject {
         self.civicDialogViewModel = CivicDialogViewModel()
         self.cityNameDialogViewModel = CityNameDialogViewModel()
         self.cityDialogViewModel = CityDialogViewModel()
-        self.cityChooseProductionDialogViewModel = CityChooseProductionDialogViewModel()
         
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -167,7 +163,6 @@ public class GameViewModel: ObservableObject {
         self.civicDialogViewModel.delegate = self
         self.cityNameDialogViewModel.delegate = self
         self.cityDialogViewModel.delegate = self
-        self.cityChooseProductionDialogViewModel.delegate = self
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -673,14 +668,16 @@ extension GameViewModel: GameViewModelDelegate {
     
     func showCityChooseProductionDialog(for city: AbstractCity?) {
         
-        if self.currentScreenType == .cityChooseProduction {
+        if self.currentScreenType == .city {
             // already shown
             return
         }
         
         if self.currentScreenType == .none {
-            self.cityChooseProductionDialogViewModel.update(for: city)
-            self.currentScreenType = .cityChooseProduction
+            self.cityDialogViewModel.update(for: city)
+            self.cityDialogViewModel.cityDetailViewType = .production
+            self.cityDialogViewModel.update(for: city)
+            self.currentScreenType = .city
         } else {
             fatalError("cant show city choose production dialog, \(self.currentScreenType) is currently shown")
         }

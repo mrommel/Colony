@@ -53,7 +53,7 @@ public class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringCo
 
         self.items = []
         
-        fill()
+        self.fill()
     }
     
     required public init(from decoder: Decoder) throws {
