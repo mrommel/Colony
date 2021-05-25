@@ -9,7 +9,7 @@ import SmartAILibrary
 
 extension LeaderType {
     
-    public func textureName() -> String {
+    public func iconTexture() -> String {
         
         switch self {
         

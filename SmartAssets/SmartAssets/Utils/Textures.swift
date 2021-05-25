@@ -51,6 +51,7 @@ public class Textures {
     public let buildingTypeTextureNames: [String]
     public let wonderTypeTextureNames: [String]
     public let districtTypeTextureNames: [String]
+    public let leaderTypeTextureNames: [String]
     
     public init(game: GameModel?) {
         
@@ -141,6 +142,7 @@ public class Textures {
         self.buildingTypeTextureNames = BuildingType.all.map { $0.iconTexture() }
         self.wonderTypeTextureNames = WonderType.all.map { $0.iconTexture() }
         self.districtTypeTextureNames = DistrictType.all.map { $0.iconTexture() }
+        self.leaderTypeTextureNames = LeaderType.all.map { $0.iconTexture() }
     }
     
     public func terrainTexture(at point: HexPoint) -> String {

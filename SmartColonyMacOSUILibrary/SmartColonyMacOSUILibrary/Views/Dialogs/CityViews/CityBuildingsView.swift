@@ -49,6 +49,9 @@ struct CityBuildingsView: View {
                             BuildingView(viewModel: buildingViewModel)
                         }
                     }
+                    
+                    Text("")
+                        .frame(minWidth: 300, maxWidth: 300, minHeight: 5, maxHeight: 5, alignment: .center)
                 }
                 .padding(.all, 4)
             }
@@ -64,9 +67,8 @@ struct CityBuildingsView: View {
                         WonderView(viewModel: wonderViewModel)
                     }
                         
-                        
                     Text("")
-                        .frame(minWidth: 300, maxWidth: 300, minHeight: 20, maxHeight: .infinity, alignment: .center)
+                        .frame(minWidth: 300, maxWidth: 300, minHeight: 5, maxHeight: 5, alignment: .center)
                 }
                 .padding(.all, 4)
             }
@@ -77,9 +79,15 @@ struct CityBuildingsView: View {
                 
                 VStack {
                     
-                    Text("abc")
+                    ForEach(self.viewModel.tradePostViewModels, id:\.self) { tradePostViewModel in
+                    
+                        TradePostView(viewModel: tradePostViewModel)
+                    }
+                    
+                    
+                    Text("")
                 }
-                .frame(minWidth: 300, maxWidth: 300, minHeight: 20, maxHeight: .infinity, alignment: .center)
+                .frame(minWidth: 300, maxWidth: 300, minHeight: 5, maxHeight: 5, alignment: .center)
                 .padding(.all, 4)
             }
             

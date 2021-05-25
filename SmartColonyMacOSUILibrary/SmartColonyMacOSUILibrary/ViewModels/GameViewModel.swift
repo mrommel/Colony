@@ -366,6 +366,11 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: districtTypeTextureName), for: districtTypeTextureName)
         }
         
+        print("- load \(textures.leaderTypeTextureNames.count) leader type textures")
+        for leaderTypeTextureName in textures.leaderTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: leaderTypeTextureName), for: leaderTypeTextureName)
+        }
+        
         print("-- all textures loaded --")
     }
     

@@ -19,6 +19,9 @@ class CityBuildingsViewModel: ObservableObject {
     @Published
     var wonderViewModels: [WonderViewModel] = []
     
+    @Published
+    var tradePostViewModels: [TradePostViewModel] = []
+    
     private var city: AbstractCity? = nil
     
     init(city: AbstractCity? = nil) {
@@ -53,6 +56,10 @@ class CityBuildingsViewModel: ObservableObject {
             
             guard let districts = city.districts else {
                 fatalError("cant get districts")
+            }
+            
+            guard let cityTradingPosts = city.cityTradingPosts else {
+                fatalError("cant get cityTradingPosts")
             }
             
             // districts / buildings
@@ -93,6 +100,15 @@ class CityBuildingsViewModel: ObservableObject {
                 let wonderViewModel = WonderViewModel(wonderType: wonderType, turns: -1, showYields: true)
                 wonderViewModel.delegate = self
                 return wonderViewModel
+            }
+            
+            // trade routes
+            let tradePostLeaders = LeaderType.all.filter { leaderType in
+                return cityTradingPosts.hasTradingPost(for: leaderType)
+            }
+            self.tradePostViewModels = tradePostLeaders.map { tradePostLeader in
+                
+                return TradePostViewModel(leaderType: tradePostLeader)
             }
         }
     }

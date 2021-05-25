@@ -115,6 +115,8 @@
 		C9D191B9265C24EA008C9622 /* CitizenReligionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D191B8265C24EA008C9622 /* CitizenReligionView.swift */; };
 		C9D191BB265C37BA008C9622 /* CityGrowthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D191BA265C37BA008C9622 /* CityGrowthView.swift */; };
 		C9D191BD265C37ED008C9622 /* CityGrowthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D191BC265C37ED008C9622 /* CityGrowthViewModel.swift */; };
+		C9D191BF265D4175008C9622 /* TradePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D191BE265D4175008C9622 /* TradePostView.swift */; };
+		C9D191C1265D41CA008C9622 /* TradePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D191C0265D41CA008C9622 /* TradePostViewModel.swift */; };
 		C9E0597B2654E32600C08463 /* BuildingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0597A2654E32600C08463 /* BuildingView.swift */; };
 		C9E0597D2654E9A200C08463 /* DistrictView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0597C2654E9A200C08463 /* DistrictView.swift */; };
 		C9E0597F2655103D00C08463 /* UnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0597E2655103D00C08463 /* UnitView.swift */; };
@@ -258,6 +260,8 @@
 		C9D191B8265C24EA008C9622 /* CitizenReligionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitizenReligionView.swift; sourceTree = "<group>"; };
 		C9D191BA265C37BA008C9622 /* CityGrowthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityGrowthView.swift; sourceTree = "<group>"; };
 		C9D191BC265C37ED008C9622 /* CityGrowthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityGrowthViewModel.swift; sourceTree = "<group>"; };
+		C9D191BE265D4175008C9622 /* TradePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradePostView.swift; sourceTree = "<group>"; };
+		C9D191C0265D41CA008C9622 /* TradePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradePostViewModel.swift; sourceTree = "<group>"; };
 		C9E0597A2654E32600C08463 /* BuildingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingView.swift; sourceTree = "<group>"; };
 		C9E0597C2654E9A200C08463 /* DistrictView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictView.swift; sourceTree = "<group>"; };
 		C9E0597E2655103D00C08463 /* UnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitView.swift; sourceTree = "<group>"; };
@@ -508,6 +512,7 @@
 				C9E87BA4264C558800514B9A /* YieldValueView.swift */,
 				C9D191B4265AE4D2008C9622 /* PantheonView.swift */,
 				C9D191B8265C24EA008C9622 /* CitizenReligionView.swift */,
+				C9D191BE265D4175008C9622 /* TradePostView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -541,8 +546,8 @@
 		C9D191A7265A499E008C9622 /* CityViews */ = {
 			isa = PBXGroup;
 			children = (
-				C9A48D50265408A700260EE0 /* CityProductionView.swift */,
 				C9D191A8265A49D5008C9622 /* CityBuildingsView.swift */,
+				C9A48D50265408A700260EE0 /* CityProductionView.swift */,
 				C9D191BA265C37BA008C9622 /* CityGrowthView.swift */,
 				C9D191AC265A8659008C9622 /* CityReligionView.swift */,
 			);
@@ -569,6 +574,7 @@
 				C9B3141D2657FF1100726CAA /* YieldValueViewModel.swift */,
 				C9D191B2265AE499008C9622 /* PantheonViewModel.swift */,
 				C9D191B6265C248F008C9622 /* CitizenReligionViewModel.swift */,
+				C9D191C0265D41CA008C9622 /* TradePostViewModel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -653,6 +659,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9D191BF265D4175008C9622 /* TradePostView.swift in Sources */,
 				C925676F26563C7700B895BD /* CityBuildQueueManager.swift in Sources */,
 				C9E05981265515CB00C08463 /* WonderView.swift in Sources */,
 				C9A48D51265408A700260EE0 /* CityProductionView.swift in Sources */,
@@ -755,6 +762,7 @@
 				C9A3763C2637E7C80057923E /* HexCoordLayer.swift in Sources */,
 				C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */,
 				C9CAC8A4264BC58E00D0668D /* TopBarView.swift in Sources */,
+				C9D191C1265D41CA008C9622 /* TradePostViewModel.swift in Sources */,
 				C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */,
 				C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */,
 				C9E87BAF264D1BA000514B9A /* TechDialogView.swift in Sources */,
