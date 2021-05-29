@@ -35,6 +35,7 @@ open class GameModel: Codable {
         case currentTurn
         case turnSliceValue
         case players
+        case religions
 
         case map
         case wondersBuilt
@@ -59,6 +60,7 @@ open class GameModel: Codable {
     public weak var userInterface: UserInterfaceDelegate?
     private var waitDiploPlayer: AbstractPlayer? = nil
     private var wondersBuilt: AbstractWonders? = nil
+    private var religionsVal: AbstractGameReligions? = nil
     private var greatPersons: GreatPersons? = nil
 
     private var gameStateValue: GameStateType
@@ -73,6 +75,7 @@ open class GameModel: Codable {
         self.handicap = handicap
         self.currentTurn = turnsElapsed
         self.players = players
+        self.religionsVal = GameReligions()
         self.map = map
 
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
@@ -96,8 +99,8 @@ open class GameModel: Codable {
         self.handicap = try container.decode(HandicapType.self, forKey: .handicap)
         self.currentTurn = try container.decode(Int.self, forKey: .currentTurn)
         self.turnSliceValue = try container.decode(Int.self, forKey: .turnSliceValue)
-
         self.players = try container.decode([Player].self, forKey: .players)
+        self.religionsVal = try container.decode(GameReligions.self, forKey: .religions)
 
         self.map = try container.decode(MapModel.self, forKey: .map)
         self.wondersBuilt = try container.decode(Wonders.self, forKey: .wondersBuilt)
@@ -170,8 +173,8 @@ open class GameModel: Codable {
         try container.encode(self.currentTurn, forKey: .currentTurn)
         try container.encode(self.turnSliceValue, forKey: .turnSliceValue)
 
-        let realPlayers = self.players as! [Player]
-        try container.encode(realPlayers, forKey: .players)
+        try container.encode(self.players as! [Player], forKey: .players)
+        try container.encode(self.religionsVal as! GameReligions, forKey: .religions)
 
         try container.encode(self.map, forKey: .map)
         try container.encode(self.wondersBuilt as! Wonders, forKey: .wondersBuilt)
@@ -604,6 +607,7 @@ open class GameModel: Codable {
         print()
 
         self.barbarianAI?.doTurn(in: self)
+        self.religionsVal?.doTurn(in: self)
 
         //doUpdateCacheOnTurn();
 
@@ -1379,6 +1383,12 @@ open class GameModel: Codable {
         return 0
     }
     
+    func citiesHaveTradeConnection(from fromCityRef: AbstractCity?, to toCityRef: AbstractCity?) -> Bool {
+        
+        // FIXME
+        return false
+    }
+    
     func cost(of greatPersonType: GreatPersonType, for player: AbstractPlayer?) -> Int {
         
         guard let player = player else {
@@ -1417,6 +1427,45 @@ open class GameModel: Codable {
     func invalidate(greatPerson: GreatPerson) {
 
         self.greatPersons?.invalidate(greatPerson: greatPerson, in: self)
+    }
+    
+    // MARK: religion methods
+    
+    func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType) {
+        
+        self.religionsVal?.foundPantheon(for: player, with: pantheonType)
+    }
+    
+    func religions() -> [AbstractPlayerReligion?] {
+        
+        guard let religions = self.religionsVal else {
+            fatalError("cant get religions")
+        }
+        
+        return religions.religions(in: self)
+    }
+    
+    func numPantheonsCreated() -> Int {
+        
+        var pantheons: Int = 0
+        
+        for religionRef in self.religions() {
+            
+            guard let religion = religionRef else {
+                continue
+            }
+            
+            if religion.pantheon() != .none {
+                pantheons += 1
+            }
+        }
+        
+        return pantheons
+    }
+    
+    func maxActiveReligions() -> Int {
+        
+        return self.mapSize().maxActiveReligions()
     }
 }
 

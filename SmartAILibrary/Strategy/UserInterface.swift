@@ -25,7 +25,11 @@ public enum PopupType {
     case unitTrained
     case buildingBuilt
     
-    case religionAdopted
+    case religionByCityAdopted
+    case religionNewMajority // TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY
+    case religionCanBuyMissionary // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY
+    case religionCanFoundPantheon // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_PANTHEON
+    case religionNeedNewAutomaticFaithSelection // TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION
 }
 
 public class PopupData {

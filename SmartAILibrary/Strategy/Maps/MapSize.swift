@@ -92,6 +92,21 @@ public enum MapSize {
             return (width * height * 27) / (80 * 52)
         }
     }
+    
+    func maxActiveReligions() -> Int {
+        
+        switch self {
+        
+        case .duel: return 2
+        case .tiny: return 4
+        case .small: return 5
+        case .standard: return 7
+        case .large: return 9
+        case .huge: return 11
+        case .custom(width: let width, height: let height):
+            return 22 // no limit
+        }
+    }
 }
 
 extension MapSize: Codable {

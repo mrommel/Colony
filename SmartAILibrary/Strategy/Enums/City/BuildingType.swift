@@ -72,6 +72,18 @@ public enum BuildingType: Int, Codable {
         return self.data().defense
     }
 
+    /// cost in gold
+    func purchaseCost() -> Int {
+
+        return self.data().goldCost
+    }
+    
+    /// cost in faith
+    func faithCost() -> Int {
+
+        return self.data().faithCost
+    }
+    
     // in production units
     public func productionCost() -> Int {
 
@@ -183,6 +195,7 @@ public enum BuildingType: Int, Codable {
         let requiredBuilding: BuildingType?
         let productionCost: Int
         let goldCost: Int
+        let faithCost: Int
         let maintenanceCost: Int
         let yields: Yields
         let defense: Int
@@ -205,6 +218,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 0,
                                     goldCost: -1,
+                                    faithCost: -1,
                                     maintenanceCost: 0,
                                     yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
                                     defense: 0,
@@ -223,6 +237,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 0,
                                     goldCost: -1,
+                                    faithCost: -1,
                                     maintenanceCost: 0,
                                     yields: Yields(food: 0, production: 2, gold: 5, science: 2, culture: 1, faith: 0, housing: 1),
                                     defense: 25,
@@ -242,6 +257,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 65,
                                     goldCost: 65,
+                                    faithCost: -1,
                                     maintenanceCost: 0,
                                     yields: Yields(food: 1, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 2),
                                     defense: 0,
@@ -261,6 +277,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 60,
                                     goldCost: 60,
+                                    faithCost: -1,
                                     maintenanceCost: 0,
                                     yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 2, faith: 0, housing: 0),
                                     defense: 0,
@@ -278,6 +295,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 90,
                                     goldCost: 90,
+                                    faithCost: -1,
                                     maintenanceCost: 1,
                                     yields: Yields(food: 0, production: 0, gold: 0, science: 2, culture: 0, faith: 0, housing: 0),
                                     defense: 0,
@@ -296,6 +314,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 70,
                                     goldCost: 70,
+                                    faithCost: -1,
                                     maintenanceCost: 1,
                                     yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 2, housing: 0),
                                     defense: 0,
@@ -313,6 +332,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 80,
                                     goldCost: 80,
+                                    faithCost: -1,
                                     maintenanceCost: 0,
                                     yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
                                     defense: 50,
@@ -331,6 +351,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 90,
                                     goldCost: 90,
+                                    faithCost: -1,
                                     maintenanceCost: 1,
                                     yields: Yields(food: 0, production: 1, gold: 0, science: 0, culture: 0, faith: 0, housing: 1),
                                     defense: 0,
@@ -350,6 +371,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 80,
                                     goldCost: 80,
+                                    faithCost: -1,
                                     maintenanceCost: 0,
                                     yields: Yields(food: 1, production: 1, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
                                     defense: 0,
@@ -369,6 +391,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 150,
                                     goldCost: 150,
+                                    faithCost: -1,
                                     maintenanceCost: 1,
                                     yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 2, faith: 0, housing: 0),
                                     defense: 0,
@@ -388,6 +411,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 120,
                                     goldCost: 120,
+                                    faithCost: -1,
                                     maintenanceCost: 0,
                                     yields: Yields(food: 1, production: 0, gold: 1, science: 0, culture: 0, faith: 0, housing: 1),
                                     defense: 0,
@@ -408,6 +432,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 120,
                                     goldCost: 120,
+                                    faithCost: -1,
                                     maintenanceCost: 1,
                                     yields: Yields(food: 0, production: 1, gold: 0, science: 0, culture: 0, faith: 0, housing: 1),
                                     defense: 0,
@@ -426,6 +451,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 150,
                                     goldCost: 150,
+                                    faithCost: -1,
                                     maintenanceCost: 1,
                                     yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 1, faith: 0, housing: 0),
                                     defense: 0,
@@ -444,6 +470,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 120,
                                     goldCost: 120,
+                                    faithCost: -1,
                                     maintenanceCost: 0,
                                     yields: Yields(food: 0, production: 0, gold: 3, science: 0, culture: 0, faith: 0, housing: 0),
                                     defense: 0,
@@ -461,6 +488,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: .shrine,
                                     productionCost: 120,
                                     goldCost: 120,
+                                    faithCost: -1,
                                     maintenanceCost: 2,
                                     yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 4, housing: 0),
                                     defense: 0,
@@ -483,6 +511,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: .ancientWalls,
                                     productionCost: 225,
                                     goldCost: -1,
+                                    faithCost: -1,
                                     maintenanceCost: 0,
                                     yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
                                     defense: 100,
@@ -500,6 +529,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: nil,
                                     productionCost: 195,
                                     goldCost: 195,
+                                    faithCost: -1,
                                     maintenanceCost: 1,
                                     yields: Yields(food: 0, production: 2, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
                                     defense: 0,
@@ -522,6 +552,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: .medievalWalls,
                                     productionCost: 305,
                                     goldCost: -1,
+                                    faithCost: -1,
                                     maintenanceCost: 0,
                                     yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
                                     defense: 100,
@@ -539,6 +570,7 @@ public enum BuildingType: Int, Codable {
                                     requiredBuilding: .lighthouse,
                                     productionCost: 290,
                                     goldCost: 290,
+                                    faithCost: -1,
                                     maintenanceCost: 2,
                                     yields: Yields(food: 0, production: 0, gold: 0, science: 0, culture: 0, faith: 0, housing: 0),
                                     defense: 0,

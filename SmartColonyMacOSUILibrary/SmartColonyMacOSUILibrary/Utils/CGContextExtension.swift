@@ -1,6 +1,6 @@
 //
 //  CGContextExtension.swift
-//  SmartMapEditor
+//  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 28.02.21.
 //

@@ -1,6 +1,6 @@
 //
 //  NSMenuItemExtension.swift
-//  SmartMapEditor
+//  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 30.11.20.
 //

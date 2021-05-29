@@ -105,7 +105,7 @@ struct CityDialogView: View {
         case .growth:
             return AnyView(CityGrowthView(viewModel: self.viewModel.growthViewModel))
         case .citizen:
-            return AnyView(Text("Citizen"))
+            return AnyView(CityCitizenView(viewModel: self.viewModel.citizenViewModel))
         case .religion:
             return AnyView(CityReligionView(viewModel: self.viewModel.religionViewModel))
         }

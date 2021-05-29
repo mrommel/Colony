@@ -78,12 +78,11 @@ struct CityBuildingsView: View {
                         .padding(.top, 10)) {
                 
                 VStack {
-                    
+  
                     ForEach(self.viewModel.tradePostViewModels, id:\.self) { tradePostViewModel in
                     
                         TradePostView(viewModel: tradePostViewModel)
                     }
-                    
                     
                     Text("")
                 }

@@ -245,6 +245,12 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: pathTextureName), for: pathTextureName)
         }
         
+        print("- load \(textures.overviewTextureNames.count) overview textures")
+        for overviewTextureName in textures.overviewTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: overviewTextureName), for: overviewTextureName)
+        }
+        
+        
         var unitTextures: Int = 0
         for unitType in UnitType.all {
             

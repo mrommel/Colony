@@ -89,6 +89,7 @@ extension TerrainType {
     public func overviewColor() -> NSColor {
         
         switch self {
+        
         case .ocean: return NSColor.Terrain.ocean
         case .shore: return NSColor.Terrain.shore
         case .plains: return NSColor.Terrain.plains
@@ -97,5 +98,24 @@ extension TerrainType {
         case .tundra: return NSColor.Terrain.tundra
         case .snow: return NSColor.Terrain.snow
         }
+    }
+    
+    public func forgottenColor() -> NSColor {
+        
+        return self.overviewColor().colorWithSaturation(saturation: 0.4)
+    }
+}
+
+public extension NSColor {
+    
+    func colorWithSaturation(saturation: CGFloat) -> NSColor {
+        
+        var H: CGFloat = 0, S: CGFloat = 0, B: CGFloat = 0, A: CGFloat = 0
+        
+        self.getHue(&H, saturation: &S, brightness: &B, alpha: &A)
+        S += (saturation - 1.0)
+        S = max(min(S, 1.0), 0.0)
+            
+        return NSColor(hue: H, saturation: S, brightness: B, alpha: A)
     }
 }

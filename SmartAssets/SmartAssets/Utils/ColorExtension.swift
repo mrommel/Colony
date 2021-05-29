@@ -61,6 +61,8 @@ extension TypeColor {
         public static var mountains: TypeColor = TypeColor(hex: "#b69856")!
         
         public static var background: TypeColor = TypeColor(hex: "#ad8a66")!
+        
+        public static var pergament: TypeColor = TypeColor(hex: "#ddbf80")!
     }
     
     public struct UI {

@@ -92,6 +92,15 @@ public protocol AbstractCity: AnyObject, Codable {
     func startBuilding(building: BuildingType)
     func startBuilding(wonder: WonderType)
     func startBuilding(district: DistrictType)
+    
+    func canPurchase(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    func canPurchase(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    
+    func faithPurchaseCost(of unit: UnitType) -> Double
+    func faithPurchaseCost(of building: BuildingType) -> Double
+    
+    func buy(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?)
+    func buy(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?)
 
     func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int
     func unitProductionTurnsLeft(for unitType: UnitType) -> Int
@@ -705,7 +714,6 @@ public class City: AbstractCity {
         self.updateFeatureSurrounded(in: gameModel)
 
         self.cityStrategy?.turn(with: gameModel)
-        self.cityReligion?.turn(with: gameModel)
 
         self.cityCitizens?.doTurn(with: gameModel)
 
@@ -2203,6 +2211,62 @@ public class City: AbstractCity {
     public func startBuilding(district: DistrictType) {
         
         self.buildQueue.add(item: BuildableItem(districtType: district))
+    }
+    
+    public func canPurchase(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+        
+        guard yieldType == .faith || yieldType == .gold else {
+            fatalError("invalid yield type: \(yieldType)")
+        }
+        
+        if yieldType == .gold {
+            return unit.purchaseCost() > 0 // -1 is invalid
+        }
+        
+        if yieldType == .faith {
+            return unit.faithCost() > 0 // -1 is invalid
+        }
+        
+        return false
+    }
+    
+    public func canPurchase(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+        
+        guard yieldType == .faith || yieldType == .gold else {
+            fatalError("invalid yield type: \(yieldType)")
+        }
+        
+        if yieldType == .gold {
+            return building.purchaseCost() > 0 // -1 is invalid
+        }
+        
+        if yieldType == .faith {
+            return building.faithCost() > 0 // -1 is invalid
+        }
+        
+        return false
+    }
+    
+    public func faithPurchaseCost(of unit: UnitType) -> Double {
+        
+        let cost = unit.faithCost()
+        return cost == -1 ? Double.greatestFiniteMagnitude : Double(cost)
+    }
+    
+    public func faithPurchaseCost(of building: BuildingType) -> Double {
+        
+        let cost = building.faithCost()
+        return cost == -1 ? Double.greatestFiniteMagnitude : Double(cost)
+    }
+    
+    public func buy(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?) {
+        
+        fatalError("buy")
+    }
+    
+    public func buy(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) {
+        
+        fatalError("buy")
     }
 
     public func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int {

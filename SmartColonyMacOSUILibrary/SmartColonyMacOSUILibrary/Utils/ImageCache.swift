@@ -1,6 +1,6 @@
 //
 //  ImageCache.swift
-//  SmartMapEditor
+//  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 01.12.20.
 //

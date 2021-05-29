@@ -1,6 +1,6 @@
 //
 //  NSImageExtension.swift
-//  SmartMapEditor
+//  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 27.11.20.
 //

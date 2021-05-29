@@ -74,6 +74,9 @@ class CityDialogViewModel: ObservableObject {
     var buildingsViewModel: CityBuildingsViewModel
     
     @Published
+    var citizenViewModel: CityCitizenViewModel
+    
+    @Published
     var growthViewModel: CityGrowthViewModel
     
     @Published
@@ -95,6 +98,7 @@ class CityDialogViewModel: ObservableObject {
         self.productionViewModel = CityProductionViewModel(city: city)
         self.buildingsViewModel = CityBuildingsViewModel(city: city)
         self.growthViewModel = CityGrowthViewModel(city: city)
+        self.citizenViewModel = CityCitizenViewModel(city: city)
         self.religionViewModel = CityReligionViewModel(city: city)
         
         if city != nil {
@@ -125,6 +129,7 @@ class CityDialogViewModel: ObservableObject {
             self.productionViewModel.update(for: city)
             self.buildingsViewModel.update(for: city)
             self.growthViewModel.update(for: city)
+            self.citizenViewModel.update(for: city)
             self.religionViewModel.update(for: city)
         }
     }

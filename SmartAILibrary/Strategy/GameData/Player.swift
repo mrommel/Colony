@@ -41,7 +41,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     var civics: AbstractCivics? { get }
     var government: AbstractGovernment? { get }
     var treasury: AbstractTreasury? { get }
-    var religion: AbstractReligion? { get }
+    var religion: AbstractPlayerReligion? { get }
     var greatPeople: AbstractGreatPeople? { get }
     var tradeRoutes: AbstractTradeRoutes? { get }
 
@@ -177,12 +177,21 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func numAvailable(resource: ResourceType) -> Int
     func changeNumAvailable(resource: ResourceType, change: Int)
     
+    // units
     func canTrain(unitType: UnitType, continueFlag: Bool, testVisible: Bool, ignoreCost: Bool, ignoreUniqueUnitStatus: Bool) -> Bool
+    func canPurchaseInAnyCity(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     func numUnitsNeededToBeBuilt() -> Int
     func countReadyUnits(in gameModel: GameModel?) -> Int
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
     func hasBusyUnitOrCity() -> Bool
     
+    // buildings
+    func canPurchaseInAnyCity(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    
+    // religion
+    func faithPurchaseType() -> FaithPurchaseType
+    func set(faithPurchaseType: FaithPurchaseType)
+
     func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool
     func discoverCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     
@@ -210,6 +219,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func numberOfTradeRoutes() -> Int
     func canEstablishTradeRoute(in gameModel: GameModel?) -> Bool
     func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
+    
+    // distance
+    func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int
     
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
@@ -248,6 +260,7 @@ public class Player: AbstractPlayer {
         case builderTaskingAI
         case citySpecializationAI
         case wonderProductionAI
+        case religionAI
         
         case cityConnections
         case goodyHuts
@@ -260,6 +273,8 @@ public class Player: AbstractPlayer {
         case originalCapitalLocation
         
         case canChangeGovernment
+        
+        case faithPurchaseType
     }
     
     public var leader: LeaderType
@@ -279,13 +294,14 @@ public class Player: AbstractPlayer {
     public var builderTaskingAI: BuilderTaskingAI?
     public var citySpecializationAI: CitySpecializationAI?
     public var wonderProductionAI: WonderProductionAI?
+    public var religionAI: ReligionAI?
     
     public var cityConnections: CityConnections?
     private var goodyHuts: GoodyHuts?
 
     public var techs: AbstractTechs?
     public var civics: AbstractCivics?
-    public var religion: AbstractReligion?
+    public var religion: AbstractPlayerReligion?
     public var treasury: AbstractTreasury?
     public var greatPeople: AbstractGreatPeople?
     public var tradeRoutes: AbstractTradeRoutes?
@@ -317,6 +333,7 @@ public class Player: AbstractPlayer {
     private var originalCapitalLocationValue: HexPoint = HexPoint.invalid
     
     private var canChangeGovernmentValue: Bool = false
+    private var faithPurchaseTypeVal: FaithPurchaseType
 
     // MARK: constructor
 
@@ -337,6 +354,7 @@ public class Player: AbstractPlayer {
         self.totalImprovementsBuilt = 0
         
         self.originalCapitalLocationValue = HexPoint.invalid
+        self.faithPurchaseTypeVal = .noAutomaticFaithPurchase
     }
     
     public required init(from decoder: Decoder) throws {
@@ -367,6 +385,7 @@ public class Player: AbstractPlayer {
         self.builderTaskingAI = BuilderTaskingAI(player: self) // try container.decode(BuilderTaskingAI.self, forKey: .builderTaskingAI)
         self.citySpecializationAI = CitySpecializationAI(player: self)//try container.decode(CitySpecializationAI.self, forKey: .citySpecializationAI)
         self.wonderProductionAI = WonderProductionAI(player: self)//try container.decode(WonderProductionAI.self, forKey: .wonderProductionAI)
+        self.religionAI = ReligionAI(player: self)
         
         self.cityConnections = try container.decode(CityConnections.self, forKey: .cityConnections)
         self.goodyHuts = try container.decode(GoodyHuts.self, forKey: .goodyHuts)
@@ -374,7 +393,7 @@ public class Player: AbstractPlayer {
         
         self.techs = try container.decode(Techs.self, forKey: .techs)
         self.civics = try container.decode(Civics.self, forKey: .civics)
-        self.religion = try container.decode(Religion.self, forKey: .religion)
+        self.religion = try container.decode(PlayerReligion.self, forKey: .religion)
         self.treasury = try container.decode(Treasury.self, forKey: .treasury)
         self.greatPeople = try container.decode(GreatPeople.self, forKey: .greatPeople)
         
@@ -389,6 +408,7 @@ public class Player: AbstractPlayer {
         self.originalCapitalLocationValue = try container.decode(HexPoint.self, forKey: .originalCapitalLocation)
         
         self.canChangeGovernmentValue = try container.decode(Bool.self, forKey: .canChangeGovernment)
+        self.faithPurchaseTypeVal = try container.decode(FaithPurchaseType.self, forKey: .faithPurchaseType)
         
         // setup
         self.techs?.player = self
@@ -450,7 +470,7 @@ public class Player: AbstractPlayer {
         
         try container.encode(self.techs as! Techs, forKey: .techs)
         try container.encode(self.civics as! Civics, forKey: .civics)
-        try container.encode(self.religion as! Religion, forKey: .religion)
+        try container.encode(self.religion as! PlayerReligion, forKey: .religion)
         try container.encode(self.treasury as! Treasury, forKey: .treasury)
         try container.encode(self.greatPeople as! GreatPeople, forKey: .greatPeople)
 
@@ -464,6 +484,7 @@ public class Player: AbstractPlayer {
         try container.encode(self.originalCapitalLocationValue, forKey: .originalCapitalLocation)
         
         try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
+        try container.encode(self.faithPurchaseTypeVal, forKey: .faithPurchaseType)
     }
 
     // public methods
@@ -489,7 +510,7 @@ public class Player: AbstractPlayer {
 
         self.techs = Techs(player: self)
         self.civics = Civics(player: self)
-        self.religion = Religion(player: self)
+        self.religion = PlayerReligion(player: self)
         self.treasury = Treasury(player: self)
         self.greatPeople = GreatPeople(player: self)
 
@@ -1333,17 +1354,192 @@ public class Player: AbstractPlayer {
         }
     }
     
+    /// Religious activities at the start of a player's turn
     func doFaith(in gameModel: GameModel?) {
         
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
+        guard let religion = self.religion else {
+            fatalError("cant get religion")
         }
         
-        let faithVal = self.faith(in: gameModel)
+        let faithAtStart = religion.faith()
+        let faithPerTurn = self.faith(in: gameModel)
         
-        self.religion?.add(faith: faithVal)
+        if faithPerTurn > 0 {
+            religion.change(faith: faithPerTurn)
+        }
         
-        self.religion?.checkFaithProgress(in: gameModel)
+        // If just now can afford missionary, add a notification
+        var sendFaithPurchaseNotification = self.isHuman() && self.faithPurchaseType() == .noAutomaticFaithPurchase
+
+        if sendFaithPurchaseNotification {
+            let couldAtStartAffordFaithPurchase = religion.canAffordFaithPurchase(with: faithAtStart, in: gameModel)
+            let canNowAffordFaithPurchase = religion.canAffordFaithPurchase(with: religion.faith(), in: gameModel) // faith has been updated
+
+            sendFaithPurchaseNotification = !couldAtStartAffordFaithPurchase && canNowAffordFaithPurchase
+        }
+
+        if sendFaithPurchaseNotification {
+            if self.isHuman() {
+                gameModel?.userInterface?.showPopup(popupType: .religionCanBuyMissionary, with: nil)
+            }
+        }
+        
+        // Check for pantheon or great prophet spawning (now restricted so must occur before Industrial era)
+        if religion.faith() > 0 && self.currentEra() <= .renaissance {
+            
+            if religion.canCreatePantheon(checkFaithTotal: true, in: gameModel) == .okay {
+                
+                // Create the pantheon
+                if self.isHuman() {
+                    //If the player is human then a net message will be received which will pick the pantheon.
+                    // You have enough faith to found a pantheon!
+                    gameModel?.userInterface?.showPopup(popupType: .religionCanFoundPantheon, with: nil)
+                } else {
+                    // const BeliefTypes eBelief = kPlayer.GetReligionAI()->ChoosePantheonBelief();
+                    let pantheonType = self.religionAI.choosePantheonType()
+                    gameModel?.foundPantheon(for: self, with: pantheonType)
+                }
+            }
+
+            switch self.faithPurchaseType() {
+            
+            case .noAutomaticFaithPurchase, .saveForProphet:
+                self.checkSpawnGreatProphet(in: gameModel)
+            default:
+                // NOOP
+            print("")
+            }
+        }
+        
+        // Pick a Reformation belief?
+        /*ReligionTypes eReligionCreated = GetFounderBenefitsReligion(ePlayer);
+        if (eReligionCreated > RELIGION_PANTHEON && !HasAddedReformationBelief(ePlayer) && (kPlayer.GetPlayerPolicies()->HasPolicyGrantingReformationBelief() || kPlayer.IsReformation()))
+        {
+            if (!kPlayer.isHuman())
+            {
+                BeliefTypes eReformationBelief = kPlayer.GetReligionAI()->ChooseReformationBelief(ePlayer, eReligionCreated);
+                AddReformationBelief(ePlayer, eReligionCreated, eReformationBelief);
+            }
+            else
+            {
+                CvNotifications* pNotifications;
+                pNotifications = kPlayer.GetNotifications();
+                if(pNotifications)
+                {
+                    CvString strBuffer = GetLocalizedText("TXT_KEY_NOTIFICATION_ADD_REFORMATION_BELIEF");
+                    CvString strSummary = GetLocalizedText("TXT_KEY_NOTIFICATION_SUMMARY_ADD_REFORMATION_BELIEF");
+                    pNotifications->Add(NOTIFICATION_ADD_REFORMATION_BELIEF, strBuffer, strSummary, -1, -1, -1);
+                }
+            }
+        }*/
+
+        // Automatic faith purchases?
+        var selectionStillValid: Bool = true
+        let religionType: ReligionType = self.religionAI?.religionToSpread()
+
+        switch self.faithPurchaseType() {
+        
+        case .saveForProphet:
+            fatalError("FAITH_PURCHASE_SAVE_PROPHET")
+            /*if (eReligion <= RELIGION_PANTHEON && GetNumReligionsStillToFound() <= 0 && !kPlayer.GetPlayerTraits()->IsAlwaysReligion())
+            {
+                UnitTypes eProphetType = kPlayer.GetSpecificUnitType("UNITCLASS_PROPHET", true);
+                szItemName = GetLocalizedText("TXT_KEY_RO_AUTO_FAITH_PROPHET_PARAM", GC.getUnitInfo(eProphetType)->GetDescription());
+                bSelectionStillValid = false;
+            }
+            else if (kPlayer.GetCurrentEra() >= GetFaithPurchaseGreatPeopleEra(&kPlayer))
+            {
+                UnitTypes eProphetType = kPlayer.GetSpecificUnitType("UNITCLASS_PROPHET", true);
+                szItemName = GetLocalizedText("TXT_KEY_RO_AUTO_FAITH_PROPHET_PARAM", GC.getUnitInfo(eProphetType)->GetDescription());
+
+                bSelectionStillValid = false;
+            }
+            break;*/
+
+        case .purchaseUnit:
+            fatalError("FAITH_PURCHASE_UNIT")
+                /*UnitTypes eUnit = (UnitTypes)kPlayer.GetFaithPurchaseIndex();
+                CvUnitEntry *pkUnit = GC.getUnitInfo(eUnit);
+                if (pkUnit)
+                {
+                    szItemName = pkUnit->GetDescriptionKey();
+                }
+
+                if (!kPlayer.IsCanPurchaseAnyCity(false, false /* Don't worry about faith balance */, eUnit, NO_BUILDING, YIELD_FAITH))
+                {
+                    bSelectionStillValid = false;
+                }
+                else
+                {
+                    if (kPlayer.IsCanPurchaseAnyCity(true, true /* Check faith balance */, eUnit, NO_BUILDING, YIELD_FAITH))
+                    {
+                        CvCity *pCity = CvReligionAIHelpers::GetBestCityFaithUnitPurchase(kPlayer, eUnit, eReligion);
+                        if (pCity)
+                        {
+                            pCity->Purchase(eUnit, NO_BUILDING, NO_PROJECT, YIELD_FAITH);
+
+                            CvNotifications* pNotifications = kPlayer.GetNotifications();
+                            if(pNotifications)
+                            {
+                                CvString strBuffer = GetLocalizedText("TXT_KEY_NOTIFICATION_AUTOMATIC_FAITH_PURCHASE", szItemName, pCity->getNameKey());
+                                CvString strSummary = GetLocalizedText("TXT_KEY_NOTIFICATION_SUMMARY_AUTOMATIC_FAITH_PURCHASE");
+                                pNotifications->Add(NOTIFICATION_CAN_BUILD_MISSIONARY, strBuffer, strSummary, pCity->getX(), pCity->getY(), -1);
+                            }
+                        }
+                        else
+                        {
+                            bSelectionStillValid = false;
+                        }
+                    }
+                }*/
+
+        case .purchaseBuilding:
+            fatalError("FAITH_PURCHASE_BUILDING")
+                /*BuildingTypes eBuilding = (BuildingTypes)kPlayer.GetFaithPurchaseIndex();
+                CvBuildingEntry *pkBuilding = GC.getBuildingInfo(eBuilding);
+                if (pkBuilding)
+                {
+                    szItemName = pkBuilding->GetDescriptionKey();
+                }
+
+                if (!kPlayer.IsCanPurchaseAnyCity(false, false, NO_UNIT, eBuilding, YIELD_FAITH))
+                {
+                    bSelectionStillValid = false;
+                }
+                else
+                {
+                    if (kPlayer.IsCanPurchaseAnyCity(true, true /* Check faith balance */, NO_UNIT, eBuilding, YIELD_FAITH))
+                    {
+                        CvCity *pCity = CvReligionAIHelpers::GetBestCityFaithBuildingPurchase(kPlayer, eBuilding, eReligion);
+                        if (pCity)
+                        {
+                            pCity->Purchase(NO_UNIT, eBuilding, NO_PROJECT, YIELD_FAITH);
+
+                            CvNotifications* pNotifications = kPlayer.GetNotifications();
+                            if(pNotifications)
+                            {
+                                CvString strBuffer = GetLocalizedText("TXT_KEY_NOTIFICATION_AUTOMATIC_FAITH_PURCHASE", szItemName, pCity->getNameKey());
+                                CvString strSummary = GetLocalizedText("TXT_KEY_NOTIFICATION_SUMMARY_AUTOMATIC_FAITH_PURCHASE");
+                                pNotifications->Add(NOTIFICATION_CAN_BUILD_MISSIONARY, strBuffer, strSummary, -1, -1, -1);
+                            }
+                        }
+                        else
+                        {
+                            bSelectionStillValid = false;
+                        }
+                    }
+                }*/
+        default:
+            // NOOP
+        print("")
+        }
+
+        if !selectionStillValid {
+            
+            if self.isHuman() {
+                gameModel?.userInterface?.showPopup(popupType: .religionNeedNewAutomaticFaithSelection, with: nil)
+            }
+        }
     }
     
     func doTurnPost() {
@@ -2685,6 +2881,33 @@ public class Player: AbstractPlayer {
         return tradeRoutes.establishTradeRoute(from: originCity, to: targetCity, with: trader, in: gameModel)
     }
     
+    public func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        var minDistance: Int = Int.max
+        let pathFinder = AStarPathfinder()
+        pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self, unitMapType: .civilian, canEmbark: true)
+        
+        for cityRef in gameModel.cities(of: self) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            if let path = pathFinder.shortestPath(fromTileCoord: point, toTileCoord: city.location) {
+                
+                if path.count < minDistance {
+                    minDistance = path.count
+                }
+            }
+        }
+        
+        return minDistance
+    }
+    
     public func isEqual(to other: AbstractPlayer?) -> Bool {
         
         return self.leader == other?.leader
@@ -3596,15 +3819,15 @@ public class Player: AbstractPlayer {
             self.addGreatWork(of: .relic)
             
         case .faithMinorGift:
-            self.religion?.add(faith: 20.0)
+            self.religion?.change(faith: 20.0)
             popupData = PopupData(goodyType: .faithMinorGift)
             
         case .faithMediumGift:
-            self.religion?.add(faith: 60.0)
+            self.religion?.change(faith: 60.0)
             popupData = PopupData(goodyType: .faithMediumGift)
             
         case .faithMajorGift:
-            self.religion?.add(faith: 100.0)
+            self.religion?.change(faith: 100.0)
             popupData = PopupData(goodyType: .faithMajorGift)
             
         case .scienceMinorGift:
@@ -3919,6 +4142,60 @@ public class Player: AbstractPlayer {
 
         return true
     }
+    
+    public func canPurchaseInAnyCity(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for cityRef in gameModel.cities(of: self) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            if city.canPurchase(unit: unitType, with: yieldType, in: gameModel) {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    public func canPurchaseInAnyCity(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for cityRef in gameModel.cities(of: self) {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            if city.canPurchase(building: buildingType, with: yieldType, in: gameModel) {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    // MARK: religion methods
+    
+    public func faithPurchaseType() -> FaithPurchaseType {
+        
+        return self.faithPurchaseTypeVal
+    }
+    
+    public func set(faithPurchaseType: FaithPurchaseType) {
+        
+        self.faithPurchaseTypeVal = faithPurchaseType
+    }
+    
+    // MARK: discovery
     
     public func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
         
