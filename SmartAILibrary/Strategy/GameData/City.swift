@@ -93,14 +93,19 @@ public protocol AbstractCity: AnyObject, Codable {
     func startBuilding(wonder: WonderType)
     func startBuilding(district: DistrictType)
     
-    func canPurchase(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
-    func canPurchase(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     
-    func faithPurchaseCost(of unit: UnitType) -> Double
-    func faithPurchaseCost(of building: BuildingType) -> Double
+    func faithPurchaseCost(of unitType: UnitType) -> Double
+    func faithPurchaseCost(of buildingType: BuildingType) -> Double
     
-    func buy(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?)
-    func buy(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?)
+    @discardableResult
+    func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    @discardableResult
+    func purchase(district districtType: DistrictType, in gameModel: GameModel?) -> Bool
+    @discardableResult
+    func purchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    func doSpawnGreatPerson(unit unitType: UnitType, in gameModel: GameModel?)
 
     func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int
     func unitProductionTurnsLeft(for unitType: UnitType) -> Int
@@ -197,10 +202,16 @@ public protocol AbstractCity: AnyObject, Codable {
     func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int)
     func countNumImprovedPlots(in gameModel: GameModel?) -> Int
     
+    func numLocalResources(of resourceType: ResourceType, in gameModel: GameModel?) -> Int
+    
     func isProductionAutomated() -> Bool
     func setProductionAutomated(to newValue: Bool, clear: Bool, in gameModel: GameModel?)
     
     func slots(for slotType: GreatWorkSlotType) -> Int
+    
+    // religion
+    func isHolyCity(for religion: ReligionType, in gameModel: GameModel?) -> Bool
+    func isHolyCityOfAnyReligion(in gameModel: GameModel?) -> Bool
     
     func set(scratch: Int)
     func scratch() -> Int
@@ -217,7 +228,7 @@ class LeaderWeightList: WeightedList<LeaderType> {
 }
 
 public class City: AbstractCity {
-
+    
     static let workRadius = 3
     
     enum CodingKeys: CodingKey {
@@ -2213,38 +2224,68 @@ public class City: AbstractCity {
         self.buildQueue.add(item: BuildableItem(districtType: district))
     }
     
-    public func canPurchase(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+    public func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
         
         guard yieldType == .faith || yieldType == .gold else {
             fatalError("invalid yield type: \(yieldType)")
         }
         
+        if !self.canTrain(unit: unitType, in: gameModel) {
+            return false
+        }
+        
         if yieldType == .gold {
-            return unit.purchaseCost() > 0 // -1 is invalid
+            return unitType.purchaseCost() > 0 // -1 is invalid
         }
         
         if yieldType == .faith {
-            return unit.faithCost() > 0 // -1 is invalid
+            return unitType.faithCost() > 0 // -1 is invalid
         }
         
         return false
     }
     
-    public func canPurchase(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+    public func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
         
         guard yieldType == .faith || yieldType == .gold else {
             fatalError("invalid yield type: \(yieldType)")
         }
         
+        guard let playerReligion = self.player?.religion else {
+            fatalError("cant get player religion")
+        }
+        
+        guard let playerTreasury = self.player?.treasury else {
+            fatalError("cant get player treasury")
+        }
+        
+        if !self.canBuild(building: buildingType, in: gameModel) {
+            return false
+        }
+        
         if yieldType == .gold {
-            return building.purchaseCost() > 0 // -1 is invalid
+            if buildingType.purchaseCost() == -1 { // -1 is invalid
+                return false
+            }
+            
+            if Double(buildingType.purchaseCost()) > playerTreasury.value() {
+                return false
+            }
+            
+        } else if yieldType == .faith {
+            if buildingType.faithCost() == -1 { // -1 is invalid
+                return false
+            }
+            
+            if Double(buildingType.faithCost()) > playerReligion.faith() {
+                return false
+            }
+            
+        } else {
+            return false
         }
-        
-        if yieldType == .faith {
-            return building.faithCost() > 0 // -1 is invalid
-        }
-        
-        return false
+
+        return true
     }
     
     public func faithPurchaseCost(of unit: UnitType) -> Double {
@@ -2259,14 +2300,80 @@ public class City: AbstractCity {
         return cost == -1 ? Double.greatestFiniteMagnitude : Double(cost)
     }
     
-    public func buy(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?) {
+    public func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
         
-        fatalError("buy")
+        guard self.canPurchase(unit: unitType, with: yieldType, in: gameModel) else {
+            return false
+        }
+        
+        let unit = Unit(at: self.location, type: unitType, owner: self.player)
+        gameModel?.add(unit: unit)
+        
+        if yieldType == .gold {
+            self.player?.treasury?.changeGold(by: -Double(unitType.purchaseCost()))
+        } else if yieldType == .faith {
+            self.player?.religion?.change(faith: -Double(unitType.faithCost()))
+        } else {
+            fatalError("cant buy unit with \(yieldType)")
+        }
+        
+        return true
     }
     
-    public func buy(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) {
+    public func purchase(district districtType: DistrictType, in gameModel: GameModel?) -> Bool {
         
-        fatalError("buy")
+        print("--- WARNING: THIS IS FOR TESTING ONLY ---")
+        
+        guard let districts = self.districts else {
+            fatalError("cant get disticts")
+        }
+        
+        do {
+            try districts.build(district: districtType)
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    public func purchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+        
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
+        guard self.canPurchase(building: buildingType, with: yieldType, in: gameModel) else {
+            return false
+        }
+        
+        do {
+            try buildings.build(building: buildingType)
+            
+            if yieldType == .gold {
+                self.player?.treasury?.changeGold(by: -Double(buildingType.purchaseCost()))
+            } else if yieldType == .faith {
+                self.player?.religion?.change(faith: -Double(buildingType.faithCost()))
+            } else {
+                fatalError("cant buy building with \(yieldType)")
+            }
+            
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    public func doSpawnGreatPerson(unit unitType: UnitType, in gameModel: GameModel?) {
+        
+        guard unitType.isGreatPerson() else {
+            fatalError("\(unitType) is not a greap person type")
+        }
+        
+        let unit = Unit(at: self.location, type: unitType, owner: self.player)
+        
+        gameModel?.add(unit: unit)
+        
+        gameModel?.userInterface?.show(unit: unit)
     }
 
     public func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int {
@@ -3509,6 +3616,29 @@ public class City: AbstractCity {
         return result
     }
     
+    public func numLocalResources(of resourceType: ResourceType, in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel,
+              let cityCitizens = self.cityCitizens,
+              let player = self.player else {
+            
+            fatalError("cant get basics")
+        }
+        
+        var result = 0
+        
+        for point in cityCitizens.workingTileLocations() {
+            
+            if let tile = gameModel.tile(at: point) {
+                if tile.resource(for: player) == resourceType && player.isEqual(to: tile.owner()) {
+                    result += tile.resourceQuantity()
+                }
+            }
+        }
+        
+        return result
+    }
+    
     //    --------------------------------------------------------------------------------
     func isVisible(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
         
@@ -3583,6 +3713,34 @@ public class City: AbstractCity {
         }
         
         return greatWorks.slotsAvailable(for: slotType)
+    }
+    
+    public func isHolyCity(for religionType: ReligionType, in gameModel: GameModel?) -> Bool {
+        
+        if let religionRef = gameModel?.religions().first(where: { $0?.currentReligion() == religionType }) {
+            
+            if religionRef?.holyCityLocation() == self.location {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    public func isHolyCityOfAnyReligion(in gameModel: GameModel?) -> Bool {
+    
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for religionRef in gameModel.religions() {
+            
+            if religionRef?.holyCityLocation() == self.location {
+                return true
+            }
+        }
+        
+        return false
     }
     
     //    --------------------------------------------------------------------------------

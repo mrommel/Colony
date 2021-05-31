@@ -315,3 +315,42 @@ public enum LeaderType: Int, Codable {
         }
     }
 }
+
+extension LeaderType {
+    
+    func isSmaller() -> Bool {
+        
+        if self == .montezuma || self == .cyrus {
+            return true
+        }
+        
+        return false
+    }
+    
+    func isExpansionist() -> Bool {
+        
+        if self == .alexander || self == .napoleon {
+            return true
+        }
+        
+        return false
+    }
+    
+    func isWarmonger() -> Bool {
+        
+        if self == .napoleon {
+            return true
+        }
+        
+        return false
+    }
+    
+    func isPopulationBoostReligion() -> Bool {
+        
+        if self == .cyrus {
+            return true
+        }
+        
+        return false
+    }
+}

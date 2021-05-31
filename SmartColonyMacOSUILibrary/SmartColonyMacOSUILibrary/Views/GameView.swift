@@ -50,6 +50,8 @@ public struct GameView: View {
 
             self.dialog
             
+            self.popup
+            
             BannerView(viewModel: self.viewModel.gameSceneViewModel)
         }
     }
@@ -96,6 +98,63 @@ extension GameView {
             return AnyView(EmptyView())
         case .cityName:
             return AnyView(CityNameDialogView(viewModel: self.viewModel.cityNameDialogViewModel))
+        }
+    }
+    
+    private var popup: AnyView {
+        
+        switch self.viewModel.currentPopupType {
+        
+        case .none:
+            return AnyView(EmptyView())
+ 
+        case .declareWarQuestion(player: let player):
+            return AnyView(Text("declareWarQuestion"))
+            
+        case .barbarianCampCleared(location: let location, gold: let gold):
+            return AnyView(Text("barbarianCampCleared"))
+            
+        case .goodyHutReward(goodyType: let goodyType, location: let location):
+            return AnyView(Text("goodyHutReward"))
+            
+        case .techDiscovered(tech: let tech):
+            return AnyView(Text("techDiscovered"))
+            
+        case .civicDiscovered(civic: let civic):
+            return AnyView(Text("civicDiscovered"))
+            
+        case .eraEntered(era: let era):
+            return AnyView(Text("eraEntered"))
+            
+        case .eurekaTechActivated(tech: let tech):
+            return AnyView(Text("eurekaTechActivated"))
+            
+        case .eurekaCivicActivated(civic: let civic):
+            return AnyView(Text("eurekaCivicActivated"))
+            
+        case .unitTrained(unit: let unit):
+            return AnyView(Text("unitTrained"))
+            
+        case .buildingBuilt:
+            return AnyView(Text("buildingBuilt"))
+            
+        case .religionByCityAdopted(religion: let religion, location: let location):
+            return AnyView(Text("religionByCityAdopted"))
+            
+        case .religionNewMajority(religion: let religion):
+            return AnyView(Text("religionNewMajority"))
+            
+        case .religionCanBuyMissionary:
+            return AnyView(Text("religionCanBuyMissionary"))
+            
+        case .religionCanFoundPantheon:
+            return AnyView(Text("religionCanFoundPantheon"))
+            
+        case .religionNeedNewAutomaticFaithSelection:
+            return AnyView(Text("religionNeedNewAutomaticFaithSelection"))
+            
+        case .religionEnoughFaithForMissionary:
+            return AnyView(Text("religionEnoughFaithForMissionary"))
         }
     }
 }

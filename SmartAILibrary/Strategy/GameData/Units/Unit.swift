@@ -969,7 +969,7 @@ public class Unit: AbstractUnit {
 
                 if !diplomacyAI.isAtWar(with: defenderUnit.player) && !defenderUnit.isBarbarian() {
 
-                    gameModel.userInterface?.showPopup(popupType: .declareWarQuestion, with: PopupData(player: defenderUnit.player))
+                    gameModel.userInterface?.showPopup(popupType: .declareWarQuestion(player: defenderUnit.player))
                     return false
                 }
             }
@@ -1899,7 +1899,7 @@ public class Unit: AbstractUnit {
                     // If it's the active player then show the popup
                     if player.isEqual(to: gameModel.humanPlayer()) {
 
-                        gameModel.userInterface?.showPopup(popupType: .barbarianCampCleared, with: PopupData(money: numGold))
+                        gameModel.userInterface?.showPopup(popupType: .barbarianCampCleared(location: newPlot.point, gold: numGold))
 
                         // We are adding a popup that the player must make a choice in, make sure they are not in the end-turn phase.
                         // FIXME self.cancelActivePlayerEndTurn();
@@ -2754,6 +2754,7 @@ public class Unit: AbstractUnit {
         return true
     }
 
+    @discardableResult
     public func doFound(with name: String? = nil, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {

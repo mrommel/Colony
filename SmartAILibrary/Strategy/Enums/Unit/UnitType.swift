@@ -1284,4 +1284,23 @@ public enum UnitType: Int, Codable {
         
         return 0
     }
+    
+    func canFoundReligion() -> Bool {
+        
+        if self == .prophet {
+            return true
+        }
+        
+        return false
+    }
+    
+    func isGreatPerson() -> Bool {
+        
+        if self == .artist || self == .engineer || self == .merchant || self == .scientist || self == .admiral || self == .general || self == .prophet {
+            
+            return true
+        }
+        
+        return false
+    }
 }

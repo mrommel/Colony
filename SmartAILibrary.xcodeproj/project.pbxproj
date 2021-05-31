@@ -155,6 +155,7 @@
 		C97AF98D24F551A2005F45EA /* UnitTradeRouteState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AF98C24F551A2005F45EA /* UnitTradeRouteState.swift */; };
 		C97CD3B2243CB01400FABCC0 /* HandicapType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3B1243CB01400FABCC0 /* HandicapType.swift */; };
 		C97CD3B6243D14BC00FABCC0 /* UnitCaptureDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3B5243D14BC00FABCC0 /* UnitCaptureDefinition.swift */; };
+		C986A5F22664F56F0055D3D4 /* ReligionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C986A5F12664F56F0055D3D4 /* ReligionTests.swift */; };
 		C98CBE0124338C02005EE397 /* ClimateZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBDFD24338C02005EE397 /* ClimateZone.swift */; };
 		C98CBE0624338D12005EE397 /* MapOptionClimate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBE0524338D12005EE397 /* MapOptionClimate.swift */; };
 		C98CBE0824338D25005EE397 /* MapOptionSeaLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBE0724338D25005EE397 /* MapOptionSeaLevel.swift */; };
@@ -480,6 +481,7 @@
 		C97AF98C24F551A2005F45EA /* UnitTradeRouteState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTradeRouteState.swift; sourceTree = "<group>"; };
 		C97CD3B1243CB01400FABCC0 /* HandicapType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandicapType.swift; sourceTree = "<group>"; };
 		C97CD3B5243D14BC00FABCC0 /* UnitCaptureDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitCaptureDefinition.swift; sourceTree = "<group>"; };
+		C986A5F12664F56F0055D3D4 /* ReligionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionTests.swift; sourceTree = "<group>"; };
 		C98CBDFD24338C02005EE397 /* ClimateZone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClimateZone.swift; path = SmartAILibrary/Strategy/MapGeneration/Enums/ClimateZone.swift; sourceTree = SOURCE_ROOT; };
 		C98CBE0524338D12005EE397 /* MapOptionClimate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptionClimate.swift; sourceTree = "<group>"; };
 		C98CBE0724338D25005EE397 /* MapOptionSeaLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptionSeaLevel.swift; sourceTree = "<group>"; };
@@ -901,6 +903,7 @@
 				C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */,
 				C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */,
 				C9D78DFA259097890024ECF0 /* Tests-Prefix.pch */,
+				C986A5F12664F56F0055D3D4 /* ReligionTests.swift */,
 			);
 			path = SmartAILibraryTests;
 			sourceTree = "<group>";
@@ -1634,6 +1637,7 @@
 				C966A3FF251E68C9000C24B8 /* DestroyBarbarianCampOperationTests.swift in Sources */,
 				C93479492529AF2A00A4B113 /* AStarPathFinderTests.swift in Sources */,
 				C92D220923E1DC3300BB9238 /* PlayerTechTests.swift in Sources */,
+				C986A5F22664F56F0055D3D4 /* ReligionTests.swift in Sources */,
 				C92317BD23D6EAB5001FC723 /* HierarchicalStateMachineTests.swift in Sources */,
 				C956BF6A24F3C7B9009702B4 /* TradeRouteTests.swift in Sources */,
 				C99496932519E4300049C2D6 /* BasicCityAttackOperationTests.swift in Sources */,

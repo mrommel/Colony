@@ -61,7 +61,7 @@ class CityReligionViewModel: ObservableObject {
                 self.pantheonViewModel = nil
             }
             
-            if cityReligion.dominantReligion() != .atheism {
+            if cityReligion.religiousMajority() != .atheism {
                 
             }
             

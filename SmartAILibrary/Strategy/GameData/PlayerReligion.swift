@@ -15,6 +15,7 @@ public enum PantheonFoundingType {
     case notEnoughFaith
     case okay
     case religionEnhanced // FOUNDING_RELIGION_ENHANCED;
+    case noPantheonAvailable // FOUNDING_NO_BELIEFS_AVAILABLE
 }
 
 public protocol AbstractPlayerReligion: AnyObject, Codable {
@@ -34,12 +35,17 @@ public protocol AbstractPlayerReligion: AnyObject, Codable {
     
     func isEnhanced() -> Bool
     
+    func currentReligion() -> ReligionType
+    func religionInMostCities() -> ReligionType
+    
+    func holyCityLocation() -> HexPoint
+    
     // belief effects
     func spreadDistanceModifier() -> Int
 }
 
 class PlayerReligion: AbstractPlayerReligion {
-
+    
     enum CodingKeys: CodingKey {
 
         case faith
@@ -50,6 +56,7 @@ class PlayerReligion: AbstractPlayerReligion {
         case belief2
         case belief3
         case majorityPlayerReligion
+        case holyCityLocation
     }
     
     // user properties / values
@@ -63,6 +70,7 @@ class PlayerReligion: AbstractPlayerReligion {
     var beliefVal2: BeliefType
     var beliefVal3: BeliefType
     var majorityPlayerReligion: ReligionType
+    var holyCityLocationVal: HexPoint
     
     // MARK: constructor
     
@@ -78,6 +86,7 @@ class PlayerReligion: AbstractPlayerReligion {
         self.beliefVal2 = .none
         self.beliefVal3 = .none
         self.majorityPlayerReligion = .none
+        self.holyCityLocationVal = .invalid
     }
     
     public required init(from decoder: Decoder) throws {
@@ -92,6 +101,7 @@ class PlayerReligion: AbstractPlayerReligion {
         self.beliefVal2 = try container.decode(BeliefType.self, forKey: .belief2)
         self.beliefVal3 = try container.decode(BeliefType.self, forKey: .belief3)
         self.majorityPlayerReligion = try container.decode(ReligionType.self, forKey: .majorityPlayerReligion)
+        self.holyCityLocationVal = try container.decode(HexPoint.self, forKey: .holyCityLocation)
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -106,6 +116,7 @@ class PlayerReligion: AbstractPlayerReligion {
         try container.encode(self.beliefVal2, forKey: .belief2)
         try container.encode(self.beliefVal3, forKey: .belief3)
         try container.encode(self.majorityPlayerReligion, forKey: .majorityPlayerReligion)
+        try container.encode(self.holyCityLocationVal, forKey: .holyCityLocation)
     }
     
     func change(faith faithDelta: Double) {
@@ -156,6 +167,12 @@ class PlayerReligion: AbstractPlayerReligion {
         if religionAlreadyEnhanced && gameModel.numPantheonsCreated() >= maxActiveReligions {
             return .religionEnhanced
         }
+
+        if gameModel.availablePantheons().count == 0 {
+            return .noPantheonAvailable
+        }
+
+        return .okay
     }
     
     func foundPantheon(with pantheonType: PantheonType) {
@@ -178,6 +195,11 @@ class PlayerReligion: AbstractPlayerReligion {
         return 25.0 // RELIGION_MIN_FAITH_FIRST_PANTHEON
     }
     
+    func holyCityLocation() -> HexPoint {
+        
+        return self.holyCityLocationVal
+    }
+    
     /// What religion is followed in a majority of our cities?
     func computeMajority(notifications: Bool, in gameModel: GameModel?) -> Bool {
         
@@ -198,7 +220,7 @@ class PlayerReligion: AbstractPlayerReligion {
                     
                     // Message slightly different for founder player
                     if humanPlayer.leader == self.player?.leader {
-                        gameModel.userInterface?.showPopup(popupType: .religionNewMajority, with: PopupData(religionType: religionType))
+                        gameModel.userInterface?.showPopup(popupType: .religionNewMajority(religion: religionType))
                     }
                 }
                 
@@ -292,6 +314,16 @@ class PlayerReligion: AbstractPlayerReligion {
     func isEnhanced() -> Bool {
         
         return self.beliefVal2 != .none || self.beliefVal3 != .none
+    }
+    
+    func currentReligion() -> ReligionType {
+        
+        return self.religionFounded
+    }
+    
+    func religionInMostCities() -> ReligionType {
+        
+        return self.majorityPlayerReligion
     }
 }
 

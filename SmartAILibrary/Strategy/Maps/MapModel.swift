@@ -101,8 +101,8 @@ open class MapModel: Codable {
         self.cities = try container.decode([City?].self, forKey: .cities)
         self.units = try container.decode([Unit?].self, forKey: .units)
         self.tiles = try container.decode(TileArray2D.self, forKey: .tiles)
-        self.tribeTiles = try container.decode(TribeArray2D.self, forKey: .tribeTiles)
-        self.tribes = try container.decode([TribeInfo].self, forKey: .tribes)
+        self.tribeTiles = try container.decodeIfPresent(TribeArray2D.self, forKey: .tribeTiles) ?? TribeArray2D(size: MapSize.duel)
+        self.tribes = try container.decodeIfPresent([TribeInfo].self, forKey: .tribes) ?? []
         
         self.continents = try container.decode([Continent].self, forKey: .continents)
         self.oceans = try container.decode([Ocean].self, forKey: .oceans)

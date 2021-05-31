@@ -34,6 +34,7 @@ open class GameModel: Codable {
         case handicap
         case currentTurn
         case turnSliceValue
+        case numProphetsSpawned
         case players
         case religions
 
@@ -51,6 +52,7 @@ open class GameModel: Codable {
     let handicap: HandicapType
     var currentTurn: Int
     var turnSliceValue: Int = 0
+    var numProphetsSpawnedValue: Int = 0
     public let players: [AbstractPlayer]
 
     static let turnInterimRankingFrequency = 25 /* PROGRESS_POPUP_TURN_FREQUENCY */
@@ -74,6 +76,7 @@ open class GameModel: Codable {
         self.victoryTypes = victoryTypes
         self.handicap = handicap
         self.currentTurn = turnsElapsed
+        self.numProphetsSpawnedValue = 0
         self.players = players
         self.religionsVal = GameReligions()
         self.map = map
@@ -99,6 +102,7 @@ open class GameModel: Codable {
         self.handicap = try container.decode(HandicapType.self, forKey: .handicap)
         self.currentTurn = try container.decode(Int.self, forKey: .currentTurn)
         self.turnSliceValue = try container.decode(Int.self, forKey: .turnSliceValue)
+        self.numProphetsSpawnedValue = try container.decode(Int.self, forKey: .numProphetsSpawned)
         self.players = try container.decode([Player].self, forKey: .players)
         self.religionsVal = try container.decode(GameReligions.self, forKey: .religions)
 
@@ -172,6 +176,7 @@ open class GameModel: Codable {
         try container.encode(self.handicap, forKey: .handicap)
         try container.encode(self.currentTurn, forKey: .currentTurn)
         try container.encode(self.turnSliceValue, forKey: .turnSliceValue)
+        try container.encode(self.numProphetsSpawnedValue, forKey: .numProphetsSpawned)
 
         try container.encode(self.players as! [Player], forKey: .players)
         try container.encode(self.religionsVal as! GameReligions, forKey: .religions)
@@ -1447,25 +1452,71 @@ open class GameModel: Codable {
     
     func numPantheonsCreated() -> Int {
         
-        var pantheons: Int = 0
-        
-        for religionRef in self.religions() {
-            
-            guard let religion = religionRef else {
-                continue
-            }
-            
-            if religion.pantheon() != .none {
-                pantheons += 1
-            }
+        guard let religions = self.religionsVal else {
+            fatalError("cant get religions")
         }
         
-        return pantheons
+        return religions.numPantheonsCreated(in: self)
+    }
+    
+    func numReligionFounded() -> Int {
+        
+        guard let religions = self.religionsVal else {
+            fatalError("cant get religions")
+        }
+        
+        return religions.religions(in: self).filter({ $0?.currentReligion() != Optional.none }).count
     }
     
     func maxActiveReligions() -> Int {
         
         return self.mapSize().maxActiveReligions()
+    }
+    
+    func availablePantheons() -> [PantheonType] {
+        
+        guard let religions = self.religionsVal else {
+            fatalError("cant get religions")
+        }
+        
+        return religions.availablePantheons(in: self)
+    }
+    
+    /// how much dies the next great prophet cost?
+    func costOfNextProphet(includeDiscounts: Bool) -> Int {
+        
+        return self.faith(for: self.numProphetsSpawned() + 1)
+    }
+    
+    /// How much does this prophet cost (recursive)
+    private func faith(for greatProphet: Int) -> Int {
+        
+        var rtnValue = 0
+
+        if greatProphet >= 1 {
+            if greatProphet == 1 {
+                rtnValue = 300 /* RELIGION_MIN_FAITH_FIRST_PROPHET */
+            } else {
+                rtnValue = (25 /*RELIGION_FAITH_DELTA_NEXT_PROPHET */ * (greatProphet - 1)) + self.faith(for: greatProphet - 1)
+            }
+        }
+
+        return rtnValue
+    }
+    
+    func numProphetsSpawned() -> Int {
+        
+        return self.numProphetsSpawnedValue
+    }
+    
+    func set(numProphetsSpawned: Int) {
+        
+        self.numProphetsSpawnedValue = numProphetsSpawned
+    }
+    
+    func numReligionsStillToFound() -> Int {
+        
+        return maxActiveReligions() - self.numReligionFounded()
     }
 }
 

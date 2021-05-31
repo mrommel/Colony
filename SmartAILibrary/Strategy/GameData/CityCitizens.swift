@@ -700,16 +700,17 @@ public class CityCitizens: Codable {
             return plot.worked
         }
         
-        fatalError("not a valid plot to check for this city")
+        return false
     }
     
     /// Has our City been told it MUST a particular CvPlot?
     public func isForcedWorked(at location: HexPoint) -> Bool {
+        
         if let plot = self.workingPlots.first(where: { $0.location == location }) {
             return plot.workedForced
         }
         
-        fatalError("not a valid plot to check for this city")
+        return false
     }
     
     /// Tell our City it MUST work a particular CvPlot

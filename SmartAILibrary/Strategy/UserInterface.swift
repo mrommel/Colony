@@ -12,27 +12,86 @@ public enum PopupType {
     
     case none
     
-    case declareWarQuestion  // ??
-    case barbarianCampCleared
+    case declareWarQuestion(player: AbstractPlayer?)
+    case barbarianCampCleared(location: HexPoint, gold: Int)
     
-    case goodyHutReward
+    case goodyHutReward(goodyType: GoodyType, location: HexPoint)
     
-    case techDiscovered
-    case civicDiscovered
-    case eraEntered
-    case eurekaActivated
+    case techDiscovered(tech: TechType)
+    case civicDiscovered(civic: CivicType)
+    case eraEntered(era: EraType)
+    case eurekaTechActivated(tech: TechType)
+    case eurekaCivicActivated(civic: CivicType)
     
-    case unitTrained
+    case unitTrained(unit: UnitType)
     case buildingBuilt
     
-    case religionByCityAdopted
-    case religionNewMajority // TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY
+    case religionByCityAdopted(religion: ReligionType, location: HexPoint)
+    case religionNewMajority(religion: ReligionType) // TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY
     case religionCanBuyMissionary // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY
     case religionCanFoundPantheon // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_PANTHEON
     case religionNeedNewAutomaticFaithSelection // TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION
+    case religionEnoughFaithForMissionary // ENOUGH_FAITH_FOR_MISSIONARY
 }
 
-public class PopupData {
+extension PopupType: Equatable {
+    
+    public static func == (lhs: PopupType, rhs: PopupType) -> Bool {
+        
+        switch (lhs, rhs) {
+        case (let .declareWarQuestion(lhs_player), let .declareWarQuestion(rhs_player)):
+            return lhs_player?.leader == rhs_player?.leader
+            
+        case (let .barbarianCampCleared(lhs_location, lhs_gold), let .barbarianCampCleared(rhs_location, rhs_gold)):
+            return lhs_location == rhs_location && lhs_gold == rhs_gold
+        
+        case (let .goodyHutReward(lhs_goodyType), let .goodyHutReward(rhs_goodyType)):
+            return lhs_goodyType == rhs_goodyType
+        
+        case (let .techDiscovered(lhs_tech), let .techDiscovered(rhs_tech)):
+            return lhs_tech == rhs_tech
+            
+        case (let .civicDiscovered(lhs_civic), let .civicDiscovered(rhs_civic)):
+            return lhs_civic == rhs_civic
+            
+        case (let .eraEntered(lhs_era), let .eraEntered(rhs_era)):
+            return lhs_era == rhs_era
+            
+        case (let .eurekaTechActivated(lhs_tech), let .eurekaTechActivated(rhs_tech)):
+            return lhs_tech == rhs_tech
+            
+        case (let .eurekaCivicActivated(lhs_civic), let .eurekaCivicActivated(rhs_civic)):
+            return lhs_civic == rhs_civic
+        
+        case (let .unitTrained(lhs_unit), let .unitTrained(rhs_unit)):
+            return lhs_unit == rhs_unit
+            
+        case (.buildingBuilt, .buildingBuilt):
+            return true
+        
+        case (let .religionByCityAdopted(lhs_religion, lhs_location), let .religionByCityAdopted(rhs_religion, rhs_location)):
+            return lhs_religion == rhs_religion && lhs_location == rhs_location
+            
+        case (let .religionNewMajority(lhs_religion), let .religionNewMajority(rhs_religion)):
+            return lhs_religion == rhs_religion
+            
+        case (.religionCanBuyMissionary, .religionCanBuyMissionary):
+            return true
+            
+        case (.religionCanFoundPantheon, .religionCanFoundPantheon):
+            return true
+        case (.religionNeedNewAutomaticFaithSelection, .religionNeedNewAutomaticFaithSelection):
+            return true
+        case (.religionEnoughFaithForMissionary, .religionEnoughFaithForMissionary):
+            return true
+            
+        default:
+            return false
+        }
+    }
+}
+
+/*public class PopupData {
     
     public let player: AbstractPlayer?
     public let money: Int
@@ -191,7 +250,7 @@ public class PopupData {
         self.goodyType = nil
         self.religionType = religionType
     }
-}
+}*/
 
 public enum ScreenType {
     
@@ -225,7 +284,7 @@ public enum UnitAnimationType {
 
 public protocol UserInterfaceDelegate: AnyObject {
     
-    func showPopup(popupType: PopupType, with data: PopupData?)
+    func showPopup(popupType: PopupType)
 
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?)
     func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType)

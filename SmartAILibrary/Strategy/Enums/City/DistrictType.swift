@@ -101,7 +101,7 @@ public enum DistrictType: Int, Codable {
                                                      requiredCivic: nil,
                                                      yields: Yields(food: 0.0, production: 0.0, gold: 0.0))
         case .industrial:
-            // https://civilization.fandom.com/wiki/Industrial_Zone_(Civ6)
+            //  https://civilization.fandom.com/wiki/Industrial_Zone_(Civ6)
             return DistrictTypeData(name: "Industrial Zone",
                                     productionCost: 54,
                                     requiredTech: .apprenticeship,

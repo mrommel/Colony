@@ -14,6 +14,9 @@ public protocol AbstractGameReligions {
     
     func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType)
     func religions(in gameModel: GameModel?) -> [AbstractPlayerReligion?]
+    
+    func availablePantheons(in gameModel: GameModel?) -> [PantheonType]
+    func numPantheonsCreated(in gameModel: GameModel?) -> Int
 }
 
 class GameReligions: AbstractGameReligions, Codable {
@@ -407,5 +410,41 @@ class GameReligions: AbstractGameReligions, Codable {
          */
         
         return false
+    }
+    
+    func availablePantheons(in gameModel: GameModel?) -> [PantheonType] {
+        
+        var pantheons: [PantheonType] = PantheonType.all
+        
+        for religionRef in self.religions(in: gameModel) {
+            
+            guard let religion = religionRef else {
+                continue
+            }
+            
+            if religion.pantheon() != .none {
+                pantheons.removeAll(where: { $0 == religion.pantheon() })
+            }
+        }
+        
+        return pantheons
+    }
+    
+    func numPantheonsCreated(in gameModel: GameModel?) -> Int {
+        
+        var pantheons: Int = 0
+        
+        for religionRef in self.religions(in: gameModel) {
+            
+            guard let religion = religionRef else {
+                continue
+            }
+            
+            if religion.pantheon() != .none {
+                pantheons += 1
+            }
+        }
+        
+        return pantheons
     }
 }

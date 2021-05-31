@@ -103,7 +103,22 @@ public enum MapSize {
         case .standard: return 7
         case .large: return 9
         case .huge: return 11
-        case .custom(width: let width, height: let height):
+        case .custom(width: _, height: _):
+            return 22 // no limit
+        }
+    }
+    
+    func targetNumCities() -> Int {
+        
+        switch self {
+        
+        case .duel: return 8
+        case .tiny: return 10
+        case .small: return 15
+        case .standard: return 20
+        case .large: return 30
+        case .huge: return 45
+        case .custom(width: _, height: _):
             return 22 // no limit
         }
     }

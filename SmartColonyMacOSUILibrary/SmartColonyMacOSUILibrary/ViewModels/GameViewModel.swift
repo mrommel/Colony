@@ -14,7 +14,7 @@ protocol GameViewModelDelegate: AnyObject {
     
     func focus(on point: HexPoint)
     
-    func showPopup(popupType: PopupType, with data: PopupData?)
+    func showPopup(popupType: PopupType)
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?)
     
     func showChangeTechDialog()
@@ -37,18 +37,6 @@ protocol GameViewModelDelegate: AnyObject {
     func remove(notification: NotificationItem)
     
     func closeDialog()
-}
-
-class GameViewModelPopupData {
-    
-    let popupType: PopupType
-    let popupData: PopupData?
-    
-    init(popupType: PopupType, data popupData: PopupData?) {
-        
-        self.popupType = popupType
-        self.popupData = popupData
-    }
 }
 
 public class GameViewModel: ObservableObject {
@@ -95,7 +83,7 @@ public class GameViewModel: ObservableObject {
     var currentPopupType: PopupType = .none
     
     @Published
-    var popups: [GameViewModelPopupData] = []
+    var popups: [PopupType] = []
     
     // MARK: map display options
     
@@ -431,61 +419,44 @@ public class GameViewModel: ObservableObject {
     
     func displayPopups() {
         
+        guard self.currentPopupType == .none else {
+            print("popup already shown: \(self.currentPopupType)")
+            return
+        }
+        
         if let firstPopup = self.popups.first {
 
-            print("show popup: \(firstPopup.popupType)")
+            print("show popup: \(firstPopup)")
 
-            switch firstPopup.popupType {
+            switch firstPopup {
 
             case .none:
                 // NOOP
                 break
-            case .declareWarQuestion:
+            case .declareWarQuestion(let player):
                 // NOOP
                 break
             case .barbarianCampCleared:
                 // NOOP
                 break
                 
-            case .techDiscovered:
-                if let techType = firstPopup.popupData?.tech {
-                    self.showTechDiscoveredPopup(for: techType)
-                } else {
-                    fatalError("popup data did not provide tech")
-                }
+            case .techDiscovered(let techType):
+                self.currentPopupType = .techDiscovered(tech: techType)
                 
-            case .civicDiscovered:
-                if let civicType = firstPopup.popupData?.civic {
-                    self.showCivicDiscoveredPopup(for: civicType)
-                } else {
-                    fatalError("popup data did not provide tech")
-                }
+            case .civicDiscovered(let civicType):
+                self.currentPopupType = .civicDiscovered(civic: civicType)
                 
-            case .eraEntered:
-                if let era = firstPopup.popupData?.era {
-                    self.showEnteredEraPopup(for: era)
-                } else {
-                    fatalError("popup data did not provide era")
-                }
+            case .eraEntered(let eraType):
+                self.currentPopupType = .eraEntered(era: eraType)
                 
-            case .eurekaActivated:
-                if let popupData = firstPopup.popupData {
-                    if popupData.tech != .none {
-                        self.showEurekaActivatedPopup(for: popupData.tech)
-                    } else if popupData.civic != .none {
-                        self.showEurekaActivatedPopup(for: popupData.civic)
-                    }
-                } else {
-                    fatalError("popup data did not provide tech nor civic")
-                }
+            case .eurekaTechActivated(let techType):
+                self.currentPopupType = .eurekaTechActivated(tech: techType)
                 
-            case .goodyHutReward:
-                if let goodyType = firstPopup.popupData?.goodyType {
-                    let cityName = firstPopup.popupData?.cityName
-                    self.showGoodyHutRewardPopup(for: goodyType, in: cityName)
-                } else {
-                    fatalError("popup data did not provide goodyType")
-                }
+            case .eurekaCivicActivated(let civicType):
+                self.currentPopupType = .eurekaCivicActivated(civic: civicType)
+                
+            case .goodyHutReward(let goodyType, let location):
+                self.currentPopupType = .goodyHutReward(goodyType: goodyType, location: location)
         
             case .unitTrained:
                 // NOOP
@@ -495,15 +466,24 @@ public class GameViewModel: ObservableObject {
                 // NOOP
                 break
                 
-            case .religionAdopted:
-                if let religionType = firstPopup.popupData?.religionType {
-                    let cityName = firstPopup.popupData?.cityName
-                    
-                    fatalError("religionAdopted")
-                    //self.showGoodyHutRewardPopup(for: goodyType, in: cityName)
-                } else {
-                    fatalError("popup data did not provide goodyType")
-                }
+            case .religionByCityAdopted(let religion, let location):
+                fatalError("religionByCityAdopted")
+                
+            case .religionNewMajority(let religion):
+                // TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY
+                fatalError("TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY")
+            case .religionCanBuyMissionary:
+                // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY
+                fatalError("TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY")
+            case .religionCanFoundPantheon:
+                // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_PANTHEON
+                fatalError("TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_PANTHEON")
+            case .religionNeedNewAutomaticFaithSelection:
+                // TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION
+                fatalError("TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION")
+            case .religionEnoughFaithForMissionary:
+                // ENOUGH_FAITH_FOR_MISSIONARY
+                fatalError("ENOUGH_FAITH_FOR_MISSIONARY")
             }
 
             self.popups.removeFirst()
@@ -519,9 +499,9 @@ extension GameViewModel: GameViewModelDelegate {
         self.gameSceneViewModel.centerOn = point
     }
     
-    func showPopup(popupType: PopupType, with data: PopupData?) {
+    func showPopup(popupType: PopupType) {
     
-        self.popups.append(GameViewModelPopupData(popupType: popupType, data: data))
+        self.popups.append(popupType)
     }
     
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?) {
@@ -714,7 +694,7 @@ extension GameViewModel: GameViewModelDelegate {
         
         if self.currentScreenType == .none {
 
-            if self.popups.count > 0 && self.currentPopupType == .none {
+            if self.popups.count > 0 && self.currentPopupType == PopupType.none {
                 self.displayPopups()
                 return true
             }

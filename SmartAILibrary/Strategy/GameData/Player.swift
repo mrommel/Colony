@@ -56,6 +56,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     var builderTaskingAI: BuilderTaskingAI? { get }
     var citySpecializationAI: CitySpecializationAI? { get }
     var wonderProductionAI: WonderProductionAI? { get }
+    var religionAI: ReligionAI? { get }
     
     var cityConnections: CityConnections? { get }
     
@@ -220,8 +221,9 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func canEstablishTradeRoute(in gameModel: GameModel?) -> Bool
     func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
     
-    // distance
+    // distance / cities
     func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int
+    func numCities(in gameModel: GameModel?) -> Int
     
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
@@ -333,7 +335,7 @@ public class Player: AbstractPlayer {
     private var originalCapitalLocationValue: HexPoint = HexPoint.invalid
     
     private var canChangeGovernmentValue: Bool = false
-    private var faithPurchaseTypeVal: FaithPurchaseType
+    private var faithPurchaseTypeVal: FaithPurchaseType = .noAutomaticFaithPurchase
 
     // MARK: constructor
 
@@ -503,6 +505,7 @@ public class Player: AbstractPlayer {
         self.builderTaskingAI = BuilderTaskingAI(player: self)
         self.citySpecializationAI = CitySpecializationAI(player: self)
         self.wonderProductionAI = WonderProductionAI(player: self)
+        self.religionAI = ReligionAI(player: self)
         
         self.cityConnections = CityConnections(player: self)
         self.goodyHuts = GoodyHuts(player: self)
@@ -1361,6 +1364,10 @@ public class Player: AbstractPlayer {
             fatalError("cant get religion")
         }
         
+        guard let religionAI = self.religionAI else {
+            fatalError("cant get religion ai")
+        }
+        
         let faithAtStart = religion.faith()
         let faithPerTurn = self.faith(in: gameModel)
         
@@ -1380,7 +1387,7 @@ public class Player: AbstractPlayer {
 
         if sendFaithPurchaseNotification {
             if self.isHuman() {
-                gameModel?.userInterface?.showPopup(popupType: .religionCanBuyMissionary, with: nil)
+                gameModel?.userInterface?.showPopup(popupType: .religionCanBuyMissionary)
             }
         }
         
@@ -1393,10 +1400,10 @@ public class Player: AbstractPlayer {
                 if self.isHuman() {
                     //If the player is human then a net message will be received which will pick the pantheon.
                     // You have enough faith to found a pantheon!
-                    gameModel?.userInterface?.showPopup(popupType: .religionCanFoundPantheon, with: nil)
+                    gameModel?.userInterface?.showPopup(popupType: .religionCanFoundPantheon)
                 } else {
                     // const BeliefTypes eBelief = kPlayer.GetReligionAI()->ChoosePantheonBelief();
-                    let pantheonType = self.religionAI.choosePantheonType()
+                    let pantheonType = religionAI.choosePantheonType(in: gameModel)
                     gameModel?.foundPantheon(for: self, with: pantheonType)
                 }
             }
@@ -1435,7 +1442,7 @@ public class Player: AbstractPlayer {
 
         // Automatic faith purchases?
         var selectionStillValid: Bool = true
-        let religionType: ReligionType = self.religionAI?.religionToSpread()
+        let religionType: ReligionType = religionAI.religionToSpread()
 
         switch self.faithPurchaseType() {
         
@@ -1537,9 +1544,80 @@ public class Player: AbstractPlayer {
         if !selectionStillValid {
             
             if self.isHuman() {
-                gameModel?.userInterface?.showPopup(popupType: .religionNeedNewAutomaticFaithSelection, with: nil)
+                gameModel?.userInterface?.showPopup(popupType: .religionNeedNewAutomaticFaithSelection)
             }
         }
+    }
+    
+    /// Time to spawn a Great Prophet?
+    @discardableResult
+    func checkSpawnGreatProphet(in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        guard let religion = self.religion else {
+            fatalError("cant get religion")
+        }
+        
+        let prophetUnitType: UnitType = .prophet
+
+        let faith: Int = Int(religion.faith())
+        let cost = gameModel.costOfNextProphet(includeDiscounts: true)
+
+        let playerReligion = religion.currentReligion()
+
+        if playerReligion == .none && gameModel.numReligionsStillToFound() <= 0 {
+            return false
+        }
+
+        if faith < cost {
+            return false
+        }
+        
+        var chance = 100 // RELIGION_BASE_CHANCE_PROPHET_SPAWN
+        chance += (faith - cost)
+
+        let rand = Int.random(maximum: 100)
+        if rand >= chance {
+            return false
+        }
+
+        let spawnCityRef: AbstractCity? = playerReligion != .none ? gameModel.city(at: religion.holyCityLocation()) : nil
+        var prophetBoughtWithFaith: Bool = false
+        
+        if let spawnCity = spawnCityRef {
+            if spawnCity.player?.leader == self.leader {
+                
+                if self.isHuman() {
+                    switch self.faithPurchaseType() {
+                    
+                    case .saveForProphet:
+                        spawnCity.doSpawnGreatPerson(unit: prophetUnitType, in: gameModel)
+                        prophetBoughtWithFaith = true
+                    case .noAutomaticFaithPurchase:
+                        gameModel.userInterface?.showPopup(popupType: .religionEnoughFaithForMissionary)
+                    default:
+                        // NOOP
+                        print()
+                    }
+                } else {
+                    spawnCity.doSpawnGreatPerson(unit: prophetUnitType, in: gameModel)
+                    prophetBoughtWithFaith = true
+                }
+                 
+            } else {
+                spawnCity.doSpawnGreatPerson(unit: prophetUnitType, in: gameModel)
+                prophetBoughtWithFaith = true
+            }
+        
+            if prophetBoughtWithFaith {
+                self.religion?.change(faith: Double(-cost))
+            }
+        }
+
+        return true
     }
     
     func doTurnPost() {
@@ -2896,16 +2974,24 @@ public class Player: AbstractPlayer {
             guard let city = cityRef else {
                 continue
             }
-            
-            if let path = pathFinder.shortestPath(fromTileCoord: point, toTileCoord: city.location) {
+
+            let distance = point.distance(to: city.location)
                 
-                if path.count < minDistance {
-                    minDistance = path.count
-                }
+            if distance < minDistance {
+                minDistance = distance
             }
         }
         
         return minDistance
+    }
+    
+    public func numCities(in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+        
+        return gameModel.cities(of: self).count
     }
     
     public func isEqual(to other: AbstractPlayer?) -> Bool {
@@ -3704,6 +3790,9 @@ public class Player: AbstractPlayer {
         }
         
         switch goody {
+        
+        case .none:
+            return false
             
         case .goldMinorGift, .goldMediumGift, .goldMajorGift:
             return true
@@ -3774,21 +3863,20 @@ public class Player: AbstractPlayer {
             fatalError("cant get techs")
         }
         
-        var popupData: PopupData? = nil
-        
+        var goodyType: GoodyType = .none
+
         switch goody {
+        case .none:
+            print("")
             
         case .goldMinorGift:
             self.treasury?.changeGold(by: 40.0)
-            popupData = PopupData(goodyType: .goldMinorGift)
             
         case .goldMediumGift:
             self.treasury?.changeGold(by: 75.0)
-            popupData = PopupData(goodyType: .goldMediumGift)
             
         case .goldMajorGift:
             self.treasury?.changeGold(by: 120.0)
-            popupData = PopupData(goodyType: .goldMajorGift)
             
         case .civicMinorBoost:
             let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)} )
@@ -3796,8 +3884,6 @@ public class Player: AbstractPlayer {
                 fatalError("cant get civic to boost")
             }
             civics.triggerEureka(for: civicToBoost, in: gameModel)
-            
-            popupData = PopupData(goodyType: .civicMinorBoost)
             
         case .civicMajorBoost:
             var possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)} )
@@ -3812,23 +3898,18 @@ public class Player: AbstractPlayer {
             }
             civics.triggerEureka(for: civicToBoost2, in: gameModel)
             
-            popupData = PopupData(goodyType: .civicMajorBoost)
-            
         case .relic:
             // keep the great work in players card
             self.addGreatWork(of: .relic)
             
         case .faithMinorGift:
             self.religion?.change(faith: 20.0)
-            popupData = PopupData(goodyType: .faithMinorGift)
             
         case .faithMediumGift:
             self.religion?.change(faith: 60.0)
-            popupData = PopupData(goodyType: .faithMediumGift)
             
         case .faithMajorGift:
             self.religion?.change(faith: 100.0)
-            popupData = PopupData(goodyType: .faithMajorGift)
             
         case .scienceMinorGift:
             let possibleTechsWithoutEureka = techs.possibleTechs().filter({ !techs.eurekaTriggered(for: $0)} )
@@ -3836,8 +3917,6 @@ public class Player: AbstractPlayer {
                 fatalError("cant get tech to boost")
             }
             techs.triggerEureka(for: techToBoost, in: gameModel)
-            
-            // popupData = PopupData(goodyType: .scienceMinorGift)
             
         case .scienceMajorGift:
             var possibleTechsWithoutEureka = techs.possibleTechs().filter({ !techs.eurekaTriggered(for: $0)} )
@@ -3852,18 +3931,14 @@ public class Player: AbstractPlayer {
             }
             techs.triggerEureka(for: techToBoost2, in: gameModel)
             
-            // popupData = PopupData(goodyType: .scienceMajorGift)
-            
         case .freeTech:
             guard let possibleTech = techs.possibleTechs().randomElement() else {
                 fatalError("cant get tech to discover")
             }
             try! techs.discover(tech: possibleTech)
-            
-            // popupData = PopupData(goodyType: .freeTech)
-            
+
             if self.isHuman() {
-                gameModel.userInterface?.showPopup(popupType: .techDiscovered, with: PopupData(tech: possibleTech))
+                gameModel.userInterface?.showPopup(popupType: .techDiscovered(tech: possibleTech))
             }
             
         case .diplomacyMinorBoost:
@@ -3882,8 +3957,6 @@ public class Player: AbstractPlayer {
             
             // make the unit visible
             gameModel.userInterface?.show(unit: scoutUnit)
-            
-            popupData = PopupData(goodyType: .freeScout)
             
         case .healing:
             unit?.doHeal(in: gameModel)
@@ -3921,7 +3994,6 @@ public class Player: AbstractPlayer {
             }
             
             bestCity.change(population: 1, reassignCitizen: true, in: gameModel)
-            popupData = PopupData(goodyType: .additionalPopulation, for: bestCity.name)
             
             // redraw the city banner
             gameModel.userInterface?.update(city: bestCity)
@@ -3933,9 +4005,7 @@ public class Player: AbstractPlayer {
             
             // make the unit visible
             gameModel.userInterface?.show(unit: builderUnit)
-            
-            popupData = PopupData(goodyType: .freeBuilder)
-            
+                        
         case .freeTrader:
             var bestCityDistance = -1
             var bestCityRef: AbstractCity? = nil
@@ -3966,9 +4036,7 @@ public class Player: AbstractPlayer {
             
             // make the unit visible
             gameModel.userInterface?.show(unit: traderUnit)
-             
-            popupData = PopupData(goodyType: .freeTrader)
-            
+                         
         case .freeSettler:
             let settlerUnit = Unit(at: tile.point, type: .settler, owner: self)
             gameModel.add(unit: settlerUnit)
@@ -3976,8 +4044,6 @@ public class Player: AbstractPlayer {
             
             // make the unit visible
             gameModel.userInterface?.show(unit: settlerUnit)
-            
-            popupData = PopupData(goodyType: .freeSettler)
         }
         
         /*if (!strBuffer.empty() && GC.getGame().getActivePlayer() == GetID()) {
@@ -3986,12 +4052,10 @@ public class Player: AbstractPlayer {
 
         // If it's the active player then show the popup
         if self.isHuman() && self.isEqual(to: gameModel.activePlayer()) {
-            
-            if popupData != nil {
-                // FIXME: should not happen - all goodies should be handled
-                gameModel.userInterface?.showPopup(popupType: .goodyHutReward, with: popupData)
-            }
-                
+
+            // FIXME: should not happen - all goodies should be handled
+            gameModel.userInterface?.showPopup(popupType: .goodyHutReward(goodyType: goodyType, location: tile.point))
+
             // We are adding a popup that the player must make a choice in, make sure they are not in the end-turn phase.
             //CancelActivePlayerEndTurn();
         }
@@ -4143,7 +4207,7 @@ public class Player: AbstractPlayer {
         return true
     }
     
-    public func canPurchaseInAnyCity(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+    public func canPurchaseInAnyCity(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")

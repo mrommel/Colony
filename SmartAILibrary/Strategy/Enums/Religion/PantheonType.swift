@@ -163,4 +163,112 @@ extension PantheonType {
         
         return false
     }
+    
+    func minPopulation() -> Int {
+        
+        return 0
+    }
+    
+    func minFollowers() -> Int {
+        
+        return 0
+    }
+    
+    func cityGrowthModifier() -> Int {
+        
+        if self == .fertilityRites {
+            return 4
+        }
+        
+        if self == .riverGoddess || self == .goddessOfTheHunt {
+            return 2
+        }
+        
+        if self == .religiousSettlements {
+            return 2
+        }
+        
+        return 1
+    }
+    
+    func obsoleteEra() -> EraType {
+        
+        return .future
+    }
+    
+    func unitProductionModifier() -> Int {
+        
+        if self == .godOfTheForge {
+            return 5
+        }
+        
+        return 0
+    }
+    
+    func wonderProductionModifier() -> Int {
+        
+        if self == .monumentToTheGods {
+            return 5
+        }
+        
+        return 0
+    }
+    
+    func requiresPeace() -> Bool {
+        
+        return false
+    }
+    
+    func riverHappiness() -> Int {
+        
+        if self == .riverGoddess {
+            return 4
+        }
+        
+        return 0
+    }
+    
+    func happinessPerCity() -> Int {
+        
+        return 0
+    }
+    
+    func yieldPerPopulation(of yieldType: YieldType) -> Int {
+        
+        return 0
+    }
+    
+    func yieldPerLuxuryResource(of yieldType: YieldType) -> Int {
+        
+        if self == .religiousIdols && yieldType == .faith {
+            return 2
+        }
+        
+        return 0
+    }
+    
+    func yieldFor(building buildingType: BuildingType, yield yieldType: YieldType) -> Int {
+        
+        return 0
+    }
+    
+    func friendlyHealChange() -> Int {
+        
+        return 0
+    }
+    
+    func plotCultureCostModifier() -> Int {
+        
+        return 0
+    }
+    
+    func cityRangeStrikeModifier() -> Int {
+        
+        return 0
+    }
+    
+    func greatPersonPoints(for greatPersonType: GreatPersonType) -> Int {
+        
+        return 0
+    }
 }

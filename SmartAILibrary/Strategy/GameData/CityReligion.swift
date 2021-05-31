@@ -445,7 +445,7 @@ public class CityReligion: AbstractCityReligion, Codable {
             // trigger event to user
             if city.player?.isHuman() ?? false {
                 
-                gameModel?.userInterface?.showPopup(popupType: .religionByCityAdopted, with: PopupData(religionType: self.majorityCityReligion, for: city.name))
+                gameModel?.userInterface?.showPopup(popupType: .religionByCityAdopted(religion: self.majorityCityReligion, location: city.location))
             }
             
             // GC.GetEngineUserInterface()->setDirty(CityInfo_DIRTY_BIT, true);

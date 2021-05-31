@@ -10,9 +10,9 @@ import SpriteKit
 
 extension GameScene: UserInterfaceDelegate {
     
-    func showPopup(popupType: PopupType, with data: PopupData?) {
+    func showPopup(popupType: PopupType) {
 
-        self.viewModel?.delegate?.showPopup(popupType: popupType, with: data)
+        self.viewModel?.delegate?.showPopup(popupType: popupType)
     }
     
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?) {
