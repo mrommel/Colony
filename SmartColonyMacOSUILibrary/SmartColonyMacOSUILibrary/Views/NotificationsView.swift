@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SmartAILibrary
 
 struct NotificationsView: View {
     
@@ -51,7 +52,8 @@ struct NotificationsView_Previews: PreviewProvider {
     
     static var previews: some View {
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = NotificationsViewModel(types: [NotificationInfo(type: .cityGrowth, location: .invalid), NotificationInfo(type: .generic, location: .invalid)])
+        let item0: NotificationItem = NotificationItem(type: .cityGrowth, for: LeaderType.alexander, message: "", summary: "", at: HexPoint(x: 3, y: 3), other: LeaderType.trajan)
+        let viewModel = NotificationsViewModel(items: [item0])
         
         NotificationsView(viewModel: viewModel)
     }

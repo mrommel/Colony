@@ -511,23 +511,31 @@ extension GameViewModel: GameViewModelDelegate {
         case .interimRanking:
             // self.showInterimRankingDialog()
             print("==> interimRanking")
+            
         case .diplomatic:
             // self.showDiplomaticDialog(with: otherPlayer, data: data, deal: nil)
             print("==> diplomatic")
+            
         case .city:
             self.showCityDialog(for: city)
+            
         case .techs:
             self.showChangeTechDialog()
+            
         case .civics:
             self.showChangeCivicDialog()
+            
         case .treasury:
             // self.showTreasuryDialog()
             print("==> treasury")
+            
         case .menu:
             // self.showMenuDialog()
             print("==> menu")
+            
         case .government:
             self.showGovernmentDialog()
+            
         case .selectPromotion:
             guard let game = self.gameEnvironment.game.value else {
                 fatalError("cant get game")
@@ -542,6 +550,9 @@ extension GameViewModel: GameViewModelDelegate {
                 // self.handleUnitPromotion(at: promotableUnit.location)
                 print("==> selectPromotion")
             }
+        case .changePolicies:
+            self.showChangePoliciesDialog()
+            
         default:
             print("screen: \(screenType) not handled")
         }

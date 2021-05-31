@@ -8,12 +8,6 @@
 import SwiftUI
 import SmartAILibrary
 
-struct NotificationInfo {
-    
-    let type: NotificationType
-    let location: HexPoint
-}
-
 class NotificationsViewModel: ObservableObject {
     
     @Environment(\.gameEnvironment)
@@ -21,16 +15,16 @@ class NotificationsViewModel: ObservableObject {
     
     weak var delegate: GameViewModelDelegate?
     
-    var types: [NotificationInfo] = []
+    var items: [NotificationItem] = []
     
     init() {
         
     }
     
 #if DEBUG
-    init(types: [NotificationInfo]) {
+    init(items: [NotificationItem]) {
         
-        self.types = types
+        self.items = items
         
         self.rebuildNotifcations()
     }
@@ -41,14 +35,14 @@ class NotificationsViewModel: ObservableObject {
     
     func add(notification: NotificationItem) {
         
-        self.types.append(NotificationInfo(type: notification.type, location: notification.location))
+        self.items.append(notification)
 
         self.rebuildNotifcations()
     }
     
     func remove(notification: NotificationItem) {
         
-        self.types.removeAll(where: { $0.type == notification.type })
+        self.items.removeAll(where: { $0 == notification })
         
         self.rebuildNotifcations()
     }
@@ -56,8 +50,8 @@ class NotificationsViewModel: ObservableObject {
     private func rebuildNotifcations() {
         
         DispatchQueue.main.async {
-            self.notificationViewModels = self.types.map {
-                let viewModel = NotificationViewModel(type: $0.type, location: $0.location)
+            self.notificationViewModels = self.items.map {
+                let viewModel = NotificationViewModel(item: $0)
                 viewModel.delegate = self
                 return viewModel
             }
@@ -67,36 +61,8 @@ class NotificationsViewModel: ObservableObject {
 
 extension NotificationsViewModel: NotificationViewModelDelegate {
     
-    func clicked(type: NotificationType, location: HexPoint) {
-        
-        print("clicked: \(type)")
-        
-        if type == .techNeeded {
-            self.delegate?.showChangeTechDialog()
-            return
-        } else if type == .civicNeeded {
-            self.delegate?.showChangeCivicDialog()
-            return
-        } else if type == .productionNeeded {
-            
-            guard let game = self.gameEnvironment.game.value else {
-                fatalError("cant get game")
-            }
-            
-            guard let city = game.city(at: location) else {
-                fatalError("no game at \(location)")
-            }
-            
-            self.delegate?.showCityDialog(for: city)
-            return
-        } else if type == .policiesNeeded {
-            self.delegate?.showChangePoliciesDialog()
-            return
-        } /*else if type == .unitPromotion {
-            self.handleUnitPromotion(at: self.turnButtonNotificationLocation)
-            return
-        } */else {
-            print("--- unhandled notification type: \(type)")
-        }
+    func clicked(on item: NotificationItem) {
+
+        item.activate(in: self.gameEnvironment.game.value)
     }
 }

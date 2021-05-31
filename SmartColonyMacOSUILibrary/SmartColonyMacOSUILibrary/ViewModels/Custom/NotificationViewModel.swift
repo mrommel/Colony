@@ -10,30 +10,28 @@ import Cocoa
 
 protocol NotificationViewModelDelegate: AnyObject {
     
-    func clicked(type: NotificationType, location: HexPoint)
+    func clicked(on item: NotificationItem)
 }
 
 class NotificationViewModel: ObservableObject {
     
-    let type: NotificationType
-    let location: HexPoint
+    let item: NotificationItem
     
     weak var delegate: NotificationViewModelDelegate?
     
-    init(type: NotificationType, location: HexPoint) {
+    init(item: NotificationItem) {
         
-        self.type = type
-        self.location = location
+        self.item = item
     }
     
     func title() -> String {
         
-        return self.type.iconTexture()
+        return self.item.type.iconTexture()
     }
     
     func icon() -> NSImage {
         
-        return ImageCache.shared.image(for: self.type.iconTexture())
+        return ImageCache.shared.image(for: self.item.type.iconTexture())
     }
     
     func background() -> NSImage {
@@ -43,7 +41,7 @@ class NotificationViewModel: ObservableObject {
     
     func click() {
         
-        self.delegate?.clicked(type: self.type, location: self.location)
+        self.delegate?.clicked(on: self.item)
     }
 }
 
@@ -51,11 +49,12 @@ extension NotificationViewModel: Hashable {
     
     static func == (lhs: NotificationViewModel, rhs: NotificationViewModel) -> Bool {
         
-        return lhs.type == rhs.type
+        return lhs.item == rhs.item
     }
     
     func hash(into hasher: inout Hasher) {
         
-        hasher.combine(self.type)
+        hasher.combine(self.item.type)
+        hasher.combine(self.item.location)
     }
 }
