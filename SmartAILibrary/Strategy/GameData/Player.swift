@@ -3845,7 +3845,7 @@ public class Player: AbstractPlayer {
         }
     }
     
-    func receiveGoody(at tile: AbstractTile?, goody: GoodyType, unit: AbstractUnit?, in gameModel: GameModel?) {
+    func receiveGoody(at tile: AbstractTile?, goody goodyType: GoodyType, unit: AbstractUnit?, in gameModel: GameModel?) {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -3862,10 +3862,8 @@ public class Player: AbstractPlayer {
         guard let techs = self.techs else {
             fatalError("cant get techs")
         }
-        
-        var goodyType: GoodyType = .none
 
-        switch goody {
+        switch goodyType {
         case .none:
             print("")
             
@@ -4045,19 +4043,12 @@ public class Player: AbstractPlayer {
             // make the unit visible
             gameModel.userInterface?.show(unit: settlerUnit)
         }
-        
-        /*if (!strBuffer.empty() && GC.getGame().getActivePlayer() == GetID()) {
-            GC.GetEngineUserInterface()->AddPlotMessage(0, pPlot->GetPlotIndex(), GetID(), true, GC.getEVENT_MESSAGE_TIME(), strBuffer);
-        }*/
 
         // If it's the active player then show the popup
         if self.isHuman() && self.isEqual(to: gameModel.activePlayer()) {
 
             // FIXME: should not happen - all goodies should be handled
             gameModel.userInterface?.showPopup(popupType: .goodyHutReward(goodyType: goodyType, location: tile.point))
-
-            // We are adding a popup that the player must make a choice in, make sure they are not in the end-turn phase.
-            //CancelActivePlayerEndTurn();
         }
     }
     

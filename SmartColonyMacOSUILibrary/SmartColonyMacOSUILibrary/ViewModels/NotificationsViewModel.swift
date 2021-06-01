@@ -13,9 +13,12 @@ class NotificationsViewModel: ObservableObject {
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
     
+    @Published
+    var notificationViewModels: [NotificationViewModel] = []
+    
     weak var delegate: GameViewModelDelegate?
     
-    var items: [NotificationItem] = []
+    private var items: [NotificationItem] = []
     
     init() {
         
@@ -29,9 +32,6 @@ class NotificationsViewModel: ObservableObject {
         self.rebuildNotifcations()
     }
 #endif
-    
-    @Published
-    var notificationViewModels: [NotificationViewModel] = []
     
     func add(notification: NotificationItem) {
         
@@ -49,13 +49,13 @@ class NotificationsViewModel: ObservableObject {
     
     private func rebuildNotifcations() {
         
-        DispatchQueue.main.async {
-            self.notificationViewModels = self.items.map {
-                let viewModel = NotificationViewModel(item: $0)
-                viewModel.delegate = self
-                return viewModel
-            }
+        //DispatchQueue.main.async {
+        self.notificationViewModels = self.items.map {
+            let viewModel = NotificationViewModel(item: $0)
+            viewModel.delegate = self
+            return viewModel
         }
+        //}
     }
 }
 

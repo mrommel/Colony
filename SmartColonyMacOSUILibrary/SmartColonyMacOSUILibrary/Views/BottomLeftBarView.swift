@@ -97,9 +97,7 @@ public struct BottomLeftBarView: View {
                         .padding(.top, 10)
                         .padding(.leading, 3)
                     
-                    Image(nsImage: self.viewModel.buttonImage())
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
+                    AnimatedImageView(viewModel: self.viewModel.buttonViewModel)
                         .frame(width: 83, height: 83)
                         .offset(x: 6, y: -7)
                         .onTapGesture {

@@ -59,18 +59,44 @@ public class GameSceneViewModel: ObservableObject {
     }
     
     @Published
-    var selectedUnit: AbstractUnit? = nil
+    var selectedUnit: AbstractUnit? = nil {
+        
+        didSet {
+            if self.uiTurnState != .humanTurns {
+                return
+            }
+            
+            if let selectedUnit = self.selectedUnit {
+                self.buttonViewModel.show(image: selectedUnit.type.iconTexture())
+            }
+        }
+    }
     
     @Published
     var sceneCombatMode: GameSceneCombatMode = .none
     
     @Published
-    var turnButtonNotificationType: NotificationType = .unitNeedsOrders
+    var turnButtonNotificationType: NotificationType = .unitNeedsOrders {
+        didSet {
+            if self.uiTurnState != .humanTurns {
+                return
+            }
+            
+            if self.selectedUnit != nil {
+                return
+            }
+            
+            self.buttonViewModel.show(image: ImageCache.shared.image(for: self.turnButtonNotificationType.iconTexture()))
+        }
+    }
     
     var turnButtonNotificationLocation: HexPoint = .zero
     
     @Published
     var uiTurnState: GameSceneTurnState = .humanTurns
+    
+    @Published
+    var buttonViewModel: AnimatedImageViewModel
     
     @Published
     var showCommands: Bool = false
@@ -86,11 +112,16 @@ public class GameSceneViewModel: ObservableObject {
     
     var centerOn: HexPoint? = nil
     
+    var globeImages: [NSImage] = []
+    
     weak var delegate: GameViewModelDelegate?
     
     public init() {
         
         self.game = nil
+        
+        let buttonImage = NSImage() // ImageCache.shared.image(for: NotificationType.unitNeedsOrders.iconTexture())
+        self.buttonViewModel = AnimatedImageViewModel(image: buttonImage)
     }
     
     public func doTurn() {
@@ -120,15 +151,6 @@ public class GameSceneViewModel: ObservableObject {
             return
         } else {
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
-        }
-    }
-    
-    public func buttonImage() -> NSImage {
-        
-        if let selectedUnit = self.selectedUnit {
-            return selectedUnit.type.iconTexture()
-        } else {
-            return ImageCache.shared.image(for: self.turnButtonNotificationType.iconTexture())
         }
     }
     
@@ -236,10 +258,8 @@ public class GameSceneViewModel: ObservableObject {
 
         switch command.type {
         case .found:
-            if let selectedUnit = self.selectedUnit {
-                
                 self.delegate?.showCityNameDialog()
-            }
+
         case .buildFarm:
             if let selectedUnit = self.selectedUnit {
                 let farmBuildMission = UnitMission(type: .build, buildType: .farm, at: selectedUnit.location)
@@ -448,31 +468,29 @@ public class GameSceneViewModel: ObservableObject {
     
     func showTurnButton() {
         
-        // self.unitImageNode?.texture = SKTexture(imageNamed: "button_turn")
         self.turnButtonNotificationType = .turn
     }
     
     func showBlockingButton(for blockingNotification: NotificationItem) {
         
-        // self.unitImageNode?.texture = SKTexture(imageNamed: blockingNotification.type.iconTexture())
         self.turnButtonNotificationType = blockingNotification.type
         self.turnButtonNotificationLocation = blockingNotification.location
     }
     
     func showSpinningGlobe() {
         
-        /*let globeAtlas = GameObjectAtlas(atlasName: "globe", template: "globe", range: 0..<91)
+        if self.globeImages.count == 0 {
+            self.globeImages = Array(0...90).map { "globe\($0)" }.map { globeTextureName in
+                
+                return ImageCache.shared.image(for: globeTextureName)
+            }
+        }
         
-        // start animation
-        let globeFrames: [SKTexture] = globeAtlas.textures
-        let globeRotation = SKAction.repeatForever(SKAction.animate(with: globeFrames, timePerFrame: 0.07))
-        
-        self.unitImageNode?.run(globeRotation, withKey: BottomLeftBar.globeActionKey)*/
+        self.buttonViewModel.playAnimation(images: self.globeImages, interval: 0.07)
     }
     
     func hideSpinningGlobe() {
         
-        //self.unitImageNode?.removeAction(forKey: BottomLeftBar.globeActionKey)
     }
     
     func updateTurnButton() {

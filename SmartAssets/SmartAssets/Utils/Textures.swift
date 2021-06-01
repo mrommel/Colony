@@ -32,6 +32,7 @@ public class Textures {
     public let overviewTextureNames: [String]
     
     public let buttonTextureNames: [String]
+    public let globeTextureNames: [String]
     public let cultureProgressTextureNames: [String]
     public let scienceProgressTextureNames: [String]
     public let headerTextureNames: [String]
@@ -124,6 +125,7 @@ public class Textures {
         self.overviewTextureNames = ["overview-mountains", "overview-mountains-passive", "overview-hills",  "overview-hills-passive", "overview-forest", "overview-forest-passive"]
         
         self.buttonTextureNames = NotificationType.all.map { $0.iconTexture() }
+        self.globeTextureNames = Array(0...90).map { "globe\($0)" }
         self.cultureProgressTextureNames = Array(0...100).map { "culture_progress_\($0)" }
         self.scienceProgressTextureNames = Array(0...100).map { "science_progress_\($0)" }
         self.headerTextureNames = ["header-culture-button-active", "header-culture-button-disabled", "header-government-button-active", "header-government-button-disabled", "header-log-button-active", "header-log-button-disabled", "header-science-button-active", "header-science-button-disabled"]
