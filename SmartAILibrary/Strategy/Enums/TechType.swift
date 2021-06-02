@@ -311,7 +311,7 @@ public enum TechType: String, Codable {
         case .sailing:
             return TechTypeData(name: "Sailing",
                                 eurekaSummary: "Found a city on the Coast",
-                                eurekaDescription: "Gaining a city on the Coast has given your civilization insight into navigating the waves.",
+                                eurekaDescription: "Founding a city on the Coast has given your civilization insight into navigating the waves.",
                                 era: .ancient,
                                 cost: 50,
                                 required: [],

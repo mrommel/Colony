@@ -100,6 +100,10 @@
 		C9A8F0DD2651A63100584199 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0DC2651A63100584199 /* NotificationViewModel.swift */; };
 		C9A8F0DF2651A6CB00584199 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8F0DE2651A6CB00584199 /* NotificationView.swift */; };
 		C9AA64FD26559C4200907DE1 /* GameButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA64FC26559C4200907DE1 /* GameButtonStyle.swift */; };
+		C9B087C826679E1D0016DFCA /* GoodyHutRewardPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */; };
+		C9B087CB2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */; };
+		C9B087CD2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */; };
+		C9B087CF2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CE2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift */; };
 		C9B3141E2657FF1100726CAA /* YieldValueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3141D2657FF1100726CAA /* YieldValueViewModel.swift */; };
 		C9B43FAD263E8DEE00241012 /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FAC263E8DEE00241012 /* ZoomableScrollView.swift */; };
 		C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */; };
@@ -259,6 +263,10 @@
 		C9A8F0DC2651A63100584199 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		C9A8F0DE2651A6CB00584199 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		C9AA64FC26559C4200907DE1 /* GameButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameButtonStyle.swift; sourceTree = "<group>"; };
+		C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHutRewardPopupView.swift; sourceTree = "<group>"; };
+		C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHutRewardPopupViewModel.swift; sourceTree = "<group>"; };
+		C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaTechActivatedPopupView.swift; sourceTree = "<group>"; };
+		C9B087CE2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaTechActivatedPopupViewModel.swift; sourceTree = "<group>"; };
 		C9B3141D2657FF1100726CAA /* YieldValueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldValueViewModel.swift; sourceTree = "<group>"; };
 		C9B43FAC263E8DEE00241012 /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskYesNoAlertView.swift; sourceTree = "<group>"; };
@@ -446,6 +454,7 @@
 			isa = PBXGroup;
 			children = (
 				C950F993264902840057A7D1 /* Dialogs */,
+				C9B087C626679DFC0016DFCA /* Popups */,
 				C93AA6AE2611C1B20053DF74 /* Base */,
 				C9A48D3C2653B8D500260EE0 /* Custom */,
 				C9A376272635FB550057923E /* Scenes */,
@@ -465,6 +474,7 @@
 			isa = PBXGroup;
 			children = (
 				C9A48D3F2653B9E100260EE0 /* Dialogs */,
+				C9B087C92667A2A00016DFCA /* Popups */,
 				C9BA39952665748A008B3476 /* Base */,
 				C9E0598226551F4800C08463 /* Custom */,
 				C950F98C26427E060057A7D1 /* Scenes */,
@@ -569,6 +579,24 @@
 				C9A48D4A2653F8C100260EE0 /* CityDialogViewModel.swift */,
 			);
 			path = Dialogs;
+			sourceTree = "<group>";
+		};
+		C9B087C626679DFC0016DFCA /* Popups */ = {
+			isa = PBXGroup;
+			children = (
+				C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */,
+				C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */,
+			);
+			path = Popups;
+			sourceTree = "<group>";
+		};
+		C9B087C92667A2A00016DFCA /* Popups */ = {
+			isa = PBXGroup;
+			children = (
+				C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */,
+				C9B087CE2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift */,
+			);
+			path = Popups;
 			sourceTree = "<group>";
 		};
 		C9BA39952665748A008B3476 /* Base */ = {
@@ -715,6 +743,7 @@
 				C92F948B265E2298000968AB /* HexagonViewModel.swift in Sources */,
 				C9A48D51265408A700260EE0 /* CityProductionView.swift in Sources */,
 				C988EAE5261B724500300C39 /* AnimatedImageView.swift in Sources */,
+				C9B087CF2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift in Sources */,
 				C9A61D81261EE55600341241 /* PixelBuffer.swift in Sources */,
 				C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */,
 				C92F9488265E2298000968AB /* HexagonGridView.swift in Sources */,
@@ -755,8 +784,10 @@
 				C9AA64FD26559C4200907DE1 /* GameButtonStyle.swift in Sources */,
 				C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */,
 				C968F2AE2639EE3C00612D0E /* SKLabelNodeExtension.swift in Sources */,
+				C9B087C826679E1D0016DFCA /* GoodyHutRewardPopupView.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
 				C9A8F0D72651969D00584199 /* GameViewModelDialogs.swift in Sources */,
+				C9B087CD2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift in Sources */,
 				C9BA399726657499008B3476 /* AnimatedImageViewModel.swift in Sources */,
 				C968F2A12639E4E300612D0E /* UnitLayer.swift in Sources */,
 				C9A37615263457210057923E /* SafeAreaNode.swift in Sources */,
@@ -814,6 +845,7 @@
 				C9A48D452653CD7500260EE0 /* CivicProgressViewModel.swift in Sources */,
 				C9A3763326369FE60057923E /* WaterLayer.swift in Sources */,
 				C9A48D302652C8AC00260EE0 /* BannerView.swift in Sources */,
+				C9B087CB2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift in Sources */,
 				C950F99B264908F80057A7D1 /* PolicyCardViewModel.swift in Sources */,
 				C9A8F0D52651149A00584199 /* CivicViewModel.swift in Sources */,
 				C9A8F0DF2651A6CB00584199 /* NotificationView.swift in Sources */,

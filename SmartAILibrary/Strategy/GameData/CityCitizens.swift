@@ -209,8 +209,6 @@ public class CityCitizens: Codable {
         
         self.specialistGreatPersonProgress = GreatPersonProgressList()
         self.specialistGreatPersonProgress.fill()
-        
-        self.initialize()
     }
     
     required public init(from decoder: Decoder) throws {
@@ -267,7 +265,11 @@ public class CityCitizens: Codable {
         try container.encode(self.specialistGreatPersonProgress, forKey: .specialistGreatPersonProgress)
     }
     
-    func initialize() {
+    func initialize(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
         
         guard let city = self.city else {
             fatalError("no city set")
@@ -275,9 +277,12 @@ public class CityCitizens: Codable {
         
         for location in city.location.areaWith(radius: City.workRadius) {
             
-            // FIXME: check map
+            let wrappedLocation = gameModel.wrap(point: location)
             
-            self.workingPlots.append(WorkingPlot(location: location, worked: false))
+            if gameModel.valid(point: wrappedLocation) {
+            
+                self.workingPlots.append(WorkingPlot(location: wrappedLocation, worked: false))
+            }
         }
     }
     

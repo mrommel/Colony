@@ -37,6 +37,7 @@ protocol GameViewModelDelegate: AnyObject {
     func remove(notification: NotificationItem)
     
     func closeDialog()
+    func closePopup()
 }
 
 public class GameViewModel: ObservableObject {
@@ -509,6 +510,11 @@ extension GameViewModel: GameViewModelDelegate {
         self.popups.append(popupType)
     }
     
+    func closePopup() {
+        
+        self.currentPopupType = .none
+    }
+    
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?) {
         
         switch screenType {
@@ -572,7 +578,8 @@ extension GameViewModel: GameViewModelDelegate {
         
         if self.currentScreenType == .none {
 
-            if self.popups.count > 0 && self.currentPopupType == PopupType.none {
+            //print("-- checkPopups \(self.popups.count) / \(self.currentPopupType) --")
+            if self.popups.count > 0 && self.currentPopupType == .none {
                 self.displayPopups()
                 return true
             }

@@ -1007,6 +1007,11 @@ open class GameModel: Codable {
 
         return self.map.valid(point: point)
     }
+    
+    public func wrap(point: HexPoint) -> HexPoint {
+        
+        return self.map.wrap(point: point)
+    }
 
     public func tile(at point: HexPoint) -> AbstractTile? {
 

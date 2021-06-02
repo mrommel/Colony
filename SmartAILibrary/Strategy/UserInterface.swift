@@ -45,8 +45,8 @@ extension PopupType: Equatable {
         case (let .barbarianCampCleared(lhs_location, lhs_gold), let .barbarianCampCleared(rhs_location, rhs_gold)):
             return lhs_location == rhs_location && lhs_gold == rhs_gold
         
-        case (let .goodyHutReward(lhs_goodyType), let .goodyHutReward(rhs_goodyType)):
-            return lhs_goodyType == rhs_goodyType
+        case (let .goodyHutReward(lhs_goodyType, lhs_location), let .goodyHutReward(rhs_goodyType, rhs_location)):
+            return lhs_goodyType == rhs_goodyType && lhs_location == rhs_location
         
         case (let .techDiscovered(lhs_tech), let .techDiscovered(rhs_tech)):
             return lhs_tech == rhs_tech
@@ -83,6 +83,9 @@ extension PopupType: Equatable {
         case (.religionNeedNewAutomaticFaithSelection, .religionNeedNewAutomaticFaithSelection):
             return true
         case (.religionEnoughFaithForMissionary, .religionEnoughFaithForMissionary):
+            return true
+            
+        case (.none, .none):
             return true
             
         default:

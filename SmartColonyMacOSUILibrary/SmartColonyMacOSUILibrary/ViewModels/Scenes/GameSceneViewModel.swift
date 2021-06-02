@@ -507,8 +507,10 @@ public class GameSceneViewModel: ObservableObject {
             fatalError("cant get human")
         }
         
-        if self.delegate?.checkPopups() ?? false {
-            return
+        if let delegate = self.delegate {
+            if delegate.checkPopups() {
+                return
+            }
         }
 
         if let blockingNotification = humanPlayer.blockingNotification() {

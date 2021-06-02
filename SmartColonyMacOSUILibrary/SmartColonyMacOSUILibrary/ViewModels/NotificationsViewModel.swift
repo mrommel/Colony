@@ -49,13 +49,13 @@ class NotificationsViewModel: ObservableObject {
     
     private func rebuildNotifcations() {
         
-        //DispatchQueue.main.async {
-        self.notificationViewModels = self.items.map {
-            let viewModel = NotificationViewModel(item: $0)
-            viewModel.delegate = self
-            return viewModel
+        DispatchQueue.main.async {
+            self.notificationViewModels = self.items.map {
+                let viewModel = NotificationViewModel(item: $0)
+                viewModel.delegate = self
+                return viewModel
+            }
         }
-        //}
     }
 }
 

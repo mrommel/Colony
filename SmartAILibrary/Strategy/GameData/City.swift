@@ -551,6 +551,8 @@ public class City: AbstractCity {
         self.cityReligion = CityReligion(city: self)
         self.cityTradingPosts = CityTradingPosts(city: self)
         
+        self.cityCitizens?.initialize(in: gameModel)
+        
         if player.leader.civilization().ability() == .allRoadsLeadToRome {
             self.cityTradingPosts?.buildTradingPost(for: player.leader)
         }

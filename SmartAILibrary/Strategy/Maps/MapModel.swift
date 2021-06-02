@@ -397,7 +397,7 @@ open class MapModel: Codable {
             }
         }
         
-        return point
+        return HexPoint(x: point.x, y: point.y)
     }
     
     // MARK: tile methods
