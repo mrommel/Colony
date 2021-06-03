@@ -25,6 +25,12 @@
 		C92F9495265E56D0000968AB /* HillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F9494265E56D0000968AB /* HillsView.swift */; };
 		C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6AA260F24640053DF74 /* CGRectExtension.swift */; };
 		C94507A9262232E400CFD27D /* DataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94507A8262232E400CFD27D /* DataPicker.swift */; };
+		C9452E2526680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E2426680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift */; };
+		C9452E272668061D005EF985 /* EurekaCivicActivatedPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E262668061D005EF985 /* EurekaCivicActivatedPopupView.swift */; };
+		C9452E2B2668093A005EF985 /* EraEnteredPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E2A2668093A005EF985 /* EraEnteredPopupView.swift */; };
+		C9452E2D266809A6005EF985 /* EraEnteredPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E2C266809A6005EF985 /* EraEnteredPopupViewModel.swift */; };
+		C9452E2F26680C95005EF985 /* TechDiscoveredPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E2E26680C95005EF985 /* TechDiscoveredPopupViewModel.swift */; };
+		C9452E3126680DB3005EF985 /* TechDiscoveredPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E3026680DB3005EF985 /* TechDiscoveredPopupView.swift */; };
 		C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */; };
 		C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */; };
 		C950F995264902990057A7D1 /* ChangePolicyDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F994264902990057A7D1 /* ChangePolicyDialogView.swift */; };
@@ -148,6 +154,8 @@
 		C9E87BB3264D1CB500514B9A /* TechViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BB2264D1CB500514B9A /* TechViewModel.swift */; };
 		C9E87BB5264D1D1C00514B9A /* CivicDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BB4264D1D1C00514B9A /* CivicDialogView.swift */; };
 		C9E87BB7264D1DC500514B9A /* CivicDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E87BB6264D1DC500514B9A /* CivicDialogViewModel.swift */; };
+		C9F2B54D2669126E0016D4F3 /* CivicDiscoveredPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B54C2669126E0016D4F3 /* CivicDiscoveredPopupView.swift */; };
+		C9F2B54F266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B54E266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift */; };
 		C9FD308526223EA200153752 /* DemoGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FD308426223EA200153752 /* DemoGameModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -185,6 +193,12 @@
 		C92F9494265E56D0000968AB /* HillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HillsView.swift; sourceTree = "<group>"; };
 		C93AA6AA260F24640053DF74 /* CGRectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
 		C94507A8262232E400CFD27D /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
+		C9452E2426680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaCivicActivatedPopupViewModel.swift; sourceTree = "<group>"; };
+		C9452E262668061D005EF985 /* EurekaCivicActivatedPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaCivicActivatedPopupView.swift; sourceTree = "<group>"; };
+		C9452E2A2668093A005EF985 /* EraEnteredPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraEnteredPopupView.swift; sourceTree = "<group>"; };
+		C9452E2C266809A6005EF985 /* EraEnteredPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraEnteredPopupViewModel.swift; sourceTree = "<group>"; };
+		C9452E2E26680C95005EF985 /* TechDiscoveredPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDiscoveredPopupViewModel.swift; sourceTree = "<group>"; };
+		C9452E3026680DB3005EF985 /* TechDiscoveredPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDiscoveredPopupView.swift; sourceTree = "<group>"; };
 		C950F98A26427C560057A7D1 /* GameSceneUserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneUserInterface.swift; sourceTree = "<group>"; };
 		C950F98D26427E110057A7D1 /* GameSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneViewModel.swift; sourceTree = "<group>"; };
 		C950F994264902990057A7D1 /* ChangePolicyDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePolicyDialogView.swift; sourceTree = "<group>"; };
@@ -308,6 +322,8 @@
 		C9E87BB2264D1CB500514B9A /* TechViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechViewModel.swift; sourceTree = "<group>"; };
 		C9E87BB4264D1D1C00514B9A /* CivicDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDialogView.swift; sourceTree = "<group>"; };
 		C9E87BB6264D1DC500514B9A /* CivicDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDialogViewModel.swift; sourceTree = "<group>"; };
+		C9F2B54C2669126E0016D4F3 /* CivicDiscoveredPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDiscoveredPopupView.swift; sourceTree = "<group>"; };
+		C9F2B54E266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicDiscoveredPopupViewModel.swift; sourceTree = "<group>"; };
 		C9FD308426223EA200153752 /* DemoGameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoGameModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -586,6 +602,10 @@
 			children = (
 				C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */,
 				C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */,
+				C9452E262668061D005EF985 /* EurekaCivicActivatedPopupView.swift */,
+				C9452E2A2668093A005EF985 /* EraEnteredPopupView.swift */,
+				C9452E3026680DB3005EF985 /* TechDiscoveredPopupView.swift */,
+				C9F2B54C2669126E0016D4F3 /* CivicDiscoveredPopupView.swift */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -595,6 +615,10 @@
 			children = (
 				C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */,
 				C9B087CE2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift */,
+				C9452E2426680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift */,
+				C9452E2C266809A6005EF985 /* EraEnteredPopupViewModel.swift */,
+				C9452E2E26680C95005EF985 /* TechDiscoveredPopupViewModel.swift */,
+				C9F2B54E266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -754,6 +778,7 @@
 				C9A376292635FC260057923E /* ResourceLayer.swift in Sources */,
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
 				C9A3762B2635FDAF0057923E /* BoardLayer.swift in Sources */,
+				C9452E272668061D005EF985 /* EurekaCivicActivatedPopupView.swift in Sources */,
 				C9CE216D2649675F00B47ED4 /* CheckboxCircleToggleStyle.swift in Sources */,
 				C9D191AD265A8659008C9622 /* CityReligionView.swift in Sources */,
 				C9A376072634462A0057923E /* FeatureLayer.swift in Sources */,
@@ -764,6 +789,7 @@
 				C9E87BB3264D1CB500514B9A /* TechViewModel.swift in Sources */,
 				C968F2A92639E97400612D0E /* CityObject.swift in Sources */,
 				C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */,
+				C9452E2D266809A6005EF985 /* EraEnteredPopupViewModel.swift in Sources */,
 				C9E87BB1264D1C2600514B9A /* TechDialogViewModel.swift in Sources */,
 				C9A37609263446360057923E /* TerrainLayer.swift in Sources */,
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,
@@ -777,6 +803,7 @@
 				C9B43FB1263E905B00241012 /* CGSizeExtension.swift in Sources */,
 				C99A88982607A2CC003B8B73 /* CGImageExtension.swift in Sources */,
 				C9A48D38265396FA00260EE0 /* HeaderButtonView.swift in Sources */,
+				C9F2B54F266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift in Sources */,
 				C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */,
 				C9A48D3A2653A19900260EE0 /* HeaderButtonViewModel.swift in Sources */,
 				C9E87BB7264D1DC500514B9A /* CivicDialogViewModel.swift in Sources */,
@@ -787,6 +814,7 @@
 				C9B087C826679E1D0016DFCA /* GoodyHutRewardPopupView.swift in Sources */,
 				C99A88922607A269003B8B73 /* NSImageExtension.swift in Sources */,
 				C9A8F0D72651969D00584199 /* GameViewModelDialogs.swift in Sources */,
+				C9452E2526680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift in Sources */,
 				C9B087CD2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift in Sources */,
 				C9BA399726657499008B3476 /* AnimatedImageViewModel.swift in Sources */,
 				C968F2A12639E4E300612D0E /* UnitLayer.swift in Sources */,
@@ -824,6 +852,7 @@
 				C9D191A9265A49D5008C9622 /* CityBuildingsView.swift in Sources */,
 				C9B3141E2657FF1100726CAA /* YieldValueViewModel.swift in Sources */,
 				C9A48D4B2653F8C100260EE0 /* CityDialogViewModel.swift in Sources */,
+				C9452E3126680DB3005EF985 /* TechDiscoveredPopupView.swift in Sources */,
 				C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */,
 				C92F948D265E23A6000968AB /* HexagonGridViewModel.swift in Sources */,
 				C950F98B26427C560057A7D1 /* GameSceneUserInterface.swift in Sources */,
@@ -840,6 +869,7 @@
 				C9E0597D2654E9A200C08463 /* DistrictView.swift in Sources */,
 				C9A48D492653EC3A00260EE0 /* CityNameDialogView.swift in Sources */,
 				C950F995264902990057A7D1 /* ChangePolicyDialogView.swift in Sources */,
+				C9452E2F26680C95005EF985 /* TechDiscoveredPopupViewModel.swift in Sources */,
 				C9A8F0DB2651A61E00584199 /* NotificationsViewModel.swift in Sources */,
 				C968F2972639817A00612D0E /* ProgressCircle.swift in Sources */,
 				C9A48D452653CD7500260EE0 /* CivicProgressViewModel.swift in Sources */,
@@ -856,6 +886,8 @@
 				C9D191C1265D41CA008C9622 /* TradePostViewModel.swift in Sources */,
 				C9A61D85261EF7F200341241 /* MapOverviewView.swift in Sources */,
 				C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */,
+				C9452E2B2668093A005EF985 /* EraEnteredPopupView.swift in Sources */,
+				C9F2B54D2669126E0016D4F3 /* CivicDiscoveredPopupView.swift in Sources */,
 				C9E87BAF264D1BA000514B9A /* TechDialogView.swift in Sources */,
 				C9A48D412653BB4000260EE0 /* GovernmentDialogViewModel.swift in Sources */,
 				C9E0597B2654E32600C08463 /* BuildingView.swift in Sources */,

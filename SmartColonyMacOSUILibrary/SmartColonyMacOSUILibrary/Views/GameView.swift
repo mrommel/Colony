@@ -120,13 +120,19 @@ extension GameView {
             return AnyView(GoodyHutRewardPopupView(viewModel: viewModel))
             
         case .techDiscovered(tech: let tech):
-            return AnyView(Text("techDiscovered"))
+            let viewModel = TechDiscoveredPopupViewModel(techType: tech)
+            viewModel.delegate = self.viewModel
+            return AnyView(TechDiscoveredPopupView(viewModel: viewModel))
             
         case .civicDiscovered(civic: let civic):
-            return AnyView(Text("civicDiscovered"))
+            let viewModel = CivicDiscoveredPopupViewModel(civicType: civic)
+            viewModel.delegate = self.viewModel
+            return AnyView(CivicDiscoveredPopupView(viewModel: viewModel))
             
         case .eraEntered(era: let era):
-            return AnyView(Text("eraEntered"))
+            let viewModel = EraEnteredPopupViewModel(eraType: era)
+            viewModel.delegate = self.viewModel
+            return AnyView(EraEnteredPopupView(viewModel: viewModel))
             
         case .eurekaTechActivated(tech: let tech):
             let viewModel = EurekaTechActivatedPopupViewModel(techType: tech)
@@ -134,7 +140,9 @@ extension GameView {
             return AnyView(EurekaTechActivatedPopupView(viewModel: viewModel))
             
         case .eurekaCivicActivated(civic: let civic):
-            return AnyView(Text("eurekaCivicActivated"))
+            let viewModel = EurekaCivicActivatedPopupViewModel(civicType: civic)
+            viewModel.delegate = self.viewModel
+            return AnyView(EurekaCivicActivatedPopupView(viewModel: viewModel))
             
         case .unitTrained(unit: let unit):
             return AnyView(Text("unitTrained"))
