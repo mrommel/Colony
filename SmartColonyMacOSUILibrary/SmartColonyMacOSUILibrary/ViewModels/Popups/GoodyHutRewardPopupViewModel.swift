@@ -21,7 +21,7 @@ class GoodyHutRewardPopupViewModel: ObservableObject {
     init(goodyHutType: GoodyType, location: HexPoint) {
         
         self.title = "Received Goodies"
-        self.text = "Goody: \(goodyHutType)"
+        self.text = "The people from a tribal village gave you a present. \(goodyHutType.effect())"
     }
     
     func closePopup() {

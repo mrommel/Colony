@@ -1527,17 +1527,9 @@ public class Unit: AbstractUnit {
         return self.type
     }
     
-    // TODO: move to UnitType
     public func canCapture() -> Bool {
         
         return self.type.has(ability: .canCapture)
-        /*switch self.type.unitClass() {
-            
-        case .civilian, .ranged, .siege, .navalRanged, .navalCarrier, .airFighter, .airBomber, .support, .city:
-            return false
-        case .melee, .recon, .antiCavalry, .lightCavalry, .heavyCavalry, .navalMelee, .navalRaider:
-            return true
-        }*/
     }
 
     private func captureDefinition(by capturePlayer: AbstractPlayer?) -> UnitCaptureDefinition? {

@@ -42,11 +42,11 @@ struct YieldValueView_Previews: PreviewProvider {
     static var previews: some View {
         let _ = GameViewModel(preloadAssets: true)
 
-        YieldValueView(viewModel: YieldValueViewModel(yieldType: .food, value: 2.32))
+        YieldValueView(viewModel: YieldValueViewModel(yieldType: .food, initial: 2.32, type: .onlyDelta))
         
-        YieldValueView(viewModel: YieldValueViewModel(yieldType: .production, value: 12.32))
+        YieldValueView(viewModel: YieldValueViewModel(yieldType: .production, initial: 12.32, type: .onlyValue))
         
-        YieldValueView(viewModel: YieldValueViewModel(yieldType: .science, value: 12.32, withBackground: false))
+        YieldValueView(viewModel: YieldValueViewModel(yieldType: .science, initial: 12.32, type: .valueAndDelta,  withBackground: false))
     }
 }
 #endif

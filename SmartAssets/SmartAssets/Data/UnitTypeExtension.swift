@@ -106,10 +106,12 @@ extension UnitType {
 
             // barbarian
         case .barbarianWarrior:
-            return ObjectTextureAtlas(template: "warrior-idle-", range: 0..<10)
+            let textureAtlas = TextureAtlasLoader.load(named: "warrior", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "idle")
 
         case .barbarianArcher:
-            return ObjectTextureAtlas(template: "archer-idle-", range: 0..<10)
+            let textureAtlas = TextureAtlasLoader.load(named: "archer", in: bundle)
+            return textureAtlas?.objectTextureAtlas(for: "idle")
 
             // ancient
         case .settler:

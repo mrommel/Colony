@@ -7,15 +7,32 @@
 
 import SwiftUI
 
+public enum GameButtonState {
+    
+    case normal
+    case highlighted
+}
+
 public struct GameButtonStyle: ButtonStyle {
     
-    public init() {
+    let state: GameButtonState
+    
+    public init(state: GameButtonState = .normal) {
         
+        self.state = state
     }
     
     private func backgroundImage(pressed: Bool) -> NSImage {
         
-        return ImageCache.shared.image(for: pressed ? "grid9-button-clicked" : "grid9-button-active")
+        switch self.state {
+        
+        case .normal:
+            return ImageCache.shared.image(for: pressed ? "grid9-button-active" : "grid9-button-clicked")
+            
+        case .highlighted:
+            return ImageCache.shared.image(for: pressed ? "grid9-button-active" : "grid9-button-highlighted")
+            
+        }
     }
     
     public func makeBody(configuration: Self.Configuration) -> some View {
@@ -40,8 +57,11 @@ struct GameButtonStyle_Previews: PreviewProvider {
 
         let _ = GameViewModel(preloadAssets: true)
         
-        Button("Test", action: { })
+        Button("Normal", action: { })
             .buttonStyle(GameButtonStyle())
+        
+        Button("Highlighted", action: { })
+            .buttonStyle(GameButtonStyle(state: .highlighted))
     }
 }
 #endif

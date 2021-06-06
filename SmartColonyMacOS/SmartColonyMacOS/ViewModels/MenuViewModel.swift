@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import SmartMacOSUILibrary
+import SmartAssets
 
 protocol MenuViewModelDelegate: AnyObject {
     
@@ -21,6 +23,12 @@ class MenuViewModel: ObservableObject {
     
     init() {
         self.showingQuitConfirmationAlert = false
+        
+        let bundle = Bundle.init(for: Textures.self)
+
+        ImageCache.shared.add(image: bundle.image(forResource: "grid9-button-active"), for: "grid9-button-active")
+        ImageCache.shared.add(image: bundle.image(forResource: "grid9-button-highlighted"), for: "grid9-button-highlighted")
+        ImageCache.shared.add(image: bundle.image(forResource: "grid9-button-clicked"), for: "grid9-button-clicked")
     }
     
     func startNewGame() {

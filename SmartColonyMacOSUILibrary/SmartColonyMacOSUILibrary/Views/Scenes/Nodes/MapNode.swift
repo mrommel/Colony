@@ -23,7 +23,7 @@ class MapNode: SKNode {
     var cityLayer: CityLayer
     var improvementLayer: ImprovementLayer
     var borderLayer: BorderLayer
-    // var tooltipLayer: TooltipLayer
+    var tooltipLayer: TooltipLayer
     
     // can be shown by map options
     var yieldLayer: YieldLayer
@@ -94,9 +94,9 @@ class MapNode: SKNode {
         self.waterLayer.populate(with: self.game)
         self.waterLayer.zPosition = Globals.ZLevels.water
         
-        /*self.tooltipLayer = TooltipLayer(player: humanPlayer)
+        self.tooltipLayer = TooltipLayer(player: humanPlayer)
         self.tooltipLayer.populate(with: self.game)
-        self.tooltipLayer.zPosition = Globals.ZLevels.tooltips*/
+        self.tooltipLayer.zPosition = Globals.ZLevels.tooltips
         
         self.hexCoordLayer = HexCoordLayer(player: humanPlayer)
         self.hexCoordLayer.populate(with: self.game)

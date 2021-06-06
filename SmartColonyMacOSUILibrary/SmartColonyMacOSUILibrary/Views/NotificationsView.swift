@@ -20,6 +20,7 @@ struct NotificationsView: View {
         self.viewModel = viewModel
     }
     
+    @ViewBuilder
     public var body: some View {
         
         HStack(alignment: .top, spacing: 10) {

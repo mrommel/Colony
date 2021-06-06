@@ -114,7 +114,7 @@ class CityObject {
         }
 
         // show production only for human cities
-        /*if city.isHuman() {
+        if city.isHuman() {
             var texture: SKTexture = SKTexture(imageNamed: "questionmark")
             var productionProgress: Int = 0
             if let item = city.currentBuildableItem() {
@@ -122,22 +122,26 @@ class CityObject {
 
                 case .unit:
                     if let unitType = item.unitType {
-                        texture = unitType.iconTexture()
+                        let unitTypeImage = ImageCache.shared.image(for: unitType.typeTexture())
+                        texture = SKTexture(image: unitTypeImage)
                         productionProgress = Int((item.production * 100.0) / Double(unitType.productionCost())) / 5 * 5
                     }
                 case .building:
                     if let buildingType = item.buildingType {
-                        texture = SKTexture(imageNamed: buildingType.iconTexture())
+                        let buildingTypeImage = ImageCache.shared.image(for: buildingType.iconTexture())
+                        texture = SKTexture(image: buildingTypeImage)
                         productionProgress = Int((item.production * 100.0) / Double(buildingType.productionCost())) / 5 * 5
                     }
                 case .wonder:
                     if let wonderType = item.wonderType {
-                        texture = SKTexture(imageNamed: wonderType.iconTexture())
+                        let wonderTypeImage = ImageCache.shared.image(for: wonderType.iconTexture())
+                        texture = SKTexture(image: wonderTypeImage)
                         productionProgress = Int((item.production * 100.0) / Double(wonderType.productionCost())) / 5 * 5
                     }
                 case .district:
                     if let districtType = item.districtType {
-                        texture = SKTexture(imageNamed: districtType.iconTexture())
+                        let districtTypeImage = ImageCache.shared.image(for: districtType.iconTexture())
+                        texture = SKTexture(image: districtTypeImage)
                         productionProgress = Int((item.production * 100.0) / Double(districtType.productionCost())) / 5 * 5
                     }
                 case .project:
@@ -168,7 +172,7 @@ class CityObject {
             if let productionNode = self.productionNode {
                 self.sprite.addChild(productionNode)
             }
-        }*/
+        }
     }
 
     func hideCityBanner() {

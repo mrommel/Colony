@@ -15,18 +15,17 @@ protocol NotificationViewModelDelegate: AnyObject {
 
 class NotificationViewModel: ObservableObject {
     
-    let item: NotificationItem
+    @Published
+    var title: String
+    
+    private let item: NotificationItem
     
     weak var delegate: NotificationViewModelDelegate?
     
     init(item: NotificationItem) {
         
         self.item = item
-    }
-    
-    func title() -> String {
-        
-        return self.item.type.iconTexture()
+        self.title = item.type.iconTexture()
     }
     
     func icon() -> NSImage {

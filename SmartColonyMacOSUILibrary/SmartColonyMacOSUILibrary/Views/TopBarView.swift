@@ -18,21 +18,13 @@ public struct TopBarView: View {
 
             HStack(alignment: .top, spacing: 10) {
 
-                YieldValueView(viewModel: self.viewModel.scienceYieldValueViewModel())
+                YieldValueView(viewModel: self.viewModel.scienceYieldValueViewModel)
                 
-                YieldValueView(viewModel: self.viewModel.cultureYieldValueViewModel())
+                YieldValueView(viewModel: self.viewModel.cultureYieldValueViewModel)
                 
-                Button("Gov") {
-                    self.viewModel.delegate?.showChangeGovernmentDialog()
-                }
+                YieldValueView(viewModel: self.viewModel.faithYieldValueViewModel)
                 
-                Button("Tech") {
-                    self.viewModel.delegate?.showChangeTechDialog()
-                }
-                
-                Button("Civic") {
-                    self.viewModel.delegate?.showChangeCivicDialog()
-                }
+                YieldValueView(viewModel: self.viewModel.goldYieldValueViewModel)
                 
                 Spacer()
                 

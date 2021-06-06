@@ -82,7 +82,13 @@ public class GameSceneViewModel: ObservableObject {
                 return
             }
             
-            if self.selectedUnit != nil {
+            if let unit = self.selectedUnit {
+                
+                if unit.movesLeft() == 0 {
+                    self.game?.userInterface?.unselect()
+                    return
+                }
+                
                 return
             }
             
@@ -107,6 +113,18 @@ public class GameSceneViewModel: ObservableObject {
     @Published
     var commands: [Command] = []
     
+    @Published
+    var scienceYieldValueViewModel: YieldValueViewModel
+    
+    @Published
+    var cultureYieldValueViewModel: YieldValueViewModel
+    
+    @Published
+    var faithYieldValueViewModel: YieldValueViewModel
+    
+    @Published
+    var goldYieldValueViewModel: YieldValueViewModel
+    
     var readyUpdatingAI: Bool = true
     var readyUpdatingHuman: Bool = true
     
@@ -122,6 +140,11 @@ public class GameSceneViewModel: ObservableObject {
         
         let buttonImage = NSImage() // ImageCache.shared.image(for: NotificationType.unitNeedsOrders.iconTexture())
         self.buttonViewModel = AnimatedImageViewModel(image: buttonImage)
+        
+        self.scienceYieldValueViewModel = YieldValueViewModel(yieldType: .science, initial: 0.0, type: .onlyDelta)
+        self.cultureYieldValueViewModel = YieldValueViewModel(yieldType: .culture, initial: 0.0, type: .onlyDelta)
+        self.faithYieldValueViewModel = YieldValueViewModel(yieldType: .faith, initial: 0.0, type: .valueAndDelta)
+        self.goldYieldValueViewModel = YieldValueViewModel(yieldType: .gold, initial: 0.0, type: .valueAndDelta)
     }
     
     public func doTurn() {
@@ -385,8 +408,6 @@ public class GameSceneViewModel: ObservableObject {
             // show AI is working banner
             self.showBanner = true
 
-            //self.view?.preferredFramesPerSecond = 15
-
             // show AI turn
             self.showSpinningGlobe()
 
@@ -402,46 +423,17 @@ public class GameSceneViewModel: ObservableObject {
             
             // hide AI is working banner
             self.showBanner = false
-
-            //self.view?.preferredFramesPerSecond = 60
-
-            //self.turnLabel?.text = gameModel.turnYear()
-
-            // update nodes
-            /*if let techs = humanPlayer.techs {
-
-                if let currentTech = techs.currentTech() {
-                    let progressPercentage = techs.currentScienceProgress() / Double(currentTech.cost()) * 100.0
-                    self.scienceProgressNode?.update(tech: currentTech, progress: Int(progressPercentage), turnsRemaining: techs.currentScienceTurnsRemaining())
-                } else {
-                    self.scienceProgressNode?.update(tech: .none, progress: 0, turnsRemaining: 0)
-                }
-
-                self.scienceYield?.set(yieldValue: techs.currentScienceProgress()) // lastScienceEarned
-            }
-
-            if let civics = humanPlayer.civics {
-
-                if let currentCivic = civics.currentCivic() {
-                    let progressPercentage = civics.currentCultureProgress() / Double(currentCivic.cost()) * 100.0
-                    self.cultureProgressNode?.update(civic: currentCivic, progress: Int(progressPercentage), turnsRemaining: civics.currentCultureTurnsRemaining())
-                } else {
-                    self.cultureProgressNode?.update(civic: .none, progress: 0, turnsRemaining: 0)
-                }
-
-                self.cultureYield?.set(yieldValue: civics.currentCultureProgress()) // lastCultureEarned
-            }
-
-            if let treasury = humanPlayer.treasury {
-                self.goldYield?.set(yieldValue: treasury.value())
-            }
             
-            if let religion = humanPlayer.religion {
-                self.faithYield?.set(yieldValue: religion.value())
-            }
+            // update nodes
+            self.scienceYieldValueViewModel.delta = humanPlayer.science(in: self.game)
+            self.cultureYieldValueViewModel.delta = humanPlayer.culture(in: self.game)
+            self.faithYieldValueViewModel.value = humanPlayer.religion?.faith() ?? 0.0
+            self.faithYieldValueViewModel.delta = humanPlayer.faith(in: self.game)
+            self.goldYieldValueViewModel.value = humanPlayer.treasury?.value() ?? 0.0
+            self.goldYieldValueViewModel.delta = humanPlayer.treasury?.calculateGrossGold(in: self.game) ?? 0.0
 
             // update
-            self.updateLeaders()*/
+            //self.updateLeaders()
 
             // update state
             self.updateTurnButton()
@@ -469,6 +461,7 @@ public class GameSceneViewModel: ObservableObject {
     func showTurnButton() {
         
         self.turnButtonNotificationType = .turn
+        self.turnButtonNotificationLocation = HexPoint.invalid
     }
     
     func showBlockingButton(for blockingNotification: NotificationItem) {
@@ -528,44 +521,6 @@ public class GameSceneViewModel: ObservableObject {
         } else {
             self.showTurnButton()
         }
-    }
-    
-    // MARK: top view models
-    
-    func scienceYieldValueViewModel() -> YieldValueViewModel {
-        
-        guard let gameModel = self.game else {
-            return YieldValueViewModel(yieldType: .science, value: 0.0)
-        }
-
-        guard let humanPlayer = gameModel.humanPlayer() else {
-            fatalError("cant get human")
-        }
-        
-        var scienceValue = 0.0
-        if let techs = humanPlayer.techs {
-            scienceValue = techs.currentScienceProgress()
-        }
-        
-        return YieldValueViewModel(yieldType: .science, value: scienceValue)
-    }
-    
-    func cultureYieldValueViewModel() -> YieldValueViewModel {
-        
-        guard let gameModel = self.game else {
-            return YieldValueViewModel(yieldType: .culture, value: 0.0)
-        }
-
-        guard let humanPlayer = gameModel.humanPlayer() else {
-            fatalError("cant get human")
-        }
-        
-        var cultureValue = 0.0
-        if let civics = humanPlayer.civics {
-            cultureValue = civics.currentCultureProgress()
-        }
-        
-        return YieldValueViewModel(yieldType: .culture, value: cultureValue)
     }
     
     // MARK: header view models
@@ -657,6 +612,8 @@ public class GameSceneViewModel: ObservableObject {
 
         return CivicProgressViewModel(civic: .none, progress: 0, boosted: false)
     }
+    
+    // MARK: callbacks
     
     func foundCity(named cityName: String) {
         

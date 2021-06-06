@@ -9,35 +9,76 @@ import SwiftUI
 import SmartAILibrary
 import SmartAssets
 
+enum YieldValueDisplayType {
+    
+    case onlyValue
+    case onlyDelta
+    case valueAndDelta
+}
+
 class YieldValueViewModel: ObservableObject {
     
     let yieldType: YieldType
-    
-    @Published
+
     var value: Double {
         didSet {
-            self.valueText = String(format: "%.1f", self.value)
+            self.updateText()
+        }
+    }
+    
+    var delta: Double {
+        didSet {
+            self.updateText()
         }
     }
     
     @Published
     var valueText: String
     
-    @Published
     var withBackground: Bool
     
-    init(yieldType: YieldType, value: Double, withBackground: Bool = true) {
+    var type: YieldValueDisplayType
+    
+    init(yieldType: YieldType, initial value: Double, type: YieldValueDisplayType, withBackground: Bool = true) {
         
         self.yieldType = yieldType
         self.value = value
+        self.delta = 0.0
         self.withBackground = withBackground
+        self.type = type
         
-        self.valueText = String(format: "%.1f", value)
+        self.valueText = ""
     }
     
     func iconImage() -> NSImage {
         
         return ImageCache.shared.image(for: self.yieldType.iconTexture())
+    }
+    
+    private func updateText() {
+        
+        switch self.type {
+        
+        case .onlyValue:
+            self.valueText = String(format: "%.1f", self.value)
+        case .onlyDelta:
+            var delText = String(format: "%.1f", self.delta)
+            
+            if self.delta > 0.0 {
+                delText = "+" + delText
+            }
+            
+            self.valueText = delText
+        case .valueAndDelta:
+            let valText = String(format: "%.1f", self.value)
+            var delText = String(format: "%.1f", self.delta)
+            
+            if self.delta > 0.0 {
+                delText = "+" + delText
+            }
+            
+            self.valueText = "\(valText) \(delText)"
+        }
     }
     
     func fontColor() -> NSColor {

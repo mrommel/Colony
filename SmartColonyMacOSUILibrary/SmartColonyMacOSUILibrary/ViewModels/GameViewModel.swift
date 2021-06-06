@@ -36,6 +36,8 @@ protocol GameViewModelDelegate: AnyObject {
     func add(notification: NotificationItem)
     func remove(notification: NotificationItem)
     
+    func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool)->())
+    
     func closeDialog()
     func closePopup()
 }
@@ -73,6 +75,9 @@ public class GameViewModel: ObservableObject {
     var cityNameDialogViewModel: CityNameDialogViewModel
     
     @Published
+    var unitDisbandConfirmationDialogViewModel: UnitDisbandConfirmationDialogViewModel
+    
+    @Published
     var cityDialogViewModel: CityDialogViewModel
 
     // UI
@@ -83,7 +88,6 @@ public class GameViewModel: ObservableObject {
     @Published
     var currentPopupType: PopupType = .none
     
-    @Published
     var popups: [PopupType] = []
     
     // MARK: map display options
@@ -140,6 +144,7 @@ public class GameViewModel: ObservableObject {
         self.techDialogViewModel = TechDialogViewModel()
         self.civicDialogViewModel = CivicDialogViewModel()
         self.cityNameDialogViewModel = CityNameDialogViewModel()
+        self.unitDisbandConfirmationDialogViewModel = UnitDisbandConfirmationDialogViewModel()
         self.cityDialogViewModel = CityDialogViewModel()
         
         // connect models
@@ -151,6 +156,7 @@ public class GameViewModel: ObservableObject {
         self.techDialogViewModel.delegate = self
         self.civicDialogViewModel.delegate = self
         self.cityNameDialogViewModel.delegate = self
+        self.unitDisbandConfirmationDialogViewModel.delegate = self
         self.cityDialogViewModel.delegate = self
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
@@ -572,6 +578,21 @@ extension GameViewModel: GameViewModelDelegate {
     func foundCity(named cityName: String) {
         
         self.gameSceneViewModel.foundCity(named: cityName)
+    }
+    
+    func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool) -> ()) {
+        
+        if self.currentScreenType == .disbandConfirm {
+            // already shown
+            return
+        }
+        
+        if self.currentScreenType == .none {
+            self.unitDisbandConfirmationDialogViewModel.update(with: unit, completion: completion)
+            self.currentScreenType = .disbandConfirm
+        } else {
+            fatalError("cant show disband unit confirmation dialog, \(self.currentScreenType) is currently shown")
+        }
     }
     
     func checkPopups() -> Bool {

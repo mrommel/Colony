@@ -14,26 +14,36 @@ class NotificationsViewModel: ObservableObject {
     var gameEnvironment: GameEnvironment
     
     @Published
-    var notificationViewModels: [NotificationViewModel] = []
+    var notificationViewModels: [NotificationViewModel]
     
     weak var delegate: GameViewModelDelegate?
     
-    private var items: [NotificationItem] = []
+    private var items: [NotificationItem]
     
     init() {
         
+        self.items = []
+        self.notificationViewModels = []
+        
+        self.rebuildNotifcations()
     }
     
 #if DEBUG
     init(items: [NotificationItem]) {
         
         self.items = items
+        self.notificationViewModels = []
         
         self.rebuildNotifcations()
     }
 #endif
     
     func add(notification: NotificationItem) {
+        
+        print("=== add notification: \(notification.type) ===")
+        if notification.type == .cityGrowth {
+            print("debug")
+        }
         
         self.items.append(notification)
 
@@ -42,6 +52,8 @@ class NotificationsViewModel: ObservableObject {
     
     func remove(notification: NotificationItem) {
         
+        print("=== remove notification: \(notification.type) ===")
+        
         self.items.removeAll(where: { $0 == notification })
         
         self.rebuildNotifcations()
@@ -49,12 +61,14 @@ class NotificationsViewModel: ObservableObject {
     
     private func rebuildNotifcations() {
         
+        let newNotificationViewModels: [NotificationViewModel] = self.items.map {
+            let viewModel = NotificationViewModel(item: $0)
+            viewModel.delegate = self
+            return viewModel
+        }
+        
         DispatchQueue.main.async {
-            self.notificationViewModels = self.items.map {
-                let viewModel = NotificationViewModel(item: $0)
-                viewModel.delegate = self
-                return viewModel
-            }
+            self.notificationViewModels = newNotificationViewModels
         }
     }
 }

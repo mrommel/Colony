@@ -69,7 +69,7 @@ class WonderViewModel: QueueViewModel, ObservableObject {
             
             let yieldValue = buildingYield.value(of: yieldType)
             if yieldValue > 0 {
-                models.append(YieldValueViewModel(yieldType: yieldType, value: yieldValue, withBackground: false))
+                models.append(YieldValueViewModel(yieldType: yieldType, initial: yieldValue, type: .onlyValue, withBackground: false))
             }
         }
         

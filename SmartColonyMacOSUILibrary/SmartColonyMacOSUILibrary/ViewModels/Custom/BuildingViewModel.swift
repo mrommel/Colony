@@ -69,7 +69,7 @@ class BuildingViewModel: QueueViewModel, ObservableObject {
             
             let yieldValue = buildingYield.value(of: yieldType)
             if yieldValue > 0.0 {
-                models.append(YieldValueViewModel(yieldType: yieldType, value: yieldValue, withBackground: false))
+                models.append(YieldValueViewModel(yieldType: yieldType, initial: yieldValue, type: .onlyValue, withBackground: false))
             }
         }
         
@@ -81,16 +81,3 @@ class BuildingViewModel: QueueViewModel, ObservableObject {
         self.delegate?.clicked(on: self.buildingType, at: self.index)
     }
 }
-
-/*extension BuildingViewModel: Hashable {
-    
-    static func == (lhs: BuildingViewModel, rhs: BuildingViewModel) -> Bool {
-        
-        return lhs.buildingType == rhs.buildingType
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        
-        hasher.combine(self.buildingType)
-    }
-}*/

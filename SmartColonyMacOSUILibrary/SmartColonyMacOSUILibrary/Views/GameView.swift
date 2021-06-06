@@ -36,15 +36,12 @@ public struct GameView: View {
                 }
             
             NotificationsView(viewModel: self.viewModel.notificationsViewModel)
-                //.background(Color.green.opacity(0.2))
             
             BottomLeftBarView(viewModel: self.viewModel.gameSceneViewModel)
-                //.background(Color.red.opacity(0.2))
             
             BottomRightBarView()
             
             TopBarView(viewModel: self.viewModel.gameSceneViewModel)
-                //.background(Color.blue.opacity(0.2))
             
             HeaderView(viewModel: self.viewModel.gameSceneViewModel)
 
@@ -91,7 +88,7 @@ extension GameView {
         case .selectPromotion:
             return AnyView(EmptyView())
         case .disbandConfirm:
-            return AnyView(EmptyView())
+            return AnyView(UnitDisbandConfirmationDialogView(viewModel: self.viewModel.unitDisbandConfirmationDialogViewModel))
         case .selectTradeCity:
             return AnyView(EmptyView())
         case .menu:

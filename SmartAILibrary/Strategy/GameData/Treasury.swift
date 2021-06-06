@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AbstractTreasury: class, Codable {
+public protocol AbstractTreasury: AnyObject, Codable {
     
     var player: AbstractPlayer? { get set }
     

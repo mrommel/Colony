@@ -19,7 +19,9 @@ struct NotificationView: View {
     }
     
     public var body: some View {
+        
         ZStack(alignment: .topLeading) {
+            
             Image(nsImage: self.viewModel.background())
                 .resizable()
                 .frame(width: 61, height: 65, alignment: .center)
@@ -29,6 +31,9 @@ struct NotificationView: View {
                 .frame(width: 40, height: 40, alignment: .center)
                 .padding(.top, 13.5)
                 .padding(.leading, 14)
+            
+            Text(self.viewModel.title)
+                .font(.footnote)
             
             Circle()
                 .fill(Color.white.opacity(0.01))

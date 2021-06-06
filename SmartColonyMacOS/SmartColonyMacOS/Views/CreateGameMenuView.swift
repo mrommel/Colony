@@ -50,11 +50,11 @@ struct CreateGameMenuView: View {
             HStack {
                 Button("Cancel") {
                     self.viewModel.cancel()
-                }.buttonStyle(MenuButtonStyle()).padding(.top, 20).padding(.trailing, 20)
+                }.buttonStyle(GameButtonStyle()).padding(.top, 20).padding(.trailing, 20)
                 
                 Button("Start") {
                     self.viewModel.start()
-                }.buttonStyle(SelectedMenuButtonStyle()).padding(.top, 20)
+                }.buttonStyle(GameButtonStyle(state: .highlighted)).padding(.top, 20)
             }
             
             Spacer(minLength: 1)

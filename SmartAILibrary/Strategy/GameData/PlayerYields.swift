@@ -12,7 +12,7 @@ extension Player {
     
     // MARK: faith functions
     
-    func faith(in gameModel: GameModel?) -> Double {
+    public func faith(in gameModel: GameModel?) -> Double {
         
         var value = 0.0
 
@@ -45,7 +45,7 @@ extension Player {
     // MARK: science functions
     
     // GetScienceTimes100()
-    func science(in gameModel: GameModel?) -> Double {
+    public func science(in gameModel: GameModel?) -> Double {
         
         var value = 0.0
 
@@ -87,9 +87,9 @@ extension Player {
         return scienceVal
     }
     
-    // MARK: culture functions
+    // MARK: culture functpublic ions
     
-    func culture(in gameModel: GameModel?) -> Double {
+    public func culture(in gameModel: GameModel?) -> Double {
         
         var value = 0.0
 

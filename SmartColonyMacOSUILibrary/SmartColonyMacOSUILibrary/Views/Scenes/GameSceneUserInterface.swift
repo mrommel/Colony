@@ -98,15 +98,16 @@ extension GameScene: UserInterfaceDelegate {
     }
     
     func select(tech: TechType) {
-        print("select tect \(tech)")
+        // print("select tect \(tech)")
     }
     
     func select(civic: CivicType) {
-        print("select civic \(civic)")
+        // print("select civic \(civic)")
     }
     
     func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool) -> ()) {
-        print("todo: askToDisband(???)")
+
+        self.viewModel?.delegate?.showDisbandDialog(for: unit, completion: completion)
     }
     
     func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> ()) {
@@ -132,7 +133,8 @@ extension GameScene: UserInterfaceDelegate {
     }
     
     func showTooltip(at point: HexPoint, text: String, delay: Double) {
-        print("todo: showTooltip()")
+        
+        self.mapNode?.tooltipLayer.show(text: text, at: point, for: delay)
     }
     
     func focus(on location: HexPoint) {

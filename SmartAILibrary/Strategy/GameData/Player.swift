@@ -154,6 +154,11 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func newCityName(in gameModel: GameModel?) -> String
     func cityStrengthModifier() -> Int
     func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool)
+    
+    // yields
+    func science(in gameModel: GameModel?) -> Double
+    func culture(in gameModel: GameModel?) -> Double
+    func faith(in gameModel: GameModel?) -> Double
 
     // operation methods
     func operationsOf(type: UnitOperationType) -> [Operation]
@@ -3647,7 +3652,7 @@ public class Player: AbstractPlayer {
                 self.cultureEarned += culture
 
                 if self.isHuman() {
-                    gameModel.userInterface?.showTooltip(at: point, text: "\(culture)", delay: 3.0)
+                    gameModel.userInterface?.showTooltip(at: point, text: "Gained \(culture) culture from kill.", delay: 3.0)
                 }
             }
         }
@@ -3674,7 +3679,7 @@ public class Player: AbstractPlayer {
                 self.treasury?.changeGold(by: Double(gold))
 
                 if self.isHuman() {
-                    gameModel.userInterface?.showTooltip(at: point, text: "\(gold)", delay: 3.0)
+                    gameModel.userInterface?.showTooltip(at: point, text: "Gained \(gold) gold from kill.", delay: 3.0)
                 }
             }
         }

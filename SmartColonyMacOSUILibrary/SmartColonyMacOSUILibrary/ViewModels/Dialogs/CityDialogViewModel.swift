@@ -88,12 +88,12 @@ class CityDialogViewModel: ObservableObject {
     
     init(city: AbstractCity? = nil) {
 
-        self.scienceYieldViewModel = YieldValueViewModel(yieldType: .science, value: 0.0)
-        self.cultureYieldViewModel = YieldValueViewModel(yieldType: .culture, value: 0.0)
-        self.foodYieldViewModel = YieldValueViewModel(yieldType: .food, value: 0.0)
-        self.productionYieldViewModel = YieldValueViewModel(yieldType: .production, value: 0.0)
-        self.goldYieldViewModel = YieldValueViewModel(yieldType: .gold, value: 0.0)
-        self.faithYieldViewModel = YieldValueViewModel(yieldType: .faith, value: 0.0)
+        self.scienceYieldViewModel = YieldValueViewModel(yieldType: .science, initial: 0.0, type: .onlyDelta)
+        self.cultureYieldViewModel = YieldValueViewModel(yieldType: .culture, initial: 0.0, type: .onlyDelta)
+        self.foodYieldViewModel = YieldValueViewModel(yieldType: .food, initial: 0.0, type: .onlyDelta)
+        self.productionYieldViewModel = YieldValueViewModel(yieldType: .production, initial: 0.0, type: .onlyDelta)
+        self.goldYieldViewModel = YieldValueViewModel(yieldType: .gold, initial: 0.0, type: .onlyDelta)
+        self.faithYieldViewModel = YieldValueViewModel(yieldType: .faith, initial: 0.0, type: .onlyDelta)
         
         self.productionViewModel = CityProductionViewModel(city: city)
         self.buildingsViewModel = CityBuildingsViewModel(city: city)

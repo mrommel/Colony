@@ -274,6 +274,7 @@ public enum ScreenType {
     case selectPromotion
     case disbandConfirm
     case selectTradeCity
+    
     case cityName
     
     case menu
