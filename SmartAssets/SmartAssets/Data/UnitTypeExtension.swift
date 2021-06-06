@@ -19,6 +19,44 @@ extension UnitType {
         return NSImage(named: "unit_type_default")!
     }
     
+    public func typeTemplateTexture() -> String {
+
+        switch self {
+
+            // barbarian
+        case .barbarianWarrior: return "unit-type-template-warrior"
+        case .barbarianArcher: return "unit-type-template-archer"
+
+            // ancient
+        case .settler: return "unit-type-template-settler"
+        case .builder: return "unit-type-template-builder"
+        case .trader: return "unit-type-template-trader"
+
+        case .scout: return "unit-type-template-scout"
+        case .warrior: return "unit-type-template-warrior"
+        case .slinger: return "unit-type-template-slinger"
+        case .archer: return "unit-type-template-archer"
+        case .spearman: return "unit-type-template-spearman"
+        case .heavyChariot: return "unit-type-template-heavyChariot"
+        case .galley: return "unit-type-template-galley"
+
+            // industrial
+        case .medic: return "unit-type-template-medic"
+            
+            // great people
+        case .admiral: return "unit-type-template-default"
+        case .artist: return "unit-type-template-default"
+        case .engineer: return "unit-type-template-default"
+        case .general: return "unit-type-template-default"
+        case .merchant: return "unit-type-template-default"
+        case .musician: return "unit-type-template-default"
+        case .prophet: return "unit-type-template-default"
+        case .scientist: return "unit-type-template-default"
+        case .writer: return "unit-type-template-default"
+            
+        }
+    }
+    
     public func typeTexture() -> String {
 
         switch self {

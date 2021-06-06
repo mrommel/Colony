@@ -115,8 +115,10 @@ class CityObject {
 
         // show production only for human cities
         if city.isHuman() {
-            var texture: SKTexture = SKTexture(imageNamed: "questionmark")
+            let questionmarkImage = ImageCache.shared.image(for: "questionmark")
+            var texture: SKTexture = SKTexture(image: questionmarkImage)
             var productionProgress: Int = 0
+            
             if let item = city.currentBuildableItem() {
                 switch item.type {
 
@@ -152,8 +154,9 @@ class CityObject {
                 }
             }
 
-            let productionProgressTextureName = "linear_progress_\(productionProgress)"
-            let productionProgressTexture = SKTexture(imageNamed: productionProgressTextureName)
+            let productionProgressTextureName = "linear-progress-\(productionProgress)"
+            let productionProgressImage = ImageCache.shared.image(for: productionProgressTextureName)
+            let productionProgressTexture = SKTexture(image: productionProgressImage)
 
             self.productionProgressNode = SKSpriteNode(texture: productionProgressTexture, color: .black, size: CGSize(width: 2, height: 10))
             self.productionProgressNode?.position = CGPoint(x: 24 + nameBackgroundWidth / 2 - 11, y: 35)

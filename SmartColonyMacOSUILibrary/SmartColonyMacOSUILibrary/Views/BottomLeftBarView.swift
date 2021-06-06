@@ -111,7 +111,7 @@ public struct BottomLeftBarView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 16, height: 16)
                     
-                        Image(nsImage: self.viewModel.typeImage())
+                        Image(nsImage: self.viewModel.typeTemplateImage())
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 16, height: 16)

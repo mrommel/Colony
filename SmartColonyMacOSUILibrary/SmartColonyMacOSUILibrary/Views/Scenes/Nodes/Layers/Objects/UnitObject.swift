@@ -66,7 +66,7 @@ class UnitObject {
         self.typeBackgroundSprite.colorBlendFactor = 1.0
         self.sprite.addChild(self.typeBackgroundSprite)
         
-        let unitTypeIconImage = ImageCache.shared.image(for: unit.type.typeTexture())
+        let unitTypeIconImage = ImageCache.shared.image(for: unit.type.typeTemplateTexture())
         let unitTypeIconTexture = SKTexture(image: unitTypeIconImage)
         self.typeIconSprite = SKSpriteNode(texture: unitTypeIconTexture, color: .black, size: CGSize(width: 10, height: 10))
         self.typeIconSprite.position = CGPoint(x: 8, y: 36)

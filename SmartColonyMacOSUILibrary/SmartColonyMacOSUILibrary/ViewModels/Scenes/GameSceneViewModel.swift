@@ -177,7 +177,7 @@ public class GameSceneViewModel: ObservableObject {
         }
     }
     
-    public func typeImage() -> NSImage {
+    public func typeTemplateImage() -> NSImage {
         
         if let selectedUnit = self.selectedUnit {
             
@@ -185,13 +185,13 @@ public class GameSceneViewModel: ObservableObject {
                 fatalError("cant get civ")
             }
             
-            let image = ImageCache.shared.image(for: selectedUnit.type.typeTexture())
+            let image = ImageCache.shared.image(for: selectedUnit.type.typeTemplateTexture())
             image.isTemplate = true
             
             return image.tint(with: civilization.accent)
             
         } else {
-            return ImageCache.shared.image(for: "unit-type-default")
+            return ImageCache.shared.image(for: "unit-type-template-default")
         }
     }
     
