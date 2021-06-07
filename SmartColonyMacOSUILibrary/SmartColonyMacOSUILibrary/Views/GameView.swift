@@ -21,6 +21,7 @@ public struct GameView: View {
         self.viewModel = viewModel
     }
     
+    @ViewBuilder
     public var body: some View {
         
         ZStack {

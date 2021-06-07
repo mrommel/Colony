@@ -13,8 +13,8 @@ protocol NotificationViewModelDelegate: AnyObject {
     func clicked(on item: NotificationItem)
 }
 
-class NotificationViewModel: ObservableObject {
-    
+class NotificationViewModel: ObservableObject, Identifiable {
+
     @Published
     var title: String
     
@@ -41,6 +41,11 @@ class NotificationViewModel: ObservableObject {
     func click() {
         
         self.delegate?.clicked(on: self.item)
+    }
+    
+    func equal(to item: NotificationItem) -> Bool {
+        
+        return self.item == item
     }
 }
 

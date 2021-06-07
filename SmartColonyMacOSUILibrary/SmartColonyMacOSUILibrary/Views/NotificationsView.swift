@@ -12,9 +12,7 @@ struct NotificationsView: View {
     
     @ObservedObject
     public var viewModel: NotificationsViewModel
-    
-    private var gridItemLayout = [GridItem(.fixed(61))]
-   
+
     public init(viewModel: NotificationsViewModel) {
         
         self.viewModel = viewModel
@@ -32,7 +30,7 @@ struct NotificationsView: View {
                 Image(nsImage: ImageCache.shared.image(for: "notification-top"))
                     .frame(width: 61, height: 31, alignment: .center)
                     
-                ForEach(self.viewModel.notificationViewModels, id: \.self) { notificationViewModel in
+                ForEach(self.viewModel.notificationViewModels) { notificationViewModel in
 
                     NotificationView(viewModel: notificationViewModel)
                 }

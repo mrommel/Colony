@@ -14,27 +14,23 @@ class NotificationsViewModel: ObservableObject {
     var gameEnvironment: GameEnvironment
     
     @Published
-    var notificationViewModels: [NotificationViewModel]
+    var notificationViewModels: [NotificationViewModel] = []
     
     weak var delegate: GameViewModelDelegate?
     
-    private var items: [NotificationItem]
-    
     init() {
         
-        self.items = []
         self.notificationViewModels = []
-        
-        self.rebuildNotifcations()
     }
     
 #if DEBUG
     init(items: [NotificationItem]) {
         
-        self.items = items
-        self.notificationViewModels = []
-        
-        self.rebuildNotifcations()
+        self.notificationViewModels = items.map {
+            let viewModel = NotificationViewModel(item: $0)
+            viewModel.delegate = self
+            return viewModel
+        }
     }
 #endif
     
@@ -45,30 +41,19 @@ class NotificationsViewModel: ObservableObject {
             print("debug")
         }
         
-        self.items.append(notification)
-
-        self.rebuildNotifcations()
+        DispatchQueue.main.async {
+            let viewModel = NotificationViewModel(item: notification)
+            viewModel.delegate = self
+            self.notificationViewModels.append(viewModel)
+        }
     }
     
     func remove(notification: NotificationItem) {
         
         print("=== remove notification: \(notification.type) ===")
         
-        self.items.removeAll(where: { $0 == notification })
-        
-        self.rebuildNotifcations()
-    }
-    
-    private func rebuildNotifcations() {
-        
-        let newNotificationViewModels: [NotificationViewModel] = self.items.map {
-            let viewModel = NotificationViewModel(item: $0)
-            viewModel.delegate = self
-            return viewModel
-        }
-        
         DispatchQueue.main.async {
-            self.notificationViewModels = newNotificationViewModels
+            self.notificationViewModels.removeAll(where: { $0.equal(to: notification) })
         }
     }
 }
