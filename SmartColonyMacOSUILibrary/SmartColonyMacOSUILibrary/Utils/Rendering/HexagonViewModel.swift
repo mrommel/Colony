@@ -19,115 +19,118 @@ class HexagonViewModel: ObservableObject {
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
     
-    let tile: AbstractTile
+    @Published
+    var showCitizenIcons: Bool
+
+    private let point: HexPoint
+    private let tileColor: NSColor
+    private let mountainsTextureName: String?
+    private let hillsTextureName: String?
+    private let forestTextureName: String?
+    private let cityTextureName: String?
+    private let tileActionTextureName: String?
     
     weak var delegate: HexagonViewModelDelegate?
     
-    init(tile: AbstractTile) {
+    init(at point: HexPoint,
+         tileColor: NSColor,
+         mountains: String?,
+         hills: String?,
+         forest: String?,
+         city: String?,
+         tileAction: String?,
+         showCitizenIcons: Bool) {
         
-        self.tile = tile
+        self.point = point
+        self.tileColor = tileColor
+        self.mountainsTextureName = mountains
+        self.hillsTextureName = hills
+        self.forestTextureName = forest
+        self.cityTextureName = city
+        self.tileActionTextureName = tileAction
+        
+        self.showCitizenIcons = showCitizenIcons
     }
     
     func color() -> NSColor {
         
-        guard let gameModel = self.gameEnvironment.game.value else {
-            return NSColor.black
-        }
-        
-        guard let humanPlayer = gameModel.humanPlayer() else {
-            return NSColor.black
-        }
-        
-        if self.tile.isVisible(to: humanPlayer) {
-            return self.tile.terrain().overviewColor()
-        } else if self.tile.isDiscovered(by: humanPlayer) {
-            return self.tile.terrain().forgottenColor()
-        } else {
-            return Globals.Colors.overviewBackground
-        }
+        return self.tileColor
     }
     
     func offset() -> CGSize {
         
-        let screenPoint = HexPoint.toScreen(hex: self.tile.point)
+        let screenPoint = HexPoint.toScreen(hex: self.point)
         return CGSize(fromPoint: CGPoint(x: screenPoint.x, y: -screenPoint.y))
     }
     
     func showMountains() -> Bool {
         
-        return self.tile.feature() == .mountains
+        return self.mountainsTextureName != nil
     }
     
     func mountainsImage() -> NSImage {
         
-        guard let gameModel = self.gameEnvironment.game.value else {
+        guard let texture = self.mountainsTextureName else {
             return NSImage()
         }
         
-        guard let humanPlayer = gameModel.humanPlayer() else {
-            return NSImage()
-        }
-        
-        if self.tile.isVisible(to: humanPlayer) {
-            return ImageCache.shared.image(for: "overview-mountains")
-        } else if self.tile.isDiscovered(by: humanPlayer) {
-            return ImageCache.shared.image(for: "overview-mountains-passive")
-        } else {
-            return NSImage()
-        }
+        return ImageCache.shared.image(for: texture)
     }
     
     func showHills() -> Bool {
         
-        return self.tile.hasHills()
+        return self.hillsTextureName != nil
     }
     
     func hillsImage() -> NSImage {
         
-        guard let gameModel = self.gameEnvironment.game.value else {
+        guard let texture = self.hillsTextureName else {
             return NSImage()
         }
         
-        guard let humanPlayer = gameModel.humanPlayer() else {
-            return NSImage()
-        }
-        
-        if self.tile.isVisible(to: humanPlayer) {
-            return ImageCache.shared.image(for: "overview-hills")
-        } else if self.tile.isDiscovered(by: humanPlayer) {
-            return ImageCache.shared.image(for: "overview-hills-passive")
-        } else {
-            return NSImage()
-        }
+        return ImageCache.shared.image(for: texture)
     }
     
     func showForest() -> Bool {
         
-        return self.tile.feature() == .forest
+        return self.forestTextureName != nil
     }
     
     func forestImage() -> NSImage {
         
-        guard let gameModel = self.gameEnvironment.game.value else {
+        guard let texture = self.forestTextureName else {
             return NSImage()
         }
         
-        guard let humanPlayer = gameModel.humanPlayer() else {
+        return ImageCache.shared.image(for: texture)
+    }
+    
+    func showCity() -> Bool {
+        
+        return self.cityTextureName != nil
+    }
+    
+    func cityImage() -> NSImage {
+        
+        guard let texture = self.cityTextureName else {
             return NSImage()
         }
         
-        if self.tile.isVisible(to: humanPlayer) {
-            return ImageCache.shared.image(for: "overview-forest")
-        } else if self.tile.isDiscovered(by: humanPlayer) {
-            return ImageCache.shared.image(for: "overview-forest-passive")
-        } else {
+        return ImageCache.shared.image(for: texture)
+    }
+    
+    func actionImage() -> NSImage {
+        
+        guard let texture = self.tileActionTextureName else {
             return NSImage()
         }
+        
+        return ImageCache.shared.image(for: texture)
     }
     
     func clicked() {
         
-        self.delegate?.clicked(on: self.tile.point)
+        self.delegate?.clicked(on: self.point)
     }
 }
 
@@ -135,11 +138,11 @@ extension HexagonViewModel: Hashable {
     
     static func == (lhs: HexagonViewModel, rhs: HexagonViewModel) -> Bool {
         
-        return lhs.tile.point == rhs.tile.point
+        return lhs.point == rhs.point
     }
     
     func hash(into hasher: inout Hasher) {
         
-        hasher.combine(self.tile.point)
+        hasher.combine(self.point)
     }
 }

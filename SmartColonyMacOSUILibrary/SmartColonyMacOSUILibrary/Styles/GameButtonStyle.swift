@@ -39,7 +39,7 @@ public struct GameButtonStyle: ButtonStyle {
         
         configuration.label
             .font(.headline)
-            .frame(width: 160, height: 24, alignment: .center)
+            .frame(width: 200, height: 24, alignment: .center)
             .padding(10)
             .background(
                 Image(nsImage: self.backgroundImage(pressed: configuration.isPressed))

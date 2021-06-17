@@ -131,7 +131,7 @@ class GameScene: BaseScene {
         
         if let center = self.viewModel?.centerOn {
             self.center(on: center)
-            self.zoom(to: 0.5)
+            self.zoom(to: 0.3)
             self.viewModel?.centerOn = nil
         }
     }

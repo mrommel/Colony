@@ -21,8 +21,6 @@
 		C92F948D265E23A6000968AB /* HexagonGridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F948C265E23A6000968AB /* HexagonGridViewModel.swift */; };
 		C92F948F265E25C5000968AB /* CityCitizenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F948E265E25C5000968AB /* CityCitizenView.swift */; };
 		C92F9491265E262A000968AB /* CityCitizenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F9490265E262A000968AB /* CityCitizenViewModel.swift */; };
-		C92F9493265E4ECD000968AB /* MountainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F9492265E4ECD000968AB /* MountainView.swift */; };
-		C92F9495265E56D0000968AB /* HillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F9494265E56D0000968AB /* HillsView.swift */; };
 		C93AA6AB260F24640053DF74 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AA6AA260F24640053DF74 /* CGRectExtension.swift */; };
 		C94507A9262232E400CFD27D /* DataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94507A8262232E400CFD27D /* DataPicker.swift */; };
 		C9452E2526680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9452E2426680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift */; };
@@ -111,7 +109,6 @@
 		C9B087CD2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */; };
 		C9B087CF2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CE2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift */; };
 		C9B3141E2657FF1100726CAA /* YieldValueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3141D2657FF1100726CAA /* YieldValueViewModel.swift */; };
-		C9B43FAD263E8DEE00241012 /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FAC263E8DEE00241012 /* ZoomableScrollView.swift */; };
 		C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */; };
 		C9B43FB1263E905B00241012 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FB0263E905B00241012 /* CGSizeExtension.swift */; };
 		C9BA399726657499008B3476 /* AnimatedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA399626657499008B3476 /* AnimatedImageViewModel.swift */; };
@@ -193,8 +190,6 @@
 		C92F948C265E23A6000968AB /* HexagonGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGridViewModel.swift; sourceTree = "<group>"; };
 		C92F948E265E25C5000968AB /* CityCitizenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCitizenView.swift; sourceTree = "<group>"; };
 		C92F9490265E262A000968AB /* CityCitizenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCitizenViewModel.swift; sourceTree = "<group>"; };
-		C92F9492265E4ECD000968AB /* MountainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MountainView.swift; sourceTree = "<group>"; };
-		C92F9494265E56D0000968AB /* HillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HillsView.swift; sourceTree = "<group>"; };
 		C93AA6AA260F24640053DF74 /* CGRectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
 		C94507A8262232E400CFD27D /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
 		C9452E2426680532005EF985 /* EurekaCivicActivatedPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaCivicActivatedPopupViewModel.swift; sourceTree = "<group>"; };
@@ -286,7 +281,6 @@
 		C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaTechActivatedPopupView.swift; sourceTree = "<group>"; };
 		C9B087CE2667BC550016DFCA /* EurekaTechActivatedPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaTechActivatedPopupViewModel.swift; sourceTree = "<group>"; };
 		C9B3141D2657FF1100726CAA /* YieldValueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldValueViewModel.swift; sourceTree = "<group>"; };
-		C9B43FAC263E8DEE00241012 /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskYesNoAlertView.swift; sourceTree = "<group>"; };
 		C9B43FB0263E905B00241012 /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
 		C9BA399626657499008B3476 /* AnimatedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImageViewModel.swift; sourceTree = "<group>"; };
@@ -380,7 +374,6 @@
 				C905B59B26295EA000214CC1 /* ScrollableView.swift */,
 				C968F298263981DD00612D0E /* ProgressBar.swift */,
 				C968F2962639817A00612D0E /* ProgressCircle.swift */,
-				C9B43FAC263E8DEE00241012 /* ZoomableScrollView.swift */,
 				C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */,
 			);
 			path = Base;
@@ -429,8 +422,6 @@
 				C92F948C265E23A6000968AB /* HexagonGridViewModel.swift */,
 				C92F9482265E2297000968AB /* HexagonView.swift */,
 				C92F9486265E2298000968AB /* HexagonViewModel.swift */,
-				C92F9492265E4ECD000968AB /* MountainView.swift */,
-				C92F9494265E56D0000968AB /* HillsView.swift */,
 			);
 			path = Rendering;
 			sourceTree = "<group>";
@@ -795,7 +786,6 @@
 				C9D191AD265A8659008C9622 /* CityReligionView.swift in Sources */,
 				C9A376072634462A0057923E /* FeatureLayer.swift in Sources */,
 				C9E0597F2655103D00C08463 /* UnitView.swift in Sources */,
-				C9B43FAD263E8DEE00241012 /* ZoomableScrollView.swift in Sources */,
 				C9CE216B2649675B00B47ED4 /* MenuButtonStyle.swift in Sources */,
 				C968F28F2639455700612D0E /* BaseLayer.swift in Sources */,
 				C9E87BB3264D1CB500514B9A /* TechViewModel.swift in Sources */,
@@ -808,7 +798,6 @@
 				C9A61D8D261EF87000341241 /* BottomLeftBarView.swift in Sources */,
 				C968F2A32639E56F00612D0E /* UnitObject.swift in Sources */,
 				C9A48D472653EB6100260EE0 /* CityNameDialogViewModel.swift in Sources */,
-				C92F9495265E56D0000968AB /* HillsView.swift in Sources */,
 				C950F997264904150057A7D1 /* ChangePolicyDialogViewModel.swift in Sources */,
 				C9A8F0D92651A39D00584199 /* NotificationsView.swift in Sources */,
 				C9A3763126369FD90057923E /* YieldLayer.swift in Sources */,
@@ -831,7 +820,6 @@
 				C9BA399726657499008B3476 /* AnimatedImageViewModel.swift in Sources */,
 				C968F2A12639E4E300612D0E /* UnitLayer.swift in Sources */,
 				C9A37615263457210057923E /* SafeAreaNode.swift in Sources */,
-				C92F9493265E4ECD000968AB /* MountainView.swift in Sources */,
 				C9D191AF265A86C7008C9622 /* CityReligionViewModel.swift in Sources */,
 				C925676D265635C000B895BD /* QueueViewModel.swift in Sources */,
 				C9A48D3E2653B9D200260EE0 /* GovernmentDialogView.swift in Sources */,

@@ -119,12 +119,12 @@ class CityDialogViewModel: ObservableObject {
                 return
             }
             
-            self.scienceYieldViewModel.value = city.sciencePerTurn(in: game)
-            self.cultureYieldViewModel.value = city.culturePerTurn(in: game)
-            self.foodYieldViewModel.value = city.foodPerTurn(in: game)
-            self.productionYieldViewModel.value = city.productionPerTurn(in: game)
-            self.goldYieldViewModel.value = city.goldPerTurn(in: game)
-            self.faithYieldViewModel.value = city.faithPerTurn(in: game)
+            self.scienceYieldViewModel.delta = city.sciencePerTurn(in: game)
+            self.cultureYieldViewModel.delta = city.culturePerTurn(in: game)
+            self.foodYieldViewModel.delta = city.foodPerTurn(in: game)
+            self.productionYieldViewModel.delta = city.productionPerTurn(in: game)
+            self.goldYieldViewModel.delta = city.goldPerTurn(in: game)
+            self.faithYieldViewModel.delta = city.faithPerTurn(in: game)
             
             self.productionViewModel.update(for: city)
             self.buildingsViewModel.update(for: city)

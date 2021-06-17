@@ -29,9 +29,7 @@ struct HexagonView: View {
                 
                 RegularPolygon(sides: 6, inset: -6.0)
                     .fill(Color(self.viewModel.color()))
-                    .onTapGesture {
-                        self.viewModel.clicked()
-                    }
+                    .scaleEffect(CGSize(width: 1.0, height: 0.75))
                 
                 if self.viewModel.showMountains() {
                     Image(nsImage: self.viewModel.mountainsImage())
@@ -51,11 +49,25 @@ struct HexagonView: View {
                         .frame(width: h, height: h, alignment: .center)
                 }
                 
+                if self.viewModel.showCity() {
+                    Image(nsImage: self.viewModel.cityImage())
+                        .resizable()
+                        .frame(width: h, height: h, alignment: .center)
+                }
+                
+                if self.viewModel.showCitizenIcons {
+                    Image(nsImage: self.viewModel.actionImage())
+                        .resizable()
+                        .frame(width: h, height: h, alignment: .center)
+                }
+                
                 /*Text("\(self.viewModel.tile.point.x),\(self.viewModel.tile.point.y)")*/
             }
             .frame(width: w, height: h, alignment: .center)
+            .onTapGesture {
+                self.viewModel.clicked()
+            }
         }
-        .scaleEffect(CGSize(width: 1.0, height: 0.75))
         .scaleEffect(CGSize(width: 0.5, height: 0.5))
     }
 }
@@ -64,9 +76,8 @@ struct HexagonView: View {
 struct HexagonView_Previews: PreviewProvider {
     
     static var previews: some View {
-        let tile = Tile(point: HexPoint(x: 1, y: 1), terrain: .grass, hills: false, feature: .forest)
         
-        HexagonView(viewModel: HexagonViewModel(tile: tile))
+        HexagonView(viewModel: HexagonViewModel(at: HexPoint(x: 1, y: 1), tileColor: NSColor.lightGreen, mountains: nil, hills: nil, forest: nil, city: nil, tileAction: nil, showCitizenIcons: true))
         
         //HexagonView(viewModel: HexagonViewModel(tile: .grass))
         
