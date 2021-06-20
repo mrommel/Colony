@@ -28,38 +28,38 @@ struct HexagonView: View {
             ZStack {
                 
                 RegularPolygon(sides: 6, inset: -6.0)
-                    .fill(Color(self.viewModel.color()))
+                    .fill(Color(self.viewModel.tileColor))
                     .scaleEffect(CGSize(width: 1.0, height: 0.75))
                 
-                if self.viewModel.showMountains() {
-                    Image(nsImage: self.viewModel.mountainsImage())
+                //if self.viewModel.showMountains() {
+                    Image(nsImage: self.viewModel.mountainsImage)
                         .resizable()
                         .frame(width: h, height: h, alignment: .center)
-                }
+                //}
                 
-                if self.viewModel.showHills() {
-                    Image(nsImage: self.viewModel.hillsImage())
+                //if self.viewModel.showHills() {
+                    Image(nsImage: self.viewModel.hillsImage)
                         .resizable()
                         .frame(width: h, height: h, alignment: .center)
-                }
+                //}
                 
-                if self.viewModel.showForest() {
-                    Image(nsImage: self.viewModel.forestImage())
+                //if self.viewModel.showForest() {
+                    Image(nsImage: self.viewModel.forestImage)
                         .resizable()
                         .frame(width: h, height: h, alignment: .center)
-                }
+                //}
                 
-                if self.viewModel.showCity() {
-                    Image(nsImage: self.viewModel.cityImage())
+                //if self.viewModel.showCity() {
+                    Image(nsImage: self.viewModel.cityImage)
                         .resizable()
                         .frame(width: h, height: h, alignment: .center)
-                }
+                //}
                 
-                if self.viewModel.showCitizenIcons {
-                    Image(nsImage: self.viewModel.actionImage())
+                //if self.viewModel.showCitizenIcons {
+                    Image(nsImage: self.viewModel.actionImage)
                         .resizable()
                         .frame(width: h, height: h, alignment: .center)
-                }
+                //}
                 
                 /*Text("\(self.viewModel.tile.point.x),\(self.viewModel.tile.point.y)")*/
             }

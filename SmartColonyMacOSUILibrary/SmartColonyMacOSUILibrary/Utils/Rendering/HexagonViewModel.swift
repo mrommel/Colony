@@ -22,13 +22,30 @@ class HexagonViewModel: ObservableObject {
     @Published
     var showCitizenIcons: Bool
 
-    private let point: HexPoint
-    private let tileColor: NSColor
+    let point: HexPoint
+    
+    @Published
+    var tileColor: NSColor
+    
+    @Published
+    var mountainsImage: NSImage
     private let mountainsTextureName: String?
+    
+    @Published
+    var hillsImage: NSImage
     private let hillsTextureName: String?
+    
+    @Published
+    var forestImage: NSImage
     private let forestTextureName: String?
+    
+    @Published
+    var cityImage: NSImage
     private let cityTextureName: String?
-    private let tileActionTextureName: String?
+    
+    @Published
+    var actionImage: NSImage
+    private var tileActionTextureName: String?
     
     weak var delegate: HexagonViewModelDelegate?
     
@@ -50,11 +67,48 @@ class HexagonViewModel: ObservableObject {
         self.tileActionTextureName = tileAction
         
         self.showCitizenIcons = showCitizenIcons
+        
+        // images
+        if let texture = mountains {
+            self.mountainsImage = ImageCache.shared.image(for: texture)
+        } else {
+            self.mountainsImage = NSImage()
+        }
+        
+        if let texture = hills {
+            self.hillsImage = ImageCache.shared.image(for: texture)
+        } else {
+            self.hillsImage = NSImage()
+        }
+        
+        if let texture = forest {
+            self.forestImage = ImageCache.shared.image(for: texture)
+        } else {
+            self.forestImage = NSImage()
+        }
+        
+        if let texture = city {
+            self.cityImage = ImageCache.shared.image(for: texture)
+        } else {
+            self.cityImage = NSImage()
+        }
+        
+        if let texture = tileAction {
+            self.actionImage = ImageCache.shared.image(for: texture)
+        } else {
+            self.actionImage = NSImage()
+        }
     }
     
-    func color() -> NSColor {
+    func update(tileAction: String?) {
         
-        return self.tileColor
+        self.tileActionTextureName = tileAction
+        
+        if let texture = tileAction {
+            self.actionImage = ImageCache.shared.image(for: texture)
+        } else {
+            self.actionImage = NSImage()
+        }
     }
     
     func offset() -> CGSize {
@@ -68,27 +122,9 @@ class HexagonViewModel: ObservableObject {
         return self.mountainsTextureName != nil
     }
     
-    func mountainsImage() -> NSImage {
-        
-        guard let texture = self.mountainsTextureName else {
-            return NSImage()
-        }
-        
-        return ImageCache.shared.image(for: texture)
-    }
-    
     func showHills() -> Bool {
         
         return self.hillsTextureName != nil
-    }
-    
-    func hillsImage() -> NSImage {
-        
-        guard let texture = self.hillsTextureName else {
-            return NSImage()
-        }
-        
-        return ImageCache.shared.image(for: texture)
     }
     
     func showForest() -> Bool {
@@ -96,36 +132,9 @@ class HexagonViewModel: ObservableObject {
         return self.forestTextureName != nil
     }
     
-    func forestImage() -> NSImage {
-        
-        guard let texture = self.forestTextureName else {
-            return NSImage()
-        }
-        
-        return ImageCache.shared.image(for: texture)
-    }
-    
     func showCity() -> Bool {
         
         return self.cityTextureName != nil
-    }
-    
-    func cityImage() -> NSImage {
-        
-        guard let texture = self.cityTextureName else {
-            return NSImage()
-        }
-        
-        return ImageCache.shared.image(for: texture)
-    }
-    
-    func actionImage() -> NSImage {
-        
-        guard let texture = self.tileActionTextureName else {
-            return NSImage()
-        }
-        
-        return ImageCache.shared.image(for: texture)
     }
     
     func clicked() {

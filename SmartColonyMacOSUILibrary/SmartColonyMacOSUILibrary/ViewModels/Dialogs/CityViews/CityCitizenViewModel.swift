@@ -8,6 +8,11 @@
 import SwiftUI
 import SmartAILibrary
 
+protocol CityCitizenViewModelDelegate: AnyObject {
+    
+    func yieldsUpdated()
+}
+
 class CityCitizenViewModel: ObservableObject {
     
     @Environment(\.gameEnvironment)
@@ -15,6 +20,8 @@ class CityCitizenViewModel: ObservableObject {
     
     @Published
     var hexagonGridViewModel: HexagonGridViewModel
+    
+    weak var delegate: CityCitizenViewModelDelegate?
     
     private var city: AbstractCity? = nil
     
@@ -80,8 +87,9 @@ extension CityCitizenViewModel: HexagonGridViewModelDelegate {
         } else {
             print("try to buy plot, but treasury does not contain enough money")
         }
-        
-        self.hexagonGridViewModel.update(for: self.city, with: gameModel)
+
+        self.hexagonGridViewModel.updateWorkingTiles(in: gameModel)
+        self.delegate?.yieldsUpdated()
     }
     
     func forceWorking(on point: HexPoint) {
@@ -90,11 +98,10 @@ extension CityCitizenViewModel: HexagonGridViewModelDelegate {
             fatalError("cant get game model")
         }
         
-        print("force working on \(point)")
-        
         self.city?.cityCitizens?.forceWorkingPlot(at: point, force: true, in: gameModel)
-        
-        self.hexagonGridViewModel.update(for: self.city, with: gameModel)
+
+        self.hexagonGridViewModel.updateWorkingTiles(in: gameModel)
+        self.delegate?.yieldsUpdated()
     }
     
     func stopWorking(on point: HexPoint) {
@@ -107,6 +114,7 @@ extension CityCitizenViewModel: HexagonGridViewModelDelegate {
         
         self.city?.cityCitizens?.forceWorkingPlot(at: point, force: false, in: gameModel)
         
-        self.hexagonGridViewModel.update(for: self.city, with: gameModel)
+        self.hexagonGridViewModel.updateWorkingTiles(in: gameModel)
+        self.delegate?.yieldsUpdated()
     }
 }

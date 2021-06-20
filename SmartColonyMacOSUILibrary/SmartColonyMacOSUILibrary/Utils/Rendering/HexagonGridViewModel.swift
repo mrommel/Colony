@@ -98,6 +98,10 @@ class HexagonGridViewModel: ObservableObject {
         for y in 0..<mapSize.height() {
             for x in 0..<mapSize.width() {
                 
+                guard city.location.distanceTo(x: x, y: y) < 7 else {
+                    continue
+                }
+                
                 guard let tile = gameModel.tile(x: x, y: y) else {
                     continue
                 }
@@ -121,9 +125,42 @@ class HexagonGridViewModel: ObservableObject {
                 tmpHexagonViewModels.append(hexagonViewModel)
             }
         }
+        
         DispatchQueue.main.async {
             self.hexagonViewModels = tmpHexagonViewModels
             print("updated city tiles")
+        }
+    }
+    
+    func updateWorkingTiles(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+        
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get player")
+        }
+        
+        guard let city = self.workedCity else {
+            fatalError("cant get city")
+        }
+        
+        guard let cityCitizens = city.cityCitizens else {
+            fatalError("cant get cityCitizens")
+        }
+        
+        for workingTileLocation in cityCitizens.workingTileLocations() {
+            
+            guard let tile = gameModel.tile(at: workingTileLocation) else {
+                continue
+            }
+            
+            if let model = self.hexagonViewModels.first(where: { $0.point == tile.point }) {
+                
+                let tileAction: String? = self.tileActionTextureName(of: tile, with: city, for: humanPlayer, in: gameModel)
+                model.update(tileAction: tileAction)
+            }
         }
     }
     
@@ -224,12 +261,12 @@ class HexagonGridViewModel: ObservableObject {
 
             if tile.isVisible(to: player) {
 
+                if forced {
+                    return .forceWorked
+                }
+                
                 if selected {
-                    if forced {
-                        return .forceWorked
-                    } else {
-                        return .worked
-                    }
+                    return .worked
                 }
                 
                 return .available

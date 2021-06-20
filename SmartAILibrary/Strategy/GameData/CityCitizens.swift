@@ -733,12 +733,14 @@ public class CityCitizens: Codable {
 
                     // More forced plots than we have citizens working?
                     // If so, then pick someone to lose their forced status
-                    if self.numForcedWorkingPlots() > self.numCitizensWorkingPlots() {
-                        self.doValidateForcedWorkingPlots(in: gameModel)
-                    }
+                    //if self.numForcedWorkingPlots() > self.numCitizensWorkingPlots() {
+                    self.doValidateForcedWorkingPlots(in: gameModel)
+                    //}
                 } else {
                     self.changeNumForcedWorkingPlots(change: -1)
                 }
+                
+                self.doReallocateCitizens(in: gameModel)
             }
             
             return
@@ -793,6 +795,34 @@ public class CityCitizens: Codable {
         for plot in self.workingPlots {
             
             locations.append(plot.location)
+        }
+        
+        return locations
+    }
+    
+    public func workedTileLocations() -> [HexPoint] {
+        
+        var locations: [HexPoint] = []
+        
+        for plot in self.workingPlots {
+            
+            if self.isWorked(at: plot.location) {
+                locations.append(plot.location)
+            }
+        }
+        
+        return locations
+    }
+    
+    public func forceWorkedTileLocations() -> [HexPoint] {
+        
+        var locations: [HexPoint] = []
+        
+        for plot in self.workingPlots {
+            
+            if self.isForcedWorked(at: plot.location) {
+                locations.append(plot.location)
+            }
         }
         
         return locations

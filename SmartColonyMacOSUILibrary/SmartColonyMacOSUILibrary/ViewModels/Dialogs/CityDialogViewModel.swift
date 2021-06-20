@@ -101,6 +101,8 @@ class CityDialogViewModel: ObservableObject {
         self.citizenViewModel = CityCitizenViewModel(city: city)
         self.religionViewModel = CityReligionViewModel(city: city)
         
+        self.citizenViewModel.delegate = self
+        
         if city != nil {
             self.update(for: city)
         }
@@ -142,5 +144,25 @@ class CityDialogViewModel: ObservableObject {
     func closeDialog() {
         
         self.delegate?.closeDialog()
+    }
+}
+
+extension CityDialogViewModel: CityCitizenViewModelDelegate {
+    
+    func yieldsUpdated() {
+        
+        if let city = self.city {
+
+            guard let game = self.gameEnvironment.game.value else {
+                return
+            }
+            
+            self.scienceYieldViewModel.delta = city.sciencePerTurn(in: game)
+            self.cultureYieldViewModel.delta = city.culturePerTurn(in: game)
+            self.foodYieldViewModel.delta = city.foodPerTurn(in: game)
+            self.productionYieldViewModel.delta = city.productionPerTurn(in: game)
+            self.goldYieldViewModel.delta = city.goldPerTurn(in: game)
+            self.faithYieldViewModel.delta = city.faithPerTurn(in: game)
+        }
     }
 }

@@ -383,13 +383,13 @@ extension HexPoint {
         return HexArea(points: points)
     }
     
-    func distance(to hex: HexPoint) -> Int {
+    public func distance(to hex: HexPoint) -> Int {
         let selfCube = HexCube(hex: self)
         let hexCube = HexCube(hex: hex)
         return selfCube.distance(to: hexCube)
     }
     
-    func distanceTo(x: Int, y: Int) -> Int {
+    public func distanceTo(x: Int, y: Int) -> Int {
         let selfCube = HexCube(hex: self)
         let hexCube = HexCube(hex: HexPoint(x: x, y: y))
         return selfCube.distance(to: hexCube)
