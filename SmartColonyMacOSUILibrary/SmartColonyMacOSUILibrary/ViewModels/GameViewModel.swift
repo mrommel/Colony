@@ -412,7 +412,7 @@ public class GameViewModel: ObservableObject {
         
         let cursor = self.gameEnvironment.cursor.value
         
-        print("todo center on cursor")
+        self.focus(on: cursor)
     }
     
     public func zoomIn() {
@@ -446,7 +446,7 @@ public class GameViewModel: ObservableObject {
             case .none:
                 // NOOP
                 break
-            case .declareWarQuestion(let player):
+            case .declareWarQuestion(_):
                 // NOOP
                 break
             case .barbarianCampCleared:
@@ -479,10 +479,10 @@ public class GameViewModel: ObservableObject {
                 // NOOP
                 break
                 
-            case .religionByCityAdopted(let religion, let location):
+            case .religionByCityAdopted(_, _):
                 fatalError("religionByCityAdopted")
                 
-            case .religionNewMajority(let religion):
+            case .religionNewMajority(_):
                 // TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY
                 fatalError("TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY")
             case .religionCanBuyMissionary:
@@ -563,7 +563,7 @@ extension GameViewModel: GameViewModelDelegate {
                 fatalError("cant get human player")
             }
             
-            if let promotableUnit = humanPlayer.firstPromotableUnit(in: game) {
+            if let _ = humanPlayer.firstPromotableUnit(in: game) {
             
                 // self.handleUnitPromotion(at: promotableUnit.location)
                 print("==> selectPromotion")

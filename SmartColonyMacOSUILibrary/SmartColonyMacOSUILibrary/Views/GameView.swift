@@ -106,10 +106,10 @@ extension GameView {
         case .none:
             return AnyView(EmptyView())
  
-        case .declareWarQuestion(player: let player):
+        case .declareWarQuestion(player: _):
             return AnyView(Text("declareWarQuestion"))
             
-        case .barbarianCampCleared(location: let location, gold: let gold):
+        case .barbarianCampCleared(location: _, gold: _):
             return AnyView(Text("barbarianCampCleared"))
             
         case .goodyHutReward(goodyType: let goodyType, location: let location):
@@ -142,16 +142,16 @@ extension GameView {
             viewModel.delegate = self.viewModel
             return AnyView(EurekaCivicActivatedPopupView(viewModel: viewModel))
             
-        case .unitTrained(unit: let unit):
+        case .unitTrained(unit: _):
             return AnyView(Text("unitTrained"))
             
         case .buildingBuilt:
             return AnyView(Text("buildingBuilt"))
             
-        case .religionByCityAdopted(religion: let religion, location: let location):
+        case .religionByCityAdopted(religion: _, location: _):
             return AnyView(Text("religionByCityAdopted"))
             
-        case .religionNewMajority(religion: let religion):
+        case .religionNewMajority(religion: _):
             return AnyView(Text("religionNewMajority"))
             
         case .religionCanBuyMissionary:

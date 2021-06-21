@@ -275,10 +275,6 @@ public class GameSceneViewModel: ObservableObject {
             fatalError("cant get game")
         }
 
-        guard let humanPlayer = gameModel.humanPlayer() else {
-            fatalError("cant get human")
-        }
-
         switch command.type {
         case .found:
                 self.delegate?.showCityNameDialog()
@@ -365,7 +361,7 @@ public class GameSceneViewModel: ObservableObject {
             print("attack")
             if let selectedUnit = self.selectedUnit {
                 // we need a target here
-                //self.showMeleeTargets(of: selectedUnit)
+                self.showMeleeTargets(of: selectedUnit)
                 //self.bottomCombatBar?.showCombatView()
             }
         
@@ -373,7 +369,7 @@ public class GameSceneViewModel: ObservableObject {
             print("rangedAttack")
             if let selectedUnit = self.selectedUnit {
                 // we need a target here
-                //self.showRangedTargets(of: selectedUnit)
+                self.showRangedTargets(of: selectedUnit)
                 //self.bottomCombatBar?.showCombatView()
             }
             
@@ -390,6 +386,16 @@ public class GameSceneViewModel: ObservableObject {
         self.commands = commands
         
         self.showCommands =  self.selectedUnit != nil
+    }
+    
+    func showMeleeTargets(of unit: AbstractUnit?) {
+        
+        print("not implemented: showMeleeTargets")
+    }
+    
+    func showRangedTargets(of unit: AbstractUnit?) {
+        
+        print("not implemented: showRangedTargets")
     }
     
     func changeUITurnState(to state: GameSceneTurnState) {
