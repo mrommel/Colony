@@ -88,12 +88,19 @@ extension CivicDialogViewModel: CivicViewModelDelegate {
             fatalError("cant get civics")
         }
         
+        let nothingSelected = civics.currentCivic() == nil
+        
         do {
             try civics.setCurrent(civic: civic, in: game)
         
             self.rebuildCivics(for: game)
         } catch {
             print("cant select: \(civic)")
+        }
+        
+        // close dialog, when user has selected a civic
+        if nothingSelected {
+            self.delegate?.closeDialog()
         }
     }
 }

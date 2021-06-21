@@ -61,7 +61,7 @@ class CityObject {
         let nameLabelWidth: Double = Double(city.name.count) * 4.2 + (city.isCapital() ? 10.0 : 0)
         let nameBackgroundWidth = nameLabelWidth + 18.0
 
-        let nameImage = ImageCache.shared.image(for: "city-banner")
+        let nameImage = ImageCache.shared.image(for: "city-banner").resize(withSize: NSSize(width: 12, height: 12))!
         self.nameBackground = NineGridTextureSprite(texture: SKTexture(image: nameImage), color: NSColor.black, size: CGSize(width: nameBackgroundWidth, height: 10))
         self.nameBackground?.position = CGPoint(x: 24, y: 35)
         self.nameBackground?.zPosition = Globals.ZLevels.cityName - 0.1

@@ -88,12 +88,19 @@ extension TechDialogViewModel: TechViewModelDelegate {
             fatalError("cant get techs")
         }
         
+        let nothingSelected = techs.currentTech() == nil
+        
         do {
             try techs.setCurrent(tech: tech, in: game)
         
             self.rebuildTechs(for: game)
         } catch {
             print("cant select: \(tech)")
+        }
+        
+        // close dialog, when user has selected a tech
+        if nothingSelected {
+            self.delegate?.closeDialog()
         }
     }
 }

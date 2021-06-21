@@ -43,6 +43,7 @@ class GameScene: BaseScene {
     }
     #else
     override func didMove(to view: SKView) {
+        
         super.didMove(to: view)
         self.setupScene(to: view)
     }
@@ -86,7 +87,7 @@ class GameScene: BaseScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        
+
         // only check once per 0.5 sec
         if self.lastExecuted + 0.5 < currentTime {
 
@@ -131,7 +132,7 @@ class GameScene: BaseScene {
         
         if let center = self.viewModel?.centerOn {
             self.center(on: center)
-            self.zoom(to: 0.3)
+            //self.zoom(to: 0.3)
             self.viewModel?.centerOn = nil
         }
     }

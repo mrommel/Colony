@@ -57,8 +57,10 @@ struct GameSceneView: NSViewRepresentable {
  
     func updateNSView(_ view: SKView, context: Context) {
         
-        guard self.viewModel?.game != nil else {
-            return
+        if self.viewModel?.game == nil {
+            
+            print("++ updateNSView: viewmodel game is nil - mitigate")
+            self.viewModel?.game = self.gameEnvironment.game.value
         }
         
         if context.coordinator.gameScene?.viewModel == nil {

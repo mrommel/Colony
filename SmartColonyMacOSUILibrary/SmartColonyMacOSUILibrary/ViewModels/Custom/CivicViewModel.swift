@@ -99,7 +99,11 @@ class CivicViewModel: ObservableObject, Identifiable {
             iconTextureNames.append(districtType.iconTexture())
         }
         
-        return iconTextureNames.map { ImageCache.shared.image(for: $0) }
+        for policyCard in achievements.policyCards {
+            iconTextureNames.append(policyCard.iconTexture())
+        }
+        
+        return iconTextureNames.map { ImageCache.shared.image(for: $0).copy() as! NSImage }
     }
     
     func turnsText() -> String {

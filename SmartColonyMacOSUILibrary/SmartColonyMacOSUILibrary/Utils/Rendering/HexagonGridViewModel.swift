@@ -98,7 +98,7 @@ class HexagonGridViewModel: ObservableObject {
         for y in 0..<mapSize.height() {
             for x in 0..<mapSize.width() {
                 
-                guard city.location.distanceTo(x: x, y: y) < 7 else {
+                guard city.location.distanceTo(x: x, y: y) < 12 else {
                     continue
                 }
                 
@@ -339,7 +339,5 @@ extension HexagonGridViewModel: HexagonViewModelDelegate {
         case .forceWorked:
             self.delegate?.stopWorking(on: point)
         }
-        
-        //self.delegate?.clicked(on: point)
     }
 }
