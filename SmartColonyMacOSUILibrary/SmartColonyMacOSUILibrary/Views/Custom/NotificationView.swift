@@ -32,8 +32,8 @@ struct NotificationView: View {
                 .padding(.top, 13.5)
                 .padding(.leading, 14)
             
-            Text(self.viewModel.title)
-                .font(.footnote)
+            //Text(self.viewModel.title)
+            //    .font(.footnote)
             
             Circle()
                 .fill(Color.white.opacity(0.01))

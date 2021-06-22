@@ -88,12 +88,12 @@ class GameScene: BaseScene {
     
     override func update(_ currentTime: TimeInterval) {
 
+        guard let gameModel = self.viewModel?.game else {
+            return
+        }
+        
         // only check once per 0.5 sec
         if self.lastExecuted + 0.5 < currentTime {
-
-            guard let gameModel = self.viewModel?.game else {
-                return
-            }
 
             guard let humanPlayer = gameModel.humanPlayer() else {
                 fatalError("cant get human")
@@ -128,6 +128,18 @@ class GameScene: BaseScene {
             }
 
             self.lastExecuted = currentTime
+        }
+        
+        if self.viewModel?.refreshCities ?? false {
+            
+            //self.mapNode?.unitLayer.populate(with: gameModel)
+            for player in gameModel.players {
+                for city in gameModel.cities(of: player) {
+                    self.mapNode?.cityLayer.update(city: city)
+                }
+            }
+            
+            self.viewModel?.refreshCities = false
         }
         
         if let center = self.viewModel?.centerOn {

@@ -303,6 +303,11 @@ public class NotificationItem: Codable, Equatable {
             }
         }
         
+        // city growth is equal, when it happen at the same location
+        if lhs.type == .cityGrowth && rhs.type == .cityGrowth {
+            return lhs.location == rhs.location
+        }
+        
         return false
     }
 }

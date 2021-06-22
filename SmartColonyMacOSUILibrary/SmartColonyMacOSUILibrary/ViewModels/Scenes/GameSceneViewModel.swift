@@ -127,6 +127,7 @@ public class GameSceneViewModel: ObservableObject {
     
     var readyUpdatingAI: Bool = true
     var readyUpdatingHuman: Bool = true
+    var refreshCities: Bool = false
     
     var centerOn: HexPoint? = nil
     
@@ -420,12 +421,7 @@ public class GameSceneViewModel: ObservableObject {
         case .humanTurns:
             
             // dirty hacks
-            /*self.mapNode?.unitLayer.populate(with: gameModel)
-            for player in gameModel.players {
-                for city in gameModel.cities(of: player) {
-                    self.mapNode?.cityLayer.update(city: city)
-                }
-            }*/
+            self.refreshCities = true
             
             // hide AI is working banner
             self.showBanner = false
