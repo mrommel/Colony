@@ -67,7 +67,11 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                     
                     // walkable ?
                     if self.movementType == .walk {
-                        if toTile.isWater() && self.options.canEmbark && toTile.isImpassable(for: .swim) {
+                        if toTile.isWater() && !self.options.canEmbark {
+                            continue
+                        }
+                        
+                        if toTile.isWater() && (self.options.canEmbark && toTile.isImpassable(for: .swim)) {
                             continue
                         }
                         

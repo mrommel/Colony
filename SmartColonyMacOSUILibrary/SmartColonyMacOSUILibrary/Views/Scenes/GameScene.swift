@@ -221,7 +221,12 @@ extension GameScene {
             }
         } else {
 
-            if let combatUnit = game.unit(at: position, of: .combat) {
+            if let city = game.city(at: position) {
+                if humanPlayer.isEqual(to: city.player) {
+                    self.select(city: city)
+                    return
+                }
+            } else if let combatUnit = game.unit(at: position, of: .combat) {
                 if humanPlayer.isEqual(to: combatUnit.player) {
                     self.select(unit: combatUnit)
                     return

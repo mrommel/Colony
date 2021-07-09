@@ -1280,7 +1280,7 @@ public class Unit: AbstractUnit {
     public func path(towards target: HexPoint, options: MoveOptions, in gameModel: GameModel?) -> HexPath? {
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, ignoreOwner: self.type == .trader, unitMapType: self.unitMapType(), canEmbark: self.canEmbark(in: gameModel))
+        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, ignoreOwner: self.type.canMoveInRivalTerritory(), unitMapType: self.unitMapType(), canEmbark: self.canEmbark(in: gameModel))
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
 
@@ -2175,10 +2175,15 @@ public class Unit: AbstractUnit {
     
     public func canEnterTerritory(of otherPlayer: AbstractPlayer?, ignoreRightOfPassage: Bool = false, isDeclareWarMove: Bool = false) -> Bool {
 
+        guard let player = self.player else {
+            fatalError("cant get unit player")
+        }
+        
         guard let diplomacyAI = self.player?.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
         
+        // we can enter unowned territory
         if otherPlayer == nil {
             return true
         }
@@ -2187,18 +2192,17 @@ public class Unit: AbstractUnit {
             return true
         }
 
-        /*if self.player.isFriendlyTerritory(eTeam))
-        {
-            return true;
-        }*/
+        if player.isEqual(to: otherPlayer) {
+            return true
+        }
 
         if diplomacyAI.isAtWar(with: otherPlayer) {
             return true
         }
 
-        /*if(isRivalTerritory()) {
-            return true;
-        }*/
+        if self.type.canMoveInRivalTerritory() {
+            return true
+        }
 
         if !ignoreRightOfPassage {
             if diplomacyAI.isOpenBorderAgreementActive(by: otherPlayer) {
@@ -3459,18 +3463,16 @@ public class Unit: AbstractUnit {
             fatalError("cant get gameModel")
         }
 
-        if self.domain() != .land {
-
+        if !self.canEverEmbark() {
             return false
         }
+        
 
         if self.isEmbarked() {
-
             return false
         }
 
         if self.movesLeft() <= 0 {
-
             return false
         }
 

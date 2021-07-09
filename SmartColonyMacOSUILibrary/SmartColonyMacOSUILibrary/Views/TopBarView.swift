@@ -10,7 +10,7 @@ import SwiftUI
 public struct TopBarView: View {
     
     @ObservedObject
-    public var viewModel: GameSceneViewModel
+    public var viewModel: TopBarViewModel
     
     public var body: some View {
         
@@ -47,7 +47,7 @@ struct TopBarView_Previews: PreviewProvider {
     
     static var previews: some View {
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = GameSceneViewModel()
+        let viewModel = TopBarViewModel()
         
         TopBarView(viewModel: viewModel)
     }

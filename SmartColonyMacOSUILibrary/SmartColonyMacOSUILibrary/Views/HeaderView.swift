@@ -46,7 +46,7 @@ struct HeaderView: View {
             
             TechProgressView(viewModel: self.viewModel.techProgressViewModel())
             
-            CivicProgressView(viewModel: CivicProgressViewModel(civic: .codeOfLaws, progress: 24, boosted: false))
+            CivicProgressView(viewModel: self.viewModel.civicProgressViewModel())
             
             Spacer()
         }

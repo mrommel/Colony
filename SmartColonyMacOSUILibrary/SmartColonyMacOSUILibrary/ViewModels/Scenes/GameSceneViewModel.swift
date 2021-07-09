@@ -73,6 +73,19 @@ public class GameSceneViewModel: ObservableObject {
     }
     
     @Published
+    var selectedCity: AbstractCity? = nil {
+        
+        didSet {
+            if let selectedCity = self.selectedCity {
+                print("select city: \(selectedCity.name)")
+                self.delegate?.showCityBanner(for: selectedCity)
+            } else {
+                self.delegate?.hideCityBanner()
+            }
+        }
+    }
+    
+    @Published
     var sceneCombatMode: GameSceneCombatMode = .none
     
     @Published
@@ -105,6 +118,9 @@ public class GameSceneViewModel: ObservableObject {
     var buttonViewModel: AnimatedImageViewModel
     
     @Published
+    var topBarViewModel: TopBarViewModel
+    
+    @Published
     var showCommands: Bool = false
     
     @Published
@@ -112,18 +128,6 @@ public class GameSceneViewModel: ObservableObject {
     
     @Published
     var commands: [Command] = []
-    
-    @Published
-    var scienceYieldValueViewModel: YieldValueViewModel
-    
-    @Published
-    var cultureYieldValueViewModel: YieldValueViewModel
-    
-    @Published
-    var faithYieldValueViewModel: YieldValueViewModel
-    
-    @Published
-    var goldYieldValueViewModel: YieldValueViewModel
     
     var readyUpdatingAI: Bool = true
     var readyUpdatingHuman: Bool = true
@@ -141,11 +145,7 @@ public class GameSceneViewModel: ObservableObject {
         
         let buttonImage = NSImage() // ImageCache.shared.image(for: NotificationType.unitNeedsOrders.iconTexture())
         self.buttonViewModel = AnimatedImageViewModel(image: buttonImage)
-        
-        self.scienceYieldValueViewModel = YieldValueViewModel(yieldType: .science, initial: 0.0, type: .onlyDelta)
-        self.cultureYieldValueViewModel = YieldValueViewModel(yieldType: .culture, initial: 0.0, type: .onlyDelta)
-        self.faithYieldValueViewModel = YieldValueViewModel(yieldType: .faith, initial: 0.0, type: .valueAndDelta)
-        self.goldYieldValueViewModel = YieldValueViewModel(yieldType: .gold, initial: 0.0, type: .valueAndDelta)
+        self.topBarViewModel = TopBarViewModel()
     }
     
     public func doTurn() {
@@ -405,10 +405,6 @@ public class GameSceneViewModel: ObservableObject {
             fatalError("cant get game")
         }
 
-        guard let humanPlayer = gameModel.humanPlayer() else {
-            fatalError("cant get human")
-        }
-
         switch state {
 
         case .aiTurns:
@@ -427,12 +423,7 @@ public class GameSceneViewModel: ObservableObject {
             self.showBanner = false
             
             // update nodes
-            self.scienceYieldValueViewModel.delta = humanPlayer.science(in: self.game)
-            self.cultureYieldValueViewModel.delta = humanPlayer.culture(in: self.game)
-            self.faithYieldValueViewModel.value = humanPlayer.religion?.faith() ?? 0.0
-            self.faithYieldValueViewModel.delta = humanPlayer.faith(in: self.game)
-            self.goldYieldValueViewModel.value = humanPlayer.treasury?.value() ?? 0.0
-            self.goldYieldValueViewModel.delta = humanPlayer.treasury?.calculateGrossGold(in: self.game) ?? 0.0
+            self.topBarViewModel.update()
 
             // update
             //self.updateLeaders()
@@ -449,15 +440,6 @@ public class GameSceneViewModel: ObservableObject {
         }
 
         self.uiTurnState = state
-    }
-    
-    func turnText() -> String {
-        
-        guard let gameModel = self.game else {
-            return "-"
-        }
-        
-        return gameModel.turnYear()
     }
     
     func showTurnButton() {

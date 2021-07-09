@@ -273,42 +273,36 @@ public class NotificationItem: Codable, Equatable {
     
     public static func == (lhs: NotificationItem, rhs: NotificationItem) -> Bool {
         
-        if lhs.type == rhs.type {
+        if lhs.type != rhs.type {
             
-            if lhs.type == .techNeeded {
-                
-                // highlander, only one notification of this type
-                return true
-            }
-            
-            if lhs.type == .civicNeeded {
-                
-                // highlander, only one notification of this type
-                return true
-            }
-            
-            if lhs.type == .productionNeeded {
-                
-                if lhs.location == rhs.location {
-                    
-                    // there can be multiple notifications - one per city == location
-                    return true
-                }
-            }
-            
-            if lhs.type == .policiesNeeded {
-                
-                // highlander, only one notification of this type
-                return true
-            }
+            return false
         }
+            
+        switch lhs.type {
         
-        // city growth is equal, when it happen at the same location
-        if lhs.type == .cityGrowth && rhs.type == .cityGrowth {
+        case .techNeeded:
+            // highlander, only one notification of this type
+            return true
+            
+        case .civicNeeded:
+            // highlander, only one notification of this type
+            return true
+            
+        case .productionNeeded:
+            // there can be multiple notifications - one per city == location
             return lhs.location == rhs.location
+            
+        case .policiesNeeded:
+            // highlander, only one notification of this type
+            return true
+            
+        case .cityGrowth:
+            // there can be multiple notifications - one per city == location
+            return lhs.location == rhs.location
+            
+        default:
+            fatalError("not handled: \(lhs.type)")
         }
-        
-        return false
     }
 }
 

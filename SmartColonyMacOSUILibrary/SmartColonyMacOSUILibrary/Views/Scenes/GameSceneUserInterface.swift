@@ -21,7 +21,22 @@ extension GameScene: UserInterfaceDelegate {
     }
     
     func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType) {
-        print("todo: showLeaderMessage")
+        
+        guard let gameModel = self.viewModel?.game else {
+            fatalError("cant get game")
+        }
+        
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+        
+        let dialogPlayer = humanPlayer.isEqual(to: fromPlayer) ? toPlayer : fromPlayer
+        
+        print("showLeaderMessage:")
+        print("state=\(state), message=\(message)")
+        print("deal=\(String(describing: deal))")
+        let data = DiplomaticData(state: state, message: message, emotion: emotion)
+        self.viewModel?.delegate?.showDiplomaticDialog(with: dialogPlayer, data: data, deal: deal)
     }
     
     func isShown(screen: ScreenType) -> Bool {
@@ -37,6 +52,11 @@ extension GameScene: UserInterfaceDelegate {
     func remove(notification: NotificationItem) {
         
         self.viewModel?.delegate?.remove(notification: notification)
+    }
+    
+    func select(city: AbstractCity?) { // todo: add to interface
+        
+        self.viewModel?.selectedCity = city
     }
     
     func select(unit: AbstractUnit?) {

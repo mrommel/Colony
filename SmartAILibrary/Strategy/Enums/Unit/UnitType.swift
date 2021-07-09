@@ -1169,7 +1169,7 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler: return [.canFound]
         case .builder: return [.canImprove]
-        case .trader: return [.canEstablishTradeRoute]
+        case .trader: return [.canEstablishTradeRoute, .canMoveInRivalTerritory]
 
         case .scout: return [.experienceFromTribal]
         case .warrior: return [.canCapture]
@@ -1302,5 +1302,10 @@ public enum UnitType: Int, Codable {
         }
         
         return false
+    }
+    
+    func canMoveInRivalTerritory() -> Bool {
+        
+        return self.has(ability: .canMoveInRivalTerritory)
     }
 }

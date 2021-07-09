@@ -13,6 +13,9 @@ import SwiftUI
 protocol GameViewModelDelegate: AnyObject {
     
     func focus(on point: HexPoint)
+    func showUnitBanner(for unit: AbstractUnit?)
+    func showCityBanner(for city: AbstractCity?)
+    func hideCityBanner()
     
     func showPopup(popupType: PopupType)
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?)
@@ -29,6 +32,7 @@ protocol GameViewModelDelegate: AnyObject {
     func showCityDialog(for city: AbstractCity?)
     func showCityChooseProductionDialog(for city: AbstractCity?)
     func showCityBuildingsDialog(for city: AbstractCity?)
+    func showDiplomaticDialog(with otherPlayer: AbstractPlayer?, data: DiplomaticData?, deal: DiplomaticDeal?)
     
     func isShown(screen: ScreenType) -> Bool
     
@@ -57,6 +61,11 @@ public class GameViewModel: ObservableObject {
     var notificationsViewModel: NotificationsViewModel
     
     @Published
+    var cityBannerViewModel: CityBannerViewModel
+    
+    // dialogs
+    
+    @Published
     var governmentDialogViewModel: GovernmentDialogViewModel
     
     @Published
@@ -79,6 +88,9 @@ public class GameViewModel: ObservableObject {
     
     @Published
     var cityDialogViewModel: CityDialogViewModel
+    
+    @Published
+    var diplomaticDialogViewModel: DiplomaticDialogViewModel
 
     // UI
     
@@ -129,7 +141,7 @@ public class GameViewModel: ObservableObject {
         }
     }
     
-    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching", "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active", "grid9-button-clicked", "banner", "science-progress", "culture-progress", "header-bar-button", "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active", "grid9-button-district", "questionmark", "tile-purchase-active", "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced"]
+    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching", "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active", "grid9-button-clicked", "banner", "science-progress", "culture-progress", "header-bar-button", "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active", "grid9-button-district", "questionmark", "tile-purchase-active", "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced", "city-canvas"]
     
     // MARK: constructor
     
@@ -138,6 +150,9 @@ public class GameViewModel: ObservableObject {
         // init models
         self.gameSceneViewModel = GameSceneViewModel()
         self.notificationsViewModel = NotificationsViewModel()
+        self.cityBannerViewModel = CityBannerViewModel(name: "Berlin")
+        
+        // dialogs
         self.governmentDialogViewModel = GovernmentDialogViewModel()
         self.changeGovernmentDialogViewModel = ChangeGovernmentDialogViewModel()
         self.changePolicyDialogViewModel = ChangePolicyDialogViewModel()
@@ -146,6 +161,7 @@ public class GameViewModel: ObservableObject {
         self.cityNameDialogViewModel = CityNameDialogViewModel()
         self.unitDisbandConfirmationDialogViewModel = UnitDisbandConfirmationDialogViewModel()
         self.cityDialogViewModel = CityDialogViewModel()
+        self.diplomaticDialogViewModel = DiplomaticDialogViewModel()
         
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -158,6 +174,7 @@ public class GameViewModel: ObservableObject {
         self.cityNameDialogViewModel.delegate = self
         self.unitDisbandConfirmationDialogViewModel.delegate = self
         self.cityDialogViewModel.delegate = self
+        self.diplomaticDialogViewModel.delegate = self
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -512,6 +529,20 @@ extension GameViewModel: GameViewModelDelegate {
         self.gameSceneViewModel.centerOn = point
     }
     
+    func showUnitBanner(for unit: AbstractUnit?) {
+        
+    }
+    
+    func showCityBanner(for city: AbstractCity?) {
+        
+        self.cityBannerViewModel.showBanner = true
+    }
+    
+    func hideCityBanner() {
+        
+        self.cityBannerViewModel.showBanner = false
+    }
+    
     func showPopup(popupType: PopupType) {
     
         self.popups.append(popupType)
@@ -522,7 +553,7 @@ extension GameViewModel: GameViewModelDelegate {
         self.currentPopupType = .none
     }
     
-    func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?) {
+    func showScreen(screenType: ScreenType, city: AbstractCity?, other otherPlayer: AbstractPlayer?, data: DiplomaticData?) {
         
         switch screenType {
 
@@ -531,8 +562,7 @@ extension GameViewModel: GameViewModelDelegate {
             print("==> interimRanking")
             
         case .diplomatic:
-            // self.showDiplomaticDialog(with: otherPlayer, data: data, deal: nil)
-            print("==> diplomatic")
+            self.showDiplomaticDialog(with: otherPlayer, data: data, deal: nil)
             
         case .city:
             self.showCityDialog(for: city)
@@ -555,15 +585,15 @@ extension GameViewModel: GameViewModelDelegate {
             self.showGovernmentDialog()
             
         case .selectPromotion:
-            guard let game = self.gameEnvironment.game.value else {
+            guard let gameModel = self.gameEnvironment.game.value else {
                 fatalError("cant get game")
             }
             
-            guard let humanPlayer = game.humanPlayer() else {
+            guard let humanPlayer = gameModel.humanPlayer() else {
                 fatalError("cant get human player")
             }
             
-            if let _ = humanPlayer.firstPromotableUnit(in: game) {
+            if let _ = humanPlayer.firstPromotableUnit(in: gameModel) {
             
                 // self.handleUnitPromotion(at: promotableUnit.location)
                 print("==> selectPromotion")
@@ -594,6 +624,52 @@ extension GameViewModel: GameViewModelDelegate {
         } else {
             fatalError("cant show disband unit confirmation dialog, \(self.currentScreenType) is currently shown")
         }
+    }
+    
+    func showDiplomaticDialog(with otherPlayer: AbstractPlayer?, data: DiplomaticData?, deal: DiplomaticDeal?) {
+
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+
+        guard let data = data else {
+            fatalError("cant get data")
+        }
+
+        if self.currentScreenType == .diplomatic {
+            // already shown
+            return
+        }
+        
+        if self.currentScreenType == .none {
+            self.diplomaticDialogViewModel.update(for: humanPlayer, and: otherPlayer, state: data.state, message: data.message, emotion: data.emotion, in: gameModel)
+            if let deal = deal {
+                diplomaticDialogViewModel.add(deal: deal)
+            }
+            self.currentScreenType = .diplomatic
+        } else {
+            fatalError("cant show diplomatic dialog, \(self.currentScreenType) is currently shown")
+        }
+        
+        /*let viewModel = DiplomaticDialogViewModel(for: humanPlayer, and: otherPlayer, state: data.state, message: data.message, emotion: data.emotion, in: self.viewModel?.game)
+
+        let diplomaticDialog = DiplomaticDialog(viewModel: viewModel)
+        diplomaticDialog.zPosition = 250
+        
+        if let deal = deal {
+            viewModel.add(deal: deal)
+        }
+
+        diplomaticDialog.addOkayAction(handler: {
+            diplomaticDialog.close()
+            self.currentScreenType = .none
+        })
+
+        self.cameraNode.add(dialog: diplomaticDialog)*/
     }
     
     func checkPopups() -> Bool {
