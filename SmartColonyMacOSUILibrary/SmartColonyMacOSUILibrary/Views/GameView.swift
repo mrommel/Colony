@@ -145,10 +145,10 @@ extension GameView {
             return AnyView(EurekaCivicActivatedPopupView(viewModel: viewModel))
             
         case .unitTrained(unit: _):
-            return AnyView(Text("unitTrained"))
+            return AnyView(EmptyView())
             
         case .buildingBuilt:
-            return AnyView(Text("buildingBuilt"))
+            return AnyView(EmptyView())
             
         case .religionByCityAdopted(religion: _, location: _):
             return AnyView(Text("religionByCityAdopted"))
@@ -160,7 +160,9 @@ extension GameView {
             return AnyView(Text("religionCanBuyMissionary"))
             
         case .religionCanFoundPantheon:
-            return AnyView(Text("religionCanFoundPantheon"))
+            let viewModel = ReligionCanFoundPantheonPopupViewModel()
+            viewModel.delegate = self.viewModel
+            return AnyView(ReligionCanFoundPantheonPopupView(viewModel: viewModel))
             
         case .religionNeedNewAutomaticFaithSelection:
             return AnyView(Text("religionNeedNewAutomaticFaithSelection"))

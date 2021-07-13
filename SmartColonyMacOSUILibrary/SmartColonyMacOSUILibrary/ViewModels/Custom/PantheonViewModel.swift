@@ -8,13 +8,48 @@
 import SwiftUI
 import SmartAILibrary
 
-class PantheonViewModel: ObservableObject {
+protocol PantheonViewModelDelegate: AnyObject {
     
-    @Published
-    var pantheonName: String
+    func selected(pantheon: PantheonType)
+}
+
+class PantheonViewModel: ObservableObject, Identifiable {
+    
+    let id: UUID = UUID()
+    
+    let pantheonType: PantheonType
+    
+    weak var delegate: PantheonViewModelDelegate?
     
     init(pantheonType: PantheonType) {
         
-        self.pantheonName = pantheonType.name()
+        self.pantheonType = pantheonType
+    }
+    
+    func image() -> NSImage {
+        
+        return ImageCache.shared.image(for: self.pantheonType.iconTexture())
+    }
+    
+    func name() -> String {
+        
+        return self.pantheonType.name()
+    }
+    
+    func summary() -> String {
+        
+        return self.pantheonType.bonus()
+    }
+    
+    func background() -> NSImage {
+        
+        return ImageCache.shared.image(for: "pantheon-background")
+    }
+    
+    func selectPantheon() {
+        
+        self.delegate?.selected(pantheon: self.pantheonType)
     }
 }
+
+

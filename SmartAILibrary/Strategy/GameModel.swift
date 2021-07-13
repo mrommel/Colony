@@ -1478,7 +1478,7 @@ open class GameModel: Codable {
         return self.mapSize().maxActiveReligions()
     }
     
-    func availablePantheons() -> [PantheonType] {
+    public func availablePantheons() -> [PantheonType] {
         
         guard let religions = self.religionsVal else {
             fatalError("cant get religions")

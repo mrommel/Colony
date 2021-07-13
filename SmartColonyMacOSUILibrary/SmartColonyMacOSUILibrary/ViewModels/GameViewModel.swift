@@ -141,7 +141,7 @@ public class GameViewModel: ObservableObject {
         }
     }
     
-    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching", "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active", "grid9-button-clicked", "banner", "science-progress", "culture-progress", "header-bar-button", "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active", "grid9-button-district", "questionmark", "tile-purchase-active", "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced", "city-canvas"]
+    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching", "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active", "grid9-button-clicked", "banner", "science-progress", "culture-progress", "header-bar-button", "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active", "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active", "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced", "city-canvas", "pantheon-background"]
     
     // MARK: constructor
     
@@ -395,6 +395,11 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: leaderTypeTextureName), for: leaderTypeTextureName)
         }
         
+        print("- load \(textures.pantheonTypeTextureNames.count) pantheon type textures")
+        for pantheonTypeTextureName in textures.pantheonTypeTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: pantheonTypeTextureName), for: pantheonTypeTextureName)
+        }
+        
         print("-- all textures loaded --")
     }
     
@@ -507,7 +512,7 @@ public class GameViewModel: ObservableObject {
                 fatalError("TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY")
             case .religionCanFoundPantheon:
                 // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_PANTHEON
-                fatalError("TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_PANTHEON")
+                self.currentPopupType = .religionCanFoundPantheon
             case .religionNeedNewAutomaticFaithSelection:
                 // TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION
                 fatalError("TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION")

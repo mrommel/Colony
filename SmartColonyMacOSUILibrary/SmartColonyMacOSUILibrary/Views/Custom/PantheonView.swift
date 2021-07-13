@@ -14,19 +14,29 @@ struct PantheonView: View {
     
     var body: some View {
         
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Your Pantheon Belief")
-        
-            Text(self.viewModel.pantheonName)
-                .padding(.all, 8)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.gray)
-                )
+        HStack(alignment: .top, spacing: 4) {
+
+            Image(nsImage: self.viewModel.image())
+                .resizable()
+                .frame(width: 32, height: 32, alignment: .leading)
+            
+            VStack(alignment: .leading, spacing: 0) {
+                
+                Text(self.viewModel.name())
+                    .font(.headline)
+                
+                Text(self.viewModel.summary())
+                    .font(.footnote)
+                    .padding(.top, 1)
+            }
         }
-        .padding(.all, 8)
-        .frame(width: 250, height: 70, alignment: .leading)
-        .background(Color.red.opacity(0.4))
+        .padding(.all, 4)
+        .frame(width: 250, height: 50, alignment: .leading)
+        .background(
+            Image(nsImage: self.viewModel.background())
+                .resizable()
+                .frame(width: 250, height: 50, alignment: .topLeading)
+        )
     }
 }
 

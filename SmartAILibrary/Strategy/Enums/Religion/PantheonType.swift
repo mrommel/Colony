@@ -46,6 +46,11 @@ public enum PantheonType: Int, Codable {
         return self.data().name
     }
     
+    public func bonus() -> String {
+        
+        return self.data().bonus
+    }
+    
     // MARK: internal classes
     
     private struct PantheonData {

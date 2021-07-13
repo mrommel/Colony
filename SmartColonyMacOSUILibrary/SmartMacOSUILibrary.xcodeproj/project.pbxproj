@@ -111,6 +111,8 @@
 		C9B3141E2657FF1100726CAA /* YieldValueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3141D2657FF1100726CAA /* YieldValueViewModel.swift */; };
 		C9B43FAF263E8FB900241012 /* AskYesNoAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */; };
 		C9B43FB1263E905B00241012 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FB0263E905B00241012 /* CGSizeExtension.swift */; };
+		C9B60BEE269DC61200F10177 /* ReligionCanFoundPantheonPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B60BED269DC61100F10177 /* ReligionCanFoundPantheonPopupView.swift */; };
+		C9B60BF0269DC68800F10177 /* ReligionCanFoundPantheonPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B60BEF269DC68800F10177 /* ReligionCanFoundPantheonPopupViewModel.swift */; };
 		C9BA399726657499008B3476 /* AnimatedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA399626657499008B3476 /* AnimatedImageViewModel.swift */; };
 		C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDCF8A262476E6002488F6 /* GameView.swift */; };
 		C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDCF8C2624771C002488F6 /* GameViewModel.swift */; };
@@ -286,6 +288,8 @@
 		C9B3141D2657FF1100726CAA /* YieldValueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldValueViewModel.swift; sourceTree = "<group>"; };
 		C9B43FAE263E8FB900241012 /* AskYesNoAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskYesNoAlertView.swift; sourceTree = "<group>"; };
 		C9B43FB0263E905B00241012 /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
+		C9B60BED269DC61100F10177 /* ReligionCanFoundPantheonPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionCanFoundPantheonPopupView.swift; sourceTree = "<group>"; };
+		C9B60BEF269DC68800F10177 /* ReligionCanFoundPantheonPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionCanFoundPantheonPopupViewModel.swift; sourceTree = "<group>"; };
 		C9BA399626657499008B3476 /* AnimatedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImageViewModel.swift; sourceTree = "<group>"; };
 		C9BDCF8A262476E6002488F6 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		C9BDCF8C2624771C002488F6 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
@@ -404,6 +408,7 @@
 				C9A48D482653EC3A00260EE0 /* CityNameDialogView.swift */,
 				C9A48D4C2653FAA600260EE0 /* CityDialogView.swift */,
 				C9F2B554266A58760016D4F3 /* UnitDisbandConfirmationDialogView.swift */,
+				C9B60BED269DC61100F10177 /* ReligionCanFoundPantheonPopupView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -605,6 +610,7 @@
 				C9A48D4A2653F8C100260EE0 /* CityDialogViewModel.swift */,
 				C9F2B556266A7FE20016D4F3 /* UnitDisbandConfirmationDialogViewModel.swift */,
 				C9FBBE3B268356C4005D7CE6 /* DiplomaticDialogViewModel.swift */,
+				C9B60BEF269DC68800F10177 /* ReligionCanFoundPantheonPopupViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -785,6 +791,7 @@
 				C92F9488265E2298000968AB /* HexagonGridView.swift in Sources */,
 				C9E0598C265520BA00C08463 /* WonderViewModel.swift in Sources */,
 				C9A376172634573E0057923E /* BlurrableNode.swift in Sources */,
+				C9B60BEE269DC61200F10177 /* ReligionCanFoundPantheonPopupView.swift in Sources */,
 				C9A3762D2635FF620057923E /* RiverLayer.swift in Sources */,
 				C9A376292635FC260057923E /* ResourceLayer.swift in Sources */,
 				C9A61D83261EF77E00341241 /* MapOverviewViewModel.swift in Sources */,
@@ -801,6 +808,7 @@
 				C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */,
 				C9452E2D266809A6005EF985 /* EraEnteredPopupViewModel.swift in Sources */,
 				C9E87BB1264D1C2600514B9A /* TechDialogViewModel.swift in Sources */,
+				C9B60BF0269DC68800F10177 /* ReligionCanFoundPantheonPopupViewModel.swift in Sources */,
 				C939DDD52684D396001CBC6C /* CityBannerViewModel.swift in Sources */,
 				C9A37609263446360057923E /* TerrainLayer.swift in Sources */,
 				C99A888C2607A1FD003B8B73 /* ImageCache.swift in Sources */,

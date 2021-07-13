@@ -102,7 +102,7 @@ struct ChangePolicyDialogView: View {
         }
         .frame(width: 700, height: 450, alignment: .top)
         .background(
-            Image("grid9-dialog")
+            Image(nsImage: ImageCache.shared.image(for: "grid9-dialog"))
                 .resizable(capInsets: EdgeInsets(all: 45))
         )
     }
