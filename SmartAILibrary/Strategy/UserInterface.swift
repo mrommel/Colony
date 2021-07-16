@@ -29,7 +29,7 @@ public enum PopupType {
     case religionByCityAdopted(religion: ReligionType, location: HexPoint)
     case religionNewMajority(religion: ReligionType) // TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY
     case religionCanBuyMissionary // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY
-    case religionCanFoundPantheon // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_PANTHEON
+    case canFoundPantheon
     case religionNeedNewAutomaticFaithSelection // TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION
     case religionEnoughFaithForMissionary // ENOUGH_FAITH_FOR_MISSIONARY
 }
@@ -78,7 +78,7 @@ extension PopupType: Equatable {
         case (.religionCanBuyMissionary, .religionCanBuyMissionary):
             return true
             
-        case (.religionCanFoundPantheon, .religionCanFoundPantheon):
+        case (.canFoundPantheon, .canFoundPantheon):
             return true
         case (.religionNeedNewAutomaticFaithSelection, .religionNeedNewAutomaticFaithSelection):
             return true
@@ -93,167 +93,6 @@ extension PopupType: Equatable {
         }
     }
 }
-
-/*public class PopupData {
-    
-    public let player: AbstractPlayer?
-    public let money: Int
-    
-    public let featureType: FeatureType
-    public let production: Int
-    public let cityName: String
-    
-    public let tech: TechType
-    public let civic: CivicType
-    
-    public let era: EraType
-    
-    public let goodyType: GoodyType?
-    public let religionType: ReligionType
-    
-    init(player: AbstractPlayer?) {
-        
-        self.player = player
-        self.money = -1
-        
-        self.featureType = .none
-        self.production = -1
-        self.cityName = ""
-        
-        self.tech = .none
-        self.civic = .none
-        
-        self.era = .none
-        
-        self.goodyType = nil
-        self.religionType = .none
-    }
-    
-    init(money: Int) {
-        
-        self.player = nil
-        self.money = money
-        
-        self.featureType = .none
-        self.production = -1
-        self.cityName = ""
-        
-        self.tech = .none
-        self.civic = .none
-        
-        self.era = .none
-        
-        self.goodyType = nil
-        self.religionType = .none
-    }
-    
-    init(featureType: FeatureType, production: Int, cityName: String) {
-        
-        self.player = nil
-        self.money = -1
-        
-        self.featureType = featureType
-        self.production = production
-        self.cityName = cityName
-        
-        self.tech = .none
-        self.civic = .none
-        
-        self.era = .none
-        
-        self.goodyType = nil
-        self.religionType = .none
-    }
-    
-    init(tech: TechType) {
-        
-        self.player = nil
-        self.money = -1
-        
-        self.featureType = .none
-        self.production = -1
-        self.cityName = ""
-        
-        self.tech = tech
-        self.civic = .none
-        
-        self.era = .none
-        
-        self.goodyType = nil
-        self.religionType = .none
-    }
-    
-    init(civic: CivicType) {
-        
-        self.player = nil
-        self.money = -1
-        
-        self.featureType = .none
-        self.production = -1
-        self.cityName = ""
-        
-        self.tech = .none
-        self.civic = civic
-        
-        self.era = .none
-        
-        self.goodyType = nil
-        self.religionType = .none
-    }
-    
-    init(era: EraType) {
-        
-        self.player = nil
-        self.money = -1
-        
-        self.featureType = .none
-        self.production = -1
-        self.cityName = ""
-        
-        self.tech = .none
-        self.civic = .none
-        
-        self.era = era
-        
-        self.goodyType = nil
-        self.religionType = .none
-    }
-    
-    init(goodyType: GoodyType, for cityName: String = "") {
-        
-        self.player = nil
-        self.money = -1
-        
-        self.featureType = .none
-        self.production = -1
-        self.cityName = cityName
-        
-        self.tech = .none
-        self.civic = .none
-        
-        self.era = .none
-        
-        self.goodyType = goodyType
-        self.religionType = .none
-    }
-    
-    init(religionType: ReligionType, for cityName: String = "") {
-        
-        self.player = nil
-        self.money = -1
-        
-        self.featureType = .none
-        self.production = -1
-        self.cityName = cityName
-        
-        self.tech = .none
-        self.civic = .none
-        
-        self.era = .none
-        self.goodyType = nil
-        self.religionType = religionType
-    }
-}*/
 
 public enum ScreenType {
     
@@ -278,6 +117,8 @@ public enum ScreenType {
     case cityName
     
     case menu
+    
+    case selectPantheon
 }
 
 public enum UnitAnimationType {

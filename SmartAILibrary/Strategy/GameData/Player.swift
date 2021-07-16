@@ -1403,9 +1403,9 @@ public class Player: AbstractPlayer {
                 
                 // Create the pantheon
                 if self.isHuman() {
-                    //If the player is human then a net message will be received which will pick the pantheon.
+                    // If the player is human then a net message will be received which will pick the pantheon.
                     // You have enough faith to found a pantheon!
-                    gameModel?.userInterface?.showPopup(popupType: .religionCanFoundPantheon)
+                    self.notifications()?.addNotification(of: .canFoundPantheon, for: self, message: "You have enough faith to found a pantheon!", summary: "Found a pantheon!")
                 } else {
                     // const BeliefTypes eBelief = kPlayer.GetReligionAI()->ChoosePantheonBelief();
                     let pantheonType = religionAI.choosePantheonType(in: gameModel)

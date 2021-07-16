@@ -37,9 +37,6 @@ class NotificationsViewModel: ObservableObject {
     func add(notification: NotificationItem) {
         
         print("=== add notification: \(notification.type) ===")
-        if notification.type == .cityGrowth {
-            print("debug")
-        }
         
         DispatchQueue.main.async {
             let viewModel = NotificationViewModel(item: notification)

@@ -98,6 +98,10 @@ extension GameView {
             return AnyView(EmptyView())
         case .cityName:
             return AnyView(CityNameDialogView(viewModel: self.viewModel.cityNameDialogViewModel))
+        case .selectPantheon:
+            let viewModel = SelectPantheonDialogViewModel()
+            viewModel.delegate = self.viewModel
+            return AnyView(SelectPantheonDialogView(viewModel: viewModel))
         }
     }
     
@@ -159,10 +163,10 @@ extension GameView {
         case .religionCanBuyMissionary:
             return AnyView(Text("religionCanBuyMissionary"))
             
-        case .religionCanFoundPantheon:
-            let viewModel = ReligionCanFoundPantheonPopupViewModel()
+        case .canFoundPantheon:
+            let viewModel = CanFoundPantheonPopupViewModel()
             viewModel.delegate = self.viewModel
-            return AnyView(ReligionCanFoundPantheonPopupView(viewModel: viewModel))
+            return AnyView(CanFoundPantheonPopupView(viewModel: viewModel))
             
         case .religionNeedNewAutomaticFaithSelection:
             return AnyView(Text("religionNeedNewAutomaticFaithSelection"))

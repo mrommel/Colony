@@ -1,5 +1,5 @@
 //
-//  ReligionCanFoundPantheonPopupView.swift
+//  SelectPantheonDialogView.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 13.07.21.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct ReligionCanFoundPantheonPopupView: View {
+struct SelectPantheonDialogView: View {
     
     @ObservedObject
-    var viewModel: ReligionCanFoundPantheonPopupViewModel
+    var viewModel: SelectPantheonDialogViewModel
     
     private var gridItemLayout = [GridItem(.fixed(250)), GridItem(.fixed(250))]
     
-    public init(viewModel: ReligionCanFoundPantheonPopupViewModel) {
+    public init(viewModel: SelectPantheonDialogViewModel) {
         
         self.viewModel = viewModel
     }
@@ -28,9 +28,9 @@ struct ReligionCanFoundPantheonPopupView: View {
                     .bold()
                     .padding()
                 
-                ScrollView(.horizontal, showsIndicators: true, content: {
+                ScrollView(.vertical, showsIndicators: true, content: {
                     
-                    LazyHGrid(rows: gridItemLayout, spacing: 20) {
+                    LazyVGrid(columns: gridItemLayout, spacing: 8) {
                         
                         ForEach(self.viewModel.pantheonViewModels) { pantheonViewModel in
 
@@ -42,6 +42,7 @@ struct ReligionCanFoundPantheonPopupView: View {
                         }
                     }
                 })
+                .border(Color.gray)
                 
                 Button(action: {
                     self.viewModel.closeDialog()
@@ -62,12 +63,14 @@ struct ReligionCanFoundPantheonPopupView: View {
 }
 
 #if DEBUG
-struct ReligionCanFoundPantheonPopupView_Previews: PreviewProvider {
+struct SelectPantheonDialogView_Previews: PreviewProvider {
     
     static var previews: some View {
         let _ = GameViewModel(preloadAssets: true)
-
-        ReligionCanFoundPantheonPopupView(viewModel: ReligionCanFoundPantheonPopupViewModel())
+        let game = DemoGameModel()
+        let viewModel = SelectPantheonDialogViewModel(game: game)
+            
+        SelectPantheonDialogView(viewModel: viewModel)
     }
 }
 #endif

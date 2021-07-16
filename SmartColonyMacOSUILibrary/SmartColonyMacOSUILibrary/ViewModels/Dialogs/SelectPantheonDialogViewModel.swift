@@ -1,5 +1,5 @@
 //
-//  ReligionCanFoundPantheonPopupViewModel.swift
+//  SelectPantheonPopupViewModel.swift
 //  SmartMacOSUILibrary
 //
 //  Created by Michael Rommel on 13.07.21.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SmartAILibrary
 
-class ReligionCanFoundPantheonPopupViewModel: ObservableObject {
+class SelectPantheonDialogViewModel: ObservableObject {
     
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
@@ -56,11 +56,18 @@ class ReligionCanFoundPantheonPopupViewModel: ObservableObject {
     }
 }
 
-extension ReligionCanFoundPantheonPopupViewModel: PantheonViewModelDelegate {
+extension SelectPantheonDialogViewModel: PantheonViewModelDelegate {
     
     func selected(pantheon: PantheonType) {
+
+        let game = self.gameEnvironment.game.value
         
-        print("pantheon: \(pantheon)")
+        guard let religion = game?.humanPlayer()?.religion else {
+            fatalError("cant get player religion")
+        }
+        
+        religion.foundPantheon(with: pantheon)
+        
         self.delegate?.closeDialog()
     }
 }

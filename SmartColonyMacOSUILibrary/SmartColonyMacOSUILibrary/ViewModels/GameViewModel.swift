@@ -34,6 +34,8 @@ protocol GameViewModelDelegate: AnyObject {
     func showCityBuildingsDialog(for city: AbstractCity?)
     func showDiplomaticDialog(with otherPlayer: AbstractPlayer?, data: DiplomaticData?, deal: DiplomaticDeal?)
     
+    func showSelectPantheonDialog()
+    
     func isShown(screen: ScreenType) -> Bool
     
     func checkPopups() -> Bool
@@ -510,9 +512,9 @@ public class GameViewModel: ObservableObject {
             case .religionCanBuyMissionary:
                 // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY
                 fatalError("TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY")
-            case .religionCanFoundPantheon:
-                // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_PANTHEON
-                self.currentPopupType = .religionCanFoundPantheon
+            case .canFoundPantheon:
+                self.currentPopupType = .canFoundPantheon
+                
             case .religionNeedNewAutomaticFaithSelection:
                 // TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION
                 fatalError("TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION")
@@ -659,22 +661,20 @@ extension GameViewModel: GameViewModelDelegate {
         } else {
             fatalError("cant show diplomatic dialog, \(self.currentScreenType) is currently shown")
         }
+    }
+    
+    func showSelectPantheonDialog() {
         
-        /*let viewModel = DiplomaticDialogViewModel(for: humanPlayer, and: otherPlayer, state: data.state, message: data.message, emotion: data.emotion, in: self.viewModel?.game)
-
-        let diplomaticDialog = DiplomaticDialog(viewModel: viewModel)
-        diplomaticDialog.zPosition = 250
-        
-        if let deal = deal {
-            viewModel.add(deal: deal)
+        if self.currentScreenType == .selectPantheon {
+            // already shown
+            return
         }
-
-        diplomaticDialog.addOkayAction(handler: {
-            diplomaticDialog.close()
-            self.currentScreenType = .none
-        })
-
-        self.cameraNode.add(dialog: diplomaticDialog)*/
+        
+        if self.currentScreenType == .none {
+            self.currentScreenType = .selectPantheon
+        } else {
+            fatalError("cant show select pantheon dialog, \(self.currentScreenType) is currently shown")
+        }
     }
     
     func checkPopups() -> Bool {

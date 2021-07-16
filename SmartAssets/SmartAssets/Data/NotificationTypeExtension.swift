@@ -20,6 +20,7 @@ extension NotificationType {
         case .techNeeded: return "button-tech-needed"
         case .civicNeeded: return "button-civic-needed"
         case .productionNeeded: return "button-production-needed"
+        case .canFoundPantheon: return "button-pantheon-needed"
             
         case .cityGrowth: return "button-city-growth"
         case .starving: return "button-starving"

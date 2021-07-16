@@ -23,7 +23,7 @@ class ChangePolicyDialogViewModel: ObservableObject {
     var policyCardViewModels: [PolicyCardViewModel] = []
     
     @Published
-    var hintText: String = "abc"
+    var hintText: String = "-"
     
     weak var delegate: GameViewModelDelegate?
     

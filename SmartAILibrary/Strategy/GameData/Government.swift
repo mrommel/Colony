@@ -128,6 +128,7 @@ public class PolicyCardSet: AbstractPolicyCardSet {
         let militaryCards = self.cardsVal.count(where: { $0.slot() == .military })
         let economicCards = self.cardsVal.count(where: { $0.slot() == .economic })
         let diplomaticCards = self.cardsVal.count(where: { $0.slot() == .diplomatic })
+        let wildCards = self.cardsVal.count(where: { $0.slot() == .wildcard })
 
         let deltaMilitary = militaryCards - slots.military
         let deltaEconomic = economicCards - slots.economic
@@ -138,7 +139,7 @@ public class PolicyCardSet: AbstractPolicyCardSet {
             return false
         }
 
-        return slots.wildcard - deltaMilitary - deltaEconomic - deltaDiplomatic == 0
+        return slots.wildcard - deltaMilitary - deltaEconomic - deltaDiplomatic - wildCards == 0
     }
 }
 
@@ -146,7 +147,7 @@ class WeightedGovernmentList: WeightedList<GovernmentType> {
 
 }
 
-public protocol AbstractGovernment: class, Codable {
+public protocol AbstractGovernment: AnyObject, Codable {
 
     var player: AbstractPlayer? { get set }
     
