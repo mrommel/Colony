@@ -608,6 +608,9 @@ extension GameViewModel: GameViewModelDelegate {
         case .changePolicies:
             self.showChangePoliciesDialog()
             
+        case .selectPantheon:
+            self.showSelectPantheonDialog()
+            
         default:
             print("screen: \(screenType) not handled")
         }

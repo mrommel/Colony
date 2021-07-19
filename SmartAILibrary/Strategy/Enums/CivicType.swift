@@ -267,7 +267,7 @@ public enum CivicType: String, Codable {
                 name: "Code of Laws",
                 eurekaSummary: "-",
                 eurekaDescription: "",
-                quoteTexts: [],
+                quoteTexts: ["“It is not wisdom but authority that makes a law.” [NEWLINE]– Thomas Hobbes", "“At his best, man is the noblest of all animals; separated from law and justice he is the worst.” [NEWLINE]– Aristotle"],
                 era: .ancient,
                 cost: 20,
                 required: [],
@@ -275,9 +275,9 @@ public enum CivicType: String, Codable {
         case .stateWorkforce:
             return CivicTypeData(
                 name: "State Workforce",
-                eurekaSummary: "",
+                eurekaSummary: "Build any district.",
                 eurekaDescription: "",
-                quoteTexts: [],
+                quoteTexts: ["“A strong economy begins with a strong, well-educated workforce.“ [NEWLINE]– Bill Owens", "“It is equally important to have a happy and engaged workforce as it is to have a profitable bottom line.“ [NEWLINE]– Vern Dosch "],
                 era: .ancient,
                 cost: 70,
                 required: [.craftsmanship],
@@ -285,9 +285,9 @@ public enum CivicType: String, Codable {
         case .craftsmanship:
             return CivicTypeData(
                 name: "Craftmanship",
-                eurekaSummary: "",
+                eurekaSummary: "Improve 3 tiles.",
                 eurekaDescription: "With the land around our first city developing nicely, we can fine tune our production techniques.",
-                quoteTexts: [],
+                quoteTexts: ["“Without craftsmanship, inspiration is a mere reed shaken in the wind.”[NEWLINE] – Johannes Brahms", "“Skill without imagination is craftsmanship and gives us many useful objects such as wickerwork picnic baskets.” [NEWLINE]– Tom Stoppard"],
                 era: .ancient,
                 cost: 40,
                 required: [.codeOfLaws],
@@ -295,7 +295,7 @@ public enum CivicType: String, Codable {
         case .earlyEmpire:
             return CivicTypeData(
                 name: "Early Empire",
-                eurekaSummary: "",
+                eurekaSummary: "Grow your civilization to at least 6 population.",
                 eurekaDescription: "The growing number of citizens in your lands dream of having an empire.",
                 quoteTexts: [],
                 era: .ancient,
@@ -305,9 +305,9 @@ public enum CivicType: String, Codable {
         case .foreignTrade:
             return CivicTypeData(
                 name: "Foreign Trade",
-                eurekaSummary: "",
+                eurekaSummary: "Discover a second Continent.",
                 eurekaDescription: "Having discovered another continent we realize there is a wide world of trading opportunities.",
-                quoteTexts: [],
+                quoteTexts: ["“Every nation lives by exchanging.“[NEWLINE] – Adam Smith", "“That's the positive aspect of trade I suppose. The world gets stirred up together.“[NEWLINE] – Isabel Hoving "],
                 era: .ancient,
                 cost: 40,
                 required: [.codeOfLaws],

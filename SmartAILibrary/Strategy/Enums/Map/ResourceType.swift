@@ -613,7 +613,7 @@ public enum ResourceType: Int, Codable {
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
-                               placedOnFeatures: [],
+                               placedOnFeatures: [.reef, .lake],
                                placedOnFeatureTerrains: [],
                                placedOnTerrains: [.shore])
         case .crab:

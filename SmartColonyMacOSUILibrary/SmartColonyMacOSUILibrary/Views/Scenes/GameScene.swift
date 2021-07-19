@@ -208,9 +208,10 @@ extension GameScene {
         }
         
         let position = HexPoint(screen: location)
+        var selectedCity: Bool = false
+        var selectedUnit: Bool = false
         
         if event.clickCount >= 2 {
-            print("double click")
             // double tap opens city
             if let city = game.city(at: position) {
 
@@ -224,22 +225,26 @@ extension GameScene {
             if let city = game.city(at: position) {
                 if humanPlayer.isEqual(to: city.player) {
                     self.select(city: city)
-                    return
+                    selectedCity = true
                 }
-            } else if let combatUnit = game.unit(at: position, of: .combat) {
+            }
+            
+            if let combatUnit = game.unit(at: position, of: .combat) {
                 if humanPlayer.isEqual(to: combatUnit.player) {
                     self.select(unit: combatUnit)
-                    return
+                    selectedUnit = true
                 }
             } else if let civilianUnit = game.unit(at: position, of: .civilian) {
                 if humanPlayer.isEqual(to: civilianUnit.player) {
                     self.select(unit: civilianUnit)
-                    return
+                    selectedUnit = true
                 }
             }
         }
 
-        self.unselect()
+        if !selectedCity && !selectedUnit {
+            self.unselect()
+        }
     }
     
     override func rightMouseDown(with event: NSEvent) {

@@ -24,6 +24,9 @@ public class TopBarViewModel: ObservableObject {
     @Published
     var goldYieldValueViewModel: YieldValueViewModel
     
+    @Published
+    var turnLabelText: String
+    
     init() {
         
         self.scienceYieldValueViewModel = YieldValueViewModel(yieldType: .science, initial: 0.0, type: .onlyDelta)
@@ -31,21 +34,14 @@ public class TopBarViewModel: ObservableObject {
         self.faithYieldValueViewModel = YieldValueViewModel(yieldType: .faith, initial: 0.0, type: .valueAndDelta)
         self.goldYieldValueViewModel = YieldValueViewModel(yieldType: .gold, initial: 0.0, type: .valueAndDelta)
         
+        self.turnLabelText = "-"
+        
         self.scienceYieldValueViewModel.delta = 0.0
         self.cultureYieldValueViewModel.delta = 0.0
         self.faithYieldValueViewModel.value = 0.0
         self.faithYieldValueViewModel.delta = 0.0
         self.goldYieldValueViewModel.value = 0.0
         self.goldYieldValueViewModel.delta = 0.0
-    }
-    
-    func turnText() -> String {
-        
-        guard let gameModel = self.gameEnvironment.game.value else {
-            return "-"
-        }
-        
-        return gameModel.turnYear()
     }
     
     func update() {
@@ -64,5 +60,7 @@ public class TopBarViewModel: ObservableObject {
         self.faithYieldValueViewModel.delta = humanPlayer.faith(in: gameModel)
         self.goldYieldValueViewModel.value = humanPlayer.treasury?.value() ?? 0.0
         self.goldYieldValueViewModel.delta = humanPlayer.treasury?.calculateGrossGold(in: gameModel) ?? 0.0
+        
+        self.turnLabelText = gameModel.turnYear()
     }
 }

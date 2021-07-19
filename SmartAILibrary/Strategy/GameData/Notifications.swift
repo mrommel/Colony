@@ -269,6 +269,21 @@ public class NotificationItem: Codable, Equatable {
             
             return false
             
+        case .canFoundPantheon:
+            guard let currentPlayer = gameModel.player(for: self.player) else {
+                fatalError("cant get player")
+            }
+            
+            guard let religion = currentPlayer.religion else {
+                fatalError("Cant get player religion")
+            }
+            
+            if religion.pantheon() != .none {
+                return true
+            }
+            
+            return false
+            
         default:
             return false
         }

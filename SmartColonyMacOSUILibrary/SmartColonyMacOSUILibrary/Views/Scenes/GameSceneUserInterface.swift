@@ -69,6 +69,7 @@ extension GameScene: UserInterfaceDelegate {
     func unselect() {
         
         self.mapNode?.unitLayer.hideFocus()
+        self.viewModel?.selectedCity = nil
         self.viewModel?.selectedUnit = nil
         self.viewModel?.selectedUnitChanged(commands: [], in: nil)
     }

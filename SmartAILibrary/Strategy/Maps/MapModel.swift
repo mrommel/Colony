@@ -360,6 +360,11 @@ open class MapModel: Codable {
         return self.units.filter({ $0?.leader == player.leader })
     }
     
+    public func units(of player: AbstractPlayer, at point: HexPoint) -> [AbstractUnit?] {
+        
+        return self.units.filter({ $0?.leader == player.leader && $0?.location == point })
+    }
+    
     func units(for leader: LeaderType) -> [AbstractUnit?] {
         
         return self.units.filter({ $0?.leader == leader })

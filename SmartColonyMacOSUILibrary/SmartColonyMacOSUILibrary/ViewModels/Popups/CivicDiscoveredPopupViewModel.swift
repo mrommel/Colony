@@ -68,6 +68,10 @@ class CivicDiscoveredPopupViewModel: ObservableObject {
             iconTextureNames.append(districtType.iconTexture())
         }
         
+        for policyCard in achievements.policyCards {
+            iconTextureNames.append(policyCard.iconTexture())
+        }
+        
         return iconTextureNames.map { ImageCache.shared.image(for: $0) }
     }
     

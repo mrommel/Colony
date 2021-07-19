@@ -307,7 +307,10 @@ public class MapGenerator: BaseMapHandler {
 
 				if self.plots[x, y] == PlotType.sea {
 
-					if heightMap[x, y]! > 0.1 {
+                    // check is next continent
+                    let nextToContinent: Bool = gridPoint.neighbors().map { grid?.terrain(at: $0).isLand() ?? false }.reduce(false) { $0 || $1 }
+                    
+					if heightMap[x, y]! > 0.1 || nextToContinent {
 						grid?.set(terrain: .shore, at: gridPoint)
 					} else {
 						grid?.set(terrain: .ocean, at: gridPoint)

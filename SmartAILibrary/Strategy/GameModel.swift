@@ -932,6 +932,11 @@ open class GameModel: Codable {
 
         return self.map.units(for: player)
     }
+    
+    public func units(of player: AbstractPlayer, at point: HexPoint) -> [AbstractUnit?] {
+
+        return self.map.units(for: player, at: point)
+    }
 
     public func unit(at point: HexPoint, of mapType: UnitMapType) -> AbstractUnit? {
 

@@ -28,7 +28,7 @@ public struct TopBarView: View {
                 
                 Spacer()
                 
-                Text(self.viewModel.turnText())
+                Text(self.viewModel.turnLabelText)
                     .padding(.trailing, 3)
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 24, maxHeight: 24, alignment: .topLeading)
