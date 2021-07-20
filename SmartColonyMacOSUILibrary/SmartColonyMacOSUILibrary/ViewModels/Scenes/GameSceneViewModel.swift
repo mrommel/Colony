@@ -493,11 +493,12 @@ public class GameSceneViewModel: ObservableObject {
         if let blockingNotification = humanPlayer.blockingNotification() {
 
             if let unit = self.selectedUnit {
-                if !unit.readyToMove() {
+                /*if !unit.readyToMove() {
                     self.game?.userInterface?.unselect()
                 } else {
                     self.game?.userInterface?.select(unit: unit)
-                }
+                }*/
+                self.game?.userInterface?.select(unit: unit)
             } else {
                 // no unit selected - show blocking button
                 self.showBlockingButton(for: blockingNotification)

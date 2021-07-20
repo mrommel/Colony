@@ -229,7 +229,22 @@ extension GameScene {
                 }
             }
             
-            if let combatUnit = game.unit(at: position, of: .combat) {
+            // problem: cities can have more units
+            for unitRef in game.units(of: humanPlayer, at: position) {
+                
+                guard let unit = unitRef else {
+                    continue
+                }
+                
+                if unit.movesLeft() > 0 {
+                    //print("- unit: \(unit.type)")
+                    self.select(unit: unit)
+                    selectedUnit = true
+                }
+            }
+            
+            
+            /*if let combatUnit = game.unit(at: position, of: .combat) {
                 if humanPlayer.isEqual(to: combatUnit.player) {
                     self.select(unit: combatUnit)
                     selectedUnit = true
@@ -239,7 +254,7 @@ extension GameScene {
                     self.select(unit: civilianUnit)
                     selectedUnit = true
                 }
-            }
+            }*/
         }
 
         if !selectedCity && !selectedUnit {
