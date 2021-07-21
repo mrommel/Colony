@@ -43,6 +43,7 @@ protocol GameViewModelDelegate: AnyObject {
     func remove(notification: NotificationItem)
     
     func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool)->())
+    func showSelectCityDialog(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?)->())
     
     func closeDialog()
     func closePopup()
@@ -87,6 +88,9 @@ public class GameViewModel: ObservableObject {
     
     @Published
     var unitDisbandConfirmationDialogViewModel: UnitDisbandConfirmationDialogViewModel
+    
+    @Published
+    var selectTradeCityDialogViewModel: SelectTradeCityDialogViewModel
     
     @Published
     var cityDialogViewModel: CityDialogViewModel
@@ -164,6 +168,7 @@ public class GameViewModel: ObservableObject {
         self.unitDisbandConfirmationDialogViewModel = UnitDisbandConfirmationDialogViewModel()
         self.cityDialogViewModel = CityDialogViewModel()
         self.diplomaticDialogViewModel = DiplomaticDialogViewModel()
+        self.selectTradeCityDialogViewModel = SelectTradeCityDialogViewModel()
         
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -177,6 +182,7 @@ public class GameViewModel: ObservableObject {
         self.unitDisbandConfirmationDialogViewModel.delegate = self
         self.cityDialogViewModel.delegate = self
         self.diplomaticDialogViewModel.delegate = self
+        self.selectTradeCityDialogViewModel.delegate = self
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -633,6 +639,21 @@ extension GameViewModel: GameViewModelDelegate {
             self.currentScreenType = .disbandConfirm
         } else {
             fatalError("cant show disband unit confirmation dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+    
+    func showSelectCityDialog(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?)->()) {
+        
+        if self.currentScreenType == .selectTradeCity {
+            // already shown
+            return
+        }
+        
+        if self.currentScreenType == .none {
+            self.selectTradeCityDialogViewModel.update(start: startCity, of: cities, completion: completion)
+            self.currentScreenType = .selectTradeCity
+        } else {
+            fatalError("cant show select trade city dialog, \(self.currentScreenType) is currently shown")
         }
     }
     

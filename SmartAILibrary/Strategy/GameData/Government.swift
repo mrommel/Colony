@@ -157,6 +157,7 @@ public protocol AbstractGovernment: AnyObject, Codable {
     func policyCardSet() -> AbstractPolicyCardSet
 
     func add(card: PolicyCardType)
+    func remove(card: PolicyCardType)
     func has(card: PolicyCardType) -> Bool
     
     func chooseBestGovernment(in gameModel: GameModel?)
@@ -166,6 +167,8 @@ public protocol AbstractGovernment: AnyObject, Codable {
     func policyCardSlots() -> PolicyCardSlots
     func possiblePolicyCards() -> [PolicyCardType]
     func fillPolicyCards()
+    
+    func verify(in gameModel: GameModel?)
 }
 
 enum GovernmentError: Error {
@@ -414,6 +417,11 @@ public class Government: AbstractGovernment {
 
         self.policyCardsVal.add(card: card)
     }
+    
+    public func remove(card: PolicyCardType) {
+
+        self.policyCardsVal.remove(card: card)
+    }
 
     public func has(card: PolicyCardType) -> Bool {
 
@@ -423,5 +431,22 @@ public class Government: AbstractGovernment {
     public func hasPolicyCardsFilled() -> Bool {
         
         return self.policyCardsVal.filled(in: self.policyCardSlots())
+    }
+    
+    public func verify(in gameModel: GameModel?) {
+        
+        let possibleCards = self.possiblePolicyCards()
+        var cardTypesToRemove: [PolicyCardType] = []
+        
+        for cardType in self.policyCardsVal.cards() {
+            
+            if !possibleCards.contains(cardType) {
+                cardTypesToRemove.append(cardType)
+            }
+        }
+        
+        for cardTypeToRemove in cardTypesToRemove {
+            self.remove(card: cardTypeToRemove)
+        }
     }
 }

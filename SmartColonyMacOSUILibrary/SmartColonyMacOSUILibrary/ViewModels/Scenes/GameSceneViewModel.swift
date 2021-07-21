@@ -309,6 +309,11 @@ public class GameSceneViewModel: ObservableObject {
                 let quarryBuildMission = UnitMission(type: .build, buildType: .quarry, at: selectedUnit.location)
                 selectedUnit.push(mission: quarryBuildMission, in: gameModel)
             }
+        case .buildFishingBoats:
+            if let selectedUnit = self.selectedUnit {
+                let fishingBuildMission = UnitMission(type: .build, buildType: .fishingBoats, at: selectedUnit.location)
+                selectedUnit.push(mission: fishingBuildMission, in: gameModel)
+            }
             
         case .pillage:
             if let selectedUnit = self.selectedUnit {

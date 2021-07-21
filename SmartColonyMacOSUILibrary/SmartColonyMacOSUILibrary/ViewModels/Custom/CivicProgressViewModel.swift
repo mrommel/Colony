@@ -67,6 +67,10 @@ class CivicProgressViewModel: ObservableObject {
             iconTextureNames.append(districtType.iconTexture())
         }
         
+        for policyCardType in achievements.policyCards {
+            iconTextureNames.append(policyCardType.iconTexture())
+        }
+        
         return iconTextureNames.map { ImageCache.shared.image(for: $0) }
     }
     

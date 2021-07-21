@@ -45,6 +45,10 @@ public enum ImprovementType: Int, Codable {
             fatalError("cant get civics")
         }
         
+        guard let religion = player?.religion else {
+            fatalError("cant get religion")
+        }
+        
         switch self {
 
         case .none: return Yields(food: 0, production: 0, gold: 0, science: 0)
@@ -113,6 +117,9 @@ public enum ImprovementType: Int, Codable {
             }*/
             
             // 'goddess of festivals' pantheon
+            if religion.pantheon() == .goddessOfFestivals {
+                yield.culture += 1
+            }
             
             return yield
         case .fishingBoats:
@@ -132,6 +139,9 @@ public enum ImprovementType: Int, Codable {
             }*/
             
             // 'god of the sea' pantheon
+            if religion.pantheon() == .godOfTheSea {
+                yield.production += 1
+            }
             
             return yield
         case .oilWell:
@@ -359,7 +369,7 @@ public enum ImprovementType: Int, Codable {
             return false
         }
         
-        return tile.has(resource: .deer, for: owner) || tile.has(resource: .furs, for: owner) /*|| tile.has(resource: .ivory, for: owner) || tile.has(resource: .truffles, for: owner) */
+        return tile.has(resource: .deer, for: owner) || tile.has(resource: .furs, for: owner) || tile.has(resource: .ivory, for: owner) // || tile.has(resource: .truffles, for: owner) 
     }
     
     private func isPasturePossible(on tile: AbstractTile?) -> Bool {
@@ -407,12 +417,12 @@ public enum ImprovementType: Int, Codable {
             fatalError("can check without owner")
         }
         
-        if !owner.has(tech: .animalHusbandry) {
+        if !owner.has(tech: .sailing) {
             return false
         }
         
-        return tile.has(resource: .fish, for: owner) || tile.has(resource: .whales, for: owner) || tile.has(resource: .pearls, for: owner)
-        // FIXME: crabs, amber, turtles
+        return tile.has(resource: .fish, for: owner) || tile.has(resource: .whales, for: owner) || tile.has(resource: .pearls, for: owner) || tile.has(resource: .crab, for: owner)
+        // FIXME: amber, turtles
     }
     
     private func isOilWellPossible(on tile: AbstractTile?) -> Bool {

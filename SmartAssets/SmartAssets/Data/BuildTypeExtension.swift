@@ -23,11 +23,11 @@ extension BuildType {
             
         case .farm: return "build-farm"
         case .mine: return "build-mine"
-        case .quarry: return "build-default"
-        case .plantation: return "build-default"
+        case .quarry: return "build-quarry"
+        case .plantation: return "build-plantation"
         case .camp: return "build-camp"
         case .pasture: return "build-pasture"
-        case .fishingBoats: return "build-default"
+        case .fishingBoats: return "build-fishingBoats"
             
         case .removeForest: return "build-default"
         case .removeRainforest: return "build-default"

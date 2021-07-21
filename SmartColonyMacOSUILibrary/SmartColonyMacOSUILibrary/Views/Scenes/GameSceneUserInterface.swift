@@ -132,7 +132,8 @@ extension GameScene: UserInterfaceDelegate {
     }
     
     func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> ()) {
-        print("todo: askForCity(???)")
+
+        self.viewModel?.delegate?.showSelectCityDialog(start: startCity, of: cities, completion: completion)
     }
     
     func show(city: AbstractCity?) {

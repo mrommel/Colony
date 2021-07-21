@@ -958,7 +958,7 @@ public enum ResourceType: Int, Codable {
         case .spices: return 4
         case .dyes: return 1
         case .ivory: return 4
-        case .fish: return 24
+        case .fish: return 32
         case .crab: return 8
         case .salt: return 2
 
@@ -981,6 +981,10 @@ public enum ResourceType: Int, Codable {
 
     func absoluteVarPercent() -> Int {
 
+        if self == .fish {
+            return 10
+        }
+        
         return 25
     }
 }

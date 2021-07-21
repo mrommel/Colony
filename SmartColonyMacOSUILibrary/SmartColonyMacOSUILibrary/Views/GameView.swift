@@ -93,7 +93,7 @@ extension GameView {
         case .disbandConfirm:
             return AnyView(UnitDisbandConfirmationDialogView(viewModel: self.viewModel.unitDisbandConfirmationDialogViewModel))
         case .selectTradeCity:
-            return AnyView(EmptyView())
+            return AnyView(SelectTradeCityDialogView(viewModel: self.viewModel.selectTradeCityDialogViewModel))
         case .menu:
             return AnyView(EmptyView())
         case .cityName:

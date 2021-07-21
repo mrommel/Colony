@@ -2651,6 +2651,9 @@ public class Unit: AbstractUnit {
         case .buildQuarry:
             return self.canBuild(build: .quarry, at: self.location, testVisible: true, testGold: true, in: gameModel)
             
+        case .buildFishingBoats:
+            return self.canBuild(build: .fishingBoats, at: self.location, testVisible: true, testGold: true, in: gameModel)
+            
         case .fortify:
             return self.canFortify(at: self.location, in: gameModel)
             
@@ -2939,8 +2942,11 @@ public class Unit: AbstractUnit {
         if !player.canBuild(build: build, at: point, testGold: testGold, in: gameModel) {
             return false
         }
+        
+        var validBuildPlot = self.domain() == tile.terrain().domain() // self.isNativeDomain(at: point, in: gameModel)
+        validBuildPlot = validBuildPlot || (build.isWater() && self.domain() == .land && tile.isWater() && self.canEmbark(in: gameModel))
 
-        if self.isEmbarked() && tile.terrain().isWater() {
+        if !validBuildPlot {
             return false
         }
 
@@ -3449,8 +3455,12 @@ public class Unit: AbstractUnit {
     }
 
     public func canEverEmbark() -> Bool {
-
-        if self.domain() == .land && self.type.has(ability: .canEmbark) {
+        
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+        
+        if self.domain() == .land && (self.type.has(ability: .canEmbark) || player.canEmbark()) {
             return true
         } else {
             return false
@@ -3467,7 +3477,6 @@ public class Unit: AbstractUnit {
             return false
         }
         
-
         if self.isEmbarked() {
             return false
         }

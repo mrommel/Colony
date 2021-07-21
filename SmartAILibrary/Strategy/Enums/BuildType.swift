@@ -35,7 +35,7 @@ public enum BuildType: Int, Codable {
     }
     
     public static var allImprovements: [BuildType] {
-        return [.farm, .mine, .quarry, .plantation, .camp, .pasture]
+        return [.farm, .mine, .quarry, .plantation, .camp, .pasture, .fishingBoats]
     }
     
     func name() -> String {
@@ -67,6 +67,13 @@ public enum BuildType: Int, Codable {
         
         return self.data().required
     }
+    
+    func isWater() -> Bool {
+        
+        return self.data().isWater
+    }
+    
+    // methods
     
     func canRemove(feature: FeatureType) -> Bool {
         
@@ -130,8 +137,9 @@ public enum BuildType: Int, Codable {
         let removeRoad: Bool
         var featureBuilds: [FeatureBuild] = []
         let duration: Int
+        let isWater: Bool
         
-        init(name: String, repair: Bool = false, required: TechType? = nil, era: EraType? = nil, improvement: ImprovementType? = nil, route: RouteType? = nil, removeRoad: Bool = false, duration: Int) {
+        init(name: String, repair: Bool = false, required: TechType? = nil, era: EraType? = nil, improvement: ImprovementType? = nil, route: RouteType? = nil, removeRoad: Bool = false, duration: Int, isWater: Bool = true) {
             
             self.name = name
             self.repair = repair
@@ -141,6 +149,7 @@ public enum BuildType: Int, Codable {
             self.route = route
             self.removeRoad = removeRoad
             self.duration = duration
+            self.isWater = isWater
         }
     }
     
@@ -157,16 +166,36 @@ public enum BuildType: Int, Codable {
     
         switch self {
             
-        case .none: return BuildTypeData(name: "None", duration: 0)
-        case .repair: return BuildTypeData(name: "Repair", repair: true, duration: 300)
+        case .none:
+            return BuildTypeData(name: "None",
+                                 duration: 0)
+        case .repair:
+            return BuildTypeData(name: "Repair",
+                                 repair: true,
+                                 duration: 300)
             
-        case .ancientRoad: return BuildTypeData(name: "Road", era: .ancient, route: .ancientRoad, duration: 300)
-        case .classicalRoad: return BuildTypeData(name: "Road", era: .classical, route: .classicalRoad, duration: 300)
+        case .ancientRoad:
+            return BuildTypeData(name: "Road",
+                                 era: .ancient,
+                                 route: .ancientRoad,
+                                 duration: 300)
+        case .classicalRoad:
+            return BuildTypeData(name: "Road",
+                                 era: .classical,
+                                 route: .classicalRoad,
+                                 duration: 300)
             
-        case .removeRoad: return BuildTypeData(name: "Remove Road", required: .wheel, removeRoad: true, duration: 300)
+        case .removeRoad:
+            return BuildTypeData(name: "Remove Road",
+                                 required: .wheel,
+                                 removeRoad: true,
+                                 duration: 300)
             
         case .farm:
-            let farmBuild = BuildTypeData(name: "Farm", improvement: .farm, duration: 600)
+            let farmBuild = BuildTypeData(name: "Farm",
+                                          improvement: .farm,
+                                          duration: 600)
+            
             farmBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 600, isRemove: true))
             farmBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 300, isRemove: true))
             farmBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 500, isRemove: true))
@@ -201,7 +230,11 @@ public enum BuildType: Int, Codable {
             return pastureBuild
             
         case .fishingBoats:
-            let fishingBoatsBuild = BuildTypeData(name: "Fishing Boats", required: .sailing, improvement: .fishingBoats, duration: 700)
+            let fishingBoatsBuild = BuildTypeData(name: "Fishing Boats",
+                                                  required: .sailing,
+                                                  improvement: .fishingBoats,
+                                                  duration: 700,
+                                                  isWater: true)
             
             return fishingBoatsBuild
             

@@ -1126,7 +1126,19 @@ open class GameModel: Codable {
 
     func enter(era: EraType, for player: AbstractPlayer?) {
 
-        fatalError("niy")
+        // https://civilization.fandom.com/wiki/Era_(Civ6)
+        // Roads will upgrade when you enter the Classical Era, again when you enter the Industrial Era, and again on entering the Modern Era.
+        // not implemented
+        
+        // Many policy cards only work for specific eras. When you progress to a more advanced era, you may find that the policies you were using are no longer working, or have indeed been replaced altogether!
+        guard let government = player?.government else {
+            fatalError("cant get government")
+        }
+        
+        government.verify(in: self)
+        
+        // The price of buying tiles will go up with Individual Eras.
+        // not implemented
     }
     
     // https://forums.civfanatics.com/resources/the-mechanism-of-great-people.26276/
