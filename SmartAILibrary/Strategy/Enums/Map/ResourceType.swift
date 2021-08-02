@@ -502,6 +502,7 @@ public enum ResourceType: Int, Codable {
 
         // placement
         let placementOrder: Int
+        let placementBaseAmount: Int
         let placedOnHills: Bool
         let placedOnRiverSide: Bool
         let placedOnFlatlands: Bool
@@ -518,6 +519,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "None",
                                revealTech: nil,
                                placementOrder: -1,
+                               placementBaseAmount: 0,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -530,6 +532,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Wheat",
                                revealTech: .pottery,
                                placementOrder: 4,
+                               placementBaseAmount: 18,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -540,6 +543,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Rice",
                                revealTech: .pottery,
                                placementOrder: 4,
+                               placementBaseAmount: 14,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -550,6 +554,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Deer",
                                revealTech: .animalHusbandry,
                                placementOrder: 4,
+                               placementBaseAmount: 16,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -560,6 +565,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Sheep",
                                revealTech: .animalHusbandry,
                                placementOrder: 4,
+                               placementBaseAmount: 20,
                                placedOnHills: true,
                                placedOnRiverSide: true,
                                placedOnFlatlands: false,
@@ -570,6 +576,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Copper",
                                revealTech: .mining,
                                placementOrder: 4,
+                               placementBaseAmount: 6,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -580,6 +587,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Stone",
                                revealTech: .mining,
                                placementOrder: 4,
+                               placementBaseAmount: 12,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -590,6 +598,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Bananas",
                                revealTech: .irrigation,
                                placementOrder: 4,
+                               placementBaseAmount: 2,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -600,6 +609,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Cattle",
                                revealTech: .animalHusbandry,
                                placementOrder: 4,
+                               placementBaseAmount: 22,
                                placedOnHills: false,
                                placedOnRiverSide: true,
                                placedOnFlatlands: true,
@@ -610,6 +620,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Fish",
                                revealTech: .celestialNavigation,
                                placementOrder: 4,
+                               placementBaseAmount: 36,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -620,6 +631,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Crab",
                                revealTech: .sailing,
                                placementOrder: 4,
+                               placementBaseAmount: 8,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -632,6 +644,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Gems",
                                revealTech: .mining,
                                placementOrder: 3,
+                               placementBaseAmount: 6,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -642,6 +655,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Marble",
                                revealTech: .mining,
                                placementOrder: 3,
+                               placementBaseAmount: 6,
                                placedOnHills: true,
                                placedOnRiverSide: true,
                                placedOnFlatlands: false,
@@ -652,6 +666,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Furs",
                                revealTech: .animalHusbandry,
                                placementOrder: 3,
+                               placementBaseAmount: 12,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -662,6 +677,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Citrus",
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 2,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -672,6 +688,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Tea",
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 2,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -682,6 +699,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Sugar",
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 1,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -692,6 +710,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Whales",
                                revealTech: .sailing,
                                placementOrder: 3,
+                               placementBaseAmount: 6,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -702,6 +721,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Pearls",
                                revealTech: .sailing,
                                placementOrder: 3,
+                               placementBaseAmount: 6,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -712,6 +732,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Wine",
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 12,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -722,6 +743,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Cotton",
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 1,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -732,6 +754,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Dyes",
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 2,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -742,6 +765,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Incense",
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 4,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -752,6 +776,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Silk",
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 1,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -762,6 +787,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Silver",
                                revealTech: .mining,
                                placementOrder: 3,
+                               placementBaseAmount: 10,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -772,6 +798,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Gold",
                                revealTech: .mining,
                                placementOrder: 3,
+                               placementBaseAmount: 6,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -782,6 +809,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Spices",
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 4,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -792,6 +820,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Ivory",
                                revealTech: .animalHusbandry,
                                placementOrder: 3,
+                               placementBaseAmount: 4,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -802,6 +831,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Salt",
                                revealTech: .mining,
                                placementOrder: 3,
+                               placementBaseAmount: 2,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -812,6 +842,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Cocoa",
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 2,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -824,6 +855,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Iron",
                                revealTech: .bronzeWorking,
                                placementOrder: 0,
+                               placementBaseAmount: 12,
                                placedOnHills: false,
                                placedOnRiverSide: true,
                                placedOnFlatlands: true,
@@ -834,6 +866,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Horses",
                                revealTech: .animalHusbandry,
                                placementOrder: 1,
+                               placementBaseAmount: 14,
                                placedOnHills: false,
                                placedOnRiverSide: true,
                                placedOnFlatlands: true,
@@ -844,6 +877,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Coal",
                                revealTech: .industrialization,
                                placementOrder: 2,
+                               placementBaseAmount: 10,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -854,6 +888,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Aluminium",
                                revealTech: .radio,
                                placementOrder: 2,
+                               placementBaseAmount: 8,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -864,6 +899,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Uranium",
                                revealTech: .combinedArms,
                                placementOrder: 2,
+                               placementBaseAmount: 4,
                                placedOnHills: false,
                                placedOnRiverSide: true,
                                placedOnFlatlands: true,
@@ -874,6 +910,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Niter",
                                revealTech: .militaryEngineering,
                                placementOrder: 2,
+                               placementBaseAmount: 8,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -884,6 +921,7 @@ public enum ResourceType: Int, Codable {
             return FeatureData(name: "Oil",
                                revealTech: .refining,
                                placementOrder: 2,
+                               placementBaseAmount: 8,
                                placedOnHills: false,
                                placedOnRiverSide: true,
                                placedOnFlatlands: true,
@@ -931,52 +969,8 @@ public enum ResourceType: Int, Codable {
 
     // for standard map size
     func baseAmount() -> Int {
-
-        switch self {
-
-        case .none: return -1
-
-        case .iron: return 12
-
-        case .horses: return 14
-
-        case .coal: return 10
-        case .oil: return 8
-        case .aluminium: return 8
-        case .uranium: return 4
-        case .niter: return 8
-
-        case .marble: return 6
-        case .furs: return 12
-        case .citrus: return 2
-        case .tea: return 2
-        case .sugar: return 1
-        case .wine: return 12
-        case .incense: return 4
-        case .cotton: return 1
-        case .silk: return 1
-        case .spices: return 4
-        case .dyes: return 1
-        case .ivory: return 4
-        case .fish: return 32
-        case .crab: return 8
-        case .salt: return 2
-
-        case .wheat: return 18
-        case .rice: return 12
-        case .deer: return 16
-        case .sheep: return 20
-        case .copper: return 4
-        case .stone: return 12
-        case .bananas: return 2
-        case .cocoa: return 2
-        case .cattle: return 22
-        case .gems: return 6
-        case .silver: return 10
-        case .gold: return 6
-        case .pearls: return 6
-        case .whales: return 6
-        }
+        
+        return self.data().placementBaseAmount
     }
 
     func absoluteVarPercent() -> Int {
