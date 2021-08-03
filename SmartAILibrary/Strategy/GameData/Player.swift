@@ -2585,6 +2585,11 @@ public class Player: AbstractPlayer {
             for feature in FeatureType.all {
                 
                 if tile.has(feature: feature) {
+                    
+                    if build.keeps(feature: feature) {
+                        continue
+                    }
+                    
                     if !build.canRemove(feature: feature) {
                         return false
                     }

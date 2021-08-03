@@ -75,6 +75,15 @@ public enum BuildType: Int, Codable {
     
     // methods
     
+    func keeps(feature: FeatureType) -> Bool {
+        
+        if self.data().featuresKept.contains(feature) {
+            return true
+        }
+        
+        return false
+    }
+    
     func canRemove(feature: FeatureType) -> Bool {
         
         if let featureBuild = self.data().featureBuilds.first(where: { $0.featureType == feature }) {
@@ -135,6 +144,7 @@ public enum BuildType: Int, Codable {
         let improvement: ImprovementType?
         let route: RouteType?
         let removeRoad: Bool
+        var featuresKept: [FeatureType] = []
         var featureBuilds: [FeatureBuild] = []
         let duration: Int
         let isWater: Bool
@@ -199,6 +209,9 @@ public enum BuildType: Int, Codable {
             farmBuild.featureBuilds.append(FeatureBuild(featureType: .rainforest, required: .bronzeWorking, production: 0, duration: 600, isRemove: true))
             farmBuild.featureBuilds.append(FeatureBuild(featureType: .forest, required: .mining, production: 20, duration: 300, isRemove: true))
             farmBuild.featureBuilds.append(FeatureBuild(featureType: .marsh, required: .masonry, production: 0, duration: 500, isRemove: true))
+            
+            farmBuild.featuresKept.append(.floodplains)
+            
             return farmBuild
         case .mine:
             let mineBuild = BuildTypeData(name: "Mine", required: .mining, improvement: .mine, duration: 600)

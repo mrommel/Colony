@@ -84,6 +84,9 @@ public enum CivicType: String, Codable {
     case professionalSports
     case rapidDeployment
     case spaceRace
+    
+    // information
+    case globalization
 
 
     public static var all: [CivicType] {
@@ -107,7 +110,10 @@ public enum CivicType: String, Codable {
             .conservation, .massMedia, .mobilization, .capitalism, .ideology, .nuclearProgram, .suffrage, .totalitarianism, .classStruggle,
 
             // atomic
-            .culturalHeritage, .coldWar, .professionalSports, .rapidDeployment, .spaceRace
+            .culturalHeritage, .coldWar, .professionalSports, .rapidDeployment, .spaceRace,
+            
+            // information
+            .globalization
         ]
     }
 
@@ -716,9 +722,18 @@ public enum CivicType: String, Codable {
                                  cost: 2415,
                                  required: [.coldWar],
                                  flavors: [])
-            /* <Replace Language="sv_SE" Tag="LOC_BOOST_TRIGGER_LONGDESC_GLOBALIZATION">
-            <Text>With so many airports in place, the world is truly becoming a smaller place.</Text>
-        </Replace>
+            
+        // information
+        case .globalization:
+            return CivicTypeData(name: "globalization",
+                                 eurekaSummary: "",
+                                 eurekaDescription: "With so many airports in place, the world is truly becoming a smaller place.",
+                                 quoteTexts: ["”It has been said that arguing against globalization is like arguing against the laws of gravity.” [NEWLINE]– Kofi Annan", "”One day there will be no borders, no boundaries, no flags and no countries and the only passport will be the heart.” [NEWLINE]– Carlos Santana"],
+                                 era: .information,
+                                 cost: 2880,
+                                 required: [.rapidDeployment, .spaceRace],
+                                 flavors: [])
+            /*
         <Replace Language="sv_SE" Tag="LOC_BOOST_TRIGGER_LONGDESC_SOCIAL_MEDIA">
             <Text>Your advances in communications technology are allowing people to congregate online.</Text>
         </Replace> */

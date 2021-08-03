@@ -291,7 +291,7 @@ public enum FeatureType: Int, Codable {
             
         case .forest: return 2
         case .rainforest: return 2
-        case .floodplains: return 1
+        case .floodplains: return 0 // no modifier
         case .marsh: return 2
         case .oasis: return 0
         case .reef: return 2

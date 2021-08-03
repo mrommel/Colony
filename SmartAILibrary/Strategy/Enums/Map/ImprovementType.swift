@@ -35,7 +35,7 @@ public enum ImprovementType: Int, Codable {
     }
 
     // https://civilization.fandom.com/wiki/Tile_improvement_(Civ6)
-    func yields(for player: AbstractPlayer?) -> Yields {
+    func yields(for player: AbstractPlayer?, on resource: ResourceType) -> Yields {
 
         guard let techs = player?.techs else {
             fatalError("cant get techs")
@@ -61,45 +61,132 @@ public enum ImprovementType: Int, Codable {
             // https://civilization.fandom.com/wiki/Farm_(Civ6)
             let yield = Yields(food: 1, production: 0, gold: 0, science: 0, housing: 0.5)
             
+            // +1 additional Food with two adjacent Farms (requires Feudalism)
             if civics.has(civic: .feudalism) {
                 yield.food += 1
             }
             
-            /*if techs.has(tech: .replaceableParts) {
+            // +1 additional Food for each adjacent Farm (requires Replaceable Parts)
+            if techs.has(tech: .replaceableParts) {
                 yield.food += 1
-            }*/
+            }
             
             return yield
+            
         case .mine:
             // https://civilization.fandom.com/wiki/Mine_(Civ6)
             let yield =  Yields(food: 0, production: 1, gold: 0, science: 0, appeal: -1.0)
             
+            // +1 additional Production Production (requires Apprenticeship)
             if techs.has(tech: .apprenticeship) {
                 yield.production += 1
             }
             
-            /*if techs.has(tech: .industrialization) {
+            // +1 additional Production Production (requires Industrialization)
+            if techs.has(tech: .industrialization) {
                 yield.production += 1
+            }
+            
+            // +1 Production Production +1 Faith Faith with God of Craftsmen Pantheon when built on Strategic Resources
+            if religion.pantheon() == .godOfCraftsmen && resource.usage() == .strategic {
+                yield.production += 1
+                yield.faith += 1
+            }
+            
+            // +2 Faith Faith with Religious Idols Pantheon when built on Bonus or Luxury Resources
+            if religion.pantheon() == .religiousIdols && (resource.usage() == .bonus || resource.usage() == .luxury) {
+                yield.faith += 2
+            }
+            
+            // Provides adjacency bonus for Industrial Zones (+1 Production Production, ½ in GS-Only.png).
+            
+            // +1 additional Production Production (requires Smart Materials)
+            /*if techs.has(tech: .smartMaterials) {
+                yield.production += 2
             }*/
             
             return yield
+            
         case .quarry:
             let yield = Yields(food: 0, production: 1, gold: 0, science: 0, appeal: -1.0)
             
+            // +2 Gold Gold (Banking)
             if techs.has(tech: .banking) {
                 yield.gold += 2
             }
             
-            return yield
-        case .camp: return Yields(food: 0, production: 0, gold: 1, science: 0)
-        case .pasture:
-            let yield = Yields(food: 0, production: 1, gold: 0, science: 0, housing: 0.5)
+            // +1 Production Production (Rocketry)
+            if techs.has(tech: .rocketry) {
+                yield.production += 1
+            }
             
-            if civics.has(civic: .exploration) {
+            // +1 Production Production (Gunpowder)
+            if techs.has(tech: .gunpowder) {
+                yield.production += 1
+            }
+            
+            // +1 Production Production (Predictive Systems)
+            /*if techs.has(tech: .pred) {
+                yield.production += 1
+            }*/
+            
+            return yield
+        case .camp:
+            let yield = Yields(food: 0, production: 0, gold: 1, science: 0)
+            
+            // +1 Food Food and +1 Production Production (requires Mercantilism)
+            if civics.has(civic: .mercantilism) {
                 yield.food += 1
+                yield.production += 1
+            }
+            
+            // +2 additional Gold Gold (requires Synthetic Materials)
+            if techs.has(tech: .syntheticMaterials) {
+                yield.gold += 2
+            }
+            
+            // +1 Food Food and +1 Production Production with Goddess of the Hunt Pantheon
+            if religion.pantheon() == .goddessOfTheHunt {
+                yield.food += 1
+                yield.production += 1
             }
             
             return yield
+            
+        case .pasture:
+            // https://civilization.fandom.com/wiki/Pasture_(Civ6)
+            let yield = Yields(food: 0, production: 1, gold: 0, science: 0, housing: 0.5)
+            
+            // +1 Food Food (requires Stirrups)
+            if techs.has(tech: .stirrups) {
+                yield.food += 1
+            }
+            
+            // +1 additional Production Production and +1 additional Food Food (requires Robotics)
+            if techs.has(tech: .robotics) {
+                yield.production += 1
+                yield.food += 1
+            }
+            
+            // +1 Production Production from every adjacent Outback Station (requires Steam Power)
+            
+            // +1 Culture Culture with God of the Open Sky Pantheon
+            if religion.pantheon() == .godOfTheOpenSky {
+                yield.culture += 1
+            }
+            
+            // +1 Production Production and +1 Faith Faith with God of Craftsmen Pantheon when built on Horses Horses
+            if religion.pantheon() == .godOfCraftsmen && resource == .horses {
+                yield.production += 1
+            }
+            
+            // +1 additional Production Production (requires Replaceable Parts)
+            if techs.has(tech: .replaceableParts) {
+                yield.production += 1
+            }
+
+            return yield
+            
         case .plantation:
             // https://civilization.fandom.com/wiki/Plantation_(Civ6)
             let yield = Yields(food: 0, production: 0, gold: 2, science: 0, housing: 0.5)
@@ -108,13 +195,15 @@ public enum ImprovementType: Int, Codable {
                 yield.food += 1
             }
             
-            /*if techs.has(tech: .scientificTheory) {
+            // +1 Food Food (Scientific Theory)
+            if techs.has(tech: .scientificTheory) {
                 yield.food += 1
-            }*/
+            }
             
-            /*if civics.has(civic: .globalization) {
+            // +2 Gold Gold (Globalization)
+            if civics.has(civic: .globalization) {
                 yield.gold += 2
-            }*/
+            }
             
             // 'goddess of festivals' pantheon
             if religion.pantheon() == .goddessOfFestivals {
@@ -122,6 +211,7 @@ public enum ImprovementType: Int, Codable {
             }
             
             return yield
+            
         case .fishingBoats:
             // https://civilization.fandom.com/wiki/Fishing_Boats_(Civ6)
             let yield = Yields(food: 1, production: 0, gold: 0, science: 0, housing: 0.5)
@@ -134,9 +224,9 @@ public enum ImprovementType: Int, Codable {
                 yield.production += 1
             }
             
-            /*if techs.has(tech: .plastics) {
+            if techs.has(tech: .plastics) {
                 yield.food += 1
-            }*/
+            }
             
             // 'god of the sea' pantheon
             if religion.pantheon() == .godOfTheSea {
@@ -145,7 +235,21 @@ public enum ImprovementType: Int, Codable {
             
             return yield
         case .oilWell:
-            return Yields(food: 0, production: 2, gold: 0, appeal: -1)
+            // https://civilization.fandom.com/wiki/Oil_Well_(Civ6)
+            let yield =  Yields(food: 0, production: 2, gold: 0, appeal: -1)
+            
+            // +1 Production Production and +1 Faith Faith with God of Craftsmen Pantheon
+            if religion.pantheon() == .godOfCraftsmen {
+                yield.production += 1
+                yield.faith += 1
+            }
+            
+            // +1 Production Production (requires Predictive Systems)
+            /*if techs.has(tech: .predictiveSystems) {
+                yield.production += 1
+            }*/
+            
+            return yield
         
         case .fort: return Yields(food: 0, production: 0, gold: 0)
         case .citadelle: return Yields(food: 0, production: 0, gold: 0)
@@ -291,6 +395,7 @@ public enum ImprovementType: Int, Codable {
     }
     
     // Farms can be built on non-desert and non-tundra flat lands, which are the most available tiles in Civilization VI.
+    // https://civilization.fandom.com/wiki/Farm_(Civ6)
     private func isFarmPossible(on tile: AbstractTile?) -> Bool {
         
         guard let tile = tile else {
@@ -301,12 +406,18 @@ public enum ImprovementType: Int, Codable {
             fatalError("can check without owner")
         }
         
+        //  Initially, it can be constructed only on flatland Grassland, Plains, ...
         if (tile.terrain() == .grass || tile.terrain() == .plains) && !tile.hasHills() {
             return true
         }
         
-        if (tile.terrain() == .grass || tile.terrain() == .plains || tile.terrain() == .desert) && !tile.hasHills() && tile.has(feature: .floodplains) && owner.has(civic: .civilEngineering) {
-            
+        // or Floodplains tiles
+        if tile.terrain() == .desert && !tile.hasHills() && tile.has(feature: .floodplains) {
+            return true
+        }
+        
+        // but researching Civil Engineering enables Farms to be built on Grassland Hills and Plains Hills.
+        if (tile.terrain() == .grass || tile.terrain() == .plains) && tile.hasHills() && owner.has(civic: .civilEngineering) {
             return true
         }
         

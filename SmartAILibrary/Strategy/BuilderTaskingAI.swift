@@ -337,8 +337,8 @@ public class BuilderTaskingAI {
             if tmpBuildType == .repair {
                 directiveType = .repair
                 weight = 200 /* BUILDER_TASKING_BASELINE_REPAIR */
-            } else if improvement.yields(for: player).culture > 0 {
-                weight = Int(100 /* BUILDER_TASKING_BASELINE_ADDS_CULTURE */ * improvement.yields(for: player).culture)
+            } else if improvement.yields(for: player, on: resource).culture > 0 {
+                weight = Int(100 /* BUILDER_TASKING_BASELINE_ADDS_CULTURE */ * improvement.yields(for: player, on: resource).culture)
                 /*let adjacentCulture = pImprovement->GetCultureAdjacentSameType();
 
                 if (iAdjacentCulture > 0)

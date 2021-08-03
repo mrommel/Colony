@@ -66,6 +66,9 @@ extension CivicType {
         case .professionalSports: return "civic-default"
         case .rapidDeployment: return "civic-default"
         case .spaceRace: return "civic-default"
+            
+            // information
+        case .globalization: return "civic-default"
         }
     }
 }
@@ -140,6 +143,9 @@ extension CivicType {
         case .professionalSports:   return IndexPath(item: -1, section: -1)
         case .rapidDeployment:      return IndexPath(item: -1, section: -1)
         case .spaceRace:            return IndexPath(item: -1, section: -1)
+            
+            // information
+        case .globalization:        return IndexPath(item: -1, section: -1)
         }
     }
 }

@@ -406,9 +406,9 @@ public class GameSceneViewModel: ObservableObject {
     
     func changeUITurnState(to state: GameSceneTurnState) {
         
-        guard let gameModel = self.game else {
+        /*guard let gameModel = self.game else {
             fatalError("cant get game")
-        }
+        }*/
 
         switch state {
 
