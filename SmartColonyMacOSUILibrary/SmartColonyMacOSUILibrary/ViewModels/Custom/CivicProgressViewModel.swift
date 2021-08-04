@@ -37,7 +37,9 @@ class CivicProgressViewModel: ObservableObject {
     
     func progressImage() -> NSImage {
         
-        let textureName = "culture_progress_\(self.progress)"
+        let progress_val = self.progress <= 100 ? self.progress : 100
+        
+        let textureName = "culture_progress_\(progress_val)"
         return ImageCache.shared.image(for: textureName)
     }
     
