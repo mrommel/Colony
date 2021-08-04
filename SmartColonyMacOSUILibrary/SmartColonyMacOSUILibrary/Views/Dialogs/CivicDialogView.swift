@@ -32,13 +32,14 @@ struct CivicDialogView: View {
                     
                     LazyHGrid(rows: gridItemLayout, spacing: 20) {
                         
-                        ForEach(self.viewModel.civicViewModels, id: \.self) { civicViewModel in
+                        ForEach(self.viewModel.civicViewModels) { civicViewModel in
 
                             CivicView(viewModel: civicViewModel)
                                 .padding(0)
                                 .onTapGesture {
                                     civicViewModel.selectCivic()
                                 }
+                                .id(UUID())
                         }
                     }
                 })
@@ -60,3 +61,17 @@ struct CivicDialogView: View {
         )
     }
 }
+
+#if DEBUG
+struct CivicDialogView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        let _ = GameViewModel(preloadAssets: true)
+        let game = DemoGameModel()
+        let environment = GameEnvironment(game: game)
+
+        CivicDialogView(viewModel: CivicDialogViewModel(game: game))
+            .environment(\.gameEnvironment, environment)
+    }
+}
+#endif

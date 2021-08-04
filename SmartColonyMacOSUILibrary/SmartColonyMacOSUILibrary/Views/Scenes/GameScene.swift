@@ -242,7 +242,6 @@ extension GameScene {
                 }
             }
             
-            
             /*if let combatUnit = game.unit(at: position, of: .combat) {
                 if humanPlayer.isEqual(to: combatUnit.player) {
                     self.select(unit: combatUnit)
@@ -343,9 +342,11 @@ extension GameScene {
                 self.mapNode?.unitLayer.clearPathSpriteBuffer()
                 
                 if selectedUnit.location != position {
+                    
+                    let unitMission = UnitMission(type: .moveTo, buildType: nil, at: position, options: .none)
+                    selectedUnit.push(mission: unitMission, in: self.viewModel?.game)
+                    
                     self.mapNode?.unitLayer.hideFocus()
-                    selectedUnit.queueMoveForVisualization(at: selectedUnit.location, in: self.viewModel?.game)
-                    selectedUnit.doMoveOnPath(towards: position, previousETA: 0, buildingRoute: false, in: self.viewModel?.game)
                     self.updateCommands(for: selectedUnit)
                 }
             //}

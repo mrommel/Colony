@@ -65,6 +65,7 @@ struct TechView: View {
                                     .frame(width: 12, height: 12, alignment: .topLeading)
                                     .padding(.trailing, 0)
                                     .padding(.leading, 0)
+                                    .id(UUID())
                             }
                             .padding(.top, 6)
                             .padding(.trailing, 0)

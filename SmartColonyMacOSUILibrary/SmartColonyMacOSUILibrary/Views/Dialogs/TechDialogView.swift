@@ -32,13 +32,14 @@ struct TechDialogView: View {
                     
                     LazyHGrid(rows: gridItemLayout, spacing: 20) {
                         
-                        ForEach(self.viewModel.techViewModels, id: \.self) { techViewModel in
+                        ForEach(self.viewModel.techViewModels) { techViewModel in
 
                             TechView(viewModel: techViewModel)
                                 .padding(0)
                                 .onTapGesture {
                                     techViewModel.selectTech()
                                 }
+                                .id(UUID())
                         }
                     }
                 })
