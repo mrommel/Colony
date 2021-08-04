@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AbstractUnit: class, Codable {
+public protocol AbstractUnit: AnyObject, Codable {
 
     var location: HexPoint { get }
     var type: UnitType { get }
@@ -2627,10 +2627,6 @@ public class Unit: AbstractUnit {
 
     public func canDo(command: CommandType, in gameModel: GameModel?) -> Bool {
         
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
-        
         switch command {
             
         case .found:
@@ -3109,10 +3105,10 @@ public class Unit: AbstractUnit {
                 self.doKill(delayed: true, by: nil, in: gameModel)
             }
 
-            // handle builder expended
             if self.type == .builder {
                 self.changeBuildCharges(change: -1)
                 
+                // handle builder expended
                 if !self.hasBuildCharges() {
                     self.doKill(delayed: true, by: nil, in: gameModel)
                 }

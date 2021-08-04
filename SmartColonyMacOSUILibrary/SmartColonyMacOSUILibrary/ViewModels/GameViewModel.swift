@@ -55,7 +55,7 @@ public class GameViewModel: ObservableObject {
     var gameEnvironment: GameEnvironment
     
     @Published
-    var magnification: CGFloat = 1.0
+    var magnification: CGFloat = 0.5
     
     @Published
     var gameSceneViewModel: GameSceneViewModel
