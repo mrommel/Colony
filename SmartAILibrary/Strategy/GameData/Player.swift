@@ -1193,7 +1193,7 @@ public class Player: AbstractPlayer {
             }
         }
         
-        if !government.hasPolicyCardsFilled() {
+        if !government.hasPolicyCardsFilled() && self.capitalCity(in: gameModel) != nil {
             
             if self.isHuman() {
 
