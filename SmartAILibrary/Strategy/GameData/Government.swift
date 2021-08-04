@@ -344,8 +344,6 @@ public class Government: AbstractGovernment {
 
         self.currentGovernmentVal = governmentType
         self.policyCardsVal = PolicyCardSet() // reset card selection
-        
-        self.player?.notifications()?.addNotification(of: .policiesNeeded, for: self.player, message: "Please choose policy cards", summary: "Choose policy cards")
     }
 
     public func set(policyCardSet: AbstractPolicyCardSet) throws {
