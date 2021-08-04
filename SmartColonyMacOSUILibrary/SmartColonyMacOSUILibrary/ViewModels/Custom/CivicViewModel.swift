@@ -133,3 +133,16 @@ class CivicViewModel: ObservableObject, Identifiable {
         self.delegate?.selected(civic: self.civicType)
     }
 }
+
+extension CivicViewModel: Hashable {
+    
+    static func == (lhs: CivicViewModel, rhs: CivicViewModel) -> Bool {
+        
+        return lhs.civicType == rhs.civicType
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        
+        hasher.combine(self.civicType)
+    }
+}

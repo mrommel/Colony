@@ -1731,8 +1731,8 @@ public class Tile: AbstractTile {
 
                 // Remove Feature
                 if self.hasAnyFeature() {
-
-                    if buildType.canRemove(feature: self.feature()) {
+                    
+                    if !buildType.keeps(feature: self.feature()) && buildType.canRemove(feature: self.feature()) {
 
                         let (production, cityRef) = self.featureProduction(by: buildType, for: player)
 

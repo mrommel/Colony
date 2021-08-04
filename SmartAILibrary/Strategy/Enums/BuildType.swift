@@ -111,7 +111,7 @@ public enum BuildType: Int, Codable {
         var time = self.data().duration
         
         for featureType in FeatureType.all {
-            if tile.has(feature: featureType) {
+            if tile.has(feature: featureType) && !self.keeps(feature: featureType) {
                 if let featureBuild = self.data().featureBuilds.first(where: { $0.featureType == featureType }) {
                     time += featureBuild.duration
                 } else {

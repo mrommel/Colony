@@ -54,7 +54,6 @@ struct EurekaCivicActivatedPopupView: View {
                         }
                     }
                     
-                    
                     Button(action: {
                         self.viewModel.closePopup()
                     }, label: {

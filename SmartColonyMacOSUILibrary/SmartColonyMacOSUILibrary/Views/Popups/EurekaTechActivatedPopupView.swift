@@ -54,7 +54,6 @@ struct EurekaTechActivatedPopupView: View {
                         }
                     }
                     
-                    
                     Button(action: {
                         self.viewModel.closePopup()
                     }, label: {

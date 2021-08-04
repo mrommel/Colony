@@ -32,7 +32,7 @@ struct TechDialogView: View {
                     
                     LazyHGrid(rows: gridItemLayout, spacing: 20) {
                         
-                        ForEach(self.viewModel.techViewModels) { techViewModel in
+                        ForEach(self.viewModel.techViewModels, id: \.self) { techViewModel in
 
                             TechView(viewModel: techViewModel)
                                 .padding(0)

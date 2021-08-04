@@ -129,3 +129,16 @@ class TechViewModel: ObservableObject, Identifiable {
         self.delegate?.selected(tech: self.techType)
     }
 }
+
+extension TechViewModel: Hashable {
+    
+    static func == (lhs: TechViewModel, rhs: TechViewModel) -> Bool {
+        
+        return lhs.techType == rhs.techType
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        
+        hasher.combine(self.techType)
+    }
+}

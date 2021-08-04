@@ -42,7 +42,12 @@ class UnitViewModel: QueueViewModel, ObservableObject {
     
     func turnsText() -> String {
         
-        return "\(self.turns) Turns"
+        return "\(self.turns)"
+    }
+    
+    func turnsIcon() -> NSImage {
+        
+        return ImageCache.shared.image(for: "turns")
     }
     
     func background() -> NSImage {

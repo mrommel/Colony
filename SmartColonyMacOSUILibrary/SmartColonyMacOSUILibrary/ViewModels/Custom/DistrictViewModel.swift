@@ -55,8 +55,13 @@ class DistrictViewModel: QueueViewModel, ObservableObject {
         if self.active {
             return "􀆅"
         } else {
-            return "\(self.turns) Turns"
+            return "\(self.turns)"
         }
+    }
+    
+    func turnsIcon() -> NSImage {
+        
+        return ImageCache.shared.image(for: "turns")
     }
     
     func yieldValueViewModel() -> [YieldValueViewModel] {

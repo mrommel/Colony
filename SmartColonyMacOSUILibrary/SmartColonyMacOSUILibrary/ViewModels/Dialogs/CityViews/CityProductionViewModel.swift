@@ -50,11 +50,11 @@ class CityProductionViewModel: ObservableObject {
         // populate values
         if let city = city {
 
-            guard let game = self.gameEnvironment.game.value else {
+            guard let gameModel = self.gameEnvironment.game.value else {
                 return
             }
             
-            guard let humanPlayer = game.humanPlayer() else {
+            guard let humanPlayer = gameModel.humanPlayer() else {
                 fatalError("cant get human player")
             }
             
@@ -75,11 +75,12 @@ class CityProductionViewModel: ObservableObject {
             
             // units
             let possibleUnitTypes = UnitType.all.filter { unitType in
-                return city.canTrain(unit: unitType, in: game)
+                return city.canTrain(unit: unitType, in: gameModel)
             }
             self.unitViewModels = possibleUnitTypes.map { unitType in
                 
-                let turns = 53 // fixme
+                let productionCost = unitType.productionCost()
+                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
                 let unitViewModel = UnitViewModel(unitType: unitType, turns: turns)
                 unitViewModel.delegate = self
                 return unitViewModel
@@ -87,7 +88,7 @@ class CityProductionViewModel: ObservableObject {
             
             // districts / buildings
             let possibleDistrictTypes = DistrictType.all.filter { districtType in
-                return city.canConstruct(district: districtType, in: game) || districts.has(district: districtType)
+                return city.canConstruct(district: districtType, in: gameModel) || districts.has(district: districtType)
             }
             self.districtSectionViewModels = possibleDistrictTypes.map { districtType in
                 
@@ -100,12 +101,13 @@ class CityProductionViewModel: ObservableObject {
                     let possibleBuildingTypes = BuildingType.all.filter {
                         buildingType in
                         
-                        return city.canBuild(building: buildingType, in: game) && !buildings.has(building: buildingType) && buildingType.district() == districtType
+                        return city.canBuild(building: buildingType, in: gameModel) && !buildings.has(building: buildingType) && buildingType.district() == districtType
                     }
                     
                     let buildingViewModels: [BuildingViewModel] = possibleBuildingTypes.map { buildingType in
                         
-                        let turns = 53 // fixme
+                        let productionCost = buildingType.productionCost()
+                        let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
                         if city.buildQueue.isBuilding(buildingType: buildingType) {
                             // buildingNode.disable()
                         }
@@ -116,7 +118,9 @@ class CityProductionViewModel: ObservableObject {
                     
                     return DistrictSectionViewModel(districtViewModel: districtModel, buildingViewModels: buildingViewModels)
                 } else {
-                    let turns = 53 // fixme
+                    
+                    let productionCost = districtType.productionCost()
+                    let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
                     let districtModel = DistrictViewModel(districtType: districtType, turns: turns, active: false)
                     districtModel.delegate = self
                     return DistrictSectionViewModel(districtViewModel: districtModel, buildingViewModels: [])
@@ -125,11 +129,12 @@ class CityProductionViewModel: ObservableObject {
             
             // wonders
             let possibleWonderTypes = WonderType.all.filter { wonderType in
-                return city.canBuild(wonder: wonderType, in: game)
+                return city.canBuild(wonder: wonderType, in: gameModel)
             }
             self.wonderViewModels = possibleWonderTypes.map { wonderType in
                 
-                let turns = 53 // fixme
+                let productionCost = wonderType.productionCost()
+                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
                 let wonderViewModel = WonderViewModel(wonderType: wonderType, turns: turns)
                 wonderViewModel.delegate = self
                 return wonderViewModel
@@ -138,6 +143,10 @@ class CityProductionViewModel: ObservableObject {
     }
     
     private func updateBuildQueue() {
+        
+        guard let gameModel = self.gameEnvironment.game.value else {
+            return
+        }
         
         guard let city = self.city else {
             fatalError("cant get city")
@@ -155,7 +164,8 @@ class CityProductionViewModel: ObservableObject {
                     fatalError("no unit type given")
                 }
                 
-                let turns = 43 // TODO
+                let productionCost = unitType.productionCost()
+                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
                 let unitViewModel = UnitViewModel(unitType: unitType, turns: turns, at: index)
                 unitViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(unitViewModel)
@@ -165,7 +175,8 @@ class CityProductionViewModel: ObservableObject {
                     fatalError("no district type given")
                 }
                 
-                let turns = 43 // TODO
+                let productionCost = districtType.productionCost()
+                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
                 let districtViewModel = DistrictViewModel(districtType: districtType, turns: turns, active: false, at: index)
                 districtViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(districtViewModel)
@@ -175,7 +186,8 @@ class CityProductionViewModel: ObservableObject {
                     fatalError("no building type given")
                 }
                 
-                let turns = 43 // TODO
+                let productionCost = buildingType.productionCost()
+                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
                 let buildingViewModel = BuildingViewModel(buildingType: buildingType, turns: turns, at: index)
                 buildingViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(buildingViewModel)
@@ -185,7 +197,8 @@ class CityProductionViewModel: ObservableObject {
                     fatalError("no wonder type given")
                 }
                 
-                let turns = 43 // TODO
+                let productionCost = wonderType.productionCost()
+                let turns = Int(ceil(Double(productionCost) / city.productionPerTurn(in: gameModel)))
                 let wonderViewModel = WonderViewModel(wonderType: wonderType, turns: turns, at: index)
                 wonderViewModel.delegate = self.queueManager
                 tmpBuildQueueModels.append(wonderViewModel)

@@ -48,7 +48,12 @@ class WonderViewModel: QueueViewModel, ObservableObject {
             return ""
         }
         
-        return "\(self.turns) Turns"
+        return "\(self.turns)"
+    }
+    
+    func turnsIcon() -> NSImage {
+        
+        return ImageCache.shared.image(for: "turns")
     }
     
     func background() -> NSImage {

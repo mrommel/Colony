@@ -32,7 +32,7 @@ struct CivicDialogView: View {
                     
                     LazyHGrid(rows: gridItemLayout, spacing: 20) {
                         
-                        ForEach(self.viewModel.civicViewModels) { civicViewModel in
+                        ForEach(self.viewModel.civicViewModels, id: \.self) { civicViewModel in
 
                             CivicView(viewModel: civicViewModel)
                                 .padding(0)
