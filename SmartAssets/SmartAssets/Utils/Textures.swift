@@ -115,6 +115,8 @@ public class Textures {
             // 6
             "yield-6-0-0",
             "yield-6-1-0",
+            // 7
+            "yield-7-0-0",
         ]
         
         self.allBoardTextureNames = ["board-s-sw", "board-se-s-sw", "board-se-s", "board-se", "board-sw"]
