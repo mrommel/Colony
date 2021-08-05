@@ -45,6 +45,9 @@ class TechViewModel: ObservableObject, Identifiable {
     @Published
     var state: TechTypeState
     
+    @Published
+    var achievementViewModels: [AchievementViewModel] = []
+    
     let boosted: Bool
     let turns: Int
     
@@ -56,6 +59,8 @@ class TechViewModel: ObservableObject, Identifiable {
         self.state = state
         self.boosted = boosted
         self.turns = turns
+        
+        self.achievementViewModels = self.achievements()
     }
     
     func title() -> String {
@@ -73,7 +78,7 @@ class TechViewModel: ObservableObject, Identifiable {
         return ImageCache.shared.image(for: self.state.backgroundTexture()).resize(withSize: NSSize(width: 42, height: 42))!
     }
     
-    func achievements() -> [NSImage] {
+    private func achievements() -> [AchievementViewModel] {
         
         var iconTextureNames: [String] = []
         
@@ -99,7 +104,9 @@ class TechViewModel: ObservableObject, Identifiable {
             iconTextureNames.append(districtType.iconTexture())
         }
         
-        return iconTextureNames.map { ImageCache.shared.image(for: $0) }
+        return iconTextureNames.map {
+            return AchievementViewModel(imageName: $0)
+        }
     }
     
     func turnsText() -> String {

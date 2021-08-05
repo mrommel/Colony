@@ -39,7 +39,7 @@ struct TechDialogView: View {
                                 .onTapGesture {
                                     techViewModel.selectTech()
                                 }
-                                .id(UUID())
+                                .id("tech-\(techViewModel.id)")
                         }
                     }
                 })

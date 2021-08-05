@@ -45,6 +45,9 @@ class CivicViewModel: ObservableObject, Identifiable {
     @Published
     var state: CivicTypeState
     
+    @Published
+    var achievementViewModels: [AchievementViewModel] = []
+    
     let boosted: Bool
     let turns: Int
     
@@ -56,6 +59,8 @@ class CivicViewModel: ObservableObject, Identifiable {
         self.state = state
         self.boosted = boosted
         self.turns = turns
+        
+        self.achievementViewModels = self.achievements()
     }
     
     func title() -> String {
@@ -73,7 +78,7 @@ class CivicViewModel: ObservableObject, Identifiable {
         return ImageCache.shared.image(for: self.state.backgroundTexture()).resize(withSize: NSSize(width: 42, height: 42))!
     }
     
-    func achievements() -> [NSImage] {
+    private func achievements() -> [AchievementViewModel] {
         
         var iconTextureNames: [String] = []
         
@@ -103,7 +108,9 @@ class CivicViewModel: ObservableObject, Identifiable {
             iconTextureNames.append(policyCard.iconTexture())
         }
         
-        return iconTextureNames.map { ImageCache.shared.image(for: $0).copy() as! NSImage }
+        return iconTextureNames.map {
+            return AchievementViewModel(imageName: $0)
+        }
     }
     
     func turnsText() -> String {

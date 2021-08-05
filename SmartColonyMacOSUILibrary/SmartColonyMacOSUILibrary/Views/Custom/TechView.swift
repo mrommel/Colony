@@ -14,13 +14,13 @@ struct TechView: View {
     var viewModel: TechViewModel
     
     private var gridItemLayout = [
-        GridItem(.fixed(12), spacing: 2.0),
-        GridItem(.fixed(12), spacing: 2.0),
-        GridItem(.fixed(12), spacing: 2.0),
-        GridItem(.fixed(12), spacing: 2.0),
-        GridItem(.fixed(12), spacing: 2.0),
-        GridItem(.fixed(12), spacing: 2.0),
-        GridItem(.fixed(12), spacing: 2.0)
+        GridItem(.fixed(16), spacing: 2.0),
+        GridItem(.fixed(16), spacing: 2.0),
+        GridItem(.fixed(16), spacing: 2.0),
+        GridItem(.fixed(16), spacing: 2.0),
+        GridItem(.fixed(16), spacing: 2.0),
+        GridItem(.fixed(16), spacing: 2.0),
+        GridItem(.fixed(16), spacing: 2.0)
     ]
     
     public init(viewModel: TechViewModel) {
@@ -58,19 +58,14 @@ struct TechView: View {
                             
                         LazyVGrid(columns: gridItemLayout, spacing: 4) {
                             
-                            ForEach(self.viewModel.achievements(), id: \.self) { achievement in
+                            ForEach(self.viewModel.achievementViewModels, id: \.self) { achievementViewModel in
                                 
-                                Image(nsImage: achievement)
-                                    .resizable()
-                                    .frame(width: 12, height: 12, alignment: .topLeading)
-                                    .padding(.trailing, 0)
-                                    .padding(.leading, 0)
-                                    .id(UUID())
+                                AchievementView(viewModel: achievementViewModel)
+                                    .id("tech-\(self.viewModel.id)-\(achievementViewModel.id)")
                             }
-                            .padding(.top, 6)
-                            .padding(.trailing, 0)
-                            .padding(.leading, 0)
                         }
+                        .padding(.top, 4)
+                        .padding(.trailing, 0)
                         .padding(.leading, 0)
                     }
                     .frame(width: 110, height: 35, alignment: .topLeading)

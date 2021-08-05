@@ -39,7 +39,7 @@ struct CivicDialogView: View {
                                 .onTapGesture {
                                     civicViewModel.selectCivic()
                                 }
-                                .id(UUID())
+                                .id("civic-\(civicViewModel.id)")
                         }
                     }
                 })
