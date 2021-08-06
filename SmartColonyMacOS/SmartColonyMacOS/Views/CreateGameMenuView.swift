@@ -21,7 +21,8 @@ struct CreateGameMenuView: View {
             
             Spacer(minLength: 1)
             
-            Text("SmartColony").font(.largeTitle)
+            Text("SmartColony")
+                .font(.largeTitle)
             
             Divider()
             

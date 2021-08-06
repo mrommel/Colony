@@ -5,7 +5,6 @@
 //  Created by Michael Rommel on 22.03.21.
 //
 
-import Foundation
 import SmartAssets
 import Cocoa
 import SmartAILibrary

@@ -34,12 +34,13 @@ class MainViewModel: ObservableObject {
     var createGameMenuViewModel: CreateGameMenuViewModel
     var generateGameViewModel: GenerateGameViewModel
     var gameViewModel: GameViewModel
+    var pediaViewModel: PediaViewModel
     
     init(presentedView: PresentedViewType = .menu,
          menuViewModel: MenuViewModel = MenuViewModel(),
          createGameMenuViewModel: CreateGameMenuViewModel = CreateGameMenuViewModel(),
          generateGameViewModel: GenerateGameViewModel = GenerateGameViewModel(),
-         gameViewModel: GameViewModel = GameViewModel(/*mapViewModel: MapViewModel()*/)) {
+         gameViewModel: GameViewModel = GameViewModel(/*mapViewModel: MapViewModel()*/), pediaViewModel: PediaViewModel = PediaViewModel()) {
         
         self.presentedView = presentedView
         self.mapMenuDisabled = true
@@ -48,12 +49,14 @@ class MainViewModel: ObservableObject {
         self.createGameMenuViewModel = createGameMenuViewModel
         self.generateGameViewModel = generateGameViewModel
         self.gameViewModel = gameViewModel
+        self.pediaViewModel = pediaViewModel
         
         // connect delegates
         self.menuViewModel.delegate = self
         self.createGameMenuViewModel.delegate = self
         self.generateGameViewModel.delegate = self
         // self.gameViewModel.delegate = self <== close game?
+        self.pediaViewModel.delegate = self
     }
     
     func centerCapital() {
@@ -145,4 +148,9 @@ extension MainViewModel: GenerateGameViewModelDelegate {
         self.presentedView = .game
         self.mapMenuDisabled = false
     }
+}
+
+extension MainViewModel: PediaViewModelDelegate {
+    
+    
 }

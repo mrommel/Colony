@@ -5,7 +5,6 @@
 //  Created by Michael Rommel on 23.03.21.
 //
 
-import Foundation
 import SwiftUI
 import SmartAssets
 import SmartMacOSUILibrary

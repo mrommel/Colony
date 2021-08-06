@@ -13,28 +13,6 @@ struct MainView: View {
     
     @ObservedObject
     var viewModel: MainViewModel
-
-    // debug
-    @Environment(\.gameEnvironment)
-    var gameEnvironment: GameEnvironment
-    
-    @ObservedObject
-    var diplomaticDialogViewModel: DiplomaticDialogViewModel
-    let game = DemoGameModel()
-    
-    init(viewModel: MainViewModel) {
-        
-        self.viewModel = viewModel
-        
-        let _ = GameViewModel(preloadAssets: true)
-        
-        let playerOne = Player(leader: .barbarossa, isHuman: true)
-        let playerTwo = Player(leader: .cyrus, isHuman: false)
-        
-        self.diplomaticDialogViewModel = DiplomaticDialogViewModel(for: playerOne, and: playerTwo, in: game)
-        
-        self.gameEnvironment.assign(game: game)
-    }
     
     var body: some View {
         ZStack {
@@ -63,7 +41,7 @@ struct MainView: View {
         case .game:
             return AnyView(self.gameView)
         case .pedia:
-            return AnyView(DiplomaticDialogView(viewModel: self.diplomaticDialogViewModel))
+            return AnyView(self.pediaView)
         }
     }
 }
@@ -88,11 +66,9 @@ extension MainView {
         GameView(viewModel: self.viewModel.gameViewModel)
     }
     
-    /*func failedView(_ error: Error) -> some View {
-     ErrorView(error: error, retryAction: {
-         // self.reloadCountries()
-     })
-     }*/
+    private var pediaView: some View {
+        PediaView(viewModel: self.viewModel.pediaViewModel)
+    }
 }
 
 /*
