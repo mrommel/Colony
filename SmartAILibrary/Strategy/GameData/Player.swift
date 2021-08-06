@@ -198,6 +198,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func faithPurchaseType() -> FaithPurchaseType
     func set(faithPurchaseType: FaithPurchaseType)
 
+    func hasCapital(in gameModel: GameModel?) -> Bool
     func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool
     func discoverCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     
@@ -4261,6 +4262,19 @@ public class Player: AbstractPlayer {
     }
     
     // MARK: discovery
+    
+    public func hasCapital(in gameModel: GameModel?) -> Bool {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        if let capital = gameModel.capital(of: self) {
+            return true
+        }
+        
+        return false
+    }
     
     public func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
         

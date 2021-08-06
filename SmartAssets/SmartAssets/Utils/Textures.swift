@@ -149,7 +149,7 @@ public class Textures {
         self.buildingTypeTextureNames = BuildingType.all.map { $0.iconTexture() }
         self.wonderTypeTextureNames = WonderType.all.map { $0.iconTexture() }
         self.districtTypeTextureNames = DistrictType.all.map { $0.iconTexture() }
-        self.leaderTypeTextureNames = LeaderType.all.map { $0.iconTexture() }
+        self.leaderTypeTextureNames = LeaderType.all.map { $0.iconTexture() }  + ["leader-random"]
         self.pantheonTypeTextureNames = PantheonType.all.map { $0.iconTexture() }
     }
     

@@ -39,7 +39,7 @@ struct MenuView: View {
                     
                     Button("New Game") {
                         print("new game")
-                        viewModel.startNewGame()
+                        self.viewModel.startNewGame()
                     }
                     .buttonStyle(GameButtonStyle(state: .highlighted))
                     
@@ -53,10 +53,11 @@ struct MenuView: View {
                     
                     Button("Pedia") {
                         print("pedia")
+                        self.viewModel.startPedia()
                     }.buttonStyle(GameButtonStyle())
                     
                     Button("Quit") {
-                        viewModel.showingQuitConfirmationAlert = true
+                        self.viewModel.showingQuitConfirmationAlert = true
                     }
                     .buttonStyle(GameButtonStyle())
                     .padding(.top, 45)
@@ -67,7 +68,7 @@ struct MenuView: View {
             
         }.padding(.vertical, 25)
         
-        .alert(isPresented: $viewModel.showingQuitConfirmationAlert) {
+        .alert(isPresented: self.$viewModel.showingQuitConfirmationAlert) {
             Alert(
                 title: Text("Quit"),
                 message: Text("Do you really want to quit?"),

@@ -84,6 +84,9 @@ public class GameViewModel: ObservableObject {
     var civicDialogViewModel: CivicDialogViewModel
     
     @Published
+    var diplomaticDialogViewModel: DiplomaticDialogViewModel
+    
+    @Published
     var cityNameDialogViewModel: CityNameDialogViewModel
     
     @Published
@@ -94,9 +97,6 @@ public class GameViewModel: ObservableObject {
     
     @Published
     var cityDialogViewModel: CityDialogViewModel
-    
-    @Published
-    var diplomaticDialogViewModel: DiplomaticDialogViewModel
 
     // UI
     
@@ -681,7 +681,10 @@ extension GameViewModel: GameViewModelDelegate {
             if let deal = deal {
                 diplomaticDialogViewModel.add(deal: deal)
             }
-            self.currentScreenType = .diplomatic
+            
+            DispatchQueue.main.async {
+                self.currentScreenType = .diplomatic
+            }
         } else {
             fatalError("cant show diplomatic dialog, \(self.currentScreenType) is currently shown")
         }

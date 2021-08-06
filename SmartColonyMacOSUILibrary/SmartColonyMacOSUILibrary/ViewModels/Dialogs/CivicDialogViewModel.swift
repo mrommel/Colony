@@ -40,7 +40,7 @@ class CivicDialogViewModel: ObservableObject {
             return
         }
         
-        self.civicViewModels = []
+        var tmpCivicViewModels: [CivicViewModel] = []
         
         let possibleCivics: [CivicType] = civics.possibleCivics()
         
@@ -64,12 +64,14 @@ class CivicDialogViewModel: ObservableObject {
                     let civicViewModel = CivicViewModel(civicType: civicType, state: state, boosted: civics.eurekaTriggered(for: civicType), turns: turns)
                     civicViewModel.delegate = self
                     
-                    self.civicViewModels.append(civicViewModel)
+                    tmpCivicViewModels.append(civicViewModel)
                 } else {
-                    self.civicViewModels.append(CivicViewModel(civicType: .none, state: .disabled, boosted: false, turns: -1))
+                    tmpCivicViewModels.append(CivicViewModel(civicType: .none, state: .disabled, boosted: false, turns: -1))
                 }
             }
         }
+        
+        self.civicViewModels = tmpCivicViewModels
     }
     
     func closeDialog() {

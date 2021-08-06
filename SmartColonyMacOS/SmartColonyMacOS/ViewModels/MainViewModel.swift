@@ -15,6 +15,7 @@ enum PresentedViewType {
     case newGameMenu
     case loadingGame
     case game
+    case pedia
 }
 
 class MainViewModel: ObservableObject {
@@ -109,6 +110,11 @@ extension MainViewModel: MenuViewModelDelegate {
         
         self.presentedView = .newGameMenu
         self.mapMenuDisabled = true
+    }
+    
+    func showPedia() {
+        
+        self.presentedView = .pedia
     }
 }
 

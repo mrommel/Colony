@@ -86,7 +86,7 @@ struct CivicView: View {
                     .resizable(capInsets: EdgeInsets(all: 14))
             )
         } else {
-            Text("-")
+            Text(" ")
                 .frame(width: 150, height: 45, alignment: .topLeading)
                 .background(Color.clear)
         }

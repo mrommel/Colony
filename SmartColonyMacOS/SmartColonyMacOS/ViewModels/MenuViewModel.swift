@@ -12,6 +12,7 @@ import SmartAssets
 protocol MenuViewModelDelegate: AnyObject {
     
     func newGameStarted()
+    func showPedia()
 }
 
 class MenuViewModel: ObservableObject {
@@ -34,5 +35,12 @@ class MenuViewModel: ObservableObject {
     func startNewGame() {
         
         self.delegate?.newGameStarted()
+    }
+    
+    // ...
+    
+    func startPedia() {
+        
+        self.delegate?.showPedia()
     }
 }

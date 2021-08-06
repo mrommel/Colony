@@ -75,7 +75,7 @@ extension GameView {
         case .interimRanking:
             return AnyView(EmptyView())
         case .diplomatic:
-            return AnyView(EmptyView())
+            return AnyView(DiplomaticDialogView(viewModel: self.viewModel.diplomaticDialogViewModel))
             
         case .city:
             return AnyView(CityDialogView(viewModel: self.viewModel.cityDialogViewModel))

@@ -10,7 +10,7 @@ import Foundation
 extension CGPoint {
     
     init(fromSize size: CGSize) {
-            self.init(x: size.width, y:size.height)
+        self.init(x: size.width, y:size.height)
     }
     
     func distanceSquared(to p: CGPoint) -> CGFloat {

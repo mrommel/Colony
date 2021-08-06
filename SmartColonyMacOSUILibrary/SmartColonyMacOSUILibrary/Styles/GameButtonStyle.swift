@@ -11,6 +11,8 @@ public enum GameButtonState {
     
     case normal
     case highlighted
+    
+    case text
 }
 
 public struct GameButtonStyle: ButtonStyle {
@@ -26,7 +28,7 @@ public struct GameButtonStyle: ButtonStyle {
         
         switch self.state {
         
-        case .normal:
+        case .normal, .text:
             //return ImageCache.shared.image(for: pressed ? "grid9-button-active" : "grid9-button-clicked")
             return ImageCache.shared.image(for: "grid9-button-clicked")
             
@@ -41,7 +43,8 @@ public struct GameButtonStyle: ButtonStyle {
         
         configuration.label
             .font(.headline)
-            .frame(width: 200, height: 24, alignment: .center)
+            .frame(width: self.state == .text ? 300 : 200, height: self.state == .text ? 60 : 24, alignment: .center)
+            .multilineTextAlignment(.center)
             .padding(10)
             .background(
                 Image(nsImage: self.backgroundImage(pressed: configuration.isPressed))
@@ -64,6 +67,9 @@ struct GameButtonStyle_Previews: PreviewProvider {
         
         Button("Highlighted", action: { })
             .buttonStyle(GameButtonStyle(state: .highlighted))
+        
+        Button("Lorem ipsum dolor situ omne mundi habeamus", action: { })
+            .buttonStyle(GameButtonStyle(state: .text))
     }
 }
 #endif
