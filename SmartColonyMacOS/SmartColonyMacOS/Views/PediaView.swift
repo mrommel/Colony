@@ -54,13 +54,18 @@ struct PediaView: View {
     
     var master: some View {
         
-        List(self.viewModel.pediaCategoryViewModels, id: \.self) { pediaCategoryViewModel in
-          
-            Button(pediaCategoryViewModel.title()) {
-                self.viewModel.selectedPediaCategory = pediaCategoryViewModel.category
+        ScrollView(.vertical, showsIndicators: true, content: {
+            
+            VStack {
+                ForEach(self.viewModel.pediaCategoryViewModels, id: \.self) { pediaCategoryViewModel in
+                  
+                    Button(pediaCategoryViewModel.title()) {
+                        self.viewModel.selectedPediaCategory = pediaCategoryViewModel.category
+                    }
+                    .buttonStyle(GameButtonStyle(state: pediaCategoryViewModel.category == self.viewModel.selectedPediaCategory ? .highlighted : .normal))
+                }
             }
-            .buttonStyle(GameButtonStyle(state: pediaCategoryViewModel.category == self.viewModel.selectedPediaCategory ? .highlighted : .normal))
-        }
+        })
         .frame(width: 250)
         .frame(maxHeight: .infinity)
         .background(Color.clear)

@@ -90,7 +90,7 @@ public enum ResourceType: Int, Codable {
         return self.data().usage
     }
 
-    func yields() -> Yields {
+    public func yields() -> Yields {
 
         switch self {
 

@@ -16,13 +16,28 @@ enum PediaCategory {
     case features
     case resources
     
+    // leaders
+    // civilizations
+    
     case units
     case buildings
     case districts
     case wonders
     case improvements
     
-    static var all: [PediaCategory] = [.terrains, .features, .resources, .units, .buildings, .districts, .wonders, .improvements]
+    case techs
+    case civics
+    
+    // governments
+    // policies
+    
+    // religions
+    // pantheons
+    
+    static var all: [PediaCategory] = [
+        .terrains, .features, .resources,
+        .units, .buildings, .districts, .wonders, .improvements,
+        .techs, .civics]
     
     func title() -> String {
         
@@ -34,6 +49,7 @@ enum PediaCategory {
             return "Features"
         case .resources:
             return "Resources"
+            
         case .units:
             return "Units"
         case .buildings:
@@ -44,6 +60,11 @@ enum PediaCategory {
             return "Wonders"
         case .improvements:
             return "Improvements"
+            
+        case .techs:
+            return "Techs"
+        case .civics:
+            return "Civics"
         }
     }
 }
@@ -108,6 +129,14 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         self.imageName = feature.textureNames().first ?? "no_image" // add default
     }
     
+    init(resource: ResourceType) {
+        
+        self.title = resource.name()
+        self.summary = "Resource that can be found on ???"
+        self.detail = "Yields: \(resource.yields().food) Food, \(resource.yields().production) Production and \(resource.yields().gold) Gold"
+        self.imageName = resource.textureName()
+    }
+    
     func image() -> NSImage {
         
         return ImageCache.shared.image(for: self.imageName)
@@ -158,14 +187,19 @@ class PediaViewModel: ObservableObject {
         let bundle = Bundle.init(for: Textures.self)
         let textures: Textures = Textures(game: nil)
         
-        print("- load \(textures.allTerrainTextureNames.count) terrain")
+        print("- load \(textures.allTerrainTextureNames.count) terrains")
         for terrainTextureName in textures.allTerrainTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: terrainTextureName), for: terrainTextureName)
         }
 
-        print("- load \(textures.allFeatureTextureNames.count) feature")
+        print("- load \(textures.allFeatureTextureNames.count) features")
         for featureTextureName in textures.allFeatureTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: featureTextureName), for: featureTextureName)
+        }
+        
+        print("- load \(textures.allResourceTextureNames.count) resources")
+        for resourceTextureName in textures.allResourceTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: resourceTextureName), for: resourceTextureName)
         }
         
         self.updateDetailModels()
@@ -186,17 +220,25 @@ class PediaViewModel: ObservableObject {
                 self.pediaDetailViewModels.append(PediaDetailViewModel(feature: featureType))
             }
         case .resources:
-            print("abc")
+            for resourceType in ResourceType.all {
+                self.pediaDetailViewModels.append(PediaDetailViewModel(resource: resourceType))
+            }
+            
         case .units:
-            print("abc")
+            print("units")
         case .buildings:
-            print("abc")
+            print("buildings")
         case .districts:
-            print("abc")
+            print("districts")
         case .wonders:
-            print("abc")
+            print("wonders")
         case .improvements:
-            print("abc")
+            print("improvements")
+            
+        case .techs:
+            print("techs")
+        case .civics:
+            print("civics")
         }
     }
     
