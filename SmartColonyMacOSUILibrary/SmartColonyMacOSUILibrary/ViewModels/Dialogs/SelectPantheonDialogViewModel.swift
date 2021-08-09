@@ -60,13 +60,13 @@ extension SelectPantheonDialogViewModel: PantheonViewModelDelegate {
     
     func selected(pantheon: PantheonType) {
 
-        let game = self.gameEnvironment.game.value
+        let gameModel = self.gameEnvironment.game.value
         
-        guard let religion = game?.humanPlayer()?.religion else {
+        guard let religion = gameModel?.humanPlayer()?.religion else {
             fatalError("cant get player religion")
         }
         
-        religion.foundPantheon(with: pantheon)
+        religion.foundPantheon(with: pantheon, in: gameModel)
         
         self.delegate?.closeDialog()
     }

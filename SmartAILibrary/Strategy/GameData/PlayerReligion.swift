@@ -28,7 +28,7 @@ public protocol AbstractPlayerReligion: AnyObject, Codable {
     // pantheon
     func pantheon() -> PantheonType
     func canCreatePantheon(checkFaithTotal: Bool, in gameModel: GameModel?) -> PantheonFoundingType
-    func foundPantheon(with pantheonType: PantheonType)
+    func foundPantheon(with pantheonType: PantheonType, in gameModel: GameModel?)
     
     func computeMajority(notifications: Bool, in gameModel: GameModel?) -> Bool
     func canAffordFaithPurchase(with faith: Double, in gameModel: GameModel?) -> Bool
@@ -175,9 +175,17 @@ class PlayerReligion: AbstractPlayerReligion {
         return .okay
     }
     
-    func foundPantheon(with pantheonType: PantheonType) {
+    func foundPantheon(with pantheonType: PantheonType, in gameModel: GameModel?) {
+        
+        guard let civics = self.player?.civics else {
+            fatalError("cant get civics")
+        }
         
         self.pantheonVal = pantheonType
+        
+        if !civics.eurekaTriggered(for: .mysticism) {
+            civics.triggerEureka(for: .mysticism, in: gameModel)
+        }
     }
     
     func hasCreatedPantheon() -> Bool {

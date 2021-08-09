@@ -1460,7 +1460,7 @@ open class GameModel: Codable {
     
     func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType) {
         
-        self.religionsVal?.foundPantheon(for: player, with: pantheonType)
+        self.religionsVal?.foundPantheon(for: player, with: pantheonType, in: self)
     }
     
     func religions() -> [AbstractPlayerReligion?] {

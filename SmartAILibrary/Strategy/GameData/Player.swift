@@ -1082,6 +1082,8 @@ public class Player: AbstractPlayer {
             fatalError("cant get userInterface")
         }
         
+        self.doEurekas(in: gameModel)
+        
         // inform ui about new notifications
         self.notificationsValue?.update(in: gameModel)
         
@@ -1173,6 +1175,23 @@ public class Player: AbstractPlayer {
         // GC.GetEngineUserInterface()->setDirty(CityInfo_DIRTY_BIT, true);
 
         self.doTurnPost()
+    }
+    
+    func doEurekas(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get gamemodel")
+        }
+        
+        guard let civics = self.civics else {
+            fatalError("cant get civics")
+        }
+        
+        if !civics.eurekaTriggered(for: .earlyEmpire) {
+            if self.population(in: gameModel) >= 6 {
+                civics.triggerEureka(for: .earlyEmpire, in: gameModel)
+            }
+        }
     }
     
     func doGovernment(in gameModel: GameModel?) {
@@ -4360,6 +4379,23 @@ public class Player: AbstractPlayer {
     public func originalCapitalLocation() -> HexPoint {
         
         return self.originalCapitalLocationValue
+    }
+    
+    func population(in gameModel: GameModel?) -> Int {
+        
+        guard let cities = gameModel?.cities(of: self) else {
+            return 0
+        }
+
+        var populationVal = 0
+
+        for cityRef in cities {
+            if let city = cityRef {
+                populationVal += city.population()
+            }
+        }
+    
+        return populationVal
     }
     
     public func canChangeGovernment() -> Bool {

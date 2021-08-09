@@ -21,7 +21,7 @@ public class TradeRoute: Codable {
     let posts: [HexPoint]
     let end: HexPoint
     
-    init(start: HexPoint, posts: [HexPoint], end: HexPoint) {
+    public init(start: HexPoint, posts: [HexPoint], end: HexPoint) {
         
         self.start = start
         self.posts = posts
@@ -68,7 +68,7 @@ public class TradeRoute: Codable {
         return !self.isDomestic(in: gameModel)
     }
     
-    func yields(in gameModel: GameModel?) -> Yields {
+    public func yields(in gameModel: GameModel?) -> Yields {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")

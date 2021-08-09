@@ -24,15 +24,44 @@ class SelectTradeCityDialogViewModel: ObservableObject {
     var question: String
     
     @Published
+    var showTradeRoute: Bool = false
+    
+    @Published
+    var foodYield: YieldValueViewModel
+    
+    @Published
+    var productionYield: YieldValueViewModel
+    
+    @Published
+    var goldYield: YieldValueViewModel
+    
+    @Published
+    var scienceYield: YieldValueViewModel
+    
+    @Published
+    var cultureYield: YieldValueViewModel
+    
+    @Published
+    var faithYield: YieldValueViewModel
+    
+    @Published
     var targetCityViewModels: [TradeCityViewModel] = []
     
     var completion: CityCompletionBlock? = nil
+    var startCity: AbstractCity? = nil
     var selectedCity: AbstractCity? = nil
     
     init() {
         
         self.title = "From"
         self.question = "Select a Trade Route Destination."
+        
+        self.foodYield = YieldValueViewModel(yieldType: .food, initial: 0.0, type: .onlyValue, withBackground: false)
+        self.productionYield = YieldValueViewModel(yieldType: .production, initial: 0.0, type: .onlyValue, withBackground: false)
+        self.goldYield = YieldValueViewModel(yieldType: .gold, initial: 0.0, type: .onlyValue, withBackground: false)
+        self.scienceYield = YieldValueViewModel(yieldType: .science, initial: 0.0, type: .onlyValue, withBackground: false)
+        self.cultureYield = YieldValueViewModel(yieldType: .culture, initial: 0.0, type: .onlyValue, withBackground: false)
+        self.faithYield = YieldValueViewModel(yieldType: .faith, initial: 0.0, type: .onlyValue, withBackground: false)
     }
     
 #if DEBUG
@@ -40,6 +69,14 @@ class SelectTradeCityDialogViewModel: ObservableObject {
             
         self.title = "From"
         self.question = "Select a Trade Route Destination."
+        
+        self.foodYield = YieldValueViewModel(yieldType: .food, initial: 0.0, type: .onlyValue, withBackground: false)
+        self.productionYield = YieldValueViewModel(yieldType: .production, initial: 0.0, type: .onlyValue, withBackground: false)
+        self.goldYield = YieldValueViewModel(yieldType: .gold, initial: 0.0, type: .onlyValue, withBackground: false)
+        self.scienceYield = YieldValueViewModel(yieldType: .science, initial: 0.0, type: .onlyValue, withBackground: false)
+        self.cultureYield = YieldValueViewModel(yieldType: .culture, initial: 0.0, type: .onlyValue, withBackground: false)
+        self.faithYield = YieldValueViewModel(yieldType: .faith, initial: 0.0, type: .onlyValue, withBackground: false)
+        
         self.buildCityModels(for: cities)
     }
 #endif
@@ -50,6 +87,7 @@ class SelectTradeCityDialogViewModel: ObservableObject {
             self.title = "\(city) to ..."
         }
 
+        self.startCity = startCity
         self.buildCityModels(for: cities)
     }
 
@@ -74,7 +112,23 @@ class SelectTradeCityDialogViewModel: ObservableObject {
     func closeDialog() {
         
         self.delegate?.closeDialog()
+    }
+    
+    func confirmTradeRoute() {
+        
+        guard self.startCity != nil, self.selectedCity != nil else {
+            print("cant select trade route")
+            return
+        }
+        
+        self.delegate?.closeDialog()
         self.completion?(self.selectedCity)
+    }
+    
+    func cancelTradeRoute() {
+        
+        self.selectedCity = nil
+        self.showTradeRoute = false
     }
 }
 
@@ -82,6 +136,26 @@ extension SelectTradeCityDialogViewModel: TradeCityViewModelDelegate {
 
     func selected(city: AbstractCity?) {
         
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+        
         self.selectedCity = city
+        self.showTradeRoute = true
+        
+        guard let startLocation = self.startCity?.location, let selectedLocation = self.selectedCity?.location else {
+            fatalError("cant get city locations")
+        }
+        
+        let tr = TradeRoute(start: startLocation, posts: [], end: selectedLocation)
+        let yields = tr.yields(in: gameModel)
+        
+        // update yield values
+        self.foodYield.value = yields.food
+        self.productionYield.value = yields.production
+        self.goldYield.value = yields.gold
+        self.scienceYield.value = yields.science
+        self.cultureYield.value = yields.culture
+        self.faithYield.value = yields.faith
     }
 }

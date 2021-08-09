@@ -32,28 +32,78 @@ struct SelectTradeCityDialogView: View {
                 Text(self.viewModel.question)
                     .font(.title2)
                 
-                ScrollView(.vertical, showsIndicators: true, content: {
-                    
-                    LazyVGrid(columns: gridItemLayout, spacing: 10) {
+                if self.viewModel.showTradeRoute {
+                    GroupBox(label: Text("Yields for the selected trade route")) {
                         
-                        ForEach(self.viewModel.targetCityViewModels) { targetCityViewModel in
-
-                            TradeCityView(viewModel: targetCityViewModel)
-                                .padding(0)
-                                .onTapGesture {
-                                    targetCityViewModel.selectCity()
+                        VStack {
+                            
+                            HStack {
+                                if self.viewModel.foodYield.value > 0 {
+                                    YieldValueView(viewModel: self.viewModel.foodYield)
                                 }
+                                
+                                if self.viewModel.productionYield.value > 0 {
+                                    YieldValueView(viewModel: self.viewModel.productionYield)
+                                }
+                                
+                                if self.viewModel.goldYield.value > 0 {
+                                    YieldValueView(viewModel: self.viewModel.goldYield)
+                                }
+                                
+                                if self.viewModel.scienceYield.value > 0 {
+                                    YieldValueView(viewModel: self.viewModel.scienceYield)
+                                }
+                                
+                                if self.viewModel.cultureYield.value > 0 {
+                                    YieldValueView(viewModel: self.viewModel.cultureYield)
+                                }
+                                
+                                if self.viewModel.faithYield.value > 0 {
+                                    YieldValueView(viewModel: self.viewModel.faithYield)
+                                }
+                            }
+                        
+                            HStack {
+                                Button(action: {
+                                    self.viewModel.confirmTradeRoute()
+                                }, label: {
+                                    Text("Confirm")
+                                })
+                                
+                                Button(action: {
+                                    self.viewModel.cancelTradeRoute()
+                                }, label: {
+                                    Text("Cancel")
+                                })
+                            }
                         }
+                        .frame(width: 270)
                     }
-                    .padding()
-                })
-                .border(Color.gray)
-                .frame(width: 270, height: 415, alignment: .top)
+                } else {
+                
+                    ScrollView(.vertical, showsIndicators: true, content: {
+                        
+                        LazyVGrid(columns: gridItemLayout, spacing: 10) {
+                            
+                            ForEach(self.viewModel.targetCityViewModels) { targetCityViewModel in
+
+                                TradeCityView(viewModel: targetCityViewModel)
+                                    .padding(0)
+                                    .onTapGesture {
+                                        targetCityViewModel.selectCity()
+                                    }
+                            }
+                        }
+                        .padding()
+                    })
+                    .border(Color.gray)
+                    .frame(width: 270, height: 415, alignment: .top)
+                }
                 
                 Button(action: {
                     self.viewModel.closeDialog()
                 }, label: {
-                    Text("Okay")
+                    Text("Cancel")
                 })
             }
             .padding(.bottom, 45)

@@ -48,6 +48,8 @@ class YieldValueViewModel: ObservableObject {
         self.type = type
         
         self.valueText = ""
+        
+        self.updateText()
     }
     
     func iconImage() -> NSImage {

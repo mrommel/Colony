@@ -12,7 +12,7 @@ public protocol AbstractGameReligions {
     
     func doTurn(in gameModel: GameModel?)
     
-    func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType)
+    func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType, in gameModel: GameModel?)
     func religions(in gameModel: GameModel?) -> [AbstractPlayerReligion?]
     
     func availablePantheons(in gameModel: GameModel?) -> [PantheonType]
@@ -54,9 +54,9 @@ class GameReligions: AbstractGameReligions, Codable {
         self.spreadReligion(in: gameModel)
     }
     
-    func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType) {
+    func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType, in gameModel: GameModel?) {
         
-        player?.religion?.foundPantheon(with: pantheonType)
+        player?.religion?.foundPantheon(with: pantheonType, in: gameModel)
     }
     
     func religions(in gameModel: GameModel?) -> [AbstractPlayerReligion?] {
