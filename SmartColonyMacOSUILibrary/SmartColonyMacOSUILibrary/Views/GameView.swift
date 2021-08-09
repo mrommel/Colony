@@ -40,7 +40,12 @@ public struct GameView: View {
             
             BottomLeftBarView(viewModel: self.viewModel.gameSceneViewModel)
             
-            CityBannerView(viewModel: self.viewModel.cityBannerViewModel)
+            Group {
+            
+                CityBannerView(viewModel: self.viewModel.cityBannerViewModel)
+            
+                UnitBannerView(viewModel: self.viewModel.unitBannerViewModel)
+            }
             
             BottomRightBarView()
             

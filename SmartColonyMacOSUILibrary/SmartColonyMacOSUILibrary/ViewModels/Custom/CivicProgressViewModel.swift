@@ -10,7 +10,9 @@ import SmartAILibrary
 
 class CivicProgressViewModel: ObservableObject {
     
-    let civic: CivicType
+    let id: UUID = UUID()
+    
+    private let civicType: CivicType
     
     @Published
     var progress: Int
@@ -18,21 +20,26 @@ class CivicProgressViewModel: ObservableObject {
     @Published
     var boosted: Bool
     
-    init(civic: CivicType, progress: Int, boosted: Bool) {
+    @Published
+    var achievementViewModels: [AchievementViewModel] = []
+    
+    init(civicType: CivicType, progress: Int, boosted: Bool) {
         
-        self.civic = civic
+        self.civicType = civicType
         self.progress = progress
         self.boosted = boosted
+        
+        self.achievementViewModels = self.achievements()
     }
     
     func title() -> String {
         
-        return self.civic.name()
+        return self.civicType.name()
     }
     
     func iconImage() -> NSImage {
         
-        return ImageCache.shared.image(for: self.civic.iconTexture())
+        return ImageCache.shared.image(for: self.civicType.iconTexture())
     }
     
     func progressImage() -> NSImage {
@@ -43,11 +50,11 @@ class CivicProgressViewModel: ObservableObject {
         return ImageCache.shared.image(for: textureName)
     }
     
-    func achievements() -> [NSImage] {
+    private func achievements() -> [AchievementViewModel] {
         
         var iconTextureNames: [String] = []
         
-        let achievements = self.civic.achievements()
+        let achievements = self.civicType.achievements()
         
         for buildingType in achievements.buildingTypes {
             iconTextureNames.append(buildingType.iconTexture())
@@ -69,23 +76,25 @@ class CivicProgressViewModel: ObservableObject {
             iconTextureNames.append(districtType.iconTexture())
         }
         
-        for policyCardType in achievements.policyCards {
-            iconTextureNames.append(policyCardType.iconTexture())
+        for policyCard in achievements.policyCards {
+            iconTextureNames.append(policyCard.iconTexture())
         }
         
-        return iconTextureNames.map { ImageCache.shared.image(for: $0) }
+        return iconTextureNames.map {
+            return AchievementViewModel(imageName: $0)
+        }
     }
     
     func boostText() -> String {
         
-        if self.civic.eurekaSummary() == "" {
+        if self.civicType.eurekaSummary() == "" {
             return ""
         }
         
         if self.boosted {
-            return "Boosted: " + self.civic.eurekaSummary()
+            return "Boosted: " + self.civicType.eurekaSummary()
         } else {
-            return "To boost: " + self.civic.eurekaSummary()
+            return "To boost: " + self.civicType.eurekaSummary()
         }
     }
 }

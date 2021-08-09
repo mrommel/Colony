@@ -10,7 +10,9 @@ import SmartAILibrary
 
 class TechProgressViewModel: ObservableObject {
     
-    let tech: TechType
+    let id: UUID = UUID()
+    
+    private let techType: TechType
     
     @Published
     var progress: Int
@@ -18,21 +20,26 @@ class TechProgressViewModel: ObservableObject {
     @Published
     var boosted: Bool
     
-    init(tech: TechType, progress: Int, boosted: Bool) {
+    @Published
+    var achievementViewModels: [AchievementViewModel] = []
+    
+    init(techType: TechType, progress: Int, boosted: Bool) {
         
-        self.tech = tech
+        self.techType = techType
         self.progress = progress
         self.boosted = boosted
+        
+        self.achievementViewModels = self.achievements()
     }
     
     func title() -> String {
         
-        return self.tech.name()
+        return self.techType.name()
     }
     
     func iconImage() -> NSImage {
         
-        return ImageCache.shared.image(for: self.tech.iconTexture())
+        return ImageCache.shared.image(for: self.techType.iconTexture())
     }
     
     func progressImage() -> NSImage {
@@ -43,11 +50,11 @@ class TechProgressViewModel: ObservableObject {
         return ImageCache.shared.image(for: textureName)
     }
     
-    func achievements() -> [NSImage] {
+    private func achievements() -> [AchievementViewModel] {
         
         var iconTextureNames: [String] = []
         
-        let achievements = self.tech.achievements()
+        let achievements = self.techType.achievements()
         
         for buildingType in achievements.buildingTypes {
             iconTextureNames.append(buildingType.iconTexture())
@@ -69,19 +76,21 @@ class TechProgressViewModel: ObservableObject {
             iconTextureNames.append(districtType.iconTexture())
         }
         
-        return iconTextureNames.map { ImageCache.shared.image(for: $0) }
+        return iconTextureNames.map {
+            return AchievementViewModel(imageName: $0)
+        }
     }
     
     func boostText() -> String {
         
-        if self.tech.eurekaSummary() == "" {
+        if self.techType.eurekaSummary() == "" {
             return ""
         }
         
         if self.boosted {
-            return "Boosted: " + self.tech.eurekaSummary()
+            return "Boosted: " + self.techType.eurekaSummary()
         } else {
-            return "To boost: " + self.tech.eurekaSummary()
+            return "To boost: " + self.techType.eurekaSummary()
         }
     }
 }

@@ -55,13 +55,10 @@ struct TechProgressView: View {
             
             LazyVGrid(columns: gridItemLayout, spacing: 4) {
                 
-                ForEach(self.viewModel.achievements(), id: \.self) { achievement in
+                ForEach(self.viewModel.achievementViewModels, id: \.self) { achievementViewModel in
                     
-                    Image(nsImage: achievement)
-                        .resizable()
-                        .frame(width: 16, height: 16, alignment: .topLeading)
-                        .padding(.trailing, 0)
-                        .padding(.leading, 0)
+                    AchievementView(viewModel: achievementViewModel)
+                        .id("progress-tech-\(self.viewModel.id)-\(achievementViewModel.id)")
                 }
                 .padding(.top, 4)
                 .padding(.trailing, 0)
@@ -88,9 +85,10 @@ struct TechProgressView_Previews: PreviewProvider {
     
     static var previews: some View {
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = TechProgressViewModel(tech: .archery, progress: 27, boosted: true)
+        let viewModel = TechProgressViewModel(techType: .archery, progress: 27, boosted: true)
         
         TechProgressView(viewModel: viewModel)
+            .previewDisplayName("Archery")
     }
 }
 #endif

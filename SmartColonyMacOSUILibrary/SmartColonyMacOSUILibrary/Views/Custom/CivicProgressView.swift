@@ -55,13 +55,10 @@ struct CivicProgressView: View {
             
             LazyVGrid(columns: gridItemLayout, spacing: 4) {
                 
-                ForEach(self.viewModel.achievements(), id: \.self) { achievement in
+                ForEach(self.viewModel.achievementViewModels, id: \.self) { achievementViewModel in
                     
-                    Image(nsImage: achievement)
-                        .resizable()
-                        .frame(width: 16, height: 16, alignment: .topLeading)
-                        .padding(.trailing, 0)
-                        .padding(.leading, 0)
+                    AchievementView(viewModel: achievementViewModel)
+                        .id("progress-civic-\(self.viewModel.id)-\(achievementViewModel.id)")
                 }
                 .padding(.top, 4)
                 .padding(.trailing, 0)
@@ -88,9 +85,32 @@ struct CivicProgressView_Previews: PreviewProvider {
     
     static var previews: some View {
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = CivicProgressViewModel(civic: .codeOfLaws, progress: 27, boosted: true)
+        let viewModel = CivicProgressViewModel(civicType: .codeOfLaws, progress: 27, boosted: true)
         
         CivicProgressView(viewModel: viewModel)
+            .previewDisplayName("Code of Laws")
     }
 }
 #endif
+
+/*#if DEBUG
+struct Test_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        let _ = GameViewModel(preloadAssets: true)
+        let game = DemoGameModel()
+        let environment = GameEnvironment(game: game)
+        
+        let viewModel = CivicProgressViewModel(civicType: .codeOfLaws, progress: 27, boosted: true)
+        
+        VStack {
+        
+            CivicProgressView(viewModel: viewModel)
+
+            CivicDialogView(viewModel: CivicDialogViewModel(game: game))
+                .environment(\.gameEnvironment, environment)
+        }
+        .previewDisplayName("Code of Laws + Civic Tree Dialog")
+    }
+}
+#endif*/

@@ -67,7 +67,10 @@ public class GameSceneViewModel: ObservableObject {
             }
             
             if let selectedUnit = self.selectedUnit {
+                self.delegate?.showUnitBanner(for: selectedUnit)
                 self.buttonViewModel.show(image: selectedUnit.type.iconTexture())
+            } else {
+                self.delegate?.hideUnitBanner()
             }
         }
     }
@@ -561,7 +564,7 @@ public class GameSceneViewModel: ObservableObject {
     func techProgressViewModel() -> TechProgressViewModel {
         
         guard let gameModel = self.game else {
-            return TechProgressViewModel(tech: .none, progress: 0, boosted: false)
+            return TechProgressViewModel(techType: .none, progress: 0, boosted: false)
         }
 
         guard let humanPlayer = gameModel.humanPlayer() else {
@@ -571,17 +574,17 @@ public class GameSceneViewModel: ObservableObject {
         if let techs = humanPlayer.techs {
             if let currentTech = techs.currentTech() {
                 let progressPercentage = techs.currentScienceProgress() / Double(currentTech.cost()) * 100.0
-                return TechProgressViewModel(tech: currentTech, progress: Int(progressPercentage), boosted: false)
+                return TechProgressViewModel(techType: currentTech, progress: Int(progressPercentage), boosted: false)
             }
         }
 
-        return TechProgressViewModel(tech: .none, progress: 0, boosted: false)
+        return TechProgressViewModel(techType: .none, progress: 0, boosted: false)
     }
     
     func civicProgressViewModel() -> CivicProgressViewModel {
         
         guard let gameModel = self.game else {
-            return CivicProgressViewModel(civic: .none, progress: 0, boosted: false)
+            return CivicProgressViewModel(civicType: .none, progress: 0, boosted: false)
         }
 
         guard let humanPlayer = gameModel.humanPlayer() else {
@@ -591,11 +594,11 @@ public class GameSceneViewModel: ObservableObject {
         if let civics = humanPlayer.civics {
             if let currentCivic = civics.currentCivic() {
                 let progressPercentage = civics.currentCultureProgress() / Double(currentCivic.cost()) * 100.0
-                return CivicProgressViewModel(civic: currentCivic, progress: Int(progressPercentage), boosted: false)
+                return CivicProgressViewModel(civicType: currentCivic, progress: Int(progressPercentage), boosted: false)
             }
         }
 
-        return CivicProgressViewModel(civic: .none, progress: 0, boosted: false)
+        return CivicProgressViewModel(civicType: .none, progress: 0, boosted: false)
     }
     
     // MARK: callbacks
