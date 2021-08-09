@@ -14,6 +14,7 @@ protocol GameViewModelDelegate: AnyObject {
     
     func focus(on point: HexPoint)
     func showUnitBanner(for unit: AbstractUnit?)
+    func hideUnitBanner()
     func showCityBanner(for city: AbstractCity?)
     func hideCityBanner()
     
@@ -65,6 +66,9 @@ public class GameViewModel: ObservableObject {
     
     @Published
     var cityBannerViewModel: CityBannerViewModel
+    
+    @Published
+    var unitBannerViewModel: UnitBannerViewModel
     
     // dialogs
     
@@ -157,6 +161,7 @@ public class GameViewModel: ObservableObject {
         self.gameSceneViewModel = GameSceneViewModel()
         self.notificationsViewModel = NotificationsViewModel()
         self.cityBannerViewModel = CityBannerViewModel(name: "Berlin")
+        self.unitBannerViewModel = UnitBannerViewModel(name: "Cavalry")
         
         // dialogs
         self.governmentDialogViewModel = GovernmentDialogViewModel()
@@ -544,6 +549,12 @@ extension GameViewModel: GameViewModelDelegate {
     
     func showUnitBanner(for unit: AbstractUnit?) {
         
+        self.unitBannerViewModel.showBanner = true
+    }
+    
+    func hideUnitBanner() {
+        
+        self.unitBannerViewModel.showBanner = false
     }
     
     func showCityBanner(for city: AbstractCity?) {
