@@ -550,7 +550,14 @@ public class MapGenerator: BaseMapHandler {
                 continue
             }
             
-            if grid.canHave(feature: .floodplains, at: featureLocation) {
+            guard let distance = self.distanceToCoast[featureLocation] else {
+                continue
+            }
+            
+            let floodplainsDesertModifier = featureTile.terrain() == .desert ? 0.2 : 0.0
+            let randomModifier = Double.random(minimum: 0.0, maximum: 0.1)
+            let floodplainsPossibility = distance < 3 ? 0.5 : 0.1 + floodplainsDesertModifier + randomModifier
+            if grid.canHave(feature: .floodplains, at: featureLocation) && floodplainsPossibility > Double.random(minimum: 0.0, maximum: 1.0) {
                 gridRef?.set(feature: .floodplains, at: featureLocation)
                 floodPlainsFeatures += 1
                 
@@ -880,9 +887,9 @@ public class MapGenerator: BaseMapHandler {
                 if let tile = grid?.tile(x: x, y: y) {
                 
                     if tile.isRiver() {
-                        if tile.terrain() == .desert {
+                        /*if tile.terrain() == .desert {
                             tile.set(feature: .floodplains)
-                        }
+                        }*/
                         
                         if tile.terrain() == .tundra {
                             tile.set(terrain: .plains)
