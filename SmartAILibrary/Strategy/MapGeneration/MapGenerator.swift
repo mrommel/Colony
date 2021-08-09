@@ -297,8 +297,12 @@ public class MapGenerator: BaseMapHandler {
 
 	// MARK: 3rd step methods
 
-	func refineTerrain(on grid: MapModel?, with heightMap: HeightMap, and moistureMap: HeightMap) {
+	func refineTerrain(on gridRef: MapModel?, with heightMap: HeightMap, and moistureMap: HeightMap) {
 
+        guard let grid = gridRef else {
+            fatalError("no grid")
+        }
+        
         var landPlots: Int = 0
         
 		for x in 0..<width {
@@ -308,12 +312,12 @@ public class MapGenerator: BaseMapHandler {
 				if self.plots[x, y] == PlotType.sea {
 
                     // check is next continent
-                    let nextToContinent: Bool = gridPoint.neighbors().map { grid?.terrain(at: $0).isLand() ?? false }.reduce(false) { $0 || $1 }
+                    let nextToContinent: Bool = gridPoint.neighbors().map { grid.terrain(at: $0).isLand() ?? false }.reduce(false) { $0 || $1 }
                     
 					if heightMap[x, y]! > 0.1 || nextToContinent {
-						grid?.set(terrain: .shore, at: gridPoint)
+                        grid.set(terrain: .shore, at: gridPoint)
 					} else {
-						grid?.set(terrain: .ocean, at: gridPoint)
+                        grid.set(terrain: .ocean, at: gridPoint)
 					}
 				} else {
                     landPlots += 1
@@ -334,9 +338,36 @@ public class MapGenerator: BaseMapHandler {
                 let gridPoint = HexPoint(x: x, y: y)
                 
                 if heightMap[gridPoint]! >= mountainThresold {
-                    grid?.set(feature: .mountains, at: gridPoint)
+                    grid.set(feature: .mountains, at: gridPoint)
                     numberOfMountains += 1
                 }
+            }
+        }
+        
+        // remove some mountains, where there are mountain neighbors
+        let points = grid.points().shuffled
+        
+        for gridPoint in points {
+                
+            var mountainNeighbors = 0
+            var numberNeighbors = 0
+            
+            for neighbor in gridPoint.neighbors() {
+                
+                guard let neighborTile = grid.tile(at: neighbor) else {
+                    continue
+                }
+                
+                if neighborTile.feature() == .mountains || neighborTile.feature() == .mountEverest || neighborTile.feature() == .mountKilimanjaro {
+                    mountainNeighbors += 1
+                }
+                
+                numberNeighbors += 1
+            }
+            
+            if (numberNeighbors == 6 && mountainNeighbors >= 5) || (numberNeighbors == 5 && mountainNeighbors >= 4) {
+                grid.set(feature: .none, at: gridPoint)
+                print("mountain removed")
             }
         }
         
@@ -352,7 +383,6 @@ public class MapGenerator: BaseMapHandler {
         // mglobal.hillsBlendPercent        = 0.45 -- Chance for flat land to become hills per near mountain. Requires at least 2 near mountains.
         let terrainBlendRange = 3       // range to smooth terrain (desert surrounded by plains turns to plains, etc)
         let terrainBlendRandom = 0.6  //random modifier for terrain smoothing
-        
         
         let points = grid.points().shuffled
         
