@@ -71,7 +71,7 @@ extension GameScene: UserInterfaceDelegate {
         self.mapNode?.unitLayer.hideFocus()
         self.viewModel?.selectedCity = nil
         self.viewModel?.selectedUnit = nil
-        self.viewModel?.selectedUnitChanged(commands: [], in: nil)
+        self.viewModel?.delegate?.selectedUnitChanged(to: nil, commands: [], in: nil)
     }
     
     func show(unit: AbstractUnit?) {

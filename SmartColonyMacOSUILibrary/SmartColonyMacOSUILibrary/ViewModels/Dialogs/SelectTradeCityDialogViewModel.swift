@@ -87,6 +87,7 @@ class SelectTradeCityDialogViewModel: ObservableObject {
             self.title = "\(city) to ..."
         }
 
+        self.completion = completion
         self.startCity = startCity
         self.buildCityModels(for: cities)
     }

@@ -371,14 +371,14 @@ extension GameScene {
                 
             case .none:
                 let commands = unit.commands(in: self.viewModel?.game)
-                self.viewModel?.selectedUnitChanged(commands: commands, in: self.viewModel?.game)
+                self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.game)
                 
             case .melee, .ranged:
                 let commands = [Command(type: .cancelAttack, location: HexPoint.invalid)]
-                self.viewModel?.selectedUnitChanged(commands: commands, in: self.viewModel?.game)
+                self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: commands, in: self.viewModel?.game)
             }
         } else {
-            self.viewModel?.selectedUnitChanged(commands: [], in: nil)
+            self.viewModel?.delegate?.selectedUnitChanged(to: unit, commands: [], in: nil)
         }
     }
 }

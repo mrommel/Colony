@@ -762,7 +762,7 @@ class GameScene: BaseScene {
     }
     
     func updateCommands(for unit: AbstractUnit?) {
-        
+
         if let unit = unit {
             
             switch self.uiCombatMode {

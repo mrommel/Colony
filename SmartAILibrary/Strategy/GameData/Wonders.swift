@@ -64,7 +64,7 @@ class Wonders: AbstractWonders {
         if self.wonders.contains(wonder) {
             throw WonderError.alreadyBuild
         }
-        
+
         self.wonders.append(wonder)
     }
 

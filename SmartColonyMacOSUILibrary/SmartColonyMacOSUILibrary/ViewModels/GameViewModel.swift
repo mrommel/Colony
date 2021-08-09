@@ -15,6 +15,8 @@ protocol GameViewModelDelegate: AnyObject {
     func focus(on point: HexPoint)
     func showUnitBanner(for unit: AbstractUnit?)
     func hideUnitBanner()
+    func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?)
+    
     func showCityBanner(for city: AbstractCity?)
     func hideCityBanner()
     
@@ -151,7 +153,7 @@ public class GameViewModel: ObservableObject {
         }
     }
     
-    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching", "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active", "grid9-button-clicked", "banner", "science-progress", "culture-progress", "header-bar-button", "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active", "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active", "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced", "city-canvas", "pantheon-background", "turns"]
+    private let textureNames: [String] = ["water", "focus-attack1", "focus-attack2", "focus-attack3", "focus1", "focus2", "focus3", "focus4", "focus5", "focus6", "unit-type-background", "cursor", "top-bar", "grid9-dialog", "techInfo-active", "techInfo-disabled", "techInfo-researched", "techInfo-researching", "civicInfo-active", "civicInfo-disabled", "civicInfo-researched", "civicInfo-researching", "notification-bagde", "notification-bottom", "notification-top", "grid9-button-active", "grid9-button-clicked", "banner", "science-progress", "culture-progress", "header-bar-button", "header-bar-left", "header-bar-right", "city-banner", "grid9-button-district-active", "grid9-button-district", "grid9-button-highlighted", "questionmark", "tile-purchase-active", "tile-purchase-disabled", "tile-citizen-normal", "tile-citizen-selected", "tile-citizen-forced", "city-canvas", "pantheon-background", "turns", "unit-banner"]
     
     // MARK: constructor
     
@@ -161,7 +163,7 @@ public class GameViewModel: ObservableObject {
         self.gameSceneViewModel = GameSceneViewModel()
         self.notificationsViewModel = NotificationsViewModel()
         self.cityBannerViewModel = CityBannerViewModel(name: "Berlin")
-        self.unitBannerViewModel = UnitBannerViewModel(name: "Cavalry")
+        self.unitBannerViewModel = UnitBannerViewModel(selectedUnit: nil)
         
         // dialogs
         self.governmentDialogViewModel = GovernmentDialogViewModel()
@@ -178,6 +180,9 @@ public class GameViewModel: ObservableObject {
         // connect models
         self.gameSceneViewModel.delegate = self
         self.notificationsViewModel.delegate = self
+        // self.cityBannerViewModel.delegate = self
+        self.unitBannerViewModel.delegate = self
+        
         self.governmentDialogViewModel.delegate = self
         self.changeGovernmentDialogViewModel.delegate = self
         self.changePolicyDialogViewModel.delegate = self
@@ -555,6 +560,11 @@ extension GameViewModel: GameViewModelDelegate {
     func hideUnitBanner() {
         
         self.unitBannerViewModel.showBanner = false
+    }
+    
+    func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?) {
+        
+        self.unitBannerViewModel.selectedUnitChanged(to: unit, commands: commands, in: gameModel)
     }
     
     func showCityBanner(for city: AbstractCity?) {

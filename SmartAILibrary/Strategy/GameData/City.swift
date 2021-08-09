@@ -1866,22 +1866,26 @@ public class City: AbstractCity {
         gameModel?.add(unit: unit)
         
         gameModel?.userInterface?.show(unit: unit)
+        
+        self.updateEurekas(in: gameModel)
     }
 
-    private func build(building buildingType: BuildingType) {
+    private func build(building buildingType: BuildingType, in gameModel: GameModel?) {
 
         do {
             try self.buildings?.build(building: buildingType)
+            self.updateEurekas(in: gameModel)
             self.greatWorks?.addPlaces(for: buildingType)
         } catch {
             fatalError("cant build building: already build")
         }
     }
     
-    private func build(district districtType: DistrictType) {
+    private func build(district districtType: DistrictType, in gameModel: GameModel?) {
         
         do {
             try self.districts?.build(district: districtType)
+            self.updateEurekas(in: gameModel)
         } catch {
             fatalError("cant build district: already build")
         }
@@ -2348,20 +2352,34 @@ public class City: AbstractCity {
             return false
         }
         
-        do {
-            try buildings.build(building: buildingType)
-            
-            if yieldType == .gold {
-                self.player?.treasury?.changeGold(by: -Double(buildingType.purchaseCost()))
-            } else if yieldType == .faith {
-                self.player?.religion?.change(faith: -Double(buildingType.faithCost()))
-            } else {
-                fatalError("cant buy building with \(yieldType)")
+        self.build(building: buildingType, in: gameModel)
+        
+        if yieldType == .gold {
+            self.player?.treasury?.changeGold(by: -Double(buildingType.purchaseCost()))
+        } else if yieldType == .faith {
+            self.player?.religion?.change(faith: -Double(buildingType.faithCost()))
+        } else {
+            fatalError("cant buy building with \(yieldType)")
+        }
+        
+        return true
+    }
+    
+    func updateEurekas(in gameModel: GameModel?) {
+    
+        guard let civics = self.player?.civics else {
+            fatalError("cant get civics")
+        }
+        
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+        
+        // Build an Encampment.
+        if !civics.eurekaTriggered(for: .militaryTraining) {
+            if districts.has(district: .encampment) {
+                civics.triggerEureka(for: .militaryTraining, in: gameModel)
             }
-            
-            return true
-        } catch {
-            return false
         }
     }
     
@@ -2445,7 +2463,7 @@ public class City: AbstractCity {
 
                     if let buildingType = currentBuilding.buildingType {
 
-                        self.build(building: buildingType)
+                        self.build(building: buildingType, in: gameModel)
                     }
                     
                 case .wonder:
@@ -2459,7 +2477,7 @@ public class City: AbstractCity {
                     
                     if let districtType = currentBuilding.districtType {
 
-                        self.build(district: districtType)
+                        self.build(district: districtType, in: gameModel)
                     }
                     
                 case .project:
