@@ -14,6 +14,9 @@ class UnitBannerViewModel: ObservableObject {
     var gameEnvironment: GameEnvironment
     
     @Published
+    var unitHealthValue: CGFloat = 0.0
+    
+    @Published
     var showBanner: Bool = false
     
     @Published
@@ -29,12 +32,16 @@ class UnitBannerViewModel: ObservableObject {
     }
     
 #if DEBUG
-    init(selectedUnit: AbstractUnit? = nil, in gameModel: GameModel?) {
+    init(selectedUnit: AbstractUnit? = nil, commands: [Command], in gameModel: GameModel?) {
         
         self.selectedUnit = selectedUnit
-        
+        self.commands = commands
         self.gameEnvironment.assign(game: gameModel)
         self.showBanner = true
+        
+        if let selectedUnit = self.selectedUnit {
+            self.unitHealthValue = CGFloat(selectedUnit.healthPoints()) / 100.0
+        }
     }
 #endif
     
@@ -221,6 +228,10 @@ class UnitBannerViewModel: ObservableObject {
         
         self.selectedUnit = unit
         self.commands = commands
+        
+        if let selectedUnit = self.selectedUnit {
+            self.unitHealthValue = CGFloat(selectedUnit.healthPoints()) / 100.0
+        }
     }
     
     func showMeleeTargets(of unit: AbstractUnit?) {

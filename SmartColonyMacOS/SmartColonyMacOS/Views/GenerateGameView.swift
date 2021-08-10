@@ -25,14 +25,14 @@ struct GenerateGameView: View {
             Divider()
             
             Text(self.$viewModel.progressText.wrappedValue)
-            //ActivityIndicator(isAnimating: self.$viewModel.loading, style: .spinning)
+            
             ProgressCircle(value: self.$viewModel.progressValue,
                            maxValue: 1.0,
-                                       style: .line,
-                                       backgroundColor: Color(Globals.Colors.progressBackground),
-                                       foregroundColor: Color(Globals.Colors.progressColor),
-                                       lineWidth: 10)
-                        .frame(height: 80)
+                           style: .line,
+                           backgroundColor: Color(Globals.Colors.progressBackground),
+                           foregroundColor: Color(Globals.Colors.progressColor),
+                           lineWidth: 10)
+                .frame(height: 80)
             
             Spacer(minLength: 1)
         }
