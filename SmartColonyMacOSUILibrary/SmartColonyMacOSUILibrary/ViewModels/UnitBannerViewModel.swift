@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAILibrary
+import SmartAssets
 
 class UnitBannerViewModel: ObservableObject {
     
@@ -51,6 +52,15 @@ class UnitBannerViewModel: ObservableObject {
             return selectedUnit.name()
         } else {
             return ""
+        }
+    }
+    
+    public func unitTypeImage() -> NSImage {
+        
+        if let selectedUnit = self.selectedUnit {
+            return selectedUnit.type.iconTexture()
+        } else {
+            return NSImage()
         }
     }
     

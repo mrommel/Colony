@@ -32,7 +32,7 @@ struct CityDialogView: View {
                 
                 VStack(spacing: 10) {
                     
-                    Text("Population: 1")
+                    Text("Population: \(self.viewModel.population)")
 
                     HStack(alignment: .center) {
                         YieldValueView(viewModel: self.viewModel.scienceYieldViewModel)

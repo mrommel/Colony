@@ -267,6 +267,11 @@ public class GameViewModel: ObservableObject {
             ImageCache.shared.add(image: bundle.image(forResource: improvementTextureName), for: improvementTextureName)
         }
         
+        print("- load \(textures.allRoadTextureNames.count) road textures")
+        for roadTextureName in textures.allRoadTextureNames {
+            ImageCache.shared.add(image: bundle.image(forResource: roadTextureName), for: roadTextureName)
+        }
+        
         print("- load \(textures.allPathTextureNames.count) + \(textures.allPathOutTextureNames.count) path textures")
         for pathTextureName in textures.allPathTextureNames {
             ImageCache.shared.add(image: bundle.image(forResource: pathTextureName), for: pathTextureName)

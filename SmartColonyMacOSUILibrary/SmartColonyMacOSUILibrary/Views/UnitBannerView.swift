@@ -97,7 +97,6 @@ struct UnitBannerView: View {
                         .scaledToFit()
                         .frame(width: 250)
                     
-                    // progress
                     ProgressCircle(value: self.$viewModel.unitHealthValue,
                                    maxValue: 1.0,
                                    style: .line,
@@ -107,7 +106,11 @@ struct UnitBannerView: View {
                         .frame(height: 47)
                         .offset(x: -80.3, y: -29)
                     
-                    // unit type
+                    Image(nsImage: self.viewModel.unitTypeImage())
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 64, height: 64, alignment: .center) // 42,42
+                        .offset(x: -80.3 + 11, y: -29 + 11)
 
                     GroupBox(content: {
                         Text(self.viewModel.unitName())

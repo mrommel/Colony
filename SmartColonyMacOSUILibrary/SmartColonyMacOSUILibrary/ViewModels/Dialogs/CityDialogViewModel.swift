@@ -47,6 +47,9 @@ class CityDialogViewModel: ObservableObject {
     var cityName: String = "-"
     
     @Published
+    var population: Int = 1
+    
+    @Published
     var scienceYieldViewModel: YieldValueViewModel
     
     @Published
@@ -116,6 +119,7 @@ class CityDialogViewModel: ObservableObject {
         if let city = city {
             
             self.cityName = city.name
+            self.population = city.population()
             
             guard let game = self.gameEnvironment.game.value else {
                 return
@@ -156,6 +160,8 @@ extension CityDialogViewModel: CityCitizenViewModelDelegate {
             guard let game = self.gameEnvironment.game.value else {
                 return
             }
+            
+            self.population = city.population()
             
             self.scienceYieldViewModel.delta = city.sciencePerTurn(in: game)
             self.cultureYieldViewModel.delta = city.culturePerTurn(in: game)
