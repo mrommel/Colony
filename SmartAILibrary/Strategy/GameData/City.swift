@@ -1901,6 +1901,8 @@ public class City: AbstractCity {
             try self.wonders?.build(wonder: wonderType)
             self.greatWorks?.addPlaces(for: wonderType)
             
+            gameModel?.build(wonder: wonderType)
+            
             // pyramids
             if wonderType == .pyramids {
                 

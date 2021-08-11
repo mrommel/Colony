@@ -1368,6 +1368,19 @@ open class GameModel: Codable {
 
         return wondersBuilt.has(wonder: wonderType)
     }
+    
+    func build(wonder wonderType: WonderType) {
+        
+        guard let wondersBuilt = self.wondersBuilt else {
+            fatalError("cant get wondersBuilt")
+        }
+
+        do {
+            try wondersBuilt.build(wonder: wonderType)
+        } catch {
+            fatalError("cant get build wonder")
+        }
+    }
 
     func calculateInfluenceDistance(from cityLocation: HexPoint, to targetDestination: HexPoint, limit: Int, abc: Bool) -> Int {
 
