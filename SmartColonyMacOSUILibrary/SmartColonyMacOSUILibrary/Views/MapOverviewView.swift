@@ -45,13 +45,13 @@ public struct MapOverviewView: View {
             /*Color.clear
                 .frame(width: self.visibleRect.width, height: self.visibleRect.height, alignment: .center)
                 .border(Color.green)*/
-            Path { path in
+            /*Path { path in
                 path.move(to: CGPoint(x: 50, y: 50))
                 path.addLine(to: CGPoint(x: 150, y: 50))
                 path.addLine(to: CGPoint(x: 150, y: 100))
                 path.addLine(to: CGPoint(x: 50, y: 100))
             }
-            .stroke(Color.red, lineWidth: 2)
+            .stroke(Color.red, lineWidth: 2)*/
         }
         .frame(width: 200, height: 112)
         .onReceive(gameEnvironment.visibleRect) { rect in
