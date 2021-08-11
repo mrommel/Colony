@@ -18,7 +18,10 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
     
     var tradingPostLocations: [HexPoint] = []
 
-    init(for player: AbstractPlayer?, from startLocation: HexPoint, to targetLocation: HexPoint, in gameModel: GameModel?) {
+    init(for player: AbstractPlayer?,
+         from startLocation: HexPoint,
+         to targetLocation: HexPoint,
+         in gameModel: GameModel?) {
 
         self.player = player
         
@@ -77,7 +80,8 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
                 if let city = gameModel.city(at: neighbor),
                     let cityTradingPosts = city.cityTradingPosts {
                     
-                    if cityTradingPosts.hasTradingPost(for: leader) && self.canEstablishDirectTradeRoute(from: startCity, to: city, in: gameModel) {
+                    if cityTradingPosts.hasTradingPost(for: leader) &&
+                        self.canEstablishDirectTradeRoute(from: startCity, to: city, in: gameModel) {
                         
                         self.tradingPostLocations.append(neighbor)
                     }
