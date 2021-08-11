@@ -18,7 +18,7 @@ class TestUI: UserInterfaceDelegate {
     
     func update(city: AbstractCity?) { }
 
-    func showPopup(popupType: PopupType, with data: PopupData?) { }
+    func showPopup(popupType: PopupType) { }
 
     func showScreen(screenType: ScreenType, city: AbstractCity?) { }
     
