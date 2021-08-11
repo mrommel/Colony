@@ -205,4 +205,38 @@ class CityTests: XCTestCase {
             XCTAssertEqual(tile.owner()?.leader, playerAlexander.leader)
         }
     }
+    
+    func testCityCannotBuildWonderCurrentlyBuildingInAnotherCity() {
+        
+        // GIVEN
+        let playerAlexander = Player(leader: .alexander, isHuman: false)
+        playerAlexander.initialize()
+        playerAlexander.government?.set(governmentType: .autocracy)
+        do {
+            try playerAlexander.techs?.discover(tech: .masonry)
+        } catch {
+            fatalError("cant discover masonry")
+        }
+        
+        let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
+        let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerAlexander], on: mapModel)
+        
+        let city = City(name: "Potsdam", at: HexPoint(x: 10, y: 1), owner: playerAlexander)
+        city.initialize(in: gameModel)
+        gameModel.add(city: city)
+        
+        self.objectToTest = City(name: "Berlin", at: HexPoint(x: 1, y: 1), capital: true, owner: playerAlexander)
+        self.objectToTest?.initialize(in: gameModel)
+        gameModel.add(city: self.objectToTest)
+        
+        let canBuildBefore = self.objectToTest?.canBuild(wonder: .pyramids, in: gameModel)
+        
+        // WHEN
+        city.startBuilding(wonder: .pyramids)
+        let canBuildAfter = self.objectToTest?.canBuild(wonder: .pyramids, in: gameModel)
+
+        // THEN
+        XCTAssertEqual(canBuildBefore, true)
+        XCTAssertEqual(canBuildAfter, false)
+    }
 }
