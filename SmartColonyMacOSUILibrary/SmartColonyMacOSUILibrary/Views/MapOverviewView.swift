@@ -39,12 +39,8 @@ public struct MapOverviewView: View {
             
             self.viewModel.image
                 .mapOverview()
-                .frame(width: 156, height: 94)
                 .offset(x: -8.0, y: -2.0)
-            
-            /*Color.clear
-                .frame(width: self.visibleRect.width, height: self.visibleRect.height, alignment: .center)
-                .border(Color.green)*/
+
             /*Path { path in
                 path.move(to: CGPoint(x: 50, y: 50))
                 path.addLine(to: CGPoint(x: 150, y: 50))

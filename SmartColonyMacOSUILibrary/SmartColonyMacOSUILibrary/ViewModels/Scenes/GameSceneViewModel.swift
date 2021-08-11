@@ -40,6 +40,8 @@ public class GameSceneViewModel: ObservableObject {
                     return
                 }
                 
+                self.mapOverviewViewModel.assign(game: game)
+                
                 let unitRefs = game.units(of: humanPlayer)
                 
                 guard let unitRef = unitRefs.first, let unit = unitRef else {
@@ -124,6 +126,9 @@ public class GameSceneViewModel: ObservableObject {
     var topBarViewModel: TopBarViewModel
     
     @Published
+    var mapOverviewViewModel: MapOverviewViewModel
+    
+    @Published
     var showCommands: Bool = false
     
     @Published
@@ -146,6 +151,7 @@ public class GameSceneViewModel: ObservableObject {
         let buttonImage = NSImage() // ImageCache.shared.image(for: NotificationType.unitNeedsOrders.iconTexture())
         self.buttonViewModel = AnimatedImageViewModel(image: buttonImage)
         self.topBarViewModel = TopBarViewModel()
+        self.mapOverviewViewModel = MapOverviewViewModel()
     }
     
     public func doTurn() {

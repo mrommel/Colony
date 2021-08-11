@@ -47,7 +47,7 @@ public struct GameView: View {
                 UnitBannerView(viewModel: self.viewModel.unitBannerViewModel)
             }
             
-            BottomRightBarView()
+            BottomRightBarView(viewModel: self.viewModel.gameSceneViewModel)
             
             TopBarView(viewModel: self.viewModel.gameSceneViewModel.topBarViewModel)
             

@@ -16,6 +16,7 @@ public class MapOverviewViewModel: ObservableObject {
     private let dy = 6
     private var buffer: PixelBuffer = PixelBuffer(width: MapSize.duel.width(), height: MapSize.duel.height(), color: NSColor.black)
     private var line = MapSize.duel.width() * 9
+    private var mapSize: MapSize = MapSize.duel
     
     private weak var player: AbstractPlayer?
     
@@ -31,8 +32,12 @@ public class MapOverviewViewModel: ObservableObject {
         
             self.player = game.humanPlayer()
             
-            let mapSize = game.mapSize()
-            self.buffer = PixelBuffer(width: mapSize.width() * dx, height: mapSize.height() * dy + dy / 2, color: NSColor.black)
+            self.mapSize = game.mapSize()
+            let width = self.mapSize.width() * self.dx
+            let height = self.mapSize.height() * self.dy + self.dy / 2
+            self.buffer = PixelBuffer(width: width, height: height, color: NSColor.black)
+            
+            self.line = self.mapSize.width() * self.dx
 
             guard let bufferImage = self.buffer.toNSImage() else {
                 fatalError("can't create image from buffer")
@@ -40,8 +45,8 @@ public class MapOverviewViewModel: ObservableObject {
 
             self.image = Image(nsImage: bufferImage)
 
-            for y in 0..<mapSize.height() {
-                for x in 0..<mapSize.width() {
+            for y in 0..<self.mapSize.height() {
+                for x in 0..<self.mapSize.width() {
 
                     self.updateBufferAt(pt: HexPoint(x: x, y: y))
                 }
@@ -68,10 +73,12 @@ public class MapOverviewViewModel: ObservableObject {
         
         self.player = game.humanPlayer()
         
-        let mapSize = game.mapSize()
-        self.buffer = PixelBuffer(width: mapSize.width() * dx, height: mapSize.height() * dy + dy / 2, color: NSColor.black)
+        self.mapSize = game.mapSize()
+        let width = self.mapSize.width() * self.dx
+        let height = self.mapSize.height() * self.dy + self.dy / 2
+        self.buffer = PixelBuffer(width: width, height: height, color: NSColor.black)
         
-        self.line = mapSize.width() * self.dx
+        self.line = self.mapSize.width() * self.dx
 
         guard let bufferImage = self.buffer.toNSImage() else {
             fatalError("can't create image from buffer")
@@ -79,8 +86,8 @@ public class MapOverviewViewModel: ObservableObject {
 
         self.image = Image(nsImage: bufferImage)
         
-        for y in 0..<mapSize.height() {
-            for x in 0..<mapSize.width() {
+        for y in 0..<self.mapSize.height() {
+            for x in 0..<self.mapSize.width() {
 
                 self.updateBufferAt(pt: HexPoint(x: x, y: y))
             }
@@ -93,6 +100,10 @@ public class MapOverviewViewModel: ObservableObject {
 
         guard let game = self.gameEnvironment.game.value else {
             fatalError("no map")
+        }
+        
+        if pt.x < 0 || pt.y < 0 || pt.x >= self.mapSize.width() || pt.y >= self.mapSize.height() {
+            return
         }
 
         if let tile = game.tile(at: pt) {
@@ -137,27 +148,59 @@ public class MapOverviewViewModel: ObservableObject {
         self.buffer.set(color: color, at: index + 3)
         self.buffer.set(color: color, at: index + 4)
         self.buffer.set(color: color, at: index + 5)
+        self.buffer.set(color: color, at: index + 6)
         
+        self.buffer.set(color: color, at: index + self.line - 1) // -1
         self.buffer.set(color: color, at: index + self.line)
         self.buffer.set(color: color, at: index + self.line + 1)
         self.buffer.set(color: color, at: index + self.line + 2)
         self.buffer.set(color: color, at: index + self.line + 3)
         self.buffer.set(color: color, at: index + self.line + 4)
         self.buffer.set(color: color, at: index + self.line + 5)
+        self.buffer.set(color: color, at: index + self.line + 6)
+        self.buffer.set(color: color, at: index + self.line + 7) // +1
         
+        self.buffer.set(color: color, at: index + 2 * self.line - 2) // -2
+        self.buffer.set(color: color, at: index + 2 * self.line - 1) // -1
         self.buffer.set(color: color, at: index + 2 * self.line)
         self.buffer.set(color: color, at: index + 2 * self.line + 1)
         self.buffer.set(color: color, at: index + 2 * self.line + 2)
         self.buffer.set(color: color, at: index + 2 * self.line + 3)
         self.buffer.set(color: color, at: index + 2 * self.line + 4)
         self.buffer.set(color: color, at: index + 2 * self.line + 5)
+        self.buffer.set(color: color, at: index + 2 * self.line + 6)
+        self.buffer.set(color: color, at: index + 2 * self.line + 7) // +1
+        self.buffer.set(color: color, at: index + 2 * self.line + 8) // +2
         
+        self.buffer.set(color: color, at: index + 3 * self.line - 2) // -2
+        self.buffer.set(color: color, at: index + 3 * self.line - 1) // -1
         self.buffer.set(color: color, at: index + 3 * self.line)
         self.buffer.set(color: color, at: index + 3 * self.line + 1)
         self.buffer.set(color: color, at: index + 3 * self.line + 2)
         self.buffer.set(color: color, at: index + 3 * self.line + 3)
         self.buffer.set(color: color, at: index + 3 * self.line + 4)
         self.buffer.set(color: color, at: index + 3 * self.line + 5)
+        self.buffer.set(color: color, at: index + 3 * self.line + 6)
+        self.buffer.set(color: color, at: index + 3 * self.line + 7) // +1
+        self.buffer.set(color: color, at: index + 3 * self.line + 8) // +2
+        
+        self.buffer.set(color: color, at: index + 4 * self.line - 1) // -1
+        self.buffer.set(color: color, at: index + 4 * self.line)
+        self.buffer.set(color: color, at: index + 4 * self.line + 1)
+        self.buffer.set(color: color, at: index + 4 * self.line + 2)
+        self.buffer.set(color: color, at: index + 4 * self.line + 3)
+        self.buffer.set(color: color, at: index + 4 * self.line + 4)
+        self.buffer.set(color: color, at: index + 4 * self.line + 5)
+        self.buffer.set(color: color, at: index + 4 * self.line + 6)
+        self.buffer.set(color: color, at: index + 4 * self.line + 7) // +1
+        
+        self.buffer.set(color: color, at: index + 5 * self.line)
+        self.buffer.set(color: color, at: index + 5 * self.line + 1)
+        self.buffer.set(color: color, at: index + 5 * self.line + 2)
+        self.buffer.set(color: color, at: index + 5 * self.line + 3)
+        self.buffer.set(color: color, at: index + 5 * self.line + 4)
+        self.buffer.set(color: color, at: index + 5 * self.line + 5)
+        self.buffer.set(color: color, at: index + 5 * self.line + 6)
     }
 
     private func updateTextureFromBuffer() {
