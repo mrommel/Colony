@@ -45,6 +45,7 @@ class TradeRouteTests: XCTestCase {
         }
     }
 
+    // https://github.com/mrommel/Colony/issues/66
     func testTradeRouteWorkingWithin10Turns() {
 
         // GIVEN
@@ -63,7 +64,6 @@ class TradeRouteTests: XCTestCase {
         mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
-
 
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
 

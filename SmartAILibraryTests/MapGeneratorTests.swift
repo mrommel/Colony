@@ -64,7 +64,7 @@ class MapGeneratorTests: XCTestCase {
         let fishCount = baseHandler.numOfResourcesToAdd(for: .fish, on: self.map)
         
         // THEN
-        XCTAssertEqual(fishCount, 5)
+        XCTAssertEqual(fishCount, 7)
     }
     
     func testCountingCitrusToAdd() {
