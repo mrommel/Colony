@@ -12,13 +12,20 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
 
     let gameModel: GameModel?
     let player: AbstractPlayer?
+    
+    let startLocation: HexPoint
     let targetLocation: HexPoint
+    
+    var tradingPostLocations: [HexPoint] = []
 
-    init(for player: AbstractPlayer?, with targetLocation: HexPoint, in gameModel: GameModel?) {
+    init(for player: AbstractPlayer?, from startLocation: HexPoint, to targetLocation: HexPoint, in gameModel: GameModel?) {
 
-        self.gameModel = gameModel
         self.player = player
+        
+        self.startLocation = startLocation
         self.targetLocation = targetLocation
+        
+        self.gameModel = gameModel
     }
 
     func walkableAdjacentTilesCoords(forTileCoord coord: HexPoint) -> [HexPoint] {
@@ -30,14 +37,56 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
         guard let leader = self.player?.leader else {
             fatalError("cant get leader")
         }
-
-        var walkableCoords = [HexPoint]()
         
-        guard let startCity = gameModel.city(at: coord) else {
-            return walkableCoords
+        guard let startCity = gameModel.city(at: self.startLocation) else {
+            return []
         }
 
-        for pt in coord.areaWith(radius: TradeRoutes.range) {
+        var walkableCoords = [HexPoint]()
+
+        for direction in HexDirection.all {
+            let neighbor = coord.neighbor(in: direction)
+            
+            var isReachable: Bool = false
+            
+            if neighbor.distance(to: startLocation) < TradeRoutes.range {
+                isReachable = true
+            }
+            
+            for tradingPostLocation in self.tradingPostLocations {
+                if neighbor.distance(to: tradingPostLocation) < TradeRoutes.range {
+                    isReachable = true
+                }
+            }
+            
+            if !isReachable {
+                continue
+            }
+
+            if gameModel.valid(point: neighbor) {
+
+                if let toTile = gameModel.tile(at: neighbor) {
+                    
+                    // walkable ?
+                    if toTile.isWater() {
+                        continue
+                    }
+                }
+                
+                // add city
+                if let city = gameModel.city(at: neighbor),
+                    let cityTradingPosts = city.cityTradingPosts {
+                    
+                    if cityTradingPosts.hasTradingPost(for: leader) && self.canEstablishDirectTradeRoute(from: startCity, to: city, in: gameModel) {
+                        
+                        self.tradingPostLocations.append(neighbor)
+                    }
+                }
+                
+                walkableCoords.append(neighbor)
+            }
+        }
+        /*for pt in coord.areaWith(radius: TradeRoutes.range) {
             
             if let city = gameModel.city(at: pt),
                 let cityTradingPosts = city.cityTradingPosts {
@@ -46,7 +95,7 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
                     walkableCoords.append(pt)
                 }
             }
-        }
+        }*/
 
         return walkableCoords
     }

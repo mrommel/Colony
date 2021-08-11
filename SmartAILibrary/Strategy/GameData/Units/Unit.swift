@@ -156,6 +156,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func doMobilize(in gameModel: GameModel?)
     func set(fortifiedThisTurn: Bool, in gameModel: GameModel?)
     
+    @discardableResult
     func doEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
     func possibleTradeRouteTargets(in gameModel: GameModel?) -> [AbstractCity?]
     func canEstablishTradeRoute(to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
