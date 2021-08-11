@@ -2034,8 +2034,25 @@ public class City: AbstractCity {
                 return false
             }
         }
+        
+        // check other cities of user (if they are currently building)
+        let cities = gameModel.cities(of: player)
+        for cityRef in cities {
+            
+            guard let city = cityRef else {
+                continue
+            }
+            
+            guard let currentBuildableItem = city.currentBuildableItem() else {
+                continue
+            }
+            
+            if currentBuildableItem.type == .wonder && currentBuildableItem.wonderType == wonder {
+                return false
+            }
+        }
 
-        //
+        // has another player built this wonder already?
         if gameModel.alreadyBuilt(wonder: wonder) {
             return false
         }
