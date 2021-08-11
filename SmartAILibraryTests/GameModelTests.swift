@@ -133,13 +133,21 @@ class GameModelTests: XCTestCase {
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.set(era: .classical)
-        try! playerAlexander.techs?.discover(tech: .masonry)
-        
+        do {
+            try playerAlexander.techs?.discover(tech: .masonry)
+        } catch {
+            fatalError("cant discover masonry")
+        }
+            
         // player 2
         let playerTrajan = Player(leader: .trajan)
         playerTrajan.initialize()
         playerTrajan.set(era: .classical)
-        try! playerTrajan.techs?.discover(tech: .masonry)
+        do {
+            try playerTrajan.techs?.discover(tech: .masonry)
+        } catch {
+            fatalError("cant discover masonry")
+        }
         
         // map
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
