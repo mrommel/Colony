@@ -169,10 +169,13 @@ public class NotificationItem: Codable, Equatable {
             self.dismiss(in: gameModel)
             
         case .policiesNeeded:
-            gameModel?.userInterface?.showScreen(screenType: .governmentPolicies, city: nil, other: nil, data: nil)
+            gameModel?.userInterface?.showScreen(screenType: .changePolicies, city: nil, other: nil, data: nil)
             
         case .unitPromotion:
             gameModel?.userInterface?.showScreen(screenType: .selectPromotion, city: nil, other: nil, data: nil)
+            
+        case .canFoundPantheon:
+            gameModel?.userInterface?.showScreen(screenType: .selectPantheon, city: nil, other: nil, data: nil)
             
         default:
             print("activate \(self.type) not handled")
@@ -266,6 +269,21 @@ public class NotificationItem: Codable, Equatable {
             
             return false
             
+        case .canFoundPantheon:
+            guard let currentPlayer = gameModel.player(for: self.player) else {
+                fatalError("cant get player")
+            }
+            
+            guard let religion = currentPlayer.religion else {
+                fatalError("Cant get player religion")
+            }
+            
+            if religion.pantheon() != .none {
+                return true
+            }
+            
+            return false
+            
         default:
             return false
         }
@@ -273,37 +291,40 @@ public class NotificationItem: Codable, Equatable {
     
     public static func == (lhs: NotificationItem, rhs: NotificationItem) -> Bool {
         
-        if lhs.type == rhs.type {
+        if lhs.type != rhs.type {
             
-            if lhs.type == .techNeeded {
-                
-                // highlander, only one notification of this type
-                return true
-            }
-            
-            if lhs.type == .civicNeeded {
-                
-                // highlander, only one notification of this type
-                return true
-            }
-            
-            if lhs.type == .productionNeeded {
-                
-                if lhs.location == rhs.location {
-                    
-                    // there can be multiple notifications - one per city == location
-                    return true
-                }
-            }
-            
-            if lhs.type == .policiesNeeded {
-                
-                // highlander, only one notification of this type
-                return true
-            }
+            return false
         }
+            
+        switch lhs.type {
         
-        return false
+        case .techNeeded:
+            // highlander, only one notification of this type
+            return true
+            
+        case .civicNeeded:
+            // highlander, only one notification of this type
+            return true
+            
+        case .productionNeeded:
+            // there can be multiple notifications - one per city == location
+            return lhs.location == rhs.location
+            
+        case .policiesNeeded:
+            // highlander, only one notification of this type
+            return true
+            
+        case .cityGrowth:
+            // there can be multiple notifications - one per city == location
+            return lhs.location == rhs.location
+            
+        case .canFoundPantheon:
+            // highlander, only one notification of this type
+            return true
+            
+        default:
+            fatalError("not handled: \(lhs.type)")
+        }
     }
 }
 

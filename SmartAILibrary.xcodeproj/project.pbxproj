@@ -26,6 +26,8 @@
 		C908E3D62510C3F600657B62 /* OperationStateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C908E3D52510C3F600657B62 /* OperationStateType.swift */; };
 		C908E3D92511E7AA00657B62 /* QuickColonizeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C908E3D82511E7AA00657B62 /* QuickColonizeOperation.swift */; };
 		C90D2E2F24C317990029AA11 /* AssetExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90D2E2E24C317980029AA11 /* AssetExtractionTests.swift */; };
+		C90F484F2660DBEF000AC591 /* FaithPurchaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90F484E2660DBEF000AC591 /* FaithPurchaseType.swift */; };
+		C90F485126610B59000AC591 /* ReligionAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90F485026610B59000AC591 /* ReligionAI.swift */; };
 		C90FA34C24BDF25300733331 /* RandomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FA34B24BDF25300733331 /* RandomTests.swift */; };
 		C90FA34E24BEF41500733331 /* BarbarianAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FA34D24BEF41500733331 /* BarbarianAI.swift */; };
 		C90FA35224C22A6000733331 /* arbalest.xml in Resources */ = {isa = PBXBuildFile; fileRef = C90FA35024C22A5F00733331 /* arbalest.xml */; };
@@ -66,6 +68,9 @@
 		C92317C823D7577C001FC723 /* RuleBasedMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92317C723D7577C001FC723 /* RuleBasedMatch.swift */; };
 		C92317CA23D77B36001FC723 /* GrandStrategyAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92317C923D77B36001FC723 /* GrandStrategyAI.swift */; };
 		C92317CC23D79F2C001FC723 /* GrandStrategyAITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92317CB23D79F2C001FC723 /* GrandStrategyAITests.swift */; };
+		C925594025F8A7BE00C2BF28 /* TribeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925593F25F8A7BE00C2BF28 /* TribeType.swift */; };
+		C925594425F8A7D800C2BF28 /* TribeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925594325F8A7D800C2BF28 /* TribeInfo.swift */; };
+		C925594E25F9FC2C00C2BF28 /* CivilizationAbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925594D25F9FC2B00C2BF28 /* CivilizationAbility.swift */; };
 		C926E48B24CF5CE30073F3E1 /* PolicyCardSlots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926E48A24CF5CDD0073F3E1 /* PolicyCardSlots.swift */; };
 		C926E48D24CF5F3C0073F3E1 /* BuildingCategoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926E48C24CF5F3C0073F3E1 /* BuildingCategoryType.swift */; };
 		C92D220923E1DC3300BB9238 /* PlayerTechTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D220823E1DC3300BB9238 /* PlayerTechTests.swift */; };
@@ -77,6 +82,7 @@
 		C92D221723E22D6600BB9238 /* PolicyCardsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D221623E22D6600BB9238 /* PolicyCardsTests.swift */; };
 		C92D221923E2CC1200BB9238 /* Civics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D221823E2CC1200BB9238 /* Civics.swift */; };
 		C92D221B23E2D80500BB9238 /* FeatureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D221A23E2D80500BB9238 /* FeatureType.swift */; };
+		C92F9497265E7B8E000968AB /* GameReligions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F9496265E7B8E000968AB /* GameReligions.swift */; };
 		C930FFB824F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C930FFB724F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift */; };
 		C934523E240A50C4007508ED /* Combat.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934523D240A50C4007508ED /* Combat.swift */; };
 		C93479492529AF2A00A4B113 /* AStarPathFinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */; };
@@ -149,6 +155,7 @@
 		C97AF98D24F551A2005F45EA /* UnitTradeRouteState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AF98C24F551A2005F45EA /* UnitTradeRouteState.swift */; };
 		C97CD3B2243CB01400FABCC0 /* HandicapType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3B1243CB01400FABCC0 /* HandicapType.swift */; };
 		C97CD3B6243D14BC00FABCC0 /* UnitCaptureDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3B5243D14BC00FABCC0 /* UnitCaptureDefinition.swift */; };
+		C986A5F22664F56F0055D3D4 /* ReligionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C986A5F12664F56F0055D3D4 /* ReligionTests.swift */; };
 		C98CBE0124338C02005EE397 /* ClimateZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBDFD24338C02005EE397 /* ClimateZone.swift */; };
 		C98CBE0624338D12005EE397 /* MapOptionClimate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBE0524338D12005EE397 /* MapOptionClimate.swift */; };
 		C98CBE0824338D25005EE397 /* MapOptionSeaLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CBE0724338D25005EE397 /* MapOptionSeaLevel.swift */; };
@@ -206,6 +213,7 @@
 		C9A1B5802523122400AC2292 /* TacticalMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B57F2523122400AC2292 /* TacticalMove.swift */; };
 		C9A1B5842523123300AC2292 /* TacticalPosture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B5832523123300AC2292 /* TacticalPosture.swift */; };
 		C9A1B588252313E400AC2292 /* BlockingUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1B587252313E400AC2292 /* BlockingUnit.swift */; };
+		C9A348B225F4C599008B797D /* FoodHarvestingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A348B125F4C599008B797D /* FoodHarvestingType.swift */; };
 		C9A50FE3242244C5006AA47B /* UsecaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A50FE2242244C5006AA47B /* UsecaseTests.swift */; };
 		C9AAC26E24D9666100FF1E35 /* GreatPersons.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */; };
 		C9AAC27024D97FFE00FF1E35 /* GameModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */; };
@@ -237,7 +245,7 @@
 		C9C2FE3523F6DF4300185235 /* BuildableItemWeights.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3423F6DF4300185235 /* BuildableItemWeights.swift */; };
 		C9C2FE3723F6DFC700185235 /* BuildQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3623F6DFC700185235 /* BuildQueue.swift */; };
 		C9C2FE3923F6E1A600185235 /* UnitProductionAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3823F6E1A600185235 /* UnitProductionAI.swift */; };
-		C9C2FE3B23F89F2E00185235 /* Religion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3A23F89F2E00185235 /* Religion.swift */; };
+		C9C2FE3B23F89F2E00185235 /* PlayerReligion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3A23F89F2E00185235 /* PlayerReligion.swift */; };
 		C9C2FE3D23F89FF800185235 /* Treasury.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3C23F89FF800185235 /* Treasury.swift */; };
 		C9C2FE3F23F93DA600185235 /* CivilizationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE3E23F93DA600185235 /* CivilizationType.swift */; };
 		C9C2FE4123F9DD0700185235 /* PlayerStateAllWars.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE4023F9DD0700185235 /* PlayerStateAllWars.swift */; };
@@ -246,6 +254,10 @@
 		C9C2FE4723FC170700185235 /* UnitPromotionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE4623FC170700185235 /* UnitPromotionType.swift */; };
 		C9C2FE4923FC20D600185235 /* Promotions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2FE4823FC20D600185235 /* Promotions.swift */; };
 		C9C52FCC23D8EFCC00B34140 /* PlayerScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C52FCB23D8EFCC00B34140 /* PlayerScoringTests.swift */; };
+		C9D1919B26596315008C9622 /* PantheonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919A26596315008C9622 /* PantheonType.swift */; };
+		C9D1919D265968F3008C9622 /* ReligionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919C265968F3008C9622 /* ReligionType.swift */; };
+		C9D1919F265969CF008C9622 /* BeliefType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919E265969CF008C9622 /* BeliefType.swift */; };
+		C9D191B1265A8975008C9622 /* CityReligion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D191B0265A8975008C9622 /* CityReligion.swift */; };
 		C9D78DF12590893C0024ECF0 /* ResourcePlacingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */; };
 		C9D78DF7259094080024ECF0 /* duel_no_resources.map in Resources */ = {isa = PBXBuildFile; fileRef = C9D78DF4259092C80024ECF0 /* duel_no_resources.map */; };
 		C9D8DF6C23ED9B9A0091C917 /* FlavorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8DF6B23ED9B9A0091C917 /* FlavorsTests.swift */; };
@@ -276,6 +288,9 @@
 		C9DFCF8423F30C310032243D /* PlayerWarFaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DFCF8323F30C310032243D /* PlayerWarFaceType.swift */; };
 		C9E0D57024424C0C001AA97A /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D56F24424C0C001AA97A /* Notifications.swift */; };
 		C9E0D57224424C66001AA97A /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E0D57124424C66001AA97A /* NotificationType.swift */; };
+		C9E58A5E25E54BB500D1D49B /* TribeArray2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E58A5B25E54BB400D1D49B /* TribeArray2D.swift */; };
+		C9E58A6225E54BBC00D1D49B /* TribeTileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E58A6125E54BBC00D1D49B /* TribeTileInfo.swift */; };
+		C9E58A6625E54BE300D1D49B /* MapModel+Tribes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E58A6525E54BE300D1D49B /* MapModel+Tribes.swift */; };
 		C9E6A04624A488A000AF65A4 /* GreatWorkSlotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E6A04524A488A000AF65A4 /* GreatWorkSlotType.swift */; };
 		C9E6A04824A4B62B00AF65A4 /* GreatWorks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E6A04724A4B62B00AF65A4 /* GreatWorks.swift */; };
 		C9E74CAD248CE146003EF256 /* PeaceTreatyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E74CAC248CE146003EF256 /* PeaceTreatyType.swift */; };
@@ -336,6 +351,8 @@
 		C908E3D52510C3F600657B62 /* OperationStateType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStateType.swift; sourceTree = "<group>"; };
 		C908E3D82511E7AA00657B62 /* QuickColonizeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickColonizeOperation.swift; sourceTree = "<group>"; };
 		C90D2E2E24C317980029AA11 /* AssetExtractionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetExtractionTests.swift; sourceTree = "<group>"; };
+		C90F484E2660DBEF000AC591 /* FaithPurchaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaithPurchaseType.swift; sourceTree = "<group>"; };
+		C90F485026610B59000AC591 /* ReligionAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionAI.swift; sourceTree = "<group>"; };
 		C90FA34B24BDF25300733331 /* RandomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomTests.swift; sourceTree = "<group>"; };
 		C90FA34D24BEF41500733331 /* BarbarianAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarbarianAI.swift; sourceTree = "<group>"; };
 		C90FA35024C22A5F00733331 /* arbalest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = arbalest.xml; sourceTree = "<group>"; };
@@ -378,6 +395,9 @@
 		C92317C723D7577C001FC723 /* RuleBasedMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleBasedMatch.swift; sourceTree = "<group>"; };
 		C92317C923D77B36001FC723 /* GrandStrategyAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrandStrategyAI.swift; sourceTree = "<group>"; };
 		C92317CB23D79F2C001FC723 /* GrandStrategyAITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrandStrategyAITests.swift; sourceTree = "<group>"; };
+		C925593F25F8A7BE00C2BF28 /* TribeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeType.swift; sourceTree = "<group>"; };
+		C925594325F8A7D800C2BF28 /* TribeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeInfo.swift; sourceTree = "<group>"; };
+		C925594D25F9FC2B00C2BF28 /* CivilizationAbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilizationAbility.swift; sourceTree = "<group>"; };
 		C926E48A24CF5CDD0073F3E1 /* PolicyCardSlots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardSlots.swift; sourceTree = "<group>"; };
 		C926E48C24CF5F3C0073F3E1 /* BuildingCategoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingCategoryType.swift; sourceTree = "<group>"; };
 		C92D220823E1DC3300BB9238 /* PlayerTechTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTechTests.swift; sourceTree = "<group>"; };
@@ -389,6 +409,7 @@
 		C92D221623E22D6600BB9238 /* PolicyCardsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardsTests.swift; sourceTree = "<group>"; };
 		C92D221823E2CC1200BB9238 /* Civics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Civics.swift; sourceTree = "<group>"; };
 		C92D221A23E2D80500BB9238 /* FeatureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureType.swift; sourceTree = "<group>"; };
+		C92F9496265E7B8E000968AB /* GameReligions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameReligions.swift; sourceTree = "<group>"; };
 		C930FFB724F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveTypeUnitAwarePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C934523D240A50C4007508ED /* Combat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combat.swift; sourceTree = "<group>"; };
 		C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStarPathFinderTests.swift; sourceTree = "<group>"; };
@@ -460,6 +481,7 @@
 		C97AF98C24F551A2005F45EA /* UnitTradeRouteState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTradeRouteState.swift; sourceTree = "<group>"; };
 		C97CD3B1243CB01400FABCC0 /* HandicapType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandicapType.swift; sourceTree = "<group>"; };
 		C97CD3B5243D14BC00FABCC0 /* UnitCaptureDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitCaptureDefinition.swift; sourceTree = "<group>"; };
+		C986A5F12664F56F0055D3D4 /* ReligionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionTests.swift; sourceTree = "<group>"; };
 		C98CBDFD24338C02005EE397 /* ClimateZone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClimateZone.swift; path = SmartAILibrary/Strategy/MapGeneration/Enums/ClimateZone.swift; sourceTree = SOURCE_ROOT; };
 		C98CBE0524338D12005EE397 /* MapOptionClimate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptionClimate.swift; sourceTree = "<group>"; };
 		C98CBE0724338D25005EE397 /* MapOptionSeaLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptionSeaLevel.swift; sourceTree = "<group>"; };
@@ -517,6 +539,7 @@
 		C9A1B57F2523122400AC2292 /* TacticalMove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalMove.swift; sourceTree = "<group>"; };
 		C9A1B5832523123300AC2292 /* TacticalPosture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalPosture.swift; sourceTree = "<group>"; };
 		C9A1B587252313E400AC2292 /* BlockingUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingUnit.swift; sourceTree = "<group>"; };
+		C9A348B125F4C599008B797D /* FoodHarvestingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodHarvestingType.swift; sourceTree = "<group>"; };
 		C9A50FE2242244C5006AA47B /* UsecaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsecaseTests.swift; sourceTree = "<group>"; };
 		C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersons.swift; sourceTree = "<group>"; };
 		C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelTests.swift; sourceTree = "<group>"; };
@@ -548,7 +571,7 @@
 		C9C2FE3423F6DF4300185235 /* BuildableItemWeights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildableItemWeights.swift; sourceTree = "<group>"; };
 		C9C2FE3623F6DFC700185235 /* BuildQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildQueue.swift; sourceTree = "<group>"; };
 		C9C2FE3823F6E1A600185235 /* UnitProductionAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitProductionAI.swift; sourceTree = "<group>"; };
-		C9C2FE3A23F89F2E00185235 /* Religion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Religion.swift; sourceTree = "<group>"; };
+		C9C2FE3A23F89F2E00185235 /* PlayerReligion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerReligion.swift; sourceTree = "<group>"; };
 		C9C2FE3C23F89FF800185235 /* Treasury.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Treasury.swift; sourceTree = "<group>"; };
 		C9C2FE3E23F93DA600185235 /* CivilizationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilizationType.swift; sourceTree = "<group>"; };
 		C9C2FE4023F9DD0700185235 /* PlayerStateAllWars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStateAllWars.swift; sourceTree = "<group>"; };
@@ -557,6 +580,10 @@
 		C9C2FE4623FC170700185235 /* UnitPromotionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitPromotionType.swift; sourceTree = "<group>"; };
 		C9C2FE4823FC20D600185235 /* Promotions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promotions.swift; sourceTree = "<group>"; };
 		C9C52FCB23D8EFCC00B34140 /* PlayerScoringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerScoringTests.swift; sourceTree = "<group>"; };
+		C9D1919A26596315008C9622 /* PantheonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantheonType.swift; sourceTree = "<group>"; };
+		C9D1919C265968F3008C9622 /* ReligionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionType.swift; sourceTree = "<group>"; };
+		C9D1919E265969CF008C9622 /* BeliefType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeliefType.swift; sourceTree = "<group>"; };
+		C9D191B0265A8975008C9622 /* CityReligion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityReligion.swift; sourceTree = "<group>"; };
 		C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcePlacingTests.swift; sourceTree = "<group>"; };
 		C9D78DF4259092C80024ECF0 /* duel_no_resources.map */ = {isa = PBXFileReference; explicitFileType = compiled; fileEncoding = 4; path = duel_no_resources.map; sourceTree = "<group>"; };
 		C9D78DFA259097890024ECF0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
@@ -588,6 +615,9 @@
 		C9DFCF8323F30C310032243D /* PlayerWarFaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerWarFaceType.swift; sourceTree = "<group>"; };
 		C9E0D56F24424C0C001AA97A /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C9E0D57124424C66001AA97A /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
+		C9E58A5B25E54BB400D1D49B /* TribeArray2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeArray2D.swift; sourceTree = "<group>"; };
+		C9E58A6125E54BBC00D1D49B /* TribeTileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeTileInfo.swift; sourceTree = "<group>"; };
+		C9E58A6525E54BE300D1D49B /* MapModel+Tribes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapModel+Tribes.swift"; sourceTree = "<group>"; };
 		C9E6A04524A488A000AF65A4 /* GreatWorkSlotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatWorkSlotType.swift; sourceTree = "<group>"; };
 		C9E6A04724A4B62B00AF65A4 /* GreatWorks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatWorks.swift; sourceTree = "<group>"; };
 		C9E74CAC248CE146003EF256 /* PeaceTreatyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeaceTreatyType.swift; sourceTree = "<group>"; };
@@ -655,7 +685,11 @@
 				C965A52D23FC6A3600BCEB54 /* River.swift */,
 				C907085F23ED48A000281161 /* MapSize.swift */,
 				C97A38E223F3E3CD008A8AE9 /* TileArray2D.swift */,
+				C9E58A5B25E54BB400D1D49B /* TribeArray2D.swift */,
 				C907086123ED48B900281161 /* MapModel.swift */,
+				C9E58A6525E54BE300D1D49B /* MapModel+Tribes.swift */,
+				C9E58A6125E54BBC00D1D49B /* TribeTileInfo.swift */,
+				C925594325F8A7D800C2BF28 /* TribeInfo.swift */,
 				C907086523ED578100281161 /* TileDiscovered.swift */,
 				C9DFCF6B23F29B5B0032243D /* RegionFinder.swift */,
 				C9DFCF6D23F29BBE0032243D /* SiteEvaluator.swift */,
@@ -726,6 +760,7 @@
 				C964BA2423EB5D1200CA379C /* EconomicAI.swift */,
 				C964BA2623EB6C4700CA379C /* MilitaryAI.swift */,
 				C9FE140F24140F8B008CC6B3 /* HomelandAI.swift */,
+				C90F485026610B59000AC591 /* ReligionAI.swift */,
 				C9588ABB2417EF8900304E9A /* BuilderTaskingAI.swift */,
 				C99C4FC22426ACD200070038 /* UserInterface.swift */,
 				C90FA34D24BEF41500733331 /* BarbarianAI.swift */,
@@ -744,9 +779,11 @@
 				C9E74CB6248FA873003EF256 /* DiplomaticRequests */,
 				C9DFCF6823F1FE7B0032243D /* Unit */,
 				C965A52A23FC402700BCEB54 /* Map */,
+				C9D19199265962FF008C9622 /* Religion */,
 				C90FC39623D8909F00720B32 /* LeaderType.swift */,
 				C9AD954424E948F80058DAD4 /* LeaderAbilityType.swift */,
 				C9C2FE3E23F93DA600185235 /* CivilizationType.swift */,
+				C925594D25F9FC2B00C2BF28 /* CivilizationAbility.swift */,
 				C90FC38B23D88DED00720B32 /* VictoryType.swift */,
 				C90FC38D23D88E0100720B32 /* FlavorType.swift */,
 				C90FC38F23D88E2200720B32 /* TraitType.swift */,
@@ -781,6 +818,8 @@
 				C907086323ED525400281161 /* HexArea.swift */,
 				C98DBFAD23E0467000B6CE25 /* Yields.swift */,
 				C9D8DF7723F147DF0091C917 /* ApproachBias.swift */,
+				C9A348B125F4C599008B797D /* FoodHarvestingType.swift */,
+				C925593F25F8A7BE00C2BF28 /* TribeType.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -864,6 +903,7 @@
 				C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */,
 				C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */,
 				C9D78DFA259097890024ECF0 /* Tests-Prefix.pch */,
+				C986A5F12664F56F0055D3D4 /* ReligionTests.swift */,
 			);
 			path = SmartAILibraryTests;
 			sourceTree = "<group>";
@@ -1026,10 +1066,10 @@
 				C98DBFB923E0D8C700B6CE25 /* Techs.swift */,
 				C92D221823E2CC1200BB9238 /* Civics.swift */,
 				C9956852247E90AF0005E9EA /* Eurekas.swift */,
-				C9C2FE3A23F89F2E00185235 /* Religion.swift */,
 				C9C2FE3C23F89FF800185235 /* Treasury.swift */,
 				C90FC39B23D8961C00720B32 /* Player.swift */,
 				C956BF6524F16683009702B4 /* PlayerYields.swift */,
+				C9C2FE3A23F89F2E00185235 /* PlayerReligion.swift */,
 				C92D221023E20ECF00BB9238 /* Government.swift */,
 				C906144D23E3362200D316B5 /* Buildings.swift */,
 				C9A0573B24291C3E00D0FEAB /* Wonders.swift */,
@@ -1050,7 +1090,9 @@
 				C9C0DCD624D44799004D9F06 /* GreatPeople.swift */,
 				C9C0DCE224D74C37004D9F06 /* GreatPersonPoints.swift */,
 				C960E1DB24E675870049DC83 /* CityTradingPosts.swift */,
+				C9D191B0265A8975008C9622 /* CityReligion.swift */,
 				C956BF6324F10BAF009702B4 /* CombatModifier.swift */,
+				C92F9496265E7B8E000968AB /* GameReligions.swift */,
 			);
 			path = GameData;
 			sourceTree = "<group>";
@@ -1126,6 +1168,17 @@
 				C9B1D2A72436131400033791 /* Earth_Tiny.Civ5Map */,
 			);
 			path = Maps;
+			sourceTree = "<group>";
+		};
+		C9D19199265962FF008C9622 /* Religion */ = {
+			isa = PBXGroup;
+			children = (
+				C9D1919A26596315008C9622 /* PantheonType.swift */,
+				C9D1919C265968F3008C9622 /* ReligionType.swift */,
+				C9D1919E265969CF008C9622 /* BeliefType.swift */,
+				C90F484E2660DBEF000AC591 /* FaithPurchaseType.swift */,
+			);
+			path = Religion;
 			sourceTree = "<group>";
 		};
 		C9D8DF7B23F14BD00091C917 /* Diplomatic */ = {
@@ -1247,7 +1300,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Michael Rommel";
 				TargetAttributes = {
 					C923179623D62A6B001FC723 = {
@@ -1317,7 +1370,7 @@
 				C9C0DCDB24D45698004D9F06 /* GreatPerson.swift in Sources */,
 				C9A1B55C2523116B00AC2292 /* OperationUnit.swift in Sources */,
 				C92317BF23D6EAEA001FC723 /* HierarchicalStateMachine.swift in Sources */,
-				C9C2FE3B23F89F2E00185235 /* Religion.swift in Sources */,
+				C9C2FE3B23F89F2E00185235 /* PlayerReligion.swift in Sources */,
 				C9BB750C246D5813004BE448 /* DiplomacyRequests.swift in Sources */,
 				C9C0DCDF24D5FD58004D9F06 /* CityYields.swift in Sources */,
 				C9DFCF6323F14D9D0032243D /* MilitaryThreatType.swift in Sources */,
@@ -1352,6 +1405,7 @@
 				C997908525190290003E52C9 /* NavalSneakAttackOperation.swift in Sources */,
 				C98DBFA123DDFE2C00B6CE25 /* DiplomaticDeal.swift in Sources */,
 				C957AA3F2436379800203024 /* Civ5Map.swift in Sources */,
+				C9D1919F265969CF008C9622 /* BeliefType.swift in Sources */,
 				C98CBE0C24338E06005EE397 /* MapOptionRainfall.swift in Sources */,
 				C9C0DCE324D74C37004D9F06 /* GreatPersonPoints.swift in Sources */,
 				C91BE62B23FED2F300912962 /* Operations.swift in Sources */,
@@ -1359,11 +1413,13 @@
 				C9EE60AA2401DCC300535B93 /* TacticalAI.swift in Sources */,
 				C98DBFA823DF2F5300B6CE25 /* EraType.swift in Sources */,
 				C98CBE0624338D12005EE397 /* MapOptionClimate.swift in Sources */,
+				C92F9497265E7B8E000968AB /* GameReligions.swift in Sources */,
 				C97A38E723F57DD9008A8AE9 /* DiplomaticApproachWeights.swift in Sources */,
 				C964BA1D23EAE76C00CA379C /* CityStrategyType.swift in Sources */,
 				C997907D2518BFAB003E52C9 /* NavalBombardmentOperation.swift in Sources */,
 				C957AA392436368200203024 /* Civ5MapPlot.swift in Sources */,
 				C997905B2513F822003E52C9 /* EnemyTerritoryOperation.swift in Sources */,
+				C9E58A6625E54BE300D1D49B /* MapModel+Tribes.swift in Sources */,
 				C957AA34243635B300203024 /* Civ5MapHeader.swift in Sources */,
 				C964BA1F23EAF01A00CA379C /* CityStrategyAI.swift in Sources */,
 				C9A1B574252311EA00AC2292 /* TemporaryZone.swift in Sources */,
@@ -1385,7 +1441,9 @@
 				C9DFCF6723F18ED60032243D /* PlayerProximityType.swift in Sources */,
 				C99790692516A4B8003E52C9 /* DestroyBarbarianCampOperation.swift in Sources */,
 				C9D8DF7823F147DF0091C917 /* ApproachBias.swift in Sources */,
+				C9D191B1265A8975008C9622 /* CityReligion.swift in Sources */,
 				C907086023ED48A000281161 /* MapSize.swift in Sources */,
+				C9E58A6225E54BBC00D1D49B /* TribeTileInfo.swift in Sources */,
 				C91B0023243DCE6000C422C8 /* GoodyHuts.swift in Sources */,
 				C965A53623FC6B2F00BCEB54 /* RiverEdge.swift in Sources */,
 				C9E74CB1248D48E1003EF256 /* WarDamageLevelType.swift in Sources */,
@@ -1423,7 +1481,9 @@
 				C9ABAF2223F69CE70023AC1B /* Projects.swift in Sources */,
 				C920E99A23DB17EB008DEAB4 /* DiplomaticAI.swift in Sources */,
 				C97213E72510C207009BCE40 /* EscortedOperation.swift in Sources */,
+				C9D1919D265968F3008C9622 /* ReligionType.swift in Sources */,
 				C9C2FE3923F6E1A600185235 /* UnitProductionAI.swift in Sources */,
+				C90F485126610B59000AC591 /* ReligionAI.swift in Sources */,
 				C960E1DE24E688240049DC83 /* TradeRoutes.swift in Sources */,
 				C9C0DCD724D44799004D9F06 /* GreatPeople.swift in Sources */,
 				C9A1B5602523117B00AC2292 /* TacticalUnit.swift in Sources */,
@@ -1446,6 +1506,7 @@
 				C9A125A0249CBE8900D5E3A1 /* BaseMapHandler.swift in Sources */,
 				C9E74CAF248D41E5003EF256 /* WarProjectionType.swift in Sources */,
 				C997909125190496003E52C9 /* SneakCityAttackOperation.swift in Sources */,
+				C9E58A5E25E54BB500D1D49B /* TribeArray2D.swift in Sources */,
 				C9DFCF7023F29CFC0032243D /* Ocean.swift in Sources */,
 				C9588AC12417FEB100304E9A /* CityConnections.swift in Sources */,
 				C9E74CBA248FA8B8003EF256 /* DiplomaticRequestState.swift in Sources */,
@@ -1457,6 +1518,7 @@
 				C90FC39323D88EA400720B32 /* GrandStrategyAIType.swift in Sources */,
 				C9DFCF8023F2C69F0032243D /* TileFertilityEvaluator.swift in Sources */,
 				C964BA1923EAD18200CA379C /* UnitType.swift in Sources */,
+				C9A348B225F4C599008B797D /* FoodHarvestingType.swift in Sources */,
 				C97AF98D24F551A2005F45EA /* UnitTradeRouteState.swift in Sources */,
 				C9EF13972423C02C003B3DAD /* LandDisputeLevelType.swift in Sources */,
 				C9DFCF6A23F294C00032243D /* CivicDiscoveredMessage.swift in Sources */,
@@ -1477,6 +1539,7 @@
 				C960E1DC24E675870049DC83 /* CityTradingPosts.swift in Sources */,
 				C93D66AC24044EA700F5157B /* TacticalAnalysisMap.swift in Sources */,
 				C93D66AA2402913100F5157B /* UnitMovementType.swift in Sources */,
+				C925594025F8A7BE00C2BF28 /* TribeType.swift in Sources */,
 				C9C003BF23FEDD0B0031C7F9 /* UnitFormationType.swift in Sources */,
 				C9FE141024140F8B008CC6B3 /* HomelandAI.swift in Sources */,
 				C97A38E323F3E3CD008A8AE9 /* TileArray2D.swift in Sources */,
@@ -1509,6 +1572,7 @@
 				C90FA36124C2394700733331 /* TextureAtlasLoader.swift in Sources */,
 				C978E0EE252269C3008B8001 /* ArmyFormationSlot.swift in Sources */,
 				C9A1B5642523118E00AC2292 /* TacticalPostureType.swift in Sources */,
+				C925594425F8A7D800C2BF28 /* TribeInfo.swift in Sources */,
 				C92D221B23E2D80500BB9238 /* FeatureType.swift in Sources */,
 				C99790812518F325003E52C9 /* PureNavalCityAttackOperation.swift in Sources */,
 				C956BF5A24F015C5009702B4 /* TradeRoute.swift in Sources */,
@@ -1527,6 +1591,7 @@
 				C9C2FE4723FC170700185235 /* UnitPromotionType.swift in Sources */,
 				C9DFCF6523F14DBD0032243D /* PlayerWarStateType.swift in Sources */,
 				C9C2FE4323F9EC0400185235 /* PlayerTargetValueType.swift in Sources */,
+				C9D1919B26596315008C9622 /* PantheonType.swift in Sources */,
 				C9EC4E132443AE97001A0597 /* Command.swift in Sources */,
 				C90FC39023D88E2200720B32 /* TraitType.swift in Sources */,
 				C9588ABF2417F62D00304E9A /* BuildType.swift in Sources */,
@@ -1542,6 +1607,7 @@
 				C90FC3A223D8D00000720B32 /* Utils.swift in Sources */,
 				C907085623EC5F5600281161 /* Unit.swift in Sources */,
 				C9DFCF7223F29D540032243D /* OceanFinder.swift in Sources */,
+				C90F484F2660DBEF000AC591 /* FaithPurchaseType.swift in Sources */,
 				C90FC39C23D8961C00720B32 /* Player.swift in Sources */,
 				C9EF13992423E1EA003B3DAD /* AggressivePostureType.swift in Sources */,
 				C92D221323E20F6700BB9238 /* PolicyCardType.swift in Sources */,
@@ -1555,6 +1621,7 @@
 				C9956853247E90B00005E9EA /* Eurekas.swift in Sources */,
 				C978E0F525226EDB008B8001 /* ArmyState.swift in Sources */,
 				C90FA35F24C233E500733331 /* TextureAtlas.swift in Sources */,
+				C925594E25F9FC2C00C2BF28 /* CivilizationAbility.swift in Sources */,
 				C92317B323D62AD2001FC723 /* FiniteStateMachine.swift in Sources */,
 				C965A52E23FC6A3600BCEB54 /* River.swift in Sources */,
 				C9A1B570252311D600AC2292 /* TacticalTargetType.swift in Sources */,
@@ -1570,6 +1637,7 @@
 				C966A3FF251E68C9000C24B8 /* DestroyBarbarianCampOperationTests.swift in Sources */,
 				C93479492529AF2A00A4B113 /* AStarPathFinderTests.swift in Sources */,
 				C92D220923E1DC3300BB9238 /* PlayerTechTests.swift in Sources */,
+				C986A5F22664F56F0055D3D4 /* ReligionTests.swift in Sources */,
 				C92317BD23D6EAB5001FC723 /* HierarchicalStateMachineTests.swift in Sources */,
 				C956BF6A24F3C7B9009702B4 /* TradeRouteTests.swift in Sources */,
 				C99496932519E4300049C2D6 /* BasicCityAttackOperationTests.swift in Sources */,
@@ -1621,13 +1689,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					arm64,
-					armv7,
-					armv7s,
-					i386,
-					x86_64,
-				);
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1694,13 +1755,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					arm64,
-					armv7,
-					armv7s,
-					i386,
-					x86_64,
-				);
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

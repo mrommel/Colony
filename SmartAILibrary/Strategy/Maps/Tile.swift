@@ -558,7 +558,7 @@ public class Tile: AbstractTile {
         returnYields += visibleResource.yields()
 
         if self.improvementValue != .none && !self.isImprovementPillaged() {
-            returnYields += self.improvementValue.yields(for: player)
+            returnYields += self.improvementValue.yields(for: player, on: visibleResource)
         }
 
         return returnYields
@@ -607,7 +607,7 @@ public class Tile: AbstractTile {
 
         if let improvementFromBuild = improvementFromBuild {
 
-            yields += improvementFromBuild.yields(for: player)
+            yields += improvementFromBuild.yields(for: player, on: self.resource(for: player))
         }
 
         // //////////////
@@ -773,7 +773,7 @@ public class Tile: AbstractTile {
 
                 // Culture from Improvement
                 if let player = self.owner() {
-                    let culture = improvementType.yields(for:player).culture //ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
+                    let culture = improvementType.yields(for:player, on: resource(for: player)).culture //ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
                     if culture != 0 {
                     //self.changeCulture(culture)
                     }
@@ -1731,8 +1731,8 @@ public class Tile: AbstractTile {
 
                 // Remove Feature
                 if self.hasAnyFeature() {
-
-                    if buildType.canRemove(feature: self.feature()) {
+                    
+                    if !buildType.keeps(feature: self.feature()) && buildType.canRemove(feature: self.feature()) {
 
                         let (production, cityRef) = self.featureProduction(by: buildType, for: player)
 

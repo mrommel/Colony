@@ -15,7 +15,7 @@ public class PolicyCardSlots {
     public let diplomatic: Int // green
     public var wildcard: Int // lila
 
-    init(military: Int, economic: Int, diplomatic: Int, wildcard: Int) {
+    public init(military: Int, economic: Int, diplomatic: Int, wildcard: Int) {
 
         self.military = military
         self.economic = economic

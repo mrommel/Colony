@@ -5,7 +5,7 @@
 //  Created by Michael Rommel on 26.11.20.
 //
 
-import Foundation
+import Cocoa
 import SmartAILibrary
 
 extension TerrainType {
@@ -61,5 +61,61 @@ extension TerrainType {
         case .snow:
             return ["terrain_snow_hills", "terrain_snow_hills2", "terrain_snow_hills3"]
         }
+    }
+    
+    public var zLevel: CGFloat {
+        
+        switch self {
+        case .ocean:
+            return Globals.ZLevels.terrain
+        case .shore:
+            return Globals.ZLevels.terrain
+        case .plains:
+            return Globals.ZLevels.terrain
+        case .grass:
+            return Globals.ZLevels.terrain
+        case .desert:
+            return Globals.ZLevels.terrain
+        case .tundra:
+            return Globals.ZLevels.terrain
+        case .snow:
+            return Globals.ZLevels.snow
+        }
+    }
+}
+
+extension TerrainType {
+    
+    public func overviewColor() -> NSColor {
+        
+        switch self {
+        
+        case .ocean: return NSColor.Terrain.ocean
+        case .shore: return NSColor.Terrain.shore
+        case .plains: return NSColor.Terrain.plains
+        case .grass: return NSColor.Terrain.grass
+        case .desert: return NSColor.Terrain.desert
+        case .tundra: return NSColor.Terrain.tundra
+        case .snow: return NSColor.Terrain.snow
+        }
+    }
+    
+    public func forgottenColor() -> NSColor {
+        
+        return self.overviewColor().colorWithSaturation(saturation: 0.4)
+    }
+}
+
+public extension NSColor {
+    
+    func colorWithSaturation(saturation: CGFloat) -> NSColor {
+        
+        var H: CGFloat = 0, S: CGFloat = 0, B: CGFloat = 0, A: CGFloat = 0
+        
+        self.getHue(&H, saturation: &S, brightness: &B, alpha: &A)
+        S += (saturation - 1.0)
+        S = max(min(S, 1.0), 0.0)
+            
+        return NSColor(hue: H, saturation: S, brightness: B, alpha: A)
     }
 }

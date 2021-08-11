@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "dialog_135.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -133,11 +133,31 @@ class Buildings: AbstractBuildings {
     
     func updateHousing() {
         
+        guard let government = self.city?.player?.government else {
+            fatalError("cant get government")
+        }
+        
         self.housingVal = 0.0
         for building in BuildingType.all {
             
             if self.has(building: building) {
                 self.housingVal += building.yields().housing
+            }
+        }
+        
+        // +1 Housing6 Housing per level of Walls.
+        if government.currentGovernment() == .monarchy {
+
+            if self.has(building: .ancientWalls) {
+                housingVal += 1.0
+            }
+            
+            if self.has(building: .medievalWalls) {
+                housingVal += 2.0
+            }
+            
+            if self.has(building: .renaissanceWalls) {
+                housingVal += 3.0
             }
         }
     }

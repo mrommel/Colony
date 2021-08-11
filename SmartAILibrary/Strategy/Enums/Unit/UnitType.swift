@@ -768,8 +768,8 @@ public enum UnitType: Int, Codable {
 
         switch self {
 
-        case .barbarianWarrior: return 0
-        case .barbarianArcher: return 0
+        case .barbarianWarrior: return -1
+        case .barbarianArcher: return -1
 
             // ancient
         case .settler: return 320
@@ -785,6 +785,42 @@ public enum UnitType: Int, Codable {
             
             // industral
         case .medic: return 1480
+
+            // great people
+        case .artist: return -1
+        case .admiral: return -1
+        case .engineer: return -1
+        case .general: return -1
+        case .merchant: return -1
+        case .musician: return -1
+        case .prophet: return -1
+        case .scientist: return -1
+        case .writer: return -1
+        }
+    }
+    
+    /// cost in faith
+    func faithCost() -> Int {
+
+        switch self {
+
+        case .barbarianWarrior: return -1
+        case .barbarianArcher: return -1
+
+            // ancient
+        case .settler: return -1
+        case .builder: return -1
+        case .trader: return -1
+        case .scout: return -1
+        case .warrior: return -1
+        case .slinger: return -1
+        case .archer: return -1
+        case .spearman: return -1
+        case .heavyChariot: return -1
+        case .galley: return -1
+            
+            // industral
+        case .medic: return -1
 
             // great people
         case .artist: return -1
@@ -1133,7 +1169,7 @@ public enum UnitType: Int, Codable {
             // ancient
         case .settler: return [.canFound]
         case .builder: return [.canImprove]
-        case .trader: return [.canEstablishTradeRoute]
+        case .trader: return [.canEstablishTradeRoute, .canMoveInRivalTerritory]
 
         case .scout: return [.experienceFromTribal]
         case .warrior: return [.canCapture]
@@ -1247,5 +1283,29 @@ public enum UnitType: Int, Codable {
         }
         
         return 0
+    }
+    
+    func canFoundReligion() -> Bool {
+        
+        if self == .prophet {
+            return true
+        }
+        
+        return false
+    }
+    
+    func isGreatPerson() -> Bool {
+        
+        if self == .artist || self == .engineer || self == .merchant || self == .scientist || self == .admiral || self == .general || self == .prophet {
+            
+            return true
+        }
+        
+        return false
+    }
+    
+    func canMoveInRivalTerritory() -> Bool {
+        
+        return self.has(ability: .canMoveInRivalTerritory)
     }
 }

@@ -39,7 +39,7 @@ public enum CityTaskResultType {
     case completed
 }
 
-public protocol AbstractCity: class, Codable {
+public protocol AbstractCity: AnyObject, Codable {
 
     var name: String { get }
     var player: AbstractPlayer? { get set }
@@ -54,6 +54,7 @@ public protocol AbstractCity: class, Codable {
     var cityStrategy: CityStrategyAI? { get }
     var cityCitizens: CityCitizens? { get }
     var cityTradingPosts: AbstractCityTradingPosts? { get }
+    var cityReligion: AbstractCityReligion? { get }
     var greatWorks: GreatWorks? { get }
 
     //static func found(name: String, at location: HexPoint, capital: Bool, owner: AbstractPlayer?) -> AbstractCity
@@ -91,6 +92,20 @@ public protocol AbstractCity: class, Codable {
     func startBuilding(building: BuildingType)
     func startBuilding(wonder: WonderType)
     func startBuilding(district: DistrictType)
+    
+    func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    
+    func faithPurchaseCost(of unitType: UnitType) -> Double
+    func faithPurchaseCost(of buildingType: BuildingType) -> Double
+    
+    @discardableResult
+    func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    @discardableResult
+    func purchase(district districtType: DistrictType, in gameModel: GameModel?) -> Bool
+    @discardableResult
+    func purchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    func doSpawnGreatPerson(unit unitType: UnitType, in gameModel: GameModel?)
 
     func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int
     func unitProductionTurnsLeft(for unitType: UnitType) -> Int
@@ -122,6 +137,16 @@ public protocol AbstractCity: class, Codable {
     func lastTurnFoodEarned() -> Double
     func growthInTurns() -> Int
     func maxGrowthInTurns() -> Int
+    
+    func baseHousing(in gameModel: GameModel?) -> Double
+    func housingFromBuildings() -> Double
+    func housingFromWonders() -> Double
+    func housingFromDistricts() -> Double
+    
+    func amenitiesFromDistrict() -> Double
+    func amenitiesFromWonders(in gameModel: GameModel?) -> Double
+    func amenitiesFromBuildings() -> Double
+    func amenitiesFromLuxuries() -> Double
     
     func maintenanceCostsPerTurn() -> Double
     
@@ -177,10 +202,16 @@ public protocol AbstractCity: class, Codable {
     func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int)
     func countNumImprovedPlots(in gameModel: GameModel?) -> Int
     
+    func numLocalResources(of resourceType: ResourceType, in gameModel: GameModel?) -> Int
+    
     func isProductionAutomated() -> Bool
     func setProductionAutomated(to newValue: Bool, clear: Bool, in gameModel: GameModel?)
     
     func slots(for slotType: GreatWorkSlotType) -> Int
+    
+    // religion
+    func isHolyCity(for religion: ReligionType, in gameModel: GameModel?) -> Bool
+    func isHolyCityOfAnyReligion(in gameModel: GameModel?) -> Bool
     
     func set(scratch: Int)
     func scratch() -> Int
@@ -197,7 +228,7 @@ class LeaderWeightList: WeightedList<LeaderType> {
 }
 
 public class City: AbstractCity {
-
+    
     static let workRadius = 3
     
     enum CodingKeys: CodingKey {
@@ -217,6 +248,7 @@ public class City: AbstractCity {
         case buildQueue
         case cityCitizens
         case greatWorks
+        case cityReligion
         case cityTradingPosts
         
         case healthPoints
@@ -267,6 +299,7 @@ public class City: AbstractCity {
     public var buildQueue: BuildQueue
     public var cityCitizens: CityCitizens?
     public var greatWorks: GreatWorks?
+    public var cityReligion: AbstractCityReligion?
     public var cityTradingPosts: AbstractCityTradingPosts?
     
     private var healthPointsValue: Int // 0..200
@@ -381,6 +414,7 @@ public class City: AbstractCity {
         self.buildQueue = try container.decode(BuildQueue.self, forKey: .buildQueue)
         self.cityCitizens = try container.decode(CityCitizens.self, forKey: .cityCitizens)
         self.greatWorks = try container.decode(GreatWorks.self, forKey: .greatWorks)
+        self.cityReligion = try container.decode(CityReligion.self, forKey: .cityReligion)
         self.cityTradingPosts = try container.decode(CityTradingPosts.self, forKey: .cityTradingPosts)
         
         self.healthPointsValue = try container.decode(Int.self, forKey: .healthPoints)
@@ -445,6 +479,7 @@ public class City: AbstractCity {
         try container.encode(self.buildQueue, forKey: .buildQueue)
         try container.encode(self.cityCitizens, forKey: .cityCitizens)
         try container.encode(self.greatWorks, forKey: .greatWorks)
+        try container.encode(self.cityReligion as! CityReligion, forKey: .cityReligion)
         try container.encode(self.cityTradingPosts as! CityTradingPosts, forKey: .cityTradingPosts)
         
         try container.encode(self.healthPointsValue, forKey: .healthPoints)
@@ -513,7 +548,10 @@ public class City: AbstractCity {
         self.cityStrategy = CityStrategyAI(city: self)
         self.cityCitizens = CityCitizens(city: self)
         self.greatWorks = GreatWorks(city: self)
+        self.cityReligion = CityReligion(city: self)
         self.cityTradingPosts = CityTradingPosts(city: self)
+        
+        self.cityCitizens?.initialize(in: gameModel)
         
         if player.leader.civilization().ability() == .allRoadsLeadToRome {
             self.cityTradingPosts?.buildTradingPost(for: player.leader)
@@ -979,12 +1017,12 @@ public class City: AbstractCity {
         return self.luxuries.contains(luxury)
     }
     
-    private func amenitiesFromLuxuries() -> Double {
+    public func amenitiesFromLuxuries() -> Double {
         
         return Double(self.luxuries.count)
     }
     
-    private func amenitiesFromBuildings() -> Double {
+    public func amenitiesFromBuildings() -> Double {
     
         guard let buildings = self.buildings else {
             fatalError("cant get buildings")
@@ -1002,7 +1040,7 @@ public class City: AbstractCity {
         return amenitiesFromBuildings
     }
 
-    private func amenitiesFromWonders(in gameModel: GameModel?) -> Double {
+    public func amenitiesFromWonders(in gameModel: GameModel?) -> Double {
     
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1038,8 +1076,8 @@ public class City: AbstractCity {
         return amenitiesFromWonders
     }
     
-    // amenities from government
-    private func amenitiesFromGovernmentType() -> Double {
+    // amenities from districts
+    public func amenitiesFromDistrict() -> Double {
         
         guard let government = self.player?.government else {
             fatalError("cant get government")
@@ -1049,17 +1087,17 @@ public class City: AbstractCity {
             fatalError("cant get districts")
         }
 
-        var amenitiesFromGovernment: Double = 0.0
+        var amenitiesFromDistrict: Double = 0.0
             
         // "All cities with a district receive +1 Housing6 Housing and +1 Amenities6 Amenity."
         if government.currentGovernment() == .classicalRepublic {
 
             if districts.hasAny() {
-                amenitiesFromGovernment += 1.0
+                amenitiesFromDistrict += 1.0
             }
         }
         
-        return amenitiesFromGovernment
+        return amenitiesFromDistrict
     }
     
     public func amenitiesPerTurn(in gameModel: GameModel?) -> Double {
@@ -1067,7 +1105,7 @@ public class City: AbstractCity {
         var amenitiesPerTurn: Double = 0.0
         
         amenitiesPerTurn += self.amenitiesFromLuxuries()
-        amenitiesPerTurn += self.amenitiesFromGovernmentType()
+        amenitiesPerTurn += self.amenitiesFromDistrict()
         amenitiesPerTurn += self.amenitiesFromBuildings()
         amenitiesPerTurn += self.amenitiesFromWonders(in: gameModel)
         
@@ -1152,6 +1190,7 @@ public class City: AbstractCity {
         
         // update housing value
         self.buildings?.updateHousing()
+        self.districts?.updateHousing()
 
         let foodPerTurn = self.foodPerTurn(in: gameModel)
         self.setLastTurn(foodHarvested: foodPerTurn)
@@ -1607,7 +1646,7 @@ public class City: AbstractCity {
             // +1 Civ6Production Production ... per District.
             if government.currentGovernment() == .democracy {
                 
-                production += Double(districts.numberOfBuildDsitricts())
+                production += Double(districts.numberOfBuildDistricts())
             }
             
             // +20% Civ6Production Production towards Medieval, Renaissance, and Industrial Wonders.
@@ -1827,22 +1866,26 @@ public class City: AbstractCity {
         gameModel?.add(unit: unit)
         
         gameModel?.userInterface?.show(unit: unit)
+        
+        self.updateEurekas(in: gameModel)
     }
 
-    private func build(building buildingType: BuildingType) {
+    private func build(building buildingType: BuildingType, in gameModel: GameModel?) {
 
         do {
             try self.buildings?.build(building: buildingType)
+            self.updateEurekas(in: gameModel)
             self.greatWorks?.addPlaces(for: buildingType)
         } catch {
             fatalError("cant build building: already build")
         }
     }
     
-    private func build(district districtType: DistrictType) {
+    private func build(district districtType: DistrictType, in gameModel: GameModel?) {
         
         do {
             try self.districts?.build(district: districtType)
+            self.updateEurekas(in: gameModel)
         } catch {
             fatalError("cant build district: already build")
         }
@@ -2186,6 +2229,172 @@ public class City: AbstractCity {
         
         self.buildQueue.add(item: BuildableItem(districtType: district))
     }
+    
+    public func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+        
+        guard yieldType == .faith || yieldType == .gold else {
+            fatalError("invalid yield type: \(yieldType)")
+        }
+        
+        if !self.canTrain(unit: unitType, in: gameModel) {
+            return false
+        }
+        
+        if yieldType == .gold {
+            return unitType.purchaseCost() > 0 // -1 is invalid
+        }
+        
+        if yieldType == .faith {
+            return unitType.faithCost() > 0 // -1 is invalid
+        }
+        
+        return false
+    }
+    
+    public func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+        
+        guard yieldType == .faith || yieldType == .gold else {
+            fatalError("invalid yield type: \(yieldType)")
+        }
+        
+        guard let playerReligion = self.player?.religion else {
+            fatalError("cant get player religion")
+        }
+        
+        guard let playerTreasury = self.player?.treasury else {
+            fatalError("cant get player treasury")
+        }
+        
+        if !self.canBuild(building: buildingType, in: gameModel) {
+            return false
+        }
+        
+        if yieldType == .gold {
+            if buildingType.purchaseCost() == -1 { // -1 is invalid
+                return false
+            }
+            
+            if Double(buildingType.purchaseCost()) > playerTreasury.value() {
+                return false
+            }
+            
+        } else if yieldType == .faith {
+            if buildingType.faithCost() == -1 { // -1 is invalid
+                return false
+            }
+            
+            if Double(buildingType.faithCost()) > playerReligion.faith() {
+                return false
+            }
+            
+        } else {
+            return false
+        }
+
+        return true
+    }
+    
+    public func faithPurchaseCost(of unit: UnitType) -> Double {
+        
+        let cost = unit.faithCost()
+        return cost == -1 ? Double.greatestFiniteMagnitude : Double(cost)
+    }
+    
+    public func faithPurchaseCost(of building: BuildingType) -> Double {
+        
+        let cost = building.faithCost()
+        return cost == -1 ? Double.greatestFiniteMagnitude : Double(cost)
+    }
+    
+    public func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+        
+        guard self.canPurchase(unit: unitType, with: yieldType, in: gameModel) else {
+            return false
+        }
+        
+        let unit = Unit(at: self.location, type: unitType, owner: self.player)
+        gameModel?.add(unit: unit)
+        
+        if yieldType == .gold {
+            self.player?.treasury?.changeGold(by: -Double(unitType.purchaseCost()))
+        } else if yieldType == .faith {
+            self.player?.religion?.change(faith: -Double(unitType.faithCost()))
+        } else {
+            fatalError("cant buy unit with \(yieldType)")
+        }
+        
+        return true
+    }
+    
+    public func purchase(district districtType: DistrictType, in gameModel: GameModel?) -> Bool {
+        
+        print("--- WARNING: THIS IS FOR TESTING ONLY ---")
+        
+        guard let districts = self.districts else {
+            fatalError("cant get disticts")
+        }
+        
+        do {
+            try districts.build(district: districtType)
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    public func purchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+        
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+        
+        guard self.canPurchase(building: buildingType, with: yieldType, in: gameModel) else {
+            return false
+        }
+        
+        self.build(building: buildingType, in: gameModel)
+        
+        if yieldType == .gold {
+            self.player?.treasury?.changeGold(by: -Double(buildingType.purchaseCost()))
+        } else if yieldType == .faith {
+            self.player?.religion?.change(faith: -Double(buildingType.faithCost()))
+        } else {
+            fatalError("cant buy building with \(yieldType)")
+        }
+        
+        return true
+    }
+    
+    func updateEurekas(in gameModel: GameModel?) {
+    
+        guard let civics = self.player?.civics else {
+            fatalError("cant get civics")
+        }
+        
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+        
+        // Build an Encampment.
+        if !civics.eurekaTriggered(for: .militaryTraining) {
+            if districts.has(district: .encampment) {
+                civics.triggerEureka(for: .militaryTraining, in: gameModel)
+            }
+        }
+    }
+    
+    public func doSpawnGreatPerson(unit unitType: UnitType, in gameModel: GameModel?) {
+        
+        guard unitType.isGreatPerson() else {
+            fatalError("\(unitType) is not a greap person type")
+        }
+        
+        let unit = Unit(at: self.location, type: unitType, owner: self.player)
+        
+        gameModel?.add(unit: unit)
+        
+        gameModel?.userInterface?.show(unit: unit)
+    }
 
     public func buildingProductionTurnsLeft(for buildingType: BuildingType) -> Int {
 
@@ -2254,7 +2463,7 @@ public class City: AbstractCity {
 
                     if let buildingType = currentBuilding.buildingType {
 
-                        self.build(building: buildingType)
+                        self.build(building: buildingType, in: gameModel)
                     }
                     
                 case .wonder:
@@ -2268,7 +2477,7 @@ public class City: AbstractCity {
                     
                     if let districtType = currentBuilding.districtType {
 
-                        self.build(district: districtType)
+                        self.build(district: districtType, in: gameModel)
                     }
                     
                 case .project:
@@ -3427,6 +3636,29 @@ public class City: AbstractCity {
         return result
     }
     
+    public func numLocalResources(of resourceType: ResourceType, in gameModel: GameModel?) -> Int {
+        
+        guard let gameModel = gameModel,
+              let cityCitizens = self.cityCitizens,
+              let player = self.player else {
+            
+            fatalError("cant get basics")
+        }
+        
+        var result = 0
+        
+        for point in cityCitizens.workingTileLocations() {
+            
+            if let tile = gameModel.tile(at: point) {
+                if tile.resource(for: player) == resourceType && player.isEqual(to: tile.owner()) {
+                    result += tile.resourceQuantity()
+                }
+            }
+        }
+        
+        return result
+    }
+    
     //    --------------------------------------------------------------------------------
     func isVisible(to otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
         
@@ -3501,6 +3733,34 @@ public class City: AbstractCity {
         }
         
         return greatWorks.slotsAvailable(for: slotType)
+    }
+    
+    public func isHolyCity(for religionType: ReligionType, in gameModel: GameModel?) -> Bool {
+        
+        if let religionRef = gameModel?.religions().first(where: { $0?.currentReligion() == religionType }) {
+            
+            if religionRef?.holyCityLocation() == self.location {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    public func isHolyCityOfAnyReligion(in gameModel: GameModel?) -> Bool {
+    
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+        
+        for religionRef in gameModel.religions() {
+            
+            if religionRef?.holyCityLocation() == self.location {
+                return true
+            }
+        }
+        
+        return false
     }
     
     //    --------------------------------------------------------------------------------

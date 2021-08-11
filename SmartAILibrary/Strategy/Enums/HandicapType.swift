@@ -19,6 +19,25 @@ public enum HandicapType: Int, Codable {
     case emperor
     case immortal
     case deity
+    
+    public static var all: [HandicapType] = [
+        .settler, .chieftain, .warlord, .prince, .king, .emperor, .immortal, .deity
+    ]
+    
+    public func name() -> String {
+        
+        switch self {
+
+        case .settler: return "Settler"
+        case .chieftain: return "Chieftain"
+        case .warlord: return "Warlord"
+        case .prince: return "Prince"
+        case .king: return "King"
+        case .emperor: return "Emperor"
+        case .immortal: return "Immortal"
+        case .deity: return "Deity"
+        }
+    }
 
     func barbarianCampGold() -> Int {
 

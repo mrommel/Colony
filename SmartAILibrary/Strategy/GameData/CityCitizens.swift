@@ -209,8 +209,6 @@ public class CityCitizens: Codable {
         
         self.specialistGreatPersonProgress = GreatPersonProgressList()
         self.specialistGreatPersonProgress.fill()
-        
-        self.initialize()
     }
     
     required public init(from decoder: Decoder) throws {
@@ -267,7 +265,11 @@ public class CityCitizens: Codable {
         try container.encode(self.specialistGreatPersonProgress, forKey: .specialistGreatPersonProgress)
     }
     
-    func initialize() {
+    func initialize(in gameModel: GameModel?) {
+        
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
         
         guard let city = self.city else {
             fatalError("no city set")
@@ -275,9 +277,12 @@ public class CityCitizens: Codable {
         
         for location in city.location.areaWith(radius: City.workRadius) {
             
-            // FIXME: check map
+            let wrappedLocation = gameModel.wrap(point: location)
             
-            self.workingPlots.append(WorkingPlot(location: location, worked: false))
+            if gameModel.valid(point: wrappedLocation) {
+            
+                self.workingPlots.append(WorkingPlot(location: wrappedLocation, worked: false))
+            }
         }
     }
     
@@ -700,16 +705,17 @@ public class CityCitizens: Codable {
             return plot.worked
         }
         
-        fatalError("not a valid plot to check for this city")
+        return false
     }
     
     /// Has our City been told it MUST a particular CvPlot?
     public func isForcedWorked(at location: HexPoint) -> Bool {
+        
         if let plot = self.workingPlots.first(where: { $0.location == location }) {
             return plot.workedForced
         }
         
-        fatalError("not a valid plot to check for this city")
+        return false
     }
     
     /// Tell our City it MUST work a particular CvPlot
@@ -727,12 +733,14 @@ public class CityCitizens: Codable {
 
                     // More forced plots than we have citizens working?
                     // If so, then pick someone to lose their forced status
-                    if self.numForcedWorkingPlots() > self.numCitizensWorkingPlots() {
-                        self.doValidateForcedWorkingPlots(in: gameModel)
-                    }
+                    //if self.numForcedWorkingPlots() > self.numCitizensWorkingPlots() {
+                    self.doValidateForcedWorkingPlots(in: gameModel)
+                    //}
                 } else {
                     self.changeNumForcedWorkingPlots(change: -1)
                 }
+                
+                self.doReallocateCitizens(in: gameModel)
             }
             
             return
@@ -787,6 +795,34 @@ public class CityCitizens: Codable {
         for plot in self.workingPlots {
             
             locations.append(plot.location)
+        }
+        
+        return locations
+    }
+    
+    public func workedTileLocations() -> [HexPoint] {
+        
+        var locations: [HexPoint] = []
+        
+        for plot in self.workingPlots {
+            
+            if self.isWorked(at: plot.location) {
+                locations.append(plot.location)
+            }
+        }
+        
+        return locations
+    }
+    
+    public func forceWorkedTileLocations() -> [HexPoint] {
+        
+        var locations: [HexPoint] = []
+        
+        for plot in self.workingPlots {
+            
+            if self.isForcedWorked(at: plot.location) {
+                locations.append(plot.location)
+            }
         }
         
         return locations

@@ -7,11 +7,10 @@
 
 import Foundation
 import SmartAILibrary
+import SmartMacOSUILibrary
 
-class EditorContentViewModel: ObservableObject {
+class EditorContentViewModel: MapScrollContentViewModel {
 
-    @Published var map: MapModel? = nil
-    @Published var zoom: CGFloat
     private var focus: AbstractTile? // input, leads to:
     @Published var focusedPoint: String
     @Published var focusedTerrainName: String
@@ -27,12 +26,13 @@ class EditorContentViewModel: ObservableObject {
     @Published var brushTerrainName: String
     @Published var brushFeatureName: String
     @Published var brushResourceName: String
+    
+    private var showStartLocations: Bool = false
+    private var showInhabitants: Bool = false
+    private var showSupportedPeople: Bool = false
 
-    var didChange: ((HexPoint) -> ())? = nil
+    override init() {
 
-    init() {
-
-        self.zoom = 1.0
         self.focus = Tile(point: HexPoint(x: -1, y: -1), terrain: TerrainType.ocean)
         self.focusedPoint = "---"
         self.focusedTerrainName = TerrainType.ocean.name()
@@ -50,9 +50,11 @@ class EditorContentViewModel: ObservableObject {
         self.brushTerrainName = TerrainType.ocean.name()
         self.brushFeatureName = FeatureType.none.name()
         self.brushResourceName = ResourceType.none.name()
+        
+        super.init()
     }
 
-    func setFocus(to tile: AbstractTile?) {
+    override func setFocus(to tile: AbstractTile?) {
 
         self.focus = tile
 
@@ -85,6 +87,49 @@ class EditorContentViewModel: ObservableObject {
                 self.focusedStartLocationName = "---"
             }
         }
+    }
+    
+    func setShowStartLocations(to value: Bool) {
+        
+        self.showStartLocations = value
+        self.shouldRedraw?()
+    }
+    
+    func setShowInhabitants(to value: Bool) {
+        
+        self.showInhabitants = value
+        self.shouldRedraw?()
+    }
+    
+    func setShowSupportedPeople(to value: Bool) {
+        
+        self.showSupportedPeople = value
+        self.shouldRedraw?()
+    }
+    
+    override func options() -> MapDisplayOptions {
+        
+        return MapDisplayOptions(showFeatures: true, showResources: true, showBorders: true, showStartPositions: self.showStartLocations, showInhabitants: self.showInhabitants, showSupportedPeople: self.showSupportedPeople)
+    }
+    
+    // MARK: iterate map
+    
+    func initTribes() {
+        
+        guard let map = self.map else {
+            return
+        }
+
+        self.map?.setupTribes(at: map.startLocations)
+    }
+    
+    func iterateTribes() {
+        
+        for _ in 0..<50 {
+            self.map?.updateTribes()
+        }
+        
+        self.shouldRedraw?()
     }
     
     // MARK: terrain functions
@@ -417,7 +462,7 @@ class EditorContentViewModel: ObservableObject {
         self.brushResourceName = value
     }
 
-    func draw(at point: HexPoint) {
+    override func draw(at point: HexPoint) {
 
         guard let map = self.map else {
             return

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "tile-purchase-disabled@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

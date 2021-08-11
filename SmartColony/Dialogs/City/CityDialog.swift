@@ -109,7 +109,6 @@ class CityDialog: Dialog {
         // fill fields
         self.set(text: city.name, identifier: "city_name")
         self.set(text: "\(city.population())", identifier: "population_value")
-        self.set(text: city.name, identifier: "city_name")
 
         // fill yields
         self.set(yieldValue: city.foodPerTurn(in: gameModel), identifier: "food_yield")

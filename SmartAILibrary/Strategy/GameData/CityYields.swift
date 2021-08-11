@@ -285,6 +285,7 @@ extension City {
         faithPerTurn += self.faithFromTiles(in: gameModel)
         faithPerTurn += self.faithFromGovernmentType()
         faithPerTurn += self.faithFromBuildings()
+        faithPerTurn += self.faithFromDistricts(in: gameModel)
         faithPerTurn += self.faithFromWonders()
         faithPerTurn += self.faithFromTradeRoutes(in: gameModel)
 
@@ -383,6 +384,42 @@ extension City {
         }
 
         return faithFromBuildings
+    }
+    
+    private func faithFromDistricts(in gameModel: GameModel?) -> Double {
+        
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+        
+        var faithFromDistricts: Double = 0.0
+        
+        if districts.has(district: .holySite) {
+            
+            for neighbor in self.location.neighbors() {
+                
+                guard let neighborTile = gameModel?.tile(at: neighbor) else {
+                    continue
+                }
+                
+                if neighborTile.feature().isWonder() {
+                    // Major bonus (+2 Faith Faith) for each adjacent Natural Wonder
+                    faithFromDistricts += 2.0
+                }
+                
+                if neighborTile.feature() == .mountains {
+                    // Standard bonus (+1 Faith Faith) for each adjacent Mountain tile
+                    faithFromDistricts += 1.0
+                }
+                
+                if neighborTile.feature() == .forest || neighborTile.feature() == .rainforest {
+                    // Minor bonus (+½ Faith Faith) for each adjacent District District tile and each adjacent unimproved Woods tile
+                    faithFromDistricts += 0.5
+                }
+            }
+        }
+        
+        return faithFromDistricts
     }
 
     private func faithFromWonders() -> Double {
@@ -1016,14 +1053,14 @@ extension City {
         
         var housing = self.baseHousing(in: gameModel)
         housing += self.housingFromBuildings()
-        housing += self.housingFromGovernmentType()
+        housing += self.housingFromDistricts()
         housing += self.housingFromWonders()
         housing += self.housingFromImprovements(in: gameModel)
          
         return housing
     }
     
-    func baseHousing(in gameModel: GameModel?) -> Double {
+    public func baseHousing(in gameModel: GameModel?) -> Double {
         
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1046,7 +1083,7 @@ extension City {
         return 2
     }
     
-    private func housingFromBuildings() -> Double {
+    public func housingFromBuildings() -> Double {
     
         guard let buildings = self.buildings else {
             fatalError("cant get buildings")
@@ -1055,8 +1092,11 @@ extension City {
         return buildings.housing()
     }
     
-    // housing from government
-    private func housingFromGovernmentType() -> Double {
+    public func housingFromDistricts() -> Double {
+        
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
         
         guard let government = self.player?.government else {
             fatalError("cant get government")
@@ -1065,53 +1105,33 @@ extension City {
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
-        
-        guard let buildings = self.buildings else {
-            fatalError("cant get buildings")
-        }
 
-        var housingFromGovernment: Double = 0.0
+        var housingFromDistricts: Double = 0.0
             
         // All cities with a district receive +1 Housing6 Housing and +1 Amenities6 Amenity.
         if government.currentGovernment() == .classicalRepublic {
 
             if districts.hasAny() {
-                housingFromGovernment += 1.0
-            }
-        }
-        
-        // +1 Housing6 Housing per level of Walls.
-        if government.currentGovernment() == .monarchy {
-
-            if buildings.has(building: .ancientWalls) {
-                housingFromGovernment += 1.0
-            }
-            
-            if buildings.has(building: .medievalWalls) {
-                housingFromGovernment += 2.0
-            }
-            
-            if buildings.has(building: .renaissanceWalls) {
-                housingFromGovernment += 3.0
+                housingFromDistricts += 1.0
             }
         }
         
         // .. and +1 Housing6 Housing per District.
         if government.currentGovernment() == .democracy {
-            housingFromGovernment += Double(districts.numberOfBuildDsitricts())
+            housingFromDistricts += Double(districts.numberOfBuildDistricts())
         }
         
         // +1 Housing6 Housing in all cities with at least 2 specialty districts.
         if government.has(card: .insulae) {
-            if districts.numberOfBuildDsitricts() >= 2 {
-                housingFromGovernment += 1.0
+            if districts.numberOfBuildDistricts() >= 2 {
+                housingFromDistricts += 1.0
             }
         }
         
-        return housingFromGovernment
+        return housingFromDistricts
     }
     
-    private func housingFromWonders() -> Double {
+    public func housingFromWonders() -> Double {
         
         guard let wonders = self.wonders else {
             fatalError("cant get wonders")

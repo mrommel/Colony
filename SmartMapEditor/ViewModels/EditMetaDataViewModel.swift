@@ -6,6 +6,7 @@
 //
 
 import SmartAILibrary
+import SmartAssets
 
 class EditMetaDataViewModel: ObservableObject {
     

@@ -14,6 +14,25 @@ public enum PolicyCardSlotType {
     case economic
     case diplomatic
     case wildcard
+    
+    public static var all: [PolicyCardSlotType] = [
+        .military, .economic, .diplomatic, .wildcard
+    ]
+    
+    func name() -> String {
+        
+        switch self {
+        
+        case .military:
+            return "Military"
+        case .economic:
+            return "Economic"
+        case .diplomatic:
+            return "Diplomatic"
+        case .wildcard:
+            return "Wildcard"
+        }
+    }
 }
 
 // https://civilization.fandom.com/wiki/Policy_Cards_(Civ6)

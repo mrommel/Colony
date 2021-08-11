@@ -749,7 +749,7 @@ public class HomelandAI {
             } else {
                 if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
                     
-                    print("Adjacent Patrol Plot not valid, , \(adjacentPoint)")
+                    print("Adjacent Patrol Plot not valid, \(adjacentPoint)")
                     //LogPatrolMessage(strLogString, pUnit);
                 }
             }

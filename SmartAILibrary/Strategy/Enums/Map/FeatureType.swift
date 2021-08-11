@@ -72,7 +72,7 @@ public enum FeatureType: Int, Codable {
         return self.data().name
     }
 
-    func yields() -> Yields {
+    public func yields() -> Yields {
 
         return self.data().yields
     }
@@ -291,7 +291,7 @@ public enum FeatureType: Int, Codable {
             
         case .forest: return 2
         case .rainforest: return 2
-        case .floodplains: return 1
+        case .floodplains: return 0 // no modifier
         case .marsh: return 2
         case .oasis: return 0
         case .reef: return 2
@@ -426,7 +426,7 @@ public enum FeatureType: Int, Codable {
         return false
     }
 
-    // Modifies Deserts (in GS-Only also Plains and Grassland).
+    // Modifies Deserts and also Plains and Grassland.
     private func isFloodplainsPossible(on tile: AbstractTile) -> Bool {
 
         if tile.hasHills() {

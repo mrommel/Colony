@@ -86,6 +86,11 @@ public enum WonderType: Int, Codable {
 
         return self.data().flavours
     }
+    
+    public func yields() -> Yields {
+        
+        return self.data().yields
+    }
 
     func amenities() -> Double {
 
@@ -106,6 +111,7 @@ public enum WonderType: Int, Codable {
         let requiredTech: TechType?
         let requiredCivic: CivicType?
         let amenities: Double
+        let yields: Yields
         let slots: [GreatWorkSlotType]
         let flavours: [Flavor]
     }
@@ -122,6 +128,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: nil,
                                   requiredCivic: nil,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
                                   slots: [],
                                   flavours: [])
 
@@ -145,6 +152,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: .irrigation,
                                   requiredCivic: nil,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0, housing: 2.0),
                                   slots: [],
                                   flavours: [Flavor(type: .wonder, value: 20), Flavor(type: .growth, value: 20)])
         case .stonehenge:
@@ -158,6 +166,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: .astrology,
                                   requiredCivic: nil,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 2.0),
                                   slots: [],
                                   flavours: [Flavor(type: .wonder, value: 25), Flavor(type: .culture, value: 20)])
         case .templeOfArtemis:
@@ -172,6 +181,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: .archery,
                                   requiredCivic: nil,
                                   amenities: 0.0,
+                                  yields: Yields(food: 4.0, production: 0.0, gold: 0.0, housing: 3.0),
                                   slots: [],
                                   flavours: [Flavor(type: .wonder, value: 20), Flavor(type: .growth, value: 10)])
         case .pyramids:
@@ -185,6 +195,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: .masonry,
                                   requiredCivic: nil,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 2.0),
                                   slots: [],
                                   flavours: [Flavor(type: .wonder, value: 25), Flavor(type: .culture, value: 20)])
         case .oracle:
@@ -201,6 +212,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: nil,
                                   requiredCivic: .mysticism,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 1.0, faith: 1.0),
                                   slots: [],
                                   flavours: [Flavor(type: .wonder, value: 20), Flavor(type: .culture, value: 15)])
 
@@ -217,6 +229,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: .celestialNavigation,
                                   requiredCivic: nil,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 3.0),
                                   slots: [],
                                   flavours: [Flavor(type: .greatPeople, value: 20), Flavor(type: .gold, value: 15), Flavor(type: .navalGrowth, value: 10), Flavor(type: .navalRecon, value: 8)])
         case .greatLibrary:
@@ -232,6 +245,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: nil,
                                   requiredCivic: .recordedHistory,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0, science: 2.0),
                                   slots: [.written, .written],
                                   flavours: [Flavor(type: .science, value: 20), Flavor(type: .greatPeople, value: 15)])
         case .apadana:
@@ -245,6 +259,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: nil,
                                   requiredCivic: .politicalPhilosophy,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
                                   slots: [.any, .any],
                                   flavours: [Flavor(type: .diplomacy, value: 20), Flavor(type: .culture, value: 7),])
         case .colosseum:
@@ -258,6 +273,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: nil,
                                   requiredCivic: .gamesAndRecreation,
                                   amenities: 2.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0, culture: 2.0),
                                   slots: [],
                                   flavours: [Flavor(type: .happiness, value: 20), Flavor(type: .culture, value: 10)])
         case .colossus:
@@ -273,6 +289,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: .shipBuilding,
                                   requiredCivic: nil,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 3.0),
                                   slots: [],
                                   flavours: [Flavor(type: .gold, value: 12), Flavor(type: .naval, value: 14), Flavor(type: .navalRecon, value: 3)])
         case .jebelBarkal:
@@ -287,6 +304,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: .ironWorking,
                                   requiredCivic: nil,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
                                   slots: [],
                                   flavours: [Flavor(type: .religion, value: 12), Flavor(type: .tileImprovement, value: 7),])
         case .mausoleumAtHalicarnassus:
@@ -294,13 +312,14 @@ public enum WonderType: Int, Codable {
             // FIXME It must be built adjacent to a Harbor.
             // FIXME All Great Engineers have an additional charge.
             return WonderTypeData(name: "Mausoleum at Halicarnassus",
-                                  bonuses: ["+1 Civ6Science Science, +1 Civ6Faith Faith, and +1 Civ6Culture Culture on all Coast tiles in this city.",
+                                  bonuses: ["+1 Civ6Science Science, +1 Civ6Faith Faith and +1 Civ6Culture Culture on all Coast tiles in this city.",
                                             "All Great Engineers have an additional charge."],
                                   era: .classical,
                                   productionCost: 400,
                                   requiredTech: nil,
                                   requiredCivic: .defensiveTactics,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0, science: 1.0, faith: 1.0),
                                   slots: [],
                                   flavours: [Flavor(type: .tileImprovement, value: 7), Flavor(type: .science, value: 5), Flavor(type: .religion, value: 5), Flavor(type: .culture, value: 7),])
         case .mahabodhiTemple:
@@ -314,18 +333,20 @@ public enum WonderType: Int, Codable {
                                   requiredTech: nil,
                                   requiredCivic: .theology,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 4.0),
                                   slots: [],
                                   flavours: [Flavor(type: .religion, value: 20), Flavor(type: .greatPeople, value: 7),])
         case .petra:
             // https://civilization.fandom.com/wiki/Petra_(Civ6)
             // FIXME It must be built on Desert or Floodplains without Hills.
             return WonderTypeData(name: "Petra",
-                                  bonuses: ["+2 Civ6Food Food, +2 Civ6Gold Gold, and +1 Civ6Production Production on all Desert tiles for this city (non-Floodplains)."],
+                                  bonuses: ["+2 Civ6Food Food, +2 Civ6Gold Gold and +1 Civ6Production Production on all Desert tiles for this city (non-Floodplains)."],
                                   era: .classical,
                                   productionCost: 400,
                                   requiredTech: .mathematics,
                                   requiredCivic: nil,
                                   amenities: 0.0,
+                                  yields: Yields(food: 2.0, production: 1.0, gold: 2.0),
                                   slots: [],
                                   flavours: [Flavor(type: .tileImprovement, value: 10), Flavor(type: .growth, value: 12), Flavor(type: .gold, value: 10),])
         case .terracottaArmy:
@@ -340,6 +361,7 @@ public enum WonderType: Int, Codable {
                                   requiredTech: .construction,
                                   requiredCivic: nil,
                                   amenities: 0.0,
+                                  yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
                                   slots: [],
                                   flavours: [Flavor(type: .greatPeople, value: 10), Flavor(type: .militaryTraining, value: 7),])
             

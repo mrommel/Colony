@@ -12,7 +12,7 @@ enum WonderError: Error {
     case alreadyBuild
 }
 
-public protocol AbstractWonders: class, Codable {
+public protocol AbstractWonders: AnyObject, Codable {
     
     var city: AbstractCity? { get set }
     
@@ -64,7 +64,7 @@ class Wonders: AbstractWonders {
         if self.wonders.contains(wonder) {
             throw WonderError.alreadyBuild
         }
-        
+
         self.wonders.append(wonder)
     }
 

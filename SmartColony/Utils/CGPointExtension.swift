@@ -62,6 +62,10 @@ func / (point: CGPoint, scalar: CGPoint) -> CGPoint {
     return CGPoint(x: point.x / scalar.x, y: point.y / scalar.y)
 }
 
+func * (point: CGPoint, scalar: CGFloat) -> CGPoint {
+    return CGPoint(x: point.x * scalar, y: point.y * scalar)
+}
+
 func distance(point1: CGPoint, point2: CGPoint) -> CGFloat {
     return CGFloat(hypotf(Float(point1.x) - Float(point2.x), Float(point1.y) - Float(point2.y)))
 }

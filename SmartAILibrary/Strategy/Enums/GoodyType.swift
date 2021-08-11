@@ -22,6 +22,8 @@ enum GoodyCategory {
 // https://civilization.fandom.com/wiki/Tribal_Village_(Civ6)
 public enum GoodyType: Int, Codable {
     
+    case none
+    
     case goldMinorGift
     case goldMediumGift
     case goldMajorGift
@@ -289,6 +291,15 @@ public enum GoodyType: Int, Codable {
                 category: .survivors,
                 minimalTurn: 0,
                 probability: 5
+            )
+            
+        case .none:
+            return GoodyTypeData(
+                name: "None",
+                effect: "",
+                category: .gold,
+                minimalTurn: 0,
+                probability: 0
             )
         }
     }

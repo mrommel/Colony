@@ -9,25 +9,6 @@ import Cocoa
 import SwiftUI
 import SmartAILibrary
 
-class EditorViewModel {
-    
-    typealias MapChangeHandler = (MapModel?) -> Void
-    
-    private var map: MapModel? = nil
-    var mapChanged: MapChangeHandler? = nil
-    
-    func set(map: MapModel?) {
-
-        self.map = map
-        self.mapChanged?(map)
-    }
-    
-    func currentMap() -> MapModel? {
-        
-        return self.map
-    }
-}
-
 class EditorViewController: NSViewController {
     
     let viewModel: EditorViewModel
@@ -42,6 +23,27 @@ class EditorViewController: NSViewController {
             
             if let host = self.view as? NSHostingView<EditorContentView> {
                 host.rootView.set(map: map)
+            }
+        }
+        
+        self.viewModel.showStartLocationsChanged = { option in
+            
+            if let host = self.view as? NSHostingView<EditorContentView> {
+                host.rootView.setShowStartLocations(to: option)
+            }
+        }
+        
+        self.viewModel.showInhabitantsChanged = { option in
+            
+            if let host = self.view as? NSHostingView<EditorContentView> {
+                host.rootView.setShowInhabitants(to: option)
+            }
+        }
+        
+        self.viewModel.showSupportedPeopleChanged = { option in
+            
+            if let host = self.view as? NSHostingView<EditorContentView> {
+                host.rootView.setShowSupportedPeople(to: option)
             }
         }
     }

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "box-production@0x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

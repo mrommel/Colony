@@ -82,72 +82,15 @@ public enum ResourceType: Int, Codable {
 
     public func name() -> String {
 
-        switch self {
-
-        case .none: return "---"
-
-        case .wheat: return "Wheat"
-        case .rice: return "Rice"
-        case .deer: return "Deer"
-        case .sheep: return "Sheep"
-        case .copper: return "Copper"
-        case .stone: return "Stone"
-        case .bananas: return "Bananas"
-        case .cattle: return "Cattle"
-        case .fish: return "Fish"
-
-            // luxury
-        case .marble: return "Marble"
-        case .gems: return "Gems"
-        case .furs: return "Furs"
-        case .citrus: return "Citrus"
-        case .tea: return "Tea"
-        case .sugar: return "Sugar"
-        case .whales: return "Whales"
-        case .pearls: return "Pearls"
-        case .ivory: return "Ivory"
-        case .wine: return "Wine"
-        case .cotton: return "Cotton"
-        case .dyes: return "Dyes"
-        case .incense: return "Incense"
-        case .silk: return "Silk"
-        case .silver: return "Silver"
-        case .gold: return "Gold"
-        case .spices: return "Spices"
-        case .crab: return "Crab"
-        case .salt: return "Salt"
-        case .cocoa: return "Cocoa"
-
-            // strategic
-        case .horses: return "Horses"
-        case .iron: return "Iron"
-        case .coal: return "Coal"
-        case .oil: return "Oil"
-        case .aluminium: return "Aliminium"
-        case .uranium: return "Uranium"
-        case .niter: return "Niter"
-        }
+        return self.data().name
     }
 
     func usage() -> ResourceUsageType {
 
-        switch self {
-
-        case .none:
-            return .bonus
-
-        case .wheat, .rice, .sheep, .deer, .copper, .stone, .bananas, .cattle, .fish, .crab:
-            return .bonus
-
-        case .gems, .marble, .furs, .citrus, .tea, .sugar, .whales, .pearls, .ivory, .wine, .cotton, .dyes, .incense, .silk, .silver, .gold, .spices, .salt, .cocoa:
-            return .luxury
-
-        case .iron, .horses, .coal, .oil, .aluminium, .uranium, .niter:
-            return .strategic
-        }
+        return self.data().usage
     }
 
-    func yields() -> Yields {
+    public func yields() -> Yields {
 
         switch self {
 
@@ -498,10 +441,12 @@ public enum ResourceType: Int, Codable {
     private struct FeatureData {
 
         let name: String
+        let usage: ResourceUsageType
         let revealTech: TechType?
 
         // placement
         let placementOrder: Int
+        let placementBaseAmount: Int
         let placedOnHills: Bool
         let placedOnRiverSide: Bool
         let placedOnFlatlands: Bool
@@ -516,8 +461,10 @@ public enum ResourceType: Int, Codable {
 
         case .none:
             return FeatureData(name: "None",
+                               usage: .bonus,
                                revealTech: nil,
                                placementOrder: -1,
+                               placementBaseAmount: 0,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -528,8 +475,10 @@ public enum ResourceType: Int, Codable {
             // bonus
         case .wheat:
             return FeatureData(name: "Wheat",
+                               usage: .bonus,
                                revealTech: .pottery,
                                placementOrder: 4,
+                               placementBaseAmount: 18,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -538,8 +487,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.plains])
         case .rice:
             return FeatureData(name: "Rice",
+                               usage: .bonus,
                                revealTech: .pottery,
                                placementOrder: 4,
+                               placementBaseAmount: 14,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -548,8 +499,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass])
         case .deer:
             return FeatureData(name: "Deer",
+                               usage: .bonus,
                                revealTech: .animalHusbandry,
                                placementOrder: 4,
+                               placementBaseAmount: 16,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -558,8 +511,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.tundra])
         case .sheep:
             return FeatureData(name: "Sheep",
+                               usage: .bonus,
                                revealTech: .animalHusbandry,
                                placementOrder: 4,
+                               placementBaseAmount: 20,
                                placedOnHills: true,
                                placedOnRiverSide: true,
                                placedOnFlatlands: false,
@@ -568,8 +523,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains, .desert])
         case .copper:
             return FeatureData(name: "Copper",
+                               usage: .bonus,
                                revealTech: .mining,
                                placementOrder: 4,
+                               placementBaseAmount: 6,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -578,8 +535,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains, .desert, .tundra])
         case .stone:
             return FeatureData(name: "Stone",
+                               usage: .bonus,
                                revealTech: .mining,
                                placementOrder: 4,
+                               placementBaseAmount: 12,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -588,8 +547,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass])
         case .bananas:
             return FeatureData(name: "Bananas",
+                               usage: .bonus,
                                revealTech: .irrigation,
                                placementOrder: 4,
+                               placementBaseAmount: 2,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -598,8 +559,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: []) // only on rainforest feature
         case .cattle:
             return FeatureData(name: "Cattle",
+                               usage: .bonus,
                                revealTech: .animalHusbandry,
                                placementOrder: 4,
+                               placementBaseAmount: 22,
                                placedOnHills: false,
                                placedOnRiverSide: true,
                                placedOnFlatlands: true,
@@ -608,18 +571,22 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass])
         case .fish:
             return FeatureData(name: "Fish",
+                               usage: .bonus,
                                revealTech: .celestialNavigation,
                                placementOrder: 4,
+                               placementBaseAmount: 36,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
-                               placedOnFeatures: [],
+                               placedOnFeatures: [.reef, .lake],
                                placedOnFeatureTerrains: [],
                                placedOnTerrains: [.shore])
         case .crab:
             return FeatureData(name: "Crab",
+                               usage: .bonus,
                                revealTech: .sailing,
                                placementOrder: 4,
+                               placementBaseAmount: 8,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -630,8 +597,10 @@ public enum ResourceType: Int, Codable {
             // luxury
         case .gems:
             return FeatureData(name: "Gems",
+                               usage: .luxury,
                                revealTech: .mining,
                                placementOrder: 3,
+                               placementBaseAmount: 6,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -640,8 +609,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains, .desert, .tundra])
         case .marble:
             return FeatureData(name: "Marble",
+                               usage: .luxury,
                                revealTech: .mining,
                                placementOrder: 3,
+                               placementBaseAmount: 6,
                                placedOnHills: true,
                                placedOnRiverSide: true,
                                placedOnFlatlands: false,
@@ -650,8 +621,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains])
         case .furs:
             return FeatureData(name: "Furs",
+                               usage: .luxury,
                                revealTech: .animalHusbandry,
                                placementOrder: 3,
+                               placementBaseAmount: 12,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -660,8 +633,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.tundra])
         case .citrus:
             return FeatureData(name: "Citrus",
+                               usage: .luxury,
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 2,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -670,8 +645,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains])
         case .tea:
             return FeatureData(name: "Tea",
+                               usage: .luxury,
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 2,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -680,8 +657,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass])
         case .sugar:
             return FeatureData(name: "Sugar",
+                               usage: .luxury,
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 1,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -690,8 +669,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: []) // only on rainforest feature
         case .whales:
             return FeatureData(name: "Whales",
+                               usage: .luxury,
                                revealTech: .sailing,
                                placementOrder: 3,
+                               placementBaseAmount: 6,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -700,8 +681,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.shore])
         case .pearls:
             return FeatureData(name: "Pearls",
+                               usage: .luxury,
                                revealTech: .sailing,
                                placementOrder: 3,
+                               placementBaseAmount: 6,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -710,8 +693,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.shore])
         case .wine:
             return FeatureData(name: "Wine",
+                               usage: .luxury,
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 12,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -720,8 +705,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains])
         case .cotton:
             return FeatureData(name: "Cotton",
+                               usage: .luxury,
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 1,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -730,8 +717,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains])
         case .dyes:
             return FeatureData(name: "Dyes",
+                               usage: .luxury,
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 2,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -740,8 +729,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains]) // only on rainforest
         case .incense:
             return FeatureData(name: "Incense",
+                               usage: .luxury,
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 4,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -750,8 +741,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.plains, .desert])
         case .silk:
             return FeatureData(name: "Silk",
+                               usage: .luxury,
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 1,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -760,8 +753,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains]) // only on forest
         case .silver:
             return FeatureData(name: "Silver",
+                               usage: .luxury,
                                revealTech: .mining,
                                placementOrder: 3,
+                               placementBaseAmount: 10,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -770,8 +765,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.desert, .tundra])
         case .gold:
             return FeatureData(name: "Gold",
+                               usage: .luxury,
                                revealTech: .mining,
                                placementOrder: 3,
+                               placementBaseAmount: 6,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -780,8 +777,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains, .desert])
         case .spices:
             return FeatureData(name: "Spices",
+                               usage: .luxury,
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 4,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -790,8 +789,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains]) // only on rainforest
         case .ivory:
             return FeatureData(name: "Ivory",
+                               usage: .luxury,
                                revealTech: .animalHusbandry,
                                placementOrder: 3,
+                               placementBaseAmount: 4,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -800,8 +801,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.plains, .desert])
         case .salt:
             return FeatureData(name: "Salt",
+                               usage: .luxury,
                                revealTech: .mining,
                                placementOrder: 3,
+                               placementBaseAmount: 2,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -810,8 +813,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.plains, .desert, .tundra])
         case .cocoa:
             return FeatureData(name: "Cocoa",
+                               usage: .luxury,
                                revealTech: .irrigation,
                                placementOrder: 3,
+                               placementBaseAmount: 2,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -822,8 +827,10 @@ public enum ResourceType: Int, Codable {
             // strategic
         case .iron:
             return FeatureData(name: "Iron",
+                               usage: .strategic,
                                revealTech: .bronzeWorking,
                                placementOrder: 0,
+                               placementBaseAmount: 12,
                                placedOnHills: false,
                                placedOnRiverSide: true,
                                placedOnFlatlands: true,
@@ -832,8 +839,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains, .desert, .tundra, .snow])
         case .horses:
             return FeatureData(name: "Horses",
+                               usage: .strategic,
                                revealTech: .animalHusbandry,
                                placementOrder: 1,
+                               placementBaseAmount: 14,
                                placedOnHills: false,
                                placedOnRiverSide: true,
                                placedOnFlatlands: true,
@@ -842,8 +851,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains, .tundra])
         case .coal:
             return FeatureData(name: "Coal",
+                               usage: .strategic,
                                revealTech: .industrialization,
                                placementOrder: 2,
+                               placementBaseAmount: 10,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -852,8 +863,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains])
         case .aluminium:
             return FeatureData(name: "Aluminium",
+                               usage: .strategic,
                                revealTech: .radio,
                                placementOrder: 2,
+                               placementBaseAmount: 8,
                                placedOnHills: true,
                                placedOnRiverSide: false,
                                placedOnFlatlands: false,
@@ -862,8 +875,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.plains, .desert])
         case .uranium:
             return FeatureData(name: "Uranium",
+                               usage: .strategic,
                                revealTech: .combinedArms,
                                placementOrder: 2,
+                               placementBaseAmount: 4,
                                placedOnHills: false,
                                placedOnRiverSide: true,
                                placedOnFlatlands: true,
@@ -872,8 +887,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains, .desert, .tundra, .snow])
         case .niter:
             return FeatureData(name: "Niter",
+                               usage: .strategic,
                                revealTech: .militaryEngineering,
                                placementOrder: 2,
+                               placementBaseAmount: 8,
                                placedOnHills: false,
                                placedOnRiverSide: false,
                                placedOnFlatlands: true,
@@ -882,8 +899,10 @@ public enum ResourceType: Int, Codable {
                                placedOnTerrains: [.grass, .plains, .desert, .tundra])
         case .oil:
             return FeatureData(name: "Oil",
+                               usage: .strategic,
                                revealTech: .refining,
                                placementOrder: 2,
+                               placementBaseAmount: 8,
                                placedOnHills: false,
                                placedOnRiverSide: true,
                                placedOnFlatlands: true,
@@ -931,56 +950,16 @@ public enum ResourceType: Int, Codable {
 
     // for standard map size
     func baseAmount() -> Int {
-
-        switch self {
-
-        case .none: return -1
-
-        case .iron: return 12
-
-        case .horses: return 14
-
-        case .coal: return 10
-        case .oil: return 8
-        case .aluminium: return 8
-        case .uranium: return 4
-        case .niter: return 8
-
-        case .marble: return 6
-        case .furs: return 12
-        case .citrus: return 2
-        case .tea: return 2
-        case .sugar: return 1
-        case .wine: return 12
-        case .incense: return 4
-        case .cotton: return 1
-        case .silk: return 1
-        case .spices: return 4
-        case .dyes: return 1
-        case .ivory: return 4
-        case .fish: return 24
-        case .crab: return 8
-        case .salt: return 2
-
-        case .wheat: return 18
-        case .rice: return 12
-        case .deer: return 16
-        case .sheep: return 20
-        case .copper: return 4
-        case .stone: return 12
-        case .bananas: return 2
-        case .cocoa: return 2
-        case .cattle: return 22
-        case .gems: return 6
-        case .silver: return 10
-        case .gold: return 6
-        case .pearls: return 6
-        case .whales: return 6
-        }
+        
+        return self.data().placementBaseAmount
     }
 
     func absoluteVarPercent() -> Int {
 
+        if self == .fish {
+            return 10
+        }
+        
         return 25
     }
 }

@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:f45a4c75850fa92c850a3471c3714ece:26ca08db3506c5f2ad4930ba2a95e8be:26587809941652e149de125799090315$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas texture="scout.png" width="863" height="863">
+  
+<!-- Define the unit type-->
+<unit id ="scout">
+    
+  <!--Attack Action-->
+  <action enum ="attack" speed="150">
+    <direction enum="south">
+      <sprite n="aldeano_attack_bow/000_mVillager_attack_bow.bmp" x="1" y="1" w="44" h="47" pX="0.5" pY="0.765957"/>
+      <sprite n="aldeano_attack_bow/001_mVillager_attack_bow.bmp" x="47" y="1" w="43" h="46" pX="0.55814" pY="0.76087"/>
+      <sprite n="aldeano_attack_bow/002_mVillager_attack_bow.bmp" x="92" y="1" w="42" h="44" pX="0.571429" pY="0.795455"/>
+      <sprite n="aldeano_attack_bow/003_mVillager_attack_bow.bmp" x="136" y="1" w="39" h="45" pX="0.564103" pY="0.8"/>
+      <sprite n="aldeano_attack_bow/004_mVillager_attack_bow.bmp" x="177" y="1" w="35" h="48" pX="0.514286" pY="0.791667"/>
+      <sprite n="aldeano_attack_bow/005_mVillager_attack_bow.bmp" x="214" y="1" w="30" h="51" pX="0.466667" pY="0.803922"/>
+      <sprite n="aldeano_attack_bow/006_mVillager_attack_bow.bmp" x="246" y="1" w="24" h="49" pX="0.5" pY="0.816327"/>
+      <sprite n="aldeano_attack_bow/007_mVillager_attack_bow.bmp" x="272" y="1" w="20" h="52" pX="0.65" pY="0.75"/>
+      <sprite n="aldeano_attack_bow/008_mVillager_attack_bow.bmp" x="294" y="1" w="19" h="50" pX="0.631579" pY="0.74"/>
+      <sprite n="aldeano_attack_bow/009_mVillager_attack_bow.bmp" x="315" y="1" w="16" h="50" pX="0.5625" pY="0.76"/>
+      <sprite n="aldeano_attack_bow/010_mVillager_attack_bow.bmp" x="333" y="1" w="19" h="50" pX="0.526316" pY="0.82"/>
+      <sprite n="aldeano_attack_bow/011_mVillager_attack_bow.bmp" x="354" y="1" w="22" h="48" pX="0.454545" pY="0.875"/>
+      <sprite n="aldeano_attack_bow/012_mVillager_attack_bow.bmp" x="378" y="1" w="23" h="50" pX="0.608696" pY="0.88"/>
+      <sprite n="aldeano_attack_bow/013_mVillager_attack_bow.bmp" x="403" y="1" w="30" h="47" pX="0.566667" pY="0.829787"/>
+      <sprite n="aldeano_attack_bow/014_mVillager_attack_bow.bmp" x="435" y="1" w="41" h="45" pX="0.512195" pY="0.822222"/>
+    </direction>
+
+    <direction enum="south-west">
+      <sprite n="aldeano_attack_bow/015_mVillager_attack_bow.bmp" x="478" y="1" w="34" h="46" pX="0.647059" pY="0.782609"/>
+      <sprite n="aldeano_attack_bow/016_mVillager_attack_bow.bmp" x="514" y="1" w="31" h="44" pX="0.709677" pY="0.818182"/>
+      <sprite n="aldeano_attack_bow/017_mVillager_attack_bow.bmp" x="547" y="1" w="32" h="43" pX="0.71875" pY="0.860465"/>
+      <sprite n="aldeano_attack_bow/018_mVillager_attack_bow.bmp" x="581" y="1" w="34" h="47" pX="0.705882" pY="0.659574"/>
+      <sprite n="aldeano_attack_bow/019_mVillager_attack_bow.bmp" x="617" y="1" w="32" h="52" pX="0.6875" pY="0.846154"/>
+      <sprite n="aldeano_attack_bow/020_mVillager_attack_bow.bmp" x="651" y="1" w="34" h="54" pX="0.735294" pY="0.851852"/>
+      <sprite n="aldeano_attack_bow/021_mVillager_attack_bow.bmp" x="687" y="1" w="39" h="53" pX="0.769231" pY="0.849057"/>
+      <sprite n="aldeano_attack_bow/022_mVillager_attack_bow.bmp" x="728" y="1" w="39" h="50" pX="0.769231" pY="0.86"/>
+      <sprite n="aldeano_attack_bow/023_mVillager_attack_bow.bmp" x="769" y="1" w="38" h="50" pX="0.763158" pY="0.82"/>
+      <sprite n="aldeano_attack_bow/024_mVillager_attack_bow.bmp" x="809" y="1" w="32" h="51" pX="0.71875" pY="0.803922"/>
+      <sprite n="aldeano_attack_bow/025_mVillager_attack_bow.bmp" x="1" y="57" w="28" h="51" pX="0.642857" pY="0.803922"/>
+      <sprite n="aldeano_attack_bow/026_mVillager_attack_bow.bmp" x="31" y="57" w="26" h="48" pX="0.538462" pY="0.854167"/>
+      <sprite n="aldeano_attack_bow/027_mVillager_attack_bow.bmp" x="59" y="57" w="20" h="49" pX="0.55" pY="0.877551"/>
+      <sprite n="aldeano_attack_bow/028_mVillager_attack_bow.bmp" x="81" y="57" w="27" h="49" pX="0.666667" pY="0.897959"/>
+      <sprite n="aldeano_attack_bow/029_mVillager_attack_bow.bmp" x="110" y="57" w="35" h="43" pX="0.742857" pY="0.860465"/>
+    </direction>
+
+    <direction enum="west">
+      <sprite n="aldeano_attack_bow/030_mVillager_attack_bow.bmp" x="147" y="57" w="34" h="42" pX="0.735294" pY="0.880952"/>
+      <sprite n="aldeano_attack_bow/031_mVillager_attack_bow.bmp" x="183" y="57" w="39" h="41" pX="0.717949" pY="0.902439"/>
+      <sprite n="aldeano_attack_bow/032_mVillager_attack_bow.bmp" x="224" y="57" w="43" h="46" pX="0.744186" pY="0.913043"/>
+      <sprite n="aldeano_attack_bow/033_mVillager_attack_bow.bmp" x="269" y="57" w="46" h="51" pX="0.76087" pY="0.901961"/>
+      <sprite n="aldeano_attack_bow/034_mVillager_attack_bow.bmp" x="317" y="57" w="47" h="55" pX="0.787234" pY="0.909091"/>
+      <sprite n="aldeano_attack_bow/035_mVillager_attack_bow.bmp" x="366" y="57" w="46" h="55" pX="0.804348" pY="0.909091"/>
+      <sprite n="aldeano_attack_bow/036_mVillager_attack_bow.bmp" x="414" y="57" w="46" h="55" pX="0.804348" pY="0.909091"/>
+      <sprite n="aldeano_attack_bow/037_mVillager_attack_bow.bmp" x="462" y="57" w="44" h="54" pX="0.795455" pY="0.907407"/>
+      <sprite n="aldeano_attack_bow/038_mVillager_attack_bow.bmp" x="508" y="57" w="42" h="50" pX="0.785714" pY="0.92"/>
+      <sprite n="aldeano_attack_bow/039_mVillager_attack_bow.bmp" x="552" y="57" w="38" h="50" pX="0.763158" pY="0.9"/>
+      <sprite n="aldeano_attack_bow/040_mVillager_attack_bow.bmp" x="592" y="57" w="38" h="50" pX="0.657895" pY="0.9"/>
+      <sprite n="aldeano_attack_bow/041_mVillager_attack_bow.bmp" x="632" y="57" w="40" h="48" pX="0.575" pY="0.895833"/>
+      <sprite n="aldeano_attack_bow/042_mVillager_attack_bow.bmp" x="674" y="57" w="36" h="52" pX="0.555556" pY="0.903846"/>
+      <sprite n="aldeano_attack_bow/043_mVillager_attack_bow.bmp" x="712" y="57" w="32" h="54" pX="0.625" pY="0.925926"/>
+      <sprite n="aldeano_attack_bow/044_mVillager_attack_bow.bmp" x="746" y="57" w="29" h="45" pX="0.655172" pY="0.911111"/>
+    </direction>
+
+    <direction enum="north-west">
+      <sprite n="aldeano_attack_bow/045_mVillager_attack_bow.bmp" x="777" y="57" w="31" h="44" pX="0.709677" pY="0.863636"/>
+      <sprite n="aldeano_attack_bow/046_mVillager_attack_bow.bmp" x="810" y="57" w="34" h="44" pX="0.647059" pY="0.863636"/>
+      <sprite n="aldeano_attack_bow/047_mVillager_attack_bow.bmp" x="1" y="114" w="36" h="47" pX="0.666667" pY="0.87234"/>
+      <sprite n="aldeano_attack_bow/048_mVillager_attack_bow.bmp" x="39" y="114" w="38" h="52" pX="0.710526" pY="0.884615"/>
+      <sprite n="aldeano_attack_bow/049_mVillager_attack_bow.bmp" x="79" y="114" w="38" h="56" pX="0.789474" pY="0.892857"/>
+      <sprite n="aldeano_attack_bow/050_mVillager_attack_bow.bmp" x="119" y="114" w="33" h="58" pX="0.848485" pY="0.896552"/>
+      <sprite n="aldeano_attack_bow/051_mVillager_attack_bow.bmp" x="154" y="114" w="32" h="57" pX="0.84375" pY="0.912281"/>
+      <sprite n="aldeano_attack_bow/052_mVillager_attack_bow.bmp" x="188" y="114" w="30" h="57" pX="0.766667" pY="0.912281"/>
+      <sprite n="aldeano_attack_bow/053_mVillager_attack_bow.bmp" x="220" y="114" w="32" h="56" pX="0.75" pY="0.910714"/>
+      <sprite n="aldeano_attack_bow/054_mVillager_attack_bow.bmp" x="254" y="114" w="29" h="54" pX="0.724138" pY="0.907407"/>
+      <sprite n="aldeano_attack_bow/055_mVillager_attack_bow.bmp" x="285" y="114" w="32" h="56" pX="0.65625" pY="0.892857"/>
+      <sprite n="aldeano_attack_bow/056_mVillager_attack_bow.bmp" x="319" y="114" w="37" h="54" pX="0.567568" pY="0.888889"/>
+      <sprite n="aldeano_attack_bow/057_mVillager_attack_bow.bmp" x="358" y="114" w="36" h="57" pX="0.527778" pY="0.894737"/>
+      <sprite n="aldeano_attack_bow/058_mVillager_attack_bow.bmp" x="396" y="114" w="35" h="60" pX="0.542857" pY="0.9"/>
+      <sprite n="aldeano_attack_bow/059_mVillager_attack_bow.bmp" x="433" y="114" w="29" h="49" pX="0.655172" pY="0.877551"/>
+    </direction>
+
+    <direction enum="north">
+      <sprite n="aldeano_attack_bow/060_mVillager_attack_bow.bmp" x="464" y="114" w="44" h="44" pX="0.5" pY="0.863636"/>
+      <sprite n="aldeano_attack_bow/061_mVillager_attack_bow.bmp" x="510" y="114" w="41" h="44" pX="0.439024" pY="0.863636"/>
+      <sprite n="aldeano_attack_bow/062_mVillager_attack_bow.bmp" x="553" y="114" w="41" h="44" pX="0.414634" pY="0.863636"/>
+      <sprite n="aldeano_attack_bow/063_mVillager_attack_bow.bmp" x="596" y="114" w="39" h="46" pX="0.435897" pY="0.869565"/>
+      <sprite n="aldeano_attack_bow/064_mVillager_attack_bow.bmp" x="637" y="114" w="35" h="52" pX="0.485714" pY="0.884615"/>
+      <sprite n="aldeano_attack_bow/065_mVillager_attack_bow.bmp" x="674" y="114" w="29" h="55" pX="0.517241" pY="0.909091"/>
+      <sprite n="aldeano_attack_bow/066_mVillager_attack_bow.bmp" x="705" y="114" w="24" h="58" pX="0.5" pY="0.913793"/>
+      <sprite n="aldeano_attack_bow/067_mVillager_attack_bow.bmp" x="731" y="114" w="18" h="56" pX="0.444444" pY="0.928571"/>
+      <sprite n="aldeano_attack_bow/068_mVillager_attack_bow.bmp" x="751" y="114" w="16" h="56" pX="0.4375" pY="0.928571"/>
+      <sprite n="aldeano_attack_bow/069_mVillager_attack_bow.bmp" x="769" y="114" w="15" h="56" pX="0.533333" pY="0.928571"/>
+      <sprite n="aldeano_attack_bow/070_mVillager_attack_bow.bmp" x="786" y="114" w="17" h="60" pX="0.529412" pY="0.9"/>
+      <sprite n="aldeano_attack_bow/071_mVillager_attack_bow.bmp" x="805" y="114" w="23" h="62" pX="0.521739" pY="0.870968"/>
+      <sprite n="aldeano_attack_bow/072_mVillager_attack_bow.bmp" x="830" y="114" w="25" h="62" pX="0.48" pY="0.870968"/>
+      <sprite n="aldeano_attack_bow/073_mVillager_attack_bow.bmp" x="1" y="178" w="29" h="58" pX="0.448276" pY="0.896552"/>
+      <sprite n="aldeano_attack_bow/074_mVillager_attack_bow.bmp" x="32" y="178" w="41" h="45" pX="0.487805" pY="0.866667"/>
+    </direction>
+  </action>
+
+  <!--Die Action-->
+  <action enum ="die" speed="150">
+    <direction enum="south">
+      <sprite n="aldeano_die_bow/000_mVillager_die_bow.bmp" x="75" y="178" w="44" h="42" pX="0.477273" pY="0.857143"/>
+      <sprite n="aldeano_die_bow/001_mVillager_die_bow.bmp" x="121" y="178" w="43" h="43" pX="0.44186" pY="0.813953"/>
+      <sprite n="aldeano_die_bow/002_mVillager_die_bow.bmp" x="166" y="178" w="33" h="50" pX="0.454545" pY="0.66"/>
+      <sprite n="aldeano_die_bow/003_mVillager_die_bow.bmp" x="201" y="178" w="37" h="37" pX="0.405405" pY="0.72973"/>
+      <sprite n="aldeano_die_bow/004_mVillager_die_bow.bmp" x="240" y="178" w="43" h="35" pX="0.302326" pY="0.685714"/>
+      <sprite n="aldeano_die_bow/005_mVillager_die_bow.bmp" x="285" y="178" w="45" h="34" pX="0.288889" pY="0.647059"/>
+      <sprite n="aldeano_die_bow/006_mVillager_die_bow.bmp" x="332" y="178" w="48" h="30" pX="0.3125" pY="0.4"/>
+      <sprite n="aldeano_die_bow/007_mVillager_die_bow.bmp" x="382" y="178" w="50" h="26" pX="0.34" pY="0.0384615"/>
+      <sprite n="aldeano_die_bow/008_mVillager_die_bow.bmp" x="434" y="178" w="50" h="31" pX="0.32" pY="0.16129"/>
+      <sprite n="aldeano_die_bow/009_mVillager_die_bow.bmp" x="486" y="178" w="50" h="31" pX="0.34" pY="0.16129"/>
+      <sprite n="aldeano_die_bow/010_mVillager_die_bow.bmp" x="538" y="178" w="50" h="29" pX="0.34" pY="0.0344828"/>
+      <sprite n="aldeano_die_bow/011_mVillager_die_bow.bmp" x="590" y="178" w="50" h="29" pX="0.34" pY="0.0344828"/>
+      <sprite n="aldeano_die_bow/012_mVillager_die_bow.bmp" x="642" y="178" w="49" h="27" pX="0.346939" pY="0.037037"/>
+      <sprite n="aldeano_die_bow/013_mVillager_die_bow.bmp" x="693" y="178" w="49" h="26" pX="0.346939" pY="-0.0769231"/>
+      <sprite n="aldeano_die_bow/014_mVillager_die_bow.bmp" x="744" y="178" w="50" h="26" pX="0.34" pY="-0.0769231"/>
+    </direction>
+
+    <direction enum="south-west">
+      <sprite n="aldeano_die_bow/015_mVillager_die_bow.bmp" x="796" y="178" w="27" h="42" pX="0.666667" pY="0.880952"/>
+      <sprite n="aldeano_die_bow/016_mVillager_die_bow.bmp" x="825" y="178" w="36" h="43" pX="0.666667" pY="0.860465"/>
+      <sprite n="aldeano_die_bow/017_mVillager_die_bow.bmp" x="1" y="238" w="45" h="41" pX="0.622222" pY="0.829268"/>
+      <sprite n="aldeano_die_bow/018_mVillager_die_bow.bmp" x="48" y="238" w="29" h="38" pX="0.62069" pY="0.736842"/>
+      <sprite n="aldeano_die_bow/019_mVillager_die_bow.bmp" x="79" y="238" w="26" h="36" pX="0.730769" pY="0.694444"/>
+      <sprite n="aldeano_die_bow/020_mVillager_die_bow.bmp" x="107" y="238" w="27" h="40" pX="0.703704" pY="0.6"/>
+      <sprite n="aldeano_die_bow/021_mVillager_die_bow.bmp" x="136" y="238" w="35" h="31" pX="0.8" pY="0.516129"/>
+      <sprite n="aldeano_die_bow/022_mVillager_die_bow.bmp" x="173" y="238" w="41" h="24" pX="0.878049" pY="0.25"/>
+      <sprite n="aldeano_die_bow/023_mVillager_die_bow.bmp" x="216" y="238" w="42" h="31" pX="0.904762" pY="0.225806"/>
+      <sprite n="aldeano_die_bow/024_mVillager_die_bow.bmp" x="260" y="238" w="43" h="32" pX="0.906977" pY="0.21875"/>
+      <sprite n="aldeano_die_bow/025_mVillager_die_bow.bmp" x="305" y="238" w="44" h="28" pX="0.909091" pY="0.107143"/>
+      <sprite n="aldeano_die_bow/026_mVillager_die_bow.bmp" x="351" y="238" w="44" h="25" pX="0.909091" pY="0.12"/>
+      <sprite n="aldeano_die_bow/027_mVillager_die_bow.bmp" x="397" y="238" w="44" h="22" pX="0.931818" pY="0.0909091"/>
+      <sprite n="aldeano_die_bow/028_mVillager_die_bow.bmp" x="443" y="238" w="44" h="22" pX="0.931818" pY="0.0909091"/>
+      <sprite n="aldeano_die_bow/029_mVillager_die_bow.bmp" x="489" y="238" w="44" h="21" pX="0.931818" pY="0.047619"/>
+    </direction>
+
+    <direction enum="west">
+      <sprite n="aldeano_die_bow/030_mVillager_die_bow.bmp" x="535" y="238" w="22" h="43" pX="0.590909" pY="0.883721"/>
+      <sprite n="aldeano_die_bow/031_mVillager_die_bow.bmp" x="559" y="238" w="22" h="41" pX="0.772727" pY="0.878049"/>
+      <sprite n="aldeano_die_bow/032_mVillager_die_bow.bmp" x="583" y="238" w="38" h="39" pX="0.842105" pY="0.846154"/>
+      <sprite n="aldeano_die_bow/033_mVillager_die_bow.bmp" x="623" y="238" w="45" h="35" pX="0.844444" pY="0.8"/>
+      <sprite n="aldeano_die_bow/034_mVillager_die_bow.bmp" x="670" y="238" w="40" h="33" pX="0.825" pY="0.787879"/>
+      <sprite n="aldeano_die_bow/035_mVillager_die_bow.bmp" x="712" y="238" w="33" h="39" pX="0.848485" pY="0.74359"/>
+      <sprite n="aldeano_die_bow/036_mVillager_die_bow.bmp" x="747" y="238" w="38" h="38" pX="0.947368" pY="0.684211"/>
+      <sprite n="aldeano_die_bow/037_mVillager_die_bow.bmp" x="787" y="238" w="47" h="28" pX="1.02128" pY="0.535714"/>
+      <sprite n="aldeano_die_bow/038_mVillager_die_bow.bmp" x="1" y="283" w="48" h="30" pX="1.04167" pY="0.466667"/>
+      <sprite n="aldeano_die_bow/039_mVillager_die_bow.bmp" x="51" y="283" w="48" h="29" pX="1.0625" pY="0.448276"/>
+      <sprite n="aldeano_die_bow/040_mVillager_die_bow.bmp" x="101" y="283" w="48" h="27" pX="1.0625" pY="0.444444"/>
+      <sprite n="aldeano_die_bow/041_mVillager_die_bow.bmp" x="151" y="283" w="47" h="22" pX="1.10638" pY="0.5"/>
+      <sprite n="aldeano_die_bow/042_mVillager_die_bow.bmp" x="200" y="283" w="47" h="19" pX="1.10638" pY="0.578947"/>
+      <sprite n="aldeano_die_bow/043_mVillager_die_bow.bmp" x="249" y="283" w="48" h="18" pX="1.10417" pY="0.555556"/>
+      <sprite n="aldeano_die_bow/044_mVillager_die_bow.bmp" x="299" y="283" w="49" h="20" pX="1.10204" pY="0.55"/>
+    </direction>
+
+    <direction enum="north-west">
+      <sprite n="aldeano_die_bow/045_mVillager_die_bow.bmp" x="350" y="283" w="38" h="44" pX="0.657895" pY="0.863636"/>
+      <sprite n="aldeano_die_bow/046_mVillager_die_bow.bmp" x="390" y="283" w="32" h="40" pX="0.75" pY="0.9"/>
+      <sprite n="aldeano_die_bow/047_mVillager_die_bow.bmp" x="424" y="283" w="27" h="40" pX="0.777778" pY="0.875"/>
+      <sprite n="aldeano_die_bow/048_mVillager_die_bow.bmp" x="453" y="283" w="41" h="33" pX="0.878049" pY="0.848485"/>
+      <sprite n="aldeano_die_bow/049_mVillager_die_bow.bmp" x="496" y="283" w="45" h="33" pX="0.888889" pY="0.818182"/>
+      <sprite n="aldeano_die_bow/050_mVillager_die_bow.bmp" x="543" y="283" w="46" h="39" pX="0.869565" pY="0.871795"/>
+      <sprite n="aldeano_die_bow/051_mVillager_die_bow.bmp" x="591" y="283" w="43" h="38" pX="0.953488" pY="0.973684"/>
+      <sprite n="aldeano_die_bow/052_mVillager_die_bow.bmp" x="636" y="283" w="47" h="31" pX="0.93617" pY="0.870968"/>
+      <sprite n="aldeano_die_bow/053_mVillager_die_bow.bmp" x="685" y="283" w="49" h="25" pX="0.979592" pY="0.92"/>
+      <sprite n="aldeano_die_bow/054_mVillager_die_bow.bmp" x="736" y="283" w="49" h="27" pX="1" pY="0.888889"/>
+      <sprite n="aldeano_die_bow/055_mVillager_die_bow.bmp" x="787" y="283" w="51" h="25" pX="1" pY="0.88"/>
+      <sprite n="aldeano_die_bow/056_mVillager_die_bow.bmp" x="1" y="329" w="49" h="25" pX="1" pY="1"/>
+      <sprite n="aldeano_die_bow/057_mVillager_die_bow.bmp" x="52" y="329" w="49" h="24" pX="1.02041" pY="0.916667"/>
+      <sprite n="aldeano_die_bow/058_mVillager_die_bow.bmp" x="103" y="329" w="49" h="24" pX="1.02041" pY="0.916667"/>
+      <sprite n="aldeano_die_bow/059_mVillager_die_bow.bmp" x="154" y="329" w="48" h="25" pX="1" pY="0.88"/>
+    </direction>
+
+    <direction enum="north">
+      <sprite n="aldeano_die_bow/060_mVillager_die_bow.bmp" x="204" y="329" w="44" h="44" pX="0.5" pY="0.863636"/>
+      <sprite n="aldeano_die_bow/061_mVillager_die_bow.bmp" x="250" y="329" w="44" h="39" pX="0.545455" pY="0.897436"/>
+      <sprite n="aldeano_die_bow/062_mVillager_die_bow.bmp" x="296" y="329" w="35" h="40" pX="0.628571" pY="0.925"/>
+      <sprite n="aldeano_die_bow/063_mVillager_die_bow.bmp" x="333" y="329" w="29" h="37" pX="0.482759" pY="0.891892"/>
+      <sprite n="aldeano_die_bow/064_mVillager_die_bow.bmp" x="364" y="329" w="38" h="33" pX="0.631579" pY="0.848485"/>
+      <sprite n="aldeano_die_bow/065_mVillager_die_bow.bmp" x="404" y="329" w="43" h="40" pX="0.697674" pY="0.9"/>
+      <sprite n="aldeano_die_bow/066_mVillager_die_bow.bmp" x="449" y="329" w="46" h="40" pX="0.695652" pY="1.025"/>
+      <sprite n="aldeano_die_bow/067_mVillager_die_bow.bmp" x="497" y="329" w="49" h="32" pX="0.673469" pY="1"/>
+      <sprite n="aldeano_die_bow/068_mVillager_die_bow.bmp" x="548" y="329" w="48" h="26" pX="0.666667" pY="1.07692"/>
+      <sprite n="aldeano_die_bow/069_mVillager_die_bow.bmp" x="598" y="329" w="48" h="28" pX="0.666667" pY="1.07143"/>
+      <sprite n="aldeano_die_bow/070_mVillager_die_bow.bmp" x="648" y="329" w="46" h="27" pX="0.673913" pY="1.03704"/>
+      <sprite n="aldeano_die_bow/071_mVillager_die_bow.bmp" x="696" y="329" w="48" h="27" pX="0.666667" pY="1.03704"/>
+      <sprite n="aldeano_die_bow/072_mVillager_die_bow.bmp" x="746" y="329" w="48" h="27" pX="0.666667" pY="1.03704"/>
+      <sprite n="aldeano_die_bow/073_mVillager_die_bow.bmp" x="796" y="329" w="49" h="27" pX="0.673469" pY="1.03704"/>
+      <sprite n="aldeano_die_bow/074_mVillager_die_bow.bmp" x="1" y="375" w="43" h="28" pX="0.627907" pY="1.03571"/>
+    </direction>
+  </action>
+
+  <!--Disappear Action-->
+  <action enum ="disappear" speed="1500">
+    <direction enum="south">
+      <sprite n="aldeano_dissapear_bow/000_mVillager_dissapear_bow.bmp" x="46" y="375" w="50" h="26" pX="0.34" pY="-0.0769231"/>
+      <sprite n="aldeano_dissapear_bow/001_mVillager_dissapear_bow.bmp" x="98" y="375" w="50" h="25" pX="0.34" pY="-0.08"/>
+      <sprite n="aldeano_dissapear_bow/002_mVillager_dissapear_bow.bmp" x="150" y="375" w="50" h="25" pX="0.34" pY="-0.08"/>
+      <sprite n="aldeano_dissapear_bow/003_mVillager_dissapear_bow.bmp" x="202" y="375" w="47" h="25" pX="0.297872" pY="-0.08"/>
+      <sprite n="aldeano_dissapear_bow/004_mVillager_dissapear_bow.bmp" x="251" y="375" w="30" h="24" pX="0.4" pY="-0.0833333"/>
+    </direction>
+
+    <direction enum="south-west">
+      <sprite n="aldeano_dissapear_bow/005_mVillager_dissapear_bow.bmp" x="283" y="375" w="44" h="24" pX="0.931818" pY="0.0416667"/>
+      <sprite n="aldeano_dissapear_bow/006_mVillager_dissapear_bow.bmp" x="329" y="375" w="41" h="21" pX="1" pY="0.047619"/>
+      <sprite n="aldeano_dissapear_bow/007_mVillager_dissapear_bow.bmp" x="372" y="375" w="41" h="20" pX="1" pY="0.05"/>
+      <sprite n="aldeano_dissapear_bow/008_mVillager_dissapear_bow.bmp" x="415" y="375" w="40" h="20" pX="1" pY="0.05"/>
+      <sprite n="aldeano_dissapear_bow/009_mVillager_dissapear_bow.bmp" x="457" y="375" w="33" h="18" pX="1.21212" pY="0"/>
+    </direction>
+
+    <direction enum="west">
+      <sprite n="aldeano_dissapear_bow/010_mVillager_dissapear_bow.bmp" x="492" y="375" w="49" h="20" pX="1.10204" pY="0.55"/>
+      <sprite n="aldeano_dissapear_bow/011_mVillager_dissapear_bow.bmp" x="543" y="375" w="48" h="20" pX="1.10417" pY="0.55"/>
+      <sprite n="aldeano_dissapear_bow/012_mVillager_dissapear_bow.bmp" x="593" y="375" w="47" h="20" pX="1.10638" pY="0.55"/>
+      <sprite n="aldeano_dissapear_bow/013_mVillager_dissapear_bow.bmp" x="642" y="375" w="44" h="20" pX="1.15909" pY="0.55"/>
+      <sprite n="aldeano_dissapear_bow/014_mVillager_dissapear_bow.bmp" x="688" y="375" w="38" h="12" pX="1.34211" pY="0.583333"/>
+    </direction>
+
+    <direction enum="north-west">
+      <sprite n="aldeano_dissapear_bow/015_mVillager_dissapear_bow.bmp" x="728" y="375" w="48" h="24" pX="1" pY="0.916667"/>
+      <sprite n="aldeano_dissapear_bow/016_mVillager_dissapear_bow.bmp" x="778" y="375" w="48" h="24" pX="1" pY="0.916667"/>
+      <sprite n="aldeano_dissapear_bow/017_mVillager_dissapear_bow.bmp" x="1" y="405" w="48" h="23" pX="1" pY="0.913043"/>
+      <sprite n="aldeano_dissapear_bow/018_mVillager_dissapear_bow.bmp" x="51" y="405" w="48" h="23" pX="1" pY="0.913043"/>
+      <sprite n="aldeano_dissapear_bow/019_mVillager_dissapear_bow.bmp" x="101" y="405" w="39" h="23" pX="1.12821" pY="0.913043"/>
+    </direction>
+
+    <direction enum="north">
+      <sprite n="aldeano_dissapear_bow/020_mVillager_dissapear_bow.bmp" x="142" y="405" w="43" h="28" pX="0.627907" pY="1.03571"/>
+      <sprite n="aldeano_dissapear_bow/021_mVillager_dissapear_bow.bmp" x="187" y="405" w="43" h="27" pX="0.627907" pY="1.03704"/>
+      <sprite n="aldeano_dissapear_bow/022_mVillager_dissapear_bow.bmp" x="232" y="405" w="43" h="27" pX="0.627907" pY="1.03704"/>
+      <sprite n="aldeano_dissapear_bow/023_mVillager_dissapear_bow.bmp" x="277" y="405" w="43" h="27" pX="0.627907" pY="1.03704"/>
+      <sprite n="aldeano_dissapear_bow/024_mVillager_dissapear_bow.bmp" x="322" y="405" w="23" h="27" pX="0.478261" pY="1.07407"/>
+    </direction>
+  </action>
+
+  <!--Farming Action-->
+  <action enum ="farming" speed="150">
+    <direction enum="south">
+      <sprite n="aldeano_farming_bow/000_mVillager_farming_bow.bmp" x="347" y="405" w="28" h="31" pX="0.464286" pY="0.741935"/>
+      <sprite n="aldeano_farming_bow/001_mVillager_farming_bow.bmp" x="377" y="405" w="27" h="34" pX="0.407407" pY="0.676471"/>
+      <sprite n="aldeano_farming_bow/002_mVillager_farming_bow.bmp" x="406" y="405" w="24" h="35" pX="0.416667" pY="0.714286"/>
+      <sprite n="aldeano_farming_bow/003_mVillager_farming_bow.bmp" x="432" y="405" w="25" h="36" pX="0.44" pY="0.75"/>
+      <sprite n="aldeano_farming_bow/004_mVillager_farming_bow.bmp" x="459" y="405" w="25" h="41" pX="0.48" pY="0.756098"/>
+      <sprite n="aldeano_farming_bow/005_mVillager_farming_bow.bmp" x="486" y="405" w="28" h="36" pX="0.428571" pY="0.75"/>
+      <sprite n="aldeano_farming_bow/006_mVillager_farming_bow.bmp" x="516" y="405" w="31" h="34" pX="0.516129" pY="0.617647"/>
+      <sprite n="aldeano_farming_bow/007_mVillager_farming_bow.bmp" x="549" y="405" w="30" h="27" pX="0.533333" pY="0.444444"/>
+      <sprite n="aldeano_farming_bow/008_mVillager_farming_bow.bmp" x="581" y="405" w="34" h="26" pX="0.5" pY="0.5"/>
+      <sprite n="aldeano_farming_bow/009_mVillager_farming_bow.bmp" x="617" y="405" w="35" h="25" pX="0.485714" pY="0.48"/>
+      <sprite n="aldeano_farming_bow/010_mVillager_farming_bow.bmp" x="654" y="405" w="35" h="24" pX="0.485714" pY="0.541667"/>
+      <sprite n="aldeano_farming_bow/011_mVillager_farming_bow.bmp" x="691" y="405" w="34" h="25" pX="0.470588" pY="0.56"/>
+      <sprite n="aldeano_farming_bow/012_mVillager_farming_bow.bmp" x="727" y="405" w="33" h="26" pX="0.484848" pY="0.615385"/>
+      <sprite n="aldeano_farming_bow/013_mVillager_farming_bow.bmp" x="762" y="405" w="31" h="29" pX="0.483871" pY="0.655172"/>
+      <sprite n="aldeano_farming_bow/014_mVillager_farming_bow.bmp" x="795" y="405" w="29" h="30" pX="0.482759" pY="0.733333"/>
+    </direction>
+
+    <direction enum="south-west">
+      <sprite n="aldeano_farming_bow/015_mVillager_farming_bow.bmp" x="826" y="405" w="28" h="29" pX="0.642857" pY="0.689655"/>
+      <sprite n="aldeano_farming_bow/016_mVillager_farming_bow.bmp" x="1" y="448" w="29" h="29" pX="0.689655" pY="0.724138"/>
+      <sprite n="aldeano_farming_bow/017_mVillager_farming_bow.bmp" x="32" y="448" w="24" h="33" pX="0.666667" pY="0.69697"/>
+      <sprite n="aldeano_farming_bow/018_mVillager_farming_bow.bmp" x="58" y="448" w="20" h="39" pX="0.6" pY="0.717949"/>
+      <sprite n="aldeano_farming_bow/019_mVillager_farming_bow.bmp" x="80" y="448" w="20" h="41" pX="0.6" pY="0.756098"/>
+      <sprite n="aldeano_farming_bow/020_mVillager_farming_bow.bmp" x="102" y="448" w="23" h="37" pX="0.608696" pY="0.783784"/>
+      <sprite n="aldeano_farming_bow/021_mVillager_farming_bow.bmp" x="127" y="448" w="31" h="32" pX="0.677419" pY="0.59375"/>
+      <sprite n="aldeano_farming_bow/022_mVillager_farming_bow.bmp" x="160" y="448" w="29" h="26" pX="0.655172" pY="0.5"/>
+      <sprite n="aldeano_farming_bow/023_mVillager_farming_bow.bmp" x="191" y="448" w="30" h="30" pX="0.666667" pY="0.5"/>
+      <sprite n="aldeano_farming_bow/024_mVillager_farming_bow.bmp" x="223" y="448" w="28" h="31" pX="0.642857" pY="0.516129"/>
+      <sprite n="aldeano_farming_bow/025_mVillager_farming_bow.bmp" x="253" y="448" w="26" h="30" pX="0.615385" pY="0.533333"/>
+      <sprite n="aldeano_farming_bow/026_mVillager_farming_bow.bmp" x="281" y="448" w="23" h="28" pX="0.608696" pY="0.535714"/>
+      <sprite n="aldeano_farming_bow/027_mVillager_farming_bow.bmp" x="306" y="448" w="24" h="28" pX="0.583333" pY="0.535714"/>
+      <sprite n="aldeano_farming_bow/028_mVillager_farming_bow.bmp" x="332" y="448" w="24" h="27" pX="0.583333" pY="0.555556"/>
+      <sprite n="aldeano_farming_bow/029_mVillager_farming_bow.bmp" x="358" y="448" w="27" h="29" pX="0.62963" pY="0.655172"/>
+    </direction>
+
+    <direction enum="west">
+      <sprite n="aldeano_farming_bow/030_mVillager_farming_bow.bmp" x="387" y="448" w="28" h="30" pX="0.678571" pY="0.733333"/>
+      <sprite n="aldeano_farming_bow/031_mVillager_farming_bow.bmp" x="417" y="448" w="32" h="31" pX="0.65625" pY="0.741935"/>
+      <sprite n="aldeano_farming_bow/032_mVillager_farming_bow.bmp" x="451" y="448" w="31" h="32" pX="0.645161" pY="0.78125"/>
+      <sprite n="aldeano_farming_bow/033_mVillager_farming_bow.bmp" x="484" y="448" w="28" h="37" pX="0.607143" pY="0.810811"/>
+      <sprite n="aldeano_farming_bow/034_mVillager_farming_bow.bmp" x="514" y="448" w="29" h="39" pX="0.62069" pY="0.820513"/>
+      <sprite n="aldeano_farming_bow/035_mVillager_farming_bow.bmp" x="545" y="448" w="29" h="39" pX="0.586207" pY="0.794872"/>
+      <sprite n="aldeano_farming_bow/036_mVillager_farming_bow.bmp" x="576" y="448" w="35" h="28" pX="0.8" pY="0.75"/>
+      <sprite n="aldeano_farming_bow/037_mVillager_farming_bow.bmp" x="613" y="448" w="34" h="21" pX="0.794118" pY="0.714286"/>
+      <sprite n="aldeano_farming_bow/038_mVillager_farming_bow.bmp" x="649" y="448" w="34" h="24" pX="0.764706" pY="0.625"/>
+      <sprite n="aldeano_farming_bow/039_mVillager_farming_bow.bmp" x="685" y="448" w="32" h="26" pX="0.78125" pY="0.615385"/>
+      <sprite n="aldeano_farming_bow/040_mVillager_farming_bow.bmp" x="719" y="448" w="29" h="24" pX="0.758621" pY="0.666667"/>
+      <sprite n="aldeano_farming_bow/041_mVillager_farming_bow.bmp" x="750" y="448" w="30" h="25" pX="0.766667" pY="0.6"/>
+      <sprite n="aldeano_farming_bow/042_mVillager_farming_bow.bmp" x="782" y="448" w="28" h="24" pX="0.75" pY="0.666667"/>
+      <sprite n="aldeano_farming_bow/043_mVillager_farming_bow.bmp" x="812" y="448" w="30" h="26" pX="0.7" pY="0.692308"/>
+      <sprite n="aldeano_farming_bow/044_mVillager_farming_bow.bmp" x="1" y="491" w="28" h="28" pX="0.642857" pY="0.714286"/>
+    </direction>
+
+    <direction enum="north-west">
+      <sprite n="aldeano_farming_bow/045_mVillager_farming_bow.bmp" x="31" y="491" w="36" h="33" pX="0.583333" pY="0.818182"/>
+      <sprite n="aldeano_farming_bow/046_mVillager_farming_bow.bmp" x="69" y="491" w="35" h="32" pX="0.571429" pY="0.84375"/>
+      <sprite n="aldeano_farming_bow/047_mVillager_farming_bow.bmp" x="106" y="491" w="32" h="33" pX="0.5625" pY="0.848485"/>
+      <sprite n="aldeano_farming_bow/048_mVillager_farming_bow.bmp" x="140" y="491" w="31" h="37" pX="0.645161" pY="0.864865"/>
+      <sprite n="aldeano_farming_bow/049_mVillager_farming_bow.bmp" x="173" y="491" w="31" h="36" pX="0.677419" pY="0.861111"/>
+      <sprite n="aldeano_farming_bow/050_mVillager_farming_bow.bmp" x="206" y="491" w="32" h="39" pX="0.5" pY="0.846154"/>
+      <sprite n="aldeano_farming_bow/051_mVillager_farming_bow.bmp" x="240" y="491" w="38" h="33" pX="0.605263" pY="0.818182"/>
+      <sprite n="aldeano_farming_bow/052_mVillager_farming_bow.bmp" x="280" y="491" w="44" h="30" pX="0.636364" pY="0.8"/>
+      <sprite n="aldeano_farming_bow/053_mVillager_farming_bow.bmp" x="326" y="491" w="44" h="27" pX="0.681818" pY="0.777778"/>
+      <sprite n="aldeano_farming_bow/054_mVillager_farming_bow.bmp" x="372" y="491" w="42" h="27" pX="0.642857" pY="0.777778"/>
+      <sprite n="aldeano_farming_bow/055_mVillager_farming_bow.bmp" x="416" y="491" w="43" h="28" pX="0.627907" pY="0.785714"/>
+      <sprite n="aldeano_farming_bow/056_mVillager_farming_bow.bmp" x="461" y="491" w="42" h="28" pX="0.619048" pY="0.785714"/>
+      <sprite n="aldeano_farming_bow/057_mVillager_farming_bow.bmp" x="505" y="491" w="44" h="29" pX="0.636364" pY="0.793103"/>
+      <sprite n="aldeano_farming_bow/058_mVillager_farming_bow.bmp" x="551" y="491" w="37" h="31" pX="0.594595" pY="0.806452"/>
+      <sprite n="aldeano_farming_bow/059_mVillager_farming_bow.bmp" x="590" y="491" w="39" h="32" pX="0.615385" pY="0.8125"/>
+    </direction>
+
+    <direction enum="north">
+      <sprite n="aldeano_farming_bow/060_mVillager_farming_bow.bmp" x="631" y="491" w="29" h="38" pX="0.586207" pY="0.842105"/>
+      <sprite n="aldeano_farming_bow/061_mVillager_farming_bow.bmp" x="662" y="491" w="30" h="38" pX="0.633333" pY="0.842105"/>
+      <sprite n="aldeano_farming_bow/062_mVillager_farming_bow.bmp" x="694" y="491" w="27" h="39" pX="0.666667" pY="0.820513"/>
+      <sprite n="aldeano_farming_bow/063_mVillager_farming_bow.bmp" x="723" y="491" w="25" h="39" pX="0.64" pY="0.820513"/>
+      <sprite n="aldeano_farming_bow/064_mVillager_farming_bow.bmp" x="750" y="491" w="23" h="39" pX="0.608696" pY="0.820513"/>
+      <sprite n="aldeano_farming_bow/065_mVillager_farming_bow.bmp" x="775" y="491" w="29" h="40" pX="0.62069" pY="0.85"/>
+      <sprite n="aldeano_farming_bow/066_mVillager_farming_bow.bmp" x="806" y="491" w="33" h="38" pX="0.545455" pY="0.868421"/>
+      <sprite n="aldeano_farming_bow/067_mVillager_farming_bow.bmp" x="1" y="533" w="31" h="36" pX="0.516129" pY="0.861111"/>
+      <sprite n="aldeano_farming_bow/068_mVillager_farming_bow.bmp" x="34" y="533" w="36" h="34" pX="0.555556" pY="0.852941"/>
+      <sprite n="aldeano_farming_bow/069_mVillager_farming_bow.bmp" x="72" y="533" w="36" h="35" pX="0.555556" pY="0.857143"/>
+      <sprite n="aldeano_farming_bow/070_mVillager_farming_bow.bmp" x="110" y="533" w="37" h="35" pX="0.567568" pY="0.857143"/>
+      <sprite n="aldeano_farming_bow/071_mVillager_farming_bow.bmp" x="149" y="533" w="37" h="36" pX="0.567568" pY="0.861111"/>
+      <sprite n="aldeano_farming_bow/072_mVillager_farming_bow.bmp" x="188" y="533" w="36" h="36" pX="0.583333" pY="0.861111"/>
+      <sprite n="aldeano_farming_bow/073_mVillager_farming_bow.bmp" x="226" y="533" w="34" h="37" pX="0.588235" pY="0.864865"/>
+      <sprite n="aldeano_farming_bow/074_mVillager_farming_bow.bmp" x="262" y="533" w="32" h="39" pX="0.59375" pY="0.846154"/>
+    </direction>
+  </action>
+
+  <!--Idle Action-->
+  <action enum ="idle" speed="150">
+    <direction enum="south">
+      <sprite n="aldeano_idle_bow/000_mVillager_idle_bow.bmp" x="296" y="533" w="44" h="42" pX="0.5" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/001_mVillager_idle_bow.bmp" x="342" y="533" w="45" h="42" pX="0.488889" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/002_mVillager_idle_bow.bmp" x="389" y="533" w="45" h="42" pX="0.466667" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/003_mVillager_idle_bow.bmp" x="436" y="533" w="45" h="42" pX="0.444444" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/004_mVillager_idle_bow.bmp" x="483" y="533" w="44" h="42" pX="0.431818" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/005_mVillager_idle_bow.bmp" x="529" y="533" w="44" h="42" pX="0.431818" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/006_mVillager_idle_bow.bmp" x="575" y="533" w="43" h="43" pX="0.418605" pY="0.837209"/>
+      <sprite n="aldeano_idle_bow/007_mVillager_idle_bow.bmp" x="620" y="533" w="43" h="42" pX="0.418605" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/008_mVillager_idle_bow.bmp" x="665" y="533" w="43" h="42" pX="0.418605" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/009_mVillager_idle_bow.bmp" x="710" y="533" w="43" h="42" pX="0.418605" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/010_mVillager_idle_bow.bmp" x="755" y="533" w="43" h="42" pX="0.418605" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/011_mVillager_idle_bow.bmp" x="800" y="533" w="43" h="43" pX="0.418605" pY="0.837209"/>
+      <sprite n="aldeano_idle_bow/012_mVillager_idle_bow.bmp" x="1" y="578" w="44" h="42" pX="0.431818" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/013_mVillager_idle_bow.bmp" x="47" y="578" w="46" h="42" pX="0.456522" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/014_mVillager_idle_bow.bmp" x="95" y="578" w="44" h="42" pX="0.477273" pY="0.857143"/>
+    </direction>
+
+    <direction enum="south-west">
+      <sprite n="aldeano_idle_bow/015_mVillager_idle_bow.bmp" x="141" y="578" w="26" h="43" pX="0.653846" pY="0.860465"/>
+      <sprite n="aldeano_idle_bow/016_mVillager_idle_bow.bmp" x="169" y="578" w="29" h="43" pX="0.655172" pY="0.860465"/>
+      <sprite n="aldeano_idle_bow/017_mVillager_idle_bow.bmp" x="200" y="578" w="34" h="42" pX="0.617647" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/018_mVillager_idle_bow.bmp" x="236" y="578" w="37" h="43" pX="0.567568" pY="0.837209"/>
+      <sprite n="aldeano_idle_bow/019_mVillager_idle_bow.bmp" x="275" y="578" w="38" h="43" pX="0.552632" pY="0.837209"/>
+      <sprite n="aldeano_idle_bow/020_mVillager_idle_bow.bmp" x="315" y="578" w="40" h="42" pX="0.55" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/021_mVillager_idle_bow.bmp" x="357" y="578" w="40" h="42" pX="0.55" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/022_mVillager_idle_bow.bmp" x="399" y="578" w="40" h="42" pX="0.55" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/023_mVillager_idle_bow.bmp" x="441" y="578" w="40" h="42" pX="0.55" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/024_mVillager_idle_bow.bmp" x="483" y="578" w="40" h="42" pX="0.55" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/025_mVillager_idle_bow.bmp" x="525" y="578" w="40" h="42" pX="0.55" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/026_mVillager_idle_bow.bmp" x="567" y="578" w="40" h="42" pX="0.55" pY="0.857143"/>
+      <sprite n="aldeano_idle_bow/027_mVillager_idle_bow.bmp" x="609" y="578" w="37" h="43" pX="0.567568" pY="0.837209"/>
+      <sprite n="aldeano_idle_bow/028_mVillager_idle_bow.bmp" x="648" y="578" w="34" h="43" pX="0.617647" pY="0.860465"/>
+      <sprite n="aldeano_idle_bow/029_mVillager_idle_bow.bmp" x="684" y="578" w="28" h="44" pX="0.678571" pY="0.840909"/>
+    </direction>
+
+    <direction enum="west">
+      <sprite n="aldeano_idle_bow/030_mVillager_idle_bow.bmp" x="714" y="578" w="23" h="42" pX="0.608696" pY="0.880952"/>
+      <sprite n="aldeano_idle_bow/031_mVillager_idle_bow.bmp" x="739" y="578" w="22" h="42" pX="0.590909" pY="0.880952"/>
+      <sprite n="aldeano_idle_bow/032_mVillager_idle_bow.bmp" x="763" y="578" w="23" h="47" pX="0.565217" pY="0.787234"/>
+      <sprite n="aldeano_idle_bow/033_mVillager_idle_bow.bmp" x="788" y="578" w="23" h="43" pX="0.565217" pY="0.860465"/>
+      <sprite n="aldeano_idle_bow/034_mVillager_idle_bow.bmp" x="813" y="578" w="23" h="46" pX="0.565217" pY="0.804348"/>
+      <sprite n="aldeano_idle_bow/035_mVillager_idle_bow.bmp" x="838" y="578" w="23" h="42" pX="0.565217" pY="0.880952"/>
+      <sprite n="aldeano_idle_bow/036_mVillager_idle_bow.bmp" x="1" y="627" w="24" h="43" pX="0.583333" pY="0.860465"/>
+      <sprite n="aldeano_idle_bow/037_mVillager_idle_bow.bmp" x="27" y="627" w="24" h="44" pX="0.583333" pY="0.840909"/>
+      <sprite n="aldeano_idle_bow/038_mVillager_idle_bow.bmp" x="53" y="627" w="24" h="45" pX="0.583333" pY="0.822222"/>
+      <sprite n="aldeano_idle_bow/039_mVillager_idle_bow.bmp" x="79" y="627" w="24" h="45" pX="0.583333" pY="0.822222"/>
+      <sprite n="aldeano_idle_bow/040_mVillager_idle_bow.bmp" x="105" y="627" w="23" h="43" pX="0.608696" pY="0.860465"/>
+      <sprite n="aldeano_idle_bow/041_mVillager_idle_bow.bmp" x="130" y="627" w="22" h="42" pX="0.590909" pY="0.880952"/>
+      <sprite n="aldeano_idle_bow/042_mVillager_idle_bow.bmp" x="154" y="627" w="22" h="43" pX="0.590909" pY="0.860465"/>
+      <sprite n="aldeano_idle_bow/043_mVillager_idle_bow.bmp" x="178" y="627" w="22" h="47" pX="0.590909" pY="0.787234"/>
+      <sprite n="aldeano_idle_bow/044_mVillager_idle_bow.bmp" x="202" y="627" w="22" h="42" pX="0.590909" pY="0.880952"/>
+    </direction>
+
+    <direction enum="north-west">
+      <sprite n="aldeano_idle_bow/045_mVillager_idle_bow.bmp" x="226" y="627" w="39" h="44" pX="0.641026" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/046_mVillager_idle_bow.bmp" x="267" y="627" w="36" h="44" pX="0.666667" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/047_mVillager_idle_bow.bmp" x="305" y="627" w="31" h="44" pX="0.709677" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/048_mVillager_idle_bow.bmp" x="338" y="627" w="29" h="44" pX="0.758621" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/049_mVillager_idle_bow.bmp" x="369" y="627" w="26" h="44" pX="0.769231" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/050_mVillager_idle_bow.bmp" x="397" y="627" w="27" h="45" pX="0.777778" pY="0.844444"/>
+      <sprite n="aldeano_idle_bow/051_mVillager_idle_bow.bmp" x="426" y="627" w="25" h="44" pX="0.76" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/052_mVillager_idle_bow.bmp" x="453" y="627" w="24" h="44" pX="0.75" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/053_mVillager_idle_bow.bmp" x="479" y="627" w="24" h="44" pX="0.75" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/054_mVillager_idle_bow.bmp" x="505" y="627" w="24" h="44" pX="0.75" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/055_mVillager_idle_bow.bmp" x="531" y="627" w="24" h="44" pX="0.75" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/056_mVillager_idle_bow.bmp" x="557" y="627" w="25" h="44" pX="0.76" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/057_mVillager_idle_bow.bmp" x="584" y="627" w="28" h="44" pX="0.75" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/058_mVillager_idle_bow.bmp" x="614" y="627" w="31" h="44" pX="0.709677" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/059_mVillager_idle_bow.bmp" x="647" y="627" w="36" h="44" pX="0.666667" pY="0.863636"/>
+    </direction>
+
+    <direction enum="north">
+      <sprite n="aldeano_idle_bow/060_mVillager_idle_bow.bmp" x="685" y="627" w="44" h="44" pX="0.5" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/061_mVillager_idle_bow.bmp" x="731" y="627" w="44" h="44" pX="0.522727" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/062_mVillager_idle_bow.bmp" x="777" y="627" w="44" h="44" pX="0.545455" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/063_mVillager_idle_bow.bmp" x="1" y="676" w="44" h="44" pX="0.568182" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/064_mVillager_idle_bow.bmp" x="47" y="676" w="44" h="44" pX="0.590909" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/065_mVillager_idle_bow.bmp" x="93" y="676" w="43" h="44" pX="0.581395" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/066_mVillager_idle_bow.bmp" x="138" y="676" w="43" h="44" pX="0.604651" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/067_mVillager_idle_bow.bmp" x="183" y="676" w="43" h="44" pX="0.604651" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/068_mVillager_idle_bow.bmp" x="228" y="676" w="43" h="44" pX="0.604651" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/069_mVillager_idle_bow.bmp" x="273" y="676" w="43" h="44" pX="0.604651" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/070_mVillager_idle_bow.bmp" x="318" y="676" w="43" h="44" pX="0.604651" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/071_mVillager_idle_bow.bmp" x="363" y="676" w="42" h="44" pX="0.595238" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/072_mVillager_idle_bow.bmp" x="407" y="676" w="44" h="44" pX="0.568182" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/073_mVillager_idle_bow.bmp" x="453" y="676" w="44" h="44" pX="0.545455" pY="0.863636"/>
+      <sprite n="aldeano_idle_bow/074_mVillager_idle_bow.bmp" x="499" y="676" w="44" h="44" pX="0.522727" pY="0.863636"/>
+    </direction>
+  </action>
+
+  <!--Walk Action-->
+  <action enum ="walk" speed="100">
+    <direction enum="south">
+      <sprite n="aldeano_walk_bow/000_mVillager_walk_bow.bmp" x="545" y="676" w="45" h="43" pX="0.466667" pY="0.860465"/>
+      <sprite n="aldeano_walk_bow/001_mVillager_walk_bow.bmp" x="592" y="676" w="45" h="42" pX="0.466667" pY="0.857143"/>
+      <sprite n="aldeano_walk_bow/002_mVillager_walk_bow.bmp" x="639" y="676" w="45" h="42" pX="0.466667" pY="0.857143"/>
+      <sprite n="aldeano_walk_bow/003_mVillager_walk_bow.bmp" x="686" y="676" w="45" h="43" pX="0.466667" pY="0.860465"/>
+      <sprite n="aldeano_walk_bow/004_mVillager_walk_bow.bmp" x="733" y="676" w="45" h="44" pX="0.466667" pY="0.863636"/>
+      <sprite n="aldeano_walk_bow/005_mVillager_walk_bow.bmp" x="780" y="676" w="44" h="43" pX="0.454545" pY="0.860465"/>
+      <sprite n="aldeano_walk_bow/006_mVillager_walk_bow.bmp" x="1" y="722" w="44" h="43" pX="0.431818" pY="0.860465"/>
+      <sprite n="aldeano_walk_bow/007_mVillager_walk_bow.bmp" x="47" y="722" w="44" h="42" pX="0.431818" pY="0.857143"/>
+      <sprite n="aldeano_walk_bow/008_mVillager_walk_bow.bmp" x="93" y="722" w="44" h="42" pX="0.431818" pY="0.857143"/>
+      <sprite n="aldeano_walk_bow/009_mVillager_walk_bow.bmp" x="139" y="722" w="44" h="42" pX="0.431818" pY="0.857143"/>
+      <sprite n="aldeano_walk_bow/010_mVillager_walk_bow.bmp" x="185" y="722" w="45" h="43" pX="0.444444" pY="0.860465"/>
+      <sprite n="aldeano_walk_bow/011_mVillager_walk_bow.bmp" x="232" y="722" w="44" h="43" pX="0.454545" pY="0.860465"/>
+      <sprite n="aldeano_walk_bow/012_mVillager_walk_bow.bmp" x="278" y="722" w="45" h="43" pX="0.466667" pY="0.860465"/>
+      <sprite n="aldeano_walk_bow/013_mVillager_walk_bow.bmp" x="325" y="722" w="45" h="43" pX="0.466667" pY="0.860465"/>
+      <sprite n="aldeano_walk_bow/014_mVillager_walk_bow.bmp" x="372" y="722" w="45" h="43" pX="0.466667" pY="0.860465"/>
+    </direction>
+
+    <direction enum="south-west">
+      <sprite n="aldeano_walk_bow/015_mVillager_walk_bow.bmp" x="419" y="722" w="33" h="44" pX="0.636364" pY="0.863636"/>
+      <sprite n="aldeano_walk_bow/016_mVillager_walk_bow.bmp" x="454" y="722" w="33" h="43" pX="0.636364" pY="0.860465"/>
+      <sprite n="aldeano_walk_bow/017_mVillager_walk_bow.bmp" x="489" y="722" w="32" h="43" pX="0.65625" pY="0.860465"/>
+      <sprite n="aldeano_walk_bow/018_mVillager_walk_bow.bmp" x="523" y="722" w="32" h="44" pX="0.65625" pY="0.863636"/>
+      <sprite n="aldeano_walk_bow/019_mVillager_walk_bow.bmp" x="557" y="722" w="33" h="44" pX="0.636364" pY="0.863636"/>
+      <sprite n="aldeano_walk_bow/020_mVillager_walk_bow.bmp" x="592" y="722" w="35" h="44" pX="0.6" pY="0.863636"/>
+      <sprite n="aldeano_walk_bow/021_mVillager_walk_bow.bmp" x="629" y="722" w="37" h="43" pX="0.594595" pY="0.860465"/>
+      <sprite n="aldeano_walk_bow/022_mVillager_walk_bow.bmp" x="668" y="722" w="38" h="42" pX="0.578947" pY="0.857143"/>
+      <sprite n="aldeano_walk_bow/023_mVillager_walk_bow.bmp" x="708" y="722" w="38" h="42" pX="0.578947" pY="0.857143"/>
+      <sprite n="aldeano_walk_bow/024_mVillager_walk_bow.bmp" x="748" y="722" w="36" h="42" pX="0.583333" pY="0.857143"/>
+      <sprite n="aldeano_walk_bow/025_mVillager_walk_bow.bmp" x="786" y="722" w="35" h="42" pX="0.6" pY="0.857143"/>
+      <sprite n="aldeano_walk_bow/026_mVillager_walk_bow.bmp" x="823" y="722" w="34" h="44" pX="0.617647" pY="0.840909"/>
+      <sprite n="aldeano_walk_bow/027_mVillager_walk_bow.bmp" x="1" y="768" w="33" h="44" pX="0.636364" pY="0.840909"/>
+      <sprite n="aldeano_walk_bow/028_mVillager_walk_bow.bmp" x="36" y="768" w="33" h="44" pX="0.636364" pY="0.840909"/>
+      <sprite n="aldeano_walk_bow/029_mVillager_walk_bow.bmp" x="71" y="768" w="33" h="43" pX="0.636364" pY="0.860465"/>
+    </direction>
+
+    <direction enum="west">
+      <sprite n="aldeano_walk_bow/030_mVillager_walk_bow.bmp" x="106" y="768" w="26" h="42" pX="0.5" pY="0.904762"/>
+      <sprite n="aldeano_walk_bow/031_mVillager_walk_bow.bmp" x="134" y="768" w="27" h="42" pX="0.481481" pY="0.904762"/>
+      <sprite n="aldeano_walk_bow/032_mVillager_walk_bow.bmp" x="163" y="768" w="26" h="41" pX="0.5" pY="0.926829"/>
+      <sprite n="aldeano_walk_bow/033_mVillager_walk_bow.bmp" x="191" y="768" w="24" h="42" pX="0.541667" pY="0.928571"/>
+      <sprite n="aldeano_walk_bow/034_mVillager_walk_bow.bmp" x="217" y="768" w="23" h="43" pX="0.608696" pY="0.906977"/>
+      <sprite n="aldeano_walk_bow/035_mVillager_walk_bow.bmp" x="242" y="768" w="20" h="42" pX="0.65" pY="0.904762"/>
+      <sprite n="aldeano_walk_bow/036_mVillager_walk_bow.bmp" x="264" y="768" w="24" h="42" pX="0.583333" pY="0.880952"/>
+      <sprite n="aldeano_walk_bow/037_mVillager_walk_bow.bmp" x="290" y="768" w="24" h="42" pX="0.541667" pY="0.880952"/>
+      <sprite n="aldeano_walk_bow/038_mVillager_walk_bow.bmp" x="316" y="768" w="28" h="41" pX="0.5" pY="0.878049"/>
+      <sprite n="aldeano_walk_bow/039_mVillager_walk_bow.bmp" x="346" y="768" w="27" h="41" pX="0.481481" pY="0.878049"/>
+      <sprite n="aldeano_walk_bow/040_mVillager_walk_bow.bmp" x="375" y="768" w="25" h="42" pX="0.52" pY="0.880952"/>
+      <sprite n="aldeano_walk_bow/041_mVillager_walk_bow.bmp" x="402" y="768" w="24" h="42" pX="0.541667" pY="0.880952"/>
+      <sprite n="aldeano_walk_bow/042_mVillager_walk_bow.bmp" x="428" y="768" w="20" h="43" pX="0.65" pY="0.883721"/>
+      <sprite n="aldeano_walk_bow/043_mVillager_walk_bow.bmp" x="450" y="768" w="22" h="42" pX="0.590909" pY="0.904762"/>
+      <sprite n="aldeano_walk_bow/044_mVillager_walk_bow.bmp" x="474" y="768" w="24" h="42" pX="0.541667" pY="0.904762"/>
+    </direction>
+
+    <direction enum="north-west">
+      <sprite n="aldeano_walk_bow/045_mVillager_walk_bow.bmp" x="500" y="768" w="32" h="45" pX="0.71875" pY="0.866667"/>
+      <sprite n="aldeano_walk_bow/046_mVillager_walk_bow.bmp" x="534" y="768" w="33" h="44" pX="0.69697" pY="0.863636"/>
+      <sprite n="aldeano_walk_bow/047_mVillager_walk_bow.bmp" x="569" y="768" w="33" h="45" pX="0.69697" pY="0.866667"/>
+      <sprite n="aldeano_walk_bow/048_mVillager_walk_bow.bmp" x="604" y="768" w="33" h="45" pX="0.69697" pY="0.888889"/>
+      <sprite n="aldeano_walk_bow/049_mVillager_walk_bow.bmp" x="639" y="768" w="32" h="43" pX="0.71875" pY="0.930233"/>
+      <sprite n="aldeano_walk_bow/050_mVillager_walk_bow.bmp" x="673" y="768" w="29" h="43" pX="0.758621" pY="0.906977"/>
+      <sprite n="aldeano_walk_bow/051_mVillager_walk_bow.bmp" x="704" y="768" w="29" h="42" pX="0.758621" pY="0.904762"/>
+      <sprite n="aldeano_walk_bow/052_mVillager_walk_bow.bmp" x="735" y="768" w="30" h="42" pX="0.7" pY="0.880952"/>
+      <sprite n="aldeano_walk_bow/053_mVillager_walk_bow.bmp" x="767" y="768" w="31" h="42" pX="0.677419" pY="0.880952"/>
+      <sprite n="aldeano_walk_bow/054_mVillager_walk_bow.bmp" x="800" y="768" w="33" h="42" pX="0.666667" pY="0.880952"/>
+      <sprite n="aldeano_walk_bow/055_mVillager_walk_bow.bmp" x="1" y="815" w="32" h="42" pX="0.6875" pY="0.904762"/>
+      <sprite n="aldeano_walk_bow/056_mVillager_walk_bow.bmp" x="35" y="815" w="32" h="41" pX="0.71875" pY="0.926829"/>
+      <sprite n="aldeano_walk_bow/057_mVillager_walk_bow.bmp" x="69" y="815" w="31" h="43" pX="0.741935" pY="0.906977"/>
+      <sprite n="aldeano_walk_bow/058_mVillager_walk_bow.bmp" x="102" y="815" w="32" h="44" pX="0.71875" pY="0.886364"/>
+      <sprite n="aldeano_walk_bow/059_mVillager_walk_bow.bmp" x="136" y="815" w="32" h="44" pX="0.71875" pY="0.886364"/>
+    </direction>
+
+    <direction enum="north">
+      <sprite n="aldeano_walk_bow/060_mVillager_walk_bow.bmp" x="170" y="815" w="44" h="47" pX="0.545455" pY="0.851064"/>
+      <sprite n="aldeano_walk_bow/061_mVillager_walk_bow.bmp" x="216" y="815" w="44" h="46" pX="0.545455" pY="0.847826"/>
+      <sprite n="aldeano_walk_bow/062_mVillager_walk_bow.bmp" x="262" y="815" w="44" h="46" pX="0.522727" pY="0.869565"/>
+      <sprite n="aldeano_walk_bow/063_mVillager_walk_bow.bmp" x="308" y="815" w="44" h="44" pX="0.522727" pY="0.909091"/>
+      <sprite n="aldeano_walk_bow/064_mVillager_walk_bow.bmp" x="354" y="815" w="44" h="45" pX="0.545455" pY="0.888889"/>
+      <sprite n="aldeano_walk_bow/065_mVillager_walk_bow.bmp" x="400" y="815" w="45" h="45" pX="0.555556" pY="0.888889"/>
+      <sprite n="aldeano_walk_bow/066_mVillager_walk_bow.bmp" x="447" y="815" w="44" h="44" pX="0.568182" pY="0.886364"/>
+      <sprite n="aldeano_walk_bow/067_mVillager_walk_bow.bmp" x="493" y="815" w="45" h="44" pX="0.577778" pY="0.863636"/>
+      <sprite n="aldeano_walk_bow/068_mVillager_walk_bow.bmp" x="540" y="815" w="43" h="44" pX="0.581395" pY="0.863636"/>
+      <sprite n="aldeano_walk_bow/069_mVillager_walk_bow.bmp" x="585" y="815" w="44" h="45" pX="0.568182" pY="0.844444"/>
+      <sprite n="aldeano_walk_bow/070_mVillager_walk_bow.bmp" x="631" y="815" w="44" h="46" pX="0.568182" pY="0.869565"/>
+      <sprite n="aldeano_walk_bow/071_mVillager_walk_bow.bmp" x="677" y="815" w="45" h="45" pX="0.555556" pY="0.888889"/>
+      <sprite n="aldeano_walk_bow/072_mVillager_walk_bow.bmp" x="724" y="815" w="45" h="44" pX="0.555556" pY="0.909091"/>
+      <sprite n="aldeano_walk_bow/073_mVillager_walk_bow.bmp" x="771" y="815" w="45" h="45" pX="0.555556" pY="0.888889"/>
+      <sprite n="aldeano_walk_bow/074_mVillager_walk_bow.bmp" x="818" y="815" w="44" h="45" pX="0.545455" pY="0.888889"/>
+
+    </direction>
+  </action>
+</unit>
+</TextureAtlas>

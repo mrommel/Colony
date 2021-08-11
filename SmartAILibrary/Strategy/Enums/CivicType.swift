@@ -84,9 +84,12 @@ public enum CivicType: String, Codable {
     case professionalSports
     case rapidDeployment
     case spaceRace
+    
+    // information
+    case globalization
 
 
-    static var all: [CivicType] {
+    public static var all: [CivicType] {
         return [
             // ancient
             .stateWorkforce, .craftsmanship, .codeOfLaws, .earlyEmpire, .foreignTrade, .mysticism, .militaryTradition,
@@ -107,7 +110,10 @@ public enum CivicType: String, Codable {
             .conservation, .massMedia, .mobilization, .capitalism, .ideology, .nuclearProgram, .suffrage, .totalitarianism, .classStruggle,
 
             // atomic
-            .culturalHeritage, .coldWar, .professionalSports, .rapidDeployment, .spaceRace
+            .culturalHeritage, .coldWar, .professionalSports, .rapidDeployment, .spaceRace,
+            
+            // information
+            .globalization
         ]
     }
 
@@ -126,9 +132,9 @@ public enum CivicType: String, Codable {
         return self.data().eurekaDescription
     }
 
-    public func quoteText() -> String {
+    public func quoteTexts() -> [String] {
 
-        return "quote"
+        return self.data().quoteTexts
     }
 
     public func era() -> EraType {
@@ -238,6 +244,7 @@ public enum CivicType: String, Codable {
         let name: String
         let eurekaSummary: String
         let eurekaDescription: String
+        let quoteTexts: [String]
         let era: EraType
         let cost: Int
         let required: [CivicType]
@@ -253,6 +260,7 @@ public enum CivicType: String, Codable {
                 name: "---",
                 eurekaSummary: "---",
                 eurekaDescription: "-",
+                quoteTexts: [],
                 era: .ancient,
                 cost: -1,
                 required: [],
@@ -265,6 +273,7 @@ public enum CivicType: String, Codable {
                 name: "Code of Laws",
                 eurekaSummary: "-",
                 eurekaDescription: "",
+                quoteTexts: ["“It is not wisdom but authority that makes a law.” [NEWLINE]– Thomas Hobbes", "“At his best, man is the noblest of all animals; separated from law and justice he is the worst.” [NEWLINE]– Aristotle"],
                 era: .ancient,
                 cost: 20,
                 required: [],
@@ -272,8 +281,9 @@ public enum CivicType: String, Codable {
         case .stateWorkforce:
             return CivicTypeData(
                 name: "State Workforce",
-                eurekaSummary: "",
+                eurekaSummary: "Build any district.",
                 eurekaDescription: "",
+                quoteTexts: ["“A strong economy begins with a strong, well-educated workforce.“ [NEWLINE]– Bill Owens", "“It is equally important to have a happy and engaged workforce as it is to have a profitable bottom line.“ [NEWLINE]– Vern Dosch "],
                 era: .ancient,
                 cost: 70,
                 required: [.craftsmanship],
@@ -281,8 +291,9 @@ public enum CivicType: String, Codable {
         case .craftsmanship:
             return CivicTypeData(
                 name: "Craftmanship",
-                eurekaSummary: "",
+                eurekaSummary: "Improve 3 tiles.",
                 eurekaDescription: "With the land around our first city developing nicely, we can fine tune our production techniques.",
+                quoteTexts: ["“Without craftsmanship, inspiration is a mere reed shaken in the wind.”[NEWLINE] – Johannes Brahms", "“Skill without imagination is craftsmanship and gives us many useful objects such as wickerwork picnic baskets.” [NEWLINE]– Tom Stoppard"],
                 era: .ancient,
                 cost: 40,
                 required: [.codeOfLaws],
@@ -290,8 +301,9 @@ public enum CivicType: String, Codable {
         case .earlyEmpire:
             return CivicTypeData(
                 name: "Early Empire",
-                eurekaSummary: "",
+                eurekaSummary: "Grow your civilization to at least 6 population.",
                 eurekaDescription: "The growing number of citizens in your lands dream of having an empire.",
+                quoteTexts: [],
                 era: .ancient,
                 cost: 70,
                 required: [.foreignTrade],
@@ -299,8 +311,9 @@ public enum CivicType: String, Codable {
         case .foreignTrade:
             return CivicTypeData(
                 name: "Foreign Trade",
-                eurekaSummary: "",
+                eurekaSummary: "Discover a second Continent.",
                 eurekaDescription: "Having discovered another continent we realize there is a wide world of trading opportunities.",
+                quoteTexts: ["“Every nation lives by exchanging.“[NEWLINE] – Adam Smith", "“That's the positive aspect of trade I suppose. The world gets stirred up together.“[NEWLINE] – Isabel Hoving "],
                 era: .ancient,
                 cost: 40,
                 required: [.codeOfLaws],
@@ -310,6 +323,7 @@ public enum CivicType: String, Codable {
                 name: "Mysticism",
                 eurekaSummary: "",
                 eurekaDescription: "Worship of your pantheon of gods has brought up further questions about spiritual forces in our world.",
+                quoteTexts: [],
                 era: .ancient,
                 cost: 50,
                 required: [.foreignTrade],
@@ -319,6 +333,7 @@ public enum CivicType: String, Codable {
                 name: "Military Tradition",
                 eurekaSummary: "",
                 eurekaDescription: "Your soldiers hope your victory over a Barbarian Outpost is the start of a long line of military successes.",
+                quoteTexts: [],
                 era: .ancient,
                 cost: 50,
                 required: [.craftsmanship],
@@ -330,6 +345,7 @@ public enum CivicType: String, Codable {
                 name: "Defensive Tactics",
                 eurekaSummary: "",
                 eurekaDescription: "Faced with the threat of invasion, your people are ready to come up with innovative defenses.",
+                quoteTexts: [],
                 era: .classical,
                 cost: 175,
                 required: [.gamesAndRecreation, .politicalPhilosophy],
@@ -339,6 +355,7 @@ public enum CivicType: String, Codable {
                 name: "Games and Recreation",
                 eurekaSummary: "",
                 eurekaDescription: "Your new skills in construction will surely help create venues for games and entertainment.",
+                quoteTexts: [],
                 era: .classical,
                 cost: 110,
                 required: [.stateWorkforce],
@@ -348,6 +365,7 @@ public enum CivicType: String, Codable {
                 name: "Political Philosophy",
                 eurekaSummary: "",
                 eurekaDescription: "Your contact with other states has crystallized your ideas on governing your own people.",
+                quoteTexts: [],
                 era: .classical,
                 cost: 110,
                 required: [.stateWorkforce, .earlyEmpire],
@@ -356,6 +374,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Recorded History",
                                  eurekaSummary: "",
                                  eurekaDescription: "With plans to house many scrolls in the libraries of your campuses, your people begin to record the history of your empire.",
+                                 quoteTexts: [],
                                  era: .classical,
                                  cost: 175,
                                  required: [.politicalPhilosophy, .dramaAndPoetry],
@@ -364,6 +383,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Dramaa nd Poetry",
                                  eurekaSummary: "",
                                  eurekaDescription: "The glory of completing a wonder has energized your people. They are writing works to commemorate this great event.",
+                                 quoteTexts: [],
                                  era: .classical,
                                  cost: 110,
                                  required: [.earlyEmpire],
@@ -372,6 +392,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Theology",
                                  eurekaSummary: "",
                                  eurekaDescription: "The formation of a Religion by your Great Prophet inspires deeper thought on the nature of the divine.",
+                                 quoteTexts: [],
                                  era: .classical,
                                  cost: 120,
                                  required: [.dramaAndPoetry, .mysticism],
@@ -380,6 +401,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Military Training",
                                  eurekaSummary: "",
                                  eurekaDescription: "With an Encampment now in place, we can formalize our military training.",
+                                 quoteTexts: [],
                                  era: .classical,
                                  cost: 120,
                                  required: [.militaryTradition, .gamesAndRecreation],
@@ -390,6 +412,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Naval Tradition",
                                  eurekaSummary: "",
                                  eurekaDescription: "Your victory at sea inspires your people to strive to become a naval power.",
+                                 quoteTexts: [],
                                  era: .medieval,
                                  cost: 200,
                                  required: [.defensiveTactics],
@@ -398,6 +421,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Medieval Faires",
                                  eurekaSummary: "",
                                  eurekaDescription: "The increase of commerce through your lands will soon attract a trade fair.",
+                                 quoteTexts: [],
                                  era: .medieval,
                                  cost: 385,
                                  required: [.feudalism],
@@ -406,6 +430,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Guilds",
                                  eurekaSummary: "",
                                  eurekaDescription: "The success of your commercial districts has spurred the growth of trade guilds.",
+                                 quoteTexts: [],
                                  era: .medieval,
                                  cost: 385,
                                  required: [.feudalism, .civilService],
@@ -414,6 +439,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Feudalism",
                                  eurekaSummary: "",
                                  eurekaDescription: "A system of lords and vassals is forming to manage all the farmlands of your empire.",
+                                 quoteTexts: [],
                                  era: .medieval,
                                  cost: 275,
                                  required: [.defensiveTactics],
@@ -422,6 +448,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Civil Service",
                                  eurekaSummary: "",
                                  eurekaDescription: "Your large urban center will soon require a corps of bureaucrats.",
+                                 quoteTexts: [],
                                  era: .medieval,
                                  cost: 275,
                                  required: [.defensiveTactics, .recordedHistory],
@@ -430,6 +457,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Mercenaries",
                                  eurekaSummary: "",
                                  eurekaDescription: "With such a large standing army, you may want to consider adding mercenaries if your army needs to expand further.",
+                                 quoteTexts: [],
                                  era: .medieval,
                                  cost: 290,
                                  required: [.feudalism, .militaryTraining],
@@ -438,6 +466,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Divine Right",
                                  eurekaSummary: "",
                                  eurekaDescription: "Your devout people believe strongly that your rule is a blessing from the divine.",
+                                 quoteTexts: [],
                                  era: .medieval,
                                  cost: 290,
                                  required: [.civilService, .theology],
@@ -448,6 +477,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Humanism",
                                  eurekaSummary: "",
                                  eurekaDescription: "The inspiration provided by your newly-acquired Great Artist is awakening our people to the power of the individual.",
+                                 quoteTexts: [],
                                  era: .renaissance,
                                  cost: 540,
                                  required: [.guilds, .medievalFaires],
@@ -456,6 +486,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Mercantilism",
                                  eurekaSummary: "",
                                  eurekaDescription: "Your new Great Merchant is sharing ideas on how we can get the edge on our economic competitors.",
+                                 quoteTexts: [],
                                  era: .renaissance,
                                  cost: 655,
                                  required: [.humanism],
@@ -464,6 +495,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Enlightenment",
                                  eurekaSummary: "",
                                  eurekaDescription: "The ideas from your great people have inspired intellectual discussion throughout the land.",
+                                 quoteTexts: [],
                                  era: .renaissance,
                                  cost: 655,
                                  required: [.diplomaticService],
@@ -472,6 +504,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Diplomatic Service",
                                  eurekaSummary: "",
                                  eurekaDescription: "The legwork to build an alliance has trained up your first corps of diplomats.",
+                                 quoteTexts: [],
                                  era: .renaissance,
                                  cost: 540,
                                  required: [.guilds],
@@ -480,6 +513,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Reformed Church",
                                  eurekaSummary: "",
                                  eurekaDescription: "The growth of your Religion comes with the danger of schism. Reforming corrupt church practices better happen soon!",
+                                 quoteTexts: [],
                                  era: .renaissance,
                                  cost: 400,
                                  required: [.divineRight],
@@ -488,6 +522,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Exploration",
                                  eurekaSummary: "",
                                  eurekaDescription: "The lessons you have learned from Caravel exploration have led to a new way of governing your people.",
+                                 quoteTexts: [],
                                  era: .renaissance,
                                  cost: 400,
                                  required: [.mercenaries, .medievalFaires],
@@ -498,6 +533,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Civil Engineering",
                                  eurekaSummary: "",
                                  eurekaDescription: "Having constructed so many types of districts, your engineers have become skilled in city construction.",
+                                 quoteTexts: [],
                                  era: .industrial,
                                  cost: 920,
                                  required: [.mercantilism],
@@ -506,6 +542,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Colonialism",
                                  eurekaSummary: "",
                                  eurekaDescription: "Your new knowledge of the heavens is helping your navy navigate and establish a global empire.",
+                                 quoteTexts: [],
                                  era: .industrial,
                                  cost: 725,
                                  required: [.mercantilism],
@@ -514,6 +551,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Nationalism",
                                  eurekaSummary: "",
                                  eurekaDescription: "Your people believe in the just nature of this war.  It has become an issue of national pride for us!",
+                                 quoteTexts: [],
                                  era: .industrial,
                                  cost: 920,
                                  required: [.enlightenment],
@@ -522,6 +560,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Opera and Ballet",
                                  eurekaSummary: "",
                                  eurekaDescription: "The unveiling of a new museum is drawing people to the arts. Perhaps dance and opera are next?",
+                                 quoteTexts: [],
                                  era: .industrial,
                                  cost: 725,
                                  required: [.enlightenment],
@@ -530,6 +569,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Natural History",
                                  eurekaSummary: "",
                                  eurekaDescription: "With a museum now ready to hold your findings, it is time to see what you can discover out in the natural world.",
+                                 quoteTexts: [],
                                  era: .industrial,
                                  cost: 870,
                                  required: [.colonialism],
@@ -538,6 +578,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Urbanization",
                                  eurekaSummary: "",
                                  eurekaDescription: "Your large city is getting overcrowded. It's time to start planning for some suburbs.",
+                                 quoteTexts: [],
                                  era: .industrial,
                                  cost: 1060,
                                  required: [.civilEngineering, .nationalism],
@@ -546,6 +587,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Scorched Earth",
                                  eurekaSummary: "",
                                  eurekaDescription: "Modern warfare is clearly a brutal affair. Your military doctrine is starting to reflect some of these principles of total war.",
+                                 quoteTexts: [],
                                  era: .industrial,
                                  cost: 1060,
                                  required: [.nationalism],
@@ -556,6 +598,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Conservation",
                                  eurekaSummary: "",
                                  eurekaDescription: "The residents of your breathtaking new neighborhood clamor for a plan to conserve all the world’s natural treasures.",
+                                 quoteTexts: [],
                                  era: .modern,
                                  cost: 1255,
                                  required: [.naturalHistory, .urbanization],
@@ -564,6 +607,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "MassMedia",
                                  eurekaSummary: "",
                                  eurekaDescription: "The advent of radio beckons the start of a new era of communication.",
+                                 quoteTexts: [],
                                  era: .modern,
                                  cost: 1410,
                                  required: [.urbanization],
@@ -572,6 +616,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Mobilization",
                                  eurekaSummary: "",
                                  eurekaDescription: "Your military is better organized. Now time to take your force to the world stage.",
+                                 quoteTexts: [],
                                  era: .modern,
                                  cost: 1410,
                                  required: [.urbanization],
@@ -580,6 +625,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Capitalism",
                                  eurekaSummary: "",
                                  eurekaDescription: "With stock exchanges springing up in several cities, investment capital is plentiful and a market economy is ready to emerge.",
+                                 quoteTexts: [],
                                  era: .modern,
                                  cost: 1560,
                                  required: [.massMedia],
@@ -588,6 +634,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Ideology",
                                  eurekaSummary: "",
                                  eurekaDescription: "",
+                                 quoteTexts: [],
                                  era: .modern,
                                  cost: 660,
                                  required: [.massMedia, .mobilization],
@@ -596,6 +643,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Nuclear Program",
                                  eurekaSummary: "",
                                  eurekaDescription: "With a dedicated research lab in place, your initiative to recruit scientists into a nuclear research program can commence.",
+                                 quoteTexts: [],
                                  era: .modern,
                                  cost: 1715,
                                  required: [.ideology],
@@ -604,6 +652,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Suffrage",
                                  eurekaSummary: "",
                                  eurekaDescription: "The women of your empire have clamored for proper sanitation. Having won that battle, they now need the right to vote.",
+                                 quoteTexts: [],
                                  era: .modern,
                                  cost: 1715,
                                  required: [.ideology],
@@ -612,6 +661,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Totalitarianism",
                                  eurekaSummary: "",
                                  eurekaDescription: "The discipline instilled by your military academies is now second nature to your citizens.",
+                                 quoteTexts: [],
                                  era: .modern,
                                  cost: 1715,
                                  required: [.ideology],
@@ -620,6 +670,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Class Struggle",
                                  eurekaSummary: "",
                                  eurekaDescription: "Your factory workers clamor for better working conditions. It is time for the workers of the world to unite!",
+                                 quoteTexts: [],
                                  era: .modern,
                                  cost: 1715,
                                  required: [.ideology],
@@ -630,6 +681,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Cultural Heritage",
                                  eurekaSummary: "",
                                  eurekaDescription: "With a perfectly curated museum, your people's strong cultural heritage is on exhibit for all to see.",
+                                 quoteTexts: [],
                                  era: .atomic,
                                  cost: 1955,
                                  required: [.conservation],
@@ -638,6 +690,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Cold War",
                                  eurekaSummary: "",
                                  eurekaDescription: "The advent of nuclear weaponry will surely change the nature of armed conflict across the globe.",
+                                 quoteTexts: [],
                                  era: .atomic,
                                  cost: 2185,
                                  required: [.ideology],
@@ -646,6 +699,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Professional Sports",
                                  eurekaSummary: "",
                                  eurekaDescription: "Your 4 cites with Entertainment Complexes want to compete in a new professional sports league.",
+                                 quoteTexts: [],
                                  era: .atomic,
                                  cost: 2185,
                                  required: [.ideology],
@@ -654,6 +708,7 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Rapid Deployment",
                                  eurekaSummary: "",
                                  eurekaDescription: "With air bases now spanning the globe, our military is ready to be deployed anywhere in the world at a moment's notice.",
+                                 quoteTexts: [],
                                  era: .atomic,
                                  cost: 2415,
                                  required: [.coldWar],
@@ -662,13 +717,23 @@ public enum CivicType: String, Codable {
             return CivicTypeData(name: "Space Race",
                                  eurekaSummary: "",
                                  eurekaDescription: "The unveiling of your new Spaceport has energized your people to push into space.",
+                                 quoteTexts: [],
                                  era: .atomic,
                                  cost: 2415,
                                  required: [.coldWar],
                                  flavors: [])
-            /* <Replace Language="sv_SE" Tag="LOC_BOOST_TRIGGER_LONGDESC_GLOBALIZATION">
-            <Text>With so many airports in place, the world is truly becoming a smaller place.</Text>
-        </Replace>
+            
+        // information
+        case .globalization:
+            return CivicTypeData(name: "globalization",
+                                 eurekaSummary: "",
+                                 eurekaDescription: "With so many airports in place, the world is truly becoming a smaller place.",
+                                 quoteTexts: ["”It has been said that arguing against globalization is like arguing against the laws of gravity.” [NEWLINE]– Kofi Annan", "”One day there will be no borders, no boundaries, no flags and no countries and the only passport will be the heart.” [NEWLINE]– Carlos Santana"],
+                                 era: .information,
+                                 cost: 2880,
+                                 required: [.rapidDeployment, .spaceRace],
+                                 flavors: [])
+            /*
         <Replace Language="sv_SE" Tag="LOC_BOOST_TRIGGER_LONGDESC_SOCIAL_MEDIA">
             <Text>Your advances in communications technology are allowing people to congregate online.</Text>
         </Replace> */

@@ -18,6 +18,7 @@ Tile size:
 
 ## Map Links
 - https://www.redblobgames.com/grids/hexagons/
+- https://drtardigrade.itch.io/worldhistorysim
 
 ## Content Links
 - units: http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44064&f=0,0,0,0&st=245
@@ -25,6 +26,7 @@ Tile size:
 - https://github.com/DeamonRealm/AgeOfChampions
 - https://github.com/Gedemon/Civ5-DLL
 - https://github.com/wesnoth/wesnoth
+- https://marketplace.roll20.net/browse/set/6327/terrain-hexagons-forest
 
 ## Macos Links
 - https://swiftui-lab.com/a-powerful-combo/

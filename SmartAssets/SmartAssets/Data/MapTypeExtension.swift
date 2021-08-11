@@ -46,19 +46,19 @@ extension MapType {
         switch self {
         
         case .empty:
-            return "MapType_Empty"
+            return "maptype-random"
         case .earth:
-            return "MapType_Earth"
+            return "maptype-earth"
         case .pangaea:
-            return "MapType_Pangaea"
+            return "maptype-pangaea"
         case .continents:
-            return "MapType_Continents"
+            return "maptype-continents"
         case .archipelago:
-            return "MapType_Archipelago"
+            return "maptype-archipelago"
         case .inlandsea:
-            return "MapType_InlandSea"
+            return "maptype-inlandSea"
         case .custom:
-            return "MapType_Custom"
+            return "maptype-random"
         }
     }
 }

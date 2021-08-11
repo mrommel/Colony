@@ -1,0 +1,731 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C9022F822608C19600C6773A /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9022F812608C19600C6773A /* MenuViewModel.swift */; };
+		C9022F882608C2BF00C6773A /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9022F872608C2BF00C6773A /* MainViewModel.swift */; };
+		C9022F8E2608DCA800C6773A /* CreateGameMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9022F8D2608DCA800C6773A /* CreateGameMenuView.swift */; };
+		C9022F982609341300C6773A /* CreateGameMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9022F972609341300C6773A /* CreateGameMenuViewModel.swift */; };
+		C9155153260A5C52003710BE /* GenerateGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155152260A5C52003710BE /* GenerateGameView.swift */; };
+		C9155159260A5C8F003710BE /* GenerateGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9155158260A5C8F003710BE /* GenerateGameViewModel.swift */; };
+		C91D828D2607B6B500DD5AFE /* SmartMacOSUILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C91D828C2607B6B500DD5AFE /* SmartMacOSUILibrary.framework */; };
+		C91D828E2607B6B500DD5AFE /* SmartMacOSUILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C91D828C2607B6B500DD5AFE /* SmartMacOSUILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C91D82922607B79B00DD5AFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91D82912607B79B00DD5AFE /* AppDelegate.swift */; };
+		C91D829D2608791A00DD5AFE /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91D829C2608791A00DD5AFE /* MenuView.swift */; };
+		C91D82AB26087CE400DD5AFE /* SmartAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C91D82AA26087CE400DD5AFE /* SmartAssets.framework */; };
+		C91D82AC26087CE400DD5AFE /* SmartAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C91D82AA26087CE400DD5AFE /* SmartAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C94AD87D2626BB7000836BDC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C94AD87C2626BB7000836BDC /* Credits.rtf */; };
+		C9855D672631450800468ED0 /* GameCommandsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D662631450800468ED0 /* GameCommandsModel.swift */; };
+		C9855D6B2631452200468ED0 /* GameCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9855D6A2631452200468ED0 /* GameCommands.swift */; };
+		C99EA75D26BD945C006FAA40 /* PediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EA75C26BD945B006FAA40 /* PediaView.swift */; };
+		C99EA75F26BD9493006FAA40 /* PediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EA75E26BD9493006FAA40 /* PediaViewModel.swift */; };
+		C9F6EB1A260790850052140C /* SmartColonyMacOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */; };
+		C9F6EB1C260790850052140C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB1B260790850052140C /* MainView.swift */; };
+		C9F6EB1E2607908B0052140C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F6EB1D2607908B0052140C /* Assets.xcassets */; };
+		C9F6EB212607908B0052140C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F6EB202607908B0052140C /* Preview Assets.xcassets */; };
+		C9F6EB232607908B0052140C /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB222607908B0052140C /* Persistence.swift */; };
+		C9F6EB262607908B0052140C /* SmartColonyMacOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB242607908B0052140C /* SmartColonyMacOS.xcdatamodeld */; };
+		C9F6EB322607908C0052140C /* SmartColonyMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB312607908C0052140C /* SmartColonyMacOSTests.swift */; };
+		C9F6EB3D2607908C0052140C /* SmartColonyMacOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB3C2607908C0052140C /* SmartColonyMacOSUITests.swift */; };
+		C9F6EB6D26079CB40052140C /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F6EB6C26079CB40052140C /* SmartAILibrary.framework */; };
+		C9F6EB6E26079CB40052140C /* SmartAILibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9F6EB6C26079CB40052140C /* SmartAILibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C9F6EB2E2607908C0052140C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9F6EB0E260790840052140C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9F6EB15260790840052140C;
+			remoteInfo = SmartColonyMacOS;
+		};
+		C9F6EB392607908C0052140C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9F6EB0E260790840052140C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9F6EB15260790840052140C;
+			remoteInfo = SmartColonyMacOS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C9F6EB6F26079CB40052140C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C91D828E2607B6B500DD5AFE /* SmartMacOSUILibrary.framework in Embed Frameworks */,
+				C91D82AC26087CE400DD5AFE /* SmartAssets.framework in Embed Frameworks */,
+				C9F6EB6E26079CB40052140C /* SmartAILibrary.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C9022F812608C19600C6773A /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
+		C9022F872608C2BF00C6773A /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		C9022F8D2608DCA800C6773A /* CreateGameMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGameMenuView.swift; sourceTree = "<group>"; };
+		C9022F972609341300C6773A /* CreateGameMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGameMenuViewModel.swift; sourceTree = "<group>"; };
+		C9155152260A5C52003710BE /* GenerateGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateGameView.swift; sourceTree = "<group>"; };
+		C9155158260A5C8F003710BE /* GenerateGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateGameViewModel.swift; sourceTree = "<group>"; };
+		C91D828C2607B6B500DD5AFE /* SmartMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C91D82912607B79B00DD5AFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C91D829C2608791A00DD5AFE /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		C91D82AA26087CE400DD5AFE /* SmartAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C94AD87C2626BB7000836BDC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		C9855D662631450800468ED0 /* GameCommandsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCommandsModel.swift; sourceTree = "<group>"; };
+		C9855D6A2631452200468ED0 /* GameCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCommands.swift; sourceTree = "<group>"; };
+		C99A88792607A063003B8B73 /* SmartColonyMacOSUILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartColonyMacOSUILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C99EA75C26BD945B006FAA40 /* PediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaView.swift; sourceTree = "<group>"; };
+		C99EA75E26BD9493006FAA40 /* PediaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaViewModel.swift; sourceTree = "<group>"; };
+		C9F6EB16260790850052140C /* SmartColony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartColony.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyMacOSApp.swift; sourceTree = "<group>"; };
+		C9F6EB1B260790850052140C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		C9F6EB1D2607908B0052140C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C9F6EB202607908B0052140C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C9F6EB222607908B0052140C /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		C9F6EB252607908B0052140C /* SmartColonyMacOS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartColonyMacOS.xcdatamodel; sourceTree = "<group>"; };
+		C9F6EB272607908B0052140C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9F6EB282607908B0052140C /* SmartColonyMacOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartColonyMacOS.entitlements; sourceTree = "<group>"; };
+		C9F6EB2D2607908C0052140C /* SmartColonyMacOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartColonyMacOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9F6EB312607908C0052140C /* SmartColonyMacOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyMacOSTests.swift; sourceTree = "<group>"; };
+		C9F6EB332607908C0052140C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9F6EB382607908C0052140C /* SmartColonyMacOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartColonyMacOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9F6EB3C2607908C0052140C /* SmartColonyMacOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyMacOSUITests.swift; sourceTree = "<group>"; };
+		C9F6EB3E2607908C0052140C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9F6EB6C26079CB40052140C /* SmartAILibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartAILibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C9F6EB13260790840052140C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C91D828D2607B6B500DD5AFE /* SmartMacOSUILibrary.framework in Frameworks */,
+				C91D82AB26087CE400DD5AFE /* SmartAssets.framework in Frameworks */,
+				C9F6EB6D26079CB40052140C /* SmartAILibrary.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6EB2A2607908C0052140C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6EB352607908C0052140C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C9022F802608C18600C6773A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C9022F812608C19600C6773A /* MenuViewModel.swift */,
+				C9022F972609341300C6773A /* CreateGameMenuViewModel.swift */,
+				C9155158260A5C8F003710BE /* GenerateGameViewModel.swift */,
+				C9022F872608C2BF00C6773A /* MainViewModel.swift */,
+				C9855D662631450800468ED0 /* GameCommandsModel.swift */,
+				C99EA75E26BD9493006FAA40 /* PediaViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C91D82972607D6C600DD5AFE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C9F6EB1D2607908B0052140C /* Assets.xcassets */,
+				C9F6EB272607908B0052140C /* Info.plist */,
+				C94AD87C2626BB7000836BDC /* Credits.rtf */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C91D82A02608792000DD5AFE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C91D829C2608791A00DD5AFE /* MenuView.swift */,
+				C9022F8D2608DCA800C6773A /* CreateGameMenuView.swift */,
+				C9155152260A5C52003710BE /* GenerateGameView.swift */,
+				C9F6EB1B260790850052140C /* MainView.swift */,
+				C9855D6A2631452200468ED0 /* GameCommands.swift */,
+				C99EA75C26BD945B006FAA40 /* PediaView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C9F6EB0D260790840052140C = {
+			isa = PBXGroup;
+			children = (
+				C9F6EB18260790850052140C /* SmartColonyMacOS */,
+				C9F6EB302607908C0052140C /* SmartColonyMacOSTests */,
+				C9F6EB3B2607908C0052140C /* SmartColonyMacOSUITests */,
+				C9F6EB17260790850052140C /* Products */,
+				C9F6EB6926079CA40052140C /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C9F6EB17260790850052140C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9F6EB16260790850052140C /* SmartColony.app */,
+				C9F6EB2D2607908C0052140C /* SmartColonyMacOSTests.xctest */,
+				C9F6EB382607908C0052140C /* SmartColonyMacOSUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C9F6EB18260790850052140C /* SmartColonyMacOS */ = {
+			isa = PBXGroup;
+			children = (
+				C9022F802608C18600C6773A /* ViewModels */,
+				C91D82A02608792000DD5AFE /* Views */,
+				C91D82972607D6C600DD5AFE /* Resources */,
+				C9F6EB1F2607908B0052140C /* Preview Content */,
+				C9F6EB282607908B0052140C /* SmartColonyMacOS.entitlements */,
+				C9F6EB242607908B0052140C /* SmartColonyMacOS.xcdatamodeld */,
+				C91D82912607B79B00DD5AFE /* AppDelegate.swift */,
+				C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */,
+				C9F6EB222607908B0052140C /* Persistence.swift */,
+			);
+			path = SmartColonyMacOS;
+			sourceTree = "<group>";
+		};
+		C9F6EB1F2607908B0052140C /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C9F6EB202607908B0052140C /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C9F6EB302607908C0052140C /* SmartColonyMacOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				C9F6EB312607908C0052140C /* SmartColonyMacOSTests.swift */,
+				C9F6EB332607908C0052140C /* Info.plist */,
+			);
+			path = SmartColonyMacOSTests;
+			sourceTree = "<group>";
+		};
+		C9F6EB3B2607908C0052140C /* SmartColonyMacOSUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C9F6EB3C2607908C0052140C /* SmartColonyMacOSUITests.swift */,
+				C9F6EB3E2607908C0052140C /* Info.plist */,
+			);
+			path = SmartColonyMacOSUITests;
+			sourceTree = "<group>";
+		};
+		C9F6EB6926079CA40052140C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C91D82AA26087CE400DD5AFE /* SmartAssets.framework */,
+				C91D828C2607B6B500DD5AFE /* SmartMacOSUILibrary.framework */,
+				C99A88792607A063003B8B73 /* SmartColonyMacOSUILibrary.framework */,
+				C9F6EB6C26079CB40052140C /* SmartAILibrary.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C9F6EB15260790840052140C /* SmartColonyMacOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9F6EB412607908C0052140C /* Build configuration list for PBXNativeTarget "SmartColonyMacOS" */;
+			buildPhases = (
+				C9F6EB12260790840052140C /* Sources */,
+				C9F6EB13260790840052140C /* Frameworks */,
+				C9F6EB14260790840052140C /* Resources */,
+				C9F6EB6F26079CB40052140C /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartColonyMacOS;
+			packageProductDependencies = (
+			);
+			productName = SmartColonyMacOS;
+			productReference = C9F6EB16260790850052140C /* SmartColony.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C9F6EB2C2607908C0052140C /* SmartColonyMacOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9F6EB442607908C0052140C /* Build configuration list for PBXNativeTarget "SmartColonyMacOSTests" */;
+			buildPhases = (
+				C9F6EB292607908C0052140C /* Sources */,
+				C9F6EB2A2607908C0052140C /* Frameworks */,
+				C9F6EB2B2607908C0052140C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C9F6EB2F2607908C0052140C /* PBXTargetDependency */,
+			);
+			name = SmartColonyMacOSTests;
+			productName = SmartColonyMacOSTests;
+			productReference = C9F6EB2D2607908C0052140C /* SmartColonyMacOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C9F6EB372607908C0052140C /* SmartColonyMacOSUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9F6EB472607908C0052140C /* Build configuration list for PBXNativeTarget "SmartColonyMacOSUITests" */;
+			buildPhases = (
+				C9F6EB342607908C0052140C /* Sources */,
+				C9F6EB352607908C0052140C /* Frameworks */,
+				C9F6EB362607908C0052140C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C9F6EB3A2607908C0052140C /* PBXTargetDependency */,
+			);
+			name = SmartColonyMacOSUITests;
+			productName = SmartColonyMacOSUITests;
+			productReference = C9F6EB382607908C0052140C /* SmartColonyMacOSUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C9F6EB0E260790840052140C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1250;
+				TargetAttributes = {
+					C9F6EB15260790840052140C = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					C9F6EB2C2607908C0052140C = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = C9F6EB15260790840052140C;
+					};
+					C9F6EB372607908C0052140C = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = C9F6EB15260790840052140C;
+					};
+				};
+			};
+			buildConfigurationList = C9F6EB11260790840052140C /* Build configuration list for PBXProject "SmartColonyMacOS" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C9F6EB0D260790840052140C;
+			productRefGroup = C9F6EB17260790850052140C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C9F6EB15260790840052140C /* SmartColonyMacOS */,
+				C9F6EB2C2607908C0052140C /* SmartColonyMacOSTests */,
+				C9F6EB372607908C0052140C /* SmartColonyMacOSUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C9F6EB14260790840052140C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9F6EB212607908B0052140C /* Preview Assets.xcassets in Resources */,
+				C94AD87D2626BB7000836BDC /* Credits.rtf in Resources */,
+				C9F6EB1E2607908B0052140C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6EB2B2607908C0052140C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6EB362607908C0052140C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C9F6EB12260790840052140C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9F6EB232607908B0052140C /* Persistence.swift in Sources */,
+				C9F6EB1C260790850052140C /* MainView.swift in Sources */,
+				C9855D672631450800468ED0 /* GameCommandsModel.swift in Sources */,
+				C9855D6B2631452200468ED0 /* GameCommands.swift in Sources */,
+				C9022F8E2608DCA800C6773A /* CreateGameMenuView.swift in Sources */,
+				C9022F822608C19600C6773A /* MenuViewModel.swift in Sources */,
+				C9155159260A5C8F003710BE /* GenerateGameViewModel.swift in Sources */,
+				C9155153260A5C52003710BE /* GenerateGameView.swift in Sources */,
+				C9F6EB1A260790850052140C /* SmartColonyMacOSApp.swift in Sources */,
+				C99EA75D26BD945C006FAA40 /* PediaView.swift in Sources */,
+				C9022F982609341300C6773A /* CreateGameMenuViewModel.swift in Sources */,
+				C91D829D2608791A00DD5AFE /* MenuView.swift in Sources */,
+				C91D82922607B79B00DD5AFE /* AppDelegate.swift in Sources */,
+				C9022F882608C2BF00C6773A /* MainViewModel.swift in Sources */,
+				C99EA75F26BD9493006FAA40 /* PediaViewModel.swift in Sources */,
+				C9F6EB262607908B0052140C /* SmartColonyMacOS.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6EB292607908C0052140C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9F6EB322607908C0052140C /* SmartColonyMacOSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6EB342607908C0052140C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9F6EB3D2607908C0052140C /* SmartColonyMacOSUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C9F6EB2F2607908C0052140C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9F6EB15260790840052140C /* SmartColonyMacOS */;
+			targetProxy = C9F6EB2E2607908C0052140C /* PBXContainerItemProxy */;
+		};
+		C9F6EB3A2607908C0052140C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9F6EB15260790840052140C /* SmartColonyMacOS */;
+			targetProxy = C9F6EB392607908C0052140C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C9F6EB3F2607908C0052140C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C9F6EB402607908C0052140C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		C9F6EB422607908C0052140C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SmartColonyMacOS/SmartColonyMacOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"SmartColonyMacOS/Preview Content\"";
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SmartColonyMacOS/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOS;
+				PRODUCT_NAME = SmartColony;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C9F6EB432607908C0052140C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SmartColonyMacOS/SmartColonyMacOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"SmartColonyMacOS/Preview Content\"";
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SmartColonyMacOS/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOS;
+				PRODUCT_NAME = SmartColony;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C9F6EB452607908C0052140C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				INFOPLIST_FILE = SmartColonyMacOSTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartColonyMacOS.app/Contents/MacOS/SmartColonyMacOS";
+			};
+			name = Debug;
+		};
+		C9F6EB462607908C0052140C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				INFOPLIST_FILE = SmartColonyMacOSTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartColonyMacOS.app/Contents/MacOS/SmartColonyMacOS";
+			};
+			name = Release;
+		};
+		C9F6EB482607908C0052140C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				INFOPLIST_FILE = SmartColonyMacOSUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = SmartColonyMacOS;
+			};
+			name = Debug;
+		};
+		C9F6EB492607908C0052140C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				INFOPLIST_FILE = SmartColonyMacOSUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartColonyMacOSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = SmartColonyMacOS;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C9F6EB11260790840052140C /* Build configuration list for PBXProject "SmartColonyMacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F6EB3F2607908C0052140C /* Debug */,
+				C9F6EB402607908C0052140C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9F6EB412607908C0052140C /* Build configuration list for PBXNativeTarget "SmartColonyMacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F6EB422607908C0052140C /* Debug */,
+				C9F6EB432607908C0052140C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9F6EB442607908C0052140C /* Build configuration list for PBXNativeTarget "SmartColonyMacOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F6EB452607908C0052140C /* Debug */,
+				C9F6EB462607908C0052140C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9F6EB472607908C0052140C /* Build configuration list for PBXNativeTarget "SmartColonyMacOSUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F6EB482607908C0052140C /* Debug */,
+				C9F6EB492607908C0052140C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C9F6EB242607908B0052140C /* SmartColonyMacOS.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C9F6EB252607908B0052140C /* SmartColonyMacOS.xcdatamodel */,
+			);
+			currentVersion = C9F6EB252607908B0052140C /* SmartColonyMacOS.xcdatamodel */;
+			path = SmartColonyMacOS.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = C9F6EB0E260790840052140C /* Project object */;
+}

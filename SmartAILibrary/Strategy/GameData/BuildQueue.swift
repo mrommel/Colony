@@ -41,9 +41,14 @@ public class BuildQueue: Codable {
         self.items.append(item)
     }
     
-    func remove(item: BuildableItem) {
+    public func remove(item: BuildableItem) {
     
         self.items.removeAll(where: { $0 == item })
+    }
+    
+    public func remove(at index: Int) {
+        
+        self.items.remove(at: index)
     }
     
     func building(of buildingType: BuildingType) -> BuildableItem? {

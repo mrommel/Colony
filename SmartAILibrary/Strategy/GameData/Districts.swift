@@ -21,7 +21,10 @@ public protocol AbstractDistricts: Codable {
     func hasAny() -> Bool
     func build(district: DistrictType) throws
     
-    func numberOfBuildDsitricts() -> Int 
+    func numberOfBuildDistricts() -> Int
+    
+    func housing() -> Double
+    func updateHousing()
 }
 
 class Districts: AbstractDistricts {
@@ -29,15 +32,20 @@ class Districts: AbstractDistricts {
     enum CodingKeys: String, CodingKey {
         
         case districts
+        case housing
     }
     
     private var districts: [DistrictType]
     internal var city: AbstractCity?
+    
+    private var housingVal: Double
 
     init(city: AbstractCity?) {
     
         self.city = city
         self.districts = []
+        
+        self.housingVal = 0.0
     }
     
     required init(from decoder: Decoder) throws {
@@ -46,6 +54,8 @@ class Districts: AbstractDistricts {
     
         self.city = nil
         self.districts = try container.decode([DistrictType].self, forKey: .districts)
+        
+        self.housingVal = try container.decode(Double.self, forKey: .housing)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -53,6 +63,8 @@ class Districts: AbstractDistricts {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.districts, forKey: .districts)
+        
+        try container.encode(self.housingVal, forKey: .housing)
     }
     
     func has(district: DistrictType) -> Bool {
@@ -74,8 +86,24 @@ class Districts: AbstractDistricts {
         self.districts.append(district)
     }
     
-    func numberOfBuildDsitricts() -> Int {
+    func numberOfBuildDistricts() -> Int {
         
         return self.districts.count
+    }
+    
+    func housing() -> Double {
+        
+        return self.housingVal
+    }
+    
+    func updateHousing() {
+        
+        self.housingVal = 0.0
+        for district in DistrictType.all {
+            
+            if self.has(district: district) {
+                self.housingVal += district.yields().housing
+            }
+        }
     }
 }

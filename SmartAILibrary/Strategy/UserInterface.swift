@@ -12,152 +12,85 @@ public enum PopupType {
     
     case none
     
-    case declareWarQuestion  // ??
-    case barbarianCampCleared
+    case declareWarQuestion(player: AbstractPlayer?)
+    case barbarianCampCleared(location: HexPoint, gold: Int)
     
-    case goodyHutReward
+    case goodyHutReward(goodyType: GoodyType, location: HexPoint)
     
-    case techDiscovered
-    case civicDiscovered
-    case eraEntered
-    case eurekaActivated
+    case techDiscovered(tech: TechType)
+    case civicDiscovered(civic: CivicType)
+    case eraEntered(era: EraType)
+    case eurekaTechActivated(tech: TechType)
+    case eurekaCivicActivated(civic: CivicType)
     
-    case unitTrained
+    case unitTrained(unit: UnitType)
     case buildingBuilt
+    
+    case religionByCityAdopted(religion: ReligionType, location: HexPoint)
+    case religionNewMajority(religion: ReligionType) // TXT_KEY_NOTIFICATION_RELIGION_NEW_PLAYER_MAJORITY
+    case religionCanBuyMissionary // TXT_KEY_NOTIFICATION_ENOUGH_FAITH_FOR_MISSIONARY
+    case canFoundPantheon
+    case religionNeedNewAutomaticFaithSelection // TXT_KEY_NOTIFICATION_NEED_NEW_AUTOMATIC_FAITH_SELECTION
+    case religionEnoughFaithForMissionary // ENOUGH_FAITH_FOR_MISSIONARY
 }
 
-public class PopupData {
+extension PopupType: Equatable {
     
-    public let player: AbstractPlayer?
-    public let money: Int
-    
-    public let featureType: FeatureType
-    public let production: Int
-    public let cityName: String
-    
-    public let tech: TechType
-    public let civic: CivicType
-    
-    public let era: EraType
-    
-    public let goodyType: GoodyType?
-    
-    init(player: AbstractPlayer?) {
+    public static func == (lhs: PopupType, rhs: PopupType) -> Bool {
         
-        self.player = player
-        self.money = -1
+        switch (lhs, rhs) {
+        case (let .declareWarQuestion(lhs_player), let .declareWarQuestion(rhs_player)):
+            return lhs_player?.leader == rhs_player?.leader
+            
+        case (let .barbarianCampCleared(lhs_location, lhs_gold), let .barbarianCampCleared(rhs_location, rhs_gold)):
+            return lhs_location == rhs_location && lhs_gold == rhs_gold
         
-        self.featureType = .none
-        self.production = -1
-        self.cityName = ""
+        case (let .goodyHutReward(lhs_goodyType, lhs_location), let .goodyHutReward(rhs_goodyType, rhs_location)):
+            return lhs_goodyType == rhs_goodyType && lhs_location == rhs_location
         
-        self.tech = .none
-        self.civic = .none
+        case (let .techDiscovered(lhs_tech), let .techDiscovered(rhs_tech)):
+            return lhs_tech == rhs_tech
+            
+        case (let .civicDiscovered(lhs_civic), let .civicDiscovered(rhs_civic)):
+            return lhs_civic == rhs_civic
+            
+        case (let .eraEntered(lhs_era), let .eraEntered(rhs_era)):
+            return lhs_era == rhs_era
+            
+        case (let .eurekaTechActivated(lhs_tech), let .eurekaTechActivated(rhs_tech)):
+            return lhs_tech == rhs_tech
+            
+        case (let .eurekaCivicActivated(lhs_civic), let .eurekaCivicActivated(rhs_civic)):
+            return lhs_civic == rhs_civic
         
-        self.era = .none
+        case (let .unitTrained(lhs_unit), let .unitTrained(rhs_unit)):
+            return lhs_unit == rhs_unit
+            
+        case (.buildingBuilt, .buildingBuilt):
+            return true
         
-        self.goodyType = nil
-    }
-    
-    init(money: Int) {
-        
-        self.player = nil
-        self.money = money
-        
-        self.featureType = .none
-        self.production = -1
-        self.cityName = ""
-        
-        self.tech = .none
-        self.civic = .none
-        
-        self.era = .none
-        
-        self.goodyType = nil
-    }
-    
-    init(featureType: FeatureType, production: Int, cityName: String) {
-        
-        self.player = nil
-        self.money = -1
-        
-        self.featureType = featureType
-        self.production = production
-        self.cityName = cityName
-        
-        self.tech = .none
-        self.civic = .none
-        
-        self.era = .none
-        
-        self.goodyType = nil
-    }
-    
-    init(tech: TechType) {
-        
-        self.player = nil
-        self.money = -1
-        
-        self.featureType = .none
-        self.production = -1
-        self.cityName = ""
-        
-        self.tech = tech
-        self.civic = .none
-        
-        self.era = .none
-        
-        self.goodyType = nil
-    }
-    
-    init(civic: CivicType) {
-        
-        self.player = nil
-        self.money = -1
-        
-        self.featureType = .none
-        self.production = -1
-        self.cityName = ""
-        
-        self.tech = .none
-        self.civic = civic
-        
-        self.era = .none
-        
-        self.goodyType = nil
-    }
-    
-    init(era: EraType) {
-        
-        self.player = nil
-        self.money = -1
-        
-        self.featureType = .none
-        self.production = -1
-        self.cityName = ""
-        
-        self.tech = .none
-        self.civic = .none
-        
-        self.era = era
-        
-        self.goodyType = nil
-    }
-    
-    init(goodyType: GoodyType, for cityName: String = "") {
-        
-        self.player = nil
-        self.money = -1
-        
-        self.featureType = .none
-        self.production = -1
-        self.cityName = cityName
-        
-        self.tech = .none
-        self.civic = .none
-        
-        self.era = .none
-        self.goodyType = goodyType
+        case (let .religionByCityAdopted(lhs_religion, lhs_location), let .religionByCityAdopted(rhs_religion, rhs_location)):
+            return lhs_religion == rhs_religion && lhs_location == rhs_location
+            
+        case (let .religionNewMajority(lhs_religion), let .religionNewMajority(rhs_religion)):
+            return lhs_religion == rhs_religion
+            
+        case (.religionCanBuyMissionary, .religionCanBuyMissionary):
+            return true
+            
+        case (.canFoundPantheon, .canFoundPantheon):
+            return true
+        case (.religionNeedNewAutomaticFaithSelection, .religionNeedNewAutomaticFaithSelection):
+            return true
+        case (.religionEnoughFaithForMissionary, .religionEnoughFaithForMissionary):
+            return true
+            
+        case (.none, .none):
+            return true
+            
+        default:
+            return false
+        }
     }
 }
 
@@ -165,23 +98,27 @@ public enum ScreenType {
     
     case none // map
     
+    case city
+    
+    case techs
+    case civics
+    case treasury
     case interimRanking
     case diplomatic
     
-    case city
-    case techs
-    case civics
-    
-    case treasury
-    case government
-    case governmentPolicies
+    case government // <-- main dialog
     case changePolicies
     case changeGovernment
+    
     case selectPromotion
     case disbandConfirm
     case selectTradeCity
     
+    case cityName
+    
     case menu
+    
+    case selectPantheon
 }
 
 public enum UnitAnimationType {
@@ -190,9 +127,9 @@ public enum UnitAnimationType {
     case unfortify
 }
 
-public protocol UserInterfaceProtocol: class {
+public protocol UserInterfaceDelegate: AnyObject {
     
-    func showPopup(popupType: PopupType, with data: PopupData?)
+    func showPopup(popupType: PopupType)
 
     func showScreen(screenType: ScreenType, city: AbstractCity?, other: AbstractPlayer?, data: DiplomaticData?)
     func showLeaderMessage(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, deal: DiplomaticDeal?, state: DiplomaticRequestState, message: DiplomaticRequestMessage, emotion: LeaderEmotionType)
@@ -213,6 +150,7 @@ public protocol UserInterfaceProtocol: class {
     func select(tech: TechType)
     func select(civic: CivicType)
     
+    // todo - should not be part of the interface protocol
     func askToDisband(unit: AbstractUnit?, completion: @escaping (Bool)->())
     func askForCity(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?)->())
     

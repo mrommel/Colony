@@ -14,7 +14,7 @@ enum CivicError: Error {
     case alreadyDiscovered
 }
 
-public protocol AbstractCivics: class, Codable {
+public protocol AbstractCivics: AnyObject, Codable {
 
     var player: AbstractPlayer? { get set }
     
@@ -342,7 +342,7 @@ class Civics: AbstractCivics {
 
                 // trigger event to user
                 if player.isHuman() {
-                    gameModel?.userInterface?.showPopup(popupType: .civicDiscovered, with: PopupData(civic: currentCivic))
+                    gameModel?.userInterface?.showPopup(popupType: .civicDiscovered(civic: currentCivic))
                 }
 
                 // enter era
@@ -351,7 +351,7 @@ class Civics: AbstractCivics {
                     gameModel?.enter(era: currentCivic.era(), for: player)
                     
                     if player.isHuman() {
-                        gameModel?.userInterface?.showPopup(popupType: .eraEntered, with: PopupData(era: currentCivic.era()))
+                        gameModel?.userInterface?.showPopup(popupType: .eraEntered(era: currentCivic.era()))
                     }
                     
                     player.set(era: currentCivic.era())
@@ -409,7 +409,7 @@ class Civics: AbstractCivics {
         
         // trigger event to user
         if player.isHuman() {
-            gameModel?.userInterface?.showPopup(popupType: .eurekaActivated, with: PopupData(civic: civicType))
+            gameModel?.userInterface?.showPopup(popupType: .eurekaCivicActivated(civic: civicType))
         }
     }
 }

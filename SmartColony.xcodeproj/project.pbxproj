@@ -104,7 +104,6 @@
 		C97BC0CF24C2EEF5008237F6 /* knight.png in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0CD24C2EEF4008237F6 /* knight.png */; };
 		C97BC0D024C2EEF5008237F6 /* knight.xml in Resources */ = {isa = PBXBuildFile; fileRef = C97BC0CE24C2EEF5008237F6 /* knight.xml */; };
 		C97CD39F243A3E9C00FABCC0 /* ResourceLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD39E243A3E9C00FABCC0 /* ResourceLayer.swift */; };
-		C97CD3A1243A3F1200FABCC0 /* TextureUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3A0243A3F1200FABCC0 /* TextureUtils.swift */; };
 		C97CD3A3243A3F3700FABCC0 /* TerrainTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3A2243A3F3700FABCC0 /* TerrainTypeExtension.swift */; };
 		C97CD3A5243A586500FABCC0 /* FeatureTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3A4243A586500FABCC0 /* FeatureTypeExtension.swift */; };
 		C97CD3A7243B00CB00FABCC0 /* ResourceTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD3A6243B00CB00FABCC0 /* ResourceTypeExtension.swift */; };
@@ -379,7 +378,6 @@
 		C97BC0CD24C2EEF4008237F6 /* knight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knight.png; sourceTree = "<group>"; };
 		C97BC0CE24C2EEF5008237F6 /* knight.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = knight.xml; sourceTree = "<group>"; };
 		C97CD39E243A3E9C00FABCC0 /* ResourceLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLayer.swift; sourceTree = "<group>"; };
-		C97CD3A0243A3F1200FABCC0 /* TextureUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureUtils.swift; sourceTree = "<group>"; };
 		C97CD3A2243A3F3700FABCC0 /* TerrainTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainTypeExtension.swift; sourceTree = "<group>"; };
 		C97CD3A4243A586500FABCC0 /* FeatureTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureTypeExtension.swift; sourceTree = "<group>"; };
 		C97CD3A6243B00CB00FABCC0 /* ResourceTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceTypeExtension.swift; sourceTree = "<group>"; };
@@ -440,7 +438,7 @@
 		C9B1D25C2435160800033791 /* ProgressBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarNode.swift; sourceTree = "<group>"; };
 		C9B1D25E2435166700033791 /* MessageBoxButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxButtonNode.swift; sourceTree = "<group>"; };
 		C9B1D2602435177E00033791 /* CGPointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
-		C9B1D262243517D600033791 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
+		C9B1D262243517D600033791 /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SKNodeExtension.swift; path = ../../../SmartColonyMacOSUILibrary/SmartColonyMacOSUILibrary/Views/SKNodeExtension.swift; sourceTree = "<group>"; };
 		C9B1D27424351F3400033791 /* UIParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIParser.swift; sourceTree = "<group>"; };
 		C9B1D27524351F3500033791 /* Dialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		C9B1D27624351F3500033791 /* DialogItemConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialogItemConfiguration.swift; sourceTree = "<group>"; };
@@ -709,7 +707,6 @@
 				C97CD3A6243B00CB00FABCC0 /* ResourceTypeExtension.swift */,
 				C955FBCF246145C300605618 /* ImprovementTypeExtension.swift */,
 				C91B0024243DEE8A00C422C8 /* UnitTypeSprites.swift */,
-				C97CD3A0243A3F1200FABCC0 /* TextureUtils.swift */,
 				C97CD3AD243B669500FABCC0 /* GameObjectAtlas.swift */,
 				C97CD3AF243B685200FABCC0 /* UnitObject.swift */,
 				C9EC4E1A244454F9001A0597 /* CityObject.swift */,
@@ -1332,7 +1329,6 @@
 				C95B3DF824387188002F5A86 /* BottomRightBar.swift in Sources */,
 				C9B1D2362434B10000033791 /* SKSpriteNodeExtension.swift in Sources */,
 				C956BF6824F1B8F4009702B4 /* RouteTypeExtension.swift in Sources */,
-				C97CD3A1243A3F1200FABCC0 /* TextureUtils.swift in Sources */,
 				C9EC4E1B244454F9001A0597 /* CityObject.swift in Sources */,
 				C9B1D25B2434C82F00033791 /* DropdownNode.swift in Sources */,
 				C9EC4E2C2445ADD6001A0597 /* DialogItemType.swift in Sources */,

@@ -108,6 +108,10 @@ public class HexArea: Codable {
         self.points.append(point)
     }
     
+    public func remove(point: HexPoint) {
+        self.points.removeAll(where: { $0 == point})
+    }
+    
     func contains(where predicate: (HexPoint) throws -> Bool) rethrows -> Bool {
         
         return try self.points.contains(where: predicate)

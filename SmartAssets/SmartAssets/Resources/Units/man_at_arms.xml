@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:ddf97290307768c1e58402c2c65fec6b:337e7b42ac57592f86372d9f298cd9e7:678f7b7c6cefdf114abedc62aa96de6c$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas texture="man_at_arms.png" width="714" height="714">
+    
+    <!-- Define the unit type-->
+  <unit id ="man_at_arms">
+    
+        <!-- Attack Action-->
+      <action enum= "attack" speed="203">
+      <direction enum="south">
+    <sprite n="manonarms/Manatarms_attack/000_manatarms_attack.bmp" x="1" y="1" w="26" h="41" pX="0.615385" pY="0.804878"/>
+    <sprite n="manonarms/Manatarms_attack/001_manatarms_attack.bmp" x="29" y="1" w="29" h="42" pX="0.689655" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_attack/002_manatarms_attack.bmp" x="60" y="1" w="28" h="45" pX="0.714286" pY="0.844444"/>
+    <sprite n="manonarms/Manatarms_attack/003_manatarms_attack.bmp" x="90" y="1" w="22" h="52" pX="0.590909" pY="0.865385"/>
+    <sprite n="manonarms/Manatarms_attack/004_manatarms_attack.bmp" x="114" y="1" w="26" h="60" pX="0.692308" pY="0.866667"/>
+    <sprite n="manonarms/Manatarms_attack/005_manatarms_attack.bmp" x="142" y="1" w="43" h="56" pX="0.72093" pY="0.857143"/>
+    <sprite n="manonarms/Manatarms_attack/006_manatarms_attack.bmp" x="187" y="1" w="36" h="51" pX="0.583333" pY="0.588235"/>
+    <sprite n="manonarms/Manatarms_attack/007_manatarms_attack.bmp" x="225" y="1" w="28" h="43" pX="0.285714" pY="0.651163"/>
+    <sprite n="manonarms/Manatarms_attack/008_manatarms_attack.bmp" x="255" y="1" w="30" h="40" pX="0.233333" pY="0.7"/>
+    <sprite n="manonarms/Manatarms_attack/009_manatarms_attack.bmp" x="287" y="1" w="23" h="49" pX="0.391304" pY="0.612245"/>
+    <sprite n="manonarms/Manatarms_attack/010_manatarms_attack.bmp" x="312" y="1" w="26" h="41" pX="0.615385" pY="0.804878"/>
+         </direction>
+        
+         <direction enum="south-west">
+        <sprite n="manonarms/Manatarms_attack/011_manatarms_attack.bmp" x="340" y="1" w="31" h="42" pX="0.548387" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_attack/012_manatarms_attack.bmp" x="373" y="1" w="32" h="42" pX="0.53125" pY="0.833333"/>
+    <sprite n="manonarms/Manatarms_attack/013_manatarms_attack.bmp" x="407" y="1" w="29" h="47" pX="0.448276" pY="0.87234"/>
+    <sprite n="manonarms/Manatarms_attack/014_manatarms_attack.bmp" x="438" y="1" w="31" h="50" pX="0.451613" pY="0.9"/>
+    <sprite n="manonarms/Manatarms_attack/015_manatarms_attack.bmp" x="471" y="1" w="29" h="56" pX="0.448276" pY="0.875"/>
+    <sprite n="manonarms/Manatarms_attack/016_manatarms_attack.bmp" x="502" y="1" w="36" h="62" pX="0.583333" pY="0.870968"/>
+    <sprite n="manonarms/Manatarms_attack/017_manatarms_attack.bmp" x="540" y="1" w="54" h="39" pX="0.740741" pY="0.769231"/>
+    <sprite n="manonarms/Manatarms_attack/018_manatarms_attack.bmp" x="596" y="1" w="25" h="46" pX="0.52" pY="0.608696"/>
+    <sprite n="manonarms/Manatarms_attack/019_manatarms_attack.bmp" x="623" y="1" w="24" h="45" pX="0.5" pY="0.622222"/>
+    <sprite n="manonarms/Manatarms_attack/020_manatarms_attack.bmp" x="649" y="1" w="39" h="45" pX="0.666667" pY="0.688889"/>
+    <sprite n="manonarms/Manatarms_attack/021_manatarms_attack.bmp" x="1" y="65" w="31" h="41" pX="0.548387" pY="0.829268"/>
+          </direction>
+        
+        <direction enum="west"> 
+        <sprite n="manonarms/Manatarms_attack/022_manatarms_attack.bmp" x="34" y="65" w="33" h="44" pX="0.515152" pY="0.863636"/>
+    <sprite n="manonarms/Manatarms_attack/023_manatarms_attack.bmp" x="69" y="65" w="32" h="44" pX="0.46875" pY="0.863636"/>
+    <sprite n="manonarms/Manatarms_attack/024_manatarms_attack.bmp" x="103" y="65" w="30" h="50" pX="0.433333" pY="0.88"/>
+    <sprite n="manonarms/Manatarms_attack/025_manatarms_attack.bmp" x="135" y="65" w="32" h="51" pX="0.40625" pY="0.882353"/>
+    <sprite n="manonarms/Manatarms_attack/026_manatarms_attack.bmp" x="169" y="65" w="31" h="51" pX="0.451613" pY="0.882353"/>
+    <sprite n="manonarms/Manatarms_attack/027_manatarms_attack.bmp" x="202" y="65" w="31" h="62" pX="0.483871" pY="0.887097"/>
+    <sprite n="manonarms/Manatarms_attack/028_manatarms_attack.bmp" x="235" y="65" w="55" h="44" pX="0.727273" pY="0.795455"/>
+    <sprite n="manonarms/Manatarms_attack/029_manatarms_attack.bmp" x="292" y="65" w="40" h="42" pX="0.65" pY="0.714286"/>
+    <sprite n="manonarms/Manatarms_attack/030_manatarms_attack.bmp" x="334" y="65" w="33" h="43" pX="0.575758" pY="0.697674"/>
+    <sprite n="manonarms/Manatarms_attack/031_manatarms_attack.bmp" x="369" y="65" w="46" h="40" pX="0.673913" pY="0.8"/>
+    <sprite n="manonarms/Manatarms_attack/032_manatarms_attack.bmp" x="417" y="65" w="32" h="44" pX="0.5" pY="0.863636"/>
+          </direction>
+        
+        <direction enum="north-west"> 
+        <sprite n="manonarms/Manatarms_attack/033_manatarms_attack.bmp" x="451" y="65" w="24" h="50" pX="0.583333" pY="0.82"/>
+    <sprite n="manonarms/Manatarms_attack/034_manatarms_attack.bmp" x="477" y="65" w="27" h="50" pX="0.518519" pY="0.82"/>
+    <sprite n="manonarms/Manatarms_attack/035_manatarms_attack.bmp" x="506" y="65" w="32" h="53" pX="0.34375" pY="0.830189"/>
+    <sprite n="manonarms/Manatarms_attack/036_manatarms_attack.bmp" x="540" y="65" w="30" h="55" pX="0.333333" pY="0.818182"/>
+    <sprite n="manonarms/Manatarms_attack/037_manatarms_attack.bmp" x="572" y="65" w="32" h="52" pX="0.375" pY="0.826923"/>
+    <sprite n="manonarms/Manatarms_attack/038_manatarms_attack.bmp" x="606" y="65" w="38" h="59" pX="0.421053" pY="0.847458"/>
+    <sprite n="manonarms/Manatarms_attack/039_manatarms_attack.bmp" x="646" y="65" w="27" h="52" pX="0.666667" pY="0.846154"/>
+    <sprite n="manonarms/Manatarms_attack/040_manatarms_attack.bmp" x="1" y="129" w="39" h="41" pX="0.769231" pY="0.804878"/>
+    <sprite n="manonarms/Manatarms_attack/041_manatarms_attack.bmp" x="42" y="129" w="38" h="40" pX="0.736842" pY="0.825"/>
+    <sprite n="manonarms/Manatarms_attack/042_manatarms_attack.bmp" x="82" y="129" w="33" h="42" pX="0.727273" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_attack/043_manatarms_attack.bmp" x="117" y="129" w="24" h="50" pX="0.583333" pY="0.82"/>
+          </direction>
+        
+        <direction enum="north"> 
+        <sprite n="manonarms/Manatarms_attack/044_manatarms_attack.bmp" x="143" y="129" w="26" h="51" pX="0.423077" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_attack/045_manatarms_attack.bmp" x="171" y="129" w="29" h="51" pX="0.344828" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_attack/046_manatarms_attack.bmp" x="202" y="129" w="27" h="53" pX="0.333333" pY="0.811321"/>
+    <sprite n="manonarms/Manatarms_attack/047_manatarms_attack.bmp" x="231" y="129" w="20" h="54" pX="0.4" pY="0.814815"/>
+    <sprite n="manonarms/Manatarms_attack/048_manatarms_attack.bmp" x="253" y="129" w="25" h="51" pX="0.36" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_attack/049_manatarms_attack.bmp" x="280" y="129" w="39" h="52" pX="0.333333" pY="0.826923"/>
+    <sprite n="manonarms/Manatarms_attack/050_manatarms_attack.bmp" x="321" y="129" w="34" h="53" pX="0.470588" pY="0.830189"/>
+    <sprite n="manonarms/Manatarms_attack/051_manatarms_attack.bmp" x="357" y="129" w="27" h="44" pX="0.666667" pY="0.795455"/>
+    <sprite n="manonarms/Manatarms_attack/052_manatarms_attack.bmp" x="386" y="129" w="29" h="43" pX="0.724138" pY="0.813953"/>
+    <sprite n="manonarms/Manatarms_attack/053_manatarms_attack.bmp" x="417" y="129" w="25" h="45" pX="0.64" pY="0.8"/>
+    <sprite n="manonarms/Manatarms_attack/054_manatarms_attack.bmp" x="444" y="129" w="26" h="51" pX="0.423077" pY="0.823529"/>
+        </direction>
+       </action>
+    
+    <!--Die Action-->
+    <action enum ="die" speed="200">
+       <direction enum="south">
+    <sprite n="manonarms/Manatarms_die/000_manatarms_die.bmp" x="472" y="129" w="28" h="47" pX="0.357143" pY="0.744681"/>
+    <sprite n="manonarms/Manatarms_die/001_manatarms_die.bmp" x="502" y="129" w="31" h="49" pX="0.451613" pY="0.755102"/>
+    <sprite n="manonarms/Manatarms_die/002_manatarms_die.bmp" x="535" y="129" w="36" h="46" pX="0.638889" pY="0.826087"/>
+    <sprite n="manonarms/Manatarms_die/003_manatarms_die.bmp" x="573" y="129" w="41" h="44" pX="0.878049" pY="0.840909"/>
+    <sprite n="manonarms/Manatarms_die/004_manatarms_die.bmp" x="616" y="129" w="45" h="42" pX="0.888889" pY="0.833333"/>
+    <sprite n="manonarms/Manatarms_die/005_manatarms_die.bmp" x="663" y="129" w="43" h="38" pX="0.930233" pY="0.815789"/>
+    <sprite n="manonarms/Manatarms_die/006_manatarms_die.bmp" x="1" y="185" w="48" h="37" pX="1.02083" pY="0.621622"/>
+    <sprite n="manonarms/Manatarms_die/007_manatarms_die.bmp" x="51" y="185" w="50" h="33" pX="1.04" pY="0.454545"/>
+    <sprite n="manonarms/Manatarms_die/008_manatarms_die.bmp" x="103" y="185" w="57" h="35" pX="1.03509" pY="0.428571"/>
+    <sprite n="manonarms/Manatarms_die/009_manatarms_die.bmp" x="162" y="185" w="65" h="35" pX="1.03077" pY="0.428571"/>
+    <sprite n="manonarms/Manatarms_die/010_manatarms_die.bmp" x="229" y="185" w="69" h="37" pX="1.02899" pY="0.459459"/>
+         </direction>
+      
+       <direction enum="south-west"> 
+         <sprite n="manonarms/Manatarms_die/011_manatarms_die.bmp" x="300" y="185" w="29" h="47" pX="0.37931" pY="0.744681"/>
+    <sprite n="manonarms/Manatarms_die/012_manatarms_die.bmp" x="331" y="185" w="32" h="46" pX="0.53125" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_die/013_manatarms_die.bmp" x="365" y="185" w="33" h="45" pX="0.636364" pY="0.888889"/>
+    <sprite n="manonarms/Manatarms_die/014_manatarms_die.bmp" x="400" y="185" w="30" h="48" pX="0.733333" pY="0.916667"/>
+    <sprite n="manonarms/Manatarms_die/015_manatarms_die.bmp" x="432" y="185" w="25" h="47" pX="0.64" pY="0.914894"/>
+    <sprite n="manonarms/Manatarms_die/016_manatarms_die.bmp" x="459" y="185" w="34" h="43" pX="0.882353" pY="0.906977"/>
+    <sprite n="manonarms/Manatarms_die/017_manatarms_die.bmp" x="495" y="185" w="45" h="38" pX="0.933333" pY="0.868421"/>
+    <sprite n="manonarms/Manatarms_die/018_manatarms_die.bmp" x="542" y="185" w="56" h="31" pX="0.946429" pY="0.83871"/>
+    <sprite n="manonarms/Manatarms_die/019_manatarms_die.bmp" x="600" y="185" w="66" h="31" pX="0.954545" pY="0.870968"/>
+    <sprite n="manonarms/Manatarms_die/020_manatarms_die.bmp" x="1" y="235" w="73" h="31" pX="0.958904" pY="0.870968"/>
+    <sprite n="manonarms/Manatarms_die/021_manatarms_die.bmp" x="76" y="235" w="76" h="31" pX="0.947368" pY="0.903226"/>
+         </direction>
+      
+       <direction enum="west">
+         <sprite n="manonarms/Manatarms_die/022_manatarms_die.bmp" x="154" y="235" w="39" h="45" pX="0.589744" pY="0.777778"/>
+    <sprite n="manonarms/Manatarms_die/023_manatarms_die.bmp" x="195" y="235" w="38" h="46" pX="0.578947" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_die/024_manatarms_die.bmp" x="235" y="235" w="26" h="49" pX="0.461538" pY="0.857143"/>
+    <sprite n="manonarms/Manatarms_die/025_manatarms_die.bmp" x="263" y="235" w="28" h="49" pX="0.285714" pY="0.918367"/>
+    <sprite n="manonarms/Manatarms_die/026_manatarms_die.bmp" x="293" y="235" w="35" h="43" pX="0.342857" pY="0.906977"/>
+    <sprite n="manonarms/Manatarms_die/027_manatarms_die.bmp" x="330" y="235" w="41" h="42" pX="0.292683" pY="0.928571"/>
+    <sprite n="manonarms/Manatarms_die/028_manatarms_die.bmp" x="373" y="235" w="52" h="33" pX="0.442308" pY="0.969697"/>
+    <sprite n="manonarms/Manatarms_die/029_manatarms_die.bmp" x="427" y="235" w="59" h="29" pX="0.508475" pY="0.965517"/>
+    <sprite n="manonarms/Manatarms_die/030_manatarms_die.bmp" x="488" y="235" w="64" h="30" pX="0.515625" pY="1"/>
+    <sprite n="manonarms/Manatarms_die/031_manatarms_die.bmp" x="554" y="235" w="66" h="33" pX="0.5" pY="1"/>
+    <sprite n="manonarms/Manatarms_die/032_manatarms_die.bmp" x="622" y="235" w="68" h="34" pX="0.485294" pY="1"/>
+         </direction>
+      
+       <direction enum="north-west">
+         <sprite n="manonarms/Manatarms_die/033_manatarms_die.bmp" x="1" y="286" w="34" h="46" pX="0.588235" pY="0.782609"/>
+    <sprite n="manonarms/Manatarms_die/034_manatarms_die.bmp" x="37" y="286" w="31" h="46" pX="0.580645" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_die/035_manatarms_die.bmp" x="70" y="286" w="29" h="47" pX="0.344828" pY="0.851064"/>
+    <sprite n="manonarms/Manatarms_die/036_manatarms_die.bmp" x="101" y="286" w="40" h="43" pX="0.2" pY="0.883721"/>
+    <sprite n="manonarms/Manatarms_die/037_manatarms_die.bmp" x="143" y="286" w="46" h="41" pX="0.0652174" pY="0.853659"/>
+    <sprite n="manonarms/Manatarms_die/038_manatarms_die.bmp" x="191" y="286" w="53" h="40" pX="0.0754717" pY="0.925"/>
+    <sprite n="manonarms/Manatarms_die/039_manatarms_die.bmp" x="246" y="286" w="58" h="30" pX="0.0862069" pY="0.9"/>
+    <sprite n="manonarms/Manatarms_die/040_manatarms_die.bmp" x="306" y="286" w="58" h="32" pX="0.0689655" pY="0.90625"/>
+    <sprite n="manonarms/Manatarms_die/041_manatarms_die.bmp" x="366" y="286" w="58" h="36" pX="0.0517241" pY="0.916667"/>
+    <sprite n="manonarms/Manatarms_die/042_manatarms_die.bmp" x="426" y="286" w="60" h="37" pX="0.05" pY="0.918919"/>
+    <sprite n="manonarms/Manatarms_die/043_manatarms_die.bmp" x="488" y="286" w="60" h="38" pX="0.0166667" pY="0.921053"/>
+            </direction>
+      
+       <direction enum="north"> 
+         <sprite n="manonarms/Manatarms_die/044_manatarms_die.bmp" x="550" y="286" w="28" h="46" pX="0.678571" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_die/045_manatarms_die.bmp" x="580" y="286" w="29" h="46" pX="0.586207" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_die/046_manatarms_die.bmp" x="611" y="286" w="35" h="45" pX="0.4" pY="0.822222"/>
+    <sprite n="manonarms/Manatarms_die/047_manatarms_die.bmp" x="648" y="286" w="42" h="40" pX="0.166667" pY="0.725"/>
+    <sprite n="manonarms/Manatarms_die/048_manatarms_die.bmp" x="1" y="335" w="43" h="45" pX="0.0930233" pY="0.711111"/>
+    <sprite n="manonarms/Manatarms_die/049_manatarms_die.bmp" x="46" y="335" w="43" h="47" pX="0.0232558" pY="0.638298"/>
+    <sprite n="manonarms/Manatarms_die/050_manatarms_die.bmp" x="91" y="335" w="46" h="37" pX="-0.0652174" pY="0.540541"/>
+    <sprite n="manonarms/Manatarms_die/051_manatarms_die.bmp" x="139" y="335" w="50" h="36" pX="-0.08" pY="0.527778"/>
+    <sprite n="manonarms/Manatarms_die/052_manatarms_die.bmp" x="191" y="335" w="55" h="37" pX="-0.0727273" pY="0.513514"/>
+    <sprite n="manonarms/Manatarms_die/053_manatarms_die.bmp" x="248" y="335" w="61" h="37" pX="-0.0819672" pY="0.486486"/>
+    <sprite n="manonarms/Manatarms_die/054_manatarms_die.bmp" x="311" y="335" w="65" h="38" pX="-0.0769231" pY="0.473684"/>
+           </direction>
+    </action>
+    
+    <!--Disappear Action-->
+    <action enum ="disappear" speed="1500">
+      
+          <direction enum="south"> 
+    <sprite n="manonarms/Manatarms_dissapear/000_manatarms_dissapear.bmp" x="378" y="335" w="67" h="35" pX="1.04478" pY="0.457143"/>
+    <sprite n="manonarms/Manatarms_dissapear/001_manatarms_dissapear.bmp" x="447" y="335" w="66" h="34" pX="1.06061" pY="0.470588"/>
+    <sprite n="manonarms/Manatarms_dissapear/002_manatarms_dissapear.bmp" x="515" y="335" w="65" h="34" pX="1.07692" pY="0.470588"/>
+    <sprite n="manonarms/Manatarms_dissapear/003_manatarms_dissapear.bmp" x="582" y="335" w="64" h="34" pX="1.07813" pY="0.470588"/>
+    <sprite n="manonarms/Manatarms_dissapear/004_manatarms_dissapear.bmp" x="648" y="335" w="63" h="34" pX="1.07937" pY="0.470588"/>
+                   </direction>
+            
+           <direction enum="south-west"> 
+    <sprite n="manonarms/Manatarms_dissapear/005_manatarms_dissapear.bmp" x="1" y="384" w="74" h="29" pX="0.959459" pY="0.931034"/>
+    <sprite n="manonarms/Manatarms_dissapear/006_manatarms_dissapear.bmp" x="77" y="384" w="72" h="28" pX="0.958333" pY="0.928571"/>
+    <sprite n="manonarms/Manatarms_dissapear/007_manatarms_dissapear.bmp" x="151" y="384" w="70" h="28" pX="0.957143" pY="0.928571"/>
+    <sprite n="manonarms/Manatarms_dissapear/008_manatarms_dissapear.bmp" x="223" y="384" w="70" h="26" pX="0.957143" pY="0.923077"/>
+    <sprite n="manonarms/Manatarms_dissapear/009_manatarms_dissapear.bmp" x="295" y="384" w="65" h="25" pX="1.03077" pY="0.96"/>
+             </direction>
+      
+           <direction enum="west">
+    <sprite n="manonarms/Manatarms_dissapear/010_manatarms_dissapear.bmp" x="362" y="384" w="66" h="32" pX="0.484848" pY="1.03125"/>
+    <sprite n="manonarms/Manatarms_dissapear/011_manatarms_dissapear.bmp" x="430" y="384" w="66" h="32" pX="0.484848" pY="1.03125"/>
+    <sprite n="manonarms/Manatarms_dissapear/012_manatarms_dissapear.bmp" x="498" y="384" w="63" h="31" pX="0.47619" pY="1.03226"/>
+    <sprite n="manonarms/Manatarms_dissapear/013_manatarms_dissapear.bmp" x="563" y="384" w="63" h="31" pX="0.47619" pY="1.03226"/>
+    <sprite n="manonarms/Manatarms_dissapear/014_manatarms_dissapear.bmp" x="628" y="384" w="62" h="31" pX="0.483871" pY="1.03226"/>
+             </direction>
+      
+           <direction enum="north-west">
+    <sprite n="manonarms/Manatarms_dissapear/015_manatarms_dissapear.bmp" x="1" y="418" w="58" h="36" pX="0" pY="0.944444"/>
+    <sprite n="manonarms/Manatarms_dissapear/016_manatarms_dissapear.bmp" x="61" y="418" w="55" h="36" pX="-0.0363636" pY="0.944444"/>
+    <sprite n="manonarms/Manatarms_dissapear/017_manatarms_dissapear.bmp" x="118" y="418" w="53" h="36" pX="-0.0377359" pY="0.944444"/>
+    <sprite n="manonarms/Manatarms_dissapear/018_manatarms_dissapear.bmp" x="173" y="418" w="53" h="36" pX="-0.0377359" pY="0.944444"/>
+    <sprite n="manonarms/Manatarms_dissapear/019_manatarms_dissapear.bmp" x="228" y="418" w="53" h="35" pX="-0.0377359" pY="0.942857"/>
+             </direction>
+      
+           <direction enum="north">
+    <sprite n="manonarms/Manatarms_dissapear/020_manatarms_dissapear.bmp" x="283" y="418" w="63" h="36" pX="-0.0952381" pY="0.472222"/>
+    <sprite n="manonarms/Manatarms_dissapear/021_manatarms_dissapear.bmp" x="348" y="418" w="63" h="36" pX="-0.0952381" pY="0.472222"/>
+    <sprite n="manonarms/Manatarms_dissapear/022_manatarms_dissapear.bmp" x="413" y="418" w="61" h="35" pX="-0.114754" pY="0.457143"/>
+    <sprite n="manonarms/Manatarms_dissapear/023_manatarms_dissapear.bmp" x="476" y="418" w="58" h="34" pX="-0.137931" pY="0.441176"/>
+    <sprite n="manonarms/Manatarms_dissapear/024_manatarms_dissapear.bmp" x="536" y="418" w="52" h="34" pX="-0.25" pY="0.441176"/>
+           </direction>
+    </action>
+    
+    <!--Idle Action-->
+    <action enum ="idle" speed="150">
+      <direction enum="south">
+            <sprite n="manonarms/Manatarms_idle/000_manatarms_idle.bmp" x="590" y="418" w="26" h="41" pX="0.615385" pY="0.804878"/>
+    <sprite n="manonarms/Manatarms_idle/001_manatarms_idle.bmp" x="618" y="418" w="26" h="42" pX="0.615385" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_idle/002_manatarms_idle.bmp" x="646" y="418" w="26" h="42" pX="0.615385" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_idle/003_manatarms_idle.bmp" x="674" y="418" w="27" h="42" pX="0.62963" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_idle/004_manatarms_idle.bmp" x="1" y="462" w="27" h="42" pX="0.62963" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_idle/005_manatarms_idle.bmp" x="30" y="462" w="27" h="43" pX="0.62963" pY="0.813953"/>
+    <sprite n="manonarms/Manatarms_idle/006_manatarms_idle.bmp" x="59" y="462" w="27" h="43" pX="0.62963" pY="0.790698"/>
+    <sprite n="manonarms/Manatarms_idle/007_manatarms_idle.bmp" x="88" y="462" w="27" h="42" pX="0.62963" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_idle/008_manatarms_idle.bmp" x="117" y="462" w="26" h="42" pX="0.615385" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_idle/009_manatarms_idle.bmp" x="145" y="462" w="26" h="42" pX="0.615385" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_idle/010_manatarms_idle.bmp" x="173" y="462" w="26" h="41" pX="0.615385" pY="0.804878"/>
+            </direction>
+      
+      <direction enum="south-west"> 
+        <sprite n="manonarms/Manatarms_idle/011_manatarms_idle.bmp" x="201" y="462" w="32" h="41" pX="0.5625" pY="0.829268"/>
+    <sprite n="manonarms/Manatarms_idle/012_manatarms_idle.bmp" x="235" y="462" w="32" h="41" pX="0.5625" pY="0.829268"/>
+    <sprite n="manonarms/Manatarms_idle/013_manatarms_idle.bmp" x="269" y="462" w="32" h="42" pX="0.5625" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_idle/014_manatarms_idle.bmp" x="303" y="462" w="31" h="42" pX="0.548387" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_idle/015_manatarms_idle.bmp" x="336" y="462" w="31" h="43" pX="0.548387" pY="0.813953"/>
+    <sprite n="manonarms/Manatarms_idle/016_manatarms_idle.bmp" x="369" y="462" w="32" h="43" pX="0.5625" pY="0.813953"/>
+    <sprite n="manonarms/Manatarms_idle/017_manatarms_idle.bmp" x="403" y="462" w="32" h="43" pX="0.5625" pY="0.813953"/>
+    <sprite n="manonarms/Manatarms_idle/018_manatarms_idle.bmp" x="437" y="462" w="31" h="42" pX="0.548387" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_idle/019_manatarms_idle.bmp" x="470" y="462" w="31" h="42" pX="0.548387" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_idle/020_manatarms_idle.bmp" x="503" y="462" w="31" h="42" pX="0.548387" pY="0.809524"/>
+    <sprite n="manonarms/Manatarms_idle/021_manatarms_idle.bmp" x="536" y="462" w="31" h="41" pX="0.548387" pY="0.829268"/>
+            </direction>
+      
+      <direction enum="west">
+        <sprite n="manonarms/Manatarms_idle/022_manatarms_idle.bmp" x="569" y="462" w="33" h="43" pX="0.515152" pY="0.860465"/>
+    <sprite n="manonarms/Manatarms_idle/023_manatarms_idle.bmp" x="604" y="462" w="32" h="43" pX="0.5" pY="0.860465"/>
+    <sprite n="manonarms/Manatarms_idle/024_manatarms_idle.bmp" x="638" y="462" w="32" h="44" pX="0.5" pY="0.863636"/>
+    <sprite n="manonarms/Manatarms_idle/025_manatarms_idle.bmp" x="672" y="462" w="32" h="44" pX="0.5" pY="0.863636"/>
+    <sprite n="manonarms/Manatarms_idle/026_manatarms_idle.bmp" x="1" y="508" w="35" h="44" pX="0.542857" pY="0.863636"/>
+    <sprite n="manonarms/Manatarms_idle/027_manatarms_idle.bmp" x="38" y="508" w="35" h="45" pX="0.542857" pY="0.844444"/>
+    <sprite n="manonarms/Manatarms_idle/028_manatarms_idle.bmp" x="75" y="508" w="35" h="45" pX="0.542857" pY="0.844444"/>
+    <sprite n="manonarms/Manatarms_idle/029_manatarms_idle.bmp" x="112" y="508" w="34" h="44" pX="0.529412" pY="0.863636"/>
+    <sprite n="manonarms/Manatarms_idle/030_manatarms_idle.bmp" x="148" y="508" w="32" h="44" pX="0.5" pY="0.863636"/>
+    <sprite n="manonarms/Manatarms_idle/031_manatarms_idle.bmp" x="182" y="508" w="33" h="44" pX="0.515152" pY="0.863636"/>
+    <sprite n="manonarms/Manatarms_idle/032_manatarms_idle.bmp" x="217" y="508" w="32" h="44" pX="0.5" pY="0.863636"/>
+            </direction>
+      
+      <direction enum="north-west"> 
+        <sprite n="manonarms/Manatarms_idle/033_manatarms_idle.bmp" x="251" y="508" w="24" h="50" pX="0.583333" pY="0.82"/>
+    <sprite n="manonarms/Manatarms_idle/034_manatarms_idle.bmp" x="277" y="508" w="24" h="50" pX="0.583333" pY="0.82"/>
+    <sprite n="manonarms/Manatarms_idle/035_manatarms_idle.bmp" x="303" y="508" w="24" h="50" pX="0.583333" pY="0.82"/>
+    <sprite n="manonarms/Manatarms_idle/036_manatarms_idle.bmp" x="329" y="508" w="25" h="51" pX="0.56" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_idle/037_manatarms_idle.bmp" x="356" y="508" w="25" h="51" pX="0.6" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_idle/038_manatarms_idle.bmp" x="383" y="508" w="25" h="52" pX="0.6" pY="0.826923"/>
+    <sprite n="manonarms/Manatarms_idle/039_manatarms_idle.bmp" x="410" y="508" w="25" h="51" pX="0.6" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_idle/040_manatarms_idle.bmp" x="437" y="508" w="25" h="51" pX="0.6" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_idle/041_manatarms_idle.bmp" x="464" y="508" w="25" h="51" pX="0.6" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_idle/042_manatarms_idle.bmp" x="491" y="508" w="24" h="50" pX="0.583333" pY="0.82"/>
+    <sprite n="manonarms/Manatarms_idle/043_manatarms_idle.bmp" x="517" y="508" w="24" h="50" pX="0.583333" pY="0.82"/>
+            </direction>
+      
+      <direction enum="north">
+        <sprite n="manonarms/Manatarms_idle/044_manatarms_idle.bmp" x="543" y="508" w="26" h="51" pX="0.423077" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_idle/045_manatarms_idle.bmp" x="571" y="508" w="26" h="50" pX="0.423077" pY="0.82"/>
+    <sprite n="manonarms/Manatarms_idle/046_manatarms_idle.bmp" x="599" y="508" w="26" h="51" pX="0.423077" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_idle/047_manatarms_idle.bmp" x="627" y="508" w="26" h="50" pX="0.423077" pY="0.82"/>
+    <sprite n="manonarms/Manatarms_idle/048_manatarms_idle.bmp" x="655" y="508" w="27" h="50" pX="0.407407" pY="0.82"/>
+    <sprite n="manonarms/Manatarms_idle/049_manatarms_idle.bmp" x="684" y="508" w="27" h="51" pX="0.407407" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_idle/050_manatarms_idle.bmp" x="1" y="562" w="27" h="51" pX="0.407407" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_idle/051_manatarms_idle.bmp" x="30" y="562" w="27" h="51" pX="0.407407" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_idle/052_manatarms_idle.bmp" x="59" y="562" w="26" h="51" pX="0.423077" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_idle/053_manatarms_idle.bmp" x="87" y="562" w="26" h="51" pX="0.423077" pY="0.823529"/>
+    <sprite n="manonarms/Manatarms_idle/054_manatarms_idle.bmp" x="115" y="562" w="26" h="51" pX="0.423077" pY="0.823529"/>
+          </direction>
+    </action>
+    
+    <!--Walk Action-->
+    <action enum ="walk" speed="100">
+            <direction enum="south">
+        <sprite n="manonarms/Manatarms_walk/000_manatarms_walk.bmp" x="143" y="562" w="23" h="45" pX="0.565217" pY="0.8"/>
+    <sprite n="manonarms/Manatarms_walk/001_manatarms_walk.bmp" x="168" y="562" w="23" h="43" pX="0.565217" pY="0.813953"/>
+    <sprite n="manonarms/Manatarms_walk/002_manatarms_walk.bmp" x="193" y="562" w="22" h="46" pX="0.545455" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_walk/003_manatarms_walk.bmp" x="217" y="562" w="22" h="51" pX="0.545455" pY="0.745098"/>
+    <sprite n="manonarms/Manatarms_walk/004_manatarms_walk.bmp" x="241" y="562" w="23" h="52" pX="0.521739" pY="0.711538"/>
+    <sprite n="manonarms/Manatarms_walk/005_manatarms_walk.bmp" x="266" y="562" w="23" h="52" pX="0.478261" pY="0.711538"/>
+    <sprite n="manonarms/Manatarms_walk/006_manatarms_walk.bmp" x="291" y="562" w="22" h="50" pX="0.454545" pY="0.7"/>
+    <sprite n="manonarms/Manatarms_walk/007_manatarms_walk.bmp" x="315" y="562" w="23" h="51" pX="0.478261" pY="0.72549"/>
+    <sprite n="manonarms/Manatarms_walk/008_manatarms_walk.bmp" x="340" y="562" w="22" h="51" pX="0.5" pY="0.745098"/>
+    <sprite n="manonarms/Manatarms_walk/009_manatarms_walk.bmp" x="364" y="562" w="22" h="47" pX="0.5" pY="0.787234"/>
+    <sprite n="manonarms/Manatarms_walk/010_manatarms_walk.bmp" x="388" y="562" w="21" h="45" pX="0.52381" pY="0.8"/>
+                    </direction>
+              
+                    <direction enum="south-west">
+              <sprite n="manonarms/Manatarms_walk/011_manatarms_walk.bmp" x="411" y="562" w="29" h="44" pX="0.551724" pY="0.818182"/>
+    <sprite n="manonarms/Manatarms_walk/012_manatarms_walk.bmp" x="442" y="562" w="30" h="43" pX="0.533333" pY="0.837209"/>
+    <sprite n="manonarms/Manatarms_walk/013_manatarms_walk.bmp" x="474" y="562" w="35" h="44" pX="0.542857" pY="0.840909"/>
+    <sprite n="manonarms/Manatarms_walk/014_manatarms_walk.bmp" x="511" y="562" w="39" h="45" pX="0.564103" pY="0.844444"/>
+    <sprite n="manonarms/Manatarms_walk/015_manatarms_walk.bmp" x="552" y="562" w="39" h="45" pX="0.589744" pY="0.822222"/>
+    <sprite n="manonarms/Manatarms_walk/016_manatarms_walk.bmp" x="593" y="562" w="39" h="46" pX="0.615385" pY="0.782609"/>
+    <sprite n="manonarms/Manatarms_walk/017_manatarms_walk.bmp" x="634" y="562" w="37" h="45" pX="0.594595" pY="0.777778"/>
+    <sprite n="manonarms/Manatarms_walk/018_manatarms_walk.bmp" x="673" y="562" w="36" h="46" pX="0.611111" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_walk/019_manatarms_walk.bmp" x="1" y="616" w="34" h="45" pX="0.588235" pY="0.844444"/>
+    <sprite n="manonarms/Manatarms_walk/020_manatarms_walk.bmp" x="37" y="616" w="33" h="44" pX="0.575758" pY="0.840909"/>
+    <sprite n="manonarms/Manatarms_walk/021_manatarms_walk.bmp" x="72" y="616" w="28" h="44" pX="0.535714" pY="0.818182"/>
+                           </direction>
+              
+                    <direction enum="west">
+              <sprite n="manonarms/Manatarms_walk/022_manatarms_walk.bmp" x="102" y="616" w="29" h="42" pX="0.482759" pY="0.857143"/>
+    <sprite n="manonarms/Manatarms_walk/023_manatarms_walk.bmp" x="133" y="616" w="30" h="43" pX="0.466667" pY="0.860465"/>
+    <sprite n="manonarms/Manatarms_walk/024_manatarms_walk.bmp" x="165" y="616" w="32" h="43" pX="0.46875" pY="0.883721"/>
+    <sprite n="manonarms/Manatarms_walk/025_manatarms_walk.bmp" x="199" y="616" w="39" h="44" pX="0.589744" pY="0.863636"/>
+    <sprite n="manonarms/Manatarms_walk/026_manatarms_walk.bmp" x="240" y="616" w="41" h="44" pX="0.658537" pY="0.840909"/>
+    <sprite n="manonarms/Manatarms_walk/027_manatarms_walk.bmp" x="283" y="616" w="40" h="43" pX="0.675" pY="0.837209"/>
+    <sprite n="manonarms/Manatarms_walk/028_manatarms_walk.bmp" x="325" y="616" w="38" h="42" pX="0.631579" pY="0.833333"/>
+    <sprite n="manonarms/Manatarms_walk/029_manatarms_walk.bmp" x="365" y="616" w="40" h="44" pX="0.625" pY="0.840909"/>
+    <sprite n="manonarms/Manatarms_walk/030_manatarms_walk.bmp" x="407" y="616" w="38" h="44" pX="0.578947" pY="0.840909"/>
+    <sprite n="manonarms/Manatarms_walk/031_manatarms_walk.bmp" x="447" y="616" w="31" h="43" pX="0.516129" pY="0.860465"/>
+    <sprite n="manonarms/Manatarms_walk/032_manatarms_walk.bmp" x="480" y="616" w="29" h="42" pX="0.482759" pY="0.857143"/>
+                           </direction>
+              
+                    <direction enum="north-west"> 
+              <sprite n="manonarms/Manatarms_walk/033_manatarms_walk.bmp" x="511" y="616" w="26" h="45" pX="0.538462" pY="0.822222"/>
+    <sprite n="manonarms/Manatarms_walk/034_manatarms_walk.bmp" x="539" y="616" w="26" h="46" pX="0.538462" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_walk/035_manatarms_walk.bmp" x="567" y="616" w="24" h="47" pX="0.583333" pY="0.808511"/>
+    <sprite n="manonarms/Manatarms_walk/036_manatarms_walk.bmp" x="593" y="616" w="24" h="48" pX="0.583333" pY="0.791667"/>
+    <sprite n="manonarms/Manatarms_walk/037_manatarms_walk.bmp" x="619" y="616" w="23" h="46" pX="0.608696" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_walk/038_manatarms_walk.bmp" x="644" y="616" w="25" h="45" pX="0.6" pY="0.8"/>
+    <sprite n="manonarms/Manatarms_walk/039_manatarms_walk.bmp" x="671" y="616" w="29" h="45" pX="0.586207" pY="0.8"/>
+    <sprite n="manonarms/Manatarms_walk/040_manatarms_walk.bmp" x="1" y="666" w="25" h="46" pX="0.56" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_walk/041_manatarms_walk.bmp" x="28" y="666" w="24" h="45" pX="0.583333" pY="0.822222"/>
+    <sprite n="manonarms/Manatarms_walk/042_manatarms_walk.bmp" x="54" y="666" w="24" h="45" pX="0.583333" pY="0.822222"/>
+    <sprite n="manonarms/Manatarms_walk/043_manatarms_walk.bmp" x="80" y="666" w="25" h="45" pX="0.56" pY="0.822222"/>
+                      </direction>
+              
+                    <direction enum="north"> 
+              <sprite n="manonarms/Manatarms_walk/044_manatarms_walk.bmp" x="107" y="666" w="26" h="45" pX="0.461538" pY="0.822222"/>
+    <sprite n="manonarms/Manatarms_walk/045_manatarms_walk.bmp" x="135" y="666" w="25" h="46" pX="0.44" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_walk/046_manatarms_walk.bmp" x="162" y="666" w="24" h="47" pX="0.458333" pY="0.808511"/>
+    <sprite n="manonarms/Manatarms_walk/047_manatarms_walk.bmp" x="188" y="666" w="24" h="47" pX="0.5" pY="0.808511"/>
+    <sprite n="manonarms/Manatarms_walk/048_manatarms_walk.bmp" x="214" y="666" w="24" h="46" pX="0.541667" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_walk/049_manatarms_walk.bmp" x="240" y="666" w="23" h="45" pX="0.565217" pY="0.822222"/>
+    <sprite n="manonarms/Manatarms_walk/050_manatarms_walk.bmp" x="265" y="666" w="24" h="46" pX="0.583333" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_walk/051_manatarms_walk.bmp" x="291" y="666" w="23" h="45" pX="0.565217" pY="0.822222"/>
+    <sprite n="manonarms/Manatarms_walk/052_manatarms_walk.bmp" x="316" y="666" w="23" h="46" pX="0.565217" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_walk/053_manatarms_walk.bmp" x="341" y="666" w="23" h="46" pX="0.521739" pY="0.804348"/>
+    <sprite n="manonarms/Manatarms_walk/054_manatarms_walk.bmp" x="366" y="666" w="25" h="45" pX="0.48" pY="0.822222"/>
+                                      </direction>
+    </action>
+  </unit>
+</TextureAtlas>

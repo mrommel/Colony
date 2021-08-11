@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "unit_commands_body@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

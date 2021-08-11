@@ -26,7 +26,7 @@ enum GameStateType: Int, Codable {
     case extended
 }
 
-public class GameModel: Codable {
+open class GameModel: Codable {
 
     enum CodingKeys: CodingKey {
 
@@ -34,7 +34,9 @@ public class GameModel: Codable {
         case handicap
         case currentTurn
         case turnSliceValue
+        case numProphetsSpawned
         case players
+        case religions
 
         case map
         case wondersBuilt
@@ -50,15 +52,17 @@ public class GameModel: Codable {
     let handicap: HandicapType
     var currentTurn: Int
     var turnSliceValue: Int = 0
+    var numProphetsSpawnedValue: Int = 0
     public let players: [AbstractPlayer]
 
     static let turnInterimRankingFrequency = 25 /* PROGRESS_POPUP_TURN_FREQUENCY */
 
     private let map: MapModel
     private let tacticalAnalysisMapVal: TacticalAnalysisMap
-    public weak var userInterface: UserInterfaceProtocol?
+    public weak var userInterface: UserInterfaceDelegate?
     private var waitDiploPlayer: AbstractPlayer? = nil
     private var wondersBuilt: AbstractWonders? = nil
+    private var religionsVal: AbstractGameReligions? = nil
     private var greatPersons: GreatPersons? = nil
 
     private var gameStateValue: GameStateType
@@ -72,7 +76,9 @@ public class GameModel: Codable {
         self.victoryTypes = victoryTypes
         self.handicap = handicap
         self.currentTurn = turnsElapsed
+        self.numProphetsSpawnedValue = 0
         self.players = players
+        self.religionsVal = GameReligions()
         self.map = map
 
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
@@ -96,8 +102,9 @@ public class GameModel: Codable {
         self.handicap = try container.decode(HandicapType.self, forKey: .handicap)
         self.currentTurn = try container.decode(Int.self, forKey: .currentTurn)
         self.turnSliceValue = try container.decode(Int.self, forKey: .turnSliceValue)
-
+        self.numProphetsSpawnedValue = try container.decode(Int.self, forKey: .numProphetsSpawned)
         self.players = try container.decode([Player].self, forKey: .players)
+        self.religionsVal = try container.decode(GameReligions.self, forKey: .religions)
 
         self.map = try container.decode(MapModel.self, forKey: .map)
         self.wondersBuilt = try container.decode(Wonders.self, forKey: .wondersBuilt)
@@ -169,9 +176,10 @@ public class GameModel: Codable {
         try container.encode(self.handicap, forKey: .handicap)
         try container.encode(self.currentTurn, forKey: .currentTurn)
         try container.encode(self.turnSliceValue, forKey: .turnSliceValue)
+        try container.encode(self.numProphetsSpawnedValue, forKey: .numProphetsSpawned)
 
-        let realPlayers = self.players as! [Player]
-        try container.encode(realPlayers, forKey: .players)
+        try container.encode(self.players as! [Player], forKey: .players)
+        try container.encode(self.religionsVal as! GameReligions, forKey: .religions)
 
         try container.encode(self.map, forKey: .map)
         try container.encode(self.wondersBuilt as! Wonders, forKey: .wondersBuilt)
@@ -604,6 +612,7 @@ public class GameModel: Codable {
         print()
 
         self.barbarianAI?.doTurn(in: self)
+        self.religionsVal?.doTurn(in: self)
 
         //doUpdateCacheOnTurn();
 
@@ -865,7 +874,7 @@ public class GameModel: Codable {
         return self.map.city(at: location)
     }
 
-    func capital(of player: AbstractPlayer) -> AbstractCity? {
+    public func capital(of player: AbstractPlayer) -> AbstractCity? {
 
         if let cap = self.map.cities(of: player).first(where: { $0?.isCapital() == true }) {
             return cap
@@ -874,7 +883,7 @@ public class GameModel: Codable {
         return nil
     }
     
-    func findCity(of player: AbstractPlayer, closestTo location: HexPoint) -> AbstractCity? {
+    public func findCity(of player: AbstractPlayer, closestTo location: HexPoint) -> AbstractCity? {
      
         var bestCity: AbstractCity? = nil
         var bestDistance: Int = Int(INT_MAX)
@@ -922,6 +931,11 @@ public class GameModel: Codable {
     public func units(of player: AbstractPlayer) -> [AbstractUnit?] {
 
         return self.map.units(for: player)
+    }
+    
+    public func units(of player: AbstractPlayer, at point: HexPoint) -> [AbstractUnit?] {
+
+        return self.map.units(of: player, at: point)
     }
 
     public func unit(at point: HexPoint, of mapType: UnitMapType) -> AbstractUnit? {
@@ -997,6 +1011,11 @@ public class GameModel: Codable {
     public func valid(point: HexPoint) -> Bool {
 
         return self.map.valid(point: point)
+    }
+    
+    public func wrap(point: HexPoint) -> HexPoint {
+        
+        return self.map.wrap(point: point)
     }
 
     public func tile(at point: HexPoint) -> AbstractTile? {
@@ -1107,7 +1126,19 @@ public class GameModel: Codable {
 
     func enter(era: EraType, for player: AbstractPlayer?) {
 
-        fatalError("niy")
+        // https://civilization.fandom.com/wiki/Era_(Civ6)
+        // Roads will upgrade when you enter the Classical Era, again when you enter the Industrial Era, and again on entering the Modern Era.
+        // not implemented
+        
+        // Many policy cards only work for specific eras. When you progress to a more advanced era, you may find that the policies you were using are no longer working, or have indeed been replaced altogether!
+        guard let government = player?.government else {
+            fatalError("cant get government")
+        }
+        
+        government.verify(in: self)
+        
+        // The price of buying tiles will go up with Individual Eras.
+        // not implemented
     }
     
     // https://forums.civfanatics.com/resources/the-mechanism-of-great-people.26276/
@@ -1379,6 +1410,12 @@ public class GameModel: Codable {
         return 0
     }
     
+    func citiesHaveTradeConnection(from fromCityRef: AbstractCity?, to toCityRef: AbstractCity?) -> Bool {
+        
+        // FIXME
+        return false
+    }
+    
     func cost(of greatPersonType: GreatPersonType, for player: AbstractPlayer?) -> Int {
         
         guard let player = player else {
@@ -1417,6 +1454,91 @@ public class GameModel: Codable {
     func invalidate(greatPerson: GreatPerson) {
 
         self.greatPersons?.invalidate(greatPerson: greatPerson, in: self)
+    }
+    
+    // MARK: religion methods
+    
+    func foundPantheon(for player: AbstractPlayer?, with pantheonType: PantheonType) {
+        
+        self.religionsVal?.foundPantheon(for: player, with: pantheonType, in: self)
+    }
+    
+    func religions() -> [AbstractPlayerReligion?] {
+        
+        guard let religions = self.religionsVal else {
+            fatalError("cant get religions")
+        }
+        
+        return religions.religions(in: self)
+    }
+    
+    func numPantheonsCreated() -> Int {
+        
+        guard let religions = self.religionsVal else {
+            fatalError("cant get religions")
+        }
+        
+        return religions.numPantheonsCreated(in: self)
+    }
+    
+    func numReligionFounded() -> Int {
+        
+        guard let religions = self.religionsVal else {
+            fatalError("cant get religions")
+        }
+        
+        return religions.religions(in: self).filter({ $0?.currentReligion() != Optional.none }).count
+    }
+    
+    func maxActiveReligions() -> Int {
+        
+        return self.mapSize().maxActiveReligions()
+    }
+    
+    public func availablePantheons() -> [PantheonType] {
+        
+        guard let religions = self.religionsVal else {
+            fatalError("cant get religions")
+        }
+        
+        return religions.availablePantheons(in: self)
+    }
+    
+    /// how much dies the next great prophet cost?
+    func costOfNextProphet(includeDiscounts: Bool) -> Int {
+        
+        return self.faith(for: self.numProphetsSpawned() + 1)
+    }
+    
+    /// How much does this prophet cost (recursive)
+    private func faith(for greatProphet: Int) -> Int {
+        
+        var rtnValue = 0
+
+        if greatProphet >= 1 {
+            if greatProphet == 1 {
+                rtnValue = 300 /* RELIGION_MIN_FAITH_FIRST_PROPHET */
+            } else {
+                rtnValue = (25 /*RELIGION_FAITH_DELTA_NEXT_PROPHET */ * (greatProphet - 1)) + self.faith(for: greatProphet - 1)
+            }
+        }
+
+        return rtnValue
+    }
+    
+    func numProphetsSpawned() -> Int {
+        
+        return self.numProphetsSpawnedValue
+    }
+    
+    func set(numProphetsSpawned: Int) {
+        
+        self.numProphetsSpawnedValue = numProphetsSpawned
+    }
+    
+    func numReligionsStillToFound() -> Int {
+        
+        return maxActiveReligions() - self.numReligionFounded()
     }
 }
 
@@ -1465,6 +1587,36 @@ extension GameModel {
     }
     
     func aiLoggingEnabled() -> Bool {
+        
+        return true
+    }
+}
+
+extension Array where Element: Comparable {
+    func containsSameElements(as other: [Element]) -> Bool {
+        return self.count == other.count && self.sorted() == other.sorted()
+    }
+}
+
+extension GameModel: Equatable {
+    
+    public static func == (lhs: GameModel, rhs: GameModel) -> Bool {
+
+        if !lhs.victoryTypes.containsSameElements(as: rhs.victoryTypes) {
+            return false
+        }
+        
+        if lhs.handicap != rhs.handicap {
+            return false
+        }
+        
+        if lhs.currentTurn != rhs.currentTurn {
+            return false
+        }
+        
+        if lhs.map != rhs.map {
+            return false
+        }
         
         return true
     }

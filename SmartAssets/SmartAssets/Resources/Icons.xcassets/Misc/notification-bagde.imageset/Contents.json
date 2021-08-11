@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "notification_bagde@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

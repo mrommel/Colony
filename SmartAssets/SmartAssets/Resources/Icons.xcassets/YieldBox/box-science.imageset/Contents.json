@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "box-science@0x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

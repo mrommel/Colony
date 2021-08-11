@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AbstractTechs: class, Codable {
+public protocol AbstractTechs: AnyObject, Codable {
 
     var player: AbstractPlayer? { get set }
     
@@ -290,7 +290,7 @@ class Techs: AbstractTechs {
 
         // trigger event to user
         if player.isHuman() {
-            gameModel?.userInterface?.showPopup(popupType: .eurekaActivated, with: PopupData(tech: techType))
+            gameModel?.userInterface?.showPopup(popupType: .eurekaTechActivated(tech: techType))
         }
     }
 
@@ -386,7 +386,7 @@ class Techs: AbstractTechs {
 
                 // trigger event to user
                 if player.isHuman() {
-                    gameModel?.userInterface?.showPopup(popupType: .techDiscovered, with: PopupData(tech: currentTech))
+                    gameModel?.userInterface?.showPopup(popupType: .techDiscovered(tech: currentTech))
                 }
 
                 // enter era
@@ -395,7 +395,7 @@ class Techs: AbstractTechs {
                     gameModel?.enter(era: currentTech.era(), for: player)
 
                     if player.isHuman() {
-                        gameModel?.userInterface?.showPopup(popupType: .eraEntered, with: PopupData(era: currentTech.era()))
+                        gameModel?.userInterface?.showPopup(popupType: .eraEntered(era: currentTech.era()))
                     }
 
                     player.set(era: currentTech.era())

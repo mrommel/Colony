@@ -20,7 +20,7 @@ public enum YieldType: String, Codable {
     case culture = "culture"
     case faith = "faith"
     
-    static var all: [YieldType] {
+    public static var all: [YieldType] {
         
         return [.food, .production, .gold, .science, .culture, .faith]
     }

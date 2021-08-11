@@ -8,6 +8,7 @@
 import SwiftUI
 import Cocoa
 import SmartAILibrary
+import SmartMacOSUILibrary
 
 struct EditorContentView: View {
 
@@ -90,6 +91,24 @@ struct EditorContentView: View {
                                 }).frame(width: 90, height: 16, alignment: .center)
                             }.groupBoxStyle(PlainGroupBoxStyle())
                         }
+                        
+                        Spacer(minLength: 20)
+                        
+                        GroupBox(label: Label("Simulation", systemImage: "network")
+                                    .foregroundColor(.white)) {
+                            
+                            Button(action: {
+                                viewModel.initTribes()
+                            }, label: {
+                                Label("Start", systemImage: "wand.and.stars")
+                            })
+                            
+                            Button(action: {
+                                viewModel.iterateTribes()
+                            }, label: {
+                                Label("Iterate", systemImage: "play")
+                            })
+                        }.groupBoxStyle(PlainGroupBoxStyle())
                         
                     }.frame(width: 120, height: 500, alignment: .leading)
                 }
@@ -184,6 +203,21 @@ struct EditorContentView: View {
     func set(map: MapModel?) {
         
         self.viewModel.map = map
+    }
+    
+    func setShowStartLocations(to value: Bool) {
+        
+        self.viewModel.setShowStartLocations(to: value)
+    }
+    
+    func setShowInhabitants(to value: Bool) {
+        
+        self.viewModel.setShowInhabitants(to: value)
+    }
+    
+    func setShowSupportedPeople(to value: Bool) {
+        
+        self.viewModel.setShowSupportedPeople(to: value)
     }
 }
 

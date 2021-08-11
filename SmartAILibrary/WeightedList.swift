@@ -8,7 +8,7 @@
 
 import Foundation
 
-class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertible {
+public class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertible {
     
     enum CodingKeys: CodingKey {
         case items
@@ -16,29 +16,29 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
     
     var items: [WeightedItem<T>]
     
-    class WeightedItem<T : Codable>: Codable {
+    public class WeightedItem<T : Codable>: Codable {
         
         enum CodingKeys: CodingKey {
             case item
             case weight
         }
         
-        let itemType: T
-        var weight: Double
+        public let itemType: T
+        public var weight: Double
 
         init(itemType: T, weight: Double) {
             self.itemType = itemType
             self.weight = weight
         }
         
-        required init(from decoder: Decoder) throws {
+        required public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             
             self.itemType = try container.decode(T.self, forKey: .item)
             self.weight = try container.decode(Double.self, forKey: .weight)
         }
         
-        func encode(to encoder: Encoder) throws {
+        public func encode(to encoder: Encoder) throws {
             
             var container = encoder.container(keyedBy: CodingKeys.self)
             
@@ -49,14 +49,14 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
     
     // MARK: constructors
     
-    init() {
+    public init() {
 
         self.items = []
         
-        fill()
+        self.fill()
     }
     
-    required init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -65,7 +65,7 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
     
     // MARK: methods
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         
         var container = encoder.container(keyedBy: CodingKeys.self)
         
@@ -127,7 +127,7 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         }
     }
 
-    func weight(of itemType: T) -> Double {
+    public func weight(of itemType: T) -> Double {
 
         if let item = self.items.first(where: { $0.itemType == itemType }) {
             return item.weight
@@ -184,6 +184,15 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         return self.items[1].itemType
     }
     
+    func chooseRandom() -> T? {
+        
+        if self.items.count < 1 {
+            return nil
+        }
+        
+        return self.items.randomElement()?.itemType
+    }
+    
     func append(contentsOf contents: WeightedList<T>) {
         
         self.items.append(contentsOf: contents.items)
@@ -227,7 +236,7 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         return list
     }
 
-    var debugDescription: String {
+    public var debugDescription: String {
 
         var itemText = ""
 
@@ -236,5 +245,38 @@ class WeightedList<T : Codable & Equatable>: Codable, CustomDebugStringConvertib
         }
 
         return "WeightedList: { \(itemText) }"
+    }
+}
+
+extension WeightedList: Sequence {
+    
+    public func makeIterator() -> WeightedListIterator<T> {
+        return WeightedListIterator<T>(weightedList: self)
+    }
+}
+
+public struct WeightedListIterator<T : Codable & Equatable>: IteratorProtocol {
+
+    private let weightedList: WeightedList<T>
+    private var index = 0
+    
+    init(weightedList: WeightedList<T>) {
+        self.weightedList = weightedList
+    }
+    
+    mutating public func next() -> WeightedList<T>.WeightedItem<T>? {
+        
+        guard 0 <= index else {
+            return nil
+        }
+        
+        // prevent out of bounds
+        guard index < self.weightedList.items.count else {
+            return nil
+        }
+        
+        let point = self.weightedList.items[index]
+        index += 1
+        return point
     }
 }
