@@ -110,7 +110,7 @@ struct UnitBannerView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 64, height: 64, alignment: .center) // 42,42
-                        .offset(x: -80.3 + 11, y: -29 + 11)
+                        .offset(x: -80.3, y: -29)
 
                     GroupBox(content: {
                         Text(self.viewModel.unitName())

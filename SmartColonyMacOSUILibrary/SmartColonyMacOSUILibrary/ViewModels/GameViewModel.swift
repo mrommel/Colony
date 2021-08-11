@@ -13,7 +13,7 @@ import SwiftUI
 protocol GameViewModelDelegate: AnyObject {
     
     func focus(on point: HexPoint)
-    func showUnitBanner(for unit: AbstractUnit?)
+    func showUnitBanner()
     func hideUnitBanner()
     func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?)
     
@@ -557,9 +557,10 @@ extension GameViewModel: GameViewModelDelegate {
         self.gameSceneViewModel.centerOn = point
     }
     
-    func showUnitBanner(for unit: AbstractUnit?) {
+    func showUnitBanner() {
         
         self.unitBannerViewModel.showBanner = true
+        self.cityBannerViewModel.showBanner = false
     }
     
     func hideUnitBanner() {
@@ -575,6 +576,7 @@ extension GameViewModel: GameViewModelDelegate {
     func showCityBanner(for city: AbstractCity?) {
         
         self.cityBannerViewModel.showBanner = true
+        self.unitBannerViewModel.showBanner = false
     }
     
     func hideCityBanner() {

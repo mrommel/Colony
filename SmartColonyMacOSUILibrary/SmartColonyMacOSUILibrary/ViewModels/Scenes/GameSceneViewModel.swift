@@ -67,8 +67,8 @@ public class GameSceneViewModel: ObservableObject {
             }
             
             if let selectedUnit = self.selectedUnit {
-                self.delegate?.showUnitBanner(for: selectedUnit)
-                self.buttonViewModel.show(image: selectedUnit.type.iconTexture())
+                self.delegate?.showUnitBanner()
+                // self.buttonViewModel.show(image: selectedUnit.type.iconTexture())
             } else {
                 self.delegate?.hideUnitBanner()
             }
