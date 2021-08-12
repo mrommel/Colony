@@ -12,7 +12,13 @@ import SmartAssets
 
 public class MapOverviewViewModel: ObservableObject {
     
-    private var buffer: PixelBuffer = PixelBuffer(width: MapSize.duel.width(), height: MapSize.duel.height(), color: NSColor.black)
+    private let dx = 9
+    private let dy = 6
+    private var buffer: PixelBuffer = PixelBuffer(width: MapSize.duel.width(),
+                                                  height: MapSize.duel.height(),
+                                                  color: Globals.Colors.overviewBackground)
+    private var line = MapSize.duel.width() * 9
+    private var mapSize: MapSize = MapSize.duel
     
     private weak var player: AbstractPlayer?
     
@@ -28,8 +34,13 @@ public class MapOverviewViewModel: ObservableObject {
         
             self.player = game.humanPlayer()
             
-            let mapSize = game.mapSize()
-            self.buffer = PixelBuffer(width: mapSize.width(), height: mapSize.height(), color: NSColor.black)
+            self.mapSize = game.mapSize()
+            let contentSize: CGSize = game.contentSize() / 7.5
+            self.buffer = PixelBuffer(width: Int(contentSize.width),
+                                      height: Int(contentSize.height),
+                                      color: Globals.Colors.overviewBackground)
+
+            self.line = Int(contentSize.width)
 
             guard let bufferImage = self.buffer.toNSImage() else {
                 fatalError("can't create image from buffer")
@@ -37,10 +48,10 @@ public class MapOverviewViewModel: ObservableObject {
 
             self.image = Image(nsImage: bufferImage)
 
-            for y in 0..<mapSize.height() {
-                for x in 0..<mapSize.width() {
+            for y in 0..<self.mapSize.height() {
+                for x in 0..<self.mapSize.width() {
 
-                    self.updateBufferAt(x: x, y: y)
+                    self.updateBufferAt(pt: HexPoint(x: x, y: y))
                 }
             }
 
@@ -65,44 +76,51 @@ public class MapOverviewViewModel: ObservableObject {
         
         self.player = game.humanPlayer()
         
-        let mapSize = game.mapSize()
-        self.buffer = PixelBuffer(width: mapSize.width(), height: mapSize.height(), color: NSColor.black)
+        self.mapSize = game.mapSize()
+        let contentSize: CGSize = game.contentSize() / 7.5
+        self.buffer = PixelBuffer(width: Int(contentSize.width),
+                                  height: Int(contentSize.height),
+                                  color: Globals.Colors.overviewBackground)
+
+        self.line = Int(contentSize.width)
 
         guard let bufferImage = self.buffer.toNSImage() else {
             fatalError("can't create image from buffer")
         }
 
         self.image = Image(nsImage: bufferImage)
+        
+        for y in 0..<self.mapSize.height() {
+            for x in 0..<self.mapSize.width() {
 
-        for y in 0..<mapSize.height() {
-            for x in 0..<mapSize.width() {
-
-                self.updateBufferAt(x: x, y: y)
+                self.updateBufferAt(pt: HexPoint(x: x, y: y))
             }
         }
 
         self.updateTextureFromBuffer()
     }
     
-    private func updateBufferAt(x: Int, y: Int) {
+    private func updateBufferAt(pt: HexPoint) {
 
         guard let game = self.gameEnvironment.game.value else {
             fatalError("no map")
         }
+        
+        if pt.x < 0 || pt.y < 0 || pt.x >= self.mapSize.width() || pt.y >= self.mapSize.height() {
+            return
+        }
 
-        let index = y * game.mapSize().width() + x
-
-        if let tile = game.tile(x: x, y: y) {
+        if let tile = game.tile(at: pt) {
             
-            if true || tile.isDiscovered(by: self.player) {
+            if tile.isDiscovered(by: self.player) {
                 
                 if let owner = tile.owner() {
                     if tile.isCity() {
                         let color = owner.leader.civilization().accent
-                        self.buffer.set(color: color, at: index)
+                        self.updateBufferAt(pt: pt, with: color)
                     } else {
                         let color = owner.leader.civilization().main
-                        self.buffer.set(color: color, at: index)
+                        self.updateBufferAt(pt: pt, with: color)
                     }
                 } else {
                     var color = tile.terrain().overviewColor()
@@ -112,15 +130,41 @@ public class MapOverviewViewModel: ObservableObject {
                     }*/
                     
                     if tile.has(feature: .mountains) || tile.has(feature: .mountEverest) || tile.has(feature: .mountKilimanjaro) {
-                        color = NSColor.Terrain.mountains
+                        color = NSColor.Feature.mountains
                     }
                     
-                    self.buffer.set(color: color, at: index)
+                    if tile.has(feature: .ice) {
+                        color = NSColor.Feature.ice
+                    }
+                    
+                    self.updateBufferAt(pt: pt, with: color)
                 }
                 
             } else {
-                self.buffer.set(color: NSColor.Terrain.background, at: index)
+                self.updateBufferAt(pt: pt, with: NSColor.Terrain.background)
             }
+        }
+    }
+    
+    private func updateBufferAt(pt: HexPoint, with color: NSColor) {
+        
+        let offset = HexPoint.toScreen(hex: HexPoint(x: 0, y: self.mapSize.height() - 1)).x / 7.5
+        let screenPoint = HexPoint.toScreen(hex: pt) / 7.5
+        let index = Int(-screenPoint.y) * self.line + Int(screenPoint.x - offset)
+        
+        for i in 0...6 {
+            self.buffer.set(color: color, at: index + i)
+            self.buffer.set(color: color, at: index + 5 * self.line + i)
+        }
+
+        for i in -1...7 {
+            self.buffer.set(color: color, at: index + self.line + i)
+            self.buffer.set(color: color, at: index + 4 * self.line + i)
+        }
+        
+        for i in -2...8 {
+            self.buffer.set(color: color, at: index + 2 * self.line + i)
+            self.buffer.set(color: color, at: index + 3 * self.line + i)
         }
     }
 
@@ -129,27 +173,13 @@ public class MapOverviewViewModel: ObservableObject {
         guard let bufferImage = self.buffer.toNSImage() else {
             fatalError("can't create image from buffer")
         }
-        
-        /*if bufferImage.size.width < self.size.width {
-            if let tmpImage = bufferImage.resizeRasterizedTo(targetSize: CGSize(width: self.size.width, height: self.size.height)) {
-                bufferImage = tmpImage
-            }
-        }*/
-        
-        /*let deltaHeight = self.size.height - image.size.height
-        if deltaHeight > 0 {
-            let insets = UIEdgeInsets(top: deltaHeight / 2, left: 0, bottom: deltaHeight / 2, right: 0)
-            if let tmpImage = image.imageWithInsets(insets: insets){
-                image = tmpImage
-            }
-        }*/
 
         self.image = Image(nsImage: bufferImage)
     }
     
     func changed(at pt: HexPoint) {
 
-        self.updateBufferAt(x: pt.x, y: pt.y)
+        self.updateBufferAt(pt: pt)
         self.updateTextureFromBuffer()
     }
 }

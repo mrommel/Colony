@@ -57,12 +57,16 @@ extension TypeColor {
         public static var desert: TypeColor = TypeColor(hex: "#e2c170")!
         public static var tundra: TypeColor = TypeColor(hex: "#696c4d")!
         public static var snow: TypeColor = TypeColor(hex: "#d1e4f2")!
-        
-        public static var mountains: TypeColor = TypeColor(hex: "#b69856")!
-        
+
         public static var background: TypeColor = TypeColor(hex: "#ad8a66")!
         
         public static var pergament: TypeColor = TypeColor(hex: "#ddbf80")!
+    }
+    
+    public struct Feature {
+        
+        public static var mountains: TypeColor = TypeColor(hex: "#b69856")!
+        public static var ice: TypeColor = TypeColor(hex: "#d1e4f2")!
     }
     
     public struct UI {

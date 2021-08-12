@@ -150,7 +150,7 @@ extension GameScene: UserInterfaceDelegate {
         
         DispatchQueue.main.async() {
             self.mapNode?.update(tile: tile)
-            // self.bottomRightBar?.update(tile: tile)
+            self.viewModel?.mapOverviewViewModel.changed(at: tile!.point)
         }
     }
     

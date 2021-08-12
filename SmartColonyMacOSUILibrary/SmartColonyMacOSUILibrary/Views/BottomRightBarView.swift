@@ -9,12 +9,8 @@ import SwiftUI
 
 public struct BottomRightBarView: View {
     
-    /*private let viewModel: MapViewModel
-    
-    public init(viewModel: MapViewModel) {
-        
-        self.viewModel = viewModel
-    }*/
+    @ObservedObject
+    public var viewModel: GameSceneViewModel
     
     public var body: some View {
         HStack {
@@ -24,7 +20,7 @@ public struct BottomRightBarView: View {
             VStack(alignment: .trailing, spacing: 10) {
 
                 Spacer()
-                MapOverviewView(viewModel: MapOverviewViewModel())
+                MapOverviewView(viewModel: self.viewModel.mapOverviewViewModel)
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)

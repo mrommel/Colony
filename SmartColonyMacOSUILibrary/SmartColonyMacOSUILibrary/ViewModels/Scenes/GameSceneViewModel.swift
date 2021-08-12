@@ -8,6 +8,7 @@
 import Cocoa
 import SmartAILibrary
 import SmartAssets
+import SwiftUI
 
 public class GameSceneViewModel: ObservableObject {
     
@@ -25,6 +26,9 @@ public class GameSceneViewModel: ObservableObject {
         case humanBlocked // dialog shown
     }
     
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
+    
     @Published
     var game: GameModel? {
         willSet {
@@ -39,6 +43,8 @@ public class GameSceneViewModel: ObservableObject {
                 guard let humanPlayer = game.humanPlayer() else {
                     return
                 }
+                
+                self.mapOverviewViewModel.assign(game: game)
                 
                 let unitRefs = game.units(of: humanPlayer)
                 
@@ -124,6 +130,9 @@ public class GameSceneViewModel: ObservableObject {
     var topBarViewModel: TopBarViewModel
     
     @Published
+    var mapOverviewViewModel: MapOverviewViewModel
+    
+    @Published
     var showCommands: Bool = false
     
     @Published
@@ -146,6 +155,7 @@ public class GameSceneViewModel: ObservableObject {
         let buttonImage = NSImage() // ImageCache.shared.image(for: NotificationType.unitNeedsOrders.iconTexture())
         self.buttonViewModel = AnimatedImageViewModel(image: buttonImage)
         self.topBarViewModel = TopBarViewModel()
+        self.mapOverviewViewModel = MapOverviewViewModel()
     }
     
     public func doTurn() {

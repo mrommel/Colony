@@ -81,6 +81,11 @@ public struct PixelBuffer {
     }
 
     public mutating func set(color: NSColor, at index: Int) {
+        
+        guard 0 <= index && index < self.width * self.height else {
+            return
+        }
+        
         self.pixels[index] = PixelData(color: color)
     }
 
