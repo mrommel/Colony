@@ -148,75 +148,24 @@ public class MapOverviewViewModel: ObservableObject {
     
     private func updateBufferAt(pt: HexPoint, with color: NSColor) {
         
-        /*guard let game = self.gameEnvironment.game.value else {
-            fatalError("need to assign a valid game")
-        }
-        
-        let contentSize: CGSize = game.contentSize() / 7.5*/
-        
         let offset = HexPoint.toScreen(hex: HexPoint(x: 0, y: self.mapSize.height() - 1)).x / 7.5
         let screenPoint = HexPoint.toScreen(hex: pt) / 7.5
-        let index = Int(/*contentSize.height +*/ -screenPoint.y) * self.line + Int(screenPoint.x - offset)
+        let index = Int(-screenPoint.y) * self.line + Int(screenPoint.x - offset)
         
-        self.buffer.set(color: color, at: index)
-        self.buffer.set(color: color, at: index + 1)
-        self.buffer.set(color: color, at: index + 2)
-        self.buffer.set(color: color, at: index + 3)
-        self.buffer.set(color: color, at: index + 4)
-        self.buffer.set(color: color, at: index + 5)
-        self.buffer.set(color: color, at: index + 6)
+        for i in 0...6 {
+            self.buffer.set(color: color, at: index + i)
+            self.buffer.set(color: color, at: index + 5 * self.line + i)
+        }
+
+        for i in -1...7 {
+            self.buffer.set(color: color, at: index + self.line + i)
+            self.buffer.set(color: color, at: index + 4 * self.line + i)
+        }
         
-        self.buffer.set(color: color, at: index + self.line - 1) // -1
-        self.buffer.set(color: color, at: index + self.line)
-        self.buffer.set(color: color, at: index + self.line + 1)
-        self.buffer.set(color: color, at: index + self.line + 2)
-        self.buffer.set(color: color, at: index + self.line + 3)
-        self.buffer.set(color: color, at: index + self.line + 4)
-        self.buffer.set(color: color, at: index + self.line + 5)
-        self.buffer.set(color: color, at: index + self.line + 6)
-        self.buffer.set(color: color, at: index + self.line + 7) // +1
-        
-        self.buffer.set(color: color, at: index + 2 * self.line - 2) // -2
-        self.buffer.set(color: color, at: index + 2 * self.line - 1) // -1
-        self.buffer.set(color: color, at: index + 2 * self.line)
-        self.buffer.set(color: color, at: index + 2 * self.line + 1)
-        self.buffer.set(color: color, at: index + 2 * self.line + 2)
-        self.buffer.set(color: color, at: index + 2 * self.line + 3)
-        self.buffer.set(color: color, at: index + 2 * self.line + 4)
-        self.buffer.set(color: color, at: index + 2 * self.line + 5)
-        self.buffer.set(color: color, at: index + 2 * self.line + 6)
-        self.buffer.set(color: color, at: index + 2 * self.line + 7) // +1
-        self.buffer.set(color: color, at: index + 2 * self.line + 8) // +2
-        
-        self.buffer.set(color: color, at: index + 3 * self.line - 2) // -2
-        self.buffer.set(color: color, at: index + 3 * self.line - 1) // -1
-        self.buffer.set(color: color, at: index + 3 * self.line)
-        self.buffer.set(color: color, at: index + 3 * self.line + 1)
-        self.buffer.set(color: color, at: index + 3 * self.line + 2)
-        self.buffer.set(color: color, at: index + 3 * self.line + 3)
-        self.buffer.set(color: color, at: index + 3 * self.line + 4)
-        self.buffer.set(color: color, at: index + 3 * self.line + 5)
-        self.buffer.set(color: color, at: index + 3 * self.line + 6)
-        self.buffer.set(color: color, at: index + 3 * self.line + 7) // +1
-        self.buffer.set(color: color, at: index + 3 * self.line + 8) // +2
-        
-        self.buffer.set(color: color, at: index + 4 * self.line - 1) // -1
-        self.buffer.set(color: color, at: index + 4 * self.line)
-        self.buffer.set(color: color, at: index + 4 * self.line + 1)
-        self.buffer.set(color: color, at: index + 4 * self.line + 2)
-        self.buffer.set(color: color, at: index + 4 * self.line + 3)
-        self.buffer.set(color: color, at: index + 4 * self.line + 4)
-        self.buffer.set(color: color, at: index + 4 * self.line + 5)
-        self.buffer.set(color: color, at: index + 4 * self.line + 6)
-        self.buffer.set(color: color, at: index + 4 * self.line + 7) // +1
-        
-        self.buffer.set(color: color, at: index + 5 * self.line)
-        self.buffer.set(color: color, at: index + 5 * self.line + 1)
-        self.buffer.set(color: color, at: index + 5 * self.line + 2)
-        self.buffer.set(color: color, at: index + 5 * self.line + 3)
-        self.buffer.set(color: color, at: index + 5 * self.line + 4)
-        self.buffer.set(color: color, at: index + 5 * self.line + 5)
-        self.buffer.set(color: color, at: index + 5 * self.line + 6)
+        for i in -2...8 {
+            self.buffer.set(color: color, at: index + 2 * self.line + i)
+            self.buffer.set(color: color, at: index + 3 * self.line + i)
+        }
     }
 
     private func updateTextureFromBuffer() {

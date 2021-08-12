@@ -69,7 +69,9 @@ class GameScene: BaseScene {
     }
     
     /*
-    //Returns a CGRect that has the dimensions and position for any device with respect to any specified scene. This will result in a boundary that can be utilised for positioning nodes on a scene so that they are always visible
+    // Returns a CGRect that has the dimensions and position for any device with respect to any
+     // specified scene. This will result in a boundary that can be utilised for positioning nodes
+     // on a scene so that they are always visible
     func getVisibleScreen( sceneBounds: CGRect, viewBounds: CGSize) -> CGRect {
         var sceneHeight = sceneBounds.height
         var sceneWidth = sceneBounds.width
@@ -81,10 +83,12 @@ class GameScene: BaseScene {
         let deviceAspectRatio = viewWidth/viewHeight
         let sceneAspectRatio = sceneWidth/sceneHeight
         
-        //If the the device's aspect ratio is smaller than the aspect ratio of the preset scene dimensions, then that would mean that the visible width will need to be calculated
-        //as the scene's height has been scaled to match the height of the device's screen. To keep the aspect ratio of the scene this will mean that the width of the scene will extend
-        //out from what is visible.
-        //The opposite will happen in the device's aspect ratio is larger.
+        // If the the device's aspect ratio is smaller than the aspect ratio of the preset scene dimensions,
+        // then that would mean that the visible width will need to be calculated
+        // as the scene's height has been scaled to match the height of the device's screen.
+        // To keep the aspect ratio of the scene this will mean that the width of the scene will extend
+        // out from what is visible.
+        // The opposite will happen in the device's aspect ratio is larger.
         if deviceAspectRatio < sceneAspectRatio {
             let newSceneWidth: CGFloat = (sceneWidth * viewHeight) / sceneHeight
             let sceneWidthDifference: CGFloat = (newSceneWidth - viewWidth)/2
@@ -105,7 +109,10 @@ class GameScene: BaseScene {
             sceneHeight = sceneHeight - (diffPercentageHeight * 2 * sceneHeight)
         }
         
-        let visibleScreenOffset = CGRect(x: CGFloat(x), y: CGFloat(y), width: CGFloat(sceneWidth), height: CGFloat(sceneHeight))
+        let visibleScreenOffset = CGRect(x: CGFloat(x),
+            y: CGFloat(y),
+            width: CGFloat(sceneWidth),
+            height: CGFloat(sceneHeight))
         return visibleScreenOffset
     }
     */
