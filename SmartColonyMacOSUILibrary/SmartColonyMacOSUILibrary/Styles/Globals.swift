@@ -25,6 +25,7 @@ public extension Globals {
         
         // Overview
         public static var overviewBackground: TypeColor = TypeColor.Terrain.pergament
+        
     }
 }
 

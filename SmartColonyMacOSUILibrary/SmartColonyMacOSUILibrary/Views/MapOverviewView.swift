@@ -51,7 +51,7 @@ public struct MapOverviewView: View {
         }
         .frame(width: 200, height: 112)
         .onReceive(gameEnvironment.visibleRect) { rect in
-            
+            print("visible rect changed: \(rect)")
         }
     }
 }

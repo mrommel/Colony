@@ -8,6 +8,7 @@
 import Cocoa
 import SmartAILibrary
 import SmartAssets
+import SwiftUI
 
 public class GameSceneViewModel: ObservableObject {
     
@@ -24,6 +25,9 @@ public class GameSceneViewModel: ObservableObject {
         case humanTurns // => UI enabled
         case humanBlocked // dialog shown
     }
+    
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
     
     @Published
     var game: GameModel? {

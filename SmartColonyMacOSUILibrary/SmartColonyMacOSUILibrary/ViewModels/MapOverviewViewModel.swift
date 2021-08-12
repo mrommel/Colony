@@ -14,7 +14,9 @@ public class MapOverviewViewModel: ObservableObject {
     
     private let dx = 9
     private let dy = 6
-    private var buffer: PixelBuffer = PixelBuffer(width: MapSize.duel.width(), height: MapSize.duel.height(), color: NSColor.black)
+    private var buffer: PixelBuffer = PixelBuffer(width: MapSize.duel.width(),
+                                                  height: MapSize.duel.height(),
+                                                  color: Globals.Colors.overviewBackground)
     private var line = MapSize.duel.width() * 9
     private var mapSize: MapSize = MapSize.duel
     
@@ -33,11 +35,12 @@ public class MapOverviewViewModel: ObservableObject {
             self.player = game.humanPlayer()
             
             self.mapSize = game.mapSize()
-            let width = self.mapSize.width() * self.dx
-            let height = self.mapSize.height() * self.dy + self.dy / 2
-            self.buffer = PixelBuffer(width: width, height: height, color: NSColor.black)
-            
-            self.line = self.mapSize.width() * self.dx
+            let contentSize: CGSize = game.contentSize() / 7.5
+            self.buffer = PixelBuffer(width: Int(contentSize.width),
+                                      height: Int(contentSize.height),
+                                      color: Globals.Colors.overviewBackground)
+
+            self.line = Int(contentSize.width)
 
             guard let bufferImage = self.buffer.toNSImage() else {
                 fatalError("can't create image from buffer")
@@ -74,11 +77,12 @@ public class MapOverviewViewModel: ObservableObject {
         self.player = game.humanPlayer()
         
         self.mapSize = game.mapSize()
-        let width = self.mapSize.width() * self.dx
-        let height = self.mapSize.height() * self.dy + self.dy / 2
-        self.buffer = PixelBuffer(width: width, height: height, color: NSColor.black)
-        
-        self.line = self.mapSize.width() * self.dx
+        let contentSize: CGSize = game.contentSize() / 7.5
+        self.buffer = PixelBuffer(width: Int(contentSize.width),
+                                  height: Int(contentSize.height),
+                                  color: Globals.Colors.overviewBackground)
+
+        self.line = Int(contentSize.width)
 
         guard let bufferImage = self.buffer.toNSImage() else {
             fatalError("can't create image from buffer")
@@ -126,7 +130,11 @@ public class MapOverviewViewModel: ObservableObject {
                     }*/
                     
                     if tile.has(feature: .mountains) || tile.has(feature: .mountEverest) || tile.has(feature: .mountKilimanjaro) {
-                        color = NSColor.Terrain.mountains
+                        color = NSColor.Feature.mountains
+                    }
+                    
+                    if tile.has(feature: .ice) {
+                        color = NSColor.Feature.ice
                     }
                     
                     self.updateBufferAt(pt: pt, with: color)
@@ -140,7 +148,15 @@ public class MapOverviewViewModel: ObservableObject {
     
     private func updateBufferAt(pt: HexPoint, with color: NSColor) {
         
-        let index = pt.y * self.dy * self.line + (pt.x % 2 == 1 ? self.dy / 2 * self.line : 0) + (pt.x * self.dx)
+        /*guard let game = self.gameEnvironment.game.value else {
+            fatalError("need to assign a valid game")
+        }
+        
+        let contentSize: CGSize = game.contentSize() / 7.5*/
+        
+        let offset = HexPoint.toScreen(hex: HexPoint(x: 0, y: self.mapSize.height() - 1)).x / 7.5
+        let screenPoint = HexPoint.toScreen(hex: pt) / 7.5
+        let index = Int(/*contentSize.height +*/ -screenPoint.y) * self.line + Int(screenPoint.x - offset)
         
         self.buffer.set(color: color, at: index)
         self.buffer.set(color: color, at: index + 1)
