@@ -79,6 +79,7 @@ struct UnitListDialogView: View {
 struct UnitListDialogView_Previews: PreviewProvider {
     
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
         UnitListDialogView(viewModel: UnitListDialogViewModel())

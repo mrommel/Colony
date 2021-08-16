@@ -10,10 +10,10 @@ import SmartMacOSUILibrary
 import SmartAILibrary
 
 struct MainView: View {
-    
+
     @ObservedObject
     var viewModel: MainViewModel
-    
+
     var body: some View {
         ZStack {
             Image("background_macos")
@@ -27,11 +27,11 @@ struct MainView: View {
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     }
-    
+
     private var content: AnyView {
-        
+
         switch self.viewModel.presentedView {
-            
+
         case .menu:
             return AnyView(self.menuView)
         case .newGameMenu:
@@ -49,23 +49,23 @@ struct MainView: View {
 // MARK: - Loading Content
 
 extension MainView {
-    
+
     private var menuView: some View {
         MenuView(viewModel: self.viewModel.menuViewModel)
     }
-    
+
     private var createGameMenuView: some View {
         CreateGameMenuView(viewModel: self.viewModel.createGameMenuViewModel)
     }
-    
+
     private var generateGameView: some View {
         GenerateGameView(viewModel: self.viewModel.generateGameViewModel)
     }
-    
+
     private var gameView: some View {
         GameView(viewModel: self.viewModel.gameViewModel)
     }
-    
+
     private var pediaView: some View {
         PediaView(viewModel: self.viewModel.pediaViewModel)
     }

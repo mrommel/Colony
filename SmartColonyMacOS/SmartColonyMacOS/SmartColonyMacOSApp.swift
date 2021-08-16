@@ -14,17 +14,17 @@ import SmartAILibrary
 struct SmartColonyMacOSApp: App {
 
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
+
     @ObservedObject
     var viewModel: MainViewModel
-    
+
     @ObservedObject
     var commandModel: GameCommandsModel = GameCommandsModel()
 
     init() {
-        
+
         let mainViewModel = MainViewModel()
-        
+
         self.viewModel = mainViewModel
         self.commandModel.viewModel = mainViewModel // = GameCommandsModel(viewModel: mainViewModel)
     }
