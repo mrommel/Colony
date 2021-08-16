@@ -12,7 +12,7 @@ import XCTest
 @testable import SmartAILibrary
 
 class UnitTests: XCTestCase {
-    
+
     // Embarked Units cant move in water #67
     func testUnitMovesEmbarked() {
 
@@ -26,8 +26,10 @@ class UnitTests: XCTestCase {
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
         
-        try! humanPlayer.techs?.discover(tech: .sailing)
-
+        do {
+            try humanPlayer.techs?.discover(tech: .sailing)
+        } catch {}
+            
         let mapModel = TradeRouteTests.mapFilled(with: .ocean, sized: .small)
         
         // start island
@@ -38,7 +40,11 @@ class UnitTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 6, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 7, y: 2))
 
-        let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
+        let gameModel = GameModel(victoryTypes: [.domination],
+                                  handicap: .king,
+                                  turnsElapsed: 0,
+                                  players: [barbarianPlayer, aiPlayer, humanPlayer],
+                                  on: mapModel)
         
         // add UI
         let userInterface = TestUI()
