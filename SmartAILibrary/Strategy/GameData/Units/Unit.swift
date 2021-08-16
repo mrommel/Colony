@@ -1281,7 +1281,7 @@ public class Unit: AbstractUnit {
     public func path(towards target: HexPoint, options: MoveOptions, in gameModel: GameModel?) -> HexPath? {
 
         let pathFinder = AStarPathfinder()
-        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, ignoreOwner: self.type.canMoveInRivalTerritory(), unitMapType: self.unitMapType(), canEmbark: self.canEmbark(in: gameModel))
+        pathFinder.dataSource = gameModel?.unitAwarePathfinderDataSource(for: self.movementType(), for: self.player, ignoreOwner: self.type.canMoveInRivalTerritory(), unitMapType: self.unitMapType(), canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked())
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
 

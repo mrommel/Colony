@@ -255,7 +255,7 @@ public class UnitMission {
 
                                             // GC.GetEngineUserInterface()->SetDontShowPopups(false);
 
-                                            // FIXME: show turotial
+                                            // FIXME: show tutorial
                                             /*if(!GC.getGame().isOption(GAMEOPTION_NO_TUTORIAL))
                                             {
                                                 // do city alert
@@ -276,7 +276,7 @@ public class UnitMission {
                                             //CombatPredictionTypes ePrediction = GC.getGame().GetCombatPrediction(hUnit.pointer(), pDefender);
                                             let result = Combat.predictMeleeAttack(between: unit, and: defender, in: gameModel)
                                             if result.value == .totalDefeat || result.value == .majorDefeat {
-                                                // FIXME: show turotial
+                                                // FIXME: show tutorial
                                                 /*if(!GC.getGame().isOption(GAMEOPTION_NO_TUTORIAL))
                                                 {
                                                     GC.GetEngineUserInterface()->SetDontShowPopups(false);
@@ -564,7 +564,6 @@ public class UnitMission {
                                 GC.GetEngineUserInterface()->changeCycleSelectionCounter(iCameraTime);* /
                             }
                         }*/
-
 
                     unit.publishQueuedVisualizationMoves(in: gameModel)
 
