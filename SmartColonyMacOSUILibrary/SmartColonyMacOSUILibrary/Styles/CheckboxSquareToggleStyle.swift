@@ -8,11 +8,11 @@
 import SwiftUI
 
 public struct CheckboxSquareToggleStyle: ToggleStyle {
-    
+
     public init() {
-        
+
     }
-    
+
     public func makeBody(configuration: Configuration) -> some View {
         Button {
             configuration.isOn.toggle()
@@ -21,7 +21,7 @@ public struct CheckboxSquareToggleStyle: ToggleStyle {
                 Image(systemName: configuration.isOn ? "checkmark.square" : "square")
                     .foregroundColor(configuration.isOn ? .accentColor : .secondary)
                     .accessibility(label: Text(configuration.isOn ? "Checked" : "Unchecked"))
-                
+
                 configuration.label
             }
         }

@@ -10,35 +10,35 @@ import SmartAILibrary
 import SmartAssets
 
 class FeatureLayer: BaseLayer {
-    
+
     override init(player: AbstractPlayer?) {
 
         super.init(player: player)
         self.zPosition = Globals.ZLevels.feature
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func populate(with gameModel: GameModel?) {
-        
+
         self.gameModel = gameModel
 
         guard let gameModel = self.gameModel else {
             fatalError("gameModel not set")
         }
-        
+
         self.textureUtils = TextureUtils(with: gameModel)
         self.textures = Textures(game: gameModel)
-        
+
         self.rebuild()
     }
 
     func placeTileHex(for tile: AbstractTile, neighborTiles: [HexDirection: AbstractTile?], at position: CGPoint, alpha: CGFloat) {
 
         let feature: FeatureType = tile.feature()
-        
+
         // place forests etc
         if feature != .none {
 
@@ -60,7 +60,7 @@ class FeatureLayer: BaseLayer {
                 }
             }
         }
-        
+
         if feature != .ice {
             if let iceTexture = self.textures?.iceTexture(at: tile.point) {
 
@@ -80,42 +80,42 @@ class FeatureLayer: BaseLayer {
     }
 
     func clear(tile: AbstractTile?) {
-        
+
         guard let textureUtils = self.textureUtils else {
             fatalError("cant get textureUtils")
         }
-        
+
         if let tile = tile {
             if let featureSprite = textureUtils.featureSprite(at: tile.point) {
                 self.removeChildren(in: [featureSprite])
             }
-            
+
             if let iceSprite = textureUtils.iceSprite(at: tile.point) {
                 self.removeChildren(in: [iceSprite])
             }
         }
     }
-    
+
     override func update(tile: AbstractTile?) {
-        
+
         guard let gameModel = self.gameModel else {
             fatalError("gameModel not set")
         }
-        
+
         if let tile = tile {
             let pt = tile.point
-            
+
             self.clear(tile: tile)
-            
+
             let screenPoint = HexPoint.toScreen(hex: pt)
-            
+
             let neighborTileN = gameModel.tile(at: pt.neighbor(in: .north))
             let neighborTileNE = gameModel.tile(at: pt.neighbor(in: .northeast))
             let neighborTileSE = gameModel.tile(at: pt.neighbor(in: .southeast))
             let neighborTileS = gameModel.tile(at: pt.neighbor(in: .south))
             let neighborTileSW = gameModel.tile(at: pt.neighbor(in: .southwest))
             let neighborTileNW = gameModel.tile(at: pt.neighbor(in: .northwest))
-            
+
             let neighborTiles: [HexDirection: AbstractTile?]  = [
                 .north: neighborTileN,
                 .northeast: neighborTileNE,
@@ -124,7 +124,7 @@ class FeatureLayer: BaseLayer {
                 .southwest: neighborTileSW,
                 .northwest: neighborTileNW
             ]
-     
+
             if tile.isVisible(to: self.player) || self.showCompleteMap {
                 self.placeTileHex(for: tile, neighborTiles: neighborTiles, at: screenPoint, alpha: 1.0)
             } else if tile.isDiscovered(by: self.player) {

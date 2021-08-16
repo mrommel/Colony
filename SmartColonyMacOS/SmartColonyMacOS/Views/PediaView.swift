@@ -124,7 +124,8 @@ struct PediaView: View {
 struct PediaView_Previews: PreviewProvider {
 
     static var previews: some View {
-        _ = GameViewModel(preloadAssets: true)
+        // swiftlint:disable:next redundant_discardable_let
+        let _ = GameViewModel(preloadAssets: true)
         let viewModel = PediaViewModel()
 
         PediaView(viewModel: viewModel)

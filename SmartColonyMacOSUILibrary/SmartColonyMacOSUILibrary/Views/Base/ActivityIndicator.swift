@@ -11,13 +11,13 @@ public struct ActivityIndicator: NSViewRepresentable {
 
     @Binding
     public var isAnimating: Bool
-    
+
     public let style: NSProgressIndicator.Style
     public let controlSize: NSControl.ControlSize
     public let hideWhenNotAnimating: Bool
 
     public init(isAnimating: Binding<Bool>, style: NSProgressIndicator.Style, controlSize: NSControl.ControlSize = .small, hideWhenNotAnimating: Bool = true) {
-        
+
         self._isAnimating = isAnimating
         self.style = style
         self.controlSize = controlSize

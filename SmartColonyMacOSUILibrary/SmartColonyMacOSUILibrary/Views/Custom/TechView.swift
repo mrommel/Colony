@@ -9,10 +9,10 @@ import SwiftUI
 import SmartAILibrary
 
 struct TechView: View {
-    
+
     @ObservedObject
     var viewModel: TechViewModel
-    
+
     private var gridItemLayout = [
         GridItem(.fixed(16), spacing: 2.0),
         GridItem(.fixed(16), spacing: 2.0),
@@ -22,14 +22,14 @@ struct TechView: View {
         GridItem(.fixed(16), spacing: 2.0),
         GridItem(.fixed(16), spacing: 2.0)
     ]
-    
+
     public init(viewModel: TechViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     public var body: some View {
-        
+
         if self.viewModel.techType != .none {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top, spacing: 0) {
@@ -39,27 +39,27 @@ struct TechView: View {
                         .padding(.leading, 1)
                         .padding(.top, 1)
                         .padding(.trailing, 0)
-                    
+
                     VStack(alignment: .leading, spacing: 0) {
-                        
+
                         HStack(alignment: .top, spacing: 0) {
                             Text(self.viewModel.title())
                                 .frame(width: 83, height: 8, alignment: .topLeading)
                                 .font(.system(size: 6))
                                 .padding(.leading, 1)
                                 .padding(.top, 2)
-                            
+
                             Text(self.viewModel.turnsText())
                                 .frame(width: 28, height: 8, alignment: .topTrailing)
                                 .font(.system(size: 6))
                                 .padding(.trailing, 2)
                                 .padding(.top, 2)
                         }
-                            
+
                         LazyVGrid(columns: gridItemLayout, spacing: 4) {
-                            
+
                             ForEach(self.viewModel.achievementViewModels, id: \.self) { achievementViewModel in
-                                
+
                                 AchievementView(viewModel: achievementViewModel)
                                     .id("tech-\(self.viewModel.id)-\(achievementViewModel.id)")
                             }
@@ -73,7 +73,7 @@ struct TechView: View {
                     .padding(.top, 1)
                 }
                 .frame(width: 150, height: 35, alignment: .topLeading)
-                
+
                 Text(self.viewModel.boostText())
                     .font(.system(size: 5))
                     .padding(.leading, 5)
@@ -94,14 +94,15 @@ struct TechView: View {
 
 #if DEBUG
 struct TechView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
         TechView(viewModel: TechViewModel(techType: .archery, state: .possible, boosted: true, turns: 27))
-        
+
         TechView(viewModel: TechViewModel(techType: .astrology, state: .selected, boosted: false, turns: -1))
-        
+
         TechView(viewModel: TechViewModel(techType: .animalHusbandry, state: .researched, boosted: true, turns: -1))
     }
 }

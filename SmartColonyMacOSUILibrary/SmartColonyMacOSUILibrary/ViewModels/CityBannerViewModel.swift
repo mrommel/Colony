@@ -8,15 +8,15 @@
 import SwiftUI
 
 class CityBannerViewModel: ObservableObject {
-    
+
     @Published
     var name: String
-    
+
     @Published
     var showBanner: Bool = false
-    
+
     init(name: String = "") {
-        
+
         self.name = name
     }
 }

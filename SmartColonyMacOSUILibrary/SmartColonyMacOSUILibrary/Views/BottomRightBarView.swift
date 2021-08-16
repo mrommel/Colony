@@ -8,15 +8,15 @@
 import SwiftUI
 
 public struct BottomRightBarView: View {
-    
+
     @ObservedObject
     public var viewModel: GameSceneViewModel
-    
+
     public var body: some View {
         HStack {
-            
+
             Spacer()
-            
+
             VStack(alignment: .trailing, spacing: 10) {
 
                 Spacer()

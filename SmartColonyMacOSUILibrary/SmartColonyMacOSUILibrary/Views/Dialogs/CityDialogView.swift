@@ -10,53 +10,53 @@ import SmartAILibrary
 import SmartAssets
 
 struct CityDialogView: View {
-    
+
     @ObservedObject
     var viewModel: CityDialogViewModel
-    
+
     public init(viewModel: CityDialogViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
-        
+
         Group {
             VStack(spacing: 0) {
-                
+
                 Text(self.viewModel.cityName)
                     .font(.title2)
                     .bold()
                     .padding(.top, 13)
                     .padding(.bottom, 10)
-                
+
                 VStack(spacing: 10) {
-                    
+
                     Text("Population: \(self.viewModel.population)")
 
                     HStack(alignment: .center) {
                         YieldValueView(viewModel: self.viewModel.scienceYieldViewModel)
-                        
+
                         YieldValueView(viewModel: self.viewModel.cultureYieldViewModel)
-                        
+
                         YieldValueView(viewModel: self.viewModel.foodYieldViewModel)
-                        
+
                         YieldValueView(viewModel: self.viewModel.productionYieldViewModel)
-                        
+
                         YieldValueView(viewModel: self.viewModel.goldYieldViewModel)
-                        
+
                         YieldValueView(viewModel: self.viewModel.faithYieldViewModel)
                     }
-                    
+
                     Divider()
-                    
+
                     self.detailView
                         .frame(width: 700, height: 300, alignment: .top)
-                    
+
                     Spacer(minLength: 0)
-                    
+
                     HStack(spacing: 25) {
-                        
+
                         ForEach(CityDetailViewType.all, id: \.self) { value in
                             Button(action: {
                                 self.viewModel.show(detail: value)
@@ -70,9 +70,9 @@ struct CityDialogView: View {
                             }
                         }
                     }
-                    
+
                     Divider()
-                    
+
                     Button(action: {
                         self.viewModel.closeDialog()
                     }, label: {
@@ -93,11 +93,11 @@ struct CityDialogView: View {
                 .resizable(capInsets: EdgeInsets(all: 45))
         )
     }
-    
+
     var detailView: AnyView {
-        
+
         switch self.viewModel.cityDetailViewType {
-        
+
         case .production:
             return AnyView(CityProductionView(viewModel: self.viewModel.productionViewModel))
         case .buildings:
@@ -114,8 +114,9 @@ struct CityDialogView: View {
 
 #if DEBUG
 struct CityDialogView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
         let game = DemoGameModel()
         let environment = GameEnvironment(game: game)

@@ -10,7 +10,7 @@ import SmartAILibrary
 import SmartAssets
 
 extension Image {
-    
+
     func mapOverview() -> some View {
         self
             .resizable()
@@ -19,24 +19,24 @@ extension Image {
 }
 
 public struct MapOverviewView: View {
-    
+
     @ObservedObject
     var viewModel: MapOverviewViewModel
-    
+
     @Environment(\.gameEnvironment)
     var gameEnvironment: GameEnvironment
-    
+
     let bundle = Bundle.init(for: Textures.self)
-    
+
     public var body: some View {
-        
+
         ZStack(alignment: .bottomTrailing) {
-            
+
             Image("map_overview_canvas")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200, height: 112, alignment: .bottomTrailing) // 400 × 224
-            
+
             self.viewModel.image
                 .mapOverview()
                 .offset(x: -8.0, y: -2.0)

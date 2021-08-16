@@ -8,30 +8,30 @@
 import SwiftUI
 
 struct CityBannerView: View {
-    
+
     @ObservedObject
     public var viewModel: CityBannerViewModel
-    
+
     @State
     var showBanner: Bool = false
-    
+
     public var body: some View {
-        
+
         VStack(alignment: .leading, spacing: 0) {
-            
+
             Spacer()
-            
+
             HStack(alignment: .center, spacing: 0) {
-                
+
                 Spacer()
-                
+
                 ZStack(alignment: .bottom) {
 
                     Image(nsImage: ImageCache.shared.image(for: "city-canvas"))
                         .resizable()
                         .scaledToFit()
                         .frame(width: 300, height: 112, alignment: .bottomTrailing)
-                    
+
                     Text(self.viewModel.name)
                         .font(.footnote)
                         .padding(.bottom, 76)
@@ -43,7 +43,7 @@ struct CityBannerView: View {
                         self.showBanner = value
                     }
                 })
-                
+
                 Spacer()
             }
         }
@@ -53,11 +53,12 @@ struct CityBannerView: View {
 
 #if DEBUG
 struct CityBannerView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
         let viewModel = CityBannerViewModel(name: "Berlin")
-        
+
         CityBannerView(viewModel: viewModel)
     }
 }

@@ -9,17 +9,17 @@ import SwiftUI
 import SmartAILibrary
 
 struct AchievementView: View {
-    
+
     @ObservedObject
     var viewModel: AchievementViewModel
-    
+
     public init(viewModel: AchievementViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     public var body: some View {
-        
+
         Image(nsImage: self.viewModel.image)
             .resizable()
             .frame(width: 16, height: 16, alignment: .topLeading)
@@ -30,14 +30,15 @@ struct AchievementView: View {
 
 #if DEBUG
 struct AchievementView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
         AchievementView(viewModel: AchievementViewModel(imageName: TechType.animalHusbandry.iconTexture()))
-        
+
         AchievementView(viewModel: AchievementViewModel(imageName: CivicType.codeOfLaws.iconTexture()))
-        
+
         AchievementView(viewModel: AchievementViewModel(imageName: UnitType.archer.typeTexture()))
     }
 }

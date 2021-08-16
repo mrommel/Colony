@@ -8,30 +8,30 @@
 import SwiftUI
 
 struct SelectPantheonDialogView: View {
-    
+
     @ObservedObject
     var viewModel: SelectPantheonDialogViewModel
-    
+
     private var gridItemLayout = [GridItem(.fixed(250)), GridItem(.fixed(250))]
-    
+
     public init(viewModel: SelectPantheonDialogViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
-        
+
         Group {
             VStack(spacing: 10) {
                 Text("Select Pantheon")
                     .font(.title2)
                     .bold()
                     .padding()
-                
+
                 ScrollView(.vertical, showsIndicators: true, content: {
-                    
+
                     LazyVGrid(columns: gridItemLayout, spacing: 8) {
-                        
+
                         ForEach(self.viewModel.pantheonViewModels) { pantheonViewModel in
 
                             PantheonView(viewModel: pantheonViewModel)
@@ -43,7 +43,7 @@ struct SelectPantheonDialogView: View {
                     }
                 })
                 .border(Color.gray)
-                
+
                 Button(action: {
                     self.viewModel.closeDialog()
                 }, label: {
@@ -64,12 +64,13 @@ struct SelectPantheonDialogView: View {
 
 #if DEBUG
 struct SelectPantheonDialogView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
         let game = DemoGameModel()
         let viewModel = SelectPantheonDialogViewModel(game: game)
-            
+
         SelectPantheonDialogView(viewModel: viewModel)
     }
 }

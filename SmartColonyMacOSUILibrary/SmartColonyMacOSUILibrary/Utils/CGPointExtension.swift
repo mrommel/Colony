@@ -8,25 +8,25 @@
 import Foundation
 
 extension CGPoint {
-    
+
     init(fromSize size: CGSize) {
-        self.init(x: size.width, y:size.height)
+        self.init(x: size.width, y: size.height)
     }
-    
+
     func distanceSquared(to p: CGPoint) -> CGFloat {
         let dx = x - p.x
         let dy = y - p.y
         return dx * dx + dy * dy
     }
-    
+
     func distance(to point: CGPoint) -> CGFloat {
         return sqrt(self.distanceSquared(to: point))
     }
-    
+
     func rounded() -> CGPoint {
         return CGPoint(x: x.rounded(), y: y.rounded())
     }
-        
+
     public static var upperLeft: CGPoint {
         return CGPoint(x: 0, y: 1)
     }

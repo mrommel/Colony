@@ -10,7 +10,7 @@ import SmartAILibrary
 import SmartAssets
 
 class YieldLayer: BaseLayer {
-    
+
     static let kName: String = "YieldLayer"
 
     // MARK: constructor
@@ -47,7 +47,7 @@ class YieldLayer: BaseLayer {
 
         // yield textures
         if let textureName = self.textures?.yieldTexture(for: yields) {
-            
+
             let image = ImageCache.shared.image(for: textureName)
 
             let yieldsSprite = SKSpriteNode(texture: SKTexture(image: image), size: YieldLayer.kTextureSize)

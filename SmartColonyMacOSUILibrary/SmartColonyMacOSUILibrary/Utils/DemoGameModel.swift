@@ -8,11 +8,11 @@
 import SmartAILibrary
 
 public class DemoGameModel: GameModel {
-    
+
     public init() {
         let barbarianPlayer = Player(leader: .barbar, isHuman: false)
         barbarianPlayer.initialize()
-        
+
         let aiPlayer = Player(leader: .victoria, isHuman: false)
         aiPlayer.initialize()
 
@@ -25,9 +25,9 @@ public class DemoGameModel: GameModel {
         mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
         mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
-        
+
         super.init(victoryTypes: [.cultural], handicap: .chieftain, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
-        
+
         let mapSize = mapModel.size
         for x in 0..<mapSize.width() {
 
@@ -37,11 +37,11 @@ public class DemoGameModel: GameModel {
             }
         }
     }
-    
+
     required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
-    
+
     static func mapFilled(with terrain: TerrainType, sized size: MapSize) -> MapModel {
 
         let mapModel = MapModel(size: size)

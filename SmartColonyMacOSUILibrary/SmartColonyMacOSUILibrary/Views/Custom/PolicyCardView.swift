@@ -9,17 +9,17 @@ import SwiftUI
 import SmartAssets
 
 struct PolicyCardView: View {
-    
+
     @ObservedObject
     var viewModel: PolicyCardViewModel
-    
+
     var body: some View {
-        
+
         ZStack(alignment: .topLeading) {
             VStack {
                 Text(self.viewModel.title())
                     .font(.headline)
-                
+
                 Text(self.viewModel.summary())
                     .font(.footnote)
                     .padding(.top, 1)
@@ -28,7 +28,7 @@ struct PolicyCardView: View {
             .padding(.top, 10)
             .padding(.leading, 33)
             .padding(.trailing, 33)
-            
+
             Toggle(isOn: self.$viewModel.selected) {
                 Text("")
             }
@@ -46,11 +46,12 @@ struct PolicyCardView: View {
 
 #if DEBUG
 struct PolicyCardView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
         let viewModel = PolicyCardViewModel(policyCardType: .agoge, state: .selected)
-        
+
         PolicyCardView(viewModel: viewModel)
     }
 }

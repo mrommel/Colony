@@ -14,15 +14,15 @@ enum PolicyCardState {
     case selected
     case active
     case disabled
-    
+
     case none
-    
+
     func textureName() -> String {
-        
+
         switch self {
 
         case .none: return "checkbox-none"
-            
+
         case .selected: return "checkbox-checked"
         case .active: return "checkbox-unchecked"
         case .disabled: return "checkbox-disabled"
@@ -31,22 +31,22 @@ enum PolicyCardState {
 }
 
 protocol PolicyCardViewModelDelegate: AnyObject {
-    
+
     func updateSelection()
 }
 
 class PolicyCardViewModel: ObservableObject {
-      
+
     // variables
     let policyCardType: PolicyCardType
-    
+
     @Published
     var state: PolicyCardState
-    
+
     @Published
     var selected: Bool {
         didSet {
-            
+
             if self.state == .disabled {
                 self.selected = false
             } else {
@@ -56,46 +56,46 @@ class PolicyCardViewModel: ObservableObject {
                     self.state = .active
                 }
             }
-            
+
             self.delegate?.updateSelection()
         }
     }
-    
+
     weak var delegate: PolicyCardViewModelDelegate?
-    
+
     init(policyCardType: PolicyCardType, state: PolicyCardState) {
 
         self.policyCardType = policyCardType
         self.state = state
-        
+
         self.selected = state == .selected
     }
-    
+
     func title() -> String {
-        
+
         return self.policyCardType.name()
     }
-    
+
     func summary() -> String {
 
         return self.policyCardType.bonus().replaceIcons()
     }
-    
+
     func background() -> NSImage {
-        
+
         return ImageCache.shared.image(for: self.policyCardType.iconTexture())
     }
 }
- 
+
 extension PolicyCardViewModel: Hashable {
-    
+
     static func == (lhs: PolicyCardViewModel, rhs: PolicyCardViewModel) -> Bool {
-        
+
         return lhs.policyCardType == rhs.policyCardType
     }
-    
+
     func hash(into hasher: inout Hasher) {
-        
+
         hasher.combine(self.policyCardType)
     }
 }

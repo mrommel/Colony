@@ -10,7 +10,7 @@ import SmartAILibrary
 import SmartAssets
 
 class UnitLayer: SKNode {
-    
+
     static let kTextureWidth: Int = 48
     static let kTextureSize: CGSize = CGSize(width: kTextureWidth, height: kTextureWidth)
     static let focusActionKey: String = "focusActionKey"
@@ -64,7 +64,7 @@ class UnitLayer: SKNode {
                 self.show(unit: unitRef)
             }
         }
-        
+
         print("inited with: \(self.unitObjects.count) visible units")
     }
 
@@ -116,11 +116,11 @@ class UnitLayer: SKNode {
             self.unitObjects.removeAll(where: { $0.identifier == unitObject.identifier })
         }
     }
-    
+
     func fortify(unit: AbstractUnit?) {
-        
+
         if let unitObject = self.unitObject(of: unit) {
-            
+
             unitObject.showFortified()
         }
     }
@@ -250,7 +250,7 @@ class UnitLayer: SKNode {
             if !isReallyMovementLeft {
                 textureName = textureName + "-out"
             }
-            
+
             let pathImage = ImageCache.shared.image(for: textureName)
 
             let pathSprite = SKSpriteNode(texture: SKTexture(image: pathImage), size: UnitLayer.kTextureSize)
@@ -313,7 +313,7 @@ class UnitLayer: SKNode {
             if !isReallyMovementLeft {
                 textureName = textureName + "-out"
             }
-            
+
             if !ImageCache.shared.exists(key: textureName) {
                 return
             }

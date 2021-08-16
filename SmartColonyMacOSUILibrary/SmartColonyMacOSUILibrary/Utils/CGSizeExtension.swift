@@ -9,7 +9,7 @@ import Foundation
 import CoreGraphics
 
 public extension CGSize {
-    
+
     init(fromPoint point: CGPoint) {
         self.init(width: point.x, height: point.y)
     }

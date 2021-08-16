@@ -14,7 +14,7 @@ class TooltipLayer: SKNode {
     let player: AbstractPlayer?
     weak var gameModel: GameModel?
     var textureUtils: TextureUtils?
-    
+
     // nodes
     //var tooltipNodes: [TooltipNode] = []
 
@@ -40,18 +40,18 @@ class TooltipLayer: SKNode {
 
         self.textureUtils = TextureUtils(with: gameModel)
     }
-    
+
     func show(text: String, at location: HexPoint, for seconds: Double) {
-        
+
         var screenPoint = HexPoint.toScreen(hex: location)
-        
+
         screenPoint.x += 12 // 24 / 2
-        
+
         let tooltipNode = TooltipNode(text: text)
         tooltipNode.position = screenPoint
         tooltipNode.zPosition = Globals.ZLevels.tooltips
         self.addChild(tooltipNode)
-        
+
         // remove after some time
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: {
             tooltipNode.removeFromParent()

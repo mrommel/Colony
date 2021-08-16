@@ -9,17 +9,17 @@ import SwiftUI
 import SmartAILibrary
 
 struct ReplyView: View {
-    
+
     @ObservedObject
     var viewModel: ReplyViewModel
-    
+
     public init(viewModel: ReplyViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
-        
+
         Button(self.viewModel.text) {
             self.viewModel.clicked()
         }.buttonStyle(GameButtonStyle(state: .text))
@@ -28,8 +28,9 @@ struct ReplyView: View {
 
 #if DEBUG
 struct ReplyView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
         let viewModel = ReplyViewModel(reply: .introReplyPositive)

@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct CitizenReligionView: View {
-    
+
     @ObservedObject
     var viewModel: CitizenReligionViewModel
-    
+
     var body: some View {
-        
+
         HStack(alignment: .center, spacing: 10) {
             Text("\(self.viewModel.religionCitizenNumber)")
-        
+
             Text(self.viewModel.religionCitizenName)
                 .padding(.all, 8)
                 .background(
@@ -32,12 +32,13 @@ struct CitizenReligionView: View {
 
 #if DEBUG
 struct CitizenReligionView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
         CitizenReligionView(viewModel: CitizenReligionViewModel(religionType: .buddhism, amount: 2))
-        
+
         CitizenReligionView(viewModel: CitizenReligionViewModel(religionType: .confucianism, amount: 1))
     }
 }

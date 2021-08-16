@@ -8,9 +8,9 @@
 import Foundation
 
 extension CGContext {
-    
-    func drawText(text: String, at point: CGPoint, with attributes: [NSAttributedString.Key : Any]) {
-        
+
+    func drawText(text: String, at point: CGPoint, with attributes: [NSAttributedString.Key: Any]) {
+
         self.saveGState()
 
         // Parameters
