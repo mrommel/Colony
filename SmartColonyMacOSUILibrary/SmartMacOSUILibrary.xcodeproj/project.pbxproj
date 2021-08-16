@@ -172,6 +172,8 @@
 		C9F2B55326695BD00016D4F3 /* TooltipNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B55226695BD00016D4F3 /* TooltipNode.swift */; };
 		C9F2B555266A58760016D4F3 /* UnitDisbandConfirmationDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B554266A58760016D4F3 /* UnitDisbandConfirmationDialogView.swift */; };
 		C9F2B557266A7FE20016D4F3 /* UnitDisbandConfirmationDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B556266A7FE20016D4F3 /* UnitDisbandConfirmationDialogViewModel.swift */; };
+		C9F4939D26CAAE9600B0C259 /* UnitListDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */; };
+		C9F4939F26CAB04400B0C259 /* UnitListDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */; };
 		C9FBBE3C268356C4005D7CE6 /* DiplomaticDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FBBE3B268356C4005D7CE6 /* DiplomaticDialogViewModel.swift */; };
 		C9FBBE3E26837991005D7CE6 /* TopBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FBBE3D26837991005D7CE6 /* TopBarViewModel.swift */; };
 		C9FBBE4026837AA7005D7CE6 /* CityBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FBBE3F26837AA7005D7CE6 /* CityBannerView.swift */; };
@@ -359,6 +361,8 @@
 		C9F2B55226695BD00016D4F3 /* TooltipNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipNode.swift; sourceTree = "<group>"; };
 		C9F2B554266A58760016D4F3 /* UnitDisbandConfirmationDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitDisbandConfirmationDialogView.swift; sourceTree = "<group>"; };
 		C9F2B556266A7FE20016D4F3 /* UnitDisbandConfirmationDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitDisbandConfirmationDialogViewModel.swift; sourceTree = "<group>"; };
+		C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitListDialogViewModel.swift; sourceTree = "<group>"; };
+		C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitListDialogView.swift; sourceTree = "<group>"; };
 		C9FBBE3B268356C4005D7CE6 /* DiplomaticDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDialogViewModel.swift; sourceTree = "<group>"; };
 		C9FBBE3D26837991005D7CE6 /* TopBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarViewModel.swift; sourceTree = "<group>"; };
 		C9FBBE3F26837AA7005D7CE6 /* CityBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBannerView.swift; sourceTree = "<group>"; };
@@ -437,6 +441,7 @@
 				C9F2B554266A58760016D4F3 /* UnitDisbandConfirmationDialogView.swift */,
 				C9B60BED269DC61100F10177 /* SelectPantheonDialogView.swift */,
 				C94816BE26A82D4E00765029 /* SelectTradeCityDialogView.swift */,
+				C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -645,6 +650,7 @@
 				C9FBBE3B268356C4005D7CE6 /* DiplomaticDialogViewModel.swift */,
 				C9B60BEF269DC68800F10177 /* SelectPantheonDialogViewModel.swift */,
 				C94816BA26A824C400765029 /* SelectTradeCityDialogViewModel.swift */,
+				C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -893,6 +899,7 @@
 				C974E44126BD14AF004DD34F /* DiplomaticDialogView.swift in Sources */,
 				C9A37619263457D70057923E /* GameScene.swift in Sources */,
 				C9E87BB5264D1D1C00514B9A /* CivicDialogView.swift in Sources */,
+				C9F4939F26CAB04400B0C259 /* UnitListDialogView.swift in Sources */,
 				C9A3761B263468780057923E /* SKNodeExtension.swift in Sources */,
 				C962A83A26A08C570045AF0E /* CanFoundPantheonPopupView.swift in Sources */,
 				C99A88882607A1D3003B8B73 /* CGPointExtension.swift in Sources */,
@@ -924,6 +931,7 @@
 				C9F2B55326695BD00016D4F3 /* TooltipNode.swift in Sources */,
 				C9B3141E2657FF1100726CAA /* YieldValueViewModel.swift in Sources */,
 				C9A48D4B2653F8C100260EE0 /* CityDialogViewModel.swift in Sources */,
+				C9F4939D26CAAE9600B0C259 /* UnitListDialogViewModel.swift in Sources */,
 				C9452E3126680DB3005EF985 /* TechDiscoveredPopupView.swift in Sources */,
 				C9711126262569D600B58AAE /* NSMenuItemExtension.swift in Sources */,
 				C9FBBE3C268356C4005D7CE6 /* DiplomaticDialogViewModel.swift in Sources */,

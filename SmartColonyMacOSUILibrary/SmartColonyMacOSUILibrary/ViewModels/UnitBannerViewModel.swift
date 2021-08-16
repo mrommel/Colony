@@ -97,6 +97,17 @@ class UnitBannerViewModel: ObservableObject {
         return ""
     }
     
+    func listImage() -> NSImage {
+        
+        return ImageCache.shared.image(for: "command-button-list")
+    }
+    
+    func listClicked() {
+        
+        print("open unit list")
+        self.delegate?.showUnitListDialog()
+    }
+    
     func commandImage(at index: Int) -> NSImage {
         
         if 0 <= index && index < self.commands.count {

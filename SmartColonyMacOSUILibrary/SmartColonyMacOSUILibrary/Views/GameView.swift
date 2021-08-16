@@ -103,6 +103,8 @@ extension GameView {
             return AnyView(EmptyView())
         case .cityName:
             return AnyView(CityNameDialogView(viewModel: self.viewModel.cityNameDialogViewModel))
+        case .unitList:
+            return AnyView(UnitListDialogView(viewModel: self.viewModel.unitListDialogViewModel))
         case .selectPantheon:
             let viewModel = SelectPantheonDialogViewModel()
             viewModel.delegate = self.viewModel

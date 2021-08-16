@@ -15,6 +15,7 @@ protocol GameViewModelDelegate: AnyObject {
     func focus(on point: HexPoint)
     func showUnitBanner()
     func hideUnitBanner()
+    func select(unit: AbstractUnit?)
     func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?)
     
     func showCityBanner(for city: AbstractCity?)
@@ -38,6 +39,8 @@ protocol GameViewModelDelegate: AnyObject {
     func showDiplomaticDialog(with otherPlayer: AbstractPlayer?, data: DiplomaticData?, deal: DiplomaticDeal?)
     
     func showSelectPantheonDialog()
+    
+    func showUnitListDialog()
     
     func isShown(screen: ScreenType) -> Bool
     
@@ -103,6 +106,9 @@ public class GameViewModel: ObservableObject {
     
     @Published
     var cityDialogViewModel: CityDialogViewModel
+    
+    @Published
+    var unitListDialogViewModel: UnitListDialogViewModel
 
     // UI
     
@@ -176,6 +182,7 @@ public class GameViewModel: ObservableObject {
         self.cityDialogViewModel = CityDialogViewModel()
         self.diplomaticDialogViewModel = DiplomaticDialogViewModel()
         self.selectTradeCityDialogViewModel = SelectTradeCityDialogViewModel()
+        self.unitListDialogViewModel = UnitListDialogViewModel()
         
         // connect models
         self.gameSceneViewModel.delegate = self
@@ -193,6 +200,7 @@ public class GameViewModel: ObservableObject {
         self.cityDialogViewModel.delegate = self
         self.diplomaticDialogViewModel.delegate = self
         self.selectTradeCityDialogViewModel.delegate = self
+        self.unitListDialogViewModel.delegate = self
         
         self.mapOptionShowResourceMarkers = self.gameEnvironment.displayOptions.value.showResourceMarkers
         self.mapOptionShowWater = self.gameEnvironment.displayOptions.value.showWater
@@ -568,6 +576,11 @@ extension GameViewModel: GameViewModelDelegate {
         self.unitBannerViewModel.showBanner = false
     }
     
+    func select(unit: AbstractUnit?) {
+        
+        self.gameSceneViewModel.selectedUnit = unit
+    }
+    
     func selectedUnitChanged(to unit: AbstractUnit?, commands: [Command], in gameModel: GameModel?) {
         
         self.unitBannerViewModel.selectedUnitChanged(to: unit, commands: commands, in: gameModel)
@@ -715,6 +728,29 @@ extension GameViewModel: GameViewModelDelegate {
             }
         } else {
             fatalError("cant show diplomatic dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+    
+    func showUnitListDialog() {
+        
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human")
+        }
+        
+        if self.currentScreenType == .unitList {
+            // already shown
+            return
+        }
+        
+        if self.currentScreenType == .none {
+            self.unitListDialogViewModel.update(for: humanPlayer)
+            self.currentScreenType = .unitList
+        } else {
+            fatalError("cant show unit list dialog, \(self.currentScreenType) is currently shown")
         }
     }
     

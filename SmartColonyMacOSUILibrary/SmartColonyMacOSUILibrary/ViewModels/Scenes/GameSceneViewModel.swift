@@ -162,28 +162,41 @@ public class GameSceneViewModel: ObservableObject {
         
         print("do turn: \(self.turnButtonNotificationType)")
         
-        if self.turnButtonNotificationType == .turn {
+        switch self.turnButtonNotificationType {
+        
+        case .turn:
             self.handleTurnButtonClicked()
-            return
-        } else if self.turnButtonNotificationType == .unitNeedsOrders {
-            self.handleFocusOnUnit()
-            return
-        } else if self.turnButtonNotificationType == .techNeeded {
+        case .generic:
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .techNeeded:
             self.handleTechNeeded()
-            return
-        } else if self.turnButtonNotificationType == .civicNeeded {
+        case .civicNeeded:
             self.handleCivicNeeded()
-            return
-        } else if self.turnButtonNotificationType == .productionNeeded {
+        case .productionNeeded:
             self.handleProductionNeeded(at: self.turnButtonNotificationLocation)
-            return
-        } else if self.turnButtonNotificationType == .policiesNeeded {
+        case .canChangeGovernment:
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .policiesNeeded:
             self.handlePoliciesNeeded()
-            return
-        } else if self.turnButtonNotificationType == .unitPromotion {
+        case .canFoundPantheon:
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .cityGrowth:
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .starving:
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .diplomaticDeclaration:
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .war:
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .enemyInTerritory:
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .unitPromotion:
             self.handleUnitPromotion(at: self.turnButtonNotificationLocation)
-            return
-        } else {
+        case .unitNeedsOrders:
+            self.handleFocusOnUnit()
+        case .unitDied:
+            print("--- unhandled notification type: \(self.turnButtonNotificationType)")
+        case .greatPersonJoined:
             print("--- unhandled notification type: \(self.turnButtonNotificationType)")
         }
     }
@@ -546,8 +559,10 @@ extension GameSceneViewModel: HeaderButtonViewModelDelegate {
             print("log")
         case .ranking:
             print("ranking")
+            // self.delegate?.showRankingDialog()
         case .tradeRoutes:
             print("tradeRoutes")
+            // self.delegate?.showTradeRouteDialog()
         }
     }
 }

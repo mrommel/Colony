@@ -46,6 +46,15 @@ struct UnitBannerView: View {
                 ZStack(alignment: .bottom) {
                     
                     Group {
+                        Image(nsImage: self.viewModel.listImage())
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 32, height: 32)
+                            .offset(x: -80, y: -105)
+                            .onTapGesture {
+                                self.viewModel.listClicked()
+                            }
+                        
                         Image(nsImage: self.viewModel.commandImage(at: 4))
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -102,9 +111,9 @@ struct UnitBannerView: View {
                                    style: .line,
                                    backgroundColor: Color(Globals.Colors.progressBackground),
                                    foregroundColor: Color(.green),
-                                   lineWidth: 10)
-                        .frame(height: 47)
-                        .offset(x: -80.3, y: -29)
+                                   lineWidth: 5)
+                        .frame(height: 52)
+                        .offset(x: -80.3, y: -26.5)
                     
                     Image(nsImage: self.viewModel.unitTypeImage())
                         .resizable()

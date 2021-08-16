@@ -26,6 +26,11 @@ class CityBuildQueueManager {
 
 extension CityBuildQueueManager: UnitViewModelDelegate {
     
+    func clicked(on unit: AbstractUnit?, at index: Int) {
+        
+        fatalError("should not happen")
+    }
+    
     func clicked(on unitType: UnitType, at index: Int) {
         
         print("remove unitType: \(unitType) at \(index)")
