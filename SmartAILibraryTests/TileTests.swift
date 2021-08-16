@@ -22,18 +22,18 @@ class TileTests: XCTestCase {
 
         self.objectToTest = nil
     }
-    
+
     func testImprovementsOnDesertWithoutHills() {
-        
+
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
         self.objectToTest = Tile(point: HexPoint(x: 0, y: 0), terrain: .desert, hills: false)
         try! self.objectToTest?.set(owner: playerAlexander)
-        
+
         // WHEN
         let improvements = self.objectToTest?.possibleImprovements()
-        
+
         // THEN
         XCTAssertFalse(improvements!.contains(.farm))
         XCTAssertFalse(improvements!.contains(.camp))
@@ -41,18 +41,18 @@ class TileTests: XCTestCase {
         XCTAssertFalse(improvements!.contains(.pasture))
         XCTAssertFalse(improvements!.contains(.quarry))
     }
-    
+
     func testImprovementsOnDesertWithHills() {
-        
+
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
         self.objectToTest = Tile(point: HexPoint(x: 0, y: 0), terrain: .desert, hills: true)
         try! self.objectToTest?.set(owner: playerAlexander)
-        
+
         // WHEN
         let improvements = self.objectToTest?.possibleImprovements()
-        
+
         // THEN
         XCTAssertFalse(improvements!.contains(.farm))
         XCTAssertFalse(improvements!.contains(.camp))
@@ -60,19 +60,19 @@ class TileTests: XCTestCase {
         XCTAssertFalse(improvements!.contains(.pasture))
         XCTAssertFalse(improvements!.contains(.quarry))
     }
-    
+
     func testImprovementsOnDesertWithHillsAndMiningEnabled() {
-        
+
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
         try! playerAlexander.techs!.discover(tech: .mining)
         self.objectToTest = Tile(point: HexPoint(x: 0, y: 0), terrain: .desert, hills: true)
         try! self.objectToTest?.set(owner: playerAlexander)
-        
+
         // WHEN
         let improvements = self.objectToTest?.possibleImprovements()
-        
+
         // THEN
         XCTAssertFalse(improvements!.contains(.farm))
         XCTAssertFalse(improvements!.contains(.camp))
@@ -80,18 +80,18 @@ class TileTests: XCTestCase {
         XCTAssertFalse(improvements!.contains(.pasture))
         XCTAssertFalse(improvements!.contains(.quarry))
     }
-    
+
     func testImprovementsOnGrasslandWithoutHills() {
-        
+
         // GIVEN
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
         self.objectToTest = Tile(point: HexPoint(x: 0, y: 0), terrain: .grass, hills: false)
         try! self.objectToTest?.set(owner: playerAlexander)
-        
+
         // WHEN
         let improvements = self.objectToTest?.possibleImprovements()
-        
+
         // THEN
         XCTAssertTrue(improvements!.contains(.farm))
         XCTAssertFalse(improvements!.contains(.camp))
@@ -101,19 +101,19 @@ class TileTests: XCTestCase {
     }
 
     func testContinentAssigned() {
-        
+
         // GIVEN
         self.objectToTest = Tile(point: HexPoint(x: 0, y: 0), terrain: .grass, hills: false)
-        
+
         let mapModel = MapModel(size: MapSize.duel)
-        
+
         let continent = Continent(identifier: 1, name: "Europa", on: mapModel)
         continent.add(point: HexPoint(x: 0, y: 0))
-        
+
         // WHEN
         self.objectToTest?.set(continent: continent)
         let isOnContinent = self.objectToTest?.isOn(continent: continent)
-        
+
         // THEN
         XCTAssertEqual(isOnContinent, true)
     }

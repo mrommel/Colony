@@ -12,7 +12,7 @@ import XCTest
 @testable import SmartAILibrary
 
 class AStarPathFinderTests: XCTestCase {
-    
+
     func testUnitUnawarePathWithoutObstacle() {
 
         // GIVEN
@@ -31,13 +31,13 @@ class AStarPathFinderTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
 
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
-        
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false)
-        
+
         // WHEN
         let path = pathFinder.shortestPath(fromTileCoord: HexPoint(x: 1, y: 2), toTileCoord: HexPoint(x: 3, y: 2))
-        
+
         // THEN
         XCTAssertNotNil(path, "no path found")
         if let path = path {
@@ -45,7 +45,7 @@ class AStarPathFinderTests: XCTestCase {
             XCTAssertEqual(path.cost, 2.0)
         }
     }
-    
+
     func testUnitUnawarePathWithObstacle() {
 
         // GIVEN
@@ -64,17 +64,17 @@ class AStarPathFinderTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
 
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
-        
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false)
-        
+
         // obstacle
         let unit = Unit(at: HexPoint(x: 2, y: 2), type: .warrior, owner: humanPlayer)
         gameModel.add(unit: unit)
-        
+
         // WHEN
         let path = pathFinder.shortestPath(fromTileCoord: HexPoint(x: 1, y: 2), toTileCoord: HexPoint(x: 3, y: 2))
-        
+
         // THEN
         XCTAssertNotNil(path, "no path found")
         if let path = path {
@@ -82,7 +82,7 @@ class AStarPathFinderTests: XCTestCase {
             XCTAssertEqual(path.cost, 2.0)
         }
     }
-    
+
     func testUnitAwarePathWithOwnObstacle() {
 
         // GIVEN
@@ -101,17 +101,17 @@ class AStarPathFinderTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
 
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
-        
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false)
-        
+
         // obstacle
         let unit = Unit(at: HexPoint(x: 2, y: 2), type: .builder, owner: humanPlayer)
         gameModel.add(unit: unit)
-        
+
         // WHEN
         let path = pathFinder.shortestPath(fromTileCoord: HexPoint(x: 1, y: 2), toTileCoord: HexPoint(x: 3, y: 2))
-        
+
         // THEN
         XCTAssertNotNil(path, "no path found (but we can move thru own units)")
         if let path = path {
@@ -119,7 +119,7 @@ class AStarPathFinderTests: XCTestCase {
             XCTAssertEqual(path.cost, 2.0)
         }
     }
-    
+
     func testUnitAwarePathWithForeignObstacle() {
 
         // GIVEN
@@ -138,21 +138,21 @@ class AStarPathFinderTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
 
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
-        
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: false)
-        
+
         // obstacle
         let unit = Unit(at: HexPoint(x: 2, y: 2), type: .warrior, owner: aiPlayer)
         gameModel.add(unit: unit)
-        
+
         // WHEN
         let path = pathFinder.shortestPath(fromTileCoord: HexPoint(x: 1, y: 2), toTileCoord: HexPoint(x: 3, y: 2))
-        
+
         // THEN
         XCTAssertNil(path, "path found - should not happen")
     }
-    
+
     func testUnitAwarePathWithEmbarking() {
 
         // GIVEN
@@ -171,13 +171,13 @@ class AStarPathFinderTests: XCTestCase {
         mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
 
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
-        
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: true)
-        
+
         // WHEN
         let path = pathFinder.shortestPath(fromTileCoord: HexPoint(x: 1, y: 2), toTileCoord: HexPoint(x: 4, y: 2))
-        
+
         // THEN
         XCTAssertNotNil(path, "no path found (but we can embark")
         if let path = path {
@@ -185,7 +185,7 @@ class AStarPathFinderTests: XCTestCase {
             XCTAssertEqual(path.cost, 4.0)
         }
     }
-    
+
     // Embarked Units cant move in water #67
     func testUnitAwarePathWithEmbarkingAndMovingToAnotherIsland() {
 
@@ -200,23 +200,23 @@ class AStarPathFinderTests: XCTestCase {
         humanPlayer.initialize()
 
         let mapModel = TradeRouteTests.mapFilled(with: .ocean, sized: .small)
-        
+
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 2))
-        
+
         // target island
         mapModel.set(terrain: .plains, at: HexPoint(x: 6, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 7, y: 2))
 
         let gameModel = GameModel(victoryTypes: [.domination], handicap: .king, turnsElapsed: 0, players: [barbarianPlayer, aiPlayer, humanPlayer], on: mapModel)
-        
+
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: .walk, for: humanPlayer, unitMapType: .combat, canEmbark: true)
-        
+
         // WHEN
         let path = pathFinder.shortestPath(fromTileCoord: HexPoint(x: 1, y: 2), toTileCoord: HexPoint(x: 6, y: 2))
-        
+
         // THEN
         XCTAssertNotNil(path, "no path found (but we can embark")
         if let path = path {

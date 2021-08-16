@@ -39,14 +39,14 @@ class AssetExtractionTests: XCTestCase {
             XCTFail()
         }
         #endif
-            
+
     }
-    
+
     func testLoadAtlasArbalest() throws {
-    
+
         let bundle = Bundle(for: type(of: self))
         let atlas = TextureAtlasLoader.load(named: "arbalest", in: bundle)
-        
+
         XCTAssertEqual(atlas?.unit.id, "arbalest")
     }
 }

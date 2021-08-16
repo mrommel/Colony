@@ -18,7 +18,6 @@ class DiplomacyAITests: XCTestCase {
 
     override func tearDown() {
 
-        
     }
 
     func testMilitaryStrengthPlayerNotMet() {
@@ -26,7 +25,7 @@ class DiplomacyAITests: XCTestCase {
         // GIVEN
         let playerBarbar = Player(leader: .barbar)
         playerBarbar.initialize()
-        
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
@@ -39,7 +38,7 @@ class DiplomacyAITests: XCTestCase {
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
-        
+
         // WHEN
         gameModel.update() //.doTurn()
         let militaryStrength = playerAlexander.diplomacyAI!.militaryStrength(of: playerAugustus)
@@ -53,7 +52,7 @@ class DiplomacyAITests: XCTestCase {
         // GIVEN
         let playerBarbar = Player(leader: .barbar)
         playerBarbar.initialize()
-        
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
@@ -63,7 +62,7 @@ class DiplomacyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander], on: mapModel)
-        
+
         mapModel.add(unit: Unit(at: HexPoint(x: 1, y: 0), type: .warrior, owner: playerAlexander), in: gameModel)
 
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus), in: gameModel)
@@ -73,7 +72,7 @@ class DiplomacyAITests: XCTestCase {
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
-        
+
         playerAlexander.diplomacyAI?.doFirstContact(with: playerAugustus, in: gameModel)
         playerAugustus.diplomacyAI?.doFirstContact(with: playerAlexander, in: gameModel)
 
@@ -84,13 +83,13 @@ class DiplomacyAITests: XCTestCase {
         // THEN
         XCTAssertEqual(militaryStrength, .immense)
     }
-    
+
     func testProximityNoCitiesClose() {
-    
+
         // GIVEN
         let playerBarbar = Player(leader: .barbar)
         playerBarbar.initialize()
-        
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
@@ -100,30 +99,30 @@ class DiplomacyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
-        
+
         mapModel.add(unit: Unit(at: HexPoint(x: 1, y: 0), type: .warrior, owner: playerAlexander), in: gameModel)
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus), in: gameModel)
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
 
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
-        
+
         // WHEN
         gameModel.update() //.doTurn()
         let proximity = playerAlexander.diplomacyAI!.proximity(to: playerAugustus)
-        
+
         // THEN
         XCTAssertEqual(proximity, .far)
     }
-    
+
     func testProximityTwoCitiesFar() {
-    
+
         // GIVEN
         let playerBarbar = Player(leader: .barbar)
         playerBarbar.initialize()
-        
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
@@ -133,7 +132,7 @@ class DiplomacyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
-        
+
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 10), type: .warrior, owner: playerAlexander), in: gameModel)
         let cityAlexander = City(name: "Alexander", at: HexPoint(x: 0, y: 10), capital: true, owner: playerAlexander)
         cityAlexander.initialize(in: gameModel)
@@ -143,27 +142,27 @@ class DiplomacyAITests: XCTestCase {
         let cityAugustus = City(name: "Augustus", at: HexPoint(x: 19, y: 10), capital: true, owner: playerAugustus)
         cityAugustus.initialize(in: gameModel)
         mapModel.add(city: cityAugustus, in: gameModel)
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
 
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
-        
+
         // WHEN
         gameModel.update() //.doTurn()
         let proximity = playerAlexander.diplomacyAI!.proximity(to: playerAugustus)
-        
+
         // THEN
         XCTAssertEqual(proximity, .far)
     }
-    
+
     func testProximityTwoCitiesClose() {
-    
+
         // GIVEN
         let playerBarbar = Player(leader: .barbar)
         playerBarbar.initialize()
-        
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
@@ -173,7 +172,7 @@ class DiplomacyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
-        
+
         mapModel.add(unit: Unit(at: HexPoint(x: 8, y: 10), type: .warrior, owner: playerAlexander), in: gameModel)
         let cityAlexander = City(name: "Alexander", at: HexPoint(x: 8, y: 10), capital: true, owner: playerAlexander)
         cityAlexander.initialize(in: gameModel)
@@ -183,27 +182,27 @@ class DiplomacyAITests: XCTestCase {
         let cityAugustus = City(name: "Augustus", at: HexPoint(x: 12, y: 10), capital: true, owner: playerAugustus)
         cityAugustus.initialize(in: gameModel)
         mapModel.add(city: cityAugustus, in: gameModel)
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
 
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
-        
+
         // WHEN
         gameModel.update() //.doTurn()
         let proximity = playerAlexander.diplomacyAI!.proximity(to: playerAugustus)
-        
+
         // THEN
         XCTAssertEqual(proximity, .far)
     }
-    
+
     func testApproachInitially() {
-    
+
         // GIVEN
         let playerBarbar = Player(leader: .barbar)
         playerBarbar.initialize()
-        
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
@@ -213,34 +212,34 @@ class DiplomacyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
-        
+
         mapModel.add(unit: Unit(at: HexPoint(x: 1, y: 0), type: .warrior, owner: playerAlexander), in: gameModel)
 
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus), in: gameModel)
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
 
         playerAlexander.diplomacyAI?.doFirstContact(with: playerAugustus, in: gameModel)
         playerAugustus.diplomacyAI?.doFirstContact(with: playerAlexander, in: gameModel)
-        
+
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         gameModel.update() //.doTurn()
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
-        
+
         // THEN
         XCTAssertEqual(approachBefore, .none)
         XCTAssertEqual(approachAfter, .neutrally)
     }
-    
+
     func testApproachAfterDeclarationOfFriendship() {
-    
+
         // GIVEN
         let playerBarbar = Player(leader: .barbar)
         playerBarbar.initialize()
-        
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
@@ -250,35 +249,35 @@ class DiplomacyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
-        
+
         mapModel.add(unit: Unit(at: HexPoint(x: 1, y: 0), type: .warrior, owner: playerAlexander), in: gameModel)
 
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus), in: gameModel)
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
 
         playerAlexander.diplomacyAI?.doFirstContact(with: playerAugustus, in: gameModel)
         playerAugustus.diplomacyAI?.doFirstContact(with: playerAlexander, in: gameModel)
-        
+
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         playerAlexander.diplomacyAI?.doDeclarationOfFriendship(with: playerAugustus, in: gameModel)
         gameModel.update() //.doTurn()
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
-        
+
         // THEN
         XCTAssertEqual(approachBefore, .none)
         XCTAssertEqual(approachAfter, .friendly)
     }
-    
+
     func testApproachAfterDenouncement() {
-    
+
         // GIVEN
         let playerBarbar = Player(leader: .barbar)
         playerBarbar.initialize()
-        
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
@@ -288,35 +287,35 @@ class DiplomacyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
-        
+
         mapModel.add(unit: Unit(at: HexPoint(x: 1, y: 0), type: .warrior, owner: playerAlexander), in: gameModel)
 
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus), in: gameModel)
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
 
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
-        
+
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         playerAlexander.diplomacyAI?.doDenounce(player: playerAugustus, in: gameModel)
         gameModel.update() //.doTurn()
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
-        
+
         // THEN
         XCTAssertEqual(approachBefore, .none)
         let resultList: [PlayerApproachType] = [.hostile, .war]
         XCTAssertTrue(resultList.contains(approachAfter))
     }
-    
+
     func testApproachAfterDeclarationOfWar() {
-    
+
         // GIVEN
         let playerBarbar = Player(leader: .barbar)
         playerBarbar.initialize()
-        
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
@@ -326,82 +325,82 @@ class DiplomacyAITests: XCTestCase {
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
-        
+
         mapModel.add(unit: Unit(at: HexPoint(x: 1, y: 0), type: .warrior, owner: playerAlexander), in: gameModel)
 
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus), in: gameModel)
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
 
         playerAlexander.diplomacyAI?.doFirstContact(with: playerAugustus, in: gameModel)
         playerAugustus.diplomacyAI?.doFirstContact(with: playerAlexander, in: gameModel)
-        
+
         // WHEN
         let approachBefore = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         playerAlexander.diplomacyAI?.doDeclareWar(to: playerAugustus, in: gameModel)
         gameModel.update() //.doTurn()
         let approachAfter = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
-        
+
         // THEN
         XCTAssertEqual(approachBefore, .none)
         XCTAssertEqual(approachAfter, .war)
     }
-    
+
     func testDefensivePact() {
-        
+
         // GIVEN
         let playerBarbar = Player(leader: .barbar)
         playerBarbar.initialize()
-        
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
-        
+
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
-        
+
         // WHEN
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
         playerAlexander.doDefensivePact(with: playerAugustus, in: gameModel)
         let defensivePact1 = playerAlexander.isDefensivePactActive(with: playerAugustus)
         let defensivePact2 = playerAugustus.isDefensivePactActive(with: playerAlexander)
-        
+
         // THEN
         XCTAssertEqual(defensivePact1, true)
         XCTAssertEqual(defensivePact2, true)
     }
-    
+
     func testDeclarationOfWarTriggersDefensivePact() {
-    
+
         // GIVEN
         let playerBarbar = Player(leader: .barbar)
         playerBarbar.initialize()
-        
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
-        
+
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
 
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus, playerElizabeth], on: mapModel)
-        
+
         mapModel.add(unit: Unit(at: HexPoint(x: 1, y: 0), type: .warrior, owner: playerAlexander), in: gameModel)
 
         mapModel.add(unit: Unit(at: HexPoint(x: 0, y: 0), type: .warrior, owner: playerAugustus), in: gameModel)
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
@@ -410,41 +409,41 @@ class DiplomacyAITests: XCTestCase {
         playerAlexander.doFirstContact(with: playerAugustus, in: gameModel)
         playerAugustus.doFirstContact(with: playerElizabeth, in: gameModel)
         playerElizabeth.doFirstContact(with: playerAlexander, in: gameModel)
-        
+
         playerElizabeth.doDefensivePact(with: playerAugustus, in: gameModel)
-        
+
         // WHEN
         playerAlexander.diplomacyAI?.doDeclareWar(to: playerAugustus, in: gameModel)
         //gameModel.turn()
         let approachAlexanderAugustus = playerAlexander.diplomacyAI!.approach(towards: playerAugustus)
         let approachAlexanderElizabeth = playerAlexander.diplomacyAI!.approach(towards: playerElizabeth)
-        
+
         let approachAugustusAlexander = playerAugustus.diplomacyAI!.approach(towards: playerAlexander)
         let approachElizabethAlexander = playerElizabeth.diplomacyAI!.approach(towards: playerAlexander)
-        
+
         // THEN
         XCTAssertEqual(approachAlexanderAugustus, .war)
         XCTAssertEqual(approachAlexanderElizabeth, .war)
         XCTAssertEqual(approachAugustusAlexander, .war) // has been declared war
         XCTAssertEqual(approachElizabethAlexander, .war) // defensive pact
     }
-    
+
     func testDeclarationOfWar() {
-        
+
         // GIVEN
         let playerBarbar = Player(leader: .barbar)
         playerBarbar.initialize()
-        
+
         let playerAlexander = Player(leader: .alexander)
         playerAlexander.initialize()
 
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
-        
+
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .custom(width: 20, height: 20))
 
         let gameModel = GameModel(victoryTypes: [.domination, .cultural, .diplomatic], handicap: .chieftain, turnsElapsed: 0, players: [playerBarbar, playerAlexander, playerAugustus], on: mapModel)
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
@@ -454,7 +453,7 @@ class DiplomacyAITests: XCTestCase {
 
         // WHEN
         playerAlexander.diplomacyAI?.doDeclareWar(to: playerAugustus, in: gameModel)
-        
+
         // THEN
         let isAtWar = playerAlexander.isAtWar(with: playerAugustus)
         XCTAssertEqual(isAtWar, true)

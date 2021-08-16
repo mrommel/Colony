@@ -25,17 +25,17 @@ class UnitTests: XCTestCase {
 
         let humanPlayer = Player(leader: .alexander, isHuman: true)
         humanPlayer.initialize()
-        
+
         do {
             try humanPlayer.techs?.discover(tech: .sailing)
         } catch {}
-            
+
         let mapModel = TradeRouteTests.mapFilled(with: .ocean, sized: .small)
-        
+
         // start island
         mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 2, y: 2))
-        
+
         // target island
         mapModel.set(terrain: .plains, at: HexPoint(x: 6, y: 2))
         mapModel.set(terrain: .plains, at: HexPoint(x: 7, y: 2))
@@ -45,17 +45,17 @@ class UnitTests: XCTestCase {
                                   turnsElapsed: 0,
                                   players: [barbarianPlayer, aiPlayer, humanPlayer],
                                   on: mapModel)
-        
+
         // add UI
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
-        
+
         let humanPlayerWarrior = Unit(at: HexPoint(x: 2, y: 2), type: .warrior, owner: humanPlayer)
         gameModel.add(unit: humanPlayerWarrior)
-        
+
         let warriorMission = UnitMission(type: .moveTo, at: HexPoint(x: 6, y: 2))
         humanPlayerWarrior.push(mission: warriorMission, in: gameModel)
-        
+
         // WHEN
         var turnCounter = 0
         var hasVisited = false
@@ -64,11 +64,11 @@ class UnitTests: XCTestCase {
                 gameModel.update()
             }
             humanPlayer.endTurn(in: gameModel)
-            
+
             hasVisited = humanPlayerWarrior.location == HexPoint(x: 6, y: 2)
             turnCounter += 1
         } while turnCounter < 10 && !hasVisited
-         
+
         // THEN
         XCTAssertEqual(humanPlayerWarrior.location, HexPoint(x: 6, y: 2))
     }

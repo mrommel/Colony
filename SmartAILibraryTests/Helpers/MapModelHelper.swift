@@ -11,93 +11,93 @@ import Foundation
 @testable import SmartAILibrary
 
 class MapModelHelper {
-    
+
     static func mapFilled(with terrain: TerrainType, sized size: MapSize) -> MapModel {
-        
+
         let mapModel = MapModel(size: size)
-        
+
         let mapSize = mapModel.size
         for x in 0..<mapSize.width() {
-            
+
             for y in 0..<mapSize.height() {
-                
+
                 mapModel.set(terrain: terrain, at: HexPoint(x: x, y: y))
             }
         }
-        
+
         return mapModel
     }
-    
+
     static func add(area: HexArea, with terrain: TerrainType, to mapModel: MapModel?) {
-        
+
         for point in area {
             if mapModel?.valid(point: point) ?? false {
                 mapModel?.set(terrain: terrain, at: point)
             }
         }
     }
-    
+
     static func discover(mapModel: inout MapModel, by player: AbstractPlayer?, in gameModel: GameModel?) {
-        
+
         let mapSize = mapModel.size
         for x in 0..<mapSize.width() {
-            
+
             for y in 0..<mapSize.height() {
-                
+
                 let tile = mapModel.tile(at: HexPoint(x: x, y: y))
                 tile?.discover(by: player, in: gameModel)
             }
         }
     }
-    
+
     static func discover(area: HexArea, mapModel: inout MapModel, by player: AbstractPlayer?, in gameModel: GameModel?) {
-            
+
         for pt in area {
-                
+
             let tile = mapModel.tile(at: pt)
             tile?.discover(by: player, in: gameModel)
         }
     }
-    
+
     struct Rectangle {
-        
+
         let x: Int
         let y: Int
         let width: Int
         let height: Int
-        
+
         func isInside(x px: Int, y py: Int) -> Bool {
-            
+
             return self.x <= px && px < self.x + self.width && self.y <= py && py < self.y + self.height
         }
-        
+
         func isInside(point: HexPoint) -> Bool {
-            
+
             return self.isInside(x: point.x, y: point.y)
         }
-        
+
         func isAdjacentTo(x px: Int, y py: Int) -> Bool {
-        
+
             if self.isInside(x: px, y: py) {
                 return false
             }
-            
+
             let point = HexPoint(x: px, y: py)
-            
+
             for neightbor in point.neighbors() {
                 if self.isInside(point: neightbor) {
                     return true
                 }
             }
-            
+
             return false
          }
     }
-    
+
     // generates a small map (52x42)
     // with
     static func smallMap() -> MapModel {
-        
+
         // climate zones
         let climateArtic1: Rectangle = Rectangle(x: 0, y: 0, width: 52, height: 1)
         let climateTundra1: Rectangle = Rectangle(x: 0, y: 1, width: 52, height: 5)
@@ -108,7 +108,7 @@ class MapModelHelper {
         let climateMedium2: Rectangle = Rectangle(x: 0, y: 30, width: 52, height: 7)
         let climateTundra2: Rectangle = Rectangle(x: 0, y: 35, width: 52, height: 5)
         let climateArtic2: Rectangle = Rectangle(x: 0, y: 41, width: 52, height: 1)
-        
+
         // continents
         let continent0: Rectangle = Rectangle(x: 0, y: 0, width: 52, height: 1) // artic
         let continent1: Rectangle = Rectangle(x: 0, y: 0, width: 10, height: 8)
@@ -117,7 +117,7 @@ class MapModelHelper {
         let continent2_3: Rectangle = Rectangle(x: 30, y: 8, width: 15, height: 17) // 30,8 -> 45,25
         let continent3: Rectangle = Rectangle(x: 10, y: 30, width: 30, height: 12)
         let continent4: Rectangle = Rectangle(x: 0, y: 41, width: 52, height: 1) // antarctic
-        
+
         // "Berlin", at: HexPoint(x: 15, y: 8), capital: true, owner: playerAlexander)
         // "Leipzig", at: HexPoint(x: 20, y: 25), capital: false, owner: playerAlexander)
         // "Paris", at: HexPoint(x: 35, y: 25), capital: false, owner: playerTrajan)
@@ -161,14 +161,14 @@ class MapModelHelper {
         // 36
         // ..
         // 42 ----------------------------------------------------------------------------------------------------------
-        
+
         let mapModel = MapModel(size: .small)
-        
+
         let mapSize = mapModel.size
         for x in 0..<mapSize.width() {
-            
+
             for y in 0..<mapSize.height() {
-                
+
                 // check if land
                 if continent0.isInside(x: x, y: y) ||
                     continent1.isInside(x: x, y: y) ||
@@ -177,38 +177,38 @@ class MapModelHelper {
                     continent2_3.isInside(x: x, y: y) ||
                     continent3.isInside(x: x, y: y) ||
                     continent4.isInside(x: x, y: y) {
-                    
+
                     if climateArtic1.isInside(x: x, y: y) || climateArtic2.isInside(x: x, y: y) {
                         mapModel.set(terrain: .snow, at: HexPoint(x: x, y: y))
                     } else if climateTundra1.isInside(x: x, y: y) || climateTundra2.isInside(x: x, y: y) {
                         mapModel.set(terrain: .tundra, at: HexPoint(x: x, y: y))
-                        
+
                         if (x + y * 3 + x * y) % 3 == 0 {
                             mapModel.set(feature: .forest, at: HexPoint(x: x, y: y))
                         }
-                        
+
                     } else if climateMedium1.isInside(x: x, y: y) || climateMedium2.isInside(x: x, y: y) {
                         mapModel.set(terrain: .grass, at: HexPoint(x: x, y: y))
-                        
+
                         if (x + y * 3 + x * y) % 2 == 0 {
                             mapModel.set(feature: .forest, at: HexPoint(x: x, y: y))
                         }
-                        
+
                     } else if climateSubtropic1.isInside(x: x, y: y) || climateSubtropic2.isInside(x: x, y: y) {
                         mapModel.set(terrain: .plains, at: HexPoint(x: x, y: y))
-                        
+
                         if (x + y * 3 + x * y) % 2 == 0 {
                             mapModel.set(feature: .rainforest, at: HexPoint(x: x, y: y))
                         }
-                        
+
                     } else {
                         mapModel.set(terrain: .desert, at: HexPoint(x: x, y: y))
-                        
+
                         if (x + y * 3 + x * y) % 4 == 0 {
                             mapModel.set(feature: .oasis, at: HexPoint(x: x, y: y))
                         }
                     }
-                    
+
                 } else if continent0.isAdjacentTo(x: x, y: y) ||
                             continent1.isAdjacentTo(x: x, y: y) ||
                             continent2_1.isAdjacentTo(x: x, y: y) ||
@@ -216,21 +216,21 @@ class MapModelHelper {
                             continent2_3.isAdjacentTo(x: x, y: y) ||
                             continent3.isAdjacentTo(x: x, y: y) ||
                             continent4.isAdjacentTo(x: x, y: y) {
-                    
+
                     // shore
                     mapModel.set(terrain: .shore, at: HexPoint(x: x, y: y))
                 } else {
-                    
+
                     // ocean
                     mapModel.set(terrain: .ocean, at: HexPoint(x: x, y: y))
                 }
             }
         }
-        
+
         // rivers
-        
+
         // resources
-        
+
         return mapModel
     }
 }

@@ -14,11 +14,10 @@ import XCTest
 class RandomTests: XCTestCase {
 
     func testRandomNumbers() {
-        
+
         for _ in 0..<10 {
             //print("\(Double.random)")
             print("\(Int.random(in: 0 ... 10))")
         }
     }
 }
-
