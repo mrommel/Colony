@@ -20,11 +20,10 @@ class GreatPersonsTests: XCTestCase {
 
         // WHEN
 
-
         // THEN
         XCTAssertEqual(greatPersons.current.count, 6)
     }
-    
+
     func testFillCurrentClassical() {
 
         // GIVEN
@@ -54,22 +53,22 @@ class GreatPersonsTests: XCTestCase {
     func testInvalidate() {
 
         // GIVEN
-        
+
         // player 1
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.set(era: .classical)
-        
+
         // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         playerAugustus.set(era: .medieval)
-        
+
         // player 3
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
         playerElizabeth.set(era: .medieval)
-        
+
         // map
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
 
@@ -79,7 +78,7 @@ class GreatPersonsTests: XCTestCase {
                                   turnsElapsed: 0,
                                   players: [playerElizabeth, playerAugustus, playerAlexander],
                                   on: mapModel)
-        
+
         let greatPersons = GreatPersons()
         let person = greatPersons.person(of: GreatPersonType.greatGeneral)
 
@@ -90,26 +89,26 @@ class GreatPersonsTests: XCTestCase {
         let person2 = greatPersons.person(of: GreatPersonType.greatGeneral)
         XCTAssertNotEqual(person, person2)
     }
-    
+
     func testCostSameEra() {
-        
+
         // GIVEN
-        
+
         // player 1
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.set(era: .classical)
-        
+
         // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         playerAugustus.set(era: .medieval)
-        
+
         // player 3
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
         playerElizabeth.set(era: .medieval)
-        
+
         // map
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
 
@@ -126,26 +125,26 @@ class GreatPersonsTests: XCTestCase {
         // THEN
         XCTAssertEqual(cost, 60)
     }
-    
+
     func testCostNextEra() {
-        
+
         // GIVEN
-        
+
         // player 1
         let playerAlexander = Player(leader: .alexander, isHuman: true)
         playerAlexander.initialize()
         playerAlexander.set(era: .classical)
-        
+
         // player 2
         let playerAugustus = Player(leader: .trajan)
         playerAugustus.initialize()
         playerAugustus.set(era: .medieval)
-        
+
         // player 3
         let playerElizabeth = Player(leader: .victoria)
         playerElizabeth.initialize()
         playerElizabeth.set(era: .medieval)
-        
+
         // map
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .duel)
 
@@ -155,8 +154,6 @@ class GreatPersonsTests: XCTestCase {
                                   turnsElapsed: 0,
                                   players: [playerElizabeth, playerAugustus, playerAlexander],
                                   on: mapModel)
-        
-        
 
         // WHEN
         //playerAlexander.greatPeople?.add(points: GreatPersonPoints(greatGeneral: 61))

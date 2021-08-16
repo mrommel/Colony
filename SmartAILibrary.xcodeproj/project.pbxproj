@@ -177,6 +177,7 @@
 		C98DBFB623E0BF9000B6CE25 /* CivicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB523E0BF9000B6CE25 /* CivicType.swift */; };
 		C98DBFB823E0D86000B6CE25 /* TechTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB723E0D86000B6CE25 /* TechTests.swift */; };
 		C98DBFBA23E0D8C700B6CE25 /* Techs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB923E0D8C700B6CE25 /* Techs.swift */; };
+		C99047F626CA45A600B1A7A6 /* UnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99047F526CA45A600B1A7A6 /* UnitTests.swift */; };
 		C99496932519E4300049C2D6 /* BasicCityAttackOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99496922519E4300049C2D6 /* BasicCityAttackOperationTests.swift */; };
 		C9956853247E90B00005E9EA /* Eurekas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9956852247E90AF0005E9EA /* Eurekas.swift */; };
 		C997902B25133377003E52C9 /* CityCloseDefenseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997902A25133377003E52C9 /* CityCloseDefenseOperation.swift */; };
@@ -503,6 +504,7 @@
 		C98DBFB523E0BF9000B6CE25 /* CivicType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivicType.swift; sourceTree = "<group>"; };
 		C98DBFB723E0D86000B6CE25 /* TechTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechTests.swift; sourceTree = "<group>"; };
 		C98DBFB923E0D8C700B6CE25 /* Techs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Techs.swift; sourceTree = "<group>"; };
+		C99047F526CA45A600B1A7A6 /* UnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTests.swift; sourceTree = "<group>"; };
 		C99496922519E4300049C2D6 /* BasicCityAttackOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicCityAttackOperationTests.swift; sourceTree = "<group>"; };
 		C9956852247E90AF0005E9EA /* Eurekas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eurekas.swift; sourceTree = "<group>"; };
 		C997902A25133377003E52C9 /* CityCloseDefenseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCloseDefenseOperation.swift; sourceTree = "<group>"; };
@@ -904,6 +906,7 @@
 				C9D78DF02590893C0024ECF0 /* ResourcePlacingTests.swift */,
 				C9D78DFA259097890024ECF0 /* Tests-Prefix.pch */,
 				C986A5F12664F56F0055D3D4 /* ReligionTests.swift */,
+				C99047F526CA45A600B1A7A6 /* UnitTests.swift */,
 			);
 			path = SmartAILibraryTests;
 			sourceTree = "<group>";
@@ -1667,6 +1670,7 @@
 				C9D8DF7623EF6D0B0091C917 /* DiplomacyAITests.swift in Sources */,
 				C9D78DF12590893C0024ECF0 /* ResourcePlacingTests.swift in Sources */,
 				C9F76AAF243314B80018672A /* CivicTests.swift in Sources */,
+				C99047F626CA45A600B1A7A6 /* UnitTests.swift in Sources */,
 				C9AAC27024D97FFE00FF1E35 /* GameModelTests.swift in Sources */,
 				C9D8DF6C23ED9B9A0091C917 /* FlavorsTests.swift in Sources */,
 				C98DBFB223E0580E00B6CE25 /* TileTests.swift in Sources */,

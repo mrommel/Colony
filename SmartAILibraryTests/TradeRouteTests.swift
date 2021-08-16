@@ -12,7 +12,7 @@ import XCTest
 @testable import SmartAILibrary
 
 class TradeRouteTests: XCTestCase {
-    
+
     var targetLocation: HexPoint = HexPoint.invalid
     var hasVisited: Bool = false
 
@@ -96,15 +96,15 @@ class TradeRouteTests: XCTestCase {
 
         let userInterface = TestUI()
         gameModel.userInterface = userInterface
-        
+
         traderUnit.unitMoved = self
-        
+
         // WHEN
         traderUnit.doEstablishTradeRoute(to: aiCity, in: gameModel)
-        
+
         var turnCounter = 0
         self.hasVisited = false
-        
+
         repeat {
 
             while !humanPlayer.canFinishTurn() {
@@ -123,7 +123,7 @@ class TradeRouteTests: XCTestCase {
 }
 
 extension TradeRouteTests: UnitMovedDelegate {
-    
+
     func moved(to location: HexPoint) {
 
         if location == self.targetLocation {

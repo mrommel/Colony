@@ -14,19 +14,19 @@ import XCTest
 class RegionFinderTests: XCTestCase {
 
     func testRegionSplit() {
-        
+
         // GIVEN
         let mapModel = MapModelHelper.mapFilled(with: .grass, sized: .standard)
-        
+
         let continentFinder = ContinentFinder(size: mapModel.size)
         mapModel.continents = continentFinder.execute(on: mapModel)
-        
+
         let fertilityEvaluator = CitySiteEvaluator(map: mapModel)
         let finder: RegionFinder = RegionFinder(map: mapModel, evaluator: fertilityEvaluator, for: nil)
-        
+
         // WHEN
         let regions = finder.divideInto(regions: 2)
-        
+
         // THEN
         XCTAssertEqual(regions.count, 2)
         XCTAssertEqual(regions[0].points.count, 1612)
