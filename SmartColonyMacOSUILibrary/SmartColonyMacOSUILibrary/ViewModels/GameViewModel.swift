@@ -49,7 +49,9 @@ protocol GameViewModelDelegate: AnyObject {
     func remove(notification: NotificationItem)
 
     func showDisbandDialog(for unit: AbstractUnit?, completion: @escaping (Bool) -> Void)
-    func showSelectCityDialog(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void)
+    func showSelectCityDialog(start startCity: AbstractCity?,
+                              of cities: [AbstractCity?],
+                              completion: @escaping (AbstractCity?) -> Void)
 
     func closeDialog()
     func closePopup()
@@ -682,7 +684,9 @@ extension GameViewModel: GameViewModelDelegate {
         }
     }
 
-    func showSelectCityDialog(start startCity: AbstractCity?, of cities: [AbstractCity?], completion: @escaping (AbstractCity?) -> Void) {
+    func showSelectCityDialog(start startCity: AbstractCity?,
+                              of cities: [AbstractCity?],
+                              completion: @escaping (AbstractCity?) -> Void) {
 
         if self.currentScreenType == .selectTradeCity {
             // already shown

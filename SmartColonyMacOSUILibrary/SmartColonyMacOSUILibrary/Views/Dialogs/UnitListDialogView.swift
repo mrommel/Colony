@@ -32,12 +32,6 @@ struct UnitListDialogView: View {
                         .padding()
 
                     Spacer()
-
-                    Button(action: {
-                        self.viewModel.closeDialog()
-                    }, label: {
-                        Text("X")
-                    })
                 }
 
                 ScrollView(.vertical, showsIndicators: true, content: {
@@ -54,7 +48,7 @@ struct UnitListDialogView: View {
                         }
                     }
                 })
-                .frame(width: 300, height: 325, alignment: .center)
+                .frame(width: 340, height: 325, alignment: .center)
                 .border(Color.gray)
 
                 Button(action: {
@@ -81,8 +75,9 @@ struct UnitListDialogView_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
+        let viewModel = UnitListDialogViewModel()
 
-        UnitListDialogView(viewModel: UnitListDialogViewModel())
+        UnitListDialogView(viewModel: viewModel)
     }
 }
 #endif

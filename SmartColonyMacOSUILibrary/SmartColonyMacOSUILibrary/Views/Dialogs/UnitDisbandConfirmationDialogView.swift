@@ -66,13 +66,10 @@ struct UnitDisbandConfirmationDialogView_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        //let game = DemoGameModel()
-        //let environment = GameEnvironment(game: game)
         let unit = Unit(at: HexPoint.zero, type: .archer, owner: nil)
         let viewModel = UnitDisbandConfirmationDialogViewModel(unit: unit)
 
         UnitDisbandConfirmationDialogView(viewModel: viewModel)
-            //.environment(\.gameEnvironment, environment)
     }
 }
 #endif

@@ -16,6 +16,9 @@ protocol UnitViewModelDelegate: AnyObject {
 
 class UnitViewModel: QueueViewModel, ObservableObject {
 
+    @Environment(\.gameEnvironment)
+    var gameEnvironment: GameEnvironment
+    
     let unitType: UnitType
     let turns: Int
     let unit: AbstractUnit?
@@ -62,7 +65,15 @@ class UnitViewModel: QueueViewModel, ObservableObject {
     }
 
     func turnsText() -> String {
+        
+        guard let gameModel = self.gameEnvironment.game.value else {
+            fatalError("cant get game")
+        }
 
+        if let unit = self.unit {
+            return "\(unit.movesLeft()) / \(unit.maxMoves(in: gameModel)) moves"
+        }
+            
         if self.turns != -1 {
             return "\(self.turns)"
         }
@@ -72,6 +83,10 @@ class UnitViewModel: QueueViewModel, ObservableObject {
 
     func turnsIcon() -> NSImage {
 
+        if self.unit != nil {
+            return NSImage()
+        }
+        
         if self.turns != -1 {
             return ImageCache.shared.image(for: "turns")
         }
