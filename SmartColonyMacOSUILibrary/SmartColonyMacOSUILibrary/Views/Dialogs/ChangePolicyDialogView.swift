@@ -9,79 +9,79 @@ import SwiftUI
 import SmartAILibrary
 
 struct ChangePolicyDialogView: View {
-    
+
     @ObservedObject
     var viewModel: ChangePolicyDialogViewModel
-    
+
     private var gridItemLayout = [GridItem(.fixed(150)), GridItem(.fixed(150)), GridItem(.fixed(150)), GridItem(.fixed(150))]
-    
+
     public init(viewModel: ChangePolicyDialogViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
         Group {
             VStack(spacing: 10) {
                 HStack {
-                    
+
                     Spacer()
-                    
+
                     Text("Select Policies")
                         .font(.title2)
                         .bold()
                         .padding()
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         self.viewModel.closeDialog()
                     }, label: {
                         Text("X")
                     })
                 }
-                
+
                 HStack {
                     Text("Government: ")
-                    
+
                     Text(self.viewModel.governmentName())
                 }
-                
+
                 HStack {
-                    
+
                     Text("Slots:")
-                    
+
                     Text(self.viewModel.policyCardSlotTypeText(of: PolicyCardSlotType.military))
-                    
+
                     Image(nsImage: self.viewModel.policyCardSlotTypeImage(of: PolicyCardSlotType.military))
                         .resizable()
                         .frame(width: 20, height: 20, alignment: .center)
-                    
+
                     Text(self.viewModel.policyCardSlotTypeText(of: PolicyCardSlotType.economic))
-                    
+
                     Image(nsImage: self.viewModel.policyCardSlotTypeImage(of: PolicyCardSlotType.economic))
                         .resizable()
                         .frame(width: 20, height: 20, alignment: .center)
-                    
+
                     Text(self.viewModel.policyCardSlotTypeText(of: PolicyCardSlotType.diplomatic))
-                    
+
                     Image(nsImage: self.viewModel.policyCardSlotTypeImage(of: PolicyCardSlotType.diplomatic))
                         .resizable()
                         .frame(width: 20, height: 20, alignment: .center)
-                    
+
                     Text(self.viewModel.policyCardSlotTypeText(of: PolicyCardSlotType.wildcard))
-                    
+
                     Image(nsImage: self.viewModel.policyCardSlotTypeImage(of: PolicyCardSlotType.wildcard))
                         .resizable()
                         .frame(width: 20, height: 20, alignment: .center)
                 }
-                
+
                 Text(self.viewModel.hint())
-                
+
                 ScrollView(.vertical, showsIndicators: true, content: {
-                    
+
                     LazyVGrid(columns: gridItemLayout, spacing: 20) {
-                        
+
                         ForEach(self.viewModel.policyCardViewModels, id: \.self) {
 
                             PolicyCardView(viewModel: $0)
@@ -89,7 +89,7 @@ struct ChangePolicyDialogView: View {
                         }
                     }
                 })
-                
+
                 Button(action: {
                     self.viewModel.closeAndSaveDialog()
                 }, label: {
@@ -115,6 +115,7 @@ struct ChangePolicyDialogView: View {
 struct PolicyDialogView_Previews: PreviewProvider {
     
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
         let environment = GameEnvironment(game: DemoGameModel())
         

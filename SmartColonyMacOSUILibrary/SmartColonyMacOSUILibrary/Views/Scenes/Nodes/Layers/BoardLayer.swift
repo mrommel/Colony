@@ -56,7 +56,7 @@ class BoardLayer: BaseLayer {
         guard let textureUtils = self.textureUtils else {
             fatalError("cant get textureUtils")
         }
-        
+
         if let tile = tile {
             if let boardSprite = textureUtils.boardSprite(at: tile.point) {
                 self.removeChildren(in: [boardSprite])

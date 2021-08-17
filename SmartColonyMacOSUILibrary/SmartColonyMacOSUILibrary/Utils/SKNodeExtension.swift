@@ -37,7 +37,7 @@ extension SKNode {
             return nil
         }
     }
-    
+
     func renderNodeHierarchy() {
         self.renderNodeHierarchyFor(node: self)
     }
@@ -55,7 +55,7 @@ extension SKNode {
         }
 
         print("\(beginning)Node of type \(type(of: node))\(node.name != nil ? " ('\(node.name!)')" : "") has zPosition = \(node.zPosition)\(node.children.count > 0 ? " and has children :" : ".")")
-        
+
         for (i, child) in node.children.enumerated() {
             renderNodeHierarchyFor(node: child, index: index + 1)
 

@@ -9,19 +9,19 @@ import SwiftUI
 import SmartAILibrary
 
 struct GovernmentDialogView: View {
-    
+
     @ObservedObject
     var viewModel: GovernmentDialogViewModel
-    
+
     private var gridItemLayout = [GridItem(.fixed(150)), GridItem(.fixed(150)), GridItem(.fixed(150)), GridItem(.fixed(150))]
 
     public init(viewModel: GovernmentDialogViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
-        
+
         Group {
             VStack(spacing: 10) {
                 Text("Government")
@@ -30,11 +30,11 @@ struct GovernmentDialogView: View {
                     .padding()
 
                 ScrollView(.vertical, showsIndicators: true, content: {
-                    
+
                     GovernmentCardView(viewModel: self.viewModel.governmentViewModel)
-                    
+
                     LazyVGrid(columns: gridItemLayout, spacing: 20) {
-                        
+
                         ForEach(self.viewModel.policyCardViewModels, id: \.self) {
 
                             PolicyCardView(viewModel: $0)
@@ -43,20 +43,20 @@ struct GovernmentDialogView: View {
                     }
                 })
                 .background(Color.red.opacity(0.2))
-                
+
                 HStack {
                     Button(action: {
                         self.viewModel.closeDialog()
                     }, label: {
                         Text("Okay")
                     })
-                    
+
                     Button(action: {
                         self.viewModel.viewPolicies()
                     }, label: {
                         Text("View Policies")
                     })
-                    
+
                     Button(action: {
                         self.viewModel.viewGovernments()
                     }, label: {

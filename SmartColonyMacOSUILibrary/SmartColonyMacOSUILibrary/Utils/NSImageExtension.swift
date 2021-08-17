@@ -9,13 +9,13 @@ import Cocoa
 import CoreGraphics
 
 extension NSImage {
-    
+
     var cgImage: CGImage? {
-        
+
         var proposedRect = CGRect(origin: .zero, size: self.size)
         return cgImage(forProposedRect: &proposedRect, context: nil, hints: nil)
     }
-    
+
     /// The height of the image.
     var height: CGFloat {
         return size.height
@@ -28,7 +28,7 @@ extension NSImage {
 }
 
 extension NSImage {
-    
+
     convenience init(color: NSColor, size: NSSize) {
         self.init(size: size)
         lockFocus()
@@ -109,7 +109,6 @@ extension NSImage {
     }
 }
 
-
 /// Exceptions for the image extension class.
 ///
 /// - creatingPngRepresentationFailed: Is thrown when the creation of the png representation failed.
@@ -117,7 +116,7 @@ enum NSImageExtensionError: Error {
     case unwrappingPNGRepresentationFailed
 }
 
-func drawImageInCGContext(size: CGSize, drawFunc: (_ context: CGContext) -> ()) -> NSImage {
+func drawImageInCGContext(size: CGSize, drawFunc: (_ context: CGContext) -> Void) -> NSImage {
     let colorSpace = CGColorSpaceCreateDeviceRGB()
     let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
     let context = CGContext(
@@ -128,9 +127,9 @@ func drawImageInCGContext(size: CGSize, drawFunc: (_ context: CGContext) -> ()) 
         bytesPerRow: 0,
         space: colorSpace,
         bitmapInfo: bitmapInfo.rawValue)
-    
+
     drawFunc(context!)
-    
+
     let image = context!.makeImage()!
     return NSImage(cgImage: image, size: size)
 }

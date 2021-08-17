@@ -9,40 +9,40 @@ import SmartAssets
 import SwiftUI
 
 public extension Globals {
-    
+
     struct Colors {
-        
+
         public static let buttonBackground: TypeColor = TypeColor.matterhornGray.withAlphaComponent(0.5)
         public static let buttonSelectedBackground: TypeColor = TypeColor.crusoe.withAlphaComponent(0.5)
-        
+
         public static let progressColor: TypeColor = TypeColor.white
         public static let progressBackground: TypeColor = TypeColor.matterhornGray.withAlphaComponent(0.5)
-        
+
         // UI
         public static var districtActive: TypeColor = TypeColor.UI.veryDarkBlue
         public static var dialogBackground: TypeColor = TypeColor.UI.midnight
         public static var dialogCenter: TypeColor = TypeColor.UI.nileBlue
-        
+
         // Overview
         public static var overviewBackground: TypeColor = TypeColor.Terrain.pergament
-        
+
     }
 }
 
 public extension Globals {
- 
+
     struct Style {
 
         public static var dialogGradient: Gradient = Gradient(colors: [Color(Globals.Colors.dialogCenter), Color(Globals.Colors.dialogBackground)])
-        
+
         public static var dialogBackground: RadialGradient = RadialGradient(gradient: Globals.Style.dialogGradient, center: .center, startRadius: 100, endRadius: 200)
     }
 }
 
 public extension Globals {
-    
+
     struct Fonts {
-        
+
         /*public static let systemFontBold = UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.bold)
         public static let systemFontBoldFamilyname = systemFontBold.familyName
         

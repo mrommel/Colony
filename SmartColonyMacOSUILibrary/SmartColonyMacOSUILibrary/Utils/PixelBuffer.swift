@@ -8,22 +8,22 @@
 import Cocoa
 
 extension NSColor {
-    
+
     final func toRGBAComponents() -> (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
         var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
- 
+
         guard let rgbaColor = usingColorSpace(NSColorSpace.sRGB) else {
             fatalError("Could not convert color to RGBA.")
         }
-        
+
         rgbaColor.getRed(&r, green: &g, blue: &b, alpha: &a)
-        
+
         return (r, g, b, a)
     }
 }
 
 struct PixelData {
-    
+
     var a: UInt8 = 255
     var r: UInt8
     var g: UInt8
@@ -32,11 +32,11 @@ struct PixelData {
     init(color: NSColor) {
 
         var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
-        
+
         guard let rgbaColor = color.usingColorSpace(NSColorSpace.sRGB) else {
             fatalError("Could not convert color to RGBA.")
         }
-        
+
         rgbaColor.getRed(&r, green: &g, blue: &b, alpha: &a)
 
         self.a = UInt8(a * 255)
@@ -81,11 +81,11 @@ public struct PixelBuffer {
     }
 
     public mutating func set(color: NSColor, at index: Int) {
-        
+
         guard 0 <= index && index < self.width * self.height else {
             return
         }
-        
+
         self.pixels[index] = PixelData(color: color)
     }
 

@@ -9,13 +9,13 @@ import SwiftUI
 import SmartAssets
 
 public struct MenuButtonStyle: ButtonStyle {
-    
+
     public init() {
-        
+
     }
-    
+
     public func makeBody(configuration: Self.Configuration) -> some View {
-        
+
         configuration.label
             .frame(minWidth: 0, maxWidth: 200)
             .padding(10)
@@ -36,13 +36,13 @@ public struct MenuButtonStyle: ButtonStyle {
 }
 
 public struct SelectedMenuButtonStyle: ButtonStyle {
-    
+
     public init() {
-        
+
     }
-    
+
     public func makeBody(configuration: Self.Configuration) -> some View {
-        
+
         configuration.label
             .frame(minWidth: 0, maxWidth: 200)
             .padding(10)

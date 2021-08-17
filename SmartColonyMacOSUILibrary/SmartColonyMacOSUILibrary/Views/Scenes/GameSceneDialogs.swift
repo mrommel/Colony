@@ -8,7 +8,7 @@
 import SmartAILibrary
 
 extension GameScene {
-    
+
     func showTechDiscoveredPopup(for techType: TechType) {
 
         self.viewModel?.currentPopupType = .techDiscovered

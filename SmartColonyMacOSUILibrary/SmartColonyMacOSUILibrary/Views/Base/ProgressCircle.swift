@@ -8,11 +8,11 @@
 import SwiftUI
 
 public struct ProgressCircle: View {
-    
+
     public enum Stroke {
         case line
         case dotted
-        
+
         func strokeStyle(lineWidth: CGFloat) -> StrokeStyle {
             switch self {
             case .line:
@@ -22,17 +22,17 @@ public struct ProgressCircle: View {
             }
         }
     }
-    
+
     @Binding
     private var value: CGFloat
-    
+
     private let maxValue: CGFloat
     private let style: Stroke
     private let backgroundEnabled: Bool
     private let backgroundColor: Color
     private let foregroundColor: Color
     private let lineWidth: CGFloat
-    
+
     public init(value: Binding<CGFloat>,
          maxValue: CGFloat,
          style: Stroke = .line,
@@ -40,7 +40,7 @@ public struct ProgressCircle: View {
          backgroundColor: Color = Color(NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)),
          foregroundColor: Color = Color.black,
          lineWidth: CGFloat = 10) {
-        
+
         self._value = value
         self.maxValue = maxValue
         self.style = style
@@ -49,7 +49,7 @@ public struct ProgressCircle: View {
         self.foregroundColor = foregroundColor
         self.lineWidth = lineWidth
     }
-    
+
     public var body: some View {
         ZStack {
             if self.backgroundEnabled {
@@ -57,7 +57,7 @@ public struct ProgressCircle: View {
                     .stroke(lineWidth: self.lineWidth)
                     .foregroundColor(self.backgroundColor)
             }
-            
+
             Circle()
                 .trim(from: 0, to: self.value / self.maxValue)
                 .stroke(style: self.style.strokeStyle(lineWidth: self.lineWidth))

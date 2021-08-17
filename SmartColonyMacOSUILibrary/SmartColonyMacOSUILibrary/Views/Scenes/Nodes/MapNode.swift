@@ -24,7 +24,7 @@ class MapNode: SKNode {
     var improvementLayer: ImprovementLayer
     var borderLayer: BorderLayer
     var tooltipLayer: TooltipLayer
-    
+
     // can be shown by map options
     var yieldLayer: YieldLayer
     var waterLayer: WaterLayer
@@ -35,15 +35,15 @@ class MapNode: SKNode {
     private var game: GameModel?
 
     // MARK: constructors
-    
+
     init(with game: GameModel?) {
 
         self.game = game
-        
+
         guard let game = self.game else {
             fatalError("cant get game")
         }
-        
+
         let humanPlayer = game.humanPlayer()
 
         self.terrainLayer = TerrainLayer(player: humanPlayer)
@@ -53,11 +53,11 @@ class MapNode: SKNode {
         self.featureLayer = FeatureLayer(player: humanPlayer)
         self.featureLayer.populate(with: self.game)
         self.featureLayer.zPosition = Globals.ZLevels.feature
-        
+
         self.resourceLayer = ResourceLayer(player: humanPlayer)
         self.resourceLayer.populate(with: self.game)
         self.resourceLayer.zPosition = Globals.ZLevels.resource
-        
+
         self.resourceMarkerLayer = ResourceMarkerLayer(player: humanPlayer)
         self.resourceMarkerLayer.populate(with: self.game)
         self.resourceMarkerLayer.zPosition = Globals.ZLevels.resourceMarker
@@ -69,19 +69,19 @@ class MapNode: SKNode {
         self.riverLayer = RiverLayer(player: humanPlayer)
         self.riverLayer.populate(with: self.game)
         self.riverLayer.zPosition = Globals.ZLevels.river
-        
+
         self.borderLayer = BorderLayer(player: humanPlayer)
         self.borderLayer.populate(with: self.game)
         self.borderLayer.zPosition = Globals.ZLevels.border
-        
+
         self.unitLayer = UnitLayer(player: humanPlayer)
         self.unitLayer.populate(with: self.game)
         self.unitLayer.zPosition = Globals.ZLevels.unit
-        
+
         self.cityLayer = CityLayer(player: humanPlayer)
         self.cityLayer.populate(with: self.game)
         self.cityLayer.zPosition = Globals.ZLevels.city
-        
+
         self.improvementLayer = ImprovementLayer(player: humanPlayer)
         self.improvementLayer.populate(with: self.game)
         self.improvementLayer.zPosition = Globals.ZLevels.improvement
@@ -89,19 +89,19 @@ class MapNode: SKNode {
         self.yieldLayer = YieldLayer(player: humanPlayer)
         self.yieldLayer.populate(with: self.game)
         self.yieldLayer.zPosition = Globals.ZLevels.yields
-        
+
         self.waterLayer = WaterLayer(player: humanPlayer)
         self.waterLayer.populate(with: self.game)
         self.waterLayer.zPosition = Globals.ZLevels.water
-        
+
         self.tooltipLayer = TooltipLayer(player: humanPlayer)
         self.tooltipLayer.populate(with: self.game)
         self.tooltipLayer.zPosition = Globals.ZLevels.tooltips
-        
+
         self.hexCoordLayer = HexCoordLayer(player: humanPlayer)
         self.hexCoordLayer.populate(with: self.game)
         self.hexCoordLayer.zPosition = Globals.ZLevels.hexCoords
-        
+
         super.init()
         self.zPosition = 51
 
@@ -118,76 +118,76 @@ class MapNode: SKNode {
         // self.addChild(self.tooltipLayer)
         self.addChild(self.hexCoordLayer) // ???
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: methods
-    
+
     func showYields() {
-        
+
         if self.childNode(withName: YieldLayer.kName) == nil {
             self.addChild(self.yieldLayer)
         }
     }
-    
+
     func hideYields() {
-        
+
         if self.childNode(withName: YieldLayer.kName) != nil {
             self.yieldLayer.removeFromParent()
         }
     }
-    
+
     func showResourceMarker() {
-        
+
         if self.childNode(withName: ResourceMarkerLayer.kName) == nil {
             self.addChild(self.resourceMarkerLayer)
         }
     }
-    
+
     func hideResourceMarker() {
-        
+
         if self.childNode(withName: ResourceMarkerLayer.kName) != nil {
             self.resourceMarkerLayer.removeFromParent()
         }
     }
-    
+
     func showWater() {
-        
+
         if self.childNode(withName: WaterLayer.kName) == nil {
             self.addChild(self.waterLayer)
         }
     }
-    
+
     func hideWater() {
-        
+
         if self.childNode(withName: WaterLayer.kName) != nil {
             self.waterLayer.removeFromParent()
         }
     }
-    
+
     func showHexCoords() {
-        
+
         if self.childNode(withName: HexCoordLayer.kName) == nil {
             self.addChild(self.hexCoordLayer)
         }
     }
-    
+
     func hideHexCoords() {
-        
+
         if self.childNode(withName: HexCoordLayer.kName) != nil {
             self.hexCoordLayer.removeFromParent()
         }
     }
-    
+
     func showCompleteMap() {
-        
+
         if self.terrainLayer.showCompleteMap {
             // early stop
             return
         }
-        
+
         self.terrainLayer.showCompleteMap = true
         self.terrainLayer.rebuild()
         self.featureLayer.showCompleteMap = true
@@ -216,14 +216,14 @@ class MapNode: SKNode {
         self.hexCoordLayer.showCompleteMap = true
         self.hexCoordLayer.rebuild()
     }
-    
+
     func showVisibleMap() {
-        
+
         if !self.terrainLayer.showCompleteMap {
             // early stop
             return
         }
-        
+
         self.terrainLayer.showCompleteMap = false
         self.terrainLayer.rebuild()
         self.featureLayer.showCompleteMap = false
@@ -254,11 +254,11 @@ class MapNode: SKNode {
     }
 
     func updateLayout() {
-        
+
     }
-    
+
     func update(tile: AbstractTile?) {
-        
+
         self.terrainLayer.update(tile: tile)
         self.featureLayer.update(tile: tile)
         self.resourceLayer.update(tile: tile)

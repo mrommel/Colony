@@ -9,13 +9,13 @@ import SwiftUI
 
 @available (iOS 13.0, OSX 10.15, *)
 struct AnimatedImageView: View {
-    
+
     @ObservedObject
     var viewModel: AnimatedImageViewModel
-    
+
     @State
     private var started: Bool = false
-    
+
     /// Create a AnimatedImage
     /// - Parameters:
     ///     - imagesNames: An Array of images  that will be shown.
@@ -30,15 +30,15 @@ struct AnimatedImageView: View {
                 loop: Bool = false,
                 loopIndex: Int = 0,
                 iterations: Int = Int.max) {
-        
+
         self.viewModel = AnimatedImageViewModel(images, stillImage: stillImage, interval: interval, loop: loop, loopIndex: loopIndex, iterations: iterations)
     }
-    
+
     public init(viewModel: AnimatedImageViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     public var body: some View {
         Group {
             self.viewModel.image
@@ -48,9 +48,9 @@ struct AnimatedImageView: View {
             self.startAnimation()
         })
     }
-    
+
     private func startAnimation() {
-        
+
         self.viewModel.startAnimation()
         self.started = true
     }

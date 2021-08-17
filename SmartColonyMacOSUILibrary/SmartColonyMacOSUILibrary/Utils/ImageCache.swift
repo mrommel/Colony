@@ -8,36 +8,36 @@
 import Cocoa
 
 public class ImageCache {
-    
+
     private var dict: [String: NSImage] = [:]
-    
+
     public static let shared = ImageCache()
-        
+
     private init() {
         print("ImageCache initialized")
     }
-    
+
     public func exists(key: String) -> Bool {
-        
+
         return self.dict[key] != nil
     }
-    
+
     public func add(image: NSImage?, for key: String) {
- 
+
         guard image != nil else {
             print("Could not load \(key)")
             return
         }
-        
+
         self.dict[key] = image
     }
-    
+
     public func image(for key: String) -> NSImage {
-        
+
         if let image = self.dict[key] {
             return image
         }
-        
+
         fatalError("no image with key: '\(key)' in cache")
         /*
          convert sepimage-0.png sepimage-1.png  -background transparent -layers flatten imagecopy.png

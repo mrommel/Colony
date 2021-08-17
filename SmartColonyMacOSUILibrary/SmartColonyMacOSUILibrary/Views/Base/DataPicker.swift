@@ -8,36 +8,36 @@
 import SwiftUI
 
 public class PickerData {
-    
+
     public let name: String
     public let image: NSImage
-    
+
     public init(name: String, image: NSImage) {
-        
+
         self.name = name
         self.image = image
     }
 }
 
 public struct DataPicker: View {
-    
+
     let title: String
     let data: [PickerData]
-    
+
     @Binding
     var selection: Int
-    
+
     public init(title: String,
                 data: [PickerData],
                 selection: Binding<Int>) {
-        
+
         self.title = title
         self.data = data
         self._selection = selection
     }
-    
+
     public var body: some View {
-        
+
         Picker(selection: $selection, label: Text(title)) {
             ForEach(0 ..< data.count) { i in
                 HStack {
@@ -60,7 +60,7 @@ struct DataPicker_Previews: PreviewProvider {
         let data: [PickerData] = [
             PickerData(name: "abc", image: NSImage(systemSymbolName: "arrow.right.circle.fill", accessibilityDescription: nil)!),
             PickerData(name: "def", image: NSImage(systemSymbolName: "arrow.right.circle.fill", accessibilityDescription: nil)!)]
-        
+
         Group {
             DataPicker(title: "Title", data: data, selection: .constant(0))
             //DataPicker(title: "Title", data: data, selection: .constant(0))

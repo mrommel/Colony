@@ -8,26 +8,26 @@
 import SwiftUI
 
 public struct TopBarView: View {
-    
+
     @ObservedObject
     public var viewModel: TopBarViewModel
-    
+
     public var body: some View {
-        
+
         VStack(alignment: .trailing) {
 
             HStack(alignment: .top, spacing: 10) {
 
                 YieldValueView(viewModel: self.viewModel.scienceYieldValueViewModel)
-                
+
                 YieldValueView(viewModel: self.viewModel.cultureYieldValueViewModel)
-                
+
                 YieldValueView(viewModel: self.viewModel.faithYieldValueViewModel)
-                
+
                 YieldValueView(viewModel: self.viewModel.goldYieldValueViewModel)
-                
+
                 Spacer()
-                
+
                 Text(self.viewModel.turnLabelText)
                     .padding(.trailing, 3)
             }
@@ -36,7 +36,7 @@ public struct TopBarView: View {
                 Image(nsImage: ImageCache.shared.image(for: "top-bar"))
                     .resizable()
             )
-            
+
             Spacer()
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
@@ -44,11 +44,12 @@ public struct TopBarView: View {
 }
 
 struct TopBarView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
         let viewModel = TopBarViewModel()
-        
+
         TopBarView(viewModel: viewModel)
     }
 }

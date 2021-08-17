@@ -84,7 +84,7 @@ class CityObject {
         if let sizeLabel = self.sizeLabel {
             self.sprite.addChild(sizeLabel)
         }
-        
+
         let growthProgress: Int = Int(Double(city.growthInTurns() * 100) / Double(city.maxGrowthInTurns())) / 5 * 5
         let growthProgressTextureName = "linear-progress-\(growthProgress)"
         let growthProgressImage = ImageCache.shared.image(for: growthProgressTextureName)
@@ -118,7 +118,7 @@ class CityObject {
             let questionmarkImage = ImageCache.shared.image(for: "questionmark")
             var texture: SKTexture = SKTexture(image: questionmarkImage)
             var productionProgress: Int = 0
-            
+
             if let item = city.currentBuildableItem() {
                 switch item.type {
 
@@ -166,7 +166,7 @@ class CityObject {
             if let productionProgressNode = self.productionProgressNode {
                 self.sprite.addChild(productionProgressNode)
             }
-            
+
             self.productionNode = SKSpriteNode(texture: texture, color: .black, size: CGSize(width: 8, height: 8))
             self.productionNode?.position = CGPoint(x: 24 + nameBackgroundWidth / 2 - 9, y: 36)
             self.productionNode?.zPosition = Globals.ZLevels.cityName

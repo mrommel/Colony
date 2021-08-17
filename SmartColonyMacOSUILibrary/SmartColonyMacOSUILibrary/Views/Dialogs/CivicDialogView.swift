@@ -8,30 +8,30 @@
 import SwiftUI
 
 struct CivicDialogView: View {
-    
+
     @ObservedObject
     var viewModel: CivicDialogViewModel
-    
+
     private var gridItemLayout = [GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45))]
-    
+
     public init(viewModel: CivicDialogViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
-        
+
         Group {
             VStack(spacing: 10) {
                 Text("Select Civic")
                     .font(.title2)
                     .bold()
                     .padding()
-                
+
                 ScrollView(.horizontal, showsIndicators: true, content: {
-                    
+
                     LazyHGrid(rows: gridItemLayout, spacing: 20) {
-                        
+
                         ForEach(self.viewModel.civicViewModels) { civicViewModel in
 
                             CivicView(viewModel: civicViewModel)
@@ -43,7 +43,7 @@ struct CivicDialogView: View {
                         }
                     }
                 })
-                
+
                 Button(action: {
                     self.viewModel.closeDialog()
                 }, label: {
@@ -64,8 +64,9 @@ struct CivicDialogView: View {
 
 #if DEBUG
 struct CivicDialogView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
         let game = DemoGameModel()
         let environment = GameEnvironment(game: game)

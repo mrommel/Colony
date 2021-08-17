@@ -9,25 +9,25 @@
 import Foundation
 import SwiftUI
 
-public struct AskYesNoAlertView<Content> : View where Content : View {
-    
+public struct AskYesNoAlertView<Content> : View where Content: View {
+
     @Binding
     var isPresented: Bool
-    
+
     var autoConfirm: Bool
-    let action: () -> ()
+    let action: () -> Void
     let title: String
     let message: String?
     let yesText: String
     var content: Content
-    
+
     public init(isPresented: Binding<Bool>, autoConfirm: Bool,
-                action: @escaping () -> (),
+                action: @escaping () -> Void,
                 title: String,
                 message: String?,
                 yesText: String,
                 @ViewBuilder content: () -> Content) {
-        
+
         _isPresented = isPresented
         self.autoConfirm = autoConfirm
         self.action = action
@@ -36,7 +36,7 @@ public struct AskYesNoAlertView<Content> : View where Content : View {
         self.yesText = yesText
         self.content = content()
     }
-    
+
     func runIfAutoconfirm() -> Bool {
         if autoConfirm {
             if isPresented {
@@ -49,13 +49,12 @@ public struct AskYesNoAlertView<Content> : View where Content : View {
         }
         return false
     }
-    
+
     public var body: some View {
         ZStack {
             if runIfAutoconfirm() {
                 content
-            }
-            else {
+            } else {
                 content.alert(isPresented: self._isPresented) {
                     Alert(title: Text(title),
                           message: Text(message ?? ""),
@@ -80,7 +79,7 @@ public extension View {
     /// - Returns: some View.
     func askYesNo(isPresented: Binding<Bool>, title: String, message: String?,
                   yesText: String, noText: String = "Cancel", autoConfirm: Bool = false,
-                  action: @escaping () -> ()) -> AskYesNoAlertView<Self> {
+                  action: @escaping () -> Void) -> AskYesNoAlertView<Self> {
        AskYesNoAlertView(isPresented: isPresented,
                           autoConfirm: autoConfirm,
                           action: action,

@@ -10,22 +10,22 @@ import SmartAssets
 import SmartMacOSUILibrary
 
 struct GenerateGameView: View {
-    
+
     @ObservedObject
     var viewModel: GenerateGameViewModel
-    
+
     var body: some View {
-        
+
         VStack {
-            
+
             Spacer(minLength: 1)
-            
+
             Text("SmartColony").font(.largeTitle)
-            
+
             Divider()
-            
+
             Text(self.$viewModel.progressText.wrappedValue)
-            
+
             ProgressCircle(value: self.$viewModel.progressValue,
                            maxValue: 1.0,
                            style: .line,
@@ -33,7 +33,7 @@ struct GenerateGameView: View {
                            foregroundColor: Color(Globals.Colors.progressColor),
                            lineWidth: 10)
                 .frame(height: 80)
-            
+
             Spacer(minLength: 1)
         }
     }
@@ -42,7 +42,7 @@ struct GenerateGameView: View {
 struct GenerateGameView_Previews: PreviewProvider {
 
     static var viewModel = GenerateGameViewModel(initialProgress: 0.3, initialText: "abc")
-    
+
     static var previews: some View {
 
         GenerateGameView(viewModel: viewModel)

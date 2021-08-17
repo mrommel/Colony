@@ -10,19 +10,19 @@ import SmartAILibrary
 import SmartAssets
 
 class ImprovementLayer: BaseLayer {
-    
+
     // MARK: constructor
-    
+
     override init(player: AbstractPlayer?) {
 
         super.init(player: player)
         self.zPosition = Globals.ZLevels.improvement
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func populate(with gameModel: GameModel?) {
 
         self.gameModel = gameModel
@@ -43,7 +43,7 @@ class ImprovementLayer: BaseLayer {
 
         // place farms/mines, ...
         if improvement != .none {
-            
+
             let improvementTextureName = improvement.textureNames().item(from: tile.point)
             let image = ImageCache.shared.image(for: improvementTextureName)
 
@@ -69,7 +69,7 @@ class ImprovementLayer: BaseLayer {
         if route != .none {
 
             if let roadTextureName = self.textures?.roadTexture(at: tile.point) {
-                
+
                 let image = ImageCache.shared.image(for: roadTextureName)
 
                 let routeSprite = SKSpriteNode(texture: SKTexture(image: image), size: ImprovementLayer.kTextureSize)

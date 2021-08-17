@@ -9,38 +9,38 @@ import SwiftUI
 import SmartAILibrary
 
 struct UnitDisbandConfirmationDialogView: View {
-    
+
     @ObservedObject
     var viewModel: UnitDisbandConfirmationDialogViewModel
-    
+
     public init(viewModel: UnitDisbandConfirmationDialogViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
-        
+
         Group {
             VStack(spacing: 10) {
                 Text("Disband Unit?")
                     .font(.title2)
                     .bold()
                     .padding()
-            
-                Text(self.viewModel.question) + 
+
+                Text(self.viewModel.question) +
                     Text(self.viewModel.unitName) +
                     Text(" ?")
-                
+
                 HStack(alignment: .center, spacing: 0) {
-                    
+
                     Button(action: {
                         self.viewModel.closeDialog()
                     }, label: {
                         Text("Cancel")
                     })
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         self.viewModel.closeDialogAndDisband()
                     }, label: {
@@ -62,16 +62,14 @@ struct UnitDisbandConfirmationDialogView: View {
 
 #if DEBUG
 struct UnitDisbandConfirmationDialogView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        //let game = DemoGameModel()
-        //let environment = GameEnvironment(game: game)
         let unit = Unit(at: HexPoint.zero, type: .archer, owner: nil)
         let viewModel = UnitDisbandConfirmationDialogViewModel(unit: unit)
 
         UnitDisbandConfirmationDialogView(viewModel: viewModel)
-            //.environment(\.gameEnvironment, environment)
     }
 }
 #endif

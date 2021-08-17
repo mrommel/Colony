@@ -10,35 +10,35 @@ import SmartAILibrary
 import SmartAssets
 
 class WaterLayer: BaseLayer {
-    
+
     static let kName: String = "WaterLayer"
-    
+
     // MARK: constructor
-    
+
     override init(player: AbstractPlayer?) {
 
         super.init(player: player)
         self.zPosition = Globals.ZLevels.water
         self.name = WaterLayer.kName
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func populate(with gameModel: GameModel?) {
-        
+
         self.gameModel = gameModel
 
         guard let gameModel = self.gameModel else {
             fatalError("gameModel not set")
         }
-        
+
         self.textureUtils = TextureUtils(with: gameModel)
-        
+
         self.rebuild()
     }
-    
+
     /// handles all terrain
     func placeWaterHex(for point: HexPoint, at position: CGPoint) {
 
@@ -54,7 +54,7 @@ class WaterLayer: BaseLayer {
 
         self.textureUtils?.set(waterSprite: waterSprite, at: point)
     }
-    
+
     func clear(tile: AbstractTile?) {
 
         if let tile = tile {
@@ -63,20 +63,20 @@ class WaterLayer: BaseLayer {
             }
         }
     }
-    
+
     override func update(tile: AbstractTile?) {
-        
+
         guard let gameModel = self.gameModel else {
             fatalError("gameModel not set")
         }
-        
+
         if let tile = tile {
             let pt = tile.point
-            
+
             self.clear(tile: tile)
-            
+
             let screenPoint = HexPoint.toScreen(hex: pt)
-            
+
             if tile.isVisible(to: self.player) && gameModel.isFreshWater(at: pt) || self.showCompleteMap {
                 self.placeWaterHex(for: pt, at: screenPoint)
             }

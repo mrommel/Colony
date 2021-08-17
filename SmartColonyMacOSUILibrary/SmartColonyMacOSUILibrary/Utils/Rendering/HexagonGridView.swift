@@ -9,22 +9,22 @@ import SwiftUI
 import SmartAILibrary
 
 struct HexagonGridView: View {
-    
+
     @ObservedObject
     var viewModel: HexagonGridViewModel
-    
+
     public init(viewModel: HexagonGridViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
-        
+
         Group {
             ZStack {
-                
+
                 ForEach(self.viewModel.hexagonViewModels, id: \.self) { hexagonViewModel in
-                    
+
                     HexagonView(viewModel: hexagonViewModel)
                         .offset(hexagonViewModel.offset())
                 }
@@ -40,11 +40,11 @@ struct HexagonGridView: View {
 
 #if DEBUG
 struct HexagonGridView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
-        
+
         let demoGameModel = DemoGameModel()
-        
+
         HexagonGridView(viewModel: HexagonGridViewModel(gameModel: demoGameModel))
     }
 }

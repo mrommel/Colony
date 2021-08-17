@@ -8,30 +8,30 @@
 import SwiftUI
 
 struct TechDialogView: View {
-    
+
     @ObservedObject
     var viewModel: TechDialogViewModel
-    
+
     private var gridItemLayout = [GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45))]
-    
+
     public init(viewModel: TechDialogViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
-        
+
         Group {
             VStack(spacing: 10) {
                 Text("Select Tech")
                     .font(.title2)
                     .bold()
                     .padding()
-                
+
                 ScrollView(.horizontal, showsIndicators: true, content: {
-                    
+
                     LazyHGrid(rows: gridItemLayout, spacing: 20) {
-                        
+
                         ForEach(self.viewModel.techViewModels) { techViewModel in
 
                             TechView(viewModel: techViewModel)
@@ -43,7 +43,7 @@ struct TechDialogView: View {
                         }
                     }
                 })
-                
+
                 Button(action: {
                     self.viewModel.closeDialog()
                 }, label: {
@@ -64,8 +64,9 @@ struct TechDialogView: View {
 
 #if DEBUG
 struct TechDialogView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
         let game = DemoGameModel()
         let environment = GameEnvironment(game: game)

@@ -138,7 +138,7 @@ public class Textures {
         self.cityTextureNames = ["hex-city-1"]
         
         self.commandTextureNames = CommandType.all.map { $0.iconTexture() }
-        self.commandButtonTextureNames = CommandType.all.map { $0.buttonTexture() }
+        self.commandButtonTextureNames = CommandType.all.map { $0.buttonTexture() } + ["command-button-list"]
         self.policyCardTextureNames = ["policyCard-slot", "policyCard-military", "policyCard-economic", "policyCard-diplomatic", "policyCard-wildcard"]
         self.governmentStateBackgroundTextureNames = GovernmentState.all.map { $0.backgroundTexture() }
         self.governmentTextureNames = GovernmentType.all.map { $0.iconTexture() }

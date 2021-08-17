@@ -8,36 +8,36 @@
 import SwiftUI
 
 struct CityNameDialogView: View {
-    
+
     @ObservedObject
     var viewModel: CityNameDialogViewModel
-    
+
     public init(viewModel: CityNameDialogViewModel) {
-        
+
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
-        
+
         Group {
             VStack(spacing: 10) {
                 Text("Enter City Name")
                     .font(.title2)
                     .bold()
                     .padding()
-            
+
                 TextField("city name ...", text: self.$viewModel.cityName)
-                
+
                 HStack(alignment: .center, spacing: 0) {
-                    
+
                     Button(action: {
                         self.viewModel.closeDialog()
                     }, label: {
                         Text("Cancel")
                     })
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         self.viewModel.closeAndFoundDialog()
                     }, label: {
@@ -59,8 +59,9 @@ struct CityNameDialogView: View {
 
 #if DEBUG
 struct CityNameDialogView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
+        // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
         let game = DemoGameModel()
         let environment = GameEnvironment(game: game)
