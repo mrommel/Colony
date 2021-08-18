@@ -33,7 +33,7 @@ public class EconomicAI: Codable {
     private var lastTurnBuilderDisbandedVal: Int
     private var explorersDisbandedValue: Int
 
-    private var explorationPlotsDirty: Bool = true
+    public var explorationPlotsDirty: Bool = true
     private var goodyHutUnitAssignments: [GoodyHutUnitAssignment]
     private var explorationPlotsArray: [ExplorationPlot]
     private var explorers: [AbstractUnit?]
@@ -633,7 +633,7 @@ public class EconomicAI: Codable {
                 continue
             }
 
-            if unit.task() != .explore {
+            if unit.task() != .explore && unit.automateType() != .explore {
                 continue
             }
 
@@ -769,22 +769,12 @@ public class EconomicAI: Codable {
 
             if let hutLocation = hutLocation {
 
-                /*m_aiGoodyHutUnitAssignments[uiHutIndex] = GoodyHutUnitAssignment( pUnit->GetID(), -1);
-
-                FFastVector<unsigned int> tempHutIndices = aiHutIndices;
-                aiHutIndices.clear();
-                for (uint uiHut = 0; uiHut < tempHutIndices.size(); uiHut++)
-                {
-                    if (tempHutIndices[uiHut] != uiHutIndex)
-                    {
-                        aiHutIndices.push_back(tempHutIndices[uiHut]);
-                    }
-                }*/
-
                 goodyHutUnitAssignmentsCopy.removeAll(where: { $0.location == hutLocation })
 
-                var item = self.goodyHutUnitAssignments.first(where: { $0.location == hutLocation })
-                item?.unit = explorer
+                guard let index = self.goodyHutUnitAssignments.firstIndex(where: { $0.location == hutLocation }) else {
+                    fatalError("cant find good hut assignment")
+                }
+                self.goodyHutUnitAssignments[index].unit = explorerRef
             }
         }
     }

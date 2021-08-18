@@ -204,6 +204,10 @@ class UnitBannerViewModel: ObservableObject {
                     }
                 })
             }
+        case .automateExploration:
+            if let selectedUnit = self.selectedUnit {
+                selectedUnit.automate(with: .explore)
+            }
         case .establishTradeRoute:
             if let selectedUnit = self.selectedUnit {
 

@@ -27,6 +27,8 @@ extension CommandType {
         case .garrison: return "command-garrison"
         case .pillage: return "command-pillage"
         case .disband: return "command-disband"
+            
+        case .automateExploration: return "command-automateExploration"
         case .establishTradeRoute: return "command-establishTradeRoute"
 
         case .attack: return "command-attack"
@@ -53,11 +55,13 @@ extension CommandType {
         case .garrison: return "command-button-garrison"
         case .pillage: return "command-button-pillage"
         case .disband: return "command-button-disband"
+            
+        case .automateExploration: return "command-button-automateExploration"
         case .establishTradeRoute: return "command-button-establishTradeRoute"
 
         case .attack: return "command-button-attack"
-        case .rangedAttack: return "command-button-default"
-        case .cancelAttack: return "command-button-default"
+        case .rangedAttack: return "command-button-default" // generic
+        case .cancelAttack: return "command-button-default" // generic
         }
     }
 }

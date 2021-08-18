@@ -47,6 +47,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     @discardableResult func doMoveOnPath(towards target: HexPoint, previousETA: Int, buildingRoute: Bool, in gameModel: GameModel?) -> Int
     @discardableResult func doMove(on target: HexPoint, in gameModel: GameModel?) -> Bool
     func readyToMove() -> Bool
+    func readyToSelect() -> Bool
     func queueMoveForVisualization(at point: HexPoint, in gameModel: GameModel?)
     func publishQueuedVisualizationMoves(in gameModel: GameModel?)
     @discardableResult func jumpToNearestValidPlotWithin(range: Int, in gameModel: GameModel?) -> Bool
@@ -307,7 +308,7 @@ public class Unit: AbstractUnit {
     internal var buildChargesValue: Int = 0
 
     // automations
-    internal var automation: UnitAutomationType = .none
+    internal var automationType: UnitAutomationType = .none
     private var moveLocations: [HexPoint] = []
     
     // trader
@@ -379,7 +380,7 @@ public class Unit: AbstractUnit {
         self.activityTypeValue = try container.decode(UnitActivityType.self, forKey: .activityType)
         self.buildTypeValue = try container.decode(BuildType.self, forKey: .buildType)
         self.buildChargesValue = try container.decode(Int.self, forKey: .buildCharges)
-        self.automation = try container.decode(UnitAutomationType.self, forKey: .automation)
+        self.automationType = try container.decode(UnitAutomationType.self, forKey: .automation)
 
         // post process
         self.promotions?.postProcess(by: self)
@@ -418,7 +419,7 @@ public class Unit: AbstractUnit {
         try container.encode(self.activityTypeValue, forKey: .activityType)
         try container.encode(self.buildTypeValue, forKey: .buildType)
         try container.encode(self.buildChargesValue, forKey: .buildCharges)
-        try container.encode(self.automation, forKey: .automation)
+        try container.encode(self.automationType, forKey: .automation)
     }
 
     // MARK: public methods
@@ -2282,7 +2283,7 @@ public class Unit: AbstractUnit {
             return false
         }
 
-        if self.automation != .none {
+        if self.automationType != .none {
             return false
         }
 
@@ -2677,6 +2678,9 @@ public class Unit: AbstractUnit {
             
         case .cancelAttack:
             return false
+            
+        case .automateExploration:
+            return self.can(automate: .explore)
         }
     }
 
@@ -2711,17 +2715,58 @@ public class Unit: AbstractUnit {
 
     public func isAutomated() -> Bool {
 
-        return self.automation != .none
+        return self.automationType != .none
     }
 
     public func automateType() -> UnitAutomationType {
 
-        return self.automation
+        return self.automationType
     }
 
     public func automate(with type: UnitAutomationType) {
 
-        self.automation = type
+        if self.automationType != type {
+        
+            let oldAutomationType = self.automationType
+            self.automationType = type
+            
+            self.clearMissions()
+            //self.set(activityType: .awake, in: <#T##GameModel?#>)
+        
+            if oldAutomationType == .explore {
+                // these need to be rebuilt
+                self.player?.economicAI?.explorationPlotsDirty = true
+            }
+            
+            // if canceling automation, cancel on cargo as well
+            if type == .none {
+                
+                /*CvPlot* pPlot = plot();
+                if(pPlot != NULL) {
+                    IDInfo* pUnitNode = pPlot->headUnitNode();
+                    while(pUnitNode != NULL)
+                    {
+                        CvUnit* pCargoUnit = ::getUnit(*pUnitNode);
+                        pUnitNode = pPlot->nextUnitNode(pUnitNode);
+
+                        CvUnit* pTransportUnit = pCargoUnit->getTransportUnit();
+                        if(pTransportUnit != NULL && pTransportUnit == this)
+                        {
+                            pCargoUnit->SetAutomateType(NO_AUTOMATE);
+                            pCargoUnit->SetActivityType(ACTIVITY_AWAKE);
+                        }
+                    }
+                }*/
+            } else if type == .explore {
+                // these need to be rebuilt
+                self.player?.economicAI?.explorationPlotsDirty = true
+            }
+        }
+    }
+    
+    public func readyToSelect() -> Bool {
+        
+        return self.readyToMove() && !self.isAutomated()
     }
 
     public func isFound() -> Bool {
@@ -2941,7 +2986,7 @@ public class Unit: AbstractUnit {
         }
         
         var validBuildPlot = self.domain() == tile.terrain().domain() // self.isNativeDomain(at: point, in: gameModel)
-        validBuildPlot = validBuildPlot || (build.isWater() && self.domain() == .land && tile.isWater() && self.canEmbark(in: gameModel))
+        validBuildPlot = validBuildPlot || (build.isWater() && self.domain() == .land && tile.isWater() && (self.canEmbark(in: gameModel) || self.isEmbarked()))
 
         if !validBuildPlot {
             return false

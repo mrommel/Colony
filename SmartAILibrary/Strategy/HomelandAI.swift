@@ -1908,7 +1908,7 @@ public class HomelandAI {
                                 continue
                             }
 
-                            let distance = path.cost
+                            let distance = path.cost + Double.random(minimum: 0.0, maximum: 0.5)
                             if distance == 0 {
                                 plotScore = 1000 * rating
                             } else {
@@ -1943,8 +1943,9 @@ public class HomelandAI {
                 }
 
                 if let bestPlot = bestPlot {
-                    unit.push(mission: UnitMission(type: .moveTo, at: bestPlot.point), in: gameModel)
-
+                    let unitMission = UnitMission(type: .moveTo, buildType: nil, at: bestPlot.point, options: .none)
+                    unit.push(mission: unitMission, in: gameModel)
+                    
                     // Only mark as done if out of movement
                     if unit.moves() <= 0 {
                         self.unitProcessed(unit: unit)
