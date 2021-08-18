@@ -29,6 +29,7 @@ extension CommandType {
         case .disband: return "command-disband"
             
         case .automateExploration: return "command-automateExploration"
+        case .automateBuild: return "command-automateBuild"
         case .establishTradeRoute: return "command-establishTradeRoute"
 
         case .attack: return "command-attack"
@@ -57,6 +58,7 @@ extension CommandType {
         case .disband: return "command-button-disband"
             
         case .automateExploration: return "command-button-automateExploration"
+        case .automateBuild: return "command-button-automateBuild"
         case .establishTradeRoute: return "command-button-establishTradeRoute"
 
         case .attack: return "command-button-attack"

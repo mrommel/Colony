@@ -1719,11 +1719,9 @@ public class City: AbstractCity {
             
             self.updateProduction(for: production, in: gameModel)
 
-            //setOverflowProduction(0);
             self.setFeatureProduction(to: 0.0)
         } else {
-            // changeOverflowProductionTimes100(getCurrentProductionDifferenceTimes100(false, false));
-            fatalError("shfdfgj")
+            self.setFeatureProduction(to: 0.0)
         }
     }
     
