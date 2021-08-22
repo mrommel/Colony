@@ -156,7 +156,7 @@ public class GameSceneViewModel: ObservableObject {
         self.buttonViewModel = AnimatedImageViewModel(image: buttonImage)
         self.topBarViewModel = TopBarViewModel()
         self.mapOverviewViewModel = MapOverviewViewModel()
-        
+
         // connect delegates
         self.topBarViewModel.delegate = self
     }
@@ -571,9 +571,9 @@ extension GameSceneViewModel: HeaderButtonViewModelDelegate {
 }
 
 extension GameSceneViewModel: TopBarViewModelDelegate {
-    
+
     func treasuryClicked() {
-        
+
         self.delegate?.showTreasuryDialog()
     }
 }

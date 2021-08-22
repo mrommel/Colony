@@ -54,10 +54,10 @@ struct UnitView_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        
+
         let viewModel = UnitViewModel(unitType: .archer, turns: 6)
         UnitView(viewModel: viewModel)
-        
+
         let player = Player(leader: .alexander)
         let unit = SmartAILibrary.Unit(at: HexPoint.zero, type: .settler, owner: player)
         let viewModel2 = UnitViewModel(unit: unit)

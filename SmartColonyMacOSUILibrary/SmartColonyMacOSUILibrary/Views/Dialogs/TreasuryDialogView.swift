@@ -10,15 +10,15 @@ import SwiftUI
 struct TreasuryGroupBoxStyle: GroupBoxStyle {
 
     var color: Color
-    
+
     func makeBody(configuration: Configuration) -> some View {
 
         VStack(alignment: .leading) {
-            
+
             configuration.label
                 .font(.headline)
                 .foregroundColor(color)
-            
+
             configuration.content
                 .padding(.leading, 8)
                 .padding(.trailing, 8)
@@ -35,7 +35,7 @@ struct TreasuryGroupBoxStyle: GroupBoxStyle {
 }
 
 struct TreasuryDialogView: View {
-    
+
     @ObservedObject
     var viewModel: TreasuryDialogViewModel
 
@@ -58,39 +58,39 @@ struct TreasuryDialogView: View {
 
                     Spacer()
                 }
-                
+
                 GroupBox(label: Text("Income")
                             ) {
                     VStack(alignment: .leading, spacing: 8) {
-                        
+
                         Text(self.viewModel.goldFromCities) + Text(" from cities")
                         Text(self.viewModel.goldFromDeals) + Text(" from deals")
                         Text(self.viewModel.goldFromTradeRoutes) + Text(" from trade routes")
-                        
+
                         Divider()
-                        
+
                         Text("Sum: \(self.viewModel.goldIncome) \(Image(nsImage: self.viewModel.goldImage()))")
                     }
                     .frame(width: 270)
                 }
                 .groupBoxStyle(TreasuryGroupBoxStyle(color: .green))
-                
+
                 GroupBox(label: Text("Expenses")
                             .font(.headline)) {
                     VStack(alignment: .leading, spacing: 8) {
-                        
+
                         Text(self.viewModel.goldForCityMaintenance) + Text(" from cities")
                         Text(self.viewModel.goldForUnitMaintenance) + Text(" from units")
                         Text(self.viewModel.goldForDeals) + Text(" from deals")
-                        
+
                         Divider()
-                        
+
                         Text("Sum: \(self.viewModel.goldExpenses) \(Image(nsImage: self.viewModel.goldImage()))")
                     }
                     .frame(width: 270)
                 }
                 .groupBoxStyle(TreasuryGroupBoxStyle(color: .red))
-                
+
                 Spacer()
 
                 Button(action: {

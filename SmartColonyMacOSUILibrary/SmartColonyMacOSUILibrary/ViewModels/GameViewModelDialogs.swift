@@ -55,7 +55,7 @@ extension GameViewModel {
     }
 
     func showTreasuryDialog() {
-        
+
         if self.currentScreenType == .treasury {
             // already shown
             return
@@ -68,7 +68,7 @@ extension GameViewModel {
             fatalError("cant show treasury dialog, \(self.currentScreenType) is currently shown")
         }
     }
-    
+
     func showChangeTechDialog() {
 
         if self.currentScreenType == .techs {

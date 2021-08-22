@@ -112,7 +112,7 @@ public class GameViewModel: ObservableObject {
 
     @Published
     var unitListDialogViewModel: UnitListDialogViewModel
-    
+
     @Published
     var treasuryDialogViewModel: TreasuryDialogViewModel
 
