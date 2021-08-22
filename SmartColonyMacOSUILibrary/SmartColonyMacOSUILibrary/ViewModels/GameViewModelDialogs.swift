@@ -54,6 +54,21 @@ extension GameViewModel {
         }
     }
 
+    func showTreasuryDialog() {
+        
+        if self.currentScreenType == .treasury {
+            // already shown
+            return
+        }
+
+        if self.currentScreenType == .none {
+            self.treasuryDialogViewModel.update()
+            self.currentScreenType = .treasury
+        } else {
+            fatalError("cant show treasury dialog, \(self.currentScreenType) is currently shown")
+        }
+    }
+    
     func showChangeTechDialog() {
 
         if self.currentScreenType == .techs {

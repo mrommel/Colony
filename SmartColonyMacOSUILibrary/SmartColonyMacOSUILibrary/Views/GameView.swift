@@ -86,7 +86,7 @@ extension GameView {
             return AnyView(CityDialogView(viewModel: self.viewModel.cityDialogViewModel))
 
         case .treasury:
-            return AnyView(EmptyView())
+            return AnyView(TreasuryDialogView(viewModel: self.viewModel.treasuryDialogViewModel))
         case .government:
             return AnyView(GovernmentDialogView(viewModel: self.viewModel.governmentDialogViewModel))
         case .changeGovernment:

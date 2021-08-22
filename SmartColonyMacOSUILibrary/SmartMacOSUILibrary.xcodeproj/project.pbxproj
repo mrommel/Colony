@@ -126,6 +126,8 @@
 		C9B43FB1263E905B00241012 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B43FB0263E905B00241012 /* CGSizeExtension.swift */; };
 		C9B60BEE269DC61200F10177 /* SelectPantheonDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B60BED269DC61100F10177 /* SelectPantheonDialogView.swift */; };
 		C9B60BF0269DC68800F10177 /* SelectPantheonDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B60BEF269DC68800F10177 /* SelectPantheonDialogViewModel.swift */; };
+		C9B98C5426D29ECD00AA80D6 /* TreasuryDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B98C5326D29ECD00AA80D6 /* TreasuryDialogViewModel.swift */; };
+		C9B98C5626D2A6E300AA80D6 /* TreasuryDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B98C5526D2A6E300AA80D6 /* TreasuryDialogView.swift */; };
 		C9BA399726657499008B3476 /* AnimatedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA399626657499008B3476 /* AnimatedImageViewModel.swift */; };
 		C9BDCF8B262476E6002488F6 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDCF8A262476E6002488F6 /* GameView.swift */; };
 		C9BDCF8D2624771C002488F6 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDCF8C2624771C002488F6 /* GameViewModel.swift */; };
@@ -318,6 +320,8 @@
 		C9B43FB0263E905B00241012 /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
 		C9B60BED269DC61100F10177 /* SelectPantheonDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPantheonDialogView.swift; sourceTree = "<group>"; };
 		C9B60BEF269DC68800F10177 /* SelectPantheonDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPantheonDialogViewModel.swift; sourceTree = "<group>"; };
+		C9B98C5326D29ECD00AA80D6 /* TreasuryDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreasuryDialogViewModel.swift; sourceTree = "<group>"; };
+		C9B98C5526D2A6E300AA80D6 /* TreasuryDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreasuryDialogView.swift; sourceTree = "<group>"; };
 		C9BA399626657499008B3476 /* AnimatedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImageViewModel.swift; sourceTree = "<group>"; };
 		C9BDCF8A262476E6002488F6 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		C9BDCF8C2624771C002488F6 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
@@ -442,6 +446,7 @@
 				C9B60BED269DC61100F10177 /* SelectPantheonDialogView.swift */,
 				C94816BE26A82D4E00765029 /* SelectTradeCityDialogView.swift */,
 				C9F4939E26CAB04400B0C259 /* UnitListDialogView.swift */,
+				C9B98C5526D2A6E300AA80D6 /* TreasuryDialogView.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -651,6 +656,7 @@
 				C9B60BEF269DC68800F10177 /* SelectPantheonDialogViewModel.swift */,
 				C94816BA26A824C400765029 /* SelectTradeCityDialogViewModel.swift */,
 				C9F4939C26CAAE9600B0C259 /* UnitListDialogViewModel.swift */,
+				C9B98C5326D29ECD00AA80D6 /* TreasuryDialogViewModel.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -874,6 +880,7 @@
 				C9F2B54F266912A40016D4F3 /* CivicDiscoveredPopupViewModel.swift in Sources */,
 				C920C426262EB03F0024EC0E /* GameEnvironment.swift in Sources */,
 				C9A48D3A2653A19900260EE0 /* HeaderButtonViewModel.swift in Sources */,
+				C9B98C5426D29ECD00AA80D6 /* TreasuryDialogViewModel.swift in Sources */,
 				C9E87BB7264D1DC500514B9A /* CivicDialogViewModel.swift in Sources */,
 				C9A48D4D2653FAA600260EE0 /* CityDialogView.swift in Sources */,
 				C9AA64FD26559C4200907DE1 /* GameButtonStyle.swift in Sources */,
@@ -977,6 +984,7 @@
 				C9A3761F2635F70F0057923E /* MapNode.swift in Sources */,
 				C9CE216F2649678900B47ED4 /* Globals.swift in Sources */,
 				C9A3762F263600800057923E /* ResourceMarkerLayer.swift in Sources */,
+				C9B98C5626D2A6E300AA80D6 /* TreasuryDialogView.swift in Sources */,
 				C9E059842655200F00C08463 /* UnitViewModel.swift in Sources */,
 				C9E059862655203A00C08463 /* DistrictSectionViewModel.swift in Sources */,
 				C92F9489265E2298000968AB /* RegularPolygonPath.swift in Sources */,
