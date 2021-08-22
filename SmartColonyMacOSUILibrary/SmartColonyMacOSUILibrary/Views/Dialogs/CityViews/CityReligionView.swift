@@ -35,7 +35,7 @@ struct CityReligionView: View {
                     .padding()
             }
 
-            if self.viewModel.citizenReligionViewModels.count == 0 {
+            if self.viewModel.citizenReligionViewModels.isEmpty {
                 Text("No religious people in this city - you need to found a religion.")
                     .padding()
             } else {

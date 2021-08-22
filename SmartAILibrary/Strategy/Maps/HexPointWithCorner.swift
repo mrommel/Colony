@@ -61,9 +61,9 @@ public class HexPointWithCorner {
 }
 
 extension HexPointWithCorner: Hashable {
-    
+
     /// Returns a unique number that represents this location.
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.point)
         hasher.combine(self.corner.rawValue)

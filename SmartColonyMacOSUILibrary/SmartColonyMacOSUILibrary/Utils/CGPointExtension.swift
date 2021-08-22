@@ -13,9 +13,9 @@ extension CGPoint {
         self.init(x: size.width, y: size.height)
     }
 
-    func distanceSquared(to p: CGPoint) -> CGFloat {
-        let dx = x - p.x
-        let dy = y - p.y
+    func distanceSquared(to point: CGPoint) -> CGFloat {
+        let dx = x - point.x
+        let dy = y - point.y
         return dx * dx + dy * dy
     }
 

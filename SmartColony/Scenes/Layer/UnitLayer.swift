@@ -246,7 +246,7 @@ class UnitLayer: SKNode {
             var textureName = "path-start-\(dir.short())"
 
             if !isReallyMovementLeft {
-                textureName = textureName + "-out"
+                textureName += "-out"
             }
 
             let pathSprite = SKSpriteNode(imageNamed: textureName)
@@ -262,12 +262,12 @@ class UnitLayer: SKNode {
             }
         }
 
-        for i in 1..<path.count - 1 {
-            let (previousPoint, _) = path[i - 1]
-            let (currentPoint, currentCost) = path[i]
-            let (nextPoint, _) = path[i + 1]
+        for index in 1..<path.count - 1 {
+            let (previousPoint, _) = path[index - 1]
+            let (currentPoint, currentCost) = path[index]
+            let (nextPoint, _) = path[index + 1]
 
-            costSum = costSum + currentCost
+            costSum += currentCost
             let isMovementLeft = movementInCurrentTurn > costSum
 
             if let dir = currentPoint.direction(towards: previousPoint),
@@ -279,7 +279,7 @@ class UnitLayer: SKNode {
                 }
 
                 if !isReallyMovementLeft {
-                    textureName = textureName + "-out"
+                    textureName += "-out"
                 }
 
                 let pathSprite = SKSpriteNode(imageNamed: textureName)
@@ -299,13 +299,13 @@ class UnitLayer: SKNode {
         let (secondlastItem, _) = path[path.count - 2]
         let (lastPoint, lastCost) = path[path.count - 1]
 
-        costSum = costSum + lastCost
+        costSum += lastCost
 
         if let dir = lastPoint.direction(towards: secondlastItem) {
             var textureName = "path-start-\(dir.short())"
 
             if !isReallyMovementLeft {
-                textureName = textureName + "-out"
+                textureName += "-out"
             }
 
             let pathSprite = SKSpriteNode(imageNamed: textureName)
@@ -337,7 +337,13 @@ class UnitLayer: SKNode {
 
                     let pathFinder = AStarPathfinder()
 
-                    pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(for: selectedUnit.movementType(), for: selectedUnit.player, ignoreOwner: false, unitMapType: selectedUnit.unitMapType(), canEmbark: selectedUnit.canEverEmbark())
+                    pathFinder.dataSource = gameModel.unitAwarePathfinderDataSource(
+                        for: selectedUnit.movementType(),
+                        for: selectedUnit.player,
+                        ignoreOwner: false,
+                        unitMapType: selectedUnit.unitMapType(),
+                        canEmbark: selectedUnit.canEverEmbark()
+                    )
 
                     if let path = pathFinder.shortestPath(fromTileCoord: selectedUnit.location, toTileCoord: hex) {
 

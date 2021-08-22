@@ -9,7 +9,7 @@
 import Foundation
 
 enum UnitTradeRouteState {
-    
+
     case active
     case expired
 }

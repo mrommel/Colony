@@ -10,19 +10,20 @@ import SpriteKit
 import UIKit
 
 struct PixelData {
-    var a: UInt8 = 255
-    var r: UInt8
-    var g: UInt8
-    var b: UInt8
+    
+    var alpha: UInt8 = 255
+    var red: UInt8
+    var green: UInt8
+    var blue: UInt8
 
     init(color: UIColor) {
 
         let rgba = color.rgba
 
-        self.a = UInt8(rgba.alpha * 255)
-        self.r = UInt8(rgba.red * 255)
-        self.g = UInt8(rgba.green * 255)
-        self.b = UInt8(rgba.blue * 255)
+        self.alpha = UInt8(rgba.alpha * 255)
+        self.red = UInt8(rgba.red * 255)
+        self.green = UInt8(rgba.green * 255)
+        self.blue = UInt8(rgba.blue * 255)
     }
 }
 
@@ -46,7 +47,15 @@ struct PixelBuffer {
         var bitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Big.rawValue
         bitmapInfo |= CGImageAlphaInfo.premultipliedLast.rawValue & CGBitmapInfo.alphaInfoMask.rawValue
 
-        guard let imageContext = CGContext(data: imageData, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+        guard let imageContext = CGContext(
+                data: imageData,
+                width: width,
+                height: height,
+                bitsPerComponent: bitsPerComponent,
+                bytesPerRow: bytesPerRow,
+                space: colorSpace,
+                bitmapInfo: bitmapInfo
+        ) else {
             return nil
         }
         imageContext.draw(cgImage, in: CGRect(origin: CGPoint(x: 0, y: 0), size: image.size))

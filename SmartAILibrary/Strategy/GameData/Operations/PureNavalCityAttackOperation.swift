@@ -13,25 +13,25 @@ import Foundation
 //!  \brief        Try to take out an enemy city from the sea
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class PureNavalCityAttackOperation: NavalOperation {
-    
+
     init() {
-        
+
         super.init(type: .navalBombard)
     }
-    
+
     required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
-    
+
     /// Kick off this operation
     override func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel,
               let militaryAI = self.player?.militaryAI,
               let player = player else {
             fatalError("cant get gameModel")
         }
-        
+
         super.initialize(for: player, enemy: enemy, area: area, target: target, muster: muster, in: gameModel)
 
         self.moveType = .enemyTerritory
@@ -41,14 +41,14 @@ class PureNavalCityAttackOperation: NavalOperation {
         self.army?.state = .waitingForUnitsToReinforce
 
         if let target = target {
-            
+
             self.targetPosition = target.location
             self.army?.goal = target.location
 
             // Muster just off the coast
             if let unit: AbstractUnit? = self.army!.units().first,
                let coastalMuster = militaryAI.waterTileAdjacent(to: self.musterPosition!, for: unit, in: gameModel) {
-                
+
                 self.area = gameModel.area(of: coastalMuster.point)
                 self.startPosition = coastalMuster.point
                 self.musterPosition = coastalMuster.point
@@ -78,7 +78,7 @@ class PureNavalCityAttackOperation: NavalOperation {
 
     /// How far out from the target city do we want to gather?
     override func deployRange() -> Int {
-    
+
         return 4 // AI_OPERATIONAL_CITY_ATTACK_DEPLOY_RANGE
     }
 
@@ -90,21 +90,21 @@ class PureNavalCityAttackOperation: NavalOperation {
               let enemy = self.enemy else {
             fatalError("cant get gameModel")
         }
-        
+
         var stateChanged = false
 
         switch self.state {
-        
+
             // If we were gathering forces, let's make sure a better target hasn't presented itself
         case .gatheringForces:
-            
+
             // First do base case processing
             stateChanged = self.armyInPosition(in: gameModel)
 
             // Is target still under enemy control?
             if let target = self.targetPosition,
                let targetTile = gameModel.tile(at: target) {
-                
+
                 if !enemy.isEqual(to: targetTile.owner()) {
                     self.state = .aborted(reason: .targetAlreadyCaptured)
                 }
@@ -112,9 +112,9 @@ class PureNavalCityAttackOperation: NavalOperation {
 
             // See if within 2 spaces of our target, if so give control of these units to the tactical AI
         case .movingToTarget:
-            
+
                 if army.position.distance(to: self.targetPosition!) < 2 {
-                    
+
                     // Notify tactical AI to focus on this area
                     let zone = TemporaryZone(location: self.targetPosition!, lastTurn: gameModel.currentTurn + 1 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */, targetType: .city)
                     self.player?.tacticalAI?.add(temporaryZone: zone)
@@ -129,7 +129,7 @@ class PureNavalCityAttackOperation: NavalOperation {
         default:
             // NOOP
         break
-        };
+        }
 
         return stateChanged
     }
@@ -143,12 +143,12 @@ class PureNavalCityAttackOperation: NavalOperation {
               let targetPlot = gameModel.tile(at: target) else {
             fatalError("cant get gameModel")
         }
-        
+
         // If parent says we're done, don't even check anything else
         let rtnValue = super.shouldAbort(in: gameModel)
 
         if !rtnValue {
-            
+
             // See if our target city is still owned by our enemy
             if !enemy.isEqual(to: targetPlot.owner()) {
 
@@ -165,14 +165,14 @@ class PureNavalCityAttackOperation: NavalOperation {
 
         fatalError("Obsolete function called CvAIOperationPureNavalCityAttack::FindBestTarget()")
     }
-    
+
     override func formation(in gameModel: GameModel?) -> UnitFormationType {
-        
+
         return .navalCityAttack // MUFORMATION_PURE_NAVAL_CITY_ATTACK
     }
-    
+
     override func canTacticalAIInterrupt() -> Bool {
-        
+
         return true
     }
 }

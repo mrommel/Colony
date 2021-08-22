@@ -9,7 +9,7 @@
 import Foundation
 
 enum GoodyCategory {
-    
+
     case gold
     case culture
     case faith
@@ -21,82 +21,87 @@ enum GoodyCategory {
 
 // https://civilization.fandom.com/wiki/Tribal_Village_(Civ6)
 public enum GoodyType: Int, Codable {
-    
+
     case none
-    
+
     case goldMinorGift
     case goldMediumGift
     case goldMajorGift
-    
+
     case civicMinorBoost
     case civicMajorBoost
     case relic
-    
+
     case faithMinorGift
     case faithMediumGift
     case faithMajorGift
-    
+
     case scienceMinorGift
     case scienceMajorGift
     case freeTech
-    
+
     case diplomacyMinorBoost
     case freeEnvoy
     case diplomacyMajorBoost
-    
+
     case freeScout
     case healing
     case freeResource
     case experienceBoost
     case unitUpgrade
-    
+
     case additionalPopulation
     case freeBuilder
     case freeTrader
     case freeSettler
-    
+
     private struct GoodyTypeData {
-        
+
         let name: String
         let effect: String
         let category: GoodyCategory
         let minimalTurn: Int
         let probability: Int // in percent 0..100
     }
-    
+
     static var all: [GoodyType] {
-        return [.goldMinorGift, .goldMediumGift, .goldMajorGift, .civicMinorBoost, .civicMajorBoost, .relic, .faithMinorGift, .faithMediumGift, .faithMajorGift, .scienceMinorGift, .scienceMajorGift, .freeTech, .diplomacyMinorBoost, .freeEnvoy, .diplomacyMajorBoost, .freeScout, .healing, .freeResource, .experienceBoost, .unitUpgrade, .additionalPopulation, .freeBuilder, .freeTrader, .freeSettler]
+        return [
+            .goldMinorGift, .goldMediumGift, .goldMajorGift, .civicMinorBoost, .civicMajorBoost, .relic,
+            .faithMinorGift, .faithMediumGift, .faithMajorGift, .scienceMinorGift, .scienceMajorGift, .freeTech,
+            .diplomacyMinorBoost, .freeEnvoy, .diplomacyMajorBoost, .freeScout, .healing, .freeResource,
+            .experienceBoost, .unitUpgrade, .additionalPopulation, .freeBuilder, .freeTrader, .freeSettler
+        ]
     }
-    
+
     public func name() -> String {
-        
+
         return self.data().name
     }
-    
+
     public func effect() -> String {
-        
+
         return self.data().effect
     }
-    
+
     func category() -> GoodyCategory {
-        
+
         return self.data().category
     }
- 
+
     func minimalTurn() -> Int {
-        
+
         return self.data().minimalTurn
     }
-    
+
     func probability() -> Int {
-        
+
         return self.data().probability
     }
-    
+
     private func data() -> GoodyTypeData {
-        
+
         switch self {
-            
+
             // gold
         case .goldMinorGift:
             return GoodyTypeData(
@@ -122,7 +127,7 @@ public enum GoodyType: Int, Codable {
                 minimalTurn: 40,
                 probability: 15
             )
-            
+
             // culture
         case .civicMinorBoost:
             return GoodyTypeData(
@@ -292,7 +297,7 @@ public enum GoodyType: Int, Codable {
                 minimalTurn: 0,
                 probability: 5
             )
-            
+
         case .none:
             return GoodyTypeData(
                 name: "None",

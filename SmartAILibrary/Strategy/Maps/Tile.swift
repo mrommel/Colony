@@ -165,6 +165,7 @@ public protocol AbstractTile: Codable {
     func set(builderAIScratchPad: BuilderAIScratchPad)
 }
 
+// swiftlint:disable type_body_length
 public class Tile: AbstractTile {
 
     enum CodingKeys: CodingKey {
@@ -212,11 +213,11 @@ public class Tile: AbstractTile {
     private var discovered: TileDiscovered
     private var ownerValue: AbstractPlayer?
     private var ownerLeaderValue: LeaderType // only for serialization
-    private var workedBy: AbstractCity? = nil
-    private var workedByCityName: String? = nil // only for serialization
-    private var city: AbstractCity? = nil
+    private var workedBy: AbstractCity?
+    private var workedByCityName: String? // only for serialization
+    private var city: AbstractCity?
 
-    private var riverName: String? = nil
+    private var riverName: String?
     private var riverFlowNorth: FlowDirection = .none
     private var riverFlowNorthEast: FlowDirection = .none
     private var riverFlowSouthEast: FlowDirection = .none
@@ -271,10 +272,10 @@ public class Tile: AbstractTile {
 
         self.ownerValue = nil
         self.ownerLeaderValue = try container.decodeIfPresent(LeaderType.self, forKey: .owner) ?? .none
-        
+
         self.workedBy = nil
         self.workedByCityName = try container.decodeIfPresent(String.self, forKey: .workedByCityName)
-        
+
         if container.contains(.discovered) {
             self.discovered = try container.decode(TileDiscovered.self, forKey: .discovered)
         } else {
@@ -318,11 +319,11 @@ public class Tile: AbstractTile {
         if !self.discovered.isEmpty() {
             try container.encode(self.discovered, forKey: .discovered)
         }
-        
+
         if let leader = self.owner()?.leader {
             try container.encode(leader, forKey: .owner)
         }
-        
+
         if let cityName = self.workedBy?.name {
             try container.encode(cityName, forKey: .workedByCityName)
         }
@@ -430,18 +431,18 @@ public class Tile: AbstractTile {
 
         return false
     }
-    
+
     public func isEnemyTerritory(for player: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
 
         guard let player = player else {
             fatalError("cant get player")
         }
-        
+
         // only enemy territory for barbs!
         if player.isBarbarian() {
             return true
         }
-        
+
         // Nobody owns this plot
         if !self.hasOwner() {
             return false
@@ -474,32 +475,32 @@ public class Tile: AbstractTile {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let player = player else {
             fatalError("cant get player")
         }
-        
+
         guard let diplomacyAI = player.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         for loopPlayer in gameModel.players {
-            
+
             if loopPlayer.isBarbarian() {
                 continue
             }
-            
+
             if player.isEqual(to: loopPlayer) {
                 continue
             }
-            
+
             if diplomacyAI.isAtWar(with: loopPlayer) {
                 if self.isVisible(to: loopPlayer) {
                     return true
                 }
             }
         }
-        
+
         return false
     }
 
@@ -773,7 +774,7 @@ public class Tile: AbstractTile {
 
                 // Culture from Improvement
                 if let player = self.owner() {
-                    let culture = improvementType.yields(for:player, on: resource(for: player)).culture //ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
+                    let culture = improvementType.yields(for: player, on: resource(for: player)).culture //ComputeCultureFromImprovement(newImprovementEntry, eNewValue);
                     if culture != 0 {
                     //self.changeCulture(culture)
                     }
@@ -899,7 +900,7 @@ public class Tile: AbstractTile {
 
         return self.routeValue == route
     }
-    
+
     public func hasAnyRoute() -> Bool {
 
         return self.routeValue != .none
@@ -929,7 +930,7 @@ public class Tile: AbstractTile {
 
         self.routeValue = routeType
     }
-    
+
     public func route() -> RouteType {
 
         return self.routeValue
@@ -941,7 +942,7 @@ public class Tile: AbstractTile {
         if buildType == .none {
             return false
         }
-        
+
         if let improvement = buildType.improvement() {
             if !improvement.isPossible(on: self) {
                 return false
@@ -991,9 +992,9 @@ public class Tile: AbstractTile {
 
         return self.ownerValue != nil
     }
-    
+
     public func ownerLeader() -> LeaderType {
-        
+
         return self.ownerLeaderValue
     }
 
@@ -1018,7 +1019,7 @@ public class Tile: AbstractTile {
 
         return self.workedBy
     }
-    
+
     public func workingCityName() -> String? {
 
         return self.workedByCityName
@@ -1081,9 +1082,9 @@ public class Tile: AbstractTile {
 
         return self.discovered.isVisible(to: player)
     }
-    
+
     public func isVisibleAny() -> Bool {
-        
+
         return self.discovered.isVisibleAny()
     }
 
@@ -1176,15 +1177,15 @@ public class Tile: AbstractTile {
     }
 
     public func isWater() -> Bool {
-        
+
         return self.terrainVal.isWater()
     }
-    
+
     public func isLand() -> Bool {
-        
+
         return self.terrainVal.isLand()
     }
-    
+
     func isFlatlands() -> Bool {
 
         if !self.terrainVal.isLand() {
@@ -1327,9 +1328,9 @@ public class Tile: AbstractTile {
 
         self.continentValue = continent
     }
-    
+
     public func resetRiver() {
-        
+
         self.riverName = nil
         self.riverFlowNorth = .none
         self.riverFlowNorthEast = .none
@@ -1357,7 +1358,7 @@ public class Tile: AbstractTile {
             return self.isRiverInSouthEast()
 
         default:
-            throw FlowDirectionError.unsupported(flow: .none, in: direction)
+            throw FlowDirectionError.unsupported(flow: .none, direction: direction)
         }
     }
 
@@ -1377,7 +1378,7 @@ public class Tile: AbstractTile {
         case .west:
             try self.setRiverFlowInNorth(flow: flow)
         default:
-            throw FlowDirectionError.unsupported(flow: flow, in: .north)
+            throw FlowDirectionError.unsupported(flow: flow, direction: .north)
         }
     }
 
@@ -1391,7 +1392,7 @@ public class Tile: AbstractTile {
         case .southeast:
             try self.setRiverFlowInSouthEast(flow: flow)
         default:
-            throw FlowDirectionError.unsupported(flow: flow, in: direction)
+            throw FlowDirectionError.unsupported(flow: flow, direction: direction)
         }
     }
 
@@ -1408,7 +1409,7 @@ public class Tile: AbstractTile {
     public func setRiverFlowInNorth(flow: FlowDirection) throws {
 
         guard flow == .east || flow == .west else {
-            throw FlowDirectionError.unsupported(flow: flow, in: .north)
+            throw FlowDirectionError.unsupported(flow: flow, direction: .north)
         }
 
         self.riverFlowNorth = flow
@@ -1422,7 +1423,7 @@ public class Tile: AbstractTile {
     public func setRiverFlowInNorthEast(flow: FlowDirection) throws {
 
         guard flow == .northWest || flow == .southEast else {
-            throw FlowDirectionError.unsupported(flow: flow, in: .northeast)
+            throw FlowDirectionError.unsupported(flow: flow, direction: .northeast)
         }
 
         self.riverFlowNorthEast = flow
@@ -1436,7 +1437,7 @@ public class Tile: AbstractTile {
     public func setRiverFlowInSouthEast(flow: FlowDirection) throws {
 
         guard flow == .southWest || flow == .northEast else {
-            throw FlowDirectionError.unsupported(flow: flow, in: .southeast)
+            throw FlowDirectionError.unsupported(flow: flow, direction: .southeast)
         }
 
         self.riverFlowSouthEast = flow
@@ -1491,7 +1492,7 @@ public class Tile: AbstractTile {
         if terrainCost == UnitMovementType.max {
             return UnitMovementType.max
         }
-        
+
         // hills
         var hillCosts = self.hillsVal ? 1.0 : 0.0
 
@@ -1513,34 +1514,34 @@ public class Tile: AbstractTile {
         if source.isRiverToCross(towards: self) {
             riverCost = 3.0 // FIXME - river cost per movementType
         }
-        
+
         // https://civilization.fandom.com/wiki/Roads_(Civ6)
         switch self.route() {
-            
+
         case .none:
             // NOOP
             break
-            
+
         case .ancientRoad:
             // Starting road, well-packed dirt. Most terrain costs 1 MP; crossing rivers still costs 3 MP.
             terrainCost = 1.0
             hillCosts = 0.0
             featureCosts = 0.0
-            
+
         case .classicalRoad:
             // Adds bridges over rivers; crossing them now also costs 1 MP.
             terrainCost = 1.0
             hillCosts = 0.0
             featureCosts = 0.0
             riverCost = 0.0
-        
+
         case .industrialRoad:
             // Paved roads are developed; 0.75 MP per tile.
             terrainCost = 0.75
             hillCosts = 0.0
             featureCosts = 0.0
             riverCost = 0.0
-            
+
         case .modernRoad:
             // Asphalted roads are developed; 0.50 MP per tile.
             terrainCost = 0.5
@@ -1731,7 +1732,7 @@ public class Tile: AbstractTile {
 
                 // Remove Feature
                 if self.hasAnyFeature() {
-                    
+
                     if !buildType.keeps(feature: self.feature()) && buildType.canRemove(feature: self.feature()) {
 
                         let (production, cityRef) = self.featureProduction(by: buildType, for: player)
@@ -1749,8 +1750,12 @@ public class Tile: AbstractTile {
                             city.changeFeatureProduction(change: Double(production))
 
                             if cityPlayer.isHuman() {
-                                
-                                gameModel?.userInterface?.showTooltip(at: self.point, text: "The removal of \(self.feature().name()) has gained you \(production) [ICON_PRODUCTION] for your city \(city.name).", delay: 3)
+
+                                gameModel?.userInterface?.showTooltip(
+                                    at: self.point,
+                                    text: "The removal of \(self.feature().name()) has gained you \(production) [ICON_PRODUCTION] for your city \(city.name).",
+                                    delay: 3
+                                )
                             }
                         }
 
@@ -1901,7 +1906,7 @@ public class Tile: AbstractTile {
 }
 
 extension Tile: Equatable {
-    
+
     public static func == (lhs: Tile, rhs: Tile) -> Bool {
         return lhs.point == rhs.point
     }

@@ -18,9 +18,9 @@ enum GrandStrategyAIType: Int, Codable {
     static var all: [GrandStrategyAIType] {
         return [.conquest, .culture, .council]
     }
-    
+
     func flavor(for flavorType: FlavorType) -> Int {
-        
+
         return self.flavorBase() + self.flavorModifier(for: flavorType)
     }
 
@@ -32,11 +32,11 @@ enum GrandStrategyAIType: Int, Codable {
 
         return 0
     }
-    
+
     // MARK: private methods
-    
+
     private func flavorBase() -> Int {
-        
+
         switch self {
 
         case .none:
@@ -49,9 +49,9 @@ enum GrandStrategyAIType: Int, Codable {
             return 10
         }
     }
-    
+
     private func flavorModifier() -> [Flavor] {
-        
+
         switch self {
 
         case .none:
@@ -70,11 +70,11 @@ enum GrandStrategyAIType: Int, Codable {
                     Flavor(type: .recon, value: 1)]
         }
     }
-    
+
     func yields() -> Yields {
-        
+
         switch self {
-            
+
         case .none: return Yields(food: 0.0, production: 0.0, gold: 0.0)
         case .conquest: return Yields(food: 0.0, production: 200.0, gold: 0.0)
         case .culture: return Yields(food: 0.0, production: 0.0, gold: 50.0, science: 50.0)
@@ -95,5 +95,4 @@ enum GrandStrategyAIType: Int, Codable {
         }
     }
 
-    
 }

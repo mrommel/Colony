@@ -20,11 +20,11 @@ class EscortedOperation: Operation {
 
         super.init(type: type)
     }
-    
+
     public required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
-    
+
     /// Kick off this operation
     override func initialize(for player: AbstractPlayer?, enemy: AbstractPlayer?, area: HexArea?, target: AbstractCity? = nil, muster: AbstractCity? = nil, in gameModel: GameModel?) {
 
@@ -63,9 +63,9 @@ class EscortedOperation: Operation {
             }
         }
     }
-    
+
     override func formation(in gameModel: GameModel?) -> UnitFormationType {
-        
+
         fatalError("must be overridden")
     }
 

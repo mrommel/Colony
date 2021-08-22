@@ -56,7 +56,7 @@ public enum GovernmentType: Int, Codable {
 
         return self.data().name
     }
-    
+
     public func era() -> EraType {
 
         return self.data().era
@@ -76,9 +76,9 @@ public enum GovernmentType: Int, Codable {
 
         return self.data().bonus1Summary
     }
-    
+
     public func bonus2Summary() -> String {
-        
+
         return self.data().bonus2Summary
     }
 

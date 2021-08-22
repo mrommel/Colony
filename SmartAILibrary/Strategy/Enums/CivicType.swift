@@ -19,6 +19,7 @@ public struct CivicAchievements {
     public let governments: [GovernmentType]
 }
 
+// swiftlint:disable type_body_length
 public enum CivicType: String, Codable {
 
     case none
@@ -84,10 +85,9 @@ public enum CivicType: String, Codable {
     case professionalSports
     case rapidDeployment
     case spaceRace
-    
+
     // information
     case globalization
-
 
     public static var all: [CivicType] {
         return [
@@ -111,7 +111,7 @@ public enum CivicType: String, Codable {
 
             // atomic
             .culturalHeritage, .coldWar, .professionalSports, .rapidDeployment, .spaceRace,
-            
+
             // information
             .globalization
         ]
@@ -206,7 +206,7 @@ public enum CivicType: String, Codable {
                 return false
             }
         })
-        
+
         // wonders
         let wonders = WonderType.all.filter({
             if let civic = $0.requiredCivic() {
@@ -229,7 +229,7 @@ public enum CivicType: String, Codable {
         let policyCards = PolicyCardType.all.filter({
             return self == $0.required()
         })
-        
+
         let governments = GovernmentType.all.filter({
             return self == $0.required()
         })
@@ -237,7 +237,7 @@ public enum CivicType: String, Codable {
         return CivicAchievements(buildingTypes: buildings, unitTypes: units, wonderTypes: wonders, buildTypes: [], districtTypes: districts, policyCards: policyCards, governments: governments)
     }
 
-    // MARK private
+    // MARK: private
 
     private struct CivicTypeData {
 
@@ -251,6 +251,7 @@ public enum CivicType: String, Codable {
         let flavors: [Flavor]
     }
 
+    // swiftlint:disable line_length
     private func data() -> CivicTypeData {
 
         switch self {
@@ -722,7 +723,7 @@ public enum CivicType: String, Codable {
                                  cost: 2415,
                                  required: [.coldWar],
                                  flavors: [])
-            
+
         // information
         case .globalization:
             return CivicTypeData(name: "globalization",

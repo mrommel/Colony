@@ -14,11 +14,11 @@ class MenuViewController: UIViewController {
     
     var menuScene: MenuScene?
     
-    private var currentMap: MapModel? = nil
+    private var currentMap: MapModel?
     private var currentHandicap: HandicapType = .settler
     private var currentLeader: LeaderType = .none
     // -- or --
-    private var currentGame: GameModel? = nil
+    private var currentGame: GameModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()

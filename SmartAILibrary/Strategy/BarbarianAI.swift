@@ -375,7 +375,7 @@ class BarbarianAI: Codable {
         if gameModel.unit(at: point, of: .combat) == nil {
 
             if let unitType = self.randomBarbarianUnitType(in: plot.area!, for: .fastAttack, in: gameModel) {
-                
+
                 let unit = Unit(at: point, type: unitType, owner: barbarianPlayer)
                 gameModel.add(unit: unit)
                 gameModel.userInterface?.show(unit: unit)
@@ -391,7 +391,7 @@ class BarbarianAI: Codable {
         var numNearbyUnits: Int = 0
 
         for loopPoint in point.areaWith(radius: range) {
-            
+
             if let loopUnit = gameModel.unit(at: loopPoint, of: .combat) {
 
                 if loopUnit.isBarbarian() {
@@ -429,7 +429,7 @@ class BarbarianAI: Codable {
             }
 
             // Any valid locations?
-            if validSpawnLocations.count > 0 {
+            if !validSpawnLocations.isEmpty {
 
                 let spawnLocation = validSpawnLocations.randomItem()
                 guard let spawnPlot = gameModel.tile(at: spawnLocation) else {
@@ -462,7 +462,7 @@ class BarbarianAI: Codable {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         let range = 4
 
         for loopLocation in point.areaWith(radius: range) {
@@ -516,7 +516,7 @@ class BarbarianAI: Codable {
             fatalError("cant get barbarianPlayer")
         }
 
-        var bestUnitType: UnitType? = nil
+        var bestUnitType: UnitType?
         var bestValue: Int = -1
 
         for unitTypeLoop in UnitType.all {

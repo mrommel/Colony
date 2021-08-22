@@ -19,7 +19,7 @@ public enum DiplomaticRequestState: Int, Codable {
 
     case trade // DIPLO_UI_STATE_TRADE
     case tradeAIMakesOffer // DIPLO_UI_STATE_TRADE_AI_MAKES_OFFER,
-    
+
     case discussHumanInvoked // DIPLO_UI_STATE_DISCUSS_HUMAN_INVOKED
 
     /*DIPLO_UI_STATE_TRADE_AI_ACCEPTS_OFFER,

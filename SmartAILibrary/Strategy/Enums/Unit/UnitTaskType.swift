@@ -10,10 +10,10 @@ import Foundation
 
 // UnitAITypes
 public enum UnitTaskType: Int, Codable {
-    
+
     case none
     case unknown
-    
+
     case settle
     case work
     case trade
@@ -25,18 +25,18 @@ public enum UnitTaskType: Int, Codable {
     case ranged
     case explore
     case counter
-    
+
     case workerSea
     case attackSea
     case exploreSea
     case escortSea
     case reserveSea
     case shadow
-    
+
     case attackAir
     case defenseAir
-    
+
     case general
-    
+
     case citySpecial
 }

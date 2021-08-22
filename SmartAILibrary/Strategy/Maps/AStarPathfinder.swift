@@ -39,7 +39,7 @@ private class AStarPathStep {
 }
 
 extension AStarPathStep: Hashable {
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.position)
     }
@@ -59,9 +59,9 @@ extension AStarPathStep: CustomDebugStringConvertible {
 public class AStarPathfinder {
 
     public var dataSource: PathfinderDataSource!
-    
+
     public init() {
-        
+
     }
 
     private func insertStep(step: AStarPathStep, inOpenSteps openSteps: inout [AStarPathStep]) {
@@ -70,7 +70,7 @@ public class AStarPathfinder {
     }
 
     func hScoreFromCoord(fromCoord: HexPoint, toCoord: HexPoint) -> Double {
-        
+
         return Double(fromCoord.distance(to: toCoord))
     }
 
@@ -141,40 +141,40 @@ public class AStarPathfinder {
         // no path found
         return nil
     }
-    
+
     func doesPathExist(fromTileCoord: HexPoint, toTileCoord: HexPoint) -> Bool {
-        
+
         return self.shortestPath(fromTileCoord: fromTileCoord, toTileCoord: toTileCoord) != nil
     }
-    
+
     /// How many turns will it take a unit to get to a target plot (returns MAX_INT if can't reach at all; returns 0 if makes it in 1 turn and has movement left)
     // Should call it with bIgnoreStacking true if want foolproof way to see if can make it in 0 turns (since that way doesn't open
     // open the 2nd layer of the pathfinder)
     func turnsToReachTarget(for unit: AbstractUnit?, to target: HexPoint) -> Int {
-        
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         if let path = self.shortestPath(fromTileCoord: unit.location, toTileCoord: target) {
             let cost = path.cost
             return Int(cost) / unit.moves()
         }
-        
+
         return Int.max
     }
 
     private func convertStepsToShortestPath(lastStep: AStarPathStep) -> HexPath {
-        
+
         let shortestPath = HexPath()
         var currentStep = lastStep
-        
+
         // if parent is nil, then it is our starting step, so don't include it
         while let parent = currentStep.parent {
             shortestPath.prepend(point: currentStep.position, cost: currentStep.rScore)
             currentStep = parent
         }
-        
+
         return shortestPath
     }
 }

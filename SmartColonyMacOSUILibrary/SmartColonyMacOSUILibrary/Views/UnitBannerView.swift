@@ -142,7 +142,7 @@ struct UnitBannerView: View {
                     .groupBoxStyle(UnitGroupBoxStyle())
                     .offset(x: 25, y: -32)
 
-                    if self.viewModel.unitCharges().count > 0 {
+                    if !self.viewModel.unitCharges().isEmpty {
                         GroupBox(content: {
                             Text(self.viewModel.unitCharges())
                             .frame(width: 120, alignment: .leading)

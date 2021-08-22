@@ -10,7 +10,7 @@ import Foundation
 
 // https://civilization.fandom.com/wiki/List_of_unit_actions_in_Civ6
 public enum CommandType {
-    
+
     case found
     case buildFarm
     case buildMine
@@ -18,36 +18,36 @@ public enum CommandType {
     case buildPasture
     case buildQuarry
     case buildFishingBoats
-    
+
     case pillage
     case fortify
     case hold
     case garrison
-    
+
     case disband
     //case cancelOrder
     //case wakeUp
     //case upgrade
-    
+
     // special
     case automateExploration
     case automateBuild
     case establishTradeRoute
-    
+
     // combat
     case attack
     case rangedAttack
     case cancelAttack
-    
+
     public static var all: [CommandType] {
-        
+
         return [
             .found, .buildFarm, .buildMine, .buildCamp, .buildPasture, .buildQuarry, .buildFishingBoats,
             .pillage, .fortify, .hold, .garrison, .disband, .establishTradeRoute, .attack, .rangedAttack, .automateExploration /*, .automateBuild*/]
     }
-    
+
     public func title() -> String {
-        
+
         switch self {
 
         case .found: return "Found City"
@@ -63,15 +63,15 @@ public enum CommandType {
         case .hold: return "Hold"
         case .garrison: return "Garrison"
         case .disband: return "Disband"
-            
+
         case .automateExploration: return "Automate Exploration"
         case .automateBuild: return "Automate Build"
         case .establishTradeRoute: return "Establish TradeRoute"
-            
+
         case .attack: return "Attack"
         case .rangedAttack: return "Ranged"
         case .cancelAttack: return "Cancel"
-            
+
         }
     }
 }

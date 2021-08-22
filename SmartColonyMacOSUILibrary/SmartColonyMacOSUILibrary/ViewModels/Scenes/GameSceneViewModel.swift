@@ -291,7 +291,7 @@ public class GameSceneViewModel: ObservableObject {
 
     func showSpinningGlobe() {
 
-        if self.globeImages.count == 0 {
+        if self.globeImages.isEmpty {
             self.globeImages = Array(0...90).map { "globe\($0)" }.map { globeTextureName in
 
                 return ImageCache.shared.image(for: globeTextureName)

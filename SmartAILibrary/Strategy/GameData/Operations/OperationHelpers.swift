@@ -9,9 +9,9 @@
 import Foundation
 
 class OperationHelpers {
-    
+
     static func gatherRangeFor(numOfUnits: Int) -> Int {
-        
+
         if numOfUnits <= 2 {
             return 1
         } else if numOfUnits <= 6 {

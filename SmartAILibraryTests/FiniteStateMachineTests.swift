@@ -9,10 +9,12 @@
 import XCTest
 @testable import SmartAILibrary
 
+// swiftlint:disable force_try
+
 enum TestState: Int, Equatable {
 
-    case A = 0
-    case B = 1
+    case stateA = 0
+    case stateB = 1
 
     static func == (lhs: TestState, rhs: TestState) -> Bool {
 
@@ -35,21 +37,21 @@ class FiniteStateMachineTests: XCTestCase {
     func testInitialState() {
 
         // GIVEN
-        let stateA = FiniteState(identifier: TestState.A, transitions: [])
+        let stateA = FiniteState(identifier: TestState.stateA, transitions: [])
         self.objectToTest = FiniteStateMachine(initialState: stateA)
 
         // WHEN
         self.objectToTest?.update() // NOOP
 
         // THEN
-        XCTAssertEqual(self.objectToTest!.currentIdentifier, TestState.A)
+        XCTAssertEqual(self.objectToTest!.currentIdentifier, TestState.stateA)
     }
 
     func testAlwaysTransitions() {
 
         // GIVEN
-        let stateA = FiniteState(identifier: TestState.A)
-        let stateB = FiniteState(identifier: TestState.B)
+        let stateA = FiniteState(identifier: TestState.stateA)
+        let stateB = FiniteState(identifier: TestState.stateB)
 
         stateA.add(transition: FiniteStateTransition(state: stateB, trigger: { return true }))
 
@@ -59,14 +61,14 @@ class FiniteStateMachineTests: XCTestCase {
         self.objectToTest?.update()
 
         // THEN
-        XCTAssertEqual(self.objectToTest!.currentIdentifier, TestState.B)
+        XCTAssertEqual(self.objectToTest!.currentIdentifier, TestState.stateB)
     }
 
     func testNeverTransitions() {
 
         // GIVEN
-        let stateA = FiniteState(identifier: TestState.A)
-        let stateB = FiniteState(identifier: TestState.B)
+        let stateA = FiniteState(identifier: TestState.stateA)
+        let stateB = FiniteState(identifier: TestState.stateB)
 
         stateA.add(transition: FiniteStateTransition(state: stateB, trigger: { return false }))
 
@@ -76,14 +78,14 @@ class FiniteStateMachineTests: XCTestCase {
         self.objectToTest?.update()
 
         // THEN
-        XCTAssertEqual(self.objectToTest!.currentIdentifier, TestState.A)
+        XCTAssertEqual(self.objectToTest!.currentIdentifier, TestState.stateA)
     }
 
     func testLoopedTransitions() {
 
         // GIVEN
-        let stateA = FiniteState(identifier: TestState.A)
-        let stateB = FiniteState(identifier: TestState.B)
+        let stateA = FiniteState(identifier: TestState.stateA)
+        let stateB = FiniteState(identifier: TestState.stateB)
 
         stateA.add(transition: FiniteStateTransition(state: stateB, trigger: { return true }))
         stateB.add(transition: FiniteStateTransition(state: stateA, trigger: { return true }))
@@ -99,17 +101,17 @@ class FiniteStateMachineTests: XCTestCase {
         let checkStateIdentifier3 = self.objectToTest!.currentIdentifier
 
         // THEN
-        XCTAssertEqual(checkStateIdentifier1, TestState.B)
-        XCTAssertEqual(checkStateIdentifier2, TestState.A)
-        XCTAssertEqual(checkStateIdentifier3, TestState.B)
+        XCTAssertEqual(checkStateIdentifier1, TestState.stateB)
+        XCTAssertEqual(checkStateIdentifier2, TestState.stateA)
+        XCTAssertEqual(checkStateIdentifier3, TestState.stateB)
     }
 
     func testTimedTransitions() {
 
         // GIVEN
         var triggerVal = false
-        let stateA = FiniteState(identifier: TestState.A)
-        let stateB = FiniteState(identifier: TestState.B)
+        let stateA = FiniteState(identifier: TestState.stateA)
+        let stateB = FiniteState(identifier: TestState.stateB)
 
         stateA.add(transition: FiniteStateTransition(state: stateB, trigger: { return triggerVal }))
 
@@ -125,9 +127,9 @@ class FiniteStateMachineTests: XCTestCase {
         let checkStateIdentifier3 = self.objectToTest!.currentIdentifier
 
         // THEN
-        XCTAssertEqual(checkStateIdentifier1, TestState.A)
-        XCTAssertEqual(checkStateIdentifier2, TestState.A)
-        XCTAssertEqual(checkStateIdentifier3, TestState.B)
+        XCTAssertEqual(checkStateIdentifier1, TestState.stateA)
+        XCTAssertEqual(checkStateIdentifier2, TestState.stateA)
+        XCTAssertEqual(checkStateIdentifier3, TestState.stateB)
     }
 
     func testUnitStates() {
@@ -135,8 +137,8 @@ class FiniteStateMachineTests: XCTestCase {
         // GIVEN
         var hasMovingOrder = false
         var hasMovementLeft = true
-        let stateIdle = FiniteState(identifier: TestState.A)
-        let stateMoving = FiniteState(identifier: TestState.B)
+        let stateIdle = FiniteState(identifier: TestState.stateA)
+        let stateMoving = FiniteState(identifier: TestState.stateB)
         //let stateMoving = FiniteState(identifier: "Moving")
 
         stateIdle.add(transition: FiniteStateTransition(state: stateMoving, trigger: { return hasMovingOrder && hasMovementLeft }))

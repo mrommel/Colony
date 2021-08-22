@@ -21,13 +21,13 @@ public enum CivilizationType: String, Codable {
     case egyptian
     case german
     case russian
-    
+
     // ///////////////////////////
-    
+
     public static var all: [CivilizationType] = [
         .greek, .roman, .english, .aztecs, .persian, .french, .egyptian, .german, .russian
     ]
-    
+
     // ///////////////////////////
 
     public func name() -> String {
@@ -39,12 +39,12 @@ public enum CivilizationType: String, Codable {
 
         return self.data().plural
     }
-    
+
     public func ability() -> CivilizationAbility {
-        
+
         return self.data().ability
     }
-    
+
     func cityNames() -> [String] {
 
         return self.data().cityNames
@@ -93,6 +93,7 @@ public enum CivilizationType: String, Codable {
         let cityNames: [String]
     }
 
+    // swiftlint:disable line_length
     private func data() -> CivilizationTypeData {
 
         // french cities taken from here: https://civilization.fandom.com/wiki/French_cities_(Civ6)

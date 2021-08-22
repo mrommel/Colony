@@ -25,15 +25,15 @@ class InterimRankingDialog: Dialog {
 
         super.init(from: interimRankingDialogConfiguration)
         
-        var chart_text = ""
+        var chartText = ""
         
         for data in self.rankingData.data {
             
-            let last_score = data.data.last!
-            chart_text += "\(data.leader): \(last_score)points\n"
+            let lastScore = data.data.last!
+            chart_text += "\(data.leader): \(lastScore)points\n"
         }
         
-        self.set(text: chart_text, identifier: "chart")
+        self.set(text: chartText, identifier: "chart")
     }
     
     required init?(coder aDecoder: NSCoder) {

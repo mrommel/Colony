@@ -9,7 +9,7 @@
 import Foundation
 
 public enum MapOptionRainfall {
-    
+
     case dry
     case normal
     case wet

@@ -11,11 +11,11 @@ import Foundation
 class BuildingTypeWeight: Codable {
 
     enum CodingKeys: String, CodingKey {
-        
+
         case buildingType
         case weight
     }
-    
+
     let buildingType: BuildingType
     var weight: Int
 
@@ -24,17 +24,17 @@ class BuildingTypeWeight: Codable {
         self.buildingType = buildingType
         self.weight = weight
     }
-    
+
     required init(from decoder: Decoder) throws {
-        
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.buildingType = try container.decode(BuildingType.self, forKey: .buildingType)
         self.weight = try container.decode(Int.self, forKey: .weight)
     }
-    
+
     func encode(to encoder: Encoder) throws {
-    
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.buildingType, forKey: .buildingType)
@@ -45,7 +45,7 @@ class BuildingTypeWeight: Codable {
 class BuildingProductionAI: Codable {
 
     enum CodingKeys: String, CodingKey {
-        
+
         case buildingWeights
     }
 
@@ -59,16 +59,16 @@ class BuildingProductionAI: Codable {
             self.buildingWeights.append(BuildingTypeWeight(buildingType: buildingType, weight: 0))
         }
     }
-    
+
     required init(from decoder: Decoder) throws {
-        
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.buildingWeights = try container.decode([BuildingTypeWeight].self, forKey: .buildingWeights)
     }
-    
+
     func encode(to encoder: Encoder) throws {
-    
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.buildingWeights, forKey: .buildingWeights)

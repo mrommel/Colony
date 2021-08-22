@@ -9,7 +9,7 @@
 import Foundation
 
 enum PlayerStateAllWars: Int, Codable {
-    
+
     case neutral
     case winning
     case losing

@@ -8,6 +8,8 @@
 import Cocoa
 import SmartAILibrary
 
+// swiftlint:disable force_try
+
 protocol GenerateGameViewModelDelegate: AnyObject {
 
     func created(game: GameModel?)

@@ -9,7 +9,7 @@
 import Foundation
 
 public enum MapOptionSeaLevel {
-    
+
     case low
     case normal
     case high

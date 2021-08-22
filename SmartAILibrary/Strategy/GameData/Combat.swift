@@ -267,7 +267,7 @@ class Combat {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let activePlayer = gameModel.activePlayer() else {
             fatalError("cant get activePlayer")
         }
@@ -287,19 +287,19 @@ class Combat {
         guard let defenderTile = gameModel.tile(at: defender.location) else {
             fatalError("cant get defenderTile")
         }
-        
+
         // Unit that attacks loses his Fort bonus
         attacker.doMobilize(in: gameModel)
-        
+
         attacker.automate(with: .none)
         defender.automate(with: .none)
-        
+
         attacker.setMadeAttack(to: true)
-        
+
         guard !attacker.isDelayedDeath() && !defender.isDelayedDeath() else {
             fatalError("Trying to battle and one of the units is already dead!")
         }
-        
+
         // attacker strikes
         let attackerStrength = attacker.attackStrength(against: defender, or: nil, on: defenderTile, in: gameModel)
         let defenderStrength = defender.defensiveStrength(against: attacker, on: defenderTile, ranged: false, in: gameModel)
@@ -312,9 +312,9 @@ class Combat {
         }
 
         var attackerDamage: Int = 0
-        
+
         if defender.canDefend() {
-            
+
             // defender strikes back
             let attackerStrength2 = defender.attackStrength(against: attacker, or: nil, on: attackerTile, in: gameModel)
             let defenderStrength2 = attacker.defensiveStrength(against: defender, on: attackerTile, ranged: true, in: gameModel)
@@ -329,13 +329,13 @@ class Combat {
         } else {
             // kill the unit (civilian?)
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)
-            
+
             var strMessage: String = ""
             var strSummary: String = ""
-            
+
             // Some units can't capture civilians. Embarked units are also not captured, they're simply killed. And some aren't a type that gets captured.
             if attacker.canCapture() && !defender.isEmbarked() && defender.captureUnitType().baseType() != nil {
-                
+
                 // defender.setCapturingPlayer(attacker.player)
 
                 if attacker.isBarbarian() {
@@ -352,7 +352,7 @@ class Combat {
                 strMessage = "TXT_KEY_UNIT_LOST"
                 strSummary = strMessage
             }
-            
+
             if let notification = defender.player?.notifications() {
                 notification.addNotification(of: .unitDied, for: defender.player, message: strMessage, summary: strSummary, at: defender.location, other: attacker.player)
             }
@@ -364,79 +364,79 @@ class Combat {
                 attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
             }
         }
-        
+
         let value = Combat.evaluateResult(defenderHealth: defender.healthPoints(), defenderDamage: defenderDamage, attackerHealth: attacker.healthPoints(), attackerDamage: attackerDamage)
-        
+
         // apply damage
         attacker.add(damage: attackerDamage)
         defender.add(damage: defenderDamage)
-        
+
         // experience
         attacker.changeExperience(by: 6 /* EXPERIENCE_ATTACKING_UNIT_MELEE */, in: gameModel)
         defender.changeExperience(by: 4 /* EXPERIENCE_DEFENDING_UNIT_MELEE */, in: gameModel)
-        
+
         // add archaeological record (only melee combat)
         // defenderTile.addArchaeologicalRecord
-        
+
         // Attacker died
         if attacker.healthPoints() <= 0 {
-            
+
             if activePlayer.isEqual(to: attacker.player) {
                 gameModel.userInterface?.showTooltip(at: attackerTile.point, text: "TXT_KEY_MISC_YOU_UNIT_DIED_ATTACKING", delay: 3)
             }
-            
+
             if activePlayer.isEqual(to: defender.player) {
                 gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT", delay: 3)
             }
-            
+
             attacker.doKill(delayed: false, by: nil, in: gameModel)
             // pkDefender->testPromotionReady();
-            
+
         } else if defender.healthPoints() <= 0 { // Defender died
-            
+
             if activePlayer.isEqual(to: attacker.player) {
                 gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY", delay: 3)
             }
-            
+
             if activePlayer.isEqual(to: defender.player) {
                 gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_WAS_DESTROYED", delay: 3)
             }
-            
+
             if let notifications = defender.player?.notifications() {
                 notifications.addNotification(of: .unitDied, for: defender.player, message: "TXT_KEY_UNIT_LOST", summary: "TXT_KEY_UNIT_LOST", at: defenderTile.point, other: attacker.player)
             }
-            
+
             defender.doKill(delayed: false, by: attacker.player, in: gameModel)
-            
+
             // Move forward
             if attacker.canMove(into: defenderTile.point, options: MoveOptions.none, in: gameModel) {
                 //attacker.doMove(on: defenderTile.point, in: gameModel)
                 attacker.queueMoveForVisualization(at: attacker.location, in: gameModel)
                 attacker.doMoveOnPath(towards: defenderTile.point, previousETA: 0, buildingRoute: false, in: gameModel)
             }
-            
+
             // pkAttacker->testPromotionReady();
-            
+
         } else {
-            
+
             if activePlayer.isEqual(to: attacker.player) {
                 gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_YOU_UNIT_WITHDRAW", delay: 3)
             }
-            
+
             if activePlayer.isEqual(to: defender.player) {
                 gameModel.userInterface?.showTooltip(at: defenderTile.point, text: "TXT_KEY_MISC_ENEMY_UNIT_WITHDRAW", delay: 3)
             }
-            
+
             // pkDefender->testPromotionReady();
             // pkAttacker->testPromotionReady();
         }
-        
+
         // If a Unit loses his moves after attacking, do so
         if !attacker.canMoveAfterAttacking() {
             attacker.finishMoves()
             //GC.GetEngineUserInterface()->changeCycleSelectionCounter(1);
         }
-        
+
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: attackerDamage, value: value)
     }
 }

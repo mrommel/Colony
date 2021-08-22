@@ -9,7 +9,7 @@
 import Foundation
 
 public enum MapOptionResources {
-    
+
     case sparse // TXT_KEY_MAP_OPTION_SPARSE
     case standard // TXT_KEY_MAP_OPTION_STANDARD
     case abundant // TXT_KEY_MAP_OPTION_ABUNDANT

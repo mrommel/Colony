@@ -9,16 +9,16 @@
 import Foundation
 
 public enum UnitAutomationType: Int, Codable {
-    
+
     case none
-    
+
     case build
     case explore
 }
 
 // CIV5Missions.xml
 public enum UnitMissionType {
-   
+
     case found
     case moveTo
     case routeTo
@@ -28,39 +28,39 @@ public enum UnitMissionType {
     case build
     case skip
     case rangedAttack
-    
+
     case sleep
     case fortify
     case alert
     case airPatrol
     case heal
-    
+
     case embark
     case disembark
     case rebase
     case swapUnits
     case moveToUnit
-    
+
     case group
 
     func name() -> String {
-        
+
         return self.data().name
     }
-    
+
     func needsTarget() -> Bool {
-        
+
         return self.data().needsTarget
     }
-    
+
     internal struct UnitMissionTypeData {
-        
+
         let name: String
         let needsTarget: Bool
     }
-    
+
     func data() -> UnitMissionTypeData {
-        
+
         switch self {
         case .found: return UnitMissionTypeData(name: "Found", needsTarget: false)
         case .moveTo: return UnitMissionTypeData(name: "MoveTo", needsTarget: true)

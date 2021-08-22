@@ -32,9 +32,9 @@ public enum LeaderType: Int, Codable {
 
         return self.data().name
     }
-    
+
     public func intro() -> String {
-        
+
         return self.data().intro
     }
 
@@ -72,7 +72,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .recon, value: 5),
                 Flavor(type: .science, value: 6),
                 Flavor(type: .tileImprovement, value: 4),
-                Flavor(type: .wonder, value: 6),
+                Flavor(type: .wonder, value: 6)
             ]
         case .trajan:
             return [
@@ -96,7 +96,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .recon, value: 3),
                 Flavor(type: .science, value: 5),
                 Flavor(type: .tileImprovement, value: 7),
-                Flavor(type: .wonder, value: 6),
+                Flavor(type: .wonder, value: 6)
             ]
         case .victoria:
             return [
@@ -120,7 +120,7 @@ public enum LeaderType: Int, Codable {
                 Flavor(type: .recon, value: 6),
                 Flavor(type: .science, value: 6),
                 Flavor(type: .tileImprovement, value: 6),
-                Flavor(type: .wonder, value: 5),
+                Flavor(type: .wonder, value: 5)
             ]
 
         case .cyrus: return []
@@ -240,20 +240,21 @@ public enum LeaderType: Int, Codable {
 
         return self.data().ability
     }
-    
+
     // MARK: private functions
-    
+
     private struct LeaderTypeData {
-        
+
         let name: String
         let intro: String
         let civilization: CivilizationType
         let ability: LeaderAbilityType
     }
-    
+
     // intro: https://github.com/ernsnl/Civilization6Mods/blob/b59a424f952224327cae2406bc5f05f78f6f4fb4/Lightning%20Snail%20Fast%20Mod/Mod/Base/Assets/Text/en_US/FrontEndText.xml
+    // swiftlint:disable line_length
     private func data() -> LeaderTypeData {
-        
+
         switch self {
 
         case .none:
@@ -317,40 +318,40 @@ public enum LeaderType: Int, Codable {
 }
 
 extension LeaderType {
-    
+
     func isSmaller() -> Bool {
-        
+
         if self == .montezuma || self == .cyrus {
             return true
         }
-        
+
         return false
     }
-    
+
     func isExpansionist() -> Bool {
-        
+
         if self == .alexander || self == .napoleon {
             return true
         }
-        
+
         return false
     }
-    
+
     func isWarmonger() -> Bool {
-        
+
         if self == .napoleon {
             return true
         }
-        
+
         return false
     }
-    
+
     func isPopulationBoostReligion() -> Bool {
-        
+
         if self == .cyrus {
             return true
         }
-        
+
         return false
     }
 }

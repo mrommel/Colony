@@ -19,9 +19,9 @@ enum PlayerOpinionType: Int, Codable, Comparable {
     case competitor
     case enemy
     case unforgivable
-    
+
     public static func < (lhs: PlayerOpinionType, rhs: PlayerOpinionType) -> Bool {
-        
+
         return lhs.rawValue < rhs.rawValue
     }
 }

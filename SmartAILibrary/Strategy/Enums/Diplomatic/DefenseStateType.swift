@@ -9,7 +9,7 @@
 import Foundation
 
 enum DefenseStateType: Int, Codable {
-    
+
     case none
     case enough
     case neutral

@@ -9,7 +9,7 @@
 import Foundation
 
 public struct TechAchievements {
-    
+
     public let buildingTypes: [BuildingType]
     public let unitTypes: [UnitType]
     public let wonderTypes: [WonderType]
@@ -18,10 +18,11 @@ public struct TechAchievements {
 }
 
 // https://github.com/fredzgreen/Civilization6_SwedishTranslation/blob/2591dc66a1674477a1857763d0b46e88d00a265b/XMLFiles/Technologies_Text.xml
+// swiftlint:disable type_body_length
 public enum TechType: String, Codable {
-    
+
     case none
-    
+
     // ancient
     case mining
     case pottery
@@ -65,7 +66,7 @@ public enum TechType: String, Codable {
     case astronomy
     case metalCasting
     case siegeTactics
-    
+
     // industrial
     case industrialization
     case scientificTheory
@@ -75,7 +76,7 @@ public enum TechType: String, Codable {
     case sanitation
     case economics
     case rifling
-    
+
     // modern
     case flight
     case replaceableParts
@@ -85,7 +86,7 @@ public enum TechType: String, Codable {
     case radio
     case chemistry
     case combustrion
-    
+
     // atomic
     case advancedFlight
     case rocketry
@@ -95,7 +96,7 @@ public enum TechType: String, Codable {
     case computers
     case nuclearFission
     case syntheticMaterials
-    
+
     // information
     case telecommunications
     case satellites
@@ -106,57 +107,57 @@ public enum TechType: String, Codable {
     case robotics
     case nuclearFusion
     case nanotechnology
-    
+
     case futureTech
 
     public static var all: [TechType] {
         return [
             // ancient
             .mining, .pottery, .animalHusbandry, .sailing, .astrology, .irrigation, .writing, .masonry, .archery, .bronzeWorking, .wheel,
-            
+
             // classical
             .celestialNavigation, horsebackRiding, .currency, .construction, .ironWorking, .shipBuilding, .mathematics, .engineering,
-            
+
             // medieval
             .militaryTactics, .buttress, .apprenticeship, .stirrups, .machinery, .education, .militaryEngineering, .castles,
-            
+
             // renaissance
             .cartography, .massProduction, .banking, .gunpowder, .printing, .squareRigging, .astronomy, .metalCasting, .siegeTactics,
-            
+
             // industrial
             .industrialization, .scientificTheory, .ballistics, .militaryScience, .steamPower, .sanitation, .economics, .rifling,
-            
+
             // modern
             .flight, .replaceableParts, .steel, .refining, .electricity, .radio, .chemistry, .combustrion,
-            
+
             // atomic
             .advancedFlight, .rocketry, .advancedBallistics, .combinedArms, .plastics, .computers, .nuclearFission, .syntheticMaterials,
-            
+
             // information
-            .telecommunications, .satellites, .guidanceSystems, .lasers, .composites, .stealthTechnology, .robotics, .nuclearFusion,. nanotechnology,
-            
+            .telecommunications, .satellites, .guidanceSystems, .lasers, .composites, .stealthTechnology, .robotics, .nuclearFusion, . nanotechnology,
+
             // future
             .futureTech
         ]
     }
-    
+
     public func name() -> String {
-        
+
         return self.data().name
     }
-    
+
     public func eurekaSummary() -> String {
-        
+
         return self.data().eurekaSummary
     }
-    
+
     public func eurekaDescription() -> String {
-        
+
         return self.data().eurekaDescription
     }
-    
+
     public func quoteTexts() -> [String] {
-        
+
         return self.data().quoteTexts
     }
 
@@ -202,23 +203,23 @@ public enum TechType: String, Codable {
 
         return self.data().flavors
     }
-    
+
     func isGoodyTech() -> Bool {
-        
+
         return self.era() == .ancient
     }
-    
+
     public func achievements() -> TechAchievements {
-        
+
         let buildings = BuildingType.all.filter({
             if let tech = $0.requiredTech() {
                 return tech == self
-                
+
             } else {
                 return false
             }
         })
-        
+
         let units = UnitType.all.filter({
             if let tech = $0.requiredTech() {
                 return tech == self
@@ -226,7 +227,7 @@ public enum TechType: String, Codable {
                 return false
             }
         })
-        
+
         // districts
         let districts = DistrictType.all.filter({
             if let district = $0.requiredTech() {
@@ -235,7 +236,7 @@ public enum TechType: String, Codable {
                 return false
             }
         })
-        
+
         // wonders
         let wonders = WonderType.all.filter({
             if let tech = $0.requiredTech() {
@@ -244,7 +245,7 @@ public enum TechType: String, Codable {
                 return false
             }
         })
-        
+
         // buildtypes
         let builds = BuildType.all.filter({
             if let tech = $0.required() {
@@ -253,14 +254,14 @@ public enum TechType: String, Codable {
                 return false
             }
         })
-            
+
         return TechAchievements(buildingTypes: buildings, unitTypes: units, wonderTypes: wonders, buildTypes: builds, districtTypes: districts)
     }
-    
-    // MARK private
-    
+
+    // MARK: private
+
     private struct TechTypeData {
-        
+
         let name: String
         let eurekaSummary: String
         let eurekaDescription: String
@@ -270,9 +271,11 @@ public enum TechType: String, Codable {
         let required: [TechType]
         let flavors: [Flavor]
     }
-    
+
+    // swiftlint:disable function_body_length
+    // swiftlint:disable line_length
     private func data() -> TechTypeData {
-        
+
         switch self {
 
         case .none:
@@ -284,7 +287,7 @@ public enum TechType: String, Codable {
                                 cost: -1,
                                 required: [],
                                 flavors: [])
-            
+
             // ancient
         case .mining:
             return TechTypeData(name: "Mining",
@@ -385,7 +388,7 @@ public enum TechType: String, Codable {
                                 cost: 80,
                                 required: [.mining],
                                 flavors: [Flavor(type: .mobile, value: 2), Flavor(type: .growth, value: 2), Flavor(type: .ranged, value: 2), Flavor(type: .infrastructure, value: 2), Flavor(type: .gold, value: 6)])
-            
+
             // classical
         // https://github.com/kondeeza/Anki_Python_Addon/blob/96c7474b14aad4a276312f7b1cb25120f1045830/Civ6_Mod/Language_Mod/Input2/en_US/Quotes_Text.xml
         case .celestialNavigation:
@@ -460,7 +463,7 @@ public enum TechType: String, Codable {
                                 cost: 200,
                                 required: [.wheel],
                                 flavors: [Flavor(type: .defense, value: 2), Flavor(type: .production, value: 5), Flavor(type: .tileImprovement, value: 5)])
-            
+
             // medieval
         case .militaryTactics:
             return TechTypeData(name: "Military Tactics",
@@ -470,7 +473,7 @@ public enum TechType: String, Codable {
                                 era: .medieval,
                                 cost: 275,
                                 required: [.mathematics],
-                                flavors: [Flavor(type: .offense, value: 3), Flavor(type: .mobile, value: 3), Flavor(type: .cityDefense, value: 2), Flavor(type: .wonder, value: 2),])
+                                flavors: [Flavor(type: .offense, value: 3), Flavor(type: .mobile, value: 3), Flavor(type: .cityDefense, value: 2), Flavor(type: .wonder, value: 2) ])
         case .buttress:
             return TechTypeData(name: "Buttress",
                                 eurekaSummary: "Build a Classical Era or later Wonder",
@@ -506,7 +509,7 @@ public enum TechType: String, Codable {
                                 era: .medieval,
                                 cost: 275,
                                 required: [.ironWorking, .engineering],
-                                flavors: [Flavor(type: .ranged, value: 8), Flavor(type: .infrastructure, value: 2),])
+                                flavors: [Flavor(type: .ranged, value: 8), Flavor(type: .infrastructure, value: 2) ])
         case .education:
             return TechTypeData(name: "Education",
                                 eurekaSummary: "Earn a Great Scientist",
@@ -534,7 +537,7 @@ public enum TechType: String, Codable {
                                 cost: 390,
                                 required: [.construction],
                                 flavors: [Flavor(type: .cityDefense, value: 5)])
-            
+
             // renaissance
         case .cartography:
             return TechTypeData(name: "Cartography",
@@ -645,7 +648,7 @@ public enum TechType: String, Codable {
                                 era: .industrial,
                                 cost: 840,
                                 required: [.metalCasting],
-                                flavors: [Flavor(type: .ranged, value: 5), Flavor(type: .offense, value: 5), ])
+                                flavors: [Flavor(type: .ranged, value: 5), Flavor(type: .offense, value: 5) ])
         case .militaryScience:
             return TechTypeData(name: "Military Science",
                                 eurekaSummary: "Kill a unit with a Knight",
@@ -654,7 +657,7 @@ public enum TechType: String, Codable {
                                 era: .industrial,
                                 cost: 845,
                                 required: [.printing, .siegeTactics],
-                                flavors: [Flavor(type: .offense, value: 7),])
+                                flavors: [Flavor(type: .offense, value: 7) ])
         case .steamPower:
             return TechTypeData(name: "Steam Power",
                                 eurekaSummary: "Build 2 Shipyards",
@@ -672,7 +675,7 @@ public enum TechType: String, Codable {
                                 era: .industrial,
                                 cost: 805,
                                 required: [.scientificTheory],
-                                flavors: [Flavor(type: .growth, value: 5),])
+                                flavors: [Flavor(type: .growth, value: 5) ])
         case .economics:
             return TechTypeData(name: "Economics",
                                 eurekaSummary: "Build 2 Banks",
@@ -681,7 +684,7 @@ public enum TechType: String, Codable {
                                 era: .industrial,
                                 cost: 805,
                                 required: [.metalCasting, .scientificTheory],
-                                flavors: [Flavor(type: .wonder, value: 5),])
+                                flavors: [Flavor(type: .wonder, value: 5) ])
         case .rifling:
             return TechTypeData(name: "Rifling",
                                 eurekaSummary: "Build a Niter Mine",
@@ -690,8 +693,8 @@ public enum TechType: String, Codable {
                                 era: .industrial,
                                 cost: 970,
                                 required: [.ballistics, .militaryScience],
-                                flavors: [Flavor(type: .offense, value: 5),])
-            
+                                flavors: [Flavor(type: .offense, value: 5) ])
+
             // modern
         case .flight:
             return TechTypeData(name: "Flight",
@@ -709,7 +712,7 @@ public enum TechType: String, Codable {
                                 era: .modern,
                                 cost: 1250,
                                 required: [.economics],
-                                flavors: [Flavor(type: .offense, value: 5), Flavor(type: .gold, value: 3), Flavor(type: .production, value: 3), ])
+                                flavors: [Flavor(type: .offense, value: 5), Flavor(type: .gold, value: 3), Flavor(type: .production, value: 3) ])
         case .steel:
             return TechTypeData(name: "Steel",
                                 eurekaSummary: "Build a Coal Mine",
@@ -718,7 +721,7 @@ public enum TechType: String, Codable {
                                 era: .modern,
                                 cost: 1140,
                                 required: [.rifling],
-                                flavors: [Flavor(type: .ranged, value: 5), Flavor(type: .wonder, value: 3), ])
+                                flavors: [Flavor(type: .ranged, value: 5), Flavor(type: .wonder, value: 3) ])
         case .refining:
             return TechTypeData(name: "Refining",
                                 eurekaSummary: "Build 2 Coal Power Plants",
@@ -727,7 +730,7 @@ public enum TechType: String, Codable {
                                 era: .modern,
                                 cost: 1250,
                                 required: [.rifling],
-                                flavors: [Flavor(type: .navalGrowth, value: 5), Flavor(type: .tileImprovement, value: 3), ])
+                                flavors: [Flavor(type: .navalGrowth, value: 5), Flavor(type: .tileImprovement, value: 3) ])
         case .electricity:
             return TechTypeData(name: "Electricity",
                                 eurekaSummary: "Own 3 Privateers",
@@ -736,7 +739,7 @@ public enum TechType: String, Codable {
                                 era: .modern,
                                 cost: 985,
                                 required: [.steamPower],
-                                flavors: [Flavor(type: .navalGrowth, value: 5), Flavor(type: .energy, value: 3), ])
+                                flavors: [Flavor(type: .navalGrowth, value: 5), Flavor(type: .energy, value: 3) ])
         case .radio:
             return TechTypeData(name: "Radio",
                                 eurekaSummary: "Build a National Park",
@@ -763,8 +766,8 @@ public enum TechType: String, Codable {
                                 era: .modern,
                                 cost: 1250,
                                 required: [.steel, .rifling],
-                                flavors: [Flavor(type: .offense, value: 4), Flavor(type: .wonder, value: 3), ])
-            
+                                flavors: [Flavor(type: .offense, value: 4), Flavor(type: .wonder, value: 3) ])
+
             // atomic
         case .advancedFlight:
             return TechTypeData(name: "Advanced Flight",
@@ -774,7 +777,7 @@ public enum TechType: String, Codable {
                                 era: .atomic,
                                 cost: 1065,
                                 required: [.radio],
-                                flavors: [Flavor(type: .offense, value: 4), ])
+                                flavors: [Flavor(type: .offense, value: 4) ])
         case .rocketry:
             return TechTypeData(name: "Rocketry",
                                 eurekaSummary: "Boost through Great Scientist or Spy",
@@ -801,7 +804,7 @@ public enum TechType: String, Codable {
                                 era: .information,
                                 cost: 1480,
                                 required: [.steel],
-                                flavors: [Flavor(type: .navalGrowth, value: 5), ])
+                                flavors: [Flavor(type: .navalGrowth, value: 5) ])
         case .plastics:
             return TechTypeData(name: "Plastics",
                                 eurekaSummary: "Build an Oil Well",
@@ -810,7 +813,7 @@ public enum TechType: String, Codable {
                                 era: .information,
                                 cost: 1065,
                                 required: [.combustrion],
-                                flavors: [Flavor(type: .offense, value: 5), Flavor(type: .navalTileImprovement, value: 4), ])
+                                flavors: [Flavor(type: .offense, value: 5), Flavor(type: .navalTileImprovement, value: 4) ])
         case .computers:
             return TechTypeData(name: "Computers",
                                 eurekaSummary: "Have a government with 8 policy slots",
@@ -828,7 +831,7 @@ public enum TechType: String, Codable {
                                 era: .atomic,
                                 cost: 1195,
                                 required: [.combinedArms, .advancedBallistics],
-                                flavors: [Flavor(type: .energy, value: 5), ])
+                                flavors: [Flavor(type: .energy, value: 5) ])
         case .syntheticMaterials:
             return TechTypeData(name: "Synthetic Materials",
                                 eurekaSummary: "Build 2 Aerodromes",
@@ -838,7 +841,7 @@ public enum TechType: String, Codable {
                                 cost: 1195,
                                 required: [.plastics],
                                 flavors: [Flavor(type: .gold, value: 4), Flavor(type: .offense, value: 2)])
-            
+
             // information
         case .telecommunications:
             return TechTypeData(name: "Telecommunications",
@@ -866,7 +869,7 @@ public enum TechType: String, Codable {
                                 era: .information,
                                 cost: 1580,
                                 required: [.rocketry, .advancedBallistics],
-                                flavors: [Flavor(type: .offense, value: 5), ])
+                                flavors: [Flavor(type: .offense, value: 5) ])
         case .lasers:
             return TechTypeData(name: "Lasers",
                                 eurekaSummary: "Boost through Great Scientist or Spy.",
@@ -875,7 +878,7 @@ public enum TechType: String, Codable {
                                 era: .information,
                                 cost: 1340,
                                 required: [.nuclearFission],
-                                flavors: [Flavor(type: .navalGrowth, value: 5), ])
+                                flavors: [Flavor(type: .navalGrowth, value: 5) ])
         case .composites:
             return TechTypeData(name: "Composites",
                                 eurekaSummary: "Own 3 Tanks",
@@ -902,7 +905,7 @@ public enum TechType: String, Codable {
                                 era: .information,
                                 cost: 1560,
                                 required: [.computers],
-                                flavors: [Flavor(type: .production, value: 3), Flavor(type: .offense, value: 3),])
+                                flavors: [Flavor(type: .production, value: 3), Flavor(type: .offense, value: 3) ])
         case .nuclearFusion:
             return TechTypeData(name: "Nuclear Fusion",
                                 eurekaSummary: "Boost through Great Scientist or Spy",
@@ -911,7 +914,7 @@ public enum TechType: String, Codable {
                                 era: .information,
                                 cost: 1560,
                                 required: [.lasers],
-                                flavors: [Flavor(type: .energy, value: 3),])
+                                flavors: [Flavor(type: .energy, value: 3) ])
         case .nanotechnology:
             return TechTypeData(name: "Nanotechnology",
                                 eurekaSummary: "Build an Aluminum Mine",
@@ -921,7 +924,7 @@ public enum TechType: String, Codable {
                                 cost: 1560,
                                 required: [.composites],
                                 flavors: [Flavor(type: .science, value: 3)])
-            
+
             // future
         case .futureTech:
             return TechTypeData(name: "Future Tech",

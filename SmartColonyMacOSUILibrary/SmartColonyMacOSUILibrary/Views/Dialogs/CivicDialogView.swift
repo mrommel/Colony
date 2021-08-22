@@ -12,7 +12,12 @@ struct CivicDialogView: View {
     @ObservedObject
     var viewModel: CivicDialogViewModel
 
-    private var gridItemLayout = [GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45)), GridItem(.fixed(45))]
+    private var gridItemLayout = [
+        GridItem(.fixed(45)), GridItem(.fixed(45)),
+        GridItem(.fixed(45)), GridItem(.fixed(45)),
+        GridItem(.fixed(45)), GridItem(.fixed(45)),
+        GridItem(.fixed(45)), GridItem(.fixed(45))
+    ]
 
     public init(viewModel: CivicDialogViewModel) {
 

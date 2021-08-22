@@ -18,7 +18,7 @@ public enum DiplomaticDealItemType: Int, Codable {
     // TRADE_ITEM_UNITS,
     case allowEmbassy // TRADE_ITEM_ALLOW_EMBASSY,
     case openBorders // TRADE_ITEM_OPEN_BORDERS,
-    
+
     /*TRADE_ITEM_DEFENSIVE_PACT,
     TRADE_ITEM_RESEARCH_AGREEMENT,
     TRADE_ITEM_TRADE_AGREEMENT, // not in use
@@ -30,16 +30,16 @@ public enum DiplomaticDealItemType: Int, Codable {
     TRADE_ITEM_THIRD_PARTY_WAR,
     TRADE_ITEM_THIRD_PARTY_EMBARGO, // not in use
     TRADE_ITEM_DECLARATION_OF_FRIENDSHIP,    // Only "traded" between human players*/
-    
+
     func goldCost() -> Double {
-        
+
         switch self {
 
         case .gold: return 0.0
         case .goldPerTurn: return 0.0
         case .maps: return 0.0
         case .resource: return 0.0
-            
+
         case .openBorders: return 0.0
         case .allowEmbassy: return 0.0
         case .peaceTreaty: return 0.0
@@ -63,7 +63,7 @@ public class DiplomaticDealItem: Codable {
         case resource
         case duration
     }
-    
+
     public let type: DiplomaticDealItemType
     public let direction: DiplomaticDealDirectionType
     public var amount: Int
@@ -78,20 +78,20 @@ public class DiplomaticDealItem: Codable {
         self.duration = duration
         self.resource = .none
     }
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.type = try container.decode(DiplomaticDealItemType.self, forKey: .type)
         self.direction = try container.decode(DiplomaticDealDirectionType.self, forKey: .direction)
         self.amount = try container.decode(Int.self, forKey: .amount)
         self.resource = try container.decode(ResourceType.self, forKey: .resource)
         self.duration = try container.decode(Int.self, forKey: .duration)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-    
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.type, forKey: .type)
@@ -107,7 +107,7 @@ class DiplomaticGoldDealItem: DiplomaticDealItem {
     init(direction: DiplomaticDealDirectionType, amount: Int) {
         super.init(type: .gold, direction: direction, amount: amount, duration: 0)
     }
-    
+
     public required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
@@ -118,7 +118,7 @@ class DiplomaticGoldPerTurnDealItem: DiplomaticDealItem {
     init(direction: DiplomaticDealDirectionType, amount: Int, duration: Int) {
         super.init(type: .goldPerTurn, direction: direction, amount: amount, duration: duration)
     }
-    
+
     public required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
@@ -134,7 +134,7 @@ public class DiplomaticDeal: Codable {
         case tradeItems
         case peaceTreatyType
     }
-    
+
     typealias DiplomaticDealValue = (value: Int, valueImOffering: Int, valueOtherOffering: Int)
 
     public let from: LeaderType
@@ -153,20 +153,20 @@ public class DiplomaticDeal: Codable {
         self.tradeItems = []
         self.peaceTreatyType = .none
     }
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.from = try container.decode(LeaderType.self, forKey: .from)
         self.to = try container.decode(LeaderType.self, forKey: .to)
         self.surrendering = try container.decode(LeaderType.self, forKey: .surrendering)
         self.tradeItems = try container.decode([DiplomaticDealItem].self, forKey: .tradeItems)
         self.peaceTreatyType = try container.decode(PeaceTreatyType.self, forKey: .peaceTreatyType)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-    
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.from, forKey: .from)
@@ -175,22 +175,22 @@ public class DiplomaticDeal: Codable {
         try container.encode(self.tradeItems, forKey: .tradeItems)
         try container.encode(self.peaceTreatyType, forKey: .peaceTreatyType)
     }
-    
+
     // deep copy
     func copy() -> DiplomaticDeal? {
-        
+
         guard let data = try? JSONEncoder().encode(self) else { return nil }
         return try? JSONDecoder().decode(DiplomaticDeal.self, from: data)
     }
-    
+
     // MARK: public static methods
 
     public static func valueFor(tradeItemType: DiplomaticDealItemType, from fromLeader: LeaderType, to toLeader: LeaderType, resource: ResourceType = .none, amount: Int = 0, duration: Int = 0, useEvenValue: Bool, in gameModel: GameModel?) -> Int {
-    
+
         let deal = DiplomaticDeal(from: fromLeader, to: toLeader)
         return deal.valueFor(tradeItemType: tradeItemType, resource: resource, amount: amount, duration: duration, useEvenValue: useEvenValue, in: gameModel)
     }
-    
+
     // MARK: public methods
 
     func value(useEvenValue: Bool, in gameModel: GameModel?) -> DiplomaticDealValue {
@@ -199,7 +199,14 @@ public class DiplomaticDeal: Codable {
 
         for tradeItem in self.tradeItems {
 
-            let itemValue = self.valueFor(tradeItemType: tradeItem.type, resource: tradeItem.resource, amount: tradeItem.amount, duration: tradeItem.duration, useEvenValue: useEvenValue, in: gameModel)
+            let itemValue = self.valueFor(
+                tradeItemType: tradeItem.type,
+                resource: tradeItem.resource,
+                amount: tradeItem.amount,
+                duration: tradeItem.duration,
+                useEvenValue: useEvenValue,
+                in: gameModel
+            )
 
             if tradeItem.direction == .give {
                 val.value -= itemValue
@@ -212,49 +219,49 @@ public class DiplomaticDeal: Codable {
 
         return val
     }
-    
+
     /// Insert a resource trade
     func addResourceTrade(from otherPlayer: AbstractPlayer?, resource: ResourceType, amount: Int, duration: Int, in gameModel: GameModel?) {
-        
+
         guard let otherLeader = otherPlayer?.leader else {
             fatalError("cant get otherLeader")
         }
-        
+
         var direction = DiplomaticDealDirectionType.give
         var targetLeader = self.to
         if self.to == otherLeader {
             targetLeader = self.from
             direction = .receive
         }
-        
+
         if self.isPossibleToTradeItem(from: otherPlayer, to: gameModel?.player(for: targetLeader), item: .resource, value: amount, resource: resource, in: gameModel) {
-            
+
             let item = DiplomaticDealItem(type: .resource, direction: direction, amount: amount, duration: duration)
             self.tradeItems.append(item)
         } else {
             fatalError("DEAL: Trying to add an invalid Resource to a deal")
         }
     }
-    
+
     func changeResourceTrade(from otherPlayer: AbstractPlayer?, resource: ResourceType, amount: Int, duration: Int, in gameModel: GameModel?) -> Bool {
 
         guard let otherLeader = otherPlayer?.leader else {
             fatalError("cant get otherLeader")
         }
-        
+
         var direction = DiplomaticDealDirectionType.give
         var targetLeader = self.to
         if self.to == otherLeader {
             targetLeader = self.from
             direction = .receive
         }
-        
+
         for tradeItem in self.tradeItems {
-        
+
             if tradeItem.type == .resource && tradeItem.direction == direction && tradeItem.resource == resource {
-                
+
                 if self.isPossibleToTradeItem(from: otherPlayer, to: gameModel?.player(for: targetLeader), item: .resource, value: amount, resource: resource, in: gameModel) {
-                    
+
                     tradeItem.amount = amount
                     tradeItem.duration = duration
                     //it->m_iFinalTurn = iDuration + GC.getGame().getGameTurn();
@@ -264,30 +271,30 @@ public class DiplomaticDeal: Codable {
         }
         return false
     }
-    
+
     /// Insert ending a war
     func addPeaceTreaty(with otherPlayer: AbstractPlayer?, duration: Int, in gameModel: GameModel?) {
-        
+
         guard let otherLeader = otherPlayer?.leader else {
             fatalError("cant get otherLeader")
         }
-        
+
         var direction = DiplomaticDealDirectionType.give
         var targetLeader = self.to
         if self.to == otherLeader {
             targetLeader = self.from
             direction = .receive
         }
-        
+
         if self.isPossibleToTradeItem(from: gameModel?.player(for: self.from), to: gameModel?.player(for: targetLeader), item: .peaceTreaty, in: gameModel) {
-            
+
             let item = DiplomaticDealItem(type: .peaceTreaty, direction: .give, amount: 0, duration: 30)
             tradeItems.append(item)
-        } else  {
-            fatalError("DEAL: Trying to add an invalid Peace Treaty item to a deal");
+        } else {
+            fatalError("DEAL: Trying to add an invalid Peace Treaty item to a deal")
         }
     }
-        
+
     // MARK: private methods
 
     private func valueFor(tradeItemType: DiplomaticDealItemType, resource: ResourceType, amount: Int, duration: Int, useEvenValue: Bool, in gameModel: GameModel?) -> Int {
@@ -320,11 +327,11 @@ public class DiplomaticDeal: Codable {
         guard let fromPlayer = gameModel?.player(for: self.from) else {
             fatalError("cant get player")
         }
-        
+
         guard let toPlayer = gameModel?.player(for: self.to) else {
             fatalError("cant get player")
         }
-        
+
         // Approach is important
         if let approach = fromPlayer.diplomacyAI?.approach(towards: to) {
 
@@ -373,46 +380,46 @@ public class DiplomaticDeal: Codable {
 
         return returnValue
     }
-    
+
     func goldTrade(with otherPlayer: AbstractPlayer?) -> Int {
-        
+
         guard let otherLeader = otherPlayer?.leader else {
             fatalError("cant get otherLeader")
         }
-        
+
         var direction: DiplomaticDealDirectionType = .give
         if self.to == otherLeader {
             direction = .receive
         }
-        
+
         for item in self.tradeItems {
-            
+
             if item.type == .gold && direction == .give { // ?? unsure
                 return item.amount
             }
         }
-        
+
         return 0
     }
-    
+
     /// How much Gold does ePlayer have available to be used in this Deal?
     func goldAvailable(of player: AbstractPlayer?, for itemToBeChanged: DiplomaticDealItemType, in gameModel: GameModel?) -> Int {
-        
+
         guard let treasury = player?.treasury else {
             fatalError("cant get treasury")
         }
-        
+
         guard let playerLeader = player?.leader else {
             fatalError("cant get playerLeader")
         }
-        
+
         var direction: DiplomaticDealDirectionType = .give
         var targetLeader = self.to
         if self.to == playerLeader {
             direction = .receive
             targetLeader = self.from
         }
-        
+
         var goldAvailable = Int(treasury.value())
 
         // Remove Gold we're sending to the other player in this deal (unless we're changing it)
@@ -424,10 +431,10 @@ public class DiplomaticDeal: Codable {
 
         // Loop through all trade items to see if they have a cost
         for item in self.tradeItems {
-            
+
             // Don't count something against itself when trying to add it
             if item.type == itemToBeChanged {
-                
+
                 if direction == .give {
                     goldCost = self.tradeItemGoldCost(for: item.type, of: player, and: gameModel?.player(for: targetLeader))
 
@@ -441,16 +448,16 @@ public class DiplomaticDeal: Codable {
 
         return goldAvailable
     }
-    
+
     /// Some trade items require Gold to be spent by both players
     func tradeItemGoldCost(for itemType: DiplomaticDealItemType, of player1: AbstractPlayer?, and player2: AbstractPlayer?) -> Int {
-        
+
         let goldCost = 0
 
         switch itemType {
         //case .research:
         //    goldCost = GC.getGame().GetResearchAgreementCost(ePlayer1, ePlayer2);
-        
+
         //case .tradeAgreement:
         //    goldCost = 250
         default:
@@ -460,30 +467,30 @@ public class DiplomaticDeal: Codable {
 
         return goldCost
     }
-    
+
     func isPeaceTreatyTrade(with otherPlayer: AbstractPlayer?) -> Bool {
-        
+
         guard let otherLeader = otherPlayer?.leader else {
             fatalError("cant get otherLeader")
         }
-        
+
         var direction: DiplomaticDealDirectionType = .give
         if self.to == otherLeader {
             direction = .receive
         }
-        
+
         for item in self.tradeItems {
-            
+
             if item.type == .peaceTreaty && direction == .give { // ?? unsure
                 return true
             }
         }
-        
+
         return false
     }
-    
+
     func updatePeaceTreatyType(to peaceTreatyType: PeaceTreatyType) {
-        
+
         self.peaceTreatyType = peaceTreatyType
     }
 
@@ -496,11 +503,11 @@ public class DiplomaticDeal: Codable {
         guard let fromPlayer = gameModel?.player(for: self.from) else {
             fatalError("cant get player")
         }
-        
+
         guard let toPlayer = gameModel?.player(for: self.to) else {
             fatalError("cant get player")
         }
-        
+
         // Approach is important
         if let approach = fromPlayer.diplomacyAI?.approach(towards: toPlayer) {
 
@@ -555,14 +562,14 @@ public class DiplomaticDeal: Codable {
         guard let fromPlayer = gameModel?.player(for: self.from) else {
             fatalError("cant get player")
         }
-        
+
         guard let toPlayer = gameModel?.player(for: self.to) else {
             fatalError("cant get player")
         }
-        
+
         var returnValue = 0
         var modifier = 0
-        
+
         switch resource.usage() {
 
         case .bonus:
@@ -571,17 +578,17 @@ public class DiplomaticDeal: Codable {
 
         case .luxury:
             let happinessFromResource = 4
-            
+
             // Ex: 1 Silk for 4 Happiness * 30 turns * 2 = 240
             returnValue = happinessFromResource * amount * duration * 2
-            
+
         case .strategic:
             // limit effect of strategic resources to number of cities
             //resourceQuantity = min(max(5, self.from.ci))
             // NOOP
             break
         }
-        
+
         // Approach is important
         if let approach = fromPlayer.diplomacyAI?.approach(towards: toPlayer) {
 
@@ -630,26 +637,26 @@ public class DiplomaticDeal: Codable {
 
         return returnValue
     }
-    
+
     // Is it actually possible for a player to offer up this trade item?
     func isPossibleToTradeItem(from fromPlayer: AbstractPlayer?, to toPlayer: AbstractPlayer?, item: DiplomaticDealItemType, value: Int = 0, resource: ResourceType = .none, duration: Int = 0, checkOtherPlayerValidity: Bool = false, finalizing: Bool = false, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let treasury = fromPlayer?.treasury else {
             fatalError("cant get treasury")
         }
-         
+
         guard let fromPlayer = fromPlayer else {
             fatalError("cant get from player")
         }
-        
+
         guard let toPlayer = toPlayer else {
             fatalError("cant get to player")
         }
-        
+
         // The Data parameters can be -1, which means we don't care about whatever data is stored there (e.g. -1 for Gold means can we trade ANY amount of Gold?)
         /*CvPlayer* pFromPlayer = &GET_PLAYER(ePlayer);
         CvPlayer* pToPlayer = &GET_PLAYER(eToPlayer);
@@ -679,7 +686,7 @@ public class DiplomaticDeal: Codable {
         ////////////////////////////////////////////////////
 
         if item == .gold {
-        
+
             // Gold
             // Can't trade more Gold than you have
             let gold = value
@@ -687,7 +694,7 @@ public class DiplomaticDeal: Codable {
                 return false
             }
         } else if item == .goldPerTurn {
-            
+
             // Gold per Turn
             // Can't trade more GPT than you're making
             let goldPerTurn = value
@@ -695,11 +702,11 @@ public class DiplomaticDeal: Codable {
                 return false
             }
         } else if item == .maps {
-            
+
             // Map
             return false
         } else if item == .resource {
-            
+
             // Resource
             if resource != .none {
                 let resourceQuantity = value
@@ -747,7 +754,7 @@ public class DiplomaticDeal: Codable {
                 }
 
                 if resource.usage() == .luxury {
-                    
+
                     // Can't trade Luxury, if the other player already has one
                     if toPlayer.numAvailable(resource: resource) > max(numInRenewDeal - numInExistingDeal, 0) {
                         return false
@@ -795,41 +802,41 @@ public class DiplomaticDeal: Codable {
         {
             return false;
         }*/
-        
+
         else if item == .allowEmbassy { // Embassy
-            
+
             // too few cities
             if gameModel.cities(of: toPlayer).count < 1 {
                 return false
             }
-            
+
             // Does not have tech for Embassy trading
             if !toPlayer.isAllowEmbassyTradingAllowed() {
                 return false
             }
-            
+
             // Already has embassy
             if toPlayer.hasEmbassy(with: fromPlayer) {
                 return false
             }
-            
+
             // Same team
             if toPlayer.leader == fromPlayer.leader {
                 return false
             }
         } else if item == .openBorders {
-            
+
             // Open Borders
             // Neither of us yet has the Tech for OP
             if !fromPlayer.isOpenBordersTradingAllowed() && !toPlayer.isOpenBordersTradingAllowed() {
                 return false
             }
-            
+
             // Embassy has not been established
             if !fromPlayer.hasEmbassy(with: toPlayer) {
                 return false
             }
-            
+
             let ignoreExistingOP = true
             /*if renewDeal {
                 // count any that are in the renew deal
@@ -939,7 +946,7 @@ public class DiplomaticDeal: Codable {
             return false;
         */
         else if item == .peaceTreaty {
-            
+
             // Peace Treaty
             if !fromPlayer.isAtWar(with: toPlayer) {
                 return false
@@ -1075,90 +1082,90 @@ public class DiplomaticDeal: Codable {
 
         return true
     }
-    
+
     func addOpenBorders(with player: AbstractPlayer?, duration: Int) {
-        
+
         if self.from == player?.leader {
             self.tradeItems.append(DiplomaticDealItem(type: .openBorders, direction: .give, amount: 0, duration: duration))
         } else {
             self.tradeItems.append(DiplomaticDealItem(type: .openBorders, direction: .receive, amount: 0, duration: duration))
         }
     }
-    
+
     func addAllowEmbassy(with player: AbstractPlayer?) {
-        
+
         if self.from == player?.leader {
             self.tradeItems.append(DiplomaticDealItem(type: .allowEmbassy, direction: .give, amount: 0, duration: 0))
         } else {
             self.tradeItems.append(DiplomaticDealItem(type: .allowEmbassy, direction: .receive, amount: 0, duration: 0))
         }
     }
-    
+
     func oppositeLeader(of leader: LeaderType) -> LeaderType {
-        
+
         if self.from == leader {
             return self.to
         } else {
             return self.from
         }
     }
-    
+
     /// Insert an immediate gold trade
     func addGoldTrade(from otherPlayer: AbstractPlayer?, amount: Int, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let otherLeader = otherPlayer?.leader else {
             fatalError("cant get otherLeader")
         }
-        
+
         var direction = DiplomaticDealDirectionType.give
         var targetLeader = self.to
         if self.to == otherLeader {
             targetLeader = self.from
             direction = .receive
         }
-        
+
         if self.isPossibleToTradeItem(from: otherPlayer, to: gameModel.player(for: targetLeader), item: .gold, value: amount, in: gameModel) {
-            
+
             let item = DiplomaticDealItem(type: .gold, direction: direction, amount: amount, duration: 0)
             self.tradeItems.append(item)
         } else {
             fatalError("DEAL: Trying to add an invalid Gold amount to a deal")
         }
     }
-    
+
     func addGoldPerTurnTrade(from otherPlayer: AbstractPlayer?, amount: Int, duration: Int, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let otherLeader = otherPlayer?.leader else {
             fatalError("cant get otherLeader")
         }
-        
+
         var direction = DiplomaticDealDirectionType.give
         var targetLeader = self.to
         if self.to == otherLeader {
             targetLeader = self.from
             direction = .receive
         }
-        
+
         if self.isPossibleToTradeItem(from: otherPlayer, to: gameModel.player(for: targetLeader), item: .goldPerTurn, value: amount, duration: duration, in: gameModel) {
-            
+
             let item = DiplomaticDealItem(type: .goldPerTurn, direction: direction, amount: amount, duration: duration)
             self.tradeItems.append(item)
         } else {
-            fatalError("DEAL: Trying to add an invalid GPT amount to a deal");
+            fatalError("DEAL: Trying to add an invalid GPT amount to a deal")
         }
     }
-    
+
     /// Burn it... burn it all...
     func clearItems() {
-        
+
         self.tradeItems.removeAll()
 
         //m_iFinalTurn = -1;

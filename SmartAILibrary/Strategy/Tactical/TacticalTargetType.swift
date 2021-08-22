@@ -29,7 +29,7 @@ public enum TacticalTargetType: Int, Codable {
     case mediumPriorityCivilian // AI_TACTICAL_TARGET_MEDIUM_PRIORITY_CIVILIAN
     case highPriorityCivilian // AI_TACTICAL_TARGET_HIGH_PRIORITY_CIVILIAN
     case veryHighPriorityCivilian // AI_TACTICAL_TARGET_VERY_HIGH_PRIORITY_CIVILIAN
-    
+
     case tradeUnitSea // AI_TACTICAL_TARGET_TRADE_UNIT_SEA,
     case tradeUnitLand // AI_TACTICAL_TARGET_TRADE_UNIT_LAND,
     case tradeUnitSeaPlot // AI_TACTICAL_TARGET_TRADE_UNIT_SEA_PLOT, // Used for idle unit moves to plunder trade routes that go through our territory

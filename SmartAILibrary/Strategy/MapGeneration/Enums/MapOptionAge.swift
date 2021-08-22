@@ -9,7 +9,7 @@
 import Foundation
 
 public enum MapOptionAge {
-    
+
     case young
     case normal
     case old

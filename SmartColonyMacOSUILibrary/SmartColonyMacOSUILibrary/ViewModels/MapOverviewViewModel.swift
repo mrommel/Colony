@@ -152,19 +152,19 @@ public class MapOverviewViewModel: ObservableObject {
         let screenPoint = HexPoint.toScreen(hex: pt) / 7.5
         let index = Int(-screenPoint.y) * self.line + Int(screenPoint.x - offset)
 
-        for i in 0...6 {
-            self.buffer.set(color: color, at: index + i)
-            self.buffer.set(color: color, at: index + 5 * self.line + i)
+        for index in 0...6 {
+            self.buffer.set(color: color, at: index + index)
+            self.buffer.set(color: color, at: index + 5 * self.line + index)
         }
 
-        for i in -1...7 {
-            self.buffer.set(color: color, at: index + self.line + i)
-            self.buffer.set(color: color, at: index + 4 * self.line + i)
+        for index in -1...7 {
+            self.buffer.set(color: color, at: index + self.line + index)
+            self.buffer.set(color: color, at: index + 4 * self.line + index)
         }
 
-        for i in -2...8 {
-            self.buffer.set(color: color, at: index + 2 * self.line + i)
-            self.buffer.set(color: color, at: index + 3 * self.line + i)
+        for index in -2...8 {
+            self.buffer.set(color: color, at: index + 2 * self.line + index)
+            self.buffer.set(color: color, at: index + 3 * self.line + index)
         }
     }
 

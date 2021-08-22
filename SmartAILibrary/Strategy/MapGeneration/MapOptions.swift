@@ -9,13 +9,13 @@
 import Foundation
 
 public struct MapOptionsEnhanced {
-    
+
     public var age: MapOptionAge
     public var climate: MapOptionClimate
     public var sealevel: MapOptionSeaLevel
     public var rainfall: MapOptionRainfall
     public var resources: MapOptionResources
-    
+
     public init() {
         self.age = .normal
         self.climate = .temperate
@@ -40,9 +40,9 @@ public class MapOptions {
         self.leader = leader
         self.handicap = handicap
     }
-    
+
     var octaves: Int {
-        
+
         switch self.enhanced.age {
 
         case .young:
@@ -53,9 +53,9 @@ public class MapOptions {
             return 1
         }
     }
-    
+
     var rivers: Int {
-        
+
         switch self.size {
 
         case .duel:
@@ -74,11 +74,11 @@ public class MapOptions {
             return 8
         }
     }
-    
+
     var waterPercentage: Double {
-        
+
         switch enhanced.sealevel {
-            
+
         case .low:
             return 0.52
         case .normal:
@@ -87,17 +87,17 @@ public class MapOptions {
             return 0.81
         }
     }
-    
+
     var landPercentage: Double {
-        
+
         return 1.0 - self.waterPercentage
     }
-    
+
     // Percentage of mountain on land
     var mountainsPercentage: Double {
-        
+
         switch enhanced.age {
-            
+
         case .young:
             return 0.08
         case .normal:
@@ -106,12 +106,12 @@ public class MapOptions {
             return 0.04
         }
     }
-    
+
     // Percentage of hills on land
     var hillsPercentage: Double {
-        
+
         switch enhanced.age {
-            
+
         case .young:
             return 0.20
         case .normal:
@@ -120,9 +120,9 @@ public class MapOptions {
             return 0.12
         }
     }
-    
+
     var numberOfPlayers: Int {
-        
+
         switch self.size {
 
         case .duel:

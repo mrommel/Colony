@@ -9,9 +9,9 @@
 import Foundation
 
 public enum UnitDomainType: Int, Codable {
-    
+
     case none
-    
+
     case land
     case sea
     case air

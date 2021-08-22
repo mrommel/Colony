@@ -29,13 +29,13 @@ extension UIColor {
         scanner.scanHexInt64(&color)
 
         let mask = 0x000000FF
-        let r = Int(color >> 16) & mask
-        let g = Int(color >> 8) & mask
-        let b = Int(color) & mask
+        let redValue = Int(color >> 16) & mask
+        let greenValue = Int(color >> 8) & mask
+        let blueValue = Int(color) & mask
 
-        let red = CGFloat(r) / 255.0
-        let green = CGFloat(g) / 255.0
-        let blue = CGFloat(b) / 255.0
+        let red = CGFloat(redValue) / 255.0
+        let green = CGFloat(greenValue) / 255.0
+        let blue = CGFloat(blueValue) / 255.0
         self.init(red: red, green: green, blue: blue, alpha: 1)
     }
 
@@ -57,21 +57,21 @@ extension UIColor {
 public extension UIColor {
 
     var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
-        var r: CGFloat = 0
-        var g: CGFloat = 0
-        var b: CGFloat = 0
-        var a: CGFloat = 0
-        self.getRed(&r, green: &g, blue: &b, alpha: &a)
-        return (r, g, b, a)
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        self.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        return (red, green, blue, alpha)
     }
 
     var hsba: (hue: CGFloat, saturation: CGFloat, brightness: CGFloat, alpha: CGFloat) {
-        var h: CGFloat = 0
-        var s: CGFloat = 0
-        var b: CGFloat = 0
-        var a: CGFloat = 0
-        self.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-        return (h, s, b, a)
+        var hue: CGFloat = 0
+        var saturation: CGFloat = 0
+        var brightness: CGFloat = 0
+        var alpha: CGFloat = 0
+        self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        return (hue, saturation, b, alpha)
     }
 }
 
@@ -98,6 +98,7 @@ public extension UIColor {
         }
 
         if hex.range(of: "(^[0-9A-Fa-f]{6}$)|(^[0-9A-Fa-f]{3}$)", options: .regularExpression) != nil {
+            
             if hex.count == 3 {
 
                 let startIndex = hex.index(hex.startIndex, offsetBy: 1)
@@ -128,8 +129,8 @@ public extension UIColor {
                 green: CGFloat(greenInt) / 255.0,
                 blue: CGFloat(blueInt) / 255.0,
                 alpha: CGFloat(alpha))
-        }
-        else {
+            
+        } else {
             self.init(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
         }
     }
@@ -138,14 +139,14 @@ public extension UIColor {
         var color = self
 
         if color.cgColor.numberOfComponents < 4 {
-            let c = color.cgColor.components!
-            color = UIColor(red: c[0], green: c[0], blue: c[0], alpha: c[1])
+            let components = color.cgColor.components!
+            color = UIColor(red: components[0], green: components[0], blue: components[0], alpha: components[1])
         }
         if color.cgColor.colorSpace!.model != .rgb {
             return "#FFFFFF"
         }
-        let c = color.cgColor.components!
-        return String(format: "#%02X%02X%02X", Int(c[0] * 255.0), Int(c[1] * 255.0), Int(c[2] * 255.0))
+        let components = color.cgColor.components!
+        return String(format: "#%02X%02X%02X", Int(components[0] * 255.0), Int(components[1] * 255.0), Int(components[2] * 255.0))
     }
 }
 
@@ -169,35 +170,29 @@ struct Color16 {
     
     init(color: UIColor) {
         
-        let (r, g, b, _) = color.rgba
+        let (red, green, blue, _) = color.rgba
         
-        self.init(red: UInt8(r), green: UInt8(g), blue: UInt8(b))
+        self.init(red: UInt8(red), green: UInt8(green), blue: UInt8(blue))
     }
 
     //var
 
     var red: UInt8 {
-        get {
-            let r5 = (value >> 11) & 31 // 5 bits
-            let r8 = CGFloat(r5) * 255 / 31 + 0.5
-            return UInt8(r8)
-        }
+        let red5 = (value >> 11) & 31 // 5 bits
+        let red8 = CGFloat(red5) * 255 / 31 + 0.5
+        return UInt8(red8)
     }
 
     var green: UInt8 {
-        get {
-            let g6 = (value >> 5) & 63 // 6 bits
-            let g8 = CGFloat(g6) * 255 / 63 + 0.5
-            return UInt8(g8)
-        }
+        let green6 = (value >> 5) & 63 // 6 bits
+        let green8 = CGFloat(green6) * 255 / 63 + 0.5
+        return UInt8(green8)
     }
 
     var blue: UInt8 {
-        get {
-            let b5 = value & 31 // 5 bits
-            let b8 = CGFloat(b5) * 255 / 31 + 0.5
-            return UInt8(b8)
-        }
+        let blue5 = value & 31 // 5 bits
+        let blue8 = CGFloat(blue5) * 255 / 31 + 0.5
+        return UInt8(blue8)
     }
 
     static func lerp(min: Color16, max: Color16, value: CGFloat) -> Color16 {

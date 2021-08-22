@@ -121,7 +121,7 @@ enum EconomicStrategyType: Int, Codable {
                 Flavor(type: .navalGrowth, value: 5),
                 //Flavor(type: .waterConnection, value: 5), FIXME
                 Flavor(type: .expansion, value: 10),
-                Flavor(type: .recon, value: -20),
+                Flavor(type: .recon, value: -20)
             ]
         case .foundCity: return [
                 // NOOP
@@ -347,12 +347,12 @@ enum EconomicStrategyType: Int, Codable {
                         let numCities = gameModel.cities(of: player).count
 
                         let numSettlersOnMap = gameModel.units(of: player).count(where: { $0!.task() == .settle })
-                        
+
                         if ownageRatio < 75 /* AI_STRATEGY_AREA_IS_FULL_PERCENT */
-                            
+
                             && (numCities + numSettlersOnMap) < desiredCities
                             && numUnownedTiles >= 25 /* AI_STRATEGY_EARLY_EXPANSION_NUM_UNOWNED_TILES_REQUIRED */ {
-                            
+
                             return true
                         }
                     }
@@ -385,7 +385,7 @@ enum EconomicStrategyType: Int, Codable {
             return false
         }
 
-        var firstLooseSettler: AbstractUnit? = nil
+        var firstLooseSettler: AbstractUnit?
         var looseSettlers = 0
 
         for unitRef in gameModel.units(of: player) {
@@ -446,7 +446,7 @@ enum EconomicStrategyType: Int, Codable {
                 // not at war with anyone
                 player.addOperation(of: .notSoQuickColonize, towards: nil, target: nil, in: area, muster: nil, in: gameModel)
                 return true
-                
+
             } else if canEmbark {
                 // CASE 4: Need a city on distant area
                 player.addOperation(of: .colonize, towards: nil, target: nil, in: area, muster: nil, in: gameModel)

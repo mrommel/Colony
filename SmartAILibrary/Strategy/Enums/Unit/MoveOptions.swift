@@ -8,10 +8,10 @@
 
 import Foundation
 
-public struct MoveOptions : OptionSet {
-    
+public struct MoveOptions: OptionSet {
+
     public let rawValue: Int
-    
+
     public init(rawValue: Int) {
         self.rawValue = rawValue
     }

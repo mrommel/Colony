@@ -9,7 +9,14 @@ import Foundation
 
 public struct GameDisplayOptions {
 
-    static let standard: GameDisplayOptions = GameDisplayOptions(showFeatures: false, showResources: false, showBorders: false, showStartPositions: false, showInhabitants: false, showSupportedPeople: false)
+    static let standard: GameDisplayOptions = GameDisplayOptions(
+        showFeatures: false,
+        showResources: false,
+        showBorders: false,
+        showStartPositions: false,
+        showInhabitants: false,
+        showSupportedPeople: false
+    )
 
     let showFeatures: Bool
     let showResources: Bool

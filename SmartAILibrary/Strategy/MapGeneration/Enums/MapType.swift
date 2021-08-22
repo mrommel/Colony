@@ -9,7 +9,7 @@
 import Foundation
 
 public enum MapType {
-    
+
     case empty
     case earth
     case pangaea
@@ -17,9 +17,9 @@ public enum MapType {
     case archipelago
     case inlandsea
     case custom
-    
+
     public static var all: [MapType] {
-        
+
         return [.empty, .earth, .pangaea, .continents, .archipelago, .inlandsea, .custom]
     }
 }

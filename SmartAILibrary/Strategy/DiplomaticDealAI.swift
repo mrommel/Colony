@@ -9,7 +9,7 @@
 import Foundation
 
 enum DiplomaticDealOfferResponse {
-    
+
     case none
     case acceptable
     case unacceptable
@@ -17,88 +17,88 @@ enum DiplomaticDealOfferResponse {
 }
 
 public class DiplomaticDealAI: Codable {
-    
+
     var player: AbstractPlayer?
-    
+
     // not serialized
     private var cachedValueOfPeaceWithHumanValue: Int
-    
+
     // MARK: constructors
 
     init(player: AbstractPlayer?) {
 
         self.player = player
-        
+
         self.cachedValueOfPeaceWithHumanValue = 0
     }
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         self.player = nil
         self.cachedValueOfPeaceWithHumanValue = 0
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-    
+
         // NOOP
     }
-    
+
     func offer(deal: DiplomaticDeal, with gameModel: GameModel?) -> DiplomaticDealOfferResponse {
-        
+
         var response: DiplomaticDealOfferResponse = .none
-        
+
         let dealValue = deal.value(useEvenValue: true, in: gameModel)
         let dealSum = dealValue.valueImOffering + dealValue.valueOtherOffering
-        
+
         let iAmountOverWeWillRequest = dealSum * 10 / 100
         let iAmountUnderWeWillOffer = dealSum * -10 / 100
-        
+
         var isDealAcceptable = false
         // If we've gotten the deal to a point where we're happy, offer it up
-        if iAmountUnderWeWillOffer <= dealValue.value && dealValue.value <= iAmountOverWeWillRequest  {
+        if iAmountUnderWeWillOffer <= dealValue.value && dealValue.value <= iAmountOverWeWillRequest {
             isDealAcceptable = true
         }
 
         // If they're actually giving us more than we're asking for (e.g. a gift) then accept the deal
         if !isDealAcceptable {
-            
+
             if dealValue.valueOtherOffering > dealValue.valueImOffering {
                 isDealAcceptable = true
             }
         }
-        
+
         if isDealAcceptable {
 
             guard let fromPlayer = gameModel?.player(for: deal.from) else {
                 fatalError("cant get player")
             }
-            
+
             // If it's from a human, send it through the network
             if fromPlayer.isHuman() {
-                
+
                 // FIXME ???
             } else {
                 response = .acceptable
             }
         } else if dealSum > -75 && dealValue.valueImOffering < (dealValue.valueOtherOffering * 5) { // We want more from this Deal
-            
+
             response = .unacceptable
-            
+
         } else { // Pretty bad deal for us
-            
+
             response = .insulting
         }
-        
+
         return response
     }
-    
+
     /// A good time to make an offer to get Open Borders?
     func shouldMakeOfferForOpenBorders(to otherPlayer: AbstractPlayer?, deal: inout DiplomaticDeal, in gameModel: GameModel?) -> Bool {
-        
+
         guard let diplomacyAI = self.player?.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
@@ -116,7 +116,7 @@ public class DiplomaticDealAI: Codable {
 
         // Do we actually want OB with eOtherPlayer?
         if diplomacyAI.isWantsOpenBorders(with: otherPlayer) {
-            
+
             // Seed the deal with the item we want
             deal.addOpenBorders(with: otherPlayer, duration: 30 /* Standard DealDuration */)
 
@@ -130,7 +130,15 @@ public class DiplomaticDealAI: Codable {
                 // Change the deal as necessary to make it work
                 var uselessReferenceVariable: Bool = false
                 var cantMatchOffer: Bool = false
-                dealAcceptable = self.doEqualizeDealWithHuman(deal: &deal, with: otherPlayer, dontChangeMyExistingItems: false, dontChangeTheirExistingItems: true, dealGoodToBeginWith: &uselessReferenceVariable, cantMatchOffer: &cantMatchOffer, in: gameModel)
+                dealAcceptable = self.doEqualizeDealWithHuman(
+                    deal: &deal,
+                    with: otherPlayer,
+                    dontChangeMyExistingItems: false,
+                    dontChangeTheirExistingItems: true,
+                    dealGoodToBeginWith: &uselessReferenceVariable,
+                    cantMatchOffer: &cantMatchOffer,
+                    in: gameModel
+                )
             }
 
             return dealAcceptable
@@ -138,14 +146,15 @@ public class DiplomaticDealAI: Codable {
 
         return false
     }
-    
+
     // Try to even out the value on both sides.  If bFavorMe is true we'll bias things in our favor if necessary
+    // swiftlint:disable line_length
     private func doEqualizeDealWithAI(deal: DiplomaticDeal, with otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         guard let otherDiplomacyDealAI = otherPlayer.diplomacyDealAI else {
             fatalError("cant get otherDiplomacyDealAI")
         }
@@ -167,11 +176,11 @@ public class DiplomaticDealAI: Codable {
 
         var amountOverWeWillRequest = dealSumValue
         amountOverWeWillRequest *= percentOverWeWillRequest
-        amountOverWeWillRequest /= 100;
+        amountOverWeWillRequest /= 100
 
         var amountUnderWeWillOffer = dealSumValue
         amountUnderWeWillOffer *= percentUnderWeWillOffer
-        amountUnderWeWillOffer /= 100;
+        amountUnderWeWillOffer /= 100
 
         // Deal is already even enough for us
         if totalValue <= amountOverWeWillRequest && totalValue >= amountUnderWeWillOffer {
@@ -183,7 +192,7 @@ public class DiplomaticDealAI: Codable {
         }
 
         if !makeOffer {
-            
+
             /////////////////////////////
             // See if there are items we can add or remove from either side to balance out the deal if it's not already even
             /////////////////////////////
@@ -212,9 +221,9 @@ public class DiplomaticDealAI: Codable {
             DoRemoveGoldFromUs(pCounterDeal, eOtherPlayer, iTotalValue, iEvenValueImOffering, iEvenValueTheyreOffering, bUseEvenValue);
             DoRemoveGoldFromThem(pCounterDeal, eOtherPlayer, iTotalValue, iEvenValueImOffering, iEvenValueTheyreOffering, bUseEvenValue);
             */
-            
+
             // Make sure we haven't removed everything from the deal!
-            if counterDeal.tradeItems.count > 0  {
+            if !counterDeal.tradeItems.isEmpty {
 
                 let (_, valueIThinkImOffering, valueIThinkImGetting) = counterDeal.value(useEvenValue: true, in: gameModel)
 
@@ -239,18 +248,18 @@ public class DiplomaticDealAI: Codable {
 
         return makeOffer
     }
-    
+
     /// Try to even out the value on both sides.  If bFavorMe is true we'll bias things in our favor if necessary
     private func doEqualizeDealWithHuman(deal: inout DiplomaticDeal, with otherPlayer: AbstractPlayer?, dontChangeMyExistingItems: Bool, dontChangeTheirExistingItems: Bool, dealGoodToBeginWith: inout Bool, cantMatchOffer: inout Bool, in gameModel: GameModel?) -> Bool {
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         guard let activePlayer = gameModel?.activePlayer() else {
             fatalError("cant get activePlayer")
         }
-        
+
         let dealDuration = 30
         var cantMatchOffer = false
         var makeOffer: Bool = false
@@ -321,7 +330,7 @@ public class DiplomaticDealAI: Codable {
                 DoAddCitiesToUs(pDeal, eOtherPlayer, bDontChangeMyExistingItems, iTotalValueToMe, iValueImOffering, iValueTheyreOffering, iAmountUnderWeWillOffer, bUseEvenValue);*/
 
                 // Make sure we haven't removed everything from the deal!
-                if deal.tradeItems.count > 0 {
+                if !deal.tradeItems.isEmpty {
                     makeOffer = self.isDealWithHumanAcceptable(deal: &deal, with: activePlayer, totalValueToMe: &totalValueToMe, valueImOffering: &valueImOffering, valueTheyreOffering: &valueTheyreOffering, amountOverWeWillRequest: &amountOverWeWillRequest, amountUnderWeWillOffer: &amountUnderWeWillOffer, cantMatchOffer: &cantMatchOffer, in: gameModel)
                 }
             }
@@ -329,33 +338,33 @@ public class DiplomaticDealAI: Codable {
 
         return makeOffer
     }
-    
+
     /// Offer peace
     func isOfferPeace(with otherPlayer: AbstractPlayer?, deal: inout DiplomaticDeal, equalizingDeals: Bool, in gameModel: GameModel?) -> Bool {
-        
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         guard let otherDiplomacyAI = otherPlayer.diplomacyAI else {
             fatalError("cant get otherDiplomacyAI")
         }
-        
+
         guard let diplomacyAI = self.player?.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         var result = false
 
         // Can we actually complete this deal?
         if !deal.isPossibleToTradeItem(from: self.player, to: otherPlayer, item: .peaceTreaty, in: gameModel) {
             return false
         }
-        
+
         if !deal.isPossibleToTradeItem(from: otherPlayer, to: self.player, item: .peaceTreaty, in: gameModel) {
             return false
         }
@@ -365,7 +374,7 @@ public class DiplomaticDealAI: Codable {
 
         // Peace between AI players
         if !otherPlayer.isHuman() {
-            
+
             let peaceTreatyTheyreWillingToAccept = otherDiplomacyAI.treatyWillingToAccept(with: self.player)
             var peaceTreatyTheyreWillingToOffer = otherDiplomacyAI.treatyWillingToOffer(with: self.player)
 
@@ -373,7 +382,7 @@ public class DiplomaticDealAI: Codable {
             if peaceTreatyImWillingToOffer < peaceTreatyTheyreWillingToAccept {
                 return false
             }
-            
+
             // Is what eOtherPalyer is willing to offer acceptable to us?
             if peaceTreatyTheyreWillingToOffer < peaceTreatyImWillingToAccept {
                 return false
@@ -381,7 +390,7 @@ public class DiplomaticDealAI: Codable {
 
             // If we're both willing to give something up (for whatever reason) reduce the surrender level of both parties until White Peace is on one side
             if peaceTreatyImWillingToOffer > .whitePeace && peaceTreatyTheyreWillingToOffer > .whitePeace {
-                
+
                 let amountToReduce: Int = min(peaceTreatyImWillingToOffer.rawValue, peaceTreatyTheyreWillingToOffer.rawValue)
 
                 peaceTreatyImWillingToOffer = peaceTreatyImWillingToOffer.decreased(by: amountToReduce)
@@ -392,7 +401,7 @@ public class DiplomaticDealAI: Codable {
             if peaceTreatyImWillingToOffer > peaceTreatyTheyreWillingToAccept {
                 peaceTreatyImWillingToOffer = PeaceTreatyType(rawValue: (peaceTreatyImWillingToOffer.rawValue + peaceTreatyTheyreWillingToAccept.rawValue) / 2)!
             }
-            
+
             if peaceTreatyTheyreWillingToOffer > peaceTreatyImWillingToAccept {
                 peaceTreatyTheyreWillingToOffer = PeaceTreatyType(rawValue: (peaceTreatyTheyreWillingToOffer.rawValue + peaceTreatyImWillingToAccept.rawValue) / 2)!
             }
@@ -420,9 +429,9 @@ public class DiplomaticDealAI: Codable {
             result = true
         } else {
             // Peace with a human
-            
+
             if peaceTreatyImWillingToOffer > .whitePeace {
-                
+
                 // AI is surrendering
                 deal.surrendering = player.leader
                 deal.updatePeaceTreatyType(to: peaceTreatyImWillingToOffer)
@@ -431,12 +440,12 @@ public class DiplomaticDealAI: Codable {
 
                 // Store the value of the deal with the human so that we have a number to use for renegotiation (if necessary)
                 let (_, valueImOffering, _) = deal.value(useEvenValue: false, in: gameModel)
-                
+
                 if !equalizingDeals {
                     self.updateCachedValueOfPeaceWithHuman(to: -valueImOffering)
                 }
             } else if peaceTreatyImWillingToAccept > .whitePeace {
-                
+
                 // AI is asking human to surrender
                 deal.surrendering = otherPlayer.leader
                 deal.updatePeaceTreatyType(to: peaceTreatyImWillingToAccept)
@@ -445,7 +454,7 @@ public class DiplomaticDealAI: Codable {
 
                 // Store the value of the deal with the human so that we have a number to use for renegotiation (if necessary)
                 let (_, _, valueTheyreOffering) = deal.value(useEvenValue: false, in: gameModel)
-                
+
                 if !equalizingDeals {
                     self.updateCachedValueOfPeaceWithHuman(to: valueTheyreOffering)
                 }
@@ -463,25 +472,25 @@ public class DiplomaticDealAI: Codable {
 
         return result
     }
-    
+
     /// Add appropriate items to pDeal based on what type of PeaceTreaty eTreaty is
     func doAddItemsToDealForPeaceTreaty(with otherPlayer: AbstractPlayer?, deal: inout DiplomaticDeal, treaty: PeaceTreatyType, meSurrendering: Bool, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var percentGoldToGive = 0
         var percentGPTToGive = 0
         var giveOpenBorders = false
         var giveOnlyOneCity = false
         var percentCitiesGiveUp = 0 /* 100 = all but capital */
-        var giveUpStratResources = false;
-        var giveUpLuxuryResources = false;
+        var giveUpStratResources = false
+        var giveUpLuxuryResources = false
 
         // Setup what needs to be given up based on the level of the treaty
         switch treaty {
-            
+
         case .whitePeace:
             // White Peace: nothing changes hands
             break
@@ -495,8 +504,8 @@ public class DiplomaticDealAI: Codable {
             percentGPTToGive = 100
 
         case .backDown:
-            percentGoldToGive = 100;
-            percentGPTToGive = 100;
+            percentGoldToGive = 100
+            percentGPTToGive = 100
             giveOpenBorders = true
             giveUpStratResources = true
 
@@ -521,7 +530,7 @@ public class DiplomaticDealAI: Codable {
         case .unconditionalSurrender:
             percentCitiesGiveUp = 100
             percentGoldToGive = 100
-            
+
         case .none:
             // NOOP
             break
@@ -532,7 +541,7 @@ public class DiplomaticDealAI: Codable {
         guard let losingPlayer = meSurrendering ? self.player : otherPlayer else {
             fatalError("cant get loosing player")
         }
-        
+
         guard let winningPlayer = meSurrendering ? otherPlayer : self.player else {
             fatalError("cant get winningPlayer player")
         }
@@ -542,7 +551,7 @@ public class DiplomaticDealAI: Codable {
         // Gold
         var gold = 0
         if percentGoldToGive > 0 {
-            
+
             gold = deal.goldAvailable(of: losingPlayer, for: .gold, in: gameModel)
             if gold > 0 {
                 gold = gold * percentGoldToGive / 100
@@ -554,22 +563,22 @@ public class DiplomaticDealAI: Codable {
         }
 
         // Gold per turn
-        var gpt = 0
+        var goldPerTurn = 0
         if percentGPTToGive > 0 {
-            
-            gpt = Int(min(losingPlayer.calculateGoldPerTurn(in: gameModel), winningPlayer.calculateGoldPerTurn(in: gameModel) / 3 /*ARMISTICE_GPT_DIVISOR*/))
-            if gpt > 0 {
-                gpt = gpt * percentGPTToGive / 100
 
-                if gpt > 0 && deal.isPossibleToTradeItem(from: losingPlayer, to: winningPlayer, item: .goldPerTurn, value: gpt, duration: duration, in: gameModel) {
-                    deal.addGoldPerTurnTrade(from: losingPlayer, amount: gpt, duration: duration, in: gameModel)
+            goldPerTurn = Int(min(losingPlayer.calculateGoldPerTurn(in: gameModel), winningPlayer.calculateGoldPerTurn(in: gameModel) / 3 /*ARMISTICE_GPT_DIVISOR*/))
+            if goldPerTurn > 0 {
+                goldPerTurn = goldPerTurn * percentGPTToGive / 100
+
+                if goldPerTurn > 0 && deal.isPossibleToTradeItem(from: losingPlayer, to: winningPlayer, item: .goldPerTurn, value: goldPerTurn, duration: duration, in: gameModel) {
+                    deal.addGoldPerTurnTrade(from: losingPlayer, amount: goldPerTurn, duration: duration, in: gameModel)
                 }
             }
         }
 
         // Open Borders
         if giveOpenBorders {
-            
+
             if deal.isPossibleToTradeItem(from: losingPlayer, to: winningPlayer, item: .openBorders, in: gameModel) {
                 deal.addOpenBorders(with: losingPlayer, duration: duration)
             }
@@ -607,7 +616,7 @@ public class DiplomaticDealAI: Codable {
             }
 
             if deal.isPossibleToTradeItem(from: losingPlayer, to: winningPlayer, item: .resource, value: resourceQuantity, resource: resource, in: gameModel) {
-                
+
                 deal.addResourceTrade(from: losingPlayer, resource: resource, amount: resourceQuantity, duration: duration, in: gameModel)
             }
         }
@@ -713,7 +722,7 @@ public class DiplomaticDealAI: Codable {
             }
         }*/
     }
-    
+
     /// Will this AI accept pDeal? Handles deal from both human and AI players
     // , , dontChangeMyExistingItems: Bool, dontChangeTheirExistingItems: Bool, dealGoodToBeginWith: inout Bool
     func isDealWithHumanAcceptable(deal: inout DiplomaticDeal, with otherPlayer: AbstractPlayer?, totalValueToMe: inout Int, valueImOffering: inout Int, valueTheyreOffering: inout Int, amountOverWeWillRequest: inout Int, amountUnderWeWillOffer: inout Int, cantMatchOffer: inout Bool, in gameModel: GameModel?) -> Bool {
@@ -721,7 +730,7 @@ public class DiplomaticDealAI: Codable {
         guard let playerLeader = self.player?.leader else {
             fatalError("cant get leader of player")
         }
-        
+
         cantMatchOffer = false
 
         // Deal leeway with human
@@ -733,7 +742,7 @@ public class DiplomaticDealAI: Codable {
 
         // If no Gold in deal and within value of 1 GPT, then it's close enough
         if deal.goldTrade(with: otherPlayer) == 0 && deal.goldTrade(with: self.player) == 0 {
-            
+
             let oneGPT = 25
             let diff = abs(valueTheyreOffering - valueImOffering)
             if diff < oneGPT {
@@ -770,12 +779,12 @@ public class DiplomaticDealAI: Codable {
 
         return false
     }
-    
+
     /// Add third party peace for allied city-states
     func doAddPlayersAlliesToTreaty(with otherPlayer: AbstractPlayer?, deal: DiplomaticDeal) {
-        
+
         //let peaceDuration = 30
-        
+
         /*for(int iMinorLoop = MAX_MAJOR_CIVS; iMinorLoop < MAX_CIV_PLAYERS; iMinorLoop++)
         {
             eMinor = (PlayerTypes) iMinorLoop;
@@ -832,20 +841,20 @@ public class DiplomaticDealAI: Codable {
             }
         }*/
     }
-    
+
     /// See if adding a Resource to their side of the deal helps even out pDeal
-    func doAddResourceToThem(for deal: DiplomaticDeal, by otherPlayer: AbstractPlayer?, dontChangeTheirExistingItems: Bool, totalValue: inout Int, valueImOffering: inout Int, valueTheyreOffering: inout Int, amountOverWeWillRequest: Int, dealDuration :Int, useEvenValue: Bool, in gameModel: GameModel?) {
-        
+    func doAddResourceToThem(for deal: DiplomaticDeal, by otherPlayer: AbstractPlayer?, dontChangeTheirExistingItems: Bool, totalValue: inout Int, valueImOffering: inout Int, valueTheyreOffering: inout Int, amountOverWeWillRequest: Int, dealDuration: Int, useEvenValue: Bool, in gameModel: GameModel?) {
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let otherLeader = otherPlayer?.leader else {
             fatalError("cant get otherLeader")
         }
-        
+
         if !dontChangeTheirExistingItems {
-            
+
             if totalValue < 0 {
 
                 // Look to trade Luxuries first
@@ -871,15 +880,15 @@ public class DiplomaticDealAI: Codable {
 
                     // See if they can actually trade it to us
                     if deal.isPossibleToTradeItem(from: otherPlayer, to: self.player, item: .resource, value: resourceQuantity, resource: resource, in: gameModel) {
-                        
+
                         let itemValue = DiplomaticDeal.valueFor(tradeItemType: .resource, from: otherLeader, to: player.leader, resource: resource, amount: resourceQuantity, duration: dealDuration, useEvenValue: useEvenValue, in: gameModel)
 
                         // If adding this to the deal doesn't take it over the limit, do it
                         if itemValue + totalValue <= amountOverWeWillRequest {
-                            
+
                             // Try to change the current item, if it already exists, otherwise add it
                             if !deal.changeResourceTrade(from: otherPlayer, resource: resource, amount: resourceQuantity, duration: dealDuration, in: gameModel) {
-                                
+
                                 deal.addResourceTrade(from: otherPlayer, resource: resource, amount: resourceQuantity, duration: dealDuration, in: gameModel)
                                 (totalValue, valueImOffering, valueTheyreOffering) = deal.value(useEvenValue: useEvenValue, in: gameModel)
                             }
@@ -906,7 +915,7 @@ public class DiplomaticDealAI: Codable {
 
                     // See if they can actually trade it to us
                     if deal.isPossibleToTradeItem(from: otherPlayer, to: self.player, item: .resource, value: resourceQuantity, resource: resource, in: gameModel) {
-                        
+
                         let itemValue = DiplomaticDeal.valueFor(tradeItemType: .resource, from: otherLeader, to: player.leader, resource: resource, amount: resourceQuantity, duration: dealDuration, useEvenValue: useEvenValue, in: gameModel)
 
                         // If adding this to the deal doesn't take it over the limit, do it
@@ -922,20 +931,20 @@ public class DiplomaticDealAI: Codable {
             }
         }
     }
-    
+
     /// See if adding a Resource to our side of the deal helps even out pDeal
-    func doAddResourceToUs(for deal: DiplomaticDeal, by otherPlayer: AbstractPlayer?, dontChangeTheirExistingItems: Bool, totalValue: inout Int, valueImOffering: inout Int, valueTheyreOffering: inout Int, amountUnderWeWillOffer: Int, dealDuration :Int, useEvenValue: Bool, in gameModel: GameModel?) {
-        
+    func doAddResourceToUs(for deal: DiplomaticDeal, by otherPlayer: AbstractPlayer?, dontChangeTheirExistingItems: Bool, totalValue: inout Int, valueImOffering: inout Int, valueTheyreOffering: inout Int, amountUnderWeWillOffer: Int, dealDuration: Int, useEvenValue: Bool, in gameModel: GameModel?) {
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
-        
+
         guard let otherLeader = otherPlayer?.leader else {
             fatalError("cant get otherLeader")
         }
-        
+
         if !dontChangeTheirExistingItems {
-            
+
             if totalValue > 0 {
 
                 for resource in ResourceType.all {
@@ -949,7 +958,7 @@ public class DiplomaticDealAI: Codable {
 
                     // Quantity is always 1 if it's a Luxury, 5 if Strategic
                     if resource.usage() == .luxury {
-                        
+
                         resourceQuantity = 1
 
                         // Don't bother if they wouldn't get Happiness from it due to World Congress
@@ -969,7 +978,7 @@ public class DiplomaticDealAI: Codable {
                             // Try to change the current item if it already exists, otherwise add it
                             if !deal.changeResourceTrade(from: player, resource: resource, amount: resourceQuantity, duration: dealDuration, in: gameModel) {
                                 deal.addResourceTrade(from: player, resource: resource, amount: resourceQuantity, duration: dealDuration, in: gameModel)
-                                
+
                                 (totalValue, valueImOffering, valueTheyreOffering) = deal.value(useEvenValue: useEvenValue, in: gameModel)
                             }
                         }
@@ -978,18 +987,18 @@ public class DiplomaticDealAI: Codable {
             }
         }
     }
-    
+
     /// A good time to make an offer to get an embassy?
     func makeOfferForEmbassy(to otherPlayer: AbstractPlayer?, deal: inout DiplomaticDeal, in gameModel: GameModel?) -> Bool {
 
         guard let diplomaticAI = self.player?.diplomacyAI else {
             fatalError("cant get diplomaticAI")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         // Don't ask for Open Borders if we're hostile or planning war
         let approach = diplomaticAI.approach(towards: otherPlayer)
         if approach == .hostile || approach == .war || approach == .guarded {
@@ -1003,7 +1012,7 @@ public class DiplomaticDealAI: Codable {
 
         // Do we actually want OB with eOtherPlayer?
         if diplomaticAI.wantsEmbassy(with: otherPlayer) {
-            
+
             // Seed the deal with the item we want
             deal.addAllowEmbassy(with: otherPlayer)
             var dealAcceptable = false
@@ -1023,28 +1032,28 @@ public class DiplomaticDealAI: Codable {
 
         return false
     }
-    
+
     // How much are we willing to back off on what our perceived value of a deal is with an AI player to make something work?
     func dealPercentLeewayWithAI() -> Int {
-        
+
         return 25
     }
-    
+
     // How much are we willing to back off on what our perceived value of a deal is with a human player to make something work?
     func dealPercentLeewayWithHuman() -> Int {
 
         return 10
     }
-    
+
     /// What are we willing to give/receive for peace with the active human player?
     private func cachedValueOfPeaceWithHuman() -> Int {
-        
+
         return self.cachedValueOfPeaceWithHumanValue        // NOT SERIALIZED
     }
 
     /// Sets what are we willing to give/receive for peace with the active human player
     private func updateCachedValueOfPeaceWithHuman(to value: Int) {
-        
+
         self.cachedValueOfPeaceWithHumanValue = value        // NOT SERIALIZED
     }
 }

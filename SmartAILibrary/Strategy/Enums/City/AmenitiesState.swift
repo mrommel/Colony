@@ -9,7 +9,7 @@
 import Foundation
 
 public enum AmenitiesState {
-    
+
     case ecstatic
     case happy
     case content

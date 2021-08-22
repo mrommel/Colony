@@ -12,9 +12,9 @@ public class UnitMission {
 
     weak var unit: AbstractUnit?
     let type: UnitMissionType
-    var target: HexPoint? = nil
+    var target: HexPoint?
     var startedInTurn: Int = -1
-    var buildType: BuildType? = nil
+    var buildType: BuildType?
     var options: MoveOptions
 
     public init(type: UnitMissionType, buildType: BuildType? = nil, at target: HexPoint? = nil, options: MoveOptions = .none) {
@@ -161,8 +161,6 @@ public class UnitMission {
 
         var time = 0
 
-
-
         if !unitPlayer.isHuman() {
             time = 0
         } else if let peekMission = unit.peekMission() {
@@ -171,7 +169,7 @@ public class UnitMission {
 
             if peekMission.type == .moveTo /* || peekMission.type == .routeTo || peekMission.type == .moveToUnit*/ {
 
-                var targetPlot: HexPoint? = nil
+                var targetPlot: HexPoint?
                 /*if peekMission.type == .moveToUnit {
                     pTargetUnit = GET_PLAYER((PlayerTypes)kMissionData.iData1).getUnit(kMissionData.iData2);
                     if (pTargetUnit) {
@@ -459,7 +457,7 @@ public class UnitMission {
                     }
                 } else if self.type == .routeTo {
                     if unit.location == target {
-                        done = true;
+                        done = true
                     }
                 } else if self.type == .moveToUnit {
 
@@ -565,7 +563,7 @@ public class UnitMission {
 
                     unit.popMission()
                 }
-                
+
                 // trader has reached a target but has moves left
                 if unit.isTrading() && unit.movesLeft() > 0 {
                     unit.continueTrading(in: gameModel)

@@ -37,7 +37,7 @@ enum OperationStateType: Codable, Equatable {
     case successful
 
     init(from decoder: Decoder) throws {
-        
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try container.decode(Discriminator.self, forKey: CodingKeys.discriminator)
 

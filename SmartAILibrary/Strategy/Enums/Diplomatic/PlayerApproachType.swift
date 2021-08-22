@@ -11,7 +11,7 @@ import Foundation
 public enum PlayerApproachType: Int, Codable {
 
     case none
-    
+
     case war
     case hostile
     case guarded
@@ -19,7 +19,7 @@ public enum PlayerApproachType: Int, Codable {
     case afraid
     case friendly
     case neutrally
-    
+
     static var all: [PlayerApproachType] {
         return [
             .war, .hostile, .guarded, .deceptive, .afraid, .friendly, .neutrally

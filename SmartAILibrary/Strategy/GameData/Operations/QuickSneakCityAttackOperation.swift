@@ -9,18 +9,18 @@
 import Foundation
 
 class QuickSneakCityAttackOperation: SneakCityAttackOperation {
-    
+
     override init() {
 
         super.init(type: .sneakCityAttack)
     }
-    
+
     public required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
-    
+
     override func formation(in gameModel: GameModel?) -> UnitFormationType {
-        
+
         return .earlyRush // MUFORMATION_EARLY_RUSH
     }
 }

@@ -109,7 +109,14 @@ class EditorContentViewModel: MapScrollContentViewModel {
     
     override func options() -> MapDisplayOptions {
         
-        return MapDisplayOptions(showFeatures: true, showResources: true, showBorders: true, showStartPositions: self.showStartLocations, showInhabitants: self.showInhabitants, showSupportedPeople: self.showSupportedPeople)
+        return MapDisplayOptions(
+            showFeatures: true,
+            showResources: true,
+            showBorders: true,
+            showStartPositions: self.showStartLocations,
+            showInhabitants: self.showInhabitants,
+            showSupportedPeople: self.showSupportedPeople
+        )
     }
     
     // MARK: iterate map
@@ -235,7 +242,7 @@ class EditorContentViewModel: MapScrollContentViewModel {
                 }
             }
 
-            if name.count > 0 {
+            if !name.isEmpty {
                 name.removeFirst()
             }
 

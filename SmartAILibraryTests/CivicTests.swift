@@ -10,6 +10,8 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
+// swiftlint:disable force_try
+
 class CivicTests: XCTestCase {
 
     var objectToTest: AbstractCivics?

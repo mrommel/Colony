@@ -15,7 +15,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
-        self.window = NSWindow(contentRect: NSMakeRect(0, 0, NSScreen.main?.frame.width ?? 200, NSScreen.main?.frame.height ?? 200), styleMask: [.miniaturizable, .closable, .resizable, .titled], backing: .buffered, defer: false)
+        self.window = NSWindow(
+            contentRect: NSMakeRect(0, 0, NSScreen.main?.frame.width ?? 200, NSScreen.main?.frame.height ?? 200),
+            styleMask: [.miniaturizable, .closable, .resizable, .titled],
+            backing: .buffered,
+            defer: false
+        )
         self.window?.title = "SmartMapEditor"
         self.window?.contentViewController = EditorViewController()
         self.window?.toolbar = MapEditorToolbar(identifier: .init("Default"))

@@ -17,7 +17,7 @@ import Foundation
 //!  - Reevaluated by tactical AI each turn before units are moved for this zone
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 enum TacticalPostureType {
-    
+
     case none
     case withdraw
     case sitAndBombard

@@ -14,12 +14,14 @@ import XCTest
 class MapLoadingTests: XCTestCase {
 
     private var downloadsFolder: URL = {
-        let fm = FileManager.default
-        let folder = fm.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
+        let fileManager = FileManager.default
+        let folder = fileManager.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
 
         var isDirectory: ObjCBool = false
-        if !(fm.fileExists(atPath: folder.path, isDirectory: &isDirectory) && isDirectory.boolValue) {
-            try! fm.createDirectory(at: folder, withIntermediateDirectories: false, attributes: nil)
+        if !(fileManager.fileExists(atPath: folder.path, isDirectory: &isDirectory) && isDirectory.boolValue) {
+            do {
+                try fileManager.createDirectory(at: folder, withIntermediateDirectories: false, attributes: nil)
+            } catch { }
         }
         return folder
     }()

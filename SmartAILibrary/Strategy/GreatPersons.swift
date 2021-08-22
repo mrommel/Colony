@@ -54,11 +54,11 @@ public class GreatPersons: Codable {
                 var possibleGreatPersons = GreatPerson.all.filter({ $0.era() == era && $0.type() == greatPersonType && !self.spawned.contains($0) })
 
                 // consider next era
-                if possibleGreatPersons.count == 0 {
+                if possibleGreatPersons.isEmpty {
                     possibleGreatPersons = GreatPerson.all.filter({ $0.era() == era.next() && $0.type() == greatPersonType && !self.spawned.contains($0) })
                 }
 
-                if possibleGreatPersons.count != 0 {
+                if !possibleGreatPersons.isEmpty {
 
                     self.current.append(possibleGreatPersons.randomItem())
                 }
@@ -76,7 +76,7 @@ public class GreatPersons: Codable {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         self.current.removeAll(where: { $0 == greatPerson })
         self.spawned.append(greatPerson)
 

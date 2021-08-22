@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol AbstractCityTradingPosts {
-    
+
     func buildTradingPost(for leaderType: LeaderType)
     func hasTradingPost(for leaderType: LeaderType) -> Bool
 }
@@ -19,17 +19,17 @@ public protocol AbstractCityTradingPosts {
 public class CityTradingPosts: AbstractCityTradingPosts, Codable {
 
     enum CodingKeys: String, CodingKey {
-    
+
         case posts
     }
-    
+
     var city: AbstractCity?
     let posts: LeaderWeightList
 
     init(city: AbstractCity?) {
 
         self.city = city
-        
+
         self.posts = LeaderWeightList()
         self.posts.fill()
     }
@@ -53,9 +53,9 @@ public class CityTradingPosts: AbstractCityTradingPosts, Codable {
 
         self.posts.set(weight: 1.0, for: leaderType)
     }
-    
+
     public func hasTradingPost(for leaderType: LeaderType) -> Bool {
-        
+
         return self.posts.weight(of: leaderType) > 0.0
     }
 }

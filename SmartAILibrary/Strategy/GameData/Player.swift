@@ -9,9 +9,9 @@
 import Foundation
 
 class ResourceInventory: WeightedList<ResourceType> {
-    
+
     override func fill() {
-        
+
         for resourceType in ResourceType.all {
             self.add(weight: 0.0, for: resourceType)
         }
@@ -19,16 +19,16 @@ class ResourceInventory: WeightedList<ResourceType> {
 }
 
 class ImprovementCountList: WeightedList<ImprovementType> {
-    
+
     override func fill() {
-        
+
         for improvementType in ImprovementType.all {
             self.add(weight: 0.0, for: improvementType)
         }
-        
+
         // also add goody hut / tribal village
         self.add(weight: 0.0, for: ImprovementType.goodyHut)
-        
+
         // and barb camp
         self.add(weight: 0.0, for: ImprovementType.barbarianCamp)
     }
@@ -57,21 +57,21 @@ public protocol AbstractPlayer: AnyObject, Codable {
     var citySpecializationAI: CitySpecializationAI? { get }
     var wonderProductionAI: WonderProductionAI? { get }
     var religionAI: ReligionAI? { get }
-    
+
     var cityConnections: CityConnections? { get }
-    
+
     var area: HexArea { get }
     var armies: Armies? { get }
 
     func initialize()
-    
+
     func hasActiveDiplomacyRequests() -> Bool
     func canFinishTurn() -> Bool
     func finishTurnButtonPressed() -> Bool // TODO: rename to finishedTurn
     func doTurnPostDiplomacy(in gameModel: GameModel?)
     func finishTurn()
     func updateTimers(in gameModel: GameModel?)
-    
+
     func hasProcessedAutoMoves() -> Bool
     func setProcessedAutoMoves(value: Bool)
     func isAutoMoves() -> Bool
@@ -80,7 +80,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func doFirstContact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func doDefensivePact(with otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func isDefensivePactActive(with otherPlayer: AbstractPlayer?) -> Bool
-    
+
     func isOpenBordersTradingAllowed() -> Bool
     func hasEmbassy(with otherPlayer: AbstractPlayer?) -> Bool
     func isAllowsOpenBorders(with otherPlayer: AbstractPlayer?) -> Bool
@@ -93,14 +93,14 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     func calculateGoldPerTurn(in gamemModel: GameModel?) -> Double
     func hasGoldenAge() -> Bool
-    
+
     func prepareTurn(in gamemModel: GameModel?)
     func startTurn(in gameModel: GameModel?)
     func endTurn(in gameModel: GameModel?)
     func unitUpdate(in gameModel: GameModel?)
     func lastSliceMoved() -> Int
     func setLastSliceMoved(to value: Int)
-    
+
     func isAlive() -> Bool
     func isActive() -> Bool
     func isTurnActive() -> Bool
@@ -112,10 +112,10 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func isAtWar(with otherPlayer: AbstractPlayer?) -> Bool
     func atWarCount() -> Int
     func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool
-    
+
     func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
     func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType
-    
+
     // notification
     func updateNotifications(in gameModel: GameModel?)
     func set(blockingNotification: NotificationItem?)
@@ -138,7 +138,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     // civic
     func has(civic: CivicType) -> Bool
-    
+
     // wonders
     func has(wonder: WonderType, in gameModel: GameModel?) -> Bool
 
@@ -154,7 +154,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func newCityName(in gameModel: GameModel?) -> String
     func cityStrengthModifier() -> Int
     func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool)
-    
+
     // yields
     func science(in gameModel: GameModel?) -> Double
     func culture(in gameModel: GameModel?) -> Double
@@ -173,16 +173,16 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func bestSettlePlot(for firstSettler: AbstractUnit?, in gameModel: GameModel?, escorted: Bool, area: HexArea?) -> AbstractTile?
     func canFound(at location: HexPoint, in gameModel: GameModel?) -> Bool
     func canBuild(build: BuildType, at point: HexPoint, testGold: Bool, in gameModel: GameModel?) -> Bool
-    
+
     func updatePlots(in gameModel: GameModel?)
-    
+
     func addPlot(at point: HexPoint)
     func buyPlotCost() -> Int
     func changeNumPlotsBought(change: Int)
-    
+
     func numAvailable(resource: ResourceType) -> Int
     func changeNumAvailable(resource: ResourceType, change: Int)
-    
+
     // units
     func canTrain(unitType: UnitType, continueFlag: Bool, testVisible: Bool, ignoreCost: Bool, ignoreUniqueUnitStatus: Bool) -> Bool
     func canPurchaseInAnyCity(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
@@ -190,10 +190,10 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func countReadyUnits(in gameModel: GameModel?) -> Int
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
     func hasBusyUnitOrCity() -> Bool
-    
+
     // buildings
     func canPurchaseInAnyCity(building: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
-    
+
     // religion
     func faithPurchaseType() -> FaithPurchaseType
     func set(faithPurchaseType: FaithPurchaseType)
@@ -201,39 +201,40 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func hasCapital(in gameModel: GameModel?) -> Bool
     func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool
     func discoverCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?)
-    
+
     func changeImprovementCount(of improvement: ImprovementType, change: Int)
     func changeTotalImprovementsBuilt(change: Int)
     func bestRoute(at tile: AbstractTile?) -> RouteType
-    
+
     func reportCultureFromKills(at point: HexPoint, culture cultureVal: Int, wasBarbarian: Bool, in gameModel: GameModel?)
     func reportGoldFromKills(at point: HexPoint, gold goldVal: Int, in gameModel: GameModel?)
-    
+
     func doGoodyHut(at tile: AbstractTile?, by unit: AbstractUnit?, in gameModel: GameModel?)
-    
+
     func score(for gameModel: GameModel?) -> Int
-    
+
     func notifications() -> Notifications?
-    
+
     func originalCapitalLocation() -> HexPoint
-    
+
     // government
     func canChangeGovernment() -> Bool
     func set(canChangeGovernment: Bool)
-    
+
     // trade routes
     func tradingCapacity(in gameModel: GameModel?) -> Int
     func numberOfTradeRoutes() -> Int
     func canEstablishTradeRoute(in gameModel: GameModel?) -> Bool
     func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
-    
+
     // distance / cities
     func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int
     func numCities(in gameModel: GameModel?) -> Int
-    
+
     func isEqual(to other: AbstractPlayer?) -> Bool
 }
 
+// swiftlint:disable type_body_length
 public class Player: AbstractPlayer {
 
     enum CodingKeys: CodingKey {
@@ -241,13 +242,13 @@ public class Player: AbstractPlayer {
         case leader
         case alive
         case human
-        
+
         case area
         case armies
         case numPlotsBought
         case improvementCountList
         case totalImprovementsBuilt
-        
+
         case techs
         case civics
         case religion
@@ -255,7 +256,7 @@ public class Player: AbstractPlayer {
         case greatPeople
         case government
         case currentEra
-        
+
         case grandStrategyAI
         case diplomacyAI
         case diplomacyRequests
@@ -269,22 +270,22 @@ public class Player: AbstractPlayer {
         case citySpecializationAI
         case wonderProductionAI
         case religionAI
-        
+
         case cityConnections
         case goodyHuts
         case tradeRoutes
-        
+
         case operations
         case notifications
         case resourceInventory
-        
+
         case originalCapitalLocation
-        
+
         case canChangeGovernment
-        
+
         case faithPurchaseType
     }
-    
+
     public var leader: LeaderType
     //internal let relations: PlayerRelationDict
     internal var isAliveVal: Bool
@@ -303,7 +304,7 @@ public class Player: AbstractPlayer {
     public var citySpecializationAI: CitySpecializationAI?
     public var wonderProductionAI: WonderProductionAI?
     public var religionAI: ReligionAI?
-    
+
     public var cityConnections: CityConnections?
     private var goodyHuts: GoodyHuts?
 
@@ -314,32 +315,32 @@ public class Player: AbstractPlayer {
     public var greatPeople: AbstractGreatPeople?
     public var tradeRoutes: AbstractTradeRoutes?
 
-    public var government: AbstractGovernment? = nil
+    public var government: AbstractGovernment?
     internal var currentEraVal: EraType = .ancient
 
-    internal var operations: Operations? = nil
-    public var armies: Armies? = nil
-    
+    internal var operations: Operations?
+    public var armies: Armies?
+
     public var area: HexArea
     internal var numPlotsBoughtValue: Int
-    
+
     internal var resourceInventory: ResourceInventory?
     internal var improvementCountList: ImprovementCountList
     internal var totalImprovementsBuilt: Int
-    
+
     private var turnActive: Bool = false
     private var finishTurnButtonPressedValue: Bool = false
     private var processedAutoMovesValue: Bool = false
     private var autoMovesValue: Bool = false
     private var lastSliceMovedValue: Int = 0
-    
+
     internal var cultureEarned: Int = 0
-    
+
     private var notificationsValue: Notifications?
-    private var blockingNotificationValue: NotificationItem? = nil
-    
+    private var blockingNotificationValue: NotificationItem?
+
     private var originalCapitalLocationValue: HexPoint = HexPoint.invalid
-    
+
     private var canChangeGovernmentValue: Bool = false
     private var faithPurchaseTypeVal: FaithPurchaseType = .noAutomaticFaithPurchase
 
@@ -350,29 +351,29 @@ public class Player: AbstractPlayer {
         self.leader = leader
         self.isAliveVal = true
         self.isHumanVal = isHuman
-        
+
         self.area = HexArea(points: [])
         self.armies = Armies()
-        
+
         self.numPlotsBoughtValue = 0
-        
+
         self.improvementCountList = ImprovementCountList()
         self.improvementCountList.fill()
-        
+
         self.totalImprovementsBuilt = 0
-        
+
         self.originalCapitalLocationValue = HexPoint.invalid
         self.faithPurchaseTypeVal = .noAutomaticFaithPurchase
     }
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.leader = try container.decode(LeaderType.self, forKey: .leader)
         self.isAliveVal = try container.decode(Bool.self, forKey: .alive)
         self.isHumanVal = try container.decode(Bool.self, forKey: .human)
-        
+
         self.area = try container.decode(HexArea.self, forKey: .area)
         self.armies = try container.decode(Armies.self, forKey: .armies)
 
@@ -380,7 +381,7 @@ public class Player: AbstractPlayer {
         self.improvementCountList = ImprovementCountList()
         self.improvementCountList.fill()
         self.totalImprovementsBuilt = 0
-        
+
         self.grandStrategyAI = try container.decode(GrandStrategyAI.self, forKey: .grandStrategyAI)
         self.diplomacyAI = try container.decode(DiplomaticAI.self, forKey: .diplomacyAI)
         self.diplomacyRequests = try container.decode(DiplomacyRequests.self, forKey: .diplomacyRequests)
@@ -394,30 +395,30 @@ public class Player: AbstractPlayer {
         self.citySpecializationAI = CitySpecializationAI(player: self)//try container.decode(CitySpecializationAI.self, forKey: .citySpecializationAI)
         self.wonderProductionAI = WonderProductionAI(player: self)//try container.decode(WonderProductionAI.self, forKey: .wonderProductionAI)
         self.religionAI = ReligionAI(player: self)
-        
+
         self.cityConnections = try container.decode(CityConnections.self, forKey: .cityConnections)
         self.goodyHuts = try container.decode(GoodyHuts.self, forKey: .goodyHuts)
         self.tradeRoutes = try container.decode(TradeRoutes.self, forKey: .tradeRoutes)
-        
+
         self.techs = try container.decode(Techs.self, forKey: .techs)
         self.civics = try container.decode(Civics.self, forKey: .civics)
         self.religion = try container.decode(PlayerReligion.self, forKey: .religion)
         self.treasury = try container.decode(Treasury.self, forKey: .treasury)
         self.greatPeople = try container.decode(GreatPeople.self, forKey: .greatPeople)
-        
+
         self.government = try container.decode(Government.self, forKey: .government)
         self.currentEraVal = try container.decode(EraType.self, forKey: .currentEra)
-        
+
         self.operations = try container.decode(Operations.self, forKey: .operations)
         self.notificationsValue = try container.decode(Notifications.self, forKey: .notifications)
-        
+
         self.resourceInventory = try container.decode(ResourceInventory.self, forKey: .resourceInventory)
-        
+
         self.originalCapitalLocationValue = try container.decode(HexPoint.self, forKey: .originalCapitalLocation)
-        
+
         self.canChangeGovernmentValue = try container.decode(Bool.self, forKey: .canChangeGovernment)
         self.faithPurchaseTypeVal = try container.decode(FaithPurchaseType.self, forKey: .faithPurchaseType)
-        
+
         // setup
         self.techs?.player = self
         self.civics?.player = self
@@ -426,7 +427,7 @@ public class Player: AbstractPlayer {
         self.government?.player = self
         self.greatPeople?.player = self
         self.tradeRoutes?.player = self
-        
+
         self.grandStrategyAI?.player = self
         self.diplomacyAI?.player = self
         self.diplomacyRequests?.player = self
@@ -439,26 +440,26 @@ public class Player: AbstractPlayer {
         self.builderTaskingAI?.player = self
         self.citySpecializationAI?.player = self
         self.wonderProductionAI?.player = self
-        
+
         self.cityConnections?.player = self
         self.goodyHuts?.player = self
         self.notificationsValue?.player = self
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-        
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.leader, forKey: .leader)
         try container.encode(self.isAliveVal, forKey: .alive)
         try container.encode(self.isHumanVal, forKey: .human)
-        
+
         try container.encode(self.area, forKey: .area)
         try container.encode(self.armies, forKey: .armies)
         try container.encode(self.numPlotsBoughtValue, forKey: .numPlotsBought)
         try container.encode(self.improvementCountList, forKey: .improvementCountList)
         try container.encode(self.totalImprovementsBuilt, forKey: .totalImprovementsBuilt)
-        
+
         try container.encode(self.grandStrategyAI, forKey: .grandStrategyAI)
         try container.encode(self.diplomacyAI, forKey: .diplomacyAI)
         try container.encode(self.diplomacyRequests, forKey: .diplomacyRequests)
@@ -471,11 +472,11 @@ public class Player: AbstractPlayer {
         //try container.encode(self.builderTaskingAI, forKey: .builderTaskingAI)
         //try container.encode(self.citySpecializationAI, forKey: .citySpecializationAI)
         //try container.encode(self.wonderProductionAI, forKey: .wonderProductionAI)
-        
+
         try container.encode(self.cityConnections, forKey: .cityConnections)
         try container.encode(self.goodyHuts, forKey: .goodyHuts)
         try container.encode(self.tradeRoutes as! TradeRoutes, forKey: .tradeRoutes)
-        
+
         try container.encode(self.techs as! Techs, forKey: .techs)
         try container.encode(self.civics as! Civics, forKey: .civics)
         try container.encode(self.religion as! PlayerReligion, forKey: .religion)
@@ -484,13 +485,13 @@ public class Player: AbstractPlayer {
 
         try container.encode(self.government as! Government, forKey: .government)
         try container.encode(self.currentEraVal, forKey: .currentEra)
-        
+
         try container.encode(self.operations, forKey: .operations)
         try container.encode(self.notificationsValue, forKey: .notifications)
         try container.encode(self.resourceInventory, forKey: .resourceInventory)
-        
+
         try container.encode(self.originalCapitalLocationValue, forKey: .originalCapitalLocation)
-        
+
         try container.encode(self.canChangeGovernmentValue, forKey: .canChangeGovernment)
         try container.encode(self.faithPurchaseTypeVal, forKey: .faithPurchaseType)
     }
@@ -512,7 +513,7 @@ public class Player: AbstractPlayer {
         self.citySpecializationAI = CitySpecializationAI(player: self)
         self.wonderProductionAI = WonderProductionAI(player: self)
         self.religionAI = ReligionAI(player: self)
-        
+
         self.cityConnections = CityConnections(player: self)
         self.goodyHuts = GoodyHuts(player: self)
         self.tradeRoutes = TradeRoutes(player: self)
@@ -527,62 +528,62 @@ public class Player: AbstractPlayer {
 
         self.operations = Operations()
         self.notificationsValue = Notifications(player: self)
-        
+
         self.resourceInventory = ResourceInventory()
         self.resourceInventory?.fill()
     }
 
     public func hasActiveDiplomacyRequests() -> Bool {
-        
+
         return false
     }
-    
+
     public func canFinishTurn() -> Bool {
-        
+
         if !self.isHuman() {
             return false
         }
-        
+
         if !self.isAlive() {
             return false
         }
-        
+
         if !self.isActive() {
             return false
         }
-        
+
         /*if !self.hasProcessedAutoMoves() {
             return false
         }*/
-        
+
         if self.blockingNotification() != nil {
             return false
         }
-        
+
         return true
     }
-    
+
     public func finishTurnButtonPressed() -> Bool {
-        
+
         return self.finishTurnButtonPressedValue
     }
-    
+
     public func finishTurn() {
-        
+
         self.finishTurnButtonPressedValue = true
     }
-    
+
     public func lastSliceMoved() -> Int {
-        
+
         return self.lastSliceMovedValue
     }
 
     public func setLastSliceMoved(to value: Int) {
-        
+
         self.lastSliceMovedValue = value
     }
-    
-    // MARK: ----
+
+    // MARK: - ---
 
     public func valueOfPersonalityFlavor(of flavor: FlavorType) -> Int {
 
@@ -606,9 +607,9 @@ public class Player: AbstractPlayer {
 
         return self.leader.approachBias(for: approach)
     }
-    
+
     public func isBarbarian() -> Bool {
-        
+
         return self.leader == .barbar
     }
 
@@ -617,18 +618,18 @@ public class Player: AbstractPlayer {
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get other player")
         }
-        
+
         guard self.leader != otherPlayer.leader else {
             fatalError("cant do first contact with self")
         }
-        
+
         guard let techs = self.techs else {
             fatalError("cant get techs")
         }
-        
+
         self.diplomacyAI?.doFirstContact(with: otherPlayer, in: gameModel)
         otherPlayer.diplomacyAI?.doFirstContact(with: self, in: gameModel)
-        
+
         // update eureka
         if !techs.eurekaTriggered(for: .writing) {
             techs.triggerEureka(for: .writing, in: gameModel)
@@ -652,40 +653,40 @@ public class Player: AbstractPlayer {
 
         return false
     }
-    
+
     public func isOpenBordersTradingAllowed() -> Bool {
-        
+
         guard let civics = self.civics else {
             fatalError("cant get civics")
         }
-        
+
         return civics.has(civic: .codeOfLaws)
     }
-    
+
     public func hasEmbassy(with otherPlayer: AbstractPlayer?) -> Bool {
-        
+
         guard let diplomacyAI = self.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         return diplomacyAI.hasEmbassy(with: otherPlayer)
     }
-    
+
     public func isAllowsOpenBorders(with otherPlayer: AbstractPlayer?) -> Bool {
-        
+
         guard let diplomacyAI = self.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         return diplomacyAI.isOpenBorderAgreementActive(by: otherPlayer)
     }
-    
+
     public func isAllowEmbassyTradingAllowed() -> Bool {
-        
+
         guard let techs = self.techs else {
             fatalError("cant get techs")
         }
-        
+
         return techs.has(tech: .writing)
     }
 
@@ -695,7 +696,7 @@ public class Player: AbstractPlayer {
         guard let diplomacyAI = self.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         return diplomacyAI.isAtWar(with: otherPlayer)
         //return self.diplomacyAI?.approach(towards: otherPlayer) == .war
     }
@@ -718,23 +719,23 @@ public class Player: AbstractPlayer {
 
         return diplomacyAI.atWarCount()
     }
-    
+
     public func canDeclareWar(to otherPlayer: AbstractPlayer?) -> Bool {
-        
+
         guard let diplomacyAI = self.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         return diplomacyAI.canDeclareWar(to: otherPlayer)
     }
-    
+
     public func notifications() -> Notifications? {
-        
+
         return self.notificationsValue
     }
-    
+
     public func updateNotifications(in gameModel: GameModel?) {
-        
+
         if let notifications = self.notifications() {
             notifications.update(in: gameModel)
         }
@@ -745,26 +746,26 @@ public class Player: AbstractPlayer {
             GetDiplomacyRequests()->Update();
         }*/
     }
-    
+
     public func set(blockingNotification: NotificationItem?) {
-        
+
         self.blockingNotificationValue = blockingNotification
     }
-    
+
     public func blockingNotification() -> NotificationItem? {
-        
+
         return self.blockingNotificationValue
     }
-    
+
     //    --------------------------------------------------------------------------------
     public func hasPromotableUnit(in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if let activePlayer = gameModel.activePlayer() {
-        
+
             for loopUnitRef in gameModel.units(of: activePlayer) {
 
                 guard let loopUnit = loopUnitRef else {
@@ -778,16 +779,16 @@ public class Player: AbstractPlayer {
         }
         return false
     }
-    
+
     //    --------------------------------------------------------------------------------
     public func firstPromotableUnit(in gameModel: GameModel?) -> AbstractUnit? {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if let activePlayer = gameModel.activePlayer() {
-        
+
             for loopUnitRef in gameModel.units(of: activePlayer) {
 
                 guard let loopUnit = loopUnitRef else {
@@ -799,19 +800,19 @@ public class Player: AbstractPlayer {
                 }
             }
         }
-        
+
         return nil
     }
 
     //    --------------------------------------------------------------------------------
     public func hasReadyUnit(in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if let activePlayer = gameModel.activePlayer() {
-        
+
             for loopUnitRef in gameModel.units(of: activePlayer) {
 
                 guard let loopUnit = loopUnitRef else {
@@ -823,25 +824,25 @@ public class Player: AbstractPlayer {
                 }
             }
         }
-        
+
         return false
     }
 
     //    --------------------------------------------------------------------------------
     public func countReadyUnits(in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var rtnValue = 0
 
         for loopUnitRef in gameModel.units(of: self) {
-            
+
             guard let loopUnit = loopUnitRef else {
                 continue
             }
-            
+
             if loopUnit.readyToMove() && !loopUnit.isDelayedDeath() {
                 rtnValue += 1
             }
@@ -852,13 +853,13 @@ public class Player: AbstractPlayer {
 
     //    --------------------------------------------------------------------------------
     public func firstReadyUnit(in gameModel: GameModel?) -> AbstractUnit? {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if let activePlayer = gameModel.activePlayer() {
-        
+
             for loopUnitRef in gameModel.units(of: activePlayer) {
 
                 guard let loopUnit = loopUnitRef else {
@@ -870,18 +871,18 @@ public class Player: AbstractPlayer {
                 }
             }
         }
-        
+
         return nil
     }
-    
+
     public func endTurnsForReadyUnits(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if let activePlayer = gameModel.activePlayer() {
-        
+
             for loopUnitRef in gameModel.units(of: activePlayer) {
 
                 guard let loopUnit = loopUnitRef else {
@@ -894,34 +895,33 @@ public class Player: AbstractPlayer {
             }
         }
     }
-    
+
     // MARK: proximity functions
-    
+
     public func doUpdateProximity(towards otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
-        
+
         self.diplomacyAI?.updateProximity(to: otherPlayer, in: gameModel)
     }
-    
+
     public func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType {
 
         guard let diplomacyAI = self.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         return diplomacyAI.proximity(to: otherPlayer)
     }
-    
 
     public func hasMet(with otherPlayer: AbstractPlayer?) -> Bool {
 
         guard let diplomacyAI = self.diplomacyAI else {
             fatalError("cant get diplomacyAI")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         if otherPlayer.isBarbarian() {
             return false
         }
@@ -939,9 +939,9 @@ public class Player: AbstractPlayer {
 
         return self.isAliveVal
     }
-    
+
     public func isActive() -> Bool {
-        
+
         return self.turnActive
     }
 
@@ -949,37 +949,37 @@ public class Player: AbstractPlayer {
 
         return self.isHumanVal
     }
-    
+
     public func hasGoldenAge() -> Bool {
-        
+
         return false
     }
-    
+
     public func calculateGoldPerTurn(in gameModel: GameModel?) -> Double {
-        
+
         guard let treasury = self.treasury else {
             fatalError("cant get treasury")
         }
-        
+
         return treasury.calculateGrossGold(in: gameModel)
     }
-    
+
     func hasActiveDiploRequestWithHuman() -> Bool {
-        
+
         return false
     }
-    
+
     public func isTurnActive() -> Bool {
-        
+
         return self.turnActive
     }
-    
+
     public func prepareTurn(in gamemModel: GameModel?) {
-        
+
         // Barbarians get all Techs that 3/4 of alive players get
         if isBarbarian() {
             // self.doBarbarianTech()
-        } 
+        }
 
         /*for (iI = 0; iI < GC.getNumTechInfos(); iI++)  {
             GetTeamTechs()->SetNoTradeTech(((TechTypes)iI), false);
@@ -991,30 +991,30 @@ public class Player: AbstractPlayer {
 
         testCircumnavigated();*/
     }
-    
+
     public func startTurn(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard isTurnActive() == false else {
             fatalError("try to start already active turn")
         }
-            
+
         print("--- start turn for \(self.isHuman() ? "HUMAN": "AI") player \(self.leader) ---")
 
         self.turnActive = true
         //self.setTurnEnd(false)
         self.setAutoMoves(value: false)
         self.finishTurnButtonPressedValue = false
-        
+
         /////////////////////////////////////////////
         // TURN IS BEGINNING
         /////////////////////////////////////////////
-        
+
         // self.doUnitAttrition()
-        
+
         self.setAllUnitsUnprocessed(in: gameModel)
 
         gameModel.updateTacticalAnalysisMap(for: self)
@@ -1022,15 +1022,15 @@ public class Player: AbstractPlayer {
         //
         self.updateTimers(in: gameModel)
         //self.diplomacyAI?.update(in: gameModel) // extracted from updateTimers
-        
+
         // This block all has things which might change based on city connections changing
         self.cityConnections?.turn(with: gameModel)
         //self.treasury.doUpdateCityConnectionGold()
         //self.doUpdateHappiness()
         self.builderTaskingAI?.update(in: gameModel)
-        
+
         if gameModel.currentTurn > 0 {
-            
+
             if self.isAlive() {
                 /*if (GetDiplomacyRequests())
                 {
@@ -1042,24 +1042,24 @@ public class Player: AbstractPlayer {
                 self.doTurnUnits(in: gameModel)
             }
         }
-        
+
         // self.doWarnings()
     }
-    
+
     public func endTurn(in gameModel: GameModel?) {
-        
+
         guard isTurnActive() == true else {
             fatalError("try to end an inactive turn")
         }
-        
+
         print("--- end turn for \(self.isHuman() ? "HUMAN": "AI") player \(self.leader) ---")
-        
+
         self.turnActive = false
-        
+
         /////////////////////////////////////////////
         // TURN IS ENDING
         /////////////////////////////////////////////
-        
+
         self.doUnitReset(in: gameModel)
         self.set(canChangeGovernment: false)
 
@@ -1081,41 +1081,41 @@ public class Player: AbstractPlayer {
         guard let userInterface = gameModel?.userInterface else {
             fatalError("cant get userInterface")
         }
-        
+
         self.doEurekas(in: gameModel)
-        
+
         // inform ui about new notifications
         self.notificationsValue?.update(in: gameModel)
-        
+
         var hasActiveDiploRequest = false
         if self.isAlive() {
 
             if !self.isBarbarian() {
 
                 self.grandStrategyAI?.turn(with: gameModel)
-                
+
                 // Do diplomacy for toward everyone
                 self.diplomacyAI?.turn(in: gameModel)
-                
+
                 if !self.isHuman() {
                     hasActiveDiploRequest = self.hasActiveDiploRequestWithHuman()
                 }
             }
         }
-        
+
         if (hasActiveDiploRequest || userInterface.isShown(screen: .diplomatic)) && !self.isHuman() {
             gameModel?.setWaitingForBlockingInput(of: self)
         } else {
             self.doTurnPostDiplomacy(in: gameModel)
         }
     }
-    
+
     public func doTurnPostDiplomacy(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gamemodel")
         }
-        
+
         if self.isAlive() {
             if !self.isBarbarian() {
                 self.economicAI?.turn(in: gameModel)
@@ -1134,32 +1134,32 @@ public class Player: AbstractPlayer {
 
         // balance amenities
         self.doCityAmenities(in: gameModel)
-        
+
         // Do turn for all Cities
         for cityRef in gameModel.cities(of: self) {
-            
+
             guard let city = cityRef else {
                 fatalError("cant get city")
             }
-            
+
             city.turn(in: gameModel)
         }
 
         // Gold GetTreasury()->DoGold();
         self.treasury?.turn(in: gameModel)
-        
+
         // Culture / Civics
         self.doCivics(in: gameModel)
-        
+
         // Science / Techs
         self.doTechs(in: gameModel) // doResearch
-        
+
         // government
         self.doGovernment(in: gameModel)
-        
+
         // faith / religion
         self.doFaith(in: gameModel)
-        
+
         // great people
         self.doGreatPeople(in: gameModel)
 
@@ -1176,34 +1176,34 @@ public class Player: AbstractPlayer {
 
         self.doTurnPost()
     }
-    
+
     func doEurekas(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gamemodel")
         }
-        
+
         guard let civics = self.civics else {
             fatalError("cant get civics")
         }
-        
+
         if !civics.eurekaTriggered(for: .earlyEmpire) {
             if self.population(in: gameModel) >= 6 {
                 civics.triggerEureka(for: .earlyEmpire, in: gameModel)
             }
         }
     }
-    
+
     func doGovernment(in gameModel: GameModel?) {
-        
+
         guard let government = self.government else {
             fatalError("cant get government")
         }
-        
+
         guard let notifications = self.notifications() else {
             fatalError("cant get notifications")
         }
-        
+
         if self.canChangeGovernment() {
             if self.isHuman() {
 
@@ -1212,9 +1212,9 @@ public class Player: AbstractPlayer {
                 self.government?.chooseBestGovernment(in: gameModel)
             }
         }
-        
+
         if !government.hasPolicyCardsFilled() && self.capitalCity(in: gameModel) != nil {
-            
+
             if self.isHuman() {
 
                 notifications.addNotification(of: .policiesNeeded, for: self, message: "Please choose policy cards", summary: "Choose policy cards")
@@ -1223,137 +1223,137 @@ public class Player: AbstractPlayer {
             }
         }
     }
-    
+
     func doGreatPeople(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gamemodel")
         }
-        
+
         guard let greatPeople = self.greatPeople else {
             fatalError("cant get greatPeople")
         }
-        
+
         if self.isBarbarian() {
             // no great people for barbarians
             return
         }
-        
+
         for cityRef in gameModel.cities(of: self) {
-            
+
             guard let city = cityRef else {
                 continue
             }
-            
+
             let greatPeoplePoints = city.greatPeoplePointsPerTurn(in: gameModel)
             greatPeople.add(points: greatPeoplePoints)
         }
-        
+
         // check if points are enough to gain a great person
         for greatPersonType in GreatPersonType.all {
-            
+
             if let greatPersonToSpawn = gameModel.greatPerson(of: greatPersonType, points: greatPeople.value(for: greatPersonType), for: self) {
-                
+
                 // ask if user whats this person ?
                 // for now, the user has to take him/her
-                
+
                 // spawn
                 if let capital = gameModel.capital(of: self) {
                     let greatPersonUnit = Unit(at: capital.location, type: greatPersonToSpawn.type().unitType(), owner: self)
-                    
+
                     gameModel.add(unit: greatPersonUnit)
                     gameModel.userInterface?.show(unit: greatPersonUnit)
-                
+
                     // notify the user
                     self.notifications()?.addNotification(of: .greatPersonJoined, for: self, message: "\(greatPersonToSpawn.name()) joined you", summary: "\(greatPersonToSpawn.name()) joined you")
-                    
+
                     gameModel.invalidate(greatPerson: greatPersonToSpawn)
                 }
             }
         }
     }
-    
+
     func doCityAmenities(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gamemodel")
         }
-        
+
         for cityRef in gameModel.cities(of: self) {
-        
+
             /*guard let city = cityRef else {
                 fatalError("cant get city")
             }*/
-            
+
             cityRef?.resetLuxuries()
         }
-        
+
         var luxuriesToDistribute: [ResourceType] = []
-        
+
         for resource in ResourceType.all {
-            
+
             guard resource.usage() == .luxury else {
                 continue
             }
-            
+
             let amountOfResource = self.numForCityAvailable(resource: resource)
-            
+
             for _ in 0..<amountOfResource {
                 luxuriesToDistribute.append(resource)
             }
         }
-        
+
         for luxuryToDistribute in luxuriesToDistribute {
-            
+
             if let city = self.cityNeedsMostLuxuriesButHasnt(luxury: luxuryToDistribute, in: gameModel) {
                 city.add(luxury: luxuryToDistribute)
             }
         }
     }
-    
+
     private func cityNeedsMostLuxuriesButHasnt(luxury: ResourceType, in gameModel: GameModel?) -> AbstractCity? {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
-        var bestCity: AbstractCity? = nil
+
+        var bestCity: AbstractCity?
         var bestValue: Double = -1.0
-        
+
         for cityRef in gameModel.cities(of: self) {
-        
+
             guard let city = cityRef else {
                 fatalError("cant get city")
             }
-            
+
             if city.has(luxury: luxury) {
                 continue
             }
-            
+
             let value = city.luxuriesNeeded(in: gameModel)
-            
+
             if value > bestValue {
                 bestValue = value
                 bestCity = city
             }
         }
-        
+
         return bestCity
     }
-    
+
     func doCivics(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let civics = self.civics else {
             fatalError("cant get techs")
         }
-        
+
         let cultureVal = self.culture(in: gameModel)
         civics.add(culture: cultureVal)
-        
+
         do {
             try civics.checkCultureProgress(in: gameModel)
         } catch {
@@ -1363,43 +1363,43 @@ public class Player: AbstractPlayer {
 
     /// How long until a RA with a player takes effect
     func doTechs(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let techs = self.techs else {
             fatalError("cant get techs")
         }
-        
+
         let scienceVal = self.science(in: gameModel)
         techs.add(science: scienceVal)
-        
+
         do {
             try techs.checkScienceProgress(in: gameModel)
         } catch {
             fatalError("cant check science progress: \(error)")
         }
     }
-    
+
     /// Religious activities at the start of a player's turn
     func doFaith(in gameModel: GameModel?) {
-        
+
         guard let religion = self.religion else {
             fatalError("cant get religion")
         }
-        
+
         guard let religionAI = self.religionAI else {
             fatalError("cant get religion ai")
         }
-        
+
         let faithAtStart = religion.faith()
         let faithPerTurn = self.faith(in: gameModel)
-        
+
         if faithPerTurn > 0 {
             religion.change(faith: faithPerTurn)
         }
-        
+
         // If just now can afford missionary, add a notification
         var sendFaithPurchaseNotification = self.isHuman() && self.faithPurchaseType() == .noAutomaticFaithPurchase
 
@@ -1415,12 +1415,12 @@ public class Player: AbstractPlayer {
                 gameModel?.userInterface?.showPopup(popupType: .religionCanBuyMissionary)
             }
         }
-        
+
         // Check for pantheon or great prophet spawning (now restricted so must occur before Industrial era)
         if religion.faith() > 0 && self.currentEra() <= .renaissance {
-            
+
             if religion.canCreatePantheon(checkFaithTotal: true, in: gameModel) == .okay {
-                
+
                 // Create the pantheon
                 if self.isHuman() {
                     // If the player is human then a net message will be received which will pick the pantheon.
@@ -1434,7 +1434,7 @@ public class Player: AbstractPlayer {
             }
 
             switch self.faithPurchaseType() {
-            
+
             case .noAutomaticFaithPurchase, .saveForProphet:
                 self.checkSpawnGreatProphet(in: gameModel)
             default:
@@ -1442,7 +1442,7 @@ public class Player: AbstractPlayer {
             print("")
             }
         }
-        
+
         // Pick a Reformation belief?
         /*ReligionTypes eReligionCreated = GetFounderBenefitsReligion(ePlayer);
         if (eReligionCreated > RELIGION_PANTHEON && !HasAddedReformationBelief(ePlayer) && (kPlayer.GetPlayerPolicies()->HasPolicyGrantingReformationBelief() || kPlayer.IsReformation()))
@@ -1470,7 +1470,7 @@ public class Player: AbstractPlayer {
         let religionType: ReligionType = religionAI.religionToSpread()
 
         switch self.faithPurchaseType() {
-        
+
         case .saveForProphet:
             fatalError("FAITH_PURCHASE_SAVE_PROPHET")
             /*if (eReligion <= RELIGION_PANTHEON && GetNumReligionsStillToFound() <= 0 && !kPlayer.GetPlayerTraits()->IsAlwaysReligion())
@@ -1567,25 +1567,25 @@ public class Player: AbstractPlayer {
         }
 
         if !selectionStillValid {
-            
+
             if self.isHuman() {
                 gameModel?.userInterface?.showPopup(popupType: .religionNeedNewAutomaticFaithSelection)
             }
         }
     }
-    
+
     /// Time to spawn a Great Prophet?
     @discardableResult
     func checkSpawnGreatProphet(in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let religion = self.religion else {
             fatalError("cant get religion")
         }
-        
+
         let prophetUnitType: UnitType = .prophet
 
         let faith: Int = Int(religion.faith())
@@ -1600,7 +1600,7 @@ public class Player: AbstractPlayer {
         if faith < cost {
             return false
         }
-        
+
         var chance = 100 // RELIGION_BASE_CHANCE_PROPHET_SPAWN
         chance += (faith - cost)
 
@@ -1611,13 +1611,13 @@ public class Player: AbstractPlayer {
 
         let spawnCityRef: AbstractCity? = playerReligion != .none ? gameModel.city(at: religion.holyCityLocation()) : nil
         var prophetBoughtWithFaith: Bool = false
-        
+
         if let spawnCity = spawnCityRef {
             if spawnCity.player?.leader == self.leader {
-                
+
                 if self.isHuman() {
                     switch self.faithPurchaseType() {
-                    
+
                     case .saveForProphet:
                         spawnCity.doSpawnGreatPerson(unit: prophetUnitType, in: gameModel)
                         prophetBoughtWithFaith = true
@@ -1631,12 +1631,12 @@ public class Player: AbstractPlayer {
                     spawnCity.doSpawnGreatPerson(unit: prophetUnitType, in: gameModel)
                     prophetBoughtWithFaith = true
                 }
-                 
+
             } else {
                 spawnCity.doSpawnGreatPerson(unit: prophetUnitType, in: gameModel)
                 prophetBoughtWithFaith = true
             }
-        
+
             if prophetBoughtWithFaith {
                 self.religion?.change(faith: Double(-cost))
             }
@@ -1644,9 +1644,9 @@ public class Player: AbstractPlayer {
 
         return true
     }
-    
+
     func doTurnPost() {
-        
+
         if self.isHuman() {
             return
         }
@@ -1662,9 +1662,9 @@ public class Player: AbstractPlayer {
 
         //ProcessGreatPeople();
     }
-    
+
     public func unitUpdate(in gameModel: GameModel?) {
-        
+
         // Now its the homeland AI's turn.
         if self.isHuman() {
             // The homeland AI goes first.
@@ -1674,12 +1674,12 @@ public class Player: AbstractPlayer {
 
             // Update tactical AI
             self.tacticalAI?.commandeerUnits(in: gameModel)
-            
+
             // Now let the tactical AI run.  Putting it after the operations update allows units who have
             // just been handed off to the tactical AI to get a move in the same turn they switch between
             // AI subsystems
             self.tacticalAI?.turn(in: gameModel)
-            
+
             // Skip homeland AI processing if a barbarian
             if !self.isBarbarian() {
                 // Now its the homeland AI's turn.
@@ -1688,44 +1688,44 @@ public class Player: AbstractPlayer {
             }
         }
     }
-    
+
     func doTurnUnits(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         // doTurnUnitsPre(); // AI_doTurnUnitsPre
 
         // Start: TACTICAL AI UNIT PROCESSING
         self.tacticalAI?.turn(in: gameModel)
-        
+
         // Start: OPERATIONAL AI UNIT PROCESSING
         self.operations?.doDelayedDeath(in: gameModel)
         self.armies?.doDelayedDeath()
-        
+
         for unitRef in gameModel.units(of: self) {
             unitRef?.doDelayedDeath(in: gameModel)
         }
-        
+
         self.operations?.turn(in: gameModel)
-        
+
         self.operations?.doDelayedDeath(in: gameModel)
-        
+
         self.armies?.turn(in: gameModel)
-        
+
         // Homeland AI
         // self.homelandAI?.turn(in: gameModel) is empty
-        
+
         // Start: old unit AI processing
         for pass in 0..<4 {
-            
+
             for loopUnitRef in gameModel.units(of: self) {
-                
+
                 guard let loopUnit = loopUnitRef else {
                     continue
                 }
-                
+
                 switch loopUnit.domain() {
                 case .air:
                     if pass == 1 {
@@ -1763,43 +1763,43 @@ public class Player: AbstractPlayer {
 
         self.doTurnUnitsPost(in: gameModel) // AI_doTurnUnitsPost();
     }
-    
+
     func doTurnUnitsPost(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if self.isHuman() {
             return
         }
-        
+
         for loopUnitRef in gameModel.units(of: self) {
-        
+
             guard let loopUnit = loopUnitRef else {
                 continue
             }
-            
+
             //loopUnit.promot
         }
     }
-    
+
     /// Units heal and then get their movement back
     func doUnitReset(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
 
         for loopUnitRef in gameModel.units(of: self) {
-        
+
             guard let loopUnit = loopUnitRef else {
                 continue
             }
-            
+
             // HEAL UNIT?
             if !loopUnit.isEmbarked() {
-                
+
                 if !loopUnit.hasMoved(in: gameModel) {
                     if loopUnit.isHurt() {
                         loopUnit.doHeal(in: gameModel)
@@ -1820,7 +1820,7 @@ public class Player: AbstractPlayer {
             //pLoopUnit->setMadeInterception(false);
 
             if !self.isHuman() {
-                
+
                 if let mission = loopUnit.peekMission() {
                     if mission.type == .rangedAttack {
                         //CvAssertMsg(0, "An AI unit has a combat mission queued at the end of its turn.");
@@ -1830,31 +1830,31 @@ public class Player: AbstractPlayer {
             }
         }
     }
-    
+
     func setAllUnitsUnprocessed(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             return
         }
-        
+
         for unitRef in gameModel.units(of: self) {
-            
+
             unitRef?.set(turnProcessed: false)
         }
     }
-    
+
     public func updateTimers(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             return
         }
-        
+
         for unitRef in gameModel.units(of: self) {
-            
+
             guard let unit = unitRef else {
                 continue
             }
-            
+
             unit.updateMission(in: gameModel)
             unit.doDelayedDeath(in: gameModel)
         }
@@ -1910,19 +1910,19 @@ public class Player: AbstractPlayer {
 
         return 0
     }
-    
+
     // 1 point for each building (including the Palace).
     private func scoreFromBuildings(for gameModel: GameModel?) -> Int {
-        
+
         if let cities = gameModel?.cities(of: self), let mapSizeModifier = gameModel?.mapSizeModifier() {
-            
+
             var score = 0
 
             for cityRef in cities {
                 guard let cityBuildings = cityRef?.buildings else {
                     continue
                 }
-                   
+
                 score += cityBuildings.numOfBuildings()
             }
 
@@ -1932,7 +1932,7 @@ public class Player: AbstractPlayer {
 
             return score
         }
-        
+
         return 0
     }
 
@@ -1959,14 +1959,14 @@ public class Player: AbstractPlayer {
 
         return 0
     }
-    
+
     // 2 points for each technology researched.
     private func scoreFromTechs(for gameModel: GameModel?) -> Int {
-        
+
         guard let techs = self.techs else {
             fatalError("cant get techs")
         }
-        
+
         return techs.numberOfDiscoveredTechs() * 2
     }
 
@@ -1986,35 +1986,35 @@ public class Player: AbstractPlayer {
 
         return score
     }
-    
+
     // 3 points for each civic researched.
     private func scoreFromCivics(for gameModel: GameModel?) -> Int {
-        
+
         guard let civics = self.civics else {
             fatalError("cant get civics")
         }
-        
+
         return civics.numberOfDiscoveredCivics() * 3
     }
-    
+
     // Score from world wonders: 15 points for each wonder owned.
     private func scoreFromWonder(for gameModel: GameModel?) -> Int {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var number = 0
-        
+
         for city in gameModel.cities(of: self) {
-            
+
             guard let cityWonders = city?.wonders else {
                 fatalError("cant get cityWonders")
             }
-            
+
             number += cityWonders.numberOfBuiltWonders()
         }
-        
+
         let score = number * 15 /* SCORE_WONDER_MULTIPLIER */
         return score
     }
@@ -2025,7 +2025,7 @@ public class Player: AbstractPlayer {
         guard let techs = self.techs else {
             fatalError("cant get techs")
         }
-        
+
         // Normally we recompute it each time
         let score = techs.numberOfDiscoveredTechs() * 4 /* SCORE_TECH_MULTIPLIER */
         return score
@@ -2058,12 +2058,12 @@ public class Player: AbstractPlayer {
     public func set(era: EraType) {
 
         // FIXME: should not be older era
-        
+
         self.currentEraVal = era
     }
 
     public func has(tech techType: TechType) -> Bool {
-        
+
         if let techs = self.techs {
             return techs.has(tech: techType)
         }
@@ -2084,9 +2084,9 @@ public class Player: AbstractPlayer {
 
         return self.has(tech: .sailing)
     }
-    
+
     public func canEmbarkAllWaterPassage() -> Bool {
-        
+
         return self.has(tech: .celestialNavigation)
     }
 
@@ -2098,24 +2098,24 @@ public class Player: AbstractPlayer {
 
         return false
     }
-    
+
     public func has(wonder wonderType: WonderType, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         for cityRef in gameModel.cities(of: self) {
-            
+
             guard let city = cityRef else {
                 continue
             }
-            
+
             if city.has(wonder: wonderType) {
                 return true
             }
         }
-        
+
         return false
     }
 
@@ -2160,7 +2160,7 @@ public class Player: AbstractPlayer {
         var goldMultiplier = 1.0 + sqrt(treasureValue) / 100.0
         if goldMultiplier > 2.0 { goldMultiplier = 2.0 }
 
-        might = might * goldMultiplier
+        might *= goldMultiplier
 
         return Int(might)
     }
@@ -2182,31 +2182,31 @@ public class Player: AbstractPlayer {
     }
 
     // MARK: city methods
-    
+
     public func found(at location: HexPoint, named name: String?, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let techs = self.techs else {
             fatalError("cant get techs")
         }
-        
+
         guard let civics = self.civics else {
             fatalError("cant get civics")
         }
-        
+
         let cityName = name ?? self.newCityName(in: gameModel)
-        let isCapital = gameModel.cities(of: self).count == 0
-        
+        let isCapital = gameModel.cities(of: self).isEmpty
+
         let city = City(name: cityName, at: location, capital: isCapital, owner: self)
         city.initialize(in: gameModel)
-        
+
         gameModel.add(city: city)
-        
+
         if self.isHuman() {
-            
+
             // Human player is prompted to choose production BEFORE the AI runs for the turn.
             // So we'll force the AI strategies on the city now, just after it is founded.
             // And if the very first turn, we haven't even run player strategies once yet, so do that too.
@@ -2214,57 +2214,57 @@ public class Player: AbstractPlayer {
                 self.economicAI?.turn(in: gameModel)
                 self.militaryAI?.turn(in: gameModel)
             }
-            
+
             city.cityStrategy?.turn(with: gameModel)
-            
+
             if self.isActive() {
                 let isOrAre = self.leader.civilization().isPlural() ? "are" : "is"
                 let message = "\(self.leader.civilization()) \(isOrAre) ready for a new construction project."
                 self.notifications()?.addNotification(of: .productionNeeded, for: self, message: message, summary: message, at: location)
             }
-            
+
             city.doFoundMessage()
 
             // If this is the first city (or we still aren't getting tech for some other reason) notify the player
             if techs.needToChooseTech() && self.science(in: gameModel) > 0.0 {
-                
+
                 //if self.isActive() {
                     self.notifications()?.addNotification(of: .techNeeded, for: self, message: "You may select a new research project.", summary: "Choose Research", at: HexPoint.zero)
                 //}
             }
-            
+
             // If this is the first city (or ..) notify the player
             if civics.needToChooseCivic() && self.culture(in: gameModel) > 0.0 {
-                
+
                 //if self.isActive() {
                     self.notifications()?.addNotification(of: .civicNeeded, for: self, message: "You may select a new civic project.", summary: "Choose Civic", at: HexPoint.zero)
                 //}
             }
-            
+
         } else {
             city.doFoundMessage()
 
             // AI civ, may need to redo city specializations
             self.citySpecializationAI?.setSpecializationsDirty()
         }
-        
+
         // roman roads
         if self.leader.civilization().ability() == .allRoadsLeadToRome {
-            
+
             if !isCapital {
                 guard let capital = gameModel.capital(of: self) else {
                     fatalError("cant get capital")
                 }
-                
+
                 let pathFinder = AStarPathfinder()
                 pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self, unitMapType: .combat, canEmbark: self.canEmbark())
 
                 if let path = pathFinder.shortestPath(fromTileCoord: location, toTileCoord: capital.location) {
                     // If within TradeRoute6 Trade Route range of the Capital6 Capital, a road to it.
                     if path.count <= TradeRoutes.range {
-                        
+
                         for pathLocation in path {
-                            
+
                             if let pathTile = gameModel.tile(at: pathLocation) {
                                 pathTile.set(route: self.bestRoute())
                             }
@@ -2274,28 +2274,28 @@ public class Player: AbstractPlayer {
             }
         }
     }
-    
+
     public func newCityName(in gameModel: GameModel?) -> String {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var possibleNames = self.leader.civilization().cityNames()
-        
+
         for cityRef in gameModel.cities(of: self) {
-            
+
             guard let city = cityRef else {
                 continue
             }
-            
+
             possibleNames.removeAll(where: { $0 == city.name })
         }
-        
+
         if let firstName = possibleNames.first {
             return firstName
         }
-        
+
         return "TXT_KEY_CITY"
     }
 
@@ -2348,15 +2348,15 @@ public class Player: AbstractPlayer {
             fatalError("cant get operations")
         }
 
-        return operations.operationsOf(type: type).count > 0
+        return !operations.operationsOf(type: type).isEmpty
     }
-    
+
     public func delete(operation: Operation) {
-        
+
         guard let operations = self.operations else {
             fatalError("cant get operations")
         }
-        
+
         operations.delete(operation: operation)
     }
 
@@ -2368,7 +2368,7 @@ public class Player: AbstractPlayer {
 
         return operations.operationsOf(type: type).count
     }
-    
+
     /// Is an existing operation already going after this city?
     public func isCityAlreadyTargeted(city: AbstractCity?, via domain: UnitDomainType, percentToTarget: Int = 100, in gameModel: GameModel?) -> Bool {
 
@@ -2384,64 +2384,64 @@ public class Player: AbstractPlayer {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var operation: Operation
-        
+
         switch type {
 
         case .foundCity:
             operation = FoundCityOperation()
-            
+
         case .cityCloseDefense:
             operation = CityCloseDefenseOperation()
-            
+
         case .basicCityAttack:
             operation = BasicCityAttackOperation()
-            
+
         case .pillageEnemy:
             operation = PillageEnemyOperation()
-        
+
         case .rapidResponse:
             operation = RapidResponseOperation()
-            
+
         case .destroyBarbarianCamp:
             operation = DestroyBarbarianCampOperation()
-            
+
         case .navalAttack:
             operation = NavalAttackOperation()
-            
+
         case .navalSuperiority:
             operation = NavalSuperiorityOperation()
-            
+
         case .navalBombard:
             operation = NavalBombardmentOperation()
-            
+
         case .colonize:
              operation = NavalEscortedOperation()
-            
+
         case .notSoQuickColonize:
             operation = QuickColonizeOperation() // ???
-            
+
         case .quickColonize:
             operation = QuickColonizeOperation()
-            
+
         case .pureNavalCityAttack:
             operation = PureNavalCityAttackOperation()
-            
+
         case .smallCityAttack:
             operation = SmallCityAttackOperation()
-            
+
         case .sneakCityAttack:
             if gameModel.currentTurn < 50 && self.leader.trait(for: .boldness) >= 5 {
                 operation = QuickSneakCityAttackOperation()
             } else {
                 operation = SneakCityAttackOperation()
             }
-            
+
         case .navalSneakAttack:
             operation = NavalSneakAttackOperation()
         }
-        
+
         operation.initialize(for: self, enemy: otherPlayer, area: area, target: targetCity, muster: musterCity, in: gameModel)
         self.operations?.add(operation: operation)
         return operation
@@ -2461,7 +2461,7 @@ public class Player: AbstractPlayer {
         let unitArea = gameModel.area(of: firstSettler.location)
 
         var bestFoundValue = 0
-        var bestFoundPlot: AbstractTile? = nil
+        var bestFoundPlot: AbstractTile?
 
         var evalDistance = 12 /*SETTLER_EVALUATION_DISTANCE */
         let distanceDropoffMod = 99 /*SETTLER_DISTANCE_DROPOFF_MODIFIER */
@@ -2567,24 +2567,24 @@ public class Player: AbstractPlayer {
 
         return false
     }
-    
+
     /// Can we eBuild on pPlot?
     public func canBuild(build: BuildType, at point: HexPoint, testGold: Bool, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let tile = gameModel.tile(at: point) else {
             fatalError("cant get tile")
         }
-        
+
         if !tile.canBuild(buildType: build, by: self) {
             return false
         }
 
         if let required = build.required() {
-            
+
             if !self.has(tech: required) {
                 return false
             }
@@ -2601,19 +2601,19 @@ public class Player: AbstractPlayer {
 
         // IsBuildBlockedByFeature
         if tile.hasAnyFeature() {
-            
+
             for feature in FeatureType.all {
-                
+
                 if tile.has(feature: feature) {
-                    
+
                     if build.keeps(feature: feature) {
                         continue
                     }
-                    
+
                     if !build.canRemove(feature: feature) {
                         return false
                     }
-                    
+
                     if let removeTech = build.requiredRemoveTech(for: feature) {
                         if !self.has(tech: removeTech) {
                             return false
@@ -2622,7 +2622,7 @@ public class Player: AbstractPlayer {
                 }
             }
         }
-        
+
         if testGold {
             /*if (max(0, self.treasury?.value()) < getBuildCost(pPlot, eBuild))
             {
@@ -2640,9 +2640,9 @@ public class Player: AbstractPlayer {
         }
 
         var bestScore = -1
-        var bestArea: HexArea? = nil
+        var bestArea: HexArea?
         var secondBestScore = -1
-        var secondBestArea: HexArea? = nil
+        var secondBestArea: HexArea?
 
         // Find best two scores above minimum
         for area in gameModel.areas() {
@@ -2674,9 +2674,9 @@ public class Player: AbstractPlayer {
 
         return (numberOfAreas, bestArea, secondBestArea)
     }
-    
+
     func canBuild(buildType: BuildType, at tile: AbstractTile?) -> Bool {
-        
+
         if let tile = tile {
             if !tile.canBuild(buildType: buildType, by: self) {
                 return false
@@ -2688,7 +2688,7 @@ public class Player: AbstractPlayer {
                 return false
             }
         }
-        
+
         if let requiredEra = buildType.route()?.era() {
             if self.currentEra() != requiredEra {
                 return false
@@ -2699,61 +2699,61 @@ public class Player: AbstractPlayer {
 
         return true
     }
-    
+
     public func bestRoute(at tile: AbstractTile? = nil) -> RouteType {
-        
+
         for buildType in BuildType.all {
-            
+
             if let routeType = buildType.route() {
                 if self.canBuild(buildType: buildType, at: tile) {
                     return routeType
                 }
             }
         }
-        
+
         return .none
     }
-    
+
     func isCapitalConnectedTo(city targetCity: AbstractCity?, via routeType: RouteType, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let targetCity = targetCity else {
             fatalError("cant get targetCity")
         }
-        
+
         guard let playerCapital = gameModel.capital(of: self) else {
             return false
         }
 
         let pathfinder = AStarPathfinder()
         pathfinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self, unitMapType: .combat, canEmbark: self.canEmbark())
-        
+
         if let _ = pathfinder.shortestPath(fromTileCoord: playerCapital.location, toTileCoord: targetCity.location) {
             return true
         }
 
         return false
     }
-    
+
     /// This determines what plots the player has under control
     public func updatePlots(in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         // init
         self.area = HexArea(points: [])
-        
+
         let mapSize = gameModel.mapSize()
         self.area.points.reserveCapacity(mapSize.numberOfTiles())
-        
+
         for x in 0..<mapSize.width() {
             for y in 0..<mapSize.height() {
-                
+
                 let pt = HexPoint(x: x, y: y)
                 if let tile = gameModel.tile(at: pt) {
 
@@ -2764,15 +2764,15 @@ public class Player: AbstractPlayer {
             }
         }
     }
-    
+
     public func addPlot(at point: HexPoint) {
 
         self.area.add(point: point)
     }
-    
+
     /// Gold cost of buying a new Plot
     public func buyPlotCost() -> Int {
-        
+
         var cost = 50 /* PLOT_BASE_COST */
         cost += (5 /* PLOT_ADDITIONAL_COST_PER_PLOT */ * self.numPlotsBought())
 
@@ -2785,65 +2785,65 @@ public class Player: AbstractPlayer {
 
         return cost
     }
-    
+
     func numPlotsBought() -> Int {
-        
+
         return self.numPlotsBoughtValue
     }
-    
+
     public func changeNumPlotsBought(change: Int) {
-        
+
         self.numPlotsBoughtValue += change
     }
-    
+
     public func numAvailable(resource: ResourceType) -> Int {
-        
+
         if let resourceInventory = self.resourceInventory {
             return Int(resourceInventory.weight(of: resource))
         }
-        
+
         return 0
     }
-    
+
     public func numForCityAvailable(resource: ResourceType) -> Int {
-        
+
         if let resourceInventory = self.resourceInventory {
             return Int(resourceInventory.weight(of: resource)) * resource.amenities()
         }
-        
+
         return 0
     }
-    
+
     public func changeNumAvailable(resource: ResourceType, change: Int) {
-        
+
         guard let resourceInventory = self.resourceInventory else {
             fatalError("cant get resourceInventory")
         }
-        
+
         resourceInventory.add(weight: change, for: resource)
     }
-    
+
     public func numUnitsNeededToBeBuilt() -> Int {
 
         guard let operations = self.operations else {
             fatalError("cant get operations")
         }
-        
+
         return operations.numUnitsNeededToBeBuilt()
     }
-    
+
     public func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         for loopUnitRef in gameModel.units(of: self) {
-            
+
             guard let loopUnit = loopUnitRef else {
                 continue
             }
-            
+
             if !loopUnit.processedInTurn() && (loopUnit.isAutomated() && loopUnit.task() != .unknown && loopUnit.canMove()) {
                 return true
             }
@@ -2851,192 +2851,192 @@ public class Player: AbstractPlayer {
 
         return false
     }
-    
+
     public func hasBusyUnitOrCity() -> Bool {
-        
+
         // FIXME
         return false
     }
-    
+
     public func isAutoMoves() -> Bool {
-        
+
         return self.autoMovesValue
     }
-    
+
     public func setAutoMoves(value: Bool) {
-        
+
         if self.autoMovesValue != value {
             self.autoMovesValue = value
             self.processedAutoMovesValue = false
         }
     }
-    
+
     public func hasProcessedAutoMoves() -> Bool {
-        
+
         return self.processedAutoMovesValue
     }
-    
+
     public func setProcessedAutoMoves(value: Bool) {
-        
+
         self.processedAutoMovesValue = value
     }
-    
+
     // buildings + policies
     func specialistExtraYield(for specialistType: SpecialistType, and yieldType: YieldType) -> Int {
-        
+
         return 0
     }
-    
+
     public func changeImprovementCount(of improvement: ImprovementType, change: Int) {
-        
+
         self.improvementCountList.add(weight: change, for: improvement)
     }
-    
+
     public func changeTotalImprovementsBuilt(change: Int) {
-        
+
         self.totalImprovementsBuilt += change
     }
-    
+
     // MARK: trade route functions
-    
+
     // https://civilization.fandom.com/wiki/Trade_Route_(Civ6)#Trading_Capacity
     public func tradingCapacity(in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let civics = self.civics else {
             fatalError("cant get civics")
         }
-        
+
         guard let government = self.government else {
             fatalError("cant get government")
         }
-        
+
         var numberOfTradingCapacity = 0
-        
+
         // The Foreign Trade Civic (one of the earliest of the Ancient Era) grants a Trading Capacity of one, meaning that your empire can have one TradeRoute6 Trade Route at a time.
         if civics.has(civic: .foreignTrade) {
             numberOfTradingCapacity += 1
         }
-        
+
         if self.leader.civilization().ability() == .satrapies && civics.has(civic: .politicalPhilosophy) {
             // Gains +1 TradeRoute6 Trade Route capacity with Political Philosophy.
             numberOfTradingCapacity += 1
         }
-        
+
         for loopCityRef in gameModel.cities(of: self) {
-            
+
             guard let loopCity = loopCityRef else {
                 continue
             }
-            
+
             guard let loopWonders = loopCity.wonders else {
                 continue
             }
-            
+
             guard let loopDistricts = loopCity.districts else {
                 continue
             }
-            
+
             if loopDistricts.has(district: .harbor) || loopDistricts.has(district: .commercialHub) {
                 numberOfTradingCapacity += 1
             }
-            
+
             if loopWonders.has(wonder: .colossus) {
                 // +1 TradeRoute6 Trade Route capacity
                 numberOfTradingCapacity += 1
             }
         }
-        
+
         if government.currentGovernment() == .merchantRepublic {
             numberOfTradingCapacity += 2
         }
-        
+
         return numberOfTradingCapacity
     }
-    
+
     public func numberOfTradeRoutes() -> Int {
-        
+
         guard let tradeRoutes = self.tradeRoutes else {
             fatalError("cant get tradeRoutes")
         }
-        
+
         return tradeRoutes.numberOfTradeRoutes()
     }
-    
+
     public func canEstablishTradeRoute(in gameModel: GameModel?) -> Bool {
-        
+
         let tradingCapacity = self.tradingCapacity(in: gameModel)
         let numberOfTradeRoutes = self.numberOfTradeRoutes()
-        
+
         if numberOfTradeRoutes >= tradingCapacity {
             return false
         }
-        
+
         return true
     }
-    
+
     public func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let tradeRoutes = self.tradeRoutes else {
             fatalError("cant get tradeRoutes")
         }
-        
+
         // no check ?
-        
+
         return tradeRoutes.establishTradeRoute(from: originCity, to: targetCity, with: trader, in: gameModel)
     }
-    
+
     public func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var minDistance: Int = Int.max
         let pathFinder = AStarPathfinder()
         pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: .walk, for: self, unitMapType: .civilian, canEmbark: true)
-        
+
         for cityRef in gameModel.cities(of: self) {
-            
+
             guard let city = cityRef else {
                 continue
             }
 
             let distance = point.distance(to: city.location)
-                
+
             if distance < minDistance {
                 minDistance = distance
             }
         }
-        
+
         return minDistance
     }
-    
+
     public func numCities(in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get game")
         }
-        
+
         return gameModel.cities(of: self).count
     }
-    
+
     public func isEqual(to other: AbstractPlayer?) -> Bool {
-        
+
         return self.leader == other?.leader
     }
-    
+
     public func acquire(city oldCity: AbstractCity?, conquest: Bool, gift: Bool) {
-        
+
         guard let oldCity = oldCity else {
             fatalError("cant get oldCity")
         }
 
         fatalError("niy")
-        
+
         /*IDInfo* pUnitNode;
         CvCity* pNewCity;
         CvUnit* pLoopUnit;
@@ -3651,18 +3651,18 @@ public class Player: AbstractPlayer {
     #pragma warning ( pop ) // restore warning level suppressed for pNewCity null check
     #endif// _MSC_VER*/
     }
-    
+
     /// Handle earning culture from combat wins
     public func reportCultureFromKills(at point: HexPoint, culture cultureVal: Int, wasBarbarian: Bool, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var culture: Int = cultureVal
-        
+
         if culture > 0 {
-            
+
             let cultureValue = 100 // GetPlayerTraits()->GetCultureFromKills();
             //iCultureValue += GetPlayerPolicies()->GetNumericModifier(POLICYMOD_CULTURE_FROM_KILLS);
 
@@ -3673,7 +3673,7 @@ public class Player: AbstractPlayer {
 
             culture = (cultureValue * culture) / 100
             if culture > 0 {
-                
+
                 self.cultureEarned += culture
 
                 if self.isHuman() {
@@ -3686,21 +3686,21 @@ public class Player: AbstractPlayer {
     //    --------------------------------------------------------------------------------
     /// Handle earning culture from combat wins
     public func reportGoldFromKills(at point: HexPoint, gold goldVal: Int, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var gold = goldVal
-        
+
         if gold > 0 {
-            
+
             let goldValue = 100 // GetPlayerPolicies()->GetNumericModifier(POLICYMOD_GOLD_FROM_KILLS);
 
             gold = (goldValue * gold) / 100
-            
+
             if gold > 0 {
-                
+
                 self.treasury?.changeGold(by: Double(gold))
 
                 if self.isHuman() {
@@ -3709,186 +3709,186 @@ public class Player: AbstractPlayer {
             }
         }
     }
-    
+
     public func doGoodyHut(at tile: AbstractTile?, by unit: AbstractUnit?, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let tile = tile else {
             fatalError("cant get tile")
         }
 
         if !self.isBarbarian() {
-            
+
             tile.removeImprovement()
-            
+
             // Make a list of valid Goodies to pick randomly from
             var validGoodies: [GoodyType] = []
             var validGoodyCategories: [GoodyCategory] = []
-            
+
             for goody in GoodyType.all {
-                
+
                 if self.canReceiveGoody(at: tile, goody: goody, unit: unit, in: gameModel) {
                     validGoodies.append(goody)
                     validGoodyCategories.append(goody.category())
                 }
             }
-                
+
             // Any valid Goodies categories?
             guard let goodyCategory = validGoodyCategories.randomElement() else {
                 fatalError("no goody categories found")
             }
-            
+
             validGoodies = validGoodies.filter({ $0.category() == goodyCategory }) // goodyCategory
-            
+
             if validGoodies.count > 1 {
                 let goodies = WeightedList<GoodyType>()
-                
+
                 for validGoody in validGoodies {
                     goodies.add(weight: validGoody.probability(), for: validGoody)
                 }
-                
+
                 let randValue = Int.random(number: Int(goodies.totalWeights()))
-                
+
                 guard let selectedValue = goodies.item(by: Double(randValue)) else {
                     fatalError("no goody found")
                 }
-                
+
                 self.receiveGoody(at: tile, goody: selectedValue, unit: unit, in: gameModel)
-                
+
             } else {
                 self.receiveGoody(at: tile, goody: validGoodies[0], unit: unit, in: gameModel)
             }
         }
     }
-    
+
     func slots(for slotType: GreatWorkSlotType, in gameModel: GameModel?) -> Int {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         var slotsForType = 0
-        
+
         for cityRef in gameModel.cities(of: self) {
-            
+
             guard let city = cityRef else {
                 continue
             }
-            
+
             slotsForType += city.slots(for: slotType)
         }
-        
+
         return slotsForType
     }
-    
+
     /// Is a Particular Goody ID a valid Goody for a certain plot?
     func canReceiveGoody(at tile: AbstractTile?, goody: GoodyType, unit: AbstractUnit?, in gameModel: GameModel?) -> Bool {
-    
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let tile = tile else {
             fatalError("cant get tile")
         }
-        
+
         guard let unit = unit else {
             fatalError("cant get unit")
         }
-        
+
         guard let goodyHuts = self.goodyHuts else {
             fatalError("cant get goodyHuts")
         }
-        
+
         guard let techs = self.techs else {
             fatalError("cant get techs")
         }
-        
+
         guard let civics = self.civics else {
             fatalError("cant get civics")
         }
-        
+
         if !goodyHuts.canReceive(goody: goody) {
             return false
         }
-        
+
         if goody.minimalTurn() > gameModel.currentTurn {
             return false
         }
-        
+
         switch goody {
-        
+
         case .none:
             return false
-            
+
         case .goldMinorGift, .goldMediumGift, .goldMajorGift:
             return true
-            
+
         case .civicMinorBoost:
-            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)} )
+            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
             return possibleCivicsWithoutEureka.count >= 1
-            
+
         case .civicMajorBoost:
-            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)} )
+            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
             return possibleCivicsWithoutEureka.count >= 2
-            
+
         case .relic:
             return self.slots(for: .relic, in: gameModel) > 0
-            
+
         case .faithMinorGift, .faithMediumGift, .faithMajorGift:
             return true
-            
+
         case .scienceMinorGift, .scienceMajorGift, .freeTech:
             return true
-            
+
         case .diplomacyMinorBoost, .freeEnvoy, .diplomacyMajorBoost:
             return false
-            
+
             // military
         case .freeScout:
             return true
-            
+
         case .healing:
             return unit.healthPoints() < unit.maxHealthPoints()
-            
+
         case .freeResource:
             return false
-            
+
         case .experienceBoost:
             return false
-            
+
         case .unitUpgrade:
             return false
-            
+
         case .additionalPopulation:
-            if gameModel.cities(of: self).count == 0 {
+            if gameModel.cities(of: self).isEmpty {
                 return false
             }
-            
+
             return true
-            
+
         case .freeBuilder, .freeTrader, .freeSettler:
             return true
         }
     }
-    
+
     func receiveGoody(at tile: AbstractTile?, goody goodyType: GoodyType, unit: AbstractUnit?, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let tile = tile else {
             fatalError("cant get tile")
         }
-        
+
         guard let civics = self.civics else {
             fatalError("cant get civics")
         }
-        
+
         guard let techs = self.techs else {
             fatalError("cant get techs")
         }
@@ -3896,119 +3896,121 @@ public class Player: AbstractPlayer {
         switch goodyType {
         case .none:
             print("")
-            
+
         case .goldMinorGift:
             self.treasury?.changeGold(by: 40.0)
-            
+
         case .goldMediumGift:
             self.treasury?.changeGold(by: 75.0)
-            
+
         case .goldMajorGift:
             self.treasury?.changeGold(by: 120.0)
-            
+
         case .civicMinorBoost:
-            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)} )
+            let possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
             guard let civicToBoost = possibleCivicsWithoutEureka.randomElement() else {
                 fatalError("cant get civic to boost")
             }
             civics.triggerEureka(for: civicToBoost, in: gameModel)
-            
+
         case .civicMajorBoost:
-            var possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)} )
+            var possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
             guard let civicToBoost1 = possibleCivicsWithoutEureka.randomElement() else {
                 fatalError("cant get civic to boost")
             }
             civics.triggerEureka(for: civicToBoost1, in: gameModel)
-            
-            possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)} )
+
+            possibleCivicsWithoutEureka = civics.possibleCivics().filter({ !civics.eurekaTriggered(for: $0)})
             guard let civicToBoost2 = possibleCivicsWithoutEureka.randomElement() else {
                 fatalError("cant get civic to boost")
             }
             civics.triggerEureka(for: civicToBoost2, in: gameModel)
-            
+
         case .relic:
             // keep the great work in players card
             self.addGreatWork(of: .relic)
-            
+
         case .faithMinorGift:
             self.religion?.change(faith: 20.0)
-            
+
         case .faithMediumGift:
             self.religion?.change(faith: 60.0)
-            
+
         case .faithMajorGift:
             self.religion?.change(faith: 100.0)
-            
+
         case .scienceMinorGift:
-            let possibleTechsWithoutEureka = techs.possibleTechs().filter({ !techs.eurekaTriggered(for: $0)} )
+            let possibleTechsWithoutEureka = techs.possibleTechs().filter({ !techs.eurekaTriggered(for: $0)})
             guard let techToBoost = possibleTechsWithoutEureka.randomElement() else {
                 fatalError("cant get tech to boost")
             }
             techs.triggerEureka(for: techToBoost, in: gameModel)
-            
+
         case .scienceMajorGift:
-            var possibleTechsWithoutEureka = techs.possibleTechs().filter({ !techs.eurekaTriggered(for: $0)} )
+            var possibleTechsWithoutEureka = techs.possibleTechs().filter({ !techs.eurekaTriggered(for: $0)})
             guard let techToBoost1 = possibleTechsWithoutEureka.randomElement() else {
                 fatalError("cant get tech to boost")
             }
             techs.triggerEureka(for: techToBoost1, in: gameModel)
-            
-            possibleTechsWithoutEureka = techs.possibleTechs().filter({ !techs.eurekaTriggered(for: $0)} )
+
+            possibleTechsWithoutEureka = techs.possibleTechs().filter({ !techs.eurekaTriggered(for: $0)})
             guard let techToBoost2 = possibleTechsWithoutEureka.randomElement() else {
                 fatalError("cant get tech to boost")
             }
             techs.triggerEureka(for: techToBoost2, in: gameModel)
-            
+
         case .freeTech:
             guard let possibleTech = techs.possibleTechs().randomElement() else {
                 fatalError("cant get tech to discover")
             }
-            try! techs.discover(tech: possibleTech)
+            do {
+                try techs.discover(tech: possibleTech)
+            } catch {}
 
             if self.isHuman() {
                 gameModel.userInterface?.showPopup(popupType: .techDiscovered(tech: possibleTech))
             }
-            
+
         case .diplomacyMinorBoost:
             print("Diplomatic favor")
-            
+
         case .freeEnvoy:
             print("1 envoy")
-            
+
         case .diplomacyMajorBoost:
             print("1 governor title")
-            
+
         case .freeScout:
             let scoutUnit = Unit(at: tile.point, type: .scout, owner: self)
             gameModel.add(unit: scoutUnit)
             scoutUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
-            
+
             // make the unit visible
             gameModel.userInterface?.show(unit: scoutUnit)
-            
+
         case .healing:
             unit?.doHeal(in: gameModel)
-            
+
         case .freeResource:
             print("free resource")
-            
+
         case .experienceBoost:
             print("experience")
-            
+
         case .unitUpgrade:
             print("upgrade")
-            
+
         case .additionalPopulation:
             var bestCityDistance = -1
-            var bestCityRef: AbstractCity? = nil
-            
+            var bestCityRef: AbstractCity?
+
             // Find the closest City to us to add a Pop point to
             for cityRef in gameModel.cities(of: self) {
-                
+
                 guard let city = cityRef else {
                     continue
                 }
-                
+
                 let distance = tile.point.distance(to: city.location)
 
                 if bestCityDistance == -1 || distance < bestCityDistance {
@@ -4020,31 +4022,31 @@ public class Player: AbstractPlayer {
             guard let bestCity = bestCityRef else {
                 fatalError("no city found for this player")
             }
-            
+
             bestCity.change(population: 1, reassignCitizen: true, in: gameModel)
-            
+
             // redraw the city banner
             gameModel.userInterface?.update(city: bestCity)
-            
+
         case .freeBuilder:
             let builderUnit = Unit(at: tile.point, type: .builder, owner: self)
             gameModel.add(unit: builderUnit)
             builderUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
-            
+
             // make the unit visible
             gameModel.userInterface?.show(unit: builderUnit)
-                        
+
         case .freeTrader:
             var bestCityDistance = -1
-            var bestCityRef: AbstractCity? = nil
-            
+            var bestCityRef: AbstractCity?
+
             // Find the closest City to us to add a Pop point to
             for cityRef in gameModel.cities(of: self) {
-                
+
                 guard let city = cityRef else {
                     continue
                 }
-                
+
                 let distance = tile.point.distance(to: city.location)
 
                 if bestCityDistance == -1 || distance < bestCityDistance {
@@ -4056,20 +4058,20 @@ public class Player: AbstractPlayer {
             guard let bestCity = bestCityRef else {
                 fatalError("no city found for this player")
             }
-            
+
             let traderUnit = Unit(at: tile.point, type: .trader, owner: self)
             traderUnit.origin = bestCity.location
             gameModel.add(unit: traderUnit)
             traderUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
-            
+
             // make the unit visible
             gameModel.userInterface?.show(unit: traderUnit)
-                         
+
         case .freeSettler:
             let settlerUnit = Unit(at: tile.point, type: .settler, owner: self)
             gameModel.add(unit: settlerUnit)
             settlerUnit.jumpToNearestValidPlotWithin(range: 2, in: gameModel)
-            
+
             // make the unit visible
             gameModel.userInterface?.show(unit: settlerUnit)
         }
@@ -4081,30 +4083,30 @@ public class Player: AbstractPlayer {
             gameModel.userInterface?.showPopup(popupType: .goodyHutReward(goodyType: goodyType, location: tile.point))
         }
     }
-    
+
     func addGreatWork(of greatWorkType: GreatWorkType) {
-        
+
         print("TODO: handle add \(greatWorkType)")
     }
-    
+
     //    --------------------------------------------------------------------------------
     public func canTrain(unitType: UnitType, continueFlag: Bool, testVisible: Bool, ignoreCost: Bool, ignoreUniqueUnitStatus: Bool) -> Bool {
 
         guard let civics = self.civics else {
             fatalError("cant get civics")
         }
-        
+
         guard let techs = self.techs else {
             fatalError("cant get techs")
         }
-        
+
         /*if (GetPlayerTraits()->NoTrain(eUnitClass)) {
             return false;
         }*/
 
         // Should we check whether this Unit has been blocked out by the civ XML?
         if !ignoreUniqueUnitStatus {
-            
+
             // If the player isn't allowed to train this Unit (via XML) then return false
             guard unitType.unitType(for: self.leader.civilization()) != nil else {
                 return false
@@ -4116,7 +4118,7 @@ public class Player: AbstractPlayer {
                 return false
             }
         }
-        
+
         //Policy Requirement
         if let civic = unitType.requiredCivic() {
             if !civics.has(civic: civic) {
@@ -4193,7 +4195,7 @@ public class Player: AbstractPlayer {
 
             // Resource Requirements
             if let resource = unitType.requiredResource() {
-                
+
                 if self.numAvailable(resource: resource) <= 0 {
                     return false
                 }
@@ -4227,143 +4229,143 @@ public class Player: AbstractPlayer {
 
         return true
     }
-    
+
     public func canPurchaseInAnyCity(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         for cityRef in gameModel.cities(of: self) {
-            
+
             guard let city = cityRef else {
                 continue
             }
-            
+
             if city.canPurchase(unit: unitType, with: yieldType, in: gameModel) {
                 return true
             }
         }
-        
+
         return false
     }
-    
+
     public func canPurchaseInAnyCity(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         for cityRef in gameModel.cities(of: self) {
-            
+
             guard let city = cityRef else {
                 continue
             }
-            
+
             if city.canPurchase(building: buildingType, with: yieldType, in: gameModel) {
                 return true
             }
         }
-        
+
         return false
     }
-    
+
     // MARK: religion methods
-    
+
     public func faithPurchaseType() -> FaithPurchaseType {
-        
+
         return self.faithPurchaseTypeVal
     }
-    
+
     public func set(faithPurchaseType: FaithPurchaseType) {
-        
+
         self.faithPurchaseTypeVal = faithPurchaseType
     }
-    
+
     // MARK: discovery
-    
+
     public func hasCapital(in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if let capital = gameModel.capital(of: self) {
             return true
         }
-        
+
         return false
     }
-    
+
     public func hasDiscoveredCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) -> Bool {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         if let capital = gameModel.capital(of: otherPlayer) {
-            
+
             guard let capitalTile = gameModel.tile(at: capital.location) else {
                 return false
             }
-            
+
             if capitalTile.isDiscovered(by: self) {
                 return true
             }
-            
+
             return false
         }
-        
+
         // nothing to discover
         return false
     }
-    
+
     public func discoverCapital(of otherPlayer: AbstractPlayer?, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
         }
-        
+
         if let capital = gameModel.capital(of: otherPlayer) {
-            
+
             gameModel.sight(at: capital.location, sight: 3, for: self, in: gameModel)
         } else {
             fatalError("player has no capital - should not happen")
         }
     }
-    
+
     func capitalCity(in gameModel: GameModel?) -> AbstractCity? {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         return gameModel.capital(of: self)
     }
-    
+
     func set(capitalCity newCapitalCity: AbstractCity?, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         if let newCapitalCity = newCapitalCity {
-            
+
             let currentCapitalCity = self.capitalCity(in: gameModel)
 
             if currentCapitalCity?.location != newCapitalCity.location || currentCapitalCity?.name != newCapitalCity.name {
-            
+
                 // Need to set our original capital x,y?
                 if self.originalCapitalLocationValue == HexPoint.invalid {
-                    
+
                     self.originalCapitalLocationValue = newCapitalCity.location
                 }
 
@@ -4375,14 +4377,14 @@ public class Player: AbstractPlayer {
             }
         }
     }
-    
+
     public func originalCapitalLocation() -> HexPoint {
-        
+
         return self.originalCapitalLocationValue
     }
-    
+
     func population(in gameModel: GameModel?) -> Int {
-        
+
         guard let cities = gameModel?.cities(of: self) else {
             return 0
         }
@@ -4394,17 +4396,17 @@ public class Player: AbstractPlayer {
                 populationVal += city.population()
             }
         }
-    
+
         return populationVal
     }
-    
+
     public func canChangeGovernment() -> Bool {
-        
+
         return self.canChangeGovernmentValue
     }
-    
+
     public func set(canChangeGovernment: Bool) {
-        
+
         self.canChangeGovernmentValue = canChangeGovernment
     }
 }

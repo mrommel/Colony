@@ -34,8 +34,9 @@ enum TacticalDominanceType {
 //!  - Created by CvGame class
 //!  - Shared by all players; data is refreshed at start of each AI turn if player at war
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// swiftlint:disable type_body_length
 class TacticalAnalysisMap {
-    
+
     let dominancePercentage = 25 // AI_TACTICAL_MAP_DOMINANCE_PERCENTAGE
     let tacticalRange = 10 // AI_TACTICAL_RECRUIT_RANGE
     let unitStrengthMultiplier: Int // 10 AI_TACTICAL_MAP_UNIT_STRENGTH_MULTIPLIER * tacticalRange
@@ -75,18 +76,18 @@ class TacticalAnalysisMap {
 
         init() {
             self.bits = BitArray(count: 24)
-            
+
             self.enemyMilitaryUnit = nil
             self.enemyCivilianUnit = nil
             self.neutralMilitaryUnit = nil
             self.neutralCivilianUnit = nil
             self.friendlyMilitaryUnit = nil
             self.friendlyCivilianUnit = nil
-            
+
             self.defenseModifier = 0
             self.deploymentScore = 0
             self.targetType = .none
-            
+
             self.dominanceZone = nil
         }
 
@@ -95,18 +96,18 @@ class TacticalAnalysisMap {
             let values = try decoder.container(keyedBy: CodingKeys.self)
 
             self.bits = try values.decode(BitArray.self, forKey: .bits)
-            
+
             self.enemyMilitaryUnit = nil
             self.enemyCivilianUnit = nil
             self.neutralMilitaryUnit = nil
             self.neutralCivilianUnit = nil
             self.friendlyMilitaryUnit = nil
             self.friendlyCivilianUnit = nil
-            
+
             self.defenseModifier = 0
             self.deploymentScore = 0
             self.targetType = .none
-            
+
             self.dominanceZone = nil
         }
 
@@ -124,10 +125,10 @@ class TacticalAnalysisMap {
             self.defenseModifier = 0
             self.deploymentScore = 0
             self.targetType = .none
-            
+
             self.dominanceZone = nil
         }
-        
+
         // TACTICAL_FLAG_REVEALED
 
         // Is this plot revealed to this player?
@@ -136,7 +137,7 @@ class TacticalAnalysisMap {
             set { self.bits.setValueOfBit(value: newValue, at: 0) }
             get { return self.bits.valueOfBit(at: 0) }
         }
-        
+
         func isRevealed() -> Bool {
             return self.bits.valueOfBit(at: 0)
         }
@@ -146,7 +147,7 @@ class TacticalAnalysisMap {
             set { self.bits.setValueOfBit(value: newValue, at: 1) }
             get { return self.bits.valueOfBit(at: 1) }
         }
-        
+
         func isVisivle() -> Bool {
             return self.bits.valueOfBit(at: 1)
         }
@@ -178,9 +179,9 @@ class TacticalAnalysisMap {
             set { self.bits.setValueOfBit(value: newValue, at: 5) }
             get { return self.bits.valueOfBit(at: 5) }
         }
-        
+
         func isSubjectToAttack() -> Bool {
-            
+
             return self.bits.valueOfBit(at: 5)
         }
 
@@ -190,9 +191,9 @@ class TacticalAnalysisMap {
             set { self.bits.setValueOfBit(value: newValue, at: 6) }
             get { return self.bits.valueOfBit(at: 6) }
         }
-        
+
         func isEnemyCanMovePast() -> Bool {
-            
+
             return self.bits.valueOfBit(at: 6)
         }
 
@@ -201,9 +202,9 @@ class TacticalAnalysisMap {
             set { self.bits.setValueOfBit(value: newValue, at: 7) }
             get { return self.bits.valueOfBit(at: 7) }
         }
-        
+
         func isFriendlyTurnEndTile() -> Bool {
-                
+
             return self.bits.valueOfBit(at: 7)
         }
 
@@ -238,9 +239,9 @@ class TacticalAnalysisMap {
             set { self.bits.setValueOfBit(value: newValue, at: 11) }
             get { return self.bits.valueOfBit(at: 11) }
         }
-        
+
         func isWater() -> Bool {
-            
+
             return self.water
         }
 
@@ -250,9 +251,9 @@ class TacticalAnalysisMap {
             set { self.bits.setValueOfBit(value: newValue, at: 12) }
             get { return self.bits.valueOfBit(at: 12) }
         }
-        
+
         func isOcean() -> Bool {
-            
+
             return self.ocean
         }
 
@@ -283,16 +284,16 @@ class TacticalAnalysisMap {
             set { self.bits.setValueOfBit(value: newValue, at: 16) }
             get { return self.bits.valueOfBit(at: 16) }
         }
-        
+
         // Is this a plot we can use to bombard the target?
         // TACTICAL_FLAG_WITHIN_RANGE_OF_TARGET
         var withinRangeOfTarget: Bool {
             set { self.bits.setValueOfBit(value: newValue, at: 17) }
             get { return self.bits.valueOfBit(at: 17) }
         }
-        
+
         func isWithinRangeOfTarget() -> Bool {
-            
+
             return self.bits.valueOfBit(at: 17)
         }
 
@@ -302,7 +303,7 @@ class TacticalAnalysisMap {
             set { self.bits.setValueOfBit(value: newValue, at: 18) }
             get { return self.bits.valueOfBit(at: 18) }
         }
-           
+
         // Should be a safe spot to deploy ranged units
         // TACTICAL_FLAG_SAFE_DEPLOYMENT
         var safeDeployment: Bool {
@@ -316,7 +317,14 @@ class TacticalAnalysisMap {
 
         func canUseForOperationGathering() -> Bool {
 
-            if self.impassableTerrain || self.impassableTerritory || self.enemyMilitaryUnit != nil || self.neutralMilitaryUnit != nil || self.neutralCivilianUnit != nil || self.friendlyTurnEndTile || self.enemyCity || self.neutralCity {
+            if self.impassableTerrain ||
+                self.impassableTerritory ||
+                self.enemyMilitaryUnit != nil ||
+                self.neutralMilitaryUnit != nil ||
+                self.neutralCivilianUnit != nil ||
+                self.friendlyTurnEndTile ||
+                self.enemyCity ||
+                self.neutralCity {
                 return false
             }
 
@@ -325,7 +333,15 @@ class TacticalAnalysisMap {
 
         func canUseForOperationGatheringCheckWater(isWater: Bool) -> Bool {
 
-            if isWater != self.water || self.impassableTerrain || self.impassableTerritory || self.enemyMilitaryUnit != nil || self.neutralMilitaryUnit != nil || self.neutralCivilianUnit != nil || self.friendlyTurnEndTile || self.enemyCity || self.neutralCity {
+            if isWater != self.water ||
+                self.impassableTerrain ||
+                self.impassableTerritory ||
+                self.enemyMilitaryUnit != nil ||
+                self.neutralMilitaryUnit != nil ||
+                self.neutralCivilianUnit != nil ||
+                self.friendlyTurnEndTile ||
+                self.enemyCity ||
+                self.neutralCity {
                 return false
             }
 
@@ -334,7 +350,7 @@ class TacticalAnalysisMap {
     }
 
     struct TacticalDominanceZone: Equatable {
-        
+
         var territoryType: TacticalDominanceTerritoryType
         var dominanceFlag: TacticalDominanceType
         var owner: AbstractPlayer?
@@ -348,7 +364,7 @@ class TacticalAnalysisMap {
         var friendlyRangedStrength: Int
         var friendlyUnitCount: Int
         var friendlyRangedUnitCount: Int
-        
+
         var enemyStrength: Int
         var enemyRangedStrength: Int
         var enemyUnitCount: Int
@@ -356,9 +372,9 @@ class TacticalAnalysisMap {
         var enemyNavalUnitCount: Int
 
         var rangeClosestEnemyUnit: Int
-        
+
         var dominanceValue: Int
-        
+
         static func == (lhs: TacticalAnalysisMap.TacticalDominanceZone, rhs: TacticalAnalysisMap.TacticalDominanceZone) -> Bool {
             return lhs.center?.point == rhs.center?.point
         }
@@ -432,28 +448,28 @@ class TacticalAnalysisMap {
             }
         }
     }
-    
+
     func bestFriendlyRange() -> Int {
-        
+
         return self.bestFriendlyRangeValue
     }
-    
+
     func canIgnoreLightOfSight() -> Bool {
-        
+
         return self.ignoreLineOfSight
     }
-    
+
     func set(bestFriendlyRange value: Int) {
-        
+
         self.bestFriendlyRangeValue = value
     }
-    
+
     // Clear all dynamic data flags from the map
     func clearDynamicFlags() {
-        
+
         for x in 0..<self.plots.width {
             for y in 0..<self.plots.height {
-                
+
                 self.plots[x, y]?.withinRangeOfTarget = false
                 self.plots[x, y]?.canUseToFlank = false
                 self.plots[x, y]?.safeDeployment = false
@@ -461,10 +477,10 @@ class TacticalAnalysisMap {
             }
         }
     }
-    
+
     /// Mark cells we can use to bomb a specific target
     func setTargetBombardCells(target: HexPoint, bestFriendlyRange range: Int, canIgnoreLightOfSight: Bool, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
@@ -475,23 +491,23 @@ class TacticalAnalysisMap {
 
         for dx in -range...range {
             for dy in -range...range {
-                
+
                 let loopPoint = HexPoint(x: target.x + dx, y: target.y + dy)
-                
+
                 guard let loopPlot = gameModel.tile(at: loopPoint) else {
                     continue
                 }
-                
+
                 let distance = loopPoint.distance(to: target)
-                
+
                 if distance > 0 && distance <= range {
-                    
+
                     guard let plot = self.plots[loopPoint] else {
                         continue
                     }
-                     
+
                     if plot.revealed && !plot.impassableTerrain && !plot.impassableTerritory {
-                        
+
                         if !plot.enemyCity && !plot.neutralCity {
                             if ignoreLineOfSight || loopPlot.canSee(tile: targetPlot, for: self.playerBuild, range: range, in: gameModel) {
                                 plot.withinRangeOfTarget = true
@@ -502,18 +518,18 @@ class TacticalAnalysisMap {
             }
         }
     }
-    
+
     // Mark cells we can use to bomb a specific target
     func setTargetFlankBonusCells(target: AbstractTile?, in gameModel: GameModel?) {
-        
+
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         guard let target = target else {
             fatalError("cant get target")
         }
-        
+
         //CvPlot* pLoopPlot;
         //int iPlotIndex;
 
@@ -523,11 +539,11 @@ class TacticalAnalysisMap {
         }
 
         for loopPoint in target.point.neighbors() {
-            
+
             guard let plot = self.plots[loopPoint] else {
                 continue
             }
-            
+
             if plot.isRevealed() && !plot.impassableTerrain && !plot.impassableTerritory {
                 if !plot.friendlyCity && !plot.enemyCity && !plot.neutralCity {
                     if !plot.isFriendlyTurnEndTile() && plot.enemyMilitaryUnit == nil {
@@ -537,16 +553,16 @@ class TacticalAnalysisMap {
             }
         }
     }
-    
+
     // Is this plot in dangerous territory?
     func isInEnemyDominatedZone(at point: HexPoint) -> Bool {
 
         let cell = self.plots[point]
-        
+
         for dominanceZone in self.dominanceZones {
-            
+
             if cell?.dominanceZone == dominanceZone {
-                
+
                 return dominanceZone.dominanceFlag == .enemy || dominanceZone.dominanceFlag == .notVisible
             }
         }
@@ -589,7 +605,7 @@ class TacticalAnalysisMap {
             territoryType = .neutral
         }
 
-        var bestCity: AbstractCity? = nil
+        var bestCity: AbstractCity?
         var bestDistance = Int.max
         if territoryType == .enemy || territoryType == .neutral || territoryType == .friendly {
 
@@ -615,7 +631,27 @@ class TacticalAnalysisMap {
 
             tempZoneRef = zone
         } else {
-            tempZoneRef = TacticalDominanceZone(territoryType: territoryType, dominanceFlag: .noUnitsPresent, owner: owner, area: tile.area, isWater: tile.terrain().isWater(), closestCity: bestCity, center: tile, navalInvasion: false, friendlyStrength: 0, friendlyRangedStrength: 0, friendlyUnitCount: 0, friendlyRangedUnitCount: 0, enemyStrength: 0, enemyRangedStrength: 0, enemyUnitCount: 0, enemyRangedUnitCount: 0, enemyNavalUnitCount: 0, rangeClosestEnemyUnit: 0, dominanceValue: 0)
+            tempZoneRef = TacticalDominanceZone(
+                territoryType: territoryType,
+                dominanceFlag: .noUnitsPresent,
+                owner: owner,
+                area: tile.area,
+                isWater: tile.terrain().isWater(),
+                closestCity: bestCity,
+                center: tile,
+                navalInvasion: false,
+                friendlyStrength: 0,
+                friendlyRangedStrength: 0,
+                friendlyUnitCount: 0,
+                friendlyRangedUnitCount: 0,
+                enemyStrength: 0,
+                enemyRangedStrength: 0,
+                enemyUnitCount: 0,
+                enemyRangedUnitCount: 0,
+                enemyNavalUnitCount: 0,
+                rangeClosestEnemyUnit: 0,
+                dominanceValue: 0
+            )
         }
 
         // If this isn't owned territory, update zone with military strength info
@@ -628,46 +664,46 @@ class TacticalAnalysisMap {
                     if friendlyUnit.domain() == .air ||
                         (friendlyUnit.domain() == .land && !tempZone.isWater) ||
                         (friendlyUnit.domain() == .sea && tempZone.isWater) {
-                        
+
                         var strength = friendlyUnit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
                         if strength == 0 && friendlyUnit.isEmbarked() && !tempZone.isWater {
                             strength = friendlyUnit.baseCombatStrength(ignoreEmbarked: true)
                         }
-                        
+
                         tempZone.friendlyStrength += strength * self.unitStrengthMultiplier
                         tempZone.friendlyRangedStrength += friendlyUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
-                        
+
                         if friendlyUnit.range() > self.bestFriendlyRangeValue {
                             self.bestFriendlyRangeValue = friendlyUnit.range()
                         }
-                        
+
                         tempZone.friendlyUnitCount += 1
-                    
+
                         if friendlyUnit.range() > 0 {
                             tempZone.friendlyRangedUnitCount += 1
                         }
                     }
                 }
-                
+
                 if let enemyUnit = cell?.enemyMilitaryUnit {
-                    
+
                     if enemyUnit.domain() == .air ||
                         (enemyUnit.domain() == .land && !tempZone.isWater) ||
                         (enemyUnit.domain() == .sea && tempZone.isWater) {
-                        
+
                         var strength = enemyUnit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
                         if strength == 0 && enemyUnit.isEmbarked() && !tempZone.isWater {
                             strength = enemyUnit.baseCombatStrength(ignoreEmbarked: true)
                         }
-                        
+
                         tempZone.enemyStrength += strength * self.unitStrengthMultiplier
                         tempZone.enemyRangedStrength += enemyUnit.rangedCombatStrength(against: nil, or: nil, on: nil, attacking: true, in: gameModel)
                         tempZone.enemyUnitCount += 1
-                        
+
                         if enemyUnit.range() > 0 {
                             tempZone.enemyRangedUnitCount += 1
                         }
-                        
+
                         if enemyUnit.domain() == .sea {
                             tempZone.enemyNavalUnitCount += 1
                         }
@@ -675,10 +711,10 @@ class TacticalAnalysisMap {
                 }
             }
         }
-        
+
         // Set zone for this cell
         cell?.dominanceZone = tempZoneRef
-        
+
         return tempZoneRef
     }
 
@@ -782,38 +818,38 @@ class TacticalAnalysisMap {
                             }
                         }
                     }
-                    
+
                     // Repeat for all visible enemy units (or adjacent to visible)
                     for otherPlayer in gameModel.players {
-                        
+
                         if player.isAtWar(with: otherPlayer) {
-                            
+
                             for loopUnitRef in gameModel.units(of: otherPlayer) {
-                                
+
                                 guard let loopUnit = loopUnitRef else {
                                     continue
                                 }
-                                
+
                                 if loopUnit.isCombatUnit() {
-                                    
+
                                     if loopUnit.domain() == .air ||
                                         (loopUnit.domain() == .land && !dominanceZone.isWater) ||
                                         (loopUnit.domain() == .sea && dominanceZone.isWater) {
-    
+
                                         if let plot = gameModel.tile(at: loopUnit.location) {
-                                            
+
                                             var visible = true
                                             let distance = loopUnit.location.distance(to: closestCity.location)
-                                            
+
                                             if distance <= self.tacticalRange {
-                                                
+
                                                 let multiplier = (self.tacticalRange + 4 - distance)  // "4" so unit strength isn't totally dominated by proximity to city
                                                 if !plot.isVisible(to: player) && !gameModel.isAdjacentDiscovered(of: loopUnit.location, for: player) {
                                                     visible = false
                                                 }
-                                                
+
                                                 if multiplier > 0 {
-                                                    
+
                                                     var unitStrength = loopUnit.attackStrength(against: nil, or: nil, on: nil, in: gameModel)
                                                     if unitStrength == 0 && loopUnit.isEmbarked() && !dominanceZone.isWater {
                                                         unitStrength = loopUnit.baseCombatStrength(ignoreEmbarked: true)
@@ -837,7 +873,7 @@ class TacticalAnalysisMap {
                                                         if distance < dominanceZone.rangeClosestEnemyUnit {
                                                             dominanceZone.rangeClosestEnemyUnit = distance
                                                         }
-                                                        
+
                                                         if loopUnit.isRanged() {
                                                             dominanceZone.enemyRangedUnitCount += 1
                                                         }
@@ -1100,11 +1136,11 @@ class TacticalAnalysisMap {
                 if diplomacyAI.isAtWar(with: tile.owner()) {
                     cell.enemyTerritory = true
                 }
-                
+
                 if player.isBarbarian() {
                     cell.enemyTerritory = true
                 }
-                
+
             } else {
                 cell.unclaimedTerritory = true
             }
@@ -1142,7 +1178,7 @@ class TacticalAnalysisMap {
                 return false
             }
         }
-        
+
         return true
     }
 
@@ -1263,7 +1299,12 @@ class TacticalAnalysisMap {
 
                                 if let enemyUnit = enemyUnitRef {
 
-                                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(for: enemyUnit.movementType(), for: enemyUnit.player, unitMapType: .combat, canEmbark: enemyUnit.player!.canEmbark())
+                                    pathFinder.dataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                                        for: enemyUnit.movementType(),
+                                        for: enemyUnit.player,
+                                        unitMapType: .combat,
+                                        canEmbark: enemyUnit.player!.canEmbark()
+                                    )
 
                                     let unitArea = gameModel.area(of: enemyUnit.location)
                                     if tile.area == unitArea {

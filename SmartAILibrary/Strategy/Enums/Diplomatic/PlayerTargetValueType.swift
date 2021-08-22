@@ -9,21 +9,21 @@
 import Foundation
 
 enum PlayerTargetValueType: Int, Comparable, Codable {
-    
+
     case none
-    
+
     case impossible
     case bad
     case average
     case favorable
     case soft
-    
+
     static func < (lhs: PlayerTargetValueType, rhs: PlayerTargetValueType) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }
-    
+
     mutating func increase() {
-        
+
         switch self {
 
         case .none:
@@ -42,9 +42,9 @@ enum PlayerTargetValueType: Int, Comparable, Codable {
             break
         }
     }
-    
+
     mutating func decrease() {
-        
+
         switch self {
 
         case .none:

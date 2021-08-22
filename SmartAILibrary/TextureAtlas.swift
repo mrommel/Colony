@@ -27,9 +27,10 @@
  */
 
 public class TextureAtlasSprite: Decodable {
-    
+
+    // swiftlint:disable identifier_name
     enum CodingKeys: CodingKey {
-        
+
         case n
         case x
         case y
@@ -38,7 +39,7 @@ public class TextureAtlasSprite: Decodable {
         case pX
         case pY
     }
-    
+
     public let name: String // n
     public let x: Int
     public let y: Int
@@ -46,11 +47,11 @@ public class TextureAtlasSprite: Decodable {
     public let h: Int
     public let pX: Double
     public let pY: Double
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.name = try container.decode(String.self, forKey: .n)
         self.x = try container.decode(Int.self, forKey: .x)
         self.y = try container.decode(Int.self, forKey: .y)
@@ -62,42 +63,42 @@ public class TextureAtlasSprite: Decodable {
 }
 
 public class TextureAtlasDirection: Decodable {
-    
+
     enum CodingKeys: String, CodingKey {
-        
+
         case enumKey = "enum"
         case sprite
     }
-    
+
     public let enumValue: String
     public let sprite: [TextureAtlasSprite]
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.enumValue = try container.decode(String.self, forKey: .enumKey)
         self.sprite = try container.decode([TextureAtlasSprite].self, forKey: .sprite)
     }
 }
 
 public class TextureAtlasAction: Decodable {
-    
+
     enum CodingKeys: String, CodingKey {
-        
+
         case enumKey = "enum"
         case speed
         case direction
     }
-    
+
     public let enumValue: String
     public let speedValue: Int
     public let direction: [TextureAtlasDirection]
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.enumValue = try container.decode(String.self, forKey: .enumKey)
         self.speedValue = try container.decode(Int.self, forKey: .speed)
         self.direction = try container.decode([TextureAtlasDirection].self, forKey: .direction)
@@ -105,38 +106,38 @@ public class TextureAtlasAction: Decodable {
 }
 
 public class TextureAtlasUnit: Decodable {
-    
+
     enum CodingKeys: CodingKey {
-        
+
         case id
         case action
     }
-    
+
     public let id: String
     public let action: [TextureAtlasAction]
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.id = try container.decode(String.self, forKey: .id)
         self.action = try container.decode([TextureAtlasAction].self, forKey: .action)
     }
 }
 
 public class TextureAtlas: Decodable {
-    
+
     enum CodingKeys: CodingKey {
-        
+
         case unit
     }
-    
+
     public var unit: TextureAtlasUnit
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.unit = try container.decode(TextureAtlasUnit.self, forKey: .unit)
     }
 }

@@ -12,7 +12,7 @@ import Foundation
 public enum UnitPromotionType: Int, Codable {
 
     case embarkation
-    
+
     // fallback
     case healthBoostRecon // 50% boost
     case healthBoostMelee // 50% boost
@@ -36,7 +36,6 @@ public enum UnitPromotionType: Int, Codable {
     case eliteGuard // +1 additional attack per turn if Movement allows. Can move after attacking.
 
     // ranged
-
 
     static var all: [UnitPromotionType] {
         return [
@@ -67,7 +66,7 @@ public enum UnitPromotionType: Int, Codable {
 
         return self.data().name
     }
-    
+
     public func effect() -> String {
 
         return self.data().effect
@@ -87,12 +86,11 @@ public enum UnitPromotionType: Int, Codable {
 
         return self.data().required
     }
-    
+
     func consumable() -> Bool {
-        
+
         return self.data().consumable
     }
-
 
     // MARK: private methods
 
@@ -106,7 +104,7 @@ public enum UnitPromotionType: Int, Codable {
                                  tier: 0,
                                  unitClass: .melee, required: [],
                                  consumable: false)
-            
+
             // general
         case .healthBoostRecon:
             return PromotionData(name: "Health Boost", // FIXME
@@ -240,18 +238,18 @@ public enum UnitPromotionType: Int, Codable {
 
         }
     }
-    
+
     func consume(by unit: AbstractUnit?) {
-        
+
         if self == .healthBoostMelee || self == .healthBoostRecon {
-        
+
             //unit?.healBy(percent: 50)
             return
         }
-        
+
         fatalError("consume not handled")
     }
-    
+
     func flavor(for flavorType: FlavorType) -> Int {
 
         if let modifier = self.flavors().first(where: { $0.type == flavorType }) {
@@ -266,7 +264,7 @@ public enum UnitPromotionType: Int, Codable {
         switch self {
 
         case .embarkation: return [Flavor(type: .navalGrowth, value: 2)]
-            
+
             // general
         case .healthBoostRecon: return [Flavor(type: .happiness, value: 2)]
         case .healthBoostMelee: return [Flavor(type: .happiness, value: 2)]

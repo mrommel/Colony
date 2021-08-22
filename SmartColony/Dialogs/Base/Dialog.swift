@@ -210,10 +210,10 @@ class Dialog: NineGridTextureSprite {
 
             if let positionInScene = node.positionInScene {
 
-                let pos = view.convert(positionInScene, from: view.scene!)
+                let position = view.convert(positionInScene, from: view.scene!)
 
                 let textFieldSize = node.size.reduced(dx: 10, dy: 10)
-                let rect = CGRect(origin: pos - textFieldSize.half, size: textFieldSize)
+                let rect = CGRect(origin: position - textFieldSize.half, size: textFieldSize)
 
                 self.textField = UITextField(frame: rect)
                 self.textField?.backgroundColor = .clear

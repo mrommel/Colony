@@ -9,6 +9,8 @@
 import SpriteKit
 import SmartAILibrary
 
+// swiftlint:disable force_try
+
 protocol PediaDelegate: class {
 
     func exit()

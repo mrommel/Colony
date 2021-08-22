@@ -9,7 +9,7 @@
 import Foundation
 
 enum AdvisorType {
-    
+
     case economic
     case military
     case foreign

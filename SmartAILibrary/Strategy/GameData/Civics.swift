@@ -17,7 +17,7 @@ enum CivicError: Error {
 public protocol AbstractCivics: AnyObject, Codable {
 
     var player: AbstractPlayer? { get set }
-    
+
     // civics
     func has(civic: CivicType) -> Bool
     func discover(civic: CivicType) throws
@@ -51,16 +51,16 @@ class Civics: AbstractCivics {
         case currentCivic
         case lastCultureEarned
         case progress
-        
+
         case eurekas
     }
-    
+
     // civic tree
     var civics: [CivicType] = []
 
     // user properties / values
     var player: AbstractPlayer?
-    private var currentCivicValue: CivicType? = nil
+    private var currentCivicValue: CivicType?
     var lastCultureEarnedValue: Double = 1.0
     private var progress: WeightedCivicList
 
@@ -94,20 +94,20 @@ class Civics: AbstractCivics {
         self.progress = WeightedCivicList()
         self.progress.fill()
     }
-    
+
     public required init(from decoder: Decoder) throws {
-    
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.civics = try container.decode([CivicType].self, forKey: .civics)
         self.currentCivicValue = try container.decodeIfPresent(CivicType.self, forKey: .currentCivic)
         self.lastCultureEarnedValue = try container.decode(Double.self, forKey: .lastCultureEarned)
         self.progress = try container.decode(WeightedCivicList.self, forKey: .progress)
         self.eurekas = try container.decode(CivicEurekas.self, forKey: .eurekas)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-    
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.civics, forKey: .civics)
@@ -125,7 +125,7 @@ class Civics: AbstractCivics {
 
         return 0.0
     }
-    
+
     private func turnsRemaining(for civicType: CivicType) -> Int {
 
         if self.lastCultureEarnedValue > 0.0 {
@@ -140,7 +140,7 @@ class Civics: AbstractCivics {
     }
 
     public func currentCultureTurnsRemaining() -> Int {
-        
+
         if let currentCivic = self.currentCivicValue {
             return self.turnsRemaining(for: currentCivic)
         }
@@ -250,7 +250,7 @@ class Civics: AbstractCivics {
 
         let weightedCivics: WeightedCivicList = WeightedCivicList()
         let possibleCivicsList = self.possibleCivics()
-        
+
         weightedCivics.items.removeAll()
 
         for possibleCivic in possibleCivicsList {
@@ -349,20 +349,20 @@ class Civics: AbstractCivics {
                 if currentCivic.era() > player.currentEra() {
 
                     gameModel?.enter(era: currentCivic.era(), for: player)
-                    
+
                     if player.isHuman() {
                         gameModel?.userInterface?.showPopup(popupType: .eraEntered(era: currentCivic.era()))
                     }
-                    
+
                     player.set(era: currentCivic.era())
                 }
 
                 self.currentCivicValue = nil
-                
+
                 if player.isHuman() {
                     self.player?.notifications()?.addNotification(of: .civicNeeded, for: self.player, message: "Please choose a new Civic", summary: "Choose Civic", at: HexPoint.zero)
                 }
-                
+
                 player.set(canChangeGovernment: true)
 
             } catch {
@@ -391,22 +391,22 @@ class Civics: AbstractCivics {
         guard let player = self.player else {
             fatalError("Can't trigger eureka - no player present")
         }
-        
+
         // check if eureka is still needed
         if self.has(civic: civicType) {
             return
         }
-        
+
         // check if already active
         if self.eurekaTriggered(for: civicType) {
             return
         }
-        
+
         self.eurekas.eurakaTrigger.trigger(for: civicType)
-        
+
         // update progress
         self.progress.add(weight: Double(civicType.cost()) * 0.5, for: civicType)
-        
+
         // trigger event to user
         if player.isHuman() {
             gameModel?.userInterface?.showPopup(popupType: .eurekaCivicActivated(civic: civicType))

@@ -10,16 +10,16 @@ import Foundation
 
 // https://civilization.fandom.com/wiki/List_of_religions_in_Civ6
 public enum ReligionType: Codable, Equatable {
-    
+
     enum CodingKeys: String, CodingKey {
-    
+
         case value
     }
-    
+
     case none
-    
+
     case atheism
-        
+
     case buddhism
     case catholicism
     case confucianism
@@ -32,40 +32,40 @@ public enum ReligionType: Codable, Equatable {
     case sikhism
     case taoism
     case zoroastrianism
-    
+
     case custom(title: String)
-    
+
     public static var all: [ReligionType] = [
         .buddhism, .catholicism, .confucianism, .hinduism, .islam, .judaism, .easternOrthodoxy, .protestantism, .shinto, .sikhism, .taoism, .zoroastrianism
     ]
-    
+
     // MARK: constructors
-    
+
     public init(from decoder: Decoder) throws {
-        
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         let value = try container.decode(String.self, forKey: .value)
         self = ReligionType.from(key: value) ?? .none
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-        
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.toKey(), forKey: .value)
     }
-    
+
     private func toKey() -> String {
-        
+
         switch self {
-        
+
         case .none:
             return "none"
-            
+
         case .atheism:
             return "atheism"
-            
+
         case .buddhism:
             return "buddhism"
         case .catholicism:
@@ -94,9 +94,9 @@ public enum ReligionType: Codable, Equatable {
             return "custom(\(title))"
         }
     }
-    
+
     private static func from(key: String) -> ReligionType? {
-        
+
         if key == "atheism" {
             return .atheism
         } else if key == "buddhism" {
@@ -107,7 +107,7 @@ public enum ReligionType: Codable, Equatable {
             fatalError("religion not handled: \(key)")
             //return .custom(title: key)
         }
-        
+
         return nil
     }
 }

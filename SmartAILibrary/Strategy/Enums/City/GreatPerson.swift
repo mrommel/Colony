@@ -17,7 +17,7 @@ public enum GreatPerson: String, Codable {
     case sunTzu
     case aethelflaed // Æthelflæd
     case elCid
-    
+
     // admirals
     // https://civilization.fandom.com/wiki/Great_Admiral_(Civ6)
     case artemisia
@@ -33,7 +33,7 @@ public enum GreatPerson: String, Codable {
     case jamesOfStGeorge
     case filippoBrunelleschi
     case leonardoDaVinci
-    
+
     // merchants
     // https://civilization.fandom.com/wiki/Great_Merchant_(Civ6)
     case colaeus
@@ -41,7 +41,7 @@ public enum GreatPerson: String, Codable {
     case zhangQian
     case ireneOfAthens
     case marcoPolo
-    
+
     // prophets
     // https://civilization.fandom.com/wiki/Great_Prophet_(Civ6)
     case confucius
@@ -55,7 +55,7 @@ public enum GreatPerson: String, Codable {
     case irenaeus
     case oNoYasumaro
     case songtsanGampo
-    
+
     // scientist
     // https://civilization.fandom.com/wiki/Great_Scientist_(Civ6)
     case aryabhata
@@ -64,7 +64,7 @@ public enum GreatPerson: String, Codable {
     case abuAlQasimAlZahrawi
     case hildegardOfBingen
     case omarKhayyam
-    
+
     // writers
     // https://civilization.fandom.com/wiki/Great_Writer_(Civ6)
     case homer
@@ -74,14 +74,14 @@ public enum GreatPerson: String, Codable {
     case geoffreyChaucer
     case liBai
     case murasakiShikibu
-    
+
     // artist
     // https://civilization.fandom.com/wiki/Great_Artist_(Civ6)
     case andreiRublev
     case michelangelo
     case donatello
     case hieronymusBosch
-    
+
     // musicans
     // https://civilization.fandom.com/wiki/Great_Musician_(Civ6)
     case ludwigVanBeethoven
@@ -89,7 +89,6 @@ public enum GreatPerson: String, Codable {
     case yatsuhashiKengyo
     case antonioVivaldi
     case wolfgangAmadeusMozart
-    
 
     static var all: [GreatPerson] {
         return [
@@ -98,25 +97,25 @@ public enum GreatPerson: String, Codable {
 
             // admirals
             .artemisia, .gaiusDuilius, .themistocles, .leifErikson, .rajendraChola,
-            
+
             // engineers
             .biSheng, .isidoreOfMiletus, .jamesOfStGeorge, .filippoBrunelleschi, .leonardoDaVinci,
-            
+
             // merchants
             .colaeus, .marcusLiciniusCrassus, .zhangQian, .ireneOfAthens, .marcoPolo,
-            
+
             // prophets
             .confucius, .johnTheBaptist, .laozi, .siddharthaGautama, .simonPeter, .zoroaster, .adiShankara, .bodhidharma, .irenaeus, .oNoYasumaro, .songtsanGampo,
-            
+
             // scientists
             .aryabhata, .euclid, .hypatia, .abuAlQasimAlZahrawi, .hildegardOfBingen, .omarKhayyam,
-            
+
             // writer
             .homer, .bhasa, .quYuan, .ovid, .geoffreyChaucer, .liBai, .murasakiShikibu,
-        
+
             // artsits
             .andreiRublev, .michelangelo, .donatello, .hieronymusBosch,
-        
+
             // musicans
             .ludwigVanBeethoven, .johannSebastianBach, .yatsuhashiKengyo, .antonioVivaldi, .wolfgangAmadeusMozart
         ]
@@ -136,11 +135,11 @@ public enum GreatPerson: String, Codable {
 
         return self.data().era
     }
-    
+
     func cost() -> Int {
-        
+
         switch self.era() {
-            
+
         case .none:
             return 0
         case .ancient:
@@ -173,6 +172,7 @@ public enum GreatPerson: String, Codable {
         let works: [GreatWork]
     }
 
+    // swiftlint:disable line_length
     private func data() -> GreatPersonData {
 
         switch self {
@@ -210,7 +210,7 @@ public enum GreatPerson: String, Codable {
                                    era: .medieval,
                                    bonus: "Forms a Corps out of a military land unit.",
                                    works: [])
-            
+
             // ---------------------
             // admiral
         case .artemisia:
@@ -248,7 +248,7 @@ public enum GreatPerson: String, Codable {
                                    era: .medieval,
                                    bonus: "Gain 50 Civ6Gold Gold. Military units get +40% rewards to looting.",
                                    works: [])
-            
+
             // ---------------------
             // engineer
         case .biSheng:
@@ -286,7 +286,7 @@ public enum GreatPerson: String, Codable {
                                    era: .renaissance,
                                    bonus: "Triggers the Eureka moment for one random technology of the Modern era. Workshops provide +1 Civ6Culture Culture.",
                                    works: [])
-            
+
             // ---------------------
             // merchants
         case .colaeus:
@@ -324,7 +324,7 @@ public enum GreatPerson: String, Codable {
                                    era: .medieval,
                                    bonus: "Grants a free Trader unit in this city, and increases TradeRoute6 Trade Route capacity by 1. Foreign TradeRoute6 Trade Routes to this city provides +2 Civ6Gold Gold to both cities.",
                                    works: [])
-            
+
             // ---------------------
             // prophets
         case .confucius:
@@ -404,7 +404,7 @@ public enum GreatPerson: String, Codable {
                                    era: .medieval,
                                    bonus: "",
                                    works: [])
-            
+
             // ---------------------
             // scientists
         case .aryabhata:
@@ -449,7 +449,7 @@ public enum GreatPerson: String, Codable {
                                    era: .medieval,
                                    bonus: "Triggers the Eureka6 Eureka moment for two technologies and the Inspiration for one Civic from the Medieval or Renaissance era.",
                                    works: [])
-            
+
             // ---------------------
             // writers
         case .homer:
@@ -501,7 +501,7 @@ public enum GreatPerson: String, Codable {
                                    era: .medieval,
                                    bonus: "Activate on an appropriate tile to create a Great Work",
                                    works: [.theDiaryOfLadyMurasaki, .theTaleOfGenji])
-            
+
             // ---------------------
             // artists
         case .andreiRublev:

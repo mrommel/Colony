@@ -9,9 +9,9 @@
 import Foundation
 
 public enum PeaceTreatyType: Int, Comparable, Codable {
-    
+
     case none
-    
+
     case whitePeace // PEACE_TREATY_WHITE_PEACE,
     case armistice // PEACE_TREATY_ARMISTICE,
     case settlement // PEACE_TREATY_SETTLEMENT,
@@ -21,24 +21,24 @@ public enum PeaceTreatyType: Int, Comparable, Codable {
     case cession // PEACE_TREATY_CESSION,
     case capitulation // PEACE_TREATY_CAPITULATION,
     case unconditionalSurrender // PEACE_TREATY_UNCONDITIONAL_SURRENDER,
-    
+
     public static func < (lhs: PeaceTreatyType, rhs: PeaceTreatyType) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }
-    
+
     func increased(by amount: Int) -> PeaceTreatyType {
-        
-        var tmp = self
-        
+
+        var temp = self
+
         for _ in 0..<amount {
-            tmp.increase()
+            temp.increase()
         }
-        
-        return tmp
+
+        return temp
     }
-    
+
     mutating func increase() {
-        
+
         switch self {
 
         case .none:
@@ -63,20 +63,20 @@ public enum PeaceTreatyType: Int, Comparable, Codable {
             self = .capitulation
         }
     }
-    
+
     func decreased(by amount: Int) -> PeaceTreatyType {
-        
-        var tmp = self
-        
+
+        var temp = self
+
         for _ in 0..<amount {
-            tmp.decrease()
+            temp.decrease()
         }
-        
-        return tmp
+
+        return temp
     }
-    
+
     mutating func decrease() {
-        
+
         switch self {
 
         case .none:

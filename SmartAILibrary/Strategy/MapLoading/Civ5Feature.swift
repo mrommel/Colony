@@ -9,9 +9,9 @@
 import Foundation
 
 extension FeatureType {
-    
+
     static func fromCiv5String(value: String) -> FeatureType? {
-        
+
         switch value {
         case "FEATURE_ICE": // FIXME
             return .ice
@@ -25,7 +25,7 @@ extension FeatureType {
             return .oasis
         case "FEATURE_FLOOD_PLAINS": // FIXME
             return .floodplains
-            
+
         // special
         case "FEATURE_FALLOUT":
             return .fallout
@@ -41,7 +41,7 @@ extension FeatureType {
             return .fuji
         case "FEATURE_MESA":
             return .mesa
-        case "FEATURE_VOLCANO": 
+        case "FEATURE_VOLCANO":
             return .volcano
         case "FEATURE_GIBRALTAR":
             return .gibraltar
@@ -61,7 +61,7 @@ extension FeatureType {
             return nil
         case "FEATURE_LAKE_VICTORIA":
             return .lakeVictoria
-        case "FEATURE_KILIMANJARO": 
+        case "FEATURE_KILIMANJARO":
             return .mountKilimanjaro
         case "FEATURE_SOLOMONS_MINES": // FIXME
             return nil
@@ -70,4 +70,3 @@ extension FeatureType {
         }
     }
 }
-

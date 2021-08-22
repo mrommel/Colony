@@ -124,14 +124,14 @@ class NavalOperation: EnemyTerritoryOperation {
                 // Notify tactical AI to focus on this area
                 let zone = TemporaryZone(location: self.targetPosition!, lastTurn: gameModel.currentTurn + 5 /* AI_TACTICAL_MAP_TEMP_ZONE_TURNS */, targetType: .city)
                 self.player?.tacticalAI?.add(temporaryZone: zone)
-                
+
                 self.state = .successful
             }
 
             // In all other cases use base class version
         case .aborted(reason: _), .recruitingUnits, .atTarget:
             return super.armyInPosition(in: gameModel)
-            
+
         default:
             // NOOP
         break
@@ -146,23 +146,23 @@ class NavalOperation: EnemyTerritoryOperation {
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
-        
+
         // If parent says we're done, don't even check anything else
         let rtnValue = super.shouldAbort(in: gameModel)
 
         if !rtnValue {
-            
+
             if self.targetPosition == nil {
                 return true
             }
-            
+
             guard let target = self.targetPosition,
                   let targetPlot = gameModel.tile(at: target),
                   let enemy = self.enemy else {
-                
+
                 return false
             }
-            
+
             // See if our target city is still owned by our enemy
             if !enemy.isEqual(to: targetPlot.owner()) {
                 // Success!  The city has been captured/destroyed
@@ -177,53 +177,53 @@ class NavalOperation: EnemyTerritoryOperation {
     override func findBestTarget(in gameModel: GameModel?) -> HexPoint? {
         fatalError("Obsolete function called CvAIOperationPureNavalCityAttack::FindBestTarget()")
     }
-    
+
     /// Which unit would we like to use to kick off this operation?
     func findInitialUnit(in gameModel: GameModel?) -> AbstractUnit? {
-        
+
         guard let gameModel = gameModel,
               let player = self.player else {
                 fatalError("cant get gameModel")
         }
 
         for loopUnitRef in gameModel.units(of: player) {
-            
+
             guard let loopUnit = loopUnitRef else {
                 continue
             }
-            
+
             // skip explorer
             guard loopUnit.task() != .exploreSea else {
                 continue
             }
-            
+
             if loopUnit.has(task: .attackSea) && loopUnit.army() == nil {
                 return loopUnitRef
             }
         }
-        
+
         return nil
     }
-    
+
     /// Find the port our operation will leave from
     override func operationStartCity(in gameModel: GameModel?) -> AbstractCity? {
-        
+
         guard let gameModel = gameModel,
               let player = self.player else {
             fatalError("cant get gameModel")
         }
-        
+
         if let startPosition = self.startPosition {
             return gameModel.city(at: startPosition)
         }
 
         // Just find first coastal city
         for cityRef in gameModel.cities(of: player) {
-        
+
             guard let city = cityRef else {
                 continue
             }
-            
+
             if gameModel.isCoastal(at: city.location) {
                 return cityRef
             }

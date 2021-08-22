@@ -14,15 +14,15 @@ public enum PolicyCardSlotType {
     case economic
     case diplomatic
     case wildcard
-    
+
     public static var all: [PolicyCardSlotType] = [
         .military, .economic, .diplomatic, .wildcard
     ]
-    
+
     func name() -> String {
-        
+
         switch self {
-        
+
         case .military:
             return "Military"
         case .economic:
@@ -39,7 +39,7 @@ public enum PolicyCardSlotType {
 public enum PolicyCardType: Int, Codable {
 
     case slot // empty
-    
+
     // ancient
     case survey // FIXME Doubles experience for recon units.
     case godKing // +1 Faith and +1 Gold in the Capital.
@@ -69,7 +69,8 @@ public enum PolicyCardType: Int, Codable {
     public static var all: [PolicyCardType] {
         return [
             // ancient
-            .survey, .godKing, .discipline, .urbanPlanning, .ilkum, .agoge, .caravansaries, .maritimeIndustries, .maneuver, .strategos, .conscription, .corvee, .landSurveyors, .colonization, .inspiration, .revelation, .limitanei,
+            .survey, .godKing, .discipline, .urbanPlanning, .ilkum, .agoge, .caravansaries, .maritimeIndustries, .maneuver,
+            .strategos, .conscription, .corvee, .landSurveyors, .colonization, .inspiration, .revelation, .limitanei,
 
             // classical
             .insulae, /* ... */ .bastions
@@ -80,7 +81,7 @@ public enum PolicyCardType: Int, Codable {
 
         return self.data().name
     }
-    
+
     public func bonus() -> String {
 
         return self.data().bonus
@@ -90,7 +91,7 @@ public enum PolicyCardType: Int, Codable {
 
         return self.data().slot
     }
-    
+
     public func required() -> CivicType {
 
         return self.data().required
@@ -99,14 +100,14 @@ public enum PolicyCardType: Int, Codable {
     private func data() -> PolicyCardTypeData {
 
         switch self {
-            
+
         case .slot:
             return PolicyCardTypeData(name: "-", bonus: "-", slot: .wildcard, required: .none, obsolete: nil, flavours: [])
 
         case .survey:
             // https://civilization.fandom.com/wiki/Survey_(Civ6)
             return PolicyCardTypeData(name: "Survey",
-                                      bonus: "Doubles experience for recon units.", 
+                                      bonus: "Doubles experience for recon units.",
                                       slot: .military,
                                       required: .codeOfLaws,
                                       obsolete: .exploration,
@@ -193,7 +194,7 @@ public enum PolicyCardType: Int, Codable {
         case .corvee:
             // https://civilization.fandom.com/wiki/Corv%C3%A9e_(Civ6)
             return PolicyCardTypeData(name: "Corvee",
-                                      bonus: "+15% Civ6Production Production toward Ancient and Classical wonders.", 
+                                      bonus: "+15% Civ6Production Production toward Ancient and Classical wonders.",
                                       slot: .economic,
                                       required: .stateWorkforce,
                                       obsolete: .divineRight,
@@ -209,7 +210,7 @@ public enum PolicyCardType: Int, Codable {
         case .colonization:
             // https://civilization.fandom.com/wiki/Colonization_(Civ6)
             return PolicyCardTypeData(name: "Colonization",
-                                      bonus: "+50% Civ6Production Production toward Settlers.", 
+                                      bonus: "+50% Civ6Production Production toward Settlers.",
                                       slot: .economic,
                                       required: .earlyEmpire,
                                       obsolete: .scorchedEarth,

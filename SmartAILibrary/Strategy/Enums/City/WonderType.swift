@@ -19,7 +19,7 @@ public enum WonderType: Int, Codable {
     case oracle
     case stonehenge
     case templeOfArtemis
-    
+
     // classical
     case greatLighthouse
     case greatLibrary
@@ -37,7 +37,7 @@ public enum WonderType: Int, Codable {
         return [
             // ancient
             /*.greatBath, */.pyramids, .hangingGardens, .oracle, .stonehenge, .templeOfArtemis,
-            
+
             // classical
                 .greatLighthouse, .greatLibrary, .apadana, .colosseum, .colossus, .jebelBarkal, .mausoleumAtHalicarnassus, .mahabodhiTemple, .petra, .terracottaArmy
         ]
@@ -47,12 +47,12 @@ public enum WonderType: Int, Codable {
 
         return self.data().name
     }
-    
+
     public func bonuses() -> [String] {
 
         return self.data().bonuses
     }
-    
+
     public func era() -> EraType {
 
         return self.data().era
@@ -86,9 +86,9 @@ public enum WonderType: Int, Codable {
 
         return self.data().flavours
     }
-    
+
     public func yields() -> Yields {
-        
+
         return self.data().yields
     }
 
@@ -96,7 +96,7 @@ public enum WonderType: Int, Codable {
 
         return self.data().amenities
     }
-    
+
     func slotsForGreatWork() -> [GreatWorkSlotType] {
 
         return self.data().slots
@@ -261,7 +261,7 @@ public enum WonderType: Int, Codable {
                                   amenities: 0.0,
                                   yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
                                   slots: [.any, .any],
-                                  flavours: [Flavor(type: .diplomacy, value: 20), Flavor(type: .culture, value: 7),])
+                                  flavours: [Flavor(type: .diplomacy, value: 20), Flavor(type: .culture, value: 7) ])
         case .colosseum:
             // https://civilization.fandom.com/wiki/Colosseum_(Civ6)
             // FIXME +2 Loyalty
@@ -306,7 +306,7 @@ public enum WonderType: Int, Codable {
                                   amenities: 0.0,
                                   yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
                                   slots: [],
-                                  flavours: [Flavor(type: .religion, value: 12), Flavor(type: .tileImprovement, value: 7),])
+                                  flavours: [Flavor(type: .religion, value: 12), Flavor(type: .tileImprovement, value: 7) ])
         case .mausoleumAtHalicarnassus:
             // https://civilization.fandom.com/wiki/Mausoleum_at_Halicarnassus_(Civ6)
             // FIXME It must be built adjacent to a Harbor.
@@ -321,7 +321,7 @@ public enum WonderType: Int, Codable {
                                   amenities: 0.0,
                                   yields: Yields(food: 0.0, production: 0.0, gold: 0.0, science: 1.0, faith: 1.0),
                                   slots: [],
-                                  flavours: [Flavor(type: .tileImprovement, value: 7), Flavor(type: .science, value: 5), Flavor(type: .religion, value: 5), Flavor(type: .culture, value: 7),])
+                                  flavours: [Flavor(type: .tileImprovement, value: 7), Flavor(type: .science, value: 5), Flavor(type: .religion, value: 5), Flavor(type: .culture, value: 7) ])
         case .mahabodhiTemple:
             // https://civilization.fandom.com/wiki/Mahabodhi_Temple_(Civ6)
             // FIXME Grants 2 Apostles.
@@ -335,7 +335,7 @@ public enum WonderType: Int, Codable {
                                   amenities: 0.0,
                                   yields: Yields(food: 0.0, production: 0.0, gold: 0.0, faith: 4.0),
                                   slots: [],
-                                  flavours: [Flavor(type: .religion, value: 20), Flavor(type: .greatPeople, value: 7),])
+                                  flavours: [Flavor(type: .religion, value: 20), Flavor(type: .greatPeople, value: 7) ])
         case .petra:
             // https://civilization.fandom.com/wiki/Petra_(Civ6)
             // FIXME It must be built on Desert or Floodplains without Hills.
@@ -348,7 +348,7 @@ public enum WonderType: Int, Codable {
                                   amenities: 0.0,
                                   yields: Yields(food: 2.0, production: 1.0, gold: 2.0),
                                   slots: [],
-                                  flavours: [Flavor(type: .tileImprovement, value: 10), Flavor(type: .growth, value: 12), Flavor(type: .gold, value: 10),])
+                                  flavours: [Flavor(type: .tileImprovement, value: 10), Flavor(type: .growth, value: 12), Flavor(type: .gold, value: 10) ])
         case .terracottaArmy:
             // https://civilization.fandom.com/wiki/Terracotta_Army_(Civ6)
             // FIXME It must be built on flat Grassland or Plains adjacent to an Encampment with a Barracks or Stable.
@@ -363,8 +363,8 @@ public enum WonderType: Int, Codable {
                                   amenities: 0.0,
                                   yields: Yields(food: 0.0, production: 0.0, gold: 0.0),
                                   slots: [],
-                                  flavours: [Flavor(type: .greatPeople, value: 10), Flavor(type: .militaryTraining, value: 7),])
-            
+                                  flavours: [Flavor(type: .greatPeople, value: 10), Flavor(type: .militaryTraining, value: 7) ])
+
             // medieval
         }
     }

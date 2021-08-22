@@ -108,14 +108,14 @@ extension TerrainType {
 
 public extension NSColor {
     
-    func colorWithSaturation(saturation: CGFloat) -> NSColor {
+    func colorWithSaturation(saturation newSaturation: CGFloat) -> NSColor {
         
-        var H: CGFloat = 0, S: CGFloat = 0, B: CGFloat = 0, A: CGFloat = 0
+        var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0
         
-        self.getHue(&H, saturation: &S, brightness: &B, alpha: &A)
-        S += (saturation - 1.0)
-        S = max(min(S, 1.0), 0.0)
+        self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        saturation += (newSaturation - 1.0)
+        saturation = max(min(saturation, 1.0), 0.0)
             
-        return NSColor(hue: H, saturation: S, brightness: B, alpha: A)
+        return NSColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
     }
 }

@@ -177,7 +177,27 @@ struct DialogItemConfiguration: Codable {
         let techType = try values.decodeIfPresent(TechType.self, forKey: .techType) ?? .mining
         let civicType = try values.decodeIfPresent(CivicType.self, forKey: .civicType) ?? .codeOfLaws
         
-        self.init(identifier: identifier, type: type, title: title, fontSize: fontSize, textAlign: textAlign, result: result, offsetx: offsetx, offsety: offsety, anchorx: anchorx, anchory: anchory, width: width, height: height, active: active, image: image, selectedIndex: selectedIndex, items: items, yieldType: yieldType, techType: techType, civicType: civicType)
+        self.init(
+            identifier: identifier,
+            type: type,
+            title: title,
+            fontSize: fontSize,
+            textAlign: textAlign,
+            result: result,
+            offsetx: offsetx,
+            offsety: offsety,
+            anchorx: anchorx,
+            anchory: anchory,
+            width: width,
+            height: height,
+            active: active,
+            image: image,
+            selectedIndex: selectedIndex,
+            items: items,
+            yieldType: yieldType,
+            techType: techType,
+            civicType: civicType
+        )
     }
     
     func anchorPoint() -> CGPoint {

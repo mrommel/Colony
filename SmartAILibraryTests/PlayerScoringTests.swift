@@ -11,6 +11,8 @@ import Foundation
 import XCTest
 @testable import SmartAILibrary
 
+// swiftlint:disable force_try
+
 class PlayerScoringTests: XCTestCase {
 
     var objectToTest: Player?

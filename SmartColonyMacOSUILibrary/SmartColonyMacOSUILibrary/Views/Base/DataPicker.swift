@@ -39,14 +39,14 @@ public struct DataPicker: View {
     public var body: some View {
 
         Picker(selection: $selection, label: Text(title)) {
-            ForEach(0 ..< data.count) { i in
+            ForEach(0 ..< data.count) { index in
                 HStack {
-                    Image(nsImage: data[i].image)
-                    Text(data[i].name)
+                    Image(nsImage: data[index].image)
+                    Text(data[index].name)
                 }
                 .frame(minWidth: 0, maxWidth: 200)
                 .padding(4)
-                .tag(i)
+                .tag(index)
             }
         }
         .frame(minWidth: 0, maxWidth: 350)

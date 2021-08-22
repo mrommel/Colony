@@ -11,11 +11,11 @@ import Foundation
 class UnitTypeWeight: Codable {
 
     enum CodingKeys: String, CodingKey {
-        
+
         case unitType
         case weight
     }
-    
+
     let unitType: UnitType
     var weight: Int
 
@@ -24,17 +24,17 @@ class UnitTypeWeight: Codable {
         self.unitType = unitType
         self.weight = weight
     }
-    
+
     required init(from decoder: Decoder) throws {
-           
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.unitType = try container.decode(UnitType.self, forKey: .unitType)
         self.weight = try container.decode(Int.self, forKey: .weight)
     }
-    
+
     func encode(to encoder: Encoder) throws {
-        
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.unitType, forKey: .unitType)
@@ -43,12 +43,12 @@ class UnitTypeWeight: Codable {
 }
 
 class UnitProductionAI: Codable {
-    
+
     enum CodingKeys: String, CodingKey {
-        
+
         case unitWeights
     }
-    
+
     private var unitWeights: [UnitTypeWeight]
 
     init() {
@@ -59,16 +59,16 @@ class UnitProductionAI: Codable {
             self.unitWeights.append(UnitTypeWeight(unitType: unitType, weight: 0))
         }
     }
-    
+
     required init(from decoder: Decoder) throws {
-           
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.unitWeights = try container.decode([UnitTypeWeight].self, forKey: .unitWeights)
     }
-    
+
     func encode(to encoder: Encoder) throws {
-        
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.unitWeights, forKey: .unitWeights)

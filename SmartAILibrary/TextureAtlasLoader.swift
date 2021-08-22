@@ -10,9 +10,9 @@ import Foundation
 import XMLParsing
 
 public class TextureAtlasLoader {
-    
+
     public static func load(named atlasName: String, in bundle: Bundle = Bundle.main) -> TextureAtlas? {
-        
+
         do {
             guard let atlasUrl = bundle.url(forResource: atlasName, withExtension: "xml") else {
                 print("ERROR: cant get atlas named: '\(atlasName)'")

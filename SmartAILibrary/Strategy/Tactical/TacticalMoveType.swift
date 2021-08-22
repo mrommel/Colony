@@ -43,9 +43,9 @@ public enum TacticalMoveType: Int, Codable {
     case closeOnTarget // TACTICAL_CLOSE_ON_TARGET
     case moveOperation // TACTICAL_MOVE_OPERATIONS
     case emergencyPurchases // TACTICAL_EMERGENCY_PURCHASES
-    
+
     /// postures ///////////////////
-    
+
     case postureWithdraw // TACTICAL_POSTURE_WITHDRAW
     case postureSitAndBombard // TACTICAL_POSTURE_SIT_AND_BOMBARD
     case postureAttritFromRange // TACTICAL_POSTURE_ATTRIT_FROM_RANGE
@@ -55,9 +55,9 @@ public enum TacticalMoveType: Int, Codable {
     case postureHedgehog // TACTICAL_POSTURE_HEDGEHOG
     case postureCounterAttack // TACTICAL_POSTURE_COUNTERATTACK
     case postureShoreBombardment // TACTICAL_POSTURE_SHORE_BOMBARDMENT
-    
+
     /// barbarian ///////////////////
-    
+
     case barbarianCaptureCity // AI_TACTICAL_BARBARIAN_CAPTURE_CITY,
     case barbarianDamageCity // AI_TACTICAL_BARBARIAN_DAMAGE_CITY,
     case barbarianDestroyHighPriorityUnit // AI_TACTICAL_BARBARIAN_DESTROY_HIGH_PRIORITY_UNIT,
@@ -79,51 +79,63 @@ public enum TacticalMoveType: Int, Codable {
     case barbarianPlunderTradeUnit // AI_TACTICAL_BARBARIAN_PLUNDER_TRADE_UNIT,
     case barbarianPillageCitadel // AI_TACTICAL_BARBARIAN_PILLAGE_CITADEL,
     case barbarianPillageNextTurn // AI_TACTICAL_BARBARIAN_PILLAGE_NEXT_TURN
-    
+
     static var allBarbarianMoves: [TacticalMoveType] {
-        
-        return [.barbarianCaptureCity, .barbarianDamageCity, .barbarianDestroyHighPriorityUnit, .barbarianDestroyMediumPriorityUnit, .barbarianDestroyLowPriorityUnit, .barbarianMoveToSafety, .barbarianAttritHighPriorityUnit, .barbarianAttritMediumPriorityUnit, .barbarianAttritLowPriorityUnit, .barbarianPillage, .barbarianBlockadeResource, .barbarianCivilianAttack, .barbarianAggressiveMove, .barbarianPassiveMove, .barbarianCampDefense, .barbarianDesperateAttack, .barbarianEscortCivilian, .barbarianPlunderTradeUnit, .barbarianPillageCitadel, .barbarianPillageNextTurn, .barbarianGuardCamp
+
+        return [
+            .barbarianCaptureCity, .barbarianDamageCity, .barbarianDestroyHighPriorityUnit,
+            .barbarianDestroyMediumPriorityUnit, .barbarianDestroyLowPriorityUnit, .barbarianMoveToSafety,
+            .barbarianAttritHighPriorityUnit, .barbarianAttritMediumPriorityUnit, .barbarianAttritLowPriorityUnit,
+            .barbarianPillage, .barbarianBlockadeResource, .barbarianCivilianAttack, .barbarianAggressiveMove,
+            .barbarianPassiveMove, .barbarianCampDefense, .barbarianDesperateAttack, .barbarianEscortCivilian,
+            .barbarianPlunderTradeUnit, .barbarianPillageCitadel, .barbarianPillageNextTurn, .barbarianGuardCamp
         ]
     }
-    
+
     static var allPlayerMoves: [TacticalMoveType] {
-    
-        return [.moveNoncombatantsToSafety, .captureCity, .damageCity, .destroyHighUnit, .destroyMediumUnit, .destroyLowUnit, .toSafety, .attritHighUnit, .attritMediumUnit, .attritLowUnit, .reposition, .barbarianCamp, .pillage, .civilianAttack, .safeBombards, .heal, .ancientRuins, .garrisonToAllowBombards, .bastionAlreadyThere, .garrisonAlreadyThere, .guardImprovementAlreadyThere, .bastionOneTurn, .garrisonOneTurn, .guardImprovementOneTurn, .airSweep, .airIntercept, .airRebase, .closeOnTarget, .moveOperation, .emergencyPurchases
+
+        return [
+            .moveNoncombatantsToSafety, .captureCity, .damageCity, .destroyHighUnit, .destroyMediumUnit,
+            .destroyLowUnit, .toSafety, .attritHighUnit, .attritMediumUnit, .attritLowUnit, .reposition,
+            .barbarianCamp, .pillage, .civilianAttack, .safeBombards, .heal, .ancientRuins, .garrisonToAllowBombards,
+            .bastionAlreadyThere, .garrisonAlreadyThere, .guardImprovementAlreadyThere, .bastionOneTurn, .garrisonOneTurn,
+            .guardImprovementOneTurn, .airSweep, .airIntercept, .airRebase, .closeOnTarget, .moveOperation,
+            .emergencyPurchases
         ]
     }
-    
+
     struct TacticalMoveTypeData {
-        
+
         let operationsCanRecruit: Bool
         let dominanceZoneMove: Bool
         let offenseFlavorWeight: Int
         let defenseFlavorWeight: Int
         let priority: Int
     }
-    
+
     func priority() -> Int {
-        
+
         return self.data().priority
     }
-    
+
     func dominanceZoneMove() -> Bool {
-        
+
         return self.data().dominanceZoneMove
     }
-    
+
     func canRecruitForOperations() -> Bool {
-        
+
         return self.data().operationsCanRecruit
     }
-    
+
     // MARK: private methods
-    
+
     private func data() -> TacticalMoveTypeData {
-        
+
         switch self {
-            
+
         case .none: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: -1)
-            
+
         case .barbarianGuardCamp: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 200)
         case .unassigned: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: -1)
         case .moveNoncombatantsToSafety: return TacticalMoveTypeData(operationsCanRecruit: true, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 0)
@@ -163,12 +175,12 @@ public enum TacticalMoveType: Int, Codable {
         case .postureHedgehog: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 50)
         case .postureCounterAttack: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 103)
         case .postureShoreBombardment: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 100)
-            
+
         case .moveOperation: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 80)
         case .emergencyPurchases: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: true, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 200)
-            
+
         // https://github.com/chvrsi/BarbariansEvolved/blob/00a6feec72fa7d95ef026d821f008bdbbf3ee3ab/xml/BarbarianDefines.xml
-            
+
         case .barbarianCaptureCity: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 9)
         case .barbarianDamageCity: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 5)
         case .barbarianDestroyHighPriorityUnit: return TacticalMoveTypeData(operationsCanRecruit: false, dominanceZoneMove: false, offenseFlavorWeight: 0, defenseFlavorWeight: 0, priority: 16)

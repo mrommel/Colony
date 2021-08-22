@@ -19,14 +19,14 @@ import Foundation
 //!  - This callback signals it is time to execute the next attack
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class QueuedAttack {
-    
+
     var attackerUnit: AbstractUnit?
     var attackerCity: AbstractCity?
     var target: TacticalTarget?
     var ranged: Bool
     var cityAttack: Bool
     var seriesId: Int
-    
+
     init() {
         self.attackerUnit = nil
         self.attackerCity = nil

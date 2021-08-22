@@ -18,7 +18,7 @@ enum PlayerWarStateType: Int, Comparable, Codable {
     case calm
     case offensive
     case nearlyWon
-    
+
     static func < (lhs: PlayerWarStateType, rhs: PlayerWarStateType) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }

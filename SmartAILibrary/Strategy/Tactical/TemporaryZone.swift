@@ -9,9 +9,9 @@
 import Foundation
 
 class TemporaryZone: Codable {
-    
+
     enum CodingKeys: String, CodingKey {
-    
+
         case location
         case lastTurn
         case targetType
@@ -30,19 +30,19 @@ class TemporaryZone: Codable {
         self.targetType = targetType
         self.navalMission = navalMission
     }
-    
+
     required init(from decoder: Decoder) throws {
-        
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
         self.location = try container.decode(HexPoint.self, forKey: .location)
         self.lastTurn = try container.decode(Int.self, forKey: .lastTurn)
         self.targetType = try container.decode(TacticalTargetType.self, forKey: .targetType)
         self.navalMission = try container.decode(Bool.self, forKey: .navalMission)
     }
-    
+
     func encode(to encoder: Encoder) throws {
-        
+
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(self.location, forKey: .location)

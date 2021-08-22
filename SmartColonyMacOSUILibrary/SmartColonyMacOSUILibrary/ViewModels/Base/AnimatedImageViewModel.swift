@@ -54,7 +54,7 @@ class AnimatedImageViewModel: ObservableObject {
 
         if let template = stillImage {
             self.image = Image(nsImage: template)
-        } else if images.count > 0 {
+        } else if !images.isEmpty {
             self.image = Image(nsImage: images[0])
         } else {
             self.image = Image(systemName: "sun.max.fill")
@@ -93,7 +93,7 @@ class AnimatedImageViewModel: ObservableObject {
 
     func startAnimation() {
 
-        if self.images.count > 0 {
+        if !self.images.isEmpty {
             Timer.scheduledTimer(withTimeInterval: self.interval, repeats: true, block: animate(_:))
         }
     }

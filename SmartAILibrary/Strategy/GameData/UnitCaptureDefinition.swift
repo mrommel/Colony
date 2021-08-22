@@ -9,7 +9,7 @@
 import Foundation
 
 struct UnitCaptureDefinition {
-    
+
     let oldPlayer: AbstractPlayer?
     let originalOwner: AbstractPlayer?
     let oldType: UnitType

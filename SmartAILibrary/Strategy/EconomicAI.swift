@@ -677,7 +677,7 @@ public class EconomicAI: Codable {
             }
 
             var closestEstimateTurns = Int.max
-            var closestUnit: AbstractUnit? = nil
+            var closestUnit: AbstractUnit?
 
             for explorerRef in self.explorers {
 
@@ -737,7 +737,7 @@ public class EconomicAI: Codable {
                 continue
             }
 
-            var hutLocation: HexPoint? = nil
+            var hutLocation: HexPoint?
             var closestEstimateTurns = Int.max
 
             for goodyHutUnitAssignment in goodyHutUnitAssignmentsCopy {
@@ -917,7 +917,7 @@ public class EconomicAI: Codable {
             fatalError("cant get treasury")
         }
 
-        var bestCity: AbstractCity? = nil
+        var bestCity: AbstractCity?
         var bestPoint: HexPoint = HexPoint(x: -1, y: -1)
 
         // No plot buying when at war
@@ -937,7 +937,7 @@ public class EconomicAI: Codable {
 
             // Lower our requirements if we're building up a sizable treasury
             let discountPercent = 50 * (balance - currentCost) / (goldForHalfCost - currentCost)
-            bestScore = bestScore - (bestScore * discountPercent / 100)
+            bestScore -= (bestScore * discountPercent / 100)
 
             // Find the best city to buy a plot
             for loopCityRef in gameModel.cities(of: player) {

@@ -9,9 +9,9 @@
 import Foundation
 
 public enum EraType: Int, Codable {
-    
+
     case none
-    
+
     case ancient
     case classical
     case medieval
@@ -21,18 +21,18 @@ public enum EraType: Int, Codable {
     case atomic
     case information
     case future
-    
+
     public static var all: [EraType] {
-        
+
         return [.ancient, .classical, .medieval, .renaissance, .industrial, .modern, .atomic, .information, .future]
     }
-    
+
     public func title() -> String {
-        
+
         switch self {
-        
+
         case .none: return ""
-            
+
         case .ancient: return "Ancient"
         case .classical: return "Classical"
         case .medieval: return "Medieval"
@@ -44,13 +44,13 @@ public enum EraType: Int, Codable {
         case .future: return "Future"
         }
     }
-    
+
     internal func value() -> Int {
-        
+
         switch self {
-            
+
         case .none: return -1
-            
+
         case .ancient: return 0
         case .classical: return 1
         case .medieval: return 2
@@ -62,13 +62,13 @@ public enum EraType: Int, Codable {
         case .future: return 8
         }
     }
-    
+
     func next() -> EraType {
-        
+
         switch self {
-            
+
         case .none: return .none
-            
+
         case .ancient: return .classical
         case .classical: return .medieval
         case .medieval: return .renaissance
@@ -83,11 +83,11 @@ public enum EraType: Int, Codable {
 }
 
 extension EraType: Comparable {
-    
+
     public static func == (lhs: EraType, rhs: EraType) -> Bool {
         return lhs.value() == rhs.value()
     }
-    
+
     public static func < (lhs: EraType, rhs: EraType) -> Bool {
         return lhs.value() < rhs.value()
     }
